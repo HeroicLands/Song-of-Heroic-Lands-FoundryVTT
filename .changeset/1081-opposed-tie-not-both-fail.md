@@ -23,9 +23,11 @@ result card.
   carries through to the result.
 - **Victory Stars say whose they are.** The margin was always drawn as filled
   stars, whichever side won. It is now filled (★) for the side that started the
-  contest and hollow (☆) for the side that answered — on the opposed card and on
-  the attack-result card alike — so the line reports the winner as well as the
-  margin.
+  contest and hollow for the side that answered — on the opposed card and on the
+  attack-result card alike — so the line reports the winner as well as the margin.
+  They are drawn as Font Awesome star icons (`fa-solid` / `fa-regular`, the same
+  filled/hollow pair the sheets already use for the improvement flag) rather than
+  ★/☆ text glyphs, with the count carried on an `aria-label`.
 - **Victory Stars have no ceiling.** The margin is now measured on raw success
   levels, so a modifier that shifts a level past the ordinary four widens the
   margin with it: a Marginal Success against a Critical Failure worsened by −1 is

@@ -103,7 +103,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-content center">
         <span class="label">{{localize "SOHL.OpposedTestResult.toChat.victoryStars"}}:</span>
         <span class="value"
-            >{{#if vsText}}{{vsText}}{{else}}<strong>None</strong>{{/if}}</span
+            >{{#if vsStars}}<span class="victory-stars" aria-label="{{vsCount}} {{localize "SOHL.OpposedTestResult.toChat.victoryStars"}}">{{#each vsStars}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-star" aria-hidden="true"></i>{{/each}}</span>{{else}}<strong>None</strong>{{/if}}</span
         >
     </div>
 

@@ -211,7 +211,10 @@ describe("Opposed test — ties and tie-breaks (#1081, #1160)", () => {
             const card = opposedCard(win);
             expect(card, "opposed result card posted").to.not.eq("");
             expect(card).to.contain("Wins!");
-            expect(card).to.contain("Victory Stars: ★");
+            expect(card).to.contain("Victory Stars:");
+            // One star, and it is the tester's — a filled icon, not a hollow one.
+            expect((card.match(/fa-solid fa-star/g) ?? []).length).to.eq(1);
+            expect(card).to.not.contain("fa-regular fa-star");
             expect(card).to.contain("Tie broken on the higher roll");
             expect(card).to.not.contain("Tie — No Winner!");
         });

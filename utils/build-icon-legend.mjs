@@ -223,30 +223,25 @@ function collectActionIcons(lang) {
 }
 
 /**
- * Text symbols the interface uses in place of an icon. Not glyph classes, so
- * they carry their own literal character (`SYMBOL.STARF` / `SYMBOL.STAR` in
- * `src/utils/constants.ts`) — and they are the one part of this page that is
- * hand-maintained, because nothing in the source declares them as a set.
+ * The two star icons the result cards draw, which nothing in the source declares
+ * as a set — the only hand-maintained rows on this page. Font Awesome's solid and
+ * regular star are the same shape filled and hollow, which is what carries the
+ * "whose stars are these" distinction; a Game-Icons star has no hollow twin.
  */
-const SYMBOL_ROWS = [
+const STAR_ROWS = [
     {
-        symbol: "\u2605",
+        cls: "fa-solid fa-star",
         name: "Victory Star (tester's)",
         note:
             "Opposed and attack result cards \u2014 one filled star per step of" +
             " success level, when the side that started the contest won it",
     },
     {
-        symbol: "\u2606",
+        cls: "fa-regular fa-star",
         name: "Victory Star (target's)",
         note:
             "The same margin drawn hollow, when the side that answered the" +
             " contest won it \u2014 so the line says who won as well as by how much",
-    },
-    {
-        symbol: "\u2605\u2006/\u2006\u2606",
-        name: "Improvement Flag",
-        note: "Skills tab \u2014 filled when the skill is flagged to improve, hollow when not",
     },
 ];
 
@@ -255,14 +250,15 @@ const SYMBOL_ROWS = [
  * unsaid. Keyed by section name.
  */
 const SECTION_NOTES = {
-    Symbols:
+    Stars:
         "**Victory Stars** are the margin of a contest \u2014 how far the" +
         " winner's success level exceeded the loser's \u2014 drawn filled for the" +
         " tester and hollow for the target, and worth one star when a tiebreak" +
-        " settles a tie. **Success Stars** are a" +
-        " different measure entirely: the quality of a single Success Value" +
-        " test (see [[Skill_Tests|Skill Tests]]), shown on its card as a count" +
-        " from zero to five.",
+        " settles a tie. **Success Stars** are a different measure entirely: the" +
+        " quality of a single Success Value test (see [[Skill_Tests|Skill" +
+        " Tests]]), shown on its card as a count from zero to five, not as stars." +
+        " The same filled/hollow pair marks a skill flagged for improvement on" +
+        " the Skills tab.",
 };
 
 /** Render one markdown table per group. */
@@ -296,7 +292,7 @@ function main() {
         ],
         ["Being sheet tabs", collectTabIcons(sheet, lang)],
         ["Actions", collectActionIcons(lang)],
-        ["Symbols", SYMBOL_ROWS],
+        ["Stars", STAR_ROWS],
     ];
 
     // A silently empty section would publish a legend that looks complete but

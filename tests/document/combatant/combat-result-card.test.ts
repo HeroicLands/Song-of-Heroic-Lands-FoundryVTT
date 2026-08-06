@@ -100,8 +100,8 @@ describe("buildCombatCardData supplies the attack-result card variables (#844)",
 
     it("renders the victory degrees as that many stars", () => {
         const { atkCardData } = buildCombatCardData(combatResult());
-        // Margin 3 → three filled stars.
-        expect(atkCardData.vsText).toBe("★★★");
+        // Margin 3 to the attacker → three filled stars.
+        expect(atkCardData.vsStars).toEqual([true, true, true]);
     });
 
     it("renders a defender's margin as hollow stars", () => {
@@ -109,14 +109,14 @@ describe("buildCombatCardData supplies the attack-result card variables (#844)",
             combatResult({ margin: -2 }),
         );
         // The defender out-margined the attacker → the stars are theirs, hollow.
-        expect(atkCardData.vsText).toBe("☆☆");
+        expect(atkCardData.vsStars).toEqual([false, false]);
     });
 
     it("leaves the stars empty on a tie (margin 0) so the card shows None", () => {
         const { atkCardData } = buildCombatCardData(
             combatResult({ margin: 0 }),
         );
-        expect(atkCardData.vsText).toBe("");
+        expect(atkCardData.vsStars).toEqual([]);
     });
 
     it("gives an ignored (uncontested) defense empty defender rows", () => {
@@ -145,11 +145,13 @@ describe("attack-result-card renders the supplied variables (#844)", () => {
         );
     });
 
-    it("shows the Victory Stars as star glyphs", async () => {
+    it("shows the Victory Stars as star icons", async () => {
         const html = await render();
         expect(html).toContain("Victory Stars:");
         expect(html).not.toContain("Success Stars:");
-        expect(html).toContain("★★★");
+        // Three filled stars, drawn as icons rather than text glyphs.
+        expect(html.match(/fa-solid fa-star/g) ?? []).toHaveLength(3);
+        expect(html).not.toContain("fa-regular fa-star");
     });
 
     it("names the defender's broken weapon", async () => {

@@ -1686,13 +1686,13 @@ export function buildCombatCardData(
     ): { name: string; value: number }[] =>
         (mlMod?.deltas ?? []).map((d) => ({ name: d.name, value: d.numValue }));
 
-    // The exchange's margin (the difference in success levels) as that many
-    // Victory Stars — filled (★) when the attacker, who initiated the exchange,
-    // took it, and hollow (☆) when the defender did, so the line says who won as
-    // well as by how much. Empty on a tie, so the card falls to its "None" branch
-    // (#844).
-    const victoryStars = (margin: number): string =>
-        (margin < 0 ? SYMBOL.STAR : SYMBOL.STARF).repeat(Math.abs(margin));
+    // The exchange's margin (the difference in success levels) as one mark per
+    // Victory Star: `true` where the star is the attacker's — who initiated the
+    // exchange, so their stars are drawn filled — and `false` where it is the
+    // defender's, drawn hollow, so the line says who won as well as by how much.
+    // Empty on a tie, so the card falls to its "None" branch (#844).
+    const victoryStarMarks = (margin: number): boolean[] =>
+        Array.from({ length: Math.abs(margin) }, () => margin >= 0);
 
     let cxCardData: Record<string, unknown> | undefined;
     const atkCardData: Record<string, unknown> = {
@@ -1705,7 +1705,7 @@ export function buildCombatCardData(
         attackMods: deltaRows(atkResult.masteryLevelModifier),
         defendMods:
             defenderContested ? deltaRows(defResult.masteryLevelModifier) : [],
-        vsText: victoryStars(combatResult.margin),
+        vsStars: victoryStarMarks(combatResult.margin),
         defense: defResult?.label,
         effAML: atkResult.masteryLevelModifier?.constrainedEffective ?? 0,
         effDML:
@@ -1793,7 +1793,7 @@ export function buildCombatCardData(
             defendWeapon: "",
             attackMods: deltaRows(atkResult.masteryLevelModifier),
             defendMods: [],
-            vsText: victoryStars(combatResult.margin),
+            vsStars: victoryStarMarks(combatResult.margin),
             defense: SYMBOL.EMDASH,
             effAML: atkResult.masteryLevelModifier?.constrainedEffective ?? 0,
             effDML: "",

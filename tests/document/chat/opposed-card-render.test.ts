@@ -168,8 +168,8 @@ describe("OpposedTestResult.toChat builds shaped opposed-card data (#845)", () =
 
         expect(msg.sourceWins).toBe(true);
         expect(msg.targetWins).toBe(false);
-        // Victory degrees CS(2) − CF(−1) = 3 → three stars.
-        expect(msg.vsText).toBe("★★★");
+        // Victory Stars CS(2) − CF(−1) = 3, all the tester's → three filled.
+        expect(msg.vsStars).toEqual([true, true, true]);
 
         expect(msg.opposedTests[0].action).toBe("opposedTestResume");
         expect(msg.scopeData).toBeTruthy();
@@ -268,7 +268,7 @@ describe("OpposedTestResult.toChat distinguishes a tie from a mutual failure (#1
         expect(msg.isTied).toBe(true);
         expect(msg.bothFail).toBe(false);
         // A tie is worth zero victory degrees.
-        expect(msg.vsText).toBe("");
+        expect(msg.vsStars).toEqual([]);
     });
 
     it("flags two Critical Successes as a tie", async () => {
@@ -322,7 +322,8 @@ describe("opposed cards render the shaped data (#845)", () => {
         expect(html).toContain("Aldric Test");
         expect(html).toContain("Bandit Test");
         expect(html).toMatch(/Aldric[\s\S]*?Wins!/);
-        expect(html).toContain("Victory Stars: ★★★");
+        expect(html).toContain("Victory Stars:");
+        expect(html.match(/fa-solid fa-star/g) ?? []).toHaveLength(3);
     });
 
     it("result card reports a tie as a tie, not as Both Fail (#1081)", async () => {
@@ -362,7 +363,7 @@ describe("opposed cards render the shaped data (#845)", () => {
             ...data,
             title: "Opposed Result",
         });
-        expect(html).toContain("Victory Stars: ★★★");
+        expect(html).toContain("Victory Stars:");
         expect(html).not.toContain("Success Stars");
     });
 
@@ -378,7 +379,10 @@ describe("opposed cards render the shaped data (#845)", () => {
             title: "Opposed Result",
         });
         expect(html).toMatch(/Aldric[\s\S]*?Wins!/);
-        expect(html).toContain("Victory Stars: ★");
+        expect(html).toContain("Victory Stars:");
+        // One star, and it is the tester's — filled, not hollow.
+        expect(html.match(/fa-solid fa-star/g) ?? []).toHaveLength(1);
+        expect(html).not.toContain("fa-regular fa-star");
         expect(html).toContain("Tie broken on");
         expect(html).not.toContain("Tie — No Winner!");
     });

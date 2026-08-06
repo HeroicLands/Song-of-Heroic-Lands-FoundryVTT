@@ -259,7 +259,7 @@ describe("Opposed tie-breaks (#1160)", () => {
     });
 
     describe("victory stars", () => {
-        it("draws the tester's stars filled and the target's hollow", async () => {
+        it("marks the tester's stars filled and the target's hollow", async () => {
             // Source Critical Success (2) vs. target Critical Failure (−1).
             const win = makeOpposed(
                 makeResult("Aldric", { rollTotal: 30, critSuccess: [0] }),
@@ -267,7 +267,8 @@ describe("Opposed tie-breaks (#1160)", () => {
             );
             await win.evaluate();
             expect(win.sourceWins).toBe(true);
-            expect(win.victoryStarText).toBe("★★★");
+            // The tester's three stars — all filled.
+            expect(win.victoryStarMarks).toEqual([true, true, true]);
 
             // The mirror image: the target takes it by the same margin.
             const loss = makeOpposed(
@@ -276,17 +277,18 @@ describe("Opposed tie-breaks (#1160)", () => {
             );
             await loss.evaluate();
             expect(loss.targetWins).toBe(true);
-            expect(loss.victoryStarText).toBe("☆☆☆");
+            // The target's three stars — all hollow.
+            expect(loss.victoryStarMarks).toEqual([false, false, false]);
         });
 
-        it("draws no stars for a tie or a mutual failure", async () => {
+        it("marks no stars for a tie or a mutual failure", async () => {
             const { source, target } = tiedPair();
             const tie = makeOpposed(source, target);
             await tie.evaluate();
-            expect(tie.victoryStarText).toBe("");
+            expect(tie.victoryStarMarks).toEqual([]);
         });
 
-        it("draws a broken tie as the winner's single star", async () => {
+        it("marks a broken tie as the winner's single star", async () => {
             const { source, target } = tiedPair({
                 sourceRoll: 12,
                 targetRoll: 44,
@@ -294,7 +296,7 @@ describe("Opposed tie-breaks (#1160)", () => {
             const opposed = makeOpposed(source, target, { breakTies: true });
             await opposed.evaluate();
             expect(opposed.targetWins).toBe(true);
-            expect(opposed.victoryStarText).toBe("☆");
+            expect(opposed.victoryStarMarks).toEqual([false]);
         });
 
         it("counts one star per step of success level", async () => {

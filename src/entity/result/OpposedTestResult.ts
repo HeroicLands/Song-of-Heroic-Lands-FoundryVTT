@@ -24,7 +24,6 @@ import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDoc
 import {
     isOpposedTestResultTieBreak,
     OPPOSED_TEST_RESULT_TIEBREAK,
-    SYMBOL,
     TestType,
 } from "@src/utils/constants";
 
@@ -274,14 +273,22 @@ export class OpposedTestResult extends TestResult {
     }
 
     /**
-     * {@link victoryStars} drawn for the card: one star per step of victory, **filled**
-     * (★) when the tester took the contest and **hollow** (☆) when the target did,
-     * so a glance at the line says who won as well as by how much. Empty when
-     * nobody won.
+     * {@link victoryStars} as one entry per star for the card to draw — `true`
+     * where the star is the **tester's** (drawn filled) and `false` where it is
+     * the **target's** (drawn hollow), so a glance at the line says who won as
+     * well as by how much. Empty when nobody won.
+     *
+     * @remarks
+     * Marks, not markup: the card turns each entry into a Font Awesome star
+     * (`fa-solid` / `fa-regular`), matching how the sheets already draw a filled
+     * or hollow flag. Building the `<i>` elements here would put HTML in the
+     * Foundry-free layer for no gain.
      */
-    get victoryStarText(): string {
-        const star = this.targetWins ? SYMBOL.STAR : SYMBOL.STARF;
-        return star.repeat(this.victoryStars);
+    get victoryStarMarks(): boolean[] {
+        return Array.from(
+            { length: this.victoryStars },
+            () => !this.targetWins,
+        );
     }
 
     /**
@@ -427,7 +434,8 @@ export class OpposedTestResult extends TestResult {
             // decided it, so the players can see why (#1160).
             isTieBroken: this.isTieBroken,
             tieBreakKey: TIE_BREAK_LABEL[this.tieBreakReason],
-            vsText: this.victoryStarText,
+            vsStars: this.victoryStarMarks,
+            vsCount: this.victoryStars,
             // The Respond button's `scope` payload: the whole opposed test,
             // serialized as one `data-scope` blob and revived as a live
             // `OpposedTestResult` by the dispatch handler.
