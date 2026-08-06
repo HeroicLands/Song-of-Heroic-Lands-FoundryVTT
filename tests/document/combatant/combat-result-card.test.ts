@@ -104,6 +104,14 @@ describe("buildCombatCardData supplies the attack-result card variables (#844)",
         expect(atkCardData.vsText).toBe("★★★");
     });
 
+    it("renders a defender's margin as hollow stars", () => {
+        const { atkCardData } = buildCombatCardData(
+            combatResult({ margin: -2 }),
+        );
+        // The defender out-margined the attacker → the stars are theirs, hollow.
+        expect(atkCardData.vsText).toBe("☆☆");
+    });
+
     it("leaves the stars empty on a tie (margin 0) so the card shows None", () => {
         const { atkCardData } = buildCombatCardData(
             combatResult({ margin: 0 }),
@@ -137,10 +145,10 @@ describe("attack-result-card renders the supplied variables (#844)", () => {
         );
     });
 
-    it("shows the Success Stars (renamed from Victory Stars) as star glyphs", async () => {
+    it("shows the Victory Stars as star glyphs", async () => {
         const html = await render();
-        expect(html).toContain("Success Stars:");
-        expect(html).not.toContain("Victory Stars:");
+        expect(html).toContain("Victory Stars:");
+        expect(html).not.toContain("Success Stars:");
         expect(html).toContain("★★★");
     });
 

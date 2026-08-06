@@ -222,6 +222,49 @@ function collectActionIcons(lang) {
     return rows;
 }
 
+/**
+ * Text symbols the interface uses in place of an icon. Not glyph classes, so
+ * they carry their own literal character (`SYMBOL.STARF` / `SYMBOL.STAR` in
+ * `src/utils/constants.ts`) — and they are the one part of this page that is
+ * hand-maintained, because nothing in the source declares them as a set.
+ */
+const SYMBOL_ROWS = [
+    {
+        symbol: "\u2605",
+        name: "Victory Star (tester's)",
+        note:
+            "Opposed and attack result cards \u2014 one filled star per step of" +
+            " success level, when the side that started the contest won it",
+    },
+    {
+        symbol: "\u2606",
+        name: "Victory Star (target's)",
+        note:
+            "The same margin drawn hollow, when the side that answered the" +
+            " contest won it \u2014 so the line says who won as well as by how much",
+    },
+    {
+        symbol: "\u2605\u2006/\u2006\u2606",
+        name: "Improvement Flag",
+        note: "Skills tab \u2014 filled when the skill is flagged to improve, hollow when not",
+    },
+];
+
+/**
+ * Trailing prose for a section, where the table alone would leave a distinction
+ * unsaid. Keyed by section name.
+ */
+const SECTION_NOTES = {
+    Symbols:
+        "**Victory Stars** are the margin of a contest \u2014 how far the" +
+        " winner's success level exceeded the loser's \u2014 drawn filled for the" +
+        " tester and hollow for the target, and worth one star when a tiebreak" +
+        " settles a tie. **Success Stars** are a" +
+        " different measure entirely: the quality of a single Success Value" +
+        " test (see [[Skill_Tests|Skill Tests]]), shown on its card as a count" +
+        " from zero to five.",
+};
+
 /** Render one markdown table per group. */
 function renderTable(rows) {
     const out = [
@@ -229,7 +272,7 @@ function renderTable(rows) {
         "| :---: | --- | --- |",
     ];
     for (const r of rows.sort((a, b) => a.name.localeCompare(b.name)))
-        out.push(`| ${glyph(r.cls)} | **${r.name}** | ${r.note} |`);
+        out.push(`| ${r.symbol ?? glyph(r.cls)} | **${r.name}** | ${r.note} |`);
     return out.join("\n");
 }
 
@@ -253,6 +296,7 @@ function main() {
         ],
         ["Being sheet tabs", collectTabIcons(sheet, lang)],
         ["Actions", collectActionIcons(lang)],
+        ["Symbols", SYMBOL_ROWS],
     ];
 
     // A silently empty section would publish a legend that looks complete but
@@ -265,7 +309,13 @@ function main() {
             );
 
     const body = sections
-        .map(([name, rows]) => `## ${name}\n\n${renderTable(rows)}`)
+        .map(([name, rows]) => {
+            const note = SECTION_NOTES[name];
+            return (
+                `## ${name}\n\n${renderTable(rows)}` +
+                (note ? `\n\n${note}` : "")
+            );
+        })
         .join("\n\n");
 
     const page = `---

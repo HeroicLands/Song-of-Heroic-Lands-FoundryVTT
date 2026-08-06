@@ -37,7 +37,7 @@ The token therefore defines two actions, described on this page:
 > card. They are documented here because this is where the contest actually
 > lives, and because a module or macro can call them directly.
 
-For the rules behind a contest — victory degrees, ties, and tiebreaks — see the
+For the rules behind a contest — Victory Stars, ties, and tiebreaks — see the
 [[rules/sohl-opposed-tests|Opposed Tests]] rules. For the d100 roll each side
 makes, see [[Skill_Tests|Skill Tests and Opposed Tests]].
 
@@ -86,6 +86,13 @@ between the two tokens.
    Modifier, Success Level Modifier, and Roll Visibility). Its fields are
    described once on [[Item_Base|Base Item]]. Cancelling it abandons the whole
    contest.
+    - A contest adds one field the other tests do not have: a **Break Ties**
+      checkbox, off by default. Leave it off and a tied contest is reported as a
+      tie. Tick it when the situation cannot end in a draw — someone must go
+      first, or one grip must give — and a tie will be settled for you: the higher
+      d100 takes it, failing that the higher Mastery Level, failing that a d10
+      roll-off. Only the side starting the contest is asked, and the answer carries
+      through to the result.
 2. **Your roll posts to chat** as an ordinary test result card, showing the
    roll, the effective mastery level, and your success level.
 3. **The opposed-request card posts**, inviting the other side to answer.
@@ -161,12 +168,12 @@ the contest cannot be answered.
 
 ## The Opposed Action Result card
 
-| Section           | What it shows                                                                                                                                                                                                                                       |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Per-side detail   | Each side's test name, its full modifier breakdown (every bonus and penalty that went into the mastery level), and its Success Level Mod                                                                                                            |
-| **Results** grid  | Side by side for source and target: the token name, the skill or attribute used, **EML** (the number that had to be rolled under), **Roll** (the d100), and the outcome — Critical Success, Marginal Success, Marginal Failure, or Critical Failure |
-| Outcome line      | _{token}_ **Wins!** for whichever side had the higher success level, **Tie — No Winner!** when both reached the same level, or **Both Fail!** when neither succeeded                                                                                |
-| **Success Stars** | One ★ per degree of victory — the gap between the two success levels. Three stars, for instance, is a Critical Success against a Critical Failure                                                                                                   |
+| Section           | What it shows                                                                                                                                                                                                                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Per-side detail   | Each side's test name, its full modifier breakdown (every bonus and penalty that went into the mastery level), and its Success Level Mod                                                                                                                                                        |
+| **Results** grid  | Side by side for source and target: the token name, the skill or attribute used, **EML** (the number that had to be rolled under), **Roll** (the d100), and the outcome — Critical Success, Marginal Success, Marginal Failure, or Critical Failure                                             |
+| Outcome line      | _{token}_ **Wins!** for whichever side had the higher success level, **Tie — No Winner!** when both reached the same level, or **Both Fail!** when neither succeeded                                                                                                                            |
+| **Victory Stars** | One star per step of success level between the two sides — **filled (★)** when the side that started the contest won, **hollow (☆)** when the side that answered it did. Three stars, for instance, is a Critical Success against a Critical Failure; a tie settled by a tiebreak is always one |
 
 Reading the outcome:
 
@@ -176,9 +183,13 @@ Reading the outcome:
   produced nothing for either party.
 - If both sides reached the **same** success level and at least one of them
   succeeded, the card reads **Tie — No Winner!** and no stars are awarded — two
-  Critical Successes are a tie, not a win for either side. See the
-  [[rules/sohl-opposed-tests|Opposed Tests]] rules for what a tie means and how
-  to break one when a ruling requires it.
+  Critical Successes are a tie, not a win for either side.
+- Unless you asked for **Break Ties** when you started the contest (see _What
+  happens on screen_ above), in
+  which case the tie is settled, the winner is announced with a single star, and a
+  note says which rule decided it — _Tie broken on the higher roll_, _…on the
+  higher Mastery Level_, or _…on a d10 roll-off_. See the
+  [[rules/sohl-opposed-tests|Opposed Tests]] rules for the tiebreak order.
 - Rolls, effective mastery levels, and the modifier breakdowns are all shown, so
   you can see exactly how each side arrived at its result.
 
@@ -191,7 +202,7 @@ in play is a ruling for the table — see the
 
 - [[Skill_Tests|Skill Tests and Opposed Tests]] — the d100 roll-under test both
   sides of a contest make, and the GM's per-result edit.
-- [[rules/sohl-opposed-tests|Opposed Tests]] (rules) — victory degrees, ties, and
+- [[rules/sohl-opposed-tests|Opposed Tests]] (rules) — Victory Stars, ties, and
   tiebreaks.
 - [[Combat_Basics|Combat Basics]] — attack against defence, the combat-specific
   form of an opposed test.

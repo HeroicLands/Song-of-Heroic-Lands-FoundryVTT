@@ -22,6 +22,7 @@ import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 const REQUEST = "systems/sohl/templates/chat/opposed-request-card.hbs";
 const RESULT = "systems/sohl/templates/chat/opposed-result-card.hbs";
+const TEST_DIALOG = "systems/sohl/templates/dialog/standard-test-dialog.hbs";
 
 afterEach(() => vi.restoreAllMocks());
 
@@ -99,15 +100,18 @@ async function makeOpposed(): Promise<OpposedTestResult> {
 }
 
 /** An opposed test where both sides reach the same success level. */
-async function makeTied(opts: { critical?: boolean } = {}) {
+async function makeTied(
+    opts: { critical?: boolean; sourceRoll?: number; targetRoll?: number } = {},
+) {
     const digits = opts.critical ? [0] : [];
-    // 30 ≤ 55 → success; ending in 0 is critical only when 0 is a crit digit.
+    // Both roll ≤ 55 → success; ending in 0 is critical only when 0 is a crit
+    // digit. Differing rolls settle a tie-break deterministically.
     const source = await makeResult("Aldric", {
-        rollTotal: 30,
+        rollTotal: opts.sourceRoll ?? 30,
         critSuccess: digits,
     });
     const target = await makeResult("Bandit", {
-        rollTotal: 30,
+        rollTotal: opts.targetRoll ?? 30,
         critSuccess: digits,
     });
     return new OpposedTestResult(
@@ -169,6 +173,41 @@ describe("OpposedTestResult.toChat builds shaped opposed-card data (#845)", () =
 
         expect(msg.opposedTests[0].action).toBe("opposedTestResume");
         expect(msg.scopeData).toBeTruthy();
+    });
+});
+
+describe("the pre-roll dialog offers Break Ties only for an opposed test (#1160)", () => {
+    const base = {
+        mlMod: { effective: 55, successLevelMod: 0, chatHtml: "" },
+        situationalModifier: 0,
+        rollMode: "roll",
+        rollModes: { roll: "Public Roll" },
+    };
+
+    it("renders the checkbox, unchecked, when the contest asks", () => {
+        const html = renderTemplateReal(TEST_DIALOG, {
+            ...base,
+            askBreakTies: true,
+            breakTies: false,
+        });
+        expect(html).toContain('name="breakTies"');
+        expect(html).toContain("Break Ties");
+        expect(html).not.toContain('checkbox" name="breakTies" checked');
+    });
+
+    it("pre-checks it when the contest already broke ties", () => {
+        const html = renderTemplateReal(TEST_DIALOG, {
+            ...base,
+            askBreakTies: true,
+            breakTies: true,
+        });
+        expect(html).toMatch(/name="breakTies"\s+checked/);
+    });
+
+    it("omits it from an ordinary success test", () => {
+        const html = renderTemplateReal(TEST_DIALOG, base);
+        expect(html).not.toContain('name="breakTies"');
+        expect(html).not.toContain("Break Ties");
     });
 });
 
@@ -274,7 +313,7 @@ describe("opposed cards render the shaped data (#845)", () => {
         expect(html).toContain("Aldric Test"); // source performs a … test
     });
 
-    it("result card shows both results, the winner, and the Success Stars", async () => {
+    it("result card shows both results, the winner, and the Victory Stars", async () => {
         const data = await cardData();
         const html = renderTemplateReal(RESULT, {
             ...data,
@@ -283,7 +322,7 @@ describe("opposed cards render the shaped data (#845)", () => {
         expect(html).toContain("Aldric Test");
         expect(html).toContain("Bandit Test");
         expect(html).toMatch(/Aldric[\s\S]*?Wins!/);
-        expect(html).toContain("Success Stars: ★★★");
+        expect(html).toContain("Victory Stars: ★★★");
     });
 
     it("result card reports a tie as a tie, not as Both Fail (#1081)", async () => {
@@ -315,6 +354,33 @@ describe("opposed cards render the shaped data (#845)", () => {
         });
         expect(html).toContain("Both Fail!");
         expect(html).not.toContain("Tie");
+    });
+
+    it("result card labels the margin Victory Stars (#1160)", async () => {
+        const data = await cardData();
+        const html = renderTemplateReal(RESULT, {
+            ...data,
+            title: "Opposed Result",
+        });
+        expect(html).toContain("Victory Stars: ★★★");
+        expect(html).not.toContain("Success Stars");
+    });
+
+    it("result card reports a broken tie with the winner and the deciding rule (#1160)", async () => {
+        // Differing rolls under the same mastery level tie at Marginal Success,
+        // so the higher d100 settles it — no roll-off, no RNG.
+        const opposed = await makeTied({ sourceRoll: 44, targetRoll: 12 });
+        (opposed as any).breakTies = true;
+        await opposed.evaluate();
+        const data = await cardData(opposed);
+        const html = renderTemplateReal(RESULT, {
+            ...data,
+            title: "Opposed Result",
+        });
+        expect(html).toMatch(/Aldric[\s\S]*?Wins!/);
+        expect(html).toContain("Victory Stars: ★");
+        expect(html).toContain("Tie broken on");
+        expect(html).not.toContain("Tie — No Winner!");
     });
 
     it("result card no longer references the removed combatResult section", async () => {

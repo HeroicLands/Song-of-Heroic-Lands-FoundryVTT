@@ -1686,11 +1686,13 @@ export function buildCombatCardData(
     ): { name: string; value: number }[] =>
         (mlMod?.deltas ?? []).map((d) => ({ name: d.name, value: d.numValue }));
 
-    // The exchange's victory degrees (the difference in success levels) as that
-    // many filled stars, attributed to neither side (the TA lines name the side).
-    // Zero on a tie, so the card falls to its "None" branch (#844).
+    // The exchange's margin (the difference in success levels) as that many
+    // Victory Stars — filled (★) when the attacker, who initiated the exchange,
+    // took it, and hollow (☆) when the defender did, so the line says who won as
+    // well as by how much. Empty on a tie, so the card falls to its "None" branch
+    // (#844).
     const victoryStars = (margin: number): string =>
-        SYMBOL.STARF.repeat(Math.abs(margin));
+        (margin < 0 ? SYMBOL.STAR : SYMBOL.STARF).repeat(Math.abs(margin));
 
     let cxCardData: Record<string, unknown> | undefined;
     const atkCardData: Record<string, unknown> = {

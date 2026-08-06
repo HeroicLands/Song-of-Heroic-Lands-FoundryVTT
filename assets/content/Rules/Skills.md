@@ -32,7 +32,7 @@ See [[Success_Tests|Success Tests]] for Effective Mastery Level, Index, the star
 
 # Opposed Tests
 
-When two characters act against one another — Stealth versus Awareness, Melee versus Dodge, Eloquence versus Eloquence — both make Success Tests at once. The victor is the character who achieves a positive success level _and_ a higher success level than their opponent. The difference between the two success levels is the number of **victory degrees**, measuring how decisively the contest was won.
+When two characters act against one another — Stealth versus Awareness, Melee versus Dodge, Eloquence versus Eloquence — both make Success Tests at once. The victor is the character who achieves a positive success level _and_ a higher success level than their opponent. The difference between the two success levels is the number of **Victory Stars**, measuring how decisively the contest was won.
 
 See [[Opposed_Tests|Opposed Tests]] for ties and tiebreaks.
 

@@ -82,6 +82,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>        
     {{/if}}
 
+    {{#if askBreakTies}}
+    <div class="form-group">
+        <input type="checkbox" name="breakTies" {{checked breakTies}}>
+        <label for="breakTies">{{localize "SOHL.MasteryLevelModifier.successTest.breakTies"}}</label>
+    </div>
+    {{/if}}
+
     <div class="form-group">
         <label>Success Level Modifier:</label>
         <input

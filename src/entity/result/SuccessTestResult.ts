@@ -353,6 +353,22 @@ export class SuccessTestResult extends TestResult {
     }
 
     /**
+     * Success level **before** the four-point clamp — the stored level with every
+     * `successLevelMod` folded in, so it can sit outside −1…2 (a Critical Failure
+     * pushed down by −1 reads −2).
+     *
+     * @remarks
+     * Opposed resolution compares this rather than {@link successLevel} because a
+     * contest's victory margin has no ceiling: each step between the two levels is
+     * one Victory Star, and a modifier that shifts a level widens the margin
+     * accordingly. Everything that asks "did it succeed, and how well?" wants the
+     * clamped {@link successLevel} / {@link normSuccessLevel} instead.
+     */
+    get rawSuccessLevel(): number {
+        return this._successLevel;
+    }
+
+    /**
      * Raise this result's stored success level by `delta` — the **post-roll Fate
      * bump** (#854). This mutates the already-settled outcome: it does **not**
      * re-roll and does **not** re-evaluate. Because the outcome text/stars are
@@ -1043,6 +1059,18 @@ export namespace SuccessTestResult {
          * alongside the svTable and grading `targetValueFunc`.
          */
         isSuccessValue?: boolean;
+        /**
+         * Show the **Break Ties** checkbox on the pre-roll dialog — set by
+         * {@link sohl.entity.modifier.MasteryLevelModifier.opposedTestStart},
+         * since only an opposed test can end in a tie.
+         */
+        askBreakTies?: boolean;
+        /**
+         * Whether a tie should be broken. Read back from the dialog (or supplied
+         * with `skipDialog`) and handed to the
+         * {@link sohl.entity.result.OpposedTestResult} the contest builds.
+         */
+        breakTies?: boolean;
     }
 
     /**
