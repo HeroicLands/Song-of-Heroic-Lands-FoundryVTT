@@ -115,11 +115,11 @@ describe("script-action-attach — upsertActionDef", () => {
 
     it("preserves pre-existing (e.g. intrinsic) defs untouched", () => {
         const intrinsic = {
-            shortcode: "useMystery",
+            shortcode: "editDocument",
             subType: ACTION_SUBTYPE.INTRINSIC,
         } as unknown as SohlAction.Data;
         const list = upsertActionDef([intrinsic], def("a"));
-        expect(list.map((d) => d.shortcode)).toEqual(["useMystery", "a"]);
+        expect(list.map((d) => d.shortcode)).toEqual(["editDocument", "a"]);
     });
 });
 

@@ -78,7 +78,7 @@ document's context menu. The only difference is where the `executor` comes from:
   `Macro#execute` (above).
 - An **intrinsic action**'s executor is the **name of a method on the Logic class**,
   defined in code. SoHL's Logic classes declare their intrinsic actions in a static
-  {@link sohl.core.logic.SohlLogic.defineIntrinsicActions} — e.g. a Mystery's `useMystery`, a
+  {@link sohl.core.logic.SohlLogic.defineIntrinsicActions} — e.g. a Skill's `successTest`, a
   Trauma's healing test — and the system binds that named method as the executor.
 
 Because `defineIntrinsicActions` composes up the class hierarchy (each override

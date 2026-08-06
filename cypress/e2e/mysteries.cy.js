@@ -12,11 +12,11 @@
  */
 
 /**
- * Mysteries & Mystical Abilities — the `useMystery` and `successTest` actions.
+ * Mysteries & Mystical Abilities — the Mystery ledger and the `successTest` action.
  *
- * `MysteryLogic` registers a `useMystery` intrinsic action (GREEN: it is present
- * on the item's logic), but its executor is not yet wired (RED against #72 Use
- * Mystery).
+ * A Mystery models what a character *is* — a standing condition, pool, or
+ * blessing — so it offers no "use it" action of its own (#1089); its effect is
+ * derived state (a Boon/Boost delta) or lives in its Active Effects.
  *
  * A Mystical Ability is *invoked* by rolling a Success Test against its mastery
  * level (EML) — the same seam a skill uses — not a bespoke "perform" that
@@ -30,8 +30,10 @@ describe("mysteries", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    // GREEN: a mystery item registers the `useMystery` intrinsic action.
-    it("a mystery item registers the useMystery intrinsic action", () => {
+    // GREEN (#1089): a mystery offers no `useMystery` action — there is no
+    // universal meaning to "using" a Mystery; anything actively invoked is a
+    // Mystical Ability. It still carries the shared base actions.
+    it("a mystery item offers no useMystery action (#1089)", () => {
         cy.createActor("being", { name: "mystic" }).then((actor) => {
             cy.createItemOn(actor, "mystery", { name: "Second Sight" }).then(
                 (item) => {
@@ -43,11 +45,15 @@ describe("mysteries", () => {
                             type: it?.type,
                             hasUseMystery:
                                 !!it?.logic?.actions?.get("useMystery"),
+                            hasBaseAction:
+                                !!it?.logic?.actions?.get("editDocument"),
                         };
                     }).should((r) => {
                         expect(r.type, "mystery item").to.eq("mystery");
-                        expect(r.hasUseMystery, "useMystery action registered")
-                            .to.be.true;
+                        expect(r.hasUseMystery, "useMystery action absent").to
+                            .be.false;
+                        expect(r.hasBaseAction, "base actions still present").to
+                            .be.true;
                     });
                 },
             );
@@ -235,8 +241,4 @@ describe("mysteries", () => {
             });
         });
     });
-
-    // RED — blocked by #72 (Use Mystery action): the useMystery executor is not
-    // yet implemented. Un-skip and assert the produced effect / chat card once wired.
-    it.skip("useMystery performs the mystery's effect (#72)", () => {});
 });

@@ -303,11 +303,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
                 "projectilegear · missile tests",
             ],
             ["fa-aura", "ginf-aura", "ActiveEffect typeIcon"],
-            [
-                "fa-sparkles",
-                "ginf-sparkles",
-                "mystery · useMystery · Mysteries tab",
-            ],
+            ["fa-sparkles", "ginf-sparkles", "mystery · Mysteries tab"],
             ["fa-wagon-covered", "ginf-old-wagon", "vehicle actor"],
             ["fa-head-side-gear", "ginf-skills", "skill · Skills tab"],
             ["fa-ball-pile", "ginf-stockpiles", "miscgear"],
