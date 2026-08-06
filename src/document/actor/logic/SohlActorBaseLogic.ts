@@ -15,6 +15,8 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import { entity } from "@src/entity/registry";
+import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import { fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
     BRAND,
@@ -327,6 +329,102 @@ export class SohlActorBaseLogic<
         const medium = (context.scope as PlainObject)?.medium;
         if (!isMovementMedium(medium)) return;
         await this.data.update({ "system.currentMoveMedium": medium });
+    }
+
+    /**
+     * **GM re-edit of a settled opposed contest** (#1082) — the edit pencil in
+     * the Opposed Action Result card's header, and the two-sided counterpart to
+     * the standard card's
+     * {@link sohl.document.item.logic.SohlItemBaseLogic.resultEdit} (#856).
+     *
+     * Re-opens the standard test dialog for **each** side in turn, pre-filled
+     * with that side's current situational and success-level modifiers, applies
+     * the new values, re-evaluates the contest on **both frozen rolls** (never a
+     * re-roll, no Fate cost), and reposts the Opposed Action Result card. The
+     * settled contest rides in `context.scope.opposedTestResult` — the whole
+     * result serialized into the pencil's `data-scope` and revived by the
+     * chat-card dispatcher — so the edit acts on *that* contest.
+     *
+     * The contest lives only in the chat log, never on a document, so an edit
+     * mutates nothing persistent: it posts a new, corrected card and leaves the
+     * original standing (see the action-card consent model). Dismissing either
+     * side's dialog cancels the whole edit — no re-evaluation, no repost.
+     *
+     * **GM-only.** The pencil is render-hidden from non-GMs
+     * ({@link sohl.document.chat.gateEditActionPencil}); this is the click-time
+     * half of that gate — a synthesized click from a non-GM is refused here.
+     *
+     * @param context - The action context; `context.scope.opposedTestResult` is
+     *   the settled contest. When `skipDialog` is set, each side's new
+     *   `situationalModifier` / `successLevelMod` are taken from
+     *   `context.scope.source` / `context.scope.target` instead of the dialogs.
+     * @returns The re-evaluated contest, or `undefined` when refused (non-GM),
+     *   missing a contest, or cancelled (a dialog dismissed).
+     */
+    async opposedResultEdit(
+        context: SohlActionContext<{
+            opposedTestResult?: OpposedTestResult;
+            source?: { situationalModifier?: number; successLevelMod?: number };
+            target?: { situationalModifier?: number; successLevelMod?: number };
+        }>,
+    ): Promise<OpposedTestResult | undefined> {
+        // Click-time GM gate (defense-in-depth): the render gate hides the
+        // pencil from non-GMs, but a synthesized click bypasses it.
+        if (!fvttIsCurrentUserGM()) {
+            sohl.log.uiWarn("SOHL.ResultEdit.gmOnly");
+            return undefined;
+        }
+
+        const opposed = context.scope?.opposedTestResult;
+        if (!opposed) {
+            sohl.log.warn(
+                "opposedResultEdit invoked without an opposedTestResult in scope.",
+            );
+            return undefined;
+        }
+
+        // Edit each side in turn, naming the side in the dialog heading so the
+        // GM can tell the two prompts apart.
+        const sides = [
+            {
+                result: opposed.sourceTestResult,
+                scope: context.scope?.source,
+            },
+            {
+                result: opposed.targetTestResult,
+                scope: context.scope?.target,
+            },
+        ];
+        let changed = false;
+        for (const side of sides) {
+            const edit = await side.result.editModifiers({
+                skipDialog: context.skipDialog,
+                situationalModifier: side.scope?.situationalModifier,
+                successLevelMod: side.scope?.successLevelMod,
+                title: sohl.i18n.format(
+                    "SOHL.OpposedTestResult.resultEdit.dialogTitle",
+                    { name: side.result.token?.name ?? side.result.title },
+                ),
+            });
+            // A dismissed dialog cancels the whole edit.
+            if (!edit) return undefined;
+            changed ||= edit.changed;
+        }
+
+        // OK-without-change on both sides is a no-op: nothing re-evaluated,
+        // nothing reposted.
+        if (!changed) return opposed;
+
+        // Re-evaluate both sides on their SAME frozen rolls (idempotent; never
+        // re-rolls) and repost the result card with the new outcome.
+        await opposed.evaluate();
+        await opposed.toChat({
+            template: "systems/sohl/templates/chat/opposed-result-card.hbs",
+            title: sohl.i18n.localize(
+                "SOHL.OpposedTestResult.toChat.resultTitle",
+            ),
+        });
+        return opposed;
     }
 
     /* --------------------------------------------- */

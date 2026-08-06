@@ -1198,6 +1198,8 @@
     "SOHL.OpposedTestResult.entityPl": "Opposed Test Results",
     "SOHL.OpposedTestResult.toChat.description": "{targetActorName} must now choose what skill to respond with",
     "SOHL.OpposedTestResult.toChat.respond": "Respond",
+    "SOHL.OpposedTestResult.resultEdit.dialogTitle": "Edit Opposed Result — {name}",
+    "SOHL.OpposedTestResult.toChat.resultTitle": "Opposed Action Result",
     "SOHL.OpposedTestResult.toChat.tie": "Tie — No Winner!",
     "SOHL.OpposedTestResult.toChat.tieBreak.ml": "Tie broken on the higher Mastery Level",
     "SOHL.OpposedTestResult.toChat.tieBreak.roll": "Tie broken on the higher roll",

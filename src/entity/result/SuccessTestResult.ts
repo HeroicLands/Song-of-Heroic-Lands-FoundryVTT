@@ -58,6 +58,7 @@ import {
     SohlSpeakerRollModes,
     isSohlSpeakerRollMode,
     isSuccessTestResultMovement,
+    speakerRollModeOptions,
     SohlSpeakerRollMode,
     TestType,
 } from "@src/utils/constants";
@@ -700,6 +701,83 @@ export class SuccessTestResult extends TestResult {
     }
 
     /**
+     * Re-open the standard test dialog on this **already-settled** result,
+     * pre-filled with its current situational and success-level modifiers, and
+     * fold the submitted values back into {@link masteryLevelModifier}.
+     *
+     * @remarks
+     * This is the shared core of the GM result-edit: the single-test pencil
+     * ({@link sohl.document.item.logic.SohlItemBaseLogic.resultEdit}, #856) and
+     * the opposed-contest pencil
+     * ({@link sohl.document.actor.logic.SohlActorBaseLogic.opposedResultEdit},
+     * #1082) both fold their sides through it. It **never rolls** — the die
+     * stays frozen and the caller re-evaluates on it.
+     *
+     * A situational modifier of `0` *removes* the delta rather than recording a
+     * zero, so an edited target is never left carrying a stale modifier.
+     *
+     * @param opts - How to collect the new modifiers; see
+     *   {@link SuccessTestResult.ModifierEditOptions}.
+     * @returns `{ changed }` — whether either modifier actually moved — or
+     *   `undefined` when the dialog was dismissed, which cancels the edit.
+     */
+    async editModifiers(
+        opts: SuccessTestResult.ModifierEditOptions = {},
+    ): Promise<SuccessTestResult.ModifierEdit | undefined> {
+        const mlMod = this._masteryLevelModifier;
+        const priorSit = mlMod.get(VALUE_DELTA_INFO.PLAYER)?.numValue ?? 0;
+        const priorSLM = mlMod.successLevelMod;
+
+        // New modifiers come from the pre-filled dialog, or — when skipDialog
+        // bypasses it (headless / scripted) — straight from the caller.
+        let newSit: number;
+        let newSLM: number;
+        if (opts.skipDialog) {
+            newSit = opts.situationalModifier ?? priorSit;
+            newSLM = opts.successLevelMod ?? priorSLM;
+        } else {
+            const dlgResult = await dialog({
+                title:
+                    opts.title ??
+                    sohl.i18n.localize("SOHL.ResultEdit.dialogTitle"),
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/standard-test-dialog.hbs",
+                ),
+                data: {
+                    type: this._testType,
+                    mlMod,
+                    situationalModifier: priorSit,
+                    rollMode: this.rollMode,
+                    rollModes: speakerRollModeOptions(),
+                },
+                callback: (formData: PlainObject) => ({
+                    situationalModifier:
+                        parseInt(String(formData.situationalModifier), 10) || 0,
+                    successLevelMod:
+                        parseInt(String(formData.successLevelMod), 10) || 0,
+                }),
+                rejectClose: false,
+            });
+            // A dismissed dialog cancels the edit; nothing changes.
+            if (!dlgResult) return undefined;
+            newSit = dlgResult.situationalModifier;
+            newSLM = dlgResult.successLevelMod;
+        }
+
+        // OK-without-change is a no-op: the caller re-evaluates nothing.
+        if (newSit === priorSit && newSLM === priorSLM)
+            return { changed: false };
+
+        // Replace (or clear) the situational delta — a 0 removes it so the
+        // target is not left carrying a stale modifier — then set the
+        // success-level mod.
+        if (newSit) mlMod.add(VALUE_DELTA_INFO.PLAYER, newSit);
+        else mlMod.delete(VALUE_DELTA_INFO.PLAYER);
+        mlMod.successLevelMod = newSLM;
+        return { changed: true };
+    }
+
+    /**
      * Roll the d100 (unless a die was supplied) and resolve the outcome against
      * the modifier's
      * {@link sohl.entity.modifier.MasteryLevelModifier.constrainedEffective | constrained effective}
@@ -923,6 +1001,39 @@ export class SuccessTestResult extends TestResult {
 export namespace SuccessTestResult {
     /** Registry key identifying this result kind for serialization. */
     export const Kind: string = "SuccessTestResult";
+
+    /** How {@link SuccessTestResult.editModifiers} collects the new modifiers. */
+    export interface ModifierEditOptions {
+        /**
+         * Take the new values from this bag instead of opening the dialog —
+         * for headless or scripted callers.
+         */
+        skipDialog?: boolean;
+        /**
+         * The new situational modifier (`skipDialog` only); defaults to the
+         * value already on the result.
+         */
+        situationalModifier?: number;
+        /**
+         * The new success-level modifier (`skipDialog` only); defaults to the
+         * value already on the result.
+         */
+        successLevelMod?: number;
+        /**
+         * Dialog heading override (localized text, not a key) — used to name
+         * the side being edited in a two-sided contest.
+         */
+        title?: string;
+    }
+
+    /** Outcome of a {@link SuccessTestResult.editModifiers} pass. */
+    export interface ModifierEdit {
+        /**
+         * Whether either modifier actually moved. `false` means the editor was
+         * confirmed without a change, so there is nothing to re-evaluate.
+         */
+        changed: boolean;
+    }
 
     /** Construction options for a {@link SuccessTestResult}. */
     export interface Options {
