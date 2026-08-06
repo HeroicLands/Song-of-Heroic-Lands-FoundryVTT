@@ -170,7 +170,7 @@ export abstract class SohlLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.SohlItemBaseLogic.Action.edit.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-edit",
+                iconFAClass: "fa-solid fa-pen-to-square",
                 executor: "editDocument",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,

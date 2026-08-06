@@ -288,7 +288,7 @@ export class SohlActiveEffect extends ActiveEffect {
             new ContextMenuEntry({
                 id: "edit",
                 name: "SOHL.Effect.contextMenu.edit",
-                iconFAClass: "fa-solid fa-edit",
+                iconFAClass: "fa-solid fa-pen-to-square",
                 condition: always,
                 callback: () => {
                     void (this as any).sheet?.render(true);

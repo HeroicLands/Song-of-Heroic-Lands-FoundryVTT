@@ -54,7 +54,7 @@ export class CohortSheet extends SohlActorSheetBase {
                 {
                     id: "actions",
                     label: "SOHL.Actor.SHEET.tab.actions.label",
-                    icon: "fa-solid fa-cogs",
+                    icon: "fa-solid fa-gears",
                 },
                 {
                     id: "effects",

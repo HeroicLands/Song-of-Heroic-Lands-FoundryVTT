@@ -52,7 +52,7 @@ export class VehicleSheet extends SohlActorSheetBase {
                 {
                     id: "actions",
                     label: "SOHL.Actor.SHEET.tab.actions.label",
-                    icon: "fa-solid fa-cogs",
+                    icon: "fa-solid fa-gears",
                 },
                 {
                     id: "effects",

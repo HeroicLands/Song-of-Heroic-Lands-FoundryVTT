@@ -91,7 +91,11 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
         return {
             ...vm,
             buttons: [
-                { type: "submit", icon: "fa-solid fa-save", label: "Close" },
+                {
+                    type: "submit",
+                    icon: "fa-solid fa-floppy-disk",
+                    label: "Close",
+                },
             ],
         };
     }

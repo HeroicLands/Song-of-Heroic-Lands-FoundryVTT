@@ -74,7 +74,7 @@ None of them roll anything, and none of them touch another character's sheet.
 | ------------- | ---------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Edit                                                                                                             |
 | **Shortcode** | `editDocument`                                                                                                   |
-| **Icon**      | `fa-edit` (a pencil on paper)                                                                                    |
+| **Icon**      | `fa-pen-to-square` (a pencil on paper)                                                                           |
 | **Invoked**   | The **Actions** context menu                                                                                     |
 | **API**       | [`SohlLogic.editDocument`](https://api.heroiclands.org/main/classes/sohl.core.logic.SohlLogic.html#editdocument) |
 
@@ -323,7 +323,7 @@ offered the same way.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Edit Test Result                                                                                                                      |
 | **Shortcode** | `resultEdit`                                                                                                                          |
-| **Icon**      | `fa-edit` (a pencil, in the card's title bar)                                                                                         |
+| **Icon**      | `fa-pen-to-square` (a pencil, in the card's title bar)                                                                                |
 | **Invoked**   | **Hidden — not on the Actions context menu.** The pencil on a posted test-result card. **GMs only**                                   |
 | **API**       | [`SohlItemBaseLogic.resultEdit`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SohlItemBaseLogic.html#resultedit) |
 

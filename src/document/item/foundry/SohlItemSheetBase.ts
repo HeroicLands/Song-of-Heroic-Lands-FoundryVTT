@@ -119,7 +119,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                 {
                     id: "actions",
                     label: "SOHL.Item.tab.actions",
-                    icon: "fa-solid fa-cogs",
+                    icon: "fa-solid fa-gears",
                 },
                 {
                     id: "effects",
