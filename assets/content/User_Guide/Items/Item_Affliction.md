@@ -17,7 +17,7 @@ An Affliction represents an ongoing condition affecting a Being — diseases, po
 
 # Where It Appears
 
-Afflictions appear on the **Trauma** tab of the Being sheet and track the condition's progression. Afflictions can be added when a character is exposed to disease, poisoned, cursed, or otherwise affected by a lasting condition. They are typically sourced from compendium packs that define specific diseases and poisons.
+Afflictions appear on the **Health** tab of the Being sheet and track the condition's progression. Afflictions can be added when a character is exposed to disease, poisoned, cursed, or otherwise affected by a lasting condition. They are typically sourced from compendium packs that define specific diseases and poisons.
 
 # Additional Properties
 

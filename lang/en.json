@@ -115,7 +115,7 @@
     "SOHL.Actor.SHEET.tab.profile.tooltip": "True attributes, affiliations, and biography",
     "SOHL.Actor.SHEET.tab.skills.label": "Skills",
     "SOHL.Actor.SHEET.tab.skills.tooltip": "Skills and proficiency ratings",
-    "SOHL.Actor.SHEET.tab.trauma.label": "Trauma",
+    "SOHL.Actor.SHEET.tab.trauma.label": "Health",
     "SOHL.Actor.SHEET.tab.trauma.tooltip": "Injuries, fatigue, and ongoing conditions",
     "SOHL.Actor.currentMoveMedium.label": "Current Move Medium",
     "SOHL.Actor.movement.default": "Current move medium",
