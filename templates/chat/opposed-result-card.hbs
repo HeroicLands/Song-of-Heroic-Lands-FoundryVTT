@@ -124,14 +124,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <div class="card-content center">
-        {{#if (not (or sourceWins targetWins))}}
-            {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
-            <span class="result-desc">Missile Attack Fails!</span>
-            {{else}}
-            <span class="result-desc">Both Fail!</span>
-            {{/if}}
-        {{else}}
+        {{#if (or sourceWins targetWins)}}
         <span class="result-desc">Success Stars: {{vsText}}</span>
+        {{else if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+        <span class="result-desc">Missile Attack Fails!</span>
+        {{else if bothFail}}
+        <span class="result-desc">Both Fail!</span>
+        {{else}}
+        <span class="result-desc">{{localize "SOHL.OpposedTestResult.toChat.tie"}}</span>
         {{/if}}
     </div>
 

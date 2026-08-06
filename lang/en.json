@@ -1197,6 +1197,7 @@
     "SOHL.OpposedTestResult.entityPl": "Opposed Test Results",
     "SOHL.OpposedTestResult.toChat.description": "{targetActorName} must now choose what skill to respond with",
     "SOHL.OpposedTestResult.toChat.respond": "Respond",
+    "SOHL.OpposedTestResult.toChat.tie": "Tie — No Winner!",
     "SOHL.OpposedTestResult.toChat.title": "Opposed Action Request",
     "SOHL.Print.abilitiesHeading": "Mystical Abilities",
     "SOHL.Print.ability": "Ability",

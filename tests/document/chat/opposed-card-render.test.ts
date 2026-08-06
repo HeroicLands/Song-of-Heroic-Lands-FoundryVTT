@@ -98,6 +98,35 @@ async function makeOpposed(): Promise<OpposedTestResult> {
     );
 }
 
+/** An opposed test where both sides reach the same success level. */
+async function makeTied(opts: { critical?: boolean } = {}) {
+    const digits = opts.critical ? [0] : [];
+    // 30 ≤ 55 → success; ending in 0 is critical only when 0 is a crit digit.
+    const source = await makeResult("Aldric", {
+        rollTotal: 30,
+        critSuccess: digits,
+    });
+    const target = await makeResult("Bandit", {
+        rollTotal: 30,
+        critSuccess: digits,
+    });
+    return new OpposedTestResult(
+        { sourceTestResult: source, targetTestResult: target } as any,
+        { parent: parentFor("Aldric") },
+    );
+}
+
+/** An opposed test where neither side succeeded. */
+async function makeBothFail() {
+    // 95 > 55 → failure on both sides, with no crit digits configured.
+    const source = await makeResult("Aldric", { rollTotal: 95 });
+    const target = await makeResult("Bandit", { rollTotal: 95 });
+    return new OpposedTestResult(
+        { sourceTestResult: source, targetTestResult: target } as any,
+        { parent: parentFor("Aldric") },
+    );
+}
+
 describe("OpposedTestResult.toChat builds shaped opposed-card data (#845)", () => {
     it("delegates the opposed-request template (not overridden to standard-test)", async () => {
         const spy = vi
@@ -183,9 +212,48 @@ describe("SuccessTestResult.toChat honors a caller-supplied template (#845)", ()
     });
 });
 
+describe("OpposedTestResult.toChat distinguishes a tie from a mutual failure (#1081)", () => {
+    /** Capture the card data for a given opposed result. */
+    async function dataFor(opposed: OpposedTestResult) {
+        const spy = vi
+            .spyOn(SuccessTestResult.prototype, "toChat")
+            .mockResolvedValue(undefined);
+        await opposed.toChat();
+        return spy.mock.calls[0][0] as any;
+    }
+
+    it("flags a tie as tied, not both-fail", async () => {
+        const msg = await dataFor(await makeTied());
+        expect(msg.sourceWins).toBe(false);
+        expect(msg.targetWins).toBe(false);
+        expect(msg.isTied).toBe(true);
+        expect(msg.bothFail).toBe(false);
+        // A tie is worth zero victory degrees.
+        expect(msg.vsText).toBe("");
+    });
+
+    it("flags two Critical Successes as a tie", async () => {
+        const msg = await dataFor(await makeTied({ critical: true }));
+        expect(msg.isTied).toBe(true);
+        expect(msg.bothFail).toBe(false);
+    });
+
+    it("flags a mutual failure as both-fail, not tied", async () => {
+        const msg = await dataFor(await makeBothFail());
+        expect(msg.isTied).toBe(false);
+        expect(msg.bothFail).toBe(true);
+    });
+
+    it("flags a decisive contest as neither tied nor both-fail", async () => {
+        const msg = await dataFor(await makeOpposed());
+        expect(msg.isTied).toBe(false);
+        expect(msg.bothFail).toBe(false);
+    });
+});
+
 describe("opposed cards render the shaped data (#845)", () => {
     /** Build the card data OpposedTestResult.toChat produces, via a spy capture. */
-    async function cardData() {
+    async function cardData(opposed?: OpposedTestResult) {
         let captured: any;
         vi.spyOn(SuccessTestResult.prototype, "toChat").mockImplementation(
             function (this: any, data: any) {
@@ -195,7 +263,7 @@ describe("opposed cards render the shaped data (#845)", () => {
                 return Promise.resolve(undefined);
             } as any,
         );
-        await (await makeOpposed()).toChat();
+        await (opposed ?? (await makeOpposed())).toChat();
         return captured;
     }
 
@@ -216,6 +284,37 @@ describe("opposed cards render the shaped data (#845)", () => {
         expect(html).toContain("Bandit Test");
         expect(html).toMatch(/Aldric[\s\S]*?Wins!/);
         expect(html).toContain("Success Stars: ★★★");
+    });
+
+    it("result card reports a tie as a tie, not as Both Fail (#1081)", async () => {
+        const data = await cardData(await makeTied());
+        const html = renderTemplateReal(RESULT, {
+            ...data,
+            title: "Opposed Result",
+        });
+        expect(html).not.toContain("Both Fail!");
+        expect(html).not.toContain("Wins!");
+        expect(html).toContain("Tie");
+    });
+
+    it("result card reports two Critical Successes as a tie (#1081)", async () => {
+        const data = await cardData(await makeTied({ critical: true }));
+        const html = renderTemplateReal(RESULT, {
+            ...data,
+            title: "Opposed Result",
+        });
+        expect(html).not.toContain("Both Fail!");
+        expect(html).toContain("Tie");
+    });
+
+    it("result card still reports a mutual failure as Both Fail (#1081)", async () => {
+        const data = await cardData(await makeBothFail());
+        const html = renderTemplateReal(RESULT, {
+            ...data,
+            title: "Opposed Result",
+        });
+        expect(html).toContain("Both Fail!");
+        expect(html).not.toContain("Tie");
     });
 
     it("result card no longer references the removed combatResult section", async () => {

@@ -280,6 +280,11 @@ export class OpposedTestResult extends TestResult {
             targetTestResult: shape(this.targetTestResult),
             sourceWins: this.sourceWins,
             targetWins: this.targetWins,
+            // A contest with no winner is either a tie or a mutual failure; the
+            // card must tell them apart rather than calling both "Both Fail!"
+            // (#1081).
+            isTied: this.isTied,
+            bothFail: this.bothFail,
             vsText: SYMBOL.STARF.repeat(victoryDegrees),
             // The Respond button's `scope` payload: the whole opposed test,
             // serialized as one `data-scope` blob and revived as a live

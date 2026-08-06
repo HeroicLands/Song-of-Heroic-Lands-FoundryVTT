@@ -165,7 +165,7 @@ the contest cannot be answered.
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Per-side detail   | Each side's test name, its full modifier breakdown (every bonus and penalty that went into the mastery level), and its Success Level Mod                                                                                                            |
 | **Results** grid  | Side by side for source and target: the token name, the skill or attribute used, **EML** (the number that had to be rolled under), **Roll** (the d100), and the outcome — Critical Success, Marginal Success, Marginal Failure, or Critical Failure |
-| Outcome line      | _{token}_ **Wins!** for whichever side had the higher success level, or **Both Fail!** when no side won                                                                                                                                             |
+| Outcome line      | _{token}_ **Wins!** for whichever side had the higher success level, **Tie — No Winner!** when both reached the same level, or **Both Fail!** when neither succeeded                                                                                |
 | **Success Stars** | One ★ per degree of victory — the gap between the two success levels. Three stars, for instance, is a Critical Success against a Critical Failure                                                                                                   |
 
 Reading the outcome:
@@ -174,9 +174,9 @@ Reading the outcome:
   A Marginal Success beats a Marginal Failure; a Critical Success beats both.
 - If **neither** side succeeded, the card reads **Both Fail!** — the contest
   produced nothing for either party.
-- If both sides reached the **same** success level, the contest is a **tie** and
-  no stars are awarded. (The card labels a tie **Both Fail!** as well, so read
-  the Results grid to see what each side actually rolled.) See the
+- If both sides reached the **same** success level and at least one of them
+  succeeded, the card reads **Tie — No Winner!** and no stars are awarded — two
+  Critical Successes are a tie, not a win for either side. See the
   [[rules/sohl-opposed-tests|Opposed Tests]] rules for what a tie means and how
   to break one when a ruling requires it.
 - Rolls, effective mastery levels, and the modifier breakdowns are all shown, so
