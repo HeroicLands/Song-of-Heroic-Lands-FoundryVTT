@@ -1131,10 +1131,16 @@ export class TraumaLogic<
      *   `Healing Base × Healing Rate` reduces the Injury Level by 1 on a marginal
      *   success and 2 on a critical success (a marginal failure does nothing; a
      *   critical failure does no healing — infection-on-CF is completed by #557).
-     *   No test is made while the injury is untreated, already healed (level 0),
-     *   or while any active infection halts the patient's healing. Other trauma
-     *   subtypes recover by their own rules. The recurrence anchor and interval
-     *   are read from the persisted `system.scheduledActions` entry (the queue
+     *   A wound with no Healing Rate to roll against — **untreated**, or treated
+     *   with the rate still undetermined — is resolved as though its roll were a
+     *   **Critical Failure**, with no die cast (#1146): it makes no progress, and
+     *   it contracts an infection, since the rule that resolves an untreated
+     *   wound as a critically-failed treatment is the one that leaves such a
+     *   wound exposed to infection ({@link UNTREATED}). No test is resolved at
+     *   all once the wound is healed (level 0) or while any active infection
+     *   halts the patient's healing. Other trauma subtypes recover by their own
+     *   rules. The recurrence anchor and interval are read from the persisted
+     *   `system.scheduledActions` entry (the queue
      *   does not cascade — see the Event Queue contract). A wound that heals to
      *   level 0 ends the recurrence (`sohl.unschedule`); otherwise the next check
      *   is offered. An eligible injury (see
@@ -1161,20 +1167,37 @@ export class TraumaLogic<
 
         // Injury Healing Test at each elapsed checkpoint, in sequence (each roll
         // reduces the level the next one sees). Only injuries heal this way, and
-        // only once treated and while not halted by an active infection.
+        // only while not halted by an active infection. A wound with no Healing
+        // Rate to roll against — untreated, or treated with the rate still
+        // undetermined — is resolved as though its roll were a Critical Failure
+        // (#1146), with no die cast.
+        const noHealingRate =
+            !this.isTreated || this.data.healingRateBase == null;
         let level = this.data.levelBase ?? 0;
         let contractInfection = false;
-        if (this.data.subType === TRAUMA_SUBTYPE.INJURY && this.isTreated) {
+        if (this.data.subType === TRAUMA_SUBTYPE.INJURY) {
             for (
                 let i = 0;
                 i < checkpoints.length && level > 0 && !this.healingHalted;
                 i++
             ) {
-                const sl = await this.rollHealingTest();
+                const sl =
+                    noHealingRate ? CRITICAL_FAILURE : (
+                        await this.rollHealingTest()
+                    );
                 if (sl == null) break; // roll refused (e.g. speaker not owned)
                 if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
                 else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
-                else if (sl <= CRITICAL_FAILURE && this.data.infectable) {
+                else if (
+                    sl <= CRITICAL_FAILURE &&
+                    // A wound is exposed to infection when a Treatment Test left
+                    // it so (#557) — or when it is untreated, since the rule that
+                    // resolves an untreated wound as a critically-failed
+                    // treatment is the same rule that marks such a wound
+                    // infectable (the UNTREATED baseline, #1146).
+                    (this.data.infectable ||
+                        (noHealingRate && UNTREATED.infect))
+                ) {
                     // CF on an infectable wound contracts an infection (#557),
                     // which then halts further healing — stop the catch-up here.
                     contractInfection = true;

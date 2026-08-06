@@ -156,6 +156,13 @@ per injury on that injury's own healing period. Each is a test of
 When an Injury Level reaches **0 or less** the injury is healed, and no further
 Injury Healing Tests are made for it.
 
+**An untreated wound tests as a Critical Failure.** A wound with no Healing Rate —
+one that has never been treated — has nothing to test against, so no roll is made:
+its Healing Test is resolved as a **Critical Failure**, exactly as its treatment
+roll is (see [Injury Treatment](#injury-treatment)). Such a wound therefore makes
+no progress however long it is left, and, being an untreated wound exposed to
+infection, contracts an [infection](Infection.md).
+
 **An active infection halts healing.** While the patient carries _any_ active
 [infection](Infection.md), **no** Injury Healing Tests are made for them until
 every infection has been defeated.
