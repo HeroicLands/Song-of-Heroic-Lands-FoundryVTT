@@ -7,6 +7,7 @@ import {
 } from "@src/document/item/logic/TraumaLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import {
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
@@ -154,6 +155,53 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
         // non-injury trauma applies no rolls but still catches up; the next
         // occurrence is offered at the freshly rolled interval (500).
         expect(schedule).toHaveBeenCalledWith(logic.item, "healingCheck", 500);
+    });
+});
+
+describe("isTreated — a null Healing Rate is the source of truth (#1148)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("is false when the Healing Rate is null, whatever the treatment date says", () => {
+        const logic = makeTrauma({
+            healingRateBase: null,
+            treatmentDate: 1000,
+        });
+        // The date cannot make a rate-less wound treated.
+        expect(logic.isTreated).toBe(false);
+    });
+
+    it("is false when there is a rate but no treatment date", () => {
+        const logic = makeTrauma({ healingRateBase: 4, treatmentDate: null });
+        expect(logic.isTreated).toBe(false);
+    });
+
+    it("is true only when both a rate and a treatment date are recorded", () => {
+        const logic = makeTrauma({ healingRateBase: 4, treatmentDate: 1000 });
+        expect(logic.isTreated).toBe(true);
+    });
+
+    it("treats a recorded rate of 0 as a real rate, not as 'no rate'", () => {
+        const logic = makeTrauma({ healingRateBase: 0, treatmentDate: 1000 });
+        expect(logic.isTreated).toBe(true);
+    });
+});
+
+describe("healingRate modifier — disabled while undetermined (#1148)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("is disabled, not zero, when no Healing Rate has been determined", () => {
+        const logic = makeTrauma({ healingRateBase: null });
+        logic.initialize();
+        // Mirrors AfflictionLogic: an absent rate disables the modifier (which
+        // the Being ledger renders as ✗) rather than reading as a rate of 0.
+        expect(logic.healingRate.disabled).toBeTruthy();
+    });
+
+    it("carries the recorded rate as its base once determined", () => {
+        const logic = makeTrauma({ healingRateBase: 4 });
+        logic.initialize();
+        expect(logic.healingRate.disabled).toBeFalsy();
+        expect(logic.healingRate.base).toBe(4);
     });
 });
 
@@ -343,7 +391,10 @@ describe("TraumaLogic", () => {
 
         it("UNTREATED supplies the untreated-wound baseline", () => {
             expect(UNTREATED).toEqual({
-                hr: 4,
+                // No rate determined (#1148) — not the real rate 0.
+                hr: null,
+                // The 00 face: always a Critical Failure, whatever the target.
+                roll: 100,
                 infect: true,
                 bleed: false,
                 impair: false,
@@ -622,38 +673,74 @@ describe("Injury Healing Test effect (#486)", () => {
         expect(spy).toHaveBeenCalledTimes(1); // second checkpoint not tested
     });
 
-    it("rolls no dice for an untreated injury — the checkpoint resolves as a Critical Failure, so the level never improves (#1146)", async () => {
+    it("casts no dice for an untreated injury — it supplies the 00 face instead (#1148)", async () => {
         withEvents();
         oneCheckpoint();
-        const spy = mockRoll(MARGINAL_SUCCESS);
-        const logic = treatedInjury({ levelBase: 5, treatmentDate: null });
+        const cast = vi.spyOn(SimpleRoll.prototype, "roll");
+        const spy = mockRoll(CRITICAL_FAILURE);
+        const logic = treatedInjury({
+            levelBase: 5,
+            treatmentDate: null,
+            healingRateBase: null,
+        });
         await logic.healingCheck({} as any);
-        // No roll is made: an untreated wound is resolved as though its roll
-        // were a Critical Failure, and a CF never reduces the Injury Level.
-        expect(spy).not.toHaveBeenCalled();
+        // The test still runs — it is handed a pre-seeded die rather than
+        // short-circuited — and that die is the 00 face (100), which exceeds
+        // every ordinary target and ends in a critical-failure digit, so it is
+        // a Critical Failure whatever the target.
+        expect(spy).toHaveBeenCalled();
+        expect(spy.mock.calls[0][0].scope.roll?.total).toBe(100);
+        // Nothing is drawn from the generator.
+        expect(cast).not.toHaveBeenCalled();
+    });
+
+    it("an untreated injury never improves — its forced Critical Failure does no healing (#1148)", async () => {
+        withEvents();
+        oneCheckpoint();
+        mockRoll(CRITICAL_FAILURE);
+        const logic = treatedInjury({
+            levelBase: 5,
+            treatmentDate: null,
+            healingRateBase: null,
+        });
+        await logic.healingCheck({} as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 5 }),
         );
     });
 
-    it("rolls no dice for a treated injury whose Healing Rate is still undetermined (#1146)", async () => {
+    it("casts no dice when the Healing Rate is undetermined, even with a treatment date on record (#1148)", async () => {
         withEvents();
         oneCheckpoint();
-        const spy = mockRoll(MARGINAL_SUCCESS);
+        const cast = vi.spyOn(SimpleRoll.prototype, "roll");
+        const spy = mockRoll(CRITICAL_FAILURE);
+        // A stored treatment date cannot make a rate-less wound treated.
         const logic = treatedInjury({ levelBase: 5, healingRateBase: null });
         await logic.healingCheck({} as any);
-        // `null` is "no rate determined": there is nothing to roll against, so
-        // the checkpoint resolves as a Critical Failure rather than testing
-        // against an effective mastery level of 0.
-        expect(spy).not.toHaveBeenCalled();
+        expect(spy.mock.calls[0][0].scope.roll?.total).toBe(100);
+        expect(cast).not.toHaveBeenCalled();
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 5 }),
         );
     });
 
-    it("an untreated wound is infection-prone — its auto-Critical-Failure contracts an infection (#1146)", async () => {
+    it("casts a real die once a Healing Rate is recorded (#1148)", async () => {
         withEvents();
         oneCheckpoint();
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 5, healingRateBase: 3 });
+        await logic.healingCheck({} as any);
+        // A determined rate is tested normally — no die is supplied.
+        expect(spy.mock.calls[0][0].scope.roll).toBeUndefined();
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 4 }),
+        );
+    });
+
+    it("an untreated wound is infection-prone — its forced Critical Failure contracts an infection (#1146)", async () => {
+        withEvents();
+        oneCheckpoint();
+        mockRoll(CRITICAL_FAILURE);
         const create = vi
             .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
             .mockResolvedValue([]);

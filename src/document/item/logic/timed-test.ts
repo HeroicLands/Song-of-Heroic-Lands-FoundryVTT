@@ -24,6 +24,7 @@
  */
 
 import { entity } from "@src/entity/registry";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
@@ -43,6 +44,15 @@ export interface TimedTestOptions {
     critSuccessDigits?: number[];
     /** Roll last-digits promoting a failure to a critical (default `[0, 5]`). */
     critFailureDigits?: number[];
+    /**
+     * Resolve against this die value instead of casting one. The test still runs
+     * in full — it is handed a pre-seeded d100 rather than short-circuited — so
+     * the result, its description, and any card derive normally. Used where the
+     * outcome is fixed by rule and there is nothing to test: an untreated wound
+     * has no Healing Rate to roll against, so it resolves against
+     * {@link sohl.document.item.logic.UNTREATED | UNTREATED.roll} (#1148).
+     */
+    forcedDie?: number;
 }
 
 /**
@@ -73,13 +83,29 @@ export async function rollTimedTest(
         { parent },
     ).setBase(eml) as MasteryLevelModifier;
 
+    // A forced die is handed to the test as a pre-seeded d100; `successTest`
+    // passes it to the result, whose `evaluate()` then resolves the supplied die
+    // untouched instead of drawing one (#1148).
+    const roll =
+        options.forcedDie == null ?
+            undefined
+        :   new SimpleRoll(
+                {
+                    numDice: 1,
+                    dieFaces: 100,
+                    modifier: 0,
+                    rolls: [options.forcedDie],
+                },
+                { parent },
+            );
+
     const context = new SohlActionContext({
         speaker: parent.speaker,
         skipDialog: true,
         noChat: options.noChat ?? false,
         type: options.type ?? "",
         title: options.title ?? "",
-        scope: { situationalModifier: options.situationalModifier ?? 0 },
+        scope: { situationalModifier: options.situationalModifier ?? 0, roll },
     });
 
     return mlMod.successTest(context);

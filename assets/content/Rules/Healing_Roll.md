@@ -28,16 +28,20 @@ All characters have a Healing Base equal to the average of Endurance and Will, w
 
 The Healing Rate (HR) is a value from 1 to 6, determined by the quality of treatment an injury receives. Higher HR means faster healing. The Healing Roll is made against HB × HR, so a character with HB 14 and HR 4 rolls against an EML of 56.
 
+**An untreated injury has no Healing Rate**, and therefore nothing to roll against. Every Healing Roll on such an injury is an **automatic Critical Failure** — no dice are rolled. The injury makes no progress for as long as it goes untreated, and takes the Critical Failure consequences each period, including infection.
+
+This applies to healing tests only. The Physician's **Treatment Test** is not a healing test: it is rolled against the Physician's own skill and is what _establishes_ the Healing Rate in the first place — see [[rules/sohl-injury|Injury]].
+
 ## Healing Roll Results
 
 A patient makes a separate Healing Roll for each injury every five days after the injury was sustained:
 
-| Success Level | Effect                                                                                                |
-| ------------- | ----------------------------------------------------------------------------------------------------- |
-| CF (−1)       | No healing this period. If treatment left the chance for infection, the injury also becomes infected. |
-| MF (0)        | No healing this period.                                                                               |
-| MS (1)        | Reduce the Injury Level by 1. When reduced to 0 or less, the injury is fully healed.                  |
-| CS (2)        | Reduce the Injury Level by 2.                                                                         |
+| Success Level | Effect                                                                                                                                                 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| CF (−1)       | No healing this period. If treatment left the chance for infection — or the injury is untreated, which always does — the injury also becomes infected. |
+| MF (0)        | No healing this period.                                                                                                                                |
+| MS (1)        | Reduce the Injury Level by 1. When reduced to 0 or less, the injury is fully healed.                                                                   |
+| CS (2)        | Reduce the Injury Level by 2.                                                                                                                          |
 
 As injury levels decrease, severity lessens at certain thresholds—from Grievous to Serious, and from Serious to Minor. When severity changes, the effects of the injury (impairment, shock risk) change accordingly.
 

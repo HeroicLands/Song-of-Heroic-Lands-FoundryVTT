@@ -49,8 +49,15 @@ the Injury Level + the Shock test result — see
 The **Healing Rate (HR)** is a factor from **0 to 6** representing the likelihood
 of recovering from an injury — lower is worse. It is generally **fixed once the
 injury is treated** (see [Injury Treatment](#injury-treatment)), though some
-circumstances change it. Two thresholds always apply, however the Healing Rate
-reaches them:
+circumstances change it.
+
+An **untreated** injury has **no Healing Rate at all** — which is not the same as a
+Healing Rate of 0. Having a rate is what makes a wound treated: the moment one is
+established, that is the moment of treatment, and until then the wound has nothing
+to test against. A rate of **0** is a real (and lethal) rate that some poor
+treatment produced.
+
+Two thresholds always apply, however the Healing Rate reaches them:
 
 - **HR 0** — the victim **dies**.
 - **HR 7** — the injury is **healed** (the victim recovers).
@@ -156,12 +163,20 @@ per injury on that injury's own healing period. Each is a test of
 When an Injury Level reaches **0 or less** the injury is healed, and no further
 Injury Healing Tests are made for it.
 
-**An untreated wound tests as a Critical Failure.** A wound with no Healing Rate —
-one that has never been treated — has nothing to test against, so no roll is made:
-its Healing Test is resolved as a **Critical Failure**, exactly as its treatment
-roll is (see [Injury Treatment](#injury-treatment)). Such a wound therefore makes
-no progress however long it is left, and, being an untreated wound exposed to
-infection, contracts an [infection](Infection.md).
+**An untreated wound automatically Critically Fails every healing test.** A wound
+that has never been treated has no Healing Rate, and so nothing to test against: no
+dice are rolled, and the test resolves as a **Critical Failure** — mechanically, a
+rolled **00**, which fails every target and ends in a critical digit. Such a wound
+therefore makes no progress however long it is left, and takes the Critical Failure
+consequences each period: being an untreated wound exposed to infection, it contracts
+an [infection](Infection.md).
+
+This governs **healing tests only**. The Physician's
+[Treatment Test](#injury-treatment) is _not_ a healing test — it is rolled against
+the Physician's own skill, and it is what establishes the Healing Rate that later
+healing tests use. (An untreated wound is separately resolved as though _its
+treatment roll_ were a Critical Failure, which is the rule that leaves it exposed to
+infection.)
 
 **An active infection halts healing.** While the patient carries _any_ active
 [infection](Infection.md), **no** Injury Healing Tests are made for them until

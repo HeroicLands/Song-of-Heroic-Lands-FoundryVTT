@@ -234,4 +234,62 @@ export class TraumaDataModel<
         this.updateSource(seed as any);
         return undefined;
     }
+
+    /**
+     * Stamp the treatment date when a Healing Rate first appears (#1148).
+     *
+     * The Healing Rate is the source of truth for whether a trauma has been
+     * treated, so the moment one is established — the stored rate going from
+     * `null` to a number — is the moment of treatment. Stamping it here rather
+     * than at each call site catches **every** write path, including a Healing
+     * Rate typed straight into the sheet, so a trauma can never carry a rate with
+     * no treatment date. An update that supplies its own `treatmentDate` (the
+     * treatment actions do) is left alone, and clearing the rate back to `null`
+     * leaves the old date in place — harmless, since a `null` rate reads as
+     * untreated whatever the date says.
+     *
+     * @param changes - The candidate document changes (the rate lives at
+     *   `system.healingRateBase`, in either the expanded or flat shape).
+     * @param options - Update options, forwarded to `super`.
+     * @param user - The requesting user.
+     * @returns `false` to veto, otherwise `undefined`.
+     */
+    protected override async _preUpdate(
+        changes: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preUpdate(
+            changes as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+
+        // Handle both the expanded (`{ system: { healingRateBase } }`) and flat
+        // (`{ "system.healingRateBase": … }`) update shapes.
+        const flatKey = "system.healingRateBase";
+        const isFlat = flatKey in changes;
+        const incoming =
+            isFlat ?
+                changes[flatKey]
+            :   foundry.utils.getProperty(changes, flatKey);
+
+        const suppliesDate =
+            "system.treatmentDate" in changes ||
+            foundry.utils.getProperty(changes, "system.treatmentDate") !==
+                undefined;
+
+        if (
+            typeof incoming === "number" &&
+            this.healingRateBase == null &&
+            !suppliesDate
+        ) {
+            const now = game.time.worldTime;
+            if (isFlat) changes["system.treatmentDate"] = now;
+            else
+                foundry.utils.setProperty(changes, "system.treatmentDate", now);
+        }
+        return undefined;
+    }
 }

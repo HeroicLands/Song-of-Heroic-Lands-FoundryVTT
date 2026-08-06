@@ -475,6 +475,77 @@ describe("SuccessTestResult", () => {
         });
     });
 
+    describe("a supplied 00 face forces a Critical Failure (#1148)", () => {
+        const owned = { isOwner: true, name: "GM" } as any;
+
+        /**
+         * The seam an undetermined Healing Rate uses: a pre-seeded die handed to
+         * the result rather than one cast by `evaluate()`.
+         */
+        function makeSuppliedResult(
+            baseValue: number,
+            dieValue: number,
+        ): SuccessTestResult {
+            const mlMod = new MasteryLevelModifier({ baseValue } as any, {
+                parent,
+            });
+            const roll = new SimpleRoll(
+                {
+                    numDice: 1,
+                    dieFaces: 100,
+                    modifier: 0,
+                    rolls: [dieValue],
+                } as any,
+                { parent } as any,
+            );
+            return new SuccessTestResult(
+                { masteryLevelModifier: mlMod, roll } as any,
+                { parent, chatSpeaker: owned },
+            );
+        }
+
+        afterEach(() => SimpleRoll.clearForced());
+
+        it("resolves as a Critical Failure without casting a die", async () => {
+            const cast = vi.spyOn(SimpleRoll.prototype, "roll");
+            const result = makeSuppliedResult(0, 100);
+            await result.evaluate();
+            // 100 exceeds the target (so it fails) and ends in a
+            // critical-failure digit — a Critical Failure, deterministically.
+            expect(cast).not.toHaveBeenCalled();
+            expect(result.roll.total).toBe(100);
+            expect(result.isSuccess).toBe(false);
+            expect(result.isCritical).toBe(true);
+            expect(result.successLevel).toBe(-1); // CRITICAL_FAILURE
+        });
+
+        it("is a Critical Failure at every ordinary mastery level", async () => {
+            for (const eml of [0, 5, 20, 50, 80, 99]) {
+                const result = makeSuppliedResult(eml, 100);
+                await result.evaluate();
+                expect(result.successLevel, `eml ${eml}`).toBe(-1);
+            }
+        });
+
+        it("a supplied 5 would NOT do — it succeeds against any target of 5 or more", async () => {
+            // Why the forced value is the 00 face and not a low digit: a roll of
+            // 5 only fails against a target below 5, and it crits on the way.
+            const result = makeSuppliedResult(30, 5);
+            await result.evaluate();
+            expect(result.isSuccess).toBe(true);
+            expect(result.successLevel).toBe(2); // CRITICAL_SUCCESS
+        });
+
+        it("a supplied 0 would be worse still — it is a Critical Success against every target", async () => {
+            const result = makeSuppliedResult(0, 0);
+            await result.evaluate();
+            // 0 <= any target takes the success branch, and 0 is a
+            // critical-success digit.
+            expect(result.isSuccess).toBe(true);
+            expect(result.successLevel).toBe(2); // CRITICAL_SUCCESS
+        });
+    });
+
     describe("auto-Critical-Failure (#568)", () => {
         const owned = { isOwner: true, name: "GM" } as any;
 
