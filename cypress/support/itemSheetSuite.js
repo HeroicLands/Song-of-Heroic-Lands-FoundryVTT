@@ -160,20 +160,21 @@ export function itemSheetSuite(kind, opts = {}) {
                         fields.forEach((f) => {
                             // Editing one choice field can re-render the sheet
                             // and conditionally hide another (e.g. trauma shows
-                            // `aspect` only when `subType` is "injury"). Skip a
-                            // planned field a prior edit removed — a field not
-                            // shown in the current state can't be set.
+                            // `aspect` only when `subType` is "injury") — or
+                            // disable it (armor's `isWorn` is gated on
+                            // `isCarried`, #1097). Skip a planned field a prior
+                            // edit removed or locked: a field not shown, or
+                            // shown disabled, can't be set in the current state.
                             cy.then(function () {
                                 const item = this.item;
-                                cy.foundry((win) =>
-                                    Boolean(
-                                        win.game.items
-                                            .get(id)
-                                            .sheet.element.querySelector(
-                                                `[name="${f.name}"]`,
-                                            ),
-                                    ),
-                                ).then((present) => {
+                                cy.foundry((win) => {
+                                    const el = win.game.items
+                                        .get(id)
+                                        .sheet.element.querySelector(
+                                            `[name="${f.name}"]`,
+                                        );
+                                    return Boolean(el) && !el.disabled;
+                                }).then((present) => {
                                     if (!present) return;
                                     cy.editSheetField(item, f.name, f.value);
                                     cy.foundry((win) => {

@@ -872,6 +872,8 @@
     "SOHL.Gear.FIELDS.visibleToCohort.label": "Visible to Cohort",
     "SOHL.Gear.FIELDS.weightBase.hint": "Base weight of a single unit",
     "SOHL.Gear.FIELDS.weightBase.label": "Weight",
+    "SOHL.Gear.worn": "Worn",
+    "SOHL.Gear.wornRequiresCarried": "Armor must be carried before it can be worn",
     "SOHL.Hydrology.damp": "Damp",
     "SOHL.Hydrology.deep": "Deep",
     "SOHL.Hydrology.dry": "Dry",

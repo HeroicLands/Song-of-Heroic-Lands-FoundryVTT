@@ -78,6 +78,49 @@ describe("ArmorGearLogic", () => {
         });
     });
 
+    describe("carried gate (#1097)", () => {
+        it("makes toggleWorn unavailable while the armor is not carried", () => {
+            const logic = makeArmor({ isCarried: false });
+            const action = logic.actions.get("toggleWorn")!;
+            expect(action.trigger(logic.item, undefined)).toBe(false);
+        });
+
+        it("makes toggleWorn available once the armor is carried", () => {
+            const logic = makeArmor({ isCarried: true });
+            const action = logic.actions.get("toggleWorn")!;
+            expect(action.trigger(logic.item, undefined)).toBe(true);
+        });
+
+        it("keeps toggleCarried available while the armor is not carried", () => {
+            const logic = makeArmor({ isCarried: false });
+            const action = logic.actions.get("toggleCarried")!;
+            expect(action.trigger(logic.item, undefined)).toBe(true);
+        });
+
+        it("refuses to execute toggleWorn while the armor is not carried", async () => {
+            const logic = makeArmor({ isCarried: false, isWorn: false });
+            await logic.actions.get("toggleWorn")!.execute({} as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("clears the worn state when the armor stops being carried", async () => {
+            const logic = makeArmor({ isCarried: true, isWorn: true });
+            await logic.toggleCarried({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.isCarried": false,
+                "system.isWorn": false,
+            });
+        });
+
+        it("does not touch the worn state when the armor is picked up", async () => {
+            const logic = makeArmor({ isCarried: false, isWorn: false });
+            await logic.toggleCarried({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.isCarried": true,
+            });
+        });
+    });
+
     describe("initialize", () => {
         it("seeds per-aspect protection ValueModifiers from protectionBase", () => {
             const logic = makeArmor({

@@ -42,6 +42,16 @@ Items on the Gear tab can be in different states:
 Click the equip/carry icon on an item to toggle its state. Equipped weapons
 appear on the Combat tab; equipped armor contributes its protection.
 
+**Uncarried gear can't be used.** While an item is not carried, the only action
+available on it is **Toggle Carried** — picking it back up. Everything else the
+item offers (wearing armor, attacking with a weapon, and so on) is greyed out on
+the sheet and gone from its Actions context menu, because the item is not on your
+character. The universal item actions — Edit, Delete, and Output Description to
+Chat — stay available, so you can always manage the item's own record.
+
+Putting an item down also clears any "in use" state that depended on carrying it:
+un-carrying worn armor takes it off, so it stops contributing protection.
+
 <!-- TODO: Document the specific icons and states, and how encumbrance
      is calculated from carried vs equipped items -->
 

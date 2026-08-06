@@ -177,7 +177,7 @@ export class WeaponGearLogic<
      * @returns The intrinsic action definitions, including those inherited from the base logic.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
+        return GearLogic.gateOnCarried([
             ...GearLogic.defineIntrinsicActions(),
             {
                 shortcode: "attackTest",
@@ -209,7 +209,7 @@ export class WeaponGearLogic<
                 visible: "itemLogic.heldBy.length > 0",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
-        ];
+        ]);
     }
 
     /* --------------------------------------------- */

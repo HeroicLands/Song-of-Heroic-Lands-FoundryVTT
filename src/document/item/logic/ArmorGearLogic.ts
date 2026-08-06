@@ -128,11 +128,24 @@ export class ArmorGearLogic<
     }
 
     /**
+     * Clear the worn state when the armor is set down (issue #1097).
+     *
+     * `toggleWorn` is gated on the armor being carried, so armor left worn
+     * while being set down could never be taken off again — and would keep
+     * contributing protection from wherever it was dropped.
+     *
+     * @returns An update payload unsetting `system.isWorn`.
+     */
+    protected override stowUpdates(): PlainObject {
+        return { "system.isWorn": false };
+    }
+
+    /**
      * Define and return all intrinsic actions for this logic type.
      * @returns The gear intrinsic actions plus the armor worn toggle.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
+        return GearLogic.gateOnCarried([
             ...GearLogic.defineIntrinsicActions(),
             {
                 shortcode: "toggleWorn",
@@ -144,7 +157,7 @@ export class ArmorGearLogic<
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
-        ];
+        ]);
     }
 
     /* --------------------------------------------- */

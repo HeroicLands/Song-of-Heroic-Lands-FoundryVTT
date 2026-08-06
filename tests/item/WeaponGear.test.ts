@@ -123,6 +123,38 @@ describe("WeaponGearLogic", () => {
             });
         });
 
+        describe("carried gate (#1097)", () => {
+            const COMBAT_ACTIONS = [
+                "attackTest",
+                "blockTest",
+                "counterstrikeTest",
+            ];
+
+            it.each(COMBAT_ACTIONS)(
+                "makes %s unavailable while the weapon is not carried",
+                (shortcode) => {
+                    const logic = makeWeapon({ isCarried: false });
+                    const action = logic.actions.get(shortcode)!;
+                    expect(action.trigger(logic.item, undefined)).toBe(false);
+                },
+            );
+
+            it.each(COMBAT_ACTIONS)(
+                "makes %s available once the weapon is carried",
+                (shortcode) => {
+                    const logic = makeWeapon({ isCarried: true });
+                    const action = logic.actions.get(shortcode)!;
+                    expect(action.trigger(logic.item, undefined)).toBe(true);
+                },
+            );
+
+            it("keeps toggleCarried available while the weapon is not carried", () => {
+                const logic = makeWeapon({ isCarried: false });
+                const action = logic.actions.get("toggleCarried")!;
+                expect(action.trigger(logic.item, undefined)).toBe(true);
+            });
+        });
+
         describe("initialize", () => {
             it("seeds encumbrance from the encumbrance field", () => {
                 const logic = makeWeapon({ encumbranceBase: 3 });

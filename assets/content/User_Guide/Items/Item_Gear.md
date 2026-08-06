@@ -36,7 +36,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 - **Value Base:** The value of a single instance of the item. The total value will be calculated as the Value Base x Quantity.
 - **Quality Base:** Quality is a numeric value that represents how much better or worse an item is than a "standard" item of its type. A Quality of 0 is a totally standard item in all respects. Positive numbers represent higher quality items, and negative numbers specifiy lower quality items.
 - **Durability Base:** How durable an item is against damage. Most metal weapons and armor have a durability between 8-12, glass from 4-6, paper 3-5, granite 15-17, etc.
-- **Is Carried:** Whether the item is being carried or not. When carried, the item participates in encumbrance calculations, but it then may also be used. Items that are not carried remain noted on your character sheet, but it is assumed they have been left on the ground or maybe on a cart or other location.
+- **Is Carried:** Whether the item is being carried or not. When carried, the item participates in encumbrance calculations, but it then may also be used. Items that are not carried remain noted on your character sheet, but it is assumed they have been left on the ground or maybe on a cart or other location. An item that is not carried can do nothing for you — see **Carried Gear Only**, below.
 - \*\*Is Equipped:" Certain items have the ability to be equipped, such as armor and weapons. An Equipped Armor actively protects the body locations it is meant to protect, and an equipped weapon is ready to be used. Unequipped weapons and armor that is nevertheless carried might be strapped to the body, slung over the shouldler, or put into a backpack.
 
 # Intrinsic Actions
@@ -124,14 +124,42 @@ Two details of that tally are worth knowing:
 
 - **It does not ask first, and it does not undo.** The toggle applies
   immediately; run it again to put the state back.
-- **It does not change worn or equipped state.** Carrying is tracked separately
-  from wearing armor or readying a weapon, and the system never forces the two to
-  agree — use **Toggle Worn** on [[Item_Armorgear|Armor]] for the other half.
+- **It does not put anything on.** Picking an item back up leaves it merely
+  carried: armor comes back off the character's body, and you put it back on
+  deliberately with **Toggle Worn** on [[Item_Armorgear|Armor]]. Setting an item
+  **down**, on the other hand, does take it off — see **Carried Gear Only**,
+  below.
 - **It does not cascade into a container.** Each item tracks its own carried
   state, so setting a backpack down leaves everything inside it still marked
   carried; toggle the contents too if you mean the whole load to come off.
-- **It does not stop you using the item.** Nothing in the system blocks an
-  action on gear that is not carried — where an item has been left is a table
-  matter, so uncarried gear is a record of the fiction, not a lock.
 - **Encumbrance is a Being's concern.** Gear on a Structure, Vehicle, or Cohort
   still toggles, but those sheets keep no carried-weight total for it to feed.
+
+# Carried Gear Only
+
+**While a piece of gear is not carried, the only thing you can do with it is pick
+it back up.** Every other action the gear offers is unavailable: it disappears
+from the item's **Actions** context menu, its button on the Gear tab is greyed
+out, and it refuses to run even if something else tries to invoke it — a chat-card
+button, a macro, or a scheduled reminder.
+
+This is the rule that keeps the sheet honest. Gear you are not carrying is on the
+ground, on a cart, or back at camp; your character cannot swing it, wear it, drink
+it, or shoot it from there.
+
+Four actions are deliberately **not** gated, so an uncarried item is never
+stranded:
+
+| Action                     | Why it stays available                                                      |
+| -------------------------- | --------------------------------------------------------------------------- |
+| Toggle Carried             | The way back. Without it, gear you put down could never be picked up again. |
+| Edit                       | You can always open and correct an item's own record.                       |
+| Delete                     | You can always remove an item from the sheet.                               |
+| Output Description to Chat | Reading out what an item _is_ takes nothing from your character.            |
+
+To make a piece of gear usable again, run **Toggle Carried** — every one of its
+actions comes back the moment it is carried.
+
+Setting an item **down** also clears any "in use" state that depended on carrying
+it. For armor, that means it stops being worn: you cannot leave a hauberk marked
+as worn while it sits in a cart.

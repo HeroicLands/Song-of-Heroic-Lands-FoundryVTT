@@ -1646,6 +1646,11 @@ html, body { margin: 0; padding: 0; background: #fff; }
     /**
      * Toggle a gear item's **carried** state (on the character's person).
      *
+     * Dispatches the item's `toggleCarried` intrinsic action rather than
+     * writing the field, so the ledger control and the Actions context menu
+     * share one implementation — including the stow-time clearing of any
+     * "in use" state (issue #1097).
+     *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, within a `data-item-id` row.
      */
@@ -1656,14 +1661,16 @@ html, body { margin: 0; padding: 0; background: #fff; }
     ): Promise<void> {
         const item = this._itemFromControl(target);
         if (!item) return;
-        await item.update({
-            "system.isCarried": !(item.system as any).isCarried,
-        } as PlainObject);
+        await item.logic?.executeAction("toggleCarried");
     }
 
     /**
      * Toggle an armor item's **worn** state — only worn armor feeds a being's
      * armor-protection totals.
+     *
+     * Dispatches the item's `toggleWorn` intrinsic action rather than writing
+     * the field, so the ledger control honors the same carried gate as the
+     * Actions context menu: armor that is not carried cannot be worn (#1097).
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, within a `data-item-id` row.
@@ -1675,9 +1682,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
     ): Promise<void> {
         const item = this._itemFromControl(target);
         if (!item) return;
-        await item.update({
-            "system.isWorn": !(item.system as any).isWorn,
-        } as PlainObject);
+        await item.logic?.executeAction("toggleWorn");
     }
 
     /**
