@@ -10,14 +10,6 @@ rendered `data-action="{{targetTestResult.testType.action}}"`, but
 `.action` was `undefined` and the attribute came out empty — the chat-card
 dispatcher had no action to run, and no `data-scope` to run it against.
 
-- **The opposed cards post again at all.** Reaching the pencil in a live client
-  turned out to be impossible for a second reason: `OpposedTestResult.toChat`
-  attached a `rolls` array of SoHL `SimpleRoll`s, which `SohlSpeaker._prepareChat`
-  spreads straight into the `ChatMessage.create` payload. Foundry validates that
-  field against its own `Roll` class, so it **silently dropped the message** —
-  neither the request nor the result card ever appeared. Only `options.rolls` is
-  converted by that seam; the card renders both die totals from its own shaped
-  data, so no roll is attached.
 - **The pencil dispatches a real GM re-edit.** It now emits
   `data-action="opposedResultEdit"`, addresses the **source actor** (the uuid
   that survives a repost of an already-edited card, unlike the item uuid, which
@@ -36,6 +28,11 @@ dispatcher had no action to run, and no `data-scope` to run it against.
 - The result card's `<h3>` no longer carries a stray, inert `edit-action` class,
   which would have taken the card title with it had the GM-only gate ever
   broadened beyond anchors.
+
+The result card's tie assertions were tightened from a bare `"Tie"` substring to
+the rendered label: the pencil's `data-scope` now embeds the serialized contest,
+whose `breakTies` key contains that substring, which would have made the short
+form match every opposed card.
 
 Documented in the Token user-guide page, which previously omitted the GM re-edit
 because the path did not work.

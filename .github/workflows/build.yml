@@ -5,10 +5,20 @@ on:
         branches-ignore:
             - main
             - gh-pages
+    # NOTE: for `pull_request`, `branches`/`branches-ignore` filter on the PR's
+    # BASE branch, not its head. Ignoring `main` here therefore excluded every
+    # PR (they all target `main`), so this workflow only ever ran from `push`
+    # and a PR showed a check only when a push run happened to share its SHA.
     pull_request:
-        branches-ignore:
+        branches:
             - main
-            - gh-pages
+
+# A branch push and the PR opened from it both trigger this workflow. Key the
+# group on the head branch (identical for either event) so the redundant run is
+# cancelled instead of building the same commit twice.
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref || github.ref_name }}
+    cancel-in-progress: true
 
 jobs:
     test-build:

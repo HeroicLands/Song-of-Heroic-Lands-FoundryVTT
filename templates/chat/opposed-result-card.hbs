@@ -137,14 +137,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <div class="card-content center">
-        {{#if (not (or sourceWins targetWins))}}
-            {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
-            <span class="result-desc">Missile Attack Fails!</span>
-            {{else}}
-            <span class="result-desc">Both Fail!</span>
-            {{/if}}
+        {{#if (or sourceWins targetWins)}}
+        <span class="result-desc">{{localize "SOHL.OpposedTestResult.toChat.victoryStars"}}: <span class="victory-stars" aria-label="{{vsCount}} {{localize "SOHL.OpposedTestResult.toChat.victoryStars"}}">{{#each vsStars}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-star" aria-hidden="true"></i>{{/each}}</span></span>
+        {{#if isTieBroken}}
+        <div class="tiebreak-note">{{localize tieBreakKey}}</div>
+        {{/if}}
+        {{else if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+        <span class="result-desc">Missile Attack Fails!</span>
+        {{else if bothFail}}
+        <span class="result-desc">Both Fail!</span>
         {{else}}
-        <span class="result-desc">Success Stars: {{vsText}}</span>
+        <span class="result-desc">{{localize "SOHL.OpposedTestResult.toChat.tie"}}</span>
         {{/if}}
     </div>
 

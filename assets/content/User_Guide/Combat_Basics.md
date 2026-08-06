@@ -207,7 +207,8 @@ Pressing a defense resolves the exchange and posts a result card:
 - **Attack / Defend columns** — the weapon and defense used, each side's effective
   mastery level (Eff. AML and Eff. DML), the roll, and the success level, coloured
   by success or failure.
-- **Success Stars** — the victory margin as stars; "None" on a tie.
+- **Victory Stars** — the victory margin as stars, filled when the attacker took
+  the exchange and hollow when the defender did; "None" on a tie.
 - **The outcome** — "_attacker_ strikes!" or "Attack misses.", plus any Tactical
   Advantages earned, whether a weapon broke, and whether either side must make a
   **Fumble** or **Stumble** test.

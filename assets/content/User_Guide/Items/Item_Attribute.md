@@ -209,7 +209,7 @@ there. The standard test dialog opens for your roll, your result posts, and an
 attribute of their own.
 
 The whole flow — the targeting rules, both cards, the responder's dialog, and how
-victory degrees are read — is described once on [[Token]], under _Starting an
+Victory Stars are read — is described once on [[Token]], under _Starting an
 Opposed Test_. For the rules behind a contest, see the
 [[rules/sohl-opposed-tests|Opposed Tests]] rules.
 
@@ -226,7 +226,7 @@ rather rule the outcome by hand.
   built from these attributes.
 - [[Skill_Tests]] — what the numbers in a test mean, and how success levels are read.
 - [[Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
-- [[rules/sohl-opposed-tests|Opposed Tests]] (rules) — victory degrees and ties.
+- [[rules/sohl-opposed-tests|Opposed Tests]] (rules) — Victory Stars and ties.
 - [[Fate_System|Fate]] — spending a Fate Point on a settled result.
 - [[Safe_Expressions]] — how an attribute is referenced from a Skill Base formula.
 - [[Shortcodes]] — what a Skill Base formula is naming when it says `attr.str`.
