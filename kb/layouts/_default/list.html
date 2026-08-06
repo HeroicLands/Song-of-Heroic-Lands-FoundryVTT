@@ -19,13 +19,47 @@
     </div>
     {{ end }}
 
+    {{- /*
+      A curated landing is the best navigation — Rules groups its pages under
+      editorial headings like "Key Concepts", which no hierarchy can infer. But
+      gating the auto-list on "has no body" meant authoring an intro silently
+      replaced the section's ONLY navigation, and hand-curated lists drift: the
+      user guide reached 41 pages linking 1, and Rules had quietly orphaned a
+      page (issue #1115).
+
+      So the auto-list becomes a GAP-FILLER: a section with a body lists only
+      the pages that body does not already link. A well-curated landing shows
+      nothing extra, and a page can never become unreachable — a newly added
+      page simply appears here until someone files it into the curated index.
+
+      Taxonomy and term pages keep their own listing shapes below.
+    */ -}}
     {{- $showAutoList :=
       or (eq .Kind "taxonomy")
          (eq .Kind "term")
-         (and (eq .Kind "section") (not .Content))
+         (eq .Kind "section")
     -}}
+    {{- /*
+      Pages the authored body already links, matched on RelPermalink so the
+      comparison survives aliases and wikilink resolution.
+    */ -}}
+    {{- $listed := slice -}}
+    {{- $unlisted := .Pages -}}
+    {{- if and (eq .Kind "section") .Content -}}
+      {{- $body := .Content -}}
+      {{- $unlisted = slice -}}
+      {{- range .Pages -}}
+        {{- if not (in $body (printf "href=\"%s\"" .RelPermalink)) -}}
+          {{- $unlisted = $unlisted | append . -}}
+        {{- else -}}
+          {{- $listed = $listed | append . -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- /* Label the leftovers only when a curated body precedes them. */ -}}
+    {{- $labelList := and (eq .Kind "section") .Content -}}
     {{- if $showAutoList -}}
-      {{- with .Pages -}}
+      {{- with $unlisted -}}
         {{- if eq $.Kind "taxonomy" -}}
         <ul class="page-list">
           {{- range . }}
@@ -36,6 +70,9 @@
           {{- end }}
         </ul>
         {{- else -}}
+          {{- if $labelList }}
+          <h2 class="page-list-heading">All {{ $.Title }} pages</h2>
+          {{- end }}
           {{ partial "catalog-rows.html" . }}
         {{- end -}}
       {{- else -}}
