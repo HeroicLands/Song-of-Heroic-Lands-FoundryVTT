@@ -46,6 +46,8 @@
         "check:sohl-types": "npm run build:sohl-types && tsc -p packages/sohl-types/test/tsconfig.json",
         "build:assets": "node utils/copy-assets.mjs",
         "build:icons": "node utils/build-icon-font.mjs",
+        "build:icon-legend": "node utils/build-icon-legend.mjs",
+        "build:kb-icons": "node utils/build-kb-icon-assets.mjs",
         "build:compiledb": "node ./utils/packs/build-compendiums.mjs package compile",
         "build:unpackdb": "node ./utils/packs/build-compendiums.mjs package unpack",
         "build:kb": "node utils/build-kb-content.mjs && hugo --source kb --minify",

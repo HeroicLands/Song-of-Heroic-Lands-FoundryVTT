@@ -291,7 +291,7 @@ export abstract class GearLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Gear.Action.toggleCarried",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-sack",
+                iconFAClass: "ginf-knapsack",
                 executor: "toggleCarried",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

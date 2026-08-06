@@ -40,8 +40,9 @@ export function hintsToLabelTooltips(root: HTMLElement): void {
         const text = hint?.textContent?.trim();
         if (!text || !hint) return;
         const icon = document.createElement("i");
-        // FA6 canonical name (the v5 alias `fa-question-circle` is not loaded, so
-        // it renders nothing — leaving only the help cursor visible).
+        // FA6+ canonical name. The v5 alias `fa-question-circle` is still an
+        // equivalent alias in the bundled Font Awesome Pro 7.x and renders the
+        // same glyph, but canonical names are what this codebase standardizes on.
         icon.className = "fa-solid fa-circle-question hint-help";
         icon.setAttribute("data-tooltip", text);
         icon.setAttribute("aria-label", text);

@@ -172,22 +172,22 @@ export class BeingSheet extends SohlActorSheetBase {
                 {
                     id: "skills",
                     label: "SOHL.Actor.SHEET.tab.skills.label",
-                    icon: "fa-solid fa-head-side-gear",
+                    icon: "ginf-skills",
                 },
                 {
                     id: "combat",
                     label: "SOHL.Actor.SHEET.tab.combat.label",
-                    icon: "fa-solid fa-sword",
+                    icon: "ginf-broadsword",
                 },
                 {
                     id: "trauma",
                     label: "SOHL.Actor.SHEET.tab.trauma.label",
-                    icon: "fa-solid fa-heartbeat",
+                    icon: "fa-solid fa-heart-pulse",
                 },
                 {
                     id: "mysteries",
                     label: "SOHL.Actor.SHEET.tab.mysteries.label",
-                    icon: "fa-solid fa-sparkles",
+                    icon: "ginf-sparkles",
                 },
                 {
                     id: "gear",
@@ -197,7 +197,7 @@ export class BeingSheet extends SohlActorSheetBase {
                 {
                     id: "actions",
                     label: "SOHL.Actor.SHEET.tab.actions.label",
-                    icon: "fa-solid fa-cogs",
+                    icon: "fa-solid fa-gears",
                 },
                 {
                     id: "effects",
@@ -706,7 +706,7 @@ export class BeingSheet extends SohlActorSheetBase {
                 content,
                 ok: {
                     label: "Save",
-                    icon: "fa-solid fa-save",
+                    icon: "fa-solid fa-floppy-disk",
                     callback: (_event: Event, button: any) =>
                         new foundry.applications.ux.FormDataExtended(
                             button.form,

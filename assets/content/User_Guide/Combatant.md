@@ -84,7 +84,7 @@ Two things are deliberately _not_ in this menu:
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**       | Automated Combat                                                                                                                                                   |
 | **Shortcode**  | `automatedCombatStart`                                                                                                                                             |
-| **Icon**       | Crossed swords (`fa-solid fa-swords`)                                                                                                                              |
+| **Icon**       | Crossed swords (`ginf-crossed-swords`)                                                                                                                             |
 | **Invoked by** | The **Actions context menu** on the combatant's tracker row                                                                                                        |
 | **API**        | [`SohlCombatantLogic.startAutomatedAttack`](https://api.heroiclands.org/latest/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#startautomatedattack) |
 

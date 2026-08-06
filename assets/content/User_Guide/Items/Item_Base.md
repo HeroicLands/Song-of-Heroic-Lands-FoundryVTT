@@ -74,7 +74,7 @@ None of them roll anything, and none of them touch another character's sheet.
 | ------------- | ---------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Edit                                                                                                             |
 | **Shortcode** | `editDocument`                                                                                                   |
-| **Icon**      | `fa-edit` (a pencil on paper)                                                                                    |
+| **Icon**      | `fa-pen-to-square` (a pencil on paper)                                                                           |
 | **Invoked**   | The **Actions** context menu                                                                                     |
 | **API**       | [`SohlLogic.editDocument`](https://api.heroiclands.org/main/classes/sohl.core.logic.SohlLogic.html#editdocument) |
 
@@ -134,7 +134,7 @@ delete the empty container.
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Output Description to Chat                                                                                                                          |
 | **Shortcode** | `outputDescription`                                                                                                                                 |
-| **Icon**      | `fa-message-lines` (a speech bubble with lines of text)                                                                                             |
+| **Icon**      | `fa-message` (a speech bubble)                                                                                                                      |
 | **Invoked**   | The **Actions** context menu on any item                                                                                                            |
 | **API**       | [`SohlItemBaseLogic.outputDescription`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SohlItemBaseLogic.html#outputdescription) |
 
@@ -323,7 +323,7 @@ offered the same way.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Edit Test Result                                                                                                                      |
 | **Shortcode** | `resultEdit`                                                                                                                          |
-| **Icon**      | `fa-edit` (a pencil, in the card's title bar)                                                                                         |
+| **Icon**      | `fa-pen-to-square` (a pencil, in the card's title bar)                                                                                |
 | **Invoked**   | **Hidden — not on the Actions context menu.** The pencil on a posted test-result card. **GMs only**                                   |
 | **API**       | [`SohlItemBaseLogic.resultEdit`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SohlItemBaseLogic.html#resultedit) |
 

@@ -184,7 +184,7 @@ export class WeaponGearLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Skill.Action.attackTest",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-sword",
+                iconFAClass: "ginf-broadsword",
                 executor: "attackTest",
                 visible: "itemLogic.heldBy.length > 0",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

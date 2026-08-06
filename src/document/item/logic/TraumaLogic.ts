@@ -856,7 +856,7 @@ export class TraumaLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Trauma.Action.courseCheck.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-wave-pulse",
+                iconFAClass: "ginf-heart-beats",
                 executor: "courseCheck",
                 recordsLastRun: true,
                 visible:

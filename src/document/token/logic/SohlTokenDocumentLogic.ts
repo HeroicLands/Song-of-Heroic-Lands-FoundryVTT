@@ -223,8 +223,7 @@ export class SohlTokenDocumentLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Skill.Action.opposedTestStart",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass:
-                    "fa-solid fa-arrow-down-left-and-arrow-up-right-to-center",
+                iconFAClass: "fa-solid fa-arrows-to-dot",
                 executor: "opposedTestStart",
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,

@@ -85,7 +85,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
             buttons: [
                 {
                     type: "submit",
-                    icon: "fa-solid fa-save",
+                    icon: "fa-solid fa-floppy-disk",
                     label: "Save Changes",
                 },
             ],

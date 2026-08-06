@@ -76,7 +76,7 @@ function setupSystem(): SohlSystem {
     regionCfg.typeLabels ??= {};
     regionCfg.typeLabels["trigger"] = "SOHL.RegionBehavior.trigger.label";
     regionCfg.typeIcons ??= {};
-    regionCfg.typeIcons["trigger"] = "fa-solid fa-diamond-exclamation";
+    regionCfg.typeIcons["trigger"] = "fa-solid fa-triangle-exclamation";
     // Register the curated region + environment trigger names in Foundry's
     // expiry-event registry so they appear in the effect-config duration→expiry
     // dropdown (issue #593).

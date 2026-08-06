@@ -1081,7 +1081,7 @@ export class SohlCombatantLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.ACTION.automatedCombatStart",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-swords",
+                iconFAClass: "ginf-crossed-swords",
                 executor: "startAutomatedAttack",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
