@@ -24,9 +24,9 @@ at the table.
 
 # Where It Appears
 
-Mystical Abilities appear on the Being sheet's **Mysteries** tab, below the
-Mysteries, grouped into one **ledger per sub-type** — a Spirit Rite section, an
-Arcane Incantation section, and so on. Only sub-types the character actually has
+Mystical Abilities appear on the Being sheet's **Mysteries** tab, in their own
+half below the Mysteries themselves, grouped into one **ledger per sub-type** — a
+Spirit Rite section, an Arcane Incantation section, and so on. Only sub-types the character actually has
 are shown, and each section's **＋ Add** button creates another of that sub-type.
 
 Each sub-type shows only the columns that mean something for it, so the ledgers
@@ -61,7 +61,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
   below. On an ability that does draw on a skill, this box is ignored, and
   editing it changes nothing.
 - **Improvement Flag:** Marks the ability as one the character is trying to
-  improve. The same flag is the **☆ star** on the ability's row on the Mystical
+  improve. The same flag is the **☆ star** on the ability's row on the Mysteries
   tab.
 - **Associated Skill:** Which Skill governs this ability's roll (optional),
   chosen from the character's own skills. On a **Spirit Rite** or **Spirit
@@ -176,7 +176,7 @@ Script Action to it (see [[Actions]]).
 | **Name**      | Success Test                                                                                                                                  |
 | **Shortcode** | `successTest`                                                                                                                                 |
 | **Icon**      | `fa-bullseye` (a target)                                                                                                                      |
-| **Invoked**   | The **Actions** context menu, or by clicking the ability's **EML** cell on the Mysteries tab                                                   |
+| **Invoked**   | The **Actions** context menu, or by clicking the ability's **EML** cell on the Mysteries tab                                                  |
 | **API**       | [`MysticalAbilityLogic.successTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.MysticalAbilityLogic.html#successtest) |
 
 ## What it does and when to use it
@@ -238,15 +238,18 @@ the roll and stops there.
 The GM's pencil is described on [[Item_Base|Base Item]], under _Editing a Posted
 Test Result_.
 
-**No Fate can be spent on an invocation.** The card carries no **Fate** button:
-[[Fate_System|Fate]] is offered on skill tests, and an ability's invocation is not
-one, even when a skill governs it. Improve the character's odds before the roll —
-with the dialog's Situational Modifier — rather than after.
-
-> **Known gap.** The card's title shows a raw text key
-> (`SOHL.MasteryLevelModifier.successTest`) instead of the test's name, such as
-> _Fire Dart Test_ (issue #1107). Everything below the title is correct. The same
-> title appears on skill and attribute tests, for the same reason.
+> **Known gaps.** Two defects affect this card today:
+>
+> - **No Fate can be spent on an invocation.** The card never offers the **Fate**
+>   button, even when the character holds a Fate Point (issue #1106). This bites
+>   here because an ability normally borrows its mastery level from its Associated
+>   Skill — so the same number, rolled from the Skills tab, _does_ offer Fate.
+>   Until it is fixed, spend Fate at the table by agreement, or have the GM adjust
+>   the result with the pencil.
+> - **The card's title shows a raw text key**
+>   (`SOHL.MasteryLevelModifier.successTest`) instead of the test's name, such as
+>   _Fire Dart Test_ (issue #1107). Everything below the title is correct. The same
+>   title appears on skill and attribute tests, for the same reason.
 
 # See also
 

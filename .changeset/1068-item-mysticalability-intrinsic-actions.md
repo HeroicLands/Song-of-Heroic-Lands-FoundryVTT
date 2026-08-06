@@ -37,7 +37,10 @@ Four defects found while writing the page are noted in place and filed: every
 **modifier breakdown renders raw localization keys** on test cards and in the
 standard test dialog (#1127), the Charges box's checkbox is **unlabelled and
 inert** (#1129), the **☆ improve flag has no action to consume it** (#1130), and
-the **Chgs/Max and Notes column headers collide** (#1131). The card's raw-key
-title (#1107) is confirmed here too.
+the **Chgs/Max and Notes column headers collide** (#1131). Two known gaps are
+confirmed to reach mystical abilities as well and noted on the page: the card's
+**raw-key title** (#1107), and **no Fate on an invocation** (#1106) — which bites
+hardest here, since an ability borrows its mastery level from a skill whose own
+test _does_ offer Fate.
 
 Closes #1068
