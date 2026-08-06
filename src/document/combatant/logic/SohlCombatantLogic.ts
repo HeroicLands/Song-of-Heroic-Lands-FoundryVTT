@@ -76,6 +76,7 @@ import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
 import {
     fvttRangeToTarget,
     fvttActiveCombatantForActor,
+    fvttGetTargetedTokens,
 } from "@src/core/FoundryHelpers";
 import {
     showAttackDialog,
@@ -349,11 +350,17 @@ export class SohlCombatantLogic<
     }
 
     /**
-     * Return this Combatant's TokenDocument's Logic
-     * @returns the token document's logic
+     * Return this Combatant's TokenDocument's Logic, or `undefined` when the
+     * combatant has no token on the canvas.
+     *
+     * @remarks
+     * The token hangs off the combatant **document** ({@link combatant}), not
+     * off its data model — {@link sohl.core.logic.SohlLogic.parent} is the data
+     * model, so reading `parent.token` yielded `undefined` and threw (#1079).
+     * @returns the token document's logic, or `undefined` when there is no token.
      */
-    get tokenLogic(): SohlTokenDocumentLogic {
-        return (this.parent as any).token.logic;
+    get tokenLogic(): SohlTokenDocumentLogic | undefined {
+        return (this.combatant as any)?.token?.logic;
     }
 
     /**
@@ -529,12 +536,22 @@ export class SohlCombatantLogic<
             return undefined;
         }
 
-        if (!context.target) {
+        // The combat tracker's context-menu entry builds its context with a
+        // speaker only (`SohlLogic.getContextOptions` supplies no target), so
+        // fall back to what the user has targeted — the same seam
+        // `MasteryLevelModifier.opposedTestStart` uses (#1079). The player's
+        // targeting *is* the human trigger; nothing is picked on their behalf.
+        const target =
+            context.target ?? fvttGetTargetedTokens(true)?.[0]?.logic;
+        if (!target) {
             sohl.log.uiWarn(
                 `${this.name} automated attack requires a target combatant.`,
             );
             return undefined;
         }
+        // Make the resolved target visible to everything downstream that reads
+        // the context (a Script Action overriding this executor, the card).
+        context.target = target;
 
         // Invariant: the attacker must not be incapacitated, defeated, or dead.
         const blockingStatus = attackerBlockingStatus(
@@ -551,11 +568,11 @@ export class SohlCombatantLogic<
         // Invariant: the target must be a combatant in the active combat, and
         // not already out of the fight (dead or vanquished/defeated).
         const targetCombatant = fvttActiveCombatantForActor(
-            context.target.actorLogic?.actor ?? null,
+            target.actorLogic?.actor ?? null,
         );
         if (!targetCombatant) {
             sohl.log.uiWarn(
-                `${context.target.name ?? "The target"} is not a combatant in the current combat.`,
+                `${target.name ?? "The target"} is not a combatant in the current combat.`,
             );
             return undefined;
         }
@@ -565,7 +582,17 @@ export class SohlCombatantLogic<
         );
         if (invalidTarget) {
             sohl.log.uiWarn(
-                `${context.target.name ?? "The target"} is ${invalidTarget} and cannot be attacked.`,
+                `${target.name ?? "The target"} is ${invalidTarget} and cannot be attacked.`,
+            );
+            return undefined;
+        }
+
+        // Invariant: the attacker must be on the canvas — the attack measures
+        // range from its token.
+        const attackerToken = this.tokenLogic;
+        if (!attackerToken) {
+            sohl.log.uiWarn(
+                `${this.name} has no token on the canvas to attack from.`,
             );
             return undefined;
         }
@@ -573,12 +600,13 @@ export class SohlCombatantLogic<
         // The attack targets the defender; distance is
         // attacker (this combatant) → defender.
         const distanceFeet =
-            fvttRangeToTarget(this.tokenLogic, context.target) ?? Infinity;
+            fvttRangeToTarget(attackerToken, target) ?? Infinity;
 
         // Perform the attack dialog and resolve the attack result.
         const attackDlgResult = await commonAttack(
             context,
             this,
+            targetCombatant,
             "Attack",
             (sm: StrikeModeBase) => {
                 return sm.isMissile ?
@@ -609,7 +637,7 @@ export class SohlCombatantLogic<
             if (!band.direct) {
                 // Should not happen (range-filtered upstream), but guard volley.
                 sohl.log.uiWarn(
-                    `${context.target?.name} is beyond direct range (volley is not supported).`,
+                    `${target.name} is beyond direct range (volley is not supported).`,
                 );
                 return undefined;
             }
@@ -666,7 +694,7 @@ export class SohlCombatantLogic<
         const spec = buildAttackCardData({
             attackResult,
             title: `${attackSM?.name} ${attackSM?.isMelee ? "Melee" : "Missile"} Attack`,
-            attackerName: this.tokenLogic.name ?? "",
+            attackerName: attackerToken.name ?? "",
             actorId: this.actor?.id ?? null,
             aimLabel: attackDlgResult.aim,
             // The defense buttons are addressed to the defender's COMBATANT (its
@@ -674,7 +702,7 @@ export class SohlCombatantLogic<
             // actor through it). `targetCombatant` is guaranteed here — an absent
             // one returned early above.
             target: {
-                name: context.target.name ?? "",
+                name: target.name ?? "",
                 combatantUuid: targetCombatant.uuid,
             },
         });
@@ -879,7 +907,16 @@ export class SohlCombatantLogic<
             return undefined;
         }
 
-        if (!this.actorLogic || !attackCombatantLogic) {
+        // Both sides must be on the canvas: the counterstrike measures range
+        // between their tokens.
+        const defenderToken = this.tokenLogic;
+        const attackerToken = attackCombatantLogic?.tokenLogic;
+        if (
+            !this.actorLogic ||
+            !attackCombatantLogic ||
+            !defenderToken ||
+            !attackerToken
+        ) {
             sohl.log.uiWarn(
                 "Counterstrike requires a valid attacker and defender combatant.",
             );
@@ -889,15 +926,13 @@ export class SohlCombatantLogic<
         // The counterstrike targets the original attacker; distance is
         // defender (this combatant) → attacker.
         const distanceFeet =
-            fvttRangeToTarget(
-                this.tokenLogic,
-                attackCombatantLogic.tokenLogic,
-            ) ?? Infinity;
+            fvttRangeToTarget(defenderToken, attackerToken) ?? Infinity;
 
         // Perform the attack dialog and resolve the attack result.
         const attackDlgResult = await commonAttack(
             context,
             this,
+            attackCombatantLogic,
             "Counterstrike",
             (sm: StrikeModeBase) => {
                 // Only melee strike modes are valid for counterstrike.
@@ -1490,10 +1525,17 @@ export function collectAttackableStrikeModes(
 }
 
 /**
- * Orchestrate an automated attack from `attackerLogic` to `context.target`, showing the attack dialog (unless `context.skipDialog`) and posting the attack result card (unless `context.noChat`).
+ * Orchestrate an automated attack from `attackerLogic` to `defenderLogic`, showing the attack dialog (unless `context.skipDialog`) and posting the attack result card (unless `context.noChat`).
+ *
+ * @remarks
+ * The defender is supplied by the caller because the two forms name it
+ * differently: an **Attack** aims at the acting player's target, while a
+ * **Counterstrike** aims back at the combatant that attacked. Deriving it here
+ * from `context.scope.attackResult` only ever worked for the counterstrike —
+ * the start path carries no attack result, so every attack aborted (#1079).
  * @param context - The action context carrying the attack snapshot in its scope.
  * @param attackerLogic - The attacking combatant's logic.
- * @param defaultStrikeMode - The default strike mode to preselect in the dialog.
+ * @param defenderLogic - The defending combatant's logic (the attack's target).
  * @param form - The form of attack (i.e., "Attack" or "Counterstrike")
  * @param validStrikeMode - A function to determine if a strike mode is valid for the attack.
  * @param strikeModeML - A function to determine the mastery level of a strike mode.
@@ -1502,6 +1544,7 @@ export function collectAttackableStrikeModes(
 async function commonAttack(
     context: SohlActionContext<any>,
     attackerLogic: SohlCombatantLogic,
+    defenderLogic: SohlCombatantLogic,
     form: string,
     validStrikeMode: (strikeMode: StrikeModeBase) => boolean,
     strikeModeML: (strikeMode: StrikeModeBase) => number,
@@ -1511,11 +1554,7 @@ async function commonAttack(
         return undefined;
     }
 
-    const targetCombatantLogic = SohlCombatantLogic.fromTokenLogic(
-        context.scope.attackResult?.speaker?.tokenLogic,
-    );
-
-    if (!targetCombatantLogic) {
+    if (!defenderLogic) {
         sohl.log.uiWarn(`${form} requires a valid defender combatant.`);
         return undefined;
     }
@@ -1555,12 +1594,12 @@ async function commonAttack(
     // Determine all of the available aim choices for this attack, and the
     // default aim choice: the prior attack result's aim if it is available,
     // otherwise the first available aim choice.
-    const aimChoices = buildAimChoices(targetCombatantLogic.actorLogic);
+    const aimChoices = buildAimChoices(defenderLogic.actorLogic);
     let defaultAim: string | undefined =
         context.scope.priorAttackResult?.aimBodyPartCode ||
         Object.keys(aimChoices).at(0);
     if (!defaultAim) {
-        sohl.log.uiWarn(`${targetCombatantLogic.name} has no aim choices.`);
+        sohl.log.uiWarn(`${defenderLogic.name} has no aim choices.`);
         return undefined;
     }
 
@@ -1576,7 +1615,7 @@ async function commonAttack(
     } else {
         // Show the attack dialog to the user, allowing them to select aim and mode.
         attackDlgResult = await showAttackDialog(
-            `${attackerLogic.name} vs. ${targetCombatantLogic.name} ${form} with ${availStrikeModes[defaultStrikeModeIdx].name}`,
+            `${attackerLogic.name} vs. ${defenderLogic.name} ${form} with ${availStrikeModes[defaultStrikeModeIdx].name}`,
             aimChoices,
             defaultAim,
             Object.fromEntries(

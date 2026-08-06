@@ -283,6 +283,19 @@ describe("CombatantLogic", () => {
                 .spyOn(FoundryHelpers, "fvttActiveCombatantForActor")
                 .mockReturnValue(data ? ({ data } as any) : undefined);
 
+        /**
+         * A combatant whose invariants all pass, so the attack reaches the
+         * dialog step: it has a token (for the range read) and a Being actor
+         * with no usable strike mode (which stops the flow harmlessly there).
+         */
+        const attackerLogic = () => {
+            const logic = makeCombatantLogic({
+                token: { name: "Attacker", logic: { name: "Attacker" } },
+            });
+            (logic.actorLogic as any).getUsableStrikeModes = () => [];
+            return logic;
+        };
+
         it("refuses when it is not this combatant's turn (only the current combatant may start)", async () => {
             const logic = makeCombatantLogic();
             vi.spyOn(FoundryHelpers, "getActiveCombat").mockReturnValue({
@@ -315,6 +328,63 @@ describe("CombatantLogic", () => {
                 logic.startAutomatedAttack({} as any),
             ).resolves.toBeUndefined();
             expect(warn).toHaveBeenCalled();
+        });
+
+        it("falls back to the user's targeted token when the context carries none (#1079)", async () => {
+            // The combat tracker's context-menu entry builds the context with a
+            // speaker only, so a targetless context must resolve the target
+            // from what the user has targeted rather than aborting.
+            const logic = attackerLogic();
+            vi.spyOn(FoundryHelpers, "fvttGetTargetedTokens").mockReturnValue([
+                { logic: target() },
+            ] as any);
+            stubTargetCombatant({
+                statuses: new Set<string>(),
+                isDefeated: false,
+            });
+            await expect(
+                logic.startAutomatedAttack({ scope: {} } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).not.toHaveBeenCalledWith(
+                expect.stringMatching(/requires a target combatant/),
+            );
+        });
+
+        it("still refuses when neither the context nor the user supplies a target (#1079)", async () => {
+            const logic = makeCombatantLogic();
+            vi.spyOn(FoundryHelpers, "fvttGetTargetedTokens").mockReturnValue(
+                undefined,
+            );
+            await expect(
+                logic.startAutomatedAttack({ scope: {} } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringMatching(/requires a target combatant/),
+            );
+        });
+
+        it("hands the resolved target combatant to the attack dialog as the defender (#1079)", async () => {
+            // On the start path there is no attack result in scope — the
+            // defender is the *target*. Reaching the strike-mode step proves
+            // the defender resolved; before the fix it aborted one step
+            // earlier with "requires a valid defender combatant".
+            const logic = attackerLogic();
+            stubTargetCombatant({
+                statuses: new Set<string>(),
+                isDefeated: false,
+            });
+            await expect(
+                logic.startAutomatedAttack({
+                    target: target(),
+                    scope: {},
+                } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).not.toHaveBeenCalledWith(
+                expect.stringMatching(/valid defender combatant/),
+            );
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringMatching(/no usable strike mode/),
+            );
         });
 
         it("refuses when the attacker is defeated", async () => {

@@ -28,9 +28,17 @@ import type { SohlSceneLogic } from "@src/document/scene/logic/SohlSceneLogic";
 export class SohlScene extends Scene {
     /**
      * Convenience accessor for the scene-scoped logic instance — equivalent
-     * to `(this.system as SohlSceneDataModel).logic`.
+     * to `(this.system as SohlSceneDataModel).logic`, or `undefined` when the
+     * scene carries no SoHL system data.
+     *
+     * @remarks
+     * A Scene is not one of Foundry's typed documents, so its `system` is not
+     * always populated. Reading `.logic` off an absent `system` used to throw
+     * — from inside the getter, where the caller's `?.` could not help — and
+     * that crash took out every consumer, including the range measurement on
+     * the automated-attack path (#1079). Callers must handle `undefined`.
      */
-    get logic(): SohlSceneLogic {
-        return ((this as any).system as SohlSceneDataModel).logic;
+    get logic(): SohlSceneLogic | undefined {
+        return ((this as any).system as SohlSceneDataModel | undefined)?.logic;
     }
 }
