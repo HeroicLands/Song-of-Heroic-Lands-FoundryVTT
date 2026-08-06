@@ -916,11 +916,20 @@ export class TraumaLogic<
     }
 
     /**
-     * Whether the trauma has received medical treatment. Derived: true when a
-     * {@link TraumaData.treatmentDate | treatmentDate} is set.
+     * Whether the trauma has received medical treatment. Derived (#1148): true
+     * when a {@link TraumaData.healingRateBase | Healing Rate} has been
+     * determined **and** a {@link TraumaData.treatmentDate | treatmentDate} is
+     * set.
+     *
+     * The Healing Rate is the source of truth. A `null` rate means no treatment
+     * has established one, so the wound reads as untreated whatever date is on
+     * record — a date cannot make a rate-less wound treated. A recorded rate of
+     * `0` is a real (catastrophic) rate, not an absent one.
      */
     get isTreated(): boolean {
-        return this.data.treatmentDate != null;
+        return (
+            this.data.healingRateBase != null && this.data.treatmentDate != null
+        );
     }
 
     /**
@@ -1025,10 +1034,15 @@ export class TraumaLogic<
         this.level = new entity.ValueModifier(this).setBase(
             this.data.levelBase ?? 0,
         );
-        this.healingRate = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.healingRateBase ?? 0);
+        // An undetermined Healing Rate disables the modifier rather than reading
+        // as a rate of 0 (#1148) — the same treatment AfflictionLogic gives it,
+        // and what the Being ledger renders as ✗ instead of a number.
+        this.healingRate = new entity.ValueModifier({}, { parent: this });
+        if (this.data.healingRateBase == null) {
+            this.healingRate.disabled = "SOHL.Trauma.NoHealingRate";
+        } else {
+            this.healingRate.setBase(this.data.healingRateBase);
+        }
         this.treatmentModifier = new entity.ValueModifier(
             {},
             { parent: this },
@@ -1167,12 +1181,10 @@ export class TraumaLogic<
 
         // Injury Healing Test at each elapsed checkpoint, in sequence (each roll
         // reduces the level the next one sees). Only injuries heal this way, and
-        // only while not halted by an active infection. A wound with no Healing
-        // Rate to roll against — untreated, or treated with the rate still
-        // undetermined — is resolved as though its roll were a Critical Failure
-        // (#1146), with no die cast.
-        const noHealingRate =
-            !this.isTreated || this.data.healingRateBase == null;
+        // only while not halted by an active infection. An untreated wound has no
+        // Healing Rate to test against, so its test resolves against a forced
+        // die rather than a cast one (#1148) — a Critical Failure every time.
+        const untreated = !this.isTreated;
         let level = this.data.levelBase ?? 0;
         let contractInfection = false;
         if (this.data.subType === TRAUMA_SUBTYPE.INJURY) {
@@ -1181,10 +1193,7 @@ export class TraumaLogic<
                 i < checkpoints.length && level > 0 && !this.healingHalted;
                 i++
             ) {
-                const sl =
-                    noHealingRate ? CRITICAL_FAILURE : (
-                        await this.rollHealingTest()
-                    );
+                const sl = await this.rollHealingTest();
                 if (sl == null) break; // roll refused (e.g. speaker not owned)
                 if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
                 else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
@@ -1195,8 +1204,7 @@ export class TraumaLogic<
                     // resolves an untreated wound as a critically-failed
                     // treatment is the same rule that marks such a wound
                     // infectable (the UNTREATED baseline, #1146).
-                    (this.data.infectable ||
-                        (noHealingRate && UNTREATED.infect))
+                    (this.data.infectable || (untreated && UNTREATED.infect))
                 ) {
                     // CF on an infectable wound contracts an infection (#557),
                     // which then halts further healing — stop the catch-up here.
@@ -1310,6 +1318,12 @@ export class TraumaLogic<
      * return the normalized success level (−1/0/1/2), or `null` if the roll was
      * refused (e.g. the speaker is not owned).
      *
+     * An **untreated** wound has no Healing Rate to test against, so no die is
+     * cast: the test is handed {@link UNTREATED.roll} — the `00` face, which
+     * exceeds every target and ends in a critical-failure digit — and therefore
+     * resolves as a Critical Failure every time (#1148). The test still runs in
+     * full, so the result and its description derive normally.
+     *
      * @returns The normalized success level, or `null`.
      */
     private async rollHealingTest(): Promise<number | null> {
@@ -1320,6 +1334,7 @@ export class TraumaLogic<
             noChat: true,
             type: "trauma-healingtest",
             title: sohl.i18n.localize("SOHL.Trauma.Action.healingtest.title"),
+            forcedDie: this.isTreated ? undefined : UNTREATED.roll,
         });
         return result ? result.normSuccessLevel : null;
     }
@@ -1827,13 +1842,26 @@ export const {
 export type Shock = (typeof SHOCK)[keyof typeof SHOCK];
 
 /**
- * Default wound-state values applied to an untreated trauma: an elevated
- * healing rate (`hr`), exposure to infection (`infect`), and the bleeding /
- * impairment / new-injury baselines.
+ * Default wound-state values applied to an untreated trauma: the (absent)
+ * healing rate (`hr`), the die its tests resolve against (`roll`), exposure to
+ * infection (`infect`), and the bleeding / impairment / new-injury baselines.
  */
 export const UNTREATED = {
-    /** Healing rate for an untreated wound. */
-    hr: 4,
+    /**
+     * Healing rate for an untreated wound: **none** (#1148). `null` — not the
+     * catastrophic real rate `0` — is how "no rate determined" is spelled, and
+     * it is what makes a wound read as untreated.
+     */
+    hr: null,
+    /**
+     * The die value an untreated wound's tests resolve against, in place of a
+     * cast one (#1148): the **`00` face** of a d100. It exceeds every ordinary
+     * target, so the test always fails, and its last digit `0` is a
+     * critical-failure digit — a Critical Failure whatever the target. A low
+     * value such as `5` would not do: it *succeeds* against any target of 5 or
+     * more, and criticals on the way.
+     */
+    roll: 100,
     /** Whether an untreated wound is exposed to infection. */
     infect: true,
     /** Whether an untreated wound is bleeding by default. */

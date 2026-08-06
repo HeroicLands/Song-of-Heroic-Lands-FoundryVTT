@@ -265,8 +265,10 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
  * resolved injury. Still Foundry-free — returns plain data the Foundry layer
  * passes to `createEmbeddedDocuments`.
  *
- * `healingRateBase` starts at 0: Healing Rate (1–6) is established by
- * treatment, not at the moment of wounding.
+ * `healingRateBase` starts `null`: a Healing Rate (1–6) is established by
+ * treatment, not at the moment of wounding, and `null` — not the catastrophic
+ * real rate `0` — is how "no rate determined" is spelled (#1148). A wound with a
+ * `null` rate reads as untreated whatever its treatment date says.
  * @param injury - The resolved injury to convert.
  * @param options - Overrides supplied by the resolving action.
  * @param options.treatmentModifier - A treatment modifier to seed on the wound
@@ -284,7 +286,7 @@ export function buildTraumaData(
     return {
         subType: TRAUMA_SUBTYPE.INJURY,
         levelBase: injury.level,
-        healingRateBase: 0,
+        healingRateBase: null,
         treatmentModifierBase: options.treatmentModifier ?? 0,
         aspect: injury.aspect,
         // A bleeder is marked by a non-null blood-loss timer (#482); the

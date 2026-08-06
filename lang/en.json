@@ -1804,6 +1804,7 @@
     "SOHL.Trauma.MORALE_CATEGORY.routed": "Routed",
     "SOHL.Trauma.MORALE_CATEGORY.steady": "Steady",
     "SOHL.Trauma.MORALE_CATEGORY.withdrawing": "Withdrawing",
+    "SOHL.Trauma.NoHealingRate": "No Healing Rate",
     "SOHL.Trauma.Morale.DefaultSource": "Morale",
     "SOHL.Trauma.Morale.NotShaken": "Only a shaken (Withdrawing, Routed, or Catatonic) combatant makes this test.",
     "SOHL.Trauma.Morale.Note.Brave": "Brave — may act freely; +20 to Morale and Fear tests for five minutes.",

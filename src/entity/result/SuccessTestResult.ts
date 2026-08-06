@@ -1016,6 +1016,16 @@ export namespace SuccessTestResult {
         priorTestResult: SuccessTestResult;
         /** A situational modifier to apply to the mastery level. */
         situationalModifier: number;
+        /**
+         * A pre-seeded die to resolve instead of casting one (#1148). Unlike
+         * {@link priorTestResult}, which reuses a whole evaluated result, this
+         * supplies only the die: the test is built and evaluated normally, but
+         * `evaluate()` resolves the supplied roll untouched. Used where the
+         * outcome is fixed by rule and there is nothing to test — an untreated
+         * wound has no Healing Rate, so its Healing Test resolves against
+         * {@link sohl.document.item.logic.UNTREATED | UNTREATED.roll}.
+         */
+        roll?: SimpleRoll;
         /** Maps a success level to the test's target value. */
         targetValueFunc: (sl: number) => number;
         /** The description table used to resolve result text and stars. */

@@ -510,7 +510,9 @@ describe("buildTraumaData", () => {
         expect(data).toMatchObject({
             subType: TRAUMA_SUBTYPE.INJURY,
             levelBase: 5,
-            healingRateBase: 0,
+            // A new wound carries NO Healing Rate (#1148) — `null`, not the
+            // catastrophic real rate `0`.
+            healingRateBase: null,
             treatmentModifierBase: 0,
             aspect: IMPACT_ASPECT.EDGED,
             // Bleeding is derived (#482): a bleeder is marked by a non-null

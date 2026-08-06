@@ -500,6 +500,12 @@ export class MasteryLevelModifier extends ValueModifier {
                     // shows the Success Value / Success Stars; a plain test does
                     // not. Passed as data via scope, no bespoke test method.
                     isSuccessValue: context.scope.isSuccessValue ?? false,
+                    // A caller-supplied die (`scope.roll`) is resolved untouched
+                    // by `evaluate()` instead of a fresh d100 being cast — used
+                    // where the outcome is fixed by rule and there is nothing to
+                    // test (an untreated wound, #1148). Omitted for an ordinary
+                    // test, which rolls normally.
+                    roll: context.scope.roll,
                     autoCriticalFail,
                     // A success test is Fate-eligible by default: its card offers
                     // a Fate spend when the owning item has an available Fate
