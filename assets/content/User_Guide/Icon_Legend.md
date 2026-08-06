@@ -59,10 +59,10 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-plus-minus" style="font-size:2em" aria-hidden="true"></i> | **Effects** | Tab on the Being sheet |
 | <i class="fa-solid fa-masks-theater" style="font-size:2em" aria-hidden="true"></i> | **Façade** | Tab on the Being sheet |
 | <i class="fa-solid fa-briefcase" style="font-size:2em" aria-hidden="true"></i> | **Gear** | Tab on the Being sheet |
+| <i class="fa-solid fa-heart-pulse" style="font-size:2em" aria-hidden="true"></i> | **Health** | Tab on the Being sheet |
 | <i class="ginf-sparkles" style="font-size:2em" aria-hidden="true"></i> | **Mysteries** | Tab on the Being sheet |
 | <i class="fa-solid fa-user" style="font-size:2em" aria-hidden="true"></i> | **Profile** | Tab on the Being sheet |
 | <i class="ginf-skills" style="font-size:2em" aria-hidden="true"></i> | **Skills** | Tab on the Being sheet |
-| <i class="fa-solid fa-heart-pulse" style="font-size:2em" aria-hidden="true"></i> | **Trauma** | Tab on the Being sheet |
 
 ## Actions
 

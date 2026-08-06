@@ -60,7 +60,7 @@ The rules behind each of these live with the rules, not here — see
 
 # Where It Appears
 
-Traumas live on the Being sheet's **Trauma** tab, which lists everything the
+Traumas live on the Being sheet's **Health** tab, which lists everything the
 character is currently carrying: wounds, fatigue, fear and morale, and the rest.
 
 Most Traumas are created for you. A wound arrives from the combat pipeline when
@@ -68,7 +68,7 @@ an attack lands; an infection is contracted by a bad healing roll; anemia fatigu
 accrues from blood loss. You can also add one by hand — for a fall, a fire, a
 night in the cold, or anything else the table decides has hurt the character.
 
-To reach a Trauma's actions, **right-click its row** on the Trauma tab, or open
+To reach a Trauma's actions, **right-click its row** on the Health tab, or open
 the Trauma and use its **Actions** tab. See [[Actions|Actions]] for how the menu
 works generally.
 
