@@ -26,11 +26,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <div class="sohl chat-card item-card" data-actor-uuid="{{sourceTestResult.actor.uuid}}">
     <header class="card-header flexcol">
-        <h3 class="title edit-action"
+        <h3 class="title"
         >{{title}}
+            {{!--
+            GM result-edit of a settled contest (#1082): re-open BOTH sides'
+            modifiers on their frozen rolls (no re-roll, no Fate cost) and repost
+            this card. The pencil is render-hidden from non-GMs by
+            `gateEditActionPencil` and GM-refused again at click time in
+            `opposedResultEdit`. It is addressed to the SOURCE ACTOR — not the
+            source item — because reviving this card's `data-scope` re-parents the
+            results to the actor logic, so only the actor uuid survives a repost
+            of an already-edited card. `data-scope` carries the whole contest
+            (the same payload the request card's Respond button uses), which the
+            dispatcher revives into a live OpposedTestResult.
+            --}}
             <a class="edit-action"
-                data-action="{{targetTestResult.testType.action}}"
-                data-action-handler-uuid="{{targetTestResult.item.uuid}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                data-action="opposedResultEdit"
+                data-action-handler-uuid="{{sourceTestResult.actor.uuid}}"
+                data-scope="{{toJSON scopeData}}"><i class="fa-solid fa-pen-to-square"></i></a>
         </h3>
     </header>
 

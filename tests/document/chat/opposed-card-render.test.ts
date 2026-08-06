@@ -141,6 +141,18 @@ describe("OpposedTestResult.toChat builds shaped opposed-card data (#845)", () =
         expect(msg.opposedTests[0].action).toBe("opposedTestResume");
         expect(msg.scopeData).toBeTruthy();
     });
+
+    it("attaches no `rolls` array — a live SimpleRoll there kills the message (#1082)", async () => {
+        const spy = vi
+            .spyOn(SuccessTestResult.prototype, "toChat")
+            .mockResolvedValue(undefined);
+        await (await makeOpposed()).toChat();
+        const msg = spy.mock.calls[0][0] as any;
+        // `SohlSpeaker._prepareChat` spreads this data into the ChatMessage
+        // payload, so a `rolls` array of SoHL `SimpleRoll`s (not Foundry `Roll`s)
+        // makes Foundry silently drop the message — and the card never posts.
+        expect(msg.rolls).toBeUndefined();
+    });
 });
 
 describe("SuccessTestResult.toChat honors a caller-supplied template (#845)", () => {
@@ -216,6 +228,45 @@ describe("opposed cards render the shaped data (#845)", () => {
         expect(html).toContain("Bandit Test");
         expect(html).toMatch(/Aldric[\s\S]*?Wins!/);
         expect(html).toContain("Success Stars: ★★★");
+    });
+
+    it("result card's GM pencil dispatches opposedResultEdit against the source actor (#1082)", async () => {
+        const data = await cardData();
+        const html = renderTemplateReal(RESULT, {
+            ...data,
+            title: "Opposed Result",
+        });
+        // The pencil was emitting an empty data-action (`testType.action` on a
+        // plain string) and no scope, so the click reached no handler at all.
+        expect(html).not.toContain('data-action=""');
+        expect(html).toContain('data-action="opposedResultEdit"');
+        // Addressed to the SOURCE actor: the item uuid is rewritten to the
+        // actor's when the card's scope is revived, so only the actor uuid
+        // survives a repost of the edited card.
+        expect(html).toContain('data-action-handler-uuid="Actor.Aldric"');
+    });
+
+    it("result card's pencil carries the whole contest in data-scope (#1082)", async () => {
+        const data = await cardData();
+        const html = renderTemplateReal(RESULT, {
+            ...data,
+            title: "Opposed Result",
+        });
+        const m = html.match(
+            /data-action="opposedResultEdit"[\s\S]*?data-scope="([^"]*)"/,
+        );
+        expect(m).toBeTruthy();
+        const scope = JSON.parse(
+            String(m![1])
+                .replace(/&quot;/g, '"')
+                .replace(/&amp;/g, "&")
+                .replace(/&#x27;/g, "'")
+                .replace(/&lt;/g, "<")
+                .replace(/&gt;/g, ">"),
+        );
+        expect(scope.opposedTestResult).toBeTruthy();
+        expect(scope.opposedTestResult.sourceTestResult).toBeTruthy();
+        expect(scope.opposedTestResult.targetTestResult).toBeTruthy();
     });
 
     it("result card no longer references the removed combatResult section", async () => {

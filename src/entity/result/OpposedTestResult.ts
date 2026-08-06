@@ -309,10 +309,15 @@ export class OpposedTestResult extends TestResult {
             ),
         };
 
-        msgData.rolls = [this.sourceTestResult.roll];
-        if (this.targetTestResult) {
-            msgData.rolls.push(this.targetTestResult.roll);
-        }
+        // NOTE: no `rolls` key. `SohlSpeaker._prepareChat` spreads this data
+        // straight into the `ChatMessage.create` payload, so a `rolls` array of
+        // live `SimpleRoll`s (SoHL's own die primitive, not a Foundry `Roll`)
+        // lands on a field Foundry validates — and the message is silently
+        // dropped, taking the whole opposed card with it (#1082). Only
+        // `options.rolls` is converted by that seam, and the delegated
+        // `SuccessTestResult.toChat` builds its own options; both sides' die
+        // totals are rendered from the shaped data above, so the card needs no
+        // attached roll.
         await this.sourceTestResult.toChat(msgData);
     }
 }

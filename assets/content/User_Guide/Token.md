@@ -187,6 +187,33 @@ character automatically. What the win, the tie, or the number of stars _means_
 in play is a ruling for the table — see the
 [[rules/sohl-opposed-tests|Opposed Tests]] rules.
 
+## Editing a settled contest (GM only)
+
+The result card's header carries an **edit pencil** — visible only to the GM,
+the contest's counterpart to the per-result pencil on an ordinary test card
+(see [[Skill_Tests|Skill Tests and Opposed Tests]]). Use it when a modifier was
+missed or misapplied and the contest settled on the wrong number.
+
+Clicking it walks you through **both** sides in turn:
+
+1. The **source** side's test dialog opens, headed with that side's name and
+   pre-filled with the modifiers it actually used.
+2. Then the **target** side's dialog opens the same way.
+3. The contest is re-scored and a **new** result card posts.
+
+What it does and does not do:
+
+- **Neither side is re-rolled.** Both d100s stay exactly as they fell; only the
+  numbers they are measured against change, so the success levels — and possibly
+  the winner — re-derive from the same dice.
+- **No Fate is spent.** This is a correction, not a second chance; Fate remains
+  the player-facing way to improve an outcome.
+- **Nothing is overwritten.** The original card stays in the log and the
+  corrected one posts beneath it, so the change is visible rather than silent.
+- **Cancelling either dialog cancels the whole edit** — nothing is re-scored and
+  no card is posted.
+- Confirming both dialogs without changing anything is a no-op.
+
 # See also
 
 - [[Skill_Tests|Skill Tests and Opposed Tests]] — the d100 roll-under test both

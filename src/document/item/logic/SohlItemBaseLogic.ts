@@ -13,20 +13,17 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
-import { toFilePath, toHTMLString, type HTMLString } from "@src/utils/helpers";
+import { toHTMLString, type HTMLString } from "@src/utils/helpers";
 import {
     ACTION_SUBTYPE,
     BRAND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
-    VALUE_DELTA_INFO,
-    speakerRollModeOptions,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import {
-    dialog,
     fvttEnrichHTML,
     fvttIsCurrentUserGM,
     fvttRenderSheet,
@@ -186,52 +183,19 @@ export class SohlItemBaseLogic<
             return undefined;
         }
 
-        const mlMod = original.masteryLevelModifier;
-        const priorSit = mlMod.get(VALUE_DELTA_INFO.PLAYER)?.numValue ?? 0;
-        const priorSLM = mlMod.successLevelMod;
+        // Re-open the pre-filled editor and fold the new modifiers in. The
+        // dialog/apply half is shared with the opposed-contest pencil (#1082),
+        // which runs it once per side.
+        const edit = await original.editModifiers({
+            skipDialog: context.skipDialog,
+            situationalModifier: context.scope.situationalModifier,
+            successLevelMod: context.scope.successLevelMod,
+        });
 
-        // New modifiers come from the pre-filled dialog, or — when skipDialog
-        // bypasses it (headless / scripted) — straight from the action scope.
-        let newSit: number;
-        let newSLM: number;
-        if (context.skipDialog) {
-            newSit = context.scope.situationalModifier ?? priorSit;
-            newSLM = context.scope.successLevelMod ?? priorSLM;
-        } else {
-            const dlgResult = await dialog({
-                title: sohl.i18n.localize("SOHL.ResultEdit.dialogTitle"),
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/standard-test-dialog.hbs",
-                ),
-                data: {
-                    type: original.testType,
-                    mlMod,
-                    situationalModifier: priorSit,
-                    rollMode: original.rollMode,
-                    rollModes: speakerRollModeOptions(),
-                },
-                callback: (formData: PlainObject) => ({
-                    situationalModifier:
-                        parseInt(String(formData.situationalModifier), 10) || 0,
-                    successLevelMod:
-                        parseInt(String(formData.successLevelMod), 10) || 0,
-                }),
-                rejectClose: false,
-            });
-            // A dismissed dialog cancels the edit; nothing changes.
-            if (!dlgResult) return undefined;
-            newSit = dlgResult.situationalModifier;
-            newSLM = dlgResult.successLevelMod;
-        }
-
+        // A dismissed dialog cancels the edit; nothing changes.
+        if (!edit) return undefined;
         // OK-without-change is a no-op: no re-evaluation, no repost.
-        if (newSit === priorSit && newSLM === priorSLM) return original;
-
-        // Replace (or clear) the situational delta — a 0 removes it so the target
-        // is not left carrying a stale modifier — then set the success-level mod.
-        if (newSit) mlMod.add(VALUE_DELTA_INFO.PLAYER, newSit);
-        else mlMod.delete(VALUE_DELTA_INFO.PLAYER);
-        mlMod.successLevelMod = newSLM;
+        if (!edit.changed) return original;
 
         // Re-evaluate on the SAME frozen roll (idempotent; never re-rolls) and
         // repost the card with the new outcome.
