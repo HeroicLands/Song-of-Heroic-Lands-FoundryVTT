@@ -13,6 +13,25 @@
     src: url("../assets/fonts/game-icons.woff2") format("woff2");
 }
 
+/*
+ * Box metrics go on the ELEMENT, mirroring Font Awesome, so a ginf- icon sits
+ * on the same optical grid as an fa- icon in the same run of text. Putting them
+ * on ::before instead leaves the element with the inherited line-height, which
+ * makes the glyph ride high in a taller-than-1em box.
+ */
+[class^="ginf-"],
+[class*=" ginf-"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25em;
+    height: 1em;
+    line-height: 1;
+    /* Matches Font Awesome's optical baseline; this font has no descent of its
+       own (glyphs sit flat on the baseline), so nudge the box down instead. */
+    vertical-align: -0.30em;
+}
+
 [class^="ginf-"]::before,
 [class*=" ginf-"]::before {
     font-family: "game-icons.net" !important;
@@ -21,6 +40,9 @@
     font-variant: normal;
     text-transform: none;
     line-height: 1;
+    /* game-icons artwork inks ~0.66em against Font Awesome's ~0.94em, so scale
+       the glyph up to match. The element box above stays 1em tall. */
+    font-size: 1.4em;
     speak: never;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

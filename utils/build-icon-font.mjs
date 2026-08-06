@@ -56,6 +56,26 @@ const SCSS_PATH = "scss/abstracts/_icons.scss";
 const CLASS_PREFIX = "ginf-";
 const FONT_NAME = "game-icons.net";
 const FONT_HEIGHT = 1000;
+
+/*
+ * Optical parity with Font Awesome. Measured in a live client at font-size
+ * 20px: an FA solid glyph inks ~0.94em tall in a 1.25em-wide box and hangs
+ * ~0.06-0.12em below the baseline, while a raw game-icons glyph inks ~0.66em,
+ * advances 0.72em, and has zero descent. These three constants close that gap;
+ * they are emitted into the generated stylesheet.
+ */
+/** Icon box width — Font Awesome's `--fa-width` default. */
+const GLYPH_BOX_WIDTH = "1.25em";
+/** Glyph up-scale: FA ink (~0.94em) / game-icons ink (~0.66em). */
+const GLYPH_SCALE = "1.4em";
+/**
+ * Baseline nudge, standing in for the descent this font does not have. The
+ * scaled glyph overflows its 1em box symmetrically, so without this it rides up
+ * flush against the top of a tab strip or button. Chosen by sweeping candidates
+ * in a live client and matching painted-ink centres against neighbouring FA
+ * icons (-0.30em lands within 0.2px; the next step either way is ~1px off).
+ */
+const GLYPH_BASELINE_SHIFT = "-0.30em";
 const PUA_START = 0xe001; // first Private Use Area codepoint
 
 /** Collect `{ name, path }` for every icon SVG, sorted by name. */
@@ -253,6 +273,25 @@ function writeScss(icons, codepoints) {
     src: url("../assets/fonts/${WOFF2_BASENAME}") format("woff2");
 }
 
+/*
+ * Box metrics go on the ELEMENT, mirroring Font Awesome, so a ginf- icon sits
+ * on the same optical grid as an fa- icon in the same run of text. Putting them
+ * on ::before instead leaves the element with the inherited line-height, which
+ * makes the glyph ride high in a taller-than-1em box.
+ */
+[class^="${CLASS_PREFIX}"],
+[class*=" ${CLASS_PREFIX}"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: ${GLYPH_BOX_WIDTH};
+    height: 1em;
+    line-height: 1;
+    /* Matches Font Awesome's optical baseline; this font has no descent of its
+       own (glyphs sit flat on the baseline), so nudge the box down instead. */
+    vertical-align: ${GLYPH_BASELINE_SHIFT};
+}
+
 [class^="${CLASS_PREFIX}"]::before,
 [class*=" ${CLASS_PREFIX}"]::before {
     font-family: "${FONT_NAME}" !important;
@@ -261,6 +300,9 @@ function writeScss(icons, codepoints) {
     font-variant: normal;
     text-transform: none;
     line-height: 1;
+    /* game-icons artwork inks ~0.66em against Font Awesome's ~0.94em, so scale
+       the glyph up to match. The element box above stays 1em tall. */
+    font-size: ${GLYPH_SCALE};
     speak: never;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
