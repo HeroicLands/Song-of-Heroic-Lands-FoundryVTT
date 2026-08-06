@@ -39,6 +39,7 @@ import {
     existsSync,
 } from "fs";
 import { basename, join } from "path";
+import { pathToFileURL } from "url";
 import { Readable } from "stream";
 import { SVGIcons2SVGFontStream } from "svgicons2svgfont";
 import svg2ttf from "svg2ttf";
@@ -185,7 +186,7 @@ function reportStrokeOnly(icons) {
  * geometry the strict font parser accepts: basic shapes -> paths, canonical
  * path data, namespaces/metadata stripped. viewBox is preserved for scaling.
  */
-function normalizeSvg(rawSvg, name) {
+export function normalizeSvg(rawSvg, name) {
     const { data } = optimize(rawSvg, {
         path: name,
         multipass: true,
@@ -215,7 +216,7 @@ function normalizeSvg(rawSvg, name) {
 }
 
 /** Stream the SVGs through svgicons2svgfont and resolve with the SVG-font string. */
-function buildSvgFont(icons, codepoints) {
+export function buildSvgFont(icons, codepoints) {
     return new Promise((resolve, reject) => {
         const fontStream = new SVGIcons2SVGFontStream({
             fontName: FONT_NAME,
@@ -380,7 +381,11 @@ async function main() {
     );
 }
 
-main().catch((err) => {
-    console.error(err);
-    process.exit(1);
-});
+// Only build when run directly; utils/build-kb-icon-assets.mjs imports the
+// pipeline above to emit a subsetted font for the knowledgebase.
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+    main().catch((err) => {
+        console.error(err);
+        process.exit(1);
+    });
+}
