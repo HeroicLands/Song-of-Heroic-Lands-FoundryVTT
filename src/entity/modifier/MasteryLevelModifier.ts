@@ -500,6 +500,12 @@ export class MasteryLevelModifier extends ValueModifier {
                     // shows the Success Value / Success Stars; a plain test does
                     // not. Passed as data via scope, no bespoke test method.
                     isSuccessValue: context.scope.isSuccessValue ?? false,
+                    // The token this test is made *as*, when the caller knows it
+                    // and the owning item does not. A chat card reads the
+                    // combatant's name off the result's token, so the responding
+                    // side of an opposed test passes the contest's target token
+                    // here (#1164); an ordinary item-menu test omits it.
+                    tokenUuid: context.scope.tokenUuid,
                     // A caller-supplied die (`scope.roll`) is resolved untouched
                     // by `evaluate()` instead of a fresh d100 being cast — used
                     // where the outcome is fixed by rule and there is nothing to
@@ -795,28 +801,36 @@ export class MasteryLevelModifier extends ValueModifier {
         let opposedTestResult: OpposedTestResult = scope.priorTestResult;
         const successTestContext = context.clone();
 
-        if (!opposedTestResult.targetTestResult) {
-            successTestContext.scope = {
-                situationalModifier: 0,
-            };
-            const targetTestResult = await this.successTest(successTestContext);
-            if (!targetTestResult) return targetTestResult;
-            opposedTestResult.targetTestResult = targetTestResult;
-        } else {
-            // In this situation, where the targetTestResult is provided,
-            // the GM is modifying the result of a prior opposedTest.
-            // Therefore, we re-display the dialog for each of the prior
-            // successTests.
-            successTestContext.scope = {
-                priorTestResult: opposedTestResult.targetTestResult,
-            };
-            let maybeTestResult =
-                await opposedTestResult.sourceTestResult.masteryLevelModifier.successTest(
-                    successTestContext,
-                );
-            if (!maybeTestResult) return maybeTestResult;
-            opposedTestResult.targetTestResult = maybeTestResult;
-        }
+        // `this` is the responder's mastery level — the skill or attribute the
+        // defender picked, resolved by `SohlTokenDocumentLogic.opposedTestResume`
+        // — so it is what the target's die must be measured against, on either
+        // path below.
+        const priorTarget = opposedTestResult.targetTestResult;
+
+        // Has the target side actually rolled? Its mere *existence* proves
+        // nothing: the `OpposedTestResult` constructor always materializes a
+        // placeholder target from the target token, so a `!targetTestResult`
+        // guard is never true and every Respond took the "already rolled" path —
+        // rolling the defender against that placeholder's **empty** modifier
+        // (#1164). Ask the die instead.
+        successTestContext.scope =
+            priorTarget?.roll.isRolled ?
+                // Already rolled: reuse it untouched (`successTest` never
+                // re-rolls a `priorTestResult`). Reached when a settled contest
+                // is resumed again, e.g. a card answered twice.
+                { priorTestResult: priorTarget }
+                // Pending: roll the responder's own test now. The contest's
+                // target token carries over so the result card can still name
+                // the defender, and the situational modifier the defender
+                // entered in the Respond dialog is honored rather than dropped.
+            :   {
+                    situationalModifier: scope.situationalModifier ?? 0,
+                    tokenUuid: priorTarget?.token?.uuid,
+                };
+
+        const targetTestResult = await this.successTest(successTestContext);
+        if (!targetTestResult) return targetTestResult;
+        opposedTestResult.targetTestResult = targetTestResult;
 
         let allowed = await opposedTestResult.evaluate();
 

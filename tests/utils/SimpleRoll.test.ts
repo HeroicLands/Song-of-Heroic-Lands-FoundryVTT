@@ -84,6 +84,39 @@ describe("SimpleRoll", () => {
         });
     });
 
+    describe("isRolled", () => {
+        it("is false before the dice are cast", () => {
+            expect(sr({ numDice: 2, dieFaces: 6 }).isRolled).toBe(false);
+        });
+
+        it("is true once rolled", () => {
+            const roll = sr({ numDice: 2, dieFaces: 6 });
+            roll.roll();
+            expect(roll.isRolled).toBe(true);
+        });
+
+        it("is true for values supplied at construction", () => {
+            expect(
+                sr({ numDice: 1, dieFaces: 100, rolls: [42] }).isRolled,
+            ).toBe(true);
+        });
+
+        it("distinguishes an unrolled die from one totalling its modifier", () => {
+            // Both read `total === 5`; only `isRolled` tells them apart — the
+            // distinction the opposed test's pending/settled check relies on.
+            const pending = sr({ numDice: 1, dieFaces: 6, modifier: 5 });
+            const cast = sr({
+                numDice: 1,
+                dieFaces: 6,
+                modifier: 0,
+                rolls: [5],
+            });
+            expect(pending.total).toBe(cast.total);
+            expect(pending.isRolled).toBe(false);
+            expect(cast.isRolled).toBe(true);
+        });
+    });
+
     describe("roll", () => {
         it("returns a number", () => {
             const roll = sr({ numDice: 2, dieFaces: 6 });
