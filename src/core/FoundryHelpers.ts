@@ -1291,6 +1291,19 @@ export function fvttGetTargetedTokens(
 }
 
 /**
+ * The point used to measure distance to/from a token — its drawn placeable's
+ * center when there is one, else the TokenDocument's own center.
+ * @param tokenLogic - The token logic whose center to read.
+ * @returns The measure point, or `undefined` when the token has no position.
+ */
+function tokenMeasureCenter(
+    tokenLogic: SohlTokenDocumentLogic,
+): { x: number; y: number } | undefined {
+    const token = (tokenLogic as any)?.parent;
+    return token?.object?.center ?? token?.center ?? undefined;
+}
+
+/**
  * Calculates the distance from sourceToken to targetToken in "scene" units (e.g., feet).
  *
  * @param sourceToken - The source token logic.
@@ -1316,13 +1329,14 @@ export function fvttRangeToTarget(
 
     if ((canvas.scene as unknown as SohlScene | null)?.logic?.isTotm) return 0;
 
-    const result = getCanvas().grid?.measurePath(
-        [
-            (sourceToken.parent as any).object.center,
-            (targetToken.parent as any).object.center,
-        ],
-        {},
-    );
+    // Measure from the placeable's center when it is drawn, else from the
+    // TokenDocument's own — the same fallback `combatantMeasurePoint` uses. A
+    // token that is not rendered (its scene is not the viewed one) still has a
+    // position, so an absent placeable must not crash the measurement (#1079).
+    const from = tokenMeasureCenter(sourceToken);
+    const to = tokenMeasureCenter(targetToken);
+    const result =
+        from && to ? getCanvas().grid?.measurePath([from, to], {}) : undefined;
 
     if (!result) {
         sohl.log.uiWarn(
