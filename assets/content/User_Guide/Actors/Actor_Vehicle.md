@@ -47,9 +47,20 @@ A Vehicle can hold:
 The Vehicle sheet has these tabs:
 
 - **Facade** — image and description
-- **Gear** — cargo and equipment
+- **Gear** — cargo, equipment, and stores
 - **Actions** — available actions
 - **Effects** — active effects
+
+All four are the common actor tabs, and they behave exactly as they do on a
+[[Actor_Being|Being]]: the Gear tab is the same inventory ledger (a vehicle's
+cargo instead of a character's possessions), and the Actions and Effects tabs
+are identical. They are documented once, in
+[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_ — see
+that page for the columns, controls, and how to add, stow, and remove things.
+
+The one difference: a Being's Gear tab reports carried weight and encumbrance,
+because a character is slowed by what it carries. A vehicle is not encumbered
+by its cargo, so its Gear tab reports the cargo's total weight alone.
 
 <!-- TODO: Expand with details on vehicle movement, crew requirements,
      passenger capacity, vehicle combat, and boarding actions -->

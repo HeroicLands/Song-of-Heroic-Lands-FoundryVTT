@@ -51,6 +51,12 @@ The Being sheet is organized into several tabs:
   [Actions on a Being](#actions-on-a-being))
 - **Effects** — active effects modifying this character
 
+**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs —
+the same tabs, working the same way, on a [[Actor_Vehicle|Vehicle]] or a
+[[Actor_Structure|Structure]]. They are documented once, in
+[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_; this
+page covers what is particular to a Being. The rest of the tabs are Being-only.
+
 # The Being Sheet Header
 
 Above the tabs, the header shows the portrait and name, a row of **status

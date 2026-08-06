@@ -31,9 +31,16 @@ export class CohortSheet extends SohlActorSheetBase {
         facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },
         members: {
             template: "systems/sohl/templates/actor/cohort/members.hbs",
+            scrollable: [""],
         },
-        actions: { template: "systems/sohl/templates/actor/parts/actions.hbs" },
-        effects: { template: "systems/sohl/templates/actor/parts/effects.hbs" },
+        actions: {
+            template: "systems/sohl/templates/actor/parts/actions.hbs",
+            scrollable: [""],
+        },
+        effects: {
+            template: "systems/sohl/templates/actor/parts/effects.hbs",
+            scrollable: [""],
+        },
     } as const;
 
     /** @inheritDoc */

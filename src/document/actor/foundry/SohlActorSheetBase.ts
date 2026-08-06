@@ -12,11 +12,32 @@
  */
 
 import type { SohlActor } from "./SohlActor";
-import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { applySearchFilter } from "@src/document/actor/logic/display-filter";
+import { resolveActorSheetParts } from "@src/document/actor/logic/sheet-parts";
+import {
+    buildContainerTree,
+    htmlToPlainText,
+} from "@src/document/actor/logic/being-sheet-view";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
-import { fvttCallHook, dialog } from "@src/core/FoundryHelpers";
-import { ITEM_KIND, GearKinds, isFencedType } from "@src/utils/constants";
+import {
+    createAction,
+    editAction,
+    deleteAction,
+    runAction,
+} from "@src/core/foundry/sheet-actions";
+import {
+    fvttCallHook,
+    fvttRenderSheet,
+    dialog,
+} from "@src/core/FoundryHelpers";
+import {
+    ACTION_SUBTYPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    ITEM_KIND,
+    GearKinds,
+    isFencedType,
+} from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
 import { stripDocArchetypeFlag } from "@src/entity/archetype/archetype";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
@@ -26,6 +47,27 @@ const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
     SohlActor,
     typeof foundry.applications.api.DocumentSheetV2<SohlActor>
 >(foundry.applications.api.DocumentSheetV2<SohlActor>);
+
+type RenderContext =
+    foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
+type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
+
+/**
+ * The capacity readout banding a Gear-tab section. A container reports what it
+ * holds against what it can hold; a being's "On Body" section reports its total
+ * carried weight and the resulting encumbrance instead — see the actor sheet's
+ * `_gearOnBodyCapacity` hook, which a concrete sheet overrides to choose.
+ */
+export interface GearCapacity {
+    /** Whether the readout is an encumbrance summary rather than used/max. */
+    isEncumbrance?: boolean;
+    /** Total weight of the section's contents. */
+    used: number;
+    /** The section's capacity, when it has one. */
+    max?: number;
+    /** The encumbrance level, for an encumbrance readout. */
+    encumbrance?: number;
+}
 
 /**
  * Base application sheet for all actor types. Provides the shared render parts
@@ -37,12 +79,24 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /**
      * ApplicationV2 auto-merges `DEFAULT_OPTIONS` up the prototype chain, so this
      * level only contributes what it adds (no `...super` spread). Registers the
-     * general `clearField` action used by the `clearableNumberInput` helper.
+     * general `clearField` action used by the `clearableNumberInput` helper, plus
+     * the controls carried by the shared Gear / Actions / Effects tab templates —
+     * those tabs render on every actor type, so their handlers belong here rather
+     * than on any one concrete sheet (issue #1088).
      */
     static override DEFAULT_OPTIONS: PlainObject = {
         actions: {
             clearField: SohlActorSheetBase._onClearField,
             dismissFenceNotice: SohlActorSheetBase._onDismissFenceNotice,
+            createItem: SohlActorSheetBase._onCreateItem,
+            editItem: SohlActorSheetBase._onEditItem,
+            deleteItem: SohlActorSheetBase._onDeleteItem,
+            toggleCarried: SohlActorSheetBase._onToggleCarried,
+            toggleWorn: SohlActorSheetBase._onToggleWorn,
+            runAction: SohlActorSheetBase._onRunAction,
+            createAction: SohlActorSheetBase._onCreateAction,
+            editAction: SohlActorSheetBase._onEditAction,
+            deleteAction: SohlActorSheetBase._onDeleteAction,
         },
     };
 
@@ -228,7 +282,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /**
      * After render, convert each field's always-on hint into a "?" tooltip on its
      * label (shared with the item sheets), so the guidance no longer competes with
-     * the field value.
+     * the field value, and bind the item/effect context menus.
      * @param context - The render context.
      * @param options - The render options.
      */
@@ -241,10 +295,27 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         await super._onRender(context, options);
         const el = (this as any).element as HTMLElement | undefined;
         if (el) hintsToLabelTooltips(el);
+
+        // Bind the item/effect context menus (right-click on a `.item` row and
+        // click on its `.item-contextmenu` ⋮ control). Without this a sheet has
+        // no way to edit or delete any created item (#517). `_contextMenu` is
+        // provided by the SohlDataModel sheet mixin. Bound here rather than on a
+        // concrete sheet because the ledgers that carry those controls are the
+        // shared Gear / Effects tab templates (#1088).
+        (this as any)._contextMenu?.(el);
     }
 
     /**
-     * Register the actor sheet's render parts: `header`, `tabs`, and `facade`.
+     * Register the sheet's render parts, derived from its declared `PARTS` in
+     * declaration order: the experimental-schema banner (fenced types only,
+     * issue #959), the header, the tab navigation, the Facade tab, and every
+     * content tab the concrete sheet declares — the last of which are withheld
+     * when the viewer has only limited permission.
+     *
+     * Deriving the list means a sheet gets its tab bodies by declaring them,
+     * rather than by also restating them here. Hard-coding it was what left the
+     * Vehicle, Structure, and Cohort sheets rendering an empty panel for every
+     * tab but Facade (issue #1088).
      *
      * @param options - The render options to populate with the sheet parts.
      * @param options.parts - Populated in place with the registered part ids.
@@ -254,15 +325,17 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     ): void {
         super._configureRenderOptions(options);
 
-        // All actor sheets have these parts
-        options.parts = ["header", "tabs", "facade"];
-
-        // Fenced (experimental) actor sheets prepend the dismissible
-        // "schema not final" banner above the header (issue #959). BeingSheet
-        // overrides this method and is never fenced, so it is unaffected.
-        if (isFencedType("Actor", this.document.type)) {
-            options.parts.unshift("fencedBanner");
-        }
+        const declared = Object.keys(
+            (
+                this.constructor as typeof SohlActorSheetBase & {
+                    PARTS?: PlainObject;
+                }
+            ).PARTS ?? {},
+        );
+        options.parts = resolveActorSheetParts(declared, {
+            isFenced: isFencedType("Actor", this.document.type),
+            isLimited: !!(this.document as any).limited,
+        });
     }
 
     /**
@@ -330,13 +403,40 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
                     context,
                 );
                 return context;
+            case "gear":
+                context = await this._prepareGearContext(context, options);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareGearContext`,
+                    this,
+                    context,
+                );
+                return context;
+            case "actions":
+                context = await this._prepareActionsContext(context, options);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareActionsContext`,
+                    this,
+                    context,
+                );
+                return context;
+            case "effects":
+                context = await this._prepareEffectsContext(context, options);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareEffectsContext`,
+                    this,
+                    context,
+                );
+                return context;
             default:
                 return context;
         }
     }
 
     /**
-     * Build the `header` part's render context. Override in subclasses; the base returns it unchanged.
+     * Build the `header` part's render context: the actor's name, portrait, and
+     * localized type label, which every actor header template binds. Subclasses
+     * override to add their own header content (a being's health bar, status
+     * pills, and body-part lozenges, for instance).
      * @param context - The in-progress render context.
      * @param options - Sheet render options.
      * @returns The header part context.
@@ -347,7 +447,12 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
     > {
-        return context;
+        const actor = this.document;
+        return Object.assign(context, {
+            actorName: actor.name,
+            actorImg: actor.img,
+            typeLabel: sohl.i18n.localize(`TYPES.Actor.${actor.type}`),
+        });
     }
 
     /**
@@ -366,7 +471,9 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /**
-     * Build the `facade` part's render context. Override in subclasses; the base returns it unchanged.
+     * Build the `facade` part's render context: the bio image
+     * (`system.portrait`) and the actor's name. The rich-text appearance field is
+     * edited by a `<prose-mirror>` element, which enriches its own content.
      * @param context - The in-progress render context.
      * @param options - Sheet render options.
      * @returns The facade part context.
@@ -377,7 +484,367 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
     > {
-        return context;
+        return Object.assign(context, {
+            actorName: this.document.name,
+            portrait: (this.document.system as any).portrait,
+        });
+    }
+
+    /* -------------------------------------------- */
+    /*  Shared tab contexts (Gear / Actions / Effects) */
+    /* -------------------------------------------- */
+
+    /**
+     * Build the `gear` part's render context: the actor's carried gear as an
+     * "On Body" section plus one section per container, each a ledger of rows
+     * with a capacity readout. Shared by every actor type that carries
+     * things — a being's possessions, a vehicle's cargo, a structure's stores.
+     *
+     * @param context - The in-progress render context.
+     * @param _options - Sheet render options (unused).
+     * @returns The gear part context.
+     */
+    protected async _prepareGearContext(
+        context: RenderContext,
+        _options: RenderOptions,
+    ): Promise<RenderContext> {
+        const actor = this.document;
+
+        const containerGear = actor.itemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
+
+        // Collect all gear items (containers themselves included, so a
+        // top-level container appears both as a node and under "On Body").
+        // Row order follows this kind order, so it is fixed here rather than
+        // taken from `GearKinds`, whose order is the enum's.
+        const gearTypes = [
+            ITEM_KIND.ARMORGEAR,
+            ITEM_KIND.WEAPONGEAR,
+            ITEM_KIND.MISCGEAR,
+            ITEM_KIND.CONCOCTIONGEAR,
+            ITEM_KIND.PROJECTILEGEAR,
+            ITEM_KIND.CONTAINERGEAR,
+        ];
+        const allGear: SohlItem[] = [];
+        for (const type of gearTypes) {
+            allGear.push(...((actor.itemTypes as any)[type] ?? []));
+        }
+
+        const tree = buildContainerTree(
+            containerGear,
+            allGear,
+            (item: SohlItem) => item.id,
+            (item: SohlItem) => (item.system as any).containerId,
+        );
+
+        // Map a gear item to a compact display row.
+        const toRow = (item: SohlItem) => {
+            const gl = item.logic as any;
+            const sys = item.system as any;
+            const q = sys.qualityBase ?? 0;
+            return {
+                id: item.id,
+                uuid: item.uuid,
+                name: item.name,
+                img: item.img ?? "",
+                type: item.type,
+                typeLabel: sohl.i18n.localize(`TYPES.Item.${item.type}`),
+                quantity: sys.quantity ?? 1,
+                weight: gl?.weight?.effective ?? sys.weightBase ?? 0,
+                quality: `${q >= 0 ? "+" : ""}${q}`,
+                durability: sys.durabilityBase ?? 0,
+                // Derivation summaries for the weight/quality/durability
+                // hover tooltips (#769).
+                weightDeltaLabel: gl?.weight?.deltaLabel ?? "",
+                qualityDeltaLabel: gl?.quality?.deltaLabel ?? "",
+                durabilityDeltaLabel: gl?.durability?.deltaLabel ?? "",
+                notes: htmlToPlainText(sys.notes ?? ""),
+                isCarried: !!sys.isCarried,
+                isWorn: !!sys.isWorn,
+                isArmor: item.type === ITEM_KIND.ARMORGEAR,
+            };
+        };
+
+        const onBody = {
+            items: tree.onBodyItems.map(toRow),
+            capacity: this._gearOnBodyCapacity(tree.onBodyItems),
+        };
+        const containers = tree.containers.map((node: any) => ({
+            id: node.container.id,
+            name: node.container.name,
+            items: node.items.map(toRow),
+            capacity: {
+                used: SohlActorSheetBase._totalGearWeight(node.items),
+                max: (node.container.logic as any)?.maxCapacity?.effective ?? 0,
+            },
+        }));
+
+        return Object.assign(context, { onBody, containers });
+    }
+
+    /**
+     * Total weight of a set of gear items — each item's per-unit effective
+     * weight times its quantity, rounded to one decimal.
+     *
+     * @param items - The gear items to weigh.
+     * @returns The summed weight.
+     */
+    protected static _totalGearWeight(items: SohlItem[]): number {
+        const total = items.reduce((sum, item) => {
+            const gl = item.logic as any;
+            const sys = item.system as any;
+            const w = gl?.weight?.effective ?? sys.weightBase ?? 0;
+            return sum + w * (sys.quantity ?? 1);
+        }, 0);
+        return Math.round(total * 10) / 10;
+    }
+
+    /**
+     * The capacity readout for the Gear tab's un-contained ("On Body") section.
+     *
+     * The base reports the plain summed weight of what the actor holds — the
+     * right summary for a vehicle's cargo or a structure's stores, neither of
+     * which has a load it can be encumbered by. {@link BeingSheet} overrides this
+     * to report the being's carried weight and resulting encumbrance instead.
+     *
+     * @param items - The un-contained gear items.
+     * @returns The capacity readout for the section legend.
+     */
+    protected _gearOnBodyCapacity(items: SohlItem[]): GearCapacity {
+        return { used: SohlActorSheetBase._totalGearWeight(items) };
+    }
+
+    /**
+     * Build the `actions` part's render context: the actor's actions, split into
+     * the GM-authored custom (script) actions and the code-defined intrinsic
+     * ones. Internal lifecycle actions (the hidden sort group) are never listed.
+     *
+     * @param context - The in-progress render context.
+     * @param _options - Sheet render options (unused).
+     * @returns The actions part context.
+     */
+    protected async _prepareActionsContext(
+        context: RenderContext,
+        _options: RenderOptions,
+    ): Promise<RenderContext> {
+        const logic = this.document.logic;
+        // Hidden-group actions are internal (lifecycle hooks) and never shown.
+        const all = (logic ? [...logic.actions.values()] : []).filter(
+            (a) =>
+                (a.data as any).group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+        );
+        // Custom (script) actions are GM-authored and editable; intrinsic
+        // actions are code-defined and read-only. Split them into their own
+        // sections.
+        const customActions = all.filter(
+            (a) => (a.data as any).subType === ACTION_SUBTYPE.SCRIPT,
+        );
+        const intrinsicActions = all.filter(
+            (a) => (a.data as any).subType === ACTION_SUBTYPE.INTRINSIC,
+        );
+        return Object.assign(context, { customActions, intrinsicActions });
+    }
+
+    /**
+     * Build the `effects` part's render context: the actor's own active effects
+     * and the enabled effects transferred onto it from its items.
+     *
+     * @param context - The in-progress render context.
+     * @param _options - Sheet render options (unused).
+     * @returns The effects part context.
+     */
+    protected async _prepareEffectsContext(
+        context: RenderContext,
+        _options: RenderOptions,
+    ): Promise<RenderContext> {
+        const effects = (this.document as any).effects?.contents ?? [];
+        const trxEffects: PlainObject = {};
+        const transferredEffects = (this.document as any).transferredEffects;
+        if (transferredEffects) {
+            for (const effect of transferredEffects) {
+                if (!effect.disabled) {
+                    trxEffects[effect.id] = effect;
+                }
+            }
+        }
+        return Object.assign(context, { effects, trxEffects });
+    }
+
+    /* -------------------------------------------- */
+    /*  Shared tab controls                         */
+    /* -------------------------------------------- */
+
+    /**
+     * Resolve the embedded item owning the clicked control, from the enclosing
+     * row's `data-item-id`.
+     *
+     * @param target - The clicked control, within a `data-item-id` row.
+     * @returns The embedded item, or `undefined` if the row carries no id.
+     */
+    protected _itemFromControl(target: HTMLElement): SohlItem | undefined {
+        const itemId = target
+            .closest<HTMLElement>("[data-item-id]")
+            ?.getAttribute("data-item-id");
+        return itemId ? this.document.items.get(itemId) : undefined;
+    }
+
+    /**
+     * `data-action="createItem"`: open the item-create dialog parented to this
+     * actor, pre-seeded from the control's `data-type` and `data-sub-type`
+     * (or `data-subtype`).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, carrying `data-type` / `data-sub-type`.
+     */
+    protected static async _onCreateItem(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const type = target.dataset.type;
+        const subType = target.dataset.subType ?? target.dataset.subtype;
+        const data: PlainObject = {};
+        if (type) data.type = type;
+        if (subType) data.system = { subType };
+        await SohlItem.createDialog(data, { parent: this.document });
+    }
+
+    /**
+     * `data-action="editItem"`: open an embedded item's sheet.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onEditItem(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        void fvttRenderSheet(this._itemFromControl(target));
+    }
+
+    /**
+     * `data-action="deleteItem"`: delete an embedded item after confirmation.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onDeleteItem(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const item = this._itemFromControl(target);
+        if (!item) return;
+        await (item as any).deleteDialog();
+    }
+
+    /**
+     * `data-action="toggleCarried"`: toggle a gear item's **carried** state (on
+     * the owner's person, in the hold, in the storeroom).
+     *
+     * Dispatches the item's `toggleCarried` intrinsic action rather than writing
+     * the field, so the ledger control and the Actions context menu share one
+     * implementation — including the stow-time clearing of any "in use" state
+     * (issue #1097).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onToggleCarried(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const item = this._itemFromControl(target);
+        if (!item) return;
+        await item.logic?.executeAction("toggleCarried");
+    }
+
+    /**
+     * `data-action="toggleWorn"`: toggle an armor item's **worn** state — only
+     * worn armor feeds its owner's armor-protection totals.
+     *
+     * Dispatches the item's `toggleWorn` intrinsic action rather than writing the
+     * field, so the ledger control honors the same carried gate as the Actions
+     * context menu: armor that is not carried cannot be worn (#1097).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onToggleWorn(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const item = this._itemFromControl(target);
+        if (!item) return;
+        await item.logic?.executeAction("toggleWorn");
+    }
+
+    /**
+     * `data-action="runAction"`: run the action for the clicked Actions-tab row
+     * (shift-click skips its configuration dialog), delegating to the shared
+     * {@link runAction} sheet helper. Script actions invoke their bound Macro.
+     *
+     * @param event - The triggering pointer event (shift skips the dialog).
+     * @param target - The clicked control, inside a `data-action-name` row.
+     */
+    protected static async _onRunAction(
+        this: SohlActorSheetBase,
+        event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await runAction(this.document, target, event);
+    }
+
+    /**
+     * `data-action="createAction"`: create a custom (script) action, delegating
+     * to the shared {@link createAction} sheet helper. Prompts for an existing
+     * world Macro to bind — or `<New Macro…>`, which opens Foundry's Macro-create
+     * dialog — then appends a SCRIPT action def (bound by the Macro's UUID) to
+     * `system.actionDefs`.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked create control (unused).
+     */
+    protected static async _onCreateAction(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        await createAction(this.document);
+    }
+
+    /**
+     * `data-action="editAction"`: open the bound Macro's own sheet for the
+     * clicked custom action, deferring all macro editing to Foundry's Macro UI
+     * (shared {@link editAction} helper).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, inside a `data-action-name` row.
+     */
+    protected static async _onEditAction(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await editAction(this.document, target);
+    }
+
+    /**
+     * `data-action="deleteAction"`: remove the clicked custom action from
+     * `system.actionDefs`, delegating to the shared {@link deleteAction} helper.
+     * Only the action def is removed — the bound Macro document is untouched.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, inside a `data-action-name` row.
+     */
+    protected static async _onDeleteAction(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await deleteAction(this.document, target);
     }
 
     /**
