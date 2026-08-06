@@ -61,8 +61,8 @@ describe("birthsign — Mystery(OTHER) + skill Active Effects", () => {
             skillEml(actor, "swrd").should("eq", 40);
 
             // Attach the shipped Arnos birthsign from the items compendium.
-            cy.getFromCompendium("sohl.items", "mystery", "arnos").then((sign) =>
-                cy.dropOnActor(actor, sign),
+            cy.getFromCompendium("sohl.items", "mystery", "arnos").then(
+                (sign) => cy.dropOnActor(actor, sign),
             );
 
             // Its Active Effects retune matching skills by subtype.
