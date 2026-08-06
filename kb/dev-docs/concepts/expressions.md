@@ -211,7 +211,7 @@ scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
 strike-mode scopes (`meleestrikemode` / `missilestrikemode`) additionally bind
 the strike mode as `sm`.
 
-### Adding a call site — declaring its scope
+### Adding a call site: declaring its scope
 
 This part is for **contributors adding a new place that evaluates an
 expression**. Authors writing expressions need only the table above.
