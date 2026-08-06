@@ -17,7 +17,7 @@ A Mystery represents a supernatural condition or aspect of the Being. It represe
 
 # Where It Appears
 
-Mysteries appear on the Being sheet's **Mystical** tab.
+Mysteries appear on the Being sheet's **Mysteries** tab.
 
 # Additional Properties
 
