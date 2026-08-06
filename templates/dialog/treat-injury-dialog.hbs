@@ -15,12 +15,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
 Treat Injury dialog. Gathers the Healing Rate to record on a wound when the
 `treatInjury` action is run by hand (no card to pre-fill it). The card path
 supplies the same value in data-scope with skipDialog, so this dialog never
-opens there.
+opens there — and only that path can carry the HEAL sentinel, so the hint must
+not describe any number typed here as healing the wound (issue #1087).
 --}}
 <form>
     <div class="form-group">
-        <label>Healing Rate:</label>
+        <label>{{localize "SOHL.Dialog.TreatInjury.healingRate"}}:</label>
         <input type="number" name="healingRate" value="{{healingRate}}" min="0" step="1" />
     </div>
-    <p class="hint">The wound's treated Healing Rate (0 heals it outright).</p>
+    <p class="hint">{{localize "SOHL.Dialog.TreatInjury.hint"}}</p>
 </form>

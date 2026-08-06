@@ -269,16 +269,19 @@ opens to ask for the rate.
 Titled _{wound name}_**: Treat Injury**, with a single field:
 
 - **Healing Rate:** — a whole number, the treated Healing Rate to record on the
-  wound. It starts at the wound's current rate. Higher is better: 6 means the wound
-  is effectively beaten, while 1 is a wound that will barely mend.
+  wound. It starts at the wound's current rate, and is **blank** on a wound whose
+  rate has not been determined yet. Higher is better: 6 means the wound is
+  effectively beaten, while 1 is a wound that will barely mend.
 
-Confirming records the rate and sets the treatment date. Cancelling changes
-nothing.
+Confirming records the rate and sets the treatment date. Cancelling — or confirming
+with the field left blank — changes nothing.
 
-> **A caution on entering 0.** The dialog's hint currently says that 0 heals the
-> wound outright. It does not — it records a Healing Rate of 0, meaning a wound that
-> makes no progress whatsoever, which is the worst result available rather than a
-> cure (issue #1087). To close a wound by hand, set its **Level** to 0 on the
+> **A caution on entering 0.** A Healing Rate of 0 is not a cure — it is the worst
+> result available. Healing Tests roll against Healing Base × Healing Rate, so a rate
+> of 0 gives an effective mastery level of 0: every check fails and the wound makes no
+> progress whatsoever (and an infectable wound can still fester on a critical
+> failure). Only a Treatment Result card can heal a wound outright (a critical success
+> on a minor wound); to close a wound by hand, set its **Level** to 0 on the
 > Properties tab instead.
 
 # Treatment Test

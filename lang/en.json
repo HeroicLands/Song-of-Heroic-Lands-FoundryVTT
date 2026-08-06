@@ -2024,6 +2024,8 @@
     "SOHL.Dialog.TreatmentTest.injuryUuid": "Injury UUID (optional)",
     "SOHL.Dialog.TreatmentTest.uuidPlaceholder": "Item....",
     "SOHL.Dialog.TreatmentTest.hint": "Paste the wound's UUID to send the patient an Accept card. Leave it blank to run a GM-directed test on the severity/aspect below.",
+    "SOHL.Dialog.TreatInjury.healingRate": "Healing Rate",
+    "SOHL.Dialog.TreatInjury.hint": "The wound's treated Healing Rate. Healing Tests roll against Healing Base × Healing Rate, so a higher rate heals faster; 0 fails every check, and the wound makes no progress at all. Leave it blank to record no rate.",
     "SOHL.Dialog.MacroConfig.namePlaceholder": "Name",
     "SOHL.Dialog.MacroConfig.async": "Async",
     "SOHL.Dialog.MacroConfig.actionNameTip": "Name of Action to call on parent",
