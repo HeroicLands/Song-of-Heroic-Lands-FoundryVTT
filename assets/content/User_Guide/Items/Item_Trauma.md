@@ -253,7 +253,8 @@ click applies it**. Nobody writes on another character's sheet.
 
 Marking a wound treated matters: an untreated wound makes no healing progress at
 all. Until this action, or a Treatment Test, has run, every healing check on the
-wound does nothing.
+wound is resolved as a critical failure — no progress, and an infection for the
+trouble.
 
 ## The two ways it runs
 
@@ -442,9 +443,12 @@ further reminders.
 Three things, and all of them are worth knowing before you wonder why a character is
 not getting better:
 
-- **An untreated wound never heals.** No treatment date, no progress, however many
-  checks you run. Get a physician to it, or record a rate with
-  [Treat Injury](#treat-injury).
+- **An untreated wound never heals — and festers.** With no Healing Rate there is
+  nothing to test against, so no dice are rolled: each check is resolved as a
+  **critical failure**, the same way an untreated wound's treatment roll is. That
+  means no progress however many checks you run, and an infection, because an
+  untreated wound is an infection-prone one. Get a physician to it, or record a
+  rate with [Treat Injury](#treat-injury).
 - **An active infection halts _all_ healing**, on every wound the character has —
   not only the wound the infection came from. Nothing mends until the infection is
   beaten (see [Course Check](#course-check)).

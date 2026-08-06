@@ -495,7 +495,8 @@ describe("Injury Healing Test effect (#486)", () => {
     function treatedInjury(
         opts: {
             levelBase?: number;
-            healingRateBase?: number;
+            /** `null` is a wound whose Healing Rate is not yet determined. */
+            healingRateBase?: number | null;
             hb?: number;
             subType?: string;
             treatmentDate?: number | null;
@@ -621,16 +622,75 @@ describe("Injury Healing Test effect (#486)", () => {
         expect(spy).toHaveBeenCalledTimes(1); // second checkpoint not tested
     });
 
-    it("makes no test while the injury is untreated", async () => {
+    it("rolls no dice for an untreated injury — the checkpoint resolves as a Critical Failure, so the level never improves (#1146)", async () => {
         withEvents();
         oneCheckpoint();
         const spy = mockRoll(MARGINAL_SUCCESS);
         const logic = treatedInjury({ levelBase: 5, treatmentDate: null });
         await logic.healingCheck({} as any);
+        // No roll is made: an untreated wound is resolved as though its roll
+        // were a Critical Failure, and a CF never reduces the Injury Level.
         expect(spy).not.toHaveBeenCalled();
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 5 }),
         );
+    });
+
+    it("rolls no dice for a treated injury whose Healing Rate is still undetermined (#1146)", async () => {
+        withEvents();
+        oneCheckpoint();
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 5, healingRateBase: null });
+        await logic.healingCheck({} as any);
+        // `null` is "no rate determined": there is nothing to roll against, so
+        // the checkpoint resolves as a Critical Failure rather than testing
+        // against an effective mastery level of 0.
+        expect(spy).not.toHaveBeenCalled();
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 5 }),
+        );
+    });
+
+    it("an untreated wound is infection-prone — its auto-Critical-Failure contracts an infection (#1146)", async () => {
+        withEvents();
+        oneCheckpoint();
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        // `infectable` is false — it is only ever set by a Treatment Test — yet
+        // an untreated wound is resolved as though its treatment roll were a
+        // Critical Failure, which is exactly what marks a wound infectable.
+        const logic = treatedInjury({
+            levelBase: 5,
+            treatmentDate: null,
+            healingRateBase: null,
+        });
+        await logic.healingCheck({} as any);
+        expect(create).toHaveBeenCalledWith(
+            logic.actorLogic,
+            expect.arrayContaining([
+                expect.objectContaining({
+                    system: expect.objectContaining({ subType: "infection" }),
+                }),
+            ]),
+        );
+    });
+
+    it("an active infection still halts everything — an untreated wound auto-fails nothing while healing is halted (#1146)", async () => {
+        withEvents();
+        oneCheckpoint();
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        const logic = treatedInjury({
+            levelBase: 5,
+            treatmentDate: null,
+            infection: true,
+        });
+        await logic.healingCheck({} as any);
+        // Halted means no test is resolved at all — not an auto-CF that would
+        // pile a second infection on top of the one already halting healing.
+        expect(create).not.toHaveBeenCalled();
     });
 
     it("makes no test while an active infection halts healing", async () => {
