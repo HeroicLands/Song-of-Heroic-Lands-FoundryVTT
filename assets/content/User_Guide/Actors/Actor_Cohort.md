@@ -37,7 +37,8 @@ A Cohort can hold:
 
 - **Attributes** — group-level characteristics
 - **Skills** — shared capabilities
-- **Gear** — shared equipment
+- **Gear** — the equipment its members have shared with the group (listed, not
+  owned: see _The Shared Gear Tab_ below)
 - **Afflictions** and **Injuries** — group-level conditions
 - **Actions** — group-level procedures
 - **Members** — references to the individuals that make up the group
@@ -48,13 +49,51 @@ The Cohort sheet has these tabs:
 
 - **Facade** — group portrait and description
 - **Members** — the individuals that belong to this cohort
+- **Shared Gear** — what the members have shared with the group
 - **Actions** — available group actions
 - **Effects** — active effects on the group
 
 **Facade**, **Actions**, and **Effects** are the common actor tabs and behave
 exactly as they do on a [[Actor_Being|Being]]; they are documented once, in
 [[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_. The
-**Members** tab is particular to a Cohort.
+**Members** and **Shared Gear** tabs are particular to a Cohort.
+
+# The Shared Gear Tab
+
+**Shared Gear** answers one question: what does this group collectively have to
+hand? It lists every piece of gear the cohort's members carry _and have marked as
+shared with this cohort_ — the party's rope, lantern, tent, and rations, gathered
+into one view no matter whose pack they are actually in.
+
+It shows the same columns as an ordinary [[Item_Gear|Gear]] tab — item, type,
+quantity, weight, quality, durability, notes — plus one more: **Carried By**, the
+member whose sheet the item actually lives on.
+
+## It Is a View, Not a Store
+
+A cohort owns nothing. Nothing on this tab is a copy, and nothing has moved:
+
+- **The item stays on its carrier.** Sharing a coil of rope does not take it out
+  of Aldric's pack; it only makes the group aware he has it. The weight still
+  counts against Aldric's encumbrance, and only Aldric can use it.
+- **The tab is read-only.** There is nothing to drag, nothing to drop, no
+  container to reassign, no carried or worn toggle, and no way to create or
+  delete an item from here. To change an item, open it on the character that
+  carries it.
+- **No combined weight is shown.** A total across half a dozen different packs
+  is nobody's load, so the tab does not pretend to compute one. Each carrier's
+  own Gear tab still reports their encumbrance.
+
+If a member leaves the cohort — or the item is deleted, or you cannot see the
+member's actor — the item simply stops appearing here. Nothing is orphaned.
+
+## Sharing an Item With the Cohort
+
+Sharing is set on the **item**, on the character that carries it: open the gear
+item's **Properties** tab and pick the cohort (or cohorts) in **Shared With**.
+See [[Item_Gear|Gear]] for the control. Because sharing lives on the item, the
+carrier's player is always the one who decides what the group gets to see — the
+cohort can never reach out and claim something.
 
 <!-- TODO: Expand with details on how members are managed, how cohort-level
      skills/attributes interact with individual member capabilities, and how

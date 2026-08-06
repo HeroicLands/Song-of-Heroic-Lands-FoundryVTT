@@ -16,6 +16,13 @@ import {
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
+import {
+    collectSharedGear,
+    type SharedGearEntry,
+} from "@src/document/actor/logic/cohort-shared-gear";
+import type { GearLogic } from "@src/document/item/logic/GearLogic";
+import { fvttActorByRef } from "@src/core/FoundryHelpers";
+import { isGearKind } from "@src/utils/constants";
 
 /**
  * A group of individuals acting as a unit.
@@ -44,6 +51,71 @@ import {
 export class CohortLogic<
     TData extends CohortData = CohortData,
 > extends SohlActorBaseLogic<TData> {
+    /* --------------------------------------------- */
+    /* Membership                                    */
+    /* --------------------------------------------- */
+
+    /**
+     * The logic of every member actor this cohort can resolve.
+     *
+     * Each {@link CohortData.members} entry names its world actor by
+     * `shortcodeOrUuid` — a `system.shortcode` for a world or compendium actor,
+     * a UUID for an unlinked Token Actor — resolved through
+     * {@link fvttActorByRef}. Entries that no longer
+     * resolve (the actor was deleted, or this client cannot see it) are simply
+     * absent; a cohort with a stale member still lists the rest.
+     *
+     * @returns One logic per resolvable member, in `members` order.
+     */
+    get memberLogics(): SohlActorLogic<any>[] {
+        const logics: SohlActorLogic<any>[] = [];
+        for (const member of this.data.members) {
+            const actor = fvttActorByRef(member.shortcodeOrUuid);
+            const logic = actor?.logic as SohlActorLogic<any> | undefined;
+            if (logic) logics.push(logic);
+        }
+        return logics;
+    }
+
+    /* --------------------------------------------- */
+    /* Shared gear                                   */
+    /* --------------------------------------------- */
+
+    /**
+     * Every reference by which a gear item may name **this** cohort in its
+     * `system.sharedWithCohortIds` — the cohort's `shortcode`, its document id,
+     * and its UUID. The inverse of
+     * {@link sohl.document.item.logic.GearLogic.sharedWithCohorts}.
+     *
+     * @returns The non-empty reference keys identifying this cohort.
+     */
+    get sharingRefs(): string[] {
+        return [this.data.shortcode, this.data.id, this.data.uuid].filter(
+            (ref): ref is string => !!ref,
+        );
+    }
+
+    /**
+     * The gear this cohort's members have shared with it (issue #76).
+     *
+     * A cohort carries nothing of its own: this walks each resolvable member and
+     * collects the gear whose sharing list names this cohort, pairing every item
+     * with the member that actually carries it. The result is **read-only** — the
+     * item stays on its custodian, and it is edited there.
+     *
+     * @returns One entry per shared item, ordered by carrier then item name.
+     */
+    get sharedGear(): SharedGearEntry<GearLogic>[] {
+        const carriers = this.memberLogics.map((logic) => ({
+            name: logic.data.name,
+            uuid: logic.data.uuid,
+            gear: logic.allLogics.filter((item): item is GearLogic =>
+                isGearKind(item.data.kind),
+            ),
+        }));
+        return collectSharedGear(carriers, this.sharingRefs);
+    }
+
     /* --------------------------------------------- */
     /* Array update helpers                          */
     /* --------------------------------------------- */

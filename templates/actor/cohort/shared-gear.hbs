@@ -1,0 +1,59 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!-- The cohort's Shared Gear ledger (#76): the gear its MEMBERS carry and
+      have marked as shared with this cohort. Read-only by design — the item
+      lives on its custodian and is edited there — so this ledger carries no
+      add/delete controls, no carried/worn toggles, and no drop target. It
+      shows the same columns as the ordinary Gear tab plus "Carried By", and
+      deliberately reports no combined weight: a sum across separate carriers
+      is nobody's load. --}}
+<section class="tab sharedgear{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="sharedgear">
+    <div class="gear-list gear-list--readonly">
+        <div class="section-legend">
+            <span class="section-legend__name">Shared Gear</span>
+            <span class="section-legend__meta">Carried by members &middot; read-only</span>
+            <span class="section-legend__rule"></span>
+        </div>
+        {{#if sharedGear.length}}
+        <div class="ledger" style="--ledger-cols:1.5rem minmax(130px,1.4fr) minmax(100px,1fr) 5.4rem 2.6rem 3.4rem 2.8rem 2.6rem 1fr">
+            <div class="ledger__head">
+                <div></div>
+                <div>Item</div>
+                <div>Carried By</div>
+                <div class="ledger__head-num">Type</div>
+                <div class="ledger__head-num" data-tooltip="Quantity">Qty</div>
+                <div class="ledger__head-num">Weight</div>
+                <div class="ledger__head-num" data-tooltip="Quality">Qual</div>
+                <div class="ledger__head-num" data-tooltip="Durability">Dur</div>
+                <div>Notes</div>
+            </div>
+            {{#each sharedGear as |item|}}
+            <div class="ledger__row" data-search-name="{{item.name}}" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}">
+                <div class="ledger__icon"><img src="{{item.img}}" alt="{{item.name}}" /></div>
+                <div class="ledger__name" data-tooltip="{{item.name}}">{{item.name}}</div>
+                <div class="ledger__cell ledger__cell--text" data-uuid="{{item.carrierUuid}}" data-tooltip="{{item.carrierName}}">{{item.carrierName}}</div>
+                <div class="ledger__cell ledger__cell--text-center">{{item.typeLabel}}</div>
+                <div class="ledger__cell">{{item.quantity}}</div>
+                <div class="ledger__cell" data-tooltip="{{item.weightDeltaLabel}}" data-tooltip-direction="UP">{{item.weight}}</div>
+                <div class="ledger__cell" data-tooltip="{{item.qualityDeltaLabel}}" data-tooltip-direction="UP">{{item.quality}}</div>
+                <div class="ledger__cell" data-tooltip="{{item.durabilityDeltaLabel}}" data-tooltip-direction="UP">{{item.durability}}</div>
+                <div class="ledger__notes" data-tooltip="{{item.notes}}">{{item.notes}}</div>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <p class="notes">{{localize "SOHL.Cohort.SharedGear.empty"}}</p>
+        {{/if}}
+    </div>
+</section>

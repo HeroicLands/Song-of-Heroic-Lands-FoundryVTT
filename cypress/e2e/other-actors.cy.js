@@ -15,9 +15,9 @@
  * Non-being actor kinds: cohort, structure, vehicle.
  *
  * Each is a `SohlActorDataModel` subtype with its own schema. Containment and
- * schema-field round-trip are GREEN today; derived behavior is a no-op (their
- * Logic classes call `super` only), so capacity/HP/move/invariant computation is
- * RED (#184) and the cohort shared-gear tab is RED (#76).
+ * schema-field round-trip are GREEN today, as is the cohort's read-only Shared
+ * Gear tab (#76); the rest of derived behavior is a no-op (their Logic classes
+ * call `super` only), so capacity/HP/move/invariant computation is RED (#184).
  */
 
 /** Update a document's `system` with a realm-cloned patch; resolves after settle. */
@@ -129,10 +129,113 @@ describe("non-being actors: cohort / structure / vehicle", () => {
         });
     });
 
-    // ------------------------------------------------------------------------ RED
+    // ------------------------------------------------------------ shared gear (#76)
 
-    // RED — blocked by #76: cohort shared-gear tab.
-    it.skip("cohort exposes a shared-gear tab (#76)", () => {});
+    describe("cohort shared gear", () => {
+        /**
+         * Build a cohort whose one member (a being) carries two items: one
+         * shared with the cohort by its shortcode, one not shared at all.
+         * Yields `{ cohort, member, sharedName, privateName }`.
+         */
+        function seedSharedGear() {
+            return cy
+                .createActor("cohort", {
+                    name: "The Wardens",
+                    system: { shortcode: "wardens" },
+                })
+                .then((cohort) =>
+                    cy
+                        .createActor("being", {
+                            name: "Aldric Warden",
+                            system: { shortcode: "aldricw" },
+                        })
+                        .then((member) =>
+                            cy
+                                .createItemOn(member, "miscgear", {
+                                    name: "Shared Coil of Rope",
+                                    system: {
+                                        sharedWithCohortIds: ["wardens"],
+                                    },
+                                })
+                                .then(() =>
+                                    cy.createItemOn(member, "miscgear", {
+                                        name: "Private Dagger",
+                                    }),
+                                )
+                                .then(() =>
+                                    cy.foundry((win) =>
+                                        patchSystem(win, cohort.id, {
+                                            "system.members": [
+                                                { shortcodeOrUuid: "aldricw" },
+                                            ],
+                                        }),
+                                    ),
+                                )
+                                .then(() => ({ cohort, member })),
+                        ),
+                );
+        }
+
+        it("aggregates a member's shared gear onto the cohort's logic", () => {
+            seedSharedGear().then(({ cohort, member }) => {
+                cy.foundry((win) =>
+                    win.game.actors
+                        .get(cohort.id)
+                        .logic.sharedGear.map((e) => ({
+                            name: e.gear.name,
+                            carrier: e.carrierName,
+                            carrierUuid: e.carrierUuid,
+                        })),
+                ).should((rows) => {
+                    expect(rows, "only the shared item").to.have.length(1);
+                    expect(rows[0].name).to.eq("Shared Coil of Rope");
+                    expect(rows[0].carrier).to.eq(member.name);
+                    expect(rows[0].carrierUuid).to.eq(member.uuid);
+                });
+            });
+        });
+
+        it("exposes a shared-gear tab listing the item and its carrier (#76)", () => {
+            seedSharedGear().then(({ cohort, member }) => {
+                cy.openSheet(cohort);
+                cy.switchTab("sharedgear", "primary");
+                cy.get('section.tab[data-tab="sharedgear"]').within(() => {
+                    cy.contains("Shared Coil of Rope").should("exist");
+                    cy.contains(member.name).should("exist");
+                    cy.contains("Private Dagger").should("not.exist");
+                });
+            });
+        });
+
+        it("keeps the tab read-only: no create/delete or carry controls", () => {
+            seedSharedGear().then(({ cohort }) => {
+                cy.openSheet(cohort);
+                cy.switchTab("sharedgear", "primary");
+                cy.get('section.tab[data-tab="sharedgear"]').within(() => {
+                    cy.get("[data-action]").should("not.exist");
+                    cy.get(
+                        ".item-carried, .item-create, .item-contextmenu",
+                    ).should("not.exist");
+                });
+            });
+        });
+
+        it("leaves the shared item on its carrier, not on the cohort", () => {
+            seedSharedGear().then(({ cohort, member }) => {
+                cy.foundry((win) => ({
+                    onCohort: win.game.actors.get(cohort.id).items.size,
+                    onMember: win.game.actors
+                        .get(member.id)
+                        .itemTypes.miscgear.map((i) => i.name),
+                })).should((r) => {
+                    expect(r.onCohort, "cohort embeds nothing").to.eq(0);
+                    expect(r.onMember).to.include("Shared Coil of Rope");
+                });
+            });
+        });
+    });
+
+    // ------------------------------------------------------------------------ RED
 
     // RED — blocked by #184: derived behavior for all three — their Logic classes
     // are no-op `super` today (no capacity/HP/move/invariant computation). Assert

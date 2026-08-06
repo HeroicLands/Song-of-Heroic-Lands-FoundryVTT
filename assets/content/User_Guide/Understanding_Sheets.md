@@ -158,6 +158,13 @@ capabilities.
 The **Members** tab is unique to Cohorts. It shows the individuals that
 belong to the group.
 
+## Shared Gear (Cohorts only)
+
+The **Shared Gear** tab is unique to Cohorts. It lists the gear the group's
+members have marked as shared with the cohort, with the member who carries each
+item. It is a view, not a store: the items stay on their carriers. See
+[[Actor_Cohort|Cohort]].
+
 # Common Item Tabs {#sheets-item-tabs}
 
 Item sheets share a consistent tab layout across all item types:

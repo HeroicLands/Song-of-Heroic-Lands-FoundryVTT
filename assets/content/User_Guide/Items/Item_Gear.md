@@ -38,6 +38,27 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 - **Durability Base:** How durable an item is against damage. Most metal weapons and armor have a durability between 8-12, glass from 4-6, paper 3-5, granite 15-17, etc.
 - **Is Carried:** Whether the item is being carried or not. When carried, the item participates in encumbrance calculations, but it then may also be used. Items that are not carried remain noted on your character sheet, but it is assumed they have been left on the ground or maybe on a cart or other location. An item that is not carried can do nothing for you — see **Carried Gear Only**, below.
 - \*\*Is Equipped:" Certain items have the ability to be equipped, such as armor and weapons. An Equipped Armor actively protects the body locations it is meant to protect, and an equipped weapon is ready to be used. Unequipped weapons and armor that is nevertheless carried might be strapped to the body, slung over the shouldler, or put into a backpack.
+- **Shared With:** The [[Actor_Cohort|Cohorts]] this item is shared with — see
+  **Sharing Gear With a Cohort**, below. The control appears only when the world
+  actually has a Cohort to share with.
+
+# Sharing Gear With a Cohort
+
+A [[Actor_Cohort|Cohort]] — a party, a patrol, a ship's crew — has a **Shared
+Gear** tab that lists what the group collectively has to hand. An item reaches
+that list from here: pick one or more cohorts in **Shared With** on the item's
+**Properties** tab.
+
+Sharing is a **label, not a transfer**. Nothing moves and nothing is copied:
+
+- The item stays on your character, in whatever container it is in, and its
+  weight still counts against _your_ encumbrance.
+- Only you can use it. The cohort's view is read-only — nobody can pick it up,
+  re-container it, or set it down from there.
+- Un-tick the cohort and the item simply stops appearing on that tab.
+
+Because the setting lives on the item, the character carrying it always decides
+what the group gets to see. A cohort can never reach out and claim your gear.
 
 # Intrinsic Actions
 
