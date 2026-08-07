@@ -1,23 +1,22 @@
 name: Build and Test (non-main)
 
+# PR-only: every change reaches `main` through a pull request (the "Protect
+# main" ruleset requires one), so the PR run is the complete signal. It also
+# tests the *merge result* — the branch merged into its base — which is what a
+# `push` run cannot do, and it is the only trigger that covers PRs from forks.
+#
+# NOTE: for `pull_request`, `branches`/`branches-ignore` filter on the PR's
+# BASE branch, not its head. Ignoring `main` here would exclude every PR (they
+# all target `main`).
 on:
-    push:
-        branches-ignore:
-            - main
-            - gh-pages
-    # NOTE: for `pull_request`, `branches`/`branches-ignore` filter on the PR's
-    # BASE branch, not its head. Ignoring `main` here therefore excluded every
-    # PR (they all target `main`), so this workflow only ever ran from `push`
-    # and a PR showed a check only when a push run happened to share its SHA.
     pull_request:
         branches:
             - main
 
-# A branch push and the PR opened from it both trigger this workflow. Key the
-# group on the head branch (identical for either event) so the redundant run is
-# cancelled instead of building the same commit twice.
+# One run per PR: pushing a new commit supersedes the run still working on the
+# previous one instead of letting both build to completion.
 concurrency:
-    group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref || github.ref_name }}
+    group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref }}
     cancel-in-progress: true
 
 jobs:
