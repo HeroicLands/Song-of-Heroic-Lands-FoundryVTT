@@ -1,0 +1,33 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Generic recovery *Check card body — the offer half of a recurring cycle. It
+names the effect that has come due and OFFERS its test; no roll has been made
+and the character is unchanged. The appended button (added by buildActionCard)
+runs the single test. Body only — no buttons here.
+--}}
+<div class="sohl chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">{{effect}}</h3>
+    </header>
+
+    <div class="card-content center">
+        <span>{{localize "SOHL.Chat.RecoveryCheck.due" patient=patientName trauma=traumaName effect=effect}}</span>
+    </div>
+
+    <div class="card-content center">
+        <span class="label">{{localize "SOHL.Chat.Common.severity"}}:</span>
+        <span class="value">{{level}}</span>
+    </div>
+</div>

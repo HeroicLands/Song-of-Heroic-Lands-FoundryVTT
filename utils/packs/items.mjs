@@ -166,11 +166,16 @@ function buildAffliction(fm) {
         category: sohlField(fm, "category", ""),
         isDormant: false,
         isTreated: false,
-        diagnosisBonusBase: Number(sohlField(fm, "diagnosisBonus", 0)) || 0,
         levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
         healingRateBase: Number(sohlField(fm, "healingRateBase", 0)) || 0,
         contagionIndexBase: Number(sohlField(fm, "contagionIndex", 0)) || 0,
         transmission: sohlField(fm, "transmission", "none"),
+        // Days from contracting to onset, rolled by the receiving actor's
+        // Contagion Test (#1183). Unset means no incubation.
+        onsetFormula: sohlField(fm, "onsetFormula", null) || null,
+        // What running the course to the end does to the host (#1128): "death"
+        // or the benign default "cured".
+        outcome: sohlField(fm, "outcome", "cured") || "cured",
     };
 }
 

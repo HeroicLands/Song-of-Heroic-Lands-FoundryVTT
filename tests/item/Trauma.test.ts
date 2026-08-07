@@ -61,16 +61,44 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
         return logic;
     }
 
+    /** Settle the healing roll at `level` so the test reaches its offer. */
+    function stubRoll(level: number) {
+        return vi
+            .spyOn(MasteryLevelModifier.prototype, "successTest")
+            .mockResolvedValue({ normSuccessLevel: level } as any);
+    }
+
+    /** A treated injury — the only shape the healing cycle runs on (#1181). */
+    function injury(overrides: Record<string, unknown> = {}) {
+        return trauma({
+            subType: "injury",
+            healingRateBase: 4,
+            treatmentDate: 1,
+            ...overrides,
+        });
+    }
+
     it("healingCheck offers the next occurrence and, on accept, schedules it via the generic store", async () => {
         const { schedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
-        const logic = trauma({
+        const logic = injury({
             levelBase: 3,
             healingCheckDurationFormula: "500",
         });
         logic.initialize();
-        await logic.healingCheck(RESCHEDULE_YES);
-        expect(schedule).toHaveBeenCalledWith(logic.item, "healingCheck", 500);
+        stubRoll(MARGINAL_FAILURE);
+        await logic.healingTest(RESCHEDULE_YES);
+        // Nothing is armed, so the occurrence's due time is "now" (1000).
+        expect(schedule).toHaveBeenCalledWith(
+            logic.item,
+            "healingCheck",
+            500,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            1000,
+        );
         // The executor persists the rolled interval; the "last run" RECORD is a
         // generic stamp applied at the action chokepoint (SohlAction.execute),
         // NOT here — so the executor no longer writes any last*Date.
@@ -84,21 +112,22 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
     it("healingCheck declines the offer and clears the schedule (default No / decline)", async () => {
         const { unschedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
-        const logic = trauma({
+        const logic = injury({
             levelBase: 3,
             healingCheckDurationFormula: "500",
         });
         logic.initialize();
-        await logic.healingCheck(RESCHEDULE_NO);
+        stubRoll(MARGINAL_FAILURE);
+        await logic.healingTest(RESCHEDULE_NO);
         expect(unschedule).toHaveBeenCalledWith(logic.item, "healingCheck");
     });
 
     it("healingCheck ends the recurrence (unschedule, no offer) once the wound has healed to 0", async () => {
         const { schedule, unschedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
-        const logic = trauma({ levelBase: 0 });
+        const logic = injury({ levelBase: 0 });
         logic.initialize();
-        await logic.healingCheck(RESCHEDULE_YES);
+        await logic.healingTest(RESCHEDULE_YES);
         expect(unschedule).toHaveBeenCalledWith(logic.item, "healingCheck");
         expect(schedule).not.toHaveBeenCalled();
     });
@@ -125,7 +154,7 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
         expect(unschedule).not.toHaveBeenCalled();
     });
 
-    it("bloodLossAdvanceCheck offers the next blood-loss advance on the store", async () => {
+    it("bloodLossAdvanceTest offers the next advance, anchored on this occurrence (#1181)", async () => {
         const { schedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const logic = trauma({
@@ -133,28 +162,69 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
             bloodLossAdvanceDurationFormula: "300",
         });
         logic.initialize();
-        await logic.bloodLossAdvanceCheck(RESCHEDULE_YES);
+        await logic.bloodLossAdvanceTest(RESCHEDULE_YES);
         expect(schedule).toHaveBeenCalledWith(
             logic.item,
             "bloodLossAdvanceCheck",
             300,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            2000,
         );
     });
 
-    it("healingCheck catches up over every elapsed interval from the store anchor (#481)", async () => {
+    it("healingTest anchors the next occurrence on THIS one's due time, not on now (#1181)", async () => {
         const { schedule } = withSchedule();
+        // Due at 1000 + 500 = 1500, but not performed until 3200. The next
+        // occurrence must anchor at 1500 (so it falls at 2000), NOT at 3200.
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(3200);
         const logic = trauma({
+            subType: "injury",
             levelBase: 3,
+            healingRateBase: 4,
+            treatmentDate: 1,
             healingCheckDurationFormula: "500",
             ...sched("healingCheck", 1000, 500),
         });
         logic.initialize();
-        await logic.healingCheck(RESCHEDULE_YES);
-        // Elapsed checkpoints in (1000, 3200] at 500s: 1500,2000,2500,3000 — a
-        // non-injury trauma applies no rolls but still catches up; the next
-        // occurrence is offered at the freshly rolled interval (500).
-        expect(schedule).toHaveBeenCalledWith(logic.item, "healingCheck", 500);
+        logic.evaluate();
+        logic.finalize();
+        stubRoll(MARGINAL_FAILURE);
+        await logic.healingTest(RESCHEDULE_YES);
+        expect(schedule).toHaveBeenCalledWith(
+            logic.item,
+            "healingCheck",
+            500,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            1500,
+        );
+    });
+
+    it("healingCheck only posts a card — it rolls nothing and changes nothing (#1181)", async () => {
+        const { schedule } = withSchedule();
+        const post = vi
+            .spyOn(ActionCard, "postActionCard")
+            .mockResolvedValue(undefined as never);
+        const logic = trauma({
+            subType: "injury",
+            levelBase: 3,
+            healingRateBase: 4,
+            ...sched("healingCheck", 1000, 500),
+        });
+        logic.initialize();
+        (logic.item.update as any).mockClear();
+        await logic.healingCheck({} as any);
+        expect(post).toHaveBeenCalledTimes(1);
+        expect(post.mock.calls[0][1].buttons).toMatchObject({
+            action: "healingtest",
+        });
+        expect(logic.item.update).not.toHaveBeenCalled();
+        expect(schedule).not.toHaveBeenCalled();
     });
 });
 
@@ -476,7 +546,7 @@ describe("Blood Loss Advance Test effect (#487)", () => {
                 .mockResolvedValue([]);
             mockRoll(sl);
             const { logic, actor } = bleeder();
-            await logic.bloodLossAdvanceCheck({} as any);
+            await logic.bloodLossAdvanceTest({} as any);
             expect((actor.logic as any).advanceShockState).toHaveBeenCalledWith(
                 blp,
             );
@@ -499,7 +569,7 @@ describe("Blood Loss Advance Test effect (#487)", () => {
             .mockResolvedValue([]);
         mockRoll(CRITICAL_SUCCESS);
         const { logic, actor } = bleeder();
-        await logic.bloodLossAdvanceCheck({} as any);
+        await logic.bloodLossAdvanceTest({} as any);
         expect((actor.logic as any).advanceShockState).not.toHaveBeenCalled();
         expect(create).not.toHaveBeenCalled();
     });
@@ -513,22 +583,25 @@ describe("Blood Loss Advance Test effect (#487)", () => {
         ).mockResolvedValue([]);
         const spy = mockRoll(MARGINAL_SUCCESS);
         const { logic } = bleeder(72);
-        await logic.bloodLossAdvanceCheck({} as any);
+        await logic.bloodLossAdvanceTest({} as any);
         expect((spy.mock.instances[0] as any).base).toBe(72);
     });
 
-    it("applies one Blood Loss Advance Test per elapsed checkpoint", async () => {
+    it("applies exactly ONE advance per invocation, however much time elapsed (#1181)", async () => {
         withEvents();
-        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1600); // 2 checkpoints
+        // Two intervals have gone by; the old executor advanced twice in one
+        // pass. One check yields one test — a bleeding wound left unattended
+        // costs one advance per consented test, not a silent cascade.
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1600);
         vi.spyOn(
             FoundryHelpersMock,
             "fvttCreateEmbeddedItems",
         ).mockResolvedValue([]);
         const spy = mockRoll(MARGINAL_FAILURE, MARGINAL_FAILURE);
         const { logic, actor } = bleeder();
-        await logic.bloodLossAdvanceCheck({} as any);
-        expect(spy).toHaveBeenCalledTimes(2);
-        expect((actor.logic as any).advanceShockState).toHaveBeenCalledTimes(2);
+        await logic.bloodLossAdvanceTest({} as any);
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect((actor.logic as any).advanceShockState).toHaveBeenCalledTimes(1);
     });
 });
 
@@ -578,6 +651,11 @@ describe("Injury Healing Test effect (#486)", () => {
         );
         (logic.item as any).uuid = "Item.injury00000";
         logic.initialize();
+        logic.evaluate();
+        // `healing` is built in finalize (it needs the actor's settled Healing
+        // Base), and it is what decides whether a die is cast at all — so the
+        // fixture must run the full lifecycle, as production does.
+        logic.finalize();
         if (infection) {
             actor.itemTypes = {
                 [ITEM_KIND.TRAUMA]: [
@@ -612,7 +690,7 @@ describe("Injury Healing Test effect (#486)", () => {
         oneCheckpoint();
         mockRoll(MARGINAL_SUCCESS);
         const logic = treatedInjury({ levelBase: 5 });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 4 }),
         );
@@ -623,7 +701,7 @@ describe("Injury Healing Test effect (#486)", () => {
         oneCheckpoint();
         mockRoll(CRITICAL_SUCCESS);
         const logic = treatedInjury({ levelBase: 5 });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 3 }),
         );
@@ -634,7 +712,7 @@ describe("Injury Healing Test effect (#486)", () => {
         oneCheckpoint();
         mockRoll(MARGINAL_FAILURE);
         const mf = treatedInjury({ levelBase: 5 });
-        await mf.healingCheck({} as any);
+        await mf.healingTest({} as any);
         expect(mf.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 5 }),
         );
@@ -644,33 +722,36 @@ describe("Injury Healing Test effect (#486)", () => {
         oneCheckpoint();
         mockRoll(CRITICAL_FAILURE);
         const cf = treatedInjury({ levelBase: 5 });
-        await cf.healingCheck({} as any);
+        await cf.healingTest({} as any);
         expect(cf.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 5 }),
         );
     });
 
-    it("applies each elapsed checkpoint in sequence (stateful)", async () => {
+    it("rolls exactly ONE test per invocation, however much time elapsed (#1181)", async () => {
         withEvents();
-        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000); // 2 checkpoints
-        mockRoll(MARGINAL_SUCCESS, MARGINAL_SUCCESS);
+        // Four intervals have gone by; the old executor would have rolled four
+        // times in one pass. One check yields one test.
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(4000);
+        const spy = mockRoll(MARGINAL_SUCCESS, MARGINAL_SUCCESS);
         const logic = treatedInjury({ levelBase: 5 });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(logic.item.update).toHaveBeenCalledWith(
-            expect.objectContaining({ "system.levelBase": 3 }),
+            expect.objectContaining({ "system.levelBase": 4 }),
         );
     });
 
     it("stops testing once the injury heals to 0", async () => {
         withEvents();
-        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000); // 2 checkpoints
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const spy = mockRoll(MARGINAL_SUCCESS, MARGINAL_SUCCESS);
         const logic = treatedInjury({ levelBase: 1 });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 0 }),
         );
-        expect(spy).toHaveBeenCalledTimes(1); // second checkpoint not tested
+        expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it("casts no dice for an untreated injury — it supplies the 00 face instead (#1148)", async () => {
@@ -683,7 +764,7 @@ describe("Injury Healing Test effect (#486)", () => {
             treatmentDate: null,
             healingRateBase: null,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         // The test still runs — it is handed a pre-seeded die rather than
         // short-circuited — and that die is the 00 face (100), which exceeds
         // every ordinary target and ends in a critical-failure digit, so it is
@@ -703,7 +784,7 @@ describe("Injury Healing Test effect (#486)", () => {
             treatmentDate: null,
             healingRateBase: null,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 5 }),
         );
@@ -716,7 +797,7 @@ describe("Injury Healing Test effect (#486)", () => {
         const spy = mockRoll(CRITICAL_FAILURE);
         // A stored treatment date cannot make a rate-less wound treated.
         const logic = treatedInjury({ levelBase: 5, healingRateBase: null });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(spy.mock.calls[0][0].scope.roll?.total).toBe(100);
         expect(cast).not.toHaveBeenCalled();
         expect(logic.item.update).toHaveBeenCalledWith(
@@ -729,7 +810,7 @@ describe("Injury Healing Test effect (#486)", () => {
         oneCheckpoint();
         const spy = mockRoll(MARGINAL_SUCCESS);
         const logic = treatedInjury({ levelBase: 5, healingRateBase: 3 });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         // A determined rate is tested normally — no die is supplied.
         expect(spy.mock.calls[0][0].scope.roll).toBeUndefined();
         expect(logic.item.update).toHaveBeenCalledWith(
@@ -752,7 +833,7 @@ describe("Injury Healing Test effect (#486)", () => {
             treatmentDate: null,
             healingRateBase: null,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(create).toHaveBeenCalledWith(
             logic.actorLogic,
             expect.arrayContaining([
@@ -774,7 +855,7 @@ describe("Injury Healing Test effect (#486)", () => {
             treatmentDate: null,
             infection: true,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         // Halted means no test is resolved at all — not an auto-CF that would
         // pile a second infection on top of the one already halting healing.
         expect(create).not.toHaveBeenCalled();
@@ -785,11 +866,13 @@ describe("Injury Healing Test effect (#486)", () => {
         oneCheckpoint();
         const spy = mockRoll(MARGINAL_SUCCESS);
         const logic = treatedInjury({ levelBase: 5, infection: true });
-        await logic.healingCheck({} as any);
+        (logic.item.update as any).mockClear();
+        const result = await logic.healingTest({} as any);
+        // No roll, no progress, and no write — but the recurrence survives, so
+        // healing resumes once the infection is beaten (#1181).
         expect(spy).not.toHaveBeenCalled();
-        expect(logic.item.update).toHaveBeenCalledWith(
-            expect.objectContaining({ "system.levelBase": 5 }),
-        );
+        expect(result).toEqual({ level: 5 });
+        expect(logic.item.update).not.toHaveBeenCalled();
     });
 
     it("does not apply the injury healing test to a non-injury trauma", async () => {
@@ -800,7 +883,7 @@ describe("Injury Healing Test effect (#486)", () => {
             levelBase: 5,
             subType: TRAUMA_SUBTYPE.FEAR,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(spy).not.toHaveBeenCalled();
     });
 });
@@ -855,7 +938,7 @@ describe("Infection lifecycle (#557)", () => {
                 .mockResolvedValue([]);
             mockRoll(CRITICAL_FAILURE);
             const logic = injury(true, 3);
-            await logic.healingCheck({} as any);
+            await logic.healingTest({} as any);
             expect(create).toHaveBeenCalledWith(logic.actorLogic, [
                 expect.objectContaining({
                     system: expect.objectContaining({
@@ -874,7 +957,7 @@ describe("Infection lifecycle (#557)", () => {
                 .mockResolvedValue([]);
             mockRoll(CRITICAL_FAILURE);
             const logic = injury(false);
-            await logic.healingCheck({} as any);
+            await logic.healingTest({} as any);
             expect(create).not.toHaveBeenCalled();
         });
 
@@ -892,7 +975,7 @@ describe("Infection lifecycle (#557)", () => {
             mockRoll(CRITICAL_FAILURE);
             const logic = injury(true, 3);
             // A pre-answered scheduling context accepts the course offer.
-            await logic.healingCheck({
+            await logic.healingTest({
                 skipDialog: true,
                 scope: { schedule: true },
             } as any);
@@ -940,7 +1023,7 @@ describe("Infection lifecycle (#557)", () => {
             ).mockResolvedValue([]);
             mockRoll(MARGINAL_SUCCESS); // HR 3 → 4
             const { logic } = infection({ healingRateBase: 3 });
-            await logic.courseCheck({} as any);
+            await logic.courseTest({} as any);
             expect(logic.item.update).toHaveBeenCalledWith(
                 expect.objectContaining({ "system.healingRateBase": 4 }),
             );
@@ -954,7 +1037,7 @@ describe("Infection lifecycle (#557)", () => {
             ).mockResolvedValue([]);
             mockRoll(CRITICAL_FAILURE); // HR 1 → -1, floored to 1
             const { logic, actor } = infection({ healingRateBase: 1 });
-            await logic.courseCheck({} as any);
+            await logic.courseTest({} as any);
             expect(logic.item.update).toHaveBeenCalledWith(
                 expect.objectContaining({ "system.healingRateBase": 1 }),
             );
@@ -968,7 +1051,7 @@ describe("Infection lifecycle (#557)", () => {
                 .mockResolvedValue([]);
             mockRoll(MARGINAL_FAILURE); // HR 2 → 1 (band 1–2 → 10)
             const { logic } = infection({ healingRateBase: 2 });
-            await logic.courseCheck({} as any);
+            await logic.courseTest({} as any);
             expect(create).toHaveBeenCalledWith(logic.actorLogic, [
                 expect.objectContaining({
                     system: expect.objectContaining({
@@ -990,7 +1073,7 @@ describe("Infection lifecycle (#557)", () => {
                 .mockResolvedValue([]);
             mockRoll(CRITICAL_SUCCESS); // HR 5 → 7
             const { logic } = infection({ healingRateBase: 5 });
-            await logic.courseCheck({} as any);
+            await logic.courseTest({} as any);
             expect(create).not.toHaveBeenCalled(); // no weakness at HR ≥ 6
             expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
         });
@@ -1080,7 +1163,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
         withEvents();
         mockRoll(MARGINAL_SUCCESS); // HR 4 → 5
         const { logic } = lasting({ healingRateBase: 4 });
-        await logic.courseCheck({} as any);
+        await logic.courseTest({} as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.healingRateBase": 5 }),
         );
@@ -1090,7 +1173,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
         withEvents();
         const spy = mockRoll(MARGINAL_SUCCESS);
         const { logic } = lasting({ healingRateBase: 4, hb: 4, fatigue: 5 });
-        await logic.courseCheck({} as any);
+        await logic.courseTest({} as any);
         expect((spy.mock.instances[0] as any).base).toBe(16); // 4 × 4
         expect(spy.mock.calls[0][0].scope.situationalModifier).toBe(-5);
     });
@@ -1100,7 +1183,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
         const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
         mockRoll(CRITICAL_FAILURE); // HR 1 → -1
         const { logic, actor } = lasting({ healingRateBase: 1 });
-        await logic.courseCheck({} as any);
+        await logic.courseTest({} as any);
         expect((actor.logic as any).setShockState).toHaveBeenCalledWith(4); // DEAD
         expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
     });
@@ -1110,7 +1193,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
         const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
         mockRoll(CRITICAL_SUCCESS); // HR 5 → 7 (≥6)
         const { logic, actor } = lasting({ healingRateBase: 5 });
-        await logic.courseCheck({} as any);
+        await logic.courseTest({} as any);
         expect((actor.logic as any).setShockState).toHaveBeenCalledWith(0); // NONE
         expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
     });
@@ -1123,7 +1206,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
             healingRateBase: 5,
             otherComaHr: 3,
         });
-        await logic.courseCheck({} as any);
+        await logic.courseTest({} as any);
         expect((actor.logic as any).setShockState).toHaveBeenCalledWith(3); // UNCONSCIOUS
     });
 
@@ -1141,7 +1224,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
             spanHrs: 48,
             contractDate: 0,
         });
-        await logic.courseCheck({} as any);
+        await logic.courseTest({} as any);
         expect(create).toHaveBeenCalledWith(logic.actorLogic, [
             expect.objectContaining({
                 system: expect.objectContaining({ category: "weakness" }),
@@ -1214,7 +1297,7 @@ describe("Permanent impairment on heal (#554)", () => {
         const { logic, applyPermanentImpairment } = eligibleInjury({
             spanDays: 20,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         // 20 days → −5, on the skull's body part.
         expect(applyPermanentImpairment).toHaveBeenCalledWith("skull", -5);
     });
@@ -1226,7 +1309,7 @@ describe("Permanent impairment on heal (#554)", () => {
             eligible: false,
             spanDays: 40,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(applyPermanentImpairment).not.toHaveBeenCalled();
     });
 
@@ -1236,7 +1319,7 @@ describe("Permanent impairment on heal (#554)", () => {
         const { logic, applyPermanentImpairment } = eligibleInjury({
             spanDays: 10,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(applyPermanentImpairment).not.toHaveBeenCalled();
     });
 
@@ -1247,7 +1330,7 @@ describe("Permanent impairment on heal (#554)", () => {
             levelBase: 3,
             spanDays: 40,
         });
-        await logic.healingCheck({} as any);
+        await logic.healingTest({} as any);
         expect(applyPermanentImpairment).not.toHaveBeenCalled();
     });
 });
@@ -1813,7 +1896,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
             3,
             "indefinite",
         );
-        await logic.psycheRecovery(NO);
+        await logic.psycheRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 2 }),
         );
@@ -1826,7 +1909,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
             1,
             "indefinite",
         );
-        await logic.psycheRecovery(NO);
+        await logic.psycheRecoveryTest(NO);
         expect(logic.item.delete).toHaveBeenCalledTimes(1);
     });
 
@@ -1837,7 +1920,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
             2,
             "indefinite",
         );
-        await logic.psycheRecovery(NO);
+        await logic.psycheRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.category": "permanent" }),
         );
@@ -1851,7 +1934,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
             2,
             "permanent",
         );
-        await logic.psycheRecovery(NO);
+        await logic.psycheRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 3 }),
         );
@@ -1860,7 +1943,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
     it("Aural Shock recovery reduces AS by 2 on a critical success", async () => {
         mockRoll(CRITICAL_SUCCESS);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 3);
-        await logic.auralShockRecovery(NO);
+        await logic.auralShockRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 1 }),
         );
@@ -1872,7 +1955,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
             .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
             .mockResolvedValue([]);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 2);
-        await logic.auralShockRecovery(NO);
+        await logic.auralShockRecoveryTest(NO);
         expect(create).toHaveBeenCalledTimes(1);
         expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
             system: {
@@ -1888,14 +1971,14 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
     it("recovers from Aural Shock (removes it) when AS reaches 0", async () => {
         mockRoll(MARGINAL_SUCCESS);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 1);
-        await logic.auralShockRecovery(NO);
+        await logic.auralShockRecoveryTest(NO);
         expect(logic.item.delete).toHaveBeenCalledTimes(1);
     });
 
     it("Pall recovery reduces PSL by 2 on a critical success", async () => {
         mockRoll(CRITICAL_SUCCESS);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 4);
-        await logic.pallRecovery(NO);
+        await logic.pallRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 2 }),
         );
@@ -1904,14 +1987,14 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
     it("expels the Pall (removes it) when PSL reach 0", async () => {
         mockRoll(CRITICAL_SUCCESS);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 2);
-        await logic.pallRecovery(NO);
+        await logic.pallRecoveryTest(NO);
         expect(logic.item.delete).toHaveBeenCalledTimes(1);
     });
 
     it("a Marginal-Failure Pall recovery knocks the victim unconscious", async () => {
         mockRoll(MARGINAL_FAILURE);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 3);
-        await logic.pallRecovery(NO);
+        await logic.pallRecoveryTest(NO);
         expect((logic.actorLogic as any).setShockState).toHaveBeenCalled();
     });
 
@@ -1921,7 +2004,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
             .spyOn(ActionCard, "postActionCard")
             .mockResolvedValue(undefined as any);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 3);
-        await logic.pallRecovery(NO);
+        await logic.pallRecoveryTest(NO);
         expect(post).toHaveBeenCalledTimes(1);
         expect(logic.item.delete).not.toHaveBeenCalled();
     });
@@ -2046,7 +2129,7 @@ describe("interactive Blood Stoppage flow (#547)", () => {
             scheduleAt: vi.fn(),
             unsubscribe: vi.fn(),
         };
-        await logic.bloodLossAdvanceCheck({
+        await logic.bloodLossAdvanceTest({
             skipDialog: true,
             scope: { schedule: true },
         } as any);

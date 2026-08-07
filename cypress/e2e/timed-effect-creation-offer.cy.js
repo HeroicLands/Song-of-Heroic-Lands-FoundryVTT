@@ -204,14 +204,15 @@ describe("Timed-effect creation offer (#595)", () => {
                 // Force that healing test's d100 to 100 — a critical failure that,
                 // on an infectable wound, contracts an infection.
                 win.sohl.entity.roll.SimpleRoll.forceValues(100);
-                win.__perf = wound.logic.executeAction("healingCheck", {});
+                // The check only OFFERS now; the test is what rolls (#1181).
+                win.__perf = wound.logic.executeAction("healingtest", {});
                 return null;
             });
             // Two offers fire in order: the new infection's course check, then the
             // wound's next healing check. Answer each by content (per-effect
             // titles, #595): schedule the course (the subject), decline the
             // healing reschedule (incidental).
-            cy.submitDialogMatching("Recovery Check", "yes");
+            cy.submitDialogMatching("Course Check", "yes");
             cy.submitDialogMatching("Healing Check", "no");
             cy.foundry((win) =>
                 win.__perf.then(() => {

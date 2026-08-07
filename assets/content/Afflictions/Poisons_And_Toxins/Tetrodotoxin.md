@@ -15,7 +15,6 @@ sohl:
     kbcat: poisontoxin
     archetype: 0
     subType: poisontoxin
-    diagnosisBonus: 0
     levelBase: 1
     healingRateBase: 3
     contagionIndex: 3

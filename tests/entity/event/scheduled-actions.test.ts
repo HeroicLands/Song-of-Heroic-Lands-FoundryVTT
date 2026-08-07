@@ -427,3 +427,43 @@ describe("unscheduleAction (clear + unsubscribe)", () => {
         expect(queue.unsubscribe).toHaveBeenCalledWith(doc.uuid, "heal");
     });
 });
+
+describe("schedule anchoring (#1181)", () => {
+    /** A minimal schedulable document. */
+    function doc() {
+        return {
+            uuid: "Item.wound1",
+            system: { scheduledActions: [] as ScheduledAction[] },
+            logic: {},
+            update: vi.fn(async (data: any) => data),
+        } as any;
+    }
+
+    it("anchors the entry at the supplied time, not at 'now'", async () => {
+        const d = doc();
+        const q = mockQueue();
+        // A test due at day 10 but performed at day 22 anchors the NEXT one at
+        // day 10 — so it falls due at day 15, not day 27.
+        await scheduleAction(d, q, "healingCheck", 5, undefined, 10);
+        const [written] = d.update.mock.calls[0];
+        expect(written["system.scheduledActions"][0].anchor).toBe(10);
+        expect(q.scheduleAt).toHaveBeenCalledWith(
+            "Item.wound1",
+            "healingCheck",
+            15,
+            undefined,
+            undefined,
+        );
+    });
+
+    it("a past-due fire time is armed as due, not silently dropped", async () => {
+        const d = doc();
+        const q = mockQueue();
+        // Anchor 10 + interval 5 = 15, which is already behind the current
+        // world time — the queue must still receive it so its card can post.
+        await scheduleAction(d, q, "healingCheck", 5, undefined, 10);
+        const fireAt = q.scheduleAt.mock.calls[0][2];
+        expect(fireAt).toBe(15);
+        expect(d.update).toHaveBeenCalled();
+    });
+});
