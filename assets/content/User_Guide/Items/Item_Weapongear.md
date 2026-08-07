@@ -229,13 +229,12 @@ Test Result_.
 - **A mode needs enough hands.** A mode whose **Min Parts** exceeds the number of
   limbs gripping the weapon is not listed on the Combat tab at all.
 - **Block and Counterstrike need a melee mode.** You cannot parry with a loosed
-  arrow, so the Combat tab's Missile ledger has no Blk or CX columns.
-
-> **Known gap.** On a weapon whose _only_ strike mode is a missile mode — a plain
-> bow or sling — **Block** and **Counterstrike** are still offered in the action
-> list, and invoking one does nothing at all: no roll, no card, and no message
-> explaining why (issue #1137). A weapon with both a melee and a missile mode is
-> unaffected; it blocks with its melee mode as expected.
+  arrow, so the Combat tab's Missile ledger has no Blk or CX columns, and a weapon
+  whose _only_ strike mode is a missile mode — a plain bow or sling — does not
+  offer the two actions at all. A weapon with both a melee and a missile mode keeps
+  them and blocks with its melee mode. If a block or counterstrike still reaches a
+  missile mode some other way (a macro, say), SoHL says so on screen rather than
+  doing nothing.
 
 **Assisted, not automated.** These actions roll the test and report it. They do not
 move a combatant, spend an initiative, choose a target, or apply an injury to

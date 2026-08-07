@@ -432,8 +432,8 @@ and holding **Shift** while you click skips the pre-roll dialog.
 ## Where they are unavailable
 
 - **Block and Counterstrike need a melee mode.** A missile technique — a flung
-  quill, a spat venom — has no defense to roll, so those two actions do nothing on
-  it. The Combat tab's Missile ledger has no Blk or CX columns at all.
+  quill, a spat venom — has no defense to roll, so those two actions are not
+  offered on it. The Combat tab's Missile ledger has no Blk or CX columns at all.
 - **A mode can be switched off individually.** A melee technique whose attack,
   block, or counterstrike has been disabled shows a ✗ in that column instead of a
   rollable value.

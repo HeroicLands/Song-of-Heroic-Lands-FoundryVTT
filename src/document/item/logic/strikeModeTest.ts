@@ -51,6 +51,23 @@ export interface StrikeModeCombatant {
 }
 
 /**
+ * Whether the item exposes at least one **melee** strike mode.
+ *
+ * Block and counterstrike are melee-defense tests — a missile mode carries no
+ * block or counterstrike modifier — so an item with no melee mode (a bow, a
+ * sling, a missile combat technique) can never run them, and those actions are
+ * gated on this rather than offered as dead entries (#1137). The gate is "has at
+ * least one melee mode", not "is melee-only": a mixed weapon (a spear that
+ * thrusts *and* throws) keeps offering them, and the picker resolves the mode.
+ *
+ * @param logic - The weapon or combat-technique logic exposing the strike modes.
+ * @returns `true` when at least one strike mode is melee.
+ */
+export function anyMeleeStrikeMode(logic: StrikeModeCombatant): boolean {
+    return logic.strikeModes.some((mode) => mode.isMelee);
+}
+
+/**
  * Resolve which strike mode a combat action should act on, per the hybrid rule:
  *
  * 1. If `context.scope.strikeModeId` is set, use that mode (the combat-tab
@@ -159,9 +176,16 @@ export async function runStrikeModeTest(
 
     const modifier = selectStrikeModeModifier(strikeMode, testKind);
     if (!modifier) {
-        sohl.log.warn(
-            `Strike mode "${strikeMode.name}" does not support a "${testKind}" test.`,
-        );
+        // On screen, not console-only: the user invoked this and nothing else
+        // will happen, so they are owed the reason (#1137). The action itself is
+        // normally hidden in this case (see {@link anyMeleeStrikeMode}), but a
+        // macro, a chat-card button, or a mixed weapon whose picker landed on a
+        // missile mode can still reach here.
+        sohl.log.uiWarn("SOHL.StrikeMode.unsupportedTest", {
+            item: logic.name,
+            mode: strikeMode.name,
+            test: sohl.i18n.localize(`SOHL.Skill.Action.${testKind}Test`),
+        });
         return false;
     }
 

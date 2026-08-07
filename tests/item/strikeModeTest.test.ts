@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import {
     runStrikeModeTest,
     resolveStrikeMode,
+    anyMeleeStrikeMode,
 } from "@src/document/item/logic/strikeModeTest";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
@@ -187,8 +188,10 @@ describe("runStrikeModeTest", () => {
         expect(sm.attack.successTest).toHaveBeenCalledWith(ctx);
     });
 
-    it("returns false for a block on a missile mode", async () => {
-        const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
+    it("returns false for a block on a missile mode, telling the user why (#1137)", async () => {
+        const uiWarn = vi
+            .spyOn(sohl.log, "uiWarn")
+            .mockImplementation(() => {});
         const sm = missileMode("m1", "Throw");
         const result = await runStrikeModeTest(
             combatant("Javelin", [sm]),
@@ -197,7 +200,26 @@ describe("runStrikeModeTest", () => {
         );
         expect(result).toBe(false);
         expect(sm.attack.successTest).not.toHaveBeenCalled();
-        expect(warn).toHaveBeenCalled();
+        // On screen, not console-only: an invoked action that can do nothing
+        // must say so (#1137).
+        expect(uiWarn).toHaveBeenCalledWith(
+            "SOHL.StrikeMode.unsupportedTest",
+            expect.objectContaining({ item: "Javelin", mode: "Throw" }),
+        );
+    });
+
+    it("returns false for a counterstrike on a missile mode, telling the user why (#1137)", async () => {
+        const uiWarn = vi
+            .spyOn(sohl.log, "uiWarn")
+            .mockImplementation(() => {});
+        const sm = missileMode("m1", "Throw");
+        const result = await runStrikeModeTest(
+            combatant("Sling", [sm]),
+            "counterstrike",
+            ctxWith("m1"),
+        );
+        expect(result).toBe(false);
+        expect(uiWarn).toHaveBeenCalled();
     });
 
     it("returns false when no strike mode resolves", async () => {
@@ -208,5 +230,40 @@ describe("runStrikeModeTest", () => {
             ctxWith(),
         );
         expect(result).toBe(false);
+    });
+});
+
+/*
+ * The gate the block/counterstrike actions hang their visibility on (#1137):
+ * an item with no melee strike mode can never block or counterstrike, so those
+ * actions must not be offered on it. A mixed weapon (thrust + throw) keeps
+ * them — the picker resolves which mode.
+ */
+describe("anyMeleeStrikeMode (#1137)", () => {
+    it("is false for a missile-only item", () => {
+        expect(
+            anyMeleeStrikeMode(combatant("Bow", [missileMode("m1", "Shoot")])),
+        ).toBe(false);
+    });
+
+    it("is true for a melee-only item", () => {
+        expect(
+            anyMeleeStrikeMode(combatant("Sword", [meleeMode("m1", "Cut")])),
+        ).toBe(true);
+    });
+
+    it("is true for a mixed item (thrust and throw)", () => {
+        expect(
+            anyMeleeStrikeMode(
+                combatant("Spear", [
+                    missileMode("m1", "Throw"),
+                    meleeMode("m2", "Thrust"),
+                ]),
+            ),
+        ).toBe(true);
+    });
+
+    it("is false when the item has no strike modes at all", () => {
+        expect(anyMeleeStrikeMode(combatant("Rope", []))).toBe(false);
     });
 });

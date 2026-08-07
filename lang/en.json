@@ -1614,6 +1614,7 @@
     "SOHL.StrikeMode.picker.prompt": "Select which strike mode to use:",
     "SOHL.StrikeMode.picker.select": "Use",
     "SOHL.StrikeMode.picker.title": "Choose Strike Mode",
+    "SOHL.StrikeMode.unsupportedTest": "{item}: the \"{mode}\" strike mode cannot perform a {test}.",
     "SOHL.StrikeModeConfig.save": "Save",
     "SOHL.StrikeModeConfig.title": "Edit Strike Mode",
     "SOHL.SuccessTestResult.CriticalFailure": "Critical Failure",

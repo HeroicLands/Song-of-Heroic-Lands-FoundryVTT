@@ -7,6 +7,8 @@ import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 
 /* ------------------------------------------------------------------ */
 /* Class-level WeaponGearLogic tests                                  */
@@ -577,6 +579,103 @@ describe("WeaponGearLogic", () => {
                     "system.strikeModes": [replacement, second],
                 });
             });
+        });
+    });
+});
+
+/*
+ * Block and counterstrike are melee-defense tests. A weapon with no melee
+ * strike mode (a bow, a sling) can never run them, so the actions must not be
+ * offered on it; a mixed weapon (thrust + throw) keeps them (#1137).
+ */
+describe("WeaponGearLogic — melee-defense gating (#1137)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** Evaluate an intrinsic action's `visible` source against a stub scope. */
+    function evalVisible(shortcode: string, itemLogic: unknown): boolean {
+        const def = WeaponGearLogic.defineIntrinsicActions().find(
+            (d) => d.shortcode === shortcode,
+        )!;
+        const scope = expressionScopes.require("action.visible");
+        const expression = new SafeExpression(
+            { source: String(def.visible) },
+            { parent: itemLogic as any, scope },
+        );
+        return !!expression.evaluate(
+            scope.bind({
+                element: {} as any,
+                itemLogic,
+                actorLogic: undefined,
+                isGM: true,
+            }),
+        );
+    }
+
+    /** A stub item logic for the visibility predicate: held, with/without melee. */
+    function stubItemLogic(held: boolean, hasMeleeStrikeMode: boolean) {
+        return { heldBy: held ? [{}] : [], hasMeleeStrikeMode };
+    }
+
+    describe("hasMeleeStrikeMode", () => {
+        it("is false for a missile-only weapon", () => {
+            const logic = makeWeapon({ strikeModes: [missileModeData()] });
+            logic.initialize();
+            expect(logic.hasMeleeStrikeMode).toBe(false);
+        });
+
+        it("is true for a melee-only weapon", () => {
+            const logic = makeWeapon({ strikeModes: [meleeModeData()] });
+            logic.initialize();
+            expect(logic.hasMeleeStrikeMode).toBe(true);
+        });
+
+        it("is true for a mixed weapon (thrusts and throws)", () => {
+            const logic = makeWeapon({
+                strikeModes: [missileModeData(), meleeModeData()],
+            });
+            logic.initialize();
+            expect(logic.hasMeleeStrikeMode).toBe(true);
+        });
+
+        it("is false for a weapon with no strike modes", () => {
+            const logic = makeWeapon({ strikeModes: [] });
+            logic.initialize();
+            expect(logic.hasMeleeStrikeMode).toBe(false);
+        });
+    });
+
+    describe("visibility predicates", () => {
+        it.each(["blockTest", "counterstrikeTest"])(
+            "hides %s on a held missile-only weapon",
+            (shortcode) => {
+                expect(evalVisible(shortcode, stubItemLogic(true, false))).toBe(
+                    false,
+                );
+            },
+        );
+
+        it.each(["blockTest", "counterstrikeTest"])(
+            "offers %s on a held weapon that has a melee mode",
+            (shortcode) => {
+                expect(evalVisible(shortcode, stubItemLogic(true, true))).toBe(
+                    true,
+                );
+            },
+        );
+
+        it.each(["blockTest", "counterstrikeTest"])(
+            "still hides %s on an unheld melee weapon",
+            (shortcode) => {
+                expect(evalVisible(shortcode, stubItemLogic(false, true))).toBe(
+                    false,
+                );
+            },
+        );
+
+        it("keeps offering attackTest on a held missile-only weapon", () => {
+            expect(evalVisible("attackTest", stubItemLogic(true, false))).toBe(
+                true,
+            );
         });
     });
 });
