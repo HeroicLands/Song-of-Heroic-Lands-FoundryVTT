@@ -95,8 +95,8 @@ offers:
 | **Healing Rate**     | How the fight is going, 1–6. **This is the number that moves.** Clear the field entirely for an affliction that does not heal naturally at all |
 | **Contagion Index**  | How readily it spreads, 1–5. **Lower is more contagious**                                                                                      |
 | **Transmission**     | How it reaches a new victim — see the table below                                                                                              |
-| **Diagnosis Bonus**  | A modifier a successful diagnosis grants toward treatment. Recorded, not yet applied by any roll                                               |
 | **Onset Macro UUID** | Optional. A Macro run once at onset, letting an author attach concrete consequences to a specific affliction. A _reference_ only, never code   |
+| **Outcome**          | What running the course to the end does to the character: **Death** or **Cured**. Defaults to the benign _Cured_                               |
 | **Outcome Trauma**   | Optional. A Safe Expression yielding the shortcode — or a list of shortcodes — of the Traumas the character contracts at the end               |
 | **Contracted**       | World-time the affliction was contracted. Stamped automatically when the item is created                                                       |
 | **Treated**          | World-time treatment was applied. Blank means untreated                                                                                        |
@@ -149,13 +149,6 @@ Four of these fields deserve a second look:
 | **Arcane**          | By spell or other arcane means                                            |
 | **Divine**          | By divine attunement                                                      |
 | **Spirit**          | From one aura or soul to another                                          |
-
-> **Known gap.** The **Outcome** field — the choice between _Death_ and _Cured_
-> at the end of the Symptomatic Period, and the single most consequential thing
-> about an affliction — is **not shown on the sheet** (issue #1128). It exists in
-> the data and the [Resolution Check](#resolution-check) applies it, but it can
-> only be set in a compendium's source or through the API. An affliction authored
-> in the UI carries the default, **Cured**.
 
 # The Affliction Actions
 

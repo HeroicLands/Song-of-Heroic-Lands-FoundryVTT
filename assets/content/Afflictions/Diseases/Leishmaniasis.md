@@ -15,7 +15,6 @@ sohl:
     kbcat: diseases
     archetype: 0
     subType: disease
-    diagnosisBonus: 0
     levelBase: 1
     healingRateBase: 3
     contagionIndex: 3

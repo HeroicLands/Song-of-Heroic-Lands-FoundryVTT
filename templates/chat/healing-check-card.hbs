@@ -1,0 +1,45 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Healing Check card body — the *Check half of a wound's recovery. It OFFERS an
+Injury Healing Test and nothing more: no roll has been made and the wound is
+unchanged. The appended [Healing Test] button (added by buildActionCard)
+performs the single test. Body only — no buttons here.
+--}}
+<div class="sohl chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">{{localize "SOHL.Chat.HealingCheck.title"}}</h3>
+    </header>
+
+    <div class="card-content center">
+        <span>{{localize "SOHL.Chat.HealingCheck.due" patient=patientName wound=woundName}}</span>
+    </div>
+
+    <div class="grid grid-2col flex-center">
+        <div class="card-content flexrow">
+            <span class="label">{{localize "SOHL.Chat.Common.severity"}}:</span>
+            <span class="value">{{level}}</span>
+        </div>
+        <div class="card-content flexrow">
+            <span class="label">{{localize "SOHL.Trauma.FIELDS.treatmentDate.label"}}:</span>
+            <span class="value">{{#if treated}}{{localize "SOHL.Common.yes"}}{{else}}{{localize "SOHL.Common.no"}}{{/if}}</span>
+        </div>
+    </div>
+
+    {{#if halted}}
+    <div class="card-content center">
+        <span class="hint">{{localize "SOHL.Chat.HealingCheck.halted"}}</span>
+    </div>
+    {{/if}}
+</div>

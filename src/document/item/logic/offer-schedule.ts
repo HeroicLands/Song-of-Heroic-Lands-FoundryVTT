@@ -109,6 +109,11 @@ function describeCadence(interval: number, triggerName?: string): string {
  *   unused for an event-driven schedule.
  * @param triggerName - The lifecycle trigger to bind to, or omitted for a
  *   time-based schedule (issue #622).
+ * @param anchor - World time the recurrence is measured from, defaulting to now.
+ *   A `*Test` offering its successor passes the due time of the occurrence it
+ *   just performed, so answering a check late does not push the cadence later
+ *   (issue #1181). Time-based schedules only — an event-driven schedule fires on
+ *   its trigger and has no cadence to anchor.
  * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
  *   gating an event-driven schedule (issue #569; e.g. scoping a `turnEnd`
  *   schedule to the subscriber's own turn). Ignored for a time schedule.
@@ -121,6 +126,7 @@ export async function offerSchedule(
     interval: number,
     triggerName?: string,
     predicate?: string,
+    anchor?: number,
 ): Promise<void> {
     let schedule = context.scope?.schedule;
     const eventDriven = !isTimeTrigger(triggerName);
@@ -180,6 +186,21 @@ export async function offerSchedule(
                 triggerName,
                 predicate,
             );
-        } else await sohl.schedule(doc, actionName, interval);
+        } else if (anchor === undefined) {
+            // Keep the plain three-argument shape for the common case — every
+            // caller that does not re-anchor reads (and asserts) exactly this.
+            await sohl.schedule(doc, actionName, interval);
+        } else {
+            await sohl.schedule(
+                doc,
+                actionName,
+                interval,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                anchor,
+            );
+        }
     } else await sohl.unschedule(doc, actionName);
 }

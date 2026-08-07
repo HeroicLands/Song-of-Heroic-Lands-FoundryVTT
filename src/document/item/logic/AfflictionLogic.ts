@@ -46,7 +46,10 @@ import { offerSchedule } from "@src/document/item/logic/offer-schedule";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
-import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
+import {
+    UNTREATED,
+    type TraumaData,
+} from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
     AFFLICTION_EFFECT_KEY,
@@ -651,9 +654,19 @@ export class AfflictionLogic<
         this.course = new entity.ValueModifier({}, { parent: this }).setBase(
             target,
         );
-        this.healing = new entity.ValueModifier({}, { parent: this }).setBase(
-            target,
-        );
+
+        // An **untreated** affliction has no target to roll against — a state,
+        // not a target of zero — so the modifier is DISABLED rather than seeded,
+        // exactly as a wound's is. Being disabled is itself the trigger for the
+        // auto-Critical-Failure in `healingTest`, so anything that disables
+        // healing gets that outcome for free (#1146/#1148/#1181). The Healing
+        // Test stays offered either way; it simply cannot succeed.
+        this.healing = new entity.ValueModifier({}, { parent: this });
+        if (!this.isTreated) {
+            this.healing.disabled = "SOHL.Affliction.Untreated";
+        } else {
+            this.healing.setBase(target);
+        }
 
         const uuid = this.item?.uuid;
         if (!uuid) return;
@@ -882,6 +895,25 @@ export class AfflictionLogic<
             { parent: this },
         );
         mlMod.setBase(this.healing?.effective ?? 0);
+
+        // Nothing to roll against: an affliction with no Healing Rate resolves
+        // as a Critical Failure with no die cast (#1146/#1148). Hand the test a
+        // pre-seeded d100 showing the `00` face — it exceeds every target and its
+        // last digit is a critical-failure digit, so the outcome is a Critical
+        // Failure whatever the Healing Base, and the card still shows a roll.
+        if (this.healing?.disabled) {
+            const scope = (context.scope ?? {}) as Record<string, unknown>;
+            scope.roll = new SimpleRoll(
+                {
+                    numDice: 1,
+                    dieFaces: 100,
+                    modifier: 0,
+                    rolls: [UNTREATED.roll],
+                },
+                { parent: this },
+            );
+            (context as { scope?: unknown }).scope = scope;
+        }
 
         const result = await mlMod.successTest(context);
         if (result === undefined) return undefined; // dialog dismissed

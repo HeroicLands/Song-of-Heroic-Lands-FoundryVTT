@@ -116,23 +116,35 @@ someone accepted the offer to schedule it.
 
 # The Trauma Actions
 
-| Action                                                | Shortcode               | Where you meet it                 |
-| ----------------------------------------------------- | ----------------------- | --------------------------------- |
-| [Request Treatment](#request-treatment)               | `requestTreatment`      | Actions context menu              |
-| [Treat Injury](#treat-injury)                         | `treatInjury`           | Actions context menu; card button |
-| [Treatment Test](#treatment-test)                     | `treatmenttest`         | Actions context menu              |
-| [Request Blood Stoppage](#request-blood-stoppage)     | `requestBloodStoppage`  | Actions context menu              |
-| [Accept Blood Stoppage](#accept-blood-stoppage)       | `acceptBloodStoppage`   | _Hidden_ — card button            |
-| [Healing Check](#healing-check)                       | `healingCheck`          | _Hidden_ — scheduled reminder     |
-| [Blood-Loss Advance Check](#blood-loss-advance-check) | `bloodLossAdvanceCheck` | _Hidden_ — scheduled reminder     |
-| [Course Check](#course-check)                         | `courseCheck`           | _Hidden_ — scheduled reminder     |
-| [Psyche Stress Recovery](#psyche-stress-recovery)     | `psycheRecovery`        | _Hidden_ — scheduled reminder     |
-| [Aural Shock Recovery](#aural-shock-recovery)         | `auralShockRecovery`    | _Hidden_ — scheduled reminder     |
-| [Pall Recovery](#pall-recovery)                       | `pallRecovery`          | _Hidden_ — scheduled reminder     |
+| Action                                                 | Shortcode                | Where you meet it                 |
+| ------------------------------------------------------ | ------------------------ | --------------------------------- |
+| [Request Treatment](#request-treatment)                | `requestTreatment`       | Actions context menu              |
+| [Treat Injury](#treat-injury)                          | `treatInjury`            | Actions context menu; card button |
+| [Treatment Test](#treatment-test)                      | `treatmenttest`          | Actions context menu              |
+| [Request Blood Stoppage](#request-blood-stoppage)      | `requestBloodStoppage`   | Actions context menu              |
+| [Accept Blood Stoppage](#accept-blood-stoppage)        | `acceptBloodStoppage`    | _Hidden_ — card button            |
+| [Healing Test](#healing-check)                         | `healingtest`            | Actions context menu; check card  |
+| [Healing Check](#healing-check)                        | `healingCheck`           | _Hidden_ — scheduled reminder     |
+| [Blood-Loss Advance Test](#blood-loss-advance-check)   | `bloodLossAdvanceTest`   | Actions context menu; check card  |
+| [Blood-Loss Advance Check](#blood-loss-advance-check)  | `bloodLossAdvanceCheck`  | _Hidden_ — scheduled reminder     |
+| [Course Test](#course-check)                           | `courseTest`             | Actions context menu; check card  |
+| [Course Check](#course-check)                          | `courseCheck`            | _Hidden_ — scheduled reminder     |
+| [Psyche Stress Recovery Test](#psyche-stress-recovery) | `psycheRecoveryTest`     | Actions context menu; check card  |
+| [Psyche Stress Recovery](#psyche-stress-recovery)      | `psycheRecovery`         | _Hidden_ — scheduled reminder     |
+| [Aural Shock Recovery Test](#aural-shock-recovery)     | `auralShockRecoveryTest` | Actions context menu; check card  |
+| [Aural Shock Recovery](#aural-shock-recovery)          | `auralShockRecovery`     | _Hidden_ — scheduled reminder     |
+| [Pall Recovery Test](#pall-recovery)                   | `pallRecoveryTest`       | Actions context menu; check card  |
+| [Pall Recovery](#pall-recovery)                        | `pallRecovery`           | _Hidden_ — scheduled reminder     |
 
 A **hidden** action is never in the Actions context menu. It is not off-limits —
 it is simply reached from wherever it makes sense: a button on a chat card, or the
-**Perform** button on a reminder when a scheduled check comes due.
+card a scheduled check posts when it comes due.
+
+**A Check and a Test are different things**, and the difference is the whole
+design. A _Check_ **offers**: it posts a card asking whether to make the test, and
+changes nothing by itself — anyone can post one. A _Test_ **acts**: it rolls once,
+applies the outcome, and then offers to schedule the next test. Nothing is ever
+rolled or applied to a character without someone pressing a button first.
 
 ## How a wound moves through the system
 
@@ -165,22 +177,30 @@ waits on a human — a dialog you answer, a card button someone presses, a
 The recurring checks — healing, blood loss, course, and the three recoveries — all
 follow one pattern:
 
-> **offer → remind → perform → offer the next**
+> **offer → check → test → offer the next**
 
 When a check would begin, SoHL opens the **offer-schedule dialog**, described once
 on [[Item_Base|Base Item]], asking whether to set a reminder with the rolled
 cadence already filled in (_"Set a reminder to perform the Healing Check in 5
 days?"_). **Schedule It** arms it; **Not Now** declines, and nothing is tracked.
-When the time comes, a reminder appears in chat with a **Perform** button. Nothing
-has happened to the character yet: the check runs when you press it, and then
-offers the next one.
+When the time comes, a **check card** appears in chat with a button offering its
+test. Nothing has happened to the character yet: the test runs when you press it,
+and then offers the next one.
 
 Declining is always safe. It only means SoHL stops keeping time for you — the
 wound is still there, and you can run the check by hand whenever you like.
 
-If game time has jumped forward past several due checks, the check **catches up**:
-it runs one test per interval that elapsed, in order, so a skipped week resolves as
-a week of healing rather than a single roll.
+**One check, one test.** However much game time has passed, a check offers exactly
+one test and performing it rolls exactly once. Nothing is silently caught up in a
+single click — which matters most where it used to hurt: a bleeding wound could be
+carried through several blood-loss advances, or an Extended Shock from stable to
+dead, before you could intervene.
+
+That is not the same as losing the time. Because each test schedules the next one
+from **the last test's date** rather than from the moment you got round to it, a
+character who is behind simply has a test already due — so its card appears at
+once, and you work through the backlog one consent at a time, with the wound's
+original rhythm intact.
 
 # Request Treatment
 
@@ -417,17 +437,18 @@ the situation ruled by hand instead.
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Arm Healing Check                                                                                                             |
 | **Shortcode** | `healingCheck`                                                                                                                |
-| **Icon**      | `fa-heart-pulse` (a heart with a pulse line)                                                                                  |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the healing-check reminder in chat                    |
+| **Icon**      | `fa-bed-pulse` (a bed with a pulse line)                                                                                      |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the healing interval comes due                            |
 | **API**       | [`TraumaLogic.healingCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#healingcheck) |
 
 ## What it does
 
-This is **the wound mending over time** — the recurring check that reduces a wound's
-Injury Level until it closes. It is offered when the wound is inflicted and again
-after every check, and it runs only when you press **Perform** on the reminder.
+**Nothing, by design.** The Healing Check posts a card offering a **Healing Test**
+and stops there — no roll, no change to the wound. Anyone can post one.
 
-Each check rolls the character's Healing Base against the wound's Healing Rate:
+The **Healing Test** (`healingtest`, also on the Actions context menu) is where the
+wound actually mends. It rolls the character's **Healing** target — Healing Base ×
+the wound's Healing Rate, plus anything an Active Effect has done to it — once:
 
 - **Critical success** — the Injury Level drops by **2**
 - **Marginal success** — it drops by **1**

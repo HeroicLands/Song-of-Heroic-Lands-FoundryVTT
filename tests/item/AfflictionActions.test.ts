@@ -1,11 +1,14 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import {
     AFFLICTION_EFFECT_KEY,
     AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
+    CRITICAL_FAILURE,
     ITEM_KIND,
+    MARGINAL_SUCCESS,
 } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
@@ -16,7 +19,9 @@ function afflictionFields(overrides: Record<string, unknown> = {}) {
         category: null,
         isDormant: false,
         contractDate: null,
-        treatmentDate: null,
+        // Treated by default: an untreated affliction's healing target is
+        // disabled, not computed.
+        treatmentDate: 500,
         levelBase: 2,
         healingRateBase: 4,
         contagionIndexBase: 3,
@@ -182,5 +187,51 @@ describe("AfflictionLogic intrinsic action set (#1183, supersedes #1126)", () =>
         expect(courseTest?.visible).toBe("true");
         expect(courseCheck?.group).toBe("hidden");
         expect(courseCheck?.recordsLastRun).toBe(true);
+    });
+});
+
+describe("an untreated affliction resolves its healing test as a CF (#1181)", () => {
+    it("disables the healing target rather than seeding a real 0", () => {
+        // Untreated is a state, not a target of zero — the same rule a wound
+        // follows (#1146/#1148).
+        const logic = makeAffliction({ treatmentDate: null }, 12);
+        expect(logic.healing.disabled).toBeTruthy();
+    });
+
+    it("leaves the healing target enabled once treatment is recorded", () => {
+        const logic = makeAffliction({ healingRateBase: 3 }, 10);
+        expect(logic.healing.disabled).toBeFalsy();
+        expect(logic.healing.effective).toBe(30);
+    });
+
+    it("forces the healing test's die to the CF face when healing is disabled", async () => {
+        const logic = makeAffliction({ treatmentDate: null, levelBase: 3 });
+        const spy = vi
+            .spyOn(MasteryLevelModifier.prototype, "successTest")
+            .mockResolvedValue({ normSuccessLevel: CRITICAL_FAILURE } as any);
+        await logic.healingTest({ skipDialog: true, scope: {} } as any);
+        const ctx = spy.mock.calls[0][0] as any;
+        // A pre-seeded d100 showing the `00` face: it fails every target and its
+        // last digit criticals, so the test is a Critical Failure whatever the
+        // Healing Base — and no die is actually cast.
+        expect(ctx.scope.roll).toBeDefined();
+        expect(ctx.scope.roll.rolls).toEqual([100]);
+    });
+
+    it("casts a real die when healing is enabled", async () => {
+        const logic = makeAffliction({ healingRateBase: 4, levelBase: 3 });
+        const spy = vi
+            .spyOn(MasteryLevelModifier.prototype, "successTest")
+            .mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+        await logic.healingTest({ skipDialog: true, scope: {} } as any);
+        const ctx = spy.mock.calls[0][0] as any;
+        expect(ctx.scope?.roll).toBeUndefined();
+    });
+
+    it("stays visible even when healing is disabled — the rule is CF, not hidden", () => {
+        const action = AfflictionLogic.defineIntrinsicActions().find(
+            (a) => a.shortcode === "healingTest",
+        );
+        expect(action?.visible).toBe("true");
     });
 });
