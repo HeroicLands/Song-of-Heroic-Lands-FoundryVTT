@@ -443,10 +443,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
                 );
                 return context;
             case "mysteries":
-                context = await this._prepareMysteriesContext(
-                    context,
-                    options,
-                );
+                context = await this._prepareMysteriesContext(context, options);
                 fvttCallHook(
                     `sohl.actor.${type}.prepareMysteriesContext`,
                     this,
@@ -1178,5 +1175,4 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             abilitySections,
         });
     }
-
 }

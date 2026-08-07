@@ -24,7 +24,9 @@ import { resolveDoc, toRealm } from "../resolve.js";
  * Create a combat containing the given tokens and start it.
  *
  * @param {object[]} tokens - TokenDocuments (as yielded by `placeAdjacentTokens`).
- * @param {object} [opts] - `{ start }`: set `false` to create without starting.
+ * @param {object} [opts] - `{ start, sceneless }`: set `start: false` to create
+ *   without starting; set `sceneless: true` to leave the combat unbound to a
+ *   scene (see below).
  * @returns the Combat document.
  */
 Cypress.Commands.add("createCombatWith", (tokens, opts = {}) =>
@@ -34,8 +36,23 @@ Cypress.Commands.add("createCombatWith", (tokens, opts = {}) =>
             first.parent?.id ?? first.sceneId ?? win.canvas?.scene?.id;
         // `active: true` makes it the viewed combat so the CombatTracker has a
         // current combat to render (else core throws "'turn' in undefined").
+        //
+        // `sceneless` exists for specs that must read the ambient `game.combat`
+        // (what `getActiveCombat()` resolves). Core falls back to
+        // `combats.find(c => c.isActive)`, and `Combat#isActive` is
+        // `this.scene.isView && this.active` for a scene-bound combat — so it
+        // additionally requires this combat's scene to be the *viewed* one.
+        // Headless only the auto-viewed scene has `_view` set, so a spec that
+        // creates its own scene gets `isActive === false` and a null
+        // `game.combat` as soon as another scene holds the view. Leaving the
+        // combat unbound makes `isActive` just `this.active`, which is
+        // canvas-independent and order-independent. Combatants still carry
+        // their own `sceneId`, so token resolution is unaffected.
         const combat = await win.Combat.create(
-            toRealm(win, { scene: sceneId, active: true }),
+            toRealm(win, {
+                scene: opts.sceneless ? null : sceneId,
+                active: true,
+            }),
         );
         const combatantData = tokens.map((t) => ({
             // The combatant data model is registered under the default `base`

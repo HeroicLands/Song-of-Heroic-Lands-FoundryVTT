@@ -424,6 +424,25 @@ function removeContainer(name) {
     docker(["rm", name]);
 }
 
+/**
+ * Remove the Foundry data-root lock left behind by a container that did not
+ * shut down cleanly (`docker rm -f`, a crash, a killed run). Foundry refuses to
+ * start with "this directory ... is already locked by another process", so a
+ * stale lock silently turns every subsequent `recreate` into a boot failure.
+ *
+ * Only safe to call once the container is stopped and removed — at that point
+ * nothing can hold a legitimate lock, so any lock present is by definition
+ * stale. Called from `recreate` for exactly that reason.
+ *
+ * @param {string} dataRoot - The Foundry user-data root bind-mounted at `/data`.
+ */
+function clearStaleLock(dataRoot) {
+    const lock = path.join(dataRoot, "Config", "options.json.lock");
+    if (!fs.existsSync(lock)) return;
+    fs.rmSync(lock, { recursive: true, force: true });
+    console.log(`Cleared stale Foundry lock: ${lock}`);
+}
+
 function main() {
     const stage = normalize(process.argv[2]);
     const command = normalize(process.argv[3]);
@@ -462,12 +481,18 @@ function main() {
             process.exit(result.status ?? 0);
             break;
         }
-        case "recreate":
+        case "recreate": {
             // Remove the old container, then create a fresh one so the current
-            // env (FOUNDRY_WORLD, credentials, cache, …) is applied.
+            // env (FOUNDRY_WORLD, credentials, cache, …) is applied. Sweep any
+            // lock the removed container left behind first — with no container
+            // running, a lock can only be stale, and Foundry would otherwise
+            // refuse to boot into the fresh one.
             removeContainer(name);
-            start(stage, name, resolveDataRoot(stage));
+            const dataRoot = resolveDataRoot(stage);
+            clearStaleLock(dataRoot);
+            start(stage, name, dataRoot);
             break;
+        }
         case "rm":
             removeContainer(name);
             process.exit(0);

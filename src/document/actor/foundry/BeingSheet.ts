@@ -2158,6 +2158,14 @@ html, body { margin: 0; padding: 0; background: #fff; }
         }
     }
 
+    /**
+     * Prepare context for the Injuries tab: traumas grouped into present-only
+     * subtype sections, and the afflictions afflicting this being.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected async _prepareTraumaContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -2250,7 +2258,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
             shockState: logic?.shockState,
         });
     }
-
 
     /**
      * A being reports its overall load rather than a plain cargo weight: its

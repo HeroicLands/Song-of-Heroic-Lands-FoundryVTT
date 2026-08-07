@@ -971,7 +971,7 @@ export class TraumaLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Trauma.Action.pallRecoveryTest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "ginf-pall",
+                iconFAClass: "fa-solid fa-heart-circle-check",
                 executor: "pallRecoveryTest",
                 recordsLastRun: true,
                 visible: "itemLogic.data.subType === 'pall'",
