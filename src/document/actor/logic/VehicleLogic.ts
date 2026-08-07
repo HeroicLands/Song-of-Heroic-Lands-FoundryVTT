@@ -12,11 +12,31 @@
  */
 
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { VehicleOccupantRole } from "@src/utils/constants";
 import {
     SohlActorBaseLogic,
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
+
+/**
+ * One actor occupying a vehicle, as `system.occupants` stores it.
+ *
+ * The handle may name a **Being** (a single individual) or a **Cohort** (which
+ * stands for all of that cohort's members riding along).
+ */
+export interface VehicleOccupant {
+    /**
+     * How this occupant's actor is found: its `system.shortcode` (a world or
+     * compendium actor) or a UUID (a Token Actor, which no shortcode can
+     * reliably identify).
+     */
+    actorCodeOrUuid: string;
+    /** This occupant's role aboard (crew, passenger, draft creature). */
+    role: VehicleOccupantRole;
+    /** An optional style aboard ("Bosun", "Helmsman"), or `null` for none. */
+    title: string | null;
+}
 
 /**
  * A movable inanimate conveyance.
@@ -67,9 +87,8 @@ export interface VehicleData<
     TLogic extends SohlActorLogic<VehicleData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {
     /**
-     * Shortcodes of actors occupying this vehicle.
-     * Each entry may reference a Being (individual) or a Cohort
-     * (shorthand for all of that Cohort's members).
+     * The actors occupying this vehicle, one entry each.
+     * @see {@link VehicleOccupant}
      */
-    occupants: string[];
+    occupants: VehicleOccupant[];
 }
