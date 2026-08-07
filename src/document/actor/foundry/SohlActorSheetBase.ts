@@ -21,6 +21,7 @@ import {
 } from "@src/document/actor/logic/being-sheet-view";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import {
+    buildActionRows,
     createAction,
     editAction,
     deleteAction,
@@ -31,13 +32,7 @@ import {
     fvttRenderSheet,
     dialog,
 } from "@src/core/FoundryHelpers";
-import {
-    ACTION_SUBTYPE,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-    ITEM_KIND,
-    GearKinds,
-    isFencedType,
-} from "@src/utils/constants";
+import { ITEM_KIND, GearKinds, isFencedType } from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
 import { stripDocArchetypeFlag } from "@src/entity/archetype/archetype";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
@@ -625,7 +620,8 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /**
      * Build the `actions` part's render context: the actor's actions, split into
      * the GM-authored custom (script) actions and the code-defined intrinsic
-     * ones. Internal lifecycle actions (the hidden sort group) are never listed.
+     * ones, each with the availability state its run control renders from.
+     * Internal lifecycle actions (the hidden sort group) are never listed.
      *
      * @param context - The in-progress render context.
      * @param _options - Sheet render options (unused).
@@ -635,22 +631,9 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const logic = this.document.logic;
-        // Hidden-group actions are internal (lifecycle hooks) and never shown.
-        const all = (logic ? [...logic.actions.values()] : []).filter(
-            (a) =>
-                (a.data as any).group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-        );
-        // Custom (script) actions are GM-authored and editable; intrinsic
-        // actions are code-defined and read-only. Split them into their own
-        // sections.
-        const customActions = all.filter(
-            (a) => (a.data as any).subType === ACTION_SUBTYPE.SCRIPT,
-        );
-        const intrinsicActions = all.filter(
-            (a) => (a.data as any).subType === ACTION_SUBTYPE.INTRINSIC,
-        );
-        return Object.assign(context, { customActions, intrinsicActions });
+        // Shared with the item sheet so both tabs list — and gate — actions
+        // identically.
+        return Object.assign(context, buildActionRows(this.document));
     }
 
     /**

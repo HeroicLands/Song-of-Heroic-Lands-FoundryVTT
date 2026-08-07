@@ -186,6 +186,124 @@ describe("Item Actions tab (#501)", () => {
         });
     });
 
+    describe("intrinsic ledger rendering + gating (#1135, #1136)", () => {
+        /** Embed an armor on a being and set its carried state. */
+        function armorOn(actor, isCarried) {
+            return cy
+                .createItemOn(actor, "armorgear", { name: "E2E Cuirass" })
+                .then((armor) => {
+                    cy.foundry((win) =>
+                        win.game.actors
+                            .get(actor.id)
+                            .items.get(armor.id)
+                            .update(
+                                toRealm(win, { "system.isCarried": isCarried }),
+                            )
+                            .then(() => null),
+                    );
+                    return cy.wrap(armor, { log: false });
+                });
+        }
+
+        /** The Toggle Worn row's run control, inside the Intrinsic ledger. */
+        function toggleWornRun() {
+            return cy
+                .get(ACTIONS)
+                .contains(".ledger__row", "Toggle Worn")
+                .find('[data-action="runAction"]');
+        }
+
+        it("renders each intrinsic row's own icon glyph, not an empty image (#1136)", () => {
+            cy.importActor().then((actor) => {
+                armorOn(actor, true).then((armor) => {
+                    cy.openSheet(armor);
+                    cy.switchTab("actions", "sheet");
+                    // No row renders an empty <img>; every row renders a glyph.
+                    cy.get(`${ACTIONS} .ledger__icon img`).should("not.exist");
+                    cy.get(`${ACTIONS} .ledger__row .ledger__icon i`)
+                        .should("have.length.greaterThan", 0)
+                        .each(($i) => {
+                            expect($i.attr("class") || "").to.not.equal("");
+                        });
+                    // Toggle Worn shows the shield glyph its definition declares.
+                    cy.get(ACTIONS)
+                        .contains(".ledger__row", "Toggle Worn")
+                        .find(".ledger__icon i")
+                        .should("have.class", "fa-shield-halved");
+                });
+            });
+        });
+
+        it("disables a carried-gated action's run control and says why (#1135)", () => {
+            cy.importActor().then((actor) => {
+                armorOn(actor, false).then((armor) => {
+                    cy.openSheet(armor);
+                    cy.switchTab("actions", "sheet");
+                    // One assertion callback: `have.attr` re-subjects to the
+                    // attribute value, so chaining `.and` would assert on a string.
+                    toggleWornRun().should(($a) => {
+                        expect($a).to.have.attr("disabled");
+                        expect($a.attr("data-tooltip")).to.eq(
+                            "The item must be carried before this action can be used",
+                        );
+                    });
+                });
+            });
+        });
+
+        it("leaves the run control live once the gate passes (#1135)", () => {
+            cy.importActor().then((actor) => {
+                armorOn(actor, true).then((armor) => {
+                    cy.openSheet(armor);
+                    cy.switchTab("actions", "sheet");
+                    toggleWornRun().should(($a) => {
+                        expect($a).to.not.have.attr("disabled");
+                        expect($a.attr("data-tooltip")).to.eq(
+                            "Run Toggle Worn",
+                        );
+                    });
+                });
+            });
+        });
+
+        it("clicking a gated action warns instead of failing silently (#1135)", () => {
+            cy.importActor().then((actor) => {
+                armorOn(actor, false).then((armor) => {
+                    // Capture UI warnings — the click must report the refusal.
+                    cy.foundry((win) => {
+                        win.__e2eWarns = [];
+                        const orig = win.ui.notifications.warn.bind(
+                            win.ui.notifications,
+                        );
+                        win.ui.notifications.warn = (msg, ...rest) => {
+                            win.__e2eWarns.push(String(msg));
+                            return orig(msg, ...rest);
+                        };
+                        return null;
+                    });
+                    cy.openSheet(armor);
+                    cy.switchTab("actions", "sheet");
+                    toggleWornRun().click({ force: true });
+                    cy.window()
+                        .should((win) => {
+                            expect((win.__e2eWarns || []).join("|")).to.contain(
+                                "must be carried",
+                            );
+                        })
+                        .then(() => {
+                            // …and the refused action still did nothing.
+                            cy.foundry(
+                                (win) =>
+                                    win.game.actors
+                                        .get(actor.id)
+                                        .items.get(armor.id).system.isWorn,
+                            ).should("eq", false);
+                        });
+                });
+            });
+        });
+    });
+
     it("delete: disassociates the action but keeps the Macro", () => {
         cy.createWorldItem("skill", { name: "E2E Del Skill" }).then((item) => {
             makeMacro("E2E Item Del Macro", "console.log('rm');").then(

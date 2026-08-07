@@ -97,6 +97,15 @@ describe("ArmorGearLogic", () => {
             expect(action.trigger(logic.item, undefined)).toBe(true);
         });
 
+        it("reports toggleWorn as unavailable, with a reason, while not carried (#1135)", () => {
+            const logic = makeArmor({ isCarried: false });
+            const action = logic.actions.get("toggleWorn")!;
+            expect(action.isAvailable).toBe(false);
+            expect(action.unavailableReason).toBe(
+                "SOHL.Gear.actionRequiresCarried",
+            );
+        });
+
         it("refuses to execute toggleWorn while the armor is not carried", async () => {
             const logic = makeArmor({ isCarried: false, isWorn: false });
             await logic.actions.get("toggleWorn")!.execute({} as any);
