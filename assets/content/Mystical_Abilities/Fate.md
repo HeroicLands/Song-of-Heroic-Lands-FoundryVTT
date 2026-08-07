@@ -20,7 +20,6 @@ sohl:
     levelBase: 0
     masteryLevelBase: 50
     charges:
-        usesCharges: true
         value: 5
         max: 5
 folder: 0GxlNn2dYXCW24YF

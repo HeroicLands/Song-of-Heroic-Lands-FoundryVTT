@@ -11,7 +11,9 @@
  * array editor bound to a nonexistent `system.skills` field must be gone,
  * replaced by the single-skill control bound to the existing
  * `system.assocSkillCode` field. Also covers #815: the phantom
- * `system.domainCode` control (no such schema field) must be gone.
+ * `system.domainCode` control (no such schema field) must be gone, and #1129:
+ * the unlabelled, inert `system.charges.usesCharges` checkbox is gone —
+ * whether a mystery uses charges is carried by `system.charges.max` alone.
  */
 
 import { describe, it, expect } from "vitest";
@@ -31,7 +33,8 @@ function render(
             assocSkillCode,
             assocAffiliationCode,
             levelBase: 3,
-            charges: { usesCharges: false, value: null, max: null },
+            // Provided so a surviving usesCharges control would bind and render.
+            charges: { usesCharges: true, value: null, max: null },
         },
         fields: {
             // Provided so that any surviving domainCode control would bind and
@@ -85,6 +88,12 @@ describe("mystery properties sheet template (#808)", () => {
 
     it("still renders the charges controls", () => {
         const html = render();
+        expect(html).toContain('data-field="system.charges.value"');
         expect(html).toContain('data-field="system.charges.max"');
+    });
+
+    it("no longer renders the inert system.charges.usesCharges checkbox (#1129)", () => {
+        const html = render();
+        expect(html).not.toContain("system.charges.usesCharges");
     });
 });

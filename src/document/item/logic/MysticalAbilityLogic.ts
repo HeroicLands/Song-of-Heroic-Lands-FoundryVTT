@@ -455,10 +455,11 @@ export interface MysticalAbilityData<
     masteryLevelBase: number;
     /** Whether this item is flagged for mastery improvement via SDR */
     improveFlag: boolean;
-    /** Usage tracking: current charges and maximum */
+    /**
+     * Usage tracking: current charges and maximum. Whether the ability uses
+     * charges at all is carried by `max` alone — there is no separate flag.
+     */
     charges: {
-        /** Whether this ability consumes charges when used. */
-        usesCharges: boolean;
         /** Current number of charges remaining. `null` means infinite. */
         value: number | null;
         /**

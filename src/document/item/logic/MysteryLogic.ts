@@ -349,10 +349,11 @@ export interface MysteryData<
      * `N` applied to the associated skill.
      */
     levelBase: number | null;
-    /** Usage tracking: current charges and maximum */
+    /**
+     * Usage tracking: current charges and maximum. Whether the mystery uses
+     * charges at all is carried by `max` alone — there is no separate flag.
+     */
     charges: {
-        /** Whether this mystery consumes charges when used. */
-        usesCharges: boolean;
         /** Current number of charges remaining. `null` means infinite. */
         value: number | null;
         /**

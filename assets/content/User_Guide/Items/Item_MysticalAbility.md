@@ -77,9 +77,9 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
   of its own:
     - **Current Charges:** Charges remaining. Leave it blank for an ability whose
       uses are unlimited (the sheet shows ∞).
-    - **Maximum Charges:** The cap. Leave it blank for an ability that does not
-      use charges at all (the sheet shows ✕); enter `0` for one that is counted
-      but uncapped.
+    - **Maximum Charges:** The cap, and the control that decides whether the
+      ability uses charges at all. Leave it blank for one that does not (the
+      sheet shows ✕); enter `0` for one that is counted but uncapped.
     - Each completed [Success Test](#success-test) spends one charge.
 
 An ability's **sub-type is fixed when it is created** — you choose it with the
@@ -98,16 +98,13 @@ sheet, and the sub-types are:
 - **Alchemy:** The preparation of substances imbued with mystical potency.
 - **Divination:** The practice of obtaining hidden knowledge or foreknowledge by mystical means.
 
-> **Known gaps.** Three defects affect this tab today:
+> **Known gaps.** Two defects affect this tab today:
 >
 > - **The ☆ star and the Improvement Flag do nothing yet.** A Mystical Ability
 >   can be flagged for improvement from either place, but there is no
 >   **Improve with SDR** action to act on the flag the way a
 >   [[Item_Skill|Skill]] has (issue #1130). Improve the ability's Associated
 >   Skill instead, and the ability improves with it.
-> - **The unlabelled checkbox in the Charges box does nothing.** It renders with
->   no label at all and no logic reads it (issue #1129) — whether an ability uses
->   charges is decided entirely by whether **Maximum Charges** is filled in.
 > - **The Chgs/Max and Notes column headers run together** on the Mysteries tab
 >   (issue #1131). The columns themselves are correct.
 

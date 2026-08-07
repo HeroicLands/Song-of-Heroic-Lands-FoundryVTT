@@ -127,6 +127,34 @@ export function sohlField(fm, key, defaultValue = undefined) {
 }
 
 /**
+ * Resolve the `charges` block shared by Mystery and Mystical Ability items.
+ *
+ * Charge usage is carried by the **maximum** alone (#1129): a `null` max means
+ * the item does not use charges at all, `0` means it is counted but uncapped,
+ * and a positive number is a real cap. `value` is the current count, with
+ * `null` meaning "infinite remaining". Both persist as nullable NumberFields,
+ * so absent frontmatter must resolve to `null` — coercing it to `0` would ship
+ * every item as an uncapped charge-user.
+ *
+ * A legacy `usesCharges` flag in authored frontmatter is ignored: it was inert
+ * and has been dropped from the schema.
+ *
+ * @param {object} fm - The item frontmatter.
+ * @returns {{value: number|null, max: number|null}} The persisted charges block.
+ */
+export function resolveCharges(fm) {
+    const toCount = (raw) => {
+        if (raw == null || raw === "") return null;
+        const num = Number(raw);
+        return Number.isFinite(num) ? Math.trunc(num) : null;
+    };
+    const max = toCount(sohlField(fm, "charges.max", null));
+    // A blank maximum means "does not use charges" — a stray current count
+    // cannot outlive it, since the logic layer disables both modifiers.
+    return { value: max === null ? null : toCount(sohlField(fm, "charges.value", null)), max };
+}
+
+/**
  * Read the mandatory `subType` from an item's frontmatter, throwing when it is
  * absent or blank.
  *
