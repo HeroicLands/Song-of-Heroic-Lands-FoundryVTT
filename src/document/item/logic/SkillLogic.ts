@@ -54,7 +54,11 @@ import {
 import { FilePath, toFilePath, toHTMLString } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
-import { runStrikeModeTest, type StrikeModeTestScope } from "./strikeModeTest";
+import {
+    anyMeleeStrikeMode,
+    runStrikeModeTest,
+    type StrikeModeTestScope,
+} from "./strikeModeTest";
 import {
     dialog,
     fvttGetSetting,
@@ -221,6 +225,16 @@ export class SkillLogic<
      */
     get strikeModes(): StrikeModeBase[] {
         return this.strikeMode ? [this.strikeMode] : [];
+    }
+
+    /**
+     * Whether this skill exposes a melee strike mode — the gate the block and
+     * counterstrike actions hang their visibility on (#1137). A missile combat
+     * technique (a flung quill, spat venom) can never block or counterstrike,
+     * so it must not offer those actions.
+     */
+    get hasMeleeStrikeMode(): boolean {
+        return anyMeleeStrikeMode(this);
     }
 
     /**
@@ -971,8 +985,9 @@ export class SkillLogic<
             // Combat-technique strike-mode tests. A combat technique is a skill
             // that carries its own single strike mode, so it exposes the same
             // attack/block/counterstrike actions as a weapon (shared executor via
-            // runStrikeModeTest); gated to the combattechnique subtype. Block and
-            // counterstrike no-op on a missile mode at runtime.
+            // runStrikeModeTest); gated to the combattechnique subtype. Block
+            // and counterstrike additionally require a melee strike mode — a
+            // missile technique cannot defend, so they are not offered (#1137).
             {
                 shortcode: "attackTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
@@ -990,7 +1005,8 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-shield",
                 executor: "blockTest",
-                visible: "itemLogic.data.subType === 'combattechnique'",
+                visible:
+                    "itemLogic.data.subType === 'combattechnique' && itemLogic.hasMeleeStrikeMode",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -1000,7 +1016,8 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-circle-half-stroke",
                 executor: "counterstrikeTest",
-                visible: "itemLogic.data.subType === 'combattechnique'",
+                visible:
+                    "itemLogic.data.subType === 'combattechnique' && itemLogic.hasMeleeStrikeMode",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
         ];

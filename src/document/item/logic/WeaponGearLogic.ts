@@ -13,7 +13,10 @@
 
 import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { runStrikeModeTest } from "@src/document/item/logic/strikeModeTest";
+import {
+    anyMeleeStrikeMode,
+    runStrikeModeTest,
+} from "@src/document/item/logic/strikeModeTest";
 import {
     ACTION_SUBTYPE,
     defineType,
@@ -122,6 +125,16 @@ export class WeaponGearLogic<
         };
     }
 
+    /**
+     * Whether this weapon exposes at least one melee strike mode — the gate the
+     * block and counterstrike actions hang their visibility on (#1137). A
+     * missile-only weapon (a bow, a sling) can never block or counterstrike, so
+     * it must not offer them; a mixed weapon (thrust + throw) still does.
+     */
+    get hasMeleeStrikeMode(): boolean {
+        return anyMeleeStrikeMode(this);
+    }
+
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
@@ -196,7 +209,8 @@ export class WeaponGearLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-shield",
                 executor: "blockTest",
-                visible: "itemLogic.heldBy.length > 0",
+                visible:
+                    "itemLogic.heldBy.length > 0 && itemLogic.hasMeleeStrikeMode",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -206,7 +220,8 @@ export class WeaponGearLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-circle-half-stroke",
                 executor: "counterstrikeTest",
-                visible: "itemLogic.heldBy.length > 0",
+                visible:
+                    "itemLogic.heldBy.length > 0 && itemLogic.hasMeleeStrikeMode",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
         ]);

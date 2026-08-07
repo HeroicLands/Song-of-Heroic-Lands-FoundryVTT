@@ -763,6 +763,79 @@ describe("SkillLogic", () => {
             expect(logic.strikeModes).toHaveLength(1);
         });
 
+        /** A persisted missile strike-mode payload (spat venom, flung quill). */
+        function missileSM(overrides: Record<string, unknown> = {}) {
+            return {
+                type: "missile",
+                name: "Spit",
+                minParts: 1,
+                assocSkillCode: "",
+                projectileType: "none",
+                maxVolleyMult: 1,
+                baseRangeBase: 15,
+                drawBase: 0,
+                attack: { spread: 5, modifier: 0 },
+                impactBase: {
+                    numDice: 1,
+                    die: 4,
+                    modifier: 0,
+                    aspect: IMPACT_ASPECT.PIERCING,
+                },
+                traits: {},
+                ...overrides,
+            };
+        }
+
+        /*
+         * A missile technique carries no block or counterstrike modifier, so
+         * those actions must not be offered on it (#1137).
+         */
+        describe("melee-defense gating (#1137)", () => {
+            it("reports hasMeleeStrikeMode for a melee technique", () => {
+                const logic = makeSkill({
+                    subType: "combattechnique",
+                    strikeMode: meleeSM(),
+                });
+                logic.initialize();
+                expect(logic.hasMeleeStrikeMode).toBe(true);
+            });
+
+            it("does not report hasMeleeStrikeMode for a missile technique", () => {
+                const logic = makeSkill({
+                    subType: "combattechnique",
+                    strikeMode: missileSM(),
+                });
+                logic.initialize();
+                expect(logic.hasMeleeStrikeMode).toBe(false);
+            });
+
+            it("does not report hasMeleeStrikeMode for a skill with no strike mode", () => {
+                const logic = makeSkill({ subType: "social" });
+                logic.initialize();
+                expect(logic.hasMeleeStrikeMode).toBe(false);
+            });
+
+            it.each(["blockTest", "counterstrikeTest"])(
+                "gates %s on a melee strike mode, alongside the subtype",
+                (shortcode) => {
+                    const def = SkillLogic.defineIntrinsicActions().find(
+                        (d) => d.shortcode === shortcode,
+                    )!;
+                    expect(def.visible).toContain(
+                        "itemLogic.hasMeleeStrikeMode",
+                    );
+                    expect(def.visible).toContain("combattechnique");
+                },
+            );
+
+            it("leaves attackTest gated on the subtype alone", () => {
+                const def = SkillLogic.defineIntrinsicActions().find(
+                    (d) => d.shortcode === "attackTest",
+                )!;
+                expect(def.visible).not.toContain("hasMeleeStrikeMode");
+            });
+        });
+
         it("builds no strike mode for a non-technique subtype", () => {
             const logic = makeSkill({
                 subType: "social",
