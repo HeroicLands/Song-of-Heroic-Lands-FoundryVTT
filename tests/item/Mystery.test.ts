@@ -70,7 +70,7 @@ function makeSkillOnActor(
 function mysteryFields(overrides: Record<string, unknown> = {}) {
     return {
         levelBase: 0,
-        charges: { usesCharges: false, value: 0, max: 0 },
+        charges: { value: 0, max: 0 },
         ...overrides,
     };
 }
@@ -147,7 +147,7 @@ describe("MysteryLogic", () => {
 
         it("seeds charges.value and charges.max when charges.max is not null", () => {
             const logic = makeMystery({
-                charges: { usesCharges: true, value: 2, max: 5 },
+                charges: { value: 2, max: 5 },
             });
             logic.initialize();
             expect(logic.charges.value).toBeInstanceOf(ValueModifier);
@@ -162,7 +162,7 @@ describe("MysteryLogic", () => {
 
         it("disables charges when charges.max is null", () => {
             const logic = makeMystery({
-                charges: { usesCharges: false, value: 0, max: null },
+                charges: { value: 0, max: null },
             });
             logic.initialize();
             expect(logic.charges.value.disabled).toBe(
@@ -173,11 +173,11 @@ describe("MysteryLogic", () => {
             );
         });
 
-        it("gates charges on max !== null — the usesCharges flag is not consulted", () => {
-            // Documents current behavior: data.charges.usesCharges is ignored
-            // by initialize(); only a null max disables charge tracking.
+        it("gates charges on max !== null — the maximum is the only control (#1129)", () => {
+            // Charge usage has one source of truth: a null max disables charge
+            // tracking, a non-null max enables it. There is no separate flag.
             const logic = makeMystery({
-                charges: { usesCharges: false, value: 1, max: 3 },
+                charges: { value: 1, max: 3 },
             });
             logic.initialize();
             expect(logic.charges.value.disabled).toBeFalsy();
@@ -186,7 +186,7 @@ describe("MysteryLogic", () => {
 
         it("disables charges.value (infinite remaining) when value is null but max is set", () => {
             const logic = makeMystery({
-                charges: { usesCharges: true, value: null, max: 5 },
+                charges: { value: null, max: 5 },
             });
             logic.initialize();
             // max stays enabled; only value is disabled → sheet shows "∞".
@@ -199,7 +199,7 @@ describe("MysteryLogic", () => {
 
         it("keeps charges.max enabled at 0 (infinite available)", () => {
             const logic = makeMystery({
-                charges: { usesCharges: true, value: 3, max: 0 },
+                charges: { value: 3, max: 0 },
             });
             logic.initialize();
             // max effective 0 (not disabled) → sheet shows "<value>/∞".
@@ -485,13 +485,6 @@ describe("MysteryLogic", () => {
         it.todo("returns item when target name is in skills list");
         it.todo("returns item when skills list is empty (applies to all)");
         it.todo("returns empty array when level.effective is 0 or less");
-    });
-
-    describe("_usesCharges", () => {
-        it.todo(
-            "returns true for FATE, FATEBONUS, FATEPOINTBONUS, GRACE, PIETY subtypes",
-        );
-        it.todo("returns false for other subtypes");
     });
 
     describe("_usesLevels", () => {

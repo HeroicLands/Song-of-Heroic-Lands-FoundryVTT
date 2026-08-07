@@ -26,8 +26,11 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 - **SubType:**
 - **Level:** Power level of this mystery, if applicable
 - **Charges:** If this mystery can be used up, this represents the number of charges
-    - **Value:** Current number of charges avaiable
-    - **Max:** Maximum number of charges
+    - **Current Charges:** Charges remaining. Leave it blank for a mystery whose
+      uses are unlimited (the sheet shows ∞).
+    - **Maximum Charges:** The cap, and the control that decides whether the
+      mystery uses charges at all. Leave it blank for one that does not (the
+      sheet shows ✕); enter `0` for one that is counted but uncapped.
 
 # Intrinsic Actions
 
