@@ -41,7 +41,10 @@ those impairments decide the ceiling, and nothing else does:
 2. **Which part it is.** A part is either **critical** — it holds something vital
    or is core to the body, such as the head, the chest, or the abdomen — or it is
    a **limb**: an arm, a leg, a hand, a foot. Harm to a critical part costs far
-   more than the same harm to a limb.
+   more than the same harm to a limb. Which of the two a part is follows from its
+   [body roles](Body_Structure.md#body-part-roles): a part carrying **Vital** or
+   **Core** is critical, and a part carrying only **Manipulator** or **Locomotor**
+   is a limb.
 3. **How many parts are in that same state.** A second injury of a given severity
    costs much more than the first, and by the third the ceiling has usually
    bottomed out.

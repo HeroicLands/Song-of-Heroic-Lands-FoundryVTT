@@ -76,8 +76,24 @@ is immediately **Dead**.
 **Sources of a base SSI.** Shock is not specific to injury — the base index can
 come from any cause:
 
-- **Injury** — the struck body **location's Shock Value + the Injury Level**.
+- **Injury** — the struck body **location's Shock Value + the Injury Level**, plus
+  **1** more if the blow was a [glancing one](Body_Structure.md#from-blow-to-injury).
+  Every body location carries its own Shock Value: on a human the skull, eyes,
+  nose, and neck are the worst at 5, the forearm and calf the mildest at 1. Other
+  body structures carry their own values. See
+  [Body Structure → Shock](Body_Structure.md#shock).
 - **Fear and other systemic or psychological forces** — each by its own measure.
+
+**Modifiers to the roll.** Two circumstances adjust the Shock Test itself rather
+than the index: a **glancing blow** grants **+10**, and an amputation check that
+ended in a **marginal success** imposes **−20**.
+
+**Worked example.** A blow to a human's skull (Shock Value 5) inflicts an S3 wound
+(Injury Level 3), so the base SSI is 8 — within the 5–10 band, so a Shock Test is
+made. A Marginal Success leaves it at 8: **Incapacitated**. A Critical Success pulls
+it to 7: **Stunned**. A Marginal Failure pushes it to 9: **Unconscious**. The same
+wound to the forearm (Shock Value 1) would open at 4 — below 5, so no roll is made
+and no shock results at all.
 
 Some effects instead raise the shock state directly, by their own means — most
 notably [blood loss](Bleeding.md#blood-loss-advance-test), which advances the shock
@@ -179,5 +195,6 @@ number of days spent in the coma**.
 ## See also
 
 - [Injury](Injury.md) — how injuries generate shock and impairment.
+- [Body Structure](Body_Structure.md) — the Shock Value each body location carries.
 - [Bleeding](Bleeding.md) — blood loss advancing the shock state.
 - [Fatigue](Fatigue.md) — the fatigue that penalizes shock and course tests.

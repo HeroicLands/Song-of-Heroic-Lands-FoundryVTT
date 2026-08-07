@@ -76,9 +76,18 @@ penalty tracks down with it.
 
 | Severity | Indefinite Impairment                                                  |
 | -------- | ---------------------------------------------------------------------- |
-| Minor    | −5                                                                     |
+| Minor    | −5, but only while the wound is slow to heal (Healing Rate 5 or less)  |
 | Serious  | −10                                                                    |
 | Grievous | Body part **unusable** — tests using it automatically Critically Fail. |
+
+Impairment is **worst-of, never additive**: a part bearing three serious wounds is
+impaired by −10, not −30, and takes only the single worst penalty among its
+injuries and its permanent impairment.
+
+Which tests an impaired part actually penalizes is decided by the part's
+[body roles](Body_Structure.md#body-part-roles) — each skill and attribute names
+the roles whose injury impairs it, and takes the worst penalty among the parts
+holding those roles (or Critically Fails outright if any of them is unusable).
 
 ### Permanent Impairment
 
@@ -184,5 +193,6 @@ every infection has been defeated.
 
 ## See also
 
-- [Healing Base](Healing_Base.md), [Bleeding](Bleeding.md),
-  [Infection](Infection.md), [Shock](Shock.md), [Trauma](Trauma.md).
+- [Body Structure](Body_Structure.md), [Healing Base](Healing_Base.md),
+  [Bleeding](Bleeding.md), [Infection](Infection.md), [Shock](Shock.md),
+  [Trauma](Trauma.md).
