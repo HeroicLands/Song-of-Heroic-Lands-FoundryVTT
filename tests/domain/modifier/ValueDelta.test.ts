@@ -219,6 +219,38 @@ describe("ValueDelta", () => {
         });
     });
 
+    describe("label (#1127)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        it("localizes the stored name for display", () => {
+            vi.spyOn(
+                (globalThis as any).sohl.i18n,
+                "localize",
+            ).mockImplementation((k: any) =>
+                k === "SOHL.MysticalAbility.LevelPenalty" ? "Level Penalty" : k,
+            );
+            const delta = makeDelta({
+                name: "SOHL.MysticalAbility.LevelPenalty",
+                abbrev: "LvlPen",
+                op: VALUE_DELTA_OPERATOR.ADD,
+                value: "-6",
+            });
+            expect(delta.label).toBe("Level Penalty");
+            // The stored name remains the key — only display is localized.
+            expect(delta.name).toBe("SOHL.MysticalAbility.LevelPenalty");
+        });
+
+        it("passes plain prose through unchanged (idempotent)", () => {
+            const delta = makeDelta({
+                name: "Dagger",
+                abbrev: "DGR",
+                op: VALUE_DELTA_OPERATOR.ADD,
+                value: "2",
+            });
+            expect(delta.label).toBe("Dagger");
+        });
+    });
+
     describe("toJSON()", () => {
         it("serializes the delta to a plain object", () => {
             const delta = makeDelta({

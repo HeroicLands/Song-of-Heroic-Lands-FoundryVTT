@@ -68,6 +68,28 @@ The configurable fields (`scope`, `trigger`/`visible`, `executor`), the
 {@link sohl.entity.expr.SafeExpression} predicates, and a worked example are documented on
 **{@link sohl.entity.action.SohlAction}** (and {@link sohl.entity.action.SohlAction.Data}).
 
+### A refused action must say so
+
+`trigger` is a **hard** gate: {@link sohl.entity.action.SohlAction.execute}
+honors it however the action is invoked, so an action whose trigger is false
+does nothing. A surface that _offers_ the action must therefore ask before
+offering it — {@link sohl.entity.action.SohlAction.isAvailable} is that
+question, evaluated against the action's own owning documents — and, when the
+answer is no, present the control as **disabled with the reason** rather than
+live-but-inert. Silently doing nothing on click reads as a bug.
+
+The reason is {@link sohl.entity.action.SohlAction.unavailableReason}: the
+action's declared `disabledReason` (an i18n **key**, localized only where it is
+rendered or notified), falling back to a generic one. Gate an action on a
+condition a user can act on, and give it a `disabledReason` that names that
+condition — the gear carried gate does this via
+`GearLogic.CARRIED_DISABLED_REASON`, so every gear action refused for an
+uncarried item explains itself the same way.
+
+Both Actions tabs render from this contract: the run control on a refused row is
+disabled with the reason as its tooltip, and clicking one anyway reports the
+refusal instead of no-op'ing.
+
 ## How SoHL uses this internally: intrinsic actions
 
 The same mechanism powers SoHL's own built-in behaviors. **Every** action — a GM's

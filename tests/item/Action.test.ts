@@ -303,6 +303,45 @@ describe("SohlAction.visible composes with trigger and permission", () => {
     });
 });
 
+describe("SohlAction.isAvailable / unavailableReason (#1135)", () => {
+    it("is true when the trigger passes against the action's own context", () => {
+        expect(makeAction({ trigger: "true" }).isAvailable).toBe(true);
+    });
+
+    it("is false when the trigger refuses", () => {
+        expect(makeAction({ trigger: "false" }).isAvailable).toBe(false);
+    });
+
+    it("evaluates the trigger against the resolved owning documents", () => {
+        // An actor-scoped trigger passes only because resolveContext() finds
+        // the owning actor document — the same context execute() gates on.
+        const actor = {
+            documentName: "Actor",
+            logic: { isHeroic: true },
+        } as any;
+        const action = makeActionOnActor(actor, {
+            trigger: "actorLogic.isHeroic",
+        });
+        expect(action.isAvailable).toBe(true);
+    });
+
+    it("reports the action's declared disabled reason (an i18n key)", () => {
+        const action = makeAction({
+            trigger: "false",
+            disabledReason: "SOHL.Gear.actionRequiresCarried",
+        });
+        expect(action.unavailableReason).toBe(
+            "SOHL.Gear.actionRequiresCarried",
+        );
+    });
+
+    it("falls back to the generic reason when none is declared", () => {
+        expect(makeAction({ trigger: "false" }).unavailableReason).toBe(
+            "SOHL.Actions.unavailable",
+        );
+    });
+});
+
 describe("SohlAction.execute gates on permission then trigger", () => {
     let infoSpy: ReturnType<typeof vi.spyOn>;
     beforeEach(() => {

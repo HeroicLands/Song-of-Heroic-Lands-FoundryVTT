@@ -39,7 +39,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
         {{#each customActions as |action|}}
         <div class="ledger__row" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-            <div class="ledger__icon"><img src="{{action.data.img}}" alt="" /></div>
+            {{!-- Actions carry a FontAwesome/ginf class, not an image (#1136);
+                 fall back to the schema's placeholder glyph when blank. --}}
+            <div class="ledger__icon"><i class="{{#if action.data.iconFAClass}}{{action.data.iconFAClass}}{{else}}fa-solid fa-circle-question{{/if}}"></i></div>
             <div class="ledger__name">{{localize action.data.title}}</div>
             <div class="ledger__cell ledger__cell--text">{{localize (concat "SOHL.ContextMenu.SortGroup." action.data.group)}}</div>
             <div class="ledger__notes"></div>
@@ -50,7 +52,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <a class="icon-button icon-button--danger" data-action="deleteAction" title="{{localize "SOHL.Actions.remove"}}">
                     <i class="fa-solid fa-trash"></i>
                 </a>
-                <a class="icon-button" data-action="runAction" data-tooltip="{{localize "SOHL.Actions.run" name=(localize action.data.title)}}">
+                {{!-- A gated action (its trigger currently refuses it) reads as
+                     disabled and says why, rather than offering a control that
+                     silently does nothing (#1135). --}}
+                <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Actions.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
                     <i class="fa-solid fa-play"></i>
                 </a>
             </div>
@@ -74,12 +79,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
         {{#each intrinsicActions as |action|}}
         <div class="ledger__row" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-            <div class="ledger__icon"><img src="{{action.data.img}}" alt="" /></div>
+            {{!-- Actions carry a FontAwesome/ginf class, not an image (#1136);
+                 fall back to the schema's placeholder glyph when blank. --}}
+            <div class="ledger__icon"><i class="{{#if action.data.iconFAClass}}{{action.data.iconFAClass}}{{else}}fa-solid fa-circle-question{{/if}}"></i></div>
             <div class="ledger__name">{{localize action.data.title}}</div>
             <div class="ledger__cell ledger__cell--text">{{localize (concat "SOHL.ContextMenu.SortGroup." action.data.group)}}</div>
             <div class="ledger__notes"></div>
             <div class="ledger__controls">
-                <a class="icon-button" data-action="runAction" data-tooltip="{{localize "SOHL.Actions.run" name=(localize action.data.title)}}">
+                {{!-- A gated action (its trigger currently refuses it) reads as
+                     disabled and says why, rather than offering a control that
+                     silently does nothing (#1135). --}}
+                <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Actions.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
                     <i class="fa-solid fa-play"></i>
                 </a>
             </div>

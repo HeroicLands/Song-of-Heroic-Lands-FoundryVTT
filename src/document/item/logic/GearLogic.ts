@@ -199,6 +199,14 @@ export abstract class GearLogic<
     ];
 
     /**
+     * i18n key stamped onto each carried-gated action as its
+     * {@link sohl.entity.action.SohlAction.Data.disabledReason}, so a UI
+     * offering the action can say *why* it is refused instead of presenting a
+     * control that silently does nothing (issue #1135).
+     */
+    static readonly CARRIED_DISABLED_REASON = "SOHL.Gear.actionRequiresCarried";
+
+    /**
      * Gate a list of action definitions on the item being carried — the seam
      * every gear logic runs its {@link defineIntrinsicActions} result through.
      *
@@ -206,6 +214,10 @@ export abstract class GearLogic<
      * {@link CARRIED_TRIGGER} conjoined onto its `trigger`, so the action is
      * unavailable while `system.isCarried` is `false`. An author's existing
      * trigger is preserved (parenthesized and `&&`-ed), never replaced.
+     *
+     * Each gated definition also carries {@link CARRIED_DISABLED_REASON} as its
+     * `disabledReason` (unless the author declared one), so a surface that
+     * offers the action can explain the refusal (issue #1135).
      *
      * The transform is **idempotent** — a subclass gates the list it already
      * received from its parent's `defineIntrinsicActions()`, so definitions pass
@@ -235,6 +247,8 @@ export abstract class GearLogic<
                     existing && existing !== "true" ?
                         `(${existing}) && ${GearLogic.CARRIED_TRIGGER}`
                     :   GearLogic.CARRIED_TRIGGER,
+                disabledReason:
+                    def.disabledReason ?? GearLogic.CARRIED_DISABLED_REASON,
             };
         });
     }

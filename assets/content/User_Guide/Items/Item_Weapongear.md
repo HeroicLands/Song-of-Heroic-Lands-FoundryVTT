@@ -211,16 +211,10 @@ Hover any of those cells to see the breakdown without rolling.
 The GM's pencil is described on [[Item_Base|Base Item]], under _Editing a Posted
 Test Result_.
 
-> **Known gaps.** Two defects affect this card today:
->
-> - Its **title renders a raw localization key**
->   (`SOHL.MasteryLevelModifier.successTest`) instead of the test's name (issue
->   #1107). Everything below the title is correct. This affects every standard test
->   card, not only weapons.
-> - **Fate cannot be spent on a weapon's combat tests** — the card never offers the
->   **Fate** button, even to a character holding a charged Fate Point, and even
->   though the very skill the weapon rolls through _does_ offer it on its own tests
->   (issue #1106). Spending Fate is described on [[Fate_System|Fate]].
+> **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the
+> **Fate** button, even to a character holding a charged Fate Point, and even
+> though the very skill the weapon rolls through _does_ offer it on its own tests
+> (issue #1106). Spending Fate is described on [[Fate_System|Fate]].
 
 ## Where they are unavailable
 

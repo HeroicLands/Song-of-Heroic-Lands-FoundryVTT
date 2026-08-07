@@ -155,17 +155,11 @@ injury at a body part carrying one of those roles, the test is penalized by −5
 −10; if the part is unusable altogether, the test **fails critically** without a
 roll. A Strength test made on a crushed arm is not a normal Strength test.
 
-> **Known gaps.** Two defects affect this action today:
->
-> - **The card's title shows a raw text key** (`SOHL.MasteryLevelModifier.successTest`)
->   instead of the test's name, such as _Strength Test_ (issue #1107). Everything
->   below the title — Target, Roll, and the outcome — is correct. The same title
->   appears on skill tests, for the same reason.
-> - **No Fate can be spent on an attribute test.** The card never offers the
->   **Fate** button, even when the character holds a general Fate Point, although
->   the [[rules/sohl-fate|Fate rules]] allow one on any skill _or attribute_ test
->   (issue #1106). Until it is fixed, spend Fate at the table by agreement, or
->   have the GM adjust the result with the pencil.
+> **Known gap. No Fate can be spent on an attribute test.** The card never offers the
+> **Fate** button, even when the character holds a general Fate Point, although
+> the [[rules/sohl-fate|Fate rules]] allow one on any skill _or attribute_ test
+> (issue #1106). Until it is fixed, spend Fate at the table by agreement, or
+> have the GM adjust the result with the pencil.
 
 # Opposed Test
 

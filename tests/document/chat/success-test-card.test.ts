@@ -12,6 +12,8 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { BRAND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 /**
  * Minimal parent stub sufficient for SuccessTestResult + MasteryLevelModifier
@@ -37,7 +39,19 @@ const parent = {
  * so the assertions are against the actual chat-data `toChat` produces. The die
  * is supplied directly (`rolls: [rollTotal]`) so the outcome is deterministic.
  */
-async function renderCard(effective: number, rollTotal: number) {
+async function renderCard(
+    effective: number,
+    rollTotal: number,
+    opts: {
+        /**
+         * Take the card's title from the modifier's own default rather than a
+         * literal, so the rendered header exercises the real derivation (#1107).
+         */
+        useModifierTitle?: boolean;
+        /** Ad-hoc deltas added to the modifier before evaluating (#1127). */
+        deltas?: { name: string; abbrev: string; value: number }[];
+    } = {},
+) {
     let captured = "";
     const speaker = {
         isOwner: true,
@@ -56,12 +70,17 @@ async function renderCard(effective: number, rollTotal: number) {
     const mlMod = new MasteryLevelModifier({ baseValue: effective } as any, {
         parent,
     });
+    for (const d of opts.deltas ?? []) mlMod.add(d.name, d.abbrev, d.value);
     const roll = new SimpleRoll(
         { numDice: 1, dieFaces: 100, modifier: 0, rolls: [rollTotal] } as any,
         { parent },
     );
     const result = new SuccessTestResult(
-        { masteryLevelModifier: mlMod, roll, title: "Skill Test" } as any,
+        {
+            masteryLevelModifier: mlMod,
+            roll,
+            title: opts.useModifierTitle ? mlMod.title : "Skill Test",
+        } as any,
         { parent, chatSpeaker: speaker },
     );
     await result.evaluate();
@@ -245,5 +264,60 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
         const { html } = await renderCard(50, 32);
         expect(html).not.toContain("Success Value:");
         expect(html).not.toContain("Success Stars:");
+    });
+});
+
+/**
+ * Resolve `sohl.i18n` against the real `lang/en.json` for the duration of a
+ * test. The unit stub echoes keys, which would make a "the card shows prose,
+ * not a key" assertion vacuous.
+ */
+function useRealLang(): void {
+    const lang = JSON.parse(
+        readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
+    ) as Record<string, string>;
+    vi.spyOn(sohl.i18n, "localize").mockImplementation(
+        (key: string) => lang[key] ?? key,
+    );
+    vi.spyOn(sohl.i18n, "format").mockImplementation(
+        (key: string, data: Record<string, unknown> = {}) => {
+            let out = lang[key] ?? key;
+            for (const [k, v] of Object.entries(data))
+                out = out.replace(`{${k}}`, String(v));
+            return out;
+        },
+    );
+}
+
+describe("standard-test-card localizes its display strings", () => {
+    it("renders the test name in the header, not a raw SOHL key (#1107)", async () => {
+        useRealLang();
+        const { html } = await renderCard(50, 32, { useModifierTitle: true });
+        const title = /<h3 class="title">([\s\S]*?)</.exec(html)?.[1]?.trim();
+        expect(title).toBe("Hero Test");
+        expect(title).not.toMatch(/^SOHL\./);
+    });
+
+    it("renders each modifier-breakdown row localized (#1127)", async () => {
+        useRealLang();
+        const { html } = await renderCard(55, 32, {
+            deltas: [
+                {
+                    name: "SOHL.MysticalAbility.LevelPenalty",
+                    abbrev: "LvlPen",
+                    value: -6,
+                },
+            ],
+        });
+        // Assert on the Adjustment block specifically: the edit pencil's
+        // `data-scope` (#856) serializes the result — deltas included — and
+        // that payload legitimately keeps each delta's stored i18n *key*.
+        const adjustment =
+            /<div class="adjustment">[\s\S]*?<\/div>\s*<\/div>/.exec(
+                html,
+            )?.[0] ?? "";
+        expect(adjustment).toContain("Level Penalty");
+        expect(adjustment).not.toContain("SOHL.MysticalAbility.LevelPenalty");
+        expect(adjustment).not.toMatch(/SOHL\./);
     });
 });
