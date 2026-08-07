@@ -23,6 +23,7 @@ import {
 import {
     healthBand as healthBandFor,
     healthBandLabel as healthBandLabelFor,
+    healthPercent,
     type HealthBand,
 } from "@src/document/actor/logic/health";
 import type { GearLogic } from "@src/document/item/logic/GearLogic";
@@ -85,29 +86,6 @@ export interface CohortMemberRow {
      * band. Localized at render, as {@link CohortMemberRow.roleLabel} is.
      */
     healthBandLabel: string | undefined;
-}
-
-/**
- * A member's health as a whole percentage of its maximum.
- *
- * Reads the actor's token-bar-shaped `{ value, max }` health. Returns
- * `undefined` — rather than `0` — whenever there is no usable health to report
- * (the handle did not resolve, the actor exposes none, or `max` is not a
- * positive number), so "no health to show" stays distinct from "at death's
- * door".
- *
- * @param health - The resolved actor's health, if any.
- * @returns The percentage `0…100`, or `undefined`.
- */
-function memberHealthPct(
-    health: { value: number; max: number } | undefined,
-): number | undefined {
-    if (!health) return undefined;
-    const { value, max } = health;
-    if (typeof value !== "number" || typeof max !== "number" || max <= 0) {
-        return undefined;
-    }
-    return Math.round((value / max) * 100);
 }
 
 /**
@@ -176,7 +154,7 @@ export class CohortLogic<
         return this.data.members.map((member) => {
             const ref = member.shortcodeOrUuid;
             const actor = fvttActorByRef(ref);
-            const healthPct = memberHealthPct(actor?.logic?.data?.health);
+            const healthPct = healthPercent(actor?.logic?.data?.health);
             const band =
                 healthPct === undefined ? undefined : healthBandFor(healthPct);
             return {

@@ -178,6 +178,28 @@ export function healthBand(value: number): HealthBand {
 }
 
 /**
+ * An actor's health as a whole percentage of its maximum.
+ *
+ * Returns `undefined` — rather than `0` — whenever there is no usable health to
+ * report (absent, or a non-positive maximum), so "nothing to show" stays
+ * distinct from "at death's door". Shared by every roster that lists other
+ * actors' condition (a cohort's members, a vehicle's occupants).
+ *
+ * @param health - The actor's token-bar-shaped health, if any.
+ * @returns The percentage `0…100`, or `undefined`.
+ */
+export function healthPercent(
+    health: { value: number; max: number } | undefined,
+): number | undefined {
+    if (!health) return undefined;
+    const { value, max } = health;
+    if (typeof value !== "number" || typeof max !== "number" || max <= 0) {
+        return undefined;
+    }
+    return Math.round((value / max) * 100);
+}
+
+/**
  * The localization key for a health band. The band itself is a stable internal
  * token (`"Excellent"`, `"Dead"`, …) and is never shown to a player directly —
  * every surface that displays one localizes this key instead.

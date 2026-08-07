@@ -31,6 +31,7 @@ const FENCED_SHEETS = [
         tabs: [
             "facade",
             "profile",
+            "occupants",
             "mysteries",
             "gear",
             "actions",
@@ -39,14 +40,7 @@ const FENCED_SHEETS = [
     },
     {
         kind: "structure",
-        tabs: [
-            "facade",
-            "profile",
-            "mysteries",
-            "gear",
-            "actions",
-            "effects",
-        ],
+        tabs: ["facade", "profile", "mysteries", "gear", "actions", "effects"],
     },
     {
         kind: "cohort",
