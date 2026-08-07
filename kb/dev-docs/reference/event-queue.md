@@ -191,33 +191,51 @@ override finalize(): void {
         armScheduledActions(this.item.uuid, this.data.scheduledActions, sohl.events);
 }
 
-// (b) The action. Its anchor + interval come from the persisted store entry —
-//     NEVER the live clock. It catches up every checkpoint the world skipped,
-//     then OFFERS the next occurrence instead of auto-re-arming.
-async healingCheck(context: SohlActionContext): Promise<void> {
-    const entry = this.data.scheduledActions?.find(e => e.actionName === "healingCheck");
-    const anchor = entry?.anchor ?? fvttWorldTime();
-    const interval = entry?.interval ?? this.healingCheckDurationBase.effective;
+// (b) The CHECK. It offers and does nothing else: no roll, no change, no
+//     schedule. It posts a card whose button invites ONE test, carrying the
+//     occurrence's DUE time so the test can anchor the next one there.
+async healingCheck(_context: SohlActionContext): Promise<void> {
+    await postActionCard(this.speaker, {
+        template: "systems/sohl/templates/chat/healing-check-card.hbs",
+        data: { /* patient, wound, level, treated, halted */ },
+        buttons: {
+            action: "healingtest",
+            handlerUuid: this.item.uuid,
+            scope: { dueAt: this.healingCheckDueAt() },   // anchor for the next
+            label: sohl.i18n.localize("SOHL.Trauma.Action.healingtest.title"),
+        },
+    });
+}
+
+// (c) The TEST. It acts — one occurrence per invocation — and only then OFFERS
+//     the next, anchored on the due time it just answered (NEVER the live clock),
+//     so answering late does not push the cadence later (#1181).
+async healingTest(context: SohlActionContext): Promise<{ level: number } | null> {
+    const dueAt = context.scope?.dueAt ?? this.healingCheckDueAt();
 
     let level = this.data.levelBase;
-    for (const t of elapsedCheckpoints(anchor, fvttWorldTime(), interval)) {
-        if (level <= 0) break;
-        level = await this.rollHealingTest(level, t); // stateful catch-up
-    }
+    const sl = await this.rollHealingTest();
+    if (sl == null) return null;                          // roll refused
+    if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
     await this.item.update({ "system.levelBase": level });
 
     if (level <= 0) await sohl.unschedule(this.item, "healingCheck"); // done
-    else await offerSchedule(context, this.item, "healingCheck",     // offer next
-        this.rollDuration(this.data.healingCheckDurationFormula));
+    else await offerSchedule(context, this.item, "healingCheck",      // offer next
+        this.rollDuration(this.data.healingCheckDurationFormula),
+        undefined, undefined, dueAt);
 }
 ```
 
 - {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} / {@link sohl.core.logic.SohlSystem.unschedule | sohl.unschedule} write the store **and** (un)arm the queue in one call.
 - {@link sohl.document.item.logic.offerSchedule} is the shared consent step — accept → `sohl.schedule` the next; decline → `sohl.unschedule` (see [consent](#consent-the-queue-reminds-the-human-performs)).
-- {@link sohl.entity.event.armScheduledActions} and {@link sohl.entity.event.elapsedCheckpoints} do the reload re-arm and the catch-up enumeration.
+- {@link sohl.entity.event.armScheduledActions} does the reload re-arm; {@link sohl.entity.event.elapsedCheckpoints} enumerates the checkpoints a skipped-over stretch of world time contains, for a caller that has to catch up on more than one.
 
-Blood-loss (`bloodLossAdvanceCheck`) and the shock/coma/infection recovery
-(`courseCheck`) follow the identical shape; the affliction phase machine
+**Check/Test is the shape every recurring effect uses** (#1181): a `*Check` only
+offers, a `*Test` acts and then offers the next occurrence. One check invites one
+test — nothing re-arms behind the player, and a check that is never answered
+changes nothing. Blood-loss (`bloodLossAdvanceCheck` → `bloodLossAdvanceTest`),
+the shock/coma/infection recovery (`courseCheck` → `courseTest`), and the trauma
+recovery checks follow the identical pair; the affliction phase machine
 (`onsetCheck` → `resolutionCheck` → recurring `healingCheck`) schedules each next
 phase from the transition that precedes it.
 

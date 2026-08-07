@@ -562,7 +562,9 @@ There are two ways to answer, and the choice should model intent:
     ```js
     cy.foundry((win) => {
         // Perform without skipDialog → the offer dialog opens; stash the promise.
-        win.__perf = wound.logic.executeAction("healingCheck", {});
+        // Note it is the `*Test` that offers the next occurrence — the `*Check`
+        // only posts the card inviting it (see the Check/Test split, #1181).
+        win.__perf = wound.logic.executeAction("healingtest", {});
         return null;
     });
     cy.submitDialog("yes"); // model the user: press button[data-action="yes"]
