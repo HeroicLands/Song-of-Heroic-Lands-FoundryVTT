@@ -47,3 +47,18 @@ See [[Success_Value_Tests|Success Value Tests]] for the full four-step procedure
 A test uses one primary skill at a time, but other skills and attributes can influence it as **Secondary Mastery**, in one of two ways. A **Secondary Modifier** lends a bonus or penalty to the EML, derived from the secondary skill or attribute's Index. A **Secondary Roll** instead accompanies the test as a separate d10 check, using that Index as its target number.
 
 See [[Secondary_Mastery|Secondary Mastery]] for the modifier table, Secondary Rolls, and the rule on missing mastery.
+
+# Injury and Skills
+
+A skill does not name the body parts it needs — it names **body roles**. Each skill (and each attribute) carries a list of the roles whose injury impairs it: **Vital**, **Core**, **Manipulator**, **Locomotor**, or any combination. Climbing might list both Manipulator and Locomotor; Legerdemain, Manipulator alone; a Lore skill, none at all.
+
+When you test a skill, every body part holding one of the roles that skill lists is consulted:
+
+- If any of those parts is **unusable** — a grievous wound, or a limb lost outright — the test **automatically Critically Fails**. No roll is made.
+- Otherwise the test suffers the **worst** impairment penalty among those parts: **−5** or **−10**. Penalties do not stack across parts; the single worst applies.
+
+A skill that lists no roles is never impaired by injury, however badly hurt the character is.
+
+Naming roles rather than parts is what lets one skill definition serve every creature. "Manipulator injury impairs me" is a true and complete statement whether the creature has two arms, four, or a pair of tentacles — the skill never needs to know the anatomy it is used on.
+
+See [[Body_Structure|Body Structure]] for the roles in full, how parts become impaired or unusable, and how a human's parts are tagged.
