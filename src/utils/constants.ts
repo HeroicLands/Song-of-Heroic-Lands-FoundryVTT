@@ -1032,7 +1032,8 @@ export const {
     LEVEL: "mod:logic.level",
     HEALING_RATE: "mod:logic.healingRate",
     CONTAGION_INDEX: "mod:logic.contagionIndex",
-    DIAGNOSIS_BONUS: "mod:logic.diagnosisBonus",
+    COURSE: "mod:logic.course",
+    HEALING: "mod:logic.healing",
 });
 /** Union of all affliction effect-key change paths. */
 export type AfflictionEffectKey =

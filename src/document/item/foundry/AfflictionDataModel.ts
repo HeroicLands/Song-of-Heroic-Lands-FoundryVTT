@@ -75,9 +75,13 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
             initial: AFFLICTION_TRANSMISSION.NONE,
             choices: AfflictionTransmissionChoices,
         }),
-        diagnosisBonusBase: new NumberField({
-            integer: true,
-            initial: 0,
+        // A SimpleRoll formula giving the number of **days** between contracting
+        // the affliction and the start of onset. Rolled by the Contagion Test on
+        // the receiving actor (#1183). Unset (`null`) means no incubation.
+        onsetFormula: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
         }),
         contractDate: worldTimeDateField(),
         treatmentDate: worldTimeDateField(),
@@ -142,7 +146,7 @@ export class AfflictionDataModel<
     resolutionDurationFormula!: string | null;
     resolutionDurationBase!: number | null;
     resolutionDate!: number | null;
-    diagnosisBonusBase!: number;
+    onsetFormula!: string | null;
     levelBase!: number;
     healingRateBase!: number | null;
     contagionIndexBase!: number;
@@ -161,10 +165,10 @@ export class AfflictionDataModel<
      * Affliction is created — **not** a schedule: `contractDate` is set to the
      * current world time and `onsetDurationBase` is seeded from a numeric read of
      * the (per-disease) `onsetDurationFormula` (the offer's default cadence). The
-     * `onsetCheck` is **offered**, not auto-armed — `BeingLogic.contractDisease`
+     * `onsetCheck` is **offered**, not auto-armed — `BeingLogic.contagionTest`
      * calls the shared schedule offer after creating the affliction (issue #579,
      * the last creation-time auto-schedule removed). A disease created by a raw
-     * drag (bypassing `contractDisease`) therefore does not auto-onset, matching
+     * drag (bypassing `contagionTest`) therefore does not auto-onset, matching
      * how direct trauma creation bypasses its offer. The onset *transition*, when
      * performed, still crystallizes `onsetDate` and auto-schedules the resolution
      * and recurring healing-check events (a consequence of the human-performed

@@ -27,7 +27,7 @@ otherwise.
 
 Healing Base is the mastery level used, together with a **Healing Rate**, in
 nearly every recovery roll in the system — the [Injury Healing Test](Injury.md#injury-healing-test),
-the affliction [Course Test](Afflictions.md#course-test-healing), the
+the affliction [Course Test](Afflictions.md#course-test), the
 [Infection Healing Test](Infection.md), and the Extended Shock and Coma course
 tests (see [Shock](Shock.md)). In each case the test is rolled against
 **`Healing Base × Healing Rate`**.

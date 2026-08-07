@@ -90,7 +90,7 @@ Each stage involves skill tests (typically Physician or related skills).
 
 ## Contracting a Disease {#conditions-contract-disease}
 
-When a character is exposed to a disease, use the **Contract Disease** action
+When a character is exposed to a disease, use the **Contagion Check** action
 on the being (right-click the token or use the character's action menu). Only
 **diseases** can be contracted this way — poisons and curses are applied by
 other means.

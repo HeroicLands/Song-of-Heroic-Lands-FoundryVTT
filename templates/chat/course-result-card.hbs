@@ -1,0 +1,50 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Course Test result card body. Reports the affliction's new Healing Rate, the
+host's reaction to it, and — crucially — whether that reaction was applied to
+the character sheet, since the player may have declined it. Body only.
+--}}
+<div class="sohl chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">{{localize "SOHL.Chat.CourseResult.title"}}</h3>
+    </header>
+
+    <div class="card-content center">
+        <span>{{localize "SOHL.Chat.CourseResult.outcome" patient=patientName affliction=afflictionName hr=healingRate}}</span>
+    </div>
+
+    <div class="card-content center">
+        {{#if defeated}}
+            <span class="value">{{localize "SOHL.Chat.CourseResult.defeated"}}</span>
+        {{else}}
+            {{#if fatigueLevels}}
+                <span class="value">{{localize "SOHL.Chat.CourseResult.fatigue" levels=fatigueLevels}}</span>
+            {{/if}}
+            {{#if shockLabel}}
+                <span class="value">{{localize shockLabel}}</span>
+            {{/if}}
+        {{/if}}
+    </div>
+
+    <div class="card-content center">
+        <span class="hint">
+            {{#if applied}}
+                {{localize "SOHL.Chat.CourseResult.applied"}}
+            {{else}}
+                {{localize "SOHL.Chat.CourseResult.notApplied"}}
+            {{/if}}
+        </span>
+    </div>
+</div>

@@ -62,7 +62,7 @@ processes by which a character recovers from — or succumbs to — it.
 Most traumas recover through periodic tests against **`Healing Base × Healing
 Rate`** (see [Healing Base](Healing_Base.md)) — the Injury Healing Test, the
 Infection Healing Test, the Extended Shock and Coma course tests, and the
-affliction [Course Test](Afflictions.md#course-test-healing). Fatigue, fear,
+affliction [Course Test](Afflictions.md#course-test). Fatigue, fear,
 morale, psychological, and Pall traumas each recover by their own rules, detailed
 on their pages.
 

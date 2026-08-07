@@ -695,6 +695,28 @@ export async function fvttCreateEmbeddedItems(
 }
 
 /**
+ * Create embedded `ActiveEffect` documents on a document.
+ *
+ * @remarks The Foundry-free way for the logic layer to attach an Active Effect —
+ * e.g. a treatment Course Bonus on an affliction (#1183). The caller passes the
+ * owning document and plain effect-creation data; this boundary performs the
+ * write. No-op when the document cannot host effects.
+ * @param doc - The document to create the effects on (an Item or Actor).
+ * @param effectsData - Plain `ActiveEffect` creation data.
+ * @returns The created effect documents, or an empty array.
+ */
+export async function fvttCreateEmbeddedEffects(
+    doc: any,
+    effectsData: object[],
+): Promise<any[]> {
+    if (typeof doc?.createEmbeddedDocuments !== "function") return [];
+    return (await doc.createEmbeddedDocuments(
+        "ActiveEffect",
+        effectsData,
+    )) as any[];
+}
+
+/**
  *  Delete embedded `Item` documents from an actor, addressed through its *logic*.
  *
  * @remarks The Foundry-free way for the logic layer to remove items from an actor:
@@ -733,6 +755,8 @@ export async function fvttFindDiseases(): Promise<AfflictionChoice[]> {
         doc.system?.subType === AFFLICTION_SUBTYPE.DISEASE;
     const toChoice = (doc: any): AfflictionChoice => ({
         name: doc.name,
+        shortcode: doc.system?.shortcode ?? "",
+        onsetFormula: doc.system?.onsetFormula ?? null,
         contagionIndex: doc.system?.contagionIndexBase ?? 0,
         source: doc.toObject(),
     });

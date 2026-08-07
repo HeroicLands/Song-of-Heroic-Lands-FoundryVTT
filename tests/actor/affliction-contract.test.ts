@@ -8,123 +8,109 @@
 import { describe, it, expect } from "vitest";
 import {
     AfflictionChoice,
-    CONTRACT_AFFLICTION_CUSTOM,
     buildContractedAfflictionData,
-    contagionTarget,
-    readContractAfflictionForm,
+    readContagionTestForm,
 } from "@src/document/actor/logic/affliction-contract";
-import { ITEM_KIND } from "@src/utils/constants";
 
 const AFFLICTIONS: AfflictionChoice[] = [
     {
         name: "Grippe",
+        shortcode: "grippe",
+        onsetFormula: "2d6",
         contagionIndex: 3,
         source: { _id: "src1", type: "affliction", name: "Grippe" },
     },
     {
         name: "Marsh Fever",
+        shortcode: "marshfever",
+        onsetFormula: null,
         contagionIndex: 2,
-        source: { _id: "src2", type: "affliction", name: "Marsh Fever" },
+        source: {
+            _id: "src2",
+            type: "affliction",
+            name: "Marsh Fever",
+            system: { contagionIndexBase: 2 },
+        },
     },
 ];
 
-describe("contagionTarget", () => {
-    it("is CI × Endurance", () => {
-        expect(contagionTarget(3, 13)).toBe(39);
-        expect(contagionTarget(5, 20)).toBe(100);
-    });
-
-    it("makes a lower CI a lower (easier-to-fail) target — lower CI is more contagious", () => {
-        expect(contagionTarget(1, 12)).toBeLessThan(contagionTarget(5, 12));
-    });
-
-    it("never returns negative and coerces non-finite to 0", () => {
-        expect(contagionTarget(-3, 10)).toBe(0);
-        expect(contagionTarget(NaN, 10)).toBe(0);
-    });
-});
-
-describe("readContractAfflictionForm", () => {
-    it("reads an existing affliction by its index, carrying source and CI", () => {
-        const choice = readContractAfflictionForm(
-            { selection: "1" },
+describe("readContagionTestForm (#1183)", () => {
+    it("selects the affliction by shortcode, not by index", () => {
+        const choice = readContagionTestForm(
+            { affliction: "marshfever" },
             AFFLICTIONS,
         );
-        expect(choice).toEqual({
-            kind: "existing",
-            name: "Marsh Fever",
-            contagionIndex: 2,
-            source: AFFLICTIONS[1].source,
-        });
+        expect(choice?.affliction.name).toBe("Marsh Fever");
+        expect(choice?.affliction.contagionIndex).toBe(2);
     });
 
-    it("returns null for an unknown index", () => {
-        expect(
-            readContractAfflictionForm({ selection: "9" }, AFFLICTIONS),
-        ).toBeNull();
+    it("returns null for an unknown shortcode", () => {
+        expect(readContagionTestForm({ affliction: "nope" }, AFFLICTIONS)).toBe(
+            null,
+        );
+        expect(readContagionTestForm({}, AFFLICTIONS)).toBe(null);
     });
 
-    it("reads a custom disease (subtype fixed to disease), trimming the name and clamping CI to 1..5", () => {
-        expect(
-            readContractAfflictionForm(
-                {
-                    selection: CONTRACT_AFFLICTION_CUSTOM,
-                    customName: "  Rattle Cough  ",
-                    customCI: "7",
-                },
-                AFFLICTIONS,
-            ),
-        ).toEqual({
-            kind: "custom",
-            name: "Rattle Cough",
-            subType: "disease",
-            contagionIndex: 5,
-        });
-        expect(
-            readContractAfflictionForm(
-                {
-                    selection: CONTRACT_AFFLICTION_CUSTOM,
-                    customName: "Chill",
-                    customCI: "0",
-                },
-                AFFLICTIONS,
-            ),
-        ).toMatchObject({ contagionIndex: 1 });
+    it("reads the situational and success-level modifiers as integers", () => {
+        const choice = readContagionTestForm(
+            {
+                affliction: "grippe",
+                situationalModifier: "-10",
+                successLevelMod: "2",
+            },
+            AFFLICTIONS,
+        );
+        expect(choice?.situationalModifier).toBe(-10);
+        expect(choice?.successLevelMod).toBe(2);
     });
 
-    it("returns null for a custom affliction with no name", () => {
+    it("defaults both modifiers to 0 when absent or unparseable", () => {
+        const choice = readContagionTestForm(
+            { affliction: "grippe", situationalModifier: "abc" },
+            AFFLICTIONS,
+        );
+        expect(choice?.situationalModifier).toBe(0);
+        expect(choice?.successLevelMod).toBe(0);
+    });
+
+    it("reads the record checkbox as a boolean", () => {
         expect(
-            readContractAfflictionForm(
-                { selection: CONTRACT_AFFLICTION_CUSTOM, customName: "   " },
+            readContagionTestForm(
+                { affliction: "grippe", record: true },
                 AFFLICTIONS,
-            ),
-        ).toBeNull();
+            )?.record,
+        ).toBe(true);
+        expect(
+            readContagionTestForm({ affliction: "grippe" }, AFFLICTIONS)
+                ?.record,
+        ).toBe(false);
     });
 });
 
-describe("buildContractedAfflictionData", () => {
-    it("copies an existing affliction's source, dropping its _id", () => {
-        const data = buildContractedAfflictionData({
-            kind: "existing",
-            name: "Grippe",
-            contagionIndex: 3,
-            source: AFFLICTIONS[0].source,
-        });
-        expect(data).not.toHaveProperty("_id");
-        expect(data).toMatchObject({ type: "affliction", name: "Grippe" });
+describe("buildContractedAfflictionData (#1183)", () => {
+    it("copies the source affliction without its _id", () => {
+        const data = buildContractedAfflictionData(AFFLICTIONS[0], 1000, 0);
+        expect(data._id).toBeUndefined();
+        expect(data.type).toBe("affliction");
+        expect(data.name).toBe("Grippe");
     });
 
-    it("builds a fresh affliction item from a custom choice", () => {
-        const data = buildContractedAfflictionData({
-            kind: "custom",
-            name: "Rattle Cough",
-            subType: "disease",
-            contagionIndex: 4,
-        });
-        expect(data).toEqual({
-            type: ITEM_KIND.AFFLICTION,
-            name: "Rattle Cough",
-            system: { subType: "disease", contagionIndexBase: 4 },
-        });
+    it("anchors the contract at now and records the rolled incubation", () => {
+        const data = buildContractedAfflictionData(
+            AFFLICTIONS[0],
+            5_000,
+            3 * 86_400,
+        ) as { system: Record<string, unknown> };
+        expect(data.system.contractDate).toBe(5_000);
+        expect(data.system.onsetDurationBase).toBe(3 * 86_400);
+    });
+
+    it("preserves the source's own system fields alongside the new anchors", () => {
+        const data = buildContractedAfflictionData(AFFLICTIONS[1], 42, 0) as {
+            system: Record<string, unknown>;
+        };
+        expect(data.system.contagionIndexBase).toBe(2);
+        expect(data.system.contractDate).toBe(42);
+        expect(data.system.onsetDurationBase).toBe(0);
     });
 });

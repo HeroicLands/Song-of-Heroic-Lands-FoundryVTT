@@ -82,7 +82,7 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-shield" style="font-size:2em" aria-hidden="true"></i> | **Block** | Weapon |
 | <i class="fa-solid fa-burst" style="font-size:2em" aria-hidden="true"></i> | **Calculate Impact** | Being |
 | <i class="fa-regular fa-star" style="font-size:2em" aria-hidden="true"></i> | **Clear Improvement Flag** | Skill, Mystical Ability |
-| <i class="fa-solid fa-virus" style="font-size:2em" aria-hidden="true"></i> | **Contract Disease** | Being |
+| <i class="fa-solid fa-virus" style="font-size:2em" aria-hidden="true"></i> | **Contagion Check / Contagion Test** | Being |
 | <i class="fa-solid fa-virus" style="font-size:2em" aria-hidden="true"></i> | **Contract Test** | Affliction |
 | <i class="fa-solid fa-circle-half-stroke" style="font-size:2em" aria-hidden="true"></i> | **Counterstrike** | Weapon |
 | <i class="ginf-heart-beats" style="font-size:2em" aria-hidden="true"></i> | **Course Test** | Affliction |

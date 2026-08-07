@@ -140,22 +140,24 @@ standard test dialog that most rolls open.
 
 These are the actions a Being defines:
 
-| Action                                            | Shortcode              | What it does                                                           |
-| ------------------------------------------------- | ---------------------- | ---------------------------------------------------------------------- |
-| [Shock Test](#shock-test)                         | `shockTest`            | Rolls Shock against a Shock State Index and offers the resulting state |
-| [Shock Re-Test](#shock-re-test)                   | `shockReTest`          | An Incapacitated or Unconscious victim tries to shake off shock        |
-| [Stumble Test](#stumble-test-and-fumble-test)     | `stumbleTest`          | Keep your footing after a lurch                                        |
-| [Fumble Test](#stumble-test-and-fumble-test)      | `fumbleTest`           | Keep hold of what you are carrying                                     |
-| [Fear Test](#fear-test)                           | `fearTest`             | Tests Will against something frightening                               |
-| [Morale Test](#morale-test)                       | `moraleTest`           | Tests Initiative against a reason to break                             |
-| [Reaction Test](#reaction-test)                   | `reactionTest`         | A shaken character tries to pull themselves together                   |
-| [Rally Test](#rally-test)                         | `rallyTest`            | A leader offers to steady shaken allies                                |
-| [Resist the Pall](#resist-the-pall)               | `pallResist`           | A Spirit test against the Pall's depth                                 |
-| [Calculate Impact](#calculate-impact)             | `calcImpact`           | Turns a damage roll into a card that can be aimed at a target          |
-| [Resolve Injury](#resolve-injury)                 | `resolveInjury`        | Turns a blow into a wound on this character                            |
-| [Contract Disease](#contract-disease)             | `contractDisease`      | Rolls whether this character catches a disease                         |
-| [Perform Treatment Test](#perform-treatment-test) | `performTreatmentTest` | A physician proposes a Healing Rate for someone's wound                |
-| [Perform Blood Stoppage](#perform-blood-stoppage) | `performBloodStoppage` | A physician tries to staunch someone's bleeding                        |
+| Action                                                        | Shortcode                    | What it does                                                           |
+| ------------------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------- |
+| [Shock Test](#shock-test)                                     | `shockTest`                  | Rolls Shock against a Shock State Index and offers the resulting state |
+| [Shock Re-Test](#shock-re-test)                               | `shockReTest`                | An Incapacitated or Unconscious victim tries to shake off shock        |
+| [Stumble Test](#stumble-test-and-fumble-test)                 | `stumbleTest`                | Keep your footing after a lurch                                        |
+| [Fumble Test](#stumble-test-and-fumble-test)                  | `fumbleTest`                 | Keep hold of what you are carrying                                     |
+| [Fear Test](#fear-test)                                       | `fearTest`                   | Tests Will against something frightening                               |
+| [Morale Test](#morale-test)                                   | `moraleTest`                 | Tests Initiative against a reason to break                             |
+| [Reaction Test](#reaction-test)                               | `reactionTest`               | A shaken character tries to pull themselves together                   |
+| [Rally Test](#rally-test)                                     | `rallyTest`                  | A leader offers to steady shaken allies                                |
+| [Resist the Pall](#resist-the-pall)                           | `pallResist`                 | A Spirit test against the Pall's depth                                 |
+| [Calculate Impact](#calculate-impact)                         | `calcImpact`                 | Turns a damage roll into a card that can be aimed at a target          |
+| [Resolve Injury](#resolve-injury)                             | `resolveInjury`              | Turns a blow into a wound on this character                            |
+| [Contagion Check](#contagion-check)                           | `contagionCheck`             | Offers this character a Contagion Test — anyone may post one           |
+| [Contagion Test](#contagion-test)                             | `contagionTest`              | Rolls whether this character catches an affliction                     |
+| [Perform Affliction Treatment](#perform-affliction-treatment) | `performAfflictionTreatment` | Rolls a physician's Success Value test to treat an affliction          |
+| [Perform Treatment Test](#perform-treatment-test)             | `performTreatmentTest`       | A physician proposes a Healing Rate for someone's wound                |
+| [Perform Blood Stoppage](#perform-blood-stoppage)             | `performBloodStoppage`       | A physician tries to staunch someone's bleeding                        |
 
 One further action, [Answer the Rally](#answer-the-rally), is **hidden**: it
 never appears on the Actions menu and is reached only from the button on a Rally
@@ -701,58 +703,102 @@ grid, and drives the health bar. See [[Afflictions_Injuries]] for living with it
 the [[rules/sohl-injury|Injury]] rules for the tables behind it, and
 [[rules/sohl-bleeding|Bleeding]] for what a bleeder costs.
 
-# Contract Disease
+# Contagion Check
 
-|               |                                                                                                                                    |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Contract Disease                                                                                                                   |
-| **Shortcode** | `contractDisease`                                                                                                                  |
-| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                      |
-| **Invoked**   | The **Actions context menu** on the Being                                                                                          |
-| **API**       | [`BeingLogic.contractDisease`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#contractdisease) |
+|               |                                                                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Contagion Check                                                                                                                  |
+| **Shortcode** | `contagionCheck`                                                                                                                 |
+| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                    |
+| **Invoked**   | The **Actions context menu** on the Being                                                                                        |
+| **API**       | [`BeingLogic.contagionCheck`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#contagioncheck) |
+
+## What it does
+
+Posts a card telling this character they have been exposed, with a button offering
+them a [Contagion Test](#contagion-test). It rolls nothing and changes nothing.
+
+**Anyone can post a Contagion Check on anyone.** That asymmetry is deliberate:
+exposure is something the world does to a character — the GM opens the plague
+ward, another player's character coughs — but whether they _catch_ it is their own
+roll to make, on their own sheet. The check hands the decision over; it never
+takes it.
+
+There is no such thing as transmitting an affliction _at_ someone. The check is
+always on the receiving side.
+
+# Contagion Test
+
+|               |                                                                                                                                |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Contagion Test                                                                                                                 |
+| **Shortcode** | `contagionTest`                                                                                                                |
+| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                  |
+| **Invoked**   | The **Actions context menu**, or the button on a [Contagion Check](#contagion-check) card                                      |
+| **API**       | [`BeingLogic.contagionTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#contagiontest) |
 
 ## What it does and when to use it
 
-Rolls whether this character catches a disease they have been exposed to — bad
-water, a plague ward, a rat bite. The roll is a d100 against the disease's
-**Contagion Index × the character's Endurance**, and it is the one test you
-_want_ to fail nothing about: **failing** the roll means the character contracts
-the disease.
+Rolls whether this character catches something they have been exposed to — bad
+water, a plague ward, a rat bite. The roll is a d100 against the affliction's
+**Contagion Index × the character's Endurance**, and **failing** it means the
+character contracts the affliction.
 
 A character with **no Endurance attribute** cannot make the test and is told so.
 
-## The Contract Disease dialog
+## The Contagion Test dialog
 
-- **Disease:** — a drop-down of every disease found in your world and in the
-  installed compendium packs, plus a final **— Custom disease —** entry for
-  something not yet written up. Only afflictions that are actually diseases are
-  listed.
-- **Custom disease** fieldset — used **only** when _— Custom disease —_ is
-  selected above:
-    - **Name:** — what to call it.
-    - **Contagion Index:** — from 1 to 5. **Lower is more contagious**, because a
-      lower index means a lower number to roll under, and the roll is one you are
-      trying to make.
+- **Affliction** — a drop-down of every contagious affliction found in your world
+  and in the installed compendium packs.
+- **Situational Modifier** — added to the roll; how bad the exposure was.
+- **Success Level Modifier** — shifts the result a whole level either way.
+- **Add the affliction to the character sheet if contracted** — whether a caught
+  affliction is actually recorded. It starts ticked or cleared according to your
+  world's **Record Trauma** setting, so a table that tracks illness by hand is not
+  nagged into keeping two sets of books.
 
-Dismissing the dialog stops there. Choosing a disease then opens the **standard
-test dialog** (described on [[Item_Base|Base Item]]), titled _{character} –
-Contract {disease}_, where you can add a situational modifier for exposure.
+Dismissing the dialog stops there.
 
 ## What happens next
 
 The d100 posts to chat as an ordinary test result.
 
-- **Success** — nothing happens; the character shrugged off the exposure.
-- **Failure** — the character **contracts the disease**. An affliction item is
-  created on their sheet (copied from the chosen disease, or built from the
-  custom name and index), and a line in chat reports _"{character} contracted
-  {disease}."_
+- **Marginal or critical success** — nothing happens; the character shrugged off
+  the exposure.
+- **Marginal failure** — the character **contracts the affliction**, and its onset
+  is the full roll of the affliction's **Onset Formula**, in days.
+- **Critical failure** — the character contracts it and it takes hold **twice as
+  fast**: half the rolled onset, rounded down. An onset of **0 days is
+  immediate**.
 
-A contracted disease then offers a **Set an Onset Check Reminder?** dialog (the
-shared offer-schedule dialog on [[Item_Base|Base Item]]). Accepting arms a
-reminder for when the incubation period is up; declining arms nothing, and you
-can track it by hand. Nothing about the disease progresses on its own — see
+If the checkbox was ticked, the affliction is created on the sheet with its
+**Contracted** date stamped as now and its incubation set to the rolled value.
+
+**Nothing offers to schedule another Contagion Test.** Exposure is an event, not a
+condition — if the character walks back into the plague ward, that is a new check.
+What the affliction does from there is its own business; see
 [[Item_Affliction]] and the [[rules/sohl-afflictions|Afflictions]] rules.
+
+# Perform Affliction Treatment
+
+|               |                                                                                                                                                          |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Perform Affliction Treatment                                                                                                                             |
+| **Shortcode** | `performAfflictionTreatment`                                                                                                                             |
+| **Icon**      | `fa-solid fa-staff-snake` (the rod of Asclepius)                                                                                                         |
+| **Invoked**   | The **Actions context menu**, or the open button on an affliction's _Treatment Requested_ card                                                           |
+| **API**       | [`BeingLogic.performAfflictionTreatment`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#performafflictiontreatment) |
+
+## What it does
+
+The physician's half of treating someone else's affliction. Only a character with
+the **Physician** skill can answer; anyone else is told so and nothing happens.
+
+It rolls **this** physician's own Physician skill as a Success Value test and posts
+a result card. The **Success Stars** earned become a proposed **Course Bonus**,
+which the patient accepts through their affliction's
+[[Item_Affliction|Treat Affliction]] action — nothing is applied to the patient
+until they press that button.
 
 # Perform Treatment Test
 

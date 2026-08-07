@@ -1,0 +1,33 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Onset Check card body — the *Check half of the onset phase. It OFFERS to set the
+affliction's onset and nothing more; the incubation has run its course, but
+whether the affliction is now symptomatic is the table's call. The appended
+[Set Onset] button (added by buildActionCard) performs it. Body only.
+--}}
+<div class="sohl chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">{{localize "SOHL.Chat.OnsetCheck.title"}}</h3>
+    </header>
+
+    <div class="card-content center">
+        <span>{{localize "SOHL.Chat.OnsetCheck.due" patient=patientName affliction=afflictionName}}</span>
+    </div>
+
+    <div class="card-content center">
+        <span class="label">{{localize "SOHL.Affliction.FIELDS.subType.label"}}:</span>
+        <span class="value">{{#if subType}}{{localize (concat "SOHL.Affliction.SubType." subType)}}{{/if}}</span>
+    </div>
+</div>

@@ -17,11 +17,27 @@ import {
     fvttWorldTime,
     fvttExecuteMacro,
     fvttCreateEmbeddedItems,
+    fvttCreateEmbeddedEffects,
     fvttFindItemByShortcode,
+    dialog,
 } from "@src/core/FoundryHelpers";
+import { toFilePath, toHTMLString } from "@src/utils/helpers";
+// `postActionCard` builds a card's data and `SELF_HANDLER` is a plain string
+// sentinel — neither touches a Foundry global at module scope, but the import
+// boundary rule can't tell them apart from the Foundry-coupled files under
+// `document/chat/`, so allow these two.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { postActionCard } from "@src/document/chat/action-card";
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
+import {
+    COURSE_DEFEATED_HR,
+    courseHrDelta,
+    courseOutcomeFor,
+    type CourseOutcome,
+} from "@src/document/item/logic/affliction-course";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
-import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import {
     armScheduledActions,
     scheduledFireAt,
@@ -33,21 +49,30 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
+    AFFLICTION_EFFECT_KEY,
     AFFLICTION_OUTCOME,
     AFFLICTION_TRANSMISSION,
     AfflictionOutcome,
+    AfflictionOutcomeChoices,
+    isAfflictionOutcome,
     AfflictionSubType,
     AfflictionTransmission,
     ATTRIBUTE_CODE,
     defineType,
-    ITEM_KIND,
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
+    FATIGUE_CATEGORY,
     MARGINAL_SUCCESS,
+    ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
 import { rollTimedTest } from "@src/document/item/logic/timed-test";
-import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
-import { SHOCK_STATE } from "@src/document/actor/logic/shock";
+import {
+    SHOCK_STATE,
+    shockStateLabelKey,
+} from "@src/document/actor/logic/shock";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
@@ -91,10 +116,20 @@ export class AfflictionLogic<
         return this.data.treatmentDate != null;
     }
     /**
-     * Bonus to treatment tests earned from a successful diagnosis, as a
-     * {@link sohl.entity.modifier.ValueModifier}, seeded from {@link AfflictionData.diagnosisBonusBase}.
+     * The target value of the affliction's **Course Test**, as a
+     * {@link sohl.entity.modifier.ValueModifier}. Its base is
+     * `Healing Rate × Healing Base`; Active Effects keyed
+     * {@link AFFLICTION_EFFECT_KEY | COURSE} (`mod:logic.course`) modify it — a
+     * treatment Course Bonus is exactly such an effect.
      */
-    diagnosisBonus!: ValueModifier;
+    course!: ValueModifier;
+    /**
+     * The target value of the affliction's **healing test**, as a
+     * {@link sohl.entity.modifier.ValueModifier}. Its base is
+     * `Healing Rate × Healing Base`; Active Effects keyed
+     * {@link AFFLICTION_EFFECT_KEY | HEALING} (`mod:logic.healing`) modify it.
+     */
+    healing!: ValueModifier;
     /**
      * Effective severity of the affliction, as a {@link sohl.entity.modifier.ValueModifier}, seeded
      * from {@link AfflictionData.levelBase}.
@@ -232,7 +267,7 @@ export class AfflictionLogic<
      */
     get nextHealTest(): number | undefined {
         const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "healingCheck",
+            (e) => e.actionName === "courseCheck",
         );
         if (entry) return scheduledFireAt(entry);
         const anchor = this.data.onsetDate ?? this.data.contractDate;
@@ -320,160 +355,117 @@ export class AfflictionLogic<
     /* --------------------------------------------- */
 
     /**
-     * Attempt to transmit this affliction from its bearer to another actor.
+     * Post a **treatment request** for this affliction (#1183) — the patient's
+     * half of the treatment exchange.
      *
-     * @param context - The action context for the transmission.
-     * @remarks Not yet implemented; currently only logs a warning.
+     * Unlike an injury, treatment for an affliction is mostly ineffectual: the
+     * body either fights the affliction off or it does not. A request can still
+     * be posted, and it names the affliction so a physician knows what they are
+     * being asked to treat. The card carries an open button inviting anyone with
+     * the Physician skill to make a **Treatment Success Value test**; nothing is
+     * applied until its result is accepted through {@link treatAffliction}.
+     *
+     * @param _context - The action context (unused; the request takes no input).
+     * @returns A promise that resolves once the request card is posted.
      */
-    async transmit(context: SohlActionContext): Promise<void> {
-        const {
-            type = `affliction-${this.name}-transmit`,
-            title = `${this.label} Transmit`,
-        } = context;
-        sohl.log.warn("Affliction Transmit Not Implemented");
+    async requestTreatment(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template:
+                "systems/sohl/templates/chat/affliction-treatment-request-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                subType: this.data.subType,
+                level: this.data.levelBase,
+            },
+            buttons: {
+                action: "performAfflictionTreatment",
+                handlerUuid: SELF_HANDLER,
+                scope: { afflictionUuid: uuid },
+                label: sohl.i18n.localize(
+                    "SOHL.Being.Action.performAfflictionTreatment",
+                ),
+                iconFAClass: "fa-solid fa-staff-snake",
+            },
+        });
     }
 
     /**
-     * Roll the test that determines whether an exposed actor contracts this
-     * affliction.
+     * Record treatment of this affliction (#1183) — the patient's half of the
+     * treatment exchange, and the counterpart to {@link requestTreatment}.
      *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @throws Always — not yet implemented.
+     * Opens a dialog confirming the **treatment date** and a **Course Bonus**.
+     * The bonus defaults to the Success Stars of the physician's Treatment
+     * Success Value test when the action was reached from that card's Accept
+     * button (`scope.successStars`), and to `0` when run by hand. A Course Bonus
+     * above zero is persisted as an Active Effect on this affliction, keyed
+     * {@link AFFLICTION_EFFECT_KEY | COURSE}, so it raises the target of every
+     * subsequent {@link courseTest}.
+     *
+     * @param context - The action context; `scope.successStars` seeds the Course
+     *   Bonus and `skipDialog` accepts the seeded values without confirmation.
+     * @returns The recorded treatment date and Course Bonus, or `undefined` when
+     *   the dialog was dismissed.
      */
-    async contractTest(
+    async treatAffliction(
         context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        const {
-            type = `${this.label}-contract-test`,
-            title = `${this.label} Contract Test`,
-        } = context;
+    ): Promise<{ treatmentDate: number; courseBonus: number } | undefined> {
+        const scope = context.scope as
+            | { successStars?: unknown; courseBonus?: unknown }
+            | undefined;
+        const seeded = Number(scope?.courseBonus ?? scope?.successStars ?? 0);
+        let courseBonus = Number.isFinite(seeded) ? Math.trunc(seeded) : 0;
 
-        throw new Error("Affliction Contract Test Not Implemented");
-    }
+        if (!context.skipDialog) {
+            const form = (await dialog({
+                title: `${this.item?.name ?? ""}: ${sohl.i18n.localize(
+                    "SOHL.Affliction.Action.treatAffliction.title",
+                )}`,
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/treat-affliction-dialog.hbs",
+                ),
+                data: {
+                    afflictionName: this.item?.name ?? "",
+                    courseBonus,
+                },
+                callback: (formData: PlainObject) => ({
+                    courseBonus:
+                        parseInt(String(formData.courseBonus), 10) || 0,
+                }),
+                rejectClose: false,
+            })) as { courseBonus: number } | null;
+            if (!form) return undefined; // dismissed
+            courseBonus = form.courseBonus;
+        }
 
-    /**
-     * Roll the test that advances the affliction's course, determining whether
-     * it worsens, holds, or improves over a time interval.
-     *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @throws Always — not yet implemented.
-     */
-    async courseTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        const {
-            type = `${this.label}-course-test`,
-            title = `${this.label} Course Test`,
-        } = context;
+        const treatmentDate = fvttWorldTime();
+        await this.item.update({
+            "system.treatmentDate": treatmentDate,
+        } as PlainObject);
 
-        throw new Error("Affliction Course Test Not Implemented");
-    }
-
-    /**
-     * Roll the diagnosis test, which (on success) identifies the affliction and
-     * grants a {@link diagnosisBonus} toward subsequent treatment.
-     *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @throws Always — not yet implemented.
-     */
-    async diagnosisTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        const {
-            type = `${this.label}-diagnosis-test`,
-            title = `${this.label} Diagnosis Test`,
-        } = context;
-
-        throw new Error("Affliction Diagnosis Test Not Implemented");
-    }
-
-    /**
-     * Roll the treatment test, applying medical care to the affliction (and
-     * marking it {@link isTreated} on success).
-     *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @throws Always — not yet implemented.
-     */
-    async treatmentTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        const {
-            type = `${this.label}-treatment-test`,
-            title = `${this.label} Treatment Test`,
-        } = context;
-
-        throw new Error("Affliction Treatment Test Not Implemented");
-    }
-
-    /**
-     * Roll the healing test, which resolves natural recovery from the affliction
-     * over a time interval.
-     *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @throws Always — not yet implemented.
-     */
-    async healingTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        const {
-            type = `${this.label}-healing-test`,
-            title = `${this.label} Healing Test`,
-        } = context;
-
-        throw new Error("Affliction Healing Test Not Implemented");
-    }
-
-    /**
-     * Roll the fatigue test for a fatigue-subtype affliction.
-     *
-     * Intrinsic-action executor for the `fatiguetest` action.
-     *
-     * @param _context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; warns and returns `null`.
-     */
-    async fatigueTest(
-        _context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        sohl.log.uiWarn("Affliction Fatigue Test is not yet implemented.");
-        return null;
-    }
-
-    /**
-     * Roll the morale test for a morale-subtype affliction.
-     *
-     * Intrinsic-action executor for the `moraletest` action.
-     *
-     * @param _context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; warns and returns `null`.
-     */
-    async moraleTest(
-        _context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        sohl.log.uiWarn("Affliction Morale Test is not yet implemented.");
-        return null;
-    }
-
-    /**
-     * Roll the fear test for a fear-subtype affliction.
-     *
-     * Intrinsic-action executor for the `feartest` action.
-     *
-     * @param _context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; warns and returns `null`.
-     */
-    async fearTest(
-        _context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        sohl.log.uiWarn("Affliction Fear Test is not yet implemented.");
-        return null;
+        // A positive Course Bonus becomes a standing modifier on the course
+        // target, not a one-off adjustment — so it applies to every subsequent
+        // Course Test for as long as the treatment holds.
+        if (courseBonus > 0) {
+            await fvttCreateEmbeddedEffects(this.item, [
+                {
+                    name: sohl.i18n.localize(
+                        "SOHL.Affliction.Effect.courseBonus",
+                    ),
+                    changes: [
+                        {
+                            key: AFFLICTION_EFFECT_KEY.COURSE,
+                            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+                            value: String(courseBonus),
+                            priority: null,
+                        },
+                    ],
+                },
+            ]);
+        }
+        return { treatmentDate, courseBonus };
     }
 
     /**
@@ -484,92 +476,86 @@ export class AfflictionLogic<
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
             {
-                shortcode: "transmitaffliction",
+                shortcode: "requestTreatment",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.transmitaffliction.title",
+                title: "SOHL.Affliction.Action.requestTreatment.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-head-side-cough",
-                executor: "transmit",
-                visible: "itemLogic.canTransmit",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "contractafflictiontest",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.contractafflictiontest.title",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-virus",
-                executor: "contractTest",
+                iconFAClass: "fa-solid fa-hand",
+                executor: "requestTreatment",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
-                shortcode: "coursetest",
+                shortcode: "treatAffliction",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.coursetest.title",
+                title: "SOHL.Affliction.Action.treatAffliction.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-staff-snake",
+                executor: "treatAffliction",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "healingTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.healingTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-heart-pulse",
+                executor: "healingTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "healingCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.healingCheck.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-bed-pulse",
+                executor: "healingCheck",
+                recordsLastRun: true,
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "courseTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.courseTest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "ginf-heart-beats",
                 executor: "courseTest",
-                visible: "defined(itemLogic) && itemLogic.hasCourse",
+                visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
-                shortcode: "fatiguetest",
+                shortcode: "courseCheck",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.fatigetest.title",
+                title: "SOHL.Affliction.Action.courseCheck.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-face-tired",
-                executor: "fatigueTest",
+                iconFAClass: "ginf-heart-beats",
+                executor: "courseCheck",
+                recordsLastRun: true,
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "setOnset",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.setOnset.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-hourglass-start",
+                executor: "setOnset",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
-                shortcode: "moraletest",
+                shortcode: "setResolution",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.moraletest.title",
+                title: "SOHL.Affliction.Action.setResolution.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-shield-heart",
-                executor: "moraleTest",
+                iconFAClass: "fa-solid fa-skull",
+                executor: "setResolution",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
-            {
-                shortcode: "feartest",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.fearTest.title",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "ginf-screaming",
-                executor: "fearTest",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
-            {
-                shortcode: "treatmenttest",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.treatmentTest.title",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-staff-snake",
-                executor: "treatmentTest",
-                visible: "defined(itemLogic) && itemLogic.canTreat",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "diagnosistest",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.DIAGNOSISTEST",
-                iconFAClass: "fa-solid fa-stethoscope",
-                executor: "diagnosisTest",
-                visible: "defined(itemLogic) && !itemLogic.isTreated",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "healingtest",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.HEALINGTEST",
-                iconFAClass: "fa-solid fa-heart-pulse",
-                executor: "healingTest",
-                visible: "defined(itemLogic) && itemLogic.canHeal",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
                 shortcode: "onsetCheck",
@@ -577,16 +563,6 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.onsetCheck.title",
                 iconFAClass: "fa-solid fa-hourglass",
                 executor: "onsetCheck",
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-            },
-            {
-                shortcode: "healingCheck",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.Action.healingCheck.title",
-                iconFAClass: "fa-solid fa-bed-pulse",
-                executor: "healingCheck",
-                recordsLastRun: true,
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
@@ -610,7 +586,6 @@ export class AfflictionLogic<
     override initialize(): void {
         super.initialize();
         this.isDormant = false;
-        this.diagnosisBonus = new entity.ValueModifier(this);
         this.level = new entity.ValueModifier(this);
         this.contagionIndex = new entity.ValueModifier(this);
         this.transmission = AFFLICTION_TRANSMISSION.NONE;
@@ -661,6 +636,25 @@ export class AfflictionLogic<
      */
     override finalize(): void {
         super.finalize();
+
+        // The course/healing targets are `Healing Rate × Healing Base`, and the
+        // being's Healing Base is only seeded in its own `evaluate()` — so these
+        // build here, in `finalize`, where the actor's value has settled. Building
+        // them in `initialize` would read 0 and silently disable every course test.
+        const healingBase = Math.max(
+            0,
+            (this.actorLogic as { healingBase?: { effective?: number } } | null)
+                ?.healingBase?.effective ?? 0,
+        );
+        const hr = Math.max(0, this.data.healingRateBase ?? 0);
+        const target = healingBase * hr;
+        this.course = new entity.ValueModifier({}, { parent: this }).setBase(
+            target,
+        );
+        this.healing = new entity.ValueModifier({}, { parent: this }).setBase(
+            target,
+        );
+
         const uuid = this.item?.uuid;
         if (!uuid) return;
         armScheduledActions(
@@ -709,6 +703,81 @@ export class AfflictionLogic<
      *   schedule further events.
      */
     async onsetCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/onset-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                subType: this.data.subType,
+            },
+            buttons: {
+                action: "setOnset",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setOnset.title",
+                ),
+                iconFAClass: "fa-solid fa-hourglass-start",
+            },
+        });
+    }
+
+    /**
+     * Intrinsic-action executor for **Set Onset** — the action half of the onset
+     * phase, paired with {@link onsetCheck}.
+     *
+     * Asks whether to mark the affliction symptomatic as of now, and on yes
+     * crystallizes {@link AfflictionData.onsetDate}. The per-affliction interval
+     * formulas are rolled at the same time so the sheet's projected resolution and
+     * next-check dates read correctly, and the authored onset Macro (if any) runs
+     * once the onset is persisted.
+     *
+     * Onset is what sets the affliction running, so it finishes by **offering**
+     * the two events that carry it from here — the recurring
+     * {@link courseCheck} and the one-shot {@link resolutionCheck}. They are
+     * offered, never armed: pressing Set Onset consents to the affliction being
+     * symptomatic, not to a schedule (issue #579).
+     *
+     * @param context - The action context; `skipDialog` sets the onset without
+     *   confirming, and `scope.schedule` pre-answers the two schedule offers.
+     * @returns The onset date, or `undefined` when the dialog was declined.
+     */
+    async setOnset(
+        context: SohlActionContext,
+    ): Promise<{ onsetDate: number } | undefined> {
+        if (!context.skipDialog) {
+            const confirmed = await dialog({
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setOnset.title",
+                ),
+                content: toHTMLString(`<p>{{prompt}}</p>`),
+                data: {
+                    prompt: sohl.i18n.format(
+                        "SOHL.Affliction.Action.setOnset.prompt",
+                        { name: this.item?.name ?? "" },
+                    ),
+                },
+                buttons: [
+                    {
+                        action: "yes",
+                        label: sohl.i18n.localize("SOHL.Common.yes"),
+                        icon: "fa-solid fa-check",
+                        default: true,
+                    },
+                    {
+                        action: "no",
+                        label: sohl.i18n.localize("SOHL.Common.no"),
+                    },
+                ],
+                callback: (_formData: unknown, action: string) =>
+                    action === "yes",
+                rejectClose: false,
+            });
+            if (confirmed !== true) return undefined;
+        }
+
         const now = fvttWorldTime();
         const resolution = this.rollDuration(
             this.data.resolutionDurationFormula,
@@ -724,83 +793,110 @@ export class AfflictionLogic<
             "system.healingCheckDurationBase": healing,
         } as PlainObject);
 
-        // Advance the schedule: the one-shot resolution and the recurring healing
-        // check arm now (anchored at onset); the spent onset check is cleared.
-        await sohl.schedule(this.item, "resolutionCheck", resolution);
-        await sohl.schedule(this.item, "healingCheck", healing);
+        // The spent onset check is cleared.
         await sohl.unschedule(this.item, "onsetCheck");
 
+        // Onset is what starts the affliction running, so this is the moment to
+        // ask about the two events that carry it the rest of the way — but they
+        // are *offered*, not armed: pressing Set Onset consents to the affliction
+        // being symptomatic, not to a schedule (issue #579). The two offers carry
+        // distinct titles so a player answering them back-to-back can tell which
+        // is which.
+        await offerSchedule(context, this.item, "courseCheck", healing);
+        await offerSchedule(context, this.item, "resolutionCheck", resolution);
+
         // Optional author hook run once at onset. A Macro reference (never
-        // source); it may schedule further events. Runs after onset is persisted
-        // so the macro sees the symptomatic affliction.
+        // source); it may schedule further events of its own. Runs after onset is
+        // persisted so the macro sees the symptomatic affliction.
         if (this.data.onsetMacroUuid) {
             await fvttExecuteMacro(this.data.onsetMacroUuid, {
                 affliction: this,
                 actor: this.actorLogic,
             });
         }
+        return { onsetDate: now };
     }
 
     /**
-     * Intrinsic-action executor for the recurring `healingCheck` (course /
-     * recovery) event. Catches up the Course Test over every elapsed interval,
-     * rolls the next interval, then **offers** the next occurrence (issue #579) —
-     * reusable from the `[Perform]` reminder, the timed event, or manually.
+     * Intrinsic-action executor for the recurring `healingCheck` — the `*Check`
+     * half of the affliction's natural-recovery cycle, and the exact counterpart
+     * of the wound's (see {@link sohl.document.item.logic.TraumaLogic}).
      *
-     * @param context - The action context; `scope.schedule` (or the offer
-     *   dialog) decides whether the next occurrence is scheduled.
-     * @returns A promise that resolves once the outcome and schedule are persisted.
-     * @remarks Applies the **Course Test** (#489) at each elapsed checkpoint (only
-     *   for a naturally-healing affliction). Each is a headless test of
-     *   `Healing Base × Healing Rate` that changes the affliction's Healing Rate
-     *   (CF −2, MF −1, MS +1, CS +2); the resulting HR then drives the host's
-     *   **Reaction**: HR 6+ the affliction is defeated (course stops), HR 5 / 4
-     *   inflict 5 / 10 weakness fatigue, and HR 3 / 2 / 1 / &lt;1 impose Stunned /
-     *   Incapacitated / Unconscious / Dead shock (never improving an already-worse
-     *   shock state). The recurrence anchor and interval are read from the
-     *   persisted `system.scheduledActions` entry; a **defeated** affliction (HR
-     *   6+) ends the recurrence, otherwise the next check is **offered** (issue
-     *   #579) rather than auto-re-armed.
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the affliction's controller to perform one {@link healingTest}. No
+     * roll is made and nothing is written, so it imposes nothing and needs no
+     * ownership gate — anyone may initiate one.
+     *
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
      */
-    async healingCheck(context: SohlActionContext): Promise<void> {
+    async healingCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid) return;
-        const now = fvttWorldTime();
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "healingCheck",
-        );
-        const interval =
-            entry?.interval ?? this.healingCheckDurationBase.effective;
-        const anchor = entry?.anchor ?? now;
-        const checkpoints =
-            interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/course-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                healingRate: this.data.healingRateBase ?? 0,
+                target: this.healing?.effective ?? 0,
+            },
+            buttons: {
+                action: "healingTest",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.healingTest.title",
+                ),
+                iconFAClass: "fa-solid fa-heart-pulse",
+            },
+        });
+    }
 
-        // Course Test at each elapsed checkpoint, in sequence (each adjusts the
-        // Healing Rate the next one sees). Only a naturally-healing affliction
-        // fights its course; it stops once defeated (HR 6+).
-        let hr = this.data.healingRateBase ?? 0;
-        if (this.canHeal) {
-            for (let i = 0; i < checkpoints.length && hr < 6; i++) {
-                const sl = await this.rollCourseTest(hr);
-                if (sl == null) break; // roll refused
-                // Change to Healing Rate: CF −2, MF −1, MS +1, CS +2.
-                hr += sl < MARGINAL_SUCCESS ? sl - 1 : sl;
-                await this.applyReaction(hr);
-            }
-        }
+    /**
+     * Intrinsic-action executor for the affliction's **Healing Test** — the
+     * `*Test` half of natural recovery, and the same test the wound makes.
+     *
+     * Rolls one standard success test against {@link healing} (Healing Rate ×
+     * Healing Base, plus whatever Active Effects have modified it). A marginal
+     * success reduces the affliction's Level by 1 and a critical success by 2; a
+     * failure makes no progress. An affliction reduced to Level 0 has run its
+     * course, so its recurrence ends.
+     *
+     * Exactly one test runs per invocation — there is no catch-up over missed
+     * intervals — and the next check is **offered**, never auto-armed.
+     *
+     * @param context - The action context; `skipDialog` accepts the seeded values.
+     * @returns The resulting Level, or `undefined` when the test was cancelled.
+     */
+    async healingTest(
+        context: SohlActionContext,
+    ): Promise<{ level: number } | undefined> {
+        const mlMod = new entity.MasteryLevelModifier(
+            {
+                type: "affliction-healing-test",
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.healingTest.title",
+                ),
+            },
+            { parent: this },
+        );
+        mlMod.setBase(this.healing?.effective ?? 0);
+
+        const result = await mlMod.successTest(context);
+        if (result === undefined) return undefined; // dialog dismissed
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+
+        let level = this.data.levelBase ?? 0;
+        if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
+        else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
+
+        await this.item.update({ "system.levelBase": level } as PlainObject);
 
         const nextInterval = this.rollDuration(
             this.data.healingCheckDurationFormula,
         );
-        this.healingCheckDurationBase.setBase(nextInterval);
-        await this.item.update({
-            "system.healingRateBase": hr,
-            "system.healingCheckDurationBase": nextInterval,
-        } as PlainObject);
-
-        // A defeated affliction (HR 6+) ends its recurring course; otherwise offer
-        // the next course check rather than auto-re-arming (issue #579).
-        if (hr >= 6) await sohl.unschedule(this.item, "healingCheck");
+        if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
         else
             await offerSchedule(
                 context,
@@ -808,61 +904,257 @@ export class AfflictionLogic<
                 "healingCheck",
                 nextInterval,
             );
+        return { level };
     }
 
     /**
-     * Roll one headless **Course Test** — `Healing Base × Healing Rate` (Healing
-     * Base from the owning being, Healing Rate the affliction's current `hr`) —
-     * and return the normalized success level (−1/0/1/2), or `null` if the roll
-     * was refused.
+     * Intrinsic-action executor for the recurring `courseCheck` — the `*Check`
+     * half of the course cycle (#1183).
      *
-     * @param hr - The affliction's current Healing Rate.
-     * @returns The normalized success level, or `null`.
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the affliction's controller to perform one {@link courseTest}. No
+     * roll is made, no Healing Rate changes, and nothing is written. Because it
+     * imposes nothing it carries no ownership gate — anyone may initiate one.
+     *
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
      */
-    private async rollCourseTest(hr: number): Promise<number | null> {
-        const healingBase =
-            (this.actorLogic as any)?.healingBase?.effective ?? 0;
-        const result = await rollTimedTest(
-            this,
-            healingBase * Math.max(0, hr),
+    async courseCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/course-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                healingRate: this.data.healingRateBase ?? 0,
+                target: this.course?.effective ?? 0,
+            },
+            buttons: {
+                action: "courseTest",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.courseTest.title",
+                ),
+                iconFAClass: "ginf-heart-beats",
+            },
+        });
+    }
+
+    /**
+     * Intrinsic-action executor for the **Course Test** (#1183) — the `*Test`
+     * half of the course cycle, and the action that actually advances an
+     * affliction.
+     *
+     * Rolls one standard success test against {@link course} (Healing Rate ×
+     * Healing Base, plus whatever Active Effects have modified it — a treatment
+     * Course Bonus among them). The result moves the affliction's Healing Rate by
+     * {@link sohl.document.item.logic.courseHrDelta | CF −2 / MF −1 / MS +1 /
+     * CS +2}, and the resulting rate determines the host's reaction via
+     * {@link sohl.document.item.logic.courseOutcomeFor}.
+     *
+     * The reaction is **never applied silently**: a confirmation dialog offers it
+     * first, and the outcome card reports both the result and whether it was
+     * applied to the character sheet. Exactly one test runs per invocation — there
+     * is no catch-up over missed intervals.
+     *
+     * @param context - The action context; `skipDialog` accepts the reaction
+     *   without confirming.
+     * @returns The resulting Healing Rate and whether the reaction was applied,
+     *   or `undefined` when the test was cancelled.
+     */
+    async courseTest(
+        context: SohlActionContext,
+    ): Promise<{ healingRate: number; applied: boolean } | undefined> {
+        const mlMod = new entity.MasteryLevelModifier(
             {
-                noChat: true,
-                type: "affliction-coursetest",
+                type: "affliction-course-test",
                 title: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.healingCheck.title",
+                    "SOHL.Affliction.Action.courseTest.title",
                 ),
             },
+            { parent: this },
         );
-        return result ? result.normSuccessLevel : null;
+        mlMod.setBase(this.course?.effective ?? 0);
+
+        const result = await mlMod.successTest(context);
+        if (result === undefined) return undefined; // dialog dismissed
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+
+        const hr = (this.data.healingRateBase ?? 0) + courseHrDelta(sl);
+        const outcome = courseOutcomeFor(hr);
+
+        // Confirm before touching the character sheet — the roll is the system's
+        // job, the consequence is the player's call.
+        let applied = true;
+        if (!context.skipDialog) {
+            applied =
+                (await dialog({
+                    title: sohl.i18n.localize(
+                        "SOHL.Affliction.Action.courseTest.applyTitle",
+                    ),
+                    content: toHTMLString(`<p>{{prompt}}</p>`),
+                    data: {
+                        prompt: sohl.i18n.format(
+                            "SOHL.Affliction.Action.courseTest.applyPrompt",
+                            {
+                                name: this.item?.name ?? "",
+                                hr,
+                            },
+                        ),
+                    },
+                    buttons: [
+                        {
+                            action: "yes",
+                            label: sohl.i18n.localize("SOHL.Common.yes"),
+                            icon: "fa-solid fa-check",
+                            default: true,
+                        },
+                        {
+                            action: "no",
+                            label: sohl.i18n.localize("SOHL.Common.no"),
+                        },
+                    ],
+                    callback: (_formData: unknown, action: string) =>
+                        action === "yes",
+                    rejectClose: false,
+                })) === true;
+        }
+
+        if (applied) await this.applyCourseOutcome(hr, outcome);
+
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/course-result-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                healingRate: hr,
+                defeated: outcome.defeated,
+                fatigueLevels: outcome.fatigueLevels,
+                shockLabel:
+                    outcome.shockState ?
+                        shockStateLabelKey(outcome.shockState)
+                    :   "",
+                applied,
+            },
+        });
+        return { healingRate: hr, applied };
     }
 
     /**
-     * Apply the host's **Reaction** to the affliction's current Healing Rate
-     * `hr`: HR 6+ is defeat (no reaction — the course loop stops); HR 5 / 4
-     * inflict 5 / 10 weakness fatigue; HR 3 / 2 / 1 / &lt;1 impose Stunned /
-     * Incapacitated / Unconscious / Dead shock, worsening the being's shock state
-     * to at least that level (never improving it).
+     * Persist the outcome of a {@link courseTest} — the Healing Rate and the
+     * host's reaction to it.
      *
-     * @param hr - The affliction's current Healing Rate.
-     * @returns A promise that resolves once the reaction is applied.
+     * A **defeated** affliction (Healing Rate 6+) resolves on the spot: the
+     * resolution date is stamped, the outcome recorded as
+     * {@link AFFLICTION_OUTCOME | CURED}, its remaining schedules cleared, and any
+     * Weakness Fatigue this affliction inflicted is removed. Otherwise the host
+     * takes the reaction's Weakness Fatigue (updating the existing entry for this
+     * affliction rather than stacking a second one) and its shock state, which
+     * only ever worsens.
+     *
+     * @param hr - The Healing Rate resulting from the Course Test.
+     * @param outcome - The reaction described by {@link courseOutcomeFor}.
+     * @returns A promise that resolves once the outcome is persisted.
      */
-    private async applyReaction(hr: number): Promise<void> {
-        if (hr >= 6) return; // defeated
-        if (hr === 5 || hr === 4) {
-            await inflictWeaknessFatigue(
-                this.actorLogic,
-                hr === 5 ? 5 : 10,
-                this.name,
-            );
+    private async applyCourseOutcome(
+        hr: number,
+        outcome: CourseOutcome,
+    ): Promise<void> {
+        if (outcome.defeated) {
+            await this.item.update({
+                "system.healingRateBase": hr,
+                "system.resolutionDate": fvttWorldTime(),
+                "system.outcome": AFFLICTION_OUTCOME.CURED,
+            } as PlainObject);
+            await sohl.unschedule(this.item, "courseCheck");
+            await sohl.unschedule(this.item, "resolutionCheck");
+            await this.clearAfflictionFatigue();
             return;
         }
-        const being = this.actorLogic as any;
-        const level =
-            hr === 3 ? SHOCK_STATE.STUNNED
-            : hr === 2 ? SHOCK_STATE.INCAPACITATED
-            : hr === 1 ? SHOCK_STATE.UNCONSCIOUS
-            : SHOCK_STATE.DEAD;
-        await being?.setShockState?.(Math.max(being?.shockState ?? 0, level));
+
+        await this.item.update({
+            "system.healingRateBase": hr,
+        } as PlainObject);
+
+        if (outcome.fatigueLevels > 0) {
+            await this.setAfflictionFatigue(outcome.fatigueLevels);
+        }
+        if (outcome.shockState) {
+            const being = this.actorLogic as any;
+            await being?.setShockState?.(
+                Math.max(being?.shockState ?? 0, outcome.shockState),
+            );
+        }
+    }
+
+    /**
+     * The Weakness Fatigue this affliction has inflicted on its host, identified
+     * by carrying the **same name and shortcode** as the affliction.
+     *
+     * @returns The matching fatigue trauma logics (normally at most one).
+     */
+    private afflictionFatigue(): { data: TraumaData; item: any }[] {
+        const items = (this.actorLogic as any)?.items;
+        if (!items) return [];
+        const matches: { data: TraumaData; item: any }[] = [];
+        for (const item of items.values() as Iterable<any>) {
+            const logic = item?.logic;
+            const data = logic?.data as TraumaData | undefined;
+            if (!data) continue;
+            if (
+                data.kind === ITEM_KIND.TRAUMA &&
+                data.subType === TRAUMA_SUBTYPE.FATIGUE &&
+                data.category === FATIGUE_CATEGORY.WEAKNESS &&
+                item.name === this.item?.name &&
+                data.shortcode === this.data.shortcode
+            ) {
+                matches.push({ data, item });
+            }
+        }
+        return matches;
+    }
+
+    /**
+     * Set this affliction's Weakness Fatigue on the host to `levels`, updating the
+     * existing entry rather than creating a second one.
+     *
+     * @param levels - The Weakness Fatigue level to record.
+     * @returns A promise that resolves once the fatigue is recorded.
+     */
+    private async setAfflictionFatigue(levels: number): Promise<void> {
+        const existing = this.afflictionFatigue();
+        if (existing.length) {
+            for (const { item } of existing) {
+                await item.update({ "system.levelBase": levels });
+            }
+            return;
+        }
+        await fvttCreateEmbeddedItems(this.actorLogic, [
+            {
+                type: ITEM_KIND.TRAUMA,
+                name: this.item?.name ?? "",
+                system: {
+                    subType: TRAUMA_SUBTYPE.FATIGUE,
+                    category: FATIGUE_CATEGORY.WEAKNESS,
+                    shortcode: this.data.shortcode,
+                    levelBase: levels,
+                },
+            },
+        ]);
+    }
+
+    /**
+     * Delete every Weakness Fatigue this affliction inflicted — the host has
+     * beaten it, so the weakness it caused goes with it.
+     *
+     * @returns A promise that resolves once the fatigue is removed.
+     */
+    private async clearAfflictionFatigue(): Promise<void> {
+        for (const { item } of this.afflictionFatigue()) {
+            await item.delete?.();
+        }
     }
 
     /**
@@ -882,17 +1174,96 @@ export class AfflictionLogic<
      *   then compendiums).
      */
     async resolutionCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/resolution-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                healingRate: this.data.healingRateBase ?? 0,
+            },
+            buttons: {
+                action: "setResolution",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setResolution.title",
+                ),
+                iconFAClass: "fa-solid fa-skull",
+            },
+        });
+    }
+
+    /**
+     * Intrinsic-action executor for **Set Resolution** — the action half of the
+     * resolution phase, paired with {@link resolutionCheck}.
+     *
+     * Asks which {@link AFFLICTION_OUTCOME | outcome} the affliction resolves to
+     * (defaulting to the authored one), and on OK records that outcome with
+     * {@link AfflictionData.resolutionDate} set to now. Resolution is terminal, so
+     * the affliction's remaining schedules are cleared, and the chosen outcome is
+     * applied — death, or a cure that takes the Healing Rate to 6 — along with any
+     * authored `outcomeTrauma`.
+     *
+     * An affliction already **defeated** (Healing Rate 6 or better) has beaten its
+     * course on its own; its resolution is recorded but no outcome is inflicted.
+     *
+     * @param context - The action context; `scope.outcome` pre-selects the outcome
+     *   and `skipDialog` accepts it without asking.
+     * @returns The recorded outcome and date, or `undefined` when the dialog was
+     *   dismissed.
+     */
+    async setResolution(
+        context: SohlActionContext,
+    ): Promise<
+        { outcome: AfflictionOutcome; resolutionDate: number } | undefined
+    > {
+        const seeded = (context.scope as { outcome?: unknown } | undefined)
+            ?.outcome;
+        let outcome: AfflictionOutcome =
+            isAfflictionOutcome(seeded) ? seeded : this.data.outcome;
+
+        if (!context.skipDialog) {
+            const form = (await dialog({
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setResolution.title",
+                ),
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/set-resolution-dialog.hbs",
+                ),
+                data: {
+                    afflictionName: this.item?.name ?? "",
+                    outcome,
+                    outcomeChoices: AfflictionOutcomeChoices,
+                },
+                callback: (formData: PlainObject) => ({
+                    outcome: String(formData.outcome ?? ""),
+                }),
+                rejectClose: false,
+            })) as { outcome: string } | null;
+            if (!form) return undefined; // dismissed
+            if (isAfflictionOutcome(form.outcome)) outcome = form.outcome;
+        }
+
+        const resolutionDate = fvttWorldTime();
         await this.item.update({
-            "system.resolutionDate": fvttWorldTime(),
+            "system.outcome": outcome,
+            "system.resolutionDate": resolutionDate,
         } as PlainObject);
-        // Resolution is terminal — clear the recurring healing check and this
-        // one-shot resolution schedule.
+
+        // Resolution is terminal — clear the recurring course/healing checks and
+        // this one-shot resolution schedule.
+        await sohl.unschedule(this.item, "courseCheck");
         await sohl.unschedule(this.item, "healingCheck");
         await sohl.unschedule(this.item, "resolutionCheck");
-        // The outcome applies only if the affliction reached resolution without
-        // being defeated (HR 6+).
-        if ((this.data.healingRateBase ?? 0) >= 6) return;
+
+        // An affliction that already beat its course takes no outcome.
+        if ((this.data.healingRateBase ?? 0) >= COURSE_DEFEATED_HR) {
+            return { outcome, resolutionDate };
+        }
         await this.applyOutcome();
+        return { outcome, resolutionDate };
     }
 
     /**
@@ -997,8 +1368,12 @@ export interface AfflictionData<
     resolutionDurationBase: number | null;
     /** World-time at which the affliction resolved (death/disability/cure); `null` until resolved. */
     resolutionDate: number | null;
-    /** Modifier to treatment tests from successful diagnosis */
-    diagnosisBonusBase: number;
+    /**
+     * A {@link sohl.entity.roll.SimpleRoll} formula giving the number of **days**
+     * between contracting the affliction and the start of onset, rolled by the
+     * receiving actor's Contagion Test. `null` means no incubation.
+     */
+    onsetFormula: string | null;
     /** Severity of the affliction */
     levelBase: number;
     /** Rate of natural recovery; `null` means no natural healing */

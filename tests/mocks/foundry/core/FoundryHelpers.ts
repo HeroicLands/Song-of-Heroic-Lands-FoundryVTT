@@ -249,6 +249,13 @@ export async function fvttCreateEmbeddedItems(
     return [];
 }
 
+export async function fvttCreateEmbeddedEffects(
+    _doc: any,
+    _effectsData: object[],
+): Promise<any[]> {
+    return [];
+}
+
 export function fvttApplyRollMode(_data: object, _mode: string): void {}
 
 // ---------------------------------------------------------------------------

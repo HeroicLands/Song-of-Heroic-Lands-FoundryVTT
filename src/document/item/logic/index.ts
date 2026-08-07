@@ -34,6 +34,7 @@ export * from "./TraumaLogic";
 export * from "./WeaponGearLogic";
 export * from "./fate";
 export * from "./fate-host";
+export * from "./affliction-course";
 export * from "./fatigue";
 export * from "./improve-sdr";
 export * from "./item-sheet-view";

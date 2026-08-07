@@ -185,6 +185,70 @@ And because it is all just self-sufficient actions and live cards, the GM can
 short-circuit any of it: run `treatInjury` by hand with a number and skip the
 cards entirely.
 
+## The `*Check` / `*Test` mechanic
+
+Recurring conditions — a wound mending, an affliction running its course, a
+character catching something they were exposed to — are all built from the same
+pair of actions, and the split between them is the consent model applied to time.
+
+> **A `*Check` offers; a `*Test` acts.**
+>
+> A `*Check` may be initiated by anyone and changes nothing: it posts a card
+> offering the associated `*Test`. A `*Test` rolls, applies its outcome, and then
+> offers to schedule the next `*Test` — anchored to the **last test's date**,
+> never to the current moment.
+
+Concretely:
+
+| | `*Check` (`courseCheck`, `contagionCheck`, …) | `*Test` (`courseTest`, `contagionTest`, …) |
+| --- | --- | --- |
+| **What it does** | Posts a card offering the test | Rolls, applies the outcome |
+| **Who may run it** | **Anyone** — it imposes nothing | Someone who controls the subject |
+| **Writes anything?** | No | Yes |
+| **Visibility** | Hidden — reached from the reminder or a card | In the Actions context menu |
+| **Ends by** | Waiting for a human to press the button | Offering the next `*Test` |
+
+### One check, one test
+
+A `*Check` offers exactly one `*Test`, and performing it runs exactly one test —
+however much world time has elapsed. There is no catch-up loop, no backlog pass,
+and no "how many did we miss" arithmetic. Whether another check ever happens is
+decided solely by the human answering the offer at the end of the test.
+
+This matters for more than tidiness. When a single trigger rolled every missed
+interval in one pass, the rolls mutated the state each later roll read — so one
+click could cascade into an infection or a shock state nobody agreed to.
+
+### Catch-up needs no machinery
+
+Deleting the loop loses nothing, because the next test is anchored to the **last
+test's date** rather than to now. A player who is behind therefore schedules a
+next test whose fire time is already in the past: it is immediately due, its
+`*Check` card posts at once, and the backlog drains itself — one card, one
+consent, one test at a time, with the original cadence preserved exactly.
+
+On a 5-day cadence anchored at day 0, with the player at day 22:
+
+| Test performed | Next anchored at | Next due | Effect |
+| --- | --- | --- | --- |
+| day 5 | day 5 | day 10 | past → card posts immediately |
+| day 10 | day 10 | day 15 | past → card posts immediately |
+| day 15 | day 15 | day 20 | past → card posts immediately |
+| day 20 | day 20 | day 25 | future → waits |
+
+Four tests, four separate consents, and the cadence still lands on day 25 — not
+on day 27, where anchoring at the moment of each click would have pushed it.
+
+This is not a hole in the queue's no-cascade rule: every step posts a **card** and
+stops dead until a human presses it, so the chain advances only as fast as someone
+consents to it.
+
+### Naming
+
+The names are load-bearing, so keep them mechanical: `<X>Check` offers `<X>Test`.
+Where a check's name and the test it performs disagree, fix the name — a check
+called one thing that rolls another is how the split stops being legible.
+
 ## Authoring a new flow
 
 1. **Write each step as a self-sufficient action** on the document that owns the

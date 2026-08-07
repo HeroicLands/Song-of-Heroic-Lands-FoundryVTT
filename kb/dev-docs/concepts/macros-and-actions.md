@@ -163,9 +163,9 @@ just triggered differently, and it is how every cross-client interaction (combat
 treatment, opposed tests) is wired. See
 [Action Cards & the Consent Model](./action-cards.md).
 
-### Worked example: Contract Disease
+### Worked example: Contagion Test
 
-`BeingLogic`'s `contractDisease` (a `SELF`-scoped intrinsic action) is a good
+`BeingLogic`'s `contagionTest` (a `SELF`-scoped intrinsic action) is a good
 template for an action that touches the Foundry boundary, because it keeps the
 executor Foundry-free and pushes every Foundry call to a `FoundryHelpers` shim:
 
