@@ -26,7 +26,6 @@ describe("default context-menu conditions (constants.ts TEST_TYPE)", () => {
     describe.each([
         ["SETIMPROVEFLAG", TEST_TYPE.SETIMPROVEFLAG],
         ["UNSETIMPROVEFLAG", TEST_TYPE.UNSETIMPROVEFLAG],
-        ["IMPROVEWITHSDR", TEST_TYPE.IMPROVEWITHSDR],
     ])("%s (improve-flag entries)", (_name, entry) => {
         // These defaults are authored as string SafeExpressions.
         const source = entry.condition as string;
@@ -49,6 +48,47 @@ describe("default context-menu conditions (constants.ts TEST_TYPE)", () => {
 
         it("hides when the improve flag is already set", () => {
             const itemLogic = { canImprove: true, data: { improveFlag: true } };
+            expect(evalCondition(source, { itemLogic })).toBe(false);
+        });
+
+        it("hides when no item row resolves (itemLogic undefined)", () => {
+            expect(evalCondition(source, { itemLogic: undefined })).toBe(false);
+        });
+
+        it("reads logic state, not the stale document paths", () => {
+            // The pre-#459 string referenced `item.system.*`; a bound `item`
+            // with that shape must have no effect on the (logic-driven) result.
+            const item = { system: { canImprove: true, data: {} } };
+            expect(evalCondition(source, { item, itemLogic: undefined })).toBe(
+                false,
+            );
+        });
+    });
+
+    // The SDR is the *opposite* gate: it is the roll a flagged item is waiting
+    // for, and it spends the flag as part of its outcome, so it is offered only
+    // while the flag is set (#1102).
+    describe("IMPROVEWITHSDR", () => {
+        const source = TEST_TYPE.IMPROVEWITHSDR.condition as string;
+
+        it("shows when the item can improve and is flagged for improvement", () => {
+            const itemLogic = { canImprove: true, data: { improveFlag: true } };
+            expect(evalCondition(source, { itemLogic })).toBe(true);
+        });
+
+        it("hides when the item is not flagged for improvement", () => {
+            const itemLogic = {
+                canImprove: true,
+                data: { improveFlag: false },
+            };
+            expect(evalCondition(source, { itemLogic })).toBe(false);
+        });
+
+        it("hides when the item cannot improve", () => {
+            const itemLogic = {
+                canImprove: false,
+                data: { improveFlag: true },
+            };
             expect(evalCondition(source, { itemLogic })).toBe(false);
         });
 

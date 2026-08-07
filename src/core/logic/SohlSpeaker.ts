@@ -247,6 +247,12 @@ export class SohlSpeaker {
      * Spreads `data` into the message payload, then applies speaker attribution,
      * optional rolls, and the active roll mode.
      *
+     * Because `data` is spread verbatim, any key it carries that `ChatMessage`
+     * itself defines becomes a **document field**, not template context. In
+     * particular a `type` key becomes the message's document _subtype_: an
+     * unregistered value makes the create fail and the card never posts (#1103).
+     * Keep card data to the keys the template reads.
+     *
      * @param data - Template context data spread into the message payload.
      * @param options - Chat-message configuration.
      * @param options.user - Id of the user posting the message.

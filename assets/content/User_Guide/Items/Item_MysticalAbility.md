@@ -149,7 +149,7 @@ test card's Adjustment table.
 | ------------------------------------------- | ------------------- | ----------------------------------------------- |
 | [Success Test](#success-test)               | `successTest`       | Actions context menu, or the row's **EML** cell |
 | [Toggle Improve Flag](#toggle-improve-flag) | `toggleImproveFlag` | Actions context menu, or the row's **☆ star**   |
-| [Improve with SDR](#improve-with-sdr)       | `improveWithSDR`    | Actions context menu                            |
+| [Improve with SDR](#improve-with-sdr)       | `improveWithSDR`    | Actions context menu, once flagged              |
 
 Every Mystical Ability also carries the shared document actions — **Edit**,
 **Delete**, and **Output Description to Chat** — described once on
@@ -322,30 +322,25 @@ There is **no dialog** — the action rolls straight away.
 3. **The Improvement Flag is cleared**, on success or failure alike. A
    development attempt spends the flag either way; flag the ability again the
    next time it earns it.
-4. **A card posts to chat** naming the ability and saying whether it improved.
+4. **A card posts to chat** naming the ability, showing the roll and the
+   mastery level it had to beat, and saying whether it improved.
 
 The write lands on the ability alone. Improving one Mystical Ability never
 touches an Associated Skill, another ability, or anything else on the sheet.
 
 ## Before you start
 
+- **The ability must be flagged for improvement.** The action appears in the
+  menu only for a flagged ability — flagging is what marks it as having earned a
+  development attempt, and the roll spends the flag. If you do not see the
+  action, flag the ability first with [Toggle Improve Flag](#toggle-improve-flag)
+  or the ☆ star on its row.
 - **The ability must have a mastery level of its own** — no Associated Skill,
   and (on a Spirit Rite or Spirit Action) no Spirit Power. Otherwise the action
   is not offered: improve the governing skill or spirit power instead, and the
   ability improves with it.
 - **You must be able to improve it** — you own the character (or are the GM) and
   its mastery level is not disabled.
-
-> **Known gaps.** The two defects that affect the [[Item_Skill|Skill]]'s
-> identical action affect this one, because both run the same code:
->
-> - **It is offered only while the ability is _not_ flagged** for improvement,
->   and disappears from the menu once you flag it — the reverse of the intended
->   workflow (issue #1102). Until that is fixed, clear the flag if you need to
->   reach the action, or run the roll by hand.
-> - **The card's Target and Roll rows come out blank** (issue #1103). The result
->   text is correct — the ability really did improve or fail to — but the numbers
->   behind it are not shown.
 
 # See also
 

@@ -527,6 +527,33 @@ describe("SkillLogic", () => {
             expect(chatData.sdrIncr).toBe(1);
         });
 
+        it("posts its own SDR card, not the standard success-test card (#1103)", async () => {
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(95));
+            const logic = makeSkill({ masteryLevelBase: 40 });
+            logic.initialize();
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            const [template, chatData] = speaker.toChat.mock.calls[0];
+            expect(template).toBe("systems/sohl/templates/chat/sdr-card.hbs");
+            // The card's keys are the ones its template reads.
+            expect(chatData.target).toBe(40);
+            expect(chatData.rollTotal).toBe(95);
+        });
+
+        it("carries no `type` key — it would become an invalid ChatMessage subtype (#1103)", async () => {
+            // SohlSpeaker._prepareChat spreads this object into the ChatMessage
+            // payload, so a `type` here is the message's *document subtype*.
+            // The old "<kind>-<name>-improve-sdr" label is not a registered
+            // subtype, and Foundry rejected the create — the card never posted.
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(95));
+            const logic = makeSkill({ masteryLevelBase: 40 });
+            logic.initialize();
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            const [, chatData] = speaker.toChat.mock.calls[0];
+            expect(chatData).not.toHaveProperty("type");
+        });
+
         it("reports failure when the roll does not beat the base", async () => {
             vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(10));
             const logic = makeSkill({ masteryLevelBase: 40 });
@@ -559,7 +586,7 @@ describe("SkillLogic", () => {
             expect(chatData.isSuccess).toBe(true);
             // The improve test targets the derived opening base, not a NaN from
             // the null stored masteryLevelBase.
-            expect(chatData.effTarget).toBe(26);
+            expect(chatData.target).toBe(26);
         });
 
         it("persists the raised mastery level and clears the improve flag on success (#716)", async () => {
@@ -628,10 +655,10 @@ describe("SkillLogic", () => {
             ).evaluate(context);
         }
 
-        it("shows when the skill can improve and is not already flagged", () => {
+        it("shows when the skill can improve and is flagged for improvement (#1102)", () => {
             const itemLogic = {
                 canImprove: true,
-                data: { improveFlag: false },
+                data: { improveFlag: true },
             };
             expect(evalVisible({ itemLogic })).toBe(true);
         });
@@ -639,13 +666,16 @@ describe("SkillLogic", () => {
         it("hides when the skill cannot improve", () => {
             const itemLogic = {
                 canImprove: false,
-                data: { improveFlag: false },
+                data: { improveFlag: true },
             };
             expect(evalVisible({ itemLogic })).toBe(false);
         });
 
-        it("hides when the improve flag is already set", () => {
-            const itemLogic = { canImprove: true, data: { improveFlag: true } };
+        it("hides when the skill is not flagged for improvement (#1102)", () => {
+            const itemLogic = {
+                canImprove: true,
+                data: { improveFlag: false },
+            };
             expect(evalVisible({ itemLogic })).toBe(false);
         });
 
