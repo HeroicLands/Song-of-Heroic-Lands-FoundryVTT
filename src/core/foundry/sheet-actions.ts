@@ -31,6 +31,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
@@ -38,6 +39,65 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 
 /** A document that owns custom actions — an actor or an item. */
 type ActionOwner = SohlActor | SohlItem;
+
+/**
+ * One row of an Actions-tab ledger: an action's definition plus the
+ * render-time state the template needs. A plain object rather than the
+ * {@link SohlAction} itself — Handlebars resolves own properties, not
+ * prototype getters, so the availability state is read here and handed over
+ * flat.
+ */
+export interface ActionRow {
+    /** The action's definition (title, shortcode, icon class, group). */
+    data: SohlAction.Data;
+    /**
+     * Whether the action's trigger currently passes. `false` renders the run
+     * control disabled rather than live-but-inert (issue #1135).
+     */
+    available: boolean;
+    /** i18n key explaining the refusal; localized at render. */
+    unavailableReason: string;
+}
+
+/** The two Actions-tab ledgers, in render order. */
+export interface ActionRows {
+    /** GM-authored SCRIPT actions — editable and deletable. */
+    customActions: ActionRow[];
+    /** Code-defined INTRINSIC actions — run-only. */
+    intrinsicActions: ActionRow[];
+}
+
+/**
+ * Build the Actions tab's render context for an action-owning document: every
+ * listed action as an {@link ActionRow}, split into the GM-authored custom
+ * (SCRIPT) actions and the code-defined intrinsic ones. Hidden-group actions
+ * are internal lifecycle hooks and are never listed.
+ *
+ * Shared by the actor and item sheets so both tabs list — and gate — actions
+ * identically.
+ *
+ * @param doc - The action-owning document.
+ * @returns The custom and intrinsic ledger rows.
+ */
+export function buildActionRows(doc: ActionOwner): ActionRows {
+    const logic = (doc as any).logic as SohlLogic | undefined;
+    const rows: ActionRow[] = (logic ? [...logic.actions.values()] : [])
+        .filter((a) => a.data.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN)
+        .map((a) => ({
+            data: a.data,
+            // Read once, here: the template can't call a prototype getter.
+            available: a.isAvailable,
+            unavailableReason: a.unavailableReason,
+        }));
+    return {
+        customActions: rows.filter(
+            (r) => r.data.subType === ACTION_SUBTYPE.SCRIPT,
+        ),
+        intrinsicActions: rows.filter(
+            (r) => r.data.subType === ACTION_SUBTYPE.INTRINSIC,
+        ),
+    };
+}
 
 /**
  * Escape a value for safe interpolation into dialog HTML.
@@ -211,6 +271,12 @@ export async function deleteAction(
  * dialog). The acting speaker is the owning actor — the document itself if it
  * is an actor, otherwise the item's actor.
  *
+ * An action whose trigger currently refuses it is reported rather than run: the
+ * ledger already renders its control disabled, but a disabled `<a>` is not
+ * inert to Foundry's delegated click dispatch, so the click still arrives here
+ * and must say why nothing happened instead of no-op'ing silently (issue
+ * #1135).
+ *
  * @param doc - The action-owning document.
  * @param target - The clicked control inside an action row.
  * @param event - The triggering pointer event (shift skips the dialog).
@@ -222,6 +288,11 @@ export async function runAction(
 ): Promise<void> {
     const action = actionFromRow(doc, target);
     if (!action) return;
+    if (!action.isAvailable) {
+        // The logger localizes the key it is handed.
+        sohl.log.uiWarn(action.unavailableReason);
+        return;
+    }
     const actor: SohlActor | null =
         ActorKinds.includes(doc.type as any) ?
             (doc as SohlActor)

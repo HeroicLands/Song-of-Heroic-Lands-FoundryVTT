@@ -623,9 +623,11 @@ describe("displayed enum values + labels are localized (#951)", () => {
                     data: {
                         title: "Custom Strike",
                         shortcode: "cstrk",
-                        img: "icons/x.svg",
+                        iconFAClass: "fa-solid fa-bolt",
                         group: "general",
                     },
+                    available: true,
+                    unavailableReason: "SOHL.Actions.unavailable",
                 },
             ],
             intrinsicActions: [],
@@ -639,6 +641,110 @@ describe("displayed enum values + labels are localized (#951)", () => {
         expect(html).not.toContain(">general<");
         // Interpolated run tooltip.
         expect(html).toContain('data-tooltip="Run Custom Strike"');
+    });
+
+    it("action ledger renders each action's own iconFAClass glyph (#1136)", () => {
+        const html = renderTemplateReal(`${ITEM}/parts/actions.hbs`, {
+            tab: { active: true, group: "primary" },
+            customActions: [
+                {
+                    data: {
+                        title: "Custom Strike",
+                        shortcode: "cstrk",
+                        iconFAClass: "fa-solid fa-bolt",
+                        group: "general",
+                    },
+                    available: true,
+                    unavailableReason: "SOHL.Actions.unavailable",
+                },
+            ],
+            intrinsicActions: [
+                {
+                    data: {
+                        title: "SOHL.ArmorGear.Action.toggleWorn",
+                        shortcode: "toggleWorn",
+                        iconFAClass: "fa-solid fa-shield-halved",
+                        group: "essential",
+                    },
+                    available: true,
+                    unavailableReason: "SOHL.Actions.unavailable",
+                },
+            ],
+        });
+        // Both ledgers show the action's declared glyph…
+        expect(html).toContain('<i class="fa-solid fa-bolt"></i>');
+        expect(html).toContain('<i class="fa-solid fa-shield-halved"></i>');
+        // …and no empty image box remains.
+        expect(html).not.toContain('<img src="" alt="" />');
+        expect(html).not.toContain("action.data.img");
+    });
+
+    it("action ledger falls back to a placeholder glyph when none is declared (#1136)", () => {
+        const html = renderTemplateReal(`${ITEM}/parts/actions.hbs`, {
+            tab: { active: true, group: "primary" },
+            customActions: [],
+            intrinsicActions: [
+                {
+                    data: {
+                        title: "Nameless",
+                        shortcode: "nameless",
+                        iconFAClass: "",
+                        group: "general",
+                    },
+                    available: true,
+                    unavailableReason: "SOHL.Actions.unavailable",
+                },
+            ],
+        });
+        expect(html).toContain('<i class="fa-solid fa-circle-question"></i>');
+    });
+
+    it("action ledger disables a gated action's run control and says why (#1135)", () => {
+        const html = renderTemplateReal(`${ITEM}/parts/actions.hbs`, {
+            tab: { active: true, group: "primary" },
+            customActions: [],
+            intrinsicActions: [
+                {
+                    data: {
+                        title: "SOHL.ArmorGear.Action.toggleWorn",
+                        shortcode: "toggleWorn",
+                        iconFAClass: "fa-solid fa-shield-halved",
+                        group: "essential",
+                    },
+                    available: false,
+                    unavailableReason: "SOHL.Gear.actionRequiresCarried",
+                },
+            ],
+        });
+        expect(html).toContain('data-action="runAction"');
+        expect(html).toContain("disabled");
+        expect(html).toContain('aria-disabled="true"');
+        // The tooltip carries the localized reason, never the raw i18n key.
+        expect(html).toContain(
+            'data-tooltip="The item must be carried before this action can be used"',
+        );
+        expect(html).not.toContain("SOHL.Gear.actionRequiresCarried");
+    });
+
+    it("action ledger leaves an available action's run control live (#1135)", () => {
+        const html = renderTemplateReal(`${ITEM}/parts/actions.hbs`, {
+            tab: { active: true, group: "primary" },
+            customActions: [],
+            intrinsicActions: [
+                {
+                    data: {
+                        title: "SOHL.ArmorGear.Action.toggleWorn",
+                        shortcode: "toggleWorn",
+                        iconFAClass: "fa-solid fa-shield-halved",
+                        group: "essential",
+                    },
+                    available: true,
+                    unavailableReason: "SOHL.Gear.actionRequiresCarried",
+                },
+            ],
+        });
+        expect(html).toContain('data-tooltip="Run Toggle Worn"');
+        expect(html).not.toContain("aria-disabled");
     });
 
     it("treatment-test-dialog localizes the aspect <option> labels", () => {

@@ -19,18 +19,14 @@ import { openExpressionEditorDialog } from "@src/apps/foundry/expression-editor-
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
 import {
+    buildActionRows,
     createAction,
     editAction,
     deleteAction,
     runAction,
 } from "@src/core/foundry/sheet-actions";
 import { fvttCallHook, fvttWorldActors } from "@src/core/FoundryHelpers";
-import {
-    ACTION_SUBTYPE,
-    ACTOR_KIND,
-    GearKinds,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@src/utils/constants";
+import { ACTOR_KIND, GearKinds } from "@src/utils/constants";
 import {
     localizeSubType,
     keyTransferredEffects,
@@ -601,7 +597,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
 
     /**
      * Prepare context for the Actions tab.
-     * Provides the list of action items associated with this item.
+     * Provides the list of action items associated with this item, each with
+     * the availability state its run control renders from.
      * @param context - The render context to augment.
      * @param _options - Sheet render options (unused).
      * @returns The context extended with the item's actions.
@@ -610,22 +607,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const logic = this.document.logic;
-        // Hidden-group actions are internal (lifecycle hooks) and never shown.
-        const all = (logic ? [...logic.actions.values()] : []).filter(
-            (a) =>
-                (a.data as any).group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-        );
-        // Custom (script) actions are GM-authored and editable; intrinsic
-        // actions are code-defined and run-only. Split them into their own
-        // sections, matching the being sheet.
-        const customActions = all.filter(
-            (a) => (a.data as any).subType === ACTION_SUBTYPE.SCRIPT,
-        );
-        const intrinsicActions = all.filter(
-            (a) => (a.data as any).subType === ACTION_SUBTYPE.INTRINSIC,
-        );
-        return Object.assign(context, { customActions, intrinsicActions });
+        // Shared with the actor sheet so both tabs list — and gate — actions
+        // identically.
+        return Object.assign(context, buildActionRows(this.document));
     }
 
     /**

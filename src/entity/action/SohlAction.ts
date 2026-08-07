@@ -114,6 +114,12 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * { subType: "script", scope: "actor", executor: "Macro.p8f2c1a0d9e7b6a5" }
  */
 export class SohlAction extends SohlEntity {
+    /**
+     * Fallback i18n key for {@link unavailableReason} — used when a refused
+     * action declares no `disabledReason` of its own.
+     */
+    static readonly DEFAULT_DISABLED_REASON = "SOHL.Actions.unavailable";
+
     /** The persisted action definition (see {@link SohlAction.Data}). */
     data: SohlAction.Data;
 
@@ -282,6 +288,40 @@ export class SohlAction extends SohlEntity {
         return this.data.shortcode;
     }
 
+    /**
+     * Whether the action's {@link trigger} currently passes — i.e. whether
+     * {@link execute} would run it rather than refuse it. Evaluated against the
+     * action's own resolved owning documents, so a caller needs no context of
+     * its own.
+     *
+     * This is the seam a UI surface asks before *offering* the action: the
+     * Actions tab disables a refused action's run control and shows
+     * {@link unavailableReason}, rather than presenting a live control that
+     * silently does nothing (issue #1135). Note it does **not** include the
+     * Script-action permission gate that {@link execute} applies first — that
+     * gate is already folded into {@link visible}, the DOM-driven predicate.
+     *
+     * @returns `true` when the trigger passes.
+     */
+    get isAvailable(): boolean {
+        const { item, actor } = this.resolveContext();
+        return this.trigger(item, actor);
+    }
+
+    /**
+     * The i18n **key** explaining why the action is refused while
+     * {@link isAvailable} is false — the action's declared
+     * `data.disabledReason`, or a generic fallback when it declares none.
+     *
+     * A key, never localized prose: the value is stored and passed around,
+     * and localized only where it is rendered or notified.
+     *
+     * @returns The reason's localization key.
+     */
+    get unavailableReason(): string {
+        return this.data.disabledReason || SohlAction.DEFAULT_DISABLED_REASON;
+    }
+
     /** @inheritdoc */
     override toJSON(): PlainObject {
         return {
@@ -303,7 +343,7 @@ export class SohlAction extends SohlEntity {
      *   was gated out.
      */
     async execute(actionContext: SohlActionContext): Promise<unknown> {
-        const { item, actor } = this.resolveContext();
+        const { actor } = this.resolveContext();
         if (
             this.data.subType === ACTION_SUBTYPE.SCRIPT &&
             !userMeetsExecutePermission(this.data, actor)
@@ -313,7 +353,7 @@ export class SohlAction extends SohlEntity {
             );
             return undefined;
         }
-        if (!this.trigger(item, actor)) {
+        if (!this.isAvailable) {
             sohl.log.info(
                 `Action "${this.data.title}" not triggerable; skipping.`,
             );
@@ -415,6 +455,22 @@ export namespace SohlAction {
 
         /** {@link sohl.entity.expr.SafeExpression} determining whether this action appears in the UI */
         visible: string;
+
+        /**
+         * i18n **key** explaining why the action is refused while its
+         * {@link SohlAction.Data.trigger} is false, surfaced as
+         * {@link sohl.entity.action.SohlAction.unavailableReason} (issue
+         * #1135) — e.g. a gear action gated on the item being carried says so
+         * rather than leaving the user with a control that does nothing.
+         * Optional; a generic reason
+         * ({@link sohl.entity.action.SohlAction.DEFAULT_DISABLED_REASON}) is
+         * used when omitted.
+         *
+         * Code-authored only — like `recordsLastRun` it is set by
+         * `defineIntrinsicActions` (or the gate that wraps it) and is not part
+         * of the persisted `actionDefs` schema.
+         */
+        disabledReason?: string;
 
         /** FontAwesome CSS class for the action's icon */
         iconFAClass: string;

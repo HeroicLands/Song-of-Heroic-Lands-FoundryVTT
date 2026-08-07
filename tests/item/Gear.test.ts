@@ -211,6 +211,27 @@ describe("GearLogic (via MiscGearLogic)", () => {
             expect(twice[0].trigger).toBe(GearLogic.CARRIED_TRIGGER);
         });
 
+        it("labels a gated action with the carried reason (#1135)", () => {
+            const [gated] = GearLogic.gateOnCarried([def()]);
+            expect(gated.disabledReason).toBe(
+                "SOHL.Gear.actionRequiresCarried",
+            );
+        });
+
+        it("keeps an author's own disabled reason (#1135)", () => {
+            const [gated] = GearLogic.gateOnCarried([
+                def({ disabledReason: "SOHL.Gear.custom" }),
+            ]);
+            expect(gated.disabledReason).toBe("SOHL.Gear.custom");
+        });
+
+        it("leaves an exempt action unlabelled (#1135)", () => {
+            const [entry] = GearLogic.gateOnCarried([
+                def({ shortcode: "toggleCarried" }),
+            ]);
+            expect(entry.disabledReason).toBeUndefined();
+        });
+
         it("does not mutate the definitions it is given", () => {
             const original = def();
             GearLogic.gateOnCarried([original]);

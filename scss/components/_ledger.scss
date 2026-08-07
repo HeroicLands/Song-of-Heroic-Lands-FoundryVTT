@@ -114,6 +114,15 @@
             object-fit: contain;
             display: block;
         }
+
+        // Glyph icon (Font Awesome or the ginf icon font) — the Actions ledger
+        // rows carry an icon class rather than an image (#1136). Size it to the
+        // well and ink it like the row's other glyphs.
+        i {
+            font-size: 1rem;
+            line-height: 1;
+            color: var(--sohl-color-text-primary);
+        }
     }
 
     // Name column — sans, clipped with an ellipsis.
