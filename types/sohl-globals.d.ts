@@ -170,6 +170,12 @@ declare module "fvtt-types/configuration" {
         };
         Scene: {
             sohl: {
+                /**
+                 * Theatre of the Mind. A Scene is not a typed document, so this
+                 * scene-scoped toggle lives in flags rather than `system`
+                 * (issue #1155); it is read through `SohlScene.logic.isTotm`.
+                 */
+                isTotm: boolean;
                 "defaultBiome.topography": string;
                 "defaultBiome.surfaceCover": string;
                 "defaultBiome.hydrology": string;

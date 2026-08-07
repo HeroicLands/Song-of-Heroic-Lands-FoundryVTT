@@ -11,13 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSceneDataModel } from "@src/document/scene/foundry/SohlSceneDataModel";
-import type { SohlSceneLogic } from "@src/document/scene/logic/SohlSceneLogic";
+import {
+    createSceneData,
+    SohlSceneLogic,
+    SCENE_FLAG_SCOPE,
+    TOTM_FLAG_KEY,
+} from "@src/document/scene/logic/SohlSceneLogic";
 
 /**
  * The SoHL Scene document. Exists so that gameplay code can read scene-scoped
  * state via {@link logic} (mirroring `SohlActor.logic` / `SohlItem.logic`)
- * rather than reaching into the underlying DataModel by hand.
+ * rather than reaching into flags by hand.
  *
  * Foundry's {@link Scene} is a non-generic document (no subtypes), so this class
  * is non-generic as well.
@@ -26,19 +30,38 @@ import type { SohlSceneLogic } from "@src/document/scene/logic/SohlSceneLogic";
  * code reaches scene state through the logic layer (`scene.logic`).
  */
 export class SohlScene extends Scene {
+    /** Cached transient {@link sohl.document.scene.logic.SohlSceneLogic} for this scene. */
+    private _sohlLogic?: SohlSceneLogic;
+
     /**
-     * Convenience accessor for the scene-scoped logic instance — equivalent
-     * to `(this.system as SohlSceneDataModel).logic`, or `undefined` when the
-     * scene carries no SoHL system data.
+     * This scene's {@link sohl.document.scene.logic.SohlSceneLogic}, built lazily
+     * over a transient flag-backed adapter.
      *
      * @remarks
-     * A Scene is not one of Foundry's typed documents, so its `system` is not
-     * always populated. Reading `.logic` off an absent `system` used to throw
-     * — from inside the getter, where the caller's `?.` could not help — and
-     * that crash took out every consumer, including the range measurement on
-     * the automated-attack path (#1079). Callers must handle `undefined`.
+     * A Scene is **not** one of Foundry's typed documents — `BaseScene` declares
+     * no `hasTypeData`, so a scene has no `system` and no system DataModel can be
+     * attached to it however it is registered in `CONFIG` (issue #1155). Like
+     * `SohlTokenDocument`, the logic is therefore not created by `SohlDataModel`;
+     * it wraps an adapter that reads the scene's SoHL flags live, so the toggle a
+     * GM sets in the Scene config is observable immediately.
      */
-    get logic(): SohlSceneLogic | undefined {
-        return ((this as any).system as SohlSceneDataModel | undefined)?.logic;
+    get logic(): SohlSceneLogic {
+        this._sohlLogic ??= new SohlSceneLogic(createSceneData(this));
+        return this._sohlLogic;
+    }
+
+    /**
+     * Sets this scene's Theatre of the Mind toggle. The Scene config writes the
+     * flag directly through its form; this is the programmatic equivalent for
+     * macros and modules.
+     * @param isTotm - Whether the scene runs as Theatre of the Mind.
+     * @returns The updated scene.
+     */
+    async setTotm(isTotm: boolean): Promise<this> {
+        return (await this.setFlag(
+            SCENE_FLAG_SCOPE,
+            TOTM_FLAG_KEY,
+            isTotm,
+        )) as this;
     }
 }

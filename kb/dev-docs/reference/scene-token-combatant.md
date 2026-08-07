@@ -33,6 +33,26 @@ Current distance behavior:
 - Non-grid-unit distance currently expects feet/ft scene units.
 - If scene flag `sohl.isTotm` is set, range resolves to `0` (theater-of-the-mind path).
 
+## Scene state
+
+Primary files:
+
+- `src/document/scene/foundry/SohlScene.ts`
+- `src/document/scene/logic/SohlSceneLogic.ts`
+
+A Foundry `Scene` is **not** a typed document — `BaseScene` declares no
+`hasTypeData` — so a scene has no `system` and no system DataModel can be
+attached to it, whatever `CONFIG.Scene.dataModels` says. Scene-scoped SoHL state
+therefore lives in **flags**, under the `sohl` scope.
+
+- `SohlScene.logic` wraps a transient adapter (`createSceneData`) that reads
+  those flags live, mirroring `SohlTokenDocument.logic` — the token document is
+  likewise untyped.
+- The only scene state today is Theatre of the Mind: `scene.logic.isTotm` reads
+  the `sohl.isTotm` flag, and `scene.setTotm(value)` writes it. The Scene
+  config's **Sohl** tab writes the same flag through its form
+  (`name="flags.sohl.isTotm"`).
+
 ## Combatant model
 
 Primary file:

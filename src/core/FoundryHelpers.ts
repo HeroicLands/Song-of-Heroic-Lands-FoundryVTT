@@ -1327,7 +1327,9 @@ export function fvttRangeToTarget(
         return 0;
     }
 
-    if ((canvas.scene as unknown as SohlScene | null)?.logic?.isTotm) return 0;
+    // Theatre of the Mind abstracts tactical distance away entirely. The toggle
+    // is a scene flag, read through the scene's logic (issue #1155).
+    if ((canvas.scene as unknown as SohlScene | null)?.logic.isTotm) return 0;
 
     // Measure from the placeable's center when it is drawn, else from the
     // TokenDocument's own — the same fallback `combatantMeasurePoint` uses. A
