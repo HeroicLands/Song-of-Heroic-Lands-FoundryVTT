@@ -91,4 +91,34 @@ describe("skill improveWithSDR persistence (#716)", () => {
             });
         });
     });
+
+    // #1103: the card used to render through standard-test-card.hbs under keys
+    // that template does not read, so Target and Roll came out blank and a GM
+    // result-edit pencil was drawn with an empty scope.
+    it("posts a card carrying the roll total and the target mastery level (#1103)", () => {
+        cy.importActor().then((actor) => {
+            makeFlaggedSkill(actor).then((skill) => {
+                cy.prepare(actor);
+                runSdr(actor, skill, 100);
+                // `improveWithSDR` posts the card fire-and-forget, so the
+                // message lands *after* executeAction resolves. cy.foundry()
+                // does not retry, so poll the window for the card, then assert
+                // its rendered content.
+                cy.window().should((win) => {
+                    const card = win.game.messages.contents.find((m) =>
+                        (m.content || "").includes("(SDR)"),
+                    );
+                    expect(card, "SDR card posted").to.exist;
+                    expect(card.content, "target rendered").to.contain(">50<");
+                    expect(card.content, "roll total rendered").to.contain(
+                        ">100<",
+                    );
+                    expect(
+                        card.content,
+                        "no result-edit pencil",
+                    ).to.not.contain('data-action="resultEdit"');
+                });
+            });
+        });
+    });
 });

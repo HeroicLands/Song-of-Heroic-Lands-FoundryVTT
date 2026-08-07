@@ -135,19 +135,27 @@ export async function improveWithSDR(
         updateData["system.masteryLevelBase"] =
             logic.masteryLevel.base + logic.sdrIncr;
     }
+    // The SDR renders its own card rather than `standard-test-card.hbs`: it is
+    // not a success test, so it has no mastery-level modifier, no Fate button,
+    // no success level, and nothing for the GM result-edit pencil to
+    // re-evaluate. Its keys are the ones `sdr-card.hbs` reads (#1103).
     const chatTemplate: FilePath = toFilePath(
-        "systems/sohl/templates/chat/standard-test-card.hbs",
+        "systems/sohl/templates/chat/sdr-card.hbs",
     );
+    // No `type` key: `SohlSpeaker._prepareChat` spreads this object straight
+    // into the ChatMessage payload, so a `type` here becomes the message's
+    // *document subtype*. The SDR's old `"<kind>-<name>-improve-sdr"` label is
+    // not a registered subtype, so Foundry rejected the create and the card
+    // never posted at all (#1103). No template reads it.
     const chatTemplateData = {
-        type: `${logic.data.kind}-${logic.name}-improve-sdr`,
+        actorUuid: logic.actorLogic?.uuid,
         title: sohl.i18n.format("SOHL.MasteryLevel.improveSDR.title", {
             label: logic.label,
         }),
-        effTarget: logic.masteryLevel.base,
+        target: logic.masteryLevel.base,
         isSuccess: isSuccess,
-        rollValue: roll.total,
+        rollTotal: roll.total,
         rollResult: roll.result,
-        showResult: true,
         resultText:
             isSuccess ?
                 sohl.i18n.format(
@@ -251,7 +259,10 @@ export function defineImproveSdrActions(
             scope: SOHL_ACTION_SCOPE.SELF,
             iconFAClass: "fa-solid fa-arrow-trend-up",
             executor: "improveWithSDR",
-            visible: "itemLogic.canImprove && !itemLogic.data.improveFlag",
+            // Offered for an item that *is* flagged for improvement — the SDR
+            // is the roll a flagged item is waiting for, and it spends the flag
+            // as part of its outcome (#1102).
+            visible: "itemLogic.canImprove && itemLogic.data.improveFlag",
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
     ];

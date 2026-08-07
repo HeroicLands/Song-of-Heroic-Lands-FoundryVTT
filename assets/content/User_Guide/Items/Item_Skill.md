@@ -142,7 +142,7 @@ with a thrown quill.
 | [Success Test](#success-test)                          | `successTest`       | Actions context menu; the EML cell  |
 | [Success Value Test](#success-value-test)              | `successValueTest`  | Actions context menu                |
 | [Toggle Improve Flag](#toggle-improve-flag)            | `toggleImproveFlag` | Actions context menu; the ☆ star    |
-| [Improve with SDR](#improve-with-sdr)                  | `improveWithSDR`    | Actions context menu                |
+| [Improve with SDR](#improve-with-sdr)                  | `improveWithSDR`    | Actions context menu, once flagged  |
 | [Opposed Test](#opposed-test)                          | `opposedTestStart`  | Actions context menu                |
 | [Attack](#attack-block-and-counterstrike)              | `attackTest`        | Actions context menu; the Atk cell  |
 | [Block](#attack-block-and-counterstrike)               | `blockTest`         | Actions context menu; the Blk cell  |
@@ -329,22 +329,18 @@ There is **no dialog** — the action rolls straight away.
    the skill.
 3. **The Improvement Flag is cleared**, on success or failure alike. A development
    attempt spends the flag either way; flag the skill again the next time it earns it.
-4. **A card posts to chat** naming the skill and saying whether it improved.
+4. **A card posts to chat** naming the skill, showing the roll and the mastery
+   level it had to beat, and saying whether it improved.
 
 ## Before you start
 
+- **The skill must be flagged for improvement.** The action appears in the menu
+  only for a flagged skill — flagging is what marks the skill as having earned a
+  development attempt, and the roll spends the flag. If you do not see the action,
+  flag the skill first with [Toggle Improve Flag](#toggle-improve-flag) or the ☆
+  star on the Skills tab.
 - **You must be able to improve the skill** — you own the character (or are the GM)
   and its mastery level is not disabled.
-
-> **Known gaps.** Two defects affect this action today:
->
-> - **It is offered only while the skill is _not_ flagged** for improvement, and
->   disappears from the menu once you flag it — the reverse of the intended
->   workflow (issue #1102). Until that is fixed, clear the flag if you need to reach
->   the action, or run the roll by hand.
-> - **The card's Target and Roll rows come out blank** (issue #1103). The result
->   text is correct — the skill really did improve or fail to — but the numbers
->   behind it are not shown.
 
 # Opposed Test
 

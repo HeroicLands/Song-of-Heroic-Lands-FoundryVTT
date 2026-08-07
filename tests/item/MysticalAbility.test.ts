@@ -759,8 +759,11 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
             );
             const sdr = logic.actions.get("improveWithSDR") as any;
             expect(sdr.data.group).toBe(SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL);
-            // Gated on canImprove, exactly as the skill's entry is.
-            expect(sdr.data.visible).toContain("itemLogic.canImprove");
+            // Gated on canImprove *and* on the improve flag being set — the
+            // SDR is the roll a flagged item is waiting for (#1102).
+            expect(sdr.data.visible).toBe(
+                "itemLogic.canImprove && itemLogic.data.improveFlag",
+            );
         });
 
         it("titles the entries from the MysticalAbility action keys", () => {
@@ -895,7 +898,7 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
             });
             const [, chatData] = speaker.toChat.mock.calls[0];
             expect(chatData.isSuccess).toBe(true);
-            expect(chatData.effTarget).toBe(40);
+            expect(chatData.target).toBe(40);
             expect(chatData.sdrIncr).toBe(1);
         });
 

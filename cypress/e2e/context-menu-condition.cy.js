@@ -21,8 +21,9 @@
  * This spec drives the real runtime path in a live world: the Skill's
  * `improveWithSDR` action `visible(element)` predicate resolves `itemLogic` from
  * the clicked row's `data-item-id` (via `resolveContextItem`) and reads live
- * logic state. It must show when the skill can improve and is not already
- * flagged, and hide once the improve flag is set.
+ * logic state. It must show for a skill that can improve and **is** flagged for
+ * improvement, and hide for one that is not — the SDR is the roll a flagged
+ * skill is waiting for, and it spends the flag as part of its outcome (#1102).
  */
 import { toRealm } from "../support/resolve";
 
@@ -42,7 +43,7 @@ describe("default action visibility predicates (#458)", () => {
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
 
-    it("shows the improveWithSDR action only when the skill can improve and is not flagged", () => {
+    it("shows the improveWithSDR action only when the skill can improve and is flagged (#1102)", () => {
         cy.importActor().then((actor) => {
             // Pick any real skill on the imported Basic Folk.
             cy.foundry((win) => {
@@ -52,8 +53,9 @@ describe("default action visibility predicates (#458)", () => {
             }).then((skillId) => {
                 expect(skillId, "actor has a skill").to.not.be.null;
 
-                // canImprove holds (GM + not disabled) and improveFlag defaults
-                // false → the action's visible predicate passes.
+                // canImprove holds (GM + not disabled) but improveFlag defaults
+                // false → the action's visible predicate hides the entry: there
+                // is no development roll pending on an unflagged skill.
                 cy.foundry((win) => {
                     const a = win.game.actors.get(actor.id);
                     const skill = a.items.get(skillId);
@@ -67,10 +69,11 @@ describe("default action visibility predicates (#458)", () => {
                 }).should((s) => {
                     expect(s.canImprove, "canImprove").to.be.true;
                     expect(s.improveFlag, "improveFlag").to.be.false;
-                    expect(s.visible, "visible when improvable").to.be.true;
+                    expect(s.visible, "hidden while unflagged").to.be.false;
                 });
 
-                // Set the improve flag → the predicate must now hide the entry.
+                // Flag the skill for improvement → the predicate must now show
+                // the entry, so the SDR is reachable for the flagged skill.
                 cy.foundry((win) =>
                     win.game.actors
                         .get(actor.id)
@@ -84,7 +87,7 @@ describe("default action visibility predicates (#458)", () => {
                     const el = rowElement(win, skill.id, a.id);
                     const action = skill.logic.actions.get("improveWithSDR");
                     return action.visible(el);
-                }).should("be.false");
+                }).should("be.true");
             });
         });
     });

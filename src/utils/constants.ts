@@ -2071,7 +2071,11 @@ export const {
         id: "improveWithSDR",
         name: "Improve with SDR",
         iconClass: "fa-solid fa-arrow-trend-up",
-        condition: "itemLogic.canImprove && !itemLogic.data.improveFlag",
+        // Offered for an item that *is* flagged for improvement — the SDR is
+        // the roll a flagged item is waiting for, and it spends the flag as
+        // part of its outcome (#1102). Kept identical to the `visible`
+        // predicate in `defineImproveSdrActions` so the two cannot disagree.
+        condition: "itemLogic.canImprove && itemLogic.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     SUCCESSTEST: {
