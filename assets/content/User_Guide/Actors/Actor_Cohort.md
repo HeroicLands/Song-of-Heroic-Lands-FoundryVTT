@@ -76,15 +76,26 @@ attacks are made; the Cohort simply tells you which ten soldiers those are.
 The Cohort sheet has these tabs:
 
 - **Facade** — group portrait and description
+- **Profile** — the private dossier, movement rates, and attributes
 - **Members** — the individuals that belong to this cohort
 - **Shared Gear** — what the members have shared with the group
 - **Actions** — available group actions
 - **Effects** — active effects on the group
 
-**Facade**, **Actions**, and **Effects** are the common actor tabs and behave
-exactly as they do on a [[Actor_Being|Being]]; they are documented once, in
-[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_. The
-**Members** and **Shared Gear** tabs are particular to a Cohort.
+**Facade**, **Profile**, **Actions**, and **Effects** are the common actor tabs
+and behave exactly as they do on a [[Actor_Being|Being]]; they are documented
+once, in [[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_.
+The **Members** and **Shared Gear** tabs are particular to a Cohort.
+
+The **Profile** tab carries three things, and it is where a cohort's private
+notes live:
+
+- **Attributes** — normally empty for a cohort. The section is kept so a world
+  that wants to give a warband a rating a rating of its own can.
+- **Movement** — the travel rate for each medium, with a star marking the active
+  one.
+- **Biography** — the **dossier**, the private description only you and the GM
+  see. The public description a player sees stays on **Facade**.
 
 # The Members Tab
 
@@ -222,9 +233,10 @@ which covers what each one does, how it is invoked, and what it produces — the
 shared document actions are the same wherever they appear.
 
 **Make Default Medium** picks which movement medium an actor is currently moving
-in, and it is driven by the star control in the movement table on a
-[[Actor_Being|Being]]'s **Profile** tab. The Cohort sheet has no movement table,
-so a cohort inherits the action without offering a control for it.
+in, driven by the star control in the movement table on the cohort's own
+**Profile** tab. A cohort does not move as a body — its members each move
+themselves — so in practice it stays on the _None_ row; the control is there
+because movement is a capability every actor carries.
 
 The Beings listed on the **Members** tab keep their own actions on their own
 sheets; running an action on the cohort never rolls for a member, and running one

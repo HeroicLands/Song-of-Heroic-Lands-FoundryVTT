@@ -71,16 +71,27 @@ A Vehicle is a container and a conveyance, not a creature:
 The Vehicle sheet has these tabs:
 
 - **Facade** — image and description
+- **Profile** — movement rates, the private dossier, and attributes
 - **Gear** — cargo, equipment, and stores
 - **Actions** — available actions
 - **Effects** — active effects
 
-All four are the common actor tabs, and they behave exactly as they do on a
+All five are the common actor tabs, and they behave exactly as they do on a
 [[Actor_Being|Being]]: the Gear tab is the same inventory ledger (a vehicle's
 cargo instead of a character's possessions), and the Actions and Effects tabs
 are identical. They are documented once, in
 [[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_ — see
 that page for the columns, controls, and how to add, stow, and remove things.
+
+The **Profile** tab carries three things, and it is where a vehicle's private
+notes live:
+
+- **Attributes** — normally empty for a vehicle. The section is kept so a world
+  that wants to give a ship a Quality a rating of its own can.
+- **Movement** — the travel rate for each medium, with a star marking the active
+  one.
+- **Biography** — the **dossier**, the private description only you and the GM
+  see. The public description a player sees stays on **Facade**.
 
 The one difference: a Being's Gear tab reports carried weight and encumbrance,
 because a character is slowed by what it carries. A vehicle is not encumbered
@@ -108,10 +119,11 @@ All three belong to every actor and are described on [[Item_Base|Base Item]],
 which covers what each one does, how it is invoked, and what it produces — the
 shared document actions are the same wherever they appear.
 
-**Make Default Medium** picks which movement medium an actor is currently moving
-in, and it is driven by the star control in the movement table on a
-[[Actor_Being|Being]]'s **Profile** tab. The Vehicle sheet has no movement
-table, so a vehicle inherits the action without offering a control for it.
+**Make Default Medium** picks which movement medium a vehicle is currently
+moving in, and it is driven by the star control in the movement table on the
+vehicle's own **Profile** tab — click the star beside a medium to make it the
+active one. **Add Movement Profile**, in that table's header, adds a rate for a
+medium the vehicle does not yet have.
 
 The cargo and equipment a vehicle carries are ordinary gear items with actions of
 their own — see [[Item_Gear|Gear]] and the page for each kind of gear.
