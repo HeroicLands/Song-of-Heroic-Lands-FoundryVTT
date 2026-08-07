@@ -62,7 +62,6 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         charges: new SchemaField({
-            usesCharges: new BooleanField({ initial: false }),
             // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
                 integer: true,
@@ -110,7 +109,6 @@ export class MysticalAbilityDataModel<
     improveFlag!: boolean;
     levelBase!: number | null;
     charges!: {
-        usesCharges: boolean;
         value: number | null;
         max: number | null;
     };

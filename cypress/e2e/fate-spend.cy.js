@@ -56,7 +56,7 @@ describe("Fate spend — post-roll success-level bump (#854)", () => {
                     subType: "fate",
                     assocSkillCode: null,
                     levelBase: null,
-                    charges: { usesCharges: true, value: 2, max: 3 },
+                    charges: { value: 2, max: 3 },
                 },
             }).then((fate) => {
                 // A non-aura combat skill so its fateMasteryLevel is not

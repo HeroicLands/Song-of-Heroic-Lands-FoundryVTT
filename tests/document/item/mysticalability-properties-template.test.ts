@@ -13,7 +13,9 @@
  * mis-named duplicate of the existing `improveFlag`) must both be gone, while
  * the real `system.improveFlag` control still renders. Also covers #973: the
  * dead `system.skillBaseFormula` control (a Mystical Ability has no Skill Base —
- * its rolled value derives from `masteryLevelBase`) must be gone too.
+ * its rolled value derives from `masteryLevelBase`) must be gone too, and
+ * #1129: the unlabelled, inert `system.charges.usesCharges` checkbox is gone —
+ * whether an ability uses charges is carried by `system.charges.max` alone.
  */
 
 import { describe, it, expect } from "vitest";
@@ -36,7 +38,8 @@ function render(): string {
             assocSkillCode: "dodge",
             assocAffiliationCode: "larani",
             levelBase: 3,
-            charges: { usesCharges: false, value: null, max: null },
+            // Provided so a surviving usesCharges control would bind and render.
+            charges: { usesCharges: true, value: null, max: null },
         },
         fields: {
             skillBaseFormula: { fieldPath: "system.skillBaseFormula" },
@@ -98,6 +101,12 @@ describe("mystical ability properties sheet template (#815)", () => {
 
     it("still renders the charges controls", () => {
         const html = render();
+        expect(html).toContain('data-field="system.charges.value"');
         expect(html).toContain('data-field="system.charges.max"');
+    });
+
+    it("no longer renders the inert system.charges.usesCharges checkbox (#1129)", () => {
+        const html = render();
+        expect(html).not.toContain("system.charges.usesCharges");
     });
 });

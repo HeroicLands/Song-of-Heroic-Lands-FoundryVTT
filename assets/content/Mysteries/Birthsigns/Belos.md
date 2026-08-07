@@ -16,10 +16,6 @@ sohl:
     archetype: 0
     subType: other
     levelBase: 0
-    charges:
-        usesCharges: false
-        value: 0
-        max: 0
 folder: b1rthS1gnFldr001
 effects:
     - name: "Belos — Nature skills (-5 EML)"

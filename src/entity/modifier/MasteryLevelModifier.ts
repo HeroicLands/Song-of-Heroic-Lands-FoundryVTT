@@ -711,9 +711,10 @@ export class MasteryLevelModifier extends ValueModifier {
             if (!scope.targetToken) return null;
             scope.situationalModifier ??= 0;
             scope.type ??= `${this.parent.kind}-${this.parent.name}-opposedtest`;
-            scope.title ??= sohl.i18n.format("{label} Opposed Test", {
-                label: this.parent.label,
-            });
+            scope.title ??= sohl.i18n.format(
+                "SOHL.OpposedTestResult.toChat.startTitle",
+                { label: this.parent.label },
+            );
             // Offer the Break Ties choice on the initiator's pre-roll dialog —
             // only when starting a fresh contest, since a resumed one already
             // carries the answer given when it began (#1160).
@@ -721,10 +722,9 @@ export class MasteryLevelModifier extends ValueModifier {
 
             if (!scope.targetToken.isOwner) {
                 sohl.log.uiWarn(
-                    sohl.i18n.format(
-                        "You do not have permissions to perform this operation on {name}",
-                        { name: scope.targetToken.name },
-                    ),
+                    sohl.i18n.format("SOHL.SuccessTestResult.evaluate.NoPerm", {
+                        name: scope.targetToken.name,
+                    }),
                 );
                 return null;
             }
@@ -837,7 +837,9 @@ export class MasteryLevelModifier extends ValueModifier {
         if (allowed && !context.noChat) {
             void opposedTestResult.toChat({
                 template: "systems/sohl/templates/chat/opposed-result-card.hbs",
-                title: sohl.i18n.format("Opposed Action Result"),
+                title: sohl.i18n.localize(
+                    "SOHL.OpposedTestResult.toChat.resultTitle",
+                ),
             });
         }
 

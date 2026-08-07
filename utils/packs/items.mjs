@@ -37,6 +37,7 @@ import {
     walkMarkdownTree,
     sohlField,
     requireSubType,
+    resolveCharges,
     makeFilename,
     slugify,
     buildDocUrl,
@@ -203,11 +204,7 @@ function buildMystery(fm) {
     return {
         subType: requireSubType(fm),
         levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
-        charges: {
-            usesCharges: Boolean(sohlField(fm, "charges.usesCharges", false)),
-            value: Number(sohlField(fm, "charges.value", 0)) || 0,
-            max: Number(sohlField(fm, "charges.max", 0)) || 0,
-        },
+        charges: resolveCharges(fm),
     };
 }
 
@@ -219,11 +216,7 @@ function buildMysticalAbility(fm) {
         masteryLevelBase: Number(sohlField(fm, "masteryLevelBase", 0)) || 0,
         improveFlag: Boolean(sohlField(fm, "improveFlag", false)),
         levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
-        charges: {
-            usesCharges: Boolean(sohlField(fm, "charges.usesCharges", false)),
-            value: Number(sohlField(fm, "charges.value", 0)) || 0,
-            max: Number(sohlField(fm, "charges.max", 0)) || 0,
-        },
+        charges: resolveCharges(fm),
     };
 }
 

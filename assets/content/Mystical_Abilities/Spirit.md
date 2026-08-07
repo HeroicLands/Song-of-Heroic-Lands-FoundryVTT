@@ -18,10 +18,6 @@ sohl:
     assocMysteryCode: ""
     levelBase: 0
     masteryLevelBase: 0
-    charges:
-        usesCharges: false
-        value: 0
-        max: 0
 hmk:
     name: ""
 folder: u2uL4fjE2nKMfgbW

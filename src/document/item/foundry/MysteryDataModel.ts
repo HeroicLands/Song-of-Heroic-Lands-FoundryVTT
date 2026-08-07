@@ -22,8 +22,7 @@ import {
     type MysterySubType,
     MysterySubTypeChoices,
 } from "@src/utils/constants";
-const { SchemaField, NumberField, BooleanField, StringField } =
-    foundry.data.fields;
+const { SchemaField, NumberField, StringField } = foundry.data.fields;
 
 /**
  * Builds the data schema for the Mystery item, extending the base item schema
@@ -62,7 +61,6 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         charges: new SchemaField({
-            usesCharges: new BooleanField({ initial: false }),
             // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
                 integer: true,
@@ -104,9 +102,8 @@ export class MysteryDataModel<
     assocAffiliationCode!: string | null;
     levelBase!: number;
     charges!: {
-        usesCharges: boolean;
-        value: number;
-        max: number;
+        value: number | null;
+        max: number | null;
     };
 
     /**

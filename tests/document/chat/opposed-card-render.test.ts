@@ -12,6 +12,8 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
@@ -454,5 +456,130 @@ describe("opposed cards render the shaped data (#845)", () => {
             title: "Opposed Result",
         });
         expect(html).not.toContain("Tactical Advantages");
+    });
+});
+
+describe("opposed cards carry no hardcoded English (#1161)", () => {
+    const LANG: Record<string, string> = JSON.parse(
+        readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
+    );
+
+    /**
+     * The card's *literal* text — every word a player would read that is written
+     * into the template rather than pulled from a lang key. Handlebars comments
+     * and expressions (`{{…}}`, including `{{localize …}}` and block helpers) and
+     * HTML tags are stripped; anything left with two or more letters is prose
+     * baked into the markup, which a non-English world would still see in English.
+     */
+    function hardcodedWords(foundryPath: string): string[] {
+        const rel = foundryPath.replace(/^systems\/sohl\//, "");
+        const src = readFileSync(resolve(process.cwd(), rel), "utf8")
+            .replace(/\{\{!--[\s\S]*?--\}\}/g, "")
+            .replace(/\{\{[\s\S]*?\}\}/g, "")
+            .replace(/<[^>]*>/g, " ");
+        return src.split(/\s+/).filter((w) => /[A-Za-z]{2,}/.test(w));
+    }
+
+    it("request card renders only lang-key text", () => {
+        expect(hardcodedWords(REQUEST)).toEqual([]);
+    });
+
+    it("result card renders only lang-key text", () => {
+        expect(hardcodedWords(RESULT)).toEqual([]);
+    });
+
+    /** Every key the cards localize must exist in `lang/en.json`. */
+    it("every key the cards reference is defined in lang/en.json", () => {
+        for (const path of [REQUEST, RESULT]) {
+            const rel = path.replace(/^systems\/sohl\//, "");
+            const src = readFileSync(resolve(process.cwd(), rel), "utf8");
+            const keys = [
+                ...src.matchAll(/\{\{localize\s+"(SOHL\.[^"]+)"/g),
+            ].map((m) => m[1]);
+            expect(keys.length).toBeGreaterThan(0);
+            for (const k of keys)
+                expect(LANG[k], `missing key ${k}`).toBeTruthy();
+        }
+    });
+});
+
+describe("opposed cards still read correctly in English (#1161)", () => {
+    /**
+     * The card data OpposedTestResult.toChat produces, with both tokens named.
+     * The harness's results carry no token, so the names the cards interpolate
+     * are filled in here the way a real contest's tokens would.
+     */
+    async function cardData(opposed?: OpposedTestResult) {
+        let captured: any;
+        vi.spyOn(SuccessTestResult.prototype, "toChat").mockImplementation(
+            function (this: any, data: any) {
+                captured = { ...data, actor: { uuid: "Actor.Aldric" } };
+                return Promise.resolve(undefined);
+            } as any,
+        );
+        await (opposed ?? (await makeOpposed())).toChat();
+        captured.sourceTestResult.token.name = "Aldric";
+        captured.targetTestResult.token.name = "Bandit";
+        captured.targetToken.name = "Bandit";
+        return captured;
+    }
+
+    it("request card still names both sides and the test being made", async () => {
+        const html = renderTemplateReal(REQUEST, await cardData());
+        expect(html).toContain("Aldric vs. Bandit");
+        expect(html).toContain("Aldric performs a Aldric Test against Bandit");
+    });
+
+    it("result card still labels the grid, the rolls, and the winner", async () => {
+        const html = renderTemplateReal(RESULT, {
+            ...(await cardData()),
+            title: "Opposed Result",
+        });
+        expect(html).toContain("Results");
+        expect(html).toContain("Source");
+        expect(html).toContain("Target");
+        expect(html).toContain("Success Level Mod:");
+        expect(html).toContain("EML:");
+        expect(html).toContain("Roll:");
+        expect(html).toContain("Aldric Wins!");
+    });
+
+    it("result card still reports a missile miss and a mutual failure", async () => {
+        const bothFail = await cardData(await makeBothFail());
+        expect(
+            renderTemplateReal(RESULT, { ...bothFail, title: "x" }),
+        ).toContain("Both Fail!");
+
+        // A direct/volley target has no test of its own; the contest reports the
+        // missile attack failing rather than a mutual failure.
+        const missile = await cardData(await makeBothFail());
+        missile.targetTestResult.testType = "direct";
+        expect(
+            renderTemplateReal(RESULT, { ...missile, title: "x" }),
+        ).toContain("Missile Attack Fails!");
+    });
+
+    it("result card shows the target's movement on a missile contest", async () => {
+        const data = await cardData();
+        data.targetTestResult.testType = "volley";
+        data.targetTestResult.targetMovement = "still";
+        const html = renderTemplateReal(RESULT, { ...data, title: "x" });
+        expect(html).toContain("Movement:");
+        expect(html).toContain("still");
+    });
+});
+
+describe("opposed card titles are localized, not literal English (#1161)", () => {
+    it("the request card's default title comes from a lang key", async () => {
+        const loc = vi
+            .spyOn(sohl.i18n, "localize")
+            .mockImplementation((k: string) => `LOC:${k}`);
+        const spy = vi
+            .spyOn(SuccessTestResult.prototype, "toChat")
+            .mockResolvedValue(undefined);
+        await (await makeOpposed()).toChat();
+        const msg = spy.mock.calls[0][0] as any;
+        expect(msg.title).toBe("LOC:SOHL.OpposedTestResult.toChat.title");
+        loc.mockRestore();
     });
 });

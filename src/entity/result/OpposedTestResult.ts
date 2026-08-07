@@ -418,9 +418,12 @@ export class OpposedTestResult extends TestResult {
             template:
                 (data.template as string | undefined) ??
                 "systems/sohl/templates/chat/opposed-request-card.hbs",
+            // Localized here, not handed to the card as a bare key: the template
+            // prints `{{title}}` verbatim, so the raw key would show up in the
+            // header of every request card (#1161).
             title:
                 (data.title as string | undefined) ??
-                "SOHL.OpposedTestResult.toChat.title",
+                sohl.i18n.localize("SOHL.OpposedTestResult.toChat.title"),
             sourceTestResult: shape(this.sourceTestResult),
             targetTestResult: shape(this.targetTestResult),
             sourceWins: this.sourceWins,

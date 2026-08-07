@@ -43,7 +43,6 @@ function makeFateMystery(
             assocSkillCode: opts.assocSkillCode ?? null,
             levelBase: null,
             charges: {
-                usesCharges: true,
                 value: opts.value === undefined ? 1 : opts.value,
                 max: opts.max === undefined ? 3 : opts.max,
             },
