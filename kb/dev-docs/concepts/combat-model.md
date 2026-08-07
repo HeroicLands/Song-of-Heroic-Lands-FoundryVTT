@@ -198,17 +198,65 @@ encounter-scoped state on top of Foundry's Combatant. Key fields the logic reads
 
 | Field / getter                     | Meaning                                                                                                                                                                                                     |
 | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `groupId`                          | The combatant's `CombatantGroup` (side). Reads `_source.group` first for a stable id. Drives `isEnemyOf` / `allies`.                                                                                        |
+| `groupId`                          | The combatant's `CombatantGroup` — the side it fights on. Reads `_source.group` first for a stable id. The sole input to `isEnemyOf` / `allies` / `threatenedBy`; see [Combatant groups](#combatant-groups). |
 | `moveFactor`                       | GM situational move multiplier (run/sprint/terrain); `computedMove()` scales the actor's `feetPerRound` by it (#252).                                                                                       |
 | `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set › the actor's `currentMoveMedium` › schema default). _(Not yet honored by `computedMove`, which uses the actor's active medium.)_ |
 | `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's `feetPerRound` (scaled by `moveFactor`), or `null` for a non-mover (movement medium `NONE`).                                                                       |
 | initiative                         | `_getInitiativeFormula()` returns the actor's `init` skill mastery as a **fixed string** — SoHL initiative is skill-driven, not a die roll.                                                                 |
 
-Combat relationships are computed, not stored: `isEnemyOf` →
-`areCombatantsEnemies` (different non-null groups ⇒ enemies), `allies`
-(same-group others), and `threatenedBy` → `isThreatening` (an enemy that is not
-defeated, carries no `THREAT_NEGATING_STATUSES`, is not hidden, and `reaches`
-this combatant — center-to-center grid distance ≤ its greatest melee reach).
+Combat relationships are computed, not stored — `isEnemyOf`, `allies`, and
+`threatenedBy` are all derived from group membership on demand. See
+[Combatant groups](#combatant-groups) below for what that buys and what it
+deliberately leaves out.
+
+### Combatant groups
+
+A **combatant group** is a named side within a single encounter — nothing more.
+It is Foundry's native `CombatantGroup` embedded document (SoHL registers no data
+model, sheet, or document subclass for it) and lives only as long as the combat
+does.
+
+**Why the concept exists.** Combat resolution needs one fact that nothing else in
+the system models: _who is fighting whom_. It cannot come from the actor —
+allegiance is a property of the encounter, not of the character, and the same
+mercenary is an ally this week and an enemy the next. The group is where that
+per-encounter fact lives, and it is deliberately the only input to it. The whole
+rule is one comparison, in the pure `areCombatantsEnemies`: **two combatants are
+enemies iff their group ids differ.** Same group ⇒ allies; a combatant is never
+its own enemy; and a missing group on either side resolves defensively to
+_enemy_, so a not-yet-seeded combatant is never mistaken for a friend.
+
+**The capability it enables** is the relational layer on `SohlCombatantLogic` —
+three derived queries, computed on demand and never stored, each a pure function
+of group membership plus current scene state:
+
+| Query          | Definition                                                                                                                                                                                   |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `isEnemyOf`    | Different non-null groups (above).                                                                                                                                                           |
+| `allies`       | The other combatants sharing this one's group. Empty when ungrouped.                                                                                                                         |
+| `threatenedBy` | The enemies actually menacing this combatant _right now_ — not defeated, carrying none of `THREAT_NEGATING_STATUSES` (unconscious, sleep, stun, restrained, paralyzed, frozen), not hidden, and within melee reach. |
+
+`threatenedBy` is what the concept is ultimately for. Engagement is the question
+the combat rules keep asking — is this character engaged, and by how many? — and
+it is unanswerable without sides. Group membership supplies the allegiance half;
+`reaches` (center-to-center grid distance against the enemy's greatest melee
+reach) supplies the spatial half.
+
+**These relations are a public API surface, not yet an internal consumer.**
+Nothing in `src/` currently reads `allies` or `threatenedBy`; they are
+implemented and unit-tested, and exist for macros, modules, and the rules work
+that will price engagement — see
+[Current gaps and caveats](#current-gaps-and-caveats). What group membership
+drives *today* is the tracker's group chip and the seeding described below.
+
+**What a group deliberately does not do.** It carries no leader, no group
+initiative, and no turn ordering — the tracker sorts by individual initiative
+and the chip is display-only (`combat-tracker-hooks.ts` explicitly does not group
+rows). It does not gate targeting: automated combat takes its target from the
+attacking player's targeted token (`fvttGetTargetedTokens`) and never consults a
+group, so nothing stops you attacking an ally. And allegiance is binary — an
+earlier custom `groups[]` / `groupStances` faction matrix that modeled stances
+_between_ sides was removed as unused.
 
 ### Group seeding
 
@@ -248,6 +296,13 @@ state in a few places (all verified against source):
    chip but movement always uses the actor's active medium (`currentMoveMedium`).
 2. **Weapon break is display-only** — `CombatResult.weaponBreakCheck` is computed
    and shown on the card, but no breakage is applied.
+3. **The group relations have no internal consumer** — `allies`, `threatenedBy`,
+   `isThreatening`, and `reaches` are implemented and unit-tested, but nothing in
+   `src/` reads them: no modifier, dialog, action, or card. Group membership
+   currently drives only the tracker chip and seeding. The engagement rules that
+   would consume them (outnumbering, engagement zone) are unbuilt — the
+   `VALUE_DELTA_INFO.OUTNUMBERED` info flag and its lang strings exist but are
+   never applied.
 
 ## See also
 

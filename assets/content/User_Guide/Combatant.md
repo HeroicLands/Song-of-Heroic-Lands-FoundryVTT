@@ -31,14 +31,66 @@ exchange produces.
 > actions below are documented as they exist; [[Combat_Basics|Assisted Combat]]
 > is the supported path for play in the meantime.
 
+# Combat groups
+
+A **combat group** is a named side in a fight — _the Watch_, _Bandits_, the
+default _Opponents_. Every combatant in an encounter belongs to exactly one, and
+the group is the answer to the only question the system cannot work out on its
+own: **who is fighting whom.**
+
+It has to be recorded per encounter, because it is not a fact about the
+character. The same caravan guard is an ally on the road and an enemy in the
+tavern brawl a week later; nothing on their sheet could say which. So allegiance
+lives on the combatant — the encounter's record of that character — and vanishes
+with the encounter.
+
+The rule is deliberately simple, and there is only one:
+
+> **Two combatants in _different_ groups are enemies. Two in the _same_ group are
+> allies.**
+
+There is nothing else to configure — no allegiance matrix, no degrees of
+friendliness, no neutral parties. A combatant that somehow has no group at all is
+treated as everyone's enemy, so an unassigned token is never quietly taken for a
+friend.
+
+**What that gives you.** Knowing the sides is what lets the system answer
+questions about a fight rather than just record dice: who is standing with this
+character, and — the one that matters in play — **who is currently threatening
+them**. A combatant threatens another when it is an enemy who is still in the
+fight (not defeated, not unconscious, stunned, restrained, paralyzed, or frozen),
+is not hidden, and is close enough to reach them with a melee weapon. That is the
+foundation the engagement rules — being outnumbered, being pinned in melee — are
+built on.
+
+> ⚗️ **Being built.** The system computes the sides, the ally list, and the threat
+> list correctly today, and the group name is shown on the tracker. But no rule
+> _consumes_ that yet: nothing is currently modified by being outnumbered or
+> engaged. Groups still matter for keeping a fight legible — and for macros and
+> modules, which can query all of it now.
+
+**Where the group comes from.** A combatant joins a group automatically when it
+enters the encounter, taking the name from its character's **Default Combat
+Group** (on the Combat tab of the character sheet, GM-only); when that is blank
+it joins **Opponents**. Matching is case-insensitive, so _bandits_ and _Bandits_
+are one group, and a group is created the first time someone needs it. To change
+it afterwards — a mid-fight betrayal, or just cleaning up after a messy setup —
+use [Move to Group…](#move-to-group).
+
+**What groups do _not_ do.** They do not affect turn order: the tracker sorts by
+individual initiative, and a group is never moved or rolled as a block. They do
+not restrict targeting either — nothing stops you attacking someone in your own
+group, deliberately or by accident. And a group has no leader; if you want a
+body of troops that acts as one, that is a [[Actor_Cohort|Cohort]], not a combat
+group.
+
 # The combatant row
 
 Each row in the combat tracker is one Combatant. SoHL adds two labels to it:
 
-- **The group chip** — the name of the combat group this combatant belongs to
-  (e.g. _Opponents_), shown next to the token name. Combatants in **different**
-  groups are enemies of one another; combatants sharing a group are allies. See
-  [Move to Group…](#move-to-group) below.
+- **The group chip** — the name of the [combat group](#combat-groups) this
+  combatant belongs to (e.g. _Opponents_), shown next to the token name. It tells
+  you at a glance which side this row is on.
 - **The move chip** — the combatant's **computed move** in feet per round, shown
   next to its initiative. It is derived from the character, so it already accounts
   for their condition and encumbrance.
@@ -54,9 +106,8 @@ the tracker row's **Update Combatant** control):
   _None_. Use it when a fight moves into water or the air, so the tracker shows the
   speed that matters.
 
-A combatant is placed in a group automatically when it joins the encounter, using
-its actor's **Default Combat Group** field; when that is blank it joins a group
-called **Opponents**. Use **Move to Group…** to change it afterwards.
+A combatant is placed in a group automatically when it joins the encounter — see
+[Combat groups](#combat-groups) for how that is decided and what it is for.
 
 # Where a combatant's actions live
 
@@ -138,11 +189,10 @@ itself rather than half-starting an exchange:
 | **Invoked by** | The **Actions context menu** on the combatant's tracker row — **GM only**                                                                      |
 | **API**        | [`SohlCombatantLogic.moveToGroup`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#movetogroup) |
 
-**What it does.** Moves this combatant into a different **combat group**. Groups
-are how SoHL knows who is fighting whom: two combatants in **different** groups
-are enemies; combatants in the same group are allies. That drives which combatants
-count as threatening a character, so it is worth fixing up when a fight starts —
-or when someone changes sides mid-fight.
+**What it does.** Moves this combatant into a different
+[combat group](#combat-groups) — that is, changes which side it is fighting on.
+Worth doing when a fight starts and the automatic assignment got someone wrong,
+or when a character changes sides mid-fight.
 
 **The Move to Group dialog.** Choosing the action opens a small dialog with two
 fields:
