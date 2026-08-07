@@ -558,6 +558,35 @@ describe("ValueModifier", () => {
             const html = vm.chatHtml;
             expect(html).not.toMatch(/<img\s/);
         });
+
+        // A delta's `name` is a localization key by convention across the
+        // system (`SOHL.MOD.*`, `SOHL.MysticalAbility.*`, …), so the breakdown
+        // must localize it at render time — the same treatment `disabledReason`
+        // got in #948 (#1127).
+        it("localizes each delta name instead of emitting the raw key", () => {
+            const vm = createVM();
+            pushNamedDelta(vm, "SOHL.MysticalAbility.LevelPenalty", -6);
+            const spy = vi
+                .spyOn((globalThis as any).sohl.i18n, "localize")
+                .mockImplementation((k: any) =>
+                    k === "SOHL.MysticalAbility.LevelPenalty" ? "Level Penalty"
+                    :   k,
+                );
+            const html = vm.chatHtml;
+            expect(html).toContain("Level Penalty");
+            expect(html).not.toContain("SOHL.MysticalAbility.LevelPenalty");
+            spy.mockRestore();
+        });
+
+        it("still escapes a crafted name after localizing it", () => {
+            const vm = createVM();
+            // A missing key localizes to itself, so escaping must run *after*
+            // the lookup or the markup would reach the card live.
+            pushNamedDelta(vm, '<img src=x onerror="alert(1)">', 3);
+            const html = vm.chatHtml;
+            expect(html).not.toMatch(/<img\s/);
+            expect(html).toContain("&lt;img");
+        });
     });
 
     // Renamed from `shortcode` (which collides with the document identity key)

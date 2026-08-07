@@ -3899,6 +3899,7 @@
   "sohl.entity.modifier.ValueDelta.clone": "classes/sohl.entity.modifier.ValueDelta-1.html#clone",
   "sohl.entity.modifier.ValueDelta.constructor": "classes/sohl.entity.modifier.ValueDelta-1.html#constructor",
   "sohl.entity.modifier.ValueDelta.kind": "classes/sohl.entity.modifier.ValueDelta-1.html#kind",
+  "sohl.entity.modifier.ValueDelta.label": "classes/sohl.entity.modifier.ValueDelta-1.html#label",
   "sohl.entity.modifier.ValueDelta.name": "classes/sohl.entity.modifier.ValueDelta-1.html#name",
   "sohl.entity.modifier.ValueDelta.numValue": "classes/sohl.entity.modifier.ValueDelta-1.html#numvalue",
   "sohl.entity.modifier.ValueDelta.op": "classes/sohl.entity.modifier.ValueDelta-1.html#op",
