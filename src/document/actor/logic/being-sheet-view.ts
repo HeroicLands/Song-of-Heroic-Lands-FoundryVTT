@@ -1284,10 +1284,20 @@ const MA_EML = maCol(
         headClass: "ledger__head-num",
     },
 );
+// The ledger grid carries no column-gap — head and rows must share one track
+// template to stay aligned — so a fixed-width column's gutter is its spare
+// track width, halved by the centered `ledger__head-num` alignment.
+//
+// Measured in the e2e client: the uppercased "CHGS/MAX" glyph box is 63px, so
+// the former 4rem (64px) track left a 0.5px gutter and the header butted
+// against the left-aligned Notes heading, reading as `CHGS/MAXNOTES` (#1131).
+// 5rem (80px) leaves ~8px — a legible word gap. Notes is `minmax(90px,1.4fr)`
+// and absorbs the difference, so the ledger's overall width is unchanged. The
+// data cells below are narrower, which is why only the header collided.
 const MA_CHARGES = maCol(
     "charges",
     "SOHL.MysticalAbility.COLUMN.charges",
-    "4rem",
+    "5rem",
     {
         tooltipKey: "SOHL.MysticalAbility.COLTIP.charges",
         headClass: "ledger__head-num",

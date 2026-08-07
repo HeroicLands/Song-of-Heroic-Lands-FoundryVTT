@@ -143,6 +143,34 @@ Concrete example (Skill type):
 
 Use this mixin for consistent behavior across actor/item/effect sheets.
 
+### Sheet DOM markers: how a menu predicate finds its document
+
+A context-menu predicate — an entry's `condition`, or an action's `visible` /
+`trigger` — is handed only the clicked element. Its `itemLogic` and `actorLogic`
+bindings are resolved from the DOM by walking **up** from that element:
+
+| Binding      | Resolved from                                                        |
+| ------------ | -------------------------------------------------------------------- |
+| `actorLogic` | the nearest `[data-actor-id]` ancestor                               |
+| `itemLogic`  | the nearest `[data-item-id]` ancestor, looked up on the resolved actor |
+
+Two obligations follow, and a surface that renders rows must meet them:
+
+- **Every actor sheet root carries `data-actor-id`**, and an owned item sheet's
+  root carries its owner's. Both sheet bases stamp it in `_onRender`. Without
+  that marker no row can resolve its actor, the item lookup that goes through
+  the actor comes up empty, and **every** action whose predicate names
+  `itemLogic` silently disappears from the menu — the entry is hidden, not
+  errored, so the failure is invisible.
+- **A row should carry `data-uuid` alongside `data-item-id`** where it can.
+  `resolveContextItem` falls back to the row's own UUID when the actor route
+  yields nothing, which is what lets an unowned (world/directory) item row bind
+  at all.
+
+When adding a row template or a new sheet surface, emit both markers and assert
+the rendered menu in an e2e spec — a synthetic `closest()` stub supplies the
+very markers a real sheet might be missing, so it cannot catch the omission.
+
 ## Constants and metadata contract
 
 Primary file: `src/utils/constants.ts`

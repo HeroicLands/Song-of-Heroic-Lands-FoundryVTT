@@ -1126,6 +1126,40 @@ describe("being-sheet-view", () => {
             );
         });
 
+        // #1131 — the Chgs/Max header filled its 4rem track exactly and butted
+        // against the adjoining Notes header, reading as one word
+        // (`CHGS/MAXNOTES`). The ledger grid has no column-gap (head and rows
+        // must share one track template to stay aligned), so a fixed-width
+        // header's gutter *is* its spare track width.
+        //
+        // Measured in the e2e client: the uppercased "CHGS/MAX" glyph box is
+        // 63px ~= 3.94rem, so a 4rem track left half a pixel either side.
+        // Require enough slack for a legible word gap instead.
+        it("gives the charges header a gutter before the next column", () => {
+            const charges = MYSTICALABILITY_SUBTYPE_COLUMNS[
+                MYSTICALABILITY_SUBTYPE.SPIRITRITE
+            ].find((c) => c.kind === "charges");
+            expect(charges).toBeDefined();
+
+            const rem = Number.parseFloat(charges!.width);
+            expect(charges!.width).toMatch(/^[\d.]+rem$/);
+            // 3.94rem of glyphs + ~0.85rem of gutter, halved by the centered
+            // `ledger__head-num` alignment into ~8px of visible separation.
+            expect(rem).toBeGreaterThanOrEqual(4.8);
+        });
+
+        it("uses one charges column definition across every sub-type", () => {
+            // The gutter above is only fixed everywhere if the sub-types share
+            // the single MA_CHARGES definition rather than each declaring one.
+            const widths = new Set(
+                Object.values(MYSTICALABILITY_SUBTYPE_COLUMNS)
+                    .flat()
+                    .filter((c) => c.kind === "charges")
+                    .map((c) => c.width),
+            );
+            expect([...widths]).toHaveLength(1);
+        });
+
         it("hides Skill only for the intrinsic talents", () => {
             for (const subType of MysticalAbilitySubTypes) {
                 const hasSkill = mysticalAbilityColumns(subType).some(

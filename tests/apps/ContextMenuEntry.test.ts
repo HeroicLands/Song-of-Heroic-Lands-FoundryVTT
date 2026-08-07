@@ -6,6 +6,7 @@ import {
     resolveContextItem,
     resolveContextActor,
 } from "@src/apps/logic/ContextMenuEntry";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 // String conditions compile to a SafeExpression, which (as a SohlEntity)
 // requires an owning parent logic. A truthy stand-in is enough here.
@@ -21,6 +22,7 @@ const cond = (
 interface RowSpec {
     itemId?: string;
     actorId?: string;
+    uuid?: string;
 }
 
 /**
@@ -33,7 +35,10 @@ function mockTarget(
     const closest = (selector: string): HTMLElement | null => {
         if (selector === "[data-item-id]" && opts.item) {
             return {
-                dataset: { itemId: opts.item.itemId },
+                dataset: {
+                    itemId: opts.item.itemId,
+                    uuid: opts.item.uuid,
+                },
             } as unknown as HTMLElement;
         }
         if (selector === "[data-actor-id]" && opts.actor) {
@@ -211,6 +216,10 @@ describe("makeConditionContext", () => {
 });
 
 describe("resolveContextItem / resolveContextActor", () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
     it("returns undefined when target has no data-item-id ancestor", () => {
         expect(resolveContextItem(mockTarget())).toBeUndefined();
     });
@@ -219,11 +228,91 @@ describe("resolveContextItem / resolveContextActor", () => {
         expect(resolveContextActor(mockTarget())).toBeUndefined();
     });
 
-    it("returns undefined when actor lookup fails even with data-item-id", () => {
-        // No actor row → resolveContextActor returns undefined → item lookup
-        // short-circuits
+    it("returns undefined when the row carries neither a resolvable actor nor a uuid", () => {
         expect(
             resolveContextItem(mockTarget({ item: { itemId: "abc123" } })),
         ).toBeUndefined();
+    });
+
+    describe("data-uuid fallback (#1132)", () => {
+        it("resolves the item from the row's data-uuid when no actor marker is present", () => {
+            const item = { documentName: "Item", id: "abc123" } as any;
+            const resolve = vi
+                .spyOn(FoundryHelpersMock, "fvttResolveUuid")
+                .mockReturnValue(item);
+
+            expect(
+                resolveContextItem(
+                    mockTarget({
+                        item: {
+                            itemId: "abc123",
+                            uuid: "Actor.act1.Item.abc123",
+                        },
+                    }),
+                ),
+            ).toBe(item);
+            expect(resolve).toHaveBeenCalledWith("Actor.act1.Item.abc123");
+        });
+
+        it("resolves the actor from the uuid-resolved item's owner", () => {
+            const actor = { documentName: "Actor", id: "act1" } as any;
+            vi.spyOn(FoundryHelpersMock, "fvttResolveUuid").mockReturnValue({
+                documentName: "Item",
+                id: "abc123",
+                actor,
+            } as any);
+
+            expect(
+                resolveContextActor(
+                    mockTarget({
+                        item: {
+                            itemId: "abc123",
+                            uuid: "Actor.act1.Item.abc123",
+                        },
+                    }),
+                ),
+            ).toBe(actor);
+        });
+
+        it("prefers the actor-embedded lookup over the uuid fallback", () => {
+            const embedded = { documentName: "Item", id: "abc123" } as any;
+            const actor = {
+                documentName: "Actor",
+                id: "act1",
+                items: new Map([["abc123", embedded]]),
+            } as any;
+            vi.spyOn(FoundryHelpersMock, "fvttGetActor").mockReturnValue(actor);
+            const resolve = vi
+                .spyOn(FoundryHelpersMock, "fvttResolveUuid")
+                .mockReturnValue({ documentName: "Item", id: "other" } as any);
+
+            expect(
+                resolveContextItem(
+                    mockTarget({
+                        item: {
+                            itemId: "abc123",
+                            uuid: "Actor.act1.Item.abc123",
+                        },
+                        actor: { actorId: "act1" },
+                    }),
+                ),
+            ).toBe(embedded);
+            expect(resolve).not.toHaveBeenCalled();
+        });
+
+        it("ignores a data-uuid that does not resolve to an Item", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttResolveUuid").mockReturnValue({
+                documentName: "Actor",
+                id: "act1",
+            } as any);
+
+            expect(
+                resolveContextItem(
+                    mockTarget({
+                        item: { itemId: "abc123", uuid: "Actor.act1" },
+                    }),
+                ),
+            ).toBeUndefined();
+        });
     });
 });
