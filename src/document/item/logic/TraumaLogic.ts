@@ -1160,12 +1160,16 @@ export class TraumaLogic<
         // being's Healing Base is only seeded in its own `evaluate()` — so this
         // builds here, in `finalize`, where the actor's value has settled.
         // Building it in `initialize` would read 0 and silently disable every
-        // healing test. A wound with no Healing Rate is *untreated*, which is a
-        // real state rather than a zero target, so the modifier is disabled
-        // rather than seeded (see UNTREATED, #1146/#1148).
+        // healing test.
+        //
+        // An **untreated** wound has no target to roll against — that is a state,
+        // not a target of zero — so the modifier is DISABLED rather than seeded.
+        // Being disabled is itself the trigger for the auto-Critical-Failure in
+        // `rollHealingTest`, so anything that disables healing (now or later)
+        // gets that outcome for free (#1146/#1148/#1181).
         this.healing = new entity.ValueModifier({}, { parent: this });
-        if (this.data.healingRateBase == null) {
-            this.healing.disabled = "SOHL.Trauma.NoHealingRate";
+        if (!this.isTreated) {
+            this.healing.disabled = "SOHL.Trauma.Untreated";
         } else {
             const healingBase = Math.max(
                 0,
@@ -1175,8 +1179,10 @@ export class TraumaLogic<
                     } | null
                 )?.healingBase?.effective ?? 0,
             );
+            // `isTreated` guarantees a recorded Healing Rate, so this is never
+            // null here — but read it defensively rather than asserting.
             this.healing.setBase(
-                healingBase * Math.max(0, this.data.healingRateBase),
+                healingBase * Math.max(0, this.data.healingRateBase ?? 0),
             );
         }
 
@@ -1564,7 +1570,10 @@ export class TraumaLogic<
             noChat: true,
             type: "trauma-healingtest",
             title: sohl.i18n.localize("SOHL.Trauma.Action.healingtest.title"),
-            forcedDie: this.isTreated ? undefined : UNTREATED.roll,
+            // A disabled `healing` modifier IS the "nothing to roll against"
+            // state, so read it rather than re-deriving it from `isTreated` —
+            // one source of truth, and the same one the affliction reads.
+            forcedDie: this.healing?.disabled ? UNTREATED.roll : undefined,
         });
         return result ? result.normSuccessLevel : null;
     }

@@ -651,6 +651,11 @@ describe("Injury Healing Test effect (#486)", () => {
         );
         (logic.item as any).uuid = "Item.injury00000";
         logic.initialize();
+        logic.evaluate();
+        // `healing` is built in finalize (it needs the actor's settled Healing
+        // Base), and it is what decides whether a die is cast at all — so the
+        // fixture must run the full lifecycle, as production does.
+        logic.finalize();
         if (infection) {
             actor.itemTypes = {
                 [ITEM_KIND.TRAUMA]: [

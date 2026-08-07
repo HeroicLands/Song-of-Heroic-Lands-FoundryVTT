@@ -1,8 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import {
+    CRITICAL_FAILURE,
     ITEM_KIND,
+    MARGINAL_SUCCESS,
     TRAUMA_EFFECT_KEY,
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
@@ -27,6 +30,9 @@ function makeWound(
             subType: TRAUMA_SUBTYPE.INJURY,
             levelBase: 3,
             healingRateBase: 4,
+            // A recorded rate AND a treatment date — `isTreated` needs both, and
+            // an untreated wound's target is disabled, not computed.
+            treatmentDate: 500,
             ...overrides,
         },
         opts,
@@ -62,10 +68,16 @@ describe("TraumaLogic.healing — the Healing Test target (#1181)", () => {
         expect(logic.healing.effective).toBe(40);
     });
 
-    it("is DISABLED — not zero — for an untreated wound with no Healing Rate", () => {
-        // "Untreated" is a real state, distinct from a target of 0 (#1146/#1148).
-        const logic = makeWound({ healingRateBase: null }, 12);
-        expect(logic.healing.disabled).toBeTruthy();
+    it("is DISABLED — not zero — for an untreated wound", () => {
+        // "Untreated" is a real state, distinct from a target of 0 (#1146/#1148),
+        // and being disabled is what makes the test auto-Critically-Fail.
+        expect(
+            makeWound({ healingRateBase: null }, 12).healing.disabled,
+        ).toBeTruthy();
+        // A rate on record but no treatment date is still untreated.
+        expect(
+            makeWound({ treatmentDate: null }, 12).healing.disabled,
+        ).toBeTruthy();
     });
 
     it("is 0 when the wound is on no actor (no Healing Base to read)", () => {
@@ -75,5 +87,33 @@ describe("TraumaLogic.healing — the Healing Test target (#1181)", () => {
 
     it("exposes a HEALING effect key pointing at the modifier", () => {
         expect(TRAUMA_EFFECT_KEY.HEALING).toBe("mod:logic.healing");
+    });
+});
+
+describe("a disabled healing target auto-Critically-Fails, whatever disabled it (#1181)", () => {
+    it("forces the 00 face when healing is disabled for ANY reason", async () => {
+        // Keyed on `disabled`, not on `isTreated` — so any future disabler (a
+        // rule, a condition, an effect channel) inherits the auto-CF for free.
+        const logic = makeWound({ levelBase: 3 }, 12);
+        expect(logic.healing.disabled).toBeFalsy();
+        logic.healing.disabled = "SOHL.Trauma.Untreated";
+
+        const spy = vi
+            .spyOn(MasteryLevelModifier.prototype, "successTest")
+            .mockResolvedValue({ normSuccessLevel: CRITICAL_FAILURE } as any);
+        await logic.healingTest({ scope: {} } as any);
+
+        const ctx = spy.mock.calls[0][0] as any;
+        expect(ctx.scope.roll?.total).toBe(100);
+    });
+
+    it("casts a real die while healing is enabled", async () => {
+        const logic = makeWound({ levelBase: 3 }, 12);
+        const spy = vi
+            .spyOn(MasteryLevelModifier.prototype, "successTest")
+            .mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+        await logic.healingTest({ scope: {} } as any);
+        const ctx = spy.mock.calls[0][0] as any;
+        expect(ctx.scope.roll).toBeUndefined();
     });
 });
