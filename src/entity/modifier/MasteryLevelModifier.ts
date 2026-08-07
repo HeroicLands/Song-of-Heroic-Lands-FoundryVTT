@@ -329,7 +329,10 @@ export class MasteryLevelModifier extends ValueModifier {
             data.type ?? `${this.parent.data.kind}-${this.parent.name}-test`;
         this.title =
             data.title ??
-            sohl.i18n.format("SOHL.MasteryLevelModifier.successTest", {
+            // `…successTest` is a namespace holding `.title` / `.dialogTitle` /
+            // `.dialogLabel`, not a string — formatting the bare prefix put the
+            // raw key in every standard test card's header (#1107).
+            sohl.i18n.format("SOHL.MasteryLevelModifier.successTest.title", {
                 label: this.parent.label,
             });
         // Apply now that this subclass's fields are set (see ValueModifier's

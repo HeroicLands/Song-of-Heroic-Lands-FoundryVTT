@@ -134,14 +134,8 @@ Two sub-types read that rule differently:
 Abilities with no level (and abilities at Level 0) take no penalty, and other subtypes — talents, rites, ritual actions, and the like — are not affected.
 
 The penalty is itemized wherever the roll is broken down: hovering the EML cell
-shows it as **LvlPen −6**, and it gets its own row in the test dialog's and the
-test card's Adjustment table.
-
-> **Known gap.** In the Adjustment table the penalty's row is currently labelled
-> with a raw text key, `SOHL.MysticalAbility.LevelPenalty`, instead of _Level
-> Penalty_ (issue #1127). The value beside it is correct, and so is the **LvlPen**
-> summary in the tooltip. The same fault affects every modifier row on every test
-> card and dialog, not just this one.
+shows it as **LvlPen −6**, and it gets its own row — labelled _Level Penalty_ —
+in the test dialog's and the test card's Adjustment table.
 
 # The Mystical Ability Actions
 
@@ -244,18 +238,12 @@ the roll and stops there.
 The GM's pencil is described on [[Item_Base|Base Item]], under _Editing a Posted
 Test Result_.
 
-> **Known gaps.** Two defects affect this card today:
->
-> - **No Fate can be spent on an invocation.** The card never offers the **Fate**
->   button, even when the character holds a Fate Point (issue #1106). This bites
->   here because an ability normally borrows its mastery level from its Associated
->   Skill — so the same number, rolled from the Skills tab, _does_ offer Fate.
->   Until it is fixed, spend Fate at the table by agreement, or have the GM adjust
->   the result with the pencil.
-> - **The card's title shows a raw text key**
->   (`SOHL.MasteryLevelModifier.successTest`) instead of the test's name, such as
->   _Fire Dart Test_ (issue #1107). Everything below the title is correct. The same
->   title appears on skill and attribute tests, for the same reason.
+> **Known gap. No Fate can be spent on an invocation.** The card never offers the
+> **Fate** button, even when the character holds a Fate Point (issue #1106). This
+> bites here because an ability normally borrows its mastery level from its
+> Associated Skill — so the same number, rolled from the Skills tab, _does_ offer
+> Fate. Until it is fixed, spend Fate at the table by agreement, or have the GM
+> adjust the result with the pencil.
 
 # Toggle Improve Flag
 

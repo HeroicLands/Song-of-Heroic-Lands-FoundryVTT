@@ -86,9 +86,16 @@ describe("MasteryLevelModifier", () => {
 
         it("derives the default title from the localized format key", () => {
             const ml = makeMLMod();
-            // The test i18n mock returns the key with {placeholders} substituted;
-            // this key has none, so it comes back verbatim.
-            expect(ml.title).toBe("SOHL.MasteryLevelModifier.successTest");
+            // The test i18n mock returns the key with {placeholders}
+            // substituted; this key's `{label}` is not in the key text, so it
+            // comes back verbatim. The key must be the `.title` string, not the
+            // `…successTest` namespace prefix, which has no value in
+            // `lang/en.json` and reached the card raw (#1107) — asserted for
+            // real against `lang/en.json` in
+            // tests/domain/modifier/MasteryLevelModifier.test.ts.
+            expect(ml.title).toBe(
+                "SOHL.MasteryLevelModifier.successTest.title",
+            );
         });
 
         it("honors explicit data over defaults", () => {

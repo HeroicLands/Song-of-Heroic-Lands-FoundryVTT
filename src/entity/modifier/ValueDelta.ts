@@ -32,7 +32,7 @@ import { SohlEntity } from "../SohlEntity";
  * other operator requires a numeric value.
  */
 export class ValueDelta extends SohlEntity {
-    /** Human-readable name of the delta's source, for display. */
+    /** Name of the delta's source as a localization **key**; localize for display via {@link label}. */
     name: string;
     /** Short abbreviation for the delta's source (used to find or replace it). */
     abbrev: string;
@@ -40,6 +40,21 @@ export class ValueDelta extends SohlEntity {
     op: ValueDeltaOperator;
     /** The delta's value as a string — numeric, or `"true"`/`"false"` for flags. */
     value: string;
+
+    /**
+     * The delta's source name localized for display.
+     *
+     * {@link name} is a localization **key** by convention across the system
+     * (`SOHL.ValueDelta.INFO.*`, `SOHL.MOD.*`, `SOHL.MysticalAbility.*`, …), so
+     * anything surfacing it to a human must localize it here rather than
+     * emitting the raw key (#1127) — the same treatment
+     * {@link sohl.entity.modifier.ValueModifier.disabledReason} got in #948. Idempotent on
+     * already-plain text: an unknown key localizes to itself, so an ad-hoc
+     * delta named with prose passes through unchanged.
+     */
+    get label(): string {
+        return this.name ? sohl.i18n.localize(this.name) : "";
+    }
 
     /** The {@link value} as a number — `"true"`→1, `"false"`→0, otherwise the parsed number (0 if NaN). */
     get numValue(): number {
@@ -52,7 +67,7 @@ export class ValueDelta extends SohlEntity {
      * Constructs a value delta, normalizing `value` to a string and validating
      * that non-`CUSTOM` operators receive a numeric value.
      * @param data - Delta construction data.
-     * @param data.name - Human-readable name of the delta's source.
+     * @param data.name - Localization key naming the delta's source (see {@link label}).
      * @param data.abbrev - Short abbreviation for the delta's source.
      * @param data.op - The operator selecting how the delta combines with the value.
      * @param data.value - The delta's value (numeric, or a boolean flag).
@@ -68,8 +83,10 @@ export class ValueDelta extends SohlEntity {
         const { name, abbrev, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
 
-        // `name` / `abbrev` are passed through as-is (display / identity
-        // labels, not validated localization keys).
+        // `name` / `abbrev` are passed through as-is: `name` is a localization
+        // key by convention but is not validated as one (an ad-hoc delta may
+        // carry prose), and `abbrev` is an identity label, never displayed
+        // through i18n.
         this.name = name;
         this.abbrev = abbrev;
         this.op = op;
@@ -156,7 +173,7 @@ export namespace ValueDelta {
 
     /** Construction data for a {@link ValueDelta}. */
     export interface Data extends SohlEntity.Data {
-        /** Human-readable name of the delta's source. */
+        /** Localization key naming the delta's source (see {@link ValueDelta.label}). */
         name: string;
         /** Short abbreviation for the delta's source. */
         abbrev: string;

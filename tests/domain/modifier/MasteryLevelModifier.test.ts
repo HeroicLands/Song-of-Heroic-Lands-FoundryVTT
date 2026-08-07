@@ -19,6 +19,8 @@ import { defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
 import { BRAND, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 // Stand-in owning logic carrying the SohlLogic brand.
 const parent = {
@@ -94,7 +96,61 @@ describe("MasteryLevelModifier", () => {
         });
         it.todo("initializes testDescTable and svTable from data or defaults");
         it.todo("constructs type from parent.data.kind and parent.name");
-        it.todo("constructs title from localized format string");
+        // The default title is covered for real below, in "default title (#1107)".
+    });
+
+    // The default title is what a standard test-result card shows in its
+    // header, so it must resolve to prose — not the bare namespace prefix the
+    // constructor used to format (#1107).
+    describe("default title (#1107)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** Resolve `sohl.i18n.format` against the real `lang/en.json`. */
+        function useRealLang(): void {
+            const lang = JSON.parse(
+                readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
+            ) as Record<string, string>;
+            vi.spyOn(sohl.i18n, "format").mockImplementation(
+                (key: string, data: Record<string, unknown> = {}) => {
+                    let out = lang[key] ?? key;
+                    for (const [k, v] of Object.entries(data))
+                        out = out.replace(`{${k}}`, String(v));
+                    return out;
+                },
+            );
+        }
+
+        it("formats the parent's label into a localized test name", () => {
+            useRealLang();
+            const ml = new MasteryLevelModifier({ baseValue: 50 } as any, {
+                parent: { ...parent, label: "Strength" },
+            });
+            expect(ml.title).toBe("Strength Test");
+            expect(ml.title).not.toMatch(/^SOHL\./);
+        });
+
+        it("references a key that exists in lang/en.json", () => {
+            const lang = JSON.parse(
+                readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
+            ) as Record<string, string>;
+            // The bare prefix is a namespace holding `.title` / `.dialogTitle` /
+            // `.dialogLabel` — not a string — so formatting it yields the key.
+            expect(
+                lang["SOHL.MasteryLevelModifier.successTest"],
+            ).toBeUndefined();
+            expect(lang["SOHL.MasteryLevelModifier.successTest.title"]).toBe(
+                "{label} Test",
+            );
+        });
+
+        it("still honors an explicit title", () => {
+            useRealLang();
+            const ml = new MasteryLevelModifier(
+                { baseValue: 50, title: "Bespoke Test" } as any,
+                { parent },
+            );
+            expect(ml.title).toBe("Bespoke Test");
+        });
     });
 
     describe("constrainedEffective", () => {

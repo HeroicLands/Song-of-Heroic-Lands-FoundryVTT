@@ -718,8 +718,11 @@ export class ValueModifier extends SohlEntity {
             <span class="label adj-value">${sohl.i18n.format("SOHL.ValueModifier.Value")}</span>
         </div>${this.deltas
             .map((m) => {
+                // A delta's `name` is an i18n key by convention, so the
+                // breakdown localizes it here — escaping *after* the lookup, so
+                // a key that resolves to itself is still rendered inert (#1127).
                 return `<div class="flexrow">
-            <span class="adj-name">${escapeHTML(m.name)}</span>
+            <span class="adj-name">${escapeHTML(m.label)}</span>
             <span class="adj-value">${escapeHTML(getValue(m))}</span></div>`;
             })
             .join("")}</div>`;
