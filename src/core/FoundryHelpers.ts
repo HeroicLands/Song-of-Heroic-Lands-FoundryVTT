@@ -1250,18 +1250,6 @@ export async function getDocumentFromPacks(
 // ---------------------------------------------------------------------------
 
 /**
- * Resolve the SohlItem for a context menu target element.
- * @param header - The context menu target element.
- * @returns The resolved `SohlItem`, or `undefined` if none could be resolved.
- */
-export function getContextItem(header: HTMLElement): SohlItem | undefined {
-    const element = header.closest(".item") as HTMLElement;
-    const item =
-        element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
-    return item && typeof item === "object" ? (item as SohlItem) : undefined;
-}
-
-/**
  * Resolve the Logic instance for a context menu target element.
  * @param element - The context menu target element.
  * @returns The resolved Logic instance, or `null` if none could be resolved.

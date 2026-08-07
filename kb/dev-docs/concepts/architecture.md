@@ -223,7 +223,7 @@ SoHL provides two levels of extension for customizing behavior without modifying
 
 `src/core/FoundryHelpers.ts` wraps all Foundry VTT globals (`game`, `canvas`, `Hooks`, `Roll`, etc.) behind a stable API. During testing, vitest swaps it for a mock. Logic classes must import from FoundryHelpers, never from Foundry directly.
 
-Shim exports use the `fvtt` prefix (e.g., `fvttGetSetting`, `fvttCallHook`). Functions that don't wrap globals (e.g., `inputDialog`, `getContextItem`) use plain names.
+Shim exports use the `fvtt` prefix (e.g., `fvttGetSetting`, `fvttCallHook`). Functions that don't wrap globals (e.g., `inputDialog`, `getContextLogic`) use plain names.
 
 For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError` (SohlLogger), not the shim.
 

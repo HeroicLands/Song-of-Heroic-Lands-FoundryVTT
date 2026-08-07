@@ -415,6 +415,11 @@ export class OpposedTestResult extends TestResult {
         });
 
         const msgData: PlainObject = {
+            // The contest's own visibility, applied by the delegate below. The
+            // default (`"roll"`) means "the client's configured mode", so this
+            // changes nothing until someone sets a mode — as the GM edit pencil
+            // does from its Roll Visibility field (#1099).
+            rollMode: this.rollMode,
             template:
                 (data.template as string | undefined) ??
                 "systems/sohl/templates/chat/opposed-request-card.hbs",

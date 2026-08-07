@@ -4,6 +4,7 @@ import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic
 import { ContextMenuEntry } from "@src/apps/logic/ContextMenuEntry";
 import { ACTOR_KIND, MOVEMENT_MEDIUM } from "@src/utils/constants";
 import { makeActorLogic } from "@tests/mocks/logicHarness";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 /** A minimal per-medium movement profile for base-actor movement tests. */
 function profile(overrides: Record<string, unknown> = {}) {
@@ -118,6 +119,7 @@ describe("StructureLogic", () => {
         });
 
         it("makeDefaultMedium persists the scoped medium to system.currentMoveMedium", async () => {
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
             const logic = makeStructure();
             await logic.makeDefaultMedium({
                 scope: { medium: MOVEMENT_MEDIUM.AQUATIC },
@@ -125,11 +127,79 @@ describe("StructureLogic", () => {
             expect(logic.data.update).toHaveBeenCalledWith({
                 "system.currentMoveMedium": MOVEMENT_MEDIUM.AQUATIC,
             });
+            // The Profile-tab star names the medium, so it never prompts.
+            expect(dlg).not.toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * #1098 — the action is a normal, selectable ESSENTIAL action, but its
+     * executor required `scope.medium`, which only the Profile-tab star
+     * supplies. Invoked any other way it returned immediately: no dialog, no
+     * notice, no change. Per the prefer-dialog rule it now offers the choice.
+     */
+    describe("makeDefaultMedium without a medium in scope (#1098)", () => {
+        it("prompts with the actor's media and persists the chosen one", async () => {
+            const dlg = vi
+                .spyOn(FoundryHelpersMock, "dialog")
+                .mockResolvedValue({ medium: MOVEMENT_MEDIUM.AQUATIC } as any);
+            const logic = makeStructure({
+                currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                movementProfiles: [
+                    profile(),
+                    profile({ medium: MOVEMENT_MEDIUM.AQUATIC }),
+                ],
+            });
+
+            await logic.makeDefaultMedium({ scope: {} } as any);
+
+            expect(dlg).toHaveBeenCalledOnce();
+            const spec = (dlg.mock.calls[0] as any)[0];
+            // NONE is always offered (an actor can be made immobile), plus each
+            // authored profile; the current medium is preselected.
+            expect(Object.keys(spec.data.mediumChoices)).toEqual([
+                MOVEMENT_MEDIUM.NONE,
+                MOVEMENT_MEDIUM.TERRESTRIAL,
+                MOVEMENT_MEDIUM.AQUATIC,
+            ]);
+            expect(spec.data.medium).toBe(MOVEMENT_MEDIUM.TERRESTRIAL);
+            expect(logic.data.update).toHaveBeenCalledWith({
+                "system.currentMoveMedium": MOVEMENT_MEDIUM.AQUATIC,
+            });
         });
 
-        it("makeDefaultMedium ignores a scope with no valid medium", async () => {
+        it("a dismissed prompt changes nothing", async () => {
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(
+                null as any,
+            );
             const logic = makeStructure();
             await logic.makeDefaultMedium({ scope: {} } as any);
+            expect(logic.data.update).not.toHaveBeenCalled();
+        });
+
+        it("an unknown medium submitted by the form changes nothing", async () => {
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                medium: "hyperspace",
+            } as any);
+            const logic = makeStructure();
+            await logic.makeDefaultMedium({ scope: {} } as any);
+            expect(logic.data.update).not.toHaveBeenCalled();
+        });
+
+        it("skipDialog cannot prompt, so it reports why nothing happened", async () => {
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
+            const warn = vi
+                .spyOn(sohl.log, "uiWarn")
+                .mockImplementation(() => {});
+            const logic = makeStructure();
+
+            await logic.makeDefaultMedium({
+                skipDialog: true,
+                scope: {},
+            } as any);
+
+            expect(dlg).not.toHaveBeenCalled();
+            expect(warn).toHaveBeenCalledOnce();
             expect(logic.data.update).not.toHaveBeenCalled();
         });
     });

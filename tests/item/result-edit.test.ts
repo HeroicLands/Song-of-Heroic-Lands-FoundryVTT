@@ -215,3 +215,170 @@ describe("SohlItemBaseLogic.resultEdit — GM result-edit on the frozen roll (#8
         expect(warn).toHaveBeenCalled();
     });
 });
+
+/**
+ * #1099 — the edit dialog re-uses `standard-test-dialog.hbs` and passes
+ * `rollModes`, so it renders a **Roll Visibility** dropdown pre-set to the
+ * result's current mode. The callback read only the two modifiers, so the
+ * choice was silently discarded and the reposted card kept the original
+ * visibility. A GM correcting a result is exactly when they may want to take it
+ * private, so the field is honored.
+ */
+describe("SohlItemBaseLogic.resultEdit — roll visibility (#1099)", () => {
+    let skill: SkillLogic;
+
+    beforeEach(() => {
+        const actor = makeMockActor();
+        skill = makeItemLogic(
+            SkillLogic,
+            "skill",
+            {
+                subType: "combat",
+                skillBaseFormula: "sb(attr.str)",
+                masteryLevelBase: 50,
+                initSkillMult: 1,
+            },
+            { actor, id: "skill1", name: "Melee", shortcode: "melee" },
+        ) as SkillLogic;
+        skill.initialize();
+        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
+            true,
+        );
+    });
+
+    afterEach(() => vi.restoreAllMocks());
+
+    it("applies the visibility chosen in the dialog and reposts with it", async () => {
+        const { result, toChat } = await makePriorResult(skill, 50, 23);
+        expect(result.rollMode).toBe("roll"); // the client default
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+            situationalModifier: 0,
+            successLevelMod: 0,
+            rollMode: "gmroll",
+        } as any);
+
+        await skill.resultEdit(
+            new SohlActionContext({
+                type: "resultEdit",
+                speaker,
+                scope: { priorTestResult: result },
+            } as any),
+        );
+
+        expect(result.rollMode).toBe("gmroll");
+        // The repost carries the chosen visibility, not the original one.
+        expect(toChat).toHaveBeenCalledOnce();
+        expect((toChat.mock.calls[0] as any)[0]).toMatchObject({
+            rollMode: "gmroll",
+        });
+    });
+
+    it("a visibility-only change is a real change — it reposts", async () => {
+        const { result, toChat } = await makePriorResult(skill, 50, 23);
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+            situationalModifier: 0,
+            successLevelMod: 0,
+            rollMode: "blindroll",
+        } as any);
+
+        await skill.resultEdit(
+            new SohlActionContext({
+                type: "resultEdit",
+                speaker,
+                scope: { priorTestResult: result },
+            } as any),
+        );
+
+        expect(toChat).toHaveBeenCalledOnce();
+    });
+
+    it("leaving the visibility alone stays a no-op", async () => {
+        const { result, toChat } = await makePriorResult(skill, 50, 23);
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+            situationalModifier: 0,
+            successLevelMod: 0,
+            rollMode: result.rollMode,
+        } as any);
+
+        await skill.resultEdit(
+            new SohlActionContext({
+                type: "resultEdit",
+                speaker,
+                scope: { priorTestResult: result },
+            } as any),
+        );
+
+        expect(toChat).not.toHaveBeenCalled();
+    });
+
+    it("ignores a visibility the form did not offer", async () => {
+        const { result } = await makePriorResult(skill, 50, 23);
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+            situationalModifier: 0,
+            successLevelMod: 0,
+            rollMode: "shoutfromtherooftops",
+        } as any);
+
+        await skill.resultEdit(
+            new SohlActionContext({
+                type: "resultEdit",
+                speaker,
+                scope: { priorTestResult: result },
+            } as any),
+        );
+
+        expect(result.rollMode).toBe("roll");
+    });
+
+    it("a scripted (skipDialog) edit can name the visibility too", async () => {
+        const { result, toChat } = await makePriorResult(skill, 50, 23);
+
+        await skill.resultEdit(
+            editCtx(result, { rollMode: "selfroll" } as any),
+        );
+
+        expect(result.rollMode).toBe("selfroll");
+        expect(toChat).toHaveBeenCalledOnce();
+    });
+
+    it("posts the card with the result's visibility only when asked (#1099)", async () => {
+        // The pre-roll path is unchanged: `toChat` applies a visibility only for
+        // a caller that passes one, so an ordinary post still resolves the mode
+        // through the speaker exactly as before.
+        const speakerToChat = vi.fn();
+        const mlMod = new MasteryLevelModifier({ baseValue: 50 } as any, {
+            parent: skill,
+        });
+        const result = new SuccessTestResult(
+            {
+                masteryLevelModifier: mlMod,
+                roll: frozenRoll(23, skill),
+                title: "Skill Test",
+                rollMode: "gmroll",
+            } as any,
+            {
+                parent: skill,
+                chatSpeaker: {
+                    isOwner: true,
+                    name: "GM",
+                    toJSON: () => ({ name: "GM" }),
+                    toChat: speakerToChat,
+                } as any,
+            },
+        );
+        await result.evaluate();
+        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue(
+            {} as any,
+        );
+
+        // No caller-supplied mode: the speaker resolves visibility as before,
+        // even though the result itself carries one.
+        await result.toChat({});
+        expect(
+            (speakerToChat.mock.calls[0] as any)[2].rollMode,
+        ).toBeUndefined();
+
+        await result.toChat({ rollMode: result.rollMode });
+        expect((speakerToChat.mock.calls[1] as any)[2].rollMode).toBe("gmroll");
+    });
+});

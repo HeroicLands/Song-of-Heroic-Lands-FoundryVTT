@@ -16,7 +16,7 @@ import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import { entity } from "@src/entity/registry";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
-import { fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
+import { dialog, fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
     BRAND,
@@ -25,10 +25,11 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     isMovementMedium,
+    MovementMediumChoices,
     type ItemKind,
     type MovementMedium,
 } from "@src/utils/constants";
-import type { FilePath, HTMLString } from "@src/utils/helpers";
+import { toFilePath, type FilePath, type HTMLString } from "@src/utils/helpers";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlTriggerContext } from "@src/entity/event/event-trigger";
@@ -321,14 +322,78 @@ export class SohlActorBaseLogic<
      *
      * Intrinsic-action executor for the `makeDefaultMedium` action.
      *
+     * @remarks
+     * The Profile-tab star names the medium in scope and applies it directly.
+     * Invoked any other way — from the Actions menu, a macro, a script — there
+     * is no medium to apply, so the action **offers the choice** (the
+     * prefer-dialog rule) rather than returning silently as it once did
+     * (#1098). The prompt lists the no-movement medium plus every medium this
+     * actor authors a profile for, preselected at the current one. A caller
+     * that suppressed the dialog cannot be prompted, so it gets a notice
+     * instead of an unexplained no-op.
+     *
      * @param context - The action context; `context.scope.medium` names the
-     *   {@link MovementMedium} to make current.
-     * @returns Resolves once the actor update completes.
+     *   {@link MovementMedium} to make current. Absent, the medium is chosen in
+     *   a dialog unless `skipDialog` forbids one.
+     * @returns Resolves once the actor update completes, or immediately when no
+     *   medium was chosen.
      */
     async makeDefaultMedium(context: SohlActionContext): Promise<void> {
-        const medium = (context.scope as PlainObject)?.medium;
-        if (!isMovementMedium(medium)) return;
+        let medium = (context.scope as PlainObject)?.medium;
+        if (!isMovementMedium(medium)) {
+            if (context.skipDialog) {
+                sohl.log.uiWarn(
+                    sohl.i18n.format("SOHL.Actor.makeDefaultMedium.noMedium", {
+                        name: this.name,
+                    }),
+                );
+                return;
+            }
+            medium = await this.promptMoveMedium();
+            if (!isMovementMedium(medium)) return;
+        }
         await this.data.update({ "system.currentMoveMedium": medium });
+    }
+
+    /**
+     * Ask which movement medium to make current, listing the no-movement
+     * medium plus every medium this actor authors a profile for (the same rows
+     * the Profile tab stars), preselected at the current one.
+     *
+     * @returns The chosen {@link MovementMedium}, or `undefined` when the
+     *   dialog was dismissed.
+     */
+    protected async promptMoveMedium(): Promise<MovementMedium | undefined> {
+        // NONE first and always — an actor can be made immobile even when it
+        // authors no NONE profile of its own (matching the Profile tab).
+        const mediumChoices: Record<string, string> = {
+            [MOVEMENT_MEDIUM.NONE]: MovementMediumChoices[MOVEMENT_MEDIUM.NONE],
+        };
+        for (const profile of this.data.movementProfiles ?? []) {
+            mediumChoices[profile.medium] =
+                MovementMediumChoices[profile.medium];
+        }
+
+        const form = (await dialog({
+            title: sohl.i18n.format("SOHL.Actor.makeDefaultMedium.title", {
+                name: this.name,
+            }),
+            template: toFilePath(
+                "systems/sohl/templates/dialog/select-medium-dialog.hbs",
+            ),
+            data: {
+                actorName: this.name,
+                medium: this.data.currentMoveMedium ?? MOVEMENT_MEDIUM.NONE,
+                mediumChoices,
+            },
+            callback: (formData: PlainObject) => ({
+                medium: String(formData.medium ?? ""),
+            }),
+            rejectClose: false,
+        })) as { medium: string } | null;
+
+        if (!form) return undefined; // dismissed
+        return isMovementMedium(form.medium) ? form.medium : undefined;
     }
 
     /**
@@ -414,6 +479,11 @@ export class SohlActorBaseLogic<
         // OK-without-change on both sides is a no-op: nothing re-evaluated,
         // nothing reposted.
         if (!changed) return opposed;
+
+        // A contest posts ONE card, so the source side's roll visibility
+        // governs the repost (#1099) — the field the shared dialog offers on
+        // each side would otherwise be inert here.
+        opposed.rollMode = opposed.sourceTestResult.rollMode;
 
         // Re-evaluate both sides on their SAME frozen rolls (idempotent; never
         // re-rolls) and repost the result card with the new outcome.

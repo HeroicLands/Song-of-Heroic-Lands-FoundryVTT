@@ -3,10 +3,12 @@ import {
     compileCondition,
     compileMenuEntry,
     makeConditionContext,
+    makeLogicMethodCallback,
     resolveContextItem,
     resolveContextActor,
 } from "@src/apps/logic/ContextMenuEntry";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+import { makeMockSpeaker } from "@tests/mocks/logicHarness";
 
 // String conditions compile to a SafeExpression, which (as a SohlEntity)
 // requires an owning parent logic. A truthy stand-in is enough here.
@@ -314,5 +316,90 @@ describe("resolveContextItem / resolveContextActor", () => {
                 ),
             ).toBeUndefined();
         });
+    });
+});
+
+/**
+ * #1188 — `makeLogicMethodCallback` is the fallback callback for an entry that
+ * names a `functionName` but supplies no `callback`. Its resolver guarded on
+ * `data-effect-id` (an *effect* marker) before an *item* lookup and then passed
+ * the row's bare `data-item-id` to a UUID resolver, so the item never resolved
+ * and the click was skipped with a warn. It now shares the one resolution path
+ * every other context-menu consumer uses.
+ */
+describe("makeLogicMethodCallback (#1188)", () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    /** An item row whose logic records the method calls made on it. */
+    function itemWithLogic(): { item: any; calls: unknown[] } {
+        const calls: unknown[] = [];
+        const item: any = {
+            documentName: "Item",
+            id: "abc123",
+            logic: {
+                // A real logic always resolves a speaker (blank when the item
+                // is unowned); the context refuses to build without one.
+                speaker: makeMockSpeaker(),
+                doTheThing(ctx: unknown) {
+                    calls.push(ctx);
+                },
+            },
+        };
+        return { item, calls };
+    }
+
+    it("invokes the named method on the item resolved through the actor row", () => {
+        const { item, calls } = itemWithLogic();
+        const actor = {
+            documentName: "Actor",
+            id: "act1",
+            items: new Map([["abc123", item]]),
+            getSpeaker: () => undefined,
+        } as any;
+        item.actor = actor;
+        vi.spyOn(FoundryHelpersMock, "fvttGetActor").mockReturnValue(actor);
+        const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
+
+        makeLogicMethodCallback(
+            "doTheThing",
+            "Do The Thing",
+        )(
+            mockTarget({
+                item: { itemId: "abc123" },
+                actor: { actorId: "act1" },
+            }),
+        );
+
+        expect(calls).toHaveLength(1);
+        expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("invokes the named method on a world item resolved by the row's data-uuid", () => {
+        const { item, calls } = itemWithLogic();
+        vi.spyOn(FoundryHelpersMock, "fvttResolveUuid").mockReturnValue(item);
+        const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
+
+        makeLogicMethodCallback(
+            "doTheThing",
+            "Do The Thing",
+        )(mockTarget({ item: { itemId: "abc123", uuid: "Item.abc123" } }));
+
+        expect(calls).toHaveLength(1);
+        expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("warns when the resolved logic has no such method", () => {
+        const { item } = itemWithLogic();
+        vi.spyOn(FoundryHelpersMock, "fvttResolveUuid").mockReturnValue(item);
+        const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
+
+        makeLogicMethodCallback(
+            "missingMethod",
+            "Missing",
+        )(mockTarget({ item: { itemId: "abc123", uuid: "Item.abc123" } }));
+
+        expect(warn).toHaveBeenCalledOnce();
     });
 });

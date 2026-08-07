@@ -426,10 +426,6 @@ export async function getDocumentFromPacks(
 // Context menu helpers
 // ---------------------------------------------------------------------------
 
-export function getContextItem(_header: HTMLElement): any {
-    return undefined;
-}
-
 export function getContextLogic(_element: HTMLElement): any {
     return null;
 }

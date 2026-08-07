@@ -11,6 +11,9 @@ import {
     describeInterval,
 } from "@src/document/item/logic/offer-schedule";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { globSync } from "glob";
 
 describe("offerSchedule — the consent step for scheduling timed effects (#579)", () => {
     afterEach(() => vi.restoreAllMocks());
@@ -258,4 +261,50 @@ describe("offerSchedule anchoring (#1181)", () => {
         expect(schedule).not.toHaveBeenCalled();
         expect(unschedule).toHaveBeenCalledWith(DOC, "healingCheck");
     });
+});
+
+/**
+ * #1086 — the offer dialog names the effect from
+ * `SOHL.Reminder.effect.<actionName>`, a key built at runtime from the action
+ * name. `npm run lint:lang-coverage` reads only concrete key literals, so three
+ * Trauma recovery checks shipped with no key and the dialog showed the raw key
+ * ("Set a SOHL.Reminder.effect.psycheRecovery Reminder?").
+ *
+ * The guard scans every `offerSchedule` call site for its action-name literal
+ * and requires the matching label to exist, so a newly offered action cannot
+ * reach a player as a raw key.
+ */
+describe("reminder labels for every offered action (#1086)", () => {
+    const REPO_ROOT = resolve(__dirname, "../..");
+
+    const LANG: Record<string, string> = JSON.parse(
+        readFileSync(resolve(REPO_ROOT, "lang/en.json"), "utf8"),
+    );
+
+    /** Action names passed as `offerSchedule`'s third argument across `src/`. */
+    function offeredActionNames(): string[] {
+        const names = new Set<string>();
+        // `offerSchedule(context, doc, "actionName", …)` — the two leading
+        // arguments are simple references, so a comma-free match reaches the
+        // literal without needing a parser.
+        const call = /offerSchedule\(\s*[^,()]+,\s*[^,()]+,\s*"([^"]+)"/g;
+        for (const file of globSync("src/**/*.ts", { cwd: REPO_ROOT })) {
+            const source = readFileSync(resolve(REPO_ROOT, file), "utf8");
+            for (const match of source.matchAll(call)) names.add(match[1]);
+        }
+        return [...names].sort();
+    }
+
+    it("finds the offer call sites it is meant to guard", () => {
+        // A refactor that changes the call shape must not silently empty the
+        // scan and turn this suite into a no-op.
+        expect(offeredActionNames()).toContain("healingCheck");
+    });
+
+    it.each(offeredActionNames())(
+        "%s has a SOHL.Reminder.effect label",
+        (actionName) => {
+            expect(LANG[`SOHL.Reminder.effect.${actionName}`]).toBeTruthy();
+        },
+    );
 });

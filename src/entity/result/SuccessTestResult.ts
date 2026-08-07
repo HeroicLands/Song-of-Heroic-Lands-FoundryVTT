@@ -727,11 +727,19 @@ export class SuccessTestResult extends TestResult {
         const mlMod = this._masteryLevelModifier;
         const priorSit = mlMod.get(VALUE_DELTA_INFO.PLAYER)?.numValue ?? 0;
         const priorSLM = mlMod.successLevelMod;
+        const priorRollMode = this.rollMode;
 
         // New modifiers come from the pre-filled dialog, or — when skipDialog
         // bypasses it (headless / scripted) — straight from the caller.
         let newSit: number;
         let newSLM: number;
+        // The dialog also carries the roll visibility (#1099). A value it does
+        // not offer is ignored rather than thrown on: this is an edit of a
+        // settled result, and an unrecognized mode must not cancel it.
+        let newRollMode: string =
+            isSohlSpeakerRollMode(String(opts.rollMode)) ?
+                String(opts.rollMode)
+            :   priorRollMode;
         if (opts.skipDialog) {
             newSit = opts.situationalModifier ?? priorSit;
             newSLM = opts.successLevelMod ?? priorSLM;
@@ -755,6 +763,7 @@ export class SuccessTestResult extends TestResult {
                         parseInt(String(formData.situationalModifier), 10) || 0,
                     successLevelMod:
                         parseInt(String(formData.successLevelMod), 10) || 0,
+                    rollMode: String(formData.rollMode ?? ""),
                 }),
                 rejectClose: false,
             });
@@ -762,10 +771,18 @@ export class SuccessTestResult extends TestResult {
             if (!dlgResult) return undefined;
             newSit = dlgResult.situationalModifier;
             newSLM = dlgResult.successLevelMod;
+            if (isSohlSpeakerRollMode(dlgResult.rollMode))
+                newRollMode = dlgResult.rollMode;
         }
 
-        // OK-without-change is a no-op: the caller re-evaluates nothing.
-        if (newSit === priorSit && newSLM === priorSLM)
+        // OK-without-change is a no-op: the caller re-evaluates nothing. A
+        // visibility change alone still counts — the corrected card has to be
+        // reposted for it to take effect.
+        if (
+            newSit === priorSit &&
+            newSLM === priorSLM &&
+            newRollMode === priorRollMode
+        )
             return { changed: false };
 
         // Replace (or clear) the situational delta — a 0 removes it so the
@@ -774,6 +791,7 @@ export class SuccessTestResult extends TestResult {
         if (newSit) mlMod.add(VALUE_DELTA_INFO.PLAYER, newSit);
         else mlMod.delete(VALUE_DELTA_INFO.PLAYER);
         mlMod.successLevelMod = newSLM;
+        this.rollMode = newRollMode;
         return { changed: true };
     }
 
@@ -994,6 +1012,12 @@ export class SuccessTestResult extends TestResult {
         const options: PlainObject = {};
         options.roll = await fvttToFoundryRoll(this.roll);
         options.sound = SOHL_SPEAKER_SOUND.DICE;
+        // A caller that names a visibility gets it (the GM result-edit reposts
+        // with the mode chosen in the edit dialog, #1099). Without one the
+        // speaker resolves the mode as it always has, so the ordinary pre-roll
+        // post is unchanged.
+        if (isSohlSpeakerRollMode(String(rest.rollMode)))
+            options.rollMode = String(rest.rollMode);
         void this._speaker.toChat(chatData.template, chatData, options);
     }
 }
@@ -1019,6 +1043,12 @@ export namespace SuccessTestResult {
          * value already on the result.
          */
         successLevelMod?: number;
+        /**
+         * The new roll visibility (`skipDialog` only); defaults to the mode
+         * already on the result. A value that is not a
+         * {@link sohl.utils.SohlSpeakerRollMode} is ignored (#1099).
+         */
+        rollMode?: string;
         /**
          * Dialog heading override (localized text, not a key) — used to name
          * the side being edited in a two-sided contest.

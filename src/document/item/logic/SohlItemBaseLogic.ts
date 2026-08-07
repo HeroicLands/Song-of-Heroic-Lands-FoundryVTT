@@ -156,8 +156,8 @@ export class SohlItemBaseLogic<
      *
      * @param context - The action context; `context.scope.priorTestResult` is the
      *   result being edited. When `skipDialog` is set, the new
-     *   `situationalModifier` / `successLevelMod` are taken from `context.scope`
-     *   instead of the dialog.
+     *   `situationalModifier` / `successLevelMod` / `rollMode` are taken from
+     *   `context.scope` instead of the dialog.
      * @returns The re-evaluated result, or `undefined` when refused (non-GM),
      *   cancelled (dialog dismissed), or unchanged (no-op).
      */
@@ -166,6 +166,7 @@ export class SohlItemBaseLogic<
             priorTestResult?: SuccessTestResult;
             situationalModifier?: number;
             successLevelMod?: number;
+            rollMode?: string;
         }>,
     ): Promise<SuccessTestResult | undefined> {
         // Click-time GM gate (defense-in-depth): the render gate hides the pencil
@@ -190,6 +191,7 @@ export class SohlItemBaseLogic<
             skipDialog: context.skipDialog,
             situationalModifier: context.scope.situationalModifier,
             successLevelMod: context.scope.successLevelMod,
+            rollMode: context.scope.rollMode,
         });
 
         // A dismissed dialog cancels the edit; nothing changes.
@@ -198,9 +200,11 @@ export class SohlItemBaseLogic<
         if (!edit.changed) return original;
 
         // Re-evaluate on the SAME frozen roll (idempotent; never re-rolls) and
-        // repost the card with the new outcome.
+        // repost the card with the new outcome, under the visibility the editor
+        // settled on — a GM correcting a result is exactly when they may want to
+        // take it private (#1099).
         await original.evaluate();
-        await original.toChat({});
+        await original.toChat({ rollMode: original.rollMode });
         return original;
     }
 

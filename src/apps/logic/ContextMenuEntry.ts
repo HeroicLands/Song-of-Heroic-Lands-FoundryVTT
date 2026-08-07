@@ -16,11 +16,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { HTMLString } from "@src/utils/helpers";
 import type { SohlContextMenuSortGroup } from "@src/utils/constants";
-import {
-    fvttGetActor,
-    fvttResolveUuid,
-    getContextItem,
-} from "@src/core/FoundryHelpers";
+import { fvttGetActor, fvttResolveUuid } from "@src/core/FoundryHelpers";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
@@ -86,6 +82,14 @@ export interface ContextMenuEntryContext {
 /**
  * Build a callback that resolves the context item from the DOM and invokes
  * the named method on the item's logic object.
+ *
+ * @remarks
+ * Resolution goes through {@link resolveContextItem} — the one path every
+ * context-menu consumer shares — so a row identified by an actor-embedded
+ * `data-item-id` and one identified by its own `data-uuid` both resolve, and
+ * the two resolvers cannot drift apart (#1188). The speaker comes from the
+ * item's logic, which falls back to a blank speaker for a world (unowned) item
+ * rather than leaving the action context without one.
  * @param functionName - The logic method to invoke.
  * @param entryName - The owning entry's display name, used in log output.
  * @returns A context-menu callback delegating to the logic method.
@@ -95,19 +99,18 @@ export function makeLogicMethodCallback(
     entryName: string,
 ): ContextMenuCallback {
     return (target: HTMLElement) => {
-        const item = getContextItem(target);
-        const ctx = new SohlActionContext({
-            speaker: item?.actor?.getSpeaker(),
-        });
+        const item = resolveContextItem(target);
         const logic = item?.logic as any;
-        const fn = logic?.[functionName];
-        if (typeof fn === "function") {
-            fn.call(logic, ctx);
-        } else {
+        if (typeof logic?.[functionName] !== "function") {
             sohl.log.warn(
                 `Function "${functionName}" not found on logic for context menu item "${entryName}".`,
             );
+            return;
         }
+        const ctx = new SohlActionContext({
+            speaker: logic.speaker,
+        });
+        logic[functionName].call(logic, ctx);
     };
 }
 
