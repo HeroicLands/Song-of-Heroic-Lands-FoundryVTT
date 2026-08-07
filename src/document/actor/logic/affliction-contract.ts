@@ -13,7 +13,6 @@
 
 import { dialog, fvttFindDiseases } from "@src/core/FoundryHelpers";
 import { toFilePath } from "@src/utils/helpers";
-import { AFFLICTION_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
 
 /**
  * A candidate disease the being may contract, gathered from the world and the
@@ -24,6 +23,13 @@ import { AFFLICTION_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
 export interface AfflictionChoice {
     /** Display name of the disease. */
     name: string;
+    /** The affliction's shortcode — the `<option>` value in the contagion dialog. */
+    shortcode: string;
+    /**
+     * A {@link sohl.entity.roll.SimpleRoll} formula giving the days between
+     * contracting the affliction and its onset; `null` when it has none.
+     */
+    onsetFormula: string | null;
     /**
      * Contagion index (CI). Lower is more contagious — the contagion roll is
      * made against `CI × Endurance`, so a lower CI is a lower (easier-to-fail)
@@ -33,27 +39,6 @@ export interface AfflictionChoice {
     /** Creation data for copying the disease onto an actor. */
     source: Record<string, unknown>;
 }
-
-/**
- * The being's choice from the contract-affliction dialog: either an existing
- * affliction (copied from its `source`) or a custom one described inline.
- */
-export type ContractAfflictionChoice =
-    | {
-          kind: "existing";
-          name: string;
-          contagionIndex: number;
-          source: Record<string, unknown>;
-      }
-    | {
-          kind: "custom";
-          name: string;
-          subType: string;
-          contagionIndex: number;
-      };
-
-/** Sentinel `<select>` value marking the "custom affliction" option. */
-export const CONTRACT_AFFLICTION_CUSTOM = "__custom__";
 
 /**
  * Coerce an unknown form value to an integer, defaulting to `0`.
@@ -66,123 +51,103 @@ function toInt(value: unknown): number {
 }
 
 /**
- * Clamp a contagion index into the valid `1..5` range.
- * @param value - The contagion index to clamp.
- * @returns The clamped contagion index.
+ * The being's answers from the **Contagion Test** dialog (#1183): which
+ * affliction they were exposed to, how the roll is modified, and whether a
+ * contracted affliction is recorded on the sheet.
  */
-function clampCI(value: number): number {
-    return Math.min(5, Math.max(1, value || 1));
+export interface ContagionTestChoice {
+    /** The chosen affliction. */
+    affliction: AfflictionChoice;
+    /** Modifier added to the contagion roll. */
+    situationalModifier: number;
+    /** Offset applied to the test's success level. */
+    successLevelMod: number;
+    /** Whether a contracted affliction is added to the character sheet. */
+    record: boolean;
 }
 
 /**
- * The contagion-roll target: `CI × Endurance`. The roll is d100 roll-under, and
- * *failing* it means the affliction is contracted. Because lower CI yields a
- * lower target (easier to roll over, i.e. fail), a lower CI is more contagious.
- *
- * @param contagionIndex - The affliction's contagion index (CI).
- * @param enduranceScore - The being's Endurance attribute score.
- * @returns The success-test target (never negative).
- */
-export function contagionTarget(
-    contagionIndex: number,
-    enduranceScore: number,
-): number {
-    const target = contagionIndex * enduranceScore;
-    return Number.isFinite(target) ? Math.max(0, Math.round(target)) : 0;
-}
-
-/**
- * Parse the contract-affliction dialog form into a {@link ContractAfflictionChoice}.
+ * Parse the Contagion Test dialog form into a {@link ContagionTestChoice}.
  * Pure and Foundry-free so it can be unit-tested.
  *
  * @param formData - The parsed dialog form data.
- * @param afflictions - The candidate afflictions, indexed by their position in
- *   this array (the `<select>` option values are those indices).
- * @returns The chosen affliction, or `null` if the selection is invalid (an
- *   unknown index, or a custom affliction with no name).
+ * @param afflictions - The candidate afflictions; the `<select>` option values
+ *   are their **shortcodes**.
+ * @returns The parsed choice, or `null` when the selected shortcode is unknown.
  */
-export function readContractAfflictionForm(
+export function readContagionTestForm(
     formData: Record<string, unknown>,
     afflictions: AfflictionChoice[],
-): ContractAfflictionChoice | null {
-    const selection = String(formData.selection ?? "");
-    if (selection === CONTRACT_AFFLICTION_CUSTOM) {
-        const name = String(formData.customName ?? "").trim();
-        if (!name) return null;
-        // Only diseases can be contracted, so the subtype is fixed.
-        return {
-            kind: "custom",
-            name,
-            subType: AFFLICTION_SUBTYPE.DISEASE,
-            contagionIndex: clampCI(toInt(formData.customCI)),
-        };
-    }
-    const chosen = afflictions[Number(selection)];
-    if (!chosen) return null;
+): ContagionTestChoice | null {
+    const shortcode = String(formData.affliction ?? "").trim();
+    const affliction = afflictions.find((a) => a.shortcode === shortcode);
+    if (!affliction) return null;
     return {
-        kind: "existing",
-        name: chosen.name,
-        contagionIndex: chosen.contagionIndex,
-        source: chosen.source,
+        affliction,
+        situationalModifier: toInt(formData.situationalModifier),
+        successLevelMod: toInt(formData.successLevelMod),
+        record: !!formData.record,
     };
 }
 
 /**
- * Build the item-creation data for a contracted affliction. For an existing
- * affliction the `source` creation data is copied verbatim (minus its `_id`, so
- * Foundry mints a fresh one); for a custom affliction a fresh `affliction` item
- * is described from the supplied name, subtype, and CI.
+ * Build the item-creation data for a contracted affliction (#1183): the source
+ * affliction copied verbatim (minus its `_id`, so Foundry mints a fresh one),
+ * with the contract anchored at `now` and the rolled incubation recorded.
  *
- * @param choice - The being's contract-affliction choice.
+ * @param choice - The affliction that was contracted.
+ * @param now - The current world time (seconds) — the contract date.
+ * @param onsetSeconds - The rolled incubation, in seconds.
  * @returns Plain item-creation data for `createEmbeddedDocuments`.
  */
 export function buildContractedAfflictionData(
-    choice: ContractAfflictionChoice,
+    choice: AfflictionChoice,
+    now: number,
+    onsetSeconds: number,
 ): Record<string, unknown> {
-    if (choice.kind === "custom") {
-        return {
-            type: ITEM_KIND.AFFLICTION,
-            name: choice.name,
-            system: {
-                subType: choice.subType,
-                contagionIndexBase: choice.contagionIndex,
-            },
-        };
-    }
-    const data = { ...choice.source };
+    const data: Record<string, any> = { ...choice.source };
     delete data._id;
+    data.system = {
+        ...(data.system ?? {}),
+        contractDate: now,
+        onsetDurationBase: onsetSeconds,
+    };
     return data;
 }
 
 /**
- * Present the contract-affliction dialog: a dropdown of every disease found in
- * the world and the Item compendium packs, plus a "custom disease" option whose
- * name/CI fields are used when that option is selected. Only diseases can be
- * contracted, so the subtype is not asked.
+ * Present the **Contagion Test** dialog: a shortcode-keyed dropdown of every
+ * contagious affliction found in the world and the Item compendium packs, a
+ * Situational Modifier and Success Level Modifier for the roll, and a checkbox
+ * deciding whether a contracted affliction is recorded on the sheet.
  *
- * All Foundry work (the search and the {@link dialog}) lives at the boundary;
- * the returned choice is a plain, Foundry-free object.
+ * All Foundry work (the search and the {@link dialog}) lives at the boundary; the
+ * returned choice is a plain, Foundry-free object.
  *
+ * @param recordDefault - Default state of the "add to character sheet" checkbox,
+ *   taken from the `recordTrauma` system setting.
  * @returns The being's choice, or `null` if the dialog was dismissed or the
  *   selection was invalid.
  */
-export async function promptContractDisease(): Promise<ContractAfflictionChoice | null> {
+export async function promptContagionTest(
+    recordDefault: boolean,
+): Promise<ContagionTestChoice | null> {
     const afflictions = await fvttFindDiseases();
     const result = (await dialog({
-        title: "Contract Disease",
+        title: "Contagion Test",
         template: toFilePath(
-            "systems/sohl/templates/dialog/contract-disease-dialog.hbs",
+            "systems/sohl/templates/dialog/contagion-test-dialog.hbs",
         ),
         data: {
-            afflictions: afflictions.map((a, index) => ({
-                index: String(index),
+            afflictions: afflictions.map((a) => ({
+                shortcode: a.shortcode,
                 name: a.name,
             })),
-            customValue: CONTRACT_AFFLICTION_CUSTOM,
+            record: recordDefault,
         },
         callback: (data: Record<string, unknown>) =>
-            readContractAfflictionForm(data, afflictions),
+            readContagionTestForm(data, afflictions),
         rejectClose: false,
-    })) as ContractAfflictionChoice | null;
+    })) as ContagionTestChoice | null;
     return result ?? null;
 }

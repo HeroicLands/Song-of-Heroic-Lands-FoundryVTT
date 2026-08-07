@@ -6,6 +6,7 @@ import {
     SOHL_MIGRATIONS,
     type MigrationStep,
 } from "@src/entity/migration/MigrationRegistry";
+import { compareVersions } from "@src/entity/migration/version";
 
 /** A few synthetic steps to exercise the planner/folder without real migrations. */
 const STEPS: MigrationStep[] = [
@@ -138,8 +139,25 @@ describe("resolveFromVersion", () => {
 });
 
 describe("SOHL_MIGRATIONS", () => {
-    it("ships empty — infrastructure only (#957)", () => {
-        expect(SOHL_MIGRATIONS).toEqual([]);
+    it("carries the affliction intrinsic-actions migration (#1183)", () => {
+        // The registry shipped empty as infrastructure-only (#957); #1183 is the
+        // first real data migration to land in it.
+        expect(SOHL_MIGRATIONS.map((s) => s.version)).toEqual(["0.8.0"]);
+    });
+
+    it("declares every step in ascending version order", () => {
+        const versions = SOHL_MIGRATIONS.map((s) => s.version);
+        expect(versions).toEqual([...versions].sort(compareVersions));
+    });
+
+    it("gives every step a description and at least one migrator", () => {
+        for (const step of SOHL_MIGRATIONS) {
+            expect(step.description, step.version).toBeTruthy();
+            expect(
+                Object.keys(step.migrators ?? {}).length,
+                step.version,
+            ).toBeGreaterThan(0);
+        }
     });
 
     it("is frozen so the registry cannot be mutated at runtime", () => {

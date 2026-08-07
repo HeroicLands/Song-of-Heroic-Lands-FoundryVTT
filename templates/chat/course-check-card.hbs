@@ -1,0 +1,39 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Course Check card body — the *Check half of the course cycle. It OFFERS a Course
+Test and nothing more: no roll has been made and nothing has changed on the
+character. The appended [Course Test] button (added by buildActionCard) performs
+the single test. Body only — no buttons here.
+--}}
+<div class="sohl chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">{{localize "SOHL.Chat.CourseCheck.title"}}</h3>
+    </header>
+
+    <div class="card-content center">
+        <span>{{localize "SOHL.Chat.CourseCheck.due" patient=patientName affliction=afflictionName}}</span>
+    </div>
+
+    <div class="grid grid-2col flex-center">
+        <div class="card-content flexrow">
+            <span class="label">{{localize "SOHL.Affliction.FIELDS.healingRateBase.label"}}:</span>
+            <span class="value">{{healingRate}}</span>
+        </div>
+        <div class="card-content flexrow">
+            <span class="label">{{localize "SOHL.Chat.CourseCheck.target"}}:</span>
+            <span class="value">{{target}}</span>
+        </div>
+    </div>
+</div>

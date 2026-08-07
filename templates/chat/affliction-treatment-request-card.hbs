@@ -1,0 +1,40 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Affliction Treatment Requested card body (spoken by the patient). Names the
+affliction so a physician knows what they are being asked to treat; the appended
+open [Perform Affliction Treatment] button (added by buildActionCard) is
+answerable by any player whose default character has the Physician skill.
+Body only — no buttons here.
+--}}
+<div class="sohl chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">{{localize "SOHL.Chat.AfflictionTreatmentRequest.title"}}</h3>
+    </header>
+
+    <div class="card-content center">
+        <span>{{localize "SOHL.Chat.AfflictionTreatmentRequest.asks" patient=patientName affliction=afflictionName}}</span>
+    </div>
+
+    <div class="grid grid-2col flex-center">
+        <div class="card-content flexrow">
+            <span class="label">{{localize "SOHL.Affliction.FIELDS.subType.label"}}:</span>
+            <span class="value">{{#if subType}}{{localize (concat "SOHL.Affliction.SubType." subType)}}{{/if}}</span>
+        </div>
+        <div class="card-content flexrow">
+            <span class="label">{{localize "SOHL.Chat.Common.severity"}}:</span>
+            <span class="value">{{level}}</span>
+        </div>
+    </div>
+</div>

@@ -254,7 +254,8 @@ describe("BeingLogic", () => {
                 "moraleTest",
                 "fearTest",
                 "calcImpact",
-                "contractDisease",
+                "contagionCheck",
+                "contagionTest",
             ]) {
                 expect(logic.actions.has(shortcode), shortcode).toBe(true);
             }
@@ -1107,7 +1108,7 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("contractDisease", () => {
+    describe("contagionTest (#1183)", () => {
         afterEach(() => vi.restoreAllMocks());
 
         /** A being with an Endurance attribute of the given score. */
@@ -1120,132 +1121,143 @@ describe("BeingLogic", () => {
             return logic;
         }
 
-        const customDisease = {
-            kind: "custom" as const,
-            name: "Rattle Cough",
-            subType: "disease",
+        /** The affliction the contagion dialog resolves to. */
+        const grippe = {
+            name: "Grippe",
+            shortcode: "grippe",
+            onsetFormula: "6",
             contagionIndex: 3,
+            source: { _id: "src1", type: "affliction", name: "Grippe" },
         };
+
+        /** Stub the contagion dialog to answer with `overrides`. */
+        function stubPrompt(overrides: Record<string, unknown> = {}) {
+            return vi
+                .spyOn(AfflictionContract, "promptContagionTest")
+                .mockResolvedValue({
+                    affliction: grippe,
+                    situationalModifier: 0,
+                    successLevelMod: 0,
+                    record: true,
+                    ...overrides,
+                } as any);
+        }
+
+        /** Stub the success test to settle at `sl`. */
+        function stubTest(sl: number) {
+            return vi
+                .spyOn(MasteryLevelModifier.prototype, "successTest")
+                .mockResolvedValue({
+                    normSuccessLevel: sl,
+                    isSuccess: sl >= MARGINAL_SUCCESS,
+                } as any);
+        }
 
         it("warns and returns null when the being has no Endurance attribute", async () => {
             const warn = vi.spyOn(sohl.log, "uiWarn");
             const logic = makeBeing();
             await expect(
-                (logic as any).contractDisease({ scope: {} }),
+                (logic as any).contagionTest({ scope: {} }),
             ).resolves.toBeNull();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no Endurance attribute/),
-            );
+            expect(warn).toHaveBeenCalled();
         });
 
         it("returns null when the dialog is dismissed", async () => {
+            const logic = beingWithEndurance();
             vi.spyOn(
                 AfflictionContract,
-                "promptContractDisease",
+                "promptContagionTest",
             ).mockResolvedValue(null);
-            const logic = beingWithEndurance();
             await expect(
-                (logic as any).contractDisease({ scope: {} }),
+                (logic as any).contagionTest({ scope: {} }),
             ).resolves.toBeNull();
         });
 
-        it("contracts the disease (creates it) when the contagion roll fails", async () => {
-            vi.spyOn(
-                AfflictionContract,
-                "promptContractDisease",
-            ).mockResolvedValue(customDisease);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ isSuccess: false } as any);
-            const create = vi
-                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
-                .mockResolvedValue([]);
-            const logic = beingWithEndurance();
-
-            await (logic as any).contractDisease({ scope: {} });
-
-            expect(create).toHaveBeenCalledTimes(1);
-            const itemsData = create.mock.calls[0][1] as any[];
-            expect(itemsData[0]).toMatchObject({
-                type: "affliction",
-                name: "Rattle Cough",
-                system: { subType: "disease", contagionIndexBase: 3 },
-            });
+        it("rolls against Contagion Index × Endurance", async () => {
+            const logic = beingWithEndurance(13);
+            stubPrompt();
+            const setBase = vi.spyOn(MasteryLevelModifier.prototype, "setBase");
+            stubTest(MARGINAL_SUCCESS);
+            await (logic as any).contagionTest({ scope: {} });
+            expect(setBase).toHaveBeenCalledWith(39); // CI 3 × END 13
         });
 
-        it("does NOT contract the disease when the contagion roll succeeds", async () => {
-            vi.spyOn(
-                AfflictionContract,
-                "promptContractDisease",
-            ).mockResolvedValue(customDisease);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ isSuccess: true } as any);
+        it("contracts the affliction when the contagion roll fails", async () => {
+            const logic = beingWithEndurance();
+            stubPrompt();
+            stubTest(MARGINAL_FAILURE);
             const create = vi.spyOn(
                 FoundryHelpersMock,
                 "fvttCreateEmbeddedItems",
             );
+            await (logic as any).contagionTest({ scope: {} });
+            expect(create).toHaveBeenCalledTimes(1);
+            const [, items] = create.mock.calls[0];
+            expect((items as any[])[0].name).toBe("Grippe");
+        });
+
+        it("does NOT contract the affliction when the roll succeeds", async () => {
             const logic = beingWithEndurance();
-
-            await (logic as any).contractDisease({ scope: {} });
-
+            stubPrompt();
+            stubTest(MARGINAL_SUCCESS);
+            const create = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            );
+            await (logic as any).contagionTest({ scope: {} });
             expect(create).not.toHaveBeenCalled();
         });
 
-        /** A contracted-disease setup: contagion fails, creating an affliction
-         *  whose incubation interval is carried on `onsetDurationBase`. */
-        function contractsWith(onsetDurationBase = 604800) {
-            vi.spyOn(
-                AfflictionContract,
-                "promptContractDisease",
-            ).mockResolvedValue(customDisease);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ isSuccess: false } as any);
-            const affliction = {
-                uuid: "Item.aff00000000",
-                system: { onsetDurationBase },
-            };
-            vi.spyOn(
+        it("does not record the affliction when the checkbox was cleared", async () => {
+            const logic = beingWithEndurance();
+            stubPrompt({ record: false });
+            stubTest(MARGINAL_FAILURE);
+            const create = vi.spyOn(
                 FoundryHelpersMock,
                 "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([affliction] as any);
-            return affliction;
-        }
-
-        it("OFFERS the onset check after contracting — accept schedules it (#579)", async () => {
-            const affliction = contractsWith(604800); // 7 days
-            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
-            const logic = beingWithEndurance();
-
-            await (logic as any).contractDisease({
-                skipDialog: true,
-                scope: { schedule: true },
-            });
-
-            expect(schedule).toHaveBeenCalledWith(
-                affliction,
-                "onsetCheck",
-                604800,
             );
+            await (logic as any).contagionTest({ scope: {} });
+            expect(create).not.toHaveBeenCalled();
         });
 
-        it("does NOT auto-arm the onset — declining leaves it unscheduled (#579)", async () => {
-            const affliction = contractsWith(604800);
-            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
-            const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
+        it("a marginal failure uses the rolled onset; a critical failure halves it", async () => {
+            const create = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            );
+
+            const mf = beingWithEndurance();
+            stubPrompt();
+            stubTest(MARGINAL_FAILURE);
+            await (mf as any).contagionTest({ scope: {} });
+            // onsetFormula "6" → 6 days at MF.
+            expect(
+                (create.mock.calls[0][1] as any[])[0].system.onsetDurationBase,
+            ).toBe(6 * 86400);
+
+            create.mockClear();
+            vi.restoreAllMocks();
+            const cf = beingWithEndurance();
+            stubPrompt();
+            stubTest(CRITICAL_FAILURE);
+            const create2 = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            );
+            await (cf as any).contagionTest({ scope: {} });
+            // …and 3 days at CF (6 / 2, rounded down).
+            expect(
+                (create2.mock.calls[0][1] as any[])[0].system.onsetDurationBase,
+            ).toBe(3 * 86400);
+        });
+
+        it("never offers to schedule another contagion test", async () => {
             const logic = beingWithEndurance();
-
-            await (logic as any).contractDisease({
-                skipDialog: true,
-                scope: { schedule: false },
-            });
-
+            stubPrompt();
+            stubTest(MARGINAL_FAILURE);
+            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+            await (logic as any).contagionTest({ scope: {} });
             expect(schedule).not.toHaveBeenCalled();
-            expect(unschedule).toHaveBeenCalledWith(affliction, "onsetCheck");
         });
     });
 

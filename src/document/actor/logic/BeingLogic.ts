@@ -93,9 +93,15 @@ import type { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import {
     buildContractedAfflictionData,
-    contagionTarget,
-    promptContractDisease,
+    promptContagionTest,
 } from "@src/document/actor/logic/affliction-contract";
+import {
+    contagionTarget,
+    isContracted,
+    onsetDaysFor,
+    SECONDS_PER_DAY,
+} from "@src/document/actor/logic/affliction-contagion";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import {
@@ -2094,21 +2100,132 @@ export class BeingLogic<
     }
 
     /**
-     * Prompt for a disease — chosen from those found in the world and the Item
-     * compendium packs, or described as a custom one — and roll the contagion
-     * test that determines whether this being contracts it. Only diseases
-     * (afflictions whose subtype is `disease`) can be contracted.
+     * Perform a **Treatment Success Value test** for an affliction (#1183) — the
+     * physician's half of the affliction treatment exchange, run from a *Treatment
+     * Requested* card's open `@self` button or by hand.
      *
-     * The contagion roll is a d100 test against `CI × Endurance` (see
-     * {@link contagionTarget}); *failing* it contracts the disease, which is
-     * then created on the being: the chosen source affliction is copied
-     * verbatim, or a fresh `affliction` item is built from the custom name/CI.
+     * Self-gates: only a Physician-skilled character answers. Rolls **this**
+     * physician's own Physician skill as a success-value test, and posts a result
+     * card whose owner-gated Accept button relays the earned **Success Stars** to
+     * the patient's affliction as its Course Bonus — nothing is applied until the
+     * patient presses it.
+     *
+     * Treatment for an affliction is mostly ineffectual by design: the bonus
+     * improves the odds on subsequent Course Tests, it does not cure anything.
+     *
+     * @param context - The action context; `scope.afflictionUuid` targets the
+     *   affliction being treated.
+     * @returns The earned Success Stars and physician name, or `undefined` if it
+     *   aborts.
+     */
+    async performAfflictionTreatment(
+        context: SohlActionContext,
+    ): Promise<{ successStars: number; physicianName: string } | undefined> {
+        const physicianSkill = this.getItemLogic(
+            SKILL_CODE.PHYSICIAN,
+            ITEM_KIND.SKILL,
+        ) as SkillLogic | undefined;
+        if (!physicianSkill) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"),
+            );
+            return undefined;
+        }
+
+        const afflictionUuid = String(
+            (context.scope as { afflictionUuid?: unknown })?.afflictionUuid ??
+                "",
+        ).trim();
+
+        const result = await physicianSkill.masteryLevel.successValueTest({
+            ...context,
+            scope: { ...(context.scope as object) },
+        } as SohlActionContext<any>);
+        if (result === undefined) return undefined; // cancelled
+        const successStars = result ? result.successStars : 0;
+
+        await postActionCard(this.speaker, {
+            template:
+                "systems/sohl/templates/chat/affliction-treatment-result-card.hbs",
+            data: {
+                physicianName: this.name ?? "",
+                successStars,
+            },
+            buttons:
+                afflictionUuid ?
+                    {
+                        action: "treatAffliction",
+                        handlerUuid: afflictionUuid,
+                        scope: { successStars },
+                        label: sohl.i18n.localize(
+                            "SOHL.Affliction.Action.treatAffliction.accept",
+                        ),
+                        iconFAClass: "fa-solid fa-check",
+                    }
+                :   undefined,
+        });
+
+        return { successStars, physicianName: this.name ?? "" };
+    }
+
+    /**
+     * Intrinsic-action executor for `contagionCheck` (#1183) — the `*Check` half
+     * of contagion.
+     *
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites this being's controller to make one {@link contagionTest}. Nothing
+     * is rolled and nothing is written, so it imposes nothing and carries no
+     * ownership gate — **anyone may initiate a Contagion Check** on anyone,
+     * which is the point: exposure is something the world does to a character,
+     * but catching it is the character's own roll to make.
+     *
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
+     */
+    async contagionCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.actor?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/contagion-check-card.hbs",
+            data: { targetName: this.name ?? "" },
+            buttons: {
+                action: "contagionTest",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize("SOHL.Being.Action.contagionTest"),
+                iconFAClass: "fa-solid fa-virus",
+            },
+        });
+    }
+
+    /**
+     * Intrinsic-action executor for the **Contagion Test** (#1183) — the `*Test`
+     * half of contagion, and the roll that decides whether this being catches
+     * something they were exposed to.
+     *
+     * The dialog asks which affliction (a dropdown keyed by **shortcode**), a
+     * Situational Modifier and Success Level Modifier for the roll, and whether a
+     * contracted affliction is added to the character sheet — that checkbox
+     * defaulting from the `recordTrauma` world setting.
+     *
+     * The roll is a d100 test against **Contagion Index × Endurance**, and
+     * *failing* it means the affliction is caught
+     * ({@link sohl.document.actor.logic.isContracted}). How fast it takes hold
+     * depends on how badly the roll went: a critical failure halves the rolled
+     * `onsetFormula` (rounded down), a marginal failure uses it as-is, and `0`
+     * days means onset is immediate
+     * ({@link sohl.document.actor.logic.onsetDaysFor}).
+     *
+     * A contracted affliction is created with its contract date set to now and
+     * its incubation set to the rolled value — but only when the checkbox was
+     * ticked. **Nothing ever offers to schedule another contagion test**:
+     * exposure is not a recurring condition.
      *
      * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the being has no Endurance
+     * @returns The success test result, or `null` when the being has no Endurance
      *   attribute or the dialog was dismissed.
      */
-    async contractDisease(
+    async contagionTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
         const endurance = this.getItemLogic(
@@ -2117,50 +2234,81 @@ export class BeingLogic<
         ) as AttributeLogic | undefined;
         if (!endurance) {
             sohl.log.uiWarn(
-                `${this.name} has no Endurance attribute; cannot run a Contract Disease test.`,
+                `${this.name} has no Endurance attribute; cannot run a Contagion Test.`,
             );
             return null;
         }
 
-        const choice = await promptContractDisease();
+        const recordSetting = fvttGetSetting("sohl", "recordTrauma");
+        const choice = await promptContagionTest(recordSetting !== "disable");
         if (!choice) return null;
 
         const mlMod = new entity.MasteryLevelModifier(
             {
-                type: "contract-disease",
-                title: `${this.name} – Contract ${choice.name}`,
+                type: "contagion-test",
+                title: `${this.name} – ${choice.affliction.name}`,
             },
             { parent: this },
         );
         mlMod.setBase(
-            contagionTarget(choice.contagionIndex, endurance.score.effective),
+            contagionTarget(
+                choice.affliction.contagionIndex,
+                endurance.score.effective,
+            ),
         );
 
-        const result = await mlMod.successTest(context);
-        // Failing the contagion roll means the being contracts the disease.
-        if (result && !result.isSuccess) {
-            const created = await fvttCreateEmbeddedItems(this, [
-                buildContractedAfflictionData(choice),
+        const result = await mlMod.successTest({
+            ...context,
+            scope: {
+                ...(context.scope as object),
+                situationalModifier: choice.situationalModifier,
+                successLevelMod: choice.successLevelMod,
+            },
+        } as SohlActionContext<any>);
+        if (result === undefined) return null; // dialog dismissed
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+        if (!isContracted(sl)) return result || null;
+
+        // Contracted. How long before it takes hold depends on how badly the
+        // roll went; the affliction is only recorded if the player asked for it.
+        const rolledDays = this.rollOnsetDays(choice.affliction.onsetFormula);
+        const days = onsetDaysFor(sl, rolledDays) ?? 0;
+        sohl.log.uiInfo(
+            `${this.name} contracted ${choice.affliction.name}${
+                days > 0 ?
+                    ` (onset in ${days} day${days === 1 ? "" : "s"})`
+                :   ""
+            }.`,
+        );
+        if (choice.record) {
+            await fvttCreateEmbeddedItems(this, [
+                buildContractedAfflictionData(
+                    choice.affliction,
+                    fvttWorldTime(),
+                    days * SECONDS_PER_DAY,
+                ),
             ]);
-            sohl.log.uiInfo(`${this.name} contracted ${choice.name}.`);
-            // Offer to track its onset (incubation → symptomatic) rather than
-            // auto-arming it — the last creation-time auto-schedule (issue #579).
-            // The onset *phase transition*, when performed, still auto-schedules
-            // the resolution and recurring healing checks (a consequence of the
-            // human-performed step, consent-gated by #587).
-            const affliction = created?.[0];
-            if (affliction) {
-                const onsetInterval =
-                    Number(affliction.system?.onsetDurationBase) || 0;
-                await offerSchedule(
-                    context,
-                    affliction,
-                    "onsetCheck",
-                    onsetInterval,
-                );
-            }
         }
         return result || null;
+    }
+
+    /**
+     * Roll an affliction's `onsetFormula` to a number of days, falling back to a
+     * plain numeric parse and then to `0`.
+     *
+     * @param formula - The onset formula (a dice expression or bare number of days).
+     * @returns The rolled incubation, in days.
+     */
+    private rollOnsetDays(formula: string | null): number {
+        if (!formula) return 0;
+        try {
+            const rolled = SimpleRoll.fromFormula(formula, this).roll();
+            if (Number.isFinite(rolled)) return rolled;
+        } catch {
+            // fall through to a numeric parse
+        }
+        const n = Number(formula);
+        return Number.isFinite(n) ? n : 0;
     }
 
     /**
@@ -2312,12 +2460,32 @@ export class BeingLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
-                shortcode: "contractDisease",
+                shortcode: "performAfflictionTreatment",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Being.Action.contractDisease",
+                title: "SOHL.Being.Action.performAfflictionTreatment",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-staff-snake",
+                executor: "performAfflictionTreatment",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "contagionCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.contagionCheck",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-virus",
-                executor: "contractDisease",
+                executor: "contagionCheck",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "contagionTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.contagionTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-virus",
+                executor: "contagionTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },

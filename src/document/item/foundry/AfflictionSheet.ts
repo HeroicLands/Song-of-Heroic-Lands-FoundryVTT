@@ -47,7 +47,7 @@ export class AfflictionSheet extends SohlItemSheetBase {
             category: system.category,
             isDormant: system.isDormant,
             treatmentDate: system.treatmentDate,
-            diagnosisBonusBase: system.diagnosisBonusBase,
+            onsetFormula: system.onsetFormula,
             levelBase: system.levelBase,
             healingRateBase: system.healingRateBase,
             contagionIndexBase: system.contagionIndexBase,

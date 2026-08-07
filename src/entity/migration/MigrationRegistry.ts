@@ -94,14 +94,67 @@ export interface MigrationStep {
 }
 
 /**
+ * Migrate one affliction's source for the intrinsic-actions rework (#1183).
+ *
+ * Three persisted things move:
+ *
+ * - the recurring course cycle's schedule key, `healingCheck` → `courseCheck`
+ *   (the action was renamed to match the test it now offers), so existing
+ *   afflictions stay armed rather than silently going dormant;
+ * - the matching `lastRun` record, so "when did this last happen?" survives;
+ * - the retired `diagnosisBonusBase` field, deleted via Foundry's `-=` syntax.
+ *
+ * The whole `scheduledActions` array is rewritten, never an element by index —
+ * an indexed update rebuilds the array from a sparse map and truncates it.
+ *
+ * @param source - The affliction's serialized source.
+ * @returns The update payload, or `undefined` when nothing needs changing.
+ */
+function migrateAfflictionActions(
+    source: MigrationSource,
+): Record<string, unknown> | undefined {
+    if (source.type !== "affliction") return undefined;
+    const system = (source.system ?? {}) as Record<string, unknown>;
+    const update: Record<string, unknown> = {};
+
+    const scheduled = system.scheduledActions;
+    if (
+        Array.isArray(scheduled) &&
+        scheduled.some((e) => (e as any)?.actionName === "healingCheck")
+    ) {
+        update["system.scheduledActions"] = scheduled.map((e) =>
+            (e as any)?.actionName === "healingCheck" ?
+                { ...(e as object), actionName: "courseCheck" }
+            :   e,
+        );
+    }
+
+    const lastRun = system.lastRun as Record<string, unknown> | undefined;
+    if (lastRun && Object.hasOwn(lastRun, "healingCheck")) {
+        const { healingCheck, ...rest } = lastRun;
+        update["system.lastRun"] = { ...rest, courseCheck: healingCheck };
+    }
+
+    if (Object.hasOwn(system, "diagnosisBonusBase")) {
+        update["system.-=diagnosisBonusBase"] = null;
+    }
+
+    return Object.keys(update).length ? update : undefined;
+}
+
+/**
  * The ordered list of world migrations.
  *
- * **Empty — this is infrastructure only (#957).** No data migration is required
- * at this time; the runner, version comparison, per-type dispatch, and version
- * stamping are all in place so a future migration plugs in as one frozen entry
- * here (append in version order — the planner sorts defensively regardless).
+ * Append in version order — the planner sorts defensively regardless.
  */
-export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([]);
+export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
+    Object.freeze({
+        version: "0.8.0",
+        description:
+            "Affliction intrinsic actions (#1183): rename the healingCheck schedule to courseCheck and drop diagnosisBonusBase.",
+        migrators: Object.freeze({ Item: migrateAfflictionActions }),
+    }),
+] as MigrationStep[]);
 
 /**
  * Select the migration steps to run for a world, in ascending version order.
