@@ -2137,10 +2137,9 @@ export class BeingLogic<
                 "",
         ).trim();
 
-        const result = await physicianSkill.masteryLevel.successValueTest({
-            ...context,
-            scope: { ...(context.scope as object) },
-        } as SohlActionContext<any>);
+        const result = await physicianSkill.masteryLevel.successValueTest(
+            context as SohlActionContext<any>,
+        );
         if (result === undefined) return undefined; // cancelled
         const successStars = result ? result.successStars : 0;
 
@@ -2257,14 +2256,17 @@ export class BeingLogic<
             ),
         );
 
-        const result = await mlMod.successTest({
-            ...context,
-            scope: {
-                ...(context.scope as object),
-                situationalModifier: choice.situationalModifier,
-                successLevelMod: choice.successLevelMod,
-            },
-        } as SohlActionContext<any>);
+        // Feed the dialog's modifiers through the *existing* context — spreading a
+        // SohlActionContext into a plain object drops its prototype (and with it
+        // `speaker`, `skipDialog`, and the rest), which strands the success test.
+        const scope = (context.scope ?? {}) as Record<string, unknown>;
+        scope.situationalModifier = choice.situationalModifier;
+        scope.successLevelMod = choice.successLevelMod;
+        (context as { scope?: unknown }).scope = scope;
+
+        const result = await mlMod.successTest(
+            context as SohlActionContext<any>,
+        );
         if (result === undefined) return null; // dialog dismissed
         const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
         if (!isContracted(sl)) return result || null;
@@ -2281,13 +2283,26 @@ export class BeingLogic<
             }.`,
         );
         if (choice.record) {
-            await fvttCreateEmbeddedItems(this, [
+            const created = await fvttCreateEmbeddedItems(this, [
                 buildContractedAfflictionData(
                     choice.affliction,
                     fvttWorldTime(),
                     days * SECONDS_PER_DAY,
                 ),
             ]);
+            // Offer to track the new affliction's onset (incubation →
+            // symptomatic) rather than auto-arming it (issue #579). This is the
+            // affliction's own lifecycle, not another contagion test — exposure
+            // is an event and is never rescheduled.
+            const affliction = created?.[0];
+            if (affliction) {
+                await offerSchedule(
+                    context,
+                    affliction,
+                    "onsetCheck",
+                    days * SECONDS_PER_DAY,
+                );
+            }
         }
         return result || null;
     }

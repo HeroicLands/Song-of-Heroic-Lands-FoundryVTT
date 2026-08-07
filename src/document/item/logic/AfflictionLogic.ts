@@ -57,7 +57,9 @@ import {
     ATTRIBUTE_CODE,
     defineType,
     CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
     FATIGUE_CATEGORY,
+    MARGINAL_SUCCESS,
     ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -491,6 +493,27 @@ export class AfflictionLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
+                shortcode: "healingTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.healingTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-heart-pulse",
+                executor: "healingTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "healingCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.healingCheck.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-bed-pulse",
+                executor: "healingCheck",
+                recordsLastRun: true,
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
                 shortcode: "courseTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Affliction.Action.courseTest.title",
@@ -687,6 +710,96 @@ export class AfflictionLogic<
                 actor: this.actorLogic,
             });
         }
+    }
+
+    /**
+     * Intrinsic-action executor for the recurring `healingCheck` — the `*Check`
+     * half of the affliction's natural-recovery cycle, and the exact counterpart
+     * of the wound's (see {@link sohl.document.item.logic.TraumaLogic}).
+     *
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the affliction's controller to perform one {@link healingTest}. No
+     * roll is made and nothing is written, so it imposes nothing and needs no
+     * ownership gate — anyone may initiate one.
+     *
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
+     */
+    async healingCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/course-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                healingRate: this.data.healingRateBase ?? 0,
+                target: this.healing?.effective ?? 0,
+            },
+            buttons: {
+                action: "healingTest",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.healingTest.title",
+                ),
+                iconFAClass: "fa-solid fa-heart-pulse",
+            },
+        });
+    }
+
+    /**
+     * Intrinsic-action executor for the affliction's **Healing Test** — the
+     * `*Test` half of natural recovery, and the same test the wound makes.
+     *
+     * Rolls one standard success test against {@link healing} (Healing Rate ×
+     * Healing Base, plus whatever Active Effects have modified it). A marginal
+     * success reduces the affliction's Level by 1 and a critical success by 2; a
+     * failure makes no progress. An affliction reduced to Level 0 has run its
+     * course, so its recurrence ends.
+     *
+     * Exactly one test runs per invocation — there is no catch-up over missed
+     * intervals — and the next check is **offered**, never auto-armed.
+     *
+     * @param context - The action context; `skipDialog` accepts the seeded values.
+     * @returns The resulting Level, or `undefined` when the test was cancelled.
+     */
+    async healingTest(
+        context: SohlActionContext,
+    ): Promise<{ level: number } | undefined> {
+        const mlMod = new entity.MasteryLevelModifier(
+            {
+                type: "affliction-healing-test",
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.healingTest.title",
+                ),
+            },
+            { parent: this },
+        );
+        mlMod.setBase(this.healing?.effective ?? 0);
+
+        const result = await mlMod.successTest(context);
+        if (result === undefined) return undefined; // dialog dismissed
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+
+        let level = this.data.levelBase ?? 0;
+        if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
+        else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
+
+        await this.item.update({ "system.levelBase": level } as PlainObject);
+
+        const nextInterval = this.rollDuration(
+            this.data.healingCheckDurationFormula,
+        );
+        if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
+        else
+            await offerSchedule(
+                context,
+                this.item,
+                "healingCheck",
+                nextInterval,
+            );
+        return { level };
     }
 
     /**

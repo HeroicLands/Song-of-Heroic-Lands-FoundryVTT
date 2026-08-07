@@ -124,6 +124,8 @@ describe("AfflictionLogic intrinsic action set (#1183, supersedes #1126)", () =>
             "treatAffliction",
             "courseTest",
             "courseCheck",
+            "healingTest",
+            "healingCheck",
             "onsetCheck",
             "resolutionCheck",
         ]) {
@@ -139,11 +141,9 @@ describe("AfflictionLogic intrinsic action set (#1183, supersedes #1126)", () =>
             "coursetest",
             "treatmenttest",
             "diagnosistest",
-            "healingtest",
             "fatiguetest",
             "moraletest",
             "feartest",
-            "healingCheck",
         ]) {
             expect(codes).not.toContain(code);
         }

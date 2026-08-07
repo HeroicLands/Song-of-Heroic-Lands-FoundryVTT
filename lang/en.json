@@ -136,6 +136,8 @@
     "SOHL.Affliction.Action.courseTest.applyPrompt": "Apply the outcome of {name}'s course test (Healing Rate {hr}) to the character sheet?",
     "SOHL.Affliction.Action.courseTest.applyTitle": "Apply Course Outcome?",
     "SOHL.Affliction.Action.courseTest.title": "Course Test",
+    "SOHL.Affliction.Action.healingCheck.title": "Arm Healing Check",
+    "SOHL.Affliction.Action.healingTest.title": "Healing Test",
     "SOHL.Affliction.Action.onsetCheck.title": "Arm Onset",
     "SOHL.Affliction.Action.requestTreatment.title": "Request Treatment",
     "SOHL.Affliction.Action.resolutionCheck.title": "Arm Resolution",
