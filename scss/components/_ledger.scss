@@ -133,6 +133,43 @@
         @include mixins.truncate;
     }
 
+    // Missing-member flag (#199) — a cohort member whose actor cannot be found
+    // (deleted, or not visible to this client). The row is already greyed as
+    // disabled, which alone reads as "inactive"; the amber triangle and the
+    // words say it is *missing*, so the roster never quietly loses someone.
+    .member-missing {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-left: 0.4rem;
+        vertical-align: baseline;
+    }
+
+    .member-missing__label {
+        font-family: var(--sohl-font-sans);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--sohl-color-warning);
+        white-space: nowrap;
+    }
+
+    // The amber triangle. `paint-order: stroke fill` keeps the dark outline
+    // *outside* the glyph rather than eating into it, so the triangle stays
+    // legible against the parchment.
+    //
+    // No layered second glyph: Foundry ships Font Awesome as a **webfont**, and
+    // `fa-layers` / `data-fa-transform` only work in FA's SVG mode — layering an
+    // exclamation there renders it as a stray "!" beside the triangle. The
+    // `triangle-exclamation` glyph already carries its own mark.
+    .warning-icon {
+        color: var(--sohl-color-warning);
+        -webkit-text-stroke: 1.2px var(--sohl-color-text-primary);
+        paint-order: stroke fill;
+        font-size: 0.9rem;
+    }
+
     // Numeric cell — mono, centered, tabular-nums.
     &__cell {
         text-align: center;

@@ -53,7 +53,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__icon">
                 {{#if member.img}}<img src="{{member.img}}" alt="{{member.name}}" />{{/if}}
             </div>
-            <div class="ledger__name" data-tooltip="{{member.ref}}">{{member.name}}</div>
+            {{!-- An unresolved member is named by its raw handle and flagged:
+                  the roster must show what is missing, not quietly drop it. --}}
+            <div class="ledger__name" data-tooltip="{{member.ref}}">{{member.name}}{{#unless
+                member.isResolved}}<span class="member-missing"
+                    data-tooltip="{{localize 'SOHL.Cohort.Members.notFound.tooltip'}}"><i
+                        class="fa-solid fa-triangle-exclamation fa-fw warning-icon"></i><span
+                        class="member-missing__label">{{localize
+                        "SOHL.Cohort.Members.notFound.label"}}</span></span>{{/unless}}</div>
             <div class="ledger__cell ledger__cell--text">{{localize member.roleLabel}}</div>
             <div class="ledger__controls">
                 <a class="icon-button{{#if member.isLeader}} is-on{{/if}}" data-action="setCohortLeader"

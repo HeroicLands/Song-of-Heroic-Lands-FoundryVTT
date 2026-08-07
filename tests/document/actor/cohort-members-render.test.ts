@@ -78,6 +78,31 @@ describe("cohort Members tab", () => {
         expect(html).not.toContain("<img");
     });
 
+    it("flags an unresolved member with a NOT FOUND warning (#199)", () => {
+        const html = renderTemplateReal(MEMBERS, {
+            members: [
+                row({
+                    ref: "departed",
+                    name: "departed",
+                    uuid: null,
+                    img: "",
+                    isResolved: false,
+                }),
+            ],
+        });
+
+        expect(html).toContain("member-missing");
+        expect(html).toContain("fa-triangle-exclamation");
+        expect(html).toContain("Not Found");
+    });
+
+    it("shows no warning for a member that resolves", () => {
+        const html = renderTemplateReal(MEMBERS, { members: [row()] });
+
+        expect(html).not.toContain("member-missing");
+        expect(html).not.toContain("fa-triangle-exclamation");
+    });
+
     it("shows each member's localized role", () => {
         const html = renderTemplateReal(MEMBERS, {
             members: [
