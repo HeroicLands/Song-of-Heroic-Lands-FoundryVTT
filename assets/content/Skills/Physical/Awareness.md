@@ -21,6 +21,8 @@ sohl:
     initSkillMult: 3
     masteryLevelBase: null
     improveFlag: false
+    impairedByRoles:
+        - vital
 folder: Yt9THlZ0NT8H6aSK
 ---
 

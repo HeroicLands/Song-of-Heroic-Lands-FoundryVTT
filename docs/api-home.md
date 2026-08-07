@@ -11,7 +11,7 @@ category: dev-docs
 folder: null
 ---
 
-![Song of Heroic Lands](../assets/ui/sohl-background.webp)
+![Song of Heroic Lands](../assets/kb/sohl-background.webp)
 
 # Song of Heroic Lands — API Reference
 
