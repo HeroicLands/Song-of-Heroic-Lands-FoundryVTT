@@ -1451,7 +1451,7 @@ export class BeingLogic<
      * and post the state card. Morale carries no status effect — the trauma items
      * are the record.
      *
-     * @param level - The {@link sohl.utils.MORALE_CATEGORY} produced.
+     * @param category - The {@link sohl.utils.MORALE_CATEGORY} produced.
      * @param sourceName - The morale source's display name.
      * @param isSuccess - Whether the test succeeded.
      * @returns A promise that resolves once the outcome is persisted.
