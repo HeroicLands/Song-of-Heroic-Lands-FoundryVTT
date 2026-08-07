@@ -149,8 +149,9 @@ Opposed Test** with two fields:
   shove — subject to the GM's ruling.
 - **Additional Modifier:** — a bonus or penalty applied to your side of the
   contest, entered as a whole number (positive helps, negative hurts). Leave it
-  at **0** unless a circumstance calls for it; you can also make the adjustment
-  in the roll dialog that follows.
+  at **0** unless a circumstance calls for it. Whatever you enter is carried
+  into the roll dialog that follows as its Situational Modifier, where you can
+  still change it before rolling.
 
 Closing the dialog without confirming simply declines to answer for now: nothing
 is rolled and nothing changes. The request card stays in the log, so you can
