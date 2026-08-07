@@ -15,14 +15,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <fieldset>
         <legend>{{localize "SOHL.Scene.SHEET.tab.sohl.label"}}</legend>
         <div class="form-group">
-            <label for="{{rootId}}-system.isTotm">
+            <label for="{{rootId}}-flags.sohl.isTotm">
                 {{localize "SOHL.Scene.FIELDS.isTotm.label"}}
             </label>
             <div class="form-fields">
                 <input type="checkbox"
-                       id="{{rootId}}-system.isTotm"
-                       name="system.isTotm"
-                       {{#if source.system.isTotm}}checked{{/if}}>
+                       id="{{rootId}}-flags.sohl.isTotm"
+                       name="flags.sohl.isTotm"
+                       {{#if source.flags.sohl.isTotm}}checked{{/if}}>
             </div>
             <p class="hint">{{localize "SOHL.Scene.FIELDS.isTotm.hint"}}</p>
         </div>

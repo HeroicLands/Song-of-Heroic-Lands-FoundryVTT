@@ -62,8 +62,10 @@ function buildTabs(): Record<string, any> {
  * that exposes scene-scoped Sohl settings (currently just the Theatre of
  * the Mind toggle).
  *
- * The TotM checkbox writes directly to `system.isTotm` via the normal
- * ApplicationV2 form-submit path; no custom submit handling is needed.
+ * The TotM checkbox writes directly to the `flags.sohl.isTotm` scene flag via
+ * the normal ApplicationV2 form-submit path; no custom submit handling is
+ * needed. A Scene is not a typed document, so the toggle cannot live in
+ * `system` (issue #1155).
  *
  * @internal
  */

@@ -75,16 +75,22 @@ scene behaves for narrative, non-tactical play.
 ## Enabling Theatre of the Mind
 
 1. Open the scene's configuration (right-click the scene tab → Configure).
-2. Find the **Theatre of the Mind** checkbox in the scene settings.
+2. Open the **Sohl** tab and find the **Theatre of the Mind** checkbox.
 3. Check it and save.
+
+The setting is per-scene, so a campaign can mix narrative scenes with tactical
+ones.
 
 ## What It Changes
 
-When Theatre of the Mind is enabled:
+When Theatre of the Mind is enabled, SoHL stops measuring tactical distance on
+that scene: the distance between any two tokens resolves to zero. In practice
+that means range and reach never rule an action out — a missile shot or a melee
+attack is always considered close enough, and the GM narrates whether the
+distance is plausible.
 
-<!-- TODO: Document exactly what TotM mode changes — does it hide the grid?
-     Disable token movement restrictions? Change how combat works? List all
-     mechanical effects of this toggle. -->
+Nothing else changes: the grid, token movement, vision, and the combat sequence
+all behave exactly as they do on a tactical scene.
 
 # Token Configuration {#scene-tokens}
 

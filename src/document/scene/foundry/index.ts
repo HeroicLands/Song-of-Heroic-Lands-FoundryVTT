@@ -16,4 +16,3 @@
 
 export * from "./SohlScene";
 export * from "./SohlSceneConfig";
-export * from "./SohlSceneDataModel";

@@ -121,7 +121,6 @@ import {
     SohlCombatDataModel,
 } from "@src/document/combat/foundry/SohlCombat";
 import { SohlScene } from "@src/document/scene/foundry/SohlScene";
-import { SohlSceneDataModel } from "@src/document/scene/foundry/SohlSceneDataModel";
 import { SohlSceneConfig } from "@src/document/scene/foundry/SohlSceneConfig";
 import {
     formatDefault,
@@ -711,9 +710,11 @@ export const SOHLCONFIG: SohlConfig = {
                 types: ["base"],
             },
         ],
-        dataModels: {
-            base: SohlSceneDataModel,
-        },
+        // A Scene is not a typed document — `BaseScene` declares no
+        // `hasTypeData`, so it has no `system` and Foundry ignores any
+        // `dataModels` registered for it (issue #1155). Scene-scoped SoHL state
+        // lives in flags instead, read through `SohlScene.logic`.
+        dataModels: {},
         typeLabels: {
             base: "Base",
         },
