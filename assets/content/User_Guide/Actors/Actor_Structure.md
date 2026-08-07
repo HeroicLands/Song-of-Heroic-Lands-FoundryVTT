@@ -13,34 +13,52 @@ folder: sYK1BozT9xFcinXK
 
 # What Is a Structure?
 
-A Structure represents a fixed installation or location — a building,
-fortification, bridge, wall, or other permanent construction. Structures
-can be damaged, have protective ratings, and may belong to factions or
-organizations.
+A Structure is a **place** — a house, a keep, a shrine, a storeroom, a bridge. It
+is somewhere things are kept and things happen, given an actor of its own so that
+it can be described, own its contents, and be pointed at.
 
-See also: [Vehicles](user-guide/actor-vehicle.md)
+**Its unique capability is simply that it is a place that persists.** Unlike the
+other actor kinds, a Structure has no properties of its own at all — and that is
+deliberate. It is the plainest actor in the system: a name, a description, the
+gear stored in it, the actions you attach to it, and the effects laid on it. What
+distinguishes it from a [[Actor_Vehicle|Vehicle]] is not a mechanic but a fact
+about the fiction — **it does not go anywhere**, and so it has no occupants and no
+journey.
+
+Use it when a location deserves to be a thing in the game rather than a note: an
+inn the party keeps returning to, a cache in the woods, a temple with a standing
+blessing on it.
 
 # When to Use a Structure
 
 Use a Structure when:
 
-- You need to track a building's condition (hit points, damage)
-- A fortification or wall is part of a siege or combat encounter
-- A location has game-mechanical properties (protection, capacity)
-- You want to represent ownership or affiliation for a fixed location
+- A place recurs in play and you want its contents and description to persist
+- Stored goods should belong to the place rather than to a character
+- A location carries a standing effect — a ward, a consecration, a curse
+- You want actions attached to a place (a lever, a ritual performed only there)
 
-For movable platforms (ships, wagons), use a Vehicle instead.
+For something that moves and carries people, use a [[Actor_Vehicle|Vehicle]]
+instead. For a body of people, use a [[Actor_Cohort|Cohort]].
 
 # What a Structure Contains
 
-A Structure can hold:
+- **Gear** — everything stored in the place. There is no limit on how much.
+- **Actions** — procedures attached to the place.
+- **Effects** — active effects on the place, such as wards or consecrations.
 
-- **Protection** — defensive ratings for walls, doors, etc.
-- **Injuries** — structural damage records
-- **Gear** — stored equipment and contents
-- **Affiliations** — ownership and factional ties
-- **Actions** — structure-specific procedures
-- **Effects** — active effects (wards, enchantments, etc.)
+# What a Structure Does Not Model
+
+A Structure is scenery with an inventory, not a combatant:
+
+- **No condition.** It has no structural integrity, no hit points, and no damage
+  model. Walls cannot be battered down by the rules; a siege is narrated, not
+  resolved against the Structure.
+- **No capacity.** A storeroom holds as much as you say it does — nothing counts
+  or refuses the contents.
+- **No occupants.** A Structure does not track who is inside it. If who is present
+  matters, that is a matter for tokens on the scene, or a
+  [[Actor_Cohort|Cohort]] if the people form a standing group.
 
 # The Structure Sheet
 
