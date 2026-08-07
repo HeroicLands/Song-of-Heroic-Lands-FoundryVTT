@@ -65,6 +65,49 @@
         }
     }
 
+    // Health cell (#199) — the percentage reads as the number, the band as the
+    // word beside it. Bands share the header's three-stop ramp rather than
+    // introducing six colors, so a member's health reads the same on the cohort
+    // roster as on their own sheet. A member whose actor did not resolve has no
+    // band modifier and inherits the row's normal color.
+    &__cell--health {
+        display: flex;
+        align-items: baseline;
+        gap: 0.35rem;
+        white-space: nowrap;
+
+        .member-health__pct {
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+
+        .member-health__band {
+            font-size: 0.85em;
+            color: var(--sohl-color-text-muted);
+        }
+    }
+
+    &__cell--health--excellent,
+    &__cell--health--good {
+        .member-health__pct {
+            color: var(--sohl-color-health-bar);
+        }
+    }
+
+    &__cell--health--fair,
+    &__cell--health--poor {
+        .member-health__pct {
+            color: var(--sohl-color-health-mid);
+        }
+    }
+
+    &__cell--health--morbid,
+    &__cell--health--dead {
+        .member-health__pct {
+            color: var(--sohl-color-danger);
+        }
+    }
+
     // Grip gutter cell — a drag handle, faded until the row is hovered.
     &__grip {
         display: flex;

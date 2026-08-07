@@ -78,6 +78,55 @@ describe("cohort Members tab", () => {
         expect(html).not.toContain("<img");
     });
 
+    it("shows each member's health as a percentage and a localized band", () => {
+        const html = renderTemplateReal(MEMBERS, {
+            members: [
+                row({
+                    healthPct: 72,
+                    healthBand: "Fair",
+                    healthBandLabel: "SOHL.Health.BAND.Fair",
+                }),
+            ],
+        });
+
+        expect(html).toContain("72%");
+        // Localized from lang/en.json, not the raw band token or its key.
+        expect(html).toContain("Fair");
+        expect(html).not.toContain("SOHL.Health.BAND.Fair");
+    });
+
+    it("leaves the health cell empty when the member has no health", () => {
+        const html = renderTemplateReal(MEMBERS, {
+            members: [
+                row({
+                    ref: "ghost",
+                    name: "ghost",
+                    isResolved: false,
+                    healthPct: undefined,
+                    healthBand: undefined,
+                    healthBandLabel: undefined,
+                }),
+            ],
+        });
+
+        expect(html).toContain("ledger__cell--health");
+        expect(html).not.toContain("%");
+    });
+
+    it("bands the health cell so the sheet can colour it", () => {
+        const html = renderTemplateReal(MEMBERS, {
+            members: [
+                row({
+                    healthPct: 12,
+                    healthBand: "Morbid",
+                    healthBandLabel: "SOHL.Health.BAND.Morbid",
+                }),
+            ],
+        });
+
+        expect(html).toContain("ledger__cell--health--morbid");
+    });
+
     it("shows each member's localized role", () => {
         const html = renderTemplateReal(MEMBERS, {
             members: [
