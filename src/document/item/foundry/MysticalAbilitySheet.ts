@@ -52,7 +52,6 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
             subType: system.subType,
             assocSkillCode: system.assocSkillCode,
             assocAffiliationCode: system.assocAffiliationCode,
-            isImprovable: system.isImprovable,
             levelBase: system.levelBase,
             charges: system.charges,
             // Associated-skill dropdown (#974): the actor's skills when embedded;

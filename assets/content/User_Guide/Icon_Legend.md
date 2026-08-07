@@ -81,7 +81,7 @@ condition glyphs that Font Awesome does not cover.
 | <i class="ginf-crossed-swords" style="font-size:2em" aria-hidden="true"></i> | **Automated Combat** | A combatant in the tracker |
 | <i class="fa-solid fa-shield" style="font-size:2em" aria-hidden="true"></i> | **Block** | Weapon |
 | <i class="fa-solid fa-burst" style="font-size:2em" aria-hidden="true"></i> | **Calculate Impact** | Being |
-| <i class="fa-regular fa-star" style="font-size:2em" aria-hidden="true"></i> | **Clear Improvement Flag** | Skill |
+| <i class="fa-regular fa-star" style="font-size:2em" aria-hidden="true"></i> | **Clear Improvement Flag** | Skill, Mystical Ability |
 | <i class="fa-solid fa-virus" style="font-size:2em" aria-hidden="true"></i> | **Contract Disease** | Being |
 | <i class="fa-solid fa-virus" style="font-size:2em" aria-hidden="true"></i> | **Contract Test** | Affliction |
 | <i class="fa-solid fa-circle-half-stroke" style="font-size:2em" aria-hidden="true"></i> | **Counterstrike** | Weapon |
@@ -91,10 +91,10 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-pen-to-square" style="font-size:2em" aria-hidden="true"></i> | **Edit** |  |
 | <i class="fa-solid fa-face-tired" style="font-size:2em" aria-hidden="true"></i> | **Fatigue Test** | Affliction |
 | <i class="ginf-screaming" style="font-size:2em" aria-hidden="true"></i> | **Fear Test** | Affliction |
-| <i class="fa-solid fa-star" style="font-size:2em" aria-hidden="true"></i> | **Flag for Improvement** | Skill |
+| <i class="fa-solid fa-star" style="font-size:2em" aria-hidden="true"></i> | **Flag for Improvement** | Skill, Mystical Ability |
 | <i class="fa-solid fa-arrow-down" style="font-size:2em" aria-hidden="true"></i> | **Fumble Test** | Being |
 | <i class="fa-solid fa-heart-pulse" style="font-size:2em" aria-hidden="true"></i> | **Healing Test** | Trauma |
-| <i class="fa-solid fa-arrow-trend-up" style="font-size:2em" aria-hidden="true"></i> | **Improve with SDR** | Skill |
+| <i class="fa-solid fa-arrow-trend-up" style="font-size:2em" aria-hidden="true"></i> | **Improve with SDR** | Skill, Mystical Ability |
 | <i class="fa-solid fa-person-swimming" style="font-size:2em" aria-hidden="true"></i> | **Make Default Medium** | Any actor |
 | <i class="fa-solid fa-shield-heart" style="font-size:2em" aria-hidden="true"></i> | **Morale Test** | Affliction |
 | <i class="fa-solid fa-users" style="font-size:2em" aria-hidden="true"></i> | **Move to Group…** | A combatant in the tracker |
@@ -123,7 +123,7 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-bullseye" style="font-size:2em" aria-hidden="true"></i> | **Success Test** | Skill |
 | <i class="fa-solid fa-ranking-star" style="font-size:2em" aria-hidden="true"></i> | **Success Value Test** | Skill |
 | <i class="ginf-knapsack" style="font-size:2em" aria-hidden="true"></i> | **Toggle Carried** | Gear |
-| <i class="fa-solid fa-star-half-stroke" style="font-size:2em" aria-hidden="true"></i> | **Toggle Improve Flag** | Skill |
+| <i class="fa-solid fa-star-half-stroke" style="font-size:2em" aria-hidden="true"></i> | **Toggle Improve Flag** | Skill, Mystical Ability |
 | <i class="fa-solid fa-chess-king" style="font-size:2em" aria-hidden="true"></i> | **Toggle Leader** | Cohort |
 | <i class="fa-solid fa-shield-halved" style="font-size:2em" aria-hidden="true"></i> | **Toggle Worn** | Armor |
 | <i class="fa-solid fa-head-side-cough" style="font-size:2em" aria-hidden="true"></i> | **Transmit Affliction** | Affliction |

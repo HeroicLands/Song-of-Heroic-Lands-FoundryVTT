@@ -46,7 +46,10 @@ function abilityLike(over: Record<string, any> = {}) {
         id: over.id ?? "ma1",
         name: over.name ?? "Sample Ability",
         img: over.img ?? "icons/x.svg",
-        system: { notes: over.notes ?? "", improveFlag: false },
+        system: {
+            notes: over.notes ?? "",
+            improveFlag: over.improveFlag ?? false,
+        },
         logic,
     };
 }
@@ -190,5 +193,42 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
         ]);
         expect(html).toContain('data-action="successTest"');
         expect(html).not.toContain("ledger__row--disabled");
+    });
+});
+
+describe("Being Mysteries tab — the ☆ improve star (#1130)", () => {
+    it("shows the star on an ability that governs its own mastery level", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.ARCANETALENT, [
+            abilityLike({
+                name: "Sixth Sense",
+                logic: { assocRef: undefined, canImprove: true },
+            }),
+        ]);
+        expect(html).toContain('data-action="toggleImproveFlag"');
+        expect(html).toContain("far fa-star");
+    });
+
+    it("fills the star when the ability is flagged for improvement", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.ARCANETALENT, [
+            abilityLike({
+                name: "Sixth Sense",
+                improveFlag: true,
+                logic: { assocRef: undefined, canImprove: true },
+            }),
+        ]);
+        expect(html).toContain("fas fa-star ledger__flag");
+        expect(html).toContain("icon-button--on");
+    });
+
+    it("hides the star on an ability whose mastery level comes from a skill", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION, [
+            abilityLike({
+                name: "Borrowed Craft",
+                logic: { canImprove: false },
+            }),
+        ]);
+        expect(html).not.toContain('data-action="toggleImproveFlag"');
+        // The row's ⋮ menu is untouched.
+        expect(html).toContain("item-contextmenu");
     });
 });

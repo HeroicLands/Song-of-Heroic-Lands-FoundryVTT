@@ -56,6 +56,13 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { runStrikeModeTest, type StrikeModeTestScope } from "./strikeModeTest";
 import {
+    defineImproveSdrActions,
+    improveWithSDR,
+    setImproveFlag,
+    toggleImproveFlag,
+    unsetImproveFlag,
+} from "./improve-sdr";
+import {
     dialog,
     fvttGetSetting,
     fvttIsCurrentUserGM,
@@ -643,6 +650,15 @@ export class SkillLogic<
         return 1;
     }
 
+    /**
+     * The Skill Base added to the SDR's `1d100` — a skill improves off its own
+     * computed {@link skillBase}, so natural aptitude speeds development.
+     * Satisfies {@link sohl.document.item.logic.SdrImprovable}.
+     */
+    get sdrSkillBase(): number {
+        return this.skillBase;
+    }
+
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
@@ -766,9 +782,7 @@ export class SkillLogic<
      * @returns Resolves once the item update completes.
      */
     async setImproveFlag(_context: SohlActionContext): Promise<void> {
-        if (!this.canImprove) return;
-        const updateData: PlainObject = { "system.improveFlag": true };
-        await this.data.update(updateData);
+        return setImproveFlag(this);
     }
 
     /**
@@ -780,9 +794,7 @@ export class SkillLogic<
      * @returns Resolves once the item update completes.
      */
     async unsetImproveFlag(_context: SohlActionContext): Promise<void> {
-        if (!this.canImprove) return;
-        const updateData: PlainObject = { "system.improveFlag": false };
-        await this.data.update(updateData);
+        return unsetImproveFlag(this);
     }
 
     /**
@@ -794,12 +806,7 @@ export class SkillLogic<
      * @returns Resolves once the item update completes.
      */
     async toggleImproveFlag(_context: SohlActionContext): Promise<void> {
-        if (!this.canImprove) return;
-        if (this.data.improveFlag) {
-            await this.unsetImproveFlag(_context);
-        } else {
-            await this.setImproveFlag(_context);
-        }
+        return toggleImproveFlag(this);
     }
 
     /**
@@ -814,76 +821,7 @@ export class SkillLogic<
      *   is posted.
      */
     async improveWithSDR(context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.improveFlag": false };
-        const roll = SimpleRoll.fromFormula(`1d100+${this.skillBase}`, this);
-        roll.roll();
-        const isSuccess = roll.total > this.masteryLevel.base;
-
-        if (isSuccess) {
-            // Raise from the effective opening base (which may be derived from
-            // initSkillMult when masteryLevelBase is unset), never from the
-            // now-nullable stored field.
-            updateData["system.masteryLevelBase"] =
-                this.masteryLevel.base + this.sdrIncr;
-        }
-        const chatTemplate: FilePath = toFilePath(
-            "systems/sohl/templates/chat/standard-test-card.hbs",
-        );
-        const chatTemplateData = {
-            type: `${this.data.kind}-${this.name}-improve-sdr`,
-            title: sohl.i18n.format("SOHL.MasteryLevel.improveSDR.title", {
-                label: this.label,
-            }),
-            effTarget: this.masteryLevel.base,
-            isSuccess: isSuccess,
-            rollValue: roll.total,
-            rollResult: roll.result,
-            showResult: true,
-            resultText:
-                isSuccess ?
-                    sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.increase.title",
-                        {
-                            label: this.label,
-                        },
-                    )
-                :   sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.noIncrease.title",
-                        {
-                            label: this.label,
-                        },
-                    ),
-            resultDesc:
-                isSuccess ?
-                    sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.increase.desc",
-                        {
-                            label: this.label,
-                            incr: this.sdrIncr,
-                            final: this.masteryLevel.base + this.sdrIncr,
-                        },
-                    )
-                :   sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.noIncrease.desc",
-                        {
-                            label: this.label,
-                            incr: this.sdrIncr,
-                            final: this.masteryLevel.base + this.sdrIncr,
-                        },
-                    ),
-            description:
-                isSuccess ?
-                    sohl.i18n.format("SOHL.SuccessTestResult.Success")
-                :   sohl.i18n.format("SOHL.SuccessTestResult.Failure"),
-            notes: "",
-            sdrIncr: this.sdrIncr,
-        };
-
-        // Persist the outcome: clear the improve flag and, on success, raise the
-        // stored base mastery level so the gain the chat card announces is real.
-        await this.data.update(updateData);
-
-        void context.speaker.toChat(chatTemplate, chatTemplateData);
+        return improveWithSDR(this, context);
     }
 
     /**
@@ -914,50 +852,9 @@ export class SkillLogic<
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
-            {
-                shortcode: "setImproveFlag",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Skill.Action.setImproveFlag",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-star",
-                executor: "setImproveFlag",
-                // Superseded by the single `toggleImproveFlag` entry; kept as an
-                // executor but hidden from the context menu.
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-            },
-            {
-                shortcode: "unsetImproveFlag",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Skill.Action.unsetImproveFlag",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-regular fa-star",
-                executor: "unsetImproveFlag",
-                // Superseded by the single `toggleImproveFlag` entry; kept as an
-                // executor but hidden from the context menu.
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-            },
-            {
-                shortcode: "toggleImproveFlag",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Skill.Action.toggleImproveFlag",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-star-half-stroke",
-                executor: "toggleImproveFlag",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
-            {
-                shortcode: "improveWithSDR",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Skill.Action.improveWithSDR",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-arrow-trend-up",
-                executor: "improveWithSDR",
-                visible: "itemLogic.canImprove && !itemLogic.data.improveFlag",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
+            // The improvement-flag / SDR quartet, shared verbatim with
+            // every other improvable kind (see defineImproveSdrActions).
+            ...defineImproveSdrActions("SOHL.Skill.Action"),
             {
                 shortcode: "opposedTestStart",
                 subType: ACTION_SUBTYPE.INTRINSIC,

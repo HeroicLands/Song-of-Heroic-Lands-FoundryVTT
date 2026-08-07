@@ -4,7 +4,13 @@ import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
-import { ITEM_KIND, VALUE_DELTA_INFO } from "@src/utils/constants";
+import {
+    ITEM_KIND,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /** Default MysticalAbilityData fields; override per test. */
@@ -729,6 +735,226 @@ describe("MysticalAbilityLogic", () => {
             logic.evaluate();
             logic.finalize();
             expect(logic.masteryLevel.hasBase).toBe(false);
+        });
+    });
+});
+
+describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
+    function mockRoll(total: number) {
+        return { roll: vi.fn(), total, result: String(total) } as any;
+    }
+
+    describe("intrinsic actions", () => {
+        it("defines the same improve quartet a skill does", () => {
+            const logic = makeAbility();
+            for (const shortcode of [
+                "setImproveFlag",
+                "unsetImproveFlag",
+                "toggleImproveFlag",
+                "improveWithSDR",
+            ]) {
+                expect(logic.actions.has(shortcode), shortcode).toBe(true);
+            }
+        });
+
+        it("hides setImproveFlag/unsetImproveFlag (superseded by the toggle)", () => {
+            const logic = makeAbility();
+            for (const shortcode of ["setImproveFlag", "unsetImproveFlag"]) {
+                const action = logic.actions.get(shortcode) as any;
+                expect(action.data.visible, shortcode).toBe("false");
+                expect(action.data.group, shortcode).toBe(
+                    SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+                );
+            }
+        });
+
+        it("keeps toggleImproveFlag and improveWithSDR in the general group", () => {
+            const logic = makeAbility();
+            const toggle = logic.actions.get("toggleImproveFlag") as any;
+            expect(toggle.data.visible).toBe("true");
+            expect(toggle.data.group).toBe(
+                SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            );
+            const sdr = logic.actions.get("improveWithSDR") as any;
+            expect(sdr.data.group).toBe(SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL);
+            // Gated on canImprove, exactly as the skill's entry is.
+            expect(sdr.data.visible).toContain("itemLogic.canImprove");
+        });
+
+        it("titles the entries from the MysticalAbility action keys", () => {
+            const logic = makeAbility();
+            expect(
+                (logic.actions.get("improveWithSDR") as any).data.title,
+            ).toBe("SOHL.MysticalAbility.Action.improveWithSDR");
+        });
+    });
+
+    describe("canImprove", () => {
+        it("is true for an ability that governs its own mastery level", () => {
+            const logic = makeAbility({ assocSkillCode: null });
+            logic.initialize();
+            expect(logic.usesOwnMasteryLevel).toBe(true);
+            expect(logic.canImprove).toBe(true);
+        });
+
+        it("is false when an associated skill supplies the mastery level", () => {
+            const logic = makeAbility({ assocSkillCode: "swim" });
+            logic.initialize();
+            expect(logic.usesOwnMasteryLevel).toBe(false);
+            expect(logic.canImprove).toBe(false);
+        });
+
+        it("is false when a spirit power supplies the mastery level", () => {
+            const logic = makeAbility({
+                subType: "spiritrite",
+                assocSkillCode: "totem",
+            });
+            logic.initialize();
+            expect(logic.canImprove).toBe(false);
+        });
+
+        it("is false when the user neither owns the item nor is a GM", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
+                false,
+            );
+            const logic = makeAbility({ assocSkillCode: null }, {
+                isOwner: false,
+            } as any);
+            logic.initialize();
+            expect(logic.canImprove).toBe(false);
+        });
+
+        it("does not throw before initialize() — masteryLevel unset (#511 class)", () => {
+            const logic = makeAbility({ assocSkillCode: null });
+            // deliberately NOT calling logic.initialize()
+            expect(() => logic.canImprove).not.toThrow();
+        });
+    });
+
+    describe("flag executors", () => {
+        it("setImproveFlag writes system.improveFlag true", async () => {
+            const logic = makeAbility({ assocSkillCode: null });
+            logic.initialize();
+            await logic.setImproveFlag({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": true,
+            });
+        });
+
+        it("unsetImproveFlag writes system.improveFlag false", async () => {
+            const logic = makeAbility({
+                assocSkillCode: null,
+                improveFlag: true,
+            });
+            logic.initialize();
+            await logic.unsetImproveFlag({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": false,
+            });
+        });
+
+        it("toggleImproveFlag flips the stored flag", async () => {
+            const off = makeAbility({ assocSkillCode: null });
+            off.initialize();
+            await off.toggleImproveFlag({} as any);
+            expect(off.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": true,
+            });
+
+            const on = makeAbility({
+                assocSkillCode: null,
+                improveFlag: true,
+            });
+            on.initialize();
+            await on.toggleImproveFlag({} as any);
+            expect(on.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": false,
+            });
+        });
+
+        it("writes nothing when the ability cannot be improved", async () => {
+            const logic = makeAbility({ assocSkillCode: "swim" });
+            logic.initialize();
+            await logic.toggleImproveFlag({} as any);
+            await logic.setImproveFlag({} as any);
+            await logic.unsetImproveFlag({} as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("improveWithSDR", () => {
+        it("rolls 1d100 with no Skill Base of its own", async () => {
+            const spy = vi
+                .spyOn(SimpleRoll, "fromFormula")
+                .mockReturnValue(mockRoll(95));
+            const logic = makeAbility({
+                assocSkillCode: null,
+                masteryLevelBase: 40,
+            });
+            logic.initialize();
+            await logic.improveWithSDR({ speaker: { toChat: vi.fn() } } as any);
+            expect(logic.sdrSkillBase).toBe(0);
+            expect(spy).toHaveBeenCalledWith("1d100+0", logic);
+        });
+
+        it("raises masteryLevelBase and clears the flag on a success", async () => {
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(95));
+            const logic = makeAbility({
+                assocSkillCode: null,
+                masteryLevelBase: 40,
+                improveFlag: true,
+            });
+            logic.initialize();
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": false,
+                "system.masteryLevelBase": 41,
+            });
+            const [, chatData] = speaker.toChat.mock.calls[0];
+            expect(chatData.isSuccess).toBe(true);
+            expect(chatData.effTarget).toBe(40);
+            expect(chatData.sdrIncr).toBe(1);
+        });
+
+        it("clears the flag without raising mastery on a failure", async () => {
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(10));
+            const logic = makeAbility({
+                assocSkillCode: null,
+                masteryLevelBase: 40,
+                improveFlag: true,
+            });
+            logic.initialize();
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": false,
+            });
+            const [, chatData] = speaker.toChat.mock.calls[0];
+            expect(chatData.isSuccess).toBe(false);
+        });
+
+        it("never touches the associated skill, even when run on a skill-governed ability", async () => {
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(100));
+            const actor = makeAbilityActor();
+            const skill = makeSkillOnActor(actor, "swim", 40);
+            skill.initialize();
+            const logic = makeAbility(
+                { assocSkillCode: "swim", masteryLevelBase: 5 },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            // The write lands on the ability's own (unused) masteryLevelBase.
+            expect(skill.item.update).not.toHaveBeenCalled();
+            expect(logic.item.update).toHaveBeenCalledTimes(1);
+            const [payload] = (logic.item.update as any).mock.calls[0];
+            expect(
+                Object.keys(payload).every((k) => k.startsWith("system.")),
+            ).toBe(true);
         });
     });
 });

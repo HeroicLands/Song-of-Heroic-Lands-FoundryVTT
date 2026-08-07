@@ -35,6 +35,14 @@ import type { MysteryLogic } from "./MysteryLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import { fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
+import {
+    defineImproveSdrActions,
+    improveWithSDR,
+    setImproveFlag,
+    toggleImproveFlag,
+    unsetImproveFlag,
+} from "./improve-sdr";
 
 /**
  * An actively invoked supernatural power.
@@ -203,9 +211,116 @@ export class MysticalAbilityLogic<
         );
     }
 
+    /**
+     * Whether the ability's mastery level is **its own** — true exactly when no
+     * association shortcode is set, so {@link initialize} seeds
+     * {@link masteryLevel} from {@link MysticalAbilityData.masteryLevelBase}
+     * rather than {@link finalize} copying it in from an associated Skill or
+     * Spirit Power.
+     *
+     * This is what makes improvement meaningful: only a self-governed ability
+     * has a mastery level of its own to raise. An ability drawing on a Skill (or
+     * a Spirit Power) improves when *that* item improves — so it shows no ☆ star
+     * and offers no improve actions (#1130).
+     */
+    get usesOwnMasteryLevel(): boolean {
+        return !this.data.assocSkillCode;
+    }
+
+    /**
+     * Whether the ability may be improved: true when the current user is a GM or
+     * owns the item, the mastery level is live, and the ability
+     * {@link usesOwnMasteryLevel | governs its own mastery level}.
+     *
+     * Mirrors {@link SkillLogic.canImprove}, with the extra association gate.
+     * Read while the Being sheet renders, so — like the skill's — it must not
+     * throw on a not-yet-initialized ability (#511 class).
+     */
+    get canImprove(): boolean {
+        return (
+            (fvttIsCurrentUserGM() || this.data.isOwner) &&
+            !this.masteryLevel?.disabled &&
+            this.usesOwnMasteryLevel
+        );
+    }
+
+    /** The amount by which {@link improveWithSDR} raises the base mastery level on success. */
+    get sdrIncr(): number {
+        return 1;
+    }
+
+    /**
+     * The Skill Base added to the SDR's `1d100`. A Mystical Ability carries no
+     * Skill Base of its own — the only abilities that can be improved are those
+     * with no associated skill to borrow one from — so it improves on the raw
+     * `1d100` against its base mastery level.
+     */
+    get sdrSkillBase(): number {
+        return 0;
+    }
+
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
+
+    /**
+     * Flags this ability for improvement via a Skill Development Roll.
+     *
+     * Intrinsic-action executor for the `setImproveFlag` action; shares the
+     * skill's exact seam. Writes only this ability's own `system.improveFlag` —
+     * an associated Skill is never touched.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setImproveFlag(_context: SohlActionContext): Promise<void> {
+        return setImproveFlag(this);
+    }
+
+    /**
+     * Clears this ability's improvement flag.
+     *
+     * Intrinsic-action executor for the `unsetImproveFlag` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async unsetImproveFlag(_context: SohlActionContext): Promise<void> {
+        return unsetImproveFlag(this);
+    }
+
+    /**
+     * Toggles this ability's improvement flag — the executor behind the ☆ star
+     * on the Being sheet's Mysteries tab.
+     *
+     * Intrinsic-action executor for the `toggleImproveFlag` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async toggleImproveFlag(_context: SohlActionContext): Promise<void> {
+        return toggleImproveFlag(this);
+    }
+
+    /**
+     * Attempts to improve the ability via a Skill Development Roll (SDR): rolls
+     * `1d100` against the current base mastery level and, on a success, raises
+     * {@link MysticalAbilityData.masteryLevelBase} by {@link sdrIncr}. The
+     * improve flag is cleared either way and the outcome is posted to chat.
+     *
+     * Intrinsic-action executor for the `improveWithSDR` action; shares the
+     * skill's exact seam. It is offered only on an ability that
+     * {@link usesOwnMasteryLevel | governs its own mastery level}; run against
+     * one that draws on an associated Skill it changes only this ability's
+     * unused `masteryLevelBase`, and **never** the associated Skill.
+     *
+     * @param context - The action context whose speaker receives the chat card.
+     * @returns Resolves once the roll is evaluated, persisted, and the chat card
+     *   is posted.
+     */
+    async improveWithSDR(context: SohlActionContext): Promise<void> {
+        return improveWithSDR(this, context);
+    }
 
     /**
      * Performs a success test against this ability's mastery level (EML) —
@@ -282,6 +397,12 @@ export class MysticalAbilityLogic<
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
+            // The improvement-flag / SDR quartet, shared verbatim with the
+            // Skill (#1130) — an ability with no associated skill has a mastery
+            // level of its own, so it develops exactly the way a skill does.
+            // `canImprove` keeps them off an ability that borrows its mastery
+            // level from a skill or spirit power.
+            ...defineImproveSdrActions("SOHL.MysticalAbility.Action"),
         ];
     }
 
