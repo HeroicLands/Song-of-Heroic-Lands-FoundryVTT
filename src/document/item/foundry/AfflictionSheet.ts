@@ -52,6 +52,7 @@ export class AfflictionSheet extends SohlItemSheetBase {
             healingRateBase: system.healingRateBase,
             contagionIndexBase: system.contagionIndexBase,
             transmission: system.transmission,
+            outcome: system.outcome,
         });
     }
 }

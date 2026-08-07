@@ -462,9 +462,15 @@ export class SohlSystem {
      * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
      *   gating an event-driven schedule (issue #569; `subscriberUuid` is bound to
      *   `doc`). Ignored for a time schedule.
+     * @param anchor - World time the recurrence is measured from, defaulting to
+     *   now. A recurring `*Test` passes **the due time of the occurrence it just
+     *   performed**, not the moment the player pressed the button, so a check
+     *   answered late does not push the whole cadence later (issue #1181). The
+     *   resulting fire time may therefore already be in the past, in which case
+     *   the schedule is armed *due* and its `*Check` fires at the next dispatch.
      * @returns A promise that resolves once the schedule is persisted and armed.
      */
-    schedule(
+    async schedule(
         doc: Schedulable,
         actionName: string,
         interval: number,
@@ -472,18 +478,36 @@ export class SohlSystem {
         sceneUuid?: string,
         triggerName?: string,
         predicate?: string,
+        anchor?: number,
     ): Promise<void> {
-        return scheduleAction(
+        const now = fvttWorldTime();
+        await scheduleAction(
             doc,
             this.events,
             actionName,
             interval,
             payload,
-            fvttWorldTime(),
+            anchor ?? now,
             sceneUuid,
             triggerName,
             predicate,
         );
+
+        // An anchored recurrence can land a fire time that is *already* past —
+        // that is how a player who is behind works through a backlog (issue
+        // #1181). The queue only dispatches on a world-time tick, so without
+        // this the schedule would sit due-but-silent until someone nudged the
+        // clock, and the chain would look broken. Dispatching here is not a
+        // cascade: what fires is a `*Check`, which posts a card and stops dead
+        // until a human presses it.
+        const fireAt = this.events.nextFireTime(doc.uuid, actionName);
+        if (fireAt !== undefined && fireAt <= now) {
+            await this.events.fire({
+                name: "updateWorldTime",
+                worldTime: now,
+                dt: 0,
+            });
+        }
     }
 
     /**

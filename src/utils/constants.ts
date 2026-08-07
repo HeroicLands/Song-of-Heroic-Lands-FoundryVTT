@@ -1211,6 +1211,7 @@ export const {
 } = defineType("SOHL.Trauma.EffectKey", {
     LEVEL: "mod:logic.level",
     HEALING_RATE: "mod:logic.healingRate",
+    HEALING: "mod:logic.healing",
 });
 /** Union of all trauma effect-key change paths. */
 export type TraumaEffectKey =

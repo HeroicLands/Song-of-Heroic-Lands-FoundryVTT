@@ -1851,6 +1851,7 @@
     "SOHL.Trauma.Coma": "Coma",
     "SOHL.Trauma.ComaWeariness": "Coma Weariness",
     "SOHL.Trauma.EVENT.nexthealingtest": "Next Healing Test",
+    "SOHL.Trauma.EffectKey.HEALING": "Healing Test Target",
     "SOHL.Trauma.EffectKey.HEALING_RATE": "Healing Rate",
     "SOHL.Trauma.EffectKey.LEVEL": "Level",
     "SOHL.Trauma.ExtendedShock": "Extended Shock",

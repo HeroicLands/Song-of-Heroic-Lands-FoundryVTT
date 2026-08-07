@@ -197,6 +197,14 @@ export class TraumaLogic<
      */
     healingRate!: ValueModifier;
     /**
+     * The target value of this trauma's **Healing Test**, as a
+     * {@link sohl.entity.modifier.ValueModifier} — `Healing Rate × Healing Base`.
+     * Active Effects keyed `TRAUMA_EFFECT_KEY.HEALING` (`mod:logic.healing`)
+     * modify it, so what a wound is tested against is now open to influence
+     * rather than an expression buried at the roll (#1181).
+     */
+    healing!: ValueModifier;
+    /**
      * Treatment modifier for the trauma, as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link TraumaData.treatmentModifierBase}.
      */
@@ -792,7 +800,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-hand",
                 executor: "requestTreatment",
-                visible: "itemLogic.data.subType === 'physical'",
+                visible: "itemLogic.data.subType === 'injury'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -802,7 +810,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-staff-snake",
                 executor: "treatInjury",
-                visible: "itemLogic.data.subType === 'physical'",
+                visible: "itemLogic.data.subType === 'injury'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -832,7 +840,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-staff-snake",
                 executor: "treatmentTest",
-                visible: "itemLogic.data.subType === 'physical'",
+                visible: "itemLogic.data.subType === 'injury'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -842,7 +850,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-heart-pulse",
                 executor: "healingTest",
-                visible: "itemLogic.data.subType === 'physical'",
+                visible: "itemLogic.data.subType === 'injury'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -853,7 +861,7 @@ export class TraumaLogic<
                 iconFAClass: "fa-solid fa-bed-pulse",
                 executor: "healingCheck",
                 recordsLastRun: true,
-                visible: "itemLogic.data.subType === 'physical'",
+                visible: "itemLogic.data.subType === 'injury'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
@@ -1080,6 +1088,31 @@ export class TraumaLogic<
      */
     override finalize(): void {
         super.finalize();
+
+        // The Healing Test target is `Healing Rate × Healing Base`, and the
+        // being's Healing Base is only seeded in its own `evaluate()` — so this
+        // builds here, in `finalize`, where the actor's value has settled.
+        // Building it in `initialize` would read 0 and silently disable every
+        // healing test. A wound with no Healing Rate is *untreated*, which is a
+        // real state rather than a zero target, so the modifier is disabled
+        // rather than seeded (see UNTREATED, #1146/#1148).
+        this.healing = new entity.ValueModifier({}, { parent: this });
+        if (this.data.healingRateBase == null) {
+            this.healing.disabled = "SOHL.Trauma.NoHealingRate";
+        } else {
+            const healingBase = Math.max(
+                0,
+                (
+                    this.actorLogic as {
+                        healingBase?: { effective?: number };
+                    } | null
+                )?.healingBase?.effective ?? 0,
+            );
+            this.healing.setBase(
+                healingBase * Math.max(0, this.data.healingRateBase),
+            );
+        }
+
         const uuid = this.item?.uuid;
         if (!uuid) return;
         armScheduledActions(
@@ -1327,9 +1360,9 @@ export class TraumaLogic<
      * @returns The normalized success level, or `null`.
      */
     private async rollHealingTest(): Promise<number | null> {
-        const healingBase =
-            (this.actorLogic as any)?.healingBase?.effective ?? 0;
-        const eml = healingBase * (this.healingRate?.effective ?? 0);
+        // The target is the `healing` modifier, not a product recomputed here —
+        // that is what makes it reachable by an Active Effect (#1181).
+        const eml = this.healing?.effective ?? 0;
         const result = await rollTimedTest(this, eml, {
             noChat: true,
             type: "trauma-healingtest",

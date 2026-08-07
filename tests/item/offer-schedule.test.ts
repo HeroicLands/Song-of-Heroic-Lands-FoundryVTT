@@ -195,3 +195,67 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
         ).toBe(false);
     });
 });
+
+describe("offerSchedule anchoring (#1181)", () => {
+    const DOC = { uuid: "Item.effect0000" } as any;
+
+    function spies() {
+        return {
+            schedule: vi.spyOn((globalThis as any).sohl, "schedule"),
+            unschedule: vi.spyOn((globalThis as any).sohl, "unschedule"),
+        };
+    }
+
+    afterEach(() => vi.restoreAllMocks());
+
+    it("a time-based offer without an anchor keeps the plain 3-argument shape", async () => {
+        const { schedule } = spies();
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: true } },
+            DOC,
+            "healingCheck",
+            500,
+        );
+        expect(schedule).toHaveBeenCalledWith(DOC, "healingCheck", 500);
+    });
+
+    it("threads an explicit anchor through to sohl.schedule", async () => {
+        const { schedule } = spies();
+        // The test performed at day 22 was DUE at day 10, so it re-anchors there
+        // and the next occurrence lands on day 15 — not day 27.
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: true } },
+            DOC,
+            "healingCheck",
+            5,
+            undefined,
+            undefined,
+            10,
+        );
+        expect(schedule).toHaveBeenCalledWith(
+            DOC,
+            "healingCheck",
+            5,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            10,
+        );
+    });
+
+    it("a declined offer unschedules regardless of the anchor", async () => {
+        const { schedule, unschedule } = spies();
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: false } },
+            DOC,
+            "healingCheck",
+            5,
+            undefined,
+            undefined,
+            10,
+        );
+        expect(schedule).not.toHaveBeenCalled();
+        expect(unschedule).toHaveBeenCalledWith(DOC, "healingCheck");
+    });
+});

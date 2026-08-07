@@ -2902,6 +2902,7 @@
   "sohl.document.item.logic.TraumaLogic.executeAction": "classes/sohl.document.item.logic.TraumaLogic.html#executeaction",
   "sohl.document.item.logic.TraumaLogic.finalize": "classes/sohl.document.item.logic.TraumaLogic.html#finalize",
   "sohl.document.item.logic.TraumaLogic.getContextOptions": "classes/sohl.document.item.logic.TraumaLogic.html#getcontextoptions",
+  "sohl.document.item.logic.TraumaLogic.healing": "classes/sohl.document.item.logic.TraumaLogic.html#healing",
   "sohl.document.item.logic.TraumaLogic.healingCheck": "classes/sohl.document.item.logic.TraumaLogic.html#healingcheck",
   "sohl.document.item.logic.TraumaLogic.healingCheckDurationBase": "classes/sohl.document.item.logic.TraumaLogic.html#healingcheckdurationbase",
   "sohl.document.item.logic.TraumaLogic.healingHalted": "classes/sohl.document.item.logic.TraumaLogic.html#healinghalted",
