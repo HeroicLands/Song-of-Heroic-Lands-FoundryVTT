@@ -23,8 +23,7 @@ See also: [Creating Actors and Items](user-guide/creating-actors-items.md), [Arm
 To give a character equipment:
 
 1. Open the character's sheet and navigate to the **Gear** tab.
-2. Drag an item from a compendium, the World Items sidebar, or the
-   Assemblies sidebar onto the sheet.
+2. Drag an item from a compendium or the World Items sidebar onto the sheet.
 3. The item appears in the Gear tab.
 
 When you drop a complex item like a weapon or armor, all its nested

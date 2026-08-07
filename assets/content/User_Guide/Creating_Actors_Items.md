@@ -16,7 +16,7 @@ There are several ways to create actors and items in SoHL. The method you
 choose depends on whether you're starting from scratch, copying something
 from a compendium, or building a complex item with nested components.
 
-See also: [Quickstart](user-guide/quickstart.md), [Understanding Sheets](user-guide/understanding-sheets.md), [Assemblies](user-guide/assemblies.md)
+See also: [Quickstart](user-guide/quickstart.md), [Understanding Sheets](user-guide/understanding-sheets.md)
 
 # Creating Actors {#creating-actors}
 
@@ -126,29 +126,6 @@ actor, all its nested items come along automatically.
 
 To add a nested item to an existing item on an actor, open the parent item's
 sheet and drag the child item onto its **Nested Items** tab.
-
-# Creating Assemblies {#creating-assemblies}
-
-Assemblies are special containers for complex items with nested components.
-There are two ways to create them:
-
-## From the Assemblies Sidebar
-
-1. Open the **Assemblies** tab in the sidebar (look for the box icon).
-2. Click **Create Assembly**.
-3. A Create Item dialog appears — choose the item type and name.
-4. The item is created inside a new Assembly with the same name.
-
-## From the Items Sidebar
-
-1. Right-click any World Item in the Items sidebar.
-2. Select **Create Assembly** from the context menu.
-3. A new Assembly is created containing a copy of that item.
-
-This is useful when you have a world item that you want to package with
-nested components for easy distribution.
-
-See [Assemblies](user-guide/assemblies.md) for more about how Assemblies work.
 
 # Deleting Items {#creating-deleting}
 
