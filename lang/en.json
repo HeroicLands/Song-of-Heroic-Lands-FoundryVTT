@@ -762,6 +762,8 @@
     "SOHL.Cohort.Members.picker.cancel": "Cancel",
     "SOHL.Cohort.Members.remove.cancel": "Cancel",
     "SOHL.Cohort.Members.remove.confirm": "Remove",
+    "SOHL.Cohort.Members.notFound.label": "Not Found",
+    "SOHL.Cohort.Members.notFound.tooltip": "This member's actor could not be found — it may have been deleted, or you may not have permission to see it.",
     "SOHL.Cohort.Members.remove.control": "Remove from cohort",
     "SOHL.Cohort.Members.remove.prompt": "Which member should leave this cohort?",
     "SOHL.Cohort.Members.remove.title": "Remove Cohort Member",

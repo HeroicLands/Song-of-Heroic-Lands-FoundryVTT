@@ -50,11 +50,16 @@ function rows(win, id) {
         el.querySelectorAll('section.tab[data-tab="members"] .ledger__row'),
     ).map((r) => ({
         ref: r.dataset.memberRef,
-        name: r.querySelector(".ledger__name")?.textContent.trim(),
+        // The name cell may also carry the NOT FOUND flag for an unresolved
+        // member, so read only its leading text node — not the whole cell.
+        name: r.querySelector(".ledger__name")?.firstChild?.textContent.trim(),
         role: r.querySelector(".ledger__cell--text")?.textContent.trim(),
         isLeader: !!r.querySelector('[data-action="setCohortLeader"].is-on'),
         isDisabled: r.classList.contains("ledger__row--disabled"),
         hasImg: !!r.querySelector(".ledger__icon img"),
+        missingFlag: r
+            .querySelector(".member-missing__label")
+            ?.textContent.trim(),
         healthPct: r.querySelector(".member-health__pct")?.textContent.trim(),
         healthBand: r.querySelector(".member-health__band")?.textContent.trim(),
     }));
@@ -200,6 +205,20 @@ describe("cohort Members tab", () => {
                 expect(r).to.have.length(3);
                 expect(r[2].name, "named by its raw handle").to.eq("departed");
                 expect(r[2].isDisabled, "greyed as unresolved").to.be.true;
+            });
+        });
+    });
+
+    it("flags an unresolved member with a NOT FOUND warning (#199)", () => {
+        openRoster([{ shortcodeOrUuid: "departed" }]).then(({ cohort }) => {
+            shouldSettle(cohort.id, (_persisted, r) => {
+                expect(r[2].ref).to.eq("departed");
+                expect(r[2].missingFlag, "flagged as missing").to.eq(
+                    "Not Found",
+                );
+                // A member that resolves carries no flag.
+                expect(r[0].missingFlag, "resolved member unflagged").to.be
+                    .undefined;
             });
         });
     });
