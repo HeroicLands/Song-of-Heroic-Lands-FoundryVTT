@@ -78,13 +78,13 @@ Two things are deliberately _not_ in this menu:
 
 # Automated Combat
 
-|                |                                                                                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**       | Automated Combat                                                                                                                                                   |
-| **Shortcode**  | `automatedCombatStart`                                                                                                                                             |
-| **Icon**       | Crossed swords (`ginf-crossed-swords`)                                                                                                                             |
-| **Invoked by** | The **Actions context menu** on the combatant's tracker row                                                                                                        |
-| **API**        | [`SohlCombatantLogic.startAutomatedAttack`](https://api.heroiclands.org/latest/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#startautomatedattack) |
+|                |                                                                                                                                                                  |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**       | Automated Combat                                                                                                                                                 |
+| **Shortcode**  | `automatedCombatStart`                                                                                                                                           |
+| **Icon**       | Crossed swords (`ginf-crossed-swords`)                                                                                                                           |
+| **Invoked by** | The **Actions context menu** on the combatant's tracker row                                                                                                      |
+| **API**        | [`SohlCombatantLogic.startAutomatedAttack`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#startautomatedattack) |
 
 **What it does.** This is the **single entry point** for an automated attack —
 the workflow-driven exchange described under
@@ -130,13 +130,13 @@ itself rather than half-starting an exchange:
 
 # Move to Group…
 
-|                |                                                                                                                                                  |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**       | Move to Group…                                                                                                                                   |
-| **Shortcode**  | `moveToGroup`                                                                                                                                    |
-| **Icon**       | People (`fa-solid fa-users`)                                                                                                                     |
-| **Invoked by** | The **Actions context menu** on the combatant's tracker row — **GM only**                                                                        |
-| **API**        | [`SohlCombatantLogic.moveToGroup`](https://api.heroiclands.org/latest/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#movetogroup) |
+|                |                                                                                                                                                |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**       | Move to Group…                                                                                                                                 |
+| **Shortcode**  | `moveToGroup`                                                                                                                                  |
+| **Icon**       | People (`fa-solid fa-users`)                                                                                                                   |
+| **Invoked by** | The **Actions context menu** on the combatant's tracker row — **GM only**                                                                      |
+| **API**        | [`SohlCombatantLogic.moveToGroup`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#movetogroup) |
 
 **What it does.** Moves this combatant into a different **combat group**. Groups
 are how SoHL knows who is fighting whom: two combatants in **different** groups
@@ -189,13 +189,13 @@ the exchange posts — are described under
 
 ## Block
 
-|                |                                                                                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**       | Resume (Block)                                                                                                                                                     |
-| **Shortcode**  | `automatedBlockResume`                                                                                                                                             |
-| **Icon**       | Shield (`fa-solid fa-shield`)                                                                                                                                      |
-| **Invoked by** | The **Block** button on the attacker's attack card — **not** in the Actions context menu                                                                           |
-| **API**        | [`SohlCombatantLogic.automatedBlockResume`](https://api.heroiclands.org/latest/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automatedblockresume) |
+|                |                                                                                                                                                                  |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**       | Resume (Block)                                                                                                                                                   |
+| **Shortcode**  | `automatedBlockResume`                                                                                                                                           |
+| **Icon**       | Shield (`fa-solid fa-shield`)                                                                                                                                    |
+| **Invoked by** | The **Block** button on the attacker's attack card — **not** in the Actions context menu                                                                         |
+| **API**        | [`SohlCombatantLogic.automatedBlockResume`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automatedblockresume) |
 
 Parry the blow with a weapon, shield, or unarmed technique. You are asked which
 strike mode to block with — the dialog offers every block-capable melee strike
@@ -207,13 +207,13 @@ have nothing that can block, the action says so and stops.
 
 ## Dodge
 
-|                |                                                                                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**       | Resume (Dodge)                                                                                                                                                     |
-| **Shortcode**  | `automatedDodgeResume`                                                                                                                                             |
-| **Icon**       | Figure stepping aside (`fa-solid fa-person-walking-arrow-loop-left`)                                                                                               |
-| **Invoked by** | The **Dodge** button on the attacker's attack card — **not** in the Actions context menu                                                                           |
-| **API**        | [`SohlCombatantLogic.automatedDodgeResume`](https://api.heroiclands.org/latest/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automateddodgeresume) |
+|                |                                                                                                                                                                  |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**       | Resume (Dodge)                                                                                                                                                   |
+| **Shortcode**  | `automatedDodgeResume`                                                                                                                                           |
+| **Icon**       | Figure stepping aside (`fa-solid fa-person-walking-arrow-loop-left`)                                                                                             |
+| **Invoked by** | The **Dodge** button on the attacker's attack card — **not** in the Actions context menu                                                                         |
+| **API**        | [`SohlCombatantLogic.automatedDodgeResume`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automateddodgeresume) |
 
 Get out of the way. Dodging is not tied to a weapon, so there is nothing to
 choose: pressing the button rolls your **Dodge skill** against the attack and
@@ -222,13 +222,13 @@ not offered.
 
 ## Counterstrike
 
-|                |                                                                                                                                                                                    |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**       | Resume (Counterstrike)                                                                                                                                                             |
-| **Shortcode**  | `automatedCounterstrikeResume`                                                                                                                                                     |
-| **Icon**       | Half-filled circle (`fa-solid fa-circle-half-stroke`)                                                                                                                              |
-| **Invoked by** | The **Counterstrike** button on the attacker's attack card — **not** in the Actions context menu                                                                                   |
-| **API**        | [`SohlCombatantLogic.automatedCounterstrikeResume`](https://api.heroiclands.org/latest/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automatedcounterstrikeresume) |
+|                |                                                                                                                                                                                  |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**       | Resume (Counterstrike)                                                                                                                                                           |
+| **Shortcode**  | `automatedCounterstrikeResume`                                                                                                                                                   |
+| **Icon**       | Half-filled circle (`fa-solid fa-circle-half-stroke`)                                                                                                                            |
+| **Invoked by** | The **Counterstrike** button on the attacker's attack card — **not** in the Actions context menu                                                                                 |
+| **API**        | [`SohlCombatantLogic.automatedCounterstrikeResume`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automatedcounterstrikeresume) |
 
 Defend by striking back at the attacker in the same instant — both blows can land,
 so this is the aggressive answer and the risky one. It is a melee response: you
@@ -241,13 +241,13 @@ combatant's own turn.
 
 ## Ignore
 
-|                |                                                                                                                                                                      |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**       | Resume (Ignore)                                                                                                                                                      |
-| **Shortcode**  | `automatedIgnoreResume`                                                                                                                                              |
-| **Icon**       | Slashed circle (`fa-solid fa-ban`)                                                                                                                                   |
-| **Invoked by** | The **Ignore** button on the attacker's attack card — **not** in the Actions context menu                                                                            |
-| **API**        | [`SohlCombatantLogic.automatedIgnoreResume`](https://api.heroiclands.org/latest/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automatedignoreresume) |
+|                |                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**       | Resume (Ignore)                                                                                                                                                    |
+| **Shortcode**  | `automatedIgnoreResume`                                                                                                                                            |
+| **Icon**       | Slashed circle (`fa-solid fa-ban`)                                                                                                                                 |
+| **Invoked by** | The **Ignore** button on the attacker's attack card — **not** in the Actions context menu                                                                          |
+| **API**        | [`SohlCombatantLogic.automatedIgnoreResume`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#automatedignoreresume) |
 
 Take no defensive action. Nothing is asked and nothing is rolled on your side; the
 attack simply resolves against you and the result card posts. Choose it when a

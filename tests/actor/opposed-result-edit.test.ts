@@ -261,6 +261,24 @@ describe("SohlActorBaseLogic.opposedResultEdit — GM re-edit of a settled conte
             );
         });
 
+        // #1099 — the same standard-test dialog is used per side, so it offers
+        // a Roll Visibility field there too. The contest posts ONE card, so the
+        // source side's choice governs the repost.
+        it("honors the visibility chosen for the source side on the repost", async () => {
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                situationalModifier: 0,
+                successLevelMod: 0,
+                rollMode: "gmroll",
+            } as any);
+
+            await being.opposedResultEdit(
+                editCtx(opposed, {}, { skipDialog: false }),
+            );
+
+            expect(opposed.rollMode).toBe("gmroll");
+            expect(toChat).toHaveBeenCalledTimes(1);
+        });
+
         it("a dismissed dialog cancels the edit — nothing re-evaluated, nothing reposted", async () => {
             vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(
                 undefined as any,

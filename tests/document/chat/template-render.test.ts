@@ -217,6 +217,29 @@ describe("dialogs render through the same shim as cards", () => {
         expect(html).toMatch(/name="healingRate"[^>]*value=""/);
     });
 
+    // #1098 — Make Default Medium now offers the choice when the caller does
+    // not name a medium, so the dialog must render a real, preselected option
+    // list built from the actor's authored profiles.
+    it("select-medium-dialog renders the offered media, preselecting the current one", () => {
+        const html = renderTemplateReal(`${DIALOG}/select-medium-dialog.hbs`, {
+            actorName: "Aldric",
+            medium: "terrestrial",
+            mediumChoices: {
+                none: "SOHL.MovementMedium.none",
+                terrestrial: "SOHL.MovementMedium.terrestrial",
+                aquatic: "SOHL.MovementMedium.aquatic",
+            },
+        });
+        expect(html).toContain("Aldric");
+        expect(html).toContain('name="medium"');
+        // Localized labels, not raw enum values or lang keys.
+        expect(html).toContain(">Terrestrial<");
+        expect(html).toContain(">Aquatic<");
+        expect(html).not.toContain("SOHL.MovementMedium");
+        // The actor's current medium comes up selected.
+        expect(html).toMatch(/<option[^>]*value="terrestrial"[^>]*selected/);
+    });
+
     it("treat-injury-dialog hint never promises that 0 heals the wound (#1087)", () => {
         const html = renderTemplateReal(`${DIALOG}/treat-injury-dialog.hbs`, {
             healingRate: 3,
