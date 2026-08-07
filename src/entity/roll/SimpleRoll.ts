@@ -215,6 +215,23 @@ export class SimpleRoll extends SohlEntity {
     }
 
     /**
+     * Whether the dice have actually been cast — `roll()` has run, or values
+     * were supplied at construction.
+     *
+     * @remarks
+     * The distinction matters wherever a result object may exist before it has
+     * been resolved: an unrolled die reads `total` as just its {@link modifier},
+     * which is indistinguishable from a genuine result. The opposed test relies
+     * on this to tell a *pending* target side (the placeholder
+     * {@link sohl.entity.result.OpposedTestResult} builds from the target token)
+     * from one the defender has already rolled — see
+     * {@link sohl.entity.modifier.MasteryLevelModifier.opposedTestResume}.
+     */
+    get isRolled(): boolean {
+        return this.rolls.length > 0;
+    }
+
+    /**
      * A human-readable string showing the evaluated expression,
      * e.g. `"[3, 5] + 2"` for 2d6+2 with rolls of 3 and 5.
      */

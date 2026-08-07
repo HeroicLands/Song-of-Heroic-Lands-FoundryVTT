@@ -1153,6 +1153,14 @@ export namespace SuccessTestResult {
          * {@link sohl.document.item.logic.UNTREATED | UNTREATED.roll}.
          */
         roll?: SimpleRoll;
+        /**
+         * The token this test is made **as**, when the caller knows it and the
+         * owning item does not. Seeds the result's
+         * {@link SuccessTestResult.token}, which chat cards read the
+         * combatant's name from. Set by the responding side of an opposed test
+         * (#1164); omitted by an ordinary item-menu test.
+         */
+        tokenUuid?: string;
         /** Maps a success level to the test's target value. */
         targetValueFunc: (sl: number) => number;
         /** The description table used to resolve result text and stars. */
