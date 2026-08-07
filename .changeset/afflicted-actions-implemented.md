@@ -26,8 +26,6 @@ New **Request Treatment** and **Treat Affliction** actions, plus **Perform Affli
 
 **Removals**
 
-The eight unimplemented Affliction actions are gone along with their executors: _Transmit Affliction_, _Contract Test_, _Course Test_ (the old stub), _Treatment Test_, _Diagnosis Test_, _Healing Test_, _Fatigue Test_, _Morale Test_, and _Fear Test_. Five of them threw an uncaught error when clicked. The unused `diagnosisBonusBase` field is removed with them.
+The unimplemented Affliction actions are gone along with their executors: _Transmit Affliction_, _Contract Test_, _Treatment Test_, _Diagnosis Test_, _Fatigue Test_, _Morale Test_, and _Fear Test_ — several of which threw an uncaught error when clicked. _Course Test_ and _Healing Test_ were stubs of the same kind but are reimplemented rather than removed. The unused `diagnosisBonusBase` field goes with them.
 
-**Migration**
-
-Existing worlds migrate automatically: an affliction's persisted `healingCheck` schedule and last-run record are renamed to `courseCheck`, so armed afflictions keep running, and `diagnosisBonusBase` is dropped.
+The system is pre-beta, so none of this ships a world migration: there is no released data to preserve.

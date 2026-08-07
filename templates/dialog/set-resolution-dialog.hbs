@@ -1,0 +1,27 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<form>
+    <div class="form-group">
+        <p class="hint">
+            {{localize "SOHL.Affliction.Action.setResolution.hint" affliction=afflictionName}}
+        </p>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "SOHL.Affliction.FIELDS.outcome.label"}}:</label>
+        <select name="outcome">
+            {{selectOptions outcomeChoices selected=outcome localize=true}}
+        </select>
+    </div>
+</form>

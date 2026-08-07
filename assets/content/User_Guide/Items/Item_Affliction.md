@@ -159,16 +159,20 @@ Four of these fields deserve a second look:
 
 # The Affliction Actions
 
-| Action                                  | Shortcode          | Where you meet it             |
-| --------------------------------------- | ------------------ | ----------------------------- |
-| [Request Treatment](#request-treatment) | `requestTreatment` | Actions context menu          |
-| [Treat Affliction](#treat-affliction)   | `treatAffliction`  | Actions context menu          |
-| [Course Test](#course-test)             | `courseTest`       | Actions context menu          |
-| [Course Check](#course-check)           | `courseCheck`      | _Hidden_ — scheduled reminder |
-| [Onset Check](#onset-check)             | `onsetCheck`       | _Hidden_ — scheduled reminder |
-| [Resolution Check](#resolution-check)   | `resolutionCheck`  | _Hidden_ — scheduled reminder |
+| Action                                  | Shortcode          | Where you meet it              |
+| --------------------------------------- | ------------------ | ------------------------------ |
+| [Request Treatment](#request-treatment) | `requestTreatment` | Actions context menu           |
+| [Treat Affliction](#treat-affliction)   | `treatAffliction`  | Actions context menu           |
+| [Course Test](#course-test)             | `courseTest`       | Actions context menu           |
+| [Course Check](#course-check)           | `courseCheck`      | _Hidden_ — scheduled reminder  |
+| [Healing Test](#healing-test)           | `healingTest`      | Actions context menu           |
+| [Healing Check](#healing-check)         | `healingCheck`     | _Hidden_ — scheduled reminder  |
+| [Set Onset](#set-onset)                 | `setOnset`         | Actions menu / Onset card      |
+| [Onset Check](#onset-check)             | `onsetCheck`       | _Hidden_ — scheduled reminder  |
+| [Set Resolution](#set-resolution)       | `setResolution`    | Actions menu / Resolution card |
+| [Resolution Check](#resolution-check)   | `resolutionCheck`  | _Hidden_ — scheduled reminder  |
 
-The three **Check** actions are hidden, and deliberately so: they are never in the
+The four **Check** actions are hidden, and deliberately so: they are never in the
 Actions context menu. You meet each one as a card in chat when that phase of the
 affliction comes due. They are not off-limits — they are simply reached from where
 they make sense.
@@ -187,16 +191,20 @@ rolled or applied without someone pressing a button first.
    created with **Contracted** stamped and its incubation already rolled. A
    critical failure takes hold twice as fast as a marginal one. An affliction
    added by hand skips all of this and sits inert.
-2. **It onsets.** The onset reminder comes due, someone presses **Perform**, and
-   [Onset Check](#onset-check) marks the affliction symptomatic — then arms the
-   two checks that carry it the rest of the way.
+2. **It onsets.** The onset reminder comes due and posts an
+   [Onset Check](#onset-check) card; pressing its **Set Onset** button runs
+   [Set Onset](#set-onset), which asks once and then marks the affliction
+   symptomatic. **It arms nothing else** — the course and resolution checks are
+   each offered on their own terms.
 3. **The body fights it.** Each [Course Check](#course-check) offers a
    [Course Test](#course-test); the test moves the **Healing Rate** up or down,
    and the character reacts to wherever that rate now sits — fatigue, shock, or
    nothing. Reaching **HR 6** defeats the affliction and the recurrence ends.
-4. **It resolves.** If the clock runs out first, [Resolution Check](#resolution-check)
-   applies the authored **Outcome** — death or cure — plus any Trauma the
-   affliction leaves behind.
+4. **It resolves.** If the clock runs out first, a
+   [Resolution Check](#resolution-check) card offers
+   [Set Resolution](#set-resolution), which asks **which** outcome the affliction
+   settles on — death or cure — and applies it, plus any Trauma the affliction
+   leaves behind, stamping the resolution date as now.
 
 At no point does the system take a step for you. Every transition waits on a
 human: an offer you accept, and a **Perform** you press.
@@ -235,43 +243,15 @@ original rhythm intact.
 | **Name**      | Arm Onset                                                                                                                         |
 | **Shortcode** | `onsetCheck`                                                                                                                      |
 | **Icon**      | `fa-hourglass` (an hourglass)                                                                                                     |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the _Affliction Onset_ reminder in chat                   |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the incubation period runs out                                |
 | **API**       | [`AfflictionLogic.onsetCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#onsetcheck) |
 
 ## What it does
 
-This is **incubation ending** — the moment the affliction stops hiding and becomes
-symptomatic. It is the transition from the first phase to the second, and it is
-what starts everything else.
-
-Pressing **Perform** does four things at once:
-
-- **Stamps the Onset Date** with the current world time. The affliction is now
-  symptomatic, and the estimated onset date is replaced by the real one.
-- **Rolls the Resolution Interval** from its formula — how long the Symptomatic
-  Period will last.
-- **Rolls the Heal-Check Interval** from its formula — how often the body gets to
-  fight back.
-- **Arms both follow-on checks**: the one-shot
-  [Resolution Check](#resolution-check) and the recurring
-  [Course Check](#course-check), both anchored at onset. The spent onset
-  reminder clears itself.
-
-**No dialog opens, nothing is rolled to chat.** The two interval rolls happen
-quietly; what you see afterwards is the sheet's dates and intervals filled in, and
-a **Next Heal Test** where there was none.
-
-## Why this one arms its follow-ups without asking
-
-Every other schedule in SoHL is offered. These two are armed outright — and that
-is not an exception to the consent model but a consequence of it. **You already
-consented**, by pressing **Perform** on the onset reminder. Onset _means_ "this
-disease is now running its course," and its course is a resolution and a series of
-recovery checks. The recurring Course Check goes back to offering from its very
-next occurrence.
-
-Nothing has been done _to_ the character here either. Both follow-ups are
-reminders, and each waits for its own **Perform**.
+**Nothing, by design.** The incubation period has run out, so the check posts a
+card saying so and offering a [Set Onset](#set-onset) button. Whether the
+affliction actually becomes symptomatic is [Set Onset](#set-onset)'s job, and it
+asks first.
 
 ## The symptoms are yours
 
@@ -329,6 +309,53 @@ A Course Bonus above zero is written as an **Active Effect** on the affliction
 rather than folded away as a one-off adjustment — so it is visible on the sheet,
 can be edited or removed later, and applies to every subsequent Course Test for as
 long as it stands.
+
+# Set Onset
+
+|               |                                                                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Set Onset                                                                                                                     |
+| **Shortcode** | `setOnset`                                                                                                                    |
+| **Icon**      | `fa-hourglass-start` (an hourglass beginning to run)                                                                          |
+| **Invoked**   | Actions context menu, or the **Set Onset** button on an [Onset Check](#onset-check) card                                      |
+| **API**       | [`AfflictionLogic.setOnset`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#setonset) |
+
+## What it does
+
+Asks whether to mark the affliction symptomatic as of now, and on **Yes** stamps
+the **Onset** date. The affliction's interval formulas are rolled at the same
+time, so the sheet's projected resolution and next-check dates read correctly, and
+any authored onset Macro runs once the onset is recorded.
+
+**Nothing else is scheduled.** Onset does not arm the course check or the
+resolution check; each is offered separately, when someone decides the time has
+come. That is a deliberate change — the incubation ending is a fact about the
+illness, not permission for the system to start running it for you.
+
+# Set Resolution
+
+|               |                                                                                                                                         |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Set Resolution                                                                                                                          |
+| **Shortcode** | `setResolution`                                                                                                                         |
+| **Icon**      | `fa-skull` (a skull)                                                                                                                    |
+| **Invoked**   | Actions context menu, or the **Set Resolution** button on a [Resolution Check](#resolution-check) card                                  |
+| **API**       | [`AfflictionLogic.setResolution`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#setresolution) |
+
+## What it does
+
+Asks **which outcome** the affliction settles on — the authored one is
+pre-selected, and you can override it — then records that outcome with the
+**Resolution** date stamped as now. Resolution is terminal, so the affliction's
+remaining checks are cleared.
+
+The chosen outcome is then applied: _Death_ sets the character's shock state to
+Dead, _Cured_ takes the Healing Rate to 6. Any authored **Outcome Trauma** is
+contracted alongside it.
+
+An affliction that has already been **defeated** (Healing Rate 6 or better) beat
+its course on its own. Its resolution is still recorded, but no outcome is
+inflicted — the character won.
 
 # Course Check
 
@@ -431,6 +458,49 @@ still offers the next one — but **the Healing Rate has nowhere to go**:
 This is worth knowing before you conclude a check is broken: a poison written to
 be lethal is _supposed_ to sit at its rate and run out the clock.
 
+# Healing Check
+
+|               |                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Arm Healing Check                                                                                                                     |
+| **Shortcode** | `healingCheck`                                                                                                                        |
+| **Icon**      | `fa-bed-pulse` (a bed with a pulse line)                                                                                              |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the healing interval comes due                                    |
+| **API**       | [`AfflictionLogic.healingCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#healingcheck) |
+
+## What it does
+
+**Nothing, by design.** Like the [Course Check](#course-check), it posts a card
+offering a [Healing Test](#healing-test) and stops there. Anyone can post one.
+
+# Healing Test
+
+|               |                                                                                                                                     |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Healing Test                                                                                                                        |
+| **Shortcode** | `healingTest`                                                                                                                       |
+| **Icon**      | `fa-heart-pulse` (a heart with a pulse line)                                                                                        |
+| **Invoked**   | Actions context menu, or the button on a [Healing Check](#healing-check) card                                                       |
+| **API**       | [`AfflictionLogic.healingTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#healingtest) |
+
+## What it does
+
+This is **the body throwing the affliction off**, and it works exactly as a
+wound's Healing Test does. One d100 against the affliction's **Healing** target —
+Healing Base × Healing Rate, plus anything that has modified it — and the result
+reduces the affliction's **Level**:
+
+- **Critical success** — Level drops by **2**
+- **Marginal success** — Level drops by **1**
+- **Either failure** — no progress this period
+
+An affliction reduced to **Level 0** is finished with, and its recurrence ends
+there. Otherwise the next test is offered.
+
+Where the [Course Test](#course-test) asks whether the affliction is winning, this
+asks whether the body is shaking it off. They are separate tests against separate
+targets, and an affliction can be losing one while winning the other.
+
 # Resolution Check
 
 |               |                                                                                                                                             |
@@ -438,23 +508,15 @@ be lethal is _supposed_ to sit at its rate and run out the clock.
 | **Name**      | Arm Resolution                                                                                                                              |
 | **Shortcode** | `resolutionCheck`                                                                                                                           |
 | **Icon**      | `fa-skull` (a skull)                                                                                                                        |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the _Affliction Resolution_ reminder in chat                        |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the Symptomatic Period runs out                                         |
 | **API**       | [`AfflictionLogic.resolutionCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#resolutioncheck) |
 
 ## What it does
 
-This is **the end of the road** — the Symptomatic Period running out. It is a
-one-shot check, armed at onset, and it is terminal: it stamps the **Resolution
-Date** and clears every remaining reminder the affliction had, the recurring
-Course Check included.
-
-What it applies depends on how the fight went:
-
-- **If the affliction was defeated** — its Healing Rate had already reached 6 —
-  **nothing further happens**. The body won before the clock ran out, and the
-  outcome is not applied.
-- **Otherwise the authored Outcome is applied**, because the affliction reached
-  the end of its course undefeated.
+**Nothing, by design.** The Symptomatic Period has run out, so the check posts a
+card saying so and offering a [Set Resolution](#set-resolution) button. Settling
+the affliction — choosing the outcome, stamping the date, applying the
+consequences — is [Set Resolution](#set-resolution)'s job, and it asks first.
 
 ## The Outcome
 
@@ -480,9 +542,10 @@ The two combine, which is where the interesting endings live: an affliction with
 **Cured** and an outcome trauma leaves its victim free of the disease but
 permanently marked by it — the fever breaks and the blindness stays.
 
-**No dialog opens and no card is posted.** What you see is the affliction stamped
-with its Resolution Date, its Healing Rate settled, and any Trauma it left behind
-now sitting on the Health tab.
+[Set Resolution](#set-resolution) pre-selects the authored outcome but lets you
+override it, so the table always has the last word on how an affliction ends. What
+you see afterwards is the affliction stamped with its Resolution Date, its Healing
+Rate settled, and any Trauma it left behind now sitting on the Health tab.
 
 # See also
 

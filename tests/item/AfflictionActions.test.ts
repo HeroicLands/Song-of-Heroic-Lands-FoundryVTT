@@ -127,7 +127,9 @@ describe("AfflictionLogic intrinsic action set (#1183, supersedes #1126)", () =>
             "healingTest",
             "healingCheck",
             "onsetCheck",
+            "setOnset",
             "resolutionCheck",
+            "setResolution",
         ]) {
             expect(codes).toContain(code);
         }
@@ -157,6 +159,19 @@ describe("AfflictionLogic intrinsic action set (#1183, supersedes #1126)", () =>
                 typeof (logic as any)[action.executor as string],
                 `executor ${String(action.executor)}`,
             ).toBe("function");
+        }
+    });
+
+    it("pairs every *Check with the action it offers (#1183)", () => {
+        const codes = shortcodes();
+        for (const [check, action] of [
+            ["onsetCheck", "setOnset"],
+            ["courseCheck", "courseTest"],
+            ["healingCheck", "healingTest"],
+            ["resolutionCheck", "setResolution"],
+        ]) {
+            expect(codes, `${check} → ${action}`).toContain(check);
+            expect(codes, `${check} → ${action}`).toContain(action);
         }
     });
 

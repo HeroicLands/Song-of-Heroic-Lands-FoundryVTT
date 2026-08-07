@@ -1903,6 +1903,8 @@
   "sohl.document.item.logic.AfflictionLogic.resolutionCheck": "classes/sohl.document.item.logic.AfflictionLogic.html#resolutioncheck",
   "sohl.document.item.logic.AfflictionLogic.resolutionDurationBase": "classes/sohl.document.item.logic.AfflictionLogic.html#resolutiondurationbase",
   "sohl.document.item.logic.AfflictionLogic.resultEdit": "classes/sohl.document.item.logic.AfflictionLogic.html#resultedit",
+  "sohl.document.item.logic.AfflictionLogic.setOnset": "classes/sohl.document.item.logic.AfflictionLogic.html#setonset",
+  "sohl.document.item.logic.AfflictionLogic.setResolution": "classes/sohl.document.item.logic.AfflictionLogic.html#setresolution",
   "sohl.document.item.logic.AfflictionLogic.speaker": "classes/sohl.document.item.logic.AfflictionLogic.html#speaker",
   "sohl.document.item.logic.AfflictionLogic.toJSON": "classes/sohl.document.item.logic.AfflictionLogic.html#tojson",
   "sohl.document.item.logic.AfflictionLogic.transmission": "classes/sohl.document.item.logic.AfflictionLogic.html#transmission",

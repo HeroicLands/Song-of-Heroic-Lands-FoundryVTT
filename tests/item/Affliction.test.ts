@@ -18,6 +18,7 @@ import {
     makeMockActor,
 } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+import * as ActionCard from "@src/document/chat/action-card";
 
 describe("AFFLICTION_SUBTYPE", () => {
     // The long-duration / psychological / physiological categories (shock, coma,
@@ -126,7 +127,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
         );
     });
 
-    it("onsetCheck crystallizes onsetDate, schedules resolution + recovery, and clears itself", async () => {
+    it("setOnset crystallizes onsetDate, rolls the intervals, and schedules NOTHING (#1183)", async () => {
         const { schedule, unschedule } = withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const logic = affliction({
@@ -134,7 +135,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
             healingCheckDurationFormula: "300",
         });
         logic.initialize();
-        await logic.onsetCheck({} as any);
+        await logic.setOnset({ skipDialog: true } as any);
         const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
         expect(update).toMatchObject({
             "system.onsetDate": 2000,
@@ -142,15 +143,41 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
             "system.healingCheckDurationBase": 300,
         });
         expect(update).not.toHaveProperty("system.lastHealingCheckDate");
-        // The next-phase events arm on the store (auto — the disease progresses);
-        // the spent onset check is cleared.
-        expect(schedule).toHaveBeenCalledWith(
-            logic.item,
-            "resolutionCheck",
-            700,
-        );
-        expect(schedule).toHaveBeenCalledWith(logic.item, "courseCheck", 300);
+        // No further event is created — onset arms nothing. Only the spent onset
+        // check is cleared; the course and resolution checks are each offered on
+        // their own terms.
+        expect(schedule).not.toHaveBeenCalled();
         expect(unschedule).toHaveBeenCalledWith(logic.item, "onsetCheck");
+    });
+
+    it("setOnset does nothing when the confirmation is declined (#1183)", async () => {
+        const { schedule, unschedule } = withStore();
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(false);
+        const logic = affliction({});
+        logic.initialize();
+        await expect(logic.setOnset({} as any)).resolves.toBeUndefined();
+        expect(logic.item.update).not.toHaveBeenCalled();
+        expect(schedule).not.toHaveBeenCalled();
+        expect(unschedule).not.toHaveBeenCalled();
+    });
+
+    it("onsetCheck only posts a card — it sets no onset (#1183)", async () => {
+        const { schedule, unschedule } = withStore();
+        const post = vi
+            .spyOn(ActionCard, "postActionCard")
+            .mockResolvedValue(undefined as never);
+        const logic = affliction({});
+        logic.initialize();
+        (logic.item.update as any).mockClear();
+        await logic.onsetCheck({} as any);
+        // It offers, and only offers: a card with a Set Onset button, no writes.
+        expect(post).toHaveBeenCalledTimes(1);
+        expect(post.mock.calls[0][1].buttons).toMatchObject({
+            action: "setOnset",
+        });
+        expect(logic.item.update).not.toHaveBeenCalled();
+        expect(schedule).not.toHaveBeenCalled();
+        expect(unschedule).not.toHaveBeenCalled();
     });
 
     it("onsetCheck runs the optional onset Macro after crystallizing onset (#488)", async () => {
@@ -165,7 +192,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
             healingCheckDurationFormula: "300",
         });
         logic.initialize();
-        await logic.onsetCheck({} as any);
+        await logic.setOnset({ skipDialog: true } as any);
         expect(exec).toHaveBeenCalledWith(
             "Macro.abc123",
             expect.objectContaining({ affliction: logic }),
@@ -182,7 +209,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
             .mockResolvedValue(undefined);
         const logic = affliction({ onsetMacroUuid: "" });
         logic.initialize();
-        await logic.onsetCheck({} as any);
+        await logic.setOnset({ skipDialog: true } as any);
         expect(exec).not.toHaveBeenCalled();
     });
 
@@ -226,17 +253,63 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
         );
     });
 
-    it("resolutionCheck crystallizes resolutionDate and clears the remaining schedules", async () => {
+    it("setResolution records the chosen outcome + date and clears the schedules (#1183)", async () => {
         const { unschedule } = withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
         const logic = affliction({ onsetDate: 2000, resolutionDate: null });
         logic.initialize();
-        await logic.resolutionCheck({} as any);
+        await logic.setResolution({
+            skipDialog: true,
+            scope: { outcome: "death" },
+        } as any);
         expect(logic.item.update).toHaveBeenCalledWith(
-            expect.objectContaining({ "system.resolutionDate": 9000 }),
+            expect.objectContaining({
+                "system.resolutionDate": 9000,
+                "system.outcome": "death",
+            }),
         );
         expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "healingCheck");
         expect(unschedule).toHaveBeenCalledWith(logic.item, "resolutionCheck");
+    });
+
+    it("setResolution falls back to the authored outcome when none is supplied", async () => {
+        withStore();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        const logic = affliction({ outcome: "cured", resolutionDate: null });
+        logic.initialize();
+        await logic.setResolution({ skipDialog: true } as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.outcome": "cured" }),
+        );
+    });
+
+    it("setResolution does nothing when the dialog is dismissed (#1183)", async () => {
+        const { unschedule } = withStore();
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
+        const logic = affliction({ resolutionDate: null });
+        logic.initialize();
+        await expect(logic.setResolution({} as any)).resolves.toBeUndefined();
+        expect(logic.item.update).not.toHaveBeenCalled();
+        expect(unschedule).not.toHaveBeenCalled();
+    });
+
+    it("resolutionCheck only posts a card — it settles nothing (#1183)", async () => {
+        const { unschedule } = withStore();
+        const post = vi
+            .spyOn(ActionCard, "postActionCard")
+            .mockResolvedValue(undefined as never);
+        const logic = affliction({ resolutionDate: null });
+        logic.initialize();
+        (logic.item.update as any).mockClear();
+        await logic.resolutionCheck({} as any);
+        // It offers, and only offers: a card with a Set Resolution button.
+        expect(post).toHaveBeenCalledTimes(1);
+        expect(post.mock.calls[0][1].buttons).toMatchObject({
+            action: "setResolution",
+        });
+        expect(logic.item.update).not.toHaveBeenCalled();
+        expect(unschedule).not.toHaveBeenCalled();
     });
 });
 
@@ -558,14 +631,14 @@ describe("resolution outcome effect (#490)", () => {
     it("DEATH sets the being's shock state to Dead", async () => {
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
         const { logic, actor } = resolvingAffliction({ outcome: "death" });
-        await logic.resolutionCheck({} as any);
+        await logic.setResolution({ skipDialog: true } as any);
         expect((actor.logic as any).setShockState).toHaveBeenCalledWith(4);
     });
 
     it("CURED sets Healing Rate to 6", async () => {
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
         const { logic } = resolvingAffliction({ outcome: "cured" });
-        await logic.resolutionCheck({} as any);
+        await logic.setResolution({ skipDialog: true } as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.healingRateBase": 6 }),
         );
@@ -577,7 +650,7 @@ describe("resolution outcome effect (#490)", () => {
             outcome: "death",
             healingRateBase: 6,
         });
-        await logic.resolutionCheck({} as any);
+        await logic.setResolution({ skipDialog: true } as any);
         expect((actor.logic as any).setShockState).not.toHaveBeenCalled();
     });
 
@@ -598,7 +671,7 @@ describe("resolution outcome effect (#490)", () => {
             outcome: "cured",
             outcomeTrauma: "'weakness20'",
         });
-        await logic.resolutionCheck({} as any);
+        await logic.setResolution({ skipDialog: true } as any);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.healingRateBase": 6 }),
         );
@@ -625,7 +698,7 @@ describe("resolution outcome effect (#490)", () => {
             outcome: "cured",
             outcomeTrauma: "['a', 'b']",
         });
-        await logic.resolutionCheck({} as any);
+        await logic.setResolution({ skipDialog: true } as any);
         expect(find).toHaveBeenCalledTimes(2);
         expect((create.mock.calls[0][1] as any[]).length).toBe(2);
     });
@@ -644,7 +717,7 @@ describe("resolution outcome effect (#490)", () => {
             outcome: "cured",
             outcomeTrauma: "'nope'",
         });
-        await logic.resolutionCheck({} as any);
+        await logic.setResolution({ skipDialog: true } as any);
         expect(warn).toHaveBeenCalled();
         expect(create).not.toHaveBeenCalled();
     });

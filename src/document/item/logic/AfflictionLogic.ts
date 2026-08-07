@@ -31,6 +31,7 @@ import { postActionCard } from "@src/document/chat/action-card";
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
 import {
+    COURSE_DEFEATED_HR,
     courseHrDelta,
     courseOutcomeFor,
     type CourseOutcome,
@@ -52,6 +53,8 @@ import {
     AFFLICTION_OUTCOME,
     AFFLICTION_TRANSMISSION,
     AfflictionOutcome,
+    AfflictionOutcomeChoices,
+    isAfflictionOutcome,
     AfflictionSubType,
     AfflictionTransmission,
     ATTRIBUTE_CODE,
@@ -535,6 +538,26 @@ export class AfflictionLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
+                shortcode: "setOnset",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.setOnset.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-hourglass-start",
+                executor: "setOnset",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "setResolution",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.setResolution.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-skull",
+                executor: "setResolution",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
                 shortcode: "onsetCheck",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Affliction.Action.onsetCheck.title",
@@ -680,6 +703,78 @@ export class AfflictionLogic<
      *   schedule further events.
      */
     async onsetCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/onset-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                subType: this.data.subType,
+            },
+            buttons: {
+                action: "setOnset",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setOnset.title",
+                ),
+                iconFAClass: "fa-solid fa-hourglass-start",
+            },
+        });
+    }
+
+    /**
+     * Intrinsic-action executor for **Set Onset** — the action half of the onset
+     * phase, paired with {@link onsetCheck}.
+     *
+     * Asks whether to mark the affliction symptomatic as of now, and on yes
+     * crystallizes {@link AfflictionData.onsetDate}. The per-affliction interval
+     * formulas are rolled at the same time so the sheet's projected resolution and
+     * next-check dates read correctly, and the authored onset Macro (if any) runs
+     * once the onset is persisted.
+     *
+     * **No further event is created.** Onset does not arm the course or resolution
+     * checks — each is offered on its own terms, at a human's behest.
+     *
+     * @param context - The action context; `skipDialog` sets the onset without
+     *   confirming.
+     * @returns The onset date, or `undefined` when the dialog was declined.
+     */
+    async setOnset(
+        context: SohlActionContext,
+    ): Promise<{ onsetDate: number } | undefined> {
+        if (!context.skipDialog) {
+            const confirmed = await dialog({
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setOnset.title",
+                ),
+                content: toHTMLString(`<p>{{prompt}}</p>`),
+                data: {
+                    prompt: sohl.i18n.format(
+                        "SOHL.Affliction.Action.setOnset.prompt",
+                        { name: this.item?.name ?? "" },
+                    ),
+                },
+                buttons: [
+                    {
+                        action: "yes",
+                        label: sohl.i18n.localize("SOHL.Common.yes"),
+                        icon: "fa-solid fa-check",
+                        default: true,
+                    },
+                    {
+                        action: "no",
+                        label: sohl.i18n.localize("SOHL.Common.no"),
+                    },
+                ],
+                callback: (_formData: unknown, action: string) =>
+                    action === "yes",
+                rejectClose: false,
+            });
+            if (confirmed !== true) return undefined;
+        }
+
         const now = fvttWorldTime();
         const resolution = this.rollDuration(
             this.data.resolutionDurationFormula,
@@ -695,21 +790,19 @@ export class AfflictionLogic<
             "system.healingCheckDurationBase": healing,
         } as PlainObject);
 
-        // Advance the schedule: the one-shot resolution and the recurring healing
-        // check arm now (anchored at onset); the spent onset check is cleared.
-        await sohl.schedule(this.item, "resolutionCheck", resolution);
-        await sohl.schedule(this.item, "courseCheck", healing);
+        // The spent onset check is cleared; nothing else is armed.
         await sohl.unschedule(this.item, "onsetCheck");
 
         // Optional author hook run once at onset. A Macro reference (never
-        // source); it may schedule further events. Runs after onset is persisted
-        // so the macro sees the symptomatic affliction.
+        // source); it may schedule further events of its own. Runs after onset is
+        // persisted so the macro sees the symptomatic affliction.
         if (this.data.onsetMacroUuid) {
             await fvttExecuteMacro(this.data.onsetMacroUuid, {
                 affliction: this,
                 actor: this.actorLogic,
             });
         }
+        return { onsetDate: now };
     }
 
     /**
@@ -1069,17 +1162,96 @@ export class AfflictionLogic<
      *   then compendiums).
      */
     async resolutionCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/resolution-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                afflictionName: this.item?.name ?? "",
+                healingRate: this.data.healingRateBase ?? 0,
+            },
+            buttons: {
+                action: "setResolution",
+                handlerUuid: uuid,
+                scope: {},
+                label: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setResolution.title",
+                ),
+                iconFAClass: "fa-solid fa-skull",
+            },
+        });
+    }
+
+    /**
+     * Intrinsic-action executor for **Set Resolution** — the action half of the
+     * resolution phase, paired with {@link resolutionCheck}.
+     *
+     * Asks which {@link AFFLICTION_OUTCOME | outcome} the affliction resolves to
+     * (defaulting to the authored one), and on OK records that outcome with
+     * {@link AfflictionData.resolutionDate} set to now. Resolution is terminal, so
+     * the affliction's remaining schedules are cleared, and the chosen outcome is
+     * applied — death, or a cure that takes the Healing Rate to 6 — along with any
+     * authored `outcomeTrauma`.
+     *
+     * An affliction already **defeated** (Healing Rate 6 or better) has beaten its
+     * course on its own; its resolution is recorded but no outcome is inflicted.
+     *
+     * @param context - The action context; `scope.outcome` pre-selects the outcome
+     *   and `skipDialog` accepts it without asking.
+     * @returns The recorded outcome and date, or `undefined` when the dialog was
+     *   dismissed.
+     */
+    async setResolution(
+        context: SohlActionContext,
+    ): Promise<
+        { outcome: AfflictionOutcome; resolutionDate: number } | undefined
+    > {
+        const seeded = (context.scope as { outcome?: unknown } | undefined)
+            ?.outcome;
+        let outcome: AfflictionOutcome =
+            isAfflictionOutcome(seeded) ? seeded : this.data.outcome;
+
+        if (!context.skipDialog) {
+            const form = (await dialog({
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.setResolution.title",
+                ),
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/set-resolution-dialog.hbs",
+                ),
+                data: {
+                    afflictionName: this.item?.name ?? "",
+                    outcome,
+                    outcomeChoices: AfflictionOutcomeChoices,
+                },
+                callback: (formData: PlainObject) => ({
+                    outcome: String(formData.outcome ?? ""),
+                }),
+                rejectClose: false,
+            })) as { outcome: string } | null;
+            if (!form) return undefined; // dismissed
+            if (isAfflictionOutcome(form.outcome)) outcome = form.outcome;
+        }
+
+        const resolutionDate = fvttWorldTime();
         await this.item.update({
-            "system.resolutionDate": fvttWorldTime(),
+            "system.outcome": outcome,
+            "system.resolutionDate": resolutionDate,
         } as PlainObject);
-        // Resolution is terminal — clear the recurring healing check and this
-        // one-shot resolution schedule.
+
+        // Resolution is terminal — clear the recurring course/healing checks and
+        // this one-shot resolution schedule.
         await sohl.unschedule(this.item, "courseCheck");
+        await sohl.unschedule(this.item, "healingCheck");
         await sohl.unschedule(this.item, "resolutionCheck");
-        // The outcome applies only if the affliction reached resolution without
-        // being defeated (HR 6+).
-        if ((this.data.healingRateBase ?? 0) >= 6) return;
+
+        // An affliction that already beat its course takes no outcome.
+        if ((this.data.healingRateBase ?? 0) >= COURSE_DEFEATED_HR) {
+            return { outcome, resolutionDate };
+        }
         await this.applyOutcome();
+        return { outcome, resolutionDate };
     }
 
     /**
