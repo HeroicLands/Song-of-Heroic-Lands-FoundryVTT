@@ -26,9 +26,18 @@
 
 /** The tabs each fenced actor sheet declares, in declaration order. */
 const FENCED_SHEETS = [
-    { kind: "vehicle", tabs: ["facade", "gear", "actions", "effects"] },
-    { kind: "structure", tabs: ["facade", "gear", "actions", "effects"] },
-    { kind: "cohort", tabs: ["facade", "members", "actions", "effects"] },
+    {
+        kind: "vehicle",
+        tabs: ["facade", "profile", "gear", "actions", "effects"],
+    },
+    {
+        kind: "structure",
+        tabs: ["facade", "profile", "gear", "actions", "effects"],
+    },
+    {
+        kind: "cohort",
+        tabs: ["facade", "profile", "members", "actions", "effects"],
+    },
 ];
 
 /** The intrinsic actions every actor carries, whatever its type. */

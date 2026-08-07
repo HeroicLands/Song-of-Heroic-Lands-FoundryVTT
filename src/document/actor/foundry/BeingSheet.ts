@@ -706,97 +706,6 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * `data-action="addMovementProfile"`: prompt for a movement medium (limited
-     * to media the being does not yet have a profile for) and a tactical move
-     * (feet/round), then append the new profile to `system.movementProfiles`.
-     * The whole array is written back (never an element-by-index update — #247).
-     * The option list is built from the trusted, localized `MovementMediumChoices`
-     * enum labels, never from persisted user data.
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param _target - The clicked add control (unused).
-     */
-    protected static async _onAddMovementProfile(
-        this: BeingSheet,
-        _event: PointerEvent,
-        _target: HTMLElement,
-    ): Promise<void> {
-        const actor = this.document;
-        const logic = actor.logic as BeingLogic | undefined;
-        const profiles = logic?.data.movementProfiles ?? [];
-        const used = new Set(profiles.map((p) => p.medium));
-        const available = (
-            Object.entries(MovementMediumChoices) as [MovementMedium, string][]
-        ).filter(
-            ([value]) => value !== MOVEMENT_MEDIUM.NONE && !used.has(value),
-        );
-        if (!available.length) {
-            sohl.log.uiWarn(
-                "Every movement medium already has a movement profile.",
-            );
-            return;
-        }
-        const options = available
-            .map(
-                ([value, label]) =>
-                    `<option value="${value}">${foundry.utils.escapeHTML(
-                        game.i18n.localize(label),
-                    )}</option>`,
-            )
-            .join("");
-        const content = `
-            <form class="add-movement-profile standard-form">
-                <div class="form-group">
-                    <label>${game.i18n.localize("SOHL.Actor.SHEET.tab.movement.label")}</label>
-                    <select name="medium">${options}</select>
-                </div>
-                <div class="form-group">
-                    <label>${game.i18n.localize("SOHL.Being.movement.unit")}</label>
-                    <input type="number" name="feetPerRound" value="0" min="0" step="1" />
-                </div>
-            </form>`;
-        let fd: PlainObject | undefined;
-        try {
-            fd = (await foundry.applications.api.DialogV2.prompt({
-                window: {
-                    title: "Add Movement Profile",
-                    icon: "fa-solid fa-person-running",
-                },
-                content,
-                ok: {
-                    label: "Create",
-                    icon: "fa-solid fa-plus",
-                    callback: (_event: Event, button: any) =>
-                        new foundry.applications.ux.FormDataExtended(
-                            button.form,
-                        ).object,
-                },
-            } as any)) as PlainObject | undefined;
-        } catch {
-            return;
-        }
-        if (!fd) return;
-        const medium = String(fd.medium ?? "") as MovementMedium;
-        if (!medium || used.has(medium)) return;
-        const feetPerRound = Math.max(
-            0,
-            Math.round(Number(fd.feetPerRound) || 0),
-        );
-        const next = [
-            ...profiles,
-            {
-                medium,
-                feetPerRound,
-                leaguesPerWatch: 0,
-                encumbrance: "0",
-                strMod: "0",
-                disabled: false,
-            },
-        ];
-        await actor.update({ "system.movementProfiles": next } as PlainObject);
-    }
-
-    /**
      * Set a Profile body-structure disclosure row's open state: toggle its
      * `is-open` class and swap its chevron icon (right ↔ down). Pure DOM — no
      * document mutation.
@@ -1403,38 +1312,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
                 );
         }
         return row;
-    }
-
-    /**
-     * Make the clicked movement medium the being's current (default) one.
-     * Invokes the actor's `makeDefaultMedium` intrinsic action with the medium
-     * carried in the action scope; that executor persists
-     * `system.currentMoveMedium`. Movement is a universal actor capability, so
-     * the action lives on the actor logic.
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked star, inside a `data-medium` row.
-     */
-    protected static async _onMakeDefaultMedium(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        const medium = target
-            .closest("[data-medium]")
-            ?.getAttribute("data-medium");
-        if (!medium) return;
-        const logic = this.document.logic as BeingLogic | undefined;
-        const action = logic?.actions.get("makeDefaultMedium") as
-            | SohlAction
-            | undefined;
-        if (!logic || !action) return;
-        const context = new SohlActionContext({
-            speaker: (this.document as any).getSpeaker(),
-            type: "makeDefaultMedium",
-            title: (action.data as any).title,
-            scope: { medium },
-        });
-        await action.execute(context);
     }
 
     /**

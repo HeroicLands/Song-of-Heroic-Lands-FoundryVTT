@@ -14,12 +14,18 @@
 import type { SohlActor } from "./SohlActor";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { applySearchFilter } from "@src/document/actor/logic/display-filter";
-import { resolveActorSheetParts } from "@src/document/actor/logic/sheet-parts";
+import {
+    resolveActorSheetParts,
+    buildMovementRows,
+} from "@src/document/actor/logic/sheet-parts";
 import {
     buildContainerTree,
     htmlToPlainText,
+    attributeDescriptor,
 } from "@src/document/actor/logic/being-sheet-view";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
+import type { SohlAction } from "@src/entity/action/SohlAction";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import {
     buildActionRows,
     createAction,
@@ -32,7 +38,14 @@ import {
     fvttRenderSheet,
     dialog,
 } from "@src/core/FoundryHelpers";
-import { ITEM_KIND, GearKinds, isFencedType } from "@src/utils/constants";
+import {
+    ITEM_KIND,
+    GearKinds,
+    isFencedType,
+    MOVEMENT_MEDIUM,
+    MovementMediumChoices,
+    type MovementMedium,
+} from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
 import { stripDocArchetypeFlag } from "@src/entity/archetype/archetype";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
@@ -84,6 +97,8 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             clearField: SohlActorSheetBase._onClearField,
             dismissFenceNotice: SohlActorSheetBase._onDismissFenceNotice,
             createItem: SohlActorSheetBase._onCreateItem,
+            makeDefaultMedium: SohlActorSheetBase._onMakeDefaultMedium,
+            addMovementProfile: SohlActorSheetBase._onAddMovementProfile,
             editItem: SohlActorSheetBase._onEditItem,
             deleteItem: SohlActorSheetBase._onDeleteItem,
             toggleCarried: SohlActorSheetBase._onToggleCarried,
@@ -404,6 +419,17 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
                 context = await this._prepareFacadeContext(context, options);
                 fvttCallHook(
                     `sohl.actor.${type}.prepareFacadeContext`,
+                    this,
+                    context,
+                );
+                return context;
+            case "profile":
+                context = await this._prepareSharedProfileContext(
+                    context,
+                    options,
+                );
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareProfileContext`,
                     this,
                     context,
                 );
@@ -864,5 +890,190 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         content: HTMLElement | null,
     ): void {
         applySearchFilter(query, rgx, content);
+    }
+    /**
+     * `data-action="addMovementProfile"`: prompt for a movement medium (limited
+     * to media the being does not yet have a profile for) and a tactical move
+     * (feet/round), then append the new profile to `system.movementProfiles`.
+     * The whole array is written back (never an element-by-index update — #247).
+     * The option list is built from the trusted, localized `MovementMediumChoices`
+     * enum labels, never from persisted user data.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked add control (unused).
+     */
+    protected static async _onAddMovementProfile(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        const actor = this.document;
+        const logic = actor.logic as any;
+        const profiles = logic?.data.movementProfiles ?? [];
+        const used = new Set(profiles.map((p: any) => p.medium));
+        const available = (
+            Object.entries(MovementMediumChoices) as [MovementMedium, string][]
+        ).filter(
+            ([value]) => value !== MOVEMENT_MEDIUM.NONE && !used.has(value),
+        );
+        if (!available.length) {
+            sohl.log.uiWarn(
+                "Every movement medium already has a movement profile.",
+            );
+            return;
+        }
+        const options = available
+            .map(
+                ([value, label]) =>
+                    `<option value="${value}">${foundry.utils.escapeHTML(
+                        game.i18n.localize(label),
+                    )}</option>`,
+            )
+            .join("");
+        const content = `
+            <form class="add-movement-profile standard-form">
+                <div class="form-group">
+                    <label>${game.i18n.localize("SOHL.Actor.SHEET.tab.movement.label")}</label>
+                    <select name="medium">${options}</select>
+                </div>
+                <div class="form-group">
+                    <label>${game.i18n.localize("SOHL.Being.movement.unit")}</label>
+                    <input type="number" name="feetPerRound" value="0" min="0" step="1" />
+                </div>
+            </form>`;
+        let fd: PlainObject | undefined;
+        try {
+            fd = (await foundry.applications.api.DialogV2.prompt({
+                window: {
+                    title: "Add Movement Profile",
+                    icon: "fa-solid fa-person-running",
+                },
+                content,
+                ok: {
+                    label: "Create",
+                    icon: "fa-solid fa-plus",
+                    callback: (_event: Event, button: any) =>
+                        new foundry.applications.ux.FormDataExtended(
+                            button.form,
+                        ).object,
+                },
+            } as any)) as PlainObject | undefined;
+        } catch {
+            return;
+        }
+        if (!fd) return;
+        const medium = String(fd.medium ?? "") as MovementMedium;
+        if (!medium || used.has(medium)) return;
+        const feetPerRound = Math.max(
+            0,
+            Math.round(Number(fd.feetPerRound) || 0),
+        );
+        const next = [
+            ...profiles,
+            {
+                medium,
+                feetPerRound,
+                leaguesPerWatch: 0,
+                encumbrance: "0",
+                strMod: "0",
+                disabled: false,
+            },
+        ];
+        await actor.update({ "system.movementProfiles": next } as PlainObject);
+    }
+    /**
+     * Build the shared **Profile** tab's context: the actor's attribute scores,
+     * its movement ledger, and (through the sheet's `fields` / `system`) the
+     * dossier editor.
+     *
+     * Used by the Cohort, Vehicle, and Structure sheets. The Being has its own
+     * richer Profile — affiliations and the body-structure editor besides — and
+     * overrides `_preparePartContext` to build it, so it never reaches here.
+     *
+     * Attributes are included for **every** actor kind. A vehicle or structure
+     * normally authors none, in which case the section renders empty; the tab
+     * does not presume that a non-Being can never carry one.
+     *
+     * @param context - The in-progress render context.
+     * @param _options - Sheet render options (unused).
+     * @returns The profile part context.
+     */
+    protected async _prepareSharedProfileContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        const actor = this.document;
+        const attributeItems = [
+            ...(actor.itemTypes[ITEM_KIND.ATTRIBUTE] ?? []),
+        ].sort(
+            (a: any, b: any) =>
+                (a.sort ?? 0) - (b.sort ?? 0) ||
+                String(a.name).localeCompare(String(b.name)),
+        );
+        const attributes = attributeItems.map((attr: any) => {
+            const attrLogic = attr.logic as any;
+            const score = attrLogic?.score?.effective ?? 0;
+            return {
+                id: attr.id,
+                uuid: attr.uuid,
+                name: attr.name,
+                score,
+                descriptor: attributeDescriptor(
+                    score,
+                    (attr.system as any).valueDesc ?? [],
+                ),
+                tl: attrLogic?.masteryLevel?.effective ?? 0,
+                scoreDeltaLabel: attrLogic?.score?.deltaLabel ?? "",
+                tlDeltaLabel: attrLogic?.masteryLevel?.deltaLabel ?? "",
+            };
+        });
+
+        const logic = actor.logic as any;
+        const movement = buildMovementRows(
+            logic?.data?.movementProfiles ?? [],
+            logic?.data?.currentMoveMedium ?? MOVEMENT_MEDIUM.NONE,
+        );
+
+        // The add controls are gated on this in the template; it is passed
+        // explicitly rather than assumed to be in the render context (the Being
+        // sheet passes `canEditBody` the same way).
+        return Object.assign(context, {
+            attributes,
+            movement,
+            isEditable: this.isEditable,
+        });
+    }
+    /**
+     * Make the clicked movement medium the being's current (default) one.
+     * Invokes the actor's `makeDefaultMedium` intrinsic action with the medium
+     * carried in the action scope; that executor persists
+     * `system.currentMoveMedium`. Movement is a universal actor capability, so
+     * the action lives on the actor logic.
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked star, inside a `data-medium` row.
+     */
+    protected static async _onMakeDefaultMedium(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const medium = target
+            .closest("[data-medium]")
+            ?.getAttribute("data-medium");
+        if (!medium) return;
+        const logic = this.document.logic as any;
+        const action = logic?.actions.get("makeDefaultMedium") as
+            | SohlAction
+            | undefined;
+        if (!logic || !action) return;
+        const context = new SohlActionContext({
+            speaker: (this.document as any).getSpeaker(),
+            type: "makeDefaultMedium",
+            title: (action.data as any).title,
+            scope: { medium },
+        });
+        await action.execute(context);
     }
 }
