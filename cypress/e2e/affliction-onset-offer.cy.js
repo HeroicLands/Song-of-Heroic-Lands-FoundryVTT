@@ -61,11 +61,15 @@ describe("Affliction onset creation offer (#602)", () => {
             win.__perf = a.logic.executeAction("contagionTest", {});
             return null;
         });
-        // Three dialogs in a row, several sharing an "ok" button — match each by
-        // content so a closing dialog can't be mistaken for the next (same race
-        // the look-alike offers have).
-        cy.submitDialogMatching("character sheet", "ok"); // Contagion Test dialog
-        cy.submitDialogMatching("Situational", "ok"); // success-test pre-roll dialog
+        // Three dialogs in a row, all sharing an "ok"/"yes" button, so each is
+        // matched by content. The three matchers must be **disjoint**: a dialog
+        // that has been submitted but not yet torn down still reports
+        // `rendered === true`, so a token shared with the previous dialog can
+        // press the wrong one and strand the chain. In particular "Situational
+        // Modifier" appears on BOTH the Contagion Test dialog and the standard
+        // pre-roll dialog — hence "Target:", which only the pre-roll has.
+        cy.submitDialogMatching("Contagion Test", "ok"); // Contagion Test dialog
+        cy.submitDialogMatching("Target:", "ok"); // success-test pre-roll dialog
         cy.submitDialogMatching("Affliction Onset", onsetAnswer); // the offer
     }
 
