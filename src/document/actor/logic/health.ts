@@ -178,6 +178,18 @@ export function healthBand(value: number): HealthBand {
 }
 
 /**
+ * The localization key for a health band. The band itself is a stable internal
+ * token (`"Excellent"`, `"Dead"`, …) and is never shown to a player directly —
+ * every surface that displays one localizes this key instead.
+ *
+ * @param band - The band to label.
+ * @returns The `SOHL.Health.BAND.*` localization key.
+ */
+export function healthBandLabel(band: HealthBand): string {
+    return `SOHL.Health.BAND.${band}`;
+}
+
+/**
  * Derive a being's health from its body-part impairment and `dead` status.
  * `max` is always 100; `value` is the physical ceiling, floored at 1 for a
  * living being (0 only when dead).

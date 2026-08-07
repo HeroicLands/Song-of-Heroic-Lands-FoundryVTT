@@ -55,6 +55,8 @@ function rows(win, id) {
         isLeader: !!r.querySelector('[data-action="setCohortLeader"].is-on'),
         isDisabled: r.classList.contains("ledger__row--disabled"),
         hasImg: !!r.querySelector(".ledger__icon img"),
+        healthPct: r.querySelector(".member-health__pct")?.textContent.trim(),
+        healthBand: r.querySelector(".member-health__band")?.textContent.trim(),
     }));
 }
 
@@ -164,6 +166,30 @@ describe("cohort Members tab", () => {
                     r.every((x) => x.hasImg),
                     "each row shows a portrait",
                 ).to.be.true;
+            });
+        });
+    });
+
+    it("shows each resolved member's health as a percentage and a localized band (#199)", () => {
+        openRoster().then(({ cohort }) => {
+            shouldSettle(cohort.id, (_persisted, r) => {
+                // A freshly created being is unwounded — 100/100 — so both rows
+                // read the top of the ramp. What matters here is that the cell
+                // is populated at all, and that the band is the localized word
+                // rather than the raw token or its key.
+                expect(r[0].healthPct, "percentage rendered").to.eq("100%");
+                expect(r[0].healthBand, "band localized").to.eq("Excellent");
+                expect(r[1].healthPct).to.eq("100%");
+            });
+        });
+    });
+
+    it("leaves the health cell empty for a member whose actor does not resolve (#199)", () => {
+        openRoster([{ shortcodeOrUuid: "departed" }]).then(({ cohort }) => {
+            shouldSettle(cohort.id, (_persisted, r) => {
+                expect(r[2].ref).to.eq("departed");
+                expect(r[2].healthPct, "no percentage").to.be.undefined;
+                expect(r[2].healthBand, "no band").to.be.undefined;
             });
         });
     });

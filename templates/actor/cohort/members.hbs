@@ -39,11 +39,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     {{#if members.length}}
-    <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.6fr) minmax(90px,1fr) 1.8rem 1.8rem">
+    <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.6fr) minmax(90px,1fr) minmax(90px,1fr) 1.8rem 1.8rem">
         <div class="ledger__head">
             <div></div>
             <div>{{localize "SOHL.Cohort.Members.column.name"}}</div>
             <div>{{localize "SOHL.Cohort.Members.column.role"}}</div>
+            <div>{{localize "SOHL.Cohort.Members.column.health"}}</div>
             <div></div>
             <div></div>
         </div>
@@ -55,6 +56,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </div>
             <div class="ledger__name" data-tooltip="{{member.ref}}">{{member.name}}</div>
             <div class="ledger__cell ledger__cell--text">{{localize member.roleLabel}}</div>
+            {{!-- Health reads as both a number and a word: the percentage for
+                  comparing members at a glance, the band for what it means. A
+                  member whose actor did not resolve has neither. --}}
+            <div
+                class="ledger__cell ledger__cell--health{{#if member.healthBand}} ledger__cell--health--{{toLowerCase member.healthBand}}{{/if}}">
+                {{#if member.healthBandLabel}}
+                <span class="member-health__pct">{{member.healthPct}}%</span>
+                <span class="member-health__band">{{localize member.healthBandLabel}}</span>
+                {{/if}}
+            </div>
             <div class="ledger__controls">
                 <a class="icon-button{{#if member.isLeader}} is-on{{/if}}" data-action="setCohortLeader"
                     data-member-ref="{{member.ref}}"

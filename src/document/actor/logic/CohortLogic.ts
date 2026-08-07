@@ -20,6 +20,11 @@ import {
     collectSharedGear,
     type SharedGearEntry,
 } from "@src/document/actor/logic/cohort-shared-gear";
+import {
+    healthBand as healthBandFor,
+    healthBandLabel as healthBandLabelFor,
+    type HealthBand,
+} from "@src/document/actor/logic/health";
 import type { GearLogic } from "@src/document/item/logic/GearLogic";
 import { dialog, fvttActorByRef } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
@@ -63,6 +68,46 @@ export interface CohortMemberRow {
     isResolved: boolean;
     /** Whether this member leads the cohort. */
     isLeader: boolean;
+    /**
+     * The member's health as a whole percentage of its maximum (`0…100`), or
+     * `undefined` when the handle does not resolve or the actor exposes no
+     * health.
+     */
+    healthPct: number | undefined;
+    /**
+     * The qualitative band for {@link healthPct} (Excellent…Dead), or
+     * `undefined` when there is no health to band. An internal token — display
+     * {@link healthBandLabel} instead.
+     */
+    healthBand: HealthBand | undefined;
+    /**
+     * Localization key for {@link healthBand}, or `undefined` when there is no
+     * band. Localized at render, as {@link CohortMemberRow.roleLabel} is.
+     */
+    healthBandLabel: string | undefined;
+}
+
+/**
+ * A member's health as a whole percentage of its maximum.
+ *
+ * Reads the actor's token-bar-shaped `{ value, max }` health. Returns
+ * `undefined` — rather than `0` — whenever there is no usable health to report
+ * (the handle did not resolve, the actor exposes none, or `max` is not a
+ * positive number), so "no health to show" stays distinct from "at death's
+ * door".
+ *
+ * @param health - The resolved actor's health, if any.
+ * @returns The percentage `0…100`, or `undefined`.
+ */
+function memberHealthPct(
+    health: { value: number; max: number } | undefined,
+): number | undefined {
+    if (!health) return undefined;
+    const { value, max } = health;
+    if (typeof value !== "number" || typeof max !== "number" || max <= 0) {
+        return undefined;
+    }
+    return Math.round((value / max) * 100);
 }
 
 /**
@@ -131,6 +176,9 @@ export class CohortLogic<
         return this.data.members.map((member) => {
             const ref = member.shortcodeOrUuid;
             const actor = fvttActorByRef(ref);
+            const healthPct = memberHealthPct(actor?.logic?.data?.health);
+            const band =
+                healthPct === undefined ? undefined : healthBandFor(healthPct);
             return {
                 ref,
                 role: member.role,
@@ -143,6 +191,10 @@ export class CohortLogic<
                 uuid: actor?.uuid ?? null,
                 isResolved: !!actor,
                 isLeader: ref === leaderCode,
+                healthPct,
+                healthBand: band,
+                healthBandLabel:
+                    band === undefined ? undefined : healthBandLabelFor(band),
             };
         });
     }
