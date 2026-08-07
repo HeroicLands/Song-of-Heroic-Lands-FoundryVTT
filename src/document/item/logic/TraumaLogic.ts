@@ -506,22 +506,6 @@ export class TraumaLogic<
     }
 
     /**
-     * Roll the healing test, resolving natural recovery from this trauma.
-     *
-     * Intrinsic-action executor for the `healingtest` action.
-     *
-     * @param _context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; warns and returns `null`.
-     */
-    async healingTest(
-        _context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        sohl.log.uiWarn("Trauma Healing Test is not yet implemented.");
-        return null;
-    }
-
-    /**
      * Roll one headless recovery test against the being's **Will** — no fatigue or
      * impairment penalties apply (Psychological Condition rules). Returns the
      * normalized success level, or `null` if the roll was refused.
@@ -1162,91 +1146,144 @@ export class TraumaLogic<
     }
 
     /**
-     * Intrinsic-action executor for the recurring `healingCheck` event.
+     * Intrinsic-action executor for the recurring `healingCheck` — the `*Check`
+     * half of a wound's recovery cycle (#1181).
      *
-     * Catches up the Injury Healing Test over every elapsed interval, rolls the
-     * next interval from {@link TraumaData.healingCheckDurationFormula}, then
-     * **offers** the next `healingCheck` occurrence (issue #579) — it no longer
-     * auto-re-arms. Registered as an action so the same routine serves the
-     * `[Perform]` reminder, the timed event, and a manual invocation.
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the wound's controller to perform one {@link healingTest}. No roll
+     * is made, no Injury Level changes, and nothing is written. Because it
+     * imposes nothing it carries no ownership gate — anyone may initiate one.
      *
-     * @param context - The action context; `scope.schedule` (or the offer
-     *   dialog) decides whether the next occurrence is scheduled.
-     * @returns A promise that resolves once the outcome and schedule are persisted.
-     * @remarks For an `injury`-subtype trauma this applies the **Injury Healing
-     *   Test** (#486) at each elapsed checkpoint, in sequence: a headless test of
-     *   `Healing Base × Healing Rate` reduces the Injury Level by 1 on a marginal
-     *   success and 2 on a critical success (a marginal failure does nothing; a
-     *   critical failure does no healing — infection-on-CF is completed by #557).
-     *   A wound with no Healing Rate to roll against — **untreated**, or treated
-     *   with the rate still undetermined — is resolved as though its roll were a
-     *   **Critical Failure**, with no die cast (#1146): it makes no progress, and
-     *   it contracts an infection, since the rule that resolves an untreated
-     *   wound as a critically-failed treatment is the one that leaves such a
-     *   wound exposed to infection ({@link UNTREATED}). No test is resolved at
-     *   all once the wound is healed (level 0) or while any active infection
-     *   halts the patient's healing. Other trauma subtypes recover by their own
-     *   rules. The recurrence anchor and interval are read from the persisted
-     *   `system.scheduledActions` entry (the queue
-     *   does not cascade — see the Event Queue contract). A wound that heals to
-     *   level 0 ends the recurrence (`sohl.unschedule`); otherwise the next check
-     *   is offered. An eligible injury (see
-     *   {@link TraumaData.permanentImpairmentEligible}) that heals to level 0 this
-     *   pass leaves a **permanent impairment** on its body part, scaled by its
-     *   total time to heal (#554).
+     * The card carries the occurrence's **due time** in its scope, so the test it
+     * offers can anchor the next occurrence there rather than on the moment the
+     * button happens to be pressed.
+     *
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
      */
-    async healingCheck(context: SohlActionContext): Promise<void> {
+    async healingCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid) return;
-        const now = fvttWorldTime();
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/healing-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                woundName: this.item?.name ?? "",
+                level: this.data.levelBase ?? 0,
+                treated: this.isTreated,
+                halted: this.healingHalted,
+            },
+            buttons: {
+                action: "healingtest",
+                handlerUuid: uuid,
+                scope: { dueAt: this.healingCheckDueAt() },
+                label: sohl.i18n.localize(
+                    "SOHL.Trauma.Action.healingtest.title",
+                ),
+                iconFAClass: "fa-solid fa-heart-pulse",
+            },
+        });
+    }
+
+    /**
+     * The world time the current `healingCheck` occurrence was **due** — the
+     * persisted schedule's `anchor + interval`, or now when nothing is armed.
+     *
+     * This, not the moment the player pressed the button, is what the next
+     * occurrence anchors on, so a check answered late does not push the cadence
+     * later (#1181).
+     *
+     * @returns The due time in world-time seconds.
+     */
+    private healingCheckDueAt(): number {
         const entry = this.data.scheduledActions?.find(
             (e) => e.actionName === "healingCheck",
         );
-        const interval =
-            entry?.interval ?? this.healingCheckDurationBase.effective;
-        const anchor = entry?.anchor ?? now;
+        return entry ? entry.anchor + entry.interval : fvttWorldTime();
+    }
 
-        // Catch up over every elapsed interval in `(anchor, now]` in one pass —
-        // the queue does not cascade (see the Event Queue contract).
-        const checkpoints =
-            interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
-        const lastProcessed = checkpoints.at(-1) ?? now;
-
-        // Injury Healing Test at each elapsed checkpoint, in sequence (each roll
-        // reduces the level the next one sees). Only injuries heal this way, and
-        // only while not halted by an active infection. An untreated wound has no
-        // Healing Rate to test against, so its test resolves against a forced
-        // die rather than a cast one (#1148) — a Critical Failure every time.
-        const untreated = !this.isTreated;
-        let level = this.data.levelBase ?? 0;
-        let contractInfection = false;
-        if (this.data.subType === TRAUMA_SUBTYPE.INJURY) {
-            for (
-                let i = 0;
-                i < checkpoints.length && level > 0 && !this.healingHalted;
-                i++
-            ) {
-                const sl = await this.rollHealingTest();
-                if (sl == null) break; // roll refused (e.g. speaker not owned)
-                if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
-                else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
-                else if (
-                    sl <= CRITICAL_FAILURE &&
-                    // A wound is exposed to infection when a Treatment Test left
-                    // it so (#557) — or when it is untreated, since the rule that
-                    // resolves an untreated wound as a critically-failed
-                    // treatment is the same rule that marks such a wound
-                    // infectable (the UNTREATED baseline, #1146).
-                    (this.data.infectable || (untreated && UNTREATED.infect))
-                ) {
-                    // CF on an infectable wound contracts an infection (#557),
-                    // which then halts further healing — stop the catch-up here.
-                    contractInfection = true;
-                    break;
-                }
-                // MF (0): no healing.
-            }
+    /**
+     * Intrinsic-action executor for the **Injury Healing Test** (#486) — the
+     * `*Test` half of the wound's recovery cycle, and the action that actually
+     * mends a wound.
+     *
+     * Rolls **one** test of `Healing Base × Healing Rate` — the {@link healing}
+     * modifier, so an Active Effect can change it — and applies the result:
+     * a marginal success reduces the Injury Level by 1 and a critical success by
+     * 2; a marginal failure makes no progress. A critical failure on an
+     * infectable wound contracts an **infection**, which then halts all healing.
+     *
+     * An **untreated** wound has no Healing Rate to test against, so its test
+     * resolves against a forced die rather than a cast one (#1148) — a Critical
+     * Failure every time, which by the same rule leaves it exposed to infection
+     * ({@link UNTREATED}, #1146).
+     *
+     * Exactly one test runs per invocation: there is no catch-up over missed
+     * intervals. A wound that reaches Level 0 ends the recurrence and may leave a
+     * **permanent impairment** scaled by how long it took to heal (#554);
+     * otherwise the next test is **offered**, anchored on this occurrence's due
+     * time rather than on now.
+     *
+     * @param context - The action context; `scope.dueAt` carries the occurrence's
+     *   due time (supplied by the check card) and `scope.schedule` pre-answers
+     *   the follow-on offer.
+     * @returns The resulting Injury Level, or `null` when the roll was refused.
+     */
+    async healingTest(
+        context: SohlActionContext,
+    ): Promise<{ level: number } | null> {
+        if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
+            );
+            return null;
         }
+        const dueAtRaw = (context.scope as { dueAt?: unknown } | undefined)
+            ?.dueAt;
+        const dueAt =
+            Number.isFinite(Number(dueAtRaw)) ?
+                Number(dueAtRaw)
+            :   this.healingCheckDueAt();
+
+        let level = this.data.levelBase ?? 0;
+        // A healed wound has nothing left to test, and nothing left to schedule.
+        if (level <= 0) {
+            await sohl.unschedule(this.item, "healingCheck");
+            return { level };
+        }
+        // Healing halted by an active infection makes no test and no progress,
+        // but the recurrence survives — it resumes once the infection is beaten.
+        if (this.healingHalted) {
+            await offerSchedule(
+                context,
+                this.item,
+                "healingCheck",
+                this.healingCheckDurationBase.effective,
+                undefined,
+                undefined,
+                dueAt,
+            );
+            return { level };
+        }
+
+        const untreated = !this.isTreated;
+        const sl = await this.rollHealingTest();
+        if (sl == null) return null; // roll refused (e.g. speaker not owned)
+
+        let contractInfection = false;
+        if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
+        else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
+        else if (
+            sl <= CRITICAL_FAILURE &&
+            // A wound is exposed to infection when a Treatment Test left it so
+            // (#557) — or when it is untreated, since the rule that resolves an
+            // untreated wound as a critically-failed treatment is the same rule
+            // that marks such a wound infectable (the UNTREATED baseline, #1146).
+            (this.data.infectable || (untreated && UNTREATED.infect))
+        ) {
+            contractInfection = true;
+        }
+        // MF (0): no healing.
 
         const nextInterval = this.rollDuration(
             this.data.healingCheckDurationFormula,
@@ -1260,14 +1297,12 @@ export class TraumaLogic<
         // An eligible injury that just healed to level 0 leaves a permanent
         // impairment scaled by how long it took to heal (#554).
         if (
-            this.data.subType === TRAUMA_SUBTYPE.INJURY &&
             this.data.permanentImpairmentEligible &&
             (this.data.levelBase ?? 0) > 0 &&
             level === 0 &&
             this.data.contractDate != null
         ) {
-            const days =
-                (lastProcessed - this.data.contractDate) / SECONDS_PER_DAY;
+            const days = (dueAt - this.data.contractDate) / SECONDS_PER_DAY;
             const magnitude = permanentImpairmentFor(days);
             if (magnitude < 0) {
                 await (this.actorLogic as any)?.applyPermanentImpairment?.(
@@ -1277,13 +1312,11 @@ export class TraumaLogic<
             }
         }
 
-        // A Critical-Failure healing test on an infectable wound contracts an
-        // infection (#557) — recorded separately, starting one Healing Rate step
-        // above this wound.
         if (contractInfection) await this.contractInfection(context);
 
         // A healed wound (level 0) ends its recurrence; otherwise offer the next
-        // healing check (default No) rather than auto-re-arming (issue #579).
+        // test, anchored on THIS occurrence's due time so a late answer does not
+        // push the cadence later (#1181).
         if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
         else
             await offerSchedule(
@@ -1291,7 +1324,11 @@ export class TraumaLogic<
                 this.item,
                 "healingCheck",
                 nextInterval,
+                undefined,
+                undefined,
+                dueAt,
             );
+        return { level };
     }
 
     /**
