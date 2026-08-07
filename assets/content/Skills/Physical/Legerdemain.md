@@ -21,6 +21,10 @@ sohl:
     initSkillMult: 0
     masteryLevelBase: null
     improveFlag: false
+    impairedByRoles:
+        - core
+        - vital
+        - manipulator
 folder: Yt9THlZ0NT8H6aSK
 ---
 

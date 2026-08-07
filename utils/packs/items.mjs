@@ -130,6 +130,7 @@ function buildSkill(fm) {
         combatCategory: sohlField(fm, "combatCategory", "none"),
         parentSkillCode: sohlField(fm, "parentSkillCode", ""),
         initSkillMult: Number(sohlField(fm, "initSkillMult", 0)) || 0,
+        impairedByRoles: sohlField(fm, "impairedByRoles", []),
     };
     // A combat technique is authored as a `skill` of subtype `combattechnique`
     // (the standalone item type was merged into Skill): it carries an embedded,

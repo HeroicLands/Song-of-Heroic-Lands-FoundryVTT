@@ -21,6 +21,11 @@ sohl:
     initSkillMult: 0
     masteryLevelBase: null
     improveFlag: false
+    impairedByRoles:
+        - core
+        - vital
+        - locomotor
+        - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

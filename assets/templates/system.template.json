@@ -131,20 +131,20 @@
     "media": [
         {
             "type": "setup",
-            "url": "systems/sohl/assets/ui/sohl-setup.webp",
-            "thumbnail": "systems/sohl/assets/ui/sohl-setup-thumb.webp"
+            "url": "systems/sohl/assets/ui/sohl-icon-3d-1920x1080.webp",
+            "thumbnail": "systems/sohl/assets/ui/sohl-icon-3d-400x225.webp"
         },
         {
             "type": "logo",
-            "url": "systems/sohl/assets/ui/sohl-logo.webp"
+            "url": "systems/sohl/assets/ui/sohl-icon-3d-400x100.webp"
         },
         {
             "type": "icon",
-            "url": "systems/sohl/assets/ui/sohl-icon.webp"
+            "url": "systems/sohl/assets/ui/sohl-icon-3d-512x512.webp"
         },
         {
             "type": "banner",
-            "url": "systems/sohl/assets/ui/sohl-banner.webp"
+            "url": "systems/sohl/assets/ui/sohl-icon-3d-1200x400.webp"
         }
     ],
     "socket": true,
