@@ -65,16 +65,27 @@ A Structure is scenery with an inventory, not a combatant:
 The Structure sheet has these tabs:
 
 - **Facade** — image and description
+- **Profile** — the private dossier, movement rates, and attributes
 - **Gear** — stored contents and equipment
 - **Actions** — available actions
 - **Effects** — active effects
 
-All four are the common actor tabs, and they behave exactly as they do on a
+All five are the common actor tabs, and they behave exactly as they do on a
 [[Actor_Being|Being]]: the Gear tab is the same inventory ledger (a structure's
 stores instead of a character's possessions), and the Actions and Effects tabs
 are identical. They are documented once, in
 [[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_ — see
 that page for the columns, controls, and how to add, stow, and remove things.
+
+The **Profile** tab carries three things, and it is where a structure's private
+notes live:
+
+- **Attributes** — normally empty for a structure. The section is kept so a world
+  that wants to give a keep a Condition a rating of its own can.
+- **Movement** — the travel rate for each medium, with a star marking the active
+  one.
+- **Biography** — the **dossier**, the private description only you and the GM
+  see. The public description a player sees stays on **Facade**.
 
 The one difference: a Being's Gear tab reports carried weight and encumbrance,
 because a character is slowed by what it carries. A structure does not move, so
@@ -103,10 +114,10 @@ which covers what each one does, how it is invoked, and what it produces — the
 shared document actions are the same wherever they appear.
 
 **Make Default Medium** picks which movement medium an actor is currently moving
-in, and it is driven by the star control in the movement table on a
-[[Actor_Being|Being]]'s **Profile** tab. A structure does not move and its sheet
-has no movement table, so it inherits the action without offering a control for
-it.
+in, driven by the star control in the movement table on the structure's own
+**Profile** tab. A structure does not move, so in practice it stays on the
+_None_ row; the control is there because movement is a capability every actor
+carries, not because a building is expected to use it.
 
 The contents stored in a structure are ordinary gear items with actions of their
 own — see [[Item_Gear|Gear]] and the page for each kind of gear.
