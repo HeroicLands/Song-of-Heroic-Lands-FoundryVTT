@@ -27,11 +27,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="gear-list"{{#if id}} data-container-id="{{id}}"{{/if}}>
         <div class="section-legend">
             <span class="section-legend__name">{{title}}</span>
+            {{!-- A section only shows a readout when it has one to show: a
+                  being's carried weight + encumbrance, or a container's
+                  used/max. A vehicle's cargo and a structure's stores have no
+                  maximum and no encumbrance, so they carry none at all. --}}
+            {{#if capacity}}
             <span class="section-legend__meta">{{~#if capacity.isEncumbrance~}}
                 Carried: {{capacity.used}} lb &middot; Enc {{capacity.encumbrance}}
                 {{~else~}}
                 Capacity: {{capacity.used}}/{{capacity.max}}
                 {{~/if~}}</span>
+            {{/if}}
             <span class="section-legend__rule"></span>
             <span class="section-legend__add">
                 <a class="item-create add-button" data-action="createItem" data-tooltip="Add Gear">

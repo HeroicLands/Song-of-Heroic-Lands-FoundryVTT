@@ -21,7 +21,7 @@ import {
 } from "@src/document/actor/logic/being-sheet-view";
 import { MYSTICALABILITY_SUBTYPE } from "@src/utils/constants";
 
-const MYSTERIES = "systems/sohl/templates/actor/being/mysteries.hbs";
+const MYSTERIES = "systems/sohl/templates/actor/parts/mysteries.hbs";
 const PROFILE = "systems/sohl/templates/actor/being/profile.hbs";
 const TRAUMA = "systems/sohl/templates/actor/being/trauma.hbs";
 const GEAR = "systems/sohl/templates/actor/parts/gear.hbs";

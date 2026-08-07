@@ -22,6 +22,10 @@ import {
     buildContainerTree,
     htmlToPlainText,
     attributeDescriptor,
+    buildAffiliationRows,
+    groupBySubType,
+    mysticalAbilityColumns,
+    mysticalAbilityLedgerCols,
 } from "@src/document/actor/logic/being-sheet-view";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import type { SohlAction } from "@src/entity/action/SohlAction";
@@ -44,6 +48,10 @@ import {
     isFencedType,
     MOVEMENT_MEDIUM,
     MovementMediumChoices,
+    MysterySubTypes,
+    MysterySubTypeChoices,
+    MysticalAbilitySubTypes,
+    MysticalAbilitySubTypeChoices,
     type MovementMedium,
 } from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
@@ -434,6 +442,17 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
                     context,
                 );
                 return context;
+            case "mysteries":
+                context = await this._prepareMysteriesContext(
+                    context,
+                    options,
+                );
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareMysteriesContext`,
+                    this,
+                    context,
+                );
+                return context;
             case "gear":
                 context = await this._prepareGearContext(context, options);
                 fvttCallHook(
@@ -641,16 +660,21 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /**
      * The capacity readout for the Gear tab's un-contained ("On Body") section.
      *
-     * The base reports the plain summed weight of what the actor holds — the
-     * right summary for a vehicle's cargo or a structure's stores, neither of
-     * which has a load it can be encumbered by. {@link BeingSheet} overrides this
-     * to report the being's carried weight and resulting encumbrance instead.
+     * The base reports **none**. A vehicle's cargo and a structure's stores have
+     * no maximum to be measured against — capacity is deliberately not modeled
+     * for either (#200, #201) — and a bare total is not a fact anyone acts on:
+     * nothing is encumbered by it and nothing refuses to accept more. So the
+     * section legend simply carries no readout. {@link BeingSheet} overrides
+     * this to report the being's carried weight and resulting encumbrance, which
+     * *is* actionable.
      *
-     * @param items - The un-contained gear items.
-     * @returns The capacity readout for the section legend.
+     * @param _items - The un-contained gear items (unused by the base).
+     * @returns `undefined` — no readout.
      */
-    protected _gearOnBodyCapacity(items: SohlItem[]): GearCapacity {
-        return { used: SohlActorSheetBase._totalGearWeight(items) };
+    protected _gearOnBodyCapacity(
+        _items: SohlItem[],
+    ): GearCapacity | undefined {
+        return undefined;
     }
 
     /**
@@ -1030,6 +1054,25 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             };
         });
 
+        // Affiliations — a vehicle or structure answers to someone as much as a
+        // character does (a ward laid by an order, a keep held for a house).
+        const affiliations = buildAffiliationRows(
+            (actor.itemTypes[ITEM_KIND.AFFILIATION] ?? []).map((aff: any) => {
+                const sys = aff.system as any;
+                const affLogic = aff.logic as any;
+                return {
+                    id: aff.id ?? "",
+                    uuid: aff.uuid,
+                    name: aff.name,
+                    level: affLogic?.level?.effective ?? sys.level ?? 0,
+                    society: sys.society ?? "",
+                    office: sys.office ?? "",
+                    title: sys.title ?? "",
+                    notes: sys.notes ?? "",
+                };
+            }),
+        );
+
         const logic = actor.logic as any;
         const movement = buildMovementRows(
             logic?.data?.movementProfiles ?? [],
@@ -1041,6 +1084,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         // sheet passes `canEditBody` the same way).
         return Object.assign(context, {
             attributes,
+            affiliations,
             movement,
             isEditable: this.isEditable,
         });
@@ -1076,4 +1120,63 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         });
         await action.execute(context);
     }
+    /**
+     * Prepare context for the Mysteries tab: mysteries, mystical abilities.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
+    protected async _prepareMysteriesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        const actor = this.document;
+
+        // Mysteries: one section per subType, always shown (even when empty)
+        // and in declared order, so every mystery category has a header.
+        const mysteries = actor.itemTypes[ITEM_KIND.MYSTERY] ?? [];
+        const mysteryBuckets = groupBySubType(
+            mysteries,
+            (mystery: any) => (mystery.system as any).subType,
+        );
+        const mysterySections = MysterySubTypes.map((subType: any) => ({
+            subType,
+            label: game.i18n.localize(
+                (MysterySubTypeChoices as Record<string, string>)[subType] ??
+                    subType,
+            ),
+            items: mysteryBuckets[subType] ?? [],
+        }));
+
+        // Mystical abilities: one section per subType, always shown (even when
+        // empty) and in declared order, so every ability category has a header.
+        const abilities = actor.itemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
+        const abilityBuckets = groupBySubType(
+            abilities,
+            (ability: any) => (ability.system as any).subType,
+        );
+        const abilitySections = MysticalAbilitySubTypes.map((subType: any) => {
+            const columns = mysticalAbilityColumns(subType);
+            return {
+                subType,
+                label: game.i18n.localize(
+                    (MysticalAbilitySubTypeChoices as Record<string, string>)[
+                        subType
+                    ] ?? subType,
+                ),
+                items: abilityBuckets[subType] ?? [],
+                columns,
+                ledgerCols: mysticalAbilityLedgerCols(columns),
+            };
+        });
+
+        return Object.assign(context, {
+            mysterySections,
+            abilitySections,
+        });
+    }
+
 }

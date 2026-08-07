@@ -96,6 +96,7 @@
     "SOHL.Actor.SHEET.profile.addAttribute": "Add Attribute",
     "SOHL.Actor.SHEET.profile.addMovementProfile": "Add Movement Profile",
     "SOHL.Actor.SHEET.profile.biography.label": "Biography",
+    "SOHL.Actor.SHEET.profile.noAffiliations": "No affiliations.",
     "SOHL.Actor.SHEET.profile.noAttributes": "No attributes.",
     "SOHL.Actor.SHEET.tab.actions.label": "Actions",
     "SOHL.Actor.SHEET.tab.actions.tooltip": "Available actions and special moves",

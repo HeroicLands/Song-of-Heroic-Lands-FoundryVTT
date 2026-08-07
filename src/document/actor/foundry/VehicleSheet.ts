@@ -33,6 +33,10 @@ export class VehicleSheet extends SohlActorSheetBase {
             template: "systems/sohl/templates/actor/parts/profile.hbs",
             scrollable: [""],
         },
+        mysteries: {
+            template: "systems/sohl/templates/actor/parts/mysteries.hbs",
+            scrollable: [""],
+        },
         gear: {
             template: "systems/sohl/templates/actor/parts/gear.hbs",
             scrollable: [""],
@@ -61,6 +65,11 @@ export class VehicleSheet extends SohlActorSheetBase {
                     id: "profile",
                     label: "SOHL.Actor.SHEET.tab.profile.label",
                     icon: "fa-solid fa-scroll",
+                },
+                {
+                    id: "mysteries",
+                    label: "SOHL.Actor.SHEET.tab.mysteries.label",
+                    icon: "fa-solid fa-hat-wizard",
                 },
                 {
                     id: "gear",

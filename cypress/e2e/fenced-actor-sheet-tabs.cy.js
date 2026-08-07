@@ -28,11 +28,25 @@
 const FENCED_SHEETS = [
     {
         kind: "vehicle",
-        tabs: ["facade", "profile", "gear", "actions", "effects"],
+        tabs: [
+            "facade",
+            "profile",
+            "mysteries",
+            "gear",
+            "actions",
+            "effects",
+        ],
     },
     {
         kind: "structure",
-        tabs: ["facade", "profile", "gear", "actions", "effects"],
+        tabs: [
+            "facade",
+            "profile",
+            "mysteries",
+            "gear",
+            "actions",
+            "effects",
+        ],
     },
     {
         kind: "cohort",
