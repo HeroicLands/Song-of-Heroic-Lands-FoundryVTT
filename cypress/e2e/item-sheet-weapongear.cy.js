@@ -14,3 +14,38 @@
 import { itemSheetSuite } from "../support/itemSheetSuite.js";
 
 itemSheetSuite("weapongear");
+
+/**
+ * #1179 — the shared suite proves an edit *persists* onto the document, but not
+ * that the sheet renders the stored value back. The Encumbrance control bound
+ * its `value=` to a nonexistent `system.encumbrance`, so it saved correctly and
+ * still redrew blank. Assert the rendered input, which is the only thing that
+ * catches a wrong `value=` binding.
+ */
+describe("item sheet — weapongear encumbrance display (#1179)", () => {
+    before(() => cy.login().then(() => cy.cleanupWorld()));
+    afterEach(() => {
+        cy.closeAllSheets();
+        cy.cleanupWorld();
+    });
+
+    it("renders the stored encumbrance when the sheet is opened", () => {
+        cy.createWorldItem("weapongear", {
+            system: { encumbranceBase: 4 },
+        }).as("item");
+        cy.then(function () {
+            cy.openSheet(this.item);
+        });
+        cy.then(function () {
+            const id = this.item.id;
+            cy.foundry(
+                (win) =>
+                    win.game.items
+                        .get(id)
+                        .sheet.element.querySelector(
+                            'input[name="system.encumbranceBase"]',
+                        )?.value,
+            ).should("eq", "4");
+        });
+    });
+});
