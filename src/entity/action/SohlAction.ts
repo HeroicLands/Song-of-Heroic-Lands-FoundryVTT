@@ -492,8 +492,12 @@ export namespace SohlAction {
          * `system.lastRun[shortcode]` with the current world time each time the
          * action performs (issue #579) — a generic run record, no bespoke field.
          * Set it on actions where "when did this last happen here?" is worth
-         * answering (recurring checks, tests); omit for trivial/UI actions so
-         * they don't force a write. Optional; defaults to off.
+         * answering; omit for trivial/UI actions so they don't force a write.
+         *
+         * It belongs on the action that **acts**. In a Check/Test pair (#1181)
+         * that is the `*Test`: a `*Check` only posts a card offering the test,
+         * so recording it there would claim the effect happened on the strength
+         * of an offer nobody answered (#1192). Optional; defaults to off.
          */
         recordsLastRun?: boolean;
     }
