@@ -55,7 +55,6 @@ import {
     PALL_RECOVERY_INTERVAL_FORMULA,
 } from "@src/document/actor/logic/pall";
 import { BLOOD_STOPPAGE_NEXT_BONUS } from "@src/entity/body/blood-stoppage";
-import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import {
     armScheduledActions,
     isTimeTrigger,
@@ -534,22 +533,40 @@ export class TraumaLogic<
     }
 
     /**
+     * Intrinsic-action executor for the recurring `psycheRecovery` — the `*Check` half
+     * of this condition's cycle (#1181).
+     *
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the owner to perform one {@link psycheRecoveryTest}. No roll is made and
+     * nothing is written, so it imposes nothing and needs no ownership gate —
+     * anyone may initiate a Psyche Stress Recovery Check. The card carries this occurrence's due
+     * time, so the test it offers can anchor its successor there rather than on
+     * the moment the button happens to be pressed.
+     *
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
+     */
+    async psycheRecovery(_context: SohlActionContext): Promise<void> {
+        if (this.data.subType !== TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION)
+            return;
+        await this.postCheckCard("psycheRecovery", "psycheRecoveryTest");
+    }
+
+    /**
      * Intrinsic-action executor for the **Psyche Stress Recovery Test** (#560) —
-     * the recurring recovery of a `psycond`-subtype psychological condition.
+     * the `*Test` half of a psychological condition's recovery.
      *
-     * At each elapsed checkpoint (every d6 days; a manual invocation runs one) the
-     * victim rolls a headless Will test (fatigue does not apply). `MS`/`CS` recover
-     * **−1/−2 PSY**; a `CF` is a **Grievous Stress** — an indefinite condition
-     * becomes **permanent**, or a permanent one gains **+1 PSY**
-     * ({@link sohl.document.item.logic.psycheRecoveryOutcome}). An indefinite
-     * condition **goes away** when its PSY reaches 0. Otherwise the next check is
-     * **offered** (issue #579) rather than auto-re-armed.
+     * Rolls **one** headless Will test (fatigue does not apply). `MS`/`CS` recover
+     * −1/−2 PSY; a `CF` is a **Grievous Stress** — an indefinite condition becomes
+     * **permanent**, or a permanent one gains +1 PSY. An indefinite condition
+     * **goes away** when its PSY reaches 0; otherwise the next test is offered,
+     * anchored on this occurrence's due time.
      *
-     * @param context - The action context; `scope.schedule` decides whether the
-     *   next occurrence is scheduled.
+     * @param context - The action context; `scope.dueAt` carries the occurrence's
+     *   due time and `scope.schedule` pre-answers the follow-on offer.
      * @returns A promise that resolves once the outcome and schedule are persisted.
      */
-    async psycheRecovery(context: SohlActionContext): Promise<void> {
+    async psycheRecoveryTest(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (
             !uuid ||
@@ -557,27 +574,16 @@ export class TraumaLogic<
         ) {
             return;
         }
-        const now = fvttWorldTime();
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "psycheRecovery",
-        );
-        const interval =
-            entry?.interval ??
-            this.rollDuration(PSYCHE_RECOVERY_INTERVAL_FORMULA);
-        const anchor = entry?.anchor ?? now;
-        const checkpoints =
-            entry && interval > 0 ?
-                elapsedCheckpoints(anchor, now, interval)
-            :   [now];
+        const dueAt = this.dueAtFromContext(context, "psycheRecovery");
 
         let psy = this.data.levelBase ?? 0;
         let permanent = this.data.category === PSYCHE_PERMANENCE.PERMANENT;
-        for (let i = 0; i < checkpoints.length && (psy > 0 || permanent); i++) {
+        if (psy > 0 || permanent) {
             const sl = await this.rollWillTest(
                 "trauma-psyche-recovery",
                 sohl.i18n.localize("SOHL.Trauma.Action.psycheRecovery.title"),
             );
-            if (sl == null) break;
+            if (sl == null) return; // roll refused
             const out = psycheRecoveryOutcome(sl);
             if (out.grievous) {
                 if (permanent) psy += 1;
@@ -605,49 +611,62 @@ export class TraumaLogic<
             this.item,
             "psycheRecovery",
             this.rollDuration(PSYCHE_RECOVERY_INTERVAL_FORMULA),
+            undefined,
+            undefined,
+            dueAt,
         );
     }
 
     /**
-     * Intrinsic-action executor for the **Aural Shock recovery test** (#560) — the
-     * daily recovery of an `auralshock`-subtype trauma.
+     * Intrinsic-action executor for the recurring `auralShockRecovery` — the `*Check` half
+     * of this condition's cycle (#1181).
      *
-     * At each elapsed checkpoint (once per day; a manual invocation runs one) the
-     * victim rolls a headless Will test (fatigue and impairment do not apply).
-     * `MS`/`CS` recover **−1/−2 AS**; a `CF` grants **+1 PSY**
-     * ({@link sohl.document.item.logic.auralShockRecoveryOutcome}). The victim
-     * recovers when AS reaches 0. Otherwise the next check is **offered** (issue
-     * #579).
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the owner to perform one {@link auralShockRecoveryTest}. No roll is made and
+     * nothing is written, so it imposes nothing and needs no ownership gate —
+     * anyone may initiate a Aural Shock Recovery Check. The card carries this occurrence's due
+     * time, so the test it offers can anchor its successor there rather than on
+     * the moment the button happens to be pressed.
      *
-     * @param context - The action context; `scope.schedule` decides scheduling.
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
+     */
+    async auralShockRecovery(_context: SohlActionContext): Promise<void> {
+        if (this.data.subType !== TRAUMA_SUBTYPE.AURALSHOCK) return;
+        await this.postCheckCard(
+            "auralShockRecovery",
+            "auralShockRecoveryTest",
+        );
+    }
+
+    /**
+     * Intrinsic-action executor for the **Aural Shock Recovery Test** — the `*Test` half of
+     * this condition's recovery cycle (#1181).
+     *
+     * Rolls **one** headless Will test and applies its outcome; exactly one runs
+     * per invocation, however much world time has elapsed. The condition ends
+     * when its level reaches 0; otherwise the next test is **offered**, anchored
+     * on this occurrence's due time rather than on now.
+     *
+     * @param context - The action context; `scope.dueAt` carries the occurrence's
+     *   due time and `scope.schedule` pre-answers the follow-on offer.
      * @returns A promise that resolves once the outcome and schedule are persisted.
      */
-    async auralShockRecovery(context: SohlActionContext): Promise<void> {
+    async auralShockRecoveryTest(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid || this.data.subType !== TRAUMA_SUBTYPE.AURALSHOCK) return;
-        const now = fvttWorldTime();
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "auralShockRecovery",
-        );
-        const interval =
-            entry?.interval ??
-            this.rollDuration(AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA);
-        const anchor = entry?.anchor ?? now;
-        const checkpoints =
-            entry && interval > 0 ?
-                elapsedCheckpoints(anchor, now, interval)
-            :   [now];
+        const dueAt = this.dueAtFromContext(context, "auralShockRecovery");
 
         let as = this.data.levelBase ?? 0;
         let psyGained = 0;
-        for (let i = 0; i < checkpoints.length && as > 0; i++) {
+        if (as > 0) {
             const sl = await this.rollWillTest(
                 "trauma-auralshock-recovery",
                 sohl.i18n.localize(
                     "SOHL.Trauma.Action.auralShockRecovery.title",
                 ),
             );
-            if (sl == null) break;
+            if (sl == null) return; // roll refused
             const out = auralShockRecoveryOutcome(sl);
             as = Math.max(0, as + out.asDelta);
             psyGained += out.psyGain;
@@ -673,48 +692,58 @@ export class TraumaLogic<
             this.item,
             "auralShockRecovery",
             this.rollDuration(AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA),
+            undefined,
+            undefined,
+            dueAt,
         );
     }
 
     /**
-     * Intrinsic-action executor for **Pall recovery** (#561) — the recurring
-     * recovery of a `pall`-subtype Pall Cloud, made every d6 days.
+     * Intrinsic-action executor for the recurring `pallRecovery` — the `*Check` half
+     * of this condition's cycle (#1181).
      *
-     * At each elapsed checkpoint (a manual invocation runs one) the victim rolls a
-     * headless Will test ({@link sohl.document.actor.logic.pallRecoveryOutcome}):
-     * `MS`/`CS` recover **−1/−2 PSL** (the Pall is expelled at 0); `MF` renders the
-     * victim **Unconscious** (no PSL change); `CF` forces the victim to **Face the
-     * Pall** — an owner-accepted choice offered as an action card (never imposed).
-     * Otherwise the next check is **offered** (issue #579).
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the owner to perform one {@link pallRecoveryTest}. No roll is made and
+     * nothing is written, so it imposes nothing and needs no ownership gate —
+     * anyone may initiate a Pall Recovery Check. The card carries this occurrence's due
+     * time, so the test it offers can anchor its successor there rather than on
+     * the moment the button happens to be pressed.
      *
-     * @param context - The action context; `scope.schedule` decides scheduling.
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
+     */
+    async pallRecovery(_context: SohlActionContext): Promise<void> {
+        if (this.data.subType !== TRAUMA_SUBTYPE.PALL) return;
+        await this.postCheckCard("pallRecovery", "pallRecoveryTest");
+    }
+
+    /**
+     * Intrinsic-action executor for the **Pall Recovery Test** — the `*Test` half of
+     * this condition's recovery cycle (#1181).
+     *
+     * Rolls **one** headless Will test and applies its outcome; exactly one runs
+     * per invocation, however much world time has elapsed. The condition ends
+     * when its level reaches 0; otherwise the next test is **offered**, anchored
+     * on this occurrence's due time rather than on now.
+     *
+     * @param context - The action context; `scope.dueAt` carries the occurrence's
+     *   due time and `scope.schedule` pre-answers the follow-on offer.
      * @returns A promise that resolves once the outcome and schedule are persisted.
      */
-    async pallRecovery(context: SohlActionContext): Promise<void> {
+    async pallRecoveryTest(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid || this.data.subType !== TRAUMA_SUBTYPE.PALL) return;
-        const now = fvttWorldTime();
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "pallRecovery",
-        );
-        const interval =
-            entry?.interval ??
-            this.rollDuration(PALL_RECOVERY_INTERVAL_FORMULA);
-        const anchor = entry?.anchor ?? now;
-        const checkpoints =
-            entry && interval > 0 ?
-                elapsedCheckpoints(anchor, now, interval)
-            :   [now];
+        const dueAt = this.dueAtFromContext(context, "pallRecovery");
 
         let psl = this.data.levelBase ?? 0;
         let faced = false;
         let unconscious = false;
-        for (let i = 0; i < checkpoints.length && psl > 0 && !faced; i++) {
+        if (psl > 0 && !faced) {
             const sl = await this.rollWillTest(
                 "trauma-pall-recovery",
                 sohl.i18n.localize("SOHL.Trauma.Action.pallRecovery.title"),
             );
-            if (sl == null) break;
+            if (sl == null) return; // roll refused
             const out = pallRecoveryOutcome(sl);
             if (out.kind === "face") {
                 faced = true;
@@ -750,6 +779,9 @@ export class TraumaLogic<
             this.item,
             "pallRecovery",
             this.rollDuration(PALL_RECOVERY_INTERVAL_FORMULA),
+            undefined,
+            undefined,
+            dueAt,
         );
     }
 
@@ -849,6 +881,16 @@ export class TraumaLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
+                shortcode: "bloodLossAdvanceTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.bloodLossAdvanceTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-droplet",
+                executor: "bloodLossAdvanceTest",
+                visible: "itemLogic.isBleeding",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
                 shortcode: "bloodLossAdvanceCheck",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Trauma.Action.bloodLossAdvanceCheck.title",
@@ -858,6 +900,17 @@ export class TraumaLogic<
                 recordsLastRun: true,
                 visible: "itemLogic.isBleeding",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "courseTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.courseTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "ginf-heart-beats",
+                executor: "courseTest",
+                visible:
+                    "itemLogic.data.subType === 'shock' || itemLogic.data.subType === 'coma' || itemLogic.data.subType === 'infection'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
                 shortcode: "courseCheck",
@@ -872,6 +925,16 @@ export class TraumaLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
+                shortcode: "psycheRecoveryTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.psycheRecoveryTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-brain",
+                executor: "psycheRecoveryTest",
+                visible: "itemLogic.data.subType === 'psycond'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
                 shortcode: "psycheRecovery",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Trauma.Action.psycheRecovery.title",
@@ -883,6 +946,16 @@ export class TraumaLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
+                shortcode: "auralShockRecoveryTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.auralShockRecoveryTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-wand-sparkles",
+                executor: "auralShockRecoveryTest",
+                visible: "itemLogic.data.subType === 'auralshock'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
                 shortcode: "auralShockRecovery",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Trauma.Action.auralShockRecovery.title",
@@ -892,6 +965,16 @@ export class TraumaLogic<
                 recordsLastRun: true,
                 visible: "itemLogic.data.subType === 'auralshock'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "pallRecoveryTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.pallRecoveryTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "ginf-pall",
+                executor: "pallRecoveryTest",
+                visible: "itemLogic.data.subType === 'pall'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
                 shortcode: "pallRecovery",
@@ -1186,6 +1269,83 @@ export class TraumaLogic<
     }
 
     /**
+     * The world time a scheduled occurrence of `actionName` was **due** — the
+     * persisted entry's `anchor + interval`, or now when nothing is armed.
+     *
+     * This, not the moment the player pressed the button, is what the next
+     * occurrence anchors on, so a check answered late does not push the cadence
+     * later (#1181).
+     *
+     * @param actionName - The scheduled action to read.
+     * @returns The due time in world-time seconds.
+     */
+    private dueAtFor(actionName: string): number {
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === actionName,
+        );
+        return entry ? entry.anchor + entry.interval : fvttWorldTime();
+    }
+
+    /**
+     * Read an occurrence's due time from an action context, falling back to the
+     * armed schedule. A `*Check` card passes it in `scope.dueAt`; a manual
+     * invocation has none, so the armed entry (or now) stands in.
+     *
+     * @param context - The action context.
+     * @param actionName - The scheduled action the test belongs to.
+     * @returns The due time in world-time seconds.
+     */
+    private dueAtFromContext(
+        context: SohlActionContext,
+        actionName: string,
+    ): number {
+        const raw = (context.scope as { dueAt?: unknown } | undefined)?.dueAt;
+        return Number.isFinite(Number(raw)) ?
+                Number(raw)
+            :   this.dueAtFor(actionName);
+    }
+
+    /**
+     * Post a `*Check` card — the offer half of a recurring cycle (#1181).
+     *
+     * The card names the effect that has come due and carries a single button
+     * running `testAction`, with this occurrence's due time in its scope so the
+     * test can anchor its successor there. It performs no roll and writes
+     * nothing, so it needs no ownership gate: **anyone may initiate a check**.
+     *
+     * @param actionName - The scheduled `*Check` whose occurrence is due.
+     * @param testAction - The `*Test` shortcode the card's button runs.
+     * @returns A promise that resolves once the card is posted.
+     */
+    private async postCheckCard(
+        actionName: string,
+        testAction: string,
+    ): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/recovery-check-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                traumaName: this.item?.name ?? "",
+                effect: sohl.i18n.localize(
+                    `SOHL.Reminder.effect.${actionName}`,
+                ),
+                level: this.data.levelBase ?? 0,
+            },
+            buttons: {
+                action: testAction,
+                handlerUuid: uuid,
+                scope: { dueAt: this.dueAtFor(actionName) },
+                label: sohl.i18n.localize(
+                    `SOHL.Trauma.Action.${testAction}.title`,
+                ),
+                iconFAClass: "ginf-heart-beats",
+            },
+        });
+    }
+
+    /**
      * The world time the current `healingCheck` occurrence was **due** — the
      * persisted schedule's `anchor + interval`, or now when nothing is armed.
      *
@@ -1410,52 +1570,57 @@ export class TraumaLogic<
     }
 
     /**
-     * Intrinsic-action executor for the recurring blood-loss advance of a
-     * bleeding wound.
+     * Intrinsic-action executor for the recurring `bloodLossAdvanceCheck` — the
+     * `*Check` half of a bleeding wound's cycle (#1181).
      *
-     * Catches up the Blood Loss Advance Test over every elapsed interval, rolls
-     * the next interval from {@link TraumaData.bloodLossAdvanceDurationFormula},
-     * then **offers** the next `bloodLossAdvanceCheck` occurrence (issue #579)
-     * rather than auto-re-arming.
+     * Offers one {@link bloodLossAdvanceTest} and does nothing else: no blood is
+     * lost, no shock advances, nothing is written.
      *
-     * @param context - The action context; `scope.schedule` (or the offer
-     *   dialog) decides whether the next occurrence is scheduled.
-     * @returns A promise that resolves once the outcome and schedule are persisted.
-     * @remarks Applies the **Blood Loss Advance Test** (#487) at each elapsed
-     *   checkpoint. With no physician accepting the Blood Stoppage request, the
-     *   advance auto-resolves as though a Blood Stoppage Test had been a critical
-     *   failure — the bleeding continues (the interactive physician Accept card is
-     *   #547). Each test rolls against the victim's Strength Mastery Level, accrues
-     *   Blood Loss Points (CF +3, MF +2, MS +1, CS 0), advances the being's shock
-     *   state one step per BLP, and inflicts 5 Fatigue Levels of weakness (anemia)
-     *   per BLP. The recurrence anchor and interval are read from the persisted
-     *   `system.scheduledActions` entry; a wound that has stopped bleeding ends
-     *   the recurrence.
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
      */
-    async bloodLossAdvanceCheck(context: SohlActionContext): Promise<void> {
+    async bloodLossAdvanceCheck(_context: SohlActionContext): Promise<void> {
+        await this.postCheckCard(
+            "bloodLossAdvanceCheck",
+            "bloodLossAdvanceTest",
+        );
+    }
+
+    /**
+     * Intrinsic-action executor for the **Blood Loss Advance Test** (#487) — the
+     * `*Test` half of a bleeding wound's cycle.
+     *
+     * Applies **one** advance: Blood Loss Points accrue, the shock state advances
+     * one step per BLP, and 5 Fatigue Levels of weakness (anemia) are inflicted
+     * per BLP. Exactly one runs per invocation — a bleeding wound left unattended
+     * through several intervals costs one advance per consented test, not a
+     * silent cascade of them.
+     *
+     * A physician's Marginal-Success Blood Stoppage stops the bleeding **after
+     * the next** advance (#547), so a pending stoppage is spent here. A wound that
+     * has stopped bleeding ends the recurrence; otherwise the next test is
+     * offered, anchored on this occurrence's due time.
+     *
+     * @param context - The action context; `scope.dueAt` carries the occurrence's
+     *   due time and `scope.schedule` pre-answers the follow-on offer.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async bloodLossAdvanceTest(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid) return;
-        const now = fvttWorldTime();
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "bloodLossAdvanceCheck",
-        );
-        const interval =
-            entry?.interval ?? this.bloodLossAdvanceDurationBase.effective;
-        const anchor = entry?.anchor ?? now;
-        const checkpoints =
-            interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
+        const dueAt = this.dueAtFromContext(context, "bloodLossAdvanceCheck");
 
-        // Apply one Blood Loss Advance Test per elapsed checkpoint, in sequence.
-        for (let i = 0; i < checkpoints.length && this.isBleeding; i++) {
-            await this.applyBloodLossAdvance();
+        if (!this.isBleeding) {
+            await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
+            return;
         }
+        await this.applyBloodLossAdvance();
 
-        // A physician's Marginal-Success Blood Stoppage stops the bleeding **after
-        // the next** Blood Loss Advance (#547): once an advance has run this pass,
-        // clear the bleeder.
-        const stopNow =
-            checkpoints.length > 0 &&
-            !!(await this.item.getFlag("sohl", "bloodStoppagePending"));
+        // A pending Marginal-Success stoppage is spent by this advance (#547).
+        const stopNow = !!(await this.item.getFlag(
+            "sohl",
+            "bloodStoppagePending",
+        ));
 
         const nextInterval = this.rollDuration(
             this.data.bloodLossAdvanceDurationFormula,
@@ -1469,7 +1634,7 @@ export class TraumaLogic<
         await this.item.update(update);
 
         // A wound that has stopped bleeding ends its recurrence; otherwise offer
-        // the next blood-loss advance rather than auto-re-arming (issue #579).
+        // the next advance, anchored on THIS occurrence's due time (#1181).
         if (stopNow || !this.isBleeding) {
             await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
         } else {
@@ -1478,6 +1643,9 @@ export class TraumaLogic<
                 this.item,
                 "bloodLossAdvanceCheck",
                 nextInterval,
+                undefined,
+                undefined,
+                dueAt,
             );
         }
     }
@@ -1614,45 +1782,55 @@ export class TraumaLogic<
     }
 
     /**
-     * Intrinsic-action executor for the recurring **Extended Shock / Coma Course
-     * Test** (#556).
+     * Intrinsic-action executor for the recurring `courseCheck` — the `*Check` half
+     * of this condition's cycle (#1181).
      *
-     * At each elapsed checkpoint the victim rolls a headless course test —
-     * `Healing Base × Healing Rate` (fatigue applies) — that adjusts the
-     * lasting-shock Healing Rate (CF −2 / MF −1 / MS +1 / CS +2). If the Healing
-     * Rate falls to **0 or below** the victim **dies** (shock state Dead); if it
-     * rises to **6 or above** the victim **recovers** — a Coma additionally
-     * inflicts weariness fatigue equal to the days spent in the coma, and the
-     * being's shock state is cleared (a victim who still has a Coma stays
-     * Unconscious). Otherwise the next course check is **offered** (issue #579)
-     * rather than auto-re-armed.
+     * A `*Check` **offers, and does nothing else**: it posts a card whose button
+     * invites the owner to perform one {@link courseTest}. No roll is made and
+     * nothing is written, so it imposes nothing and needs no ownership gate —
+     * anyone may initiate a Course Check. The card carries this occurrence's due
+     * time, so the test it offers can anchor its successor there rather than on
+     * the moment the button happens to be pressed.
      *
-     * @param context - The action context; `scope.schedule` (or the offer
-     *   dialog) decides whether the next occurrence is scheduled.
-     * @returns A promise that resolves once the course outcome is persisted.
+     * @param _context - The action context (unused; the check takes no input).
+     * @returns A promise that resolves once the check card is posted.
      */
-    async courseCheck(context: SohlActionContext): Promise<void> {
+    async courseCheck(_context: SohlActionContext): Promise<void> {
+        if (!this.isCourseTrauma) return;
+        await this.postCheckCard("courseCheck", "courseTest");
+    }
+
+    /**
+     * Intrinsic-action executor for the **Course Test** (#556/#557) — the `*Test`
+     * half of an Extended Shock, Coma, or Infection's cycle.
+     *
+     * Rolls **one** test, moves the condition's Healing Rate by the result, and
+     * settles the consequence: a rate of 0 or less is death (Extended Shock and
+     * Coma only — an infection's rate floors at 1 and never kills), 6 or better is
+     * recovery, and anything between leaves the course running and offers the next
+     * test anchored on this occurrence's due time.
+     *
+     * A still-active infection saps the body by its Healing-Rate band each test
+     * (#557).
+     *
+     * Exactly one test runs per invocation — a condition that can kill never
+     * resolves several rolls from a single click.
+     *
+     * @param context - The action context; `scope.dueAt` carries the occurrence's
+     *   due time and `scope.schedule` pre-answers the follow-on offer.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async courseTest(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid || !this.isCourseTrauma) return;
         const isInfection = this.data.subType === TRAUMA_SUBTYPE.INFECTION;
-        const now = fvttWorldTime();
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "courseCheck",
-        );
-        const interval = entry?.interval ?? this.courseDurationBase.effective;
-        const anchor = entry?.anchor ?? now;
-        const checkpoints =
-            interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
-        const lastProcessed = checkpoints.at(-1) ?? now;
+        const dueAt = this.dueAtFromContext(context, "courseCheck");
 
-        // Course Test at each elapsed checkpoint, in sequence (each adjusts the
-        // Healing Rate the next one sees), until it ends the course (HR out of
-        // the [1, 5] band) or the checkpoints run out. An infection never kills —
-        // its Healing Rate floors at 1 rather than dropping to death.
         let hr = this.data.healingRateBase ?? 0;
-        for (let i = 0; i < checkpoints.length && hr >= 1 && hr <= 5; i++) {
+        // A course already out of the [1, 5] band has ended; nothing to roll.
+        if (hr >= 1 && hr <= 5) {
             const sl = await this.rollShockCourseTest(hr);
-            if (sl == null) break; // roll refused
+            if (sl == null) return; // roll refused
             hr += shockCourseHrDelta(sl);
             if (isInfection) hr = Math.max(1, hr);
         }
@@ -1678,7 +1856,7 @@ export class TraumaLogic<
             // Recovery — Extended Shock / Coma clear the shock state (and a Coma
             // adds weariness fatigue); an Infection is simply healed, which lets
             // normal injury healing resume (see healingHalted).
-            if (!isInfection) await this.resolveShockRecovery(lastProcessed);
+            if (!isInfection) await this.resolveShockRecovery(dueAt);
             await this.item.update({
                 "system.healingRateBase": hr,
                 "system.courseDurationBase": nextInterval,
@@ -1687,13 +1865,21 @@ export class TraumaLogic<
             return;
         }
 
-        // Course still running (HR 1–5): offer the next check rather than
-        // auto-re-arming (issue #579).
+        // Course still running (HR 1–5): offer the next test, anchored on THIS
+        // occurrence's due time (#1181).
         await this.item.update({
             "system.healingRateBase": hr,
             "system.courseDurationBase": nextInterval,
         } as PlainObject);
-        await offerSchedule(context, this.item, "courseCheck", nextInterval);
+        await offerSchedule(
+            context,
+            this.item,
+            "courseCheck",
+            nextInterval,
+            undefined,
+            undefined,
+            dueAt,
+        );
     }
 
     /**
