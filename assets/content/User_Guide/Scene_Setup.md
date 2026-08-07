@@ -16,7 +16,7 @@ Scenes in SoHL work like standard Foundry VTT scenes, with some additional
 features specific to SoHL. This guide covers placing tokens on scenes,
 Theatre of the Mind mode, and the Cohort expand feature.
 
-See also: [Beings](user-guide/actor-being.md), [Cohorts](user-guide/actor-cohort.md), [Assemblies](user-guide/assemblies.md)
+See also: [Beings](user-guide/actor-being.md), [Cohorts](user-guide/actor-cohort.md)
 
 # Placing Actors on Scenes {#scene-placing}
 
@@ -38,13 +38,6 @@ uses the Being's prototype token settings (image, size, vision).
 When you drag a Cohort onto the scene, SoHL asks whether you want to place
 the cohort as a **single token** (representing the group) or **expand it**
 into individual member tokens placed around the drop point.
-
-## Assemblies
-
-When you drag an Assembly onto the scene, a token appears representing the
-Assembly's canonical item. This is useful for interactive objects like
-treasure chests, magical artifacts, or other items that exist physically
-in the game world.
 
 # The Cohort Expand Feature {#scene-cohort-expand}
 

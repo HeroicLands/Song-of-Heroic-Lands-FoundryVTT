@@ -13,35 +13,63 @@ folder: sYK1BozT9xFcinXK
 
 # What Is a Cohort?
 
-A Cohort represents a group acting as a single unit — a squad of soldiers,
-a band of followers, a ship's crew, or an adventuring party. Instead of
-tracking each individual member as a separate Being, a Cohort simplifies
-the group into one entity with shared attributes, skills, and gear.
+A Cohort is a **named body of individuals** — a squad of soldiers, a band of
+followers, a ship's crew, a household. It does not replace those individuals: each
+member remains their own [[Actor_Being|Being]], with their own sheet, skills, and
+wounds. What the Cohort adds is the **fact of the group** — who belongs to it, who
+leads it, and what its members have pooled — recorded in one place so you do not
+have to hold it in your head.
 
-See also: [Beings](user-guide/actor-being.md)
+**Its unique capability is the roster.** A Cohort is the only actor that maintains
+a membership list of _other actors_ and reads their state back to you. Open it and
+you see, at a glance, who is in the group, what part each of them plays in it, who
+is in charge, and — since each member's health is listed beside their name — how
+the group as a whole is faring. That last point is the practical reason to keep
+one: after a hard fight you can see which of your twelve guardsmen need a healer
+without opening twelve sheets.
+
+Alongside the roster it pools **shared gear**: equipment that individual members
+have marked as shared with the group, gathered into one list that names who is
+actually carrying each item. The group is a ledger of its members' property, not
+an owner of it — the gear stays on the member who carries it.
 
 # When to Use a Cohort
 
-Use a Cohort when:
+Use a Cohort when a set of characters has an identity as a group that outlives any
+one scene:
 
-- You have a group of NPCs that act together (a patrol, a bandit gang)
-- You want to simplify a large number of similar characters
-- You need to represent a party or faction as a single game entity
-- The group has shared resources or capabilities
+- A standing body — a patrol, a warband, a ship's crew, a temple's staff
+- A group you want to be able to look at as a whole: its membership, its leader,
+  its condition
+- A group whose members lend each other equipment and need one place to see it
 
-Do **not** use a Cohort for a single individual — that's a Being.
+**A Cohort is not a way to avoid making characters.** Its members are real actors,
+and it works by pointing at them. If you want a mob you never have to detail, a
+single Being standing in for the whole is the simpler tool.
+
+**A Cohort is also not a combat side.** Who fights whom in an encounter is decided
+by [combat groups](user-guide/combatant.md), not by cohort membership; a cohort's
+members can end up on opposite sides of a brawl. See _Combat groups_ on the
+[[Combatant]] page.
 
 # What a Cohort Contains
 
-A Cohort can hold:
+- **Members** — the individuals that make up the group, each named, given a role,
+  and shown with their current health. One of them may be marked as leader.
+- **Shared Gear** — a read-only view of what members have shared with the group,
+  naming the member who carries each item.
+- **Actions** — procedures you attach to the group itself.
+- **Effects** — active effects on the group.
 
-- **Attributes** — group-level characteristics
-- **Skills** — shared capabilities
-- **Gear** — the equipment its members have shared with the group (listed, not
-  owned: see _The Shared Gear Tab_ below)
-- **Afflictions** and **Injuries** — group-level conditions
-- **Actions** — group-level procedures
-- **Members** — references to the individuals that make up the group
+# What a Cohort Does Not Model
+
+A Cohort has **no characteristics of its own**. It has no group attributes, no
+group skills, no group health, and it makes no rolls. It is not a creature and
+cannot be attacked, injured, or placed on the map as a combatant — everything that
+happens in play happens to its **members**, individually.
+
+So a Cohort never acts as one. If you want ten soldiers to attack together, ten
+attacks are made; the Cohort simply tells you which ten soldiers those are.
 
 # The Cohort Sheet
 

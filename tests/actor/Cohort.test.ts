@@ -249,6 +249,78 @@ describe("CohortLogic", () => {
         });
     });
 
+    describe("memberRows health (#199)", () => {
+        /** A resolvable actor stub carrying a health value on its logic data. */
+        function withHealth(name: string, value: number, max = 100) {
+            return {
+                name,
+                uuid: `Actor.${name}`,
+                logic: { data: { health: { value, max } } },
+            };
+        }
+
+        it("carries each resolved member's health as a percentage and a band", () => {
+            resolveRefs({ aldric: withHealth("Aldric", 72) });
+            const logic = makeCohort({
+                members: [member("aldric")],
+            }) as CohortLogic;
+
+            const [row] = logic.memberRows;
+            expect(row.healthPct).toBe(72);
+            expect(row.healthBand).toBe("Fair");
+            // The band is displayed via its key, never as the raw token.
+            expect(row.healthBandLabel).toBe("SOHL.Health.BAND.Fair");
+        });
+
+        it("reports the percentage relative to max, not the raw value", () => {
+            resolveRefs({ aldric: withHealth("Aldric", 30, 60) });
+            const logic = makeCohort({
+                members: [member("aldric")],
+            }) as CohortLogic;
+
+            expect(logic.memberRows[0].healthPct).toBe(50);
+        });
+
+        it("bands the extremes as Excellent and Dead", () => {
+            resolveRefs({
+                hale: withHealth("Hale", 100),
+                slain: withHealth("Slain", 0),
+            });
+            const logic = makeCohort({
+                members: [member("hale"), member("slain")],
+            }) as CohortLogic;
+
+            expect(logic.memberRows.map((r) => r.healthBand)).toEqual([
+                "Excellent",
+                "Dead",
+            ]);
+        });
+
+        it("leaves health undefined for a member whose actor does not resolve", () => {
+            resolveRefs({});
+            const logic = makeCohort({
+                members: [member("ghost")],
+            }) as CohortLogic;
+
+            const [row] = logic.memberRows;
+            expect(row.isResolved).toBe(false);
+            expect(row.healthPct).toBeUndefined();
+            expect(row.healthBand).toBeUndefined();
+        });
+
+        it("leaves health undefined when the resolved actor exposes none", () => {
+            resolveRefs({ aldric: { name: "Aldric", uuid: "Actor.a1" } });
+            const logic = makeCohort({
+                members: [member("aldric")],
+            }) as CohortLogic;
+
+            const [row] = logic.memberRows;
+            expect(row.isResolved).toBe(true);
+            expect(row.healthPct).toBeUndefined();
+            expect(row.healthBand).toBeUndefined();
+        });
+    });
+
     describe("sharingRefs", () => {
         it("lists the shortcode, id, and uuid a gear item may share with", () => {
             const logic = makeCohort({ shortcode: "wardens" }) as CohortLogic;

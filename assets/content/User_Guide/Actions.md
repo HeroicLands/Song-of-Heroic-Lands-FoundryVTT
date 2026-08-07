@@ -26,7 +26,7 @@ module or modify system files.
 # Where Actions Appear
 
 Actions can be attached directly to **Actors** (Beings, Cohorts, Structures,
-Vehicles, Assemblies) or **nested inside any Item**. Both are fully supported:
+Vehicles) or **nested inside any Item**. Both are fully supported:
 
 - **Directly on an Actor** — the Action belongs to the actor and can
   operate on the actor or any of its items.

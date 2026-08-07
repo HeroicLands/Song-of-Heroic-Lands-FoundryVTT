@@ -1,7 +1,10 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
+import {
+    VehicleLogic,
+    type VehicleOccupant,
+} from "@src/document/actor/logic/VehicleLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { ACTOR_KIND } from "@src/utils/constants";
+import { ACTOR_KIND, VEHICLE_OCCUPANT_ROLE } from "@src/utils/constants";
 import { makeActorLogic } from "@tests/mocks/logicHarness";
 
 /** Construct a VehicleLogic against a plain-object VehicleData. */
@@ -35,9 +38,27 @@ describe("VehicleLogic", () => {
             expect(logic.actions.has("editDocument")).toBe(true);
         });
 
-        it("exposes the occupants shortcode list from its data", () => {
-            const logic = makeVehicle({ occupants: ["bosun", "deckCohort"] });
-            expect(logic.data.occupants).toEqual(["bosun", "deckCohort"]);
+        it("exposes the occupant entries from its data (#1197)", () => {
+            // Each entry is the object the schema stores — a handle, a role, and
+            // an optional title — never a bare shortcode string.
+            const occupants: VehicleOccupant[] = [
+                {
+                    actorCodeOrUuid: "bosun",
+                    role: VEHICLE_OCCUPANT_ROLE.CREW,
+                    title: "Bosun",
+                },
+                {
+                    actorCodeOrUuid: "deckCohort",
+                    role: VEHICLE_OCCUPANT_ROLE.PASSENGER,
+                    title: null,
+                },
+            ];
+            const logic = makeVehicle({ occupants });
+
+            expect(logic.data.occupants).toEqual(occupants);
+            expect(logic.data.occupants[0].actorCodeOrUuid).toBe("bosun");
+            expect(logic.data.occupants[0].role).toBe("crew");
+            expect(logic.data.occupants[1].title).toBeNull();
         });
     });
 

@@ -64,6 +64,7 @@ TBD
 
 ## Health, Injury & Recovery
 
+- [[Health|Health]] — the 0–100 figure and its bands: how injuries set a ceiling on a character, and what each band means.
 - [[rules/sohl-trauma|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
 - [[Healing_Base|Healing Base]] — the recovery factor (average of END and WIL) used in every healing test.
 - [[rules/sohl-injury|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.

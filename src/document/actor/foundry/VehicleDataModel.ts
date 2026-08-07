@@ -17,7 +17,10 @@ import {
     VEHICLE_OCCUPANT_ROLE,
     VehicleOccupantRoleChoices,
 } from "@src/utils/constants";
-import type { VehicleData } from "@src/document/actor/logic/VehicleLogic";
+import type {
+    VehicleData,
+    VehicleOccupant,
+} from "@src/document/actor/logic/VehicleLogic";
 import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
 
 const { ArrayField, SchemaField, StringField } = foundry.data.fields;
@@ -70,7 +73,7 @@ export class VehicleDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.VEHICLE;
-    occupants!: string[];
+    occupants!: VehicleOccupant[];
 
     /**
      * Returns the Foundry data schema for the vehicle actor.

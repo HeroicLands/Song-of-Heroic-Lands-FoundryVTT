@@ -91,6 +91,7 @@ import {
     formatPrintLevel,
     PRINT_EM_DASH,
 } from "@src/document/actor/logic/being-print-view";
+import { healthBandLabel } from "@src/document/actor/logic/health";
 import type { BodyPartStatus } from "@src/entity/body/impairment";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlAction } from "@src/entity/action/SohlAction";
@@ -1076,7 +1077,9 @@ html, body { margin: 0; padding: 0; background: #fff; }
         const healthLine =
             (h.health as unknown) ?
                 formatPrintHealthLine(
-                    h.healthBand as string | undefined,
+                    h.healthBandLabel ?
+                        game.i18n.localize(h.healthBandLabel as string)
+                    :   undefined,
                     (h.healthPct as number) ?? 0,
                 )
             :   "";
@@ -1756,6 +1759,10 @@ html, body { margin: 0; padding: 0; background: #fff; }
             health,
             healthPct,
             healthBand: logic?.healthBand,
+            healthBandLabel:
+                logic?.healthBand ?
+                    healthBandLabel(logic.healthBand)
+                :   undefined,
             shockState: logic?.shockState,
             statusEffects,
             bodyParts,

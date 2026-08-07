@@ -78,9 +78,9 @@ See [Combat Model → Combatant groups](../concepts/combat-model.md#combatant-gr
 `SohlCombatant` carries two movement-related system fields, both encounter-scoped (created with the combatant, destroyed when removed):
 
 - `moveFactor: number` — situational multiplier the GM sets to express run/sprint/encumbrance/terrain. Defaults to 1.
-- `displayedMedium: MovementMedium` — which medium's computed move is shown in the tracker. Seeded at `_preCreate` time from the actor's `system.currentMoveMedium`.
+- `displayedMedium: MovementMedium` — which movement medium the tracker row reports. Seeded at `_preCreate` time (user-set › the actor's `system.currentMoveMedium` › schema default).
 
-`combatant.computedMove()` returns the actor's tactical move (feet per combat round) for its active movement medium — read from its `feetPerRound` — or `null` for a non-mover (movement medium `NONE`). `combatant.displayedMove` is the convenience getter the combat tracker reads. (`moveFactor` is stored on the combatant but not yet applied — #252.)
+`combatant.computedMove()` returns the actor's tactical move (feet per combat round) for its active movement medium — read from its `feetPerRound`, **scaled by `moveFactor`** — or `null` for a non-mover (movement medium `NONE`). `combatant.displayedMove` is the convenience getter the combat tracker reads. Note that `displayedMedium` is not yet honored by `computedMove`, which always uses the actor's active medium (`currentMoveMedium`) — see [Combat Model → Current gaps and caveats](../concepts/combat-model.md#current-gaps-and-caveats).
 
 Movement is a **universal actor capability** — every actor kind carries, on the base {@link sohl.document.actor.logic.SohlActorBaseLogic} (see also `src/document/actor/logic/movement.ts`), per-medium `movementProfiles` (each with `feetPerRound`, `leaguesPerWatch`, and encumbrance/strength expressions) plus a `currentMoveMedium`. During preparation the actor resolves its active profile — selected by `currentMoveMedium` — into `feetPerRound` / `leaguesPerWatch` `ValueModifier`s that Active Effects can layer on. The default medium is `MOVEMENT_MEDIUM.NONE` (a non-mover, the `NONE_MOVE_PROFILE` constant), never authored per-actor. Nothing else — weather, terrain — is modeled by the system.
 
