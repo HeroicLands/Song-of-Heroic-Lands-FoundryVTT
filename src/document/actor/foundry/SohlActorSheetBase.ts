@@ -291,6 +291,16 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         const el = (this as any).element as HTMLElement | undefined;
         if (el) hintsToLabelTooltips(el);
 
+        // Mark the sheet root with the actor it renders. Context-menu
+        // visibility predicates resolve their `itemLogic` / `actorLogic`
+        // bindings by walking up from the clicked row to the nearest
+        // `[data-actor-id]` ancestor; without this marker no actor sheet
+        // provided one, so `itemLogic` was always undefined and *every*
+        // action whose `visible`/`trigger` names it stayed hidden from the
+        // row ⋮ menus — armour's Toggle Worn, a weapon's Attack/Block/
+        // Counterstrike, a combat technique's Improve with SDR (#1132).
+        if (el && this.document.id) el.dataset.actorId = this.document.id;
+
         // Bind the item/effect context menus (right-click on a `.item` row and
         // click on its `.item-contextmenu` ⋮ control). Without this a sheet has
         // no way to edit or delete any created item (#517). `_contextMenu` is

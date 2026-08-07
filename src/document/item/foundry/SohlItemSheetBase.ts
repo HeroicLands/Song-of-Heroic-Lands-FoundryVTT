@@ -368,6 +368,13 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         // benefits too, so this runs before the editable-only bindings below).
         if (el) hintsToLabelTooltips(el);
 
+        // Mark an owned item's sheet root with its owning actor, the same
+        // marker the actor sheets emit, so context-menu predicates opened from
+        // within this sheet can resolve their `actorLogic` binding by the
+        // documented `[data-actor-id]` walk rather than by luck (#1132).
+        const ownerId = (this.document as any).actor?.id;
+        if (el && ownerId) el.dataset.actorId = ownerId;
+
         if (!this.isEditable) return;
 
         // Bind the effect/action context menus (right-click on an effect row

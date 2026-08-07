@@ -16,7 +16,11 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { HTMLString } from "@src/utils/helpers";
 import type { SohlContextMenuSortGroup } from "@src/utils/constants";
-import { fvttGetActor, getContextItem } from "@src/core/FoundryHelpers";
+import {
+    fvttGetActor,
+    fvttResolveUuid,
+    getContextItem,
+} from "@src/core/FoundryHelpers";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
@@ -267,9 +271,33 @@ export function makeConditionContext(
 }
 
 /**
+ * Resolve the item named by the closest `[data-item-id]` ancestor's own
+ * `data-uuid`, if it carries one.
+ *
+ * This is the marker-independent half of the DOM binding: a row that spells
+ * out its full UUID identifies its item without needing an enclosing
+ * `[data-actor-id]` ancestor, and it resolves world (unowned) items too. Kept
+ * separate from {@link resolveContextActor} so the two public resolvers can
+ * each fall back to it without recursing into one another.
+ * @param target - The HTMLElement the context menu was opened on.
+ * @returns The resolved item, or `undefined` when the row carries no
+ *   `data-uuid` or the UUID does not name an Item.
+ */
+function resolveRowItemByUuid(target: HTMLElement): SohlItem | undefined {
+    const row = target.closest("[data-item-id]") as HTMLElement | null;
+    const uuid = row?.dataset?.uuid;
+    if (!uuid) return undefined;
+    const doc = fvttResolveUuid(uuid);
+    return doc?.documentName === "Item" ? (doc as SohlItem) : undefined;
+}
+
+/**
  * Resolve the SohlItem indicated by the closest `[data-item-id]`
  * ancestor of `target`. Lookup goes through the resolved actor's
- * embedded items so it works whether or not the sheet uses UUIDs.
+ * embedded items so it works whether or not the sheet uses UUIDs, and
+ * falls back to the row's own `data-uuid` when the actor route comes up
+ * empty (an unowned/world item row, or a surface that emits no
+ * `data-actor-id` marker).
  * @param target - The HTMLElement the context menu was opened on.
  * @returns The resolved item, or `undefined`.
  */
@@ -278,12 +306,14 @@ export function resolveContextItem(target: HTMLElement): SohlItem | undefined {
     const itemId = row?.dataset?.itemId;
     if (!itemId) return undefined;
     const actor = resolveContextActor(target);
-    return actor?.items.get(itemId) as SohlItem | undefined;
+    const owned = actor?.items.get(itemId) as SohlItem | undefined;
+    return owned ?? resolveRowItemByUuid(target);
 }
 
 /**
  * Resolve the SohlActor indicated by the closest `[data-actor-id]`
- * ancestor of `target`.
+ * ancestor of `target`, falling back to the owner of the item named by the
+ * row's own `data-uuid`.
  * @param target - The HTMLElement the context menu was opened on.
  * @returns The resolved actor, or `undefined`.
  */
@@ -292,9 +322,11 @@ export function resolveContextActor(
 ): SohlActor | undefined {
     const row = target.closest("[data-actor-id]") as HTMLElement | null;
     const actorId = row?.dataset?.actorId;
-    if (!actorId) return undefined;
-    const actor = fvttGetActor(actorId);
-    return actor ? (actor as SohlActor) : undefined;
+    if (actorId) {
+        const actor = fvttGetActor(actorId);
+        if (actor) return actor as SohlActor;
+    }
+    return resolveRowItemByUuid(target)?.actor as SohlActor | undefined;
 }
 
 /**
