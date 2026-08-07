@@ -467,3 +467,73 @@ describe("getStandardSuccessValueTable (#70)", () => {
         }
     });
 });
+
+describe("opposed-test chat text is localized, not literal English (#1161)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** A real SkillLogic to own the modifier. */
+    function makeParent() {
+        return makeItemLogic(
+            SkillLogic,
+            ITEM_KIND.SKILL,
+            { skillBaseFormula: "", masteryLevelBase: 0 },
+            {},
+        );
+    }
+
+    it("opposedTestResume titles the result card from a lang key", async () => {
+        const localize = vi
+            .spyOn(sohl.i18n, "localize")
+            .mockImplementation((k: string) => `LOC:${k}`);
+        const ml = new MasteryLevelModifier({ baseValue: 50 } as any, {
+            parent: makeParent(),
+        });
+        // The target hasn't rolled yet, so `successTest` supplies its side.
+        vi.spyOn(ml, "successTest").mockResolvedValue({} as any);
+        const opposed = {
+            targetTestResult: undefined,
+            evaluate: vi.fn().mockResolvedValue(true),
+            toChat: vi.fn().mockResolvedValue(undefined),
+        };
+        await ml.opposedTestResume(
+            new SohlActionContext({
+                speaker: new SohlSpeaker({ alias: "GM" }),
+                scope: { priorTestResult: opposed },
+            } as any),
+        );
+        expect(opposed.toChat).toHaveBeenCalledTimes(1);
+        // The card was posting the literal English "Opposed Action Result"
+        // through `format` as if it were a key, so the title never translated.
+        expect((opposed.toChat.mock.calls[0][0] as any).title).toBe(
+            "LOC:SOHL.OpposedTestResult.toChat.resultTitle",
+        );
+        localize.mockRestore();
+    });
+
+    it("opposedTestStart titles the source's test from a lang key", async () => {
+        const format = vi
+            .spyOn(sohl.i18n, "format")
+            .mockImplementation((k: string) => `FMT:${k}`);
+        const ml = new MasteryLevelModifier({ baseValue: 50 } as any, {
+            parent: makeParent(),
+        });
+        vi.spyOn(FoundryHelpersMock, "fvttGetTargetedTokens").mockReturnValue([
+            { name: "Bandit", isOwner: true } as any,
+        ]);
+        const testSpy = vi
+            .spyOn(ml, "successTest")
+            .mockResolvedValue(undefined);
+        const context = new SohlActionContext({
+            speaker: new SohlSpeaker({ alias: "GM" }),
+            scope: {},
+        } as any);
+        await ml.opposedTestStart(context);
+        expect(testSpy).toHaveBeenCalledTimes(1);
+        // The source's test title is rendered on both opposed cards, so a
+        // literal format string leaks English onto them.
+        expect((context.scope as any).title).toBe(
+            "FMT:SOHL.OpposedTestResult.toChat.startTitle",
+        );
+        format.mockRestore();
+    });
+});

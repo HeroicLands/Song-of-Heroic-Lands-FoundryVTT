@@ -27,11 +27,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="sohl chat-card item-card" data-actor-uuid="{{actor.uuid}}">
     <header class="card-header flexcol">
         <h3 class="title">{{title}}</h3>
-        <h4 class="subtitle">{{sourceTestResult.token.name}} vs. {{targetToken.name}}</h4>
+        <h4 class="subtitle">{{localize "SOHL.OpposedTestResult.toChat.subtitle" source=sourceTestResult.token.name target=targetToken.name}}</h4>
     </header>
 
     <div class="card-content flex-group-center">
-        <span class="value">{{sourceTestResult.token.name}} performs a {{sourceTestResult.title}} against {{targetToken.name}}</span>
+        <span class="value">{{localize "SOHL.OpposedTestResult.toChat.performs" source=sourceTestResult.token.name test=sourceTestResult.title target=targetToken.name}}</span>
     </div>
     <div class="card-content center">
         <span class="result-desc">{{description}}</span>
