@@ -214,9 +214,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{/if}}
                     {{/each}}
                     <div class="ledger__controls">
-                        <a class="icon-button toggle-improve-flag" data-action="toggleImproveFlag" title="Improve">
+                        {{!-- The ☆ star is shown only on an ability that has a
+                              mastery level of its own to raise (#1130): one
+                              drawing on an associated Skill or Spirit Power
+                              improves when that item does. --}}
+                        {{#if ability.logic.canImprove}}
+                        <a class="icon-button toggle-improve-flag{{#if ability.system.improveFlag}} icon-button--on{{/if}}" data-action="toggleImproveFlag" title="Improve">
                             <i class="{{#if ability.system.improveFlag}}fas fa-star ledger__flag{{else}}far fa-star{{/if}}"></i>
                         </a>
+                        {{/if}}
                         <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
