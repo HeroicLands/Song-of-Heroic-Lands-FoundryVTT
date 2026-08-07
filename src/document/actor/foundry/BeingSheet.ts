@@ -138,7 +138,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
         mysteries: {
             id: "mysteries",
-            template: "systems/sohl/templates/actor/being/mysteries.hbs",
+            template: "systems/sohl/templates/actor/parts/mysteries.hbs",
             scrollable: [""],
         },
         gear: {
@@ -2251,62 +2251,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
         });
     }
 
-    /**
-     * Prepare context for the Mysteries tab: mysteries, mystical abilities.
-     *
-     * @param context - The render context to augment.
-     * @param _options - The render options (unused).
-     * @returns The augmented render context.
-     */
-    protected async _prepareMysteriesContext(
-        context: RenderContext,
-        _options: RenderOptions,
-    ): Promise<RenderContext> {
-        const actor = this.document;
-
-        // Mysteries: one section per subType, always shown (even when empty)
-        // and in declared order, so every mystery category has a header.
-        const mysteries = actor.itemTypes[ITEM_KIND.MYSTERY] ?? [];
-        const mysteryBuckets = groupBySubType(
-            mysteries,
-            (mystery) => (mystery.system as any).subType,
-        );
-        const mysterySections = MysterySubTypes.map((subType) => ({
-            subType,
-            label: game.i18n.localize(
-                (MysterySubTypeChoices as Record<string, string>)[subType] ??
-                    subType,
-            ),
-            items: mysteryBuckets[subType] ?? [],
-        }));
-
-        // Mystical abilities: one section per subType, always shown (even when
-        // empty) and in declared order, so every ability category has a header.
-        const abilities = actor.itemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
-        const abilityBuckets = groupBySubType(
-            abilities,
-            (ability) => (ability.system as any).subType,
-        );
-        const abilitySections = MysticalAbilitySubTypes.map((subType) => {
-            const columns = mysticalAbilityColumns(subType);
-            return {
-                subType,
-                label: game.i18n.localize(
-                    (MysticalAbilitySubTypeChoices as Record<string, string>)[
-                        subType
-                    ] ?? subType,
-                ),
-                items: abilityBuckets[subType] ?? [],
-                columns,
-                ledgerCols: mysticalAbilityLedgerCols(columns),
-            };
-        });
-
-        return Object.assign(context, {
-            mysterySections,
-            abilitySections,
-        });
-    }
 
     /**
      * A being reports its overall load rather than a plain cargo weight: its

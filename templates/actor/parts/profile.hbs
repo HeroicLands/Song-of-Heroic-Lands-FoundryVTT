@@ -12,11 +12,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 {{!-- The shared Profile tab (#1204), used by the Cohort, Vehicle, and Structure
-      sheets. Three sections, all of them universal actor capabilities:
-      attributes, the movement ledger, and the private dossier.
+      sheets. Four sections, all of them universal actor capabilities:
+      attributes, affiliations, the movement ledger, and the private dossier.
 
-      The Being has its own, richer Profile (affiliations and the body-structure
-      editor as well), so it does not use this part.
+      The Being has its own, richer Profile (the body-structure editor as well),
+      so it does not use this part.
 
       The Attributes section is deliberately kept for every actor kind, even
       though a vehicle or a structure usually authors none: the section simply
@@ -58,6 +58,53 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{else}}
     <p class="notes">{{localize "SOHL.Actor.SHEET.profile.noAttributes"}}</p>
+    {{/if}}
+
+    {{!-- Affiliations — who this actor answers to. A vehicle or structure needs
+          these as much as a character does: a ward is laid by an order, a keep
+          is held for a house, a ship sails under a charter. --}}
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "TYPES.Item.affiliationPl"}}</span>
+        <span class="section-legend__rule"></span>
+        {{#if isEditable}}
+        <span class="section-legend__add">
+            <a class="add-button item-create" data-action="createItem"
+                data-tooltip="{{localize 'SOHL.Affiliation.Heading.Add.label'}}" data-type="affiliation">
+                <i class="fa-solid fa-file-circle-plus"></i><span>{{localize
+                    "SOHL.Affiliation.Heading.Add.label"}}</span>
+            </a>
+        </span>
+        {{/if}}
+    </div>
+    {{#if affiliations.length}}
+    <div class="ledger" style="--ledger-cols:minmax(140px,1.4fr) 2.6rem 5.5rem 5rem 5rem 1.2fr 1.8rem">
+        <div class="ledger__head">
+            <div></div>
+            <div class="ledger__head-num">{{localize "SOHL.Affiliation.FIELDS.level.label"}}</div>
+            <div>{{localize "SOHL.Affiliation.FIELDS.society.label"}}</div>
+            <div>{{localize "SOHL.Affiliation.FIELDS.office.label"}}</div>
+            <div>{{localize "SOHL.Affiliation.FIELDS.title.label"}}</div>
+            <div>{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
+            <div></div>
+        </div>
+        {{#each affiliations as |aff|}}
+        <div class="ledger__row" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-uuid="{{aff.uuid}}"
+            data-item-name="{{aff.name}}">
+            <div class="ledger__name">{{aff.name}}</div>
+            <div class="ledger__cell">{{aff.level}}</div>
+            <div class="ledger__cell ledger__cell--text">{{aff.society}}</div>
+            <div class="ledger__cell ledger__cell--text">{{aff.office}}</div>
+            <div class="ledger__cell ledger__cell--text">{{aff.title}}</div>
+            <div class="ledger__notes" title="{{aff.notes}}">{{aff.notes}}</div>
+            <div class="ledger__controls">
+                <a class="icon-button item-contextmenu" title="Menu"><i
+                        class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="notes">{{localize "SOHL.Actor.SHEET.profile.noAffiliations"}}</p>
     {{/if}}
 
     {{!-- Movement --}}

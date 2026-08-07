@@ -34,6 +34,7 @@ function ctx(overrides: Record<string, unknown> = {}) {
     return {
         isEditable: true,
         attributes: [],
+        affiliations: [],
         movement: [moveRow({ medium: "none", value: 0, isCurrent: true })],
         fields: {},
         system: {},
@@ -83,6 +84,36 @@ describe("shared Profile part", () => {
         expect(html).not.toContain("No attributes.");
     });
 
+    it("keeps the affiliations section even when the actor has none", () => {
+        const html = renderTemplateReal(PROFILE, ctx({ affiliations: [] }));
+
+        expect(html).toContain("No affiliations.");
+    });
+
+    it("lists affiliations when the actor has them", () => {
+        const html = renderTemplateReal(
+            PROFILE,
+            ctx({
+                affiliations: [
+                    {
+                        id: "af1",
+                        uuid: "Item.af1",
+                        name: "House Kaldor",
+                        level: 3,
+                        society: "Noble",
+                        office: "Steward",
+                        title: "Warden",
+                        notes: "",
+                    },
+                ],
+            }),
+        );
+
+        expect(html).toContain("House Kaldor");
+        expect(html).toContain("Steward");
+        expect(html).not.toContain("No affiliations.");
+    });
+
     it("renders one movement row per medium, with its tactical move", () => {
         const html = renderTemplateReal(
             PROFILE,
@@ -120,6 +151,8 @@ describe("shared Profile part", () => {
         const html = renderTemplateReal(PROFILE, ctx({ isEditable: true }));
 
         expect(html).toContain('data-action="createItem"');
+        expect(html).toContain('data-type="attribute"');
+        expect(html).toContain('data-type="affiliation"');
         expect(html).toContain('data-action="addMovementProfile"');
     });
 

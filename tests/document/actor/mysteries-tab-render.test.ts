@@ -19,7 +19,7 @@ import {
 } from "@src/document/actor/logic/being-sheet-view";
 import { MYSTICALABILITY_SUBTYPE } from "@src/utils/constants";
 
-const TEMPLATE = "systems/sohl/templates/actor/being/mysteries.hbs";
+const TEMPLATE = "systems/sohl/templates/actor/parts/mysteries.hbs";
 
 /** A modifier-shaped stub the ledger reads (effective / disabled / deltaLabel). */
 function mod(effective: number, disabled: unknown = false) {
