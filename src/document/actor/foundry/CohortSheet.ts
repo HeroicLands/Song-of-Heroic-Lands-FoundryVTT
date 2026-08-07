@@ -46,6 +46,10 @@ export class CohortSheet extends SohlActorSheetBase {
         header: { template: "systems/sohl/templates/actor/cohort/header.hbs" },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },
+        profile: {
+            template: "systems/sohl/templates/actor/parts/profile.hbs",
+            scrollable: [""],
+        },
         members: {
             template: "systems/sohl/templates/actor/cohort/members.hbs",
             scrollable: [""],
@@ -73,6 +77,11 @@ export class CohortSheet extends SohlActorSheetBase {
                     id: "facade",
                     label: "SOHL.Actor.SHEET.tab.facade.label",
                     icon: "fa-solid fa-masks-theater",
+                },
+                {
+                    id: "profile",
+                    label: "SOHL.Actor.SHEET.tab.profile.label",
+                    icon: "fa-solid fa-scroll",
                 },
                 {
                     id: "members",

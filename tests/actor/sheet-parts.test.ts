@@ -12,7 +12,11 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { resolveActorSheetParts } from "@src/document/actor/logic/sheet-parts";
+import {
+    resolveActorSheetParts,
+    buildMovementRows,
+} from "@src/document/actor/logic/sheet-parts";
+import { MOVEMENT_MEDIUM, MovementMediumChoices } from "@src/utils/constants";
 
 /** The Being sheet's declared parts, in declaration order. */
 const BEING_PARTS = [
@@ -102,5 +106,78 @@ describe("resolveActorSheetParts", () => {
         expect(
             resolveActorSheetParts([], { isFenced: true, isLimited: false }),
         ).toEqual([]);
+    });
+});
+
+describe("buildMovementRows (#1204)", () => {
+    /** A minimal authored movement profile. */
+    function profile(medium: string, feetPerRound: number) {
+        return {
+            medium,
+            feetPerRound,
+            leaguesPerWatch: 0,
+            encumbrance: "0",
+            strMod: "0",
+            disabled: false,
+        } as any;
+    }
+
+    it("always leads with the no-movement row, so any actor can be made immobile", () => {
+        const rows = buildMovementRows([], MOVEMENT_MEDIUM.NONE);
+
+        expect(rows).toHaveLength(1);
+        expect(rows[0].medium).toBe(MOVEMENT_MEDIUM.NONE);
+        expect(rows[0].value).toBe(0);
+    });
+
+    it("lists each authored profile after it, with its tactical move", () => {
+        const rows = buildMovementRows(
+            [
+                profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30),
+                profile(MOVEMENT_MEDIUM.AQUATIC, 12),
+            ],
+            MOVEMENT_MEDIUM.TERRESTRIAL,
+        );
+
+        expect(rows.map((r) => r.medium)).toEqual([
+            MOVEMENT_MEDIUM.NONE,
+            MOVEMENT_MEDIUM.TERRESTRIAL,
+            MOVEMENT_MEDIUM.AQUATIC,
+        ]);
+        expect(rows[1].value).toBe(30);
+        expect(rows[2].value).toBe(12);
+    });
+
+    it("stars exactly the actor's current medium", () => {
+        const rows = buildMovementRows(
+            [
+                profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30),
+                profile(MOVEMENT_MEDIUM.AQUATIC, 12),
+            ],
+            MOVEMENT_MEDIUM.AQUATIC,
+        );
+
+        expect(rows.map((r) => r.isCurrent)).toEqual([false, false, true]);
+    });
+
+    it("stars the no-movement row for a non-mover", () => {
+        const rows = buildMovementRows(
+            [profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30)],
+            MOVEMENT_MEDIUM.NONE,
+        );
+
+        expect(rows[0].isCurrent).toBe(true);
+        expect(rows[1].isCurrent).toBe(false);
+    });
+
+    it("carries a localization key for each medium's label", () => {
+        const rows = buildMovementRows(
+            [profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30)],
+            MOVEMENT_MEDIUM.TERRESTRIAL,
+        );
+
+        expect(rows[1].label).toBe(
+            MovementMediumChoices[MOVEMENT_MEDIUM.TERRESTRIAL],
+        );
     });
 });

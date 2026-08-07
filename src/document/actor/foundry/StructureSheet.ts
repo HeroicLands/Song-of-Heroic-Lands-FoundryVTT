@@ -31,6 +31,10 @@ export class StructureSheet extends SohlActorSheetBase {
         },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },
+        profile: {
+            template: "systems/sohl/templates/actor/parts/profile.hbs",
+            scrollable: [""],
+        },
         gear: {
             template: "systems/sohl/templates/actor/parts/gear.hbs",
             scrollable: [""],
@@ -54,6 +58,11 @@ export class StructureSheet extends SohlActorSheetBase {
                     id: "facade",
                     label: "SOHL.Actor.SHEET.tab.facade.label",
                     icon: "fa-solid fa-masks-theater",
+                },
+                {
+                    id: "profile",
+                    label: "SOHL.Actor.SHEET.tab.profile.label",
+                    icon: "fa-solid fa-scroll",
                 },
                 {
                     id: "gear",

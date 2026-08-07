@@ -1,0 +1,108 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!-- The shared Profile tab (#1204), used by the Cohort, Vehicle, and Structure
+      sheets. Three sections, all of them universal actor capabilities:
+      attributes, the movement ledger, and the private dossier.
+
+      The Being has its own, richer Profile (affiliations and the body-structure
+      editor as well), so it does not use this part.
+
+      The Attributes section is deliberately kept for every actor kind, even
+      though a vehicle or a structure usually authors none: the section simply
+      renders empty, and the + control is there if a world ever wants to give a
+      ship a Quality or a keep a Condition. An empty attributes grid costs
+      nothing; an absent one would have to be added back later. --}}
+<section class="tab profile{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="profile">
+    {{!-- Attributes --}}
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "TYPES.Item.attributePl"}}</span>
+        <span class="section-legend__rule"></span>
+        {{#if isEditable}}
+        <span class="section-legend__add">
+            <a class="add-button item-create" data-action="createItem"
+                data-tooltip="{{localize 'SOHL.Actor.SHEET.profile.addAttribute'}}" data-type="attribute">
+                <i class="fa-solid fa-file-circle-plus"></i><span>{{localize
+                    "SOHL.Actor.SHEET.profile.addAttribute"}}</span>
+            </a>
+        </span>
+        {{/if}}
+    </div>
+    {{#if attributes.length}}
+    <div class="grid grid-6col attribute-scores">
+        {{#each attributes as |attr|}}
+        <div class="attribute-score item" data-item-id="{{attr.id}}" data-uuid="{{attr.uuid}}"
+            data-item-name="{{attr.name}}">
+            <div class="attribute-score__header flexrow">
+                <h4 class="attribute-score__name">{{attr.name}}</h4>
+                <a class="icon-button item-contextmenu" title="Menu"><i
+                        class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+            </div>
+            <div class="attribute-score__value" data-tooltip="{{attr.scoreDeltaLabel}}"
+                data-tooltip-direction="UP">{{attr.score}}</div>
+            <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
+            <div class="attribute-score__tl" data-tooltip="{{attr.tlDeltaLabel}}" data-tooltip-direction="UP">TL:
+                {{attr.tl}}</div>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="notes">{{localize "SOHL.Actor.SHEET.profile.noAttributes"}}</p>
+    {{/if}}
+
+    {{!-- Movement --}}
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Actor.SHEET.tab.movement.label"}}</span>
+        <span class="section-legend__meta">{{localize "SOHL.Being.movement.unit"}}</span>
+        <span class="section-legend__rule"></span>
+        {{#if isEditable}}
+        <span class="section-legend__add">
+            <a class="add-button" data-action="addMovementProfile"
+                data-tooltip="{{localize 'SOHL.Actor.SHEET.profile.addMovementProfile'}}">
+                <i class="fa-solid fa-file-circle-plus"></i><span>{{localize
+                    "SOHL.Actor.SHEET.profile.addMovementProfile"}}</span>
+            </a>
+        </span>
+        {{/if}}
+    </div>
+    <div class="ledger" style="--ledger-cols:minmax(140px,1fr) 6rem 1.8rem">
+        <div class="ledger__head">
+            <div>{{localize "SOHL.Actor.SHEET.tab.movement.label"}}</div>
+            <div></div>
+            <div></div>
+        </div>
+        {{#each movement as |row|}}
+        <div class="ledger__row" data-medium="{{row.medium}}">
+            <div class="ledger__name">{{localize row.label}}</div>
+            <div class="ledger__cell">{{row.value}} {{localize "SOHL.Being.movement.unit"}}</div>
+            <div class="ledger__controls">
+                {{#if row.isCurrent}}
+                <span class="icon-button is-on" data-tooltip="{{localize 'SOHL.Actor.movement.default'}}"><i
+                        class="fa-solid fa-star"></i></span>
+                {{else}}
+                <a class="icon-button" data-action="makeDefaultMedium" data-medium="{{row.medium}}"
+                    data-tooltip="{{localize 'SOHL.Actor.movement.makeDefault'}}"><i
+                        class="fa-regular fa-star"></i></a>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{!-- Dossier (private description) --}}
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Actor.SHEET.profile.biography.label"}}</span>
+    </div>
+    {{formGroup fields.dossier value=system.dossier rootId="dossier" classes="stacked dossier-group"
+    elementType="prose-mirror" }}
+</section>

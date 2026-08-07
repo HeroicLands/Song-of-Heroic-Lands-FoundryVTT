@@ -11,6 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import {
+    NONE_MOVE_PROFILE,
+    type MovementProfile,
+} from "@src/document/actor/logic/movement";
+import {
+    MovementMediumChoices,
+    type MovementMedium,
+} from "@src/utils/constants";
+
 /**
  * The render parts every actor sheet shows, whatever its type and whatever the
  * viewer's permission: the experimental-schema banner (fenced types only), the
@@ -59,4 +68,43 @@ export function resolveActorSheetParts(
         if (id === FENCED_BANNER_PART_ID) return opts.isFenced;
         return !opts.isLimited || ALWAYS_PARTS.includes(id);
     });
+}
+
+/** One row of the Profile tab's movement ledger. */
+export interface MovementRow {
+    /** The medium this row describes. */
+    medium: MovementMedium;
+    /** Localization key for the medium's display name. */
+    label: string;
+    /** Tactical move (feet per combat round) in this medium. */
+    value: number;
+    /** Whether this is the actor's current (starred) medium. */
+    isCurrent: boolean;
+}
+
+/**
+ * Build the Profile tab's movement ledger for **any** actor kind.
+ *
+ * Movement is a universal actor capability, so this is shared by every actor
+ * sheet rather than being a Being concern. The canonical no-movement row always
+ * comes first — actors never author a `NONE` profile themselves, so without it
+ * a mover could never be made immobile — followed by each authored profile in
+ * order. Exactly the row matching `current` is starred.
+ *
+ * Pure and Foundry-free.
+ *
+ * @param profiles - The actor's authored movement profiles.
+ * @param current - The actor's current movement medium.
+ * @returns One row per medium, no-movement first.
+ */
+export function buildMovementRows(
+    profiles: readonly MovementProfile[],
+    current: MovementMedium,
+): MovementRow[] {
+    return [NONE_MOVE_PROFILE, ...profiles].map((profile) => ({
+        medium: profile.medium,
+        label: MovementMediumChoices[profile.medium],
+        value: profile.feetPerRound,
+        isCurrent: profile.medium === current,
+    }));
 }
