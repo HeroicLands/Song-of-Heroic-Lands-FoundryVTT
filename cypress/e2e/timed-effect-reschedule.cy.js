@@ -29,9 +29,11 @@
  *    the offer is incidental to what a spec is setting up:
  *    - **accept** → the next healing check is armed on the generic
  *      `scheduledActions` store;
- *    - **decline** → the schedule is cleared, but the run record
- *      (`system.lastRun`) survives, so "when did this last happen?" is still
- *      answerable (#356).
+ *    - **decline** → the schedule is cleared, but the run record survives, so
+ *      "when did this last happen?" is still answerable (#356).
+ *
+ * The record follows the **act**: `system.lastRun` is stamped by the test that
+ * performed, never by the check that merely offered (#1192).
  * 2. **By pressing the real dialog button** (`cy.submitDialog`) — modelling the
  *    player, for when the offer itself is the subject under test: clicking
  *    **Schedule** on the test's offer is what arms the next check.
@@ -89,9 +91,12 @@ describe("Timed-effect reschedule (#579)", () => {
                             uuid,
                             "healingCheck",
                         ),
-                        // The generic run record (system.lastRun), stamped at the
-                        // action chokepoint — not a bespoke field.
-                        record: sys.lastRun?.healingCheck,
+                        // The generic run record (system.lastRun), stamped at
+                        // the action chokepoint — not a bespoke field. It
+                        // follows the ACT, so the test's shortcode carries it
+                        // and the check's never appears (#1192).
+                        record: sys.lastRun?.healingtest,
+                        checkRecord: sys.lastRun?.healingCheck,
                         entries: (sys.scheduledActions || []).filter(
                             (e) => e.actionName === "healingCheck",
                         ).length,
@@ -100,8 +105,9 @@ describe("Timed-effect reschedule (#579)", () => {
                 };
                 const before = snap();
 
-                // THE CHECK: offers only. It posts a card and stamps its run
-                // record; it must not roll, heal, or touch the schedule.
+                // THE CHECK: offers only. It posts a card and stops — no
+                // roll, no healing, no schedule, and no run record (an offer
+                // nobody answered is not a performance).
                 await a.items.get(woundId).logic.executeAction("healingCheck", {
                     skipDialog: true,
                 });
@@ -140,9 +146,13 @@ describe("Timed-effect reschedule (#579)", () => {
                     r.before.level,
                 );
                 expect(
+                    r.afterCheck.checkRecord,
+                    "the check stamps no run record — it only offers",
+                ).to.be.undefined;
+                expect(
                     r.afterCheck.record,
-                    "the check stamps its run record",
-                ).to.be.a("number");
+                    "no test has run yet, so there is no run record",
+                ).to.be.undefined;
 
                 // Accept: the next check is armed.
                 expect(r.afterAccept.scheduled, "accept re-arms the check").to
@@ -151,6 +161,10 @@ describe("Timed-effect reschedule (#579)", () => {
                     r.afterAccept.entries,
                     "accept keeps one store entry",
                 ).to.eq(1);
+                expect(
+                    r.afterAccept.record,
+                    "the test stamps the run record",
+                ).to.be.a("number");
 
                 // Decline: the schedule is cleared, but the record survives.
                 expect(r.afterDecline.scheduled, "decline clears the schedule")

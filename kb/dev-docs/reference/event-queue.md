@@ -373,7 +373,7 @@ fire — a real state, not an error.
 
 The **last performed** occurrence is a document fact, not a queue fact — read the
 generic **run record** `doc.system.lastRun[actionName]` (e.g.
-`injury.system.lastRun.healingCheck`), which survives after the schedule ends
+`injury.system.lastRun.healingtest`), which survives after the schedule ends
 (declined or resolved) where the queue entry does not. It's one keyed map — the
 past-tense mirror of `scheduledActions` — stamped automatically at the action
 chokepoint ({@link sohl.entity.action.SohlAction.execute}) for actions whose
