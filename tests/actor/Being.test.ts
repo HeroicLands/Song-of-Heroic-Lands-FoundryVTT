@@ -1251,6 +1251,43 @@ describe("BeingLogic", () => {
             ).toBe(3 * 86400);
         });
 
+        it("OFFERS the new affliction's onset check after contracting (#1183)", async () => {
+            const logic = beingWithEndurance();
+            stubPrompt();
+            stubTest(MARGINAL_FAILURE);
+            const created = { uuid: "Item.aff1", system: {} };
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([created] as any);
+            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+            await (logic as any).contagionTest({
+                scope: { schedule: true },
+            });
+            // onsetFormula "6" → 6 days at MF, offered (here pre-answered yes).
+            expect(schedule).toHaveBeenCalledWith(
+                created,
+                "onsetCheck",
+                6 * 86400,
+            );
+        });
+
+        it("declining the onset offer arms nothing (#1183)", async () => {
+            const logic = beingWithEndurance();
+            stubPrompt();
+            stubTest(MARGINAL_FAILURE);
+            const created = { uuid: "Item.aff1", system: {} };
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([created] as any);
+            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+            await (logic as any).contagionTest({
+                scope: { schedule: false },
+            });
+            expect(schedule).not.toHaveBeenCalled();
+        });
+
         it("never offers to schedule another contagion test", async () => {
             const logic = beingWithEndurance();
             stubPrompt();

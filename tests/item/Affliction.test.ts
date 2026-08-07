@@ -127,7 +127,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
         );
     });
 
-    it("setOnset crystallizes onsetDate, rolls the intervals, and schedules NOTHING (#1183)", async () => {
+    it("setOnset crystallizes onsetDate, rolls the intervals, and OFFERS the two follow-ons (#1183)", async () => {
         const { schedule, unschedule } = withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const logic = affliction({
@@ -135,7 +135,10 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
             healingCheckDurationFormula: "300",
         });
         logic.initialize();
-        await logic.setOnset({ skipDialog: true } as any);
+        await logic.setOnset({
+            skipDialog: true,
+            scope: { schedule: true },
+        } as any);
         const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
         expect(update).toMatchObject({
             "system.onsetDate": 2000,
@@ -143,11 +146,33 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
             "system.healingCheckDurationBase": 300,
         });
         expect(update).not.toHaveProperty("system.lastHealingCheckDate");
-        // No further event is created — onset arms nothing. Only the spent onset
-        // check is cleared; the course and resolution checks are each offered on
-        // their own terms.
-        expect(schedule).not.toHaveBeenCalled();
+        // The spent onset check is cleared, and the two follow-on events are
+        // OFFERED, not armed — this run pre-answers both with `scope.schedule`.
         expect(unschedule).toHaveBeenCalledWith(logic.item, "onsetCheck");
+        expect(schedule).toHaveBeenCalledWith(logic.item, "courseCheck", 300);
+        expect(schedule).toHaveBeenCalledWith(
+            logic.item,
+            "resolutionCheck",
+            700,
+        );
+    });
+
+    it("setOnset's follow-on offers are declinable — saying no arms neither (#1183)", async () => {
+        const { schedule, unschedule } = withStore();
+        const logic = affliction({
+            resolutionDurationFormula: "700",
+            healingCheckDurationFormula: "300",
+        });
+        logic.initialize();
+        await logic.setOnset({
+            skipDialog: true,
+            scope: { schedule: false },
+        } as any);
+        // Onset still happened; neither follow-on was armed.
+        expect(logic.item.update).toHaveBeenCalled();
+        expect(schedule).not.toHaveBeenCalled();
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "resolutionCheck");
     });
 
     it("setOnset does nothing when the confirmation is declined (#1183)", async () => {

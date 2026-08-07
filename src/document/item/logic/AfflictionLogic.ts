@@ -734,11 +734,14 @@ export class AfflictionLogic<
      * next-check dates read correctly, and the authored onset Macro (if any) runs
      * once the onset is persisted.
      *
-     * **No further event is created.** Onset does not arm the course or resolution
-     * checks — each is offered on its own terms, at a human's behest.
+     * Onset is what sets the affliction running, so it finishes by **offering**
+     * the two events that carry it from here — the recurring
+     * {@link courseCheck} and the one-shot {@link resolutionCheck}. They are
+     * offered, never armed: pressing Set Onset consents to the affliction being
+     * symptomatic, not to a schedule (issue #579).
      *
      * @param context - The action context; `skipDialog` sets the onset without
-     *   confirming.
+     *   confirming, and `scope.schedule` pre-answers the two schedule offers.
      * @returns The onset date, or `undefined` when the dialog was declined.
      */
     async setOnset(
@@ -790,8 +793,17 @@ export class AfflictionLogic<
             "system.healingCheckDurationBase": healing,
         } as PlainObject);
 
-        // The spent onset check is cleared; nothing else is armed.
+        // The spent onset check is cleared.
         await sohl.unschedule(this.item, "onsetCheck");
+
+        // Onset is what starts the affliction running, so this is the moment to
+        // ask about the two events that carry it the rest of the way — but they
+        // are *offered*, not armed: pressing Set Onset consents to the affliction
+        // being symptomatic, not to a schedule (issue #579). The two offers carry
+        // distinct titles so a player answering them back-to-back can tell which
+        // is which.
+        await offerSchedule(context, this.item, "courseCheck", healing);
+        await offerSchedule(context, this.item, "resolutionCheck", resolution);
 
         // Optional author hook run once at onset. A Macro reference (never
         // source); it may schedule further events of its own. Runs after onset is

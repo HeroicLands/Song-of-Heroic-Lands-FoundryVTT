@@ -193,9 +193,8 @@ rolled or applied without someone pressing a button first.
    added by hand skips all of this and sits inert.
 2. **It onsets.** The onset reminder comes due and posts an
    [Onset Check](#onset-check) card; pressing its **Set Onset** button runs
-   [Set Onset](#set-onset), which asks once and then marks the affliction
-   symptomatic. **It arms nothing else** — the course and resolution checks are
-   each offered on their own terms.
+   [Set Onset](#set-onset), which asks once, marks the affliction symptomatic,
+   and then **offers** the course and resolution checks that carry it from here.
 3. **The body fights it.** Each [Course Check](#course-check) offers a
    [Course Test](#course-test); the test moves the **Healing Rate** up or down,
    and the character reacts to wherever that rate now sits — fatigue, shock, or
@@ -327,10 +326,15 @@ the **Onset** date. The affliction's interval formulas are rolled at the same
 time, so the sheet's projected resolution and next-check dates read correctly, and
 any authored onset Macro runs once the onset is recorded.
 
-**Nothing else is scheduled.** Onset does not arm the course check or the
-resolution check; each is offered separately, when someone decides the time has
-come. That is a deliberate change — the incubation ending is a fact about the
-illness, not permission for the system to start running it for you.
+It then **offers** the two events that carry the affliction from here — the
+recurring [Course Check](#course-check) and the one-shot
+[Resolution Check](#resolution-check) — as two separate offer-schedule dialogs
+with the rolled cadences already filled in. Each is answered on its own, and
+**Not Now** on either arms nothing.
+
+They are offered, not armed. Pressing **Set Onset** says the affliction is now
+symptomatic; it does not say SoHL should start keeping its calendar. Declining is
+always safe — the affliction is still running, you are simply tracking it by hand.
 
 # Set Resolution
 
