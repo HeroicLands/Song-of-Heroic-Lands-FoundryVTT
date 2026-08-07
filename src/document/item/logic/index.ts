@@ -33,6 +33,7 @@ export * from "./SohlItemBaseLogic";
 export * from "./TraumaLogic";
 export * from "./WeaponGearLogic";
 export * from "./fate";
+export * from "./fate-host";
 export * from "./fatigue";
 export * from "./improve-sdr";
 export * from "./item-sheet-view";

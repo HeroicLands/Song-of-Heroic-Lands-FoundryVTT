@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import {
-    SkillLogic,
-    getFateDescTable,
-} from "@src/document/item/logic/SkillLogic";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { getFateDescTable } from "@src/document/item/logic/fate-host";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
@@ -416,9 +414,83 @@ describe("SkillLogic", () => {
             logic.initialize();
             expect(logic.fateMasteryLevel.disabled).toBeFalsy();
             logic.evaluate();
+            // The fate mastery level is settled in finalize(), once every
+            // sibling — notably the Aura attribute it derives from — has
+            // evaluated.
+            logic.finalize();
             expect(logic.fateMasteryLevel.disabled).toBe(
                 "SOHL.MasteryLevel.AuraBasedNoFate",
             );
+        });
+
+        it("keeps fate when Aura only adjusts the result, outside sb() (#1175)", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
+                "everyone",
+            );
+            const actor = makeMockActor();
+            actor.items.set("aur1", makeAttributeStub("aur", 14));
+            actor.items.set("str1", makeAttributeStub("str", 12));
+            actor.items.set("dex1", makeAttributeStub("dex", 12));
+            const logic = makeSkill(
+                { skillBaseFormula: "sb(attr.str, attr.dex) + attr.aur / 10" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            // The Skill Base is based on STR/DEX; Aura merely adjusts it, so the
+            // Aura rule must not fire. (Fate is still withheld for want of a
+            // charged Fate Mystery on this bare mock actor — a different reason.)
+            expect(logic.skillBaseAttrs).toEqual(["str", "dex"]);
+            expect(logic.fateMasteryLevel.disabled).not.toBe(
+                "SOHL.MasteryLevel.AuraBasedNoFate",
+            );
+        });
+    });
+
+    describe("skillBaseAttrs (#1175)", () => {
+        it("reports the sb() arguments, primary first", () => {
+            const logic = makeSkill({
+                skillBaseFormula: "sb(attr.rea, attr.per)",
+            });
+            logic.initialize();
+            expect(logic.skillBaseAttrs).toEqual(["rea", "per"]);
+        });
+
+        it("preserves the authored order — the primary attribute is first", () => {
+            const logic = makeSkill({
+                skillBaseFormula: "sb(attr.per, attr.rea)",
+            });
+            logic.initialize();
+            expect(logic.skillBaseAttrs).toEqual(["per", "rea"]);
+        });
+
+        it("excludes attributes referenced outside sb()", () => {
+            const logic = makeSkill({
+                skillBaseFormula: "sb(attr.str, attr.dex) + attr.aur / 10",
+            });
+            logic.initialize();
+            expect(logic.skillBaseAttrs).toEqual(["str", "dex"]);
+        });
+
+        it("falls back to every referenced attribute when sb() is not used", () => {
+            const logic = makeSkill({
+                skillBaseFormula: "(attr.str + attr.agl) / 2",
+            });
+            logic.initialize();
+            expect(logic.skillBaseAttrs).toEqual(["str", "agl"]);
+        });
+
+        it("is empty for a blank formula", () => {
+            const logic = makeSkill({ skillBaseFormula: "" });
+            logic.initialize();
+            expect(logic.skillBaseAttrs).toEqual([]);
+        });
+
+        it("is empty for an invalid formula", () => {
+            const logic = makeSkill({ skillBaseFormula: "sb(attr.str," });
+            logic.initialize();
+            expect(logic.skillBaseAttrs).toEqual([]);
         });
     });
 

@@ -100,7 +100,7 @@ describe("SkillLogic.fateTest — post-roll bump wiring (#854)", () => {
         // separately via the template-render harness.
         vi.spyOn(
             SkillLogic.prototype as any,
-            "_postFateResultCard",
+            "postFateResultCard",
         ).mockResolvedValue(undefined);
     });
 
