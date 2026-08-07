@@ -23,6 +23,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{formGroup fields.isWorn rootId="armgear-worn" classes="text-field" stacked=true value=system.isWorn disabled=(not system.isCarried)}}
             {{formGroup fields.qualityBase rootId="armgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
             {{formGroup fields.durabilityBase rootId="armgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
+            {{!-- Encumbrance (#1133): added to the wearer's encumbrance while
+                  the armor is worn (BeingLogic.finalize, #1010). --}}
+            {{formGroup fields.encumbrance rootId="armgear-enc" classes="text-field" stacked=true value=system.encumbrance}}
         </div>
         {{!-- Cohort sharing (#76): marks this item as shared with a cohort,
               which then lists it on its read-only Shared Gear tab. --}}
@@ -32,6 +35,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="field-grid field-grid--3col">
         {{formGroup fields.material rootId="armgear-mat" classes="text-field" stacked=true value=system.material}}
     </div>
+
+    {{!-- Protection (#1133): seeds ArmorGearLogic.protection, which is folded
+          onto every covered body location and subtracted from an impact. --}}
+    <fieldset>
+        <legend>{{localize "SOHL.ArmorGear.FIELDS.protectionBase.label"}}</legend>
+        <div class="field-grid field-grid--4col">
+            {{formGroup fields.protectionBase.fields.blunt rootId="armgear-prot-blunt" classes="text-field" stacked=true value=system.protectionBase.blunt}}
+            {{formGroup fields.protectionBase.fields.edged rootId="armgear-prot-edged" classes="text-field" stacked=true value=system.protectionBase.edged}}
+            {{formGroup fields.protectionBase.fields.piercing rootId="armgear-prot-piercing" classes="text-field" stacked=true value=system.protectionBase.piercing}}
+            {{formGroup fields.protectionBase.fields.fire rootId="armgear-prot-fire" classes="text-field" stacked=true value=system.protectionBase.fire}}
+        </div>
+    </fieldset>
 
     <fieldset>
         <legend>Body Armor Locations</legend>

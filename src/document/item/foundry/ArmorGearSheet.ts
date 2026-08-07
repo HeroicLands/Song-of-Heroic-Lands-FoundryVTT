@@ -53,6 +53,7 @@ export class ArmorGearSheet extends SohlItemSheetBase {
             material: system.material,
             locations: system.locations,
             protectionBase: system.protectionBase,
+            encumbrance: system.encumbrance,
         });
     }
 }
