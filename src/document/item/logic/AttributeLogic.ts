@@ -18,6 +18,16 @@ import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModi
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import type { MysteryLogic } from "./MysteryLogic";
+import type { FateOutcome } from "./fate";
+import {
+    AURA_SHORTCODE,
+    availableFateFor,
+    buildFateMasteryLevel,
+    performFateTest,
+    postFateResultCard,
+    type FateHost,
+} from "./fate-host";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { fvttActiveTokenLogicForActor } from "@src/core/FoundryHelpers";
 import {
@@ -54,8 +64,71 @@ export class AttributeLogic<
      * effective {@link AttributeLogic.score | score} multiplied by five.
      */
     masteryLevel!: MasteryLevelModifier;
-    /** Fate-adjusted mastery level for this attribute, as a {@link sohl.entity.modifier.MasteryLevelModifier}. */
+    /**
+     * Fate-adjusted mastery level for this attribute, as a
+     * {@link sohl.entity.modifier.MasteryLevelModifier}. Seeded in
+     * {@link AttributeLogic.finalize | finalize} from the actor's Aura attribute,
+     * exactly as a skill's is; disabled outright for the Aura attribute itself,
+     * which can never be fated (#1106).
+     */
     fateMasteryLevel!: MasteryLevelModifier;
+
+    /**
+     * The Fate Mysteries on the actor that may be spent on this attribute's
+     * tests — a **general** Fate Point, or one associated with this attribute's
+     * shortcode, that still has a charge (#1106).
+     *
+     * The rules allow Fate on _any_ skill or attribute test, so this is the same
+     * eligibility set a skill exposes, evaluated against this attribute's
+     * shortcode.
+     *
+     * @returns The eligible-and-charged Fate {@link MysteryLogic} instances
+     *   (empty off an actor).
+     */
+    get availableFate(): MysteryLogic[] {
+        return availableFateFor(this as unknown as FateHost);
+    }
+
+    /**
+     * Spend Fate on this attribute's test — the shared post-roll bump flow
+     * ({@link sohl.document.item.logic.performFateTest}); the die is never
+     * re-rolled.
+     *
+     * Intrinsic-action executor for the `fateTest` action, triggered by the
+     * player from the test card's Fate button or the attribute's Actions menu.
+     *
+     * @param context - The action context; `context.scope.priorTestResult` is
+     *   the original result being fated.
+     * @returns Resolves once the Fate test, any consumption, and the re-post
+     *   complete.
+     */
+    async fateTest(
+        context: SohlActionContext<Partial<SuccessTestResult.ContextScope>>,
+    ): Promise<void> {
+        return performFateTest(this as unknown as FateHost, context);
+    }
+
+    /**
+     * Post the Fate result card for this attribute. Delegates to the shared
+     * implementation; defined here so the card post is spy-able per logic type.
+     *
+     * @param fateResult - The evaluated Fate test result.
+     * @param outcome - The resolved fate outcome.
+     * @param spentSource - The Fate Mystery a point was consumed from, if any.
+     * @returns Resolves once the card has been handed to the speaker.
+     */
+    async postFateResultCard(
+        fateResult: SuccessTestResult,
+        outcome: FateOutcome,
+        spentSource: MysteryLogic | undefined,
+    ): Promise<void> {
+        return postFateResultCard(
+            this as unknown as FateHost,
+            fateResult,
+            outcome,
+            spentSource,
+        );
+    }
 
     /* --------------------------------------------- */
     /* Array update helpers                          */
@@ -191,12 +264,24 @@ export class AttributeLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        // Seed the mastery level here rather than in finalize: the score is
+        // settled once Active Effects have applied, and every *other* item's
+        // finalize may read this attribute's mastery level (the Aura attribute
+        // governs every fate mastery level on the actor). Items finalize in
+        // insertion order, so a value only written in finalize is not reliably
+        // visible to a sibling finalizing before this one.
+        this.masteryLevel.setBase(this.score.effective * 5);
     }
 
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
-        this.masteryLevel.setBase(this.score.effective * 5);
+        // Fate is a finalize-phase concern: it derives from the actor's fully
+        // evaluated Aura attribute. An Aura test can never itself be fated.
+        this.fateMasteryLevel = buildFateMasteryLevel(
+            this as unknown as FateHost,
+            this.data.shortcode === AURA_SHORTCODE,
+        );
     }
 }
 

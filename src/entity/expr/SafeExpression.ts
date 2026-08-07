@@ -329,60 +329,124 @@ export class SafeExpression extends SohlEntity {
      */
     memberRefs(base: string = "attr"): string[] {
         const found = new Set<string>();
+        this.collectMemberRefs(this.ast, base, found);
+        return [...found];
+    }
+
+    /**
+     * The sub-expressions of a node that the reference walks descend into. A
+     * member access contributes its object (and, when computed, its property);
+     * a call contributes only its **arguments**, never its callee — the callee is
+     * a helper name, not a reference. Node types with no sub-expressions (a
+     * literal, a bare identifier) contribute nothing.
+     *
+     * @param node - The AST node whose sub-expressions to enumerate.
+     * @returns The child nodes to visit.
+     */
+    private static childNodes(node: jsep.Expression): jsep.Expression[] {
+        switch (node.type) {
+            case "MemberExpression": {
+                const member = node as jsep.MemberExpression;
+                return member.computed ?
+                        [member.object, member.property]
+                    :   [member.object];
+            }
+            case "UnaryExpression":
+                return [(node as jsep.UnaryExpression).argument];
+            case "BinaryExpression": {
+                const binary = node as jsep.BinaryExpression;
+                return [binary.left, binary.right];
+            }
+            case "ConditionalExpression": {
+                const cond = node as jsep.ConditionalExpression;
+                return [cond.test, cond.consequent, cond.alternate];
+            }
+            case "ArrayExpression":
+                return (node as jsep.ArrayExpression).elements.filter(
+                    (el): el is jsep.Expression => !!el,
+                );
+            case "CallExpression":
+                return [...(node as jsep.CallExpression).arguments];
+            default:
+                return [];
+        }
+    }
+
+    /**
+     * Accumulate into `found` every member name read off `base` at or beneath
+     * `node` — the shared walk behind {@link memberRefs} and
+     * {@link callArgMemberRefs}.
+     *
+     * @param node - The subtree root to walk.
+     * @param base - The base identifier whose member accesses to collect.
+     * @param found - The accumulator, preserving first-seen order.
+     */
+    private collectMemberRefs(
+        node: jsep.Expression | null | undefined,
+        base: string,
+        found: Set<string>,
+    ): void {
+        if (!node || typeof node.type !== "string") return;
+        if (node.type === "MemberExpression") {
+            const member = node as jsep.MemberExpression;
+            const object = member.object as jsep.Identifier;
+            if (object.type === "Identifier" && object.name === base) {
+                if (!member.computed) {
+                    const name = (member.property as jsep.Identifier).name;
+                    if (name) found.add(name.toLowerCase());
+                } else {
+                    const prop = member.property as jsep.Literal;
+                    if (
+                        prop.type === "Literal" &&
+                        typeof prop.value === "string"
+                    ) {
+                        found.add(prop.value.toLowerCase());
+                    }
+                }
+            }
+        }
+        for (const child of SafeExpression.childNodes(node)) {
+            this.collectMemberRefs(child, base, found);
+        }
+    }
+
+    /**
+     * The distinct member names read off `base` **within the arguments of calls
+     * to `callee`**, anywhere in the expression — e.g.
+     * `callArgMemberRefs("sb")` on `sb(attr.str, attr.dex) + attr.aur / 10`
+     * yields `["str", "dex"]`, excluding the `attr.aur` that sits outside the
+     * call.
+     *
+     * Where {@link memberRefs} answers "which members does this expression
+     * *reference*", this answers "which members does this **call** consume" —
+     * the distinction between an attribute a Skill Base is *based on* and one
+     * that merely adjusts the result (#1175). Argument order is preserved, so
+     * the first name returned is the call's primary argument.
+     *
+     * Nested calls inside the arguments are descended into, and repeated calls
+     * to the same helper are unioned. Names are lowercased and de-duplicated, in
+     * first-seen order.
+     *
+     * @param callee - The helper name whose call arguments to inspect (e.g. `"sb"`).
+     * @param base - The base identifier whose member accesses to collect
+     *   (defaults to `"attr"`).
+     * @returns The distinct, lowercased member names, in first-seen order; empty
+     *   when `callee` is never called.
+     */
+    callArgMemberRefs(callee: string, base: string = "attr"): string[] {
+        const found = new Set<string>();
         const walk = (node: jsep.Expression | null | undefined): void => {
             if (!node || typeof node.type !== "string") return;
-            switch (node.type) {
-                case "MemberExpression": {
-                    const member = node as jsep.MemberExpression;
-                    const object = member.object as jsep.Identifier;
-                    if (object.type === "Identifier" && object.name === base) {
-                        if (!member.computed) {
-                            const name = (member.property as jsep.Identifier)
-                                .name;
-                            if (name) found.add(name.toLowerCase());
-                        } else {
-                            const prop = member.property as jsep.Literal;
-                            if (
-                                prop.type === "Literal" &&
-                                typeof prop.value === "string"
-                            ) {
-                                found.add(prop.value.toLowerCase());
-                            }
-                        }
+            if (node.type === "CallExpression") {
+                const call = node as jsep.CallExpression;
+                const fn = call.callee as jsep.Identifier;
+                if (fn?.type === "Identifier" && fn.name === callee) {
+                    for (const arg of call.arguments) {
+                        this.collectMemberRefs(arg, base, found);
                     }
-                    walk(member.object);
-                    if (member.computed) walk(member.property);
-                    return;
                 }
-                case "UnaryExpression":
-                    walk((node as jsep.UnaryExpression).argument);
-                    return;
-                case "BinaryExpression": {
-                    const binary = node as jsep.BinaryExpression;
-                    walk(binary.left);
-                    walk(binary.right);
-                    return;
-                }
-                case "ConditionalExpression": {
-                    const cond = node as jsep.ConditionalExpression;
-                    walk(cond.test);
-                    walk(cond.consequent);
-                    walk(cond.alternate);
-                    return;
-                }
-                case "ArrayExpression":
-                    for (const el of (node as jsep.ArrayExpression).elements) {
-                        walk(el);
-                    }
-                    return;
-                case "CallExpression":
-                    for (const arg of (node as jsep.CallExpression).arguments) {
-                        walk(arg);
-                    }
-                    return;
-                default:
-                    return;
             }
+            for (const child of SafeExpression.childNodes(node)) walk(child);
         };
         walk(this.ast);
         return [...found];

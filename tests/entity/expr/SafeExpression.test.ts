@@ -478,6 +478,73 @@ describe("SafeExpression", () => {
         });
     });
 
+    describe("callArgMemberRefs (#1175)", () => {
+        const sbRefs = (source: string): string[] =>
+            new SafeExpression(
+                { source },
+                { parent: mockParent },
+            ).callArgMemberRefs("sb");
+
+        it("collects only the refs inside the named call's arguments", () => {
+            expect(sbRefs("sb(attr.str, attr.dex)")).toEqual(["str", "dex"]);
+        });
+
+        it("excludes refs outside the call — the #1175 false positive", () => {
+            // Aura merely adjusts the result; it is not part of the basis.
+            expect(sbRefs("sb(attr.str, attr.dex) + attr.aur / 10")).toEqual([
+                "str",
+                "dex",
+            ]);
+        });
+
+        it("preserves argument order, so the primary attribute comes first", () => {
+            expect(sbRefs("sb(attr.rea, attr.per)")).toEqual(["rea", "per"]);
+            expect(sbRefs("sb(attr.per, attr.rea)")).toEqual(["per", "rea"]);
+        });
+
+        it("collects string-literal computed access inside the call", () => {
+            expect(sbRefs('sb(attr["aur"], attr.wil)')).toEqual(["aur", "wil"]);
+        });
+
+        it("descends into nested expressions and calls within the arguments", () => {
+            expect(sbRefs("sb(max(attr.str, attr.agl), attr.dex)")).toEqual([
+                "str",
+                "agl",
+                "dex",
+            ]);
+            expect(sbRefs("sb(attr.end > 10 ? attr.wil : attr.str)")).toEqual([
+                "end",
+                "wil",
+                "str",
+            ]);
+        });
+
+        it("unions multiple calls to the same helper, de-duplicated", () => {
+            expect(
+                sbRefs("max(sb(attr.str, attr.dex), sb(attr.agl, attr.str))"),
+            ).toEqual(["str", "dex", "agl"]);
+        });
+
+        it("returns an empty list when the named helper is never called", () => {
+            expect(sbRefs("attr.str * 2")).toEqual([]);
+        });
+
+        it("finds the call even when it is nested inside another expression", () => {
+            expect(sbRefs("(sb(attr.str, attr.dex) + 5) * 2")).toEqual([
+                "str",
+                "dex",
+            ]);
+        });
+
+        it("generalizes to another base identifier", () => {
+            const expr = new SafeExpression(
+                { source: "sb(custom.alpha) + custom.beta" },
+                { parent: mockParent },
+            );
+            expect(expr.callArgMemberRefs("sb", "custom")).toEqual(["alpha"]);
+        });
+    });
+
     describe("serialization (SohlEntity)", () => {
         it("requires a parent", () => {
             expect(() => new SafeExpression({ source: "1 + 1" }, {})).toThrow(
