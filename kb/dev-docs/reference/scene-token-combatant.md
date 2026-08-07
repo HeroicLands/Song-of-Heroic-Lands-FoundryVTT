@@ -65,13 +65,13 @@ Primary file:
 
 ### Relationship state
 
-`SohlCombatantData` tracks ally/threatened relationships:
+Combat relationships are **derived, not stored**. The combatant persists exactly one allegiance fact — its `groupId`, the `CombatantGroup` it belongs to — and everything else is computed on demand from it:
 
-- `allyIds`
-- `initAllyIds`
-- `threatenedAllyIds`
+- `isEnemyOf(other)` — true when the two combatants' group ids differ.
+- `allies` — the other combatants sharing this one's group.
+- `threatenedBy` — the enemies currently menacing this combatant: not defeated, carrying none of `THREAT_NEGATING_STATUSES`, not hidden, and within melee `reach`.
 
-Helper methods expose and mutate these relations (`addAlly`, `removeAlly`, `addThreatened`, `removeThreatened`, `threatenedBy`).
+See [Combat Model → Combatant groups](../concepts/combat-model.md#combatant-groups) for what the grouping is for, how membership is seeded, and which of these relations are consumed today.
 
 ### Movement state
 
