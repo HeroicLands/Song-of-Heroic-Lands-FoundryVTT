@@ -22,7 +22,7 @@
         "minimum": "14.356",
         "verified": "14.356"
     },
-    "scripts": ["sohl.js"],
+    "esmodules": ["sohl.js"],
     "styles": ["css/sohl.css"],
     "languages": [
         {
