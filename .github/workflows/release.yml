@@ -126,8 +126,14 @@ jobs:
             # packages/sohl-types/package.json (independent of the system
             # version); its `prepack` regenerates index.d.ts from source at pack
             # time. npm >= 11.5 is required for OIDC, so upgrade the runner's npm.
+            # `continue-on-error`: this is a secondary, best-effort deliverable —
+            # Foundry installs from the Release's system.zip, not from npm. A
+            # failure here must not fail the job, since that would also skip the
+            # downstream `publish-docs` job below (which gates on this job's
+            # overall success), taking the versioned API docs down with it.
             - name: Publish @heroiclands/sohl-types (npm Trusted Publishing)
               if: steps.decide.outputs.release == 'true'
+              continue-on-error: true
               run: |
                   npm install -g npm@latest
                   cd packages/sohl-types
