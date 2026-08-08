@@ -85,19 +85,22 @@ jobs:
               if: steps.decide.outputs.release == 'true'
               run: npm run build:pack-release
 
+            # Written to a file rather than a step output: a version's section
+            # can be very large (e.g. many changesets accumulated between
+            # releases), and passing that much text through an action `input`
+            # delivers it via process environment — large enough and the
+            # runner can't even spawn the release action's Node process
+            # ("Argument list too long"). `body_path` below reads the file
+            # directly, sidestepping the env-size limit entirely.
             - name: Read changelog section for this version
               id: changelog
               if: steps.decide.outputs.release == 'true'
               run: |
-                  {
-                    echo 'body<<EOF'
-                    # Emit only the latest version's section: everything between
-                    # the first "## " heading and the next "## " heading,
-                    # excluding the version header line itself (the release title
-                    # already shows it).
-                    awk '/^## /{c++; if (c>=2) exit; next} c==1{print}' CHANGELOG.md
-                    echo 'EOF'
-                  } >> "$GITHUB_OUTPUT"
+                  # Emit only the latest version's section: everything between
+                  # the first "## " heading and the next "## " heading,
+                  # excluding the version header line itself (the release title
+                  # already shows it).
+                  awk '/^## /{c++; if (c>=2) exit; next} c==1{print}' CHANGELOG.md > build/release-notes.md
 
             # Creates the v<version> tag and the GitHub Release, attaching the
             # packaged manifest + zip that Foundry installs from.
@@ -107,7 +110,7 @@ jobs:
               with:
                   tag_name: ${{ steps.decide.outputs.tag }}
                   name: Release ${{ steps.decide.outputs.tag }}
-                  body: ${{ steps.changelog.outputs.body }}
+                  body_path: build/release-notes.md
                   files: |
                       build/dist/system.zip
                       build/dist/system.json
