@@ -9,8 +9,8 @@
     {{- $titles := dict
         "physdisability" "Physical Disabilities" "physfeature" "Physical Features"
         "physprivations" "Physical Privations" "psybehavior" "Behaviors"
-        "psyphobias" "Phobias" "psypsychosis" "Psychoses" "fatigue" "Fatigue" -}}
-    {{- $order := slice "physdisability" "physfeature" "physprivations" "psybehavior" "psyphobias" "psypsychosis" "fatigue" -}}
+        "phobias" "Phobias" "psypsychosis" "Psychoses" "fatigue" "Fatigue" -}}
+    {{- $order := slice "physdisability" "physfeature" "physprivations" "psybehavior" "phobias" "psypsychosis" "fatigue" -}}
     {{- $groups := partial "kbcat-groups.html" (dict "section" "trauma" "titles" $titles "order" $order "extras" true) -}}
     {{- range $groups }}
     <section class="kbcat-group">

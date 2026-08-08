@@ -210,9 +210,13 @@
   id: SpZzOv4eOwtdsMMo
   parentFolderId: 1zRbsasdeUFmPhPZ
   color: "#DAA520"
+- name: Fear
+  id: Fe4rTr4um4Fld001
+  parentFolderId: 3P28S6pewSJWziiQ
+  color: "#6A5ACD"
 - name: Phobias
   id: 0eAg97lKuZbhIoZW
-  parentFolderId: 1zRbsasdeUFmPhPZ
+  parentFolderId: Fe4rTr4um4Fld001
   color: "#4B0082"
 - name: Physical
   id: 4h8qyMcGHlkrfN1g
