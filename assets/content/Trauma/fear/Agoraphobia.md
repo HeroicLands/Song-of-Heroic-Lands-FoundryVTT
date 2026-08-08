@@ -1,0 +1,42 @@
+---
+aliases: []
+tags: []
+name:
+    full: Agoraphobia
+    aliases: []
+id: BalaG26I7UrG7Q1A
+slug: agoraphobia
+img: icons/game-icons/cathelineau/dread.svg
+shortcode: agorphb
+type: trauma
+package: sohl
+sohl:
+    kbcat: phobias
+    archetype: 0
+    levelBase: 0
+    subType: fear
+    category: none
+folder: 0eAg97lKuZbhIoZW
+---
+
+Agoraphobia is an intense, irrational fear of open or crowded spaces where escape might be difficult. People with agoraphobia may experience a range of symptoms when they are in settings such as markets, public transportation, or wide-open areas.
+
+### Impulse
+
+Avoidance of public spaces and transportation, sometimes leading to the person staying homebound. Abberance (ABE) increases by 1 from the source of fear.
+
+### Disorder
+
+In addition to trait intensity behaviors: Severe anxiety or panic attacks in crowded or open spaces. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+
+### Physical Symptoms
+
+This includes rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.
+
+### Intrusive Thoughts
+
+Persistent fears of being trapped, losing control, or having a panic attack in public.
+
+### Emotional Distress
+
+The constant worry creates a cycle of fear and avoidance, severely impacting social and professional life.
