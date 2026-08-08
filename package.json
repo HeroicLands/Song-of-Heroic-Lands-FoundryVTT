@@ -2,7 +2,7 @@
     "name": "sohl",
     "productName": "Song of Heroic Lands",
     "description": "A Foundry VTT system for Song of Heroic Lands",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "private": true,
     "author": {
         "name": "Tom Rodriguez",
