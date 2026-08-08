@@ -43,10 +43,6 @@ export type {
     BeingData,
 } from "@src/document/actor/logic/BeingLogic";
 export type {
-    AssemblyLogic,
-    AssemblyData,
-} from "@src/document/actor/logic/AssemblyLogic";
-export type {
     CohortLogic,
     CohortData,
 } from "@src/document/actor/logic/CohortLogic";
@@ -88,10 +84,6 @@ export type {
     ContainerGearData,
 } from "@src/document/item/logic/ContainerGearLogic";
 export type {
-    CorpusLogic,
-    CorpusData,
-} from "@src/document/item/logic/CorpusLogic";
-export type {
     MiscGearLogic,
     MiscGearData,
 } from "@src/document/item/logic/MiscGearLogic";
@@ -111,10 +103,6 @@ export type {
     SkillLogic,
     SkillData,
 } from "@src/document/item/logic/SkillLogic";
-export type {
-    TraitLogic,
-    TraitData,
-} from "@src/document/item/logic/TraitLogic";
 export type {
     TraumaLogic,
     TraumaData,
