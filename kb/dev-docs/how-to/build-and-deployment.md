@@ -98,6 +98,7 @@ reads the Markdown directly.
 | `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
 | `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`. |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
+| `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`. |
 | `format` / `format:check` | Prettier write / check the whole repo.                                                                                        |
 
 ### Docs
@@ -139,8 +140,35 @@ reads the Markdown directly.
 7. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
    module, sourcemap, unminified, with `emptyOutDir: false` so it doesn't wipe the
    staged CSS/assets/packs).
+8. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
 
 The result is a complete, deployable system in **`build/stage/`**.
+
+### The bundle is an ES module — the manifest must say so
+
+`sohl.js` is built as an **ES module**, so `system.json` lists it under
+**`"esmodules"`**. That is not a stylistic choice, and the two must never drift
+apart: listing it under `"scripts"` makes Foundry load the same file as a
+**classic script**, which changes where its top-level declarations live.
+
+- In a module, every top-level `const`/`let`/`class` is **module-scoped** —
+  private to the bundle.
+- In a classic script, those declarations become **global lexical** bindings. One
+  whose name matches a _non-configurable_ property of `window` throws
+  `SyntaxError: Identifier 'x' has already been declared` at **parse time**,
+  before any of the system runs — so the whole system fails to load.
+
+Bundled dependencies really do declare such names: `@codemirror/view` (inlined for
+the SafeExpression editor) declares `const chrome`, and `style-mod` declares
+`const top`. `window.chrome` is `configurable: false` and `window.top` is
+`[Unforgeable]`, so under `"scripts"` either one is fatal. The release build is
+deliberately **unminified**, so these identifiers survive verbatim — Foundry's own
+CodeMirror build escapes the problem only because minification renames them.
+
+`npm run lint:bundle-globals` (`utils/check-bundle-globals.mjs`, part of
+`build:noci`) enforces the agreement: it parses the built bundle exactly as a
+browser would and fails if `sohl.js` is served as a classic script while declaring
+anything at global scope.
 
 ## 4. The `build/` directory layout
 
