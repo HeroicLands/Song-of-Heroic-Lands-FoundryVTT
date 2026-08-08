@@ -1,5 +1,42 @@
 # sohl
 
+## 0.8.1
+
+### Patch Changes
+
+- d248791: **Fix the system failing to load with `Identifier 'chrome' has already been declared`**
+
+    Installing the released system threw a `SyntaxError` on load and the system never
+    initialized:
+
+    ```
+    Uncaught SyntaxError: Identifier 'chrome' has already been declared (at sohl.js:1:1)
+    ```
+
+    **The cause was a mismatch between how `sohl.js` is built and how it is loaded.**
+    Vite builds the bundle as an **ES module**, but `system.json` listed it under
+    `"scripts"`, which makes Foundry load it as a **classic script**. The distinction
+    decides where top-level declarations live: in a module they are module-scoped and
+    private to the bundle; in a classic script they become _global lexical_ bindings.
+
+    A global lexical binding whose name matches a **non-configurable** property of
+    `window` is a parse-time `SyntaxError` — thrown before a single line executes. The
+    bundle inlines `@codemirror/view` for the SafeExpression editor, and that library
+    declares `const chrome` for browser sniffing. `window.chrome` is
+    `configurable: false`, so the collision bricked the entire system. The release
+    build is deliberately unminified, so the identifier survived verbatim; Foundry's
+    own CodeMirror build escapes the same problem only because minification renames it.
+
+    `sohl.js` is now declared under **`"esmodules"`**, matching how it is built. Every
+    top-level declaration is module-scoped again, so this class of collision cannot
+    recur — the same latent failure also affected `style-mod`'s `const top`, which had
+    previously been worked around by renaming that one identifier at build time. That
+    workaround is removed, as module scope subsumes it.
+
+    A build guard, `npm run lint:bundle-globals`, now fails the build if the manifest
+    and the bundle format ever disagree again: if `sohl.js` is served as a classic
+    script, it must declare nothing at global scope.
+
 ## 0.8.0
 
 ### Minor Changes
@@ -1304,20 +1341,21 @@
 
 - e3f270a: **Afflictions: richer Being-sheet list and a complete Affliction sheet (#943)**
 
-    The Being sheet's afflictions list now shows **Name, Category, Level, HR, Next
-    Heal Test** — the former free-text "Source" column is now an explicit **Category**
-    column, and a calendar-formatted **Next Heal Test** replaces the Notes column.
+        The Being sheet's afflictions list now shows **Name, Category, Level, HR, Next
+        Heal Test** — the former free-text "Source" column is now an explicit **Category**
+        column, and a calendar-formatted **Next Heal Test** replaces the Notes column.
 
-    The Affliction item sheet now surfaces every field, including the previously
-    unexposed **Onset Macro UUID** and **Outcome Trauma**, with the world-time dates
-    (Contract, Treatment, Onset, Resolution) shown through the calendar-aware date
-    picker. Three **view-only** projected dates are added: **Next Heal Test**,
-    **Est. Onset Date**, and **Est. Resolution Date**.
+        The Affliction item sheet now surfaces every field, including the previously
+        unexposed **Onset Macro UUID** and **Outcome Trauma**, with the world-time dates
+        (Contract, Treatment, Onset, Resolution) shown through the calendar-aware date
+        picker. Three **view-only** projected dates are added: **Next Heal Test**,
+        **Est. Onset Date**, and **Est. Resolution Date**.
 
-    The projections are queue-first with an arithmetic fallback: Next Heal Test uses
-    the live `scheduledActions` next-fire time for the armed healing check (so an
-    accepted reschedule is reflected), else `(onsetDate ?? contractDate) +
-healingCheckDurationBase`; Est. Onset Date is `contractDate + onsetDurationBase`;
+        The projections are queue-first with an arithmetic fallback: Next Heal Test uses
+        the live `scheduledActions` next-fire time for the armed healing check (so an
+        accepted reschedule is reflected), else `(onsetDate ?? contractDate) +
+
+    healingCheckDurationBase`; Est. Onset Date is `contractDate + onsetDurationBase`;
     Est. Resolution Date is `(onsetDate ?? contractDate) + resolutionDurationBase`.
     These are display-only and never persisted.
 
@@ -3603,30 +3641,30 @@ healingCheckDurationBase`; Est. Onset Date is `contractDate + onsetDurationBase`
 
 - 7b005c3: **Persisted schedules can bind to lifecycle triggers, not just world time**
 
-    The generic scheduled-actions store (`system.scheduledActions`) previously
-    persisted only **time-based** schedules — every entry fired at `anchor +
-interval` via `updateWorldTime`. It now also persists **event-driven** schedules
+        The generic scheduled-actions store (`system.scheduledActions`) previously
+        persisted only **time-based** schedules — every entry fired at `anchor +
+
+    interval`via`updateWorldTime`. It now also persists **event-driven** schedules
     bound to a lifecycle trigger (`turnEnd`, `roundEnd`, `combatStart`, …, and the
     scene-region families from #593), so a check whose cadence is a combat moment has
     a durable home and re-arms across a reload — the same way a timed one does.
-    - **New optional `triggerName`** on each `scheduledActions` entry. Blank (the
-      default) or `"updateWorldTime"` keeps the original time behavior; any other
+    - **New optional `triggerName`** on each `scheduledActions`entry. Blank (the
+      default) or`"updateWorldTime"`keeps the original time behavior; any other
       value makes the entry event-driven, armed as a live subscription on that trigger
-      with `interval` unused. Backwards compatible — an entry written before this
+      with`interval` unused. Backwards compatible — an entry written before this
       change has no trigger and stays time-based, with no migration.
-    - **`armScheduledActions` / `scheduleAction`** arm a time entry via `scheduleAt`
-      (as before) and an event entry via `subscribe`; **`sohl.schedule`** and the
+    - **`armScheduledActions`/`scheduleAction`** arm a time entry via `scheduleAt`      (as before) and an event entry via`subscribe`; **`sohl.schedule`** and the
       shared **`offerSchedule`** take an optional `triggerName`, and the offer prompt
       reads "…at the end of each turn?" for an event cadence instead of "…in 5 days?".
     - An event entry may also carry an optional **`predicate`** source (a
       `SafeExpression`) to gate its dispatch; the queue binds **`subscriberUuid`** (the
       subscription's own document) so a predicate can compare the trigger to itself —
-      e.g. scoping a `turnEnd` schedule to the subscriber's own combat turn.
-    - Both families flow through the one owner-gated `[Perform]` reminder path
-      (issue #579); time schedules still dedupe by `fireAt`, event schedules still
-      offer once per fire.
+      e.g. scoping a `turnEnd`schedule to the subscriber's own combat turn.
+    - Both families flow through the one owner-gated`[Perform]`reminder path
+      (issue #579); time schedules still dedupe by`fireAt`, event schedules still
+    offer once per fire.
 
-    Closes #622
+        Closes #622
 
 - a714f94: **Scheduled-action load-side + world host — `ready` re-arm, `sohl.worldHost`, GM-hidden reminders**
 
@@ -3880,58 +3918,60 @@ interval` via `updateWorldTime`. It now also persists **event-driven** schedules
 
 - ae47c3f: **Expose constructable entity classes via `sohl.entity`**
 
-    Adds a flat, getter-backed `sohl.entity.<ClassName>` registry so macros and
-    extension modules have a named entry point to `new` or subclass SoHL's
-    constructable entity classes — modifiers (`ValueModifier`, `ValueDelta`,
-    `CombatModifier`, `ImpactModifier`, `MasteryLevelModifier`), results
-    (`TestResult`, `SuccessTestResult`, `OpposedTestResult`, `ImpactResult`,
-    `AttackResult`, `DefendResult`, `CombatResult`), strike modes (`StrikeModeBase`,
-    `MeleeStrikeMode`, `MissileStrikeMode`), `SohlAction`, and body modeling
-    (`BodyStructure`, `BodyPart`, `BodyLocation`).
+        Adds a flat, getter-backed `sohl.entity.<ClassName>` registry so macros and
+        extension modules have a named entry point to `new` or subclass SoHL's
+        constructable entity classes — modifiers (`ValueModifier`, `ValueDelta`,
+        `CombatModifier`, `ImpactModifier`, `MasteryLevelModifier`), results
+        (`TestResult`, `SuccessTestResult`, `OpposedTestResult`, `ImpactResult`,
+        `AttackResult`, `DefendResult`, `CombatResult`), strike modes (`StrikeModeBase`,
+        `MeleeStrikeMode`, `MissileStrikeMode`), `SohlAction`, and body modeling
+        (`BodyStructure`, `BodyPart`, `BodyLocation`).
 
-    Each entry is a getter over a backing record, so a future `sohl.entity.register()`
-    override (planned) is picked up automatically at every access — `new
-sohl.entity.ValueModifier(...)` and `class X extends sohl.entity.SuccessTestResult
-{}` both work today.
+        Each entry is a getter over a backing record, so a future `sohl.entity.register()`
+        override (planned) is picked up automatically at every access — `new
 
-    Also repairs the stale `types/sohl-public-api.d.ts` (its re-exports pointed at the
-    deleted `src/common/*` tree and it documented a non-existent `sohl.classes`) and
-    adds a macro/module **API Access Map** how-to.
+    sohl.entity.ValueModifier(...)`and`class X extends sohl.entity.SuccessTestResult
+    {}` both work today.
 
-    Part of #80. Closes #81.
+        Also repairs the stale `types/sohl-public-api.d.ts` (its re-exports pointed at the
+        deleted `src/common/*` tree and it documented a non-existent `sohl.classes`) and
+        adds a macro/module **API Access Map** how-to.
+
+        Part of #80. Closes #81.
 
 - 56fb667: **Overloaded `SohlEntity` constructor: `new X(parent)` shorthand**
 
-    `SohlEntity` and the entity subclasses that construct usefully from an empty data
-    bag now accept a `(parent)` shorthand alongside the existing `(data, options)`
-    form — mirroring the `clone(parent)` shorthand:
+        `SohlEntity` and the entity subclasses that construct usefully from an empty data
+        bag now accept a `(parent)` shorthand alongside the existing `(data, options)`
+        form — mirroring the `clone(parent)` shorthand:
 
-    ```ts
-    new ValueModifier(logic); // was: new ValueModifier({}, { parent: logic })
-    ```
+        ```ts
+        new ValueModifier(logic); // was: new ValueModifier({}, { parent: logic })
+        ```
 
-    The base gains two `protected static` normalizers (`SohlEntity.dataOf` /
-    `SohlEntity.optionsOf`) and a `SohlEntity.DataOrParent<D>` type alias. The
-    overload is resolved by the `isA(x, "SohlLogic")` **brand** check (not
-    duck-typing), so a data bag that merely carries a `parent` key is never mistaken
-    for a Logic. The runtime throw and its exact message (`SohlEntity requires a
-parent`) are unchanged.
+        The base gains two `protected static` normalizers (`SohlEntity.dataOf` /
+        `SohlEntity.optionsOf`) and a `SohlEntity.DataOrParent<D>` type alias. The
+        overload is resolved by the `isA(x, "SohlLogic")` **brand** check (not
+        duck-typing), so a data bag that merely carries a `parent` key is never mistaken
+        for a Logic. The runtime throw and its exact message (`SohlEntity requires a
 
-    Adopted by `ValueModifier`, `MasteryLevelModifier`, `CombatModifier`,
-    `ImpactModifier`, `SimpleRoll`, `TestResult`, and `SuccessTestResult`. Classes
-    that require non-empty data (the body classes, strike modes, and the non-empty
-    results) keep their single `(data, options)` constructor. Also fixes a latent
-    throw in `AttackResult` where `new ImpactModifier()` was called with no
-    arguments — the zero-argument form no longer compiles.
+    parent`) are unchanged.
 
-    **Compatibility note.** A downstream module subclass that declares a bare
-    two-required-parameter `constructor(data, options)` will no longer satisfy
-    `typeof ValueModifier` for `sohl.entity.register` — an overloaded target requires
-    the source to satisfy every overload. Subclasses that declare _no_ constructor
-    (the common case) inherit the overloads and are unaffected. Runtime behavior is
-    unchanged either way.
+        Adopted by `ValueModifier`, `MasteryLevelModifier`, `CombatModifier`,
+        `ImpactModifier`, `SimpleRoll`, `TestResult`, and `SuccessTestResult`. Classes
+        that require non-empty data (the body classes, strike modes, and the non-empty
+        results) keep their single `(data, options)` constructor. Also fixes a latent
+        throw in `AttackResult` where `new ImpactModifier()` was called with no
+        arguments — the zero-argument form no longer compiles.
 
-    Closes #369
+        **Compatibility note.** A downstream module subclass that declares a bare
+        two-required-parameter `constructor(data, options)` will no longer satisfy
+        `typeof ValueModifier` for `sohl.entity.register` — an overloaded target requires
+        the source to satisfy every overload. Subclasses that declare _no_ constructor
+        (the common case) inherit the overloads and are unaffected. Runtime behavior is
+        unchanged either way.
+
+        Closes #369
 
 - 8752b12: **Rename the `shamanicrite` Mystical Ability subtype to `spiritrite`**
 
@@ -4095,23 +4135,24 @@ parent`) are unchanged.
 
 - d6219e2: **Add temporal field and scheduling helpers**
 
-    Shared building blocks for timed item processes (injury healing / blood-loss,
-    affliction phases):
-    - **Scheduling** (`@src/entity/event/scheduling`, Foundry-free): `deriveNext(anchor,
-interval)` — the single definition of the next occurrence time (from the
-      persisted anchor, never the clock); and `elapsedCheckpoints(lastAnchor,
-worldTime, interval)` — the ordered catch-up set for a time advance, guarded
-      against non-advancing loops on a non-positive interval.
-    - **Schema factory** (`temporal-fields`): `phaseFields(name)` stamps a one-shot
-      phase's `{ …DurationFormula, …DurationBase, …Date }` nullable field triplet (the
-      `…Date` is the crystallized actual, `null` until the phase fires), and
-      `durationFields(name)` stamps a recurring process's `{ …DurationFormula,
-…DurationBase }` interval pair — the recurrence anchor is not a bespoke field but
-      lives in the generic `system.scheduledActions` store (#588). Both use consistent
-      nullability, plus `worldTimeDateField` / `durationBaseField` /
-      `durationFormulaField` for standalone use.
+        Shared building blocks for timed item processes (injury healing / blood-loss,
+        affliction phases):
+        - **Scheduling** (`@src/entity/event/scheduling`, Foundry-free): `deriveNext(anchor,
 
-    Closes #481.
+    interval)`— the single definition of the next occurrence time (from the
+      persisted anchor, never the clock); and`elapsedCheckpoints(lastAnchor,
+    worldTime, interval)` — the ordered catch-up set for a time advance, guarded
+      against non-advancing loops on a non-positive interval.
+    - **Schema factory** (`temporal-fields`): `phaseFields(name)`stamps a one-shot
+      phase's`{ …DurationFormula, …DurationBase, …Date }`nullable field triplet (the
+     `…Date`is the crystallized actual,`null`until the phase fires), and
+     `durationFields(name)`stamps a recurring process's`{ …DurationFormula,
+    …DurationBase }`interval pair — the recurrence anchor is not a bespoke field but
+      lives in the generic`system.scheduledActions`store (#588). Both use consistent
+      nullability, plus`worldTimeDateField`/`durationBaseField`/
+     `durationFormulaField` for standalone use.
+
+        Closes #481.
 
 - 2ede925: **The Pall (#561)**
 
@@ -6917,11 +6958,12 @@ worldTime, interval)` — the ordered catch-up set for a time advance, guarded
 
 - e87ca4f: **Style the Being sheet's non-fieldset list headers (#515)**
 
-    The compact list-header styling added for #515 was scoped to `fieldset
-.list__header`, but the Gear ("On Body") and Combat weapon-group lists put their
-    `.list__header` inside a `.list` div rather than a `<fieldset>`. Their header's
-    `.list__name` heading therefore rendered at full Cinzel size with no header bar.
-    The rule is now keyed on `.list__header` directly, so every Being list header
+        The compact list-header styling added for #515 was scoped to `fieldset
+
+    .list**header`, but the Gear ("On Body") and Combat weapon-group lists put their
+    `.list**header`inside a`.list`div rather than a`<fieldset>`. Their header's
+    `.list**name`heading therefore rendered at full Cinzel size with no header bar.
+    The rule is now keyed on`.list**header` directly, so every Being list header
     gets the same compact label bar.
 
 - f26c8bc: **Being Mysteries tab: Mysteries section**
@@ -7779,31 +7821,33 @@ worldTime, interval)` — the ordered catch-up set for a time advance, guarded
 
 - f9ca4ae: **Fix a localization-key collision that silently dropped all SoHL translations**
 
-    `lang/en.json` defined `"SOHL.Trauma.Pall"` as a string leaf **and**
-    `"SOHL.Trauma.Pall.Note.*"` as a branch under the same path. Foundry runs
-    `foundry.utils.expandObject` on every translation file as it loads it, and that
-    throws when a key is a strict dotted-prefix of another (`Cannot create property
-'Note' on string 'The Pall'`). Foundry catches the throw and discards the
-    **entire** file — so a single colliding pair dropped _all_ `SOHL.*` and `TYPES.*`
+        `lang/en.json` defined `"SOHL.Trauma.Pall"` as a string leaf **and**
+        `"SOHL.Trauma.Pall.Note.*"` as a branch under the same path. Foundry runs
+        `foundry.utils.expandObject` on every translation file as it loads it, and that
+        throws when a key is a strict dotted-prefix of another (`Cannot create property
+
+    'Note' on string 'The Pall'`). Foundry catches the throw and discards the
+    **entire** file — so a single colliding pair dropped _all_ `SOHL._`and`TYPES._`
     strings and every SoHL label rendered as its raw key.
     - Align the Pall trauma with its sibling traumas (`SOHL.Trauma.Fear`,
       `SOHL.Trauma.Morale`) by moving its name to `SOHL.Trauma.Pall.DefaultSource`, so
-      `SOHL.Trauma.Pall` is a pure branch and no key is both a leaf and a branch.
-    - Add a `lint:lang` build guard (`utils/check-lang.mjs`, wired into `lint`) that
+      `SOHL.Trauma.Pall`is a pure branch and no key is both a leaf and a branch.
+    - Add a`lint:lang` build guard (`utils/check-lang.mjs`, wired into `lint`) that
       fails the build fast — before the type-check and tests — on any dotted-prefix
-      key collision in a `lang/*.json` file, so this class of regression can never
-      ship again.
+      key collision in a `lang/\*.json` file, so this class of regression can never
+    ship again.
 
-    Closes #636
+        Closes #636
 
 - 14d2399: **Fix infinite recursion in `SohlLogger.uiWarn` / `uiInfo` / `uiError`**
 
-    The notify branch of `log()` re-entered the same `uiWarn`/`uiInfo`/`uiError`
-    method — which calls back into `log()` with the same `notifyLevel` — recursing
-    without bound and crashing the client with `RangeError: Maximum call stack size
-exceeded` on **any** UI-notify log call. The notification now goes straight to
+        The notify branch of `log()` re-entered the same `uiWarn`/`uiInfo`/`uiError`
+        method — which calls back into `log()` with the same `notifyLevel` — recursing
+        without bound and crashing the client with `RangeError: Maximum call stack size
+
+    exceeded` on **any** UI-notify log call. The notification now goes straight to
     Foundry's notification manager (`ui.notifications`), and the two previously
-    unguarded `i18n.format` calls in `log()` are wrapped so a formatting failure
+    unguarded `i18n.format`calls in`log()` are wrapped so a formatting failure
     cannot throw out of the logger. (#267)
 
 - b02decf: **Security:** Fix ReDoS in `matches()` expression helper (#166).
@@ -7862,19 +7906,20 @@ exceeded` on **any** UI-notify log call. The notification now goes straight to
 
 - 43136cb: **Fix always-read-only rich-text editors on document sheets (#453, #452)**
 
-    Every SoHL sheet computed its `editable` render-context flag from
-    `this.document.editable` — but a Foundry _document_ has no `editable` property
-    (that is a _sheet_ property), so the value was always `!!undefined` → `false`.
-    The base `DocumentSheetV2._prepareContext` had already set `editable:
-this.isEditable` correctly; the override clobbered it.
+        Every SoHL sheet computed its `editable` render-context flag from
+        `this.document.editable` — but a Foundry _document_ has no `editable` property
+        (that is a _sheet_ property), so the value was always `!!undefined` → `false`.
+        The base `DocumentSheetV2._prepareContext` had already set `editable:
 
-    As a result every `{{editor … editable=editable}}` field (the Being sheet's
-    Profile _dossier_ and Facade _appearance_ ProseMirror editors) rendered
-    read-only for everyone, including a GM who owns the actor — the editor never
-    became editable, so those descriptions could not be edited on the sheet. The
-    flag now reads `this.isEditable`, so ownership/permission correctly drives
-    editability. Verified by the previously-red `profile-section` and
-    `facade-section` e2e specs, which now pass.
+    this.isEditable` correctly; the override clobbered it.
+
+        As a result every `{{editor … editable=editable}}` field (the Being sheet's
+        Profile _dossier_ and Facade _appearance_ ProseMirror editors) rendered
+        read-only for everyone, including a GM who owns the actor — the editor never
+        became editable, so those descriptions could not be edited on the sheet. The
+        flag now reads `this.isEditable`, so ownership/permission correctly drives
+        editability. Verified by the previously-red `profile-section` and
+        `facade-section` e2e specs, which now pass.
 
 - 47ac0c5: **Repair sheet layout broken by a dead CSS scope**
 
@@ -8282,96 +8327,97 @@ this.isEditable` correctly; the override clobbered it.
 
 - 78e87dc: **Curated `toJSON` serialization across the entity layer; retire `instanceToJSON`**
 
-    Now that modifiers and results are `SohlEntity` subclasses (which require an
-    owning `parent`), several construction and serialization paths were broken.
-    These are real runtime bugs, not just stale tests.
+        Now that modifiers and results are `SohlEntity` subclasses (which require an
+        owning `parent`), several construction and serialization paths were broken.
+        These are real runtime bugs, not just stale tests.
 
-    _ValueModifier / ValueDelta:_
-    - **`ValueModifier` operators created parentless deltas.** `_oper` (backing
-      `add`/`multiply`/`floor`/`ceiling`/`set`) built `new ValueDelta(...)` without a
-      parent, so every modifier mutation threw `SohlEntity requires a parent`. It now
-      passes the modifier's own parent. The active-effect path
-      (`pushDeltaToValueModifier`) had the same bug and is likewise fixed, and
-      `changeTypeToOperator` is now correctly typed `ValueDeltaOperator`.
-    - **`ValueDelta` and `ValueModifier` were never registered** with the kind
-      registry, so serialization round-trips (and `clone`) revived their deltas as
-      plain objects — dropping every delta and collapsing the effective value to the
-      base. Both now call `registerKind`, so deltas rehydrate as live `ValueDelta`s.
-    - **`clone` requires an explicit parent.** `cloneInstance` no longer falls back
-      to the source's parent — the cloner must decide what the copy attaches to. Use
-      `x.clone(x.parent)` to keep the same owner; `clone(...)` without a resolvable
-      parent throws (by design, since a `SohlEntity` must have one).
-    - Removed a dead `Symbol("ValueDelta")` and the removed static `ValueDelta.isA`.
+        _ValueModifier / ValueDelta:_
+        - **`ValueModifier` operators created parentless deltas.** `_oper` (backing
+          `add`/`multiply`/`floor`/`ceiling`/`set`) built `new ValueDelta(...)` without a
+          parent, so every modifier mutation threw `SohlEntity requires a parent`. It now
+          passes the modifier's own parent. The active-effect path
+          (`pushDeltaToValueModifier`) had the same bug and is likewise fixed, and
+          `changeTypeToOperator` is now correctly typed `ValueDeltaOperator`.
+        - **`ValueDelta` and `ValueModifier` were never registered** with the kind
+          registry, so serialization round-trips (and `clone`) revived their deltas as
+          plain objects — dropping every delta and collapsing the effective value to the
+          base. Both now call `registerKind`, so deltas rehydrate as live `ValueDelta`s.
+        - **`clone` requires an explicit parent.** `cloneInstance` no longer falls back
+          to the source's parent — the cloner must decide what the copy attaches to. Use
+          `x.clone(x.parent)` to keep the same owner; `clone(...)` without a resolvable
+          parent throws (by design, since a `SohlEntity` must have one).
+        - Removed a dead `Symbol("ValueDelta")` and the removed static `ValueDelta.isA`.
 
-    _Serialization model:_
+        _Serialization model:_
 
-    Serialization now flows through a single driver, `defaultToJSON` (paired with
-    `defaultFromJSON`), which honors each object's curated `toJSON` and stamps the
-    `__kind` discriminator through the `SohlEntity` chain. The reflective
-    `instanceToJSON` helper is **removed** — it bypassed each class's curated
-    `toJSON` and would leak internal representation (a resolved logic/skill instead
-    of the uuid/shortcode it was resolved from) and transient cache fields.
-    - **Every entity now serializes its own state.** Curated `toJSON` overrides were
-      added where a subclass carried fields an ancestor's `toJSON` didn't emit:
-      `ImpactModifier` (roll, aspect), `MasteryLevelModifier` (target clamps, crit
-      digits, tables), `ImpactResult`, `SuccessTestResult` (with uuid/pointer mapping
-      for its token and mastery modifier), `AttackResult`, `DefendResult`,
-      `OpposedTestResult`, and `CombatResult`. Each `toJSON` emits keys matching its
-      `Data` interface so its output is valid constructor input; the situational
-      modifier is carried by the mastery modifier's deltas rather than re-emitted
-      (which would double-apply on revival).
-    - **`SimpleRoll` is now a `SohlEntity`** (moved to `src/entity/roll/`). It is
-      owned by a `parent` Logic and serializes through the shared entity machinery;
-      `SimpleRoll.fromFormula(formula, parent)` now takes that owner.
-    - **A Logic serializes as a resolvable reference.** `SohlLogic.toJSON` no longer
-      reflects its internals; a logic is a behavior wrapper over a live Foundry
-      document and is never revived from its own JSON, so it emits a compact
-      `{ uuid, name, kind }` reference (re-resolved via `fvttLogicFromUuidSync`).
+        Serialization now flows through a single driver, `defaultToJSON` (paired with
+        `defaultFromJSON`), which honors each object's curated `toJSON` and stamps the
+        `__kind` discriminator through the `SohlEntity` chain. The reflective
+        `instanceToJSON` helper is **removed** — it bypassed each class's curated
+        `toJSON` and would leak internal representation (a resolved logic/skill instead
+        of the uuid/shortcode it was resolved from) and transient cache fields.
+        - **Every entity now serializes its own state.** Curated `toJSON` overrides were
+          added where a subclass carried fields an ancestor's `toJSON` didn't emit:
+          `ImpactModifier` (roll, aspect), `MasteryLevelModifier` (target clamps, crit
+          digits, tables), `ImpactResult`, `SuccessTestResult` (with uuid/pointer mapping
+          for its token and mastery modifier), `AttackResult`, `DefendResult`,
+          `OpposedTestResult`, and `CombatResult`. Each `toJSON` emits keys matching its
+          `Data` interface so its output is valid constructor input; the situational
+          modifier is carried by the mastery modifier's deltas rather than re-emitted
+          (which would double-apply on revival).
+        - **`SimpleRoll` is now a `SohlEntity`** (moved to `src/entity/roll/`). It is
+          owned by a `parent` Logic and serializes through the shared entity machinery;
+          `SimpleRoll.fromFormula(formula, parent)` now takes that owner.
+        - **A Logic serializes as a resolvable reference.** `SohlLogic.toJSON` no longer
+          reflects its internals; a logic is a behavior wrapper over a live Foundry
+          document and is never revived from its own JSON, so it emits a compact
+          `{ uuid, name, kind }` reference (re-resolved via `fvttLogicFromUuidSync`).
 
-    Combat/opposed cards and clones now round-trip faithfully: nested rolls,
-    modifiers, and results rehydrate as live instances with their computed values
-    intact, and an embedded `AttackResult`/`CombatResult` is self-contained (its
-    `combatantUuid` travels with the payload).
+        Combat/opposed cards and clones now round-trip faithfully: nested rolls,
+        modifiers, and results rehydrate as live instances with their computed values
+        intact, and an embedded `AttackResult`/`CombatResult` is self-contained (its
+        `combatantUuid` travels with the payload).
 
-    _Body construction:_
+        _Body construction:_
 
-    The body entities are `SohlEntity` subclasses owned by their `BodyLogic`, but
-    two construction paths didn't thread the parent through — a runtime break at
-    body initialize:
-    - **The body logic's `initialize` passed the logic as the options object** rather
-      than `{ parent: this }`, so `BodyStructure` received no parent and threw a
-      missing-parent error. It now passes `{ parent: this }`.
-    - **`BodyLocation` called `super()` with no arguments**, dropping the validated
-      parent before it reached `SohlEntity` (and its `Data` now extends
-      `SohlEntity.Data`, consistent with `BodyPart`/`BodyStructure`).
+        The body entities are `SohlEntity` subclasses owned by their `BodyLogic`, but
+        two construction paths didn't thread the parent through — a runtime break at
+        body initialize:
+        - **The body logic's `initialize` passed the logic as the options object** rather
+          than `{ parent: this }`, so `BodyStructure` received no parent and threw a
+          missing-parent error. It now passes `{ parent: this }`.
+        - **`BodyLocation` called `super()` with no arguments**, dropping the validated
+          parent before it reached `SohlEntity` (and its `Data` now extends
+          `SohlEntity.Data`, consistent with `BodyPart`/`BodyStructure`).
 
-    _Action context and chat-card scope:_
+        _Action context and chat-card scope:_
 
-    `SohlActionContext` is no longer a `SohlEntity`. It is a runtime value object —
-    built fresh at every action dispatch, never revived from its own JSON — so
-    forcing it to be an owned, parented entity was wrong. It drops `extends
-SohlEntity`, the parent requirement, the kind registration, and its
+        `SohlActionContext` is no longer a `SohlEntity`. It is a runtime value object —
+        built fresh at every action dispatch, never revived from its own JSON — so
+        forcing it to be an owned, parented entity was wrong. It drops `extends
+
+    SohlEntity`, the parent requirement, the kind registration, and its
     whole-object `toJSON`, and gains a purpose-built `clone(overrides?)`.
 
-    The serializable part of an action is its **`scope`**, and it now crosses the
-    client boundary as a single `data-scope` blob:
-    - Chat cards emit one `data-scope` attribute — `JSON.stringify(defaultToJSON(scope))`
-      — carrying the rich per-action payload (an `AttackResult`, `OpposedTestResult`,
-      or injury request) with its `__kind` tags. Routing/dispatch metadata
-      (`data-action`, the `data-*-handler-uuid` keys) stays in its own flat
-      attributes.
-    - The four `onChatCardButton` handlers revive that blob through a shared
-      `buildActionScope` helper (`defaultFromJSON`), so a flow reads
-      `context.scope.attackResult` / `.opposedTestResult` as a **live** instance
-      rather than re-parsing a per-payload JSON string.
-    - This removed the hand-rolled per-payload plumbing: `opposedTestResume`'s
-      `instanceFromJSON(scope.opposedTestResultJson)`, the dead
-      `rehydrateAttackResult` helper (the attack/defense resumes already read
-      `scope.attackResult`), and the `data-*-result-json` attributes. A latent
-      damage-card bug is fixed along the way — it serialized an `ImpactResult` where
-      the injury handler expected a plain injury request, so the parsed impact came
-      through as `0`; both injury cards now emit the same `{ impact, aspect, … }`
-      request shape.
+        The serializable part of an action is its **`scope`**, and it now crosses the
+        client boundary as a single `data-scope` blob:
+        - Chat cards emit one `data-scope` attribute — `JSON.stringify(defaultToJSON(scope))`
+          — carrying the rich per-action payload (an `AttackResult`, `OpposedTestResult`,
+          or injury request) with its `__kind` tags. Routing/dispatch metadata
+          (`data-action`, the `data-*-handler-uuid` keys) stays in its own flat
+          attributes.
+        - The four `onChatCardButton` handlers revive that blob through a shared
+          `buildActionScope` helper (`defaultFromJSON`), so a flow reads
+          `context.scope.attackResult` / `.opposedTestResult` as a **live** instance
+          rather than re-parsing a per-payload JSON string.
+        - This removed the hand-rolled per-payload plumbing: `opposedTestResume`'s
+          `instanceFromJSON(scope.opposedTestResultJson)`, the dead
+          `rehydrateAttackResult` helper (the attack/defense resumes already read
+          `scope.attackResult`), and the `data-*-result-json` attributes. A latent
+          damage-card bug is fixed along the way — it serialized an `ImpactResult` where
+          the injury handler expected a plain injury request, so the parsed impact came
+          through as `0`; both injury cards now emit the same `{ impact, aspect, … }`
+          request shape.
 
 - d9703c3: **Fix the Mystery sheet's broken "Affected Skills" editor (#808)**
 
@@ -8537,27 +8583,28 @@ SohlEntity`, the parent requirement, the kind registration, and its
 
 - 78e87dc: **Runtime type brands via `isA`, replacing cycle-forming `instanceof`**
 
-    Adds a small Symbol-brand mechanism in `constants.ts` — a `BRAND` map (brand key
-    → unique `Symbol()`), a `BrandType` registry (key → the type it narrows to), and
-    a generic `isA(x, key)` type guard — as a targeted replacement for `instanceof`
-    in the one place a value import would form a module cycle.
-    - **Breaks an import cycle.** `SohlEntity.clone` no longer uses
-      `instanceof SohlLogic`, which forced `SohlEntity` to import `SohlLogic` as a
-      value and closed the cycle `SohlEntity → SohlLogic → SohlActionContext →
-SohlEntity` (throwing `Class extends value undefined` when the entity modules
-      loaded). It now imports `SohlLogic` type-only and detects it with
-      `isA(x, "SohlLogic")`.
+        Adds a small Symbol-brand mechanism in `constants.ts` — a `BRAND` map (brand key
+        → unique `Symbol()`), a `BrandType` registry (key → the type it narrows to), and
+        a generic `isA(x, key)` type guard — as a targeted replacement for `instanceof`
+        in the one place a value import would form a module cycle.
+        - **Breaks an import cycle.** `SohlEntity.clone` no longer uses
+          `instanceof SohlLogic`, which forced `SohlEntity` to import `SohlLogic` as a
+          value and closed the cycle `SohlEntity → SohlLogic → SohlActionContext →
+
+    SohlEntity`(throwing`Class extends value undefined`when the entity modules
+      loaded). It now imports`SohlLogic`type-only and detects it with
+     `isA(x, "SohlLogic")`.
     - **Inherited, un-spoofable brands.** A class attaches its brand through an
       inherited getter (`get [BRAND.SohlLogic]()`), so every subtype at any depth is
       recognized. Because the brand is a `Symbol`, it is invisible to
-      `Object.keys` / `JSON.stringify` and never leaks into serialized data.
-    - **One mechanism, not two.** The earlier one-off `isSohlTokenDocumentLogic`
+      `Object.keys`/`JSON.stringify`and never leaks into serialized data.
+    - **One mechanism, not two.** The earlier one-off`isSohlTokenDocumentLogic`
       string getter is folded into the same pattern
-      (`BRAND.SohlTokenDocumentLogic` + `isA`).
+      (`BRAND.SohlTokenDocumentLogic`+`isA`).
 
-    Plain `instanceof` remains the default wherever it does not cause a cycle; the
-    brand is added only where the import graph forces it, and the `BrandType`
-    registry is meant to grow lazily rather than branding every type.
+        Plain `instanceof` remains the default wherever it does not cause a cycle; the
+        brand is added only where the import graph forces it, and the `BrandType`
+        registry is meant to grow lazily rather than branding every type.
 
 - 46fafce: **Add a Security Model & Guardrails developer document**
 
@@ -8794,20 +8841,21 @@ SohlEntity` (throwing `Class extends value undefined` when the entity modules
 
 - ef79747: **Fix: migrate weapongear strike-mode `defense` to the nested block/counterstrike schema**
 
-    Every compendium weapongear stored strike-mode defense in the legacy flat
-    shape (`defense.blockMod` / `defense.counterstrikeMod`), but `MeleeStrikeMode`
-    now reads the nested schema (`defense.block` / `defense.counterstrike`, each
-    `{ disabled, modifier, successLevelMod }`). Embedding a compendium weapon on an
-    actor therefore threw `TypeError: Cannot read properties of undefined (reading
-'modifier')` during `prepareData()`.
+        Every compendium weapongear stored strike-mode defense in the legacy flat
+        shape (`defense.blockMod` / `defense.counterstrikeMod`), but `MeleeStrikeMode`
+        now reads the nested schema (`defense.block` / `defense.counterstrike`, each
+        `{ disabled, modifier, successLevelMod }`). Embedding a compendium weapon on an
+        actor therefore threw `TypeError: Cannot read properties of undefined (reading
 
-    Migrate all 71 affected `_source` items (162 defense blocks) to the nested
-    schema, carrying each modifier value across and defaulting `disabled` to `false`
-    and `successLevelMod` to `0`. Verified against the licensed test container:
-    `gear-equip`, `combat-setup`, and `combat-automated` specs pass (compendium
-    weapons now embed without crashing).
+    'modifier')`during`prepareData()`.
 
-    Fixes #246
+        Migrate all 71 affected `_source` items (162 defense blocks) to the nested
+        schema, carrying each modifier value across and defaulting `disabled` to `false`
+        and `successLevelMod` to `0`. Verified against the licensed test container:
+        `gear-equip`, `combat-setup`, and `combat-automated` specs pass (compendium
+        weapons now embed without crashing).
+
+        Fixes #246
 
 - f67f18a: **Strike Mode editor & tab UX fixes**
 
@@ -8875,35 +8923,36 @@ SohlEntity` (throwing `Class extends value undefined` when the entity modules
 
 - 67afd5f: **Fix the success-test chat card rendering blank Target/Roll and a raw i18n key**
 
-    Clicking a strike mode's **Atk/Blk/CX** value — or running any success test —
-    posted a card with an empty **Target**, an empty **Roll** (and failure styling
-    regardless of outcome), and a footer showing the literal key
-    `SOHL.SuccessTestResult.Failure` instead of a localized result.
+        Clicking a strike mode's **Atk/Blk/CX** value — or running any success test —
+        posted a card with an empty **Target**, an empty **Roll** (and failure styling
+        regardless of outcome), and a footer showing the literal key
+        `SOHL.SuccessTestResult.Failure` instead of a localized result.
 
-    The card renders directly against the result's serialized `toJSON()` payload, but
-    the template was written against the live-object shape, so several bindings never
-    resolved:
-    - **Target / modifier breakdown.** `SuccessTestResult.toChat` now folds the
-      modifier into the card data as `mlMod` (its constrained target, per-delta
-      `chatHtml` breakdown, `empty`, and `successLevelMod`). The Target now shows the
-      modifier's `constrainedEffective` — the value the d100 must roll at or under.
-    - **Roll total and outcome styling.** The roll's `total` (a getter absent from
-      `SimpleRoll.toJSON`) and the `isSuccess` / `isCritical` outcome booleans are now
-      folded in, so the Roll shows the d100 total and the card styles a pass as a
-      success.
-    - **Localized footer.** Added the six `SOHL.SuccessTestResult.{Success,Failure,
-MarginalSuccess,MarginalFailure,CriticalSuccess,CriticalFailure}` keys (none
+        The card renders directly against the result's serialized `toJSON()` payload, but
+        the template was written against the live-object shape, so several bindings never
+        resolved:
+        - **Target / modifier breakdown.** `SuccessTestResult.toChat` now folds the
+          modifier into the card data as `mlMod` (its constrained target, per-delta
+          `chatHtml` breakdown, `empty`, and `successLevelMod`). The Target now shows the
+          modifier's `constrainedEffective` — the value the d100 must roll at or under.
+        - **Roll total and outcome styling.** The roll's `total` (a getter absent from
+          `SimpleRoll.toJSON`) and the `isSuccess` / `isCritical` outcome booleans are now
+          folded in, so the Roll shows the d100 total and the card styles a pass as a
+          success.
+        - **Localized footer.** Added the six `SOHL.SuccessTestResult.{Success,Failure,
+
+    MarginalSuccess,MarginalFailure,CriticalSuccess,CriticalFailure}` keys (none
       existed) and localized the footer (`{{localize description}}`), so it shows e.g.
       "Marginal Success" rather than the raw key.
     - **Live edit / fate buttons.** The card's root element, its edit-pencil, and its
-      Fate Test button read `{{actor.uuid}}` / `{{item.uuid}}`, which `toChat` never
-      supplied — so all three rendered empty and the buttons could not dispatch. The
-      owning item's and actor's uuids are now folded in.
+      Fate Test button read `{{actor.uuid}}`/`{{item.uuid}}`, which `toChat` never
+    supplied — so all three rendered empty and the buttons could not dispatch. The
+    owning item's and actor's uuids are now folded in.
 
-    Affected every success-test card (skills, attributes, and combat), since they all
-    share this render path.
+        Affected every success-test card (skills, attributes, and combat), since they all
+        share this render path.
 
-    Resolves #840
+        Resolves #840
 
 - f67f18a: **Character Creation tour: presentation and interaction fixes**
 
