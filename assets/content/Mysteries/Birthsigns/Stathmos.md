@@ -18,126 +18,78 @@ sohl:
     levelBase: 0
 folder: b1rthS1gnFldr001
 effects:
-    - name: "Stathmos — Nature skills (-15 EML)"
+    - name: "Stathmos — Earth skills (-15 EML)"
       type: sohleffectdata
       _id: PMwEa3BCnBCbTTZn
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "nature"'
+          test: 'itemLogic.data.subType === "nature" || has(itemLogic.data.shortcode, ["earth", "physera"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "-15"
             priority: null
       _key: "!items.effects!BdARpfjp4ZpLEz1M.PMwEa3BCnBCbTTZn"
-    - name: "Stathmos — Script skills (-5 EML)"
+    - name: "Stathmos — Metal skills (-5 EML)"
       type: sohleffectdata
       _id: jni74eKl4reLH5e1
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "script"'
+          test: 'has(itemLogic.data.subType, ["script", "craft"]) || has(itemLogic.data.shortcode, ["metal", "sideros"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "-5"
             priority: null
       _key: "!items.effects!BdARpfjp4ZpLEz1M.jni74eKl4reLH5e1"
-    - name: "Stathmos — Craft skills (-5 EML)"
+    - name: "Stathmos — Fire skills (+5 EML)"
       type: sohleffectdata
       _id: fqi4zmIoty7Ghpku
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "craft"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-5"
-            priority: null
-      _key: "!items.effects!BdARpfjp4ZpLEz1M.fqi4zmIoty7Ghpku"
-    - name: "Stathmos — Combat Technique skills (+5 EML)"
-      type: sohleffectdata
-      _id: e1pYIi8t8JmbIf0y
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "combattechnique"'
+          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "5"
             priority: null
+      _key: "!items.effects!BdARpfjp4ZpLEz1M.fqi4zmIoty7Ghpku"
+    - name: "Stathmos — Air skills (+15 EML)"
+      type: sohleffectdata
+      _id: e1pYIi8t8JmbIf0y
+      system:
+          scope: skill
+          test: 'itemLogic.data.subType === "physical" || has(itemLogic.data.shortcode, ["air", "zepharis"])'
+      changes:
+          - key: "mod:logic.masteryLevel"
+            type: add
+            value: "15"
+            priority: null
       _key: "!items.effects!BdARpfjp4ZpLEz1M.e1pYIi8t8JmbIf0y"
-    - name: "Stathmos — Combat skills (+5 EML)"
+    - name: "Stathmos — Spirit skills (+5 EML)"
       type: sohleffectdata
       _id: YcIzNK1iYrH91ejF
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "combat"'
+          test: 'has(itemLogic.data.subType, ["mystical", "lore"]) || has(itemLogic.data.shortcode, ["spirit", "pneumenos"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "5"
             priority: null
       _key: "!items.effects!BdARpfjp4ZpLEz1M.YcIzNK1iYrH91ejF"
-    - name: "Stathmos — Physical skills (+15 EML)"
+    - name: "Stathmos — Water skills (-5 EML)"
       type: sohleffectdata
       _id: HIvixpqpSOgtwLjn
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "physical"'
+          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
-            value: "15"
+            value: "-5"
             priority: null
       _key: "!items.effects!BdARpfjp4ZpLEz1M.HIvixpqpSOgtwLjn"
-    - name: "Stathmos — Mystical skills (+5 EML)"
-      type: sohleffectdata
-      _id: NzA2Hj78kWpOeEYJ
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "mystical"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "5"
-            priority: null
-      _key: "!items.effects!BdARpfjp4ZpLEz1M.NzA2Hj78kWpOeEYJ"
-    - name: "Stathmos — Lore skills (+5 EML)"
-      type: sohleffectdata
-      _id: Dy8oNkQ98nEd3Mne
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "lore"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "5"
-            priority: null
-      _key: "!items.effects!BdARpfjp4ZpLEz1M.Dy8oNkQ98nEd3Mne"
-    - name: "Stathmos — Language skills (-5 EML)"
-      type: sohleffectdata
-      _id: 1sPg0dWMDKPbNH9W
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "language"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-5"
-            priority: null
-      _key: "!items.effects!BdARpfjp4ZpLEz1M.1sPg0dWMDKPbNH9W"
-    - name: "Stathmos — Social skills (-5 EML)"
-      type: sohleffectdata
-      _id: FCtTVPOKF0X6GrEd
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "social"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-5"
-            priority: null
-      _key: "!items.effects!BdARpfjp4ZpLEz1M.FCtTVPOKF0X6GrEd"
 ---
 
 Stathmos, the Balance, is the sign of the tested body. Its natives are robust and enduring, apt for the martial and the mystical middle path, but the wilds, the workshop, and the scriptorium yield to them grudgingly.

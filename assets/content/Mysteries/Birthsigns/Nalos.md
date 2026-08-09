@@ -18,126 +18,78 @@ sohl:
     levelBase: 0
 folder: b1rthS1gnFldr001
 effects:
-    - name: "Nalos — Nature skills (+5 EML)"
+    - name: "Nalos — Earth skills (+5 EML)"
       type: sohleffectdata
       _id: wxSkntNDUhgrj7Bf
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "nature"'
+          test: 'itemLogic.data.subType === "nature" || has(itemLogic.data.shortcode, ["earth", "physera"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "5"
             priority: null
       _key: "!items.effects!rqZ2w3pVH8POKZ1F.wxSkntNDUhgrj7Bf"
-    - name: "Nalos — Script skills (-5 EML)"
+    - name: "Nalos — Metal skills (-5 EML)"
       type: sohleffectdata
       _id: AuYPcPDSUTujgRvB
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "script"'
+          test: 'has(itemLogic.data.subType, ["script", "craft"]) || has(itemLogic.data.shortcode, ["metal", "sideros"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "-5"
             priority: null
       _key: "!items.effects!rqZ2w3pVH8POKZ1F.AuYPcPDSUTujgRvB"
-    - name: "Nalos — Craft skills (-5 EML)"
+    - name: "Nalos — Fire skills (-15 EML)"
       type: sohleffectdata
       _id: jxuJpAD8mC6UeR9y
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "craft"'
+          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
-            value: "-5"
+            value: "-15"
             priority: null
       _key: "!items.effects!rqZ2w3pVH8POKZ1F.jxuJpAD8mC6UeR9y"
-    - name: "Nalos — Combat Technique skills (-15 EML)"
+    - name: "Nalos — Air skills (-5 EML)"
       type: sohleffectdata
       _id: QYqkZDFdXBtfU4FO
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "combattechnique"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-15"
-            priority: null
-      _key: "!items.effects!rqZ2w3pVH8POKZ1F.QYqkZDFdXBtfU4FO"
-    - name: "Nalos — Combat skills (-15 EML)"
-      type: sohleffectdata
-      _id: Pwlxi1f8PMlFSEGz
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "combat"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-15"
-            priority: null
-      _key: "!items.effects!rqZ2w3pVH8POKZ1F.Pwlxi1f8PMlFSEGz"
-    - name: "Nalos — Physical skills (-5 EML)"
-      type: sohleffectdata
-      _id: 7SSWQau5gRNyx3ja
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "physical"'
+          test: 'itemLogic.data.subType === "physical" || has(itemLogic.data.shortcode, ["air", "zepharis"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "-5"
             priority: null
+      _key: "!items.effects!rqZ2w3pVH8POKZ1F.QYqkZDFdXBtfU4FO"
+    - name: "Nalos — Spirit skills (+5 EML)"
+      type: sohleffectdata
+      _id: Pwlxi1f8PMlFSEGz
+      system:
+          scope: skill
+          test: 'has(itemLogic.data.subType, ["mystical", "lore"]) || has(itemLogic.data.shortcode, ["spirit", "pneumenos"])'
+      changes:
+          - key: "mod:logic.masteryLevel"
+            type: add
+            value: "5"
+            priority: null
+      _key: "!items.effects!rqZ2w3pVH8POKZ1F.Pwlxi1f8PMlFSEGz"
+    - name: "Nalos — Water skills (+15 EML)"
+      type: sohleffectdata
+      _id: 7SSWQau5gRNyx3ja
+      system:
+          scope: skill
+          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
+      changes:
+          - key: "mod:logic.masteryLevel"
+            type: add
+            value: "15"
+            priority: null
       _key: "!items.effects!rqZ2w3pVH8POKZ1F.7SSWQau5gRNyx3ja"
-    - name: "Nalos — Mystical skills (+5 EML)"
-      type: sohleffectdata
-      _id: bJmYfJatTdm0wsHg
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "mystical"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "5"
-            priority: null
-      _key: "!items.effects!rqZ2w3pVH8POKZ1F.bJmYfJatTdm0wsHg"
-    - name: "Nalos — Lore skills (+5 EML)"
-      type: sohleffectdata
-      _id: h1TZdC3BGEXXsnxj
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "lore"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "5"
-            priority: null
-      _key: "!items.effects!rqZ2w3pVH8POKZ1F.h1TZdC3BGEXXsnxj"
-    - name: "Nalos — Language skills (+15 EML)"
-      type: sohleffectdata
-      _id: EwgQ4gKr0a4D7iBX
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "language"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "15"
-            priority: null
-      _key: "!items.effects!rqZ2w3pVH8POKZ1F.EwgQ4gKr0a4D7iBX"
-    - name: "Nalos — Social skills (+15 EML)"
-      type: sohleffectdata
-      _id: c9mCqMvPHvgEBnnK
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "social"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "15"
-            priority: null
-      _key: "!items.effects!rqZ2w3pVH8POKZ1F.c9mCqMvPHvgEBnnK"
 ---
 
 Nalos, the River, carries its children toward company and speech. Persuasive and worldly, at home in field and gathering, they are ill-starred for the martial disciplines and the labours of the maker's hand.

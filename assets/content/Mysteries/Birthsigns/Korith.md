@@ -18,78 +18,54 @@ sohl:
     levelBase: 0
 folder: b1rthS1gnFldr001
 effects:
-    - name: "Korith — Nature skills (-10 EML)"
+    - name: "Korith — Earth skills (-10 EML)"
       type: sohleffectdata
       _id: NFIDMOs9O1Cb8DrG
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "nature"'
+          test: 'itemLogic.data.subType === "nature" || has(itemLogic.data.shortcode, ["earth", "physera"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "-10"
             priority: null
       _key: "!items.effects!R6kUskyAmO8AmYuz.NFIDMOs9O1Cb8DrG"
-    - name: "Korith — Combat Technique skills (+10 EML)"
+    - name: "Korith — Fire skills (+10 EML)"
       type: sohleffectdata
       _id: VzAxfm9MhDrQVdvN
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "combattechnique"'
+          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "10"
             priority: null
       _key: "!items.effects!R6kUskyAmO8AmYuz.VzAxfm9MhDrQVdvN"
-    - name: "Korith — Combat skills (+10 EML)"
+    - name: "Korith — Air skills (+10 EML)"
       type: sohleffectdata
       _id: TDTDnF1gzzEGTwry
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "combat"'
+          test: 'itemLogic.data.subType === "physical" || has(itemLogic.data.shortcode, ["air", "zepharis"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "10"
             priority: null
       _key: "!items.effects!R6kUskyAmO8AmYuz.TDTDnF1gzzEGTwry"
-    - name: "Korith — Physical skills (+10 EML)"
+    - name: "Korith — Water skills (-10 EML)"
       type: sohleffectdata
       _id: UnziEQnkHBWCBYFF
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "physical"'
+          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
-            value: "10"
+            value: "-10"
             priority: null
       _key: "!items.effects!R6kUskyAmO8AmYuz.UnziEQnkHBWCBYFF"
-    - name: "Korith — Language skills (-10 EML)"
-      type: sohleffectdata
-      _id: RgKGvsOPbnQEESBP
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "language"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!R6kUskyAmO8AmYuz.RgKGvsOPbnQEESBP"
-    - name: "Korith — Social skills (-10 EML)"
-      type: sohleffectdata
-      _id: r9GV1inGa6g8ZuoH
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "social"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!R6kUskyAmO8AmYuz.r9GV1inGa6g8ZuoH"
 ---
 
 Korith, the Helm, tempers its children for endurance and the clash of arms. Strong in body and steady under the strike, they nonetheless find the lore of nature and the graces of speech slow to answer their call.

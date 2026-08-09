@@ -18,102 +18,54 @@ sohl:
     levelBase: 0
 folder: b1rthS1gnFldr001
 effects:
-    - name: "Chelyx — Script skills (+10 EML)"
+    - name: "Chelyx — Metal skills (+10 EML)"
       type: sohleffectdata
       _id: FmiVRENaITHwoAxI
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "script"'
+          test: 'has(itemLogic.data.subType, ["script", "craft"]) || has(itemLogic.data.shortcode, ["metal", "sideros"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "10"
             priority: null
       _key: "!items.effects!bteb60lsodiwjGtL.FmiVRENaITHwoAxI"
-    - name: "Chelyx — Craft skills (+10 EML)"
+    - name: "Chelyx — Fire skills (+10 EML)"
       type: sohleffectdata
       _id: dXbf1zw9GhJOjfSh
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "craft"'
+          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "10"
             priority: null
       _key: "!items.effects!bteb60lsodiwjGtL.dXbf1zw9GhJOjfSh"
-    - name: "Chelyx — Combat Technique skills (+10 EML)"
+    - name: "Chelyx — Spirit skills (-10 EML)"
       type: sohleffectdata
       _id: 5eVUsKFDaFQ4l7rL
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "combattechnique"'
+          test: 'has(itemLogic.data.subType, ["mystical", "lore"]) || has(itemLogic.data.shortcode, ["spirit", "pneumenos"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
-            value: "10"
+            value: "-10"
             priority: null
       _key: "!items.effects!bteb60lsodiwjGtL.5eVUsKFDaFQ4l7rL"
-    - name: "Chelyx — Combat skills (+10 EML)"
+    - name: "Chelyx — Water skills (-10 EML)"
       type: sohleffectdata
       _id: iaU5GJo2vj3yBCkd
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "combat"'
+          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
-            value: "10"
+            value: "-10"
             priority: null
       _key: "!items.effects!bteb60lsodiwjGtL.iaU5GJo2vj3yBCkd"
-    - name: "Chelyx — Mystical skills (-10 EML)"
-      type: sohleffectdata
-      _id: 2vb9OAIveHq76WK3
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "mystical"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.2vb9OAIveHq76WK3"
-    - name: "Chelyx — Lore skills (-10 EML)"
-      type: sohleffectdata
-      _id: OensThOLjJvKwIps
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "lore"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.OensThOLjJvKwIps"
-    - name: "Chelyx — Language skills (-10 EML)"
-      type: sohleffectdata
-      _id: JwOsAfa9AE0TWZ3e
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "language"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.JwOsAfa9AE0TWZ3e"
-    - name: "Chelyx — Social skills (-10 EML)"
-      type: sohleffectdata
-      _id: ldHxBEd4a4HcT9bc
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "social"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.ldHxBEd4a4HcT9bc"
 ---
 
 Chelyx, the Tortoise, shields its children with method and craft. They excel in the disciplined arts of the pen, the workshop, and the drill-yard, yet the sign keeps them apart from easy speech and the numinous alike.
