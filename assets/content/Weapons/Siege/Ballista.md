@@ -62,8 +62,8 @@ sohl:
               halfImpact: false
               lowAim: false
           projectileType: bolt
-          maxVolleyMult: 1
-          baseRangeBase: 480
+          maxVolleyMult: 4
+          baseRangeBase: 200
           drawBase: 90
 folder: HXiYHvG6igI3Wlmm
 ---
