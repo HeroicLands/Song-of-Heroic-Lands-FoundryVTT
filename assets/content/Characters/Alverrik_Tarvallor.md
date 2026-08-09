@@ -26,7 +26,7 @@ social:
     society: Tarvénan
 traits:
     gender: male
-    age: 34
+    age: 30
     birthday: 690/6/11
     height:
         m: 1.83
@@ -687,7 +687,7 @@ Born in the Tarvénia region to a freeman family of Tarvénan heritage, Álverri
 
 Roran has spent years as a caravan guard, ensuring the safety of traders traveling through dangerous territories. Known for his strength and vigilance, he is respected by his peers and feared by would-be bandits. Roran has a strong sense of duty and is committed to protecting both the goods and the lives of those he guards.
 
-Now at 34 years of age, Álverrik Tárvallor has established himself as a known figure among the caravan guards of Tarvénia. His reputation, for better or worse, precedes him in the circles where such things matter.
+Now at 30 years of age, Álverrik Tárvallor has established himself as a known figure among the caravan guards of Tarvénia. His reputation, for better or worse, precedes him in the circles where such things matter.
 
 ## Psyche
 
