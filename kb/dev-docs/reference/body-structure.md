@@ -355,25 +355,31 @@ Zones (in order, with the numbers each claims):
 | `torsozone`    | Torso |            4 | 6–9          | `torsopart`              |
 | `legszone`     | Legs  |            6 | 10–15        | `rlegpart`, `llegpart`   |
 
-## Suggested shortcode conventions for new body structures
+## Body plans shipped in the animals pack
 
-Suffix every zone shortcode with `zone`, every part shortcode with `part`, and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Part and location shortcodes must be unique **body-wide**. Beyond that, the suggestions below are conventions, not shipped data — only the Human body structure is authored today.
+Suffix every zone shortcode with `zone`, every part shortcode with `part`, and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Part and location shortcodes must be unique **body-wide**.
 
-### Quadruped (horse, wolf, bear)
+Fifteen body plans are authored across the `sohl.actors` pack. Each mirrors the shape of a printed hit-location table where one exists and extrapolates the same construction where none does; zone weights scale with the creature's size band, while part and location weights are the plan's own.
 
-`headpart`, `neckpart`, `forequarterspart`, `barrelpart`, `hindquarterspart`, `lforelegpart`, `rforelegpart`, `lhindlegpart`, `rhindlegpart`, `tailpart`.
+| Plan             | Zones                                            | Example creatures            |
+| ---------------- | ------------------------------------------------ | ---------------------------- |
+| `ungulate`       | Head · Forelegs · Torso · Hindquarters           | bovine, horse, stag, rhino   |
+| `carnivore`      | Head · Forelegs · Torso · Hindquarters           | bear, lion, wolf, crocodile  |
+| `smallQuadruped` | Forequarters · Torso · Hindquarters              | cat, dog, badger, lizard     |
+| `anthropoid`     | Head · Arms · Torso · Legs                       | ape, monkey (and every Being)|
+| `smallAvian`     | Head · Body · Hindquarters                       | crow, raven, bat             |
+| `largeAvian`     | Head · Wing · Body · Wing · Hindquarters         | eagle, condor, roc           |
+| `biped`          | Head · Body · Hindquarters                       | ostrich, raptor-lizards      |
+| `drake`          | Head · Wings · Forelegs · Torso · Hindquarters   | forest and mountain drakes   |
+| `serpentine`     | Head · Forebody · Hindbody                       | snake, centipede, wurm       |
+| `proboscidean`   | Head · Trunk · Forelegs · Torso · Hindquarters   | elephant                     |
+| `arachnid`       | Cephalothorax · Abdomen · Legs                   | spider, scorpion             |
+| `insect`         | Head · Thorax · Abdomen                          | ant, wasp, beetle            |
+| `aquatic`        | Head · Body · Tail                               | shark, orca, seal            |
+| `chelonian`      | Head · Shell · Limbs                             | tortoise, turtle             |
+| `cephalopod`     | Mantle · Head · Arms                             | octopus                      |
 
-### Avian (eagle, griffin)
-
-`headpart`, `bodypart`, `lwingpart`, `rwingpart`, `llegpart`, `rlegpart`, `tailpart`.
-
-### Serpentine (snake, wyrm, dragon)
-
-`headpart`, `neckpart`, `forebodypart`, `midbodypart`, `hindbodypart`, `tailpart`; dragons add `lwingpart` / `rwingpart` and four legs.
-
-### Multi-limbed (spider, insect)
-
-`cephalothoraxpart`, `abdomenpart`; legs numbered for clarity when more than two pairs.
+An **ape or monkey uses the human plan unchanged** — the same six parts and thirty-two hit locations a Being carries — over a zone run scaled to its size, so a monkey's zone numbers run 1–6 where a person's run 1–15.
 
 ## Adding a body part to a being
 

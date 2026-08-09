@@ -36,14 +36,112 @@ sohl:
         cre: 1d4+3
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Cephalothorax
+                  shortcode: cephzone
+                  probWeight: 1
+                - name: Abdomen
+                  shortcode: abdomenzone
+                  probWeight: 1
+                - name: Legs
+                  shortcode: legszone
+                  probWeight: 1
+            parts:
+                - name: Cephalothorax
+                  shortcode: cephpart
+                  bodyZoneCode: cephzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Abdomen
+                  shortcode: abdomenpart
+                  bodyZoneCode: abdomenzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Legs
+                  shortcode: llegspart
+                  bodyZoneCode: legszone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Legs
+                  shortcode: rlegspart
+                  bodyZoneCode: legszone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Cephalothorax
+                  shortcode: cephloc
+                  bodyPartCode: cephpart
+                  bleedingSusceptibility: low
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 7
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Fangs
+                  shortcode: fangloc
+                  bodyPartCode: cephpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 3
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Left Legs
+                  shortcode: llegsloc
+                  bodyPartCode: llegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Right Legs
+                  shortcode: rlegsloc
+                  bodyPartCode: rlegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
         weight:
             base: 1
-            calc: 1
+            calc: "1"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +153,80 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - name: Venomous Fangs
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 66
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Venomous Fangs
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: 2
+                      aspect: piercing
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      poison: true
+        - name: Pouncing Tackle
+          type: skill
+          system:
+              shortcode: grab
+              subType: combattechnique
+              masteryLevelBase: 71
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: grab
+                  name: Pouncing Tackle
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 13
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

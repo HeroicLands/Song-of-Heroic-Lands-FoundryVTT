@@ -37,14 +37,206 @@ sohl:
         cre: 1d4+2
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 8
+                - name: Forelegs
+                  shortcode: forelegszone
+                  probWeight: 4
+                - name: Torso
+                  shortcode: torsozone
+                  probWeight: 16
+                - name: Hindquarters
+                  shortcode: hindqtrzone
+                  probWeight: 12
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Foreleg
+                  shortcode: lforelegpart
+                  bodyZoneCode: forelegszone
+                  roles: &a1
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 1
+                - name: Right Foreleg
+                  shortcode: rforelegpart
+                  bodyZoneCode: forelegszone
+                  roles: *a1
+                  canHoldItem: false
+                  probWeight: 1
+                - name: Torso
+                  shortcode: torsopart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Hind Leg
+                  shortcode: lhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 9
+                - name: Right Hind Leg
+                  shortcode: rhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 9
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindqtrzone
+                  roles: []
+                  canHoldItem: false
+                  probWeight: 2
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Left Foreleg
+                  shortcode: lforelegloc
+                  bodyPartCode: lforelegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Right Foreleg
+                  shortcode: rforelegloc
+                  bodyPartCode: rforelegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Flank
+                  shortcode: flkloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Left Quarter
+                  shortcode: lqtrloc
+                  bodyPartCode: lhindlegpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 3
+                  probWeight: 5
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Left Hind Leg
+                  shortcode: lhindlegloc
+                  bodyPartCode: lhindlegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Right Quarter
+                  shortcode: rqtrloc
+                  bodyPartCode: rhindlegpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 3
+                  probWeight: 5
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Right Hind Leg
+                  shortcode: rhindlegloc
+                  bodyPartCode: rhindlegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 7
+                      edged: 6
+                      piercing: 4
+                      fire: 6
         weight:
             base: 4000
-            calc: 4000
+            calc: "4000"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 2.09
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -71,7 +263,115 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - name: Tusk Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 56
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Tusk Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 8
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 7
+                      aspect: piercing
+                  lengthBase: 4
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Charging Slam
+          type: skill
+          system:
+              shortcode: ram
+              subType: combattechnique
+              masteryLevelBase: 46
+              combatCategory: melee
+              impairedByRoles:
+                  - core
+              strikeMode:
+                  type: melee
+                  shortcode: ram
+                  name: Charging Slam
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 16
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 6
+                      aspect: blunt
+                  lengthBase: 4
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Trample
+          type: skill
+          system:
+              shortcode: kick
+              subType: combattechnique
+              masteryLevelBase: 46
+              combatCategory: melee
+              impairedByRoles:
+                  - locomotor
+              strikeMode:
+                  type: melee
+                  shortcode: kick
+                  name: Trample
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 16
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 4
+                      aspect: blunt
+                  lengthBase: 5
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

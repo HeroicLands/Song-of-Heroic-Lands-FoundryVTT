@@ -22,7 +22,7 @@
  * than shipping wrong numbers to a GM.
  */
 
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, it, expect } from "vitest";
 import { parse as parseYaml } from "yaml";
@@ -662,5 +662,100 @@ describe("animal roster", () => {
     it("names each content file exactly once", () => {
         const files = ROWS.map((r) => r.file);
         expect(new Set(files).size).toBe(files.length);
+    });
+});
+
+/* ------------------------------------------------------------------ */
+/*  Every animal, printed or derived                                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The invariants that hold for *every* animal, including the ones whose body
+ * plan and natural weapons are extrapolated rather than printed. These are the
+ * properties the combat and injury pipelines rely on: an animal that fails one
+ * cannot be hit, cannot attack, or resolves a wound against nothing.
+ */
+const ANIMAL_FILES = readdirSync(CONTENT)
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => f.slice(0, -3))
+    .sort();
+
+describe.each(ANIMAL_FILES)("%s (every animal)", (file) => {
+    const sohl = readSohl(file);
+
+    it("has a body a blow can land on", () => {
+        const data = sohl.body?.structure as BodyStructure.Data | undefined;
+        expect(data, "no body structure").toBeDefined();
+        const structure = new BodyStructure(data!, bodyOptions(data!));
+
+        expect(structure.maxZoneNumber).toBeGreaterThan(0);
+        expect(structure.orphanedParts).toHaveLength(0);
+        expect(structure.orphanedLocations).toHaveLength(0);
+
+        // Zone numbers run 1..N with no gaps, so aimZone can resolve any of
+        // them; a zone with no part would be a hole in that range.
+        let next = 1;
+        for (const zone of structure.getAllZones()) {
+            expect(zone.zoneNumbers[0], zone.shortcode).toBe(next);
+            expect(zone.parts.length, zone.shortcode).toBeGreaterThan(0);
+            next += zone.zoneNumbers.length;
+        }
+        expect(next - 1).toBe(structure.maxZoneNumber);
+
+        for (const part of structure.getAllParts()) {
+            expect(part.locations.length, part.shortcode).toBeGreaterThan(0);
+        }
+    });
+
+    it("scales injuries to its own Strength", () => {
+        const str = sohl.attributes?.str;
+        expect(str, "no Strength").toBeGreaterThan(0);
+        expect(sohl.body.bodyScaleBase).toBeCloseTo(str / 11, 2);
+    });
+
+    it("carries one natural armour value across the whole body", () => {
+        const [first, ...others] = sohl.body.structure.locations;
+        for (const location of others) {
+            expect(location.protectionBase, location.shortcode).toEqual(
+                first.protectionBase,
+            );
+        }
+    });
+
+    it("can attack with at least one combat technique", () => {
+        const techniques = items(sohl, "skill", "combattechnique");
+        expect(techniques.length, "no combat technique").toBeGreaterThan(0);
+
+        const roles = new Set(
+            (sohl.body.structure.parts as { roles: string[] }[]).flatMap(
+                (p) => p.roles,
+            ),
+        );
+        for (const tech of techniques) {
+            const sm = tech.system.strikeMode;
+            expect(sm, `${tech.name} has no strike mode`).toBeDefined();
+            expect(sm.type).toBe("melee");
+            expect(tech.system.masteryLevelBase, tech.name).toBeGreaterThan(0);
+            expect(sm.attack.spread, `${tech.name} zone die`).toBeGreaterThan(
+                0,
+            );
+            expect(
+                sm.impactBase.die,
+                `${tech.name} impact die`,
+            ).toBeGreaterThan(0);
+            expect(ASPECTS).toContain(sm.impactBase.aspect);
+            expect(sm.traits.noBlock, tech.name).toBe(true);
+            // The technique is impaired by a role its body actually has.
+            for (const role of tech.system.impairedByRoles) {
+                expect(roles.has(role), `${tech.name} → ${role}`).toBe(true);
+            }
+        }
+    });
+
+    it("gives every hit location a unique shortcode", () => {
+        const codes = sohl.body.structure.locations.map(
+            (l: { shortcode: string }) => l.shortcode,
+        );
+        expect(new Set(codes).size).toBe(codes.length);
     });
 });

@@ -36,14 +36,131 @@ sohl:
         cre: 1d4+2
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 2
+                - name: Thorax
+                  shortcode: thoraxzone
+                  probWeight: 2
+                - name: Abdomen
+                  shortcode: abdomenzone
+                  probWeight: 2
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Thorax
+                  shortcode: thoraxpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Legs
+                  shortcode: llegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Right Legs
+                  shortcode: rlegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Abdomen
+                  shortcode: abdomenpart
+                  bodyZoneCode: abdomenzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 7
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 7
+                      fire: 9
+                - name: Mandibles
+                  shortcode: mandibloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 3
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 7
+                      fire: 9
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: thoraxpart
+                  bleedingSusceptibility: low
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 7
+                      fire: 9
+                - name: Left Legs
+                  shortcode: llegsloc
+                  bodyPartCode: llegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 7
+                      fire: 9
+                - name: Right Legs
+                  shortcode: rlegsloc
+                  bodyPartCode: rlegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 7
+                      fire: 9
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 7
+                      fire: 9
         weight:
             base: 50
-            calc: 50
+            calc: "50"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.91
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +172,79 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - name: Mandible Crush
+          type: skill
+          system:
+              shortcode: mandible
+              subType: combattechnique
+              masteryLevelBase: 48
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: mandible
+                  name: Mandible Crush
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 6
+                      aspect: edged
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Body Slam
+          type: skill
+          system:
+              shortcode: ram
+              subType: combattechnique
+              masteryLevelBase: 38
+              combatCategory: melee
+              impairedByRoles:
+                  - core
+              strikeMode:
+                  type: melee
+                  shortcode: ram
+                  name: Body Slam
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 5
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

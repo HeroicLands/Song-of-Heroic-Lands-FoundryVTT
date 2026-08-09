@@ -36,14 +36,143 @@ sohl:
         cre: 1d4+2
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 5
+                - name: Body
+                  shortcode: torsozone
+                  probWeight: 11
+                - name: Tail
+                  shortcode: tailzone
+                  probWeight: 4
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Body
+                  shortcode: torsopart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Fin
+                  shortcode: lfinpart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Right Fin
+                  shortcode: rfinpart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: tailzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Gills
+                  shortcode: gillloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Body
+                  shortcode: bodyloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Underbelly
+                  shortcode: underbellyloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Left Fin
+                  shortcode: lfinloc
+                  bodyPartCode: lfinpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Right Fin
+                  shortcode: rfinloc
+                  bodyPartCode: rfinpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
         weight:
             base: 2000
-            calc: 2000
+            calc: "2000"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.73
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +184,79 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - name: Devastating Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 61
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Devastating Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 5
+                      aspect: piercing
+                  lengthBase: 2
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Ramming Charge
+          type: skill
+          system:
+              shortcode: ram
+              subType: combattechnique
+              masteryLevelBase: 51
+              combatCategory: melee
+              impairedByRoles:
+                  - core
+              strikeMode:
+                  type: melee
+                  shortcode: ram
+                  name: Ramming Charge
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 8
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 4
+                      aspect: blunt
+                  lengthBase: 2
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

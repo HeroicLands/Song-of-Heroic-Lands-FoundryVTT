@@ -36,14 +36,114 @@ sohl:
         cre: 1d6+9
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Mantle
+                  shortcode: mantlezone
+                  probWeight: 4
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 2
+                - name: Arms
+                  shortcode: armszone
+                  probWeight: 4
+            parts:
+                - name: Mantle
+                  shortcode: mantlepart
+                  bodyZoneCode: mantlezone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Arms
+                  shortcode: larmspart
+                  bodyZoneCode: armszone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Arms
+                  shortcode: rarmspart
+                  bodyZoneCode: armszone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Mantle
+                  shortcode: mantleloc
+                  bodyPartCode: mantlepart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 7
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Beak
+                  shortcode: beakloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 3
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Left Arms
+                  shortcode: larmsloc
+                  bodyPartCode: larmspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Right Arms
+                  shortcode: rarmsloc
+                  bodyPartCode: rarmspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
         weight:
             base: 300
-            calc: 300
+            calc: "300"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.73
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +155,79 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - name: Tentacle Grapple
+          type: skill
+          system:
+              shortcode: tentacle
+              subType: combattechnique
+              masteryLevelBase: 63
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: tentacle
+                  name: Tentacle Grapple
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 4
+                      aspect: blunt
+                  lengthBase: 3
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Beak Bite
+          type: skill
+          system:
+              shortcode: beak
+              subType: combattechnique
+              masteryLevelBase: 60
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: beak
+                  name: Beak Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 5
+                      aspect: piercing
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}
