@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 18
+        str: 24
         end: 14
         dex: 16
         agl: 18
@@ -25,7 +25,7 @@ sohl:
         rea: 10
         cre: 8
     attrRollFormula:
-        str: 1d6+14
+        str: 1d6+21
         end: 1d6+10
         dex: 1d4+13
         agl: 1d6+14
@@ -224,7 +224,7 @@ sohl:
             base: 1050
             calc: "1050"
         reachBase: 0
-        bodyScaleBase: 1.64
+        bodyScaleBase: 2.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -260,7 +260,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 40
+              masteryLevelBase: 48
         - name: Razor Claws
           type: skill
           system:
@@ -283,7 +283,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 8
-                      modifier: 3
+                      modifier: 6
                       aspect: edged
                   lengthBase: 2
                   defense:
@@ -319,7 +319,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 4
+                      modifier: 7
                       aspect: edged
                   projectileType: none
                   maxVolleyMult: 1

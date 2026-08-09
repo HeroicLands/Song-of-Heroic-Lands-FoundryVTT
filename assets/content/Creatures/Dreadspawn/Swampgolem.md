@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 16
+        str: 34
         end: 18
         per: 8
         aur: 8
@@ -24,7 +24,7 @@ sohl:
         agl: 6
         rea: 4
     attrRollFormula:
-        str: 1d4+13
+        str: 1d6+31
         end: 1d6+14
         per: 1d6+4
         aur: 1d6+4
@@ -479,7 +479,7 @@ sohl:
             base: 4800
             calc: "4800"
         reachBase: 0
-        bodyScaleBase: 1.45
+        bodyScaleBase: 3.09
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -515,7 +515,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 43
+              masteryLevelBase: 65
         - name: Mud Crush
           type: skill
           system:
@@ -538,7 +538,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 2
+                      modifier: 11
                       aspect: blunt
                   lengthBase: 2
                   defense:
@@ -574,7 +574,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 16
+                      modifier: 34
                       aspect: blunt
                   lengthBase: 2
                   defense:

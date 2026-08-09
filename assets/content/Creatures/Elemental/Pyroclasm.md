@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 15
+        str: 36
         end: 15
         dex: 9
         agl: 11
@@ -25,7 +25,7 @@ sohl:
         rea: 9
         cre: 11
     attrRollFormula:
-        str: 1d4+12
+        str: 1d6+33
         end: 1d4+12
         dex: 1d4+6
         agl: 1d4+8
@@ -482,7 +482,7 @@ sohl:
             base: 4900
             calc: "4900"
         reachBase: 0
-        bodyScaleBase: 1.36
+        bodyScaleBase: 3.27
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -546,7 +546,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 38
+              masteryLevelBase: 65
         - name: Lava Punch
           type: skill
           system:
@@ -569,7 +569,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 2
+                      modifier: 12
                       aspect: fire
                   lengthBase: 1
                   defense:
@@ -605,7 +605,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 3
+                      modifier: 13
                       aspect: fire
                   projectileType: none
                   maxVolleyMult: 1

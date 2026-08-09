@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 31
+        str: 32
         end: 27
         dex: 9
         agl: 9
@@ -25,7 +25,7 @@ sohl:
         rea: 8
         cre: 8
     attrRollFormula:
-        str: 1d6+27
+        str: 1d6+29
         end: 1d6+23
         dex: 1d4+6
         agl: 1d4+6
@@ -481,7 +481,7 @@ sohl:
             base: 2300
             calc: "2300"
         reachBase: 0
-        bodyScaleBase: 2.82
+        bodyScaleBase: 2.91
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -517,7 +517,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 73
+              masteryLevelBase: 75
         - name: Mighty Blow
           type: skill
           system:
@@ -576,7 +576,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 31
+                      modifier: 32
                       aspect: blunt
                   lengthBase: 2
                   defense:

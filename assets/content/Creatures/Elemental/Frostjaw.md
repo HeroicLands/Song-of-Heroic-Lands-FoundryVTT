@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 13
+        str: 20
         end: 15
         dex: 11
         agl: 15
@@ -25,7 +25,7 @@ sohl:
         rea: 9
         cre: 11
     attrRollFormula:
-        str: 1d4+10
+        str: 1d6+17
         end: 1d4+12
         dex: 1d4+8
         agl: 1d4+12
@@ -224,7 +224,7 @@ sohl:
             base: 550
             calc: "550"
         reachBase: 0
-        bodyScaleBase: 1.18
+        bodyScaleBase: 1.82
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -260,7 +260,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 35
+              masteryLevelBase: 45
         - name: Frost Bite
           type: skill
           system:
@@ -283,7 +283,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 2
+                      modifier: 5
                       aspect: piercing
                   lengthBase: 1
                   defense:
@@ -319,7 +319,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 4
-                      modifier: 3
+                      modifier: 6
                       aspect: fire
                   projectileType: none
                   maxVolleyMult: 1
@@ -348,7 +348,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 8
-                      modifier: 1
+                      modifier: 4
                       aspect: edged
                   lengthBase: 2
                   defense:

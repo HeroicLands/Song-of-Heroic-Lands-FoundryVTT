@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 33
+        str: 42
         end: 28
         dex: 8
         agl: 9
@@ -25,7 +25,7 @@ sohl:
         rea: 8
         cre: 8
     attrRollFormula:
-        str: 1d6+29
+        str: 1d6+39
         end: 1d6+24
         dex: 1d4+5
         agl: 1d4+6
@@ -481,7 +481,7 @@ sohl:
             base: 7000
             calc: "7000"
         reachBase: 0
-        bodyScaleBase: 3
+        bodyScaleBase: 3.82
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -517,7 +517,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 78
+              masteryLevelBase: 88
         - name: Fist Strike
           type: skill
           system:
@@ -540,7 +540,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 11
+                      modifier: 15
                       aspect: blunt
                   lengthBase: 2
                   defense:
@@ -576,7 +576,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 9
+                      modifier: 13
                       aspect: blunt
                   lengthBase: 3
                   defense:
@@ -612,7 +612,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 11
+                      modifier: 15
                       aspect: blunt
                   lengthBase: 2
                   defense:

@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 19
+        str: 55
         end: 19
         dex: 6
         agl: 6
@@ -25,7 +25,7 @@ sohl:
         cre: 6
         rea: 5
     attrRollFormula:
-        str: 1d4+16
+        str: 1d6+52
         end: 1d4+16
         dex: 1d4+3
         agl: 1d4+3
@@ -481,7 +481,7 @@ sohl:
             base: 49000
             calc: "49000"
         reachBase: 0
-        bodyScaleBase: 1.73
+        bodyScaleBase: 5
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -517,7 +517,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 48
+              masteryLevelBase: 93
         - name: Crushing Blow
           type: skill
           system:
@@ -540,7 +540,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 4
+                      modifier: 22
                       aspect: blunt
                   lengthBase: 4
                   defense:
@@ -576,7 +576,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 2
+                      modifier: 20
                       aspect: blunt
                   lengthBase: 5
                   defense:
@@ -612,7 +612,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 6
+                      modifier: 24
                       aspect: blunt
                   projectileType: none
                   maxVolleyMult: 1

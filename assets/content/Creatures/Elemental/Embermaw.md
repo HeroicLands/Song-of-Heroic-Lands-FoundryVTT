@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 13
+        str: 30
         end: 15
         dex: 9
         agl: 11
@@ -25,7 +25,7 @@ sohl:
         rea: 9
         cre: 9
     attrRollFormula:
-        str: 1d4+10
+        str: 1d6+27
         end: 1d4+12
         dex: 1d4+6
         agl: 1d4+8
@@ -224,7 +224,7 @@ sohl:
             base: 2600
             calc: "2600"
         reachBase: 0
-        bodyScaleBase: 1.18
+        bodyScaleBase: 2.73
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -288,7 +288,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 35
+              masteryLevelBase: 58
         - name: Ember Bite
           type: skill
           system:
@@ -311,7 +311,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 2
+                      modifier: 10
                       aspect: fire
                   lengthBase: 1
                   defense:
@@ -347,7 +347,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 4
-                      modifier: 3
+                      modifier: 9
                       aspect: fire
                   projectileType: none
                   maxVolleyMult: 1
@@ -376,7 +376,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: -1
+                      modifier: 7
                       aspect: blunt
                   lengthBase: 2
                   defense:

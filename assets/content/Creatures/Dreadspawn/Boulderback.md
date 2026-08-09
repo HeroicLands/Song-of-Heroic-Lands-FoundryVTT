@@ -19,7 +19,7 @@ sohl:
         aur: 8
         wil: 18
         rea: 8
-        str: 30
+        str: 42
         end: 26
         agl: 6
         cre: 4
@@ -28,7 +28,7 @@ sohl:
         aur: 1d6+4
         wil: 1d6+14
         rea: 1d6+4
-        str: 1d6+27
+        str: 1d6+39
         end: 1d6+23
         agl: 1d4+4
         cre: 1d4+2
@@ -479,7 +479,7 @@ sohl:
             base: 7000
             calc: "7000"
         reachBase: 0
-        bodyScaleBase: 2.73
+        bodyScaleBase: 3.82
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -515,7 +515,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 70
+              masteryLevelBase: 85
         - name: Crushing Blow
           type: skill
           system:
@@ -538,7 +538,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 9
+                      modifier: 15
                       aspect: blunt
                   lengthBase: 2
                   defense:
@@ -574,7 +574,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 9
+                      modifier: 15
                       aspect: blunt
                   lengthBase: 2
                   defense:
@@ -610,7 +610,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 11
+                      modifier: 17
                       aspect: blunt
                   projectileType: none
                   maxVolleyMult: 1

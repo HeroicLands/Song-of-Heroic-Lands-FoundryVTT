@@ -22,7 +22,7 @@ sohl:
         wil: 16
         rea: 10
         cre: 8
-        str: 34
+        str: 50
         agl: 5
     attrRollFormula:
         end: 1d4+16
@@ -32,7 +32,7 @@ sohl:
         wil: 1d4+13
         rea: 1d6+6
         cre: 1d4+5
-        str: 1d6+31
+        str: 1d6+47
         agl: 1d4+3
     body:
         structure:
@@ -223,7 +223,7 @@ sohl:
             base: 27000
             calc: "27000"
         reachBase: 0
-        bodyScaleBase: 3.09
+        bodyScaleBase: 4.55
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -271,7 +271,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 68
+              masteryLevelBase: 88
         - name: Crushing Stomp
           type: skill
           system:
@@ -294,7 +294,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 9
+                      modifier: 17
                       aspect: blunt
                   lengthBase: 3
                   defense:
@@ -330,7 +330,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 8
-                      modifier: 11
+                      modifier: 19
                       aspect: edged
                   lengthBase: 3
                   defense:
@@ -366,7 +366,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 13
+                      modifier: 21
                       aspect: blunt
                   projectileType: none
                   maxVolleyMult: 1

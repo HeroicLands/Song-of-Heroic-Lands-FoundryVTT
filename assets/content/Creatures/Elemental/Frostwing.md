@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 11
+        str: 14
         end: 13
         dex: 15
         agl: 17
@@ -25,7 +25,7 @@ sohl:
         rea: 9
         cre: 11
     attrRollFormula:
-        str: 1d4+8
+        str: 1d6+11
         end: 1d4+10
         dex: 1d4+12
         agl: 1d4+14
@@ -217,7 +217,7 @@ sohl:
             base: 350
             calc: "350"
         reachBase: 0
-        bodyScaleBase: 1
+        bodyScaleBase: 1.27
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -253,7 +253,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 30
+              masteryLevelBase: 35
         - name: Icy Talons
           type: skill
           system:
@@ -276,7 +276,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 8
-                      modifier: 0
+                      modifier: 1
                       aspect: edged
                   lengthBase: 1
                   defense:
@@ -312,7 +312,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 4
-                      modifier: 3
+                      modifier: 4
                       aspect: fire
                   projectileType: none
                   maxVolleyMult: 1

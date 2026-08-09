@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 17
+        str: 48
         end: 17
         dex: 9
         agl: 9
@@ -25,7 +25,7 @@ sohl:
         rea: 8
         cre: 8
     attrRollFormula:
-        str: 1d4+14
+        str: 1d6+45
         end: 1d4+14
         dex: 1d4+6
         agl: 1d4+6
@@ -223,7 +223,7 @@ sohl:
             base: 23000
             calc: "23000"
         reachBase: 0
-        bodyScaleBase: 1.55
+        bodyScaleBase: 4.36
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -259,7 +259,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 43
+              masteryLevelBase: 83
         - name: Crushing Bite
           type: skill
           system:
@@ -282,7 +282,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 4
+                      modifier: 19
                       aspect: piercing
                   lengthBase: 2
                   defense:
@@ -318,7 +318,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 4
-                      modifier: 5
+                      modifier: 15
                       aspect: fire
                   projectileType: none
                   maxVolleyMult: 1
@@ -347,7 +347,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 3
+                      modifier: 18
                       aspect: blunt
                   lengthBase: 2
                   defense:

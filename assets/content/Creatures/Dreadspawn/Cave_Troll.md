@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 33
+        str: 28
         end: 31
         dex: 8
         agl: 8
@@ -25,7 +25,7 @@ sohl:
         rea: 8
         cre: 8
     attrRollFormula:
-        str: 1d6+29
+        str: 1d6+25
         end: 1d6+27
         dex: 1d4+5
         agl: 1d4+5
@@ -482,7 +482,7 @@ sohl:
             base: 1300
             calc: "1300"
         reachBase: 0
-        bodyScaleBase: 3
+        bodyScaleBase: 2.55
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -518,7 +518,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 80
+              masteryLevelBase: 75
         - name: Raking Claws
           type: skill
           system:
@@ -541,7 +541,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 8
-                      modifier: 11
+                      modifier: 8
                       aspect: edged
                   lengthBase: 3
                   defense:
@@ -577,7 +577,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 12
+                      modifier: 9
                       aspect: piercing
                   lengthBase: 2
                   defense:

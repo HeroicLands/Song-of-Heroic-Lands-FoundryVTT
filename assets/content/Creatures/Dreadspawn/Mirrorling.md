@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 11
+        str: 24
         end: 11
         dex: 15
         agl: 13
@@ -25,7 +25,7 @@ sohl:
         rea: 9
         cre: 15
     attrRollFormula:
-        str: 1d4+8
+        str: 1d6+21
         end: 1d4+8
         dex: 1d4+12
         agl: 1d4+10
@@ -481,7 +481,7 @@ sohl:
             base: 2250
             calc: "2250"
         reachBase: 0
-        bodyScaleBase: 1
+        bodyScaleBase: 2.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -517,7 +517,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 28
+              masteryLevelBase: 45
         - name: Reflective Blade Strike
           type: skill
           system:
@@ -540,7 +540,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 8
-                      modifier: 0
+                      modifier: 6
                       aspect: edged
                   lengthBase: 1
                   defense:
