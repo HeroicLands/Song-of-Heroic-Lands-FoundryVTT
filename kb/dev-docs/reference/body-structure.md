@@ -103,9 +103,25 @@ A body location is a specific hit point within a part — Skull, Thorax, Right E
 | `shockValue`             | integer                          | Inherent shock inflicted by an injury at this location, regardless of severity.                                                                                                               |
 | `bleedingSusceptibility` | tier                             | `none` / `low` / `medium` / `high`. Combined with injury severity and weapon aspect by `BleedingDefaults` to decide whether a wound bleeds.                                                   |
 | `amputability`           | tier                             | `none` / `low` / `medium` / `high`. Drives the Strength-test modifier when a G5 Edge injury would amputate; see `AmputationDefaults`. `none` means amputation is disallowed at this location. |
-| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts).                                                                                                                      |
+| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts). **May be negative** — see below.                                                                                     |
 
 Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleeding; same for amputability).
+
+### Negative natural armor
+
+`protectionBase` is **unbounded below**. A hide softer than bare human skin — a
+crow's is `−6` blunt / `−8` piercing, a cat's `−3`/`−5` — carries a negative
+value, and `resolveInjury` lets it *raise* the effective impact
+(`impact − protection`, so a 3-impact blow lands as 9 on the crow) rather than
+clamping it away. Armor reduction still bottoms out at the location's own
+floor, `min(armorValue, 0)`: it can strip a hauberk to nothing, but it cannot
+make an already-vulnerable hide worse.
+
+This is a separate axis from [body scale](#body-scale-per-creature-injury-scaling),
+which rescales the *thresholds* an impact is judged against. Scale answers "how
+much damage does this body absorb before a wound is Serious"; negative armor
+answers "how little does its hide stop." A small creature typically carries
+both.
 
 ## Body roles
 

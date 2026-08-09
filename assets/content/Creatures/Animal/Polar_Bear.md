@@ -17,47 +17,325 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 21
-        end: 19
-        dex: 9
-        agl: 11
-        per: 16
-        aur: 11
-        wil: 16
-        rea: 9
-        cre: 7
+        str: 28
+        end: 21
+        agl: 10
+        per: 14
+        snt: 7
+        aur: 5
+        wil: 15
+        rea: 5
+        cre: 5
     attrRollFormula:
-        str: 1d6+17
-        end: 1d6+15
-        dex: 1d4+6
-        agl: 1d4+8
-        per: 1d6+12
-        aur: 1d6+7
+        str: 1d6+25
+        end: 1d6+18
+        agl: 1d6+7
+        per: 1d6+11
+        snt: 1d4+5
+        aur: 1d4+3
         wil: 1d6+12
-        rea: 1d4+6
-        cre: 1d4+4
+        rea: 1d4+3
+        cre: 1d4+3
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 4
+                - name: Forelegs
+                  shortcode: forelegszone
+                  probWeight: 4
+                - name: Torso
+                  shortcode: torsozone
+                  probWeight: 8
+                - name: Hindquarters
+                  shortcode: hindqtrzone
+                  probWeight: 4
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Foreleg
+                  shortcode: lforelegpart
+                  bodyZoneCode: forelegszone
+                  roles: &a1
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 1
+                - name: Right Foreleg
+                  shortcode: rforelegpart
+                  bodyZoneCode: forelegszone
+                  roles: *a1
+                  canHoldItem: false
+                  probWeight: 1
+                - name: Torso
+                  shortcode: torsopart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Hind Leg
+                  shortcode: lhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 9
+                - name: Right Hind Leg
+                  shortcode: rhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 9
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindqtrzone
+                  roles: []
+                  canHoldItem: false
+                  probWeight: 2
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Left Foreleg
+                  shortcode: lforelegloc
+                  bodyPartCode: lforelegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Right Foreleg
+                  shortcode: rforelegloc
+                  bodyPartCode: rforelegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 5
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 3
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Pelvis
+                  shortcode: plvsloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 2
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Left Hind Leg
+                  shortcode: lhindlegloc
+                  bodyPartCode: lhindlegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Right Hind Leg
+                  shortcode: rhindlegloc
+                  bodyPartCode: rhindlegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 10
+                      edged: 9
+                      piercing: 8
+                      fire: 10
         weight:
-            base: 300
-            calc: 300
+            base: 1000
+            calc: "1000"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 2.55
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
         - medium: terrestrial
-          feetPerRound: 60
+          feetPerRound: 90
           leaguesPerWatch: 4
           encumbrance: floor(wt/4)
           strMod: -5 * floor((str - 10) / 2)
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 70
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 30
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 40
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 84
+        - name: Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 60
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 9
+                      aspect: piercing
+                  lengthBase: 3
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      armorReduction: 1
+        - name: Claw
+          type: skill
+          system:
+              shortcode: claw
+              subType: combattechnique
+              masteryLevelBase: 48
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: claw
+                  name: Claw
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 8
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: 8
+                      aspect: edged
+                  lengthBase: 4
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}
@@ -110,12 +388,20 @@ The polar bear is a tireless swimmer, capable of sustaining continuous swimming 
 
 ## Attributes
 
-- **Strength:** 18-23 (1d6+17) — Comparable to brown bear; focused killing power rather than brute-force omnivory
-- **Endurance:** 16-21 (1d6+15) — Superior cold adaptation; can swim for days and fast for months
-- **Dexterity:** 7-10 (1d4+6) — Adequate; paw strikes are precise for an animal this size
-- **Agility:** 9-12 (1d4+8) — Deceptively quick; the long body accelerates faster than expected
-- **Perception:** 13-18 (1d6+12) — The keenest nose of any land predator; exceptional hearing
-- **Aura:** 8-13 (1d6+7) — The Normen regard it as a spirit of the killing cold; spiritually significant
-- **Will:** 13-18 (1d6+12) — Relentless and patient; will not abandon a committed hunt
-- **Reasoning:** 7-10 (1d4+6) — Intelligent predator; learns from experience and adapts tactics
-- **Creativity:** 5-8 (1d4+4) — Curious and investigative; explores novel situations
+- **Strength:** 26-31 (1d6+25)
+
+- **Endurance:** 19-24 (1d6+18)
+
+- **Agility:** 8-13 (1d6+7)
+
+- **Perception:** 12-17 (1d6+11)
+
+- **Scent:** 6-9 (1d4+5)
+
+- **Aura:** 4-7 (1d4+3)
+
+- **Will:** 13-18 (1d6+12)
+
+- **Reasoning:** 4-7 (1d4+3)
+
+- **Creativity:** 4-7 (1d4+3)

@@ -15,47 +15,300 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 13
-        end: 12
-        dex: 14
-        agl: 16
-        per: 15
-        aur: 11
+        str: 18
+        end: 13
+        agl: 10
+        per: 18
+        snt: 3
+        aur: 5
         wil: 12
-        rea: 7
-        cre: 6
+        rea: 5
+        cre: 5
     attrRollFormula:
-        str: 1d6+9
-        end: 1d6+8
-        dex: 1d6+10
-        agl: 1d6+12
-        per: 1d6+11
-        aur: 1d6+7
-        wil: 1d6+8
-        rea: 1d4+4
+        str: 1d6+15
+        end: 1d6+10
+        agl: 1d6+7
+        per: 1d6+15
+        snt: 1d4+1
+        aur: 1d4+3
+        wil: 1d6+9
+        rea: 1d4+3
         cre: 1d4+3
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 2
+                - name: Forelegs
+                  shortcode: forelegszone
+                  probWeight: 1
+                - name: Torso
+                  shortcode: torsozone
+                  probWeight: 4
+                - name: Hindquarters
+                  shortcode: hindqtrzone
+                  probWeight: 3
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Foreleg
+                  shortcode: lforelegpart
+                  bodyZoneCode: forelegszone
+                  roles: &a1
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 1
+                - name: Right Foreleg
+                  shortcode: rforelegpart
+                  bodyZoneCode: forelegszone
+                  roles: *a1
+                  canHoldItem: false
+                  probWeight: 1
+                - name: Torso
+                  shortcode: torsopart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Hind Leg
+                  shortcode: lhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 9
+                - name: Right Hind Leg
+                  shortcode: rhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 9
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindqtrzone
+                  roles: []
+                  canHoldItem: false
+                  probWeight: 2
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Left Foreleg
+                  shortcode: lforelegloc
+                  bodyPartCode: lforelegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Right Foreleg
+                  shortcode: rforelegloc
+                  bodyPartCode: rforelegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Flank
+                  shortcode: flkloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Left Quarter
+                  shortcode: lqtrloc
+                  bodyPartCode: lhindlegpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 3
+                  probWeight: 5
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Left Hind Leg
+                  shortcode: lhindlegloc
+                  bodyPartCode: lhindlegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Right Quarter
+                  shortcode: rqtrloc
+                  bodyPartCode: rhindlegpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 3
+                  probWeight: 5
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Right Hind Leg
+                  shortcode: rhindlegloc
+                  bodyPartCode: rhindlegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
         weight:
-            base: 250
-            calc: 250
+            base: 400
+            calc: "400"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.64
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
         - medium: terrestrial
-          feetPerRound: 90
+          feetPerRound: 140
           leaguesPerWatch: 6
           encumbrance: floor(wt/4)
           strMod: -5 * floor((str - 10) / 2)
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 75
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 24
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 27
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - name: Gore
+          type: skill
+          system:
+              shortcode: gore
+              subType: combattechnique
+              masteryLevelBase: 60
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: gore
+                  name: Gore
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 4
+                      aspect: piercing
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      armorReduction: 1
 ---
 
 # Appearance {#appearance}
@@ -116,20 +369,20 @@ Stags are most dangerous during the rutting season in autumn, when testosterone 
 
 ## Attributes
 
-- **Strength:** 10-15 (1d6+9)
+- **Strength:** 16-21 (1d6+15)
 
-- **Endurance:** 9-14 (1d6+8)
+- **Endurance:** 11-16 (1d6+10)
 
-- **Dexterity:** 11-16 (1d6+10)
+- **Agility:** 8-13 (1d6+7)
 
-- **Agility:** 13-18 (1d6+12)
+- **Perception:** 16-21 (1d6+15)
 
-- **Perception:** 12-17 (1d6+11)
+- **Scent:** 2-5 (1d4+1)
 
-- **Aura:** 8-13 (1d6+7)
+- **Aura:** 4-7 (1d4+3)
 
-- **Will:** 9-14 (1d6+8)
+- **Will:** 10-15 (1d6+9)
 
-- **Reasoning:** 5-8 (1d4+4)
+- **Reasoning:** 4-7 (1d4+3)
 
 - **Creativity:** 4-7 (1d4+3)

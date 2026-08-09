@@ -15,25 +15,25 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 13
+        str: 16
         end: 14
-        dex: 11
-        agl: 12
-        per: 11
-        aur: 8
-        wil: 13
-        rea: 7
-        cre: 6
+        agl: 14
+        per: 17
+        snt: 4
+        aur: 3
+        wil: 15
+        rea: 3
+        cre: 3
     attrRollFormula:
-        str: 1d6+9
-        end: 1d6+10
-        dex: 1d6+7
-        agl: 1d6+8
-        per: 1d6+7
-        aur: 1d4+5
-        wil: 1d6+9
-        rea: 1d4+4
-        cre: 1d4+3
+        str: 1d6+13
+        end: 1d6+11
+        agl: 1d6+11
+        per: 1d6+14
+        snt: 1d4+2
+        aur: 1d4+1
+        wil: 1d6+12
+        rea: 1d4+1
+        cre: 1d4+1
     body:
         structure:
             zones:
@@ -42,52 +42,62 @@ sohl:
                   probWeight: 2
                 - name: Forelegs
                   shortcode: forelegszone
-                  probWeight: 2
+                  probWeight: 1
                 - name: Torso
                   shortcode: torsozone
                   probWeight: 4
-                - name: Hind Legs
-                  shortcode: hindlegszone
-                  probWeight: 4
-                - name: Tail
-                  shortcode: tailzone
-                  probWeight: 1
+                - name: Hindquarters
+                  shortcode: hindqtrzone
+                  probWeight: 3
             parts:
                 - name: Head
                   shortcode: headpart
                   bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
                   canHoldItem: false
-                  probWeight: 2
+                  probWeight: 10
                 - name: Left Foreleg
                   shortcode: lforelegpart
                   bodyZoneCode: forelegszone
+                  roles: &a1
+                      - locomotor
                   canHoldItem: false
                   probWeight: 1
                 - name: Right Foreleg
                   shortcode: rforelegpart
                   bodyZoneCode: forelegszone
+                  roles: *a1
                   canHoldItem: false
                   probWeight: 1
                 - name: Torso
                   shortcode: torsopart
                   bodyZoneCode: torsozone
+                  roles:
+                      - core
                   canHoldItem: false
-                  probWeight: 4
-                - name: Left Rear Leg
-                  shortcode: lrearlegpart
-                  bodyZoneCode: hindlegszone
+                  probWeight: 10
+                - name: Left Hind Leg
+                  shortcode: lhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  probWeight: 2
-                - name: Right Rear Leg
-                  shortcode: rrearlegpart
-                  bodyZoneCode: hindlegszone
+                  probWeight: 9
+                - name: Right Hind Leg
+                  shortcode: rhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  probWeight: 2
+                  probWeight: 9
                 - name: Tail
                   shortcode: tailpart
-                  bodyZoneCode: tailzone
+                  bodyZoneCode: hindqtrzone
+                  roles: []
                   canHoldItem: false
-                  probWeight: 1
+                  probWeight: 2
             locations:
                 - name: Head
                   shortcode: headloc
@@ -113,25 +123,25 @@ sohl:
                       edged: 2
                       piercing: 1
                       fire: 3
-                - name: Leg
+                - name: Left Foreleg
                   shortcode: lforelegloc
                   bodyPartCode: lforelegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 3
                       edged: 2
                       piercing: 1
                       fire: 3
-                - name: Leg
+                - name: Right Foreleg
                   shortcode: rforelegloc
                   bodyPartCode: rforelegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 3
                       edged: 2
@@ -143,7 +153,7 @@ sohl:
                   bleedingSusceptibility: medium
                   amputability: none
                   shockValue: 4
-                  probWeight: 4
+                  probWeight: 6
                   protectionBase:
                       blunt: 3
                       edged: 2
@@ -155,7 +165,7 @@ sohl:
                   bleedingSusceptibility: high
                   amputability: none
                   shockValue: 4
-                  probWeight: 6
+                  probWeight: 4
                   protectionBase:
                       blunt: 3
                       edged: 2
@@ -163,7 +173,7 @@ sohl:
                       fire: 3
                 - name: Left Quarter
                   shortcode: lqtrloc
-                  bodyPartCode: lrearlegpart
+                  bodyPartCode: lhindlegpart
                   bleedingSusceptibility: medium
                   amputability: none
                   shockValue: 3
@@ -175,7 +185,7 @@ sohl:
                       fire: 3
                 - name: Left Hind Leg
                   shortcode: lhindlegloc
-                  bodyPartCode: lrearlegpart
+                  bodyPartCode: lhindlegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
@@ -187,7 +197,7 @@ sohl:
                       fire: 3
                 - name: Right Quarter
                   shortcode: rqtrloc
-                  bodyPartCode: rrearlegpart
+                  bodyPartCode: rhindlegpart
                   bleedingSusceptibility: medium
                   amputability: none
                   shockValue: 3
@@ -199,7 +209,7 @@ sohl:
                       fire: 3
                 - name: Right Hind Leg
                   shortcode: rhindlegloc
-                  bodyPartCode: rrearlegpart
+                  bodyPartCode: rhindlegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
@@ -215,22 +225,22 @@ sohl:
                   bleedingSusceptibility: none
                   amputability: high
                   shockValue: 1
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 3
                       edged: 2
                       piercing: 1
                       fire: 3
         weight:
-            base: 150
-            calc: 150
+            base: 300
+            calc: "300"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.45
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
         - medium: terrestrial
-          feetPerRound: 50
+          feetPerRound: 120
           leaguesPerWatch: 3
           encumbrance: floor(wt/4)
           strMod: -5 * floor((str - 10) / 2)
@@ -253,7 +263,103 @@ sohl:
                 textValue: "0"
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 27
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 27
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 45
+        - name: Gore
+          type: skill
+          system:
+              shortcode: gore
+              subType: combattechnique
+              masteryLevelBase: 70
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: gore
+                  name: Gore
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 5
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Kick
+          type: skill
+          system:
+              shortcode: kick
+              subType: combattechnique
+              masteryLevelBase: 56
+              combatCategory: melee
+              impairedByRoles:
+                  - locomotor
+              strikeMode:
+                  type: melee
+                  shortcode: kick
+                  name: Kick
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 1
+                      aspect: blunt
+                  lengthBase: 2
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}
@@ -314,20 +420,20 @@ Rams are most aggressive during autumn rutting season and less so during other t
 
 ## Attributes
 
-- **Strength:** 10-15 (1d6+9)
+- **Strength:** 14-19 (1d6+13)
 
-- **Endurance:** 11-16 (1d6+10)
+- **Endurance:** 12-17 (1d6+11)
 
-- **Dexterity:** 8-13 (1d6+7)
+- **Agility:** 12-17 (1d6+11)
 
-- **Agility:** 9-14 (1d6+8)
+- **Perception:** 15-20 (1d6+14)
 
-- **Perception:** 8-13 (1d6+7)
+- **Scent:** 3-6 (1d4+2)
 
-- **Aura:** 6-9 (1d4+5)
+- **Aura:** 2-5 (1d4+1)
 
-- **Will:** 10-15 (1d6+9)
+- **Will:** 13-18 (1d6+12)
 
-- **Reasoning:** 5-8 (1d4+4)
+- **Reasoning:** 2-5 (1d4+1)
 
-- **Creativity:** 4-7 (1d4+3)
+- **Creativity:** 2-5 (1d4+1)
