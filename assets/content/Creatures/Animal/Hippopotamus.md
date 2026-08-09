@@ -264,6 +264,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 75
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 42
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 40
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 58
         - name: Tusk Bite
           type: skill
           system:

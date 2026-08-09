@@ -482,7 +482,7 @@ sohl:
             base: 172
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -493,7 +493,66 @@ sohl:
           strMod: -5 * floor((str - 10) / 2)
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 65
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 48
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 64
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 38
+        - name: Punch
+          type: skill
+          system:
+              shortcode: punch
+              subType: combattechnique
+              masteryLevelBase: 58
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: punch
+                  name: Punch
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 3
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: -1
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: false
+                          modifier: -20
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits: {}
 ---
 
 # Appearance {#appearance}

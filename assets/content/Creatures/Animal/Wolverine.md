@@ -234,6 +234,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 85
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 45
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 45
         - name: Raking Claws
           type: skill
           system:

@@ -166,6 +166,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 65
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 55
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 27
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 36
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 38
         - name: Envenoming Bite
           type: skill
           system:

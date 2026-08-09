@@ -156,6 +156,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 70
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 65
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 33
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 43
         - name: Tentacle Grapple
           type: skill
           system:

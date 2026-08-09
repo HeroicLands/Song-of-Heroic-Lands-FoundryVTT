@@ -237,6 +237,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 85
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 75
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 39
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 64
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 58
         - name: Talon Rend
           type: skill
           system:

@@ -237,6 +237,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 65
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 39
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 45
         - name: Powerful Bite
           type: skill
           system:

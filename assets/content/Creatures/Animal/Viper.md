@@ -163,6 +163,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 70
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 18
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 28
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 68
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 18
         - name: Venomous Bite
           type: skill
           system:

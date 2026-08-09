@@ -237,6 +237,30 @@ sohl:
           disabled: false
     defaultCombatGroup: null
     items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 90
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 85
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 51
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 60
         - name: Slashing Claws
           type: skill
           system:

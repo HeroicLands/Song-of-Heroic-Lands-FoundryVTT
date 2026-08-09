@@ -265,6 +265,14 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 21
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 45
         - name: Kick
           type: skill
           system:
