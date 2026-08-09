@@ -10,13 +10,15 @@
  *
  * A birthsign is a droppable, compendium-packaged item: a mechanically inert
  * Mystery(OTHER) whose behaviour lives entirely in its Active Effects. Each
- * effect scopes to the `skill` item kind and gates on the skill's subType
- * (`itemLogic.data.subType === "<subtype>"`), pushing a `mod:logic.masteryLevel`
- * delta onto every matching skill. The player attaches the sign their character
- * was born under; nothing is derived from a birth date.
+ * effect scopes to the `skill` item kind and carries one **element** of the
+ * Astrokýklos matrix — a set of skill subTypes together with that element's own
+ * skill shortcodes — pushing a `mod:logic.masteryLevel` delta onto every
+ * matching skill. The player attaches the sign their character was born under;
+ * nothing is derived from a birth date.
  *
- * The shipped Astrokýklos sign "Arnos" grants +15 EML to Nature skills and −5 EML
- * to Combat skills, among others.
+ * The shipped sign "Arnos" runs +15 earth / +5 metal / −5 fire / −15 air /
+ * −5 spirit / +5 water, so a Nature skill gains +15 and a Combat skill −5.
+ * The matrix itself is asserted in `tests/content/birthsign-effects.test.ts`.
  */
 describe("birthsign — Mystery(OTHER) + skill Active Effects", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));

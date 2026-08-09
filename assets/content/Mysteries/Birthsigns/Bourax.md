@@ -18,78 +18,54 @@ sohl:
     levelBase: 0
 folder: b1rthS1gnFldr001
 effects:
-    - name: "Bourax — Nature skills (+10 EML)"
+    - name: "Bourax — Earth skills (+10 EML)"
       type: sohleffectdata
       _id: 8uGVW2JW0eT6Cjo8
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "nature"'
+          test: 'itemLogic.data.subType === "nature" || has(itemLogic.data.shortcode, ["earth", "physera"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "10"
             priority: null
       _key: "!items.effects!vKmINLcD4XwVEtZv.8uGVW2JW0eT6Cjo8"
-    - name: "Bourax — Script skills (+10 EML)"
+    - name: "Bourax — Metal skills (+10 EML)"
       type: sohleffectdata
       _id: O3iNkFP3ieV83mlC
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "script"'
+          test: 'has(itemLogic.data.subType, ["script", "craft"]) || has(itemLogic.data.shortcode, ["metal", "sideros"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "10"
             priority: null
       _key: "!items.effects!vKmINLcD4XwVEtZv.O3iNkFP3ieV83mlC"
-    - name: "Bourax — Craft skills (+10 EML)"
+    - name: "Bourax — Air skills (-10 EML)"
       type: sohleffectdata
       _id: 1ZYAgQd7x9NYH7Fx
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "craft"'
+          test: 'itemLogic.data.subType === "physical" || has(itemLogic.data.shortcode, ["air", "zepharis"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
-            value: "10"
+            value: "-10"
             priority: null
       _key: "!items.effects!vKmINLcD4XwVEtZv.1ZYAgQd7x9NYH7Fx"
-    - name: "Bourax — Physical skills (-10 EML)"
+    - name: "Bourax — Spirit skills (-10 EML)"
       type: sohleffectdata
       _id: aMDsmtsT0OXRDlIc
       system:
           scope: skill
-          test: 'itemLogic.data.subType === "physical"'
+          test: 'has(itemLogic.data.subType, ["mystical", "lore"]) || has(itemLogic.data.shortcode, ["spirit", "pneumenos"])'
       changes:
           - key: "mod:logic.masteryLevel"
             type: add
             value: "-10"
             priority: null
       _key: "!items.effects!vKmINLcD4XwVEtZv.aMDsmtsT0OXRDlIc"
-    - name: "Bourax — Mystical skills (-10 EML)"
-      type: sohleffectdata
-      _id: 3AmCESfTrYtzD0By
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "mystical"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!vKmINLcD4XwVEtZv.3AmCESfTrYtzD0By"
-    - name: "Bourax — Lore skills (-10 EML)"
-      type: sohleffectdata
-      _id: LRk4cMimt1iQgWNz
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "lore"'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!vKmINLcD4XwVEtZv.LRk4cMimt1iQgWNz"
 ---
 
 Bourax, the Ox, lends steadiness of hand and patience of mind. Its children take naturally to the growing field, the written word, and the maker's bench, though the deeper mysteries and feats of the body come to them only with labour.
