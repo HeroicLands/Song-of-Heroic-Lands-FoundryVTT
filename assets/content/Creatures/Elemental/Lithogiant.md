@@ -478,8 +478,8 @@ sohl:
                       piercing: 9
                       fire: 11
         weight:
-            base: 4000
-            calc: 4000
+            base: 49000
+            calc: "49000"
         reachBase: 0
         bodyScaleBase: 1.73
         personalFatigue: enc + 5
@@ -623,7 +623,7 @@ sohl:
 
 # Appearance {#appearance}
 
-The ground trembles. What rises before you is the size of a house, then larger—a humanoid figure of solid stone and living earth, perhaps fifty feet in height. Its body is composed of massive interlocked stone blocks and carved rock, with a silhouette of geological strata made animate. Where it moves, the earth shakes, and small stones rattle and bounce from the vibration. Its eyes are burning points deep within a stone head, and when it shifts its weight, entire hillsides seem to shift with it. It regards you with the alien patience of something that measures time in geological epochs.
+The ground trembles. What rises before you is the size of a house, then larger—a humanoid figure of solid stone and living earth, perhaps twenty-five to thirty feet in height. Its body is composed of massive interlocked stone blocks and carved rock, with a silhouette of geological strata made animate. Where it moves, the earth shakes, and small stones rattle and bounce from the vibration. Its eyes are burning points deep within a stone head, and when it shifts its weight, entire hillsides seem to shift with it. It regards you with the alien patience of something that measures time in geological epochs.
 
 # Dossier {#dossier}
 
@@ -631,7 +631,7 @@ A Lithogiant is raw elemental power—an earth elemental of titanic proportions.
 
 ## Presentation
 
-A Lithogiant stands forty to sixty feet tall and is composed entirely of stone and earth held together by magic. Its body has a roughly humanoid shape—two legs, a torso, two arms, and a head—but the proportions are strange, shifted toward strength and endurance rather than human aesthetics. Its surface is jagged and rough, with exposed stone faces and geological patterns visible across its body. Its eyes are deep within its head, burning with a dull orange or red glow. Its hands are massive and stone, and its stride can crack the earth.
+A Lithogiant stands twenty-five to thirty feet tall and is composed entirely of stone and earth held together by magic. Its body has a roughly humanoid shape—two legs, a torso, two arms, and a head—but the proportions are strange, shifted toward strength and endurance rather than human aesthetics. Its surface is jagged and rough, with exposed stone faces and geological patterns visible across its body. Its eyes are deep within its head, burning with a dull orange or red glow. Its hands are massive and stone, and its stride can crack the earth.
 
 ## Key Behaviors
 

@@ -476,8 +476,8 @@ sohl:
                       piercing: 11
                       fire: 13
         weight:
-            base: 1500
-            calc: 1500
+            base: 7000
+            calc: "7000"
         reachBase: 0
         bodyScaleBase: 2.73
         personalFatigue: enc + 5
@@ -621,7 +621,7 @@ sohl:
 
 # Appearance {#appearance}
 
-The earth shakes. At first you think it's an avalanche descending the mountainside, but then you see it: a mass of boulders, each the size of a man's torso, fitted together in the mockery of a body. It stands twenty feet tall, its movements grinding and ponderous. Where it places its massive feet, stone cracks. Its head is a single, misshapen boulder with two openings like eye sockets—and from within those voids, something watches you with absolute patience.
+The earth shakes. At first you think it's an avalanche descending the mountainside, but then you see it: a mass of boulders, each the size of a man's torso, fitted together in the mockery of a body. It stands fifteen feet tall, its movements grinding and ponderous. Where it places its massive feet, stone cracks. Its head is a single, misshapen boulder with two openings like eye sockets—and from within those voids, something watches you with absolute patience.
 
 # Dossier {#dossier}
 
@@ -629,7 +629,7 @@ Boulderbacks are earth-elementals bound in physical form, creatures of stone and
 
 ## Presentation
 
-A Boulderback stands roughly twenty feet tall, constructed of layered boulders and stone slabs fitted together into a vaguely humanoid frame. Its head is a single massive boulder with two deep-set eye sockets and a horizontal crevasse serving as a mouth. Its torso is built from stacked stone roughly six feet across; its limbs are thick columns of granite and flint. Enormous hands are formed from clusters of smaller stones bound together. Its back forms a jagged ridge of protruding stone blocks—hence the name. Each movement produces grinding, cracking sounds as stone shifts against stone; each step causes the ground to tremble and small rocks to cascade. It moves with deliberate slowness but inexorable determination.
+A Boulderback stands roughly fifteen feet tall, constructed of layered boulders and stone slabs fitted together into a vaguely humanoid frame. Its head is a single massive boulder with two deep-set eye sockets and a horizontal crevasse serving as a mouth. Its torso is built from stacked stone roughly six feet across; its limbs are thick columns of granite and flint. Enormous hands are formed from clusters of smaller stones bound together. Its back forms a jagged ridge of protruding stone blocks—hence the name. Each movement produces grinding, cracking sounds as stone shifts against stone; each step causes the ground to tremble and small rocks to cascade. It moves with deliberate slowness but inexorable determination.
 
 ## Key Behaviors
 

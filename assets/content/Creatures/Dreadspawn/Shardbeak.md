@@ -214,8 +214,8 @@ sohl:
                       piercing: 3
                       fire: 5
         weight:
-            base: 30
-            calc: 30
+            base: 60
+            calc: "60"
         reachBase: 0
         bodyScaleBase: 0.82
         personalFatigue: enc + 5

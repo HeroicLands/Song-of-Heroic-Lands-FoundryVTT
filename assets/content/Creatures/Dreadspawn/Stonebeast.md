@@ -220,8 +220,8 @@ sohl:
                       piercing: 11
                       fire: 13
         weight:
-            base: 2000
-            calc: 2000
+            base: 27000
+            calc: "27000"
         reachBase: 0
         bodyScaleBase: 3.09
         personalFatigue: enc + 5
@@ -385,7 +385,7 @@ Stonebeasts are ancient guardians that predate humanoid civilization, creatures 
 
 ## Presentation
 
-A Stonebeast stands 20 to 30 feet in height, its body an irregular mass of blocky stone and crystalline formations, shaped vaguely like a quadrupedal creature but with anatomy that seems to prioritize weight and stability over naturalistic form. Its "head" is a roughly cubic protrusion, with eyes of polished black obsidian set deep within, burning with a slow, deep amber light that seems to come from the creature's interior rather than reflected from outside sources. Its limbs are pillars of stone, thick and unadorned, ending in roughly articulated digits that look less like claws than like chunks of stone that have barely achieved independent movement. Its surface is weathered and cracked, with seams showing layers of different stone types—granite, basalt, obsidian, veins of crystalline minerals. Where it moves, stone dust billows, and the smell is of deep caverns and minerals, a scent that makes the back of your throat burn. When it speaks—if what it does can be called speaking—the sound is of grinding stone, a low frequency that you feel more than hear.
+A Stonebeast stands 20 feet in length, its body an irregular mass of blocky stone and crystalline formations, shaped vaguely like a quadrupedal creature but with anatomy that seems to prioritize weight and stability over naturalistic form. Its "head" is a roughly cubic protrusion, with eyes of polished black obsidian set deep within, burning with a slow, deep amber light that seems to come from the creature's interior rather than reflected from outside sources. Its limbs are pillars of stone, thick and unadorned, ending in roughly articulated digits that look less like claws than like chunks of stone that have barely achieved independent movement. Its surface is weathered and cracked, with seams showing layers of different stone types—granite, basalt, obsidian, veins of crystalline minerals. Where it moves, stone dust billows, and the smell is of deep caverns and minerals, a scent that makes the back of your throat burn. When it speaks—if what it does can be called speaking—the sound is of grinding stone, a low frequency that you feel more than hear.
 
 ## Key Behaviors
 

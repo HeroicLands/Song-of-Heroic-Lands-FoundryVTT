@@ -28,10 +28,10 @@ sohl:
             parts: []
             locations: []
         weight:
-            base: 1000
-            calc: 1000
+            base: 2500
+            calc: "2500"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
