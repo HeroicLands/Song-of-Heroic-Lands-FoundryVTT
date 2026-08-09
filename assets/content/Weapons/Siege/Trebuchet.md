@@ -25,7 +25,7 @@ sohl:
           type: missile
           name: Shoot
           assocSkillCode: slng
-          minParts: 12
+          minParts: 2
           attack:
               spread: 0
               modifier: 0
@@ -64,9 +64,10 @@ sohl:
           projectileType: bullet
           maxVolleyMult: 4
           baseRangeBase: 250
-          drawBase: 240
+          drawBase: 0
 folder: HXiYHvG6igI3Wlmm
 ---
 
 The great counterweight engine: a pivoted beam with a box of stone or lead at the short arm and a long sling at the other, raised on site over days by a dozen crew and a carpenter who knows the work. Dropping the counterweight whips the sling through better than a half-circle and sends a stone the weight of a man most of a quarter mile. It is slow, it is enormous, and it is the only thing short of sorcery that reliably brings down a curtain wall — or anything standing behind one.
 It is never aimed at anything. Its useful range begins well beyond the distance at which a shot would fly flat, so every stone it throws is a Volley against a fifteen-foot area. A crew ranges in on a section of wall over a morning, adjusting counterweight and sling release a little at a time, and the wall has the courtesy to stay where it is. Anything that can walk out of the area will.
+Twelve crew serve it, and a quarter of an hour passes between one stone and the next: the beam must be winched down, the counterweight checked, the sling laid out and the shot walked back onto its mark.
