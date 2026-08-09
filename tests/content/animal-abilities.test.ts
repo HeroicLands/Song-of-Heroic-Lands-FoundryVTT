@@ -692,12 +692,15 @@ const NO_ANATOMY_YET = new Set([
     "Folk/Goblin",
     "Folk/Grukar",
     "Helspawn/Helspawn",
-    "Helspawn/Helthraals",
-    "Helspawn/Nightwights",
 ]);
 
 /** Creatures with an anatomy but, as yet, no natural weapon of their own. */
-const NO_WEAPON_YET = new Set(["Folk/Cave_Goblin", "Folk/Forest_Goblin"]);
+const NO_WEAPON_YET = new Set([
+    "Folk/Cave_Goblin",
+    "Folk/Forest_Goblin",
+    "Helspawn/Helthraals",
+    "Helspawn/Nightwights",
+]);
 
 /**
  * Creatures whose `bodyScaleBase` is deliberately not the Strength-derived
