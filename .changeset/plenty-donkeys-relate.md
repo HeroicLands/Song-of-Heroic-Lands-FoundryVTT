@@ -6,14 +6,14 @@
 
 Each of the twelve birthsigns carries one Active Effect per **element**, where an element is a set of skill subtypes together with that element's own skill shortcodes:
 
-| Element | `subType` | `shortcode` |
-| --- | --- | --- |
-| earth | `nature` | `earth`, `physera` |
-| metal | `script`, `craft` | `metal`, `sideros` |
-| fire | `combattechnique`, `combat` | `fire`, `pyrethos` |
-| air | `physical` | `air`, `zepharis` |
-| spirit | `mystical`, `lore` | `spirit`, `pneumenos` |
-| water | `language`, `social` | `water`, `hydalis` |
+| Element | `subType`                   | `shortcode`           |
+| ------- | --------------------------- | --------------------- |
+| earth   | `nature`                    | `earth`, `physera`    |
+| metal   | `script`, `craft`           | `metal`, `sideros`    |
+| fire    | `combattechnique`, `combat` | `fire`, `pyrethos`    |
+| air     | `physical`                  | `air`, `zepharis`     |
+| spirit  | `mystical`, `lore`          | `spirit`, `pneumenos` |
+| water   | `language`, `social`        | `water`, `hydalis`    |
 
 Previously only Arnos was on this shape, and three of its six `test` expressions had an unterminated string literal — so those effects threw at construction and silently never applied. The other eleven signs emitted one effect per _subtype_ with no shortcode arm and modifier values unrelated to the matrix.
 
