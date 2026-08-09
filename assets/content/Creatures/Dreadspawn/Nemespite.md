@@ -23,6 +23,7 @@ sohl:
         wil: 9
         rea: 8
         cre: 8
+        str: 2
     attrRollFormula:
         end: 1d4+5
         dex: 1d4+10
@@ -32,16 +33,184 @@ sohl:
         wil: 1d4+6
         rea: 1d4+5
         cre: 1d4+5
+        str: 1d4
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 1
+                - name: Thorax
+                  shortcode: thoraxzone
+                  probWeight: 1
+                - name: Abdomen
+                  shortcode: abdomenzone
+                  probWeight: 1
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Thorax
+                  shortcode: thoraxpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Wing
+                  shortcode: lwingpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Right Wing
+                  shortcode: rwingpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Left Legs
+                  shortcode: llegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Right Legs
+                  shortcode: rlegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Abdomen
+                  shortcode: abdomenpart
+                  bodyZoneCode: abdomenzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 7
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Mandibles
+                  shortcode: mandibloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 3
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: thoraxpart
+                  bleedingSusceptibility: low
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Left Wing
+                  shortcode: lwingloc
+                  bodyPartCode: lwingpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Right Wing
+                  shortcode: rwingloc
+                  bodyPartCode: rwingpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Left Legs
+                  shortcode: llegsloc
+                  bodyPartCode: llegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Right Legs
+                  shortcode: rlegsloc
+                  bodyPartCode: rlegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 8
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Sting
+                  shortcode: stingloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 2
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
         weight:
             base: 80
             calc: 80
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -53,7 +222,68 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 50
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 24
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 36
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 13
+        - name: Venomous Sting
+          type: skill
+          system:
+              shortcode: sting
+              subType: combattechnique
+              masteryLevelBase: 62
+              combatCategory: melee
+              impairedByRoles:
+                  - locomotor
+              strikeMode:
+                  type: melee
+                  shortcode: sting
+                  name: Venomous Sting
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: -4
+                      aspect: piercing
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      poison: true
 ---
 
 # Appearance {#appearance}

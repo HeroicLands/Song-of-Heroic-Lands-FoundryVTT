@@ -36,14 +36,114 @@ sohl:
         cre: 1d4+9
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Core
+                  shortcode: corezone
+                  probWeight: 2
+                - name: Mass
+                  shortcode: masszone
+                  probWeight: 4
+                - name: Tendrils
+                  shortcode: tendrilzone
+                  probWeight: 2
+            parts:
+                - name: Core
+                  shortcode: corepart
+                  bodyZoneCode: corezone
+                  roles:
+                      - vital
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Mass
+                  shortcode: masspart
+                  bodyZoneCode: masszone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Tendrils
+                  shortcode: ltendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Tendrils
+                  shortcode: rtendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Core
+                  shortcode: coreloc
+                  bodyPartCode: corepart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Mass
+                  shortcode: massloc
+                  bodyPartCode: masspart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Underside
+                  shortcode: underbellyloc
+                  bodyPartCode: masspart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Left Tendrils
+                  shortcode: ltendrilloc
+                  bodyPartCode: ltendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Right Tendrils
+                  shortcode: rtendrilloc
+                  bodyPartCode: rtendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
         weight:
             base: 200
             calc: 200
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.27
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +155,103 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 85
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 45
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 43
+        - name: Corrosive Envelopment
+          type: skill
+          system:
+              shortcode: grab
+              subType: combattechnique
+              masteryLevelBase: 77
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: grab
+                  name: Corrosive Envelopment
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 14
+                      aspect: blunt
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Lashing Tendrils
+          type: skill
+          system:
+              shortcode: tentacle
+              subType: combattechnique
+              masteryLevelBase: 72
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: tentacle
+                  name: Lashing Tendrils
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 1
+                      aspect: blunt
+                  lengthBase: 3
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

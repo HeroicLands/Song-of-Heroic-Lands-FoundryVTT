@@ -36,14 +36,114 @@ sohl:
         cre: 1d6+4
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Core
+                  shortcode: corezone
+                  probWeight: 2
+                - name: Mass
+                  shortcode: masszone
+                  probWeight: 4
+                - name: Tendrils
+                  shortcode: tendrilzone
+                  probWeight: 2
+            parts:
+                - name: Core
+                  shortcode: corepart
+                  bodyZoneCode: corezone
+                  roles:
+                      - vital
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Mass
+                  shortcode: masspart
+                  bodyZoneCode: masszone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Tendrils
+                  shortcode: ltendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Tendrils
+                  shortcode: rtendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Core
+                  shortcode: coreloc
+                  bodyPartCode: corepart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Mass
+                  shortcode: massloc
+                  bodyPartCode: masspart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Underside
+                  shortcode: underbellyloc
+                  bodyPartCode: masspart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Left Tendrils
+                  shortcode: ltendrilloc
+                  bodyPartCode: ltendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Right Tendrils
+                  shortcode: rtendrilloc
+                  bodyPartCode: rtendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
         weight:
             base: 500
             calc: 500
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.09
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -63,7 +163,96 @@ sohl:
                 textValue: "0"
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 75
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 54
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 44
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 40
+        - name: Engulfing Surge
+          type: skill
+          system:
+              shortcode: grab
+              subType: combattechnique
+              masteryLevelBase: 61
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: grab
+                  name: Engulfing Surge
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 12
+                      aspect: blunt
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Corrosive Spray
+          type: skill
+          system:
+              shortcode: spray
+              subType: combattechnique
+              masteryLevelBase: 56
+              combatCategory: missile
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: missile
+                  shortcode: spray
+                  name: Corrosive Spray
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 0
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 1
+                      aspect: fire
+                  projectileType: none
+                  maxVolleyMult: 1
+                  baseRangeBase: 25
+                  drawBase: 0
+                  traits: {}
 ---
 
 # Appearance {#appearance}
