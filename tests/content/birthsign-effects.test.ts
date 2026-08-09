@@ -21,12 +21,13 @@ import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 /**
  * The Astrokýklos birthsign modifier matrix, as authored content.
  *
- * Each of the twelve signs carries a modifier per **element**, and each element
- * is a set of skill `subType`s together with that element's own skill
- * shortcodes. This file is the executable copy of that specification: it drives
- * the content in `assets/content/Mysteries/Birthsigns/`, so a sign whose Active
- * Effects drift from the matrix — or whose `test` expression stops parsing —
- * fails here rather than silently applying nothing in play.
+ * Each of the twenty-four signs — twelve principal signs and the twelve cusps
+ * between them — carries a modifier per **element**, and each element is a set
+ * of skill `subType`s together with that element's own skill shortcodes. This
+ * file is the executable copy of that specification: it drives the content in
+ * `assets/content/Mysteries/Birthsigns/`, so a sign whose Active Effects drift
+ * from the matrix — or whose `test` expression stops parsing — fails here
+ * rather than silently applying nothing in play.
  */
 
 /** The six elements, each defined by its skill subtypes and skill shortcodes. */
@@ -52,20 +53,121 @@ type ElementName = keyof typeof ELEMENTS;
 
 const ELEMENT_NAMES = Object.keys(ELEMENTS) as ElementName[];
 
-/** The modifier each sign confers, in `ELEMENT_NAMES` order. */
+/**
+ * The modifier each sign confers, in `ELEMENT_NAMES` order.
+ *
+ * Listed in wheel order, so each principal sign is followed by the cusp that
+ * carries the wheel into the next one. The key is the sign's file basename.
+ */
 const MATRIX: Record<string, Record<ElementName, number>> = {
     Arnos: { earth: 15, metal: 5, fire: -5, air: -15, spirit: -5, water: 5 },
+    "Arnos-Bourax": {
+        earth: 15,
+        metal: 10,
+        fire: 0,
+        air: -10,
+        spirit: -5,
+        water: 5,
+    },
     Bourax: { earth: 10, metal: 10, fire: 0, air: -10, spirit: -10, water: 0 },
+    "Bourax-Diplos": {
+        earth: 10,
+        metal: 15,
+        fire: 5,
+        air: -5,
+        spirit: -10,
+        water: 0,
+    },
     Diplos: { earth: 5, metal: 15, fire: 5, air: -5, spirit: -15, water: -5 },
+    "Diplos-Chelyx": {
+        earth: 5,
+        metal: 15,
+        fire: 10,
+        air: 0,
+        spirit: -10,
+        water: -5,
+    },
     Chelyx: { earth: 0, metal: 10, fire: 10, air: 0, spirit: -10, water: -10 },
+    "Chelyx-Thyron": {
+        earth: 0,
+        metal: 10,
+        fire: 15,
+        air: 5,
+        spirit: -5,
+        water: -10,
+    },
     Thyron: { earth: -5, metal: 5, fire: 15, air: 5, spirit: -5, water: -15 },
+    "Thyron-Korith": {
+        earth: -5,
+        metal: 5,
+        fire: 15,
+        air: 10,
+        spirit: 0,
+        water: -10,
+    },
     Korith: { earth: -10, metal: 0, fire: 10, air: 10, spirit: 0, water: -10 },
+    "Korith-Stathmos": {
+        earth: -10,
+        metal: 0,
+        fire: 10,
+        air: 15,
+        spirit: 5,
+        water: -5,
+    },
     Stathmos: { earth: -15, metal: -5, fire: 5, air: 15, spirit: 5, water: -5 },
+    "Stathmos-Kentros": {
+        earth: -10,
+        metal: -5,
+        fire: 5,
+        air: 15,
+        spirit: 10,
+        water: 0,
+    },
     Kentros: { earth: -10, metal: -10, fire: 0, air: 10, spirit: 10, water: 0 },
+    "Kentros-Belos": {
+        earth: -5,
+        metal: -10,
+        fire: 0,
+        air: 10,
+        spirit: 15,
+        water: 5,
+    },
     Belos: { earth: -5, metal: -15, fire: -5, air: 5, spirit: 15, water: 5 },
+    "Belos-Tragyx": {
+        earth: 0,
+        metal: -10,
+        fire: -5,
+        air: 5,
+        spirit: 15,
+        water: 10,
+    },
     Tragyx: { earth: 0, metal: -10, fire: -10, air: 0, spirit: 10, water: 10 },
+    "Tragyx-Nalos": {
+        earth: 5,
+        metal: -5,
+        fire: -10,
+        air: 0,
+        spirit: 10,
+        water: 15,
+    },
     Nalos: { earth: 5, metal: -5, fire: -15, air: -5, spirit: 5, water: 15 },
+    "Nalos-Opsar": {
+        earth: 10,
+        metal: 0,
+        fire: -10,
+        air: -5,
+        spirit: 5,
+        water: 15,
+    },
     Opsar: { earth: 10, metal: 0, fire: -10, air: -10, spirit: 0, water: 10 },
+    "Opsar-Arnos": {
+        earth: 15,
+        metal: 5,
+        fire: -5,
+        air: -10,
+        spirit: 0,
+        water: 10,
+    },
 };
 
 const BIRTHSIGN_DIR = path.resolve(
