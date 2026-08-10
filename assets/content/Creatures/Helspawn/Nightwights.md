@@ -10,6 +10,7 @@ id: Kpo7Htb3b9uJEh6x
 slug: nightwight
 img: icons/game-icons/delapouite/person.svg
 portrait: ""
+shortcode: nghtwght
 type: creature
 package: sohl
 sohl:

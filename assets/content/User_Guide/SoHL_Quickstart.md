@@ -10,6 +10,7 @@ name:
     full: Song of Heroic Lands Quickstart
     alises: []
 slug: "sohl-quickstart"
+shortcode: quickstart
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -43,9 +44,9 @@ duplicate an existing Being, and modify it as needed.
 1. In an open character sheet, click on the Skills tab.
 2. Click on the name of a skill. A Success Test Dialog should appear. Simply press OK to perform the roll. The result should show in the chat window.
 
-See [[Combat_Basics|Combat Basics]] for round flow and common checks.
+See [[Combat Basics]] for round flow and common checks.
 
 # See Also
 
-- [[sohl-rules|Song of Heroic Lands Rules]]
-- [[sohl-user-guide|Song of Heroic Lands User Guide]]
+- [[Rules/rulesidx|Song of Heroic Lands Rules]]
+- [[Song of Heroic Lands User Guide]]

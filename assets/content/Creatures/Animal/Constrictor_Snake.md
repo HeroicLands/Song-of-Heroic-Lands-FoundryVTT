@@ -10,6 +10,7 @@ id: ypPZpDVq1apz4CiH
 slug: constrictor-snake
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
+shortcode: cnstrctr
 type: creature
 package: sohl
 sohl:

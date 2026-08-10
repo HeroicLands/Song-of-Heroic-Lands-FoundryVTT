@@ -25,22 +25,22 @@ it on just the same. A creature is always in exactly one **Shock State**, and
 while in any shock state it **cannot concentrate** until it recovers.
 
 Ordinary (normal) shock is a **very temporary** condition: a stunned, incapacitated,
-or unconscious victim shakes it off quickly through a [Shock Re-Test](#shock-re-test).
+or unconscious victim shakes it off quickly through a [[#shock-re-test|Shock Re-Test]].
 Only a _failed_ Re-Test drops a victim into the lasting condition of
-[Extended Shock](#extended-shock) (or a [Coma](#coma)), which has no time limit
+[[#extended-shock|Extended Shock]] (or a [[#coma|Coma]]), which has no time limit
 on recovery.
 
 ## Shock States
 
-| Shock State       | Effect (summary)                                                                                                                                                                                                                                                                                                                             |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **None**          | No shock.                                                                                                                                                                                                                                                                                                                                    |
-| **Stunned**       | Reeling and disoriented. All movement is Difficult and double Moves are barred; every Impaired test drops one Success Level. At the end of the next turn (and each turn after) the victim may attempt a [Shock Re-Test](#shock-re-test) to shake it off. A second Stunned result while already Stunned worsens immediately to Incapacitated. |
-| **Incapacitated** | Awake but knocked prone. Only an assisted Difficult half Move is possible, with no actions of the victim's own, and every melee attack must be Ignored. A Shock Re-Test is made at the end of the next turn. A fresh Incapacitated result while already Incapacitated drops the victim to Unconscious.                                       |
-| **Unconscious**   | Blacked out and prone — unaware, unable to act, and Helpless (melee attackers score a Critical Success Ignore). A Shock Re-Test is made ten minutes later.                                                                                                                                                                                   |
-| **Dead**          | The victim dies on the spot.                                                                                                                                                                                                                                                                                                                 |
+| Shock State       | Effect (summary)                                                                                                                                                                                                                                                                                                                               |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **None**          | No shock.                                                                                                                                                                                                                                                                                                                                      |
+| **Stunned**       | Reeling and disoriented. All movement is Difficult and double Moves are barred; every Impaired test drops one Success Level. At the end of the next turn (and each turn after) the victim may attempt a [[#shock-re-test\|Shock Re-Test]] to shake it off. A second Stunned result while already Stunned worsens immediately to Incapacitated. |
+| **Incapacitated** | Awake but knocked prone. Only an assisted Difficult half Move is possible, with no actions of the victim's own, and every melee attack must be Ignored. A Shock Re-Test is made at the end of the next turn. A fresh Incapacitated result while already Incapacitated drops the victim to Unconscious.                                         |
+| **Unconscious**   | Blacked out and prone — unaware, unable to act, and Helpless (melee attackers score a Critical Success Ignore). A Shock Re-Test is made ten minutes later.                                                                                                                                                                                     |
+| **Dead**          | The victim dies on the spot.                                                                                                                                                                                                                                                                                                                   |
 
-## Shock State Index
+## Shock State Index {#shock-state-index}
 
 Which shock state a creature is in is driven by its **Shock State Index (SSI)** —
 a running numeric index that maps to a state:
@@ -70,7 +70,7 @@ applies, but body-part impairment penalties do not):
 The adjusted index maps to a shock state on the table above. That state is then
 **offered** to the creature's controlling player, never imposed — and only ever to
 _worsen_ the current state (a lesser result never lifts a worse one; recovery is
-the [Shock Re-Test](#shock-re-test)). Two shortcuts skip the roll entirely: a base
+the [[#shock-re-test|Shock Re-Test]]). Two shortcuts skip the roll entirely: a base
 SSI **below 5** is too slight to threaten shock at all, and a base SSI **above 10**
 is immediately **Dead**.
 
@@ -78,11 +78,11 @@ is immediately **Dead**.
 come from any cause:
 
 - **Injury** — the struck body **location's Shock Value + the Injury Level**, plus
-  **1** more if the blow was a [glancing one](Body_Structure.md#from-blow-to-injury).
+  **1** more if the blow was a [[Rules/bdystrct#from-blow-to-injury|glancing one]].
   Every body location carries its own Shock Value: on a human the skull, eyes,
   nose, and neck are the worst at 5, the forearm and calf the mildest at 1. Other
   body structures carry their own values. See
-  [Body Structure → Shock](Body_Structure.md#shock).
+  [[Rules/bdystrct#shock|Body Structure → Shock]].
 - **Fear and other systemic or psychological forces** — each by its own measure.
 
 **Modifiers to the roll.** Two circumstances adjust the Shock Test itself rather
@@ -97,7 +97,7 @@ wound to the forearm (Shock Value 1) would open at 4 — below 5, so no roll is 
 and no shock results at all.
 
 Some effects instead raise the shock state directly, by their own means — most
-notably [blood loss](Bleeding.md#blood-loss-advance-test), which advances the shock
+notably [[Rules/bleeding#blood-loss-advance-test|blood loss]], which advances the shock
 state one step per Blood Loss Point.
 
 ### Implementation
@@ -119,21 +119,21 @@ the higher state. An effect that changes the shock state (blood loss, an injury
 shock result, a Shock Re-Test) reads the current state, computes the new one, and
 sets it through this operation.
 
-## Shock Re-Test
+## Shock Re-Test {#shock-re-test}
 
 A victim who is **Incapacitated** or **Unconscious** makes a **Shock Re-Test** to
 try to recover: a **Shock** skill test at **−20** (fatigue penalties apply;
 injury-impairment penalties do not). It is made at the end of the next turn for
 an Incapacitated victim, or ten minutes later for an Unconscious one.
 
-| Success Level | Result                                                                                  |
-| ------------- | --------------------------------------------------------------------------------------- |
-| CF (−1)       | Incapacitated → [Extended Shock](#extended-shock) at HR 4. Unconscious → [Coma](#coma). |
-| MF (0)        | The victim slips into [Extended Shock](#extended-shock) at HR 5.                        |
-| MS (1)        | The shock state improves to **Stunned**.                                                |
-| CS (2)        | The victim recovers from all shock states.                                              |
+| Success Level | Result                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------- |
+| CF (−1)       | Incapacitated → [[#extended-shock\|Extended Shock]] at HR 4. Unconscious → [[#coma\|Coma]]. |
+| MF (0)        | The victim slips into [[#extended-shock\|Extended Shock]] at HR 5.                          |
+| MS (1)        | The shock state improves to **Stunned**.                                                    |
+| CS (2)        | The victim recovers from all shock states.                                                  |
 
-## Extended Shock
+## Extended Shock {#extended-shock}
 
 Unlike ordinary shock — a very temporary state shaken off with a Shock Re-Test —
 **Extended Shock** is a lasting condition. When an Incapacitated or Unconscious
@@ -166,9 +166,9 @@ there is **no recovery from fatigue** while in Extended Shock.
 
 If HR falls to **0 or below** the victim dies. If HR rises to **6 or greater**
 the victim comes out of Extended Shock and is no longer Incapacitated or
-Unconscious (a victim in a [Coma](#coma) remains in the coma).
+Unconscious (a victim in a [[#coma|Coma]] remains in the coma).
 
-## Coma
+## Coma {#coma}
 
 A **coma** is a state of deep unconsciousness in which the victim is near death —
 unaware and wholly unable to act, communicate, or care for themselves.
@@ -196,6 +196,6 @@ number of days spent in the coma**.
 ## See also
 
 - [Injury](Injury.md) — how injuries generate shock and impairment.
-- [Body Structure](Body_Structure.md) — the Shock Value each body location carries.
-- [Bleeding](Bleeding.md) — blood loss advancing the shock state.
-- [Fatigue](Fatigue.md) — the fatigue that penalizes shock and course tests.
+- [[Body Structure]] — the Shock Value each body location carries.
+- [[Bleeding]] — blood loss advancing the shock state.
+- [[Fatigue]] — the fatigue that penalizes shock and course tests.

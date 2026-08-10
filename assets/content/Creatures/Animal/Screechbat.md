@@ -10,6 +10,7 @@ id: lHuMVOj4m48jiGcS
 slug: screechbat
 img: icons/game-icons/delapouite/bat.svg
 portrait: ""
+shortcode: scrchbt
 type: creature
 package: sohl
 sohl:

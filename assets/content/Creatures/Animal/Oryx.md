@@ -11,6 +11,7 @@ id: gIK5jksNoWu7af9z
 slug: oryx
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: oryx
 type: creature
 package: sohl
 sohl:

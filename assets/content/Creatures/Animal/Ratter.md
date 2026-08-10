@@ -10,6 +10,7 @@ id: 1rt4bCbVyGDW9hKA
 slug: ratter
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
+shortcode: ratter
 type: creature
 package: sohl
 sohl:

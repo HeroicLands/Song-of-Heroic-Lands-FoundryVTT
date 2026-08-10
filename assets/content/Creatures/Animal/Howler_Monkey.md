@@ -11,6 +11,7 @@ id: hakoBzpOt5uPwWkv
 slug: howler-monkey
 img: icons/game-icons/lorc/monkey.svg
 portrait: ""
+shortcode: hwlrmnky
 type: creature
 package: sohl
 sohl:

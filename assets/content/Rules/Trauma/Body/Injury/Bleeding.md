@@ -16,11 +16,11 @@ shortcode: bleeding
 folder: F4NGyU9QQgWwTcHe
 ---
 
-A physical [Injury](../User_Guide/Afflictions_Injuries.md) marked as **bleeding**
+A physical [[User_Guide/afflandi|Injury]] marked as **bleeding**
 is losing blood in a life-threatening way. Left unchecked, a bleeder will likely
 kill the character within **10–15 minutes** unless the bleeding is staunched.
 
-## Blood Loss Advance Test
+## Blood Loss Advance Test {#blood-loss-advance-test}
 
 Every **5 minutes** after acquiring a bleeder, the injured character makes a
 **Blood Loss Advance Test** for _each_ bleeding injury. The test is made against
@@ -35,7 +35,7 @@ the character's **Strength Mastery Level**:
 
 ### Shock State
 
-Blood loss worsens the victim's [Shock State](Shock.md): each Blood Loss Point
+Blood loss worsens the victim's [[Shock State]]: each Blood Loss Point
 (BLP) accrued **advances the shock state one step**, from No Shock up toward
 Dead.
 
@@ -49,30 +49,30 @@ Dead.
 
 So a character who is **Incapacitated** and accrues 1 BLP becomes
 **Unconscious**; accruing 2 BLP instead would kill them. (This is the ordinal
-counterpart of the [Shock State Index](Shock.md#shock-state-index) that injuries
+counterpart of the [[Rules/shock#shock-state-index|Shock State Index]] that injuries
 drive.)
 
 ### Anemia
 
 Each Blood Loss Advance Test also inflicts **5 points of
-[weakness fatigue](Fatigue.md) per Blood Loss Point** accrued, representing the
+[[Rules/fatigue|weakness fatigue]] per Blood Loss Point** accrued, representing the
 anemia of ongoing blood loss. This fatigue is applied every time the test is
 made.
 
 ### In play
 
 When a Blood Loss Advance Test comes due, the system first presents a request
-for a [Blood Stoppage Test](#blood-stoppage-test): a dialog announcing that the
+for a [[#blood-stoppage-test|Blood Stoppage Test]]: a dialog announcing that the
 character is bleeding, with an **Accept** button. The Accept button appears only
 for characters with the **Physician** skill. If no one accepts the request by
 the end of the round, the Blood Loss Advance Test proceeds as though a Blood
 Stoppage Test had been a Critical Failure — the bleeding continues.
 
-## Blood Stoppage Test
+## Blood Stoppage Test {#blood-stoppage-test}
 
 A character with the **Physician** skill may attempt to staunch a bleeding
 injury once every 5 minutes with a **Blood Stoppage Test** — a Physician
-[skill test](Success_Tests.md) naming the specific injury to treat:
+[[skill test]] naming the specific injury to treat:
 
 | Success Level | Effect                                                                      |
 | ------------- | --------------------------------------------------------------------------- |
@@ -89,7 +89,7 @@ to the bleeding character (resolving the pending Blood Loss Advance Test).
 
 ## See also
 
-- [Healing Test](Healing_Test.md) — periodic recovery of injuries and restoration
+- [[Healing Test]] — periodic recovery of injuries and restoration
   of lost blood once the bleeding has stopped.
-- [Success Tests](Success_Tests.md) — the CF / MF / MS / CS success levels used
+- [[Success Tests]] — the CF / MF / MS / CS success levels used
   throughout.

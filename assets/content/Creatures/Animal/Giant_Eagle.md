@@ -10,6 +10,7 @@ id: qXfebwntoioh2qjT
 slug: giant-eagle
 img: icons/game-icons/delapouite/eagle-head.svg
 portrait: ""
+shortcode: gntegl
 type: creature
 package: sohl
 sohl:

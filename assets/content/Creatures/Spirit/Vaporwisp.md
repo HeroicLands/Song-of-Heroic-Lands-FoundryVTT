@@ -10,6 +10,7 @@ id: SZSbxQbHhZFFCLQh
 slug: vaporwisp
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: vprwsp
 type: creature
 package: sohl
 sohl:

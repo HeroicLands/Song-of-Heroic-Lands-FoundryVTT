@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Shortcodes"
 slug: "shortcodes"
+shortcode: shrtcds
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -18,7 +19,7 @@ easy to overlook. But the shortcode is how the system knows _what a thing is_, a
 little understanding of it goes a long way — especially once you start importing from
 the compendiums.
 
-See also: [[Creating_Actors_Items]], [[Using_Compendiums]]
+See also: [[Creating Actors Items]], [[Using Compendiums]]
 
 # What a Shortcode Is
 
@@ -75,7 +76,7 @@ document against another. That matters most between the **compendiums** and your
 - Archetypes (the starting templates in the Create dialog) work the same way: if you
   keep a world copy's shortcode the same as a shipped archetype, your copy _shadows_
   the original in the picker — the system recognizes them as the same archetype and
-  prefers yours. (See [[Creating_Actors_Items]].)
+  prefers yours. (See [[Creating Actors Items]].)
 
 # In Practice
 

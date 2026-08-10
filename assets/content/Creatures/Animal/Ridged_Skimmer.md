@@ -10,6 +10,7 @@ id: 6dbt4Nbd3KY7TJta
 slug: ridged-skimmer
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: rdgdskmm
 type: creature
 package: sohl
 sohl:

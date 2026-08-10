@@ -12,6 +12,7 @@ id: IHBBFMFd2LieAudc
 slug: old-ice-dragon
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
+shortcode: oldicdrg
 type: creature
 package: sohl
 sohl:

@@ -34,7 +34,7 @@ impaired by −10, not −30, and takes only the single worst penalty among its
 injuries and its permanent impairment.
 
 Which tests an impaired part actually penalizes is decided by the part's
-[body roles](Body_Structure.md#body-part-roles) — each skill and attribute names
+[[Rules/bdystrct#body-part-roles|body roles]] — each skill and attribute names
 the roles whose injury impairs it, and takes the worst penalty among the parts
 holding those roles (or Critically Fails outright if any of them is unusable).
 

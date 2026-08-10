@@ -12,6 +12,7 @@ id: auTdTI38hYwuX3sr
 slug: peacock
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: peacock
 type: creature
 package: sohl
 sohl:

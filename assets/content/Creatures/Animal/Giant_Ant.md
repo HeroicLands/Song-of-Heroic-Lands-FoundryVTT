@@ -10,6 +10,7 @@ id: z1mE9iVDLalVjhSc
 slug: giant-ant
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: giantant
 type: creature
 package: sohl
 sohl:

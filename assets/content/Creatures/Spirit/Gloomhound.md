@@ -10,6 +10,7 @@ id: ldVaPfqXY1Mh4tK4
 slug: gloomhound
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
+shortcode: glmhnd
 type: creature
 package: sohl
 sohl:

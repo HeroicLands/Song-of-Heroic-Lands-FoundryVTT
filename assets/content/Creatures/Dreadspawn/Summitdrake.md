@@ -10,6 +10,7 @@ id: I96v45Ggz9t91r4o
 slug: summitdrake
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
+shortcode: smmtdrk
 type: creature
 package: sohl
 sohl:

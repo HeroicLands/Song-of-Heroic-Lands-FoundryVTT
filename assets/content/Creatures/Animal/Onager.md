@@ -11,6 +11,7 @@ id: GS7W7FIX26LUrAl2
 slug: onager
 img: icons/game-icons/skoll/donkey.svg
 portrait: ""
+shortcode: onager
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: IkisGKow2uz3lPSw
 slug: flamewraith
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
+shortcode: flmwrth
 type: creature
 package: sohl
 sohl:

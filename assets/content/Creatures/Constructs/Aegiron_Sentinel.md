@@ -10,6 +10,7 @@ id: 0XIdKN3uKTf5qx8n
 slug: aegiron-sentinel
 img: icons/game-icons/delapouite/golem-head.svg
 portrait: ""
+shortcode: agrnsntn
 type: creature
 package: sohl
 sohl:

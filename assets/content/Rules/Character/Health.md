@@ -43,7 +43,7 @@ those impairments decide the ceiling, and nothing else does:
    or is core to the body, such as the head, the chest, or the abdomen — or it is
    a **limb**: an arm, a leg, a hand, a foot. Harm to a critical part costs far
    more than the same harm to a limb. Which of the two a part is follows from its
-   [body roles](Body_Structure.md#body-part-roles): a part carrying **Vital** or
+   [[Rules/bdystrct#body-part-roles|body roles]]: a part carrying **Vital** or
    **Core** is critical, and a part carrying only **Manipulator** or **Locomotor**
    is a limb.
 3. **How many parts are in that same state.** A second injury of a given severity
@@ -79,9 +79,9 @@ The gap between the two tables is the whole point: a minor wound to an arm barel
 registers, while the _same_ minor wound to the chest halves a character outright.
 A critical part rendered unusable drives the ceiling to nothing at all — a
 mortal state, from which a character who is still breathing reads 1% (see
-[the floor](#the-bands) below) until they die in fact.
+[[#the-bands|the floor]] below) until they die in fact.
 
-# The bands
+# The bands {#the-bands}
 
 The band is the number in words — what a companion would say, looking at them.
 
@@ -103,8 +103,8 @@ not died yet, and the figure will not pronounce them dead before they are.
 # What Health does not cover
 
 Health measures **bodily injury only**. It is deliberately blind to every other
-way a character can be taken out of a fight — being [[Fatigue|winded or weary]],
-[[rules/sohl-shock|stunned or unconscious]], [[Fear|afraid]], or otherwise
+way a character can be taken out of a fight — being [[Rules/fatigue|winded or weary]],
+[[Rules/shock|stunned or unconscious]], [[Rules/fear|afraid]], or otherwise
 overcome. Those are tracked separately and have their own effects.
 
 So Health is not a readiness score. A character can read **Excellent** and still
@@ -112,5 +112,5 @@ be unconscious, exhausted, or paralysed with fear. Read Health for _how hurt the
 are_, and read their conditions for _whether they can act_.
 
 See also: [[rules/sohl-injury|Injury]] for how wounds and their impairments are
-determined, [[rules/sohl-trauma|Trauma]] for the wider picture of harm, and
-[[Healing_Base|Healing Base]] for recovery.
+determined, [[Trauma]] for the wider picture of harm, and
+[[Healing Base]] for recovery.

@@ -10,6 +10,7 @@ id: 9nYhkvI252ewBJW3
 slug: thornback-raptor
 img: icons/game-icons/lorc/dinosaur-rex.svg
 portrait: ""
+shortcode: thrnbckr
 type: creature
 package: sohl
 sohl:

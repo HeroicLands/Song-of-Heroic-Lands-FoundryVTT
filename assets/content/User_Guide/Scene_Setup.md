@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "Scene Setup and Tokens"
 slug: "scene-setup"
+shortcode: scnstpan
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -16,7 +17,7 @@ Scenes in SoHL work like standard Foundry VTT scenes, with some additional
 features specific to SoHL. This guide covers placing tokens on scenes,
 Theatre of the Mind mode, and the Cohort expand feature.
 
-See also: [Beings](user-guide/actor-being.md), [Cohorts](user-guide/actor-cohort.md)
+See also: [[User_Guide/being|Beings]], [[User_Guide/cohort|Cohorts]]
 
 # Placing Actors on Scenes {#scene-placing}
 
@@ -96,7 +97,7 @@ all behave exactly as they do on a tactical scene.
 When combat begins on a scene, SoHL uses its own initiative and combat
 tracking system.
 
-See [Combat Basics](user-guide/combat-basics.md) for details on how combat
+See [[Combat Basics]] for details on how combat
 encounters work.
 
 <!-- TODO: Document how to start combat, add combatants, and the relationship

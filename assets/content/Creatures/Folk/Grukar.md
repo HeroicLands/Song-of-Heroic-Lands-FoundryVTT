@@ -3,6 +3,7 @@ aliases:
     - Grukar
 tags:
     - folk
+shortcode: grukar
 type: doc
 category: lore
 package: sohl

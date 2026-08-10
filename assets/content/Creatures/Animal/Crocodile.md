@@ -10,6 +10,7 @@ id: YzoFPpU5UVHmM52o
 slug: crocodile
 img: icons/game-icons/lorc/croc-jaws.svg
 portrait: ""
+shortcode: crcdl
 type: creature
 package: sohl
 sohl:

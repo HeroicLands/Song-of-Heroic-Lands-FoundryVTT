@@ -10,6 +10,7 @@ id: 6KSkMKbbQE2We7kA
 slug: bramblefang
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: brmblfng
 type: creature
 package: sohl
 sohl:

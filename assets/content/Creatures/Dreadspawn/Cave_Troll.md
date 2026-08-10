@@ -10,6 +10,7 @@ id: LLdlPmp4JmXGcj1o
 slug: cave-troll
 img: icons/game-icons/skoll/troll.svg
 portrait: ""
+shortcode: cvtrll
 type: creature
 package: sohl
 sohl:

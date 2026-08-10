@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "System Settings"
 slug: "settings"
+shortcode: systmstt
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -21,7 +22,7 @@ Settings are divided into two categories:
 - **Player settings** are configured independently by each user.
 
 This guide documents all available settings. For a quick start, see
-[Quickstart](user-guide/quickstart.md).
+[[User_Guide/quickstart|Quickstart]].
 
 # World Settings {#WorldSettings}
 
@@ -63,7 +64,7 @@ restarts. They appear in the "Imported Calendars" section of the settings
 menu, where they can be deleted if no longer needed.
 
 For the JSON file format specification and an example, see
-[Calendar JSON Format](user-guide/calendar-format.md).
+[[Calendar JSON Format]].
 
 ### Deleting an Imported Calendar
 

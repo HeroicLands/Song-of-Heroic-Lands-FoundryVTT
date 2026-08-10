@@ -11,6 +11,7 @@ id: a2TPhQDzEJLjlYMv
 slug: ostrich
 img: icons/game-icons/delapouite/cassowary-head.svg
 portrait: ""
+shortcode: ostrich
 type: creature
 package: sohl
 sohl:

@@ -24,4 +24,4 @@ When a being stumbles or falls, it becomes **prone**, with the following effects
 
 ## See also
 
-- [Shock](Shock.md) — incapacitated, unconscious, and dead victims are prone.
+- [[Shock]] — incapacitated, unconscious, and dead victims are prone.

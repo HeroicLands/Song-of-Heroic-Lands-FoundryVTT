@@ -11,6 +11,7 @@ id: NQZVX98HeA9QlGWY
 slug: cobra
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
+shortcode: cobra
 type: creature
 package: sohl
 sohl:

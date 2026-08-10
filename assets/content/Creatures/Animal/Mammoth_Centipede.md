@@ -10,6 +10,7 @@ id: DQLxBAAPzYaUa5K2
 slug: mammoth-centipede
 img: icons/game-icons/lorc/centipede.svg
 portrait: ""
+shortcode: mmmthcnt
 type: creature
 package: sohl
 sohl:

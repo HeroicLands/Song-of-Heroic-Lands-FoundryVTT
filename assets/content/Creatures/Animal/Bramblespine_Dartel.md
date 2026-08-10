@@ -10,6 +10,7 @@ id: eDyiMoyAhdyDQpvk
 slug: bramblespine-dartel
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: brmblspn
 type: creature
 package: sohl
 sohl:

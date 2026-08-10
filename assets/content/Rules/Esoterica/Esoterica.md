@@ -15,7 +15,7 @@ slug: sohl-esoterica
 shortcode: estrcint
 ---
 
-**Esoterica** gathers the supernatural rules of _Song of Heroic Lands_: the standing mystical conditions a character carries, and the mystical acts they perform. This introduction explains the two kinds of thing the rest of the section is built from, how mystical acts are tested, and the general mysteries that belong to no single tradition. The particular powers themselves are organised by **tradition** — see [[rules/sohl-arcane|Arcane]], [[rules/sohl-divine|Divine]], and [[rules/sohl-spirit|Spirit]].
+**Esoterica** gathers the supernatural rules of _Song of Heroic Lands_: the standing mystical conditions a character carries, and the mystical acts they perform. This introduction explains the two kinds of thing the rest of the section is built from, how mystical acts are tested, and the general mysteries that belong to no single tradition. The particular powers themselves are organised by **tradition** — see [[Arcane]], [[Divine]], and [[Spirit]].
 
 # Mysteries and Mystical Abilities
 
@@ -31,13 +31,13 @@ Most mystical traditions combine the two. A spirit-worker _is_ bonded to spirits
 
 Every mystical ability — and most mysteries — belongs to one of three broad traditions, which shape how it is learned, where its power comes from, and what it costs. Each has its own page.
 
-- **[[rules/sohl-arcane|Arcane]]** — power drawn from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly. Their abilities are _Arcane Incantations_ (taught) and _Arcane Talents_ (innate), with _Alchemy_ and much _Divination_ in the same tradition; the tradition also owns the _Birthsign_ a character bears — the standing influence of the sign they were born under.
-- **[[rules/sohl-divine|Divine]]** — power granted by a deity in answer to devotion. Divine practitioners do not command power so much as request it, and their standing with their god (their **Piety**) governs how readily it is granted. Their abilities are _Ritual Actions_ (including the blessings a priest calls down) and _Divine Incantations_; their mysteries are _Grace_ and _Piety_.
-- **[[rules/sohl-spirit|Spirit]]** — power granted by, or channelled through, spirits: ancestors, totems, and the wild energies of the world. Spirit practitioners cultivate relationships with spirits, who confer **Spirit Powers** on them; those powers are then exercised through _Spirit Rites_ and _Spirit Actions_, and some folk have an innate _Spirit Talent_.
+- **[[Arcane]]** — power drawn from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly. Their abilities are _Arcane Incantations_ (taught) and _Arcane Talents_ (innate), with _Alchemy_ and much _Divination_ in the same tradition; the tradition also owns the _Birthsign_ a character bears — the standing influence of the sign they were born under.
+- **[[Divine]]** — power granted by a deity in answer to devotion. Divine practitioners do not command power so much as request it, and their standing with their god (their **Piety**) governs how readily it is granted. Their abilities are _Ritual Actions_ (including the blessings a priest calls down) and _Divine Incantations_; their mysteries are _Grace_ and _Piety_.
+- **[[Spirit]]** — power granted by, or channelled through, spirits: ancestors, totems, and the wild energies of the world. Spirit practitioners cultivate relationships with spirits, who confer **Spirit Powers** on them; those powers are then exercised through _Spirit Rites_ and _Spirit Actions_, and some folk have an innate _Spirit Talent_.
 
 # Testing a Mystical Ability
 
-Invoking a Mystical Ability is resolved as a [[Success_Tests|Success Test]], exactly like a skill. Click the ability's **Effective Mastery Level (EML)** on the Being sheet's **Mysteries** tab to roll it (hold **Shift** to skip the dialog), and read the success level (CF / MF / MS / CS) the same way.
+Invoking a Mystical Ability is resolved as a [[Success Test]], exactly like a skill. Click the ability's **Effective Mastery Level (EML)** on the Being sheet's **Mysteries** tab to roll it (hold **Shift** to skip the dialog), and read the success level (CF / MF / MS / CS) the same way.
 
 Where an ability's EML comes from depends on how it is governed:
 
@@ -59,7 +59,7 @@ Some abilities and mysteries can be spent a limited number of times before they 
 
 # General Mysteries
 
-Some mysteries belong to no single tradition — they can attach to a skill of any tradition, and are described here once rather than repeated on each tradition page. (The tradition-specific mysteries appear on their own pages: the [[rules/sohl-arcane|Arcane]] Fate and [[rules/sohl-arcane|Birthsign]], and the [[rules/sohl-divine|Divine]] Grace and Piety.)
+Some mysteries belong to no single tradition — they can attach to a skill of any tradition, and are described here once rather than repeated on each tradition page. (The tradition-specific mysteries appear on their own pages: the [[Arcane]] Fate and [[Rules/arcane|Birthsign]], and the [[Divine]] Grace and Piety.)
 
 ## Boon
 

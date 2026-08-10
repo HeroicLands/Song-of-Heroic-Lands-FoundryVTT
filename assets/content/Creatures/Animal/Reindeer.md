@@ -12,6 +12,7 @@ id: o5zGvTtdOAvkEa0u
 slug: reindeer
 img: icons/game-icons/caro-asercion/deer.svg
 portrait: ""
+shortcode: reindeer
 type: creature
 package: sohl
 sohl:

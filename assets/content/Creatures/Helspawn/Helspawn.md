@@ -3,6 +3,7 @@ aliases:
     - Helspawn
 tags:
     - helspawn
+shortcode: helspawn
 type: doc
 category: lore
 package: sohl

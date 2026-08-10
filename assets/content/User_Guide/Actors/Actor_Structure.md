@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Structure"
 slug: "actor-structure"
+shortcode: structure
 folder: sYK1BozT9xFcinXK
 ---
 
@@ -21,7 +22,7 @@ it can be described, own its contents, and be pointed at.
 other actor kinds, a Structure has no properties of its own at all — and that is
 deliberate. It is the plainest actor in the system: a name, a description, the
 gear stored in it, the actions you attach to it, and the effects laid on it. What
-distinguishes it from a [[Actor_Vehicle|Vehicle]] is not a mechanic but a fact
+distinguishes it from a [[Vehicle]] is not a mechanic but a fact
 about the fiction — **it does not go anywhere**, and so it has no occupants and no
 journey.
 
@@ -38,8 +39,8 @@ Use a Structure when:
 - A location carries a standing effect — a ward, a consecration, a curse
 - You want actions attached to a place (a lever, a ritual performed only there)
 
-For something that moves and carries people, use a [[Actor_Vehicle|Vehicle]]
-instead. For a body of people, use a [[Actor_Cohort|Cohort]].
+For something that moves and carries people, use a [[Vehicle]]
+instead. For a body of people, use a [[Cohort]].
 
 # What a Structure Contains
 
@@ -58,7 +59,7 @@ A Structure is scenery with an inventory, not a combatant:
   or refuses the contents.
 - **No occupants.** A Structure does not track who is inside it. If who is present
   matters, that is a matter for tokens on the scene, or a
-  [[Actor_Cohort|Cohort]] if the people form a standing group.
+  [[Cohort]] if the people form a standing group.
 
 # The Structure Sheet
 
@@ -71,10 +72,10 @@ The Structure sheet has these tabs:
 - **Effects** — active effects
 
 All five are the common actor tabs, and they behave exactly as they do on a
-[[Actor_Being|Being]]: the Gear tab is the same inventory ledger (a structure's
+[[Being]]: the Gear tab is the same inventory ledger (a structure's
 stores instead of a character's possessions), and the Actions and Effects tabs
 are identical. They are documented once, in
-[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_ — see
+[[Understanding Sheets]] under _Common Actor Tabs_ — see
 that page for the columns, controls, and how to add, stow, and remove things.
 
 The **Profile** tab carries three things, and it is where a structure's private
@@ -109,7 +110,7 @@ actor shares:
 | Delete              | `deleteDocument`    |
 | Make Default Medium | `makeDefaultMedium` |
 
-All three belong to every actor and are described on [[Item_Base|Base Item]],
+All three belong to every actor and are described on [[Base Item]],
 which covers what each one does, how it is invoked, and what it produces — the
 shared document actions are the same wherever they appear.
 
@@ -120,4 +121,4 @@ _None_ row; the control is there because movement is a capability every actor
 carries, not because a building is expected to use it.
 
 The contents stored in a structure are ordinary gear items with actions of their
-own — see [[Item_Gear|Gear]] and the page for each kind of gear.
+own — see [[Gear]] and the page for each kind of gear.

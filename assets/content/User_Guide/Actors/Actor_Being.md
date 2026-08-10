@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Being"
 slug: "actor-being"
+shortcode: being
 folder: sYK1BozT9xFcinXK
 ---
 
@@ -20,7 +21,7 @@ skills, gear, traumas, and combat capabilities.
 
 Most of your interaction with the system will involve Beings.
 
-See also: [[Character_Creation]], [[Combat_Basics]]
+See also: [[Character Creation]], [[Combat Basics]]
 
 # What a Being Contains
 
@@ -35,7 +36,7 @@ A Being can hold many types of items:
 - **Movement Profiles** — walking, running, swimming speeds
 - **Mystical Abilities** — spells, prayers, and supernatural powers
 - **Actions** — special procedures that can be triggered from the character sheet
-  (see [Actions on a Being](#actions-on-a-being))
+  (see [[#actions-on-a-being|Actions on a Being]])
 
 # The Being Sheet
 
@@ -48,13 +49,13 @@ The Being sheet is organized into several tabs:
 - **Combat** — equipped weapons, armor, and combat-relevant information
 - **Mystical** — mysteries, philosophies, and mystical abilities
 - **Actions** — available actions for this character (see
-  [Actions on a Being](#actions-on-a-being))
+  [[#actions-on-a-being|Actions on a Being]])
 - **Effects** — active effects modifying this character
 
 **Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs —
-the same tabs, working the same way, on a [[Actor_Vehicle|Vehicle]] or a
-[[Actor_Structure|Structure]]. They are documented once, in
-[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_; this
+the same tabs, working the same way, on a [[Vehicle]] or a
+[[Structure]]. They are documented once, in
+[[Understanding Sheets]] under _Common Actor Tabs_; this
 page covers what is particular to a Being. The rest of the tabs are Being-only.
 
 # The Being Sheet Header
@@ -110,7 +111,7 @@ Generally, you should not create a Being from scratch using the Create Actor
 dialog. Instead, duplicate an existing Being from the compendium (such as
 "Basic Folk") and customize it.
 
-See [[Character_Creation]] for step-by-step instructions.
+See [[Character Creation]] for step-by-step instructions.
 
 # Beings on Scenes
 
@@ -125,7 +126,7 @@ participate in combat encounters.
      what it means, what values to enter, and how it interacts with other
      fields and items. Include annotated screenshots. -->
 
-# Actions on a Being
+# Actions on a Being {#actions-on-a-being}
 
 A Being carries a set of built-in **actions** — the procedures the system knows
 how to run for a character. You reach them from the **Actions** tab on the Being
@@ -135,31 +136,31 @@ sheet, or by right-clicking the Being in the Actors sidebar and choosing from th
 Nothing here ever fires on its own. Every action runs because a person picked it,
 or clicked a button on a chat card addressed to their own character. Where an
 action would change your character's state, the system asks first. See
-[[Actions]] for how actions work in general, and [[Item_Base|Base Item]] for the
+[[Actions]] for how actions work in general, and [[Base Item]] for the
 standard test dialog that most rolls open.
 
 These are the actions a Being defines:
 
-| Action                                                        | Shortcode                    | What it does                                                           |
-| ------------------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------- |
-| [Shock Test](#shock-test)                                     | `shockTest`                  | Rolls Shock against a Shock State Index and offers the resulting state |
-| [Shock Re-Test](#shock-re-test)                               | `shockReTest`                | An Incapacitated or Unconscious victim tries to shake off shock        |
-| [Stumble Test](#stumble-test-and-fumble-test)                 | `stumbleTest`                | Keep your footing after a lurch                                        |
-| [Fumble Test](#stumble-test-and-fumble-test)                  | `fumbleTest`                 | Keep hold of what you are carrying                                     |
-| [Fear Test](#fear-test)                                       | `fearTest`                   | Tests Will against something frightening                               |
-| [Morale Test](#morale-test)                                   | `moraleTest`                 | Tests Initiative against a reason to break                             |
-| [Reaction Test](#reaction-test)                               | `reactionTest`               | A shaken character tries to pull themselves together                   |
-| [Rally Test](#rally-test)                                     | `rallyTest`                  | A leader offers to steady shaken allies                                |
-| [Resist the Pall](#resist-the-pall)                           | `pallResist`                 | A Spirit test against the Pall's depth                                 |
-| [Calculate Impact](#calculate-impact)                         | `calcImpact`                 | Turns a damage roll into a card that can be aimed at a target          |
-| [Resolve Injury](#resolve-injury)                             | `resolveInjury`              | Turns a blow into a wound on this character                            |
-| [Contagion Check](#contagion-check)                           | `contagionCheck`             | Offers this character a Contagion Test — anyone may post one           |
-| [Contagion Test](#contagion-test)                             | `contagionTest`              | Rolls whether this character catches an affliction                     |
-| [Perform Affliction Treatment](#perform-affliction-treatment) | `performAfflictionTreatment` | Rolls a physician's Success Value test to treat an affliction          |
-| [Perform Treatment Test](#perform-treatment-test)             | `performTreatmentTest`       | A physician proposes a Healing Rate for someone's wound                |
-| [Perform Blood Stoppage](#perform-blood-stoppage)             | `performBloodStoppage`       | A physician tries to staunch someone's bleeding                        |
+| Action                                                          | Shortcode                    | What it does                                                           |
+| --------------------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------- |
+| [[#shock-test\|Shock Test]]                                     | `shockTest`                  | Rolls Shock against a Shock State Index and offers the resulting state |
+| [[#shock-re-test\|Shock Re-Test]]                               | `shockReTest`                | An Incapacitated or Unconscious victim tries to shake off shock        |
+| [[#stumble-test-and-fumble-test\|Stumble Test]]                 | `stumbleTest`                | Keep your footing after a lurch                                        |
+| [[#stumble-test-and-fumble-test\|Fumble Test]]                  | `fumbleTest`                 | Keep hold of what you are carrying                                     |
+| [[#fear-test\|Fear Test]]                                       | `fearTest`                   | Tests Will against something frightening                               |
+| [[#morale-test\|Morale Test]]                                   | `moraleTest`                 | Tests Initiative against a reason to break                             |
+| [[#reaction-test\|Reaction Test]]                               | `reactionTest`               | A shaken character tries to pull themselves together                   |
+| [[#rally-test\|Rally Test]]                                     | `rallyTest`                  | A leader offers to steady shaken allies                                |
+| [[#resist-the-pall\|Resist the Pall]]                           | `pallResist`                 | A Spirit test against the Pall's depth                                 |
+| [[#calculate-impact\|Calculate Impact]]                         | `calcImpact`                 | Turns a damage roll into a card that can be aimed at a target          |
+| [[#resolve-injury\|Resolve Injury]]                             | `resolveInjury`              | Turns a blow into a wound on this character                            |
+| [[#contagion-check\|Contagion Check]]                           | `contagionCheck`             | Offers this character a Contagion Test — anyone may post one           |
+| [[#contagion-test\|Contagion Test]]                             | `contagionTest`              | Rolls whether this character catches an affliction                     |
+| [[#perform-affliction-treatment\|Perform Affliction Treatment]] | `performAfflictionTreatment` | Rolls a physician's Success Value test to treat an affliction          |
+| [[#perform-treatment-test\|Perform Treatment Test]]             | `performTreatmentTest`       | A physician proposes a Healing Rate for someone's wound                |
+| [[#perform-blood-stoppage\|Perform Blood Stoppage]]             | `performBloodStoppage`       | A physician tries to staunch someone's bleeding                        |
 
-One further action, [Answer the Rally](#answer-the-rally), is **hidden**: it
+One further action, [[#answer-the-rally|Answer the Rally]], is **hidden**: it
 never appears on the Actions menu and is reached only from the button on a Rally
 card. It is documented with the Rally Test, where that card comes from.
 
@@ -169,7 +170,7 @@ card. It is documented with the Rally Test, where that card comes from.
 > own player accepts. A character with no Physician skill is told so and nothing
 > is rolled.
 
-# Shock Test
+# Shock Test {#shock-test}
 
 |               |                                                                                                                        |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -225,18 +226,18 @@ route — it computes the index for you.
       can apply the state by hand from the sheet's status pills.
 
     Shock only ever **worsens** here: a fresh test never improves a state that is
-    already worse. Improving is the [Shock Re-Test](#shock-re-test).
+    already worse. Improving is the [[#shock-re-test|Shock Re-Test]].
 
 5. **If the character entered ordinary shock**, the _Set a Shock Re-Test
    Reminder?_ offer follows (the shared offer-schedule dialog described on
-   [[Item_Base|Base Item]]). Accepting arms a reminder — at the **end of each of
+   [[Base Item]]). Accepting arms a reminder — at the **end of each of
    the character's own turns** while Incapacitated, or **ten minutes later**
    while Unconscious. Declining arms nothing.
 
 For the full rules — the Shock State Index table and what each state means in
-play — see the [[rules/sohl-shock|Shock]] rules.
+play — see the [[Rules/shock|Shock]] rules.
 
-# Shock Re-Test
+# Shock Re-Test {#shock-re-test}
 
 |               |                                                                                                                                 |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -255,7 +256,7 @@ already in lasting Extended Shock or a Coma — is told _"A Shock Re-Test applie
 only to an Incapacitated or Unconscious victim."_ and nothing is rolled.
 
 You will not find this on the Actions menu. It comes to you: when the reminder
-armed by a [Shock Test](#shock-test) falls due, the system posts an owner-gated
+armed by a [[#shock-test|Shock Test]] falls due, the system posts an owner-gated
 card in chat with a **Perform** button, and the re-test runs only when the
 victim's own player clicks it. Until then nothing happens — the reminder nags,
 it never acts.
@@ -282,11 +283,11 @@ it never acts.
    other — so nothing re-arms itself behind your back.
 
 A Coma's Healing Rate is derived from the worst active wound (12 minus its
-location's Shock Value minus its Injury Level). See the [[rules/sohl-shock|Shock]]
-rules for Extended Shock and Coma recovery, and [[Afflictions_Injuries]] for
+location's Shock Value minus its Injury Level). See the [[Rules/shock|Shock]]
+rules for Extended Shock and Coma recovery, and [[Afflictions Injuries]] for
 living with the resulting trauma.
 
-# Stumble Test and Fumble Test
+# Stumble Test and Fumble Test {#stumble-test-and-fumble-test}
 
 These two are the same test wearing different clothes: a combat mishap has
 knocked something loose, and the character rolls to keep control of it. Both
@@ -308,7 +309,7 @@ test applies, and it happens only when you pick the action.
 | **API**       | [`BeingLogic.stumbleTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#stumbletest) |
 
 Rolls the better of **Agility** and **Acrobatics** to stay on your feet. The
-standard test dialog opens first (see [below](#the-standard-test-dialog)), then
+standard test dialog opens first (see [[#the-standard-test-dialog|below]]), then
 the result card reads:
 
 | Result               | Outcome           | What it means                                             |
@@ -340,15 +341,15 @@ are carrying. Same flow; the result card reads:
 
 Neither test changes anything on the sheet — the card is the record, and what a
 stumble or a dropped weapon costs is played out at the table. Falling prone is
-described in the [[rules/sohl-prone|Prone]] rules.
+described in the [[Rules/prone|Prone]] rules.
 
-## The standard test dialog
+## The standard test dialog {#the-standard-test-dialog}
 
 Both tests open the ordinary pre-roll dialog — Target, the modifier breakdown,
 **Situational Modifier**, **Success Level Modifier**, and **Roll Visibility** —
-described once on [[Item_Base|Base Item]]. Cancelling it abandons the test.
+described once on [[Base Item]]. Cancelling it abandons the test.
 
-# Fear Test
+# Fear Test {#fear-test}
 
 |               |                                                                                                                      |
 | ------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -398,10 +399,10 @@ On the sheet:
   state across all sources, so the token shows it exactly while some source still
   frightens them.
 
-See the [[rules/sohl-fear|Fear]] rules for what each state permits, and
-[[rules/sohl-psychological-condition|Psychological Condition]] for Psyche Stress.
+See the [[Rules/fear|Fear]] rules for what each state permits, and
+[[Rules/psychlgc|Psychological Condition]] for Psyche Stress.
 
-# Morale Test
+# Morale Test {#morale-test}
 
 |               |                                                                                                                          |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -442,10 +443,10 @@ leaves the five-minute **Brave** marker. **Morale sets no condition on the
 token** — the trauma items are the record.
 
 A shaken character can come back two ways: their own
-[Reaction Test](#reaction-test), or an ally's [Rally Test](#rally-test). See the
-[[rules/sohl-morale|Morale]] rules.
+[[#reaction-test|Reaction Test]], or an ally's [[#rally-test|Rally Test]]. See the
+[[Rules/morale|Morale]] rules.
 
-# Reaction Test
+# Reaction Test {#reaction-test}
 
 |               |                                                                                                                              |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -474,7 +475,7 @@ card showing the result:
   sheet.
 - **Failure** — the state persists; nothing changes.
 
-# Rally Test
+# Rally Test {#rally-test}
 
 |               |                                                                                                                        |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -512,13 +513,13 @@ The Command (or Initiative) roll posts to chat with no pre-roll dialog. Then:
 | Title                       | **Rally!**                                                                                                                                      |
 | Body                        | _{leader}_ rallies shaken allies.                                                                                                               |
 | Offer line                  | On a Critical Success, _"A Routed or Withdrawing ally may steady themselves."_; on a Marginal Success, _"…may make a Reaction Test to steady."_ |
-| **Answer the Rally** button | Applies the rally to **your own** character — see [Answer the Rally](#answer-the-rally)                                                         |
+| **Answer the Rally** button | Applies the rally to **your own** character — see [[#answer-the-rally\|Answer the Rally]]                                                       |
 
 This card is **open**: anyone may click the button, and it acts on the clicking
 player's own character, not on anybody else's. The card stays in the log, so an
 ally can answer it late — or ignore it entirely.
 
-## Answer the Rally
+## Answer the Rally {#answer-the-rally}
 
 |               |                                                                                                                            |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -537,9 +538,9 @@ What it does depends on how well the leader rolled:
 - **From a Critical Success rally** — your character becomes **Steady** at once,
   and every shaken morale source is cleared.
 - **From a Marginal Success rally** — your character makes a
-  [Reaction Test](#reaction-test), which may or may not steady them.
+  [[#reaction-test|Reaction Test]], which may or may not steady them.
 
-# Resist the Pall
+# Resist the Pall {#resist-the-pall}
 
 |               |                                                                                                                          |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -575,10 +576,10 @@ A failure accrues **Pall Stress Levels** on the character's single **Pall Cloud*
 trauma, creating it on the first failure and adding to it thereafter. A success
 changes nothing on the sheet.
 
-See the [[rules/sohl-the-pall|The Pall]] rules for Pall Strength, what the
+See the [[Rules/thepall|The Pall]] rules for Pall Strength, what the
 accumulated Cloud does to a character, and how it clears.
 
-# Calculate Impact
+# Calculate Impact {#calculate-impact}
 
 |               |                                                                                                                          |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -601,19 +602,19 @@ report that it needs an impact in its scope and stop.
 
 ## The damage card
 
-| Part                                   | What it shows                                                                                                                                                 |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Title                                  | The strike mode's name, or **Impact**                                                                                                                         |
-| **Formula**                            | The damage formula rolled, with its aspect                                                                                                                    |
-| **Roll**                               | The dice result and the total impact                                                                                                                          |
-| **Aspect**                             | Blunt, Edged, Piercing, or Fire                                                                                                                               |
-| **Calculate _{target}_ Injury** button | Runs [Resolve Injury](#resolve-injury) on the target, carrying the impact, the aspect, and — when the blow was aimed — the aimed zone and the strike's spread |
+| Part                                   | What it shows                                                                                                                                                   |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Title                                  | The strike mode's name, or **Impact**                                                                                                                           |
+| **Formula**                            | The damage formula rolled, with its aspect                                                                                                                      |
+| **Roll**                               | The dice result and the total impact                                                                                                                            |
+| **Aspect**                             | Blunt, Edged, Piercing, or Fire                                                                                                                                 |
+| **Calculate _{target}_ Injury** button | Runs [[#resolve-injury\|Resolve Injury]] on the target, carrying the impact, the aspect, and — when the blow was aimed — the aimed zone and the strike's spread |
 
 The button acts on the **target's** character, so the target's own player (or the
-GM) settles the wound. See [[Combat_Basics]] for where the damage card fits into
+GM) settles the wound. See [[Combat Basics]] for where the damage card fits into
 an exchange.
 
-# Resolve Injury
+# Resolve Injury {#resolve-injury}
 
 |               |                                                                                                                                   |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -699,11 +700,11 @@ instead: it shows the aim trace and reports that nothing was hit. No wound, no
 record.
 
 A recorded wound becomes a trauma item on the sheet, shows up in the body-part
-grid, and drives the health bar. See [[Afflictions_Injuries]] for living with it,
+grid, and drives the health bar. See [[Afflictions Injuries]] for living with it,
 the [[rules/sohl-injury|Injury]] rules for the tables behind it, and
-[[rules/sohl-bleeding|Bleeding]] for what a bleeder costs.
+[[Rules/bleeding|Bleeding]] for what a bleeder costs.
 
-# Contagion Check
+# Contagion Check {#contagion-check}
 
 |               |                                                                                                                                  |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -716,7 +717,7 @@ the [[rules/sohl-injury|Injury]] rules for the tables behind it, and
 ## What it does
 
 Posts a card telling this character they have been exposed, with a button offering
-them a [Contagion Test](#contagion-test). It rolls nothing and changes nothing.
+them a [[#contagion-test|Contagion Test]]. It rolls nothing and changes nothing.
 
 **Anyone can post a Contagion Check on anyone.** That asymmetry is deliberate:
 exposure is something the world does to a character — the GM opens the plague
@@ -727,14 +728,14 @@ takes it.
 There is no such thing as transmitting an affliction _at_ someone. The check is
 always on the receiving side.
 
-# Contagion Test
+# Contagion Test {#contagion-test}
 
 |               |                                                                                                                                |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**      | Contagion Test                                                                                                                 |
 | **Shortcode** | `contagionTest`                                                                                                                |
 | **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                  |
-| **Invoked**   | The **Actions context menu**, or the button on a [Contagion Check](#contagion-check) card                                      |
+| **Invoked**   | The **Actions context menu**, or the button on a [[#contagion-check\|Contagion Check]] card                                    |
 | **API**       | [`BeingLogic.contagionTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#contagiontest) |
 
 ## What it does and when to use it
@@ -777,9 +778,9 @@ If the checkbox was ticked, the affliction is created on the sheet with its
 **Nothing offers to schedule another Contagion Test.** Exposure is an event, not a
 condition — if the character walks back into the plague ward, that is a new check.
 What the affliction does from there is its own business; see
-[[Item_Affliction]] and the [[rules/sohl-afflictions|Afflictions]] rules.
+[[Item Affliction]] and the [[Rules/afflctns|Afflictions]] rules.
 
-# Perform Affliction Treatment
+# Perform Affliction Treatment {#perform-affliction-treatment}
 
 |               |                                                                                                                                                          |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -797,10 +798,10 @@ the **Physician** skill can answer; anyone else is told so and nothing happens.
 It rolls **this** physician's own Physician skill as a Success Value test and posts
 a result card. The **Success Stars** earned become a proposed **Course Bonus**,
 which the patient accepts through their affliction's
-[[Item_Affliction|Treat Affliction]] action — nothing is applied to the patient
+[[User_Guide/afflctn|Treat Affliction]] action — nothing is applied to the patient
 until they press that button.
 
-# Perform Treatment Test
+# Perform Treatment Test {#perform-treatment-test}
 
 |               |                                                                                                                                              |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -860,11 +861,11 @@ changes the wound — the physician proposes, the patient records. A GM-directed
 test with no linked wound posts the same card **without** the button; someone
 applies the result by hand.
 
-See [[Afflictions_Injuries]] for treating and healing wounds, and the
-[[rules/sohl-healing-base|Healing Base]] and [[rules/sohl-infection|Infection]]
+See [[Afflictions Injuries]] for treating and healing wounds, and the
+[[Rules/hlngbs|Healing Base]] and [[Rules/infctn|Infection]]
 rules for what a Healing Rate does over time.
 
-# Perform Blood Stoppage
+# Perform Blood Stoppage {#perform-blood-stoppage}
 
 |               |                                                                                                                                              |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -908,16 +909,16 @@ The four outcomes are:
 | **Critical Failure** | Bleeding continues.                                          |
 
 As with treatment, **only the patient's side presses Accept**, and that press is
-what changes the wound. See the [[rules/sohl-bleeding|Bleeding]] rules for Blood
+what changes the wound. See the [[Rules/bleeding|Bleeding]] rules for Blood
 Loss Advances and what running out of blood means.
 
 # See also
 
 - [[Actions]] — how actions, the Actions tab, and the context menu work.
-- [[Item_Base|Base Item]] — the standard test dialog and the offer-schedule
+- [[Base Item]] — the standard test dialog and the offer-schedule
   dialog these actions share.
-- [[Afflictions_Injuries]] — wounds, diseases, and conditions on the sheet.
-- [[Combat_Basics]] — where the damage and injury cards fit into an exchange.
+- [[Afflictions Injuries]] — wounds, diseases, and conditions on the sheet.
+- [[Combat Basics]] — where the damage and injury cards fit into an exchange.
 - [[Combatant]] — the combat tracker row and its own actions.
-- [[Skill_Tests]] — the d100 roll-under test underneath all of these.
-- [[Character_Creation]] — building the Being in the first place.
+- [[Skill Tests]] — the d100 roll-under test underneath all of these.
+- [[Character Creation]] — building the Being in the first place.

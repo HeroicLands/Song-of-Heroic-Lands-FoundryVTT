@@ -20,7 +20,7 @@ folder: e0HEIHw9qUVWqyzJ
 
 When the outcome of an action is uncertain, the character makes a Success Test by rolling d100 against their Mastery Level (ML) in the relevant skill or attribute. The result is expressed as a **success level**, an integer that measures the degree of success or failure.
 
-## Success Level
+## Success Level {#success-level}
 
 A result equal to or less than ML is a success; a result greater than ML is a failure. The units digit (the ones place) further refines the outcome: if it is a 5 or 0, the result is critical. This produces a numeric success level:
 

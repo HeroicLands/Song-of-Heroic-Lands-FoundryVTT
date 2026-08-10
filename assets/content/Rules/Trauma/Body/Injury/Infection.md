@@ -21,7 +21,7 @@ one step higher than the injury it came from** (originating injury HR + 1).
 
 ## Weakness
 
-An infection saps the body, inflicting [weakness fatigue](Fatigue.md) according to
+An infection saps the body, inflicting [[Rules/fatigue|weakness fatigue]] according to
 its current Healing Rate:
 
 | Healing Rate | Weakness Fatigue |
@@ -45,7 +45,7 @@ are made for them until every infection has been defeated.
 ## Infection Healing Test
 
 An infection heals through the **Infection Healing Test** — a test of
-**`Healing Base × Infection Healing Rate`** (see [Healing Base](Healing_Base.md)).
+**`Healing Base × Infection Healing Rate`** (see [[Healing Base]]).
 The result changes the infection's Healing Rate:
 
 | Success Level | Change to Infection HR |
@@ -60,5 +60,5 @@ When the infection's Healing Rate rises to **6 or greater**, the infection is
 
 ## See also
 
-- [Injury](Injury.md), [Healing Base](Healing_Base.md), [Fatigue](Fatigue.md),
-  [Afflictions](Afflictions.md).
+- [Injury](Injury.md), [[Healing Base]], [[Fatigue]],
+  [[Afflictions]].

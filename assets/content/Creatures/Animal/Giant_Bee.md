@@ -10,6 +10,7 @@ id: LBdgt05Nh0uI1pIt
 slug: giant-bee
 img: icons/game-icons/lorc/bee.svg
 portrait: ""
+shortcode: giantbee
 type: creature
 package: sohl
 sohl:

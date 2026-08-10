@@ -10,6 +10,7 @@ id: ZSoywGNHpw4z64RZ
 slug: nemespite
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: nmspt
 type: creature
 package: sohl
 sohl:

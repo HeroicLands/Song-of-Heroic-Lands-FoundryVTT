@@ -10,6 +10,7 @@ id: YmCBrcF6Kw2CrctD
 slug: venomspitter
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: vnmspttr
 type: creature
 package: sohl
 sohl:

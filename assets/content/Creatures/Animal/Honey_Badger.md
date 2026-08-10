@@ -10,6 +10,7 @@ id: ChZvdUocVZoLXeL0
 slug: honey-badger
 img: icons/game-icons/caro-asercion/badger.svg
 portrait: ""
+shortcode: hnybdgr
 type: creature
 package: sohl
 sohl:

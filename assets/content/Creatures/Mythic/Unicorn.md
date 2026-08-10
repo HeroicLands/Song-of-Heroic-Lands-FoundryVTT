@@ -11,6 +11,7 @@ id: BHOxntPKnVng9YYZ
 slug: unicorn
 img: icons/game-icons/delapouite/unicorn.svg
 portrait: ""
+shortcode: unicorn
 type: creature
 package: sohl
 sohl:

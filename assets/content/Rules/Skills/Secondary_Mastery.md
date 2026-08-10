@@ -19,7 +19,7 @@ Characters test only one primary Mastery Level at a time. However, other skills 
 
 ## Secondary Modifier
 
-A separate skill or attribute can lend a bonus or penalty to the EML of a [[Success Tests|Success Test]]. The modifier is derived from the Index of the secondary skill or attribute:
+A separate skill or attribute can lend a bonus or penalty to the EML of a [[Success Test]]. The modifier is derived from the Index of the secondary skill or attribute:
 
 | Index | Modifier | Index            | Modifier |
 | ----- | -------- | ---------------- | -------- |
@@ -36,7 +36,7 @@ When a test calls for more than one Secondary Modifier, the sum of all Secondary
 
 A separate skill or attribute can also lend its Index as the Target Number (TN) in a Secondary Roll (SR). An SR is a d10 roll: a result less than or equal to TN is a Success; greater than TN is a Failure. There are no critical results. A TN of 0 or less is always a failure, and a TN of 10 or more is always a success.
 
-A Secondary Roll accompanies a Success Test or [[Success_Value_Tests|Success Value test]]. The effect varies by situation—for instance, a successful Endurance SR reduces fatigue, while a crafting SR can improve a Success Value by one. Skills and attributes used as Secondary Rolls are noted in parentheses after any Secondary Modifiers, followed by "SR."
+A Secondary Roll accompanies a Success Test or [[Success Value test]]. The effect varies by situation—for instance, a successful Endurance SR reduces fatigue, while a crafting SR can improve a Success Value by one. Skills and attributes used as Secondary Rolls are noted in parentheses after any Secondary Modifiers, followed by "SR."
 
 ## Secondary Mastery Requirement
 

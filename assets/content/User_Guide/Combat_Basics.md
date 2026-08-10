@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "Combat Basics"
 slug: "combat-basics"
+shortcode: cmbtbscs
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -135,7 +136,7 @@ encounter to know who is acting. To start an automated attack:
 The one thing that acts _outside_ the current combatant's turn is a **defensive
 response**: when you are attacked, your **counterstrike** strikes back within the
 attacker's exchange, and a **Tactical Advantage** you earn can buy a follow-up
-strike (see [Blending the two modes](#blending-the-two-modes)). Starting a fresh
+strike (see [[#blending-the-two-modes|Blending the two modes]]). Starting a fresh
 automated attack, though, always waits for your turn.
 
 If you don't have (or don't want) a full encounter set up, use **Assisted
@@ -144,7 +145,7 @@ Combat** instead.
 ## How to use it
 
 1. **Set up the encounter.** Place tokens for the combatants and add them to the
-   combat tracker (see [Scene Setup](Scene_Setup.md)).
+   combat tracker (see [[Scene Setup]]).
 2. **On the attacker's turn, target the opponent** (target their token), then
    **right-click the attacker's row in the combat tracker** and choose
    **Automated Combat**.
@@ -174,7 +175,7 @@ Starting an automated attack opens a small dialog with three fields:
 - **Aim** — the body part you are striking at, listed from the defender's own
   body. What you pick matters when the blow lands: an aimed strike hits that part
   when your accuracy is good enough, and otherwise drifts outward to a neighbour
-  (see [Hit location: aimed vs. unaimed strikes](#hit-location-aimed-vs-unaimed-strikes)).
+  (see [[#hit-location-aimed-vs-unaimed-strikes|Hit location: aimed vs. unaimed strikes]]).
 - **Additional Modifier** — a whole-number bonus or penalty for the circumstances
   (cover, footing, a called shot's difficulty, a house rule). Leave it at `0`
   when nothing applies; type a negative number for a penalty.
@@ -246,7 +247,7 @@ defender is limited to Ignore.
 
 See [[Combatant]] for the full entry on each of these responses.
 
-# Blending the two modes
+# Blending the two modes {#blending-the-two-modes}
 
 Nothing requires you to stay in one mode. A common pattern:
 
@@ -278,7 +279,7 @@ Under the hood, both modes resolve an exchange the same way:
   by armor when impact is resolved, so a connected hit does not automatically
   mean damage.
 
-# Hit location: aimed vs. unaimed strikes
+# Hit location: aimed vs. unaimed strikes {#hit-location-aimed-vs-unaimed-strikes}
 
 When an attack lands, the system determines which body part is struck. This
 works differently depending on whether the attacker aimed at a specific part.
@@ -324,7 +325,7 @@ Once a blow connects and a location is chosen:
   **amputation** results.
 - In Automated Combat the injury is recorded on the target sheet for you; you can
   also produce the same injury by hand via the **Add Injury** flow (see
-  [Afflictions & Injuries](Afflictions_Injuries.md)).
+  [[User_Guide/afflandi|Afflictions & Injuries]]).
 
 # Tips
 
@@ -343,10 +344,10 @@ Once a blow connects and a location is chosen:
 
 - [[Combatant]] — the combat-tracker row and its actions: starting an automated
   attack, answering one, and moving a combatant between groups.
-- [Skill Tests](Skill_Tests.md) — the d100 roll-under test that underlies every
+- [[Skill Tests]] — the d100 roll-under test that underlies every
   combat roll.
-- [Working with Gear](Working_with_Gear.md) — equipping weapons, armor, and
+- [[Working with Gear]] — equipping weapons, armor, and
   shields.
-- [Afflictions & Injuries](Afflictions_Injuries.md) — recording and healing the
+- [[User_Guide/afflandi|Afflictions & Injuries]] — recording and healing the
   injuries combat produces.
-- [Fate System](Fate_System.md) — spending fate to re-roll.
+- [[Fate System]] — spending fate to re-roll.

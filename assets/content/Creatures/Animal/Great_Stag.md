@@ -10,6 +10,7 @@ id: SqaOIArv8es9t6IF
 slug: great-stag
 img: icons/game-icons/lorc/stag-head.svg
 portrait: ""
+shortcode: grtstg
 type: creature
 package: sohl
 sohl:

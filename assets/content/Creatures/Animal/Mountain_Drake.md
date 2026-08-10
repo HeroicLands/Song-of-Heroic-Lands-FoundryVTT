@@ -10,6 +10,7 @@ id: LtrwdR2jwzBxLm9J
 slug: mountain-drake
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
+shortcode: mntndrk
 type: creature
 package: sohl
 sohl:

@@ -11,6 +11,7 @@ id: Mbqn2UmueYKKnynf
 slug: ibex
 img: icons/game-icons/skoll/goat.svg
 portrait: ""
+shortcode: ibex
 type: creature
 package: sohl
 sohl:

@@ -33,7 +33,7 @@ technique**. A single instrument of attack rarely does just one thing: a sword c
 **pommel** (blunt) — three separate ways of attacking, and so three separate
 strike modes on the same weapon. A spear can be **Thrust** in the hand or
 **Thrown**; a war-axe can **Chop** in melee or be **Hurled** as a missile. A
-**[[rules/sohl-gear|weapon]]** therefore carries **one or more** strike modes, and the
+**[[Rules/gear|weapon]]** therefore carries **one or more** strike modes, and the
 wielder chooses which mode to use for a given attack.
 
 Each mode is a distinct attack with its **own properties** — a different
@@ -72,7 +72,7 @@ Every strike mode, whatever its type, records:
 A strike mode may also be flagged so that it cannot attack at all — some modes
 exist only to enable a weapon's defensive use.
 
-## The Strength Impact Modifier
+## The Strength Impact Modifier {#the-strength-impact-modifier}
 
 A strong combatant drives a weapon harder than a weak one. Every melee blow —
 and every thrown weapon — has its impact adjusted by the attacker's **Strength**:
@@ -100,7 +100,7 @@ flagged to take no Strength modifier at all, and those never receive it.
 Two reductions apply on top, and they stack:
 
 - **Off-hand** — reduce the modifier by **1** when the weapon is held only in
-  the non-favored hand. See [Dominance](Body_Structure.md#dominance).
+  the non-favored hand. See [[Rules/bdystrct#dominance|Dominance]].
 - **Thrown** — reduce the modifier by **1** when the weapon is thrown.
 
 ## Melee and Missile
@@ -133,7 +133,7 @@ properties, it has:
 
 - **Projectile type** — the ammunition it consumes (arrow, bolt, bullet, dart),
   or **none** when the weapon itself is the missile (a thrown spear or axe). A
-  weapon that fires ammunition draws matching **[[rules/sohl-gear|projectiles]]**, and the
+  weapon that fires ammunition draws matching **[[projectiles]]**, and the
   projectile's impact combines with the strike mode's to determine the blow.
 - **Range** — the base distance the attack can reach before range penalties apply.
 - **Draw** — the time needed to ready, nock, or reload before the mode can fire.

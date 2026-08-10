@@ -11,6 +11,7 @@ id: lJN45xvUq16hhJYG
 slug: leopard
 img: icons/game-icons/delapouite/feline.svg
 portrait: ""
+shortcode: leopard
 type: creature
 package: sohl
 sohl:

@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "Understanding Sheets"
 slug: "understanding-sheets"
+shortcode: undrstnd
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -21,7 +22,7 @@ This guide explains the common tabs you'll encounter across all sheets, so
 you know where to find things regardless of which type of actor or item you're
 looking at.
 
-See also: [Beings](user-guide/actor-being.md), [Character Creation](user-guide/character-creation.md)
+See also: [[User_Guide/being|Beings]], [[Character Creation]]
 
 # Sheet Header {#sheets-header}
 
@@ -40,8 +41,8 @@ tabs. Not every actor type has every tab, but when a tab appears, it works
 the same way across all actor types — the **Gear**, **Actions**, and
 **Effects** tabs described below are the same tab on a character, a ship, and
 a warehouse, and this is the one place they are documented. The individual
-type pages ([[Actor_Being|Being]], [[Actor_Vehicle|Vehicle]],
-[[Actor_Structure|Structure]], [[Actor_Cohort|Cohort]]) describe only what is
+type pages ([[Being]], [[Vehicle]],
+[[Structure]], [[Cohort]]) describe only what is
 particular to that type.
 
 ## Facade
@@ -80,7 +81,7 @@ capabilities.
 The **Members** tab is unique to Cohorts. It rosters the individuals that belong
 to the group — each named by the actor it references, with its role and a
 chess-king marking the leader — and carries the controls that add a member,
-remove one, and set who leads. See [[Actor_Cohort|Cohort]].
+remove one, and set who leads. See [[Cohort]].
 
 ## Gear
 
@@ -94,7 +95,7 @@ that is not inside a container; each container the actor holds then gets its
 own section listing its contents, so a sword in a scabbard appears under the
 scabbard rather than loose. A section's banner carries a capacity readout:
 a container shows how much it holds against how much it can hold, and a
-[[Actor_Being|Being]]'s On Body section shows total carried weight and the
+[[Being]]'s On Body section shows total carried weight and the
 resulting encumbrance instead (a vehicle or structure is not encumbered by
 its load, so it shows the weight alone).
 
@@ -126,7 +127,7 @@ From this tab you can:
 The **Shared Gear** tab is unique to Cohorts. It lists the gear the group's
 members have marked as shared with the cohort, with the member who carries each
 item. It is a view, not a store: the items stay on their carriers. See
-[[Actor_Cohort|Cohort]].
+[[Cohort]].
 
 ## Actions
 

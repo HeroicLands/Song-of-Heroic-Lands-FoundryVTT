@@ -10,6 +10,7 @@ id: sChYtBXlCKoOHaHl
 slug: giant-beaver
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: gntbvr
 type: creature
 package: sohl
 sohl:

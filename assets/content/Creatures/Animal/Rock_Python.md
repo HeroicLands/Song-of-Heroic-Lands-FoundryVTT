@@ -10,6 +10,7 @@ id: 5GlgTelIHgQGv4A9
 slug: rock-python
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
+shortcode: rckpythn
 type: creature
 package: sohl
 sohl:

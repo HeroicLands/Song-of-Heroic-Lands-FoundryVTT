@@ -10,6 +10,7 @@ id: ep28BnO3DsmrKAf2
 slug: nightwraith
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
+shortcode: nghtwrth
 type: creature
 package: sohl
 sohl:

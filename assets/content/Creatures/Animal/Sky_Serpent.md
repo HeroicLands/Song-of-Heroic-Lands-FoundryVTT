@@ -10,6 +10,7 @@ id: IufOc6e3iYJZ46GV
 slug: sky-serpent
 img: icons/game-icons/lorc/harpy.svg
 portrait: ""
+shortcode: skysrpnt
 type: creature
 package: sohl
 sohl:

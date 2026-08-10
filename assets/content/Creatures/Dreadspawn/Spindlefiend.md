@@ -10,6 +10,7 @@ id: uiCv7LNZzmeo0C5F
 slug: spindlefiend
 img: icons/game-icons/lorc/werewolf.svg
 portrait: ""
+shortcode: spndlfnd
 type: creature
 package: sohl
 sohl:

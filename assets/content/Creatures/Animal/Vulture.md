@@ -11,6 +11,7 @@ id: CDvOpm9UbhRybcAy
 slug: vulture
 img: icons/game-icons/lorc/vulture.svg
 portrait: ""
+shortcode: vulture
 type: creature
 package: sohl
 sohl:

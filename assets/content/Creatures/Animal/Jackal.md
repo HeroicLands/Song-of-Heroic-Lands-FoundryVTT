@@ -11,6 +11,7 @@ id: QwBtVq9RDqpwnf7s
 slug: jackal
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
+shortcode: jackal
 type: creature
 package: sohl
 sohl:

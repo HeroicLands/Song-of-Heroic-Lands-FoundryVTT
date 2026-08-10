@@ -10,6 +10,7 @@ id: ZlKGP4V2B881MIoc
 slug: giant-octopus
 img: icons/game-icons/lorc/octopus.svg
 portrait: ""
+shortcode: gntoctps
 type: creature
 package: sohl
 sohl:

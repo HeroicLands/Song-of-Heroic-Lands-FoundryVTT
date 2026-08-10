@@ -10,6 +10,7 @@ id: Q1LL76ihY4CmtAqA
 slug: eagle
 img: icons/game-icons/delapouite/eagle-head.svg
 portrait: ""
+shortcode: eagle
 type: creature
 package: sohl
 sohl:

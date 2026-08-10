@@ -10,6 +10,7 @@ id: dQx4jt8bWKxTwaOT
 slug: glowvine
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: glowvine
 type: creature
 package: sohl
 sohl:

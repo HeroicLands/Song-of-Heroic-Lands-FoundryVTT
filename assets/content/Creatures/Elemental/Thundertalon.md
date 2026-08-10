@@ -10,6 +10,7 @@ id: BER0R5sENldRKjgM
 slug: thundertalon
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: thndrtln
 type: creature
 package: sohl
 sohl:

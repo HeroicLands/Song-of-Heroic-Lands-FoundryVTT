@@ -42,11 +42,11 @@ Each zone carries a **weight** — how much of the creature's targetable bulk it
 | Torso | 4      | 6–9          |
 | Legs  | 6      | 10–15        |
 
-The **highest zone number** on a body — 15 for a human — is the edge of the creature. A blow that resolves past it has gone wide and misses entirely (see [Determining Hit Location](#determining-hit-location)). A zone with weight 0 owns no zone numbers and can never be struck.
+The **highest zone number** on a body — 15 for a human — is the edge of the creature. A blow that resolves past it has gone wide and misses entirely (see [[#determining-hit-location|Determining Hit Location]]). A zone with weight 0 owns no zone numbers and can never be struck.
 
 Zone numbers are what make an attack _aimable_: attacking high means aiming at a low zone number, attacking low means aiming at a high one, and everything between follows the creature's own anatomy rather than a fixed table.
 
-## Body Parts
+## Body Parts {#body-parts}
 
 A **body part** is the primary anatomical division, and it is the unit at which injury is felt. A human has six parts: Head, Right Arm, Left Arm, Torso, Right Leg, and Left Leg. Other creatures differ — a quadruped might have Head, two Forelegs, Torso, and two Hindlegs; a dragon might add Neck, Wings, and Tail; a serpent might have only Head, Fore Body, Mid Body, and Hind Body.
 
@@ -56,9 +56,9 @@ Each body part carries:
 
 **Weight.** The part's share of its zone. Once a zone is struck, each part in it is drawn in proportion to this weight — so two equally-weighted arms split their zone evenly, while a heavier part takes more of it.
 
-**Roles.** The functional roles the part fulfills — see [Body Part Roles](#body-part-roles) below. This is how injury to the part reaches the skills and attributes that depend on it.
+**Roles.** The functional roles the part fulfills — see [[#body-part-roles|Body Part Roles]] below. This is how injury to the part reaches the skills and attributes that depend on it.
 
-**Can Hold Item.** Whether the part can grip an object. A human's two arms can; the head, torso, and legs cannot. This is the part's anatomy, not its current state — see [Immobilized, unusable, and holding on](#immobilized-unusable-and-holding-on) for when a limb that _can_ grip nonetheless cannot.
+**Can Hold Item.** Whether the part can grip an object. A human's two arms can; the head, torso, and legs cannot. This is the part's anatomy, not its current state — see [[#immobilized-unusable-and-holding-on|Immobilized, unusable, and holding on]] for when a limb that _can_ grip nonetheless cannot.
 
 **Permanent Impairment.** A lasting penalty the part can never be better than — an old maiming that never fully mended.
 
@@ -67,9 +67,9 @@ Each body part carries:
 Two further properties are **derived from the part's roles rather than set directly**:
 
 - **Whether it affects mobility** — true when the part holds the Vital, Core, or Locomotor role. Injure a leg or a torso and you move worse; injure an arm and you do not.
-- **Whether it is critical** — true when the part holds the Vital or Core role. Critical parts drive the far harsher column of the [Health](Health.md) ceiling.
+- **Whether it is critical** — true when the part holds the Vital or Core role. Critical parts drive the far harsher column of the [[Health]] ceiling.
 
-## Dominance
+## Dominance {#dominance}
 
 Most people favor one side of the body — not the hand alone, but the whole side working together. A being's favored side is read from the characteristics it carries:
 
@@ -77,13 +77,13 @@ Most people favor one side of the body — not the hand alone, but the whole sid
 - **Right Dominance** alone — the right side is dominant.
 - **Both, or neither** — the being is **ambidextrous** and has no dominant side.
 
-An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [Strength Impact Modifier](Strike_Modes.md#the-strength-impact-modifier).
+An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [[Rules/strkmds#the-strength-impact-modifier|Strength Impact Modifier]].
 
 A weapon counts as **off-hand** only when _every_ limb gripping it is on the non-favored side. A two-handed grip includes the dominant hand, so it is never off-hand.
 
 Paired parts — two arms, two legs, two wings — are recognized as a left and a right by the presence of their opposite number. A part with no counterpart is central, and belongs to neither side.
 
-## Body Part Roles
+## Body Part Roles {#body-part-roles}
 
 A **body role** is a tag describing what a body part is _for_. There are four:
 
@@ -112,9 +112,9 @@ Each location carries:
 
 **Weight.** How likely the location is to be struck once its part is hit, measured against the other locations in the same part. A human's skull vastly outweighs an eye, so a blow to the head overwhelmingly finds skull.
 
-**Shock Value.** How stunning a blow to this location is in itself, before severity is considered — see [Shock](#shock) below. The skull, eyes, nose, and neck are the worst on a human at 5; the forearm and calf the mildest at 1.
+**Shock Value.** How stunning a blow to this location is in itself, before severity is considered — see [[#shock|Shock]] below. The skull, eyes, nose, and neck are the worst on a human at 5; the forearm and calf the mildest at 1.
 
-**Bleeding Susceptibility.** A tier — **none**, **low**, **medium**, or **high** — governing how readily a wound here becomes a [Bleeder](Bleeding.md). It is not a single threshold but a grid against injury severity and weapon aspect:
+**Bleeding Susceptibility.** A tier — **none**, **low**, **medium**, or **high** — governing how readily a wound here becomes a [[Rules/bleeding|Bleeder]]. It is not a single threshold but a grid against injury severity and weapon aspect:
 
 | Susceptibility | S3 bleeds on | G4 bleeds on    | G5 bleeds on           |
 | -------------- | ------------ | --------------- | ---------------------- |
@@ -129,15 +129,15 @@ No wound below S3 ever bleeds by the table, whatever the location.
 
 The outcome turns on that Strength test: a **critical failure** severs the location and it bleeds even where it normally would not; a **failure** severs it and it bleeds only if the location bleeds at all; a **marginal success** keeps it attached but costs **−20 on the resulting Shock roll**; a **critical success** keeps it cleanly. Severing a neck is fatal regardless.
 
-**Fumble and Stumble flags.** Whether a serious wound here can make the creature lose its grip or its footing — see [Mishaps](#mishaps-fumble-and-stumble).
+**Fumble and Stumble flags.** Whether a serious wound here can make the creature lose its grip or its footing — see [[#mishaps-fumble-and-stumble|Mishaps]].
 
 **Natural Protection.** Intrinsic protection against each damage aspect (blunt, edged, piercing, fire) before any worn armor — the toughness of bone, hide, or scale.
 
-## Determining Hit Location
+## Determining Hit Location {#determining-hit-location}
 
 When a blow lands, where it lands is settled by **Zone Number and Zone Die**.
 
-The attacker aims at a **body part**; the part's zone supplies the **target zone number**. The strike mode supplies a **Spread** — how loosely that mode can be placed (see [Strike Modes](Strike_Modes.md)). Spread is rolled as a die, and the result walks the aim _upward_ from the target zone number:
+The attacker aims at a **body part**; the part's zone supplies the **target zone number**. The strike mode supplies a **Spread** — how loosely that mode can be placed (see [[Strike Modes]]). Spread is rolled as a die, and the result walks the aim _upward_ from the target zone number:
 
 > **Hit Zone Number = (Target Zone Number − 1) + Spread roll**
 
@@ -153,7 +153,7 @@ Small creatures are correspondingly harder to place a loose blow on: fewer zone 
 
 When a blow is **not aimed** at all, the zone is drawn at random weighted by how many zone numbers each zone owns, then the part and location follow by the same weighted draws.
 
-## From Blow to Injury
+## From Blow to Injury {#from-blow-to-injury}
 
 Once the location is known, the blow resolves against it:
 
@@ -164,7 +164,7 @@ Once the location is known, the blow resolves against it:
 
 See [Injury](Injury.md) for what the resulting wound then does over time.
 
-## Shock
+## Shock {#shock}
 
 A wound's immediate effect on consciousness is resolved through **shock**. The chain runs **Shock Value → Shock Index → Shock State**.
 
@@ -219,7 +219,7 @@ Continuing the example: the skull wound opened at 8, so a Shock test is made. A 
 
 While in **any** shock state a creature cannot concentrate. Ordinary shock is temporary — a stunned, incapacitated, or unconscious victim shakes it off with a re-test — and only a _failed_ re-test drops the victim into lasting Extended Shock or a Coma.
 
-A resulting shock state is always **offered** to the victim's own player, never imposed, and only ever to _worsen_ the current state. Injury is not the only source of shock: fear, heavy [blood loss](Bleeding.md), and other systemic forces raise it by their own measures. See [Shock](Shock.md) for the states in full, the re-test, Extended Shock, and Coma.
+A resulting shock state is always **offered** to the victim's own player, never imposed, and only ever to _worsen_ the current state. Injury is not the only source of shock: fear, heavy [[blood loss]], and other systemic forces raise it by their own measures. See [[Shock]] for the states in full, the re-test, Extended Shock, and Coma.
 
 ## Impairment and Unusable Parts
 
@@ -253,7 +253,7 @@ A second, narrower rule applies to weapons: a strike mode that requires particul
 
 A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [Injury → Permanent Impairment](Injury.md#permanent-impairment).
 
-### Immobilized, unusable, and holding on
+### Immobilized, unusable, and holding on {#immobilized-unusable-and-holding-on}
 
 A limb can be out of the fight in two quite different ways, and the difference decides what happens to whatever it was carrying.
 
@@ -267,9 +267,9 @@ So the three states nest: a sound limb moves and grips; an immobilized limb grip
 
 ### Impairment and Health
 
-Impaired parts are also the _only_ thing that sets [Health](Health.md). Health is not a pool that a blow subtracts from — it is a ceiling imposed by which parts are impaired and how badly, and whether those parts are **critical** (holding the Vital or Core role) or limbs (Manipulator or Locomotor). A creature with an unusable critical part is at nothing at all; a creature with a single minorly impaired limb is barely off Excellent.
+Impaired parts are also the _only_ thing that sets [[Health]]. Health is not a pool that a blow subtracts from — it is a ceiling imposed by which parts are impaired and how badly, and whether those parts are **critical** (holding the Vital or Core role) or limbs (Manipulator or Locomotor). A creature with an unusable critical part is at nothing at all; a creature with a single minorly impaired limb is barely off Excellent.
 
-## Mishaps: Fumble and Stumble
+## Mishaps: Fumble and Stumble {#mishaps-fumble-and-stumble}
 
 A wound serious enough, to a location that invites it, can cost you your grip or your footing. Each location may be flagged for the mishaps it can cause — typically the locations of a **Manipulator** limb are flagged for **fumbles** and those of a **Locomotor** limb for **stumbles** — and the wound's severity decides whether the mishap is in question or certain:
 
@@ -281,7 +281,7 @@ A wound serious enough, to a location that invites it, can cost you your grip or
 
 When a test is called for, it is a **keep-control test**:
 
-- A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [fall prone](Prone.md), the worse the failure the harder the fall.
+- A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [[Rules/prone|fall prone]], the worse the failure the harder the fall.
 - A **Fumble Test** — keeping your grip — rolls the **better of your Dexterity or your Legerdemain skill**. Keep control and the item stays in hand; fail and you drop it, a critical fumble flinging it from your grasp entirely.
 
 You roll whichever of the attribute or skill serves you better, and a character with neither cannot make the test. Like every consequence in the system, a keep-control test is **offered** to the affected character's player, never imposed.
@@ -294,7 +294,7 @@ When a new injury lands on a location that already bears wounds, it may compound
 
 Armor protects at the **location** level, tracked separately for each damage aspect — blunt, edged, piercing, and fire. A mail shirt gives edged and piercing protection at the thorax and abdomen and nothing at the skull, arms, or legs. Layering (a gambeson under mail) adds the values together at each covered location.
 
-Locations may also carry **natural protection** — the intrinsic toughness of bone, hide, or scale — which is always present and adds to whatever is worn. Whether a location is covered by _rigid_ armor additionally decides whether light edged and piercing blows [glance off](#from-blow-to-injury).
+Locations may also carry **natural protection** — the intrinsic toughness of bone, hide, or scale — which is always present and adds to whatever is worn. Whether a location is covered by _rigid_ armor additionally decides whether light edged and piercing blows [[#from-blow-to-injury|glance off]].
 
 ## The Human Body Structure
 
@@ -365,9 +365,9 @@ Creating a new creature type needs no templates or special item types — duplic
 ## See also
 
 - [Injury](Injury.md) — injury levels, healing, and impairment over time
-- [Shock](Shock.md) — the shock states in full, re-tests, Extended Shock, and Coma
-- [Health](Health.md) — how impaired parts set the health ceiling
-- [Bleeding](Bleeding.md) — bleeders, blood loss, and stoppage
-- [Strike Modes](Strike_Modes.md) — Spread and the other properties of an attack
-- [Skills](Skills.md) — how skills declare the roles that impair them
-- [Prone](Prone.md) — the consequence of a failed stumble
+- [[Shock]] — the shock states in full, re-tests, Extended Shock, and Coma
+- [[Health]] — how impaired parts set the health ceiling
+- [[Bleeding]] — bleeders, blood loss, and stoppage
+- [[Strike Modes]] — Spread and the other properties of an attack
+- [[Skills]] — how skills declare the roles that impair them
+- [[Prone]] — the consequence of a failed stumble

@@ -10,6 +10,7 @@ id: 1qpvK28UB8kSIGR0
 slug: frostjaw
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: frostjaw
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: 5bCOMUSs7gQSkDPD
 slug: rockhide-golem
 img: icons/game-icons/delapouite/rock-golem.svg
 portrait: ""
+shortcode: rckhdglm
 type: creature
 package: sohl
 sohl:

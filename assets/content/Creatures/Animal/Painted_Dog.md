@@ -12,6 +12,7 @@ id: 0tPcOrOwOP9EOWuE
 slug: painted-dog
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
+shortcode: pntddg
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: A2bZirKOMgCcZ7qS
 slug: cliff-stalker
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: clffstlk
 type: creature
 package: sohl
 sohl:

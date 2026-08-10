@@ -10,6 +10,7 @@ id: Cxlwa3jzWHmPyVl7
 slug: charger
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: ""
+shortcode: charger
 type: creature
 package: sohl
 sohl:

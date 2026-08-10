@@ -10,6 +10,7 @@ id: B24v0x403YmclrJb
 slug: forest-goblin
 img: icons/game-icons/caro-asercion/goblin.svg
 portrait: ""
+shortcode: frstgbln
 type: creature
 package: sohl
 sohl:

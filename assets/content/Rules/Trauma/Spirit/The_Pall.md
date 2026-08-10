@@ -17,7 +17,7 @@ slug: sohl-the-pall
 shortcode: thepall
 ---
 
-**The Pall** is the most dangerous [Trauma](Trauma.md) a character can face. Where
+**The Pall** is the most dangerous [[Trauma]] a character can face. Where
 other trauma assails Will or Initiative, the Pall tests **Spirit** in a struggle
 for the character's soul. It emanates from the forces of death and chaos, corrupts
 mortals into the undead **Helspawn**, can infuse beings and objects alike, and can
@@ -36,7 +36,7 @@ sources overlap into a single summed rating.
 Anyone in an affected area tests **Spirit** at the start of their turn (entities
 with their own Pall Strength are exempt), applying a **Pall Depth penalty equal to
 5 × the total PAL** affecting them. (For the `CF0`/`CF5` split, see
-[Fear](Fear.md).)
+[[Fear]].)
 
 | Result              | Effect                                                                                                                                                                                         |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -87,4 +87,4 @@ even death and chaos can _demand_ undeath:
 
 ## See also
 
-- [Psychological Condition](Psychological_Condition.md), [Trauma](Trauma.md).
+- [[Psychological Condition]], [[Trauma]].

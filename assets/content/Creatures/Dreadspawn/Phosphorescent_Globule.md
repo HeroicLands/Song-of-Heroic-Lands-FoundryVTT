@@ -10,6 +10,7 @@ id: WQjWcb6PtRpcRxGe
 slug: phosphorescent-globule
 img: icons/game-icons/delapouite/slime.svg
 portrait: ""
+shortcode: phsphrsc
 type: creature
 package: sohl
 sohl:

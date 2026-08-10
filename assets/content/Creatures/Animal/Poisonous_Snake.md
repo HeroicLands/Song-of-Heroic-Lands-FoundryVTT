@@ -10,6 +10,7 @@ id: VjtudyT7ZWs0T4bO
 slug: poisonous-snake
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
+shortcode: psnssnk
 type: creature
 package: sohl
 sohl:

@@ -28,13 +28,13 @@ otherwise.
 
 Healing Base is the mastery level used, together with a **Healing Rate**, in
 nearly every recovery roll in the system — the [Injury Healing Test](Injury.md#injury-healing-test),
-the affliction [Course Test](Afflictions.md#course-test), the
-[Infection Healing Test](Infection.md), and the Extended Shock and Coma course
-tests (see [Shock](Shock.md)). In each case the test is rolled against
+the affliction [[Rules/afflctns#course-test|Course Test]], the
+[[Infection Healing Test]], and the Extended Shock and Coma course
+tests (see [[Shock]]). In each case the test is rolled against
 **`Healing Base × Healing Rate`**.
 
 ## See also
 
 - [Injury](Injury.md) — Healing Rate and the Injury Healing Test.
-- [Afflictions](Afflictions.md) — the Course Test.
-- [Success Tests](Success_Tests.md) — the CF / MF / MS / CS success levels.
+- [[Afflictions]] — the Course Test.
+- [[Success Tests]] — the CF / MF / MS / CS success levels.

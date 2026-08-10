@@ -11,6 +11,7 @@ id: 0ygZo8s6O9Rj2kRt
 slug: nusvorroth
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: nsvrroth
 type: creature
 package: sohl
 sohl:

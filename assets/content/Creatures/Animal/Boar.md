@@ -10,6 +10,7 @@ id: uyxMgEZ2vyfT2W7A
 slug: boar
 img: icons/game-icons/caro-asercion/boar.svg
 portrait: ""
+shortcode: boar
 type: creature
 package: sohl
 sohl:

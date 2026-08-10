@@ -10,6 +10,7 @@ id: S7yW1LZ9GR7D7Zdg
 slug: grimshadow
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
+shortcode: grmshdw
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: WGeazrSoyg3VKwns
 slug: emberhound
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
+shortcode: embrhnd
 type: creature
 package: sohl
 sohl:

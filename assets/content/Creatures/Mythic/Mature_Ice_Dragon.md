@@ -11,6 +11,7 @@ id: 2tsk1oPbOk4V5jJf
 slug: mature-ice-dragon
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
+shortcode: mtricdrg
 type: creature
 package: sohl
 sohl:

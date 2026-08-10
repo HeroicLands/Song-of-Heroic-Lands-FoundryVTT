@@ -11,6 +11,7 @@ id: 7ifxZxScmlMHr44B
 slug: young-ice-dragon
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
+shortcode: yngicdrg
 type: creature
 package: sohl
 sohl:

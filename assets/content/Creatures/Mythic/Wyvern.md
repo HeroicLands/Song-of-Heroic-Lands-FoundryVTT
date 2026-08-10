@@ -11,6 +11,7 @@ id: f7qow0t2vLn2UWpk
 slug: wyvern
 img: icons/game-icons/lorc/wyvern.svg
 portrait: ""
+shortcode: wyvern
 type: creature
 package: sohl
 sohl:

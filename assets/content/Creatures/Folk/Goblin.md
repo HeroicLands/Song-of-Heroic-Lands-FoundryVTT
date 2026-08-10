@@ -3,6 +3,7 @@ aliases:
     - Goblin
 tags:
     - folk
+shortcode: goblin
 type: doc
 category: lore
 package: sohl

@@ -109,7 +109,7 @@ mace, a dagger. Along with the common gear properties, a weapon has:
 - **Heft** — a measure of the weapon's weight and balance in the hand, affecting
   how demanding it is to wield.
 - an optional **encumbrance value** — see below.
-- one or more **[[Strike_Modes|Strike Modes]]**.
+- one or more **[[Strike Modes]]**.
 
 ## One Weapon, Many Strike Modes
 
@@ -122,12 +122,12 @@ weapon carries **one or more** of them.
 Every strike mode records its own attack and impact characteristics, and (for
 melee) its own defensive options. Because strike modes are a self-contained
 concept shared with unarmed and natural attacks, they are documented separately —
-see **[[Strike_Modes|Strike Modes]]**.
+see **[[Strike Modes]]**.
 
 A weapon is **held by body parts that can grip items** (for a human, the hands).
 A strike mode can only be used while the weapon is held, and a mode that needs
 more than one body part requires the **same weapon** to be held by each — a bow
-drawn for a shot occupies both hands. See **[[Strike_Modes|Strike Modes]]** for
+drawn for a shot occupies both hands. See **[[Strike Modes]]** for
 the body-part requirement in full.
 
 ## Weapon Encumbrance

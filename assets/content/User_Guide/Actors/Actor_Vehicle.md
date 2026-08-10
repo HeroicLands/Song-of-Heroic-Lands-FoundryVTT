@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Vehicle"
 slug: "actor-vehicle"
+shortcode: vehicle
 folder: sYK1BozT9xFcinXK
 ---
 
@@ -18,11 +19,11 @@ cart. It is the thing the party travels _on_, and the thing their cargo travels
 _in_.
 
 **Its unique capability is its occupants.** A Vehicle is the only actor other than
-a [[Actor_Being|Being]] that carries a property of its own, and that property is
+a [[Being]] that carries a property of its own, and that property is
 the list of who is aboard: each occupant named, with a role — **crew**,
 **passenger**, or **draft creature** — and an optional style such as _Bosun_ or
 _Helmsman_. An entry may name a single character or a whole
-[[Actor_Cohort|Cohort]], which is shorthand for all of that cohort's members
+[[Cohort]], which is shorthand for all of that cohort's members
 riding along.
 
 That is the question a Vehicle exists to answer: **who is on board, and in what
@@ -42,7 +43,7 @@ Use a Vehicle when:
 - The conveyance has a travel speed of its own
 
 For a fixed place that does not move — a building, a wall, a bridge — use a
-[[Actor_Structure|Structure]] instead.
+[[Structure]] instead.
 
 # What a Vehicle Contains
 
@@ -77,10 +78,10 @@ The Vehicle sheet has these tabs:
 - **Effects** — active effects
 
 All five are the common actor tabs, and they behave exactly as they do on a
-[[Actor_Being|Being]]: the Gear tab is the same inventory ledger (a vehicle's
+[[Being]]: the Gear tab is the same inventory ledger (a vehicle's
 cargo instead of a character's possessions), and the Actions and Effects tabs
 are identical. They are documented once, in
-[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_ — see
+[[Understanding Sheets]] under _Common Actor Tabs_ — see
 that page for the columns, controls, and how to add, stow, and remove things.
 
 The **Profile** tab carries three things, and it is where a vehicle's private
@@ -115,7 +116,7 @@ shares:
 | Delete              | `deleteDocument`    |
 | Make Default Medium | `makeDefaultMedium` |
 
-All three belong to every actor and are described on [[Item_Base|Base Item]],
+All three belong to every actor and are described on [[Base Item]],
 which covers what each one does, how it is invoked, and what it produces — the
 shared document actions are the same wherever they appear.
 
@@ -126,4 +127,4 @@ active one. **Add Movement Profile**, in that table's header, adds a rate for a
 medium the vehicle does not yet have.
 
 The cargo and equipment a vehicle carries are ordinary gear items with actions of
-their own — see [[Item_Gear|Gear]] and the page for each kind of gear.
+their own — see [[Gear]] and the page for each kind of gear.

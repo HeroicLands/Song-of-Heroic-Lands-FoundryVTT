@@ -10,6 +10,7 @@ id: mYRlDMSiKnHIpUzq
 slug: terrakith-sentinel
 img: icons/game-icons/delapouite/rock-golem.svg
 portrait: ""
+shortcode: trrkthsn
 type: creature
 package: sohl
 sohl:

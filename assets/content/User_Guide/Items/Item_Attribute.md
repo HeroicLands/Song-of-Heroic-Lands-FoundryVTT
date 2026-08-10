@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Attribute"
 slug: "item-attribute"
+shortcode: attrbt
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -24,13 +25,13 @@ tested against its mastery level. That is what the two actions on this page do.
 Attributes appear on the Being sheet's **Profile** tab, as a grid of small cards —
 one per attribute, sorted the way they are ordered on the sheet.
 
-| Part of the card | What it shows                                                                                    |
-| ---------------- | ------------------------------------------------------------------------------------------------ |
-| **Name**         | The attribute's name — _Strength_, _Aura_, _Will_                                                |
-| **⋮ menu**       | The Actions context menu — every action on this page                                             |
-| **Score**        | The effective score. Hover it to see how it was derived, modifier by modifier                    |
-| _Descriptor_     | The word for that score — _Feeble_, _Average_, _Mighty_ — from the attribute's Value Descriptors |
-| **TL**           | The Target Level: the score × 5. This is the number a [Success Test](#success-test) rolls under  |
+| Part of the card | What it shows                                                                                     |
+| ---------------- | ------------------------------------------------------------------------------------------------- |
+| **Name**         | The attribute's name — _Strength_, _Aura_, _Will_                                                 |
+| **⋮ menu**       | The Actions context menu — every action on this page                                              |
+| **Score**        | The effective score. Hover it to see how it was derived, modifier by modifier                     |
+| _Descriptor_     | The word for that score — _Feeble_, _Average_, _Mighty_ — from the attribute's Value Descriptors  |
+| **TL**           | The Target Level: the score × 5. This is the number a [[#success-test\|Success Test]] rolls under |
 
 **There is no click-to-roll cell.** Unlike a skill's EML cell on the Skills tab,
 neither the Score nor the TL is a button — an attribute is rolled from its **⋮**
@@ -39,18 +40,18 @@ shortcut past the pre-roll dialog.
 
 Attributes are displayed prominently since they form the basis of skill base
 formulas — every skill derives its starting value from one or more attributes,
-named in the skill's [[Safe_Expressions|Skill Base formula]] by shortcode.
+named in the skill's [[User_Guide/sfexprss|Skill Base formula]] by shortcode.
 
 Attributes are typically added from compendium packs when creating a character,
 not created from scratch. **Add Attribute** above the grid creates a blank one.
 
 An attribute turns up in one more place: when someone answers an
-[opposed test](#opposed-test), the **Respond with** dropdown lists the
+[[#opposed-test|opposed test]], the **Respond with** dropdown lists the
 character's attributes alongside their skills.
 
 # Additional Properties
 
-Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Score:** The attribute's base value — the number the Profile card shows, and
   the number the Target Level is five times. This is the **first** of the two
@@ -80,13 +81,13 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 
 # The Attribute Actions
 
-| Action                        | Shortcode          | Where you meet it    |
-| ----------------------------- | ------------------ | -------------------- |
-| [Success Test](#success-test) | `successTest`      | Actions context menu |
-| [Opposed Test](#opposed-test) | `opposedTestStart` | Actions context menu |
+| Action                          | Shortcode          | Where you meet it    |
+| ------------------------------- | ------------------ | -------------------- |
+| [[#success-test\|Success Test]] | `successTest`      | Actions context menu |
+| [[#opposed-test\|Opposed Test]] | `opposedTestStart` | Actions context menu |
 
 Every attribute also carries the shared document actions — **Edit**, **Delete**,
-and **Output Description to Chat** — described once on [[Item_Base|Base Item]].
+and **Output Description to Chat** — described once on [[Base Item]].
 The full menu on an attribute is therefore: _Edit_, _Success Test_, _Delete_,
 _Output Description to Chat_, _Opposed Test_.
 
@@ -96,9 +97,9 @@ or open the attribute and use its **Actions** tab.
 An attribute defines **no hidden actions of its own** — everything it can do is in
 that menu. The one action you will meet elsewhere is the shared GM **result edit**,
 reached from the ✎ pencil on a posted test-result card and described on
-[[Item_Base|Base Item]].
+[[Base Item]].
 
-# Success Test
+# Success Test {#success-test}
 
 |               |                                                                                                                                   |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -129,7 +130,7 @@ you are rolling under before you start.
 
 1. **The standard test dialog opens.** Target, the modifier breakdown, Situational
    Modifier, Success Level Modifier, and Roll Visibility — its fields are described
-   once on [[Item_Base|Base Item]]. Cancelling it rolls nothing and posts nothing.
+   once on [[Base Item]]. Cancelling it rolls nothing and posts nothing.
 2. **The d100 is rolled** against the attribute's Target Level.
 3. **A test-result card posts to chat** with the modifier breakdown, the Target,
    the Roll, and the outcome, colored by success or failure.
@@ -145,7 +146,7 @@ you are rolling under before you start.
 | **Roll**                 | The d100 result, green on a success and red on a failure                 |
 | **Result**               | The named outcome, with its description below it                         |
 
-The GM's pencil is described on [[Item_Base|Base Item]], under _Editing a Posted
+The GM's pencil is described on [[Base Item]], under _Editing a Posted
 Test Result_.
 
 ## Injury changes the roll for you
@@ -157,11 +158,11 @@ roll. A Strength test made on a crushed arm is not a normal Strength test.
 
 > **Known gap. No Fate can be spent on an attribute test.** The card never offers the
 > **Fate** button, even when the character holds a general Fate Point, although
-> the [[rules/sohl-fate|Fate rules]] allow one on any skill _or attribute_ test
+> the [[Rules/ftdvn|Fate rules]] allow one on any skill _or attribute_ test
 > (issue #1106). Until it is fixed, spend Fate at the table by agreement, or
 > have the GM adjust the result with the pencil.
 
-# Opposed Test
+# Opposed Test {#opposed-test}
 
 |               |                                                                                                                                             |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -205,7 +206,7 @@ attribute of their own.
 The whole flow — the targeting rules, both cards, the responder's dialog, and how
 Victory Stars are read — is described once on [[Token]], under _Starting an
 Opposed Test_. For the rules behind a contest, see the
-[[rules/sohl-opposed-tests|Opposed Tests]] rules.
+[[Rules/oppsdtst|Opposed Tests]] rules.
 
 **Nobody rolls for anybody.** The request card sits in the chat log until a user
 who owns the target answers it, and it can be ignored entirely if the table would
@@ -213,15 +214,15 @@ rather rule the outcome by hand.
 
 # See also
 
-- [[Item_Base|Base Item]] — the standard item properties, the shared **Edit** /
+- [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, and the standard test dialog both
   rolls on this page open.
-- [[Item_Skill|Skill]] — the learned counterpart, whose Skill Base formulas are
+- [[Skill]] — the learned counterpart, whose Skill Base formulas are
   built from these attributes.
-- [[Skill_Tests]] — what the numbers in a test mean, and how success levels are read.
+- [[Skill Tests]] — what the numbers in a test mean, and how success levels are read.
 - [[Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
-- [[rules/sohl-opposed-tests|Opposed Tests]] (rules) — Victory Stars and ties.
-- [[Fate_System|Fate]] — spending a Fate Point on a settled result.
-- [[Safe_Expressions]] — how an attribute is referenced from a Skill Base formula.
+- [[Rules/oppsdtst|Opposed Tests]] (rules) — Victory Stars and ties.
+- [[User_Guide/thftsyst|Fate]] — spending a Fate Point on a settled result.
+- [[Safe Expressions]] — how an attribute is referenced from a Skill Base formula.
 - [[Shortcodes]] — what a Skill Base formula is naming when it says `attr.str`.
-- [[Character_Creation]] — where a character's attribute scores come from.
+- [[Character Creation]] — where a character's attribute scores come from.

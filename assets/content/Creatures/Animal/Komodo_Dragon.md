@@ -10,6 +10,7 @@ id: getyv8Y5C6ktjC6B
 slug: komodo-dragon
 img: icons/game-icons/lorc/gecko.svg
 portrait: ""
+shortcode: kmddrgn
 type: creature
 package: sohl
 sohl:

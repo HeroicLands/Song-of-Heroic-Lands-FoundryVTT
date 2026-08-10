@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "Calendar JSON Format"
 slug: "calendar-format"
+shortcode: clndrjsn
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -14,7 +15,7 @@ folder: IgwaG8rAUUO9vrtz
 
 This reference describes the JSON format used for custom calendar files in
 Song of Heroic Lands. For instructions on importing calendars, see
-[System Settings](user-guide/settings.md).
+[[System Settings]].
 
 A calendar JSON file must contain a single JSON object with the structure
 described below. All fields are required unless marked as optional.

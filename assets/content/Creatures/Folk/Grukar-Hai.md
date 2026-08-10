@@ -10,6 +10,7 @@ id: NVtoBlsW4OFbRG4i
 slug: grukar-hai
 img: icons/game-icons/delapouite/orc-head.svg
 portrait: ""
+shortcode: grkrh
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: NTZQh3DsxPrIxvtI
 slug: stygian-leviathan
 img: icons/game-icons/lorc/sea-serpent.svg
 portrait: ""
+shortcode: stygnlvt
 type: creature
 package: sohl
 sohl:

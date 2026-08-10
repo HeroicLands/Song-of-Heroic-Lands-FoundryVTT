@@ -27,7 +27,7 @@ Note the Index of the tested skill (ML divided by ten, rounded down).
 
 ## \[2\] Modifier
 
-Make a [[Success Tests|Success Test]] that includes any applicable bonuses or penalties. The resulting success level produces a modifier:
+Make a [[Success Test]] that includes any applicable bonuses or penalties. The resulting success level produces a modifier:
 
 | Success Level | Modifier |
 | ------------- | -------- |
@@ -55,4 +55,4 @@ The Success Value from step 3 stands on its own, but a Critical Failure on the s
 
 ## SV Tests and Secondary Mastery
 
-In an SV test, the base SV is derived from the primary skill's ML, not EML. [[Secondary_Mastery|Secondary Modifiers]] directly affect the EML, and Secondary Rolls accompany the SV test as usual, but the Index used for step 1 always comes from the unmodified ML.
+In an SV test, the base SV is derived from the primary skill's ML, not EML. [[Rules/scndryms|Secondary Modifiers]] directly affect the EML, and Secondary Rolls accompany the SV test as usual, but the Index used for step 1 always comes from the unmodified ML.

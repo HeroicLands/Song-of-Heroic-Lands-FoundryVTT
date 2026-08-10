@@ -10,6 +10,7 @@ id: pGoe1xHOveNk8ycM
 slug: xerathian-forest-elephant
 img: icons/game-icons/delapouite/elephant.svg
 portrait: ""
+shortcode: xrthnfrs
 type: creature
 package: sohl
 sohl:

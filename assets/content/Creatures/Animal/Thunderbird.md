@@ -10,6 +10,7 @@ id: cCvH3RbioiVmP5uA
 slug: thunderbird
 img: icons/game-icons/delapouite/eagle-head.svg
 portrait: ""
+shortcode: thndrbrd
 type: creature
 package: sohl
 sohl:

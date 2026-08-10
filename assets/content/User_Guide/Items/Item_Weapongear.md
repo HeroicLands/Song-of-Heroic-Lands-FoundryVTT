@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Weapon"
 slug: "item-weapongear"
+shortcode: weapon
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -15,14 +16,14 @@ folder: QtOgPodi8X6gDWL0
 
 Weapon represents an offensive device carried by a Being — a sword, axe, bow,
 dagger, staff, or any other instrument of combat. These are separated from natural
-weapons such as claws and teeth, which are [[Item_Skill|Combat Techniques]].
+weapons such as claws and teeth, which are [[Combat Techniques]].
 
 The weapon item is the physical object: its weight, value, quality, durability, and
 how awkward it is to carry. **What the weapon can actually _do_ lives in its strike
 modes** — the distinct ways it can be used in a fight. A staff might have a _swing_
 and a _thrust_; a spear might thrust in the hand and be thrown; a bow has a single
 missile mode. A strike mode is not a separate item: the modes belong to the weapon
-and are edited on its own [Strike Modes tab](#the-strike-modes-tab).
+and are edited on its own [[#the-strike-modes-tab|Strike Modes tab]].
 
 # Where It Appears
 
@@ -30,7 +31,7 @@ Every weapon appears on the Being sheet's **Gear** tab, like any other piece of
 gear.
 
 A weapon appears on the **Combat** tab only while the character is **holding** it —
-gripping it with a limb (see [Holding a Weapon](#holding-a-weapon)). Held weapons
+gripping it with a limb (see [[#holding-a-weapon|Holding a Weapon]]). Held weapons
 are listed there by name, with a row per strike mode, alongside any combat
 technique the character has. That is where a weapon's attacks and defenses are
 rolled from.
@@ -39,7 +40,7 @@ Weapon items are typically added from compendium packs.
 
 # Additional Properties
 
-Along with the [[Item_Gear|Standard Gear Properties]] (Quantity, Weight, Value,
+Along with the [[User_Guide/itemgear|Standard Gear Properties]] (Quantity, Weight, Value,
 Quality, Durability, and Is Carried), a weapon's **Properties** tab adds:
 
 - **Encumbrance:** If specified, this overrides the encumbrance based on weight
@@ -50,7 +51,7 @@ Quality, Durability, and Is Carried), a weapon's **Properties** tab adds:
 
 The weapon's strike modes are not on this tab; they have their own, described next.
 
-# The Strike Modes Tab
+# The Strike Modes Tab {#the-strike-modes-tab}
 
 A weapon's **Strike Modes** tab lists every way the weapon can be used. Unlike a
 combat technique — which has exactly one mode — **a weapon may have as many as it
@@ -72,7 +73,7 @@ its editor. A weapon with no modes says so, and cannot attack with anything.
 ## The strike-mode editor
 
 Editing a mode opens the same configuration window a combat technique uses; its
-fields are described once on [[Item_Skill|Skill]], under _The strike-mode editor_.
+fields are described once on [[Skill]], under _The strike-mode editor_.
 A mode's **Type** (Melee or Missile) is fixed once created — to change it, delete
 the mode and add a new one.
 
@@ -91,7 +92,7 @@ Three of those fields matter differently on a weapon than on a technique:
 - **Length** _(melee)_ — the weapon's reach in feet before the wielder's own body
   reach is added; the sum is the **RCH** column on the Combat tab.
 
-# Holding a Weapon
+# Holding a Weapon {#holding-a-weapon}
 
 **A weapon does nothing until the character is holding it.** Carrying a sword in a
 pack is not the same as having it in hand, and SoHL tracks the difference: the
@@ -105,7 +106,7 @@ in a limb's dropdown and it is now held; choose the blank entry to let go.
 - **A two-handed grip is two selections.** Select the same weapon in _both_ limbs'
   dropdowns. That is also how a mode with **Min Parts** 2 becomes usable.
 - **Holding is not carrying.** Both must be true for a weapon to be usable: the
-  gear must be **carried** (see _Carried Gear Only_ on [[Item_Gear|Gear]]) and it
+  gear must be **carried** (see _Carried Gear Only_ on [[Gear]]) and it
   must be **held**. Setting a weapon down with **Toggle Carried** takes its actions
   away even if a limb still names it.
 - **An injured hand costs you.** If a limb holding the weapon is impaired by an
@@ -114,17 +115,17 @@ in a limb's dropdown and it is now held; choose the blank entry to let go.
 
 # The Weapon Actions
 
-| Action                                           | Shortcode           | Where you meet it                                     |
-| ------------------------------------------------ | ------------------- | ----------------------------------------------------- |
-| [Attack](#attack-block-and-counterstrike)        | `attackTest`        | The Combat tab's **Atk** cell; the item's Actions tab |
-| [Block](#attack-block-and-counterstrike)         | `blockTest`         | The Combat tab's **Blk** cell; the item's Actions tab |
-| [Counterstrike](#attack-block-and-counterstrike) | `counterstrikeTest` | The Combat tab's **CX** cell; the item's Actions tab  |
-| Toggle Carried                                   | `toggleCarried`     | The Actions context menu; the row's sack button       |
+| Action                                             | Shortcode           | Where you meet it                                     |
+| -------------------------------------------------- | ------------------- | ----------------------------------------------------- |
+| [[#attack-block-and-counterstrike\|Attack]]        | `attackTest`        | The Combat tab's **Atk** cell; the item's Actions tab |
+| [[#attack-block-and-counterstrike\|Block]]         | `blockTest`         | The Combat tab's **Blk** cell; the item's Actions tab |
+| [[#attack-block-and-counterstrike\|Counterstrike]] | `counterstrikeTest` | The Combat tab's **CX** cell; the item's Actions tab  |
+| Toggle Carried                                     | `toggleCarried`     | The Actions context menu; the row's sack button       |
 
 **Toggle Carried** belongs to every piece of gear and is described once on
-[[Item_Gear|Gear]] — it behaves no differently on a weapon. **Edit**, **Delete**,
+[[Gear]] — it behaves no differently on a weapon. **Edit**, **Delete**,
 and **Output Description to Chat** belong to every item and are described once on
-[[Item_Base|Base Item]].
+[[Base Item]].
 
 A weapon has **no hidden actions**: everything it can do is on the list above.
 
@@ -145,7 +146,7 @@ weapon offers none of them. When it is held, they are reachable:
 > to Chat_. Use the Combat tab or the weapon's Actions tab until it is fixed; both
 > run the identical action.
 
-# Attack, Block, and Counterstrike
+# Attack, Block, and Counterstrike {#attack-block-and-counterstrike}
 
 |               | Attack                                                                                                                              | Block                                                                                                                             | Counterstrike                                                                                                                                     |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -165,7 +166,7 @@ weapon:
 - **Counterstrike** — defending and hitting back in the same motion.
 
 Reach for them whenever the table needs to know whether a blow landed or was
-turned. They are the same three tests a [[Item_Skill|Combat Technique]] offers, on
+turned. They are the same three tests a [[Combat Technique]] offers, on
 the same rows of the Combat tab — a weapon is simply a technique the character can
 drop.
 
@@ -190,10 +191,10 @@ Hover any of those cells to see the breakdown without rolling.
    meant: two or more modes on the weapon, and the action reached from the Actions
    tab rather than a Combat-tab cell. A single-mode weapon never asks, and clicking
    a Combat-tab cell has already said which mode you meant. The dialog is described
-   once on [[Item_Base|Base Item]], under _The Strike-Mode Picker_.
+   once on [[Base Item]], under _The Strike-Mode Picker_.
 2. **The standard test dialog opens** — Target, the modifier breakdown, Situational
    Modifier, Success Level Modifier, and Roll Visibility, described once on
-   [[Item_Base|Base Item]]. Cancelling it rolls nothing and posts nothing.
+   [[Base Item]]. Cancelling it rolls nothing and posts nothing.
    Shift-clicking the cell skips this step.
 3. **The d100 is rolled** against the target.
 4. **A test-result card posts to chat.**
@@ -208,18 +209,18 @@ Hover any of those cells to see the breakdown without rolling.
 | **Roll**             | The d100 result, green on a success and red on a failure                 |
 | _Footer_             | The named outcome — Critical Success, Marginal Success, and so on        |
 
-The GM's pencil is described on [[Item_Base|Base Item]], under _Editing a Posted
+The GM's pencil is described on [[Base Item]], under _Editing a Posted
 Test Result_.
 
 > **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the
 > **Fate** button, even to a character holding a charged Fate Point, and even
 > though the very skill the weapon rolls through _does_ offer it on its own tests
-> (issue #1106). Spending Fate is described on [[Fate_System|Fate]].
+> (issue #1106). Spending Fate is described on [[User_Guide/thftsyst|Fate]].
 
 ## Where they are unavailable
 
 - **The weapon must be held and carried.** Neither the Combat-tab row nor the
-  actions exist otherwise — see [Holding a Weapon](#holding-a-weapon).
+  actions exist otherwise — see [[#holding-a-weapon|Holding a Weapon]].
 - **A mode needs enough hands.** A mode whose **Min Parts** exceeds the number of
   limbs gripping the weapon is not listed on the Combat tab at all.
 - **Block and Counterstrike need a melee mode.** You cannot parry with a loosed
@@ -233,20 +234,20 @@ Test Result_.
 **Assisted, not automated.** These actions roll the test and report it. They do not
 move a combatant, spend an initiative, choose a target, or apply an injury to
 anyone. For the full combat sequence — declaring an exchange, resolving a strike
-against a defender, and turning impact into a wound — see [[Combat_Basics]] and
+against a defender, and turning impact into a wound — see [[Combat Basics]] and
 [[Combatant]].
 
 # See also
 
-- [[Item_Gear|Gear]] — the standard gear properties, **Toggle Carried**, and the
+- [[Gear]] — the standard gear properties, **Toggle Carried**, and the
   rule that uncarried gear can do nothing.
-- [[Item_Base|Base Item]] — the standard item properties, the shared **Edit** /
+- [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, the standard test dialog, and the
   strike-mode picker.
-- [[Item_Skill|Skill]] — weapon skills (what a strike mode's **Associated Skill**
+- [[Skill]] — weapon skills (what a strike mode's **Associated Skill**
   names), combat techniques, and the strike-mode editor's field-by-field reference.
-- [[Skill_Tests]] — what the numbers in a test mean, and how success levels are
+- [[Skill Tests]] — what the numbers in a test mean, and how success levels are
   read.
-- [[Combat_Basics]] and [[Combatant]] — where a weapon's attack, block, and
+- [[Combat Basics]] and [[Combatant]] — where a weapon's attack, block, and
   counterstrike sit in a fight.
 - [[Shortcodes]] — what the **Associated Skill** field is naming.

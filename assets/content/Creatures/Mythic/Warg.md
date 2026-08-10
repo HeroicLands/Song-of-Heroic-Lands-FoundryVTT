@@ -11,6 +11,7 @@ id: Fk5LGJPnTZLxzWuG
 slug: warg
 img: icons/game-icons/lorc/wolf-head.svg
 portrait: ""
+shortcode: warg
 type: creature
 package: sohl
 sohl:

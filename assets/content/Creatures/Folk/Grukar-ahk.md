@@ -11,6 +11,7 @@ id: ZwRLpmQF1zAklkyE
 slug: grukar-ahk
 img: icons/game-icons/delapouite/orc-head.svg
 portrait: ""
+shortcode: grkrahk
 type: creature
 package: sohl
 sohl:

@@ -9,6 +9,7 @@ category: user-guide
 name:
     full: "Trauma"
 slug: "item-trauma"
+shortcode: itemtrauma
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -24,7 +25,7 @@ dressed wound, and the Pall clinging to a soul.
 whose **Trauma Type** is _Injury_. Everything on this page about wounds, bleeding,
 treatment, and healing is describing that sub-type.
 
-What separates a Trauma from an [[Item_Affliction|Affliction]] is _where the harm
+What separates a Trauma from an [[Affliction]] is _where the harm
 comes from_. A Trauma is something the character **carries** — the state their
 body or mind is now in. An Affliction is an outside **agent** working on them: a
 disease, a poison, a curse. A poisoned character has an Affliction; the fatigue
@@ -51,12 +52,12 @@ the sheet offers and which actions the Trauma has.
 | **Physical Condition**      | A lasting bodily trait, impediment, or debility            | Sub-Category        |
 
 The rules behind each of these live with the rules, not here — see
-[[rules/sohl-trauma|Trauma]], [[rules/sohl-injury|Injury]],
-[[rules/sohl-bleeding|Bleeding]], [[rules/sohl-infection|Infection]],
-[[rules/sohl-shock|Shock]], [[rules/sohl-fatigue|Fatigue]],
-[[rules/sohl-fear|Fear]], [[rules/sohl-morale|Morale]],
-[[rules/sohl-psychological-condition|Psychological Condition]], and
-[[rules/sohl-the-pall|The Pall]].
+[[Rules/trauma|Trauma]], [[rules/sohl-injury|Injury]],
+[[Rules/bleeding|Bleeding]], [[Rules/infctn|Infection]],
+[[Rules/shock|Shock]], [[Rules/fatigue|Fatigue]],
+[[Rules/fear|Fear]], [[Rules/morale|Morale]],
+[[Rules/psychlgc|Psychological Condition]], and
+[[Rules/thepall|The Pall]].
 
 # Where It Appears
 
@@ -69,7 +70,7 @@ accrues from blood loss. You can also add one by hand — for a fall, a fire, a
 night in the cold, or anything else the table decides has hurt the character.
 
 To reach a Trauma's actions, **right-click its row** on the Health tab, or open
-the Trauma and use its **Actions** tab. See [[Actions|Actions]] for how the menu
+the Trauma and use its **Actions** tab. See [[Actions]] for how the menu
 works generally.
 
 > **Known gap.** The injury actions — **Request Treatment**, **Treat Injury**, and
@@ -80,7 +81,7 @@ works generally.
 
 # Additional Properties
 
-Along with the [[Item_Base|Standard Item Properties]], a Trauma's **Properties**
+Along with the [[User_Guide/baseitem|Standard Item Properties]], a Trauma's **Properties**
 tab shows only the fields that mean something for its Trauma Type — a Fear Trauma
 has no Aspect, and a wound has no Sub-Category.
 
@@ -104,8 +105,8 @@ has no Aspect, and a wound has no Sub-Category.
 Two of these deserve a second look, because they are derived rather than typed:
 
 - **Treated** is not a checkbox. A wound counts as treated once it has a
-  treatment date, which [Treat Injury](#treat-injury) and the
-  [Treatment Test](#treatment-test) set for you.
+  treatment date, which [[#treat-injury|Treat Injury]] and the
+  [[#treatment-test|Treatment Test]] set for you.
 - **Bleeding** is not a checkbox either. A wound bleeds while its **Blood-Loss
   Interval** is set. That is how a bleeder is armed at the moment of injury, and
   clearing the field is how the bleeding stops.
@@ -116,25 +117,25 @@ someone accepted the offer to schedule it.
 
 # The Trauma Actions
 
-| Action                                                 | Shortcode                | Where you meet it                 |
-| ------------------------------------------------------ | ------------------------ | --------------------------------- |
-| [Request Treatment](#request-treatment)                | `requestTreatment`       | Actions context menu              |
-| [Treat Injury](#treat-injury)                          | `treatInjury`            | Actions context menu; card button |
-| [Treatment Test](#treatment-test)                      | `treatmenttest`          | Actions context menu              |
-| [Request Blood Stoppage](#request-blood-stoppage)      | `requestBloodStoppage`   | Actions context menu              |
-| [Accept Blood Stoppage](#accept-blood-stoppage)        | `acceptBloodStoppage`    | _Hidden_ — card button            |
-| [Healing Test](#healing-check)                         | `healingtest`            | Actions context menu; check card  |
-| [Healing Check](#healing-check)                        | `healingCheck`           | _Hidden_ — scheduled reminder     |
-| [Blood-Loss Advance Test](#blood-loss-advance-check)   | `bloodLossAdvanceTest`   | Actions context menu; check card  |
-| [Blood-Loss Advance Check](#blood-loss-advance-check)  | `bloodLossAdvanceCheck`  | _Hidden_ — scheduled reminder     |
-| [Course Test](#course-check)                           | `courseTest`             | Actions context menu; check card  |
-| [Course Check](#course-check)                          | `courseCheck`            | _Hidden_ — scheduled reminder     |
-| [Psyche Stress Recovery Test](#psyche-stress-recovery) | `psycheRecoveryTest`     | Actions context menu; check card  |
-| [Psyche Stress Recovery](#psyche-stress-recovery)      | `psycheRecovery`         | _Hidden_ — scheduled reminder     |
-| [Aural Shock Recovery Test](#aural-shock-recovery)     | `auralShockRecoveryTest` | Actions context menu; check card  |
-| [Aural Shock Recovery](#aural-shock-recovery)          | `auralShockRecovery`     | _Hidden_ — scheduled reminder     |
-| [Pall Recovery Test](#pall-recovery)                   | `pallRecoveryTest`       | Actions context menu; check card  |
-| [Pall Recovery](#pall-recovery)                        | `pallRecovery`           | _Hidden_ — scheduled reminder     |
+| Action                                                   | Shortcode                | Where you meet it                 |
+| -------------------------------------------------------- | ------------------------ | --------------------------------- |
+| [[#request-treatment\|Request Treatment]]                | `requestTreatment`       | Actions context menu              |
+| [[#treat-injury\|Treat Injury]]                          | `treatInjury`            | Actions context menu; card button |
+| [[#treatment-test\|Treatment Test]]                      | `treatmenttest`          | Actions context menu              |
+| [[#request-blood-stoppage\|Request Blood Stoppage]]      | `requestBloodStoppage`   | Actions context menu              |
+| [[#accept-blood-stoppage\|Accept Blood Stoppage]]        | `acceptBloodStoppage`    | _Hidden_ — card button            |
+| [[#healing-check\|Healing Test]]                         | `healingtest`            | Actions context menu; check card  |
+| [[#healing-check\|Healing Check]]                        | `healingCheck`           | _Hidden_ — scheduled reminder     |
+| [[#blood-loss-advance-check\|Blood-Loss Advance Test]]   | `bloodLossAdvanceTest`   | Actions context menu; check card  |
+| [[#blood-loss-advance-check\|Blood-Loss Advance Check]]  | `bloodLossAdvanceCheck`  | _Hidden_ — scheduled reminder     |
+| [[#course-check\|Course Test]]                           | `courseTest`             | Actions context menu; check card  |
+| [[#course-check\|Course Check]]                          | `courseCheck`            | _Hidden_ — scheduled reminder     |
+| [[#psyche-stress-recovery\|Psyche Stress Recovery Test]] | `psycheRecoveryTest`     | Actions context menu; check card  |
+| [[#psyche-stress-recovery\|Psyche Stress Recovery]]      | `psycheRecovery`         | _Hidden_ — scheduled reminder     |
+| [[#aural-shock-recovery\|Aural Shock Recovery Test]]     | `auralShockRecoveryTest` | Actions context menu; check card  |
+| [[#aural-shock-recovery\|Aural Shock Recovery]]          | `auralShockRecovery`     | _Hidden_ — scheduled reminder     |
+| [[#pall-recovery\|Pall Recovery Test]]                   | `pallRecoveryTest`       | Actions context menu; check card  |
+| [[#pall-recovery\|Pall Recovery]]                        | `pallRecovery`           | _Hidden_ — scheduled reminder     |
 
 A **hidden** action is never in the Actions context menu. It is not off-limits —
 it is simply reached from wherever it makes sense: a button on a chat card, or the
@@ -155,18 +156,18 @@ wound normally travels like this:
    _offers_ to set a healing-check reminder. If the wound bleeds, it offers a
    blood-loss reminder too.
 2. **Someone treats it.** The patient posts a
-   [Request Treatment](#request-treatment) card; a physician answers it with
+   [[#request-treatment|Request Treatment]] card; a physician answers it with
    **Perform Treatment Test**; the patient presses **Accept Treatment** on the
-   result, which runs [Treat Injury](#treat-injury) and records the Healing Rate.
+   result, which runs [[#treat-injury|Treat Injury]] and records the Healing Rate.
 3. **It heals over time.** Each healing-check reminder comes due, you press
-   **Perform**, a [Healing Check](#healing-check) is rolled, and it offers the
+   **Perform**, a [[#healing-check|Healing Check]] is rolled, and it offers the
    next one. The wound closes when its Level reaches 0.
-4. **If it bleeds**, [Request Blood Stoppage](#request-blood-stoppage) and the
+4. **If it bleeds**, [[#request-blood-stoppage|Request Blood Stoppage]] and the
    physician's answer run alongside, while each
-   [Blood-Loss Advance Check](#blood-loss-advance-check) costs blood.
+   [[#blood-loss-advance-check|Blood-Loss Advance Check]] costs blood.
 5. **If it goes wrong**, a critical-failure healing check on an infectable wound
    contracts an Infection, which halts healing until its own
-   [Course Check](#course-check) beats it.
+   [[#course-check|Course Check]] beats it.
 
 At no point does the system take a step for you. Every one of those transitions
 waits on a human — a dialog you answer, a card button someone presses, a
@@ -180,7 +181,7 @@ follow one pattern:
 > **offer → check → test → offer the next**
 
 When a check would begin, SoHL opens the **offer-schedule dialog**, described once
-on [[Item_Base|Base Item]], asking whether to set a reminder with the rolled
+on [[Base Item]], asking whether to set a reminder with the rolled
 cadence already filled in (_"Set a reminder to perform the Healing Check in 5
 days?"_). **Schedule It** arms it; **Not Now** declines, and nothing is tracked.
 When the time comes, a **check card** appears in chat with a button offering its
@@ -202,7 +203,7 @@ character who is behind simply has a test already due — so its card appears at
 once, and you work through the backlog one consent at a time, with the wound's
 original rhythm intact.
 
-# Request Treatment
+# Request Treatment {#request-treatment}
 
 |               |                                                                                                                                       |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -247,9 +248,9 @@ the card stays live for someone who does.
 That is the point of the card: the patient does not have to know who the physician
 is, and no physician is volunteered by someone else. The physician's side of this —
 the **Perform Treatment Test** action, its dialog, and the Treatment Result card it
-posts — is documented on the [[Actor_Being|Being]] page.
+posts — is documented on the [[Being]] page.
 
-# Treat Injury
+# Treat Injury {#treat-injury}
 
 |               |                                                                                                                             |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
@@ -262,7 +263,7 @@ posts — is documented on the [[Actor_Being|Being]] page.
 ## What it does
 
 This **records** a Healing Rate on the wound and stamps it as treated. It rolls
-nothing — the roll is the [Treatment Test](#treatment-test); this is the step that
+nothing — the roll is the [[#treatment-test|Treatment Test]]; this is the step that
 writes the answer down.
 
 It is deliberately the patient's action, not the physician's. When a physician
@@ -305,7 +306,7 @@ with the field left blank — changes nothing.
 > on a minor wound); to close a wound by hand, set its **Level** to 0 on the
 > Properties tab instead.
 
-# Treatment Test
+# Treatment Test {#treatment-test}
 
 |               |                                                                                                                                 |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -324,7 +325,7 @@ and writes every consequence onto the wound.
 It rolls the **Physician skill of the character carrying the wound** — so it suits a
 character treating themselves, or a GM resolving treatment without staging the
 request-and-answer exchange. When you want a _different_ character to be the
-physician, use [Request Treatment](#request-treatment) and let them answer, or run
+physician, use [[#request-treatment|Request Treatment]] and let them answer, or run
 **Perform Treatment Test** from the physician's own sheet.
 
 **No dialog opens.** Unlike an ordinary skill test this one rolls headlessly — the
@@ -350,14 +351,14 @@ Whatever the roll produces is written to the wound at once:
   becomes a bleeder. When that happens the action then **offers** to schedule its
   blood-loss advance.
 - **Permanent-impairment eligibility**, if the result warrants it — see
-  [Healing Check](#healing-check).
+  [[#healing-check|Healing Check]].
 
 > **If nobody can make the roll** — a GM resolving a wound on an unowned character,
 > for instance — the treatment resolves as though the Physician roll had been a
 > **critical failure**. That is the rule for an untreated wound rather than a quirk
 > of the software: a wound nobody competent tends to is a wound treated badly.
 
-# Request Blood Stoppage
+# Request Blood Stoppage {#request-blood-stoppage}
 
 |               |                                                                                                                                               |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -369,13 +370,13 @@ Whatever the roll produces is written to the wound at once:
 
 ## What it does and when to use it
 
-The bleeding twin of [Request Treatment](#request-treatment): it posts an open card
+The bleeding twin of [[#request-treatment|Request Treatment]]: it posts an open card
 asking a physician to **stop the bleeding**, urgently. Nothing is rolled here
 either.
 
 Reach for it the moment a wound starts bleeding. Blood loss does not wait for the
 wound to be treated properly — each
-[Blood-Loss Advance Check](#blood-loss-advance-check) drives the character further
+[[#blood-loss-advance-check|Blood-Loss Advance Check]] drives the character further
 toward unconsciousness and death, so stopping the bleeding comes first and treating
 the wound comes after.
 
@@ -398,9 +399,9 @@ If an earlier stoppage attempt failed narrowly, this request quietly carries a
 **+10 bonus** to the next test. You do not have to track that; the wound remembers.
 
 The physician's side — the roll and the Blood Stoppage Result card — is documented
-on the [[Actor_Being|Being]] page.
+on the [[Being]] page.
 
-# Accept Blood Stoppage
+# Accept Blood Stoppage {#accept-blood-stoppage}
 
 |               |                                                                                                                                             |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -413,7 +414,7 @@ on the [[Actor_Being|Being]] page.
 ## What it does
 
 This records a physician's Blood Stoppage result on the bleeding wound. Like
-[Treat Injury](#treat-injury), it is the **patient's** click that applies what the
+[[#treat-injury|Treat Injury]], it is the **patient's** click that applies what the
 physician achieved — the physician's card proposes, the patient accepts.
 
 You will never look for it on a menu. It exists as the **Accept** button on the
@@ -431,7 +432,7 @@ Blood Stoppage Result card, on the wounded character's screen.
 Nothing is applied until the button is pressed, so a card can be left unanswered and
 the situation ruled by hand instead.
 
-# Healing Check
+# Healing Check {#healing-check}
 
 |               |                                                                                                                               |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -469,12 +470,12 @@ not getting better:
   failure** with no dice rolled (mechanically, a rolled **00**, which fails whatever
   the target). That means no progress however many checks you run, and an infection,
   because an untreated wound is an infection-prone one. Get a physician to it, or
-  record a rate with [Treat Injury](#treat-injury). Note this covers healing checks
-  only — a [Treatment Test](#treatment-test) is not one, and rolls the physician's
+  record a rate with [[#treat-injury|Treat Injury]]. Note this covers healing checks
+  only — a [[#treatment-test|Treatment Test]] is not one, and rolls the physician's
   own skill.
 - **An active infection halts _all_ healing**, on every wound the character has —
   not only the wound the infection came from. Nothing mends until the infection is
-  beaten (see [Course Check](#course-check)).
+  beaten (see [[#course-check|Course Check]]).
 - **A wound already at Level 0** is done, and is not checked again.
 
 ## Infection and permanent impairment
@@ -491,7 +492,7 @@ A wound flagged **permanent-impairment eligible** that finally closes may leave 
 took to heal. A wound that lingered for months costs more than one that closed
 quickly. See [[rules/sohl-injury|the Injury rules]] for the scale.
 
-# Blood-Loss Advance Check
+# Blood-Loss Advance Check {#blood-loss-advance-check}
 
 |               |                                                                                                                                                 |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -527,14 +528,14 @@ at all. A bleeder left alone will empty a healthy character.
 ## Stopping it
 
 The bleeding ends when the wound stops bleeding — which happens when a physician's
-[Blood Stoppage](#accept-blood-stoppage) result is accepted, or when you clear the
+[[#accept-blood-stoppage|Blood Stoppage]] result is accepted, or when you clear the
 wound's **Blood-Loss Interval** field by hand. Either way the recurrence ends and no
 further reminders come.
 
 A physician whose stoppage "stops the bleeding after the next advance" is honored
 here: the character loses blood one more time, and then the bleeder is cleared.
 
-# Course Check
+# Course Check {#course-check}
 
 |               |                                                                                                                             |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
@@ -585,7 +586,7 @@ kill directly — it exhausts the character while stopping every wound from clos
 The cadences differ by type: Extended Shock runs every four hours, a Coma every d10
 days, and an Infection on the ordinary healing-check period.
 
-# Psyche Stress Recovery
+# Psyche Stress Recovery {#psyche-stress-recovery}
 
 |               |                                                                                                                                   |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -613,9 +614,9 @@ Trauma is removed from the sheet. A **permanent** one never does; it can be worn
 down, but it stays. That is what a critical failure really costs — not points, but
 the possibility of ever being rid of it.
 
-See [[rules/sohl-psychological-condition|the Psychological Condition rules]].
+See [[Rules/psychlgc|the Psychological Condition rules]].
 
-# Aural Shock Recovery
+# Aural Shock Recovery {#aural-shock-recovery}
 
 |               |                                                                                                                                           |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -639,9 +640,9 @@ injury counting against them.
 
 The character recovers, and the Trauma is removed, when Aural Shock reaches 0. Any
 psyche stress picked up along the way is inflicted as its own Trauma and recovers on
-its own schedule — see [Psyche Stress Recovery](#psyche-stress-recovery).
+its own schedule — see [[#psyche-stress-recovery|Psyche Stress Recovery]].
 
-# Pall Recovery
+# Pall Recovery {#pall-recovery}
 
 |               |                                                                                                                               |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -684,22 +685,22 @@ belongs to their player and the GM. The card exists to put the choice in front o
 the table, in the victim's own terms, and then get out of the way. Whatever you
 decide is played out by hand.
 
-See [[rules/sohl-the-pall|The Pall]] for what each fate means.
+See [[Rules/thepall|The Pall]] for what each fate means.
 
 # See also
 
-- [[Afflictions_Injuries|Afflictions and Injuries]] — the overview of how harm
+- [[Afflictions and Injuries]] — the overview of how harm
   works, and how a Trauma differs from an Affliction.
-- [[Item_Affliction|Affliction]] — diseases, poisons, and curses: the outside agents
+- [[Affliction]] — diseases, poisons, and curses: the outside agents
   that inflict Traumas.
-- [[Actor_Being|Being]] — the physician's side of treatment and blood stoppage, and
+- [[Being]] — the physician's side of treatment and blood stoppage, and
   the character's shock state.
-- [[Item_Base|Base Item]] — the standard item properties, the standard test dialog,
+- [[Base Item]] — the standard item properties, the standard test dialog,
   and the offer-schedule dialog.
-- [[Combat_Basics|Combat Basics]] — where most wounds come from, and the injury card
+- [[Combat Basics]] — where most wounds come from, and the injury card
   that creates them.
-- [[Actions|Actions]] — how the Actions context menu and chat-card buttons work.
-- [[rules/sohl-trauma|Trauma]], [[rules/sohl-injury|Injury]],
-  [[rules/sohl-bleeding|Bleeding]], [[rules/sohl-infection|Infection]],
-  [[rules/sohl-shock|Shock]], and [[rules/sohl-healing-test|Healing Test]] (rules) —
+- [[Actions]] — how the Actions context menu and chat-card buttons work.
+- [[Rules/trauma|Trauma]], [[rules/sohl-injury|Injury]],
+  [[Rules/bleeding|Bleeding]], [[Rules/infctn|Infection]],
+  [[Rules/shock|Shock]], and [[Rules/hlngtst|Healing Test]] (rules) —
   the mechanics behind these actions.

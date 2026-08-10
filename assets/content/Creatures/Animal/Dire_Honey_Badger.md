@@ -10,6 +10,7 @@ id: yfdwPLNfDfwLHV8b
 slug: dire-honey-badger
 img: icons/game-icons/caro-asercion/badger.svg
 portrait: ""
+shortcode: drhnybdg
 type: creature
 package: sohl
 sohl:

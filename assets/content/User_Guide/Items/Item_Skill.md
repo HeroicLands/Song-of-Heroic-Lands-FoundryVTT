@@ -10,6 +10,7 @@ category: user-guide
 name:
     full: "Skill"
 slug: "item-skill"
+shortcode: skill
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -21,7 +22,7 @@ A Skill represents a learned or practiced ability that a Being possesses. Skills
 bite, a claw rake, a grapple, or a bare-handed strike is a Skill whose **Category**
 is _Combat Technique_, carrying its own single strike mode. Everything on this page
 about attacking, blocking, and counterstriking is describing that category — see
-[Combat Techniques](#combat-techniques).
+[[#combat-techniques|Combat Techniques]].
 
 # Where It Appears
 
@@ -35,21 +36,21 @@ character is holding. That is where its Atk / Blk / CX numbers are rolled from.
 
 Each row on the Skills tab is itself a set of controls:
 
-| Column / control | What it does                                                                                 |
-| ---------------- | -------------------------------------------------------------------------------------------- |
-| **SB**           | The Skill Base. A ✗ here means the skill's formula is invalid — hover it for the reason      |
-| **ML**           | The mastery level                                                                            |
-| **SI**           | The Skill Index — the mastery level's tens digit, used by the Success Value Test             |
-| **EML**          | **Click to run a [Success Test](#success-test).** Hold **Shift** to skip the pre-roll dialog |
-| **Fate**         | Click to spend a Fate Point on this skill. Hold **Shift** to skip the dialog                 |
-| **☆ star**       | [Flags the skill for improvement](#toggle-improve-flag). Shown only when you may improve it  |
-| **⋮ menu**       | The Actions context menu — every action on this page                                         |
+| Column / control | What it does                                                                                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+| **SB**           | The Skill Base. A ✗ here means the skill's formula is invalid — hover it for the reason            |
+| **ML**           | The mastery level                                                                                  |
+| **SI**           | The Skill Index — the mastery level's tens digit, used by the Success Value Test                   |
+| **EML**          | \*\*Click to run a [[#success-test\|Success Test]].** Hold **Shift\*\* to skip the pre-roll dialog |
+| **Fate**         | Click to spend a Fate Point on this skill. Hold **Shift** to skip the dialog                       |
+| **☆ star**       | [[#toggle-improve-flag\|Flags the skill for improvement]]. Shown only when you may improve it      |
+| **⋮ menu**       | The Actions context menu — every action on this page                                               |
 
-Spending Fate is described on [[Fate_System|Fate]].
+Spending Fate is described on [[User_Guide/thftsyst|Fate]].
 
 # Additional Properties
 
-Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Category:** Type of this skill. One of:
     - **Social**
@@ -62,13 +63,13 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
     - **Physical**
     - **Combat**
     - **Combat Technique** — a natural or unarmed fighting maneuver; adds a
-      **Strike Modes** tab (see [Combat Techniques](#combat-techniques))
-- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[Safe_Expressions|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **✎** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a ✗ in the Skills tab's SB column.
+      **Strike Modes** tab (see [[#combat-techniques|Combat Techniques]])
+- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[User_Guide/sfexprss|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **✎** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a ✗ in the Skills tab's SB column.
 - **Mastery Level:** Base mastery level representing training and experience. Leave it **blank** to have a skill on a character open automatically at _Skill Base × Init Multiplier_; enter a number to set the level explicitly.
 - **Init Multiplier:** Multiplier applied to the skill base to open the skill's mastery level for a new character. When _Mastery Level_ is blank and the skill is on a character, the opening mastery level is _Skill Base × Init Multiplier_.
 - **Parent Skill:** Shortcode of the base skill if this is a specialization. Leave it as _None_ when the skill stands on its own.
 - **Adopt Parent Mastery:** Shown only once a **Parent Skill** is set. When ticked, the specialization tracks its parent skill's mastery level instead of its own base, with this skill's own bonuses applied on top.
-- **Improvement Flag:** Whether this item is flagged for mastery improvement via _Skill Development Roll_ (SDR). This is the same flag the ☆ star on the Skills tab toggles, and the same one [Toggle Improve Flag](#toggle-improve-flag) flips.
+- **Improvement Flag:** Whether this item is flagged for mastery improvement via _Skill Development Roll_ (SDR). This is the same flag the ☆ star on the Skills tab toggles, and the same one [[#toggle-improve-flag|Toggle Improve Flag]] flips.
 - **Combat Category:** Shown only when the **Category** is _Combat_. The class of attack this weapon skill governs — **None**, **All Weapon Types**, **Melee**, **Missile**, **Melee & Missile**, **Maneuver**, or **Melee & Combat Maneuver**.
 - **Impaired By Roles:** A list of body roles whose injury impairs this skill —
   _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part
@@ -79,7 +80,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
      what it means, what values to enter, and how it interacts with other
      fields and items. Include annotated screenshots. -->
 
-# Combat Techniques
+# Combat Techniques {#combat-techniques}
 
 A **Combat Technique** is a weaponless combat maneuver or mode — a special fighting
 technique, an unarmed attack, a grappling move, or any other combat action a
@@ -93,7 +94,7 @@ Techniques and almost never use weapons.
 **A Combat Technique is a Skill, not a separate item.** Set a skill's **Category**
 to _Combat Technique_ and it becomes one: it gains a **Strike Modes** tab, its
 Atk / Blk / CX derive from its own mastery level, and it gains the
-[Attack, Block, and Counterstrike](#attack-block-and-counterstrike) actions. This
+[[#attack-block-and-counterstrike|Attack, Block, and Counterstrike]] actions. This
 is what keeps a character able to fight when disarmed, and it is why an unarmed
 strike is trained and improved exactly like any other skill.
 
@@ -137,23 +138,23 @@ with a thrown quill.
 
 # The Skill Actions
 
-| Action                                                 | Shortcode           | Where you meet it                   |
-| ------------------------------------------------------ | ------------------- | ----------------------------------- |
-| [Success Test](#success-test)                          | `successTest`       | Actions context menu; the EML cell  |
-| [Success Value Test](#success-value-test)              | `successValueTest`  | Actions context menu                |
-| [Toggle Improve Flag](#toggle-improve-flag)            | `toggleImproveFlag` | Actions context menu; the ☆ star    |
-| [Improve with SDR](#improve-with-sdr)                  | `improveWithSDR`    | Actions context menu, once flagged  |
-| [Opposed Test](#opposed-test)                          | `opposedTestStart`  | Actions context menu                |
-| [Attack](#attack-block-and-counterstrike)              | `attackTest`        | Actions context menu; the Atk cell  |
-| [Block](#attack-block-and-counterstrike)               | `blockTest`         | Actions context menu; the Blk cell  |
-| [Counterstrike](#attack-block-and-counterstrike)       | `counterstrikeTest` | Actions context menu; the CX cell   |
-| [Flag for Improvement](#the-two-hidden-half-toggles)   | `setImproveFlag`    | _Hidden_ — superseded by the toggle |
-| [Clear Improvement Flag](#the-two-hidden-half-toggles) | `unsetImproveFlag`  | _Hidden_ — superseded by the toggle |
+| Action                                                   | Shortcode           | Where you meet it                   |
+| -------------------------------------------------------- | ------------------- | ----------------------------------- |
+| [[#success-test\|Success Test]]                          | `successTest`       | Actions context menu; the EML cell  |
+| [[#success-value-test\|Success Value Test]]              | `successValueTest`  | Actions context menu                |
+| [[#toggle-improve-flag\|Toggle Improve Flag]]            | `toggleImproveFlag` | Actions context menu; the ☆ star    |
+| [[#improve-with-sdr\|Improve with SDR]]                  | `improveWithSDR`    | Actions context menu, once flagged  |
+| [[#opposed-test\|Opposed Test]]                          | `opposedTestStart`  | Actions context menu                |
+| [[#attack-block-and-counterstrike\|Attack]]              | `attackTest`        | Actions context menu; the Atk cell  |
+| [[#attack-block-and-counterstrike\|Block]]               | `blockTest`         | Actions context menu; the Blk cell  |
+| [[#attack-block-and-counterstrike\|Counterstrike]]       | `counterstrikeTest` | Actions context menu; the CX cell   |
+| [[#the-two-hidden-half-toggles\|Flag for Improvement]]   | `setImproveFlag`    | _Hidden_ — superseded by the toggle |
+| [[#the-two-hidden-half-toggles\|Clear Improvement Flag]] | `unsetImproveFlag`  | _Hidden_ — superseded by the toggle |
 
 **Attack**, **Block**, and **Counterstrike** appear **only on a Combat Technique**
 skill; every other category has the rest. Every skill also carries the shared
 document actions — **Edit**, **Delete**, and **Output Description to Chat** —
-described once on [[Item_Base|Base Item]].
+described once on [[Base Item]].
 
 A **hidden** action is never in the Actions context menu. It is not off-limits: it
 is simply reached another way — here, by a script or macro that wants to set the
@@ -162,7 +163,7 @@ flag rather than flip it.
 To reach any of them, right-click the skill's row on the Skills tab, click its **⋮**
 control, or open the skill and use its **Actions** tab.
 
-# Success Test
+# Success Test {#success-test}
 
 |               |                                                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -182,13 +183,13 @@ marginal success, marginal failure, or critical failure.
 Use it for any single attempt with a clear pass/fail shape: picking a lock, spotting
 an ambush, recalling a piece of lore, keeping your feet on a wet deck. For work that
 is graded rather than passed — a week at a forge, a season's research — use
-[Success Value Test](#success-value-test) instead.
+[[#success-value-test|Success Value Test]] instead.
 
 ## What happens on screen
 
 1. **The standard test dialog opens.** Target, the modifier breakdown, Situational
    Modifier, Success Level Modifier, and Roll Visibility — its fields are described
-   once on [[Item_Base|Base Item]]. Cancelling it rolls nothing and posts nothing.
+   once on [[Base Item]]. Cancelling it rolls nothing and posts nothing.
    Clicking the EML cell with **Shift** held skips the dialog and rolls at once.
 2. **The d100 is rolled** against the effective mastery level.
 3. **A test-result card posts to chat** showing the modifier breakdown, the Target,
@@ -206,8 +207,8 @@ is graded rather than passed — a week at a forge, a season's research — use
 | **Result**               | The named outcome, with its description below it                         |
 | **Fate** button          | Offered when the character has a Fate Point to spend                     |
 
-The GM's pencil is described on [[Item_Base|Base Item]], under _Editing a Posted
-Test Result_; spending Fate is described on [[Fate_System|Fate]].
+The GM's pencil is described on [[Base Item]], under _Editing a Posted
+Test Result_; spending Fate is described on [[User_Guide/thftsyst|Fate]].
 
 ## Two things that change the roll for you
 
@@ -218,7 +219,7 @@ Test Result_; spending Fate is described on [[Fate_System|Fate]].
 - **A disabled mastery level.** A skill whose mastery level has been disabled shows
   a ✗ in the Skills tab and cannot produce a meaningful result.
 
-# Success Value Test
+# Success Value Test {#success-value-test}
 
 |               |                                                                                                                                     |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -235,7 +236,7 @@ work?". It is the one-roll way to resolve **sustained effort** — a week of
 smithing, a voyage's navigation, a season of research — instead of making the same
 skill test over and over.
 
-It rolls exactly like a [Success Test](#success-test), through the same dialog, but
+It rolls exactly like a [[#success-test|Success Test]], through the same dialog, but
 grades the outcome against the skill's **Skill Index** (the SI column — the mastery
 level's tens digit) instead of reporting a plain pass or fail. The better the
 skill and the better the roll, the higher the value of the work produced.
@@ -263,7 +264,7 @@ What a Success Value _buys_ is a matter for the rules of the work being done —
 many arrows the fletcher finished, how much ground the tracker covered, how good the
 blade turned out.
 
-# Toggle Improve Flag
+# Toggle Improve Flag {#toggle-improve-flag}
 
 |               |                                                                                                                                       |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -288,7 +289,7 @@ skills you may improve, which means you own the character (or you are the GM) an
 the skill's mastery level is not disabled. Reached from the context menu on a skill
 you cannot improve, the action quietly does nothing.
 
-## The two hidden half-toggles
+## The two hidden half-toggles {#the-two-hidden-half-toggles}
 
 Two further actions exist — **Flag for Improvement** (`setImproveFlag`) and **Clear
 Improvement Flag** (`unsetImproveFlag`) — which set and clear the flag outright
@@ -299,7 +300,7 @@ halves the toggle is built from, kept for scripts and macros that want to set th
 flag to a known state rather than invert whatever it currently is. Anything you can
 do with them, you can do with the toggle.
 
-# Improve with SDR
+# Improve with SDR {#improve-with-sdr}
 
 |               |                                                                                                                                 |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -337,12 +338,12 @@ There is **no dialog** — the action rolls straight away.
 - **The skill must be flagged for improvement.** The action appears in the menu
   only for a flagged skill — flagging is what marks the skill as having earned a
   development attempt, and the roll spends the flag. If you do not see the action,
-  flag the skill first with [Toggle Improve Flag](#toggle-improve-flag) or the ☆
+  flag the skill first with [[#toggle-improve-flag|Toggle Improve Flag]] or the ☆
   star on the Skills tab.
 - **You must be able to improve the skill** — you own the character (or are the GM)
   and its mastery level is not disabled.
 
-# Opposed Test
+# Opposed Test {#opposed-test}
 
 |               |                                                                                                                                     |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -384,13 +385,13 @@ their own.
 The whole flow — the targeting rules, both cards, the responder's dialog, and how
 Victory Stars are read — is described once on [[Token]], under _Starting an
 Opposed Test_. For the rules behind a contest, see the
-[[rules/sohl-opposed-tests|Opposed Tests]] rules.
+[[Rules/oppsdtst|Opposed Tests]] rules.
 
 **Nobody rolls for anybody.** The request card sits in the chat log until a user who
 owns the target answers it, and it can be ignored entirely if the table would rather
 rule the outcome by hand.
 
-# Attack, Block, and Counterstrike
+# Attack, Block, and Counterstrike {#attack-block-and-counterstrike}
 
 These three actions belong to a **Combat Technique** skill only. On any other skill
 category they are not present at all.
@@ -419,8 +420,8 @@ a combat technique is simply a weapon the character cannot drop.
 A technique carries exactly one strike mode, so **you are never asked which mode you
 meant**: the strike-mode picker that a multi-mode weapon shows never appears here.
 The technique's mode is used, the standard test dialog opens, and a test-result card
-posts — the same card described under [Success Test](#success-test). Both dialogs are
-described once on [[Item_Base|Base Item]].
+posts — the same card described under [[#success-test|Success Test]]. Both dialogs are
+described once on [[Base Item]].
 
 Clicking the **Atk**, **Blk**, or **CX** cell on the Combat tab is the direct route,
 and holding **Shift** while you click skips the pre-roll dialog.
@@ -437,20 +438,20 @@ and holding **Shift** while you click skips the pre-roll dialog.
 **Assisted, not automated.** These actions roll the test and report it; they do not
 move a combatant, spend an initiative, or apply an injury to anyone. For the
 full combat sequence — declaring an exchange, resolving a strike against a defender,
-and turning impact into a wound — see [[Combat_Basics]] and [[Combatant]].
+and turning impact into a wound — see [[Combat Basics]] and [[Combatant]].
 
 # See also
 
-- [[Item_Base|Base Item]] — the standard item properties, the shared **Edit** /
+- [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, and the standard test dialog every
   roll on this page opens.
-- [[Skill_Tests]] — what the numbers in a skill test mean, and how success levels
+- [[Skill Tests]] — what the numbers in a skill test mean, and how success levels
   are read.
-- [[Fate_System|Fate]] — spending a Fate Point to improve a settled result.
-- [[Safe_Expressions]] — how to write a Skill Base formula.
+- [[User_Guide/thftsyst|Fate]] — spending a Fate Point to improve a settled result.
+- [[Safe Expressions]] — how to write a Skill Base formula.
 - [[Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
-- [[Combat_Basics]] and [[Combatant]] — where a combat technique's attack, block,
+- [[Combat Basics]] and [[Combatant]] — where a combat technique's attack, block,
   and counterstrike sit in a fight.
-- [[Item_Weapongear|Weapon Gear]] — the weapon counterpart, with the same three
+- [[User_Guide/weapon|Weapon Gear]] — the weapon counterpart, with the same three
   combat actions across several strike modes.
 - [[Shortcodes]] — what **Parent Skill** and **Associated Skill** are naming.

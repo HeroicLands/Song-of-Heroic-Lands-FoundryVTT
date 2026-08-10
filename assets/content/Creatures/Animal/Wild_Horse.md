@@ -11,6 +11,7 @@ id: O4pfq2TzV4c9SzsT
 slug: wild-horse
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: ""
+shortcode: wldhrs
 type: creature
 package: sohl
 sohl:

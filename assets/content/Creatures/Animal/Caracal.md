@@ -11,6 +11,7 @@ id: IDVdbQRzboB9CFFT
 slug: caracal
 img: icons/game-icons/delapouite/lynx-head.svg
 portrait: ""
+shortcode: caracal
 type: creature
 package: sohl
 sohl:

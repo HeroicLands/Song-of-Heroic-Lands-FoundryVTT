@@ -10,6 +10,7 @@ id: 4MkB6ybeaITI3ntC
 slug: bactrian-camel
 img: icons/game-icons/delapouite/camel-head.svg
 portrait: ""
+shortcode: bctrncml
 type: creature
 package: sohl
 sohl:

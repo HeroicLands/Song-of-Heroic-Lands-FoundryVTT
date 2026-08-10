@@ -10,6 +10,7 @@ id: mXr47FnIDlmq2RCz
 slug: voidserpent
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
+shortcode: vdsrpnt
 type: creature
 package: sohl
 sohl:

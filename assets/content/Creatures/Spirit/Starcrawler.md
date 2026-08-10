@@ -10,6 +10,7 @@ id: KwgKiSFDeCgFjebo
 slug: starcrawler
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: strcrwlr
 type: creature
 package: sohl
 sohl:

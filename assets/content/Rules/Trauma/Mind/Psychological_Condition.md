@@ -16,15 +16,15 @@ slug: sohl-psychological-condition
 shortcode: psychlgc
 ---
 
-A **psychological condition** is a [Trauma](Trauma.md) of the mind — a quirk,
+A **psychological condition** is a [[Trauma]] of the mind — a quirk,
 impulse, or disorder that colors behavior. Just as bodily harm is rated in Injury
 Levels, mental strain is rated in **Psyche Stress Levels (PSY)**.
 
 ## Psyche Stress Levels
 
 Psyche Stress rarely arises on its own; it typically spins off from another
-event — for instance a Critical Failure on a [Fear](Fear.md) or
-[Aural Shock](#aural-shock) recovery test. Every separate occurrence generates
+event — for instance a Critical Failure on a [[Fear]] or
+[[#aural-shock|Aural Shock]] recovery test. Every separate occurrence generates
 its own PSY level, normally in the range **1 to 6**, and — as with each physical
 wound — each instance is recorded separately.
 
@@ -50,7 +50,7 @@ psychological condition** whose intensity is measured in PSY levels. It does not
 take hold immediately: it surfaces roughly **ten minutes** after the triggering
 trauma and then lingers for as long as any PSY remains (and over the course of
 recovery may become permanent). When it manifests, the victim gains **5
-[weakness fatigue](Fatigue.md) per PSY level**; further stress tied to the same
+[[Rules/fatigue|weakness fatigue]] per PSY level**; further stress tied to the same
 condition raises its PSY.
 
 | PSY | Presentation                                                                                                   |
@@ -64,7 +64,7 @@ failure the condition expresses itself. An expressed condition lasts while the
 trigger is present and for roughly ten minutes afterward — a Critical Failure on
 the Will test lengthens that aftermath to **d6 × 10 minutes**.
 
-## Aural Shock
+## Aural Shock {#aural-shock}
 
 **Aural Shock (AS)** is a temporary severance between a character's soul and body.
 Each instance is rated **1–6**, and levels from multiple sources stack into one
@@ -86,9 +86,9 @@ not apply.
 | CS (2)  | Recovery — −2 AS.                                     |
 
 The victim recovers from Aural Shock when AS reaches 0. Aural Shock inflicts **5
-[weakness fatigue](Fatigue.md) per AS level**, which recovers as the AS decreases.
+[[Rules/fatigue|weakness fatigue]] per AS level**, which recovers as the AS decreases.
 
 ## See also
 
-- [Fear](Fear.md), [Morale](Morale.md), [Fatigue](Fatigue.md),
-  [The Pall](The_Pall.md), [Trauma](Trauma.md).
+- [[Fear]], [[Morale]], [[Fatigue]],
+  [[The Pall]], [[Trauma]].

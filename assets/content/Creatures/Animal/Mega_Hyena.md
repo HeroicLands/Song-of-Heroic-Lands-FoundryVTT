@@ -10,6 +10,7 @@ id: KwFBcUKIMJnaE7kG
 slug: mega-hyena
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: mghyn
 type: creature
 package: sohl
 sohl:

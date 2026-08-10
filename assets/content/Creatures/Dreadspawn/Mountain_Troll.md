@@ -10,6 +10,7 @@ id: CkpnCdKnSiNWnnjO
 slug: mountain-troll
 img: icons/game-icons/skoll/troll.svg
 portrait: ""
+shortcode: mntntrll
 type: creature
 package: sohl
 sohl:

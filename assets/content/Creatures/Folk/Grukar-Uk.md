@@ -10,6 +10,7 @@ id: VBfGJvhWaj4uisjN
 slug: grukar-uk
 img: icons/game-icons/delapouite/orc-head.svg
 portrait: ""
+shortcode: grukaruk
 type: creature
 package: sohl
 sohl:

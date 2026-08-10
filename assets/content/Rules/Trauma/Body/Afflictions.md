@@ -34,22 +34,22 @@ Period**, and an **Outcome**.
 Accordingly, every affliction has an **onset duration** (the Incubation Period,
 from contract date to onset date) and an **outcome duration** (the Symptomatic
 Period, from onset date to outcome date), plus a **healing-check period** — how
-often the body's [Course Test](#course-test) is made.
+often the body's [[#course-test|Course Test]] is made.
 
-## Affliction vs. Trauma
+## Affliction vs. Trauma {#affliction-vs-trauma}
 
-An affliction and a [trauma](Trauma.md) are the two ways the system records
+An affliction and a [[trauma]] are the two ways the system records
 lasting harm, and they are easy to confuse. The distinction is **process vs.
 state**:
 
 - An **affliction** is an ongoing, hostile _agent_ acting on the Being over
   time. It has a source, a means of transmission, a course it runs (incubation →
   onset → symptomatic → outcome), a **Healing Rate** that its
-  [Course Test](#course-test) drives up or down, and a terminal
-  [outcome](#outcome) of death or cure. Diseases, poisons, and maladictions are
+  [[#course-test|Course Test]] drives up or down, and a terminal
+  [[#outcome|outcome]] of death or cure. Diseases, poisons, and maladictions are
   afflictions: _something is attacking the Being_, and it will get better or
   worse.
-- A **[trauma](Trauma.md)** is a _condition the Being is in_ — usually the
+- A **[[trauma]]** is a _condition the Being is in_ — usually the
   result of harm or stress that it then carries and recovers from. Injuries,
   fatigue, fear, morale, shock, infection, aural shock, and the Pall are traumas.
 
@@ -59,7 +59,7 @@ affliction** (the venom running its course) and, where it breaks the skin, an
 agent running a course, or a condition being carried?"_ — the former is an
 affliction, the latter a trauma.
 
-## Subtypes
+## Subtypes {#subtypes}
 
 An affliction's **subtype** classifies it by the _nature of the afflicting
 agent_:
@@ -72,7 +72,7 @@ agent_:
 | **Other**        | —            | anything not covered above                |
 
 The subtype is descriptive: it does **not** change the
-[Course Test](#course-test) or [outcome](#outcome) machinery, which is the
+[[#course-test|Course Test]] or [[#outcome|outcome]] machinery, which is the
 same for every affliction. It classifies the affliction thematically and governs
 which afflictions the system treats as **contagious diseases** when modelling
 exposure — only **Disease**-subtype afflictions appear there. A **maladiction**
@@ -93,7 +93,7 @@ A contagious disease also carries a **Contagion Index (CI)**, from 1 to 5,
 describing how readily it spreads: **the lower the index, the more contagious**.
 When a character is exposed, whether they contract it is a success test against a
 target of **CI × the character's Endurance** — a lower index yields a lower target
-and so a greater chance of contraction. Only **[Disease](#subtypes)**-subtype
+and so a greater chance of contraction. Only **[[#subtypes|Disease]]**-subtype
 afflictions are offered for contagion this way; poisons and maladictions reach a
 victim by their own specific means, not by casual exposure.
 
@@ -114,8 +114,8 @@ When the Incubation Period ends, the affliction reaches **onset** and becomes
 **symptomatic**. Because an affliction can be almost anything, its symptoms are
 usually a matter of play — described and role-played by the GM and players rather
 than modeled by the system — so at onset the system simply marks the affliction
-**Symptomatic** and begins its [Course Test](#course-test) and
-[resolution](#outcome) cycle.
+**Symptomatic** and begins its [[#course-test|Course Test]] and
+[[#outcome|resolution]] cycle.
 
 An affliction may also name an **optional onset macro** — a Macro (referenced by
 UUID) that runs at onset. This lets an author attach concrete mechanical
@@ -123,7 +123,7 @@ consequences to a specific affliction, and the macro may itself schedule further
 events. (As always, the affliction carries only a _reference_ to the macro, never
 executable code.)
 
-## Course Test
+## Course Test {#course-test}
 
 Once onset has occurred, the body fights the affliction. Each course period the
 character makes a **Course Test** — a d100 rolled against the affliction's
@@ -137,8 +137,8 @@ character makes a **Course Test** — a d100 rolled against the affliction's
 | CS (2)        | +2                                  |
 
 The Course target is **Healing Base × the affliction's current Healing Rate** (see
-[Healing Test](Injury/Healing_Test.md) for both), modified by anything acting on the
-affliction's course — a physician's [treatment bonus](#diagnosis-and-treatment)
+[[Healing Test]] for both), modified by anything acting on the
+affliction's course — a physician's [[#diagnosis-and-treatment|treatment bonus]]
 foremost among them. A worsening affliction is therefore self-reinforcing: as its
 Healing Rate falls the target falls with it, and each test is harder to pass than
 the last.
@@ -146,7 +146,7 @@ the last.
 One check yields exactly one test. However much time has passed, a Course Test is
 rolled once, and whether another follows is the table's decision.
 
-### Reaction
+### Reaction {#reaction}
 
 Starting after the first Course Test, the affliction's current Healing Rate (HR)
 determines the host's reaction:
@@ -170,7 +170,7 @@ a character who is already in a worse state than it would impose.
 
 Where the Course Test asks whether the affliction is winning, the **Healing Test**
 asks whether the body is throwing it off. It works exactly as the
-[Injury Healing Test](Trauma.md#injury-healing-test) does: a d100 against the
+[[Rules/trauma|Injury Healing Test]] does: a d100 against the
 affliction's **Healing target** — again **Healing Base × Healing Rate** — reducing
 the affliction's **Level**:
 
@@ -188,7 +188,7 @@ separate values, and either can be modified independently — a treatment that
 improves the odds of fighting an affliction off need not make its course any
 kinder.
 
-## Diagnosis and treatment
+## Diagnosis and treatment {#diagnosis-and-treatment}
 
 Treatment for an affliction is **mostly ineffectual**, and that is the rule rather
 than a limitation of the system: the body either fights the affliction off or it
@@ -206,14 +206,14 @@ makes a **Treatment Success Value test** against their own Physician skill, and 
 The patient then accepts the treatment, which records the **treatment date** and
 applies the Course Bonus. A bonus above zero is a **standing modifier on the
 affliction's Course target**, not a one-off adjustment — it applies to every
-subsequent [Course Test](#course-test) for as long as the treatment stands, and it
+subsequent [[#course-test|Course Test]] for as long as the treatment stands, and it
 can be inspected, adjusted, or removed later. A bonus of zero records the
 treatment date and nothing else: the physician tried, and it did not help.
 
 Nothing about this is imposed. The physician's roll proposes; the patient's side
 accepts.
 
-## Outcome
+## Outcome {#outcome}
 
 When the Symptomatic Period ends, if the affliction has **not** been defeated
 (has not reached HR 6), its **outcome** is applied. Every affliction declares its
@@ -224,8 +224,8 @@ outcome in two authored fields:
     - **`AFFLICTION_OUTCOME.CURED`** — the affliction is defeated (its Healing
       Rate becomes 6).
 - **`outcomeTrauma`** _(optional)_ — a
-  [Safe Expression](../User_Guide/Safe_Expressions.md) that evaluates to a single
-  shortcode, or an array of shortcodes, of the [traumas](Trauma.md) the host
+  [[User_Guide/sfexprss|Safe Expression]] that evaluates to a single
+  shortcode, or an array of shortcodes, of the [[Rules/trauma|traumas]] the host
   contracts as part of the outcome. Matching traumas are searched first among the
   world's items, then in the compendiums, and the first match found is used.
 
@@ -240,11 +240,11 @@ Symptomatic Period without being healed.
 ## Infection
 
 An **infection** is a specific form of affliction, contracted when an injury's
-[Injury Healing Test](Trauma.md#injury-healing-test) critically fails. Its
+[[Rules/trauma|Injury Healing Test]] critically fails. Its
 Healing Rate starts one step higher than the infected injury's — the injury's
 Healing Rate + 1.
 
-Instead of the normal affliction [reaction](#reaction), an infection uses this
+Instead of the normal affliction [[#reaction|reaction]], an infection uses this
 table:
 
 | Healing Rate | Reaction            |
@@ -254,12 +254,12 @@ table:
 | HR 5+        | None                |
 
 While a character carries **any** active infection, all of their
-[Injury Healing Tests](Trauma.md#injury-healing-test) are suspended until every
+[[Rules/trauma|Injury Healing Tests]] are suspended until every
 infection has been defeated.
 
 ## See also
 
-- [Healing Test](Injury/Healing_Test.md) — Healing Base and Healing Rate, and the
+- [[Healing Test]] — Healing Base and Healing Rate, and the
   recovery of ordinary injuries.
-- [Safe Expressions](../User_Guide/Safe_Expressions.md) — the language used by the
+- [[User_Guide/sfexprss|Safe Expressions]] — the language used by the
   `outcomeTrauma` field.

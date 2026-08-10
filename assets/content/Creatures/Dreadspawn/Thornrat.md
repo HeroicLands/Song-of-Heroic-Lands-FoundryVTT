@@ -10,6 +10,7 @@ id: RIxGnXKWRth60BN7
 slug: thornrat
 img: icons/game-icons/delapouite/rat.svg
 portrait: ""
+shortcode: thornrat
 type: creature
 package: sohl
 sohl:

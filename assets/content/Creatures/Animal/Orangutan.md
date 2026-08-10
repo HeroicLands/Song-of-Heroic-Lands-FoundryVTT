@@ -10,6 +10,7 @@ id: Wbfpz2YIVuGcO8ZS
 slug: orangutan
 img: icons/game-icons/lorc/monkey.svg
 portrait: ""
+shortcode: orngtn
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: XghBgeCi6JfLAZbD
 slug: xerathian-savanna-elephant
 img: icons/game-icons/delapouite/elephant.svg
 portrait: ""
+shortcode: xrthnsvn
 type: creature
 package: sohl
 sohl:

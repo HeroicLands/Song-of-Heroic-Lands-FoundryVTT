@@ -10,6 +10,7 @@ id: uIJSscPVcBwVMyGp
 slug: titan-beetle
 img: icons/game-icons/lorc/scarab-beetle.svg
 portrait: ""
+shortcode: ttnbtl
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: 3gqGlLb8DWK538oW
 slug: giant-wasp
 img: icons/game-icons/lorc/wasp-sting.svg
 portrait: ""
+shortcode: gntwsp
 type: creature
 package: sohl
 sohl:

@@ -11,6 +11,7 @@ id: TvRddodNaxRqAUmo
 slug: seal
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: seal
 type: creature
 package: sohl
 sohl:
