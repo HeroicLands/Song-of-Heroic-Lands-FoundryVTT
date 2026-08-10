@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 12
+        str: 11
         end: 12
         dex: 8
         agl: 7
@@ -25,7 +25,7 @@ sohl:
         rea: 5
         cre: 6
     attrRollFormula:
-        str: 1d4+9
+        str: 1d6+8
         end: 1d4+9
         dex: 1d4+5
         agl: 1d4+4
@@ -298,7 +298,7 @@ sohl:
             base: 172
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.09
+        bodyScaleBase: 1
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -437,7 +437,7 @@ The Grukar-Uk are, paradoxically, both the least and most dangerous of the three
 
 ## Attributes
 
-- **Strength:** 10-13 (1d4+9)
+- **Strength:** 9-14 (1d6+8)
 
 - **Endurance:** 10-13 (1d4+9)
 

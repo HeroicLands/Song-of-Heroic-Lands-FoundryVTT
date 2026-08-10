@@ -281,7 +281,7 @@ const ROWS: Row[] = [
     },
 
     /* ---- Wild Animal Abilities ---- */
-    // BEAR · GREY · BLACK
+    // The smaller bear row.
     {
         file: "Black_Bear",
         table: "F",
@@ -295,7 +295,7 @@ const ROWS: Row[] = [
             ["Claw", "claw", 2, 4, 52, 8, 2, "edged"],
         ],
     },
-    // BEAR · LÝTHIAN
+    // The middle bear row.
     {
         file: "Brown_Bear",
         table: "G",
@@ -309,7 +309,7 @@ const ROWS: Row[] = [
             ["Claw", "claw", 3, 6, 48, 8, 6, "edged"],
         ],
     },
-    // BEAR · KYÁNI — shared by the cave and polar bears
+    // The largest bear row, shared by the cave and polar bears.
     {
         file: "Cave_Bear",
         table: "H",
