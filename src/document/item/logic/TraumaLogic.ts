@@ -37,7 +37,10 @@ import {
     type InjuryBand,
     type TreatmentCode,
 } from "@src/entity/body/injury-treatment";
-import { permanentImpairmentFor } from "@src/entity/body/impairment";
+import {
+    IMMOBILIZED_CODE,
+    permanentImpairmentFor,
+} from "@src/entity/body/impairment";
 // `action-card` and `chat-card-dispatch` are pure, Foundry-free modules (they
 // touch Foundry only through the `FoundryHelpers` shims); the path-based
 // boundary rule can't tell them apart from the Foundry-coupled files under
@@ -1135,6 +1138,28 @@ export class TraumaLogic<
             { parent: this },
         ).setBase(this.data.courseDurationBase ?? 0);
         this.bodyLocation = undefined;
+        this.applyImmobilization();
+    }
+
+    /**
+     * Pin the body part this trauma names, when it is the **Immobilized**
+     * condition (#1269).
+     *
+     * Runs in {@link initialize}, which the actor's own `initialize()` — where
+     * the body is built — precedes. The flag lives only on the rebuilt
+     * {@link sohl.entity.body.BodyPart}, so it lasts exactly as long as this
+     * trauma does: deleting the trauma releases the limb on the next preparation
+     * cycle, with no bespoke lifecycle to unwind.
+     *
+     * A hold and a binding spell impart the same condition; both name a location
+     * on the affected limb via `bodyLocationCode`. A trauma naming no location
+     * (or one this body does not have) pins nothing — immobilization is always
+     * of a specific limb.
+     */
+    private applyImmobilization(): void {
+        if (this.data.shortcode !== IMMOBILIZED_CODE) return;
+        const part = this.resolveBodyLocation()?.bodyPart;
+        if (part) part.immobilized = true;
     }
 
     /** @inheritdoc */

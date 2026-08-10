@@ -19,6 +19,7 @@ import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { locationData, partData, zoneData } from "@tests/mocks/bodyFixture";
+import { IMMOBILIZED_CODE } from "@src/entity/body/impairment";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTOR_KIND,
@@ -2056,6 +2057,198 @@ describe("BeingLogic", () => {
 
             it("returns an empty array for no parts", () => {
                 expect(makeBeing().bodyPartImpairments([])).toEqual([]);
+            });
+        });
+    });
+
+    describe("limb immobilization and usability (#1269)", () => {
+        let immobSeq = 0;
+
+        /** A being with two gripping arms, its body already built. */
+        function armedBeing(larmOverrides: Record<string, unknown> = {}) {
+            const being: any = makeBeing({
+                body: makeBodyData({
+                    structure: {
+                        zones: [zoneData("armszone", 4)],
+                        parts: [
+                            partData("larm", "armszone", 20, {
+                                canHoldItem: true,
+                                roles: ["manipulator"],
+                                ...larmOverrides,
+                            }),
+                            partData("rarm", "armszone", 20, {
+                                canHoldItem: true,
+                                roles: ["manipulator"],
+                            }),
+                        ],
+                        locations: [
+                            locationData("lhand", "larm", 5),
+                            locationData("rhand", "rarm", 5),
+                        ],
+                    },
+                }),
+            });
+            being.initialize(); // builds the body, as the actor's phase does
+            return being;
+        }
+
+        /**
+         * Embed a trauma and run its `initialize()` — in the production order,
+         * i.e. after the actor's own `initialize()` has built the body.
+         */
+        function addTrauma(
+            being: any,
+            shortcode: string,
+            fields: Record<string, unknown>,
+        ) {
+            const t = makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { bodyLocationCode: "", ...fields },
+                {
+                    actor: being.actor,
+                    shortcode,
+                    id: `imm${String(immobSeq++).padStart(13, "0")}`,
+                },
+            );
+            (t as any).initialize();
+            return t;
+        }
+
+        const part = (being: any, code: string) =>
+            being.body.structure.getPartByCode(code)!;
+
+        it("an Immobilized trauma pins the limb owning its location — and only that limb", () => {
+            const being = armedBeing();
+            addTrauma(being, IMMOBILIZED_CODE, {
+                subType: TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
+                category: "impediment",
+                bodyLocationCode: "lhand",
+            });
+            expect(part(being, "larm").immobilized).toBe(true);
+            expect(part(being, "rarm").immobilized).toBe(false);
+        });
+
+        it("an immobilized limb is still usable and KEEPS its grip (Grab Take stays meaningful)", () => {
+            const being = armedBeing();
+            addTrauma(being, IMMOBILIZED_CODE, {
+                subType: TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
+                category: "impediment",
+                bodyLocationCode: "lhand",
+            });
+            const larm = part(being, "larm");
+            expect(larm.isUnusable).toBe(false);
+            expect(larm.canHoldItem).toBe(true);
+        });
+
+        it("deleting the trauma restores the limb — the flag is rebuilt each cycle", () => {
+            const being = armedBeing();
+            addTrauma(being, IMMOBILIZED_CODE, {
+                subType: TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
+                category: "impediment",
+                bodyLocationCode: "lhand",
+            });
+            expect(part(being, "larm").immobilized).toBe(true);
+            being.actor.items.clear();
+            being.initialize(); // next preparation cycle, trauma gone
+            expect(part(being, "larm").immobilized).toBe(false);
+        });
+
+        it("an Immobilized trauma naming no location pins nothing", () => {
+            const being = armedBeing();
+            addTrauma(being, IMMOBILIZED_CODE, {
+                subType: TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
+                category: "impediment",
+                bodyLocationCode: "",
+            });
+            expect(part(being, "larm").immobilized).toBe(false);
+            expect(part(being, "rarm").immobilized).toBe(false);
+        });
+
+        it("an ordinary injury on the limb does not immobilize it", () => {
+            const being = armedBeing();
+            addTrauma(being, "wound1", {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase: 2,
+                bodyLocationCode: "lhand",
+            });
+            expect(part(being, "larm").immobilized).toBe(false);
+        });
+
+        it("a grievous injury makes the limb unusable in finalize — so immobilized, and unable to hold", () => {
+            const being = armedBeing();
+            addTrauma(being, "wound2", {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase: 4, // G4 — grievous
+                bodyLocationCode: "lhand",
+            });
+            being.evaluate();
+            being.finalize();
+            const larm = part(being, "larm");
+            expect(larm.isUnusable).toBe(true);
+            expect(larm.immobilized).toBe(true);
+            expect(larm.canHoldItem).toBe(false);
+            // The uninjured arm is untouched.
+            expect(part(being, "rarm").isUnusable).toBe(false);
+            expect(part(being, "rarm").canHoldItem).toBe(true);
+        });
+
+        it("a serious (non-grievous) injury leaves the limb usable and gripping", () => {
+            const being = armedBeing();
+            addTrauma(being, "wound3", {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase: 3, // S3 — impairing, not disabling
+                bodyLocationCode: "lhand",
+            });
+            being.evaluate();
+            being.finalize();
+            const larm = part(being, "larm");
+            expect(larm.isUnusable).toBe(false);
+            expect(larm.canHoldItem).toBe(true);
+        });
+
+        it("unusableRoles still reports the role of a grievously injured limb", () => {
+            const being = armedBeing();
+            addTrauma(being, "wound4", {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase: 5,
+                bodyLocationCode: "lhand",
+            });
+            being.evaluate();
+            being.finalize();
+            expect(being.unusableRoles().has("manipulator")).toBe(true);
+        });
+
+        describe("dropHeldItemAt — the one-time drop write", () => {
+            it("clears the held item on the part owning the location", async () => {
+                const being = armedBeing({ heldItemId: "sword0000000001" });
+                await being.dropHeldItemAt("lhand");
+                expect(being.actor.update).toHaveBeenCalledTimes(1);
+                const payload = (being.actor.update as any).mock.calls[0][0];
+                const parts = payload["system.body.structure.parts"];
+                expect(parts).toHaveLength(2);
+                expect(parts[0].heldItemId).toBeNull();
+                // The other limb's data is written back untouched.
+                expect(parts[1].shortcode).toBe("rarm");
+            });
+
+            it("writes nothing when the limb holds nothing", async () => {
+                const being = armedBeing();
+                await being.dropHeldItemAt("lhand");
+                expect(being.actor.update).not.toHaveBeenCalled();
+            });
+
+            it("writes nothing for an unknown location", async () => {
+                const being = armedBeing({ heldItemId: "sword0000000001" });
+                await being.dropHeldItemAt("nosuchplace");
+                expect(being.actor.update).not.toHaveBeenCalled();
+            });
+
+            it("writes nothing for an incorporeal being", async () => {
+                const being: any = makeBeing();
+                being.initialize();
+                await being.dropHeldItemAt("lhand");
+                expect(being.actor.update).not.toHaveBeenCalled();
             });
         });
     });
