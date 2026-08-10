@@ -69,14 +69,14 @@ type Row = [
 ];
 
 const ROWS: Row[] = [
-    ["bflkbite", "Bite", 0, 2, 4, 0, "piercing", "vital"],
+    ["bflkbite", "Folk Bite", 0, 2, 4, 0, "piercing", "vital"],
     ["bflkgrab", "Grab", 1, 4, null, 0, "blunt", "manipulator"],
-    ["bflkheadbutt", "Headbutt", 0, 4, 6, -2, "blunt", "vital"],
-    ["bflkkick", "Kick", 2, 4, 6, -2, "blunt", "locomotor"],
-    ["bflklmbblk", "Limb Block", 1, 0, null, 0, "blunt", "manipulator"],
-    ["bflkpress", "Press", 1, 0, null, 0, "blunt", "core"],
-    ["bflkpunch", "Punch", 1, 4, 6, -3, "blunt", "manipulator"],
-    ["bflktrip", "Trip", 2, 0, null, 0, "blunt", "locomotor"],
+    ["bflkheadbutt", "Folk Headbutt", 0, 4, 6, -2, "blunt", "vital"],
+    ["bflkkick", "Folk Kick", 2, 4, 6, -2, "blunt", "locomotor"],
+    ["limbblock", "Limb Block", 1, 0, null, 0, "blunt", "manipulator"],
+    ["press", "Press", 1, 0, null, 0, "blunt", "core"],
+    ["bflkpunch", "Folk Punch", 1, 4, 6, -3, "blunt", "manipulator"],
+    ["trip", "Trip", 2, 0, null, 0, "blunt", "locomotor"],
 ];
 
 /** Traits the printed TRAITS column calls for, beyond the shared ones. */
@@ -85,10 +85,10 @@ const TRAITS: Record<string, Record<string, unknown>> = {
     bflkgrab: { strRoll: true },
     bflkheadbutt: {},
     bflkkick: { lowAim: true },
-    bflklmbblk: { noAttack: true },
-    bflkpress: { strRoll: true },
+    limbblock: { noAttack: true },
+    press: { strRoll: true },
     bflkpunch: { impTA: 2 },
-    bflktrip: { strRoll: true },
+    trip: { strRoll: true },
 };
 
 /** Read one item's `sohl` frontmatter, with its top-level fields. */
@@ -147,7 +147,7 @@ describe.each(ROWS)(
             const sm = fm.sohl.strikeMode;
             // Every one of these is resolved by the Melee test.
             expect(sm.assocSkillCode).toBe("melee");
-            if (code === "bflklmbblk") {
+            if (code === "limbblock") {
                 // The one unarmed defence: it blocks and never attacks.
                 expect(sm.attack.disabled).toBe(true);
                 expect(sm.defense.block.disabled).toBe(false);

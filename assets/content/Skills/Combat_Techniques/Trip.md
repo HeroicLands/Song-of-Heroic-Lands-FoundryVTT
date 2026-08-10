@@ -9,7 +9,7 @@ description: "Taking the legs out from under an opponent, and the fight with the
 id: UnarmedTrip0001
 slug: unarmed-trip
 img: icons/game-icons/lorc/hobbling-mace.svg
-shortcode: bflktrip
+shortcode: trip
 type: skill
 package: sohl
 sohl:

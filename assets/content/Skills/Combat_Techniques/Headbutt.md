@@ -3,7 +3,7 @@ aliases:
     - Headbutt
 tags: []
 name:
-    full: Headbutt
+    full: Folk Headbutt
     aliases: []
 description: "The forehead driven into a face, from too close for anything else to work."
 id: UnarmedHeadbutt1

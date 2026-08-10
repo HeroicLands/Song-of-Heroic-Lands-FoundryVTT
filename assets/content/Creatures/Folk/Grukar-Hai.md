@@ -526,13 +526,13 @@ sohl:
           type: skill
         - shortcode: bflkkick
           type: skill
-        - shortcode: bflklmbblk
+        - shortcode: limbblock
           type: skill
-        - shortcode: bflkpress
+        - shortcode: press
           type: skill
         - shortcode: bflkpunch
           type: skill
-        - shortcode: bflktrip
+        - shortcode: trip
           type: skill
 ---
 

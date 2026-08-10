@@ -3,7 +3,7 @@ aliases:
     - Bite
 tags: []
 name:
-    full: Bite
+    full: Folk Bite
     aliases: []
 description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."
 id: UnarmedBite0001

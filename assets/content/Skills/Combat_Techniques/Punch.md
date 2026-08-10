@@ -3,7 +3,7 @@ aliases:
     - Punch
 tags: []
 name:
-    full: Punch
+    full: Folk Punch
     aliases: []
 description: "A closed fist — the plainest thing a person can do in a fight, and the weakest."
 id: UnarmedPunch0001
