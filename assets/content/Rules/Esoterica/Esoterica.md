@@ -3,7 +3,7 @@ aliases:
     - Esoterica
     - Esoterica Introduction
     - The Mystical Arts
-id: zHVq7C2dE3IU2GPx
+id: p9VfAypidUzXgdD0
 type: doc
 package: sohl
 category: rules
@@ -12,6 +12,7 @@ name:
     aliases: []
 folder: oPWOe5cjsYc1ev2h
 slug: sohl-esoterica
+shortcode: estrcint
 ---
 
 **Esoterica** gathers the supernatural rules of _Song of Heroic Lands_: the standing mystical conditions a character carries, and the mystical acts they perform. This introduction explains the two kinds of thing the rest of the section is built from, how mystical acts are tested, and the general mysteries that belong to no single tradition. The particular powers themselves are organised by **tradition** — see [[rules/sohl-arcane|Arcane]], [[rules/sohl-divine|Divine]], and [[rules/sohl-spirit|Spirit]].

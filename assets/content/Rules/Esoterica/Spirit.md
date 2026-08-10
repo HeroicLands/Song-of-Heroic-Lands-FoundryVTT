@@ -3,7 +3,7 @@ aliases:
     - Spirit
     - Spirit Tradition
     - Spirit Abilities
-id: FhXOKWIHkhByuIN3
+id: 7frrpHEcV41GEaBh
 type: doc
 package: sohl
 category: rules
@@ -12,6 +12,7 @@ name:
     aliases: []
 folder: oPWOe5cjsYc1ev2h
 slug: sohl-spirit
+shortcode: spirit
 ---
 
 The **Spirit** tradition draws its power from spirits — ancestors, totems, and the wild energies of the world. A spirit-worker does not command power directly, as an arcanist does, nor petition a distant god, as a priest does; they cultivate relationships with spirits, who confer **Spirit Powers** on them. Those powers are the standing conduit through which every spirit rite and action is performed. This page collects the spirit **Mysteries** a character carries and the spirit **Mystical Abilities** they perform. For the shared framework — the Mystery-versus-Ability distinction, how abilities are tested, and the general mysteries (Boon, Boost, Other) — see the [[rules/sohl-esoterica|Esoterica Introduction]].

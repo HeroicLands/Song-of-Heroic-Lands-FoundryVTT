@@ -3,7 +3,7 @@ aliases:
     - Divine
     - Divine Tradition
     - Divine Abilities
-id: wEeOjYF4UcZIJRqh
+id: 02Zqzq9H2yMJe8UN
 type: doc
 package: sohl
 category: rules
@@ -12,6 +12,7 @@ name:
     aliases: []
 folder: oPWOe5cjsYc1ev2h
 slug: sohl-divine
+shortcode: divine
 ---
 
 The **Divine** tradition draws its power from a deity, granted in answer to devotion. Divine practitioners do not command power so much as request it: the god acts, and the character's standing with that god governs how readily and how strongly the request is answered. This page collects the divine **Mysteries** a character carries and the divine **Mystical Abilities** they perform. For the shared framework — the Mystery-versus-Ability distinction, how abilities are tested, and the general mysteries (Boon, Boost, Other) — see the [[rules/sohl-esoterica|Esoterica Introduction]].

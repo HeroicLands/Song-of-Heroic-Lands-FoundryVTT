@@ -556,5 +556,5 @@ Rate settled, and any Trauma it left behind now sitting on the Health tab.
   dialog these three checks use.
 - [[Actions|Actions]] — how the Actions context menu and chat-card buttons work.
 - [[rules/sohl-afflictions|Afflictions]] and
-  [[rules/sohl-healing-roll|Healing Roll]] (rules) — the mechanics behind the
+  [[rules/sohl-healing-test|Healing Test]] (rules) — the mechanics behind the
   Course Test, the reaction table, and the outcomes.

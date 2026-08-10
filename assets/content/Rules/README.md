@@ -2,7 +2,7 @@
 aliases:
     - Song of Heroic Lands Rules
     - SoHL Rules
-id: 9NgfU8xmfDiMg0zD
+id: Q0c9vOqCLix8iHC0
 type: doc
 package: sohl
 category: rules
@@ -10,6 +10,7 @@ name:
     full: Song of Heroic Lands Rules
     aliases: []
 slug: sohl-rules
+shortcode: rulesidx
 folder: RqKUTBUBN2Y3MHYB
 ---
 
@@ -78,4 +79,4 @@ TBD
 - [[The_Pall|The Pall]] — the forces of death: Pall Strength, the Pall Cloud, and facing the Pall.
 - [[Afflictions|Afflictions]] — diseases, poisons, and curses: incubation, the Course Test, reactions, and outcomes.
 - [[Prone|Prone]] — the prone condition.
-- [[Healing_Roll|Healing Roll]] — the healing-roll mechanic (see Healing Base and Injury for the current detail).
+- [[Healing_Test|Healing Test]] — the healing-test mechanic (see Healing Base and Injury for the current detail).

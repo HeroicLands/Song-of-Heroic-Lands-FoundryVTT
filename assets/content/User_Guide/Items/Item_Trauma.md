@@ -64,7 +64,7 @@ Traumas live on the Being sheet's **Health** tab, which lists everything the
 character is currently carrying: wounds, fatigue, fear and morale, and the rest.
 
 Most Traumas are created for you. A wound arrives from the combat pipeline when
-an attack lands; an infection is contracted by a bad healing roll; anemia fatigue
+an attack lands; an infection is contracted by a bad healing test; anemia fatigue
 accrues from blood loss. You can also add one by hand — for a fall, a fire, a
 night in the cold, or anything else the table decides has hurt the character.
 
@@ -701,5 +701,5 @@ See [[rules/sohl-the-pall|The Pall]] for what each fate means.
 - [[Actions|Actions]] — how the Actions context menu and chat-card buttons work.
 - [[rules/sohl-trauma|Trauma]], [[rules/sohl-injury|Injury]],
   [[rules/sohl-bleeding|Bleeding]], [[rules/sohl-infection|Infection]],
-  [[rules/sohl-shock|Shock]], and [[rules/sohl-healing-roll|Healing Roll]] (rules) —
+  [[rules/sohl-shock|Shock]], and [[rules/sohl-healing-test|Healing Test]] (rules) —
   the mechanics behind these actions.
