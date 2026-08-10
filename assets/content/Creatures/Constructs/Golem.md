@@ -18,5 +18,5 @@ Golems are powerful, magical constructs animated by the mystical arts of skilled
 
 See Also:
 [[Aegiron Sentinel]]
-[[Rockhide_Golem|Golem, Rockhide]]
+[[Creatures/rckhdglm|Golem, Rockhide]]
 [[Terrakith Sentinel]]

@@ -45,6 +45,9 @@ import {
     buildStats,
     withArchetypeFlag,
     md,
+    contentTld,
+    buildContentLinkIndex,
+    convertNoteWikilinks,
 } from "./helpers.mjs";
 
 const STATS = buildStats("0.6.0");
@@ -456,7 +459,10 @@ export class Actors {
         let skippedDraft = 0;
         let skippedOther = 0;
 
-        for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
+        this.linkIndex ??= buildContentLinkIndex(this.contentBase);
+        this.unresolvedLinks ??= 0;
+
+        for (const { frontmatter: fm, body: rawBody, absPath } of walkMarkdownTree(
             this.contentBase,
         )) {
             if (!fm || fm.package !== "sohl") {
@@ -480,6 +486,18 @@ export class Actors {
 
             log.debug(`Processing actor: ${resolveName(fm)} (${absPath})`);
             try {
+                // Wikilinks in an actor's prose sections resolve against the
+                // whole content tree, exactly as they do in items and journals.
+                const { markdown: body, unresolved } = convertNoteWikilinks(
+                    rawBody,
+                    {
+                        tld: contentTld(this.contentBase, absPath),
+                        id: fm.id,
+                        index: this.linkIndex,
+                        name: resolveName(fm),
+                    },
+                );
+                this.unresolvedLinks += unresolved.length;
                 const doc = this.buildBeing(itemsMap, fm, body);
                 this.writeActor(doc);
                 compiled++;
