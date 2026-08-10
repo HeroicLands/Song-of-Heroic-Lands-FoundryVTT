@@ -17,7 +17,12 @@ import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
-import { BASE_INJURY_THRESHOLDS, ITEM_KIND } from "@src/utils/constants";
+import {
+    BASE_INJURY_THRESHOLDS,
+    ITEM_KIND,
+    MAX_BODY_SCALE,
+    MIN_BODY_SCALE,
+} from "@src/utils/constants";
 
 /**
  * A being's **body** — its physical baseline, derived from `system.body`.
@@ -48,9 +53,13 @@ export class BodyLogic {
 
     /**
      * Per-creature body-scale factor as a {@link sohl.entity.modifier.ValueModifier}
-     * (`1.0` = baseline human), seeded from `body.bodyScaleBase` and floored at
-     * `0.01`. Active Effects can layer deltas (shrink/enlarge), which re-scale
-     * {@link injuryTable}.
+     * (`1.0` = baseline human), seeded from `body.bodyScaleBase` and clamped to
+     * `[MIN_BODY_SCALE, MAX_BODY_SCALE]`. Active Effects can layer deltas
+     * (shrink/enlarge), which re-scale {@link injuryTable} — and are clamped
+     * with everything else, so an enlarge cannot lift a being past the cap.
+     *
+     * The ceiling exists because an unbounded scale outruns every impact the
+     * system can produce; see {@link MAX_BODY_SCALE} (#1242).
      */
     bodyScale!: ValueModifier;
 
@@ -109,7 +118,8 @@ export class BodyLogic {
         });
         this.bodyScale = new entity.ValueModifier(this.being)
             .setBase(this.data.bodyScaleBase)
-            .floor("Body-scale minimum", "bodyScaleMin", 0.01);
+            .floor("Body-scale minimum", "bodyScaleMin", MIN_BODY_SCALE)
+            .ceiling("Body-scale maximum", "bodyScaleMax", MAX_BODY_SCALE);
         this.weight = new entity.ValueModifier(this.being);
         // A fixed body weight can be seeded now; a `weight.calc` of `str`
         // depends on the strength attribute, which has NOT been prepared yet

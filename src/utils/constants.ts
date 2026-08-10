@@ -1995,6 +1995,30 @@ export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"] as const;
  */
 export const BASE_INJURY_THRESHOLDS: readonly number[] = [1, 5, 10, 15, 20];
 
+/**
+ * Smallest body scale a being may have — a creature is never so slight that any
+ * scratch kills it outright.
+ */
+export const MIN_BODY_SCALE = 0.01;
+
+/**
+ * Largest body scale a being may have (#1242).
+ *
+ * Impact grows with Strength at about `STR ÷ 2`, while an unbounded body scale
+ * grows the thresholds at `20 × STR ÷ 11` — roughly `STR × 1.8`, some 3.6 times
+ * faster. Past a scale of about 3 the thresholds outrun every impact the system
+ * can produce and the creature stops being merely hard to wound: an Old Dragon
+ * at its raw 5.45 would need an effective 109 for a Grievous injury, where the
+ * largest impact in the game is its own 33-point bite.
+ *
+ * Capping here keeps the top of the range hard but reachable — a scale-3 body
+ * has thresholds `[3, 15, 30, 45, 60]`, so a hand weapon still cannot pass its
+ * natural armour while a siege engine or a spell that does can wound it
+ * properly. Natural armour, not body scale, is what makes a dragon proof
+ * against swords.
+ */
+export const MAX_BODY_SCALE = 3;
+
 export const {
     /** Map of vehicle-occupant-role key → value. */
     kind: VEHICLE_OCCUPANT_ROLE,
