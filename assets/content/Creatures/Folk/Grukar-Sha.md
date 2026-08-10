@@ -313,15 +313,15 @@ sohl:
         - shortcode: awar
           type: skill
           system:
-              masteryLevelBase: 55
+              masteryLevelBase: 75
         - shortcode: stlth
           type: skill
           system:
-              masteryLevelBase: 40
+              masteryLevelBase: 65
         - shortcode: sprt
           type: mysticalability
           system:
-              masteryLevelBase: 33
+              masteryLevelBase: 39
         - shortcode: init
           type: skill
           system:
@@ -329,11 +329,11 @@ sohl:
         - shortcode: dge
           type: skill
           system:
-              masteryLevelBase: 50
+              masteryLevelBase: 56
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 55
+              masteryLevelBase: 20
         - name: Punch
           type: skill
           system:
