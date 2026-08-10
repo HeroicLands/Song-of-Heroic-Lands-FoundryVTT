@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 12
+        str: 11
         end: 12
         dex: 8
         agl: 7
@@ -25,7 +25,7 @@ sohl:
         rea: 5
         cre: 6
     attrRollFormula:
-        str: 1d4+9
+        str: 1d6+8
         end: 1d4+9
         dex: 1d4+5
         agl: 1d4+4
@@ -298,7 +298,7 @@ sohl:
             base: 172
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.09
+        bodyScaleBase: 1
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -313,7 +313,7 @@ sohl:
         - shortcode: awar
           type: skill
           system:
-              masteryLevelBase: 55
+              masteryLevelBase: 35
         - shortcode: stlth
           type: skill
           system:
@@ -321,19 +321,19 @@ sohl:
         - shortcode: sprt
           type: mysticalability
           system:
-              masteryLevelBase: 27
+              masteryLevelBase: 15
         - shortcode: init
           type: skill
           system:
-              masteryLevelBase: 50
+              masteryLevelBase: 24
         - shortcode: dge
           type: skill
           system:
-              masteryLevelBase: 50
+              masteryLevelBase: 28
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 55
+              masteryLevelBase: 30
         - name: Punch
           type: skill
           system:
@@ -437,7 +437,7 @@ The Grukar-Uk are, paradoxically, both the least and most dangerous of the three
 
 ## Attributes
 
-- **Strength:** 10-13 (1d4+9)
+- **Strength:** 9-14 (1d6+8)
 
 - **Endurance:** 10-13 (1d4+9)
 

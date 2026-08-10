@@ -21,9 +21,9 @@ and Initiative; Shock is the loosest, being visibly hand-tuned in the printed
 rows. Where a file already carried one of the six, its authored value is kept.
 
 **Grukar.** All four shipped a human anatomy with no natural armour and no
-attack at all. Grukar-Uk and Grukar-Sha now take the Gârgún Hyéka and Kyáni
-anatomy — head and arms sharing zone numbers 1–2, torso 3–4, legs 5–6 — with
-those species' per-location natural armour; Grukar-Hai and Grukar-Ahk keep the
-human plan they are built on. All four keep their own authored ability scores
+attack at all. Grukar-Uk and Grukar-Sha now take a compact six-zone anatomy —
+head and arms sharing zone numbers 1–2, torso 3–4, legs 5–6 — with
+per-location natural armour; Grukar-Hai and Grukar-Ahk keep the human plan
+they are built on. All four keep their own authored ability scores
 and gain a Punch combat technique, which unlike a beast's natural weapon can
 be used to block, and the same six creature skills.

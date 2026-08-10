@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 6
+        str: 9
         end: 7
         dex: 13
         agl: 13
@@ -25,7 +25,7 @@ sohl:
         rea: 17
         cre: 17
     attrRollFormula:
-        str: 1d4+3
+        str: 1d4+7
         end: 1d4+4
         dex: 1d4+10
         agl: 1d4+10
@@ -298,7 +298,7 @@ sohl:
             base: 172
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 0.55
+        bodyScaleBase: 0.82
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -313,15 +313,15 @@ sohl:
         - shortcode: awar
           type: skill
           system:
-              masteryLevelBase: 55
+              masteryLevelBase: 75
         - shortcode: stlth
           type: skill
           system:
-              masteryLevelBase: 40
+              masteryLevelBase: 65
         - shortcode: sprt
           type: mysticalability
           system:
-              masteryLevelBase: 33
+              masteryLevelBase: 39
         - shortcode: init
           type: skill
           system:
@@ -329,11 +329,11 @@ sohl:
         - shortcode: dge
           type: skill
           system:
-              masteryLevelBase: 50
+              masteryLevelBase: 56
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 55
+              masteryLevelBase: 20
         - name: Punch
           type: skill
           system:
@@ -356,7 +356,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: -5
+                      modifier: -3
                       aspect: blunt
                   lengthBase: 0
                   defense:
@@ -445,7 +445,7 @@ A Grukar-Sha encountered alone is almost certainly on a mission — scouting, sp
 
 ## Attributes
 
-- **Strength:** 4-7 (1d4+3)
+- **Strength:** 8-11 (1d4+7)
 
 - **Endurance:** 5-8 (1d4+4)
 
