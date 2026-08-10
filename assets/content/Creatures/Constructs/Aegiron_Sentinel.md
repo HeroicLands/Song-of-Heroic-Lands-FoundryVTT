@@ -15,11 +15,11 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 31
+        str: 34
         agl: 6
         per: 19
     attrRollFormula:
-        str: 1d6+27
+        str: 1d6+31
         agl: 1d4+3
         per: 1d6+15
     body:
@@ -28,10 +28,10 @@ sohl:
             parts: []
             locations: []
         weight:
-            base: 1000
-            calc: 1000
+            base: 2500
+            calc: "2500"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 3.09
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:

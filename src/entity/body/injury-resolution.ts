@@ -46,7 +46,7 @@ export interface InjuryInput {
     location?: BodyLocation;
     /** Override the total protection at the location. When omitted, the value
      *  is derived from the location's natural protection plus worn armor for
-     *  the aspect. */
+     *  the aspect. May be negative, for a hide softer than bare human skin. */
     armorValue?: number;
     /** Manual reduction applied to the armor value (assisted dialog), e.g. for
      *  armor-defeating effects. Defaults to 0. */
@@ -78,7 +78,12 @@ export interface ResolvedInjury {
     armorReduction: number;
     /** Comma-joined armor materials covering the location (from the location). */
     armorType: string;
-    /** `max(0, impact - max(0, armorValue - armorReduction))`. */
+    /**
+     * `max(0, impact - clamp(armorValue - armorReduction))`, where the
+     * reduction is clamped at `min(armorValue, 0)` — so a negative natural
+     * armour value raises the effective impact, and a reduction can never push
+     * a positive armour value below zero.
+     */
     effectiveImpact: number;
     /** Numeric injury level 0–5 (0 = no injury). */
     level: number;
@@ -180,7 +185,15 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
         location.protectionBase[aspect].effective +
             location.armorProtection[aspect];
     const armorReduction = input.armorReduction ?? 0;
-    const effectiveProtection = Math.max(0, armorValue - armorReduction);
+    // Armor reduction eats away at protection but bottoms out at the location's
+    // own floor, never below it: it can strip a hauberk to nothing, but it
+    // cannot make a naturally-vulnerable hide (a crow's negative AV) worse than
+    // it already is. A negative protection therefore survives to *raise* the
+    // effective impact, which is the whole point of a negative natural AV.
+    const effectiveProtection = Math.max(
+        Math.min(armorValue, 0),
+        armorValue - armorReduction,
+    );
     const effectiveImpact = Math.max(0, input.impact - effectiveProtection);
 
     // Glancing blow is judged on the pre-glancing injury level: an edged or

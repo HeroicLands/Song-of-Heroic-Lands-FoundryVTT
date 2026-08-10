@@ -36,14 +36,181 @@ sohl:
         cre: 1d4+3
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 1
+                - name: Thorax
+                  shortcode: thoraxzone
+                  probWeight: 1
+                - name: Abdomen
+                  shortcode: abdomenzone
+                  probWeight: 1
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Thorax
+                  shortcode: thoraxpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Wing
+                  shortcode: lwingpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Right Wing
+                  shortcode: rwingpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Left Legs
+                  shortcode: llegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Right Legs
+                  shortcode: rlegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Abdomen
+                  shortcode: abdomenpart
+                  bodyZoneCode: abdomenzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 7
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Mandibles
+                  shortcode: mandibloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 3
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: thoraxpart
+                  bleedingSusceptibility: low
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Left Wing
+                  shortcode: lwingloc
+                  bodyPartCode: lwingpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Right Wing
+                  shortcode: rwingloc
+                  bodyPartCode: rwingpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Left Legs
+                  shortcode: llegsloc
+                  bodyPartCode: llegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Right Legs
+                  shortcode: rlegsloc
+                  bodyPartCode: rlegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 8
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Sting
+                  shortcode: stingloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 2
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
         weight:
             base: 1
-            calc: 1
+            calc: "1"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +222,104 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 70
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 75
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 33
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 40
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 33
+        - name: Stinger Strike
+          type: skill
+          system:
+              shortcode: sting
+              subType: combattechnique
+              masteryLevelBase: 66
+              combatCategory: melee
+              impairedByRoles:
+                  - locomotor
+              strikeMode:
+                  type: melee
+                  shortcode: sting
+                  name: Stinger Strike
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 2
+                      aspect: piercing
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      poison: true
+        - name: Mandible Slash
+          type: skill
+          system:
+              shortcode: mandible
+              subType: combattechnique
+              masteryLevelBase: 66
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: mandible
+                  name: Mandible Slash
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 2
+                      aspect: edged
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

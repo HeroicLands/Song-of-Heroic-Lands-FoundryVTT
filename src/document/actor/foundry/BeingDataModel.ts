@@ -218,26 +218,30 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                             initial: 0,
                             min: 0,
                         }),
+                        /**
+                         * Natural armour at this location, per impact aspect.
+                         * Unbounded below: a creature small or soft enough to
+                         * be *easier* to wound than bare human skin carries a
+                         * negative value (a crow's hide is −6 blunt / −8
+                         * piercing), which `resolveInjuryOutcome` folds into
+                         * the effective protection like any other value.
+                         */
                         protectionBase: new SchemaField({
                             blunt: new NumberField({
                                 integer: true,
                                 initial: 0,
-                                min: 0,
                             }),
                             edged: new NumberField({
                                 integer: true,
                                 initial: 0,
-                                min: 0,
                             }),
                             piercing: new NumberField({
                                 integer: true,
                                 initial: 0,
-                                min: 0,
                             }),
                             fire: new NumberField({
                                 integer: true,
                                 initial: 0,
-                                min: 0,
                             }),
                         }),
                     }),

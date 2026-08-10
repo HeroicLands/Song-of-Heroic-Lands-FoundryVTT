@@ -27,7 +27,7 @@ sohl:
     attrRollFormula:
         str: 1d6+8
         end: 1d6+7
-        agl: 1d4+10
+        agl: 1d6+10
         per: 1d6+14
         snt: 1d4+3
         aur: 1d4+2
@@ -37,44 +37,64 @@ sohl:
     body:
         structure:
             zones:
-                - name: Head
-                  shortcode: headzone
+                - name: Forequarters
+                  shortcode: fqtrzone
                   probWeight: 2
                 - name: Torso
                   shortcode: torsozone
-                  probWeight: 3
-                - name: Hind Legs
-                  shortcode: hindlegszone
                   probWeight: 2
-                - name: Tail
-                  shortcode: tailzone
-                  probWeight: 1
+                - name: Hindquarters
+                  shortcode: hindqtrzone
+                  probWeight: 2
             parts:
                 - name: Head
                   shortcode: headpart
-                  bodyZoneCode: headzone
+                  bodyZoneCode: fqtrzone
+                  roles:
+                      - vital
+                      - manipulator
                   canHoldItem: false
-                  probWeight: 2
+                  probWeight: 10
+                - name: Left Foreleg
+                  shortcode: lforelegpart
+                  bodyZoneCode: fqtrzone
+                  roles: &a1
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Foreleg
+                  shortcode: rforelegpart
+                  bodyZoneCode: fqtrzone
+                  roles: *a1
+                  canHoldItem: false
+                  probWeight: 5
                 - name: Torso
                   shortcode: torsopart
                   bodyZoneCode: torsozone
+                  roles:
+                      - core
                   canHoldItem: false
-                  probWeight: 3
-                - name: Left Rear Leg
-                  shortcode: lrearlegpart
-                  bodyZoneCode: hindlegszone
+                  probWeight: 10
+                - name: Left Hind Leg
+                  shortcode: lhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  probWeight: 1
-                - name: Right Rear Leg
-                  shortcode: rrearlegpart
-                  bodyZoneCode: hindlegszone
+                  probWeight: 5
+                - name: Right Hind Leg
+                  shortcode: rhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  probWeight: 1
+                  probWeight: 5
                 - name: Tail
                   shortcode: tailpart
-                  bodyZoneCode: tailzone
+                  bodyZoneCode: hindqtrzone
+                  roles: []
                   canHoldItem: false
-                  probWeight: 1
+                  probWeight: 10
             locations:
                 - name: Head
                   shortcode: headloc
@@ -82,7 +102,7 @@ sohl:
                   bleedingSusceptibility: medium
                   amputability: none
                   shockValue: 5
-                  probWeight: 4
+                  probWeight: 3
                   protectionBase:
                       blunt: 3
                       edged: 2
@@ -92,7 +112,7 @@ sohl:
                   shortcode: neckloc
                   bodyPartCode: headpart
                   bleedingSusceptibility: high
-                  amputability: high
+                  amputability: low
                   shockValue: 5
                   probWeight: 2
                   protectionBase:
@@ -102,23 +122,23 @@ sohl:
                       fire: 3
                 - name: Left Foreleg
                   shortcode: lforelegloc
-                  bodyPartCode: headpart
+                  bodyPartCode: lforelegpart
                   bleedingSusceptibility: low
-                  amputability: low
+                  amputability: medium
                   shockValue: 2
-                  probWeight: 2
+                  probWeight: 10
                   protectionBase:
-                      blunt: 6
-                      edged: 5
-                      piercing: 3
-                      fire: 5
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
                 - name: Right Foreleg
                   shortcode: rforelegloc
-                  bodyPartCode: headpart
+                  bodyPartCode: rforelegpart
                   bleedingSusceptibility: low
-                  amputability: low
+                  amputability: medium
                   shockValue: 2
-                  probWeight: 2
+                  probWeight: 10
                   protectionBase:
                       blunt: 3
                       edged: 2
@@ -162,11 +182,11 @@ sohl:
                       fire: 3
                 - name: Left Hind Leg
                   shortcode: lhindlegloc
-                  bodyPartCode: lrearlegpart
+                  bodyPartCode: lhindlegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 3
                       edged: 2
@@ -174,11 +194,11 @@ sohl:
                       fire: 3
                 - name: Right Hind Leg
                   shortcode: rhindlegloc
-                  bodyPartCode: rrearlegpart
+                  bodyPartCode: rhindlegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 3
                       edged: 2
@@ -190,17 +210,17 @@ sohl:
                   bleedingSusceptibility: none
                   amputability: high
                   shockValue: 1
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 3
                       edged: 2
                       piercing: 1
                       fire: 3
         weight:
-            base: 80
-            calc: 80
+            base: 110
+            calc: "110"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -237,6 +257,52 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 50
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 55
+        - name: Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 65
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 0
+                      aspect: piercing
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      clench: true
+                      armorReduction: 1
 ---
 
 # Appearance {#appearance}
@@ -281,20 +347,20 @@ The dog responds instantly to voice commands and hand signals from its handler, 
 
 ## Attributes
 
-- **Strength:** 12-17 (1d6+11)
+- **Strength:** 9-14 (1d6+8)
 
-- **Endurance:** 13-18 (1d6+12)
+- **Endurance:** 8-13 (1d6+7)
 
-- **Dexterity:** 10-15 (1d6+9)
+- **Agility:** 11-16 (1d6+10)
 
-- **Agility:** 9-14 (1d6+8)
+- **Perception:** 15-20 (1d6+14)
 
-- **Perception:** 11-16 (1d6+10)
+- **Scent:** 4-7 (1d4+3)
 
-- **Aura:** 8-13 (1d6+7)
+- **Aura:** 3-6 (1d4+2)
 
 - **Will:** 12-17 (1d6+11)
 
-- **Reasoning:** 7-10 (1d4+6)
+- **Reasoning:** 5-8 (1d4+4)
 
-- **Creativity:** 5-8 (1d4+4)
+- **Creativity:** 6-9 (1d4+5)

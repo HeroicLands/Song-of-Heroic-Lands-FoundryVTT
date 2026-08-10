@@ -15,35 +15,135 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 17
-        end: 15
-        dex: 11
-        agl: 10
+        str: 14
+        end: 12
+        agl: 9
         per: 13
-        aur: 10
-        wil: 12
-        rea: 7
-        cre: 6
+        snt: 3
+        aur: 2
+        wil: 8
+        rea: 2
+        cre: 2
     attrRollFormula:
-        str: 1d6+13
-        end: 1d6+11
-        dex: 1d6+7
+        str: 1d6+11
+        end: 1d6+9
         agl: 1d4+7
-        per: 1d6+9
-        aur: 1d4+7
-        wil: 1d6+8
-        rea: 1d4+4
-        cre: 1d4+3
+        per: 1d6+10
+        snt: 1d4+1
+        aur: 1d4
+        wil: 1d4+6
+        rea: 1d4
+        cre: 1d4
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 3
+                - name: Forebody
+                  shortcode: torsozone
+                  probWeight: 11
+                - name: Hindbody
+                  shortcode: hindbodyzone
+                  probWeight: 6
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Forebody
+                  shortcode: forebodypart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Hindbody
+                  shortcode: hindbodypart
+                  bodyZoneCode: hindbodyzone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 6
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindbodyzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 4
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 4
+                      edged: 6
+                      piercing: 5
+                      fire: 4
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 4
+                      edged: 6
+                      piercing: 5
+                      fire: 4
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: forebodypart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 6
+                      piercing: 5
+                      fire: 4
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: hindbodypart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 6
+                      piercing: 5
+                      fire: 4
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 6
+                      piercing: 5
+                      fire: 4
         weight:
-            base: 100
-            calc: 100
+            base: 150
+            calc: "150"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.27
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -63,7 +163,106 @@ sohl:
                 textValue: "0"
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 55
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 44
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 15
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 20
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - name: Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 53
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: 2
+                      aspect: piercing
+                  lengthBase: 3
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      clench: true
+                      armorReduction: 2
+        - name: Grab
+          type: skill
+          system:
+              shortcode: grab
+              subType: combattechnique
+              masteryLevelBase: 73
+              combatCategory: melee
+              impairedByRoles:
+                  - core
+              strikeMode:
+                  type: melee
+                  shortcode: grab
+                  name: Grab
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 6
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 14
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      constrict: true
 ---
 
 # Appearance {#appearance}
@@ -120,20 +319,20 @@ The tail is muscular and dexterous, capable of gripping branches, vines, or rock
 
 ## Attributes
 
-- **Strength:** 14-19 (1d6+13)
+- **Strength:** 12-17 (1d6+11)
 
-- **Endurance:** 12-17 (1d6+11)
-
-- **Dexterity:** 8-13 (1d6+7)
+- **Endurance:** 10-15 (1d6+9)
 
 - **Agility:** 8-11 (1d4+7)
 
-- **Perception:** 10-15 (1d6+9)
+- **Perception:** 11-16 (1d6+10)
 
-- **Aura:** 8-11 (1d4+7)
+- **Scent:** 2-5 (1d4+1)
 
-- **Will:** 9-14 (1d6+8)
+- **Aura:** 1-4 (1d4)
 
-- **Reasoning:** 5-8 (1d4+4)
+- **Will:** 7-10 (1d4+6)
 
-- **Creativity:** 4-7 (1d4+3)
+- **Reasoning:** 1-4 (1d4)
+
+- **Creativity:** 1-4 (1d4)

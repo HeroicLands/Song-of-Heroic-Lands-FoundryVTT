@@ -36,14 +36,113 @@ sohl:
         cre: 1d4+1
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 2
+                - name: Forebody
+                  shortcode: torsozone
+                  probWeight: 5
+                - name: Hindbody
+                  shortcode: hindbodyzone
+                  probWeight: 3
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Forebody
+                  shortcode: forebodypart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Hindbody
+                  shortcode: hindbodypart
+                  bodyZoneCode: hindbodyzone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 6
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindbodyzone
+                  roles: []
+                  canHoldItem: false
+                  probWeight: 4
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 2
+                      edged: 1
+                      piercing: 0
+                      fire: 2
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 2
+                      edged: 1
+                      piercing: 0
+                      fire: 2
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: forebodypart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 2
+                      edged: 1
+                      piercing: 0
+                      fire: 2
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: hindbodypart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 2
+                      edged: 1
+                      piercing: 0
+                      fire: 2
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 2
+                      edged: 1
+                      piercing: 0
+                      fire: 2
         weight:
             base: 30
-            calc: 30
+            calc: "30"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.55
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -63,7 +162,68 @@ sohl:
                 textValue: "0"
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 70
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 18
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 28
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 68
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 18
+        - name: Venomous Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 66
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Venomous Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: -2
+                      aspect: piercing
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      poison: true
 ---
 
 # Appearance {#appearance}

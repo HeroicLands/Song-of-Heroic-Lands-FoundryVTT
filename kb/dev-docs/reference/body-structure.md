@@ -103,9 +103,25 @@ A body location is a specific hit point within a part — Skull, Thorax, Right E
 | `shockValue`             | integer                          | Inherent shock inflicted by an injury at this location, regardless of severity.                                                                                                               |
 | `bleedingSusceptibility` | tier                             | `none` / `low` / `medium` / `high`. Combined with injury severity and weapon aspect by `BleedingDefaults` to decide whether a wound bleeds.                                                   |
 | `amputability`           | tier                             | `none` / `low` / `medium` / `high`. Drives the Strength-test modifier when a G5 Edge injury would amputate; see `AmputationDefaults`. `none` means amputation is disallowed at this location. |
-| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts).                                                                                                                      |
+| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts). **May be negative** — see below.                                                                                     |
 
 Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleeding; same for amputability).
+
+### Negative natural armor
+
+`protectionBase` is **unbounded below**. A hide softer than bare human skin — a
+crow's is `−6` blunt / `−8` piercing, a cat's `−3`/`−5` — carries a negative
+value, and `resolveInjury` lets it *raise* the effective impact
+(`impact − protection`, so a 3-impact blow lands as 9 on the crow) rather than
+clamping it away. Armor reduction still bottoms out at the location's own
+floor, `min(armorValue, 0)`: it can strip a hauberk to nothing, but it cannot
+make an already-vulnerable hide worse.
+
+This is a separate axis from [body scale](#body-scale-per-creature-injury-scaling),
+which rescales the *thresholds* an impact is judged against. Scale answers "how
+much damage does this body absorb before a wound is Serious"; negative armor
+answers "how little does its hide stop." A small creature typically carries
+both.
 
 ## Body roles
 
@@ -339,25 +355,31 @@ Zones (in order, with the numbers each claims):
 | `torsozone`    | Torso |            4 | 6–9          | `torsopart`              |
 | `legszone`     | Legs  |            6 | 10–15        | `rlegpart`, `llegpart`   |
 
-## Suggested shortcode conventions for new body structures
+## Body plans shipped in the animals pack
 
-Suffix every zone shortcode with `zone`, every part shortcode with `part`, and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Part and location shortcodes must be unique **body-wide**. Beyond that, the suggestions below are conventions, not shipped data — only the Human body structure is authored today.
+Suffix every zone shortcode with `zone`, every part shortcode with `part`, and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Part and location shortcodes must be unique **body-wide**.
 
-### Quadruped (horse, wolf, bear)
+Fifteen body plans are authored across the `sohl.actors` pack. Each mirrors the shape of a printed hit-location table where one exists and extrapolates the same construction where none does; zone weights scale with the creature's size band, while part and location weights are the plan's own.
 
-`headpart`, `neckpart`, `forequarterspart`, `barrelpart`, `hindquarterspart`, `lforelegpart`, `rforelegpart`, `lhindlegpart`, `rhindlegpart`, `tailpart`.
+| Plan             | Zones                                            | Example creatures            |
+| ---------------- | ------------------------------------------------ | ---------------------------- |
+| `ungulate`       | Head · Forelegs · Torso · Hindquarters           | bovine, horse, stag, rhino   |
+| `carnivore`      | Head · Forelegs · Torso · Hindquarters           | bear, lion, wolf, crocodile  |
+| `smallQuadruped` | Forequarters · Torso · Hindquarters              | cat, dog, badger, lizard     |
+| `anthropoid`     | Head · Arms · Torso · Legs                       | ape, monkey (and every Being)|
+| `smallAvian`     | Head · Body · Hindquarters                       | crow, raven, bat             |
+| `largeAvian`     | Head · Wing · Body · Wing · Hindquarters         | eagle, condor, roc           |
+| `biped`          | Head · Body · Hindquarters                       | ostrich, raptor-lizards      |
+| `drake`          | Head · Wings · Forelegs · Torso · Hindquarters   | forest and mountain drakes   |
+| `serpentine`     | Head · Forebody · Hindbody                       | snake, centipede, wurm       |
+| `proboscidean`   | Head · Trunk · Forelegs · Torso · Hindquarters   | elephant                     |
+| `arachnid`       | Cephalothorax · Abdomen · Legs                   | spider, scorpion             |
+| `insect`         | Head · Thorax · Abdomen                          | ant, wasp, beetle            |
+| `aquatic`        | Head · Body · Tail                               | shark, orca, seal            |
+| `chelonian`      | Head · Shell · Limbs                             | tortoise, turtle             |
+| `cephalopod`     | Mantle · Head · Arms                             | octopus                      |
 
-### Avian (eagle, griffin)
-
-`headpart`, `bodypart`, `lwingpart`, `rwingpart`, `llegpart`, `rlegpart`, `tailpart`.
-
-### Serpentine (snake, wyrm, dragon)
-
-`headpart`, `neckpart`, `forebodypart`, `midbodypart`, `hindbodypart`, `tailpart`; dragons add `lwingpart` / `rwingpart` and four legs.
-
-### Multi-limbed (spider, insect)
-
-`cephalothoraxpart`, `abdomenpart`; legs numbered for clarity when more than two pairs.
+An **ape or monkey uses the human plan unchanged** — the same six parts and thirty-two hit locations a Being carries — over a zone run scaled to its size, so a monkey's zone numbers run 1–6 where a person's run 1–15.
 
 ## Adding a body part to a being
 

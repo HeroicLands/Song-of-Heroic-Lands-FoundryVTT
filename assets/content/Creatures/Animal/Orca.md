@@ -38,14 +38,143 @@ sohl:
         cre: 1d6+7
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 8
+                - name: Body
+                  shortcode: torsozone
+                  probWeight: 24
+                - name: Tail
+                  shortcode: tailzone
+                  probWeight: 8
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Body
+                  shortcode: torsopart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Fin
+                  shortcode: lfinpart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Right Fin
+                  shortcode: rfinpart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 2
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: tailzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 8
+                      edged: 7
+                      piercing: 5
+                      fire: 7
+                - name: Gills
+                  shortcode: gillloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 8
+                      edged: 7
+                      piercing: 5
+                      fire: 7
+                - name: Body
+                  shortcode: bodyloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 8
+                      edged: 7
+                      piercing: 5
+                      fire: 7
+                - name: Underbelly
+                  shortcode: underbellyloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 8
+                      edged: 7
+                      piercing: 5
+                      fire: 7
+                - name: Left Fin
+                  shortcode: lfinloc
+                  bodyPartCode: lfinpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 8
+                      edged: 7
+                      piercing: 5
+                      fire: 7
+                - name: Right Fin
+                  shortcode: rfinloc
+                  bodyPartCode: rfinpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 8
+                      edged: 7
+                      piercing: 5
+                      fire: 7
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 8
+                      edged: 7
+                      piercing: 5
+                      fire: 7
         weight:
             base: 8000
-            calc: 8000
+            calc: "8000"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 2.09
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -57,7 +186,139 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 75
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 42
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 53
+        - name: Ramming Strike
+          type: skill
+          system:
+              shortcode: ram
+              subType: combattechnique
+              masteryLevelBase: 53
+              combatCategory: melee
+              impairedByRoles:
+                  - core
+              strikeMode:
+                  type: melee
+                  shortcode: ram
+                  name: Ramming Strike
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 16
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 6
+                      aspect: blunt
+                  lengthBase: 4
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Tail Fluke Bludgeon
+          type: skill
+          system:
+              shortcode: tail
+              subType: combattechnique
+              masteryLevelBase: 53
+              combatCategory: melee
+              impairedByRoles:
+                  - locomotor
+              strikeMode:
+                  type: melee
+                  shortcode: tail
+                  name: Tail Fluke Bludgeon
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 16
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 4
+                      aspect: blunt
+                  lengthBase: 5
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Seize and Drag
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 63
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Seize and Drag
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 8
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 7
+                      aspect: piercing
+                  lengthBase: 4
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

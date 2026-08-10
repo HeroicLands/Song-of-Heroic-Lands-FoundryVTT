@@ -36,14 +36,131 @@ sohl:
         cre: 1d4+2
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 1
+                - name: Thorax
+                  shortcode: thoraxzone
+                  probWeight: 1
+                - name: Abdomen
+                  shortcode: abdomenzone
+                  probWeight: 1
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Thorax
+                  shortcode: thoraxpart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Legs
+                  shortcode: llegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Right Legs
+                  shortcode: rlegspart
+                  bodyZoneCode: thoraxzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Abdomen
+                  shortcode: abdomenpart
+                  bodyZoneCode: abdomenzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 7
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Mandibles
+                  shortcode: mandibloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 3
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: thoraxpart
+                  bleedingSusceptibility: low
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Left Legs
+                  shortcode: llegsloc
+                  bodyPartCode: llegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Right Legs
+                  shortcode: rlegsloc
+                  bodyPartCode: rlegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 5
+                      edged: 4
+                      piercing: 3
+                      fire: 5
         weight:
             base: 5
-            calc: 5
+            calc: "5"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +172,103 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 30
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 36
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 38
+        - name: Mandible Bite
+          type: skill
+          system:
+              shortcode: mandible
+              subType: combattechnique
+              masteryLevelBase: 58
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: mandible
+                  name: Mandible Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 2
+                      aspect: edged
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Grapple and Drag
+          type: skill
+          system:
+              shortcode: grab
+              subType: combattechnique
+              masteryLevelBase: 63
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: grab
+                  name: Grapple and Drag
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 13
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

@@ -182,6 +182,36 @@ describe("resolveInjury — armor & effective impact", () => {
         expect(injury.levelCode).toBe("S2");
     });
 
+    it("lets a negative natural armour value raise the effective impact", () => {
+        // A crow's hide is softer than bare human skin (blunt −6), so a blow
+        // lands harder than its raw impact rather than being clamped to it.
+        const body = makeBody();
+        const injury = resolveInjury({
+            impact: 3,
+            aspect: IMPACT_ASPECT.BLUNT,
+            body,
+            location: loc(body, "neck"),
+            armorValue: -6,
+        });
+        expect(injury.armorValue).toBe(-6);
+        expect(injury.effectiveImpact).toBe(9); // 3 - (-6)
+    });
+
+    it("never lets armour reduction push protection below the natural floor", () => {
+        const body = makeBody();
+        const injury = resolveInjury({
+            impact: 3,
+            aspect: IMPACT_ASPECT.BLUNT,
+            body,
+            location: loc(body, "neck"),
+            armorValue: -6,
+            armorReduction: 4,
+        });
+        // The reduction has nothing positive left to strip, so protection
+        // stays at −6 rather than dropping to −10.
+        expect(injury.effectiveImpact).toBe(9);
+    });
+
     it("honours an explicit armorValue override (deterministic, no RNG)", () => {
         const body = makeBody();
         const spy = vi.spyOn(body, "getRandomLocation");

@@ -36,14 +36,101 @@ sohl:
         cre: 1d6+6
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Crown
+                  shortcode: crownzone
+                  probWeight: 2
+                - name: Stem
+                  shortcode: stemzone
+                  probWeight: 4
+                - name: Tendrils
+                  shortcode: tendrilzone
+                  probWeight: 3
+            parts:
+                - name: Crown
+                  shortcode: crownpart
+                  bodyZoneCode: crownzone
+                  roles:
+                      - vital
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Stem
+                  shortcode: stempart
+                  bodyZoneCode: stemzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Tendrils
+                  shortcode: ltendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Tendrils
+                  shortcode: rtendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Crown
+                  shortcode: crownloc
+                  bodyPartCode: crownpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Stem
+                  shortcode: stemloc
+                  bodyPartCode: stempart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Left Tendrils
+                  shortcode: ltendrilloc
+                  bodyPartCode: ltendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Right Tendrils
+                  shortcode: rtendrilloc
+                  bodyPartCode: rtendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
         weight:
             base: 150
             calc: 150
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.27
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -67,7 +154,104 @@ sohl:
                 textValue: "0"
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 55
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 50
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 33
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 36
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 44
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 35
+        - name: Constricting Tendril
+          type: skill
+          system:
+              shortcode: grab
+              subType: combattechnique
+              masteryLevelBase: 65
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: grab
+                  name: Constricting Tendril
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 14
+                      aspect: blunt
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      constrict: true
+        - name: Thorned Whipping
+          type: skill
+          system:
+              shortcode: tentacle
+              subType: combattechnique
+              masteryLevelBase: 60
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: tentacle
+                  name: Thorned Whipping
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 1
+                      aspect: blunt
+                  lengthBase: 3
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

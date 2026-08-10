@@ -36,14 +36,60 @@ sohl:
         cre: 1d4+9
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Core
+                  shortcode: corezone
+                  probWeight: 1
+                - name: Shroud
+                  shortcode: shroudzone
+                  probWeight: 2
+            parts:
+                - name: Core
+                  shortcode: corepart
+                  bodyZoneCode: corezone
+                  roles:
+                      - vital
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Shroud
+                  shortcode: shroudpart
+                  bodyZoneCode: shroudzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+            locations:
+                - name: Core
+                  shortcode: coreloc
+                  bodyPartCode: corepart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 0
+                      edged: 0
+                      piercing: 0
+                      fire: 0
+                - name: Shroud
+                  shortcode: shroudloc
+                  bodyPartCode: shroudpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 0
+                      edged: 0
+                      piercing: 0
+                      fire: 0
         weight:
             base: 0
             calc: 0
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.73
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +101,67 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 65
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 75
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 42
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 44
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 64
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 23
+        - name: Cold Touch
+          type: skill
+          system:
+              shortcode: punch
+              subType: combattechnique
+              masteryLevelBase: 76
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: punch
+                  name: Cold Touch
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: -2
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

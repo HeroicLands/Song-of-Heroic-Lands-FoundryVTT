@@ -36,14 +36,112 @@ sohl:
         cre: 1d4+13
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Cephalothorax
+                  shortcode: cephzone
+                  probWeight: 2
+                - name: Abdomen
+                  shortcode: abdomenzone
+                  probWeight: 2
+                - name: Legs
+                  shortcode: legszone
+                  probWeight: 2
+            parts:
+                - name: Cephalothorax
+                  shortcode: cephpart
+                  bodyZoneCode: cephzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Abdomen
+                  shortcode: abdomenpart
+                  bodyZoneCode: abdomenzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Legs
+                  shortcode: llegspart
+                  bodyZoneCode: legszone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Legs
+                  shortcode: rlegspart
+                  bodyZoneCode: legszone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Cephalothorax
+                  shortcode: cephloc
+                  bodyPartCode: cephpart
+                  bleedingSusceptibility: low
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 7
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Fangs
+                  shortcode: fangloc
+                  bodyPartCode: cephpart
+                  bleedingSusceptibility: low
+                  amputability: high
+                  shockValue: 2
+                  probWeight: 3
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: abdomenpart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Left Legs
+                  shortcode: llegsloc
+                  bodyPartCode: llegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
+                - name: Right Legs
+                  shortcode: rlegsloc
+                  bodyPartCode: rlegspart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 4
+                      edged: 3
+                      piercing: 2
+                      fire: 4
         weight:
             base: 80
             calc: 80
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.91
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +153,104 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 70
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 39
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 72
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 28
+        - name: Paralyzing Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 72
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Paralyzing Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: 0
+                      aspect: piercing
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      poison: true
+        - name: Razor Limb Slash
+          type: skill
+          system:
+              shortcode: claw
+              subType: combattechnique
+              masteryLevelBase: 72
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: claw
+                  name: Razor Limb Slash
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: -1
+                      aspect: edged
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

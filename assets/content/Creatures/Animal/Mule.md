@@ -27,7 +27,7 @@ sohl:
     attrRollFormula:
         str: 1d6+22
         end: 1d6+9
-        agl: 1d4+10
+        agl: 1d6+9
         per: 1d6+14
         snt: 1d4+1
         aur: 1d4+2
@@ -42,52 +42,62 @@ sohl:
                   probWeight: 4
                 - name: Forelegs
                   shortcode: forelegszone
-                  probWeight: 4
+                  probWeight: 2
                 - name: Torso
                   shortcode: torsozone
-                  probWeight: 7
-                - name: Hind Legs
-                  shortcode: hindlegszone
+                  probWeight: 8
+                - name: Hindquarters
+                  shortcode: hindqtrzone
                   probWeight: 6
-                - name: Tail
-                  shortcode: tailzone
-                  probWeight: 1
             parts:
                 - name: Head
                   shortcode: headpart
                   bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
                   canHoldItem: false
-                  probWeight: 4
+                  probWeight: 10
                 - name: Left Foreleg
                   shortcode: lforelegpart
                   bodyZoneCode: forelegszone
+                  roles: &a1
+                      - locomotor
                   canHoldItem: false
-                  probWeight: 2
+                  probWeight: 1
                 - name: Right Foreleg
                   shortcode: rforelegpart
                   bodyZoneCode: forelegszone
+                  roles: *a1
                   canHoldItem: false
-                  probWeight: 2
+                  probWeight: 1
                 - name: Torso
                   shortcode: torsopart
                   bodyZoneCode: torsozone
+                  roles:
+                      - core
                   canHoldItem: false
-                  probWeight: 7
-                - name: Left Rear Leg
-                  shortcode: lrearlegpart
-                  bodyZoneCode: hindlegszone
+                  probWeight: 10
+                - name: Left Hind Leg
+                  shortcode: lhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  probWeight: 3
-                - name: Right Rear Leg
-                  shortcode: rrearlegpart
-                  bodyZoneCode: hindlegszone
+                  probWeight: 9
+                - name: Right Hind Leg
+                  shortcode: rhindlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  probWeight: 3
+                  probWeight: 9
                 - name: Tail
                   shortcode: tailpart
-                  bodyZoneCode: tailzone
+                  bodyZoneCode: hindqtrzone
+                  roles: []
                   canHoldItem: false
-                  probWeight: 1
+                  probWeight: 2
             locations:
                 - name: Head
                   shortcode: headloc
@@ -113,25 +123,25 @@ sohl:
                       edged: 3
                       piercing: 1
                       fire: 3
-                - name: Leg
+                - name: Left Foreleg
                   shortcode: lforelegloc
                   bodyPartCode: lforelegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 4
                       edged: 3
                       piercing: 1
                       fire: 3
-                - name: Leg
+                - name: Right Foreleg
                   shortcode: rforelegloc
                   bodyPartCode: rforelegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 4
                       edged: 3
@@ -143,7 +153,7 @@ sohl:
                   bleedingSusceptibility: medium
                   amputability: none
                   shockValue: 4
-                  probWeight: 4
+                  probWeight: 6
                   protectionBase:
                       blunt: 4
                       edged: 3
@@ -155,7 +165,7 @@ sohl:
                   bleedingSusceptibility: high
                   amputability: none
                   shockValue: 4
-                  probWeight: 6
+                  probWeight: 4
                   protectionBase:
                       blunt: 4
                       edged: 3
@@ -163,7 +173,7 @@ sohl:
                       fire: 3
                 - name: Left Quarter
                   shortcode: lqtrloc
-                  bodyPartCode: lrearlegpart
+                  bodyPartCode: lhindlegpart
                   bleedingSusceptibility: medium
                   amputability: none
                   shockValue: 3
@@ -175,7 +185,7 @@ sohl:
                       fire: 3
                 - name: Left Hind Leg
                   shortcode: lhindlegloc
-                  bodyPartCode: lrearlegpart
+                  bodyPartCode: lhindlegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
@@ -187,7 +197,7 @@ sohl:
                       fire: 3
                 - name: Right Quarter
                   shortcode: rqtrloc
-                  bodyPartCode: rrearlegpart
+                  bodyPartCode: rhindlegpart
                   bleedingSusceptibility: medium
                   amputability: none
                   shockValue: 3
@@ -199,7 +209,7 @@ sohl:
                       fire: 3
                 - name: Right Hind Leg
                   shortcode: rhindlegloc
-                  bodyPartCode: rrearlegpart
+                  bodyPartCode: rhindlegpart
                   bleedingSusceptibility: low
                   amputability: medium
                   shockValue: 2
@@ -215,7 +225,7 @@ sohl:
                   bleedingSusceptibility: none
                   amputability: high
                   shockValue: 1
-                  probWeight: 1
+                  probWeight: 10
                   protectionBase:
                       blunt: 4
                       edged: 3
@@ -223,9 +233,9 @@ sohl:
                       fire: 3
         weight:
             base: 900
-            calc: 900
+            calc: "900"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 2.27
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -274,6 +284,86 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 27
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 62
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 39
+        - name: Kick
+          type: skill
+          system:
+              shortcode: kick
+              subType: combattechnique
+              masteryLevelBase: 60
+              combatCategory: melee
+              impairedByRoles:
+                  - locomotor
+              strikeMode:
+                  type: melee
+                  shortcode: kick
+                  name: Kick
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 8
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 4
+                      aspect: blunt
+                  lengthBase: 3
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 48
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 4
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 4
+                      modifier: 3
+                      aspect: piercing
+                  lengthBase: 2
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}
@@ -322,20 +412,20 @@ Mules have excellent memories and make independent judgments about situations; a
 
 ## Attributes
 
-- **Strength:** 12-17 (1d6+11)
+- **Strength:** 23-28 (1d6+22)
 
-- **Endurance:** 14-19 (1d6+13)
+- **Endurance:** 10-15 (1d6+9)
 
-- **Dexterity:** 8-13 (1d6+7)
+- **Agility:** 10-15 (1d6+9)
 
-- **Agility:** 8-11 (1d4+7)
+- **Perception:** 15-20 (1d6+14)
 
-- **Perception:** 10-15 (1d6+9)
+- **Scent:** 2-5 (1d4+1)
 
-- **Aura:** 6-9 (1d4+5)
+- **Aura:** 3-6 (1d4+2)
 
-- **Will:** 11-16 (1d6+10)
+- **Will:** 10-15 (1d6+9)
 
-- **Reasoning:** 6-9 (1d4+5)
+- **Reasoning:** 4-7 (1d4+3)
 
 - **Creativity:** 5-8 (1d4+4)

@@ -33,47 +33,59 @@ sohl:
             zones:
                 - name: Head
                   shortcode: headzone
-                  probWeight: 0
+                  probWeight: 1
                 - name: Arms
                   shortcode: armszone
-                  probWeight: 0
+                  probWeight: 4
                 - name: Torso
                   shortcode: torsozone
-                  probWeight: 0
+                  probWeight: 4
                 - name: Legs
                   shortcode: legszone
-                  probWeight: 0
+                  probWeight: 6
             parts:
                 - name: Head
                   shortcode: headpart
                   bodyZoneCode: headzone
+                  roles:
+                      - vital
                   canHoldItem: false
-                  heldItemId: null
+                  probWeight: 1
                 - name: Right Arm
                   shortcode: rarmpart
                   bodyZoneCode: armszone
+                  roles:
+                      - manipulator
                   canHoldItem: true
-                  heldItemId: null
+                  probWeight: 2
                 - name: Left Arm
                   shortcode: larmpart
                   bodyZoneCode: armszone
+                  roles:
+                      - manipulator
                   canHoldItem: true
-                  heldItemId: null
+                  probWeight: 2
                 - name: Torso
                   shortcode: torsopart
                   bodyZoneCode: torsozone
+                  roles:
+                      - core
                   canHoldItem: false
-                  heldItemId: null
+                  probWeight: 4
                 - name: Right Leg
                   shortcode: rlegpart
                   bodyZoneCode: legszone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  heldItemId: null
+                  probWeight: 3
                 - name: Left Leg
                   shortcode: llegpart
                   bodyZoneCode: legszone
+                  roles:
+                      - locomotor
                   canHoldItem: false
-                  heldItemId: null
+                  probWeight: 3
             locations:
                 - name: Skull
                   shortcode: skullloc
@@ -463,7 +475,7 @@ sohl:
             base: 150
             calc: 150
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1.27
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:

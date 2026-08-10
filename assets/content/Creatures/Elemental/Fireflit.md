@@ -23,6 +23,7 @@ sohl:
         wil: 11
         rea: 10
         cre: 14
+        str: 2
     attrRollFormula:
         end: 1d4+3
         dex: 1d6+16
@@ -32,16 +33,185 @@ sohl:
         wil: 1d4+8
         rea: 1d6+6
         cre: 1d6+10
+        str: 1d4
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 1
+                - name: Body
+                  shortcode: torsozone
+                  probWeight: 1
+                - name: Hindquarters
+                  shortcode: hindqtrzone
+                  probWeight: 1
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Wing
+                  shortcode: lwingpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Body
+                  shortcode: torsopart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Right Wing
+                  shortcode: rwingpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Leg
+                  shortcode: llegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Right Leg
+                  shortcode: rlegpart
+                  bodyZoneCode: hindqtrzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 3
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindqtrzone
+                  roles: []
+                  canHoldItem: false
+                  probWeight: 4
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 3
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 2
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Left Wing
+                  shortcode: lwingloc
+                  bodyPartCode: lwingpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: torsopart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Right Wing
+                  shortcode: rwingloc
+                  bodyPartCode: rwingpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Left Leg
+                  shortcode: llegloc
+                  bodyPartCode: llegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Right Leg
+                  shortcode: rlegloc
+                  bodyPartCode: rlegpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -4
+                      edged: -5
+                      piercing: -6
+                      fire: -4
         weight:
-            base: 0
-            calc: 0
+            base: 1
+            calc: "1"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.18
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -53,7 +223,96 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 65
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 33
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 44
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 72
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 10
+        - name: Scorching Touch
+          type: skill
+          system:
+              shortcode: talon
+              subType: combattechnique
+              masteryLevelBase: 69
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: talon
+                  name: Scorching Touch
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: -5
+                      aspect: fire
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+        - name: Fire Breath
+          type: skill
+          system:
+              shortcode: breath
+              subType: combattechnique
+              masteryLevelBase: 72
+              combatCategory: missile
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: missile
+                  shortcode: breath
+                  name: Fire Breath
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 0
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 4
+                      modifier: 0
+                      aspect: fire
+                  projectileType: none
+                  maxVolleyMult: 1
+                  baseRangeBase: 10
+                  drawBase: 0
+                  traits: {}
 ---
 
 # Appearance {#appearance}

@@ -36,14 +36,101 @@ sohl:
         cre: 1d4+6
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Crown
+                  shortcode: crownzone
+                  probWeight: 1
+                - name: Stem
+                  shortcode: stemzone
+                  probWeight: 2
+                - name: Tendrils
+                  shortcode: tendrilzone
+                  probWeight: 2
+            parts:
+                - name: Crown
+                  shortcode: crownpart
+                  bodyZoneCode: crownzone
+                  roles:
+                      - vital
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Stem
+                  shortcode: stempart
+                  bodyZoneCode: stemzone
+                  roles:
+                      - core
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Tendrils
+                  shortcode: ltendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Tendrils
+                  shortcode: rtendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Crown
+                  shortcode: crownloc
+                  bodyPartCode: crownpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 0
+                      edged: 0
+                      piercing: 0
+                      fire: 0
+                - name: Stem
+                  shortcode: stemloc
+                  bodyPartCode: stempart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 0
+                      edged: 0
+                      piercing: 0
+                      fire: 0
+                - name: Left Tendrils
+                  shortcode: ltendrilloc
+                  bodyPartCode: ltendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 0
+                      edged: 0
+                      piercing: 0
+                      fire: 0
+                - name: Right Tendrils
+                  shortcode: rtendrilloc
+                  bodyPartCode: rtendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 0
+                      edged: 0
+                      piercing: 0
+                      fire: 0
         weight:
             base: 0
             calc: 0
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.55
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -67,7 +154,67 @@ sohl:
                 textValue: "0"
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 60
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 55
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 30
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 36
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 20
+        - name: Spectral Vines
+          type: skill
+          system:
+              shortcode: tentacle
+              subType: combattechnique
+              masteryLevelBase: 66
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: tentacle
+                  name: Spectral Vines
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: -3
+                      aspect: blunt
+                  lengthBase: 2
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

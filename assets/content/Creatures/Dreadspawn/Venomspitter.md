@@ -36,14 +36,113 @@ sohl:
         cre: 1d4+8
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 2
+                - name: Forebody
+                  shortcode: torsozone
+                  probWeight: 5
+                - name: Hindbody
+                  shortcode: hindbodyzone
+                  probWeight: 3
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Forebody
+                  shortcode: forebodypart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Hindbody
+                  shortcode: hindbodypart
+                  bodyZoneCode: hindbodyzone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 6
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindbodyzone
+                  roles: []
+                  canHoldItem: false
+                  probWeight: 4
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: forebodypart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: hindbodypart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
         weight:
             base: 100
             calc: 100
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.73
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +154,97 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 50
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 55
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 30
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 36
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 23
+        - name: Venomous Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 60
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Venomous Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: -1
+                      aspect: piercing
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      poison: true
+        - name: Corrosive Venom Spray
+          type: skill
+          system:
+              shortcode: spray
+              subType: combattechnique
+              masteryLevelBase: 60
+              combatCategory: missile
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: missile
+                  shortcode: spray
+                  name: Corrosive Venom Spray
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 0
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: -1
+                      aspect: fire
+                  projectileType: none
+                  maxVolleyMult: 1
+                  baseRangeBase: 15
+                  drawBase: 0
+                  traits: {}
 ---
 
 # Appearance {#appearance}

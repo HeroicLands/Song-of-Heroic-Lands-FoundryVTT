@@ -36,14 +36,114 @@ sohl:
         cre: 1d6+10
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Core
+                  shortcode: corezone
+                  probWeight: 1
+                - name: Mass
+                  shortcode: masszone
+                  probWeight: 2
+                - name: Tendrils
+                  shortcode: tendrilzone
+                  probWeight: 1
+            parts:
+                - name: Core
+                  shortcode: corepart
+                  bodyZoneCode: corezone
+                  roles:
+                      - vital
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Mass
+                  shortcode: masspart
+                  bodyZoneCode: masszone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Left Tendrils
+                  shortcode: ltendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+                - name: Right Tendrils
+                  shortcode: rtendrilpart
+                  bodyZoneCode: tendrilzone
+                  roles:
+                      - locomotor
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 5
+            locations:
+                - name: Core
+                  shortcode: coreloc
+                  bodyPartCode: corepart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Mass
+                  shortcode: massloc
+                  bodyPartCode: masspart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 6
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Underside
+                  shortcode: underbellyloc
+                  bodyPartCode: masspart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 4
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Left Tendrils
+                  shortcode: ltendrilloc
+                  bodyPartCode: ltendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
+                - name: Right Tendrils
+                  shortcode: rtendrilloc
+                  bodyPartCode: rtendrilpart
+                  bleedingSusceptibility: low
+                  amputability: medium
+                  shockValue: 2
+                  probWeight: 10
+                  protectionBase:
+                      blunt: 3
+                      edged: 2
+                      piercing: 1
+                      fire: 3
         weight:
             base: 10
             calc: 10
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.91
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -55,7 +155,67 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 80
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 70
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 51
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 52
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 56
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 35
+        - name: Acidic Engulfment
+          type: skill
+          system:
+              shortcode: grab
+              subType: combattechnique
+              masteryLevelBase: 69
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: grab
+                  name: Acidic Engulfment
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 2
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 6
+                      modifier: 10
+                      aspect: blunt
+                  lengthBase: 0
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
 ---
 
 # Appearance {#appearance}

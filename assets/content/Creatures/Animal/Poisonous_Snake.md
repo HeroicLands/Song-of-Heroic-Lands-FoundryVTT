@@ -15,40 +15,140 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 5
-        end: 7
-        dex: 16
-        agl: 15
-        per: 13
-        aur: 9
-        wil: 11
-        rea: 7
-        cre: 6
+        str: 4
+        end: 10
+        agl: 14
+        per: 10
+        snt: 4
+        aur: 2
+        wil: 8
+        rea: 2
+        cre: 2
     attrRollFormula:
         str: 1d4+2
-        end: 1d4+4
-        dex: 1d6+12
+        end: 1d6+7
         agl: 1d6+11
-        per: 1d6+9
-        aur: 1d4+6
-        wil: 1d6+7
-        rea: 1d4+4
-        cre: 1d4+3
+        per: 1d6+7
+        snt: 1d4+2
+        aur: 1d4
+        wil: 1d4+6
+        rea: 1d4
+        cre: 1d4
     body:
         structure:
-            zones: []
-            parts: []
-            locations: []
+            zones:
+                - name: Head
+                  shortcode: headzone
+                  probWeight: 1
+                - name: Forebody
+                  shortcode: torsozone
+                  probWeight: 3
+                - name: Hindbody
+                  shortcode: hindbodyzone
+                  probWeight: 2
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  bodyZoneCode: headzone
+                  roles:
+                      - vital
+                      - manipulator
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Forebody
+                  shortcode: forebodypart
+                  bodyZoneCode: torsozone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 10
+                - name: Hindbody
+                  shortcode: hindbodypart
+                  bodyZoneCode: hindbodyzone
+                  roles:
+                      - core
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 6
+                - name: Tail
+                  shortcode: tailpart
+                  bodyZoneCode: hindbodyzone
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  probWeight: 4
+            locations:
+                - name: Head
+                  shortcode: headloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 5
+                  probWeight: 4
+                  protectionBase:
+                      blunt: -2
+                      edged: 0
+                      piercing: -1
+                      fire: -2
+                - name: Neck
+                  shortcode: neckloc
+                  bodyPartCode: headpart
+                  bleedingSusceptibility: high
+                  amputability: low
+                  shockValue: 5
+                  probWeight: 6
+                  protectionBase:
+                      blunt: -2
+                      edged: 0
+                      piercing: -1
+                      fire: -2
+                - name: Thorax
+                  shortcode: thoraxloc
+                  bodyPartCode: forebodypart
+                  bleedingSusceptibility: medium
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -2
+                      edged: 0
+                      piercing: -1
+                      fire: -2
+                - name: Abdomen
+                  shortcode: abdloc
+                  bodyPartCode: hindbodypart
+                  bleedingSusceptibility: high
+                  amputability: none
+                  shockValue: 4
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -2
+                      edged: 0
+                      piercing: -1
+                      fire: -2
+                - name: Tail
+                  shortcode: tailloc
+                  bodyPartCode: tailpart
+                  bleedingSusceptibility: none
+                  amputability: high
+                  shockValue: 1
+                  probWeight: 10
+                  protectionBase:
+                      blunt: -2
+                      edged: 0
+                      piercing: -1
+                      fire: -2
         weight:
-            base: 30
-            calc: 30
+            base: 10
+            calc: "10"
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 0.36
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
         - medium: terrestrial
-          feetPerRound: 30
+          feetPerRound: 40
           leaguesPerWatch: 2
           encumbrance: floor(wt/4)
           strMod: -5 * floor((str - 10) / 2)
@@ -63,7 +163,68 @@ sohl:
                 textValue: "0"
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 45
+        - shortcode: stlth
+          type: skill
+          system:
+              masteryLevelBase: 48
+        - shortcode: sprt
+          type: mysticalability
+          system:
+              masteryLevelBase: 15
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 20
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 44
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 28
+        - name: Bite
+          type: skill
+          system:
+              shortcode: bite
+              subType: combattechnique
+              masteryLevelBase: 62
+              combatCategory: melee
+              impairedByRoles:
+                  - manipulator
+              strikeMode:
+                  type: melee
+                  shortcode: bite
+                  name: Bite
+                  minParts: 1
+                  assocSkillCode: null
+                  attack:
+                      disabled: false
+                      spread: 1
+                      modifier: 0
+                  impactBase:
+                      numDice: 1
+                      die: 8
+                      modifier: -2
+                      aspect: piercing
+                  lengthBase: 1
+                  defense:
+                      block:
+                          disabled: true
+                          modifier: 0
+                          successLevelMod: 0
+                      counterstrike:
+                          disabled: false
+                          modifier: 0
+                          successLevelMod: 0
+                  traits:
+                      noBlock: true
+                      poison: true
 ---
 
 # Appearance {#appearance}
@@ -126,18 +287,18 @@ Most poisonous snakes will not attack unless threatened or defending eggs or a r
 
 - **Strength:** 3-6 (1d4+2)
 
-- **Endurance:** 5-8 (1d4+4)
-
-- **Dexterity:** 13-18 (1d6+12)
+- **Endurance:** 8-13 (1d6+7)
 
 - **Agility:** 12-17 (1d6+11)
 
-- **Perception:** 10-15 (1d6+9)
+- **Perception:** 8-13 (1d6+7)
 
-- **Aura:** 7-10 (1d4+6)
+- **Scent:** 3-6 (1d4+2)
 
-- **Will:** 8-13 (1d6+7)
+- **Aura:** 1-4 (1d4)
 
-- **Reasoning:** 5-8 (1d4+4)
+- **Will:** 7-10 (1d4+6)
 
-- **Creativity:** 4-7 (1d4+3)
+- **Reasoning:** 1-4 (1d4)
+
+- **Creativity:** 1-4 (1d4)
