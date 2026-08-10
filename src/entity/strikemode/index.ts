@@ -20,4 +20,5 @@ export * from "./MeleeStrikeMode";
 export * from "./MissileStrikeMode";
 export * from "./planShortcodeSave";
 export * from "./prone";
+export * from "./strengthImpact";
 export * from "./StrikeModeBase";

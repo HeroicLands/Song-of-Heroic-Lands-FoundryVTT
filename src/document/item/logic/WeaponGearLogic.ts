@@ -26,6 +26,7 @@ import {
     STRIKE_MODE_TYPE,
 } from "@src/utils/constants";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
+import { applyWielderStrengthImpact } from "@src/document/item/logic/wielderStrength";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
@@ -289,6 +290,10 @@ export class WeaponGearLogic<
             )?.masteryLevel;
             if (governing) applyGoverningMasteryLevel(sm, governing);
         }
+        // Fold the wielder's Strength into each mode's impact (#1253). Also a
+        // cross-item read — the Strength attribute's score is settled by this
+        // phase — and it must follow `heldBy`, which decides the off hand.
+        applyWielderStrengthImpact(this);
     }
 }
 

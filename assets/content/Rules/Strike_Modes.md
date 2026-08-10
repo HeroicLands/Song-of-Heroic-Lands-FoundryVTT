@@ -71,6 +71,37 @@ Every strike mode, whatever its type, records:
 A strike mode may also be flagged so that it cannot attack at all — some modes
 exist only to enable a weapon's defensive use.
 
+## The Strength Impact Modifier
+
+A strong combatant drives a weapon harder than a weak one. Every melee blow —
+and every thrown weapon — has its impact adjusted by the attacker's **Strength**:
+
+| Strength | Modifier                       |
+| -------- | ------------------------------ |
+| 10–11    | none — the unremarkable middle |
+| 12–13    | +1                             |
+| 14–15    | +2                             |
+| 16–17    | +3                             |
+| 18–19    | +4                             |
+
+The pattern continues in both directions: **one point of impact for every two
+points of Strength**, without limit, so a giant's blow lands far heavier than
+the table's printed end. Below average it falls the same way — 8–9 is −1, 6–7 is
+−2 — and then more steeply still: a combatant of Strength 4 or less can barely
+drive a weapon at all, and loses **two** points of impact for every point of
+Strength below 5, down to −10 at Strength 1.
+
+**This applies to melee attacks and thrown weapons only.** A bow, a crossbow or
+a sling gets no benefit whatever: the force is in the launcher, not the arm, and
+a mighty archer's arrows strike no harder than anyone else's. A few weapons are
+flagged to take no Strength modifier at all, and those never receive it.
+
+Two reductions apply on top, and they stack:
+
+- **Off-hand** — reduce the modifier by **1** when the weapon is held only in
+  the non-favored hand. See [Dominance](Body_Structure.md#dominance).
+- **Thrown** — reduce the modifier by **1** when the weapon is thrown.
+
 ## Melee and Missile
 
 Strike modes come in two types — **melee** and **missile** — and a single weapon

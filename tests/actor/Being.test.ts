@@ -3204,6 +3204,41 @@ describe("BeingLogic health (#470)", () => {
     });
 });
 
+describe("dominantSide (#1253)", () => {
+    /** A being carrying the named dominance characteristics. */
+    function beingWithDominance(...codes: string[]) {
+        const logic = makeBeing();
+        for (const code of codes) {
+            (logic as any).actor.items.set(code, {
+                id: code,
+                name: code,
+                type: "trauma",
+                system: { shortcode: code },
+                logic: { data: { kind: "trauma", shortcode: code } },
+            });
+        }
+        return logic;
+    }
+
+    it("favors the left with Left Dominance alone", () => {
+        expect(beingWithDominance("ldmnc").dominantSide).toBe("left");
+    });
+
+    it("favors the right with Right Dominance alone", () => {
+        expect(beingWithDominance("rdmnc").dominantSide).toBe("right");
+    });
+
+    it("has no dominant side with neither", () => {
+        expect(beingWithDominance().dominantSide).toBeUndefined();
+    });
+
+    it("has no dominant side with both — ambidextrous", () => {
+        expect(
+            beingWithDominance("ldmnc", "rdmnc").dominantSide,
+        ).toBeUndefined();
+    });
+});
+
 describe("BeingDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlActorDataModel base schema fields");

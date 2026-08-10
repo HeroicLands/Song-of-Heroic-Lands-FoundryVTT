@@ -494,6 +494,22 @@ export const {
 /** Union of all body-role values. */
 export type BodyRole = (typeof BODY_ROLE)[keyof typeof BODY_ROLE];
 
+/**
+ * Which side of a body a part lies on, and which side a being favors.
+ *
+ * Derived rather than persisted: a part's side comes from its shortcode and its
+ * mirror twin, and a being's dominance from its Left/Right Dominance
+ * characteristics. See {@link sohl.entity.body.bodyPartSide} and
+ * {@link sohl.entity.body.dominantSideFrom}. Absence of a side is spelled
+ * `undefined` — a central part has none, and an ambidextrous being has none.
+ */
+export const BODY_SIDE = {
+    LEFT: "left",
+    RIGHT: "right",
+} as const;
+/** Union of all body-side values. */
+export type BodySide = (typeof BODY_SIDE)[keyof typeof BODY_SIDE];
+
 export const {
     /** Map of cohort-member-role key → value. */
     kind: COHORT_MEMBER_ROLE,
@@ -1647,6 +1663,17 @@ export const {
 /** Union of all strike-mode-type values. */
 export type StrikeModeType =
     (typeof STRIKE_MODE_TYPE)[keyof typeof STRIKE_MODE_TYPE];
+
+/**
+ * The `projectileType` of a missile strike mode that launches no separate
+ * ammunition — the weapon is itself the projectile, as a thrown axe or dart is.
+ *
+ * The distinction carries a rule: a thrown weapon earns the Strength Impact
+ * Modifier (reduced by one), while a launcher firing its own ammunition — bow,
+ * crossbow, sling — earns none. See
+ * {@link sohl.entity.strikemode.isThrownStrikeMode}.
+ */
+export const PROJECTILE_TYPE_NONE = "none";
 
 export const {
     /** Map of skill-subtype key → value. */

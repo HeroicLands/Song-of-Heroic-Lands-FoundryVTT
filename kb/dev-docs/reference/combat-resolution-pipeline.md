@@ -197,6 +197,33 @@ Tactical Advantages: the winner of a `|VS| >= 2` exchange earns `|VS| − 1` TAs
 stage (`src/entity/body/injury-resolution.ts`) using the attack's pre-defense
 damage, the aspect, and the target's armor/body-location protection.
 
+### Strength and impact
+
+A strike mode's impact is **not** a constant property of the weapon. The
+wielder's Strength Impact Modifier is folded in during the **finalize** phase, by
+{@link sohl.entity.strikemode.applyStrengthImpact} via the document-layer wiring
+in `src/document/item/logic/wielderStrength.ts`, which both
+{@link sohl.document.item.logic.WeaponGearLogic} and
+{@link sohl.document.item.logic.SkillLogic} (for combat techniques) call.
+
+Finalize, not evaluate: the rule reads the wielder's Strength attribute across
+documents, and attribute scores only settle once every sibling item has
+evaluated — the same cross-item read the governing mastery-level wiring makes.
+Because it lands there rather than at attack time, the sheet and the attack card
+agree, and every contribution arrives as a **named delta** (`StrImp`, `OffHnd`,
+`Thrwn`) so the impact breakdown stays auditable.
+
+The rule itself
+({@link sohl.entity.strikemode.strengthImpactModifier}) is a closed form rather
+than the published lookup table, so it extends without bound in both directions:
+`⌊(STR − 10) / 2⌋` at STR ≥ 5, and the steeper `2 × STR − 12` below it. It
+applies to melee modes and thrown weapons only — a launcher firing separate
+ammunition is excluded, as is anything carrying the `noStrMod` trait.
+
+Off-hand determination runs through
+{@link sohl.entity.body.isOffHandGrip}; see
+[Body Structure → Laterality and dominance](body-structure.md#laterality-and-dominance).
+
 ### Injury resolution
 
 The impact stage is a Foundry-free module, shared by both combat modes and the
