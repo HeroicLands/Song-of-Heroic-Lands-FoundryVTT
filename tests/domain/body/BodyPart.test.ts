@@ -161,6 +161,88 @@ describe("BodyPart", () => {
         });
     });
 
+    /**
+     * Immobilization vs. usability vs. the ability to hold (#1269). The three
+     * are one switch and two derivations:
+     *
+     * ```
+     * isUnusable  = permanentlyUnusable || <set during the lifecycle>
+     * immobilized = isUnusable || <set during the lifecycle>
+     * canHoldItem = canHoldItemBase && !isUnusable
+     * ```
+     */
+    describe("immobilization and usability (#1269)", () => {
+        it("a sound limb is neither immobilized nor unusable, and holds normally", () => {
+            const part = arm();
+            expect(part.isUnusable).toBe(false);
+            expect(part.immobilized).toBe(false);
+            expect(part.canHoldItemBase).toBe(true);
+            expect(part.canHoldItem).toBe(true);
+        });
+
+        it("permanentlyUnusable implies both, and revokes the ability to hold", () => {
+            const part = arm({ permanentlyUnusable: true });
+            expect(part.isUnusable).toBe(true);
+            expect(part.immobilized).toBe(true);
+            // The persisted grip capability is untouched — only the effective
+            // one derives away, so clearing the flag restores it.
+            expect(part.canHoldItemBase).toBe(true);
+            expect(part.canHoldItem).toBe(false);
+        });
+
+        it("a limb that cannot grip at all never can, unusable or not", () => {
+            const part = arm({ canHoldItem: false });
+            expect(part.canHoldItemBase).toBe(false);
+            expect(part.canHoldItem).toBe(false);
+            part.isUnusable = true;
+            expect(part.canHoldItem).toBe(false);
+        });
+
+        it("being immobilized alone RETAINS the grip — a hold does not disarm", () => {
+            const part = arm();
+            part.immobilized = true;
+            expect(part.immobilized).toBe(true);
+            expect(part.isUnusable).toBe(false);
+            expect(part.canHoldItem).toBe(true);
+        });
+
+        it("setting isUnusable during the lifecycle implies immobilized and loses the grip", () => {
+            const part = arm();
+            part.isUnusable = true;
+            expect(part.isUnusable).toBe(true);
+            expect(part.immobilized).toBe(true);
+            expect(part.canHoldItem).toBe(false);
+        });
+
+        it("an unusable limb stays immobilized even when immobilized is cleared", () => {
+            const part = arm({ permanentlyUnusable: true });
+            part.immobilized = false;
+            expect(part.immobilized).toBe(true);
+        });
+
+        it("clearing isUnusable cannot override the persisted permanentlyUnusable flag", () => {
+            const part = arm({ permanentlyUnusable: true });
+            part.isUnusable = false;
+            expect(part.isUnusable).toBe(true);
+            expect(part.canHoldItem).toBe(false);
+        });
+
+        it("exposes the persisted heldItemId for the drop-on-injury write", () => {
+            expect(arm().heldItemId).toBeNull();
+            expect(arm({ heldItemId: "item0001" }).heldItemId).toBe("item0001");
+        });
+
+        it("an unusable limb no longer counts as gripping its item", () => {
+            const body = armBody({ heldItemId: "sword001" });
+            const part = body.getPartByCode("larm")!;
+            // `heldItem` resolves against the actor, absent in this fixture;
+            // `limbsHolding` gates on `canHoldItem`, which is what changes here.
+            part.isUnusable = true;
+            expect(part.canHoldItem).toBe(false);
+            expect(body.limbsHolding("sword001")).toBe(0);
+        });
+    });
+
     describe("getRandomLocation", () => {
         it("returns a location from this part", () => {
             const part = arm();

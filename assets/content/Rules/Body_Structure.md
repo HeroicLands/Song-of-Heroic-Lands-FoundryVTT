@@ -57,7 +57,7 @@ Each body part carries:
 
 **Roles.** The functional roles the part fulfills — see [Body Part Roles](#body-part-roles) below. This is how injury to the part reaches the skills and attributes that depend on it.
 
-**Can Hold Item.** Whether the part can grip an object. A human's two arms can; the head, torso, and legs cannot. A part that is holding something and becomes unusable drops what it held.
+**Can Hold Item.** Whether the part can grip an object. A human's two arms can; the head, torso, and legs cannot. This is the part's anatomy, not its current state — see [Immobilized, unusable, and holding on](#immobilized-unusable-and-holding-on) for when a limb that _can_ grip nonetheless cannot.
 
 **Permanent Impairment.** A lasting penalty the part can never be better than — an old maiming that never fully mended.
 
@@ -251,6 +251,18 @@ A second, narrower rule applies to weapons: a strike mode that requires particul
 ### Permanent impairment
 
 A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [Injury → Permanent Impairment](Injury.md#permanent-impairment).
+
+### Immobilized, unusable, and holding on
+
+A limb can be out of the fight in two quite different ways, and the difference decides what happens to whatever it was carrying.
+
+**Immobilized** — the limb is held fast: pinned in a wrestler's grip, tangled in a net, bound with rope, or locked rigid by a spell. It cannot be moved, so it cannot strike, block, parry, or be brought to bear on anything, and any test needing it fails. But it is still a working limb: the fingers still close, and **it keeps whatever it was holding**. A hold is not a disarm — taking the weapon out of a pinned hand is a separate act of prising it loose.
+
+Immobilization is recorded as the **Immobilized** condition naming the affected limb, whatever imposed it. A grappler's hold and a binding spell impart exactly the same condition, and both end the same way: remove the condition and the limb is free again on the spot.
+
+**Unusable** — the limb is out of action altogether: ruined by a grievous wound, or permanently gone (withered, severed). An unusable limb is immobilized _and_ has lost its grip, so it **drops what it was holding** the moment it is disabled. Picking the item back up afterwards is an ordinary act and nothing re-drops it.
+
+So the three states nest: a sound limb moves and grips; an immobilized limb grips but does not move; an unusable limb does neither.
 
 ### Impairment and Health
 

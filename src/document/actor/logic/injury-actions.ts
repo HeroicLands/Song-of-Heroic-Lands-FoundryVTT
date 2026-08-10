@@ -23,6 +23,7 @@ import {
     isImpactAspect,
     type ImpactAspect,
 } from "@src/utils/constants";
+import { GRIEVOUS_MIN } from "@src/entity/body/impairment";
 import { fvttCreateEmbeddedItems } from "@src/core/FoundryHelpers";
 import {
     offerSchedule,
@@ -422,6 +423,14 @@ export async function createTraumaFromInjury(
     ]);
     const trauma = created?.[0];
     if (!trauma) return;
+    // A **grievous** wound puts the limb out of action, and it drops what it was
+    // holding (#1269). This is the one-time injury *event*, so the write happens
+    // here and exactly once — never as a lifecycle side effect that would fight a
+    // player who picks the item back up. Losing the *ability* to hold needs no
+    // write: it derives from the part's `isUnusable`.
+    if (injury.level >= GRIEVOUS_MIN) {
+        await logic.dropHeldItemAt?.(injury.location.shortcode);
+    }
     const healInterval = Number(trauma.system?.healingCheckDurationBase) || 0;
     await offerSchedule(context, trauma, "healingCheck", healInterval);
     // A wound that bleeds on infliction (a non-null blood-loss base) also offers

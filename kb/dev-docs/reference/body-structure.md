@@ -81,11 +81,11 @@ A body part is a primary anatomical division — Head, Torso, an arm, a leg, a w
 | `name`                | string                | Display name (e.g., `"Head"`). Stored literally; not a localization key.                                             |
 | `roles`               | `BodyRole[]`          | Functional tags the part fulfills — see [Body Roles](#body-roles).                                                   |
 | `probWeight`          | number                | Selection weight **within its zone**: once the zone is rolled, its parts are drawn in proportion to this. Also the area an aimed strike spends its `spread` against. |
-| `canHoldItem`         | boolean               | Whether this part can grip an item. Arms typically `true`; others `false`.                                           |
+| `canHoldItem`         | boolean               | Whether this part can grip an item **at all** — anatomy, not current state. The entity exposes it raw as {@link sohl.entity.body.BodyPart.canHoldItemBase}; the same-named getter is [derived](#immobilized-unusable-and-the-ability-to-hold). Arms typically `true`; others `false`. |
 | `heldItemId`          | string \| null        | The ID of the item currently held, if any.                                                                           |
 | `favoredFlag`         | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                                        |
 | `permanentImpairment` | integer ≤ 0           | Manually-set permanent impairment for the part (`0` = none). See [Body-part impairment](#body-part-impairment).      |
-| `permanentlyUnusable` | boolean               | Manually-set flag marking the part permanently unusable (withered / fully amputated), regardless of impairment tier. |
+| `permanentlyUnusable` | boolean               | Manually-set flag marking the part permanently unusable (withered / fully amputated), regardless of impairment tier. Implies {@link sohl.entity.body.BodyPart.isUnusable} — see [below](#immobilized-unusable-and-the-ability-to-hold). |
 | `bodyZoneCode`        | string                | Shortcode of the owning {@link sohl.entity.body.BodyZone}.                                                           |
 
 A convenience getter {@link sohl.entity.body.BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
@@ -208,6 +208,62 @@ only a grievous injury or the manually-set `permanentlyUnusable` flag (a withere
 or fully-amputated limb) does. The derivation is pure and Foundry-free; the
 Being-sheet header grid colors each part by status (none = white, MINOR = yellow,
 SERIOUS/GRIEVOUS = blue, unusable = black).
+
+### Immobilized, unusable, and the ability to hold
+
+A limb being out of the fight and a limb being unable to grip are **two different
+states** (#1269) — conflating them would make a constricting hold disarm its
+victim. {@link sohl.entity.body.BodyPart} models them as one settable switch plus
+two derivations, all **Logic-only**: nothing here is persisted, and every value is
+rebuilt from the persisted schema on each preparation cycle.
+
+| Source                         | Sets          | Follows by derivation                        |
+| ------------------------------ | ------------- | -------------------------------------------- |
+| **Immobilized** trauma         | `immobilized` | nothing — **the grip is retained**           |
+| Grievous injury                | `isUnusable`  | `immobilized`, and the loss of `canHoldItem` |
+| `permanentlyUnusable` (persisted) | `isUnusable` | the same, permanently                        |
+
+```
+isUnusable  = permanentlyUnusable || <set during the lifecycle>
+immobilized = isUnusable || <set during the lifecycle>
+canHoldItem = canHoldItemBase && !isUnusable
+```
+
+So {@link sohl.entity.body.BodyPart.isUnusable} is the **single switch** for "this
+limb is out of action", and {@link sohl.entity.body.BodyPart.immobilized} is the
+weaker state a hold produces on its own. Because both are settable Logic
+properties rather than schema fields, an Active Effect keyed
+`mod:logic.<property>` can drive them (SoHL effect keys target Logic properties,
+not schema paths) — though addressing them on the *actor* would need a Being/body
+effect-key namespace that does not exist yet.
+
+Who sets what, and when:
+
+- **The Immobilized trauma** ({@link sohl.entity.body.IMMOBILIZED_CODE}, a
+  `physcond` / `impediment` Trauma) sets `immobilized` on the part owning its
+  `bodyLocationCode`, during the trauma's own `initialize()` — which the actor's
+  `initialize()`, where the body is built, precedes. The flag lives only on the
+  rebuilt part, so **deleting the trauma releases the limb** with no lifecycle to
+  unwind. A grappling hold and a binding spell impart the *same* condition; this
+  is why a per-limb magical effect needs no part-addressable Active Effect.
+- **A grievous injury** sets `isUnusable` in `BeingLogic.finalize`
+  (`deriveBodyPartUsability`), once the trauma items have settled their levels.
+  One switch, and immobilization plus the loss of the grip follow.
+- **The drop is not a derivation.** `canHoldItem` going `false` does not clear
+  `heldItemId` — something has to write that. It is a **one-time write at the
+  injury event** ({@link sohl.document.actor.logic.BeingLogic.dropHeldItemAt},
+  called from `createTraumaFromInjury`), not a lifecycle side effect: an event
+  happens once, so re-preparation never re-drops and an item the player picks back
+  up stays put.
+
+Readers of {@link sohl.entity.body.BodyPart.canHoldItem} — the held-item
+dropdowns on the Being sheet, `BodyStructure.limbsHolding` behind strike-mode
+gating — therefore see the *effective* answer. Anything that writes the capability
+back must read the persisted value instead, or the flag would be clobbered while
+the limb is disabled: the body-part editor
+([BodyPartConfig.ts](../../src/apps/foundry/BodyPartConfig.ts)) edits the raw
+`BodyPart.Data` and so is unaffected; a consumer holding an entity reads
+`canHoldItemBase`.
 
 **Impairment reaches test resolution through a part's roles (#568).** A skill or
 attribute declares the body-part roles it depends on in its `impairedByRoles`, and

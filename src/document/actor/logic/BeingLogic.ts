@@ -2671,8 +2671,72 @@ export class BeingLogic<
         // carry capacity. The body reads degrade to their empty behavior; this
         // is not an error and is deliberately not warned about.
 
+        // Must precede `deriveHealthState`, which reads each part's usability.
+        this.deriveBodyPartUsability();
         this.deriveHealthState();
         this.deriveFatiguePenalty();
+    }
+
+    /**
+     * Mark every body part carrying a **grievous injury** as
+     * {@link sohl.entity.body.BodyPart.isUnusable | out of action} (#1269).
+     *
+     * `isUnusable` is the single switch for a limb that can no longer be used:
+     * setting it here makes the part {@link sohl.entity.body.BodyPart.immobilized}
+     * and revokes {@link sohl.entity.body.BodyPart.canHoldItem} by derivation, so
+     * a grievous injury needs no second flag. Runs in {@link finalize}, once the
+     * trauma items have settled their levels; the flag lives only on the rebuilt
+     * part, so it is recomputed every preparation cycle and a healed wound
+     * restores the limb.
+     *
+     * The persisted `permanentlyUnusable` flag needs no work here — the part
+     * already reports `isUnusable` from it.
+     */
+    private deriveBodyPartUsability(): void {
+        const parts = this.body?.structure?.parts ?? [];
+        if (parts.length === 0) return;
+        const injuries = this.locationInjuries();
+        for (const p of parts) {
+            const imp = bodyPartImpairment(
+                p.locations.map((l) => l.shortcode),
+                injuries,
+                p.permanentImpairment,
+                p.isUnusable,
+            );
+            if (!imp.usable) p.isUnusable = true;
+        }
+    }
+
+    /**
+     * **Drop** whatever the body part owning `locationShortcode` is holding, by
+     * clearing its persisted `heldItemId` (#1269).
+     *
+     * A one-time write made when a limb is disabled — the Grievous Injury event —
+     * rather than a lifecycle side effect: an event happens once, so nothing
+     * fights a player who picks the item back up later, and re-preparation never
+     * re-drops it. (Whether the limb *can* hold is separately derived from
+     * {@link sohl.entity.body.BodyPart.isUnusable} and needs no write.) The whole
+     * `parts` array is rewritten — an element-by-index write corrupts the array,
+     * see the Runtime Contracts.
+     *
+     * A no-op for an unknown location, an incorporeal being, or a limb holding
+     * nothing.
+     *
+     * @param locationShortcode - A hit-location shortcode on the affected limb.
+     * @returns A promise that resolves once the drop is persisted.
+     */
+    async dropHeldItemAt(locationShortcode: string): Promise<void> {
+        if (!locationShortcode || !this.actor) return;
+        const structure = this.body?.structure;
+        const part = structure?.parts.find((p) =>
+            p.locations.some((l) => l.shortcode === locationShortcode),
+        );
+        if (!part?.heldItemId) return;
+        const payload = structure!.setPartFieldsUpdate([
+            { index: part.index, changes: { heldItemId: null } },
+        ]);
+        if (!Object.keys(payload).length) return;
+        await this.actor.update(payload as PlainObject);
     }
 
     /**
@@ -2737,7 +2801,7 @@ export class BeingLogic<
                 p.locations.map((l) => l.shortcode),
                 injuries,
                 p.permanentImpairment,
-                p.permanentlyUnusable,
+                p.isUnusable,
             );
             if (!imp.usable) for (const role of p.roles) roles.add(role);
         }
@@ -2768,7 +2832,7 @@ export class BeingLogic<
                 p.locations.map((l) => l.shortcode),
                 injuries,
                 p.permanentImpairment,
-                p.permanentlyUnusable,
+                p.isUnusable,
             );
             if (!imp.usable || imp.impairment === 0) continue;
             for (const role of p.roles) {
@@ -2824,7 +2888,7 @@ export class BeingLogic<
                 p.locations.map((l) => l.shortcode),
                 injuries,
                 p.permanentImpairment,
-                p.permanentlyUnusable,
+                p.isUnusable,
             ),
         );
     }
@@ -2846,7 +2910,7 @@ export class BeingLogic<
                 p.locations.map((l) => l.shortcode),
                 injuries,
                 p.permanentImpairment,
-                p.permanentlyUnusable,
+                p.isUnusable,
             );
             return {
                 tier: imp.tier,

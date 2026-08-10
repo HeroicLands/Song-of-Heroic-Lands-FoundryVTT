@@ -31,8 +31,22 @@
  * health derivation #463).
  */
 
-/** Injury-level bands (the numeric {@link INJURY_LEVELS} index, 1 = `M1` … 5 = `G5`). */
-const GRIEVOUS_MIN = 4;
+/**
+ * Shortcode of the **Immobilized** `physcond` Trauma — the one condition that
+ * pins a limb without disabling it (#1269). A trauma carrying this shortcode
+ * sets {@link sohl.entity.body.BodyPart.immobilized} on the part owning its
+ * `bodyLocationCode`, for as long as the trauma exists; deleting it releases the
+ * limb. A grappling *hold* and a binding spell impart the same condition.
+ */
+export const IMMOBILIZED_CODE = "immob";
+
+/**
+ * The lowest injury level that counts as **grievous** — a wound at or above it
+ * (`G4`/`G5`) puts the struck body part out of action. Levels are the numeric
+ * `INJURY_LEVELS` index (1 = `M1` … 5 = `G5`).
+ */
+export const GRIEVOUS_MIN = 4;
+/** Injury-level bands (the numeric `INJURY_LEVELS` index, 1 = `M1` … 5 = `G5`). */
 const SERIOUS_MIN = 2;
 const MINOR_LEVEL = 1;
 /** A minor injury only impairs while its healing rate is at or below this. */
@@ -203,8 +217,10 @@ export interface BodyPartImpairment {
     impairment: number;
     /**
      * Whether the part can still be used. `false` when it has a **grievous
-     * injury** or is flagged `permanentlyUnusable`. Permanent *impairment*
-     * (however severe) never makes a part unusable.
+     * injury** or is already {@link sohl.entity.body.BodyPart.isUnusable | out of
+     * action} (persistently `permanentlyUnusable`, or set so during the
+     * lifecycle). Permanent *impairment* (however severe) never makes a part
+     * unusable.
      */
     usable: boolean;
     /** Impairment tier by magnitude (drives the health ceiling, #470). */
@@ -237,26 +253,29 @@ function tierOf(impairment: number): BodyPartTier {
 
 /**
  * Derive a body part's impairment from the injuries on its hit locations, its
- * permanent impairment, and a permanent-unusable flag.
+ * permanent impairment, and whether it is already out of action.
  *
  * Impairment is the **worst (most negative) of** {permanent impairment, each
  * current injury} — never additive. A serious injury contributes −10, a minor
  * (slow-healing, HR ≤ 5) −5; a **grievous** injury contributes no number but
  * makes the part **unusable**. Permanent impairment tiers the part (a −20 arm is
- * `grievous` tier) but never unuses it — only a grievous injury or the
- * `permanentlyUnusable` flag does.
+ * `grievous` tier) but never unuses it — only a grievous injury or an already
+ * unusable part does.
  *
  * @param locationShortcodes - The shortcodes of the part's hit locations.
  * @param injuries - Active injuries (any location); those not on this part are ignored.
  * @param permanentImpairment - A non-positive permanent impairment (default `0`).
- * @param permanentlyUnusable - Whether the part is permanently unusable (default `false`).
+ * @param isUnusable - Whether the part is already out of action — its
+ *   {@link sohl.entity.body.BodyPart.isUnusable}, which folds the persisted
+ *   `permanentlyUnusable` flag together with anything the lifecycle has set
+ *   (default `false`).
  * @returns The part's impairment, tier, usable flag, and grid status.
  */
 export function bodyPartImpairment(
     locationShortcodes: readonly string[],
     injuries: readonly LocationInjury[],
     permanentImpairment = 0,
-    permanentlyUnusable = false,
+    isUnusable = false,
 ): BodyPartImpairment {
     const locs = new Set(locationShortcodes);
     let grievousInjury = false;
@@ -279,7 +298,7 @@ export function bodyPartImpairment(
     // Worst-of: permanent impairment and injuries do not stack.
     impairment = Math.min(impairment, Math.min(0, permanentImpairment));
 
-    const usable = !grievousInjury && !permanentlyUnusable;
+    const usable = !grievousInjury && !isUnusable;
     const tier = tierOf(impairment);
 
     const status: BodyPartStatus =

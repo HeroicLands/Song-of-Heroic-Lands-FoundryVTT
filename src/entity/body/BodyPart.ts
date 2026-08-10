@@ -55,8 +55,15 @@ export class BodyPart extends SohlEntity {
     readonly name: string;
     /** Functional roles this part fulfills; see BodyRole in constants. */
     readonly roles: string[];
-    /** Whether this part is a limb capable of gripping an item. */
-    readonly canHoldItem: boolean;
+    /**
+     * The **persisted** grip capability — whether this part is anatomically a
+     * limb that can grip an item at all. Read {@link canHoldItem} for the
+     * effective answer, which also accounts for the limb being out of action;
+     * this raw value is what the body-part editor writes and reads back.
+     */
+    readonly canHoldItemBase: boolean;
+    /** Id of the item this part is holding, or `null` when empty. */
+    readonly heldItemId: string | null;
     /** The item currently held by this part, resolved from `heldItemId`, or undefined. */
     readonly heldItem?: SohlItem;
     /**
@@ -82,6 +89,82 @@ export class BodyPart extends SohlEntity {
     readonly zone: BodyZone;
     /** Zero-based index of this part within the flat `structure.parts` array. */
     readonly index: number;
+
+    /**
+     * Lifecycle-set "out of action" state, over and above the persisted
+     * {@link permanentlyUnusable} flag. See {@link isUnusable}.
+     */
+    #unusable = false;
+    /**
+     * Lifecycle-set "pinned" state, over and above whatever
+     * {@link isUnusable} implies. See {@link immobilized}.
+     */
+    #immobilized = false;
+
+    /**
+     * Whether this part is **out of action** — the single switch for a limb that
+     * can no longer be used (#1269). It is `true` when the part is persistently
+     * {@link permanentlyUnusable}, and may additionally be set during the
+     * preparation lifecycle — the Being sets it for a part carrying a **grievous
+     * injury** (see {@link sohl.entity.body.bodyPartImpairment}).
+     *
+     * Being unusable implies being {@link immobilized} and revokes
+     * {@link canHoldItem}. Setting it to `false` cannot override the persisted
+     * flag, and (like every lifecycle mutation of a body part) it is not
+     * persisted — it is recomputed on the next preparation cycle.
+     */
+    get isUnusable(): boolean {
+        return this.permanentlyUnusable || this.#unusable;
+    }
+
+    /**
+     * Put this part out of action for the rest of the preparation cycle.
+     * @param value - `true` to disable the part; `false` clears only what the
+     *   lifecycle set, never the persisted {@link permanentlyUnusable} flag.
+     */
+    set isUnusable(value: boolean) {
+        this.#unusable = value;
+    }
+
+    /**
+     * Whether this part is **immobilized** — pinned, bound, or paralyzed so it
+     * cannot be moved (#1269). Weaker than {@link isUnusable}: an immobilized
+     * limb is still a working limb, so it **keeps whatever it is holding** and
+     * keeps {@link canHoldItem}. That is what makes a grappling *hold* distinct
+     * from a disarm.
+     *
+     * Set during the preparation lifecycle by an **Immobilized** trauma naming a
+     * location on this part (see
+     * {@link sohl.entity.body.IMMOBILIZED_CODE}), and implied by
+     * {@link isUnusable} — a limb that is out of action cannot be moved either.
+     * Setting it to `false` therefore cannot un-immobilize an unusable part.
+     */
+    get immobilized(): boolean {
+        return this.isUnusable || this.#immobilized;
+    }
+
+    /**
+     * Pin this part for the rest of the preparation cycle.
+     * @param value - `true` to immobilize the part; `false` clears only what the
+     *   lifecycle set, and cannot free a part that is {@link isUnusable}.
+     */
+    set immobilized(value: boolean) {
+        this.#immobilized = value;
+    }
+
+    /**
+     * Whether this part can **currently** grip an item — its persisted
+     * {@link canHoldItemBase} capability, revoked while the limb is
+     * {@link isUnusable}. A merely {@link immobilized} limb still grips (#1269).
+     *
+     * Note this derivation does not by itself clear {@link heldItemId}: the
+     * *drop* is a one-time write made when the injury is applied (see
+     * {@link sohl.document.actor.logic.BeingLogic.dropHeldItemAt}), so
+     * re-preparation never re-drops and a re-equipped item stays put.
+     */
+    get canHoldItem(): boolean {
+        return this.canHoldItemBase && !this.isUnusable;
+    }
 
     /**
      * Convenience predicate: this part affects mobility if it carries any
@@ -134,7 +217,8 @@ export class BodyPart extends SohlEntity {
         this.shortcode = data.shortcode;
         this.name = data.name || data.shortcode;
         this.roles = [...data.roles];
-        this.canHoldItem = data.canHoldItem;
+        this.canHoldItemBase = data.canHoldItem;
+        this.heldItemId = data.heldItemId ?? null;
         this.heldItem =
             data.heldItemId ?
                 ((this.parent.actor?.items.get<SohlItem>(data.heldItemId) as

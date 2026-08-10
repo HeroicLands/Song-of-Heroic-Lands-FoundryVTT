@@ -517,4 +517,48 @@ describe("createTraumaFromInjury (#286)", () => {
             86400,
         );
     });
+
+    /**
+     * The drop is a **one-time write at the injury event** (#1269), not a
+     * lifecycle side effect — so re-preparation never re-drops, and an item the
+     * player picks back up stays put.
+     */
+    describe("dropping what the disabled limb held (#1269)", () => {
+        /** A resolved wound at `neck` of the requested severity. */
+        function woundOfImpact(impact: number) {
+            const body = makeBody();
+            const neck = body
+                .getAllLocations()
+                .find((l) => l.shortcode === "neck")!;
+            vi.spyOn(
+                FoundryHelpers,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([{ uuid: "Item.trauma0000", system: {} }]);
+            return resolveInjury({
+                impact,
+                aspect: IMPACT_ASPECT.EDGED,
+                body,
+                location: neck,
+            });
+        }
+
+        const noOffers = { skipDialog: true, scope: { schedule: false } };
+
+        it("clears the held item when the wound is grievous", async () => {
+            const injury = woundOfImpact(30);
+            expect(injury.level).toBeGreaterThanOrEqual(4);
+            const logic = { name: "Hero", dropHeldItemAt: vi.fn() } as any;
+            await createTraumaFromInjury(logic, injury, noOffers);
+            expect(logic.dropHeldItemAt).toHaveBeenCalledWith("neck");
+        });
+
+        it("leaves the grip alone for a lesser wound", async () => {
+            const injury = woundOfImpact(9);
+            expect(injury.level).toBeGreaterThan(0);
+            expect(injury.level).toBeLessThan(4);
+            const logic = { name: "Hero", dropHeldItemAt: vi.fn() } as any;
+            await createTraumaFromInjury(logic, injury, noOffers);
+            expect(logic.dropHeldItemAt).not.toHaveBeenCalled();
+        });
+    });
 });
