@@ -496,6 +496,15 @@ function readSohlAt(full: string): any {
     return parseYaml(text.slice(4, close + 1))?.sohl;
 }
 
+/**
+ * Body scale, seeded from Strength on a compressive curve so the bestiary
+ * centres near human and the extremes stay rare. Strength 11 maps to exactly
+ * 1.0; the largest dragon reaches 3.01 and nothing else comes near it.
+ */
+function bodyScale(str: number): number {
+    return Math.pow(str / 11, 0.65);
+}
+
 /** `1d6 + (score − 3)` at 10 and above, `1d4 + (score − 2)` below it. */
 function rollFormula(score: number): string {
     const die = score >= 10 ? 6 : 4;
@@ -536,8 +545,10 @@ describe.each(ROWS)("$file", (row) => {
     it("carries the table's weight and the body scale it implies", () => {
         expect(sohl.body.weight.base).toBe(row.lb);
         expect(sohl.body.weight.calc).toBe(String(row.lb));
-        // Body scale is seeded from Strength against the human 11.
-        expect(sohl.body.bodyScaleBase).toBeCloseTo(row.scores[0] / 11, 2);
+        expect(sohl.body.bodyScaleBase).toBeCloseTo(
+            bodyScale(row.scores[0]),
+            2,
+        );
     });
 
     it("moves at the table's rate, in the medium the table prints", () => {
@@ -702,12 +713,6 @@ const NO_WEAPON_YET = new Set([
     "Helspawn/Nightwights",
 ]);
 
-/**
- * Creatures whose `bodyScaleBase` is deliberately not the Strength-derived
- * value — the two goblins took Grukar-Uk's anatomy and nothing else.
- */
-const SCALE_NOT_DERIVED = new Set(["Folk/Cave_Goblin", "Folk/Forest_Goblin"]);
-
 /** Every creature file under `assets/content/Creatures/`, as `Folder/Name`. */
 function creatureFiles(): string[] {
     const out: string[] = [];
@@ -759,11 +764,7 @@ describe.each(ALL_CREATURES)("%s (every creature)", (file) => {
     it("scales injuries to its own Strength", () => {
         const str = sohl.attributes?.str;
         expect(str, "no Strength").toBeGreaterThan(0);
-        // The two goblins took Grukar-Uk's anatomy and nothing else, so their
-        // authored scale is deliberately left as it was.
-        if (!SCALE_NOT_DERIVED.has(file)) {
-            expect(sohl.body.bodyScaleBase).toBeCloseTo(str / 11, 2);
-        }
+        expect(sohl.body.bodyScaleBase).toBeCloseTo(bodyScale(str), 2);
     });
 
     it("can attack with at least one combat technique", () => {
