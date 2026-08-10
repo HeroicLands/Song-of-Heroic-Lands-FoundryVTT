@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Press
+    - Grab
 tags: []
 name:
-    full: Press
+    full: Grab
     aliases: []
-description: "Shoving an opponent back, off their line and off their feet."
-id: UnarmedPress0001
-slug: unarmed-press
-img: icons/game-icons/lorc/shield-bash.svg
-shortcode: press
+description: "Seize a limb to take what it holds, or hold it still."
+id: UnarmedGrab0001
+slug: unarmed-grab
+img: icons/game-icons/lorc/grab.svg
+shortcode: bflkgrab
 type: skill
 package: sohl
 sohl:
@@ -23,16 +23,16 @@ sohl:
     masteryLevelBase: null
     improveFlag: false
     impairedByRoles:
-        - core
+        - manipulator
     strikeMode:
         type: melee
-        shortcode: press
-        name: Press
+        shortcode: grab
+        name: Grab
         minParts: 1
         assocSkillCode: melee
         attack:
             disabled: false
-            spread: 0
+            spread: 4
             modifier: 0
         impactBase:
             numDice: 0
@@ -80,14 +80,10 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Winning the Melee test earns an opposed `d6 + STR` roll, at +2 per Impact Tactical Advantage and +2 with a Charge. If the presser wins that roll as well, the margin decides what happens:
+A grab attempts one of two things: to **take** an object held in the zone struck — a left or right arm, the hit location within it being irrelevant — or to **hold** that zone immobile for a round.
 
-| Margin | Effect                                                                                                             |
-| ------ | ------------------------------------------------------------------------------------------------------------------ |
-| 1–4    | Knocked back five feet.                                                                                            |
-| 5–9    | Knocked back five feet, and a Stumble mishap roll.                                                                 |
-| 10+    | Knocked back ten feet and prone, and a Shock Roll against Shock Index 6 — 7 at a margin of 30–49, 8 at 50 or more. |
+Winning the Melee test only earns the attempt. Both combatants then make an opposed `d6 + STR` roll, at +3 per Impact Tactical Advantage, −2 one-handed and −3 off-handed. The manoeuvre happens only if the grabber wins that roll too; otherwise nothing does.
 
-Otherwise there is no effect.
+**A hold that lands** forces the target to Pass on their next turn, though they may still defend. On the grabber's next turn the opposed roll repeats: win and the hold continues, lose and it is broken.
 
 Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.

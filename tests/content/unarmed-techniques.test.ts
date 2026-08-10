@@ -15,7 +15,7 @@
  * The unarmed weapons table, as an executable specification.
  *
  * The table below is the authority; the skill items under
- * `assets/content/Skills/Combat/Unarmed/` are the copy. A technique whose
+ * `assets/content/Skills/Combat_Techniques/` are the copy. A technique whose
  * length, zone die, impact or traits drift from the printed row fails here.
  *
  * Every pregenerated character carries all of them: a person always has their
@@ -29,7 +29,7 @@ import { parse as parseYaml } from "yaml";
 
 const UNARMED = path.resolve(
     __dirname,
-    "../../assets/content/Skills/Combat/Unarmed",
+    "../../assets/content/Skills/Combat_Techniques",
 );
 const CONTENT = path.resolve(__dirname, "../../assets/content");
 
@@ -69,26 +69,26 @@ type Row = [
 ];
 
 const ROWS: Row[] = [
-    ["bite", "Bite", 0, 2, 4, 0, "piercing", "vital"],
-    ["grab", "Grab", 1, 4, null, 0, "blunt", "manipulator"],
-    ["headbutt", "Headbutt", 0, 4, 6, -2, "blunt", "vital"],
-    ["kick", "Kick", 2, 4, 6, -2, "blunt", "locomotor"],
-    ["limbblock", "Limb Block", 1, 0, null, 0, "blunt", "manipulator"],
-    ["press", "Press", 1, 0, null, 0, "blunt", "core"],
-    ["punch", "Punch", 1, 4, 6, -3, "blunt", "manipulator"],
-    ["trip", "Trip", 2, 0, null, 0, "blunt", "locomotor"],
+    ["bflkbite", "Bite", 0, 2, 4, 0, "piercing", "vital"],
+    ["bflkgrab", "Grab", 1, 4, null, 0, "blunt", "manipulator"],
+    ["bflkheadbutt", "Headbutt", 0, 4, 6, -2, "blunt", "vital"],
+    ["bflkkick", "Kick", 2, 4, 6, -2, "blunt", "locomotor"],
+    ["bflklmbblk", "Limb Block", 1, 0, null, 0, "blunt", "manipulator"],
+    ["bflkpress", "Press", 1, 0, null, 0, "blunt", "core"],
+    ["bflkpunch", "Punch", 1, 4, 6, -3, "blunt", "manipulator"],
+    ["bflktrip", "Trip", 2, 0, null, 0, "blunt", "locomotor"],
 ];
 
 /** Traits the printed TRAITS column calls for, beyond the shared ones. */
 const TRAITS: Record<string, Record<string, unknown>> = {
-    bite: { impTA: 3 },
-    grab: { strRoll: true },
-    headbutt: {},
-    kick: { lowAim: true },
-    limbblock: { noAttack: true },
-    press: { strRoll: true },
-    punch: { impTA: 2 },
-    trip: { strRoll: true },
+    bflkbite: { impTA: 3 },
+    bflkgrab: { strRoll: true },
+    bflkheadbutt: {},
+    bflkkick: { lowAim: true },
+    bflklmbblk: { noAttack: true },
+    bflkpress: { strRoll: true },
+    bflkpunch: { impTA: 2 },
+    bflktrip: { strRoll: true },
 };
 
 /** Read one item's `sohl` frontmatter, with its top-level fields. */
@@ -147,7 +147,7 @@ describe.each(ROWS)(
             const sm = fm.sohl.strikeMode;
             // Every one of these is resolved by the Melee test.
             expect(sm.assocSkillCode).toBe("melee");
-            if (code === "limbblock") {
+            if (code === "bflklmbblk") {
                 // The one unarmed defence: it blocks and never attacks.
                 expect(sm.attack.disabled).toBe(true);
                 expect(sm.defense.block.disabled).toBe(false);

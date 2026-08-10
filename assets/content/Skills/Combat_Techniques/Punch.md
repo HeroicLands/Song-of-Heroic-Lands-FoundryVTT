@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Limb Block
+    - Punch
 tags: []
 name:
-    full: Limb Block
+    full: Punch
     aliases: []
-description: "Warding a blow with a bare limb, and taking what comes of it."
-id: UnarmedLimbBlock
-slug: unarmed-limb-block
-img: icons/game-icons/lorc/arm-bandage.svg
-shortcode: limbblock
+description: "A closed fist; the plainest thing a person can do in a fight."
+id: UnarmedPunch0001
+slug: unarmed-punch
+img: icons/game-icons/lorc/punch-blast.svg
+shortcode: bflkpunch
 type: skill
 package: sohl
 sohl:
@@ -26,27 +26,27 @@ sohl:
         - manipulator
     strikeMode:
         type: melee
-        shortcode: limbblock
-        name: Limb Block
+        shortcode: punch
+        name: Punch
         minParts: 1
         assocSkillCode: melee
         attack:
-            disabled: true
-            spread: 0
+            disabled: false
+            spread: 4
             modifier: 0
         impactBase:
-            numDice: 0
-            die: null
-            modifier: 0
+            numDice: 1
+            die: 6
+            modifier: -3
             aspect: blunt
         lengthBase: 1
         defense:
             block:
-                disabled: false
+                disabled: true
                 modifier: 0
                 successLevelMod: 0
             counterstrike:
-                disabled: true
+                disabled: false
                 modifier: 0
                 successLevelMod: 0
         traits:
@@ -55,10 +55,10 @@ sohl:
             durabilityMod: 0
             cxSLMod: 0
             oppDef: 0
-            impTA: 0
+            impTA: 2
             AR: 0
-            noAttack: true
-            noBlock: false
+            noAttack: false
+            noBlock: true
             entangle: false
             envelop: false
             couched: false
@@ -80,8 +80,6 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-An unarmed Block, made with a limb. Apply −20 to the Melee test where the limb is at odds with the weapon's trajectory — a leg raised against a punch — and the GM may disallow it outright where it is radically awkward, as a leg is against a bite.
+The plainest attack there is, and the weakest — a bare fist does little against anything padded, and rather less against anything rigid. What it has is speed and the fact that you are never without it.
 
-**On tied successes** the blocking limb's zone is struck by the attacker's weapon, though 2 is subtracted from the strike impact for the partial ward.
-
-**On a clear victory** — a higher success level without benefit of a tiebreak — the blow is warded safely and the attack fails.
+A rigid helm, boot or gauntlet adds 2 to the impact. Used with an off-hand or off-foot, a punch or kick takes a −10 penalty and loses a point of impact.

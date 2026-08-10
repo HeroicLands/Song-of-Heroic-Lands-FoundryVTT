@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Punch
+    - Press
 tags: []
 name:
-    full: Punch
+    full: Press
     aliases: []
-description: "A closed fist; the plainest thing a person can do in a fight."
-id: UnarmedPunch0001
-slug: unarmed-punch
-img: icons/game-icons/lorc/punch-blast.svg
-shortcode: punch
+description: "Shoving an opponent back, off their line and off their feet."
+id: UnarmedPress0001
+slug: unarmed-press
+img: icons/game-icons/lorc/shield-bash.svg
+shortcode: bflkpress
 type: skill
 package: sohl
 sohl:
@@ -23,21 +23,21 @@ sohl:
     masteryLevelBase: null
     improveFlag: false
     impairedByRoles:
-        - manipulator
+        - core
     strikeMode:
         type: melee
-        shortcode: punch
-        name: Punch
+        shortcode: press
+        name: Press
         minParts: 1
         assocSkillCode: melee
         attack:
             disabled: false
-            spread: 4
+            spread: 0
             modifier: 0
         impactBase:
-            numDice: 1
-            die: 6
-            modifier: -3
+            numDice: 0
+            die: null
+            modifier: 0
             aspect: blunt
         lengthBase: 1
         defense:
@@ -55,7 +55,7 @@ sohl:
             durabilityMod: 0
             cxSLMod: 0
             oppDef: 0
-            impTA: 2
+            impTA: 0
             AR: 0
             noAttack: false
             noBlock: true
@@ -76,10 +76,18 @@ sohl:
             noStrMod: false
             halfImpact: false
             lowAim: false
-            strRoll: false
+            strRoll: true
 folder: EphAMAfFhWBrJxyF
 ---
 
-The plainest attack there is, and the weakest — a bare fist does little against anything padded, and rather less against anything rigid. What it has is speed and the fact that you are never without it.
+Winning the Melee test earns an opposed `d6 + STR` roll, at +2 per Impact Tactical Advantage and +2 with a Charge. If the presser wins that roll as well, the margin decides what happens:
 
-A rigid helm, boot or gauntlet adds 2 to the impact. Used with an off-hand or off-foot, a punch or kick takes a −10 penalty and loses a point of impact.
+| Margin | Effect                                                                                                             |
+| ------ | ------------------------------------------------------------------------------------------------------------------ |
+| 1–4    | Knocked back five feet.                                                                                            |
+| 5–9    | Knocked back five feet, and a Stumble mishap roll.                                                                 |
+| 10+    | Knocked back ten feet and prone, and a Shock Roll against Shock Index 6 — 7 at a margin of 30–49, 8 at 50 or more. |
+
+Otherwise there is no effect.
+
+Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.

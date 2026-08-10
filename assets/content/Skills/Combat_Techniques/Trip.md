@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Bite
+    - Trip
 tags: []
 name:
-    full: Bite
+    full: Trip
     aliases: []
-description: "Teeth to whatever is nearest; a last resort with surprising bite."
-id: UnarmedBite0001
-slug: unarmed-bite
-img: icons/game-icons/lorc/fangs.svg
-shortcode: bite
+description: "Taking an opponent's legs from under them."
+id: UnarmedTrip0001
+slug: unarmed-trip
+img: icons/game-icons/lorc/hobbling-mace.svg
+shortcode: bflktrip
 type: skill
 package: sohl
 sohl:
@@ -23,23 +23,23 @@ sohl:
     masteryLevelBase: null
     improveFlag: false
     impairedByRoles:
-        - vital
+        - locomotor
     strikeMode:
         type: melee
-        shortcode: bite
-        name: Bite
+        shortcode: trip
+        name: Trip
         minParts: 1
         assocSkillCode: melee
         attack:
             disabled: false
-            spread: 2
+            spread: 0
             modifier: 0
         impactBase:
-            numDice: 1
-            die: 4
+            numDice: 0
+            die: null
             modifier: 0
-            aspect: piercing
-        lengthBase: 0
+            aspect: blunt
+        lengthBase: 2
         defense:
             block:
                 disabled: true
@@ -55,7 +55,7 @@ sohl:
             durabilityMod: 0
             cxSLMod: 0
             oppDef: 0
-            impTA: 3
+            impTA: 0
             AR: 0
             noAttack: false
             noBlock: true
@@ -76,8 +76,18 @@ sohl:
             noStrMod: false
             halfImpact: false
             lowAim: false
-            strRoll: false
+            strRoll: true
 folder: EphAMAfFhWBrJxyF
 ---
 
-Biting is what is left when both hands are held and the head is not. It reaches no distance at all — the target must already be against you — and it is precise, because a mouth goes where the head turns. Its virtue is that teeth are pointed where a fist is not, so a bite that lands on something soft tells.
+Winning the Melee test earns an opposed `d6 + STR` roll, at +4 per Impact Tactical Advantage. If the tripper wins that roll as well, the margin decides what happens:
+
+| Margin | Effect                                                                                   |
+| ------ | ---------------------------------------------------------------------------------------- |
+| 1–4    | Knocked prone.                                                                           |
+| 5–9    | Thrown five feet and knocked prone.                                                      |
+| 10+    | Thrown five feet and knocked prone, and the tripper may succeed automatically on a Grab. |
+
+Otherwise there is no effect.
+
+Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.

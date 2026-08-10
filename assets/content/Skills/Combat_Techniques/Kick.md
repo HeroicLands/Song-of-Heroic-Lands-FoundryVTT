@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Headbutt
+    - Kick
 tags: []
 name:
-    full: Headbutt
+    full: Kick
     aliases: []
-description: "The crown of the skull, driven into whatever is close enough."
-id: UnarmedHeadbutt1
-slug: unarmed-headbutt
-img: icons/game-icons/lorc/wrecking-ball.svg
-shortcode: headbutt
+description: "A boot driven out; the longest reach a person has unarmed."
+id: UnarmedKick0001
+slug: unarmed-kick
+img: icons/game-icons/lorc/foot-trip.svg
+shortcode: bflkkick
 type: skill
 package: sohl
 sohl:
@@ -23,11 +23,11 @@ sohl:
     masteryLevelBase: null
     improveFlag: false
     impairedByRoles:
-        - vital
+        - locomotor
     strikeMode:
         type: melee
-        shortcode: headbutt
-        name: Headbutt
+        shortcode: kick
+        name: Kick
         minParts: 1
         assocSkillCode: melee
         attack:
@@ -39,7 +39,7 @@ sohl:
             die: 6
             modifier: -2
             aspect: blunt
-        lengthBase: 0
+        lengthBase: 2
         defense:
             block:
                 disabled: true
@@ -75,11 +75,11 @@ sohl:
             pommel: false
             noStrMod: false
             halfImpact: false
-            lowAim: false
+            lowAim: true
             strRoll: false
 folder: EphAMAfFhWBrJxyF
 ---
 
-Delivered from inside a grapple or a crowd, where there is no room to draw a fist back. The skull is heavy and the forehead hard, and a headbutt hits accordingly — but it puts your own head where the damage is.
+A kick reaches further than any other unarmed strike and carries the weight of the leg behind it. What it cannot do is reach high: a kick aims low, at the legs and the body, and a head is out of its way.
 
 A rigid helm, boot or gauntlet adds 2 to the impact. Used with an off-hand or off-foot, a punch or kick takes a −10 penalty and loses a point of impact.

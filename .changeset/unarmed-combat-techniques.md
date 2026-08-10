@@ -10,7 +10,11 @@ No character carried the techniques every person has. A pregen could pick up a
 sword, but had no way to punch, kick, grab or trip with one.
 
 Eight new `combattechnique` skills under
-`assets/content/Skills/Combat/Unarmed/`, one per row of the unarmed table:
+`assets/content/Skills/Combat_Techniques/`, one per row of the unarmed table.
+They are keyed `bflkbite`, `bflkgrab`, `bflkheadbutt`, `bflkkick`,
+`bflklmbblk`, `bflkpress`, `bflkpunch` and `bflktrip` — the prefix marking them
+as the folk techniques, since a person's bite is not a bear's and the plain
+names belong to creature techniques:
 
 | Technique  | LNG |  ZD | Impact  | Notes                   |
 | ---------- | --: | --: | ------- | ----------------------- |

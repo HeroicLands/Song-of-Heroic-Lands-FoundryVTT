@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Trip
+    - Limb Block
 tags: []
 name:
-    full: Trip
+    full: Limb Block
     aliases: []
-description: "Taking an opponent's legs from under them."
-id: UnarmedTrip0001
-slug: unarmed-trip
-img: icons/game-icons/lorc/hobbling-mace.svg
-shortcode: trip
+description: "Warding a blow with a bare limb, and taking what comes of it."
+id: UnarmedLimbBlock
+slug: unarmed-limb-block
+img: icons/game-icons/lorc/arm-bandage.svg
+shortcode: bflklmbblk
 type: skill
 package: sohl
 sohl:
@@ -23,15 +23,15 @@ sohl:
     masteryLevelBase: null
     improveFlag: false
     impairedByRoles:
-        - locomotor
+        - manipulator
     strikeMode:
         type: melee
-        shortcode: trip
-        name: Trip
+        shortcode: limbblock
+        name: Limb Block
         minParts: 1
         assocSkillCode: melee
         attack:
-            disabled: false
+            disabled: true
             spread: 0
             modifier: 0
         impactBase:
@@ -39,14 +39,14 @@ sohl:
             die: null
             modifier: 0
             aspect: blunt
-        lengthBase: 2
+        lengthBase: 1
         defense:
             block:
-                disabled: true
+                disabled: false
                 modifier: 0
                 successLevelMod: 0
             counterstrike:
-                disabled: false
+                disabled: true
                 modifier: 0
                 successLevelMod: 0
         traits:
@@ -57,8 +57,8 @@ sohl:
             oppDef: 0
             impTA: 0
             AR: 0
-            noAttack: false
-            noBlock: true
+            noAttack: true
+            noBlock: false
             entangle: false
             envelop: false
             couched: false
@@ -76,18 +76,12 @@ sohl:
             noStrMod: false
             halfImpact: false
             lowAim: false
-            strRoll: true
+            strRoll: false
 folder: EphAMAfFhWBrJxyF
 ---
 
-Winning the Melee test earns an opposed `d6 + STR` roll, at +4 per Impact Tactical Advantage. If the tripper wins that roll as well, the margin decides what happens:
+An unarmed Block, made with a limb. Apply −20 to the Melee test where the limb is at odds with the weapon's trajectory — a leg raised against a punch — and the GM may disallow it outright where it is radically awkward, as a leg is against a bite.
 
-| Margin | Effect                                                                                   |
-| ------ | ---------------------------------------------------------------------------------------- |
-| 1–4    | Knocked prone.                                                                           |
-| 5–9    | Thrown five feet and knocked prone.                                                      |
-| 10+    | Thrown five feet and knocked prone, and the tripper may succeed automatically on a Grab. |
+**On tied successes** the blocking limb's zone is struck by the attacker's weapon, though 2 is subtracted from the strike impact for the partial ward.
 
-Otherwise there is no effect.
-
-Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.
+**On a clear victory** — a higher success level without benefit of a tiebreak — the blow is warded safely and the attack fails.

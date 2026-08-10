@@ -563,21 +563,21 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 30
-        - shortcode: bite
+        - shortcode: bflkbite
           type: skill
-        - shortcode: grab
+        - shortcode: bflkgrab
           type: skill
-        - shortcode: headbutt
+        - shortcode: bflkheadbutt
           type: skill
-        - shortcode: kick
+        - shortcode: bflkkick
           type: skill
-        - shortcode: limbblock
+        - shortcode: bflklmbblk
           type: skill
-        - shortcode: press
+        - shortcode: bflkpress
           type: skill
-        - shortcode: punch
+        - shortcode: bflkpunch
           type: skill
-        - shortcode: trip
+        - shortcode: bflktrip
           type: skill
 ---
 

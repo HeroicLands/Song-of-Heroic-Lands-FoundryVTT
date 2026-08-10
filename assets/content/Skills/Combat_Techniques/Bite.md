@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Grab
+    - Bite
 tags: []
 name:
-    full: Grab
+    full: Bite
     aliases: []
-description: "Seize a limb to take what it holds, or hold it still."
-id: UnarmedGrab0001
-slug: unarmed-grab
-img: icons/game-icons/lorc/grab.svg
-shortcode: grab
+description: "Teeth to whatever is nearest; a last resort with surprising bite."
+id: UnarmedBite0001
+slug: unarmed-bite
+img: icons/game-icons/lorc/fangs.svg
+shortcode: bflkbite
 type: skill
 package: sohl
 sohl:
@@ -23,23 +23,23 @@ sohl:
     masteryLevelBase: null
     improveFlag: false
     impairedByRoles:
-        - manipulator
+        - vital
     strikeMode:
         type: melee
-        shortcode: grab
-        name: Grab
+        shortcode: bite
+        name: Bite
         minParts: 1
         assocSkillCode: melee
         attack:
             disabled: false
-            spread: 4
+            spread: 2
             modifier: 0
         impactBase:
-            numDice: 0
-            die: null
+            numDice: 1
+            die: 4
             modifier: 0
-            aspect: blunt
-        lengthBase: 1
+            aspect: piercing
+        lengthBase: 0
         defense:
             block:
                 disabled: true
@@ -55,7 +55,7 @@ sohl:
             durabilityMod: 0
             cxSLMod: 0
             oppDef: 0
-            impTA: 0
+            impTA: 3
             AR: 0
             noAttack: false
             noBlock: true
@@ -76,14 +76,8 @@ sohl:
             noStrMod: false
             halfImpact: false
             lowAim: false
-            strRoll: true
+            strRoll: false
 folder: EphAMAfFhWBrJxyF
 ---
 
-A grab attempts one of two things: to **take** an object held in the zone struck — a left or right arm, the hit location within it being irrelevant — or to **hold** that zone immobile for a round.
-
-Winning the Melee test only earns the attempt. Both combatants then make an opposed `d6 + STR` roll, at +3 per Impact Tactical Advantage, −2 one-handed and −3 off-handed. The manoeuvre happens only if the grabber wins that roll too; otherwise nothing does.
-
-**A hold that lands** forces the target to Pass on their next turn, though they may still defend. On the grabber's next turn the opposed roll repeats: win and the hold continues, lose and it is broken.
-
-Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.
+Biting is what is left when both hands are held and the head is not. It reaches no distance at all — the target must already be against you — and it is precise, because a mouth goes where the head turns. Its virtue is that teeth are pointed where a fist is not, so a bite that lands on something soft tells.
