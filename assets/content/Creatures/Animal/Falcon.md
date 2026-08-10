@@ -211,7 +211,7 @@ sohl:
             base: 2
             calc: "2"
         reachBase: 0
-        bodyScaleBase: 0.18
+        bodyScaleBase: 0.33
         personalFatigue: enc + 5
     currentMoveMedium: aerial
     movementProfiles:

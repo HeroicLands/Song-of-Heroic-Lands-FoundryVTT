@@ -172,7 +172,7 @@ sohl:
             base: 20000
             calc: 20000
         reachBase: 0
-        bodyScaleBase: 1.82
+        bodyScaleBase: 1.47
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:

@@ -233,8 +233,19 @@ body absorbing it — the same 3-point dagger is trivial to a cow and grievous t
 cat. The being's `body` carries a `bodyScaleBase` factor (`1.0` = a baseline human;
 larger = bigger/tougher body), exposed as the clamped `bodyScale` `ValueModifier`
 on {@link sohl.document.actor.logic.BodyLogic} (`being.body.bodyScale`). Seed it
-from `(typical species STR) / 11` (11 is the human strength the master table is
-calibrated for).
+from `((typical species STR) / 11) ^ 0.65` — 11 being the human strength the
+master table is calibrated for, so Strength 11 maps to exactly 1.0.
+
+The exponent compresses the ends. A linear `STR / 11` spread the bestiary from
+0.18 to 5.45 and put most of that range in the tails; at 0.65 it centres on
+**1.30** with two standard deviations covering roughly 0.3 to 2.3, and a scale
+of 3 sits at about +3 sd — reached by the largest dragon at 3.01 and by nothing
+else. The low end barely moves (a wolf goes 0.91 to 0.94); the compression is
+felt where it should be, at the top.
+
+A creature may of course be given a scale out of line with its Strength
+deliberately — `bodyScaleBase` is authored, not computed — but the curve is what
+an ordinary creature is seeded from.
 
 The master thresholds (`BASE_INJURY_THRESHOLDS`, `[1, 5, 10, 15, 20]`) are never
 mutated; each creature derives its own `injuryTable = master × bodyScale` in
