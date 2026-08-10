@@ -24,6 +24,7 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
+import { applyWielderStrengthImpact } from "@src/document/item/logic/wielderStrength";
 import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { calcMasteryBoost } from "@src/document/item/logic/masteryBoost";
@@ -923,6 +924,10 @@ export class SkillLogic<
             ) {
                 applyProneMeleePenalty(this.strikeMode);
             }
+            // Fold the wielder's Strength into the technique's impact (#1253),
+            // as WeaponGearLogic does for weapon strike modes. A technique is
+            // gripped by no limb, so it is never off-hand.
+            applyWielderStrengthImpact(this);
         }
     }
 }

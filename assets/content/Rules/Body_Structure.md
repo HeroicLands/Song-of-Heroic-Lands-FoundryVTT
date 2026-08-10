@@ -68,6 +68,20 @@ Two further properties are **derived from the part's roles rather than set direc
 - **Whether it affects mobility** — true when the part holds the Vital, Core, or Locomotor role. Injure a leg or a torso and you move worse; injure an arm and you do not.
 - **Whether it is critical** — true when the part holds the Vital or Core role. Critical parts drive the far harsher column of the [Health](Health.md) ceiling.
 
+## Dominance
+
+Most people favor one side of the body — not the hand alone, but the whole side working together. A being's favored side is read from the characteristics it carries:
+
+- **Left Dominance** alone — the left side is dominant.
+- **Right Dominance** alone — the right side is dominant.
+- **Both, or neither** — the being is **ambidextrous** and has no dominant side.
+
+An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [Strength Impact Modifier](Strike_Modes.md#the-strength-impact-modifier).
+
+A weapon counts as **off-hand** only when _every_ limb gripping it is on the non-favored side. A two-handed grip includes the dominant hand, so it is never off-hand.
+
+Paired parts — two arms, two legs, two wings — are recognized as a left and a right by the presence of their opposite number. A part with no counterpart is central, and belongs to neither side.
+
 ## Body Part Roles
 
 A **body role** is a tag describing what a body part is _for_. There are four:

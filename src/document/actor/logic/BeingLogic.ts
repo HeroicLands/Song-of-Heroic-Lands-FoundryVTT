@@ -89,6 +89,11 @@ import {
     type LocationInjury,
 } from "@src/entity/body/impairment";
 import type { BodyPart } from "@src/entity/body/BodyPart";
+import {
+    dominantSideFrom,
+    LEFT_DOMINANCE_CODE,
+    RIGHT_DOMINANCE_CODE,
+} from "@src/entity/body/laterality";
 import type { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import {
@@ -116,6 +121,7 @@ import {
     isImpactAspect,
     type ImpactAspect,
     ITEM_KIND,
+    type BodySide,
     SKILL_CODE,
     type SkillCode,
     SOHL_ACTION_SCOPE,
@@ -2776,6 +2782,25 @@ export class BeingLogic<
             }
         }
         return penalties;
+    }
+
+    /**
+     * The side of the body this being favors, read from its Left/Right
+     * Dominance characteristics.
+     *
+     * A being carrying **both** characteristics, or **neither**, has no
+     * dominant side — it is ambidextrous, and so has no off hand to be
+     * penalized for using. This is the single answer to the dominance question
+     * wherever a favored side matters; see
+     * {@link sohl.entity.body.dominantSideFrom}.
+     *
+     * @returns The favored side, or `undefined` when the being has none.
+     */
+    get dominantSide(): BodySide | undefined {
+        return dominantSideFrom(
+            !!this.getItemLogic(LEFT_DOMINANCE_CODE, ITEM_KIND.TRAUMA),
+            !!this.getItemLogic(RIGHT_DOMINANCE_CODE, ITEM_KIND.TRAUMA),
+        );
     }
 
     /**

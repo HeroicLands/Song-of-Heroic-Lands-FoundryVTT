@@ -16,6 +16,8 @@ import { registerEntity } from "@src/entity/entityRegistry";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
+import { bodyPartSide } from "@src/entity/body/laterality";
+import type { BodySide } from "@src/utils/constants";
 import type { Rng } from "@src/entity/random/Rng";
 import { defaultRng } from "@src/entity/random/createRng";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -159,6 +161,15 @@ export class BodyPart extends SohlEntity {
     /** The {@link BodyStructure} this part belongs to, via its zone. */
     get structure(): BodyStructure {
         return this.zone.structure;
+    }
+
+    /**
+     * Which side of the body this part lies on, or `undefined` when it is
+     * central or unpaired. Derived from the shortcode and its mirror twin —
+     * see {@link sohl.entity.body.bodyPartSide} for the rule.
+     */
+    get side(): BodySide | undefined {
+        return bodyPartSide(this);
     }
 
     /**

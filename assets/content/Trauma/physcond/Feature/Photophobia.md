@@ -28,4 +28,3 @@ Wearing sunglasses indoors, keeping lights dim, or avoiding outdoor activities d
 ### Physical Symptoms
 
 Squinting, headaches, nausea, dizziness, and pain in the eyes.
-

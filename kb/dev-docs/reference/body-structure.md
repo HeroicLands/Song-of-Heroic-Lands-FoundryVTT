@@ -90,6 +90,25 @@ A body part is a primary anatomical division — Head, Torso, an arm, a leg, a w
 
 A convenience getter {@link sohl.entity.body.BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
 
+## Laterality and dominance
+
+Which side of a body a part lies on is **derived, never stored**. A part is lateral when its shortcode begins with `l` or `r` **and the mirrored shortcode also exists on that body**: `larmpart` is left because `rarmpart` stands beside it. {@link sohl.entity.body.BodyPart.side} exposes the answer; {@link sohl.entity.body.bodyPartSide} is the rule.
+
+Requiring the mirror twin is what makes the prefix safe. A bare "starts with `l`" test would read a central `liverpart` as left; with no `riverpart` on the body, the twin rule correctly gives it no side. Every one of the 237 body plans in the content packs satisfies this — no `l*`/`r*` part is unpaired — so the derivation is total, and it depends on the shortcode (a stable identifier) rather than the display name (prose, and localizable).
+
+A **being's** dominant side is a different question, and comes from its characteristics rather than from anything on a limb — {@link sohl.document.actor.logic.BeingLogic.dominantSide} reads the `ldmnc` / `rdmnc` Trauma items:
+
+| Left Dominance | Right Dominance | Dominant side              |
+| -------------- | --------------- | -------------------------- |
+| yes            | no              | left                       |
+| no             | yes             | right                      |
+| yes            | yes             | none — ambidextrous        |
+| no             | no              | none — no side is favored  |
+
+This is the single home for the dominance question wherever a favored side matters; the off-hand impact reduction ({@link sohl.entity.body.isOffHandGrip}) is only its first caller. A grip is off-hand only when *every* limb holding the item is on the non-dominant side, so a two-handed grip never is, and a being with no dominant side never grips off-hand at all.
+
+> The persisted `favoredFlag` on a body part is not this mechanism and is read nowhere — dominance is a property of the being, not of a limb.
+
 ## Body locations
 
 A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [BeingDataModel.ts](../../src/document/actor/foundry/BeingDataModel.ts):

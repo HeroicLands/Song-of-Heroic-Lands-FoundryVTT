@@ -28,5 +28,6 @@ export * from "./impairment";
 export * from "./injury-defaults";
 export * from "./injury-resolution";
 export * from "./injury-treatment";
+export * from "./laterality";
 export * from "./planBodyShortcode";
 export * from "./weighted-random";
