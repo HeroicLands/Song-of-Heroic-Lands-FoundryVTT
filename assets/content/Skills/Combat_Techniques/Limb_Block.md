@@ -5,7 +5,7 @@ tags: []
 name:
     full: Limb Block
     aliases: []
-description: "Warding a blow with a bare limb — and taking the weapon on that limb when it only half-works."
+description: "Warding a blow with a limb — desperate bare-armed, deliberate in a mail sleeve."
 id: UnarmedLimbBlock
 slug: unarmed-limb-block
 img: icons/game-icons/lorc/arm-bandage.svg
@@ -84,6 +84,8 @@ The defence of last resort: no weapon in hand, no shield on the arm, and somethi
 
 **This is genuinely dangerous, and against an armed opponent it is close to desperate.** A block only wards the blow safely on a **clear victory** — a higher success level than the attacker, without benefit of a tiebreak. On **tied successes** the attack lands on the blocking limb itself: the weapon strikes that limb's zone, a `d10` deciding where within it, and a mere **2** is subtracted from the strike impact for the partial ward. Two points is nothing against a sword. Blocking a blade with a bare forearm means, most of the time, that the blade is now in your forearm — and an edged weapon at a limb is how people lose hands.
 
-Against a fist, a club or a kick it is a reasonable thing to do, because the worst case is a bruised arm. Against anything with an edge it should be a choice made only when the alternative is worse — a blade in the arm being better than a blade in the throat.
+Against a fist, a club or a kick it is a reasonable thing to do, because the worst case is a bruised arm. Against anything with an edge and a bare arm it should be a choice made only when the alternative is worse — a blade in the arm being better than a blade in the throat.
+
+**Armour changes the arithmetic entirely.** A limb block is the only defence that decides _where_ the blow lands, and a fighter armoured unevenly can use that. A gladiator in a mail sleeve and little else, or a soldier with vambraces over an unprotected body, is not gambling at all when they raise that arm: they are steering the strike off the parts of them that would be opened by it and onto the one part that will turn it. The limb's own armour applies as normal, and the block's 2 points of mitigation come off on top of it. Done deliberately and often, it is how a lightly armoured fighter survives a heavily armed one.
 
 Apply **−20** to the Melee test where the limb is at odds with the weapon's trajectory: a leg raised against a punch, for instance. The GM may disallow the block outright where it would be radically awkward, as a leg is against a bite.
