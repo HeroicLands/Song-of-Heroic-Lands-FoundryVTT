@@ -31,6 +31,8 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
+import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
+
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");
 // Developer-doc source. Authored under the KB tree (`kb/dev-docs/`) and
@@ -111,60 +113,6 @@ function resolveLinks(body) {
             return kind === "plain" ? display : `\`${display}\``;
         },
     );
-}
-
-/**
- * Resolve Obsidian-style `[[wikilinks]]` to KB markdown links. A target is
- * looked up (case-insensitively) in `ctx.index`, which is keyed by the unique
- * `section/slug` plus collision-aware `name`/`filename`/`slug` fallbacks — so
- * `[[section/slug|Label]]` is always unambiguous, and a bare `[[Name]]` resolves
- * when that name is unique. Handles `#anchor` and an optional `|Label`.
- *
- * A target that doesn't resolve fails the build only when it's a genuine
- * intra-KB problem — an ambiguous name (`ctx.collide`) or an explicit
- * `section/slug` under a real section (`ctx.sections`) with a bad slug. Anything
- * else is treated as an external reference (e.g. a Thalorna world entity) and
- * rendered as plain text; `ctx.errors` collects the failures.
- * @param {string} body - The markdown body.
- * @param {{index: Map, collide: Set, sections: Set, errors: object[], src: string}} ctx
- * @returns {string} The body with wikilinks rewritten.
- */
-function resolveWikilinks(body, ctx) {
-    return body.replace(/\[\[([^\]]+)\]\]/g, (_m, inner) => {
-        const bar = inner.indexOf("|");
-        const linkPart = (bar === -1 ? inner : inner.slice(0, bar)).trim();
-        const hash = linkPart.indexOf("#");
-        const target = (
-            hash === -1 ? linkPart : linkPart.slice(0, hash)).trim();
-        const anchor = hash === -1 ? "" : linkPart.slice(hash + 1).trim();
-        const display = bar === -1 ? null : inner.slice(bar + 1).trim();
-        const key = target.toLowerCase();
-        const hit = ctx.index.get(key);
-        if (hit) {
-            const text = display ?? hit.name;
-            return `[${text}](${anchor ? `${hit.url}#${slugify(anchor)}` : hit.url})`;
-        }
-        // Unresolved. Fail the build only on genuine intra-KB problems — an
-        // ambiguous `[[Name]]` (a name that maps to several KB pages), or an
-        // explicit `[[section/slug]]` whose section is a real KB section but the
-        // slug doesn't exist. A bare unknown target (or an unknown section) is
-        // treated as an external reference — e.g. Thalorna world entities that
-        // live on the www site — and rendered as plain text.
-        const slash = target.indexOf("/");
-        const badSectionSlug =
-            slash !== -1 &&
-            ctx.sections.has(target.slice(0, slash).toLowerCase());
-        if (ctx.collide.has(key)) {
-            ctx.errors.push({ file: ctx.src, target, reason: "ambiguous" });
-        } else if (badSectionSlug) {
-            ctx.errors.push({
-                file: ctx.src,
-                target,
-                reason: "broken section/slug",
-            });
-        }
-        return display ?? target;
-    });
 }
 
 /**
@@ -249,12 +197,6 @@ function walk(dir) {
     }
     return out;
 }
-
-const slugify = (s) =>
-    s
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
 
 /**
  * Section a content entry routes to: its `type`, except `type: doc` pages route
@@ -477,6 +419,9 @@ for (const file of walk(CONTENT_SRC)) {
         name,
         slug,
         base,
+        // Top-level content directory ("Rules", "Skills", …). Wikilinks name a
+        // target as `TLD/shortcode`, and a bare `[[Text]]` is scoped to it.
+        tld: path.relative(CONTENT_SRC, file).split(path.sep)[0],
         // Immediate source subfolder (Creatures/Animal/Aurochs.md → "Animal") —
         // the only surviving record of the authoring folder, for grouped landings.
         folder: path.basename(path.dirname(file)),
@@ -557,12 +502,51 @@ for (const e of entries) {
     addFallback(e.slug, v);
 }
 
+// The authored form: `TLD/shortcode`, where the TLD is the content directory and
+// the shortcode is unique within it — so this key is unique by construction, the
+// same guarantee `section/slug` gives. Alongside it, every alias is indexed
+// *scoped to its TLD*, which is what makes a bare `[[Text]]` resolvable even
+// when the same name is used in another directory ("Shock" the rules page and
+// "Shock" the trauma item both exist).
+const tldAlias = new Map(); // `tld|alias` → { url, name }
+const tldCollide = new Set();
+const contentTlds = new Set();
+for (const e of entries) {
+    if (!e.tld) continue; // developer docs have no content directory
+    contentTlds.add(e.tld.toLowerCase());
+    const v = { url: e.url, name: e.name };
+    if (typeof e.fm.shortcode === "string" && e.fm.shortcode) {
+        wikiIndex.set(`${e.tld}/${e.fm.shortcode}`.toLowerCase(), v);
+    }
+    const aliases = [
+        ...(Array.isArray(e.fm.aliases) ? e.fm.aliases : []),
+        ...(Array.isArray(e.fm.name?.aliases) ? e.fm.name.aliases : []),
+        e.name,
+        path.basename(e.base, ".md").replace(/_/g, " "),
+    ].filter((a) => typeof a === "string" && a);
+    for (const a of aliases) {
+        const k = `${e.tld}|${a}`.toLowerCase();
+        if (tldCollide.has(k)) continue;
+        const cur = tldAlias.get(k);
+        if (cur && cur.url !== v.url) {
+            tldAlias.delete(k);
+            tldCollide.add(k);
+        } else if (!cur) {
+            tldAlias.set(k, v);
+        }
+    }
+}
+
 const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
 const wikiErrors = [];
-const wikiCtx = (src) => ({
+const wikiCtx = (src, tld = null) => ({
     index: wikiIndex,
     collide: wikiCollide,
     sections: knownSections,
+    tldAlias,
+    tldCollide,
+    contentTlds,
+    tld,
     errors: wikiErrors,
     src,
 });
@@ -571,7 +555,8 @@ const wikiCtx = (src) => ({
 for (const e of entries) {
     const { fm, name, slug, sec, url, base, isReadme } = e;
     const src = e.rel ?? `${sec}/${base}`;
-    const resolve = (t) => resolveWikilinks(resolveLinks(t), wikiCtx(src));
+    const resolve = (t) =>
+        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.tld));
 
     // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
     // live under /guide/ (assets/content) or /dev/ (developer docs).
