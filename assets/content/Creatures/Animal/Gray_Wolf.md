@@ -10,6 +10,7 @@ id: nPuJf6mTzOMgeULk
 slug: gray-wolf
 img: icons/game-icons/lorc/wolf-head.svg
 portrait: ""
+shortcode: graywolf
 type: creature
 package: sohl
 sohl:

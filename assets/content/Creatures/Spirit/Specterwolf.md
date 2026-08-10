@@ -10,6 +10,7 @@ id: rD3EROAf0ElFfGjr
 slug: specterwolf
 img: icons/game-icons/lorc/wolf-head.svg
 portrait: ""
+shortcode: spctrwlf
 type: creature
 package: sohl
 sohl:

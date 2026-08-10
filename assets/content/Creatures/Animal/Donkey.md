@@ -10,6 +10,7 @@ id: Z0cG8fAIzSARDUaH
 slug: donkey
 img: icons/game-icons/skoll/donkey.svg
 portrait: ""
+shortcode: donkey
 type: creature
 package: sohl
 sohl:

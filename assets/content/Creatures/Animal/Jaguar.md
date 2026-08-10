@@ -12,6 +12,7 @@ id: tkljuvLrqQH2rXzd
 slug: jaguar
 img: icons/game-icons/delapouite/feline.svg
 portrait: ""
+shortcode: jaguar
 type: creature
 package: sohl
 sohl:

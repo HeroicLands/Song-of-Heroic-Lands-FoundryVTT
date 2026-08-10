@@ -11,6 +11,7 @@ id: QpWdvTgOQceHrZhi
 slug: water-buffalo
 img: icons/game-icons/delapouite/buffalo-head.svg
 portrait: ""
+shortcode: wtrbffl
 type: creature
 package: sohl
 sohl:

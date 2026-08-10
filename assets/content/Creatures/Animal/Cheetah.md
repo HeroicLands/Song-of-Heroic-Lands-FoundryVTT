@@ -11,6 +11,7 @@ id: mjqQVrKXPAtQyUUN
 slug: cheetah
 img: icons/game-icons/lorc/lion.svg
 portrait: ""
+shortcode: cheetah
 type: creature
 package: sohl
 sohl:

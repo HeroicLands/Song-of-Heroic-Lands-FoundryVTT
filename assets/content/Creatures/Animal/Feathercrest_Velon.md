@@ -10,6 +10,7 @@ id: Or8DbTmkrdKMEqDi
 slug: feathercrest-velon
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: fthrcrst
 type: creature
 package: sohl
 sohl:

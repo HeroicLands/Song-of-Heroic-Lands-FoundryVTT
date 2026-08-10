@@ -10,6 +10,7 @@ id: bnKZuFaJKbkhFJxn
 slug: crag-lurker
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: crglrkr
 type: creature
 package: sohl
 sohl:

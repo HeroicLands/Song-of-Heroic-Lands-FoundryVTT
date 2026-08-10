@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "The Fate System"
 slug: "fate-system"
+shortcode: thftsyst
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -17,7 +18,7 @@ can spend Fate points to influence dice rolls, avoid death, or gain other
 benefits. Fate is a limited resource that refreshes under specific
 circumstances.
 
-See also: [Skill Tests](user-guide/skill-tests.md)
+See also: [[Skill Tests]]
 
 # Fate Points {#fate-points}
 
@@ -58,4 +59,4 @@ Characters can voluntarily spend Fate points to:
 The **Fate** option in the system settings controls whether Fate is
 tracked automatically.
 
-See [Settings](user-guide/settings.md) for more configuration options.
+See [[Settings]] for more configuration options.

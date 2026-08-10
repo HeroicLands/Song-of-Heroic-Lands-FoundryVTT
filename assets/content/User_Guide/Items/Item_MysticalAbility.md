@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Mystical Ability"
 slug: "item-mysticalability"
+shortcode: mystclab
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -17,13 +18,13 @@ A Mystical Ability is a specific supernatural power — a spell, prayer, ritual,
 
 Mystical Abilities fall into one of three broad supernatural categories: **Arcane**, **Divine**, or **Spirit**.
 
-Invoking one is a **roll** — see [Success Test](#success-test) below. SoHL rolls
+Invoking one is a **roll** — see [[#success-test|Success Test]] below. SoHL rolls
 it and reports how well it went; what the ability then _does_ is read off the
 rulebook and applied by the people at the table. An ability that carries a
 mastery level of its own can also be **developed**, exactly the way a
-[[Item_Skill|Skill]] is — see
-[Toggle Improve Flag](#toggle-improve-flag) and
-[Improve with SDR](#improve-with-sdr).
+[[Skill]] is — see
+[[#toggle-improve-flag|Toggle Improve Flag]] and
+[[#improve-with-sdr|Improve with SDR]].
 
 # Where It Appears
 
@@ -35,37 +36,37 @@ are shown, and each section's **＋ Add** button creates another of that sub-typ
 Each sub-type shows only the columns that mean something for it, so the ledgers
 are not all the same width:
 
-| Column           | What it shows                                                                                            | Shown for                         |
-| ---------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| **Ability**      | The ability's name. Click it to open the ability                                                         | Every sub-type                    |
-| **Skill**        | The **Associated Skill** that governs the roll, or a ✕ when none is set                                  | The skill-governed sub-types      |
-| **Spirit Power** | The **Spirit Power** that governs the roll, or a ✕ when none is set                                      | Spirit Rite and Spirit Action     |
-| **Affiliation**  | The Affiliation whose standing the ability draws on, or a ✕                                              | The affiliation-bearing sub-types |
-| **Lvl**          | The ability's **Level**, or a ✕ when it has none                                                         | The sub-types with a power level  |
-| **EML**          | The Effective Mastery Level. **This cell is the roll** — click it to run a [Success Test](#success-test) | Every sub-type                    |
-| **Chgs/Max**     | Charges remaining over the maximum. ✕ when the ability does not use charges, ∞ for unlimited             | Every sub-type                    |
-| **Notes**        | The ability's one-line note                                                                              | Every sub-type                    |
-| **☆ star**       | Flags the ability for improvement — see [Toggle Improve Flag](#toggle-improve-flag)                      | Abilities with no association     |
-| **⋮ menu**       | The Actions context menu — every action on this page                                                     | Every sub-type                    |
+| Column           | What it shows                                                                                              | Shown for                         |
+| ---------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| **Ability**      | The ability's name. Click it to open the ability                                                           | Every sub-type                    |
+| **Skill**        | The **Associated Skill** that governs the roll, or a ✕ when none is set                                    | The skill-governed sub-types      |
+| **Spirit Power** | The **Spirit Power** that governs the roll, or a ✕ when none is set                                        | Spirit Rite and Spirit Action     |
+| **Affiliation**  | The Affiliation whose standing the ability draws on, or a ✕                                                | The affiliation-bearing sub-types |
+| **Lvl**          | The ability's **Level**, or a ✕ when it has none                                                           | The sub-types with a power level  |
+| **EML**          | The Effective Mastery Level. **This cell is the roll** — click it to run a [[#success-test\|Success Test]] | Every sub-type                    |
+| **Chgs/Max**     | Charges remaining over the maximum. ✕ when the ability does not use charges, ∞ for unlimited               | Every sub-type                    |
+| **Notes**        | The ability's one-line note                                                                                | Every sub-type                    |
+| **☆ star**       | Flags the ability for improvement — see [[#toggle-improve-flag\|Toggle Improve Flag]]                      | Abilities with no association     |
+| **⋮ menu**       | The Actions context menu — every action on this page                                                       | Every sub-type                    |
 
 **A greyed-out row cannot be invoked.** An ability is greyed and its EML cell
 stops being a button when it is **out of charges**, or when it is a Spirit Rite
 or Spirit Action with **no valid Spirit Power** associated. The EML is still
 shown, so you can see what the roll _would_ be; see
-[Before you start](#before-you-start).
+[[#before-you-start|Before you start]].
 
 # Additional Properties
 
-Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Mastery Level:** The ability's _own_ internal mastery level. It is used
   **only** when no Associated Skill (or Spirit Power) is set — see
-  [_How the Effective Mastery Level Is Determined_](#how-the-effective-mastery-level-is-determined)
+  [[#how-the-effective-mastery-level-is-determined|_How the Effective Mastery Level Is Determined_]]
   below. On an ability that does draw on a skill, this box is ignored, and
   editing it changes nothing.
 - **Improvement Flag:** Marks the ability as one the character is trying to
   improve. The same flag is the **☆ star** on the ability's row on the Mysteries
-  tab, and what [Improve with SDR](#improve-with-sdr) spends. It only means
+  tab, and what [[#improve-with-sdr|Improve with SDR]] spends. It only means
   something on an ability with **no Associated Skill** — one that draws its
   mastery level from a skill improves when that _skill_ does, so it shows no
   star and offers no improvement actions.
@@ -74,11 +75,11 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
   Action** this same selector names a **Spirit Power** instead — one of the
   character's own Spirit Power abilities — and the sheet column is labelled
   accordingly.
-- **Associated Affiliation:** Which [[Item_Affiliation|Affiliation]] this ability draws its standing from (optional) — the church, arcane or alchemical school, or ancestor/totem/spirit whose membership the ability belongs to. Recording it lets the ability's behaviour take the character's **rank** in that body into account (its **Level**): a full priest and a layperson of the same faith can differ in what they can invoke. This only _informs_ the ability — the player still deliberately triggers every invocation.
+- **Associated Affiliation:** Which [[Affiliation]] this ability draws its standing from (optional) — the church, arcane or alchemical school, or ancestor/totem/spirit whose membership the ability belongs to. Recording it lets the ability's behaviour take the character's **rank** in that body into account (its **Level**): a full priest and a layperson of the same faith can differ in what they can invoke. This only _informs_ the ability — the player still deliberately triggers every invocation.
 - **Level:** The difficulty or power tier of the ability. Leave it blank for an
   ability that has no level, and the sheet shows a ✕. Higher-level incantations
   are also harder to invoke — see
-  [_The Incantation Casting Penalty_](#the-incantation-casting-penalty) below.
+  [[#the-incantation-casting-penalty|_The Incantation Casting Penalty_]] below.
 - **Charges:** How many times the ability can still be used, in a **Charges** box
   of its own:
     - **Current Charges:** Charges remaining. Leave it blank for an ability whose
@@ -86,7 +87,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
     - **Maximum Charges:** The cap, and the control that decides whether the
       ability uses charges at all. Leave it blank for one that does not (the
       sheet shows ✕); enter `0` for one that is counted but uncapped.
-    - Each completed [Success Test](#success-test) spends one charge.
+    - Each completed [[#success-test|Success Test]] spends one charge.
 
 An ability's **sub-type is fixed when it is created** — you choose it with the
 ＋ Add button of the section you want, and there is no control to change it
@@ -109,7 +110,7 @@ sheet, and the sub-types are:
 > - **The Chgs/Max and Notes column headers run together** on the Mysteries tab
 >   (issue #1131). The columns themselves are correct.
 
-# How the Effective Mastery Level Is Determined
+# How the Effective Mastery Level Is Determined {#how-the-effective-mastery-level-is-determined}
 
 Invoking a Mystical Ability is resolved as a mastery level test. The **Effective Mastery Level (EML)** used for that test is determined by whether the ability has an **Associated Skill**:
 
@@ -127,7 +128,7 @@ Two sub-types read that rule differently:
   actually has one. An unlearned ritual contributes nothing, and the ability
   falls back on its own Mastery Level.
 
-## The Incantation Casting Penalty
+## The Incantation Casting Penalty {#the-incantation-casting-penalty}
 
 **Arcane Incantations** and **Divine Incantations** become harder to invoke the more powerful they are. When one of these abilities is invoked, a penalty equal to **Level × 2** is applied to its EML — so a Level 3 incantation is invoked at EML − 6, a Level 4 at EML − 8, and so on.
 
@@ -139,15 +140,15 @@ in the test dialog's and the test card's Adjustment table.
 
 # The Mystical Ability Actions
 
-| Action                                      | Shortcode           | Where you meet it                               |
-| ------------------------------------------- | ------------------- | ----------------------------------------------- |
-| [Success Test](#success-test)               | `successTest`       | Actions context menu, or the row's **EML** cell |
-| [Toggle Improve Flag](#toggle-improve-flag) | `toggleImproveFlag` | Actions context menu, or the row's **☆ star**   |
-| [Improve with SDR](#improve-with-sdr)       | `improveWithSDR`    | Actions context menu, once flagged              |
+| Action                                        | Shortcode           | Where you meet it                               |
+| --------------------------------------------- | ------------------- | ----------------------------------------------- |
+| [[#success-test\|Success Test]]               | `successTest`       | Actions context menu, or the row's **EML** cell |
+| [[#toggle-improve-flag\|Toggle Improve Flag]] | `toggleImproveFlag` | Actions context menu, or the row's **☆ star**   |
+| [[#improve-with-sdr\|Improve with SDR]]       | `improveWithSDR`    | Actions context menu, once flagged              |
 
 Every Mystical Ability also carries the shared document actions — **Edit**,
 **Delete**, and **Output Description to Chat** — described once on
-[[Item_Base|Base Item]].
+[[Base Item]].
 
 To reach any of them, click the **⋮** on the ability's row on the Mysteries tab,
 or open the ability and use its **Actions** tab.
@@ -158,10 +159,10 @@ Action, no Spirit Power). On any other ability they are absent, because there is
 nothing of the ability's own to raise.
 
 Besides the two hidden half-toggles described under
-[Toggle Improve Flag](#toggle-improve-flag), a Mystical Ability defines **no
+[[#toggle-improve-flag|Toggle Improve Flag]], a Mystical Ability defines **no
 hidden actions of its own**. The one action you will meet elsewhere is the shared
 GM **result edit**, reached from the ✎ pencil on a posted test-result card and
-described on [[Item_Base|Base Item]].
+described on [[Base Item]].
 
 **What the ability _does_ is not automated.** SoHL rolls the invocation and
 reports the outcome; it does not apply the spell's effect, spend its material
@@ -169,7 +170,7 @@ components, or resolve what it does to a target. That deliberately stays with th
 people at the table — where an ability's effect should be automated, attach a
 Script Action to it (see [[Actions]]).
 
-# Success Test
+# Success Test {#success-test}
 
 |               |                                                                                                                                               |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -186,18 +187,18 @@ the ancestor — whenever a character uses a Mystical Ability and the table want
 to know whether it worked, this is the roll. It rolls a d100 against the
 ability's **Effective Mastery Level** and reports critical success, marginal
 success, marginal failure, or critical failure, exactly as a
-[[Item_Skill|Skill]] test does.
+[[Skill]] test does.
 
 Use it at the moment of invocation, not before: the EML shown on the row already
 includes everything the system knows about, including the
-[casting penalty](#the-incantation-casting-penalty) for a high-level incantation,
+[[#the-incantation-casting-penalty|casting penalty]] for a high-level incantation,
 so the number on the sheet is the number you are rolling under.
 
 What happens on a success — what the spell does, to whom, for how long — comes
 from the ability's own description and the rules of its tradition. SoHL settles
 the roll and stops there.
 
-## Before you start
+## Before you start {#before-you-start}
 
 - **A charge is spent by rolling.** If the ability has a **Maximum Charges**, a
   completed roll takes one off **Current Charges**. Cancelling the dialog spends
@@ -216,7 +217,7 @@ the roll and stops there.
 
 1. **The standard test dialog opens.** Target, the modifier breakdown, Situational
    Modifier, Success Level Modifier, and Roll Visibility — its fields are described
-   once on [[Item_Base|Base Item]]. Cancelling it rolls nothing, posts nothing, and
+   once on [[Base Item]]. Cancelling it rolls nothing, posts nothing, and
    spends no charge. Clicking the EML cell with **Shift** held skips the dialog and
    rolls at once.
 2. **The d100 is rolled** against the effective mastery level.
@@ -235,7 +236,7 @@ the roll and stops there.
 | **Roll**                 | The d100 result, green on a success and red on a failure                 |
 | _The footer_             | The named outcome — _Marginal Success_, _Critical Failure_, and so on    |
 
-The GM's pencil is described on [[Item_Base|Base Item]], under _Editing a Posted
+The GM's pencil is described on [[Base Item]], under _Editing a Posted
 Test Result_.
 
 > **Known gap. No Fate can be spent on an invocation.** The card never offers the
@@ -245,7 +246,7 @@ Test Result_.
 > Fate. Until it is fixed, spend Fate at the table by agreement, or have the GM
 > adjust the result with the pencil.
 
-# Toggle Improve Flag
+# Toggle Improve Flag {#toggle-improve-flag}
 
 |               |                                                                                                                                                           |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -272,13 +273,13 @@ ability's mastery level is live, and the ability has **no Associated Skill or
 Spirit Power**. An ability that borrows its mastery level has nothing of its own
 to raise, so it shows no star and offers neither improvement action.
 
-This is the same action, with the same behaviour, that a [[Item_Skill|Skill]]
+This is the same action, with the same behaviour, that a [[Skill]]
 carries — including the **two hidden half-toggles**, _Flag for Improvement_
 (`setImproveFlag`) and _Clear Improvement Flag_ (`unsetImproveFlag`), which set
 and clear the flag outright rather than flipping it. Neither appears in the
 context menu; they are kept for scripts and macros that want a known state.
 
-# Improve with SDR
+# Improve with SDR {#improve-with-sdr}
 
 |               |                                                                                                                                                     |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -321,7 +322,7 @@ touches an Associated Skill, another ability, or anything else on the sheet.
 - **The ability must be flagged for improvement.** The action appears in the
   menu only for a flagged ability — flagging is what marks it as having earned a
   development attempt, and the roll spends the flag. If you do not see the
-  action, flag the ability first with [Toggle Improve Flag](#toggle-improve-flag)
+  action, flag the ability first with [[#toggle-improve-flag|Toggle Improve Flag]]
   or the ☆ star on its row.
 - **The ability must have a mastery level of its own** — no Associated Skill,
   and (on a Spirit Rite or Spirit Action) no Spirit Power. Otherwise the action
@@ -332,16 +333,16 @@ touches an Associated Skill, another ability, or anything else on the sheet.
 
 # See also
 
-- [[Item_Base|Base Item]] — the standard item properties, the shared **Edit** /
+- [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, and the standard test dialog this
   page's roll opens.
-- [[Item_Mystery|Mysteries]] — the passive counterpart: what a character _is_
+- [[User_Guide/mystery|Mysteries]] — the passive counterpart: what a character _is_
   rather than something they invoke.
-- [[Item_Skill|Skill]] — the governing skill an ability usually draws its mastery
+- [[Skill]] — the governing skill an ability usually draws its mastery
   level from, and the source of the identical improvement actions.
-- [[Item_Affiliation|Affiliation]] — the body whose standing an ability can draw on.
-- [[Skill_Tests]] — what the numbers in a test mean, and how success levels are read.
+- [[Affiliation]] — the body whose standing an ability can draw on.
+- [[Skill Tests]] — what the numbers in a test mean, and how success levels are read.
 - [[Actions]] — how actions work, and how to attach a Script Action that automates
   what an ability actually does.
-- [[rules/sohl-esoterica|Esoterica]] — the rules behind the mystical traditions.
+- [[Rules/estrcint|Esoterica]] — the rules behind the mystical traditions.
 - [[Shortcodes]] — what the Associated Skill and Affiliation selectors are naming.

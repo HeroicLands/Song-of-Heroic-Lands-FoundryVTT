@@ -10,6 +10,7 @@ id: inCsJVZjrrZVkpJI
 slug: courser
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: ""
+shortcode: courser
 type: creature
 package: sohl
 sohl:

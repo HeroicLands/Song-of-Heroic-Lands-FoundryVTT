@@ -3,11 +3,11 @@ aliases:
     - Punch
 tags: []
 name:
-    full: Punch
+    full: Folk Punch
     aliases: []
 description: "A closed fist — the plainest thing a person can do in a fight, and the weakest."
 id: UnarmedPunch0001
-slug: unarmed-punch
+slug: folk-punch
 img: icons/game-icons/lorc/punch-blast.svg
 shortcode: bflkpunch
 type: skill

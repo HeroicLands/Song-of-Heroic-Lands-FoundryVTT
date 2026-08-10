@@ -10,6 +10,7 @@ id: 1LGC1Tv40FQz4hXf
 slug: tuskcrasher
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: tskcrshr
 type: creature
 package: sohl
 sohl:

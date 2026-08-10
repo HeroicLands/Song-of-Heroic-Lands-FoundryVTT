@@ -10,6 +10,7 @@ id: a9JXetcPtDFkcvRj
 slug: brown-bear
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: ""
+shortcode: brwnbr
 type: creature
 package: sohl
 sohl:

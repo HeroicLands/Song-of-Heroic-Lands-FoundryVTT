@@ -10,6 +10,7 @@ id: aquEJHnE8u8I9pur
 slug: mule
 img: icons/game-icons/skoll/donkey.svg
 portrait: ""
+shortcode: mule
 type: creature
 package: sohl
 sohl:

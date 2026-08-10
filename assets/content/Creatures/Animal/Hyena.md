@@ -10,6 +10,7 @@ id: qWLJoGsN56qVG65C
 slug: hyena
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: hyena
 type: creature
 package: sohl
 sohl:

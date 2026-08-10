@@ -10,6 +10,7 @@ id: 2cHRBpFKXGd8RaX4
 slug: komodo-behemoth
 img: icons/game-icons/lorc/gecko.svg
 portrait: ""
+shortcode: kmdbhmth
 type: creature
 package: sohl
 sohl:

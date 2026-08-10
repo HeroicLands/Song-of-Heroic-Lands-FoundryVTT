@@ -9,6 +9,7 @@ category: user-guide
 name:
     full: "Combatant"
 slug: "combatant"
+shortcode: cmbtnt
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -28,10 +29,10 @@ exchange produces.
 
 > ⚗️ **Automated Combat is still being finished.** It is deliberately outside the
 > frozen feature set for the Being-centric beta, so expect rough edges. The
-> actions below are documented as they exist; [[Combat_Basics|Assisted Combat]]
+> actions below are documented as they exist; [[User_Guide/cmbtbscs|Assisted Combat]]
 > is the supported path for play in the meantime.
 
-# Combat groups
+# Combat groups {#combat-groups}
 
 A **combat group** is a named side in a fight — _the Watch_, _Bandits_, the
 default _Opponents_. Every combatant in an encounter belongs to exactly one, and
@@ -75,20 +76,20 @@ Group** (on the Combat tab of the character sheet, GM-only); when that is blank
 it joins **Opponents**. Matching is case-insensitive, so _bandits_ and _Bandits_
 are one group, and a group is created the first time someone needs it. To change
 it afterwards — a mid-fight betrayal, or just cleaning up after a messy setup —
-use [Move to Group…](#move-to-group).
+use [[#move-to-group|Move to Group…]].
 
 **What groups do _not_ do.** They do not affect turn order: the tracker sorts by
 individual initiative, and a group is never moved or rolled as a block. They do
 not restrict targeting either — nothing stops you attacking someone in your own
 group, deliberately or by accident. And a group has no leader; if you want a
-body of troops that acts as one, that is a [[Actor_Cohort|Cohort]], not a combat
+body of troops that acts as one, that is a [[Cohort]], not a combat
 group.
 
 # The combatant row
 
 Each row in the combat tracker is one Combatant. SoHL adds two labels to it:
 
-- **The group chip** — the name of the [combat group](#combat-groups) this
+- **The group chip** — the name of the [[#combat-groups|combat group]] this
   combatant belongs to (e.g. _Opponents_), shown next to the token name. It tells
   you at a glance which side this row is on.
 - **The move chip** — the combatant's **computed move** in feet per round, shown
@@ -107,7 +108,7 @@ the tracker row's **Update Combatant** control):
   speed that matters.
 
 A combatant is placed in a group automatically when it joins the encounter — see
-[Combat groups](#combat-groups) for how that is decided and what it is for.
+[[#combat-groups|Combat groups]] for how that is decided and what it is for.
 
 # Where a combatant's actions live
 
@@ -119,13 +120,13 @@ for example, is offered to the GM only.
 Two things are deliberately _not_ in this menu:
 
 - **The shared document actions** (Edit, Delete, and the rest described on
-  [[Item_Base|the Base Item page]]) are left out, because the tracker already has
+  [[User_Guide/baseitem|the Base Item page]]) are left out, because the tracker already has
   its own controls for updating and removing a combatant.
 - **The defense responses** (Block, Dodge, Counterstrike, Ignore). They are
   **hidden actions**: they never appear in the context menu, because they only
   make sense as an answer to a specific attack. They arrive as **buttons on the
   attack card** in chat, on the defending player's screen — see
-  [Answering an attack](#answering-an-attack).
+  [[#answering-an-attack|Answering an attack]].
 
 # Automated Combat
 
@@ -139,7 +140,7 @@ Two things are deliberately _not_ in this menu:
 
 **What it does.** This is the **single entry point** for an automated attack —
 the workflow-driven exchange described under
-[[Combat_Basics|Automated Combat in Combat Basics]]. Reach for it when you want
+[[User_Guide/cmbtbscs|Automated Combat in Combat Basics]]. Reach for it when you want
 the system to run the whole attack-and-defense sequence: your attack roll, the
 defender's answer, the comparison on the combat tables, and — if the blow lands —
 impact, hit location, armor, and the injury.
@@ -150,7 +151,7 @@ combatant's row in the tracker and choose **Automated Combat**.
 **What it asks for.** It opens the automated-combat **attack dialog** (Strike
 Mode, Aim, and an additional modifier). Those fields, and every card the exchange
 posts, are described in one place — see
-[[Combat_Basics|the Automated Combat section of Combat Basics]].
+[[User_Guide/cmbtbscs|the Automated Combat section of Combat Basics]].
 
 **What happens.** Once you confirm the dialog, the system:
 
@@ -179,7 +180,7 @@ itself rather than half-starting an exchange:
 - a missile shot beyond direct range (a volley) is refused — that case is not
   supported by the workflow.
 
-# Move to Group…
+# Move to Group… {#move-to-group}
 
 |                |                                                                                                                                                |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -190,7 +191,7 @@ itself rather than half-starting an exchange:
 | **API**        | [`SohlCombatantLogic.moveToGroup`](https://api.heroiclands.org/main/classes/sohl.document.combatant.logic.SohlCombatantLogic.html#movetogroup) |
 
 **What it does.** Moves this combatant into a different
-[combat group](#combat-groups) — that is, changes which side it is fighting on.
+[[#combat-groups|combat group]] — that is, changes which side it is fighting on.
 Worth doing when a fight starts and the automatic assignment got someone wrong,
 or when a character changes sides mid-fight.
 
@@ -209,7 +210,7 @@ Press **Move** to apply, or **Cancel** to leave things as they are. Selecting th
 combatant's current group does nothing. Afterwards the tracker row's group chip
 shows the new group name.
 
-# Answering an attack
+# Answering an attack {#answering-an-attack}
 
 When someone attacks you in Automated Combat, the attack card that lands in chat
 carries the defense buttons — **Dodge**, **Counterstrike**, **Block**, and
@@ -235,7 +236,7 @@ filtered to what your character can actually do:
 
 The cards themselves — what the attack card shows, and how to read the result card
 the exchange posts — are described under
-[[Combat_Basics|Automated Combat in Combat Basics]].
+[[User_Guide/cmbtbscs|Automated Combat in Combat Basics]].
 
 ## Block
 
@@ -306,12 +307,12 @@ else — or because you are incapacitated and it is the only option left.
 
 # See also
 
-- [[Combat_Basics]] — Assisted and Automated Combat, the dialogs and cards the
+- [[Combat Basics]] — Assisted and Automated Combat, the dialogs and cards the
   automated exchange uses, and how a hit is resolved.
-- [[Scene_Setup]] — placing tokens and building the encounter the combatant
+- [[Scene Setup]] — placing tokens and building the encounter the combatant
   belongs to.
-- [[Item_Base]] — the shared document actions and dialogs every SoHL document
+- [[Item Base]] — the shared document actions and dialogs every SoHL document
   inherits.
 - [[Actions]] — how actions work in general, and how to add your own.
-- [[Afflictions_Injuries]] — recording and healing the injuries an exchange
+- [[Afflictions Injuries]] — recording and healing the injuries an exchange
   produces.

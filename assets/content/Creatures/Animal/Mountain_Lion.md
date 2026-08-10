@@ -10,6 +10,7 @@ id: izFUCMnqOWBiGfb5
 slug: mountain-lion
 img: icons/game-icons/lorc/lion.svg
 portrait: ""
+shortcode: mntnln
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: rkqNzivEoFUry3Wa
 slug: swampgolem
 img: icons/game-icons/delapouite/golem-head.svg
 portrait: ""
+shortcode: swmpglm
 type: creature
 package: sohl
 sohl:

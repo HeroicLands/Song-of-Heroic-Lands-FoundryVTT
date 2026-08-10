@@ -10,6 +10,7 @@ id: nFUslZMExtT6iJVp
 slug: aurochs
 img: icons/game-icons/lorc/bull.svg
 portrait: ""
+shortcode: aurochs
 type: creature
 package: sohl
 sohl:

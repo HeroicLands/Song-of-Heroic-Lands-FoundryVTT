@@ -10,6 +10,7 @@ id: ZwHwXKqpOkh0QMOt
 slug: ram
 img: icons/game-icons/delapouite/sheep.svg
 portrait: ""
+shortcode: ramanml
 type: creature
 package: sohl
 sohl:

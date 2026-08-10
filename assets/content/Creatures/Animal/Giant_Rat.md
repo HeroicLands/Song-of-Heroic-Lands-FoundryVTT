@@ -11,6 +11,7 @@ id: JYYfIP5IvvkQ0oJK
 slug: giant-rat
 img: icons/game-icons/delapouite/rat.svg
 portrait: ""
+shortcode: giantrat
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: R0digTz25VXmF4uo
 slug: cave-bear
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: ""
+shortcode: cavebear
 type: creature
 package: sohl
 sohl:

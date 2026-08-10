@@ -11,6 +11,7 @@ id: OB7yGxza3GSVUOFw
 slug: hippopotamus
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: hppptms
 type: creature
 package: sohl
 sohl:

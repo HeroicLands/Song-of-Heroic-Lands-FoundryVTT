@@ -10,6 +10,7 @@ id: IlhU4aquYsNBK4Q1
 slug: cheeprow
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: cheeprow
 type: creature
 package: sohl
 sohl:

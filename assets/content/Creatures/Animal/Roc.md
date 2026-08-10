@@ -10,6 +10,7 @@ id: MM4WsOp5MweEuH4U
 slug: roc
 img: icons/game-icons/delapouite/eagle-head.svg
 portrait: ""
+shortcode: roc
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: 2DpHrcNw4BfmRgld
 slug: duneclaw
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: duneclaw
 type: creature
 package: sohl
 sohl:

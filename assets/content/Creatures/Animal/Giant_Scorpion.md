@@ -10,6 +10,7 @@ id: D8RLnGJ3DDuh4jNr
 slug: giant-scorpion
 img: icons/game-icons/lorc/scorpion.svg
 portrait: ""
+shortcode: gntscrpn
 type: creature
 package: sohl
 sohl:

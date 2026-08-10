@@ -10,6 +10,7 @@ id: buxdi9gtzv4CEBbs
 slug: monitor-lizard
 img: icons/game-icons/lorc/gecko.svg
 portrait: ""
+shortcode: mntrlzrd
 type: creature
 package: sohl
 sohl:

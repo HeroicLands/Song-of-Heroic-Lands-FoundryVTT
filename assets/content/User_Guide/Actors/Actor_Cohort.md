@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Cohort"
 slug: "actor-cohort"
+shortcode: cohort
 folder: sYK1BozT9xFcinXK
 ---
 
@@ -15,7 +16,7 @@ folder: sYK1BozT9xFcinXK
 
 A Cohort is a **named body of individuals** — a squad of soldiers, a band of
 followers, a ship's crew, a household. It does not replace those individuals: each
-member remains their own [[Actor_Being|Being]], with their own sheet, skills, and
+member remains their own [[Being]], with their own sheet, skills, and
 wounds. What the Cohort adds is the **fact of the group** — who belongs to it, who
 leads it, and what its members have pooled — recorded in one place so you do not
 have to hold it in your head.
@@ -48,7 +49,7 @@ and it works by pointing at them. If you want a mob you never have to detail, a
 single Being standing in for the whole is the simpler tool.
 
 **A Cohort is also not a combat side.** Who fights whom in an encounter is decided
-by [combat groups](user-guide/combatant.md), not by cohort membership; a cohort's
+by [[User_Guide/cmbtnt|combat groups]], not by cohort membership; a cohort's
 members can end up on opposite sides of a brawl. See _Combat groups_ on the
 [[Combatant]] page.
 
@@ -83,8 +84,8 @@ The Cohort sheet has these tabs:
 - **Effects** — active effects on the group
 
 **Facade**, **Profile**, **Actions**, and **Effects** are the common actor tabs
-and behave exactly as they do on a [[Actor_Being|Being]]; they are documented
-once, in [[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_.
+and behave exactly as they do on a [[Being]]; they are documented
+once, in [[Understanding Sheets]] under _Common Actor Tabs_.
 The **Members** and **Shared Gear** tabs are particular to a Cohort.
 
 The **Profile** tab carries three things, and it is where a cohort's private
@@ -151,7 +152,7 @@ The roster is what the rest of the cohort reads:
 
 - **Expanding onto a scene.** Dropping a cohort and choosing _Individual Tokens_
   (or using the token's expand button) places one token per member, resolved
-  through these same handles. See [[Scene_Setup|Scene Setup]].
+  through these same handles. See [[Scene Setup]].
 - **Shared Gear.** The gear listed on the next tab is gathered from these
   members — see below.
 
@@ -162,7 +163,7 @@ hand? It lists every piece of gear the cohort's members carry _and have marked a
 shared with this cohort_ — the party's rope, lantern, tent, and rations, gathered
 into one view no matter whose pack they are actually in.
 
-It shows the same columns as an ordinary [[Item_Gear|Gear]] tab — item, type,
+It shows the same columns as an ordinary [[Gear]] tab — item, type,
 quantity, weight, quality, durability, notes — plus one more: **Carried By**, the
 member whose sheet the item actually lives on.
 
@@ -188,7 +189,7 @@ member's actor — the item simply stops appearing here. Nothing is orphaned.
 
 Sharing is set on the **item**, on the character that carries it: open the gear
 item's **Properties** tab and pick the cohort (or cohorts) in **Shared With**.
-See [[Item_Gear|Gear]] for the control. Because sharing lives on the item, the
+See [[Gear]] for the control. Because sharing lives on the item, the
 carrier's player is always the one who decides what the group gets to see — the
 cohort can never reach out and claim something.
 
@@ -228,7 +229,7 @@ It also carries the actions every actor shares:
 | Delete              | `deleteDocument`    |
 | Make Default Medium | `makeDefaultMedium` |
 
-All three belong to every actor and are described on [[Item_Base|Base Item]],
+All three belong to every actor and are described on [[Base Item]],
 which covers what each one does, how it is invoked, and what it produces — the
 shared document actions are the same wherever they appear.
 

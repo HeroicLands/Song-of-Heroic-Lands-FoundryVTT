@@ -10,6 +10,7 @@ id: VBfGJvhWaj4uisjN
 slug: grukar-uk
 img: icons/game-icons/delapouite/orc-head.svg
 portrait: ""
+shortcode: grukaruk
 type: creature
 package: sohl
 sohl:
@@ -342,13 +343,13 @@ sohl:
           type: skill
         - shortcode: bflkkick
           type: skill
-        - shortcode: bflklmbblk
+        - shortcode: limbblock
           type: skill
-        - shortcode: bflkpress
+        - shortcode: press
           type: skill
         - shortcode: bflkpunch
           type: skill
-        - shortcode: bflktrip
+        - shortcode: trip
           type: skill
 ---
 

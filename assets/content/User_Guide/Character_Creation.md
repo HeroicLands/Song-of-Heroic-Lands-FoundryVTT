@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Character Creation"
 slug: sohl-character-creation
+shortcode: chrctrcr
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -15,7 +16,7 @@ folder: IgwaG8rAUUO9vrtz
 
 This guide walks through creating a playable **Being** actor in SoHL.
 
-See also: [Documentation Hub](README.md), [Quickstart](user-guide/quickstart.md), [Combat Basics](user-guide/combat-basics.md)
+See also: [[User_Guide/userguide|Documentation Hub]], [[User_Guide/quickstart|Quickstart]], [[Combat Basics]]
 
 # Create the actor {#8qHUveVr9fydLyt2}
 

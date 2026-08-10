@@ -10,6 +10,7 @@ id: AimHPopglSXjxhWa
 slug: thunderhorn
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: thndrhrn
 type: creature
 package: sohl
 sohl:

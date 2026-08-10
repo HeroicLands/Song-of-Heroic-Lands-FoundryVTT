@@ -10,6 +10,7 @@ id: lZvL9MY97JDX0GeN
 slug: giant-boar
 img: icons/game-icons/caro-asercion/boar.svg
 portrait: ""
+shortcode: gntbr
 type: creature
 package: sohl
 sohl:

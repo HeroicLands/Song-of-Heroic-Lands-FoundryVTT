@@ -10,6 +10,7 @@ id: 8e0pLwFIiIUuHOsb
 slug: mossback-turtle
 img: icons/game-icons/lorc/turtle.svg
 portrait: ""
+shortcode: mssbcktr
 type: creature
 package: sohl
 sohl:

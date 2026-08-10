@@ -11,6 +11,7 @@ id: Ydk8zqgDTmqzr3uV
 slug: walrus
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: walrus
 type: creature
 package: sohl
 sohl:

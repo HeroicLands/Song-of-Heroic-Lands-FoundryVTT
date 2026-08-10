@@ -10,6 +10,7 @@ id: cF5pl6GNTSOo7LyT
 slug: sand-stalker
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: sndstlkr
 type: creature
 package: sohl
 sohl:

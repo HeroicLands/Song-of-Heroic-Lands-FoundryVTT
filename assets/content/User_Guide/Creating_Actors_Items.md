@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "Creating Actors and Items"
 slug: "creating-actors-items"
+shortcode: crtngact
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -16,7 +17,7 @@ There are several ways to create actors and items in SoHL. The method you
 choose depends on whether you're starting from scratch, copying something
 from a compendium, or building a complex item with nested components.
 
-See also: [Quickstart](user-guide/quickstart.md), [Understanding Sheets](user-guide/understanding-sheets.md)
+See also: [[User_Guide/quickstart|Quickstart]], [[Understanding Sheets]]
 
 # Creating Actors {#creating-actors}
 

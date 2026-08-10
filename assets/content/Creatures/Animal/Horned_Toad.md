@@ -10,6 +10,7 @@ id: Pw1yCo0E0c33EE6P
 slug: horned-toad
 img: icons/game-icons/delapouite/horned-reptile.svg
 portrait: ""
+shortcode: hrndtd
 type: creature
 package: sohl
 sohl:

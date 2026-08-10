@@ -11,6 +11,7 @@ id: PE8La0dJVHwnZDWg
 slug: harpy
 img: icons/game-icons/lorc/harpy.svg
 portrait: ""
+shortcode: harpy
 type: creature
 package: sohl
 sohl:

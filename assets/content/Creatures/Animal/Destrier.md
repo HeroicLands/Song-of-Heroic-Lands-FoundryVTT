@@ -10,6 +10,7 @@ id: AYrEr6jrDy802WIf
 slug: destrier
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: ""
+shortcode: destrier
 type: creature
 package: sohl
 sohl:

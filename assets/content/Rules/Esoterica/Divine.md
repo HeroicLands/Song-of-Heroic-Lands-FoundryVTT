@@ -3,7 +3,7 @@ aliases:
     - Divine
     - Divine Tradition
     - Divine Abilities
-id: wEeOjYF4UcZIJRqh
+id: 02Zqzq9H2yMJe8UN
 type: doc
 package: sohl
 category: rules
@@ -12,13 +12,14 @@ name:
     aliases: []
 folder: oPWOe5cjsYc1ev2h
 slug: sohl-divine
+shortcode: divine
 ---
 
-The **Divine** tradition draws its power from a deity, granted in answer to devotion. Divine practitioners do not command power so much as request it: the god acts, and the character's standing with that god governs how readily and how strongly the request is answered. This page collects the divine **Mysteries** a character carries and the divine **Mystical Abilities** they perform. For the shared framework — the Mystery-versus-Ability distinction, how abilities are tested, and the general mysteries (Boon, Boost, Other) — see the [[rules/sohl-esoterica|Esoterica Introduction]].
+The **Divine** tradition draws its power from a deity, granted in answer to devotion. Divine practitioners do not command power so much as request it: the god acts, and the character's standing with that god governs how readily and how strongly the request is answered. This page collects the divine **Mysteries** a character carries and the divine **Mystical Abilities** they perform. For the shared framework — the Mystery-versus-Ability distinction, how abilities are tested, and the general mysteries (Boon, Boost, Other) — see the [[Esoterica Introduction]].
 
 # Mysteries
 
-The standing divine conditions that describe a character's relationship with their deity. Both measure something the character _is_, and together they colour how the divine answers. (The tradition-agnostic mysteries — Boon, Boost, and Other — are described in the [[rules/sohl-esoterica|Esoterica Introduction]] and may attach to a divine skill as well.)
+The standing divine conditions that describe a character's relationship with their deity. Both measure something the character _is_, and together they colour how the divine answers. (The tradition-agnostic mysteries — Boon, Boost, and Other — are described in the [[Esoterica Introduction]] and may attach to a divine skill as well.)
 
 ## Grace
 
@@ -30,7 +31,7 @@ The measure of a character's devotion to their religion, and the standing that d
 
 # Mystical Abilities
 
-Divine acts a character performs. They range from a prescribed observance or a blessing asked in a moment to a great miracle called down through ritual; the **Divine Incantation** is subject to the **Incantation Casting Penalty** described in the [[rules/sohl-esoterica|Esoterica Introduction]] (a penalty to EML of **Level × 2**).
+Divine acts a character performs. They range from a prescribed observance or a blessing asked in a moment to a great miracle called down through ritual; the **Divine Incantation** is subject to the **Incantation Casting Penalty** described in the [[Esoterica Introduction]] (a penalty to EML of **Level × 2**).
 
 ## Ritual Action
 

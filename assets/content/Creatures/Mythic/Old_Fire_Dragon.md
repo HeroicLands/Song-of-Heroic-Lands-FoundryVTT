@@ -12,6 +12,7 @@ id: 4g9BryPNyWeQLBA0
 slug: old-fire-dragon
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
+shortcode: oldfrdrg
 type: creature
 package: sohl
 sohl:

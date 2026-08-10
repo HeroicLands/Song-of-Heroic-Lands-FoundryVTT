@@ -10,6 +10,7 @@ id: B24v0x403YmclrJb
 slug: forest-goblin
 img: icons/game-icons/caro-asercion/goblin.svg
 portrait: ""
+shortcode: frstgbln
 type: creature
 package: sohl
 sohl:
@@ -318,13 +319,13 @@ sohl:
           type: skill
         - shortcode: bflkkick
           type: skill
-        - shortcode: bflklmbblk
+        - shortcode: limbblock
           type: skill
-        - shortcode: bflkpress
+        - shortcode: press
           type: skill
         - shortcode: bflkpunch
           type: skill
-        - shortcode: bflktrip
+        - shortcode: trip
           type: skill
 ---
 

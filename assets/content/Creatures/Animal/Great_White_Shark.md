@@ -10,6 +10,7 @@ id: 7rJxMeCW3TSzstw6
 slug: great-white-shark
 img: icons/game-icons/lorc/shark-jaws.svg
 portrait: ""
+shortcode: grtwhtsh
 type: creature
 package: sohl
 sohl:

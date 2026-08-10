@@ -10,6 +10,7 @@ id: BfM41VLgQk9RdUFa
 slug: guard-dog
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
+shortcode: guarddog
 type: creature
 package: sohl
 sohl:

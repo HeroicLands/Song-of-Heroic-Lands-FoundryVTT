@@ -3,7 +3,7 @@ aliases:
     - Arcane
     - Arcane Tradition
     - Arcane Abilities
-id: ysW3tAiR4Td7AgQN
+id: RE8x4ggnbK5VfTkY
 type: doc
 package: sohl
 category: rules
@@ -12,9 +12,10 @@ name:
     aliases: []
 folder: oPWOe5cjsYc1ev2h
 slug: sohl-arcane
+shortcode: arcane
 ---
 
-The **Arcane** tradition draws its power from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly — where a priest asks and a spirit-worker petitions, an arcanist commands. This page collects the arcane **Mysteries** a character may carry and the arcane **Mystical Abilities** they perform. For the shared framework — the Mystery-versus-Ability distinction, how abilities are tested, and the general mysteries (Boon, Boost, Other) — see the [[rules/sohl-esoterica|Esoterica Introduction]].
+The **Arcane** tradition draws its power from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly — where a priest asks and a spirit-worker petitions, an arcanist commands. This page collects the arcane **Mysteries** a character may carry and the arcane **Mystical Abilities** they perform. For the shared framework — the Mystery-versus-Ability distinction, how abilities are tested, and the general mysteries (Boon, Boost, Other) — see the [[Esoterica Introduction]].
 
 # Birthsign
 
@@ -24,15 +25,15 @@ A birthsign is a standing **Mystery** the character carries: attach the sign the
 
 # Mysteries
 
-Standing arcane conditions a character carries. (The tradition-agnostic mysteries — Boon, Boost, and Other — are described in the [[rules/sohl-esoterica|Esoterica Introduction]] and may attach to an arcane skill as well.)
+Standing arcane conditions a character carries. (The tradition-agnostic mysteries — Boon, Boost, and Other — are described in the [[Esoterica Introduction]] and may attach to an arcane skill as well.)
 
 ## Fate
 
-The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its success level by one. See [[rules/sohl-fate|Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
+The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its success level by one. See [[Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
 
 # Mystical Abilities
 
-Arcane acts a character performs. The two **Incantation** forms are subject to the **Incantation Casting Penalty** described in the [[rules/sohl-esoterica|Esoterica Introduction]]: invoking one costs a penalty to EML of **Level × 2**, so the more powerful the spell, the harder it is to invoke.
+Arcane acts a character performs. The two **Incantation** forms are subject to the **Incantation Casting Penalty** described in the [[Esoterica Introduction]]: invoking one costs a penalty to EML of **Level × 2**, so the more powerful the spell, the harder it is to invoke.
 
 ## Arcane Incantation
 

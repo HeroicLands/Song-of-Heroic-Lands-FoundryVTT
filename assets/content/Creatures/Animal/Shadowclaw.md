@@ -10,6 +10,7 @@ id: jjuIModhoOI5xUyv
 slug: shadowclaw
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: shdwclw
 type: creature
 package: sohl
 sohl:

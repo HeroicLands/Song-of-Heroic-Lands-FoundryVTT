@@ -10,6 +10,7 @@ id: P8wL9XPubsbvSFty
 slug: shardbeak
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: shrdbk
 type: creature
 package: sohl
 sohl:

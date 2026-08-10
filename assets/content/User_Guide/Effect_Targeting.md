@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "Effect Targeting"
 slug: "effect-targeting"
+shortcode: effcttrg
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -28,7 +29,7 @@ Every SoHL Active Effect is described by three things:
 The Target Predicate is a **Safe Expression** — a short, sandboxed condition you
 type in. This page explains scopes and gives predicate examples; for the full
 predicate language and the list of helper functions, see
-[Safe Expressions](Safe_Expressions.md).
+[[Safe Expressions]].
 
 # Target Scope
 
@@ -50,7 +51,7 @@ them — an **empty predicate matches every candidate**.
 
 When the scope is an item kind or a strike-mode scope, the **Target Predicate**
 decides which candidates are actually affected. It is a
-[Safe Expression](Safe_Expressions.md) that must evaluate to `true` for a
+[[User_Guide/sfexprss|Safe Expression]] that must evaluate to `true` for a
 candidate to be included.
 
 What the expression can see depends on the scope:
@@ -163,13 +164,13 @@ one specific weapon.
   patterns instead of loose substrings.
 - **The predicate won't save / shows an error.** It uses syntax the language
   doesn't allow (for example an assignment, a method call, or a loose `a == b`
-  comparison). See [Safe Expressions](Safe_Expressions.md) for what's allowed.
+  comparison). See [[Safe Expressions]] for what's allowed.
 
 # See also
 
-- [Safe Expressions](Safe_Expressions.md) — the predicate language and every
+- [[Safe Expressions]] — the predicate language and every
   built-in helper.
-- [Actions](Actions.md) — actions use the same Safe Expression language for
+- [[Actions]] — actions use the same Safe Expression language for
   their trigger and visibility conditions.
 - API reference:
   [`SafeExpression`](https://api.heroiclands.org/latest/classes/API_Reference.SafeExpression.html).

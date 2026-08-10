@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Token"
 slug: "token"
+shortcode: token
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -17,7 +18,7 @@ A **token** is a character's presence on the canvas — the figure you drag onto
 scene, target, and move around. Tokens carry no SoHL properties of their own and
 have no SoHL sheet: everything about the character lives on the actor behind the
 token. For placing tokens, prototype-token settings, and the Cohort expand
-button, see [[Scene_Setup|Scene Setup and Tokens]].
+button, see [[Scene Setup and Tokens]].
 
 What the token _does_ own in SoHL is the **opposed test** — a contest between two
 characters, such as Stealth against Awareness or Eloquence against Eloquence.
@@ -26,10 +27,10 @@ sides on the canvas: one token initiates, and the other token answers.
 
 The token therefore defines two actions, described on this page:
 
-| Action                                                | Shortcode           | What it does                                    |
-| ----------------------------------------------------- | ------------------- | ----------------------------------------------- |
-| [Opposed Test](#starting-an-opposed-test)             | `opposedTestStart`  | Starts a contest against the token you targeted |
-| [Resume Opposed Test](#responding-to-an-opposed-test) | `opposedTestResume` | The other side answers, settling the contest    |
+| Action                                                  | Shortcode           | What it does                                    |
+| ------------------------------------------------------- | ------------------- | ----------------------------------------------- |
+| [[#starting-an-opposed-test\|Opposed Test]]             | `opposedTestStart`  | Starts a contest against the token you targeted |
+| [[#responding-to-an-opposed-test\|Resume Opposed Test]] | `opposedTestResume` | The other side answers, settling the contest    |
 
 > **Both actions are hidden.** Neither one appears on any **Actions** context
 > menu. You reach the first from a skill's or attribute's own **Opposed Test**
@@ -38,10 +39,10 @@ The token therefore defines two actions, described on this page:
 > lives, and because a module or macro can call them directly.
 
 For the rules behind a contest — Victory Stars, ties, and tiebreaks — see the
-[[rules/sohl-opposed-tests|Opposed Tests]] rules. For the d100 roll each side
-makes, see [[Skill_Tests|Skill Tests and Opposed Tests]].
+[[Rules/oppsdtst|Opposed Tests]] rules. For the d100 roll each side
+makes, see [[Skill Tests and Opposed Tests]].
 
-# Starting an Opposed Test
+# Starting an Opposed Test {#starting-an-opposed-test}
 
 |               |                                                                                                                                                              |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -84,7 +85,7 @@ between the two tokens.
 1. **The standard test dialog opens** for your skill or attribute — the same
    pre-roll dialog every test uses (Target, the modifier breakdown, Situational
    Modifier, Success Level Modifier, and Roll Visibility). Its fields are
-   described once on [[Item_Base|Base Item]]. Cancelling it abandons the whole
+   described once on [[Base Item]]. Cancelling it abandons the whole
    contest.
     - A contest adds one field the other tests do not have: a **Break Ties**
       checkbox, off by default. Leave it off and a tied contest is reported as a
@@ -99,13 +100,13 @@ between the two tokens.
 
 ## The Opposed Action Request card
 
-| Part               | What it shows                                                                                               |
-| ------------------ | ----------------------------------------------------------------------------------------------------------- |
-| Title              | **Opposed Action Request**                                                                                  |
-| Subtitle           | _{your token}_ vs. _{target token}_                                                                         |
-| Body               | _{your token}_ performs a _{test name}_ against _{target token}_                                            |
-| Prompt             | _{target actor}_ must now choose what skill to respond with                                                 |
-| **Respond** button | Hands the contest to the target token — see [Responding to an Opposed Test](#responding-to-an-opposed-test) |
+| Part               | What it shows                                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Title              | **Opposed Action Request**                                                                                    |
+| Subtitle           | _{your token}_ vs. _{target token}_                                                                           |
+| Body               | _{your token}_ performs a _{test name}_ against _{target token}_                                              |
+| Prompt             | _{target actor}_ must now choose what skill to respond with                                                   |
+| **Respond** button | Hands the contest to the target token — see [[#responding-to-an-opposed-test\|Responding to an Opposed Test]] |
 
 The card sits in the chat log until someone answers it. Nothing is applied and
 nothing is locked in the meantime: the contest is only settled when the target's
@@ -116,7 +117,7 @@ the outcome ruled by hand.
 Respond button.** Everyone sees the button, but a click from anyone else is
 ignored — no one can roll another player's defence for them.
 
-# Responding to an Opposed Test
+# Responding to an Opposed Test {#responding-to-an-opposed-test}
 
 |               |                                                                                                                                                                |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -163,7 +164,7 @@ the contest cannot be answered.
 ## What happens next
 
 1. **The standard test dialog opens** for the skill or attribute you picked —
-   the same pre-roll dialog as any other test (see [[Item_Base|Base Item]]).
+   the same pre-roll dialog as any other test (see [[Base Item]]).
    Cancelling it leaves the contest unanswered.
 2. **The result card posts**, settling the contest.
 
@@ -190,20 +191,20 @@ Reading the outcome:
   which case the tie is settled, the winner is announced with a single star, and a
   note says which rule decided it — _Tie broken on the higher roll_, _…on the
   higher Mastery Level_, or _…on a d10 roll-off_. See the
-  [[rules/sohl-opposed-tests|Opposed Tests]] rules for the tiebreak order.
+  [[Rules/oppsdtst|Opposed Tests]] rules for the tiebreak order.
 - Rolls, effective mastery levels, and the modifier breakdowns are all shown, so
   you can see exactly how each side arrived at its result.
 
 A settled contest is a record, not a verdict: nothing is applied to either
 character automatically. What the win, the tie, or the number of stars _means_
 in play is a ruling for the table — see the
-[[rules/sohl-opposed-tests|Opposed Tests]] rules.
+[[Rules/oppsdtst|Opposed Tests]] rules.
 
 ## Editing a settled contest (GM only)
 
 The result card's header carries an **edit pencil** — visible only to the GM,
 the contest's counterpart to the per-result pencil on an ordinary test card
-(see [[Skill_Tests|Skill Tests and Opposed Tests]]). Use it when a modifier was
+(see [[Skill Tests and Opposed Tests]]). Use it when a modifier was
 missed or misapplied and the contest settled on the wrong number.
 
 Clicking it walks you through **both** sides in turn:
@@ -228,11 +229,11 @@ What it does and does not do:
 
 # See also
 
-- [[Skill_Tests|Skill Tests and Opposed Tests]] — the d100 roll-under test both
+- [[Skill Tests and Opposed Tests]] — the d100 roll-under test both
   sides of a contest make, and the GM's per-result edit.
-- [[rules/sohl-opposed-tests|Opposed Tests]] (rules) — Victory Stars, ties, and
+- [[Rules/oppsdtst|Opposed Tests]] (rules) — Victory Stars, ties, and
   tiebreaks.
-- [[Combat_Basics|Combat Basics]] — attack against defence, the combat-specific
+- [[Combat Basics]] — attack against defence, the combat-specific
   form of an opposed test.
-- [[Scene_Setup|Scene Setup and Tokens]] — placing tokens and configuring them.
-- [[Item_Base|Base Item]] — the standard test dialog every roll uses.
+- [[Scene Setup and Tokens]] — placing tokens and configuring them.
+- [[Base Item]] — the standard test dialog every roll uses.

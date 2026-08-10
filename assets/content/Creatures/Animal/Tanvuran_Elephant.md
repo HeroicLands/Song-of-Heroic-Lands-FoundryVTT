@@ -11,6 +11,7 @@ id: hKF5XSPgvAUIQtLc
 slug: tanvuran-elephant
 img: icons/game-icons/delapouite/elephant.svg
 portrait: ""
+shortcode: tnvrnelp
 type: creature
 package: sohl
 sohl:

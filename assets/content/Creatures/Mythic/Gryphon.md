@@ -11,6 +11,7 @@ id: 3cvUtYLpqMrX5jpp
 slug: gryphon
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: gryphon
 type: creature
 package: sohl
 sohl:

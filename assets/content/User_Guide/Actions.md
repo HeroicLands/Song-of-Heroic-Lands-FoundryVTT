@@ -7,6 +7,7 @@ category: user-guide
 name:
     full: "Actions"
 slug: "actions"
+shortcode: actions
 folder: IgwaG8rAUUO9vrtz
 ---
 

@@ -11,6 +11,7 @@ id: uL25TIgj48GJ02pY
 slug: tapir
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: tapir
 type: creature
 package: sohl
 sohl:

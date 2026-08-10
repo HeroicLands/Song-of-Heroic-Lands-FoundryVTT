@@ -10,6 +10,7 @@ id: UvyV0EEhmSwlCuSW
 slug: glass-lizard
 img: icons/game-icons/lorc/gecko.svg
 portrait: ""
+shortcode: glsslzrd
 type: creature
 package: sohl
 sohl:

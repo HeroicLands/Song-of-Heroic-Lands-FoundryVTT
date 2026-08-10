@@ -10,6 +10,7 @@ id: UWITLnj5XOBDX43o
 slug: rockscale-anklyte
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: rcksclan
 type: creature
 package: sohl
 sohl:

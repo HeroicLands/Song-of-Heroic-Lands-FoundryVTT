@@ -10,6 +10,7 @@ id: pnpVKwADEnFpUPcL
 slug: dromedary-camel
 img: icons/game-icons/delapouite/camel-head.svg
 portrait: ""
+shortcode: drmdrycm
 type: creature
 package: sohl
 sohl:

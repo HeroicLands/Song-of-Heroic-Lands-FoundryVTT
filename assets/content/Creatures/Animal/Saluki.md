@@ -12,6 +12,7 @@ id: t7edWGJipMjipWWu
 slug: saluki
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
+shortcode: saluki
 type: creature
 package: sohl
 sohl:

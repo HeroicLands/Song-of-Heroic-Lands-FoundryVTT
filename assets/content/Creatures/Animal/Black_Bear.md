@@ -10,6 +10,7 @@ id: 8ZGl0AAQhCMIrz8h
 slug: black-bear
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: ""
+shortcode: blckbr
 type: creature
 package: sohl
 sohl:

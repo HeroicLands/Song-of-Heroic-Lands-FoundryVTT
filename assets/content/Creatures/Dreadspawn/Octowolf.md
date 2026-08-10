@@ -10,6 +10,7 @@ id: BwTf4AoCnGxgkYyZ
 slug: octowolf
 img: icons/game-icons/lorc/wolf-head.svg
 portrait: ""
+shortcode: octowolf
 type: creature
 package: sohl
 sohl:

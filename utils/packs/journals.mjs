@@ -42,7 +42,11 @@ import {
     resolveName,
     buildStats,
     md,
+    contentTld,
+    buildContentLinkIndex,
+    convertNoteWikilinks,
 } from "./helpers.mjs";
+import { anchorPageId } from "./wikilinks.mjs";
 
 const STATS = buildStats("0.6.0");
 
@@ -56,7 +60,7 @@ const STATS = buildStats("0.6.0");
  *
  * Returns an array of `{ name, anchorId, markdown }` in document order.
  */
-function splitPages(body) {
+export function splitPages(body) {
     const lines = body.split("\n");
     const pages = [];
     const beforeFirstH1 = [];
@@ -67,7 +71,8 @@ function splitPages(body) {
         if (!current) return;
         pages.push({
             name: current.name,
-            anchorId: current.anchorId,
+            anchorSlug: current.anchorSlug,
+            level: current.level,
             markdown: current.lines.join("\n").trim(),
         });
         current = null;
@@ -78,15 +83,23 @@ function splitPages(body) {
             inCodeBlock = !inCodeBlock;
         }
 
-        const h1Match =
-            !inCodeBlock ? line.match(/^\s*#\s+(.+?)\s*#*\s*$/) : null;
-        if (h1Match) {
+        // An H1 starts a page, as does any heading carrying an `{#slug}`
+        // anchor: a Foundry UUID can only address a page, so a linkable
+        // section has to be one.
+        const headingMatch =
+            !inCodeBlock ? line.match(/^\s*(#{1,6})\s+(.+?)\s*#*\s*$/) : null;
+        const rawHeading = headingMatch?.[2]?.trim();
+        const anchorMatch = rawHeading?.match(/^(.*?)\s*\{#([^}]+)\}\s*$/);
+        const startsPage =
+            headingMatch && (headingMatch[1].length === 1 || anchorMatch);
+        if (startsPage) {
             closeCurrent();
-            const rawHeading = h1Match[1].trim();
-            const anchorMatch = rawHeading.match(/^(.*?)\s*\{#([^}]+)\}\s*$/);
-            const name = (anchorMatch ? anchorMatch[1] : rawHeading).trim();
-            const anchorId = anchorMatch?.[2]?.trim() || null;
-            current = { name, anchorId, lines: [] };
+            current = {
+                name: (anchorMatch ? anchorMatch[1] : rawHeading).trim(),
+                anchorSlug: anchorMatch?.[2]?.trim() || null,
+                level: headingMatch[1].length,
+                lines: [],
+            };
             continue;
         }
 
@@ -100,10 +113,37 @@ function splitPages(body) {
 
     const intro = beforeFirstH1.join("\n").trim();
     if (intro) {
-        pages.unshift({ name: "Introduction", anchorId: null, markdown: intro });
+        pages.unshift({
+            name: "Introduction",
+            anchorSlug: null,
+            level: 1,
+            markdown: intro,
+        });
     }
 
     return pages;
+}
+
+/**
+ * Two headings in one note sharing an `{#anchor}` derive the same page id, which
+ * the LevelDB packer reports only as an opaque duplicate-key collision. Catch it
+ * here, where the note and the slug can be named.
+ *
+ * @param {Array<{anchorSlug: string|null}>} rawPages - From {@link splitPages}.
+ * @param {string} noteName - The note, for the error message.
+ * @throws {Error} When an anchor is declared twice in the same note.
+ */
+export function assertUniqueAnchors(rawPages, noteName) {
+    const seen = new Set();
+    for (const page of rawPages) {
+        if (!page.anchorSlug) continue;
+        if (seen.has(page.anchorSlug)) {
+            throw new Error(
+                `note "${noteName}" declares the anchor {#${page.anchorSlug}} on more than one heading; an anchor must be unique within its note`,
+            );
+        }
+        seen.add(page.anchorSlug);
+    }
 }
 
 export class Journals {
@@ -154,18 +194,18 @@ export class Journals {
                 `note "${noteName}" has no Introduction content and no H1 headings — nothing to compile`,
             );
         }
+        assertUniqueAnchors(rawPages, noteName);
         return rawPages.map((page, index) => {
-            const pageId =
-                page.anchorId ||
-                makeId(
-                    "journal-page",
-                    `${entryId}:${index}:${page.name}`,
-                );
+            // An anchored page takes the id its inbound links compute from the
+            // note id and the slug, so link and page agree without shared state.
+            const pageId = page.anchorSlug
+                ? anchorPageId(entryId, page.anchorSlug)
+                : makeId("journal-page", `${entryId}:${index}:${page.name}`);
             return {
                 _id: pageId,
                 name: page.name,
                 type: "text",
-                title: { show: true, level: 1 },
+                title: { show: true, level: page.level ?? 1 },
                 text: {
                     format: 1,
                     content: page.markdown ? md.render(page.markdown) : "",
@@ -175,10 +215,17 @@ export class Journals {
         });
     }
 
-    buildEntry(fm, body) {
+    buildEntry(fm, body, tld) {
         const name = resolveName(fm);
         const id = fm.id;
-        const rawPages = splitPages(body);
+        const { markdown, unresolved } = convertNoteWikilinks(body, {
+            tld,
+            id,
+            index: this.linkIndex,
+            name,
+        });
+        this.unresolvedLinks += unresolved.length;
+        const rawPages = splitPages(markdown);
         const pages = this.buildPages(rawPages, id, name);
 
         const folderId = sohlField(fm, "folder", null);
@@ -197,11 +244,19 @@ export class Journals {
         };
     }
 
+    /** @see contentTld */
+    tldOf(absPath) {
+        return contentTld(this.contentBase, absPath);
+    }
+
     async compile() {
         let compiled = 0;
         let skippedNoId = 0;
         let skippedDraft = 0;
         let skippedOther = 0;
+
+        this.linkIndex = buildContentLinkIndex(this.contentBase);
+        this.unresolvedLinks = 0;
 
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
             this.contentBase,
@@ -223,7 +278,7 @@ export class Journals {
 
             log.debug(`Processing journal: ${resolveName(fm)} (${absPath})`);
             try {
-                const doc = this.buildEntry(fm, body);
+                const doc = this.buildEntry(fm, body, this.tldOf(absPath));
                 this.writeEntry(doc);
                 compiled++;
             } catch (err) {
@@ -235,6 +290,11 @@ export class Journals {
         }
 
         log.info(`Compiled ${compiled} journal entr${compiled === 1 ? "y" : "ies"}`);
+        if (this.unresolvedLinks) {
+            log.info(
+                `${this.unresolvedLinks} wikilink(s) left as literal text (no target in the content tree)`,
+            );
+        }
         if (skippedNoId) log.info(`Skipped ${skippedNoId} note(s) missing id`);
         if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
         log.debug(

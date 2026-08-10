@@ -10,6 +10,7 @@ id: qzveOIr4oOPGkWen
 slug: steppe-lion
 img: icons/game-icons/lorc/lion.svg
 portrait: ""
+shortcode: stppln
 type: creature
 package: sohl
 sohl:

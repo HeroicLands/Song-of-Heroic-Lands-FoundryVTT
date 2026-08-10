@@ -10,6 +10,7 @@ id: Ul7aa7gAof3P8b46
 slug: luminophage
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: lmnphg
 type: creature
 package: sohl
 sohl:

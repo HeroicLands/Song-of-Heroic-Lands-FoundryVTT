@@ -7,9 +7,9 @@ name:
     aliases: []
 description: "Warding a blow with a limb — desperate bare-armed, deliberate in a mail sleeve."
 id: UnarmedLimbBlock
-slug: unarmed-limb-block
+slug: limb-block
 img: icons/game-icons/lorc/arm-bandage.svg
-shortcode: bflklmbblk
+shortcode: limbblock
 type: skill
 package: sohl
 sohl:

@@ -24,10 +24,69 @@
 # where <id> is the target folder's id from this file. Unknown ids fail
 # the compile loudly.
 
+# Colors are chosen for legibility with white folder-label text (every entry
+# below clears WCAG AA, >= 4.5:1 against white) and to stay mutually distinct
+# in perceptual (OKLab) terms while remaining saturated.
+
+# --- Rules -----------------------------------------------------------------
 - name: Rules
   id: RqKUTBUBN2Y3MHYB
   parentFolderId: ""
   color: "#d35400"
+- name: Character
+  id: SSkatgtYj9d71kaz
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#085e02"
+- name: Combat
+  id: rotB8uN12YUN0Oba
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#940111"
+- name: Esoterica
+  id: oPWOe5cjsYc1ev2h
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#8e44ad"
+- name: Mysteries
+  id: gmHoAXi9mq8O9DUn
+  parentFolderId: oPWOe5cjsYc1ev2h
+  color: "#6400b1"
+- name: Mystical Abilities
+  id: J8ppkzls4ERyzTpv
+  parentFolderId: oPWOe5cjsYc1ev2h
+  color: "#740bfe"
+- name: Divination
+  id: k6DghEucd6umnBJx
+  parentFolderId: J8ppkzls4ERyzTpv
+  color: "#b806f1"
+- name: Skills
+  id: e0HEIHw9qUVWqyzJ
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#01489f"
+- name: Skill Descriptions
+  id: mGTLNG9LovJG0I4Q
+  parentFolderId: e0HEIHw9qUVWqyzJ
+  color: "#046bfb"
+- name: Trauma
+  id: 4SPG9O9H7puwZsve
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#6c4801"
+- name: Body
+  id: edGOkxiCotuMzc1O
+  parentFolderId: 4SPG9O9H7puwZsve
+  color: "#7e780f"
+- name: Injury
+  id: F4NGyU9QQgWwTcHe
+  parentFolderId: edGOkxiCotuMzc1O
+  color: "#dc0075"
+- name: Mind
+  id: hAloT0Y1xg1vcIIn
+  parentFolderId: 4SPG9O9H7puwZsve
+  color: "#0a819d"
+- name: Spirit
+  id: TiVEgAyetL6JTjqG
+  parentFolderId: 4SPG9O9H7puwZsve
+  color: "#870168"
+
+# --- User Guide ------------------------------------------------------------
 - name: User Guide
   id: IgwaG8rAUUO9vrtz
   parentFolderId: ""
@@ -38,7 +97,3 @@
 - name: Items
   id: QtOgPodi8X6gDWL0
   parentFolderId: IgwaG8rAUUO9vrtz
-- name: Esoterica
-  id: oPWOe5cjsYc1ev2h
-  parentFolderId: RqKUTBUBN2Y3MHYB
-  color: "#8e44ad"

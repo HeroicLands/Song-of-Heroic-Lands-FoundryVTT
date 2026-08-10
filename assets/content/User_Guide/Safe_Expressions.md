@@ -9,6 +9,7 @@ category: user-guide
 name:
     full: "Safe Expressions"
 slug: "safe-expressions"
+shortcode: sfexprss
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -30,21 +31,21 @@ An expression is checked the moment you save it. If it uses something the
 language doesn't allow, it fails **immediately and visibly** rather than silently
 misbehaving later.
 
-This page is the complete reference: [where you use them](#where-you-use-them),
-the [language](#the-language), the [context variables](#context-variables) each
-place provides, every [helper function](#helper-functions), a practical guide to
-[developing an expression](#developing-an-expression), and
-[troubleshooting](#errors--troubleshooting).
+This page is the complete reference: [[#where-you-use-them|where you use them]],
+the [[#the-language|language]], the [[#context-variables|context variables]] each
+place provides, every [[#helper-functions|helper function]], a practical guide to
+[[#developing-an-expression|developing an expression]], and
+[[#errors-troubleshooting|troubleshooting]].
 
-# Where you use them
+# Where you use them {#where-you-use-them}
 
-| Where                              | What the expression decides                    | Result | Page                                    |
-| ---------------------------------- | ---------------------------------------------- | ------ | --------------------------------------- |
-| Active Effect **Target Predicate** | Which candidates an effect applies to          | yes/no | [Effect Targeting](Effect_Targeting.md) |
-| Action **Trigger**                 | Whether an action is currently available       | yes/no | [Actions](Actions.md)                   |
-| Action **Visibility**              | Whether an action's button/menu entry is shown | yes/no | [Actions](Actions.md)                   |
-| **Context-menu condition**         | Whether a right-click menu entry is shown      | yes/no | [Actions](Actions.md)                   |
-| **Computed fields** (e.g. weight)  | A number the system feeds into a calculation   | number | this page                               |
+| Where                              | What the expression decides                    | Result | Page                 |
+| ---------------------------------- | ---------------------------------------------- | ------ | -------------------- |
+| Active Effect **Target Predicate** | Which candidates an effect applies to          | yes/no | [[Effect Targeting]] |
+| Action **Trigger**                 | Whether an action is currently available       | yes/no | [[Actions]]          |
+| Action **Visibility**              | Whether an action's button/menu entry is shown | yes/no | [[Actions]]          |
+| **Context-menu condition**         | Whether a right-click menu entry is shown      | yes/no | [[Actions]]          |
+| **Computed fields** (e.g. weight)  | A number the system feeds into a calculation   | number | this page            |
 
 Most call sites want a **predicate** — an expression that comes out `true` or
 `false`. A few (like a movement profile's weight calculation) want a **number**.
@@ -63,7 +64,7 @@ game data you're handed for that particular use. The rest of this page covers th
 language itself, the variables available in each place, and the helper functions
 you can call.
 
-# The language
+# The language {#the-language}
 
 ## Values you can write
 
@@ -104,7 +105,7 @@ Notes:
   than `+`/`-`, comparisons tighter than `&&`, and `&&` tighter than `||`. When in
   doubt, add **parentheses**: `(a || b) && c`.
 - **`+` also joins text.** `"Str " + score` produces `"Str 12"`. (For anything
-  more than a simple join, prefer the [text helpers](#text--building--transforming).)
+  more than a simple join, prefer the [[#text-building-transforming|text helpers]].)
 - **`&&` / `||` short-circuit.** `a && b` only looks at `b` when `a` is true;
   `a || b` only looks at `b` when `a` is false. Use this to guard:
   `defined(itemLogic) && itemLogic.name === "Broadsword"` never touches
@@ -135,7 +136,7 @@ has(lower(itemLogic.data.subType), kinds)     // normalize, then test membership
 max(1, floor(score / 2))
 ```
 
-The full list is in [Helper functions](#helper-functions) below.
+The full list is in [[#helper-functions|Helper functions]] below.
 
 ## What is _not_ allowed
 
@@ -152,7 +153,7 @@ The language rejects anything that could change state or run code. These all fai
   (this is what stops an expression from climbing to arbitrary code).
 - **Statements, template strings, regex literals, semicolons.**
 
-# Context variables
+# Context variables {#context-variables}
 
 The variables you can name depend on _where_ the expression runs.
 
@@ -183,7 +184,7 @@ values (things the system works out, like an effective mastery level) are
 properties of the logic itself (`itemLogic.masteryLevel.effective`). When a read
 comes back empty, a wrong `.data` vs. computed choice is the usual cause.
 
-# Helper functions
+# Helper functions {#helper-functions}
 
 Helpers are the only functions you can call. They are grouped below by purpose;
 each entry gives the call shape and what it returns. Arguments and results are the
@@ -193,7 +194,7 @@ the only exceptions are the stochastic `rand`/`roll`, which give a different
 answer each time.
 
 > Worlds can add **custom helpers** on top of these built-ins (see
-> [Custom helpers](#custom-helpers)). If your GM has loaded a helper library,
+> [[#custom-helpers|Custom helpers]]). If your GM has loaded a helper library,
 > those extra helper names are available too.
 
 ## Collections & membership
@@ -236,7 +237,7 @@ matches(itemLogic.name, "dagger", "i")                  // case-insensitive
 > patterns like `^(a|b|c)$`. For a simple "contains", reach for `contains`
 > instead of a regex.
 
-## Text — building & transforming
+## Text — building & transforming {#text-building-transforming}
 
 These build or reshape text — most useful in **computed string fields** (like
 flavor text) rather than predicates.
@@ -361,21 +362,21 @@ makes writing an expression far easier than the single-line field:
   context variables, strings, numbers, and operators are each coloured, so the
   shape of the expression is easy to read at a glance.
 - **Autocomplete**: as you type a name, a list of matching
-  [helper functions](#helper-functions) and the [context variables](#context-variables)
+  [[#helper-functions|helper functions]] and the [[#context-variables|context variables]]
   available at that field pops up — pick one to insert it (helpers come in with
   their `()` ready for arguments).
 - **Live validation** checks what you've written against the Safe Expression
   language on every keystroke and reports the result just below the editor. The
   **Save** button stays disabled while the expression is invalid, so you can't
   commit a broken one.
-- A **helper palette** lists every available [helper function](#helper-functions);
+- A **helper palette** lists every available [[#helper-functions|helper function]];
   click one to insert it at the cursor.
 
 **Save** writes the expression back to the field, **Clear** empties it, and
 **Cancel** discards your changes. Fields without an edit button are still edited
 inline in the text box, and are validated the same way the moment you save.
 
-# Developing an expression
+# Developing an expression {#developing-an-expression}
 
 A repeatable way to write one that works the first time.
 
@@ -383,7 +384,7 @@ A repeatable way to write one that works the first time.
 "only melee weapons the actor can dodge with" — then translate it clause by
 clause.
 
-**2. Know your context variables.** Check the [table above](#context-variables)
+**2. Know your context variables.** Check the [[#context-variables|table above]]
 for the call site you're editing, and remember every value there is a **logic**
 object. If you name something that isn't listed (e.g. `sm` outside a strike-mode
 scope), the expression errors.
@@ -439,7 +440,7 @@ floor(wt.effective / 10)
 concat(capitalize(itemLogic.name), " strikes for ", str(roll("1d6").total), "!")
 ```
 
-# Custom helpers
+# Custom helpers {#custom-helpers}
 
 Beyond the built-ins, a GM can load a **helper library** — a JSON file that
 defines additional named helpers for the world. Once loaded, those helpers can
@@ -450,7 +451,7 @@ library can be reloaded when the file changes.
 Authoring a helper library is a GM/world-setup task; as a player you simply have
 those helper names available if your world provides them.
 
-# Errors & troubleshooting
+# Errors & troubleshooting {#errors-troubleshooting}
 
 - **The expression won't save (shows an error).** It used something outside the
   language — an assignment, `a == b` / `a != b`, a method call, `typeof`, a
@@ -472,8 +473,8 @@ those helper names available if your world provides them.
 
 # See also
 
-- [Effect Targeting](Effect_Targeting.md) — Active Effect scopes and predicates.
-- [Actions](Actions.md) — action triggers and visibility.
+- [[Effect Targeting]] — Active Effect scopes and predicates.
+- [[Actions]] — action triggers and visibility.
 - API reference:
   [`SafeExpression`](https://api.heroiclands.org/latest/classes/API_Reference.SafeExpression.html)
   — the authoritative definition of the grammar and evaluator.

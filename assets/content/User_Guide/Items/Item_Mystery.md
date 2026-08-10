@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Mystery"
 slug: "item-mystery"
+shortcode: mystery
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -21,7 +22,7 @@ Mysteries appear on the Being sheet's **Mysteries** tab.
 
 # Additional Properties
 
-Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **SubType:**
 - **Level:** Power level of this mystery, if applicable
@@ -44,9 +45,9 @@ has:
 | Delete                     | `deleteDocument`    |
 | Output Description to Chat | `outputDescription` |
 
-All three belong to every item and are described on [[Item_Base|Base Item]],
+All three belong to every item and are described on [[Base Item]],
 which covers what each one does, how it is invoked, and what it produces.
 
 A Mystery's effect on a character is applied through the Active Effects it
 carries, and any power a character actively invokes is a
-[[Item_MysticalAbility|Mystical Ability]], which has its own action and roll.
+[[Mystical Ability]], which has its own action and roll.

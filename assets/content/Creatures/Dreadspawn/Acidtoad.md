@@ -10,6 +10,7 @@ id: ho5hsRAglADOtInP
 slug: acidtoad
 img: icons/game-icons/lorc/toad-teeth.svg
 portrait: ""
+shortcode: acidtoad
 type: creature
 package: sohl
 sohl:

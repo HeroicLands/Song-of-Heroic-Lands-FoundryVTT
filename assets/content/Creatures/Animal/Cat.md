@@ -10,6 +10,7 @@ id: HssiDLDnWMtX8Yp4
 slug: cat
 img: icons/game-icons/lorc/cat.svg
 portrait: ""
+shortcode: cat
 type: creature
 package: sohl
 sohl:

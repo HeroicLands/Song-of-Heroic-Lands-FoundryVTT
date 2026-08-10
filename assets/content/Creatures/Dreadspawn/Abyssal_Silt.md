@@ -10,6 +10,7 @@ id: 1afcBWsxQXPUIBxG
 slug: abyssal-silt
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: abysslsl
 type: creature
 package: sohl
 sohl:

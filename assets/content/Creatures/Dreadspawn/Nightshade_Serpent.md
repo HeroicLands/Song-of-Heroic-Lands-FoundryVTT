@@ -10,6 +10,7 @@ id: sihuakxB0kpupEU6
 slug: nightshade-serpent
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
+shortcode: nghtshds
 type: creature
 package: sohl
 sohl:

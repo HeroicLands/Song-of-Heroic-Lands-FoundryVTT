@@ -46,6 +46,10 @@ import {
     resolveImg,
     buildStats,
     withArchetypeFlag,
+    md,
+    contentTld,
+    buildContentLinkIndex,
+    convertNoteWikilinks,
 } from "./helpers.mjs";
 // Per-type default art lives in one framework-free module shared with the
 // runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
@@ -466,7 +470,10 @@ export class Items {
         let skippedDraft = 0;
         let skippedOtherType = 0;
 
-        for (const { frontmatter: fm, description, absPath } of walkMarkdownTree(
+        this.linkIndex = buildContentLinkIndex(this.contentBase);
+        this.unresolvedLinks = 0;
+
+        for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
             this.contentBase,
         )) {
             if (!fm || fm.package !== "sohl") {
@@ -491,7 +498,20 @@ export class Items {
 
             log.debug(`Processing ${type}: ${resolveName(fm)} (${absPath})`);
             try {
-                const entry = this.buildEntry(type, fm, description);
+                // Wikilinks resolve against the whole content tree, so an item
+                // may link to another item, a creature, or a rules journal.
+                const { markdown, unresolved } = convertNoteWikilinks(body, {
+                    tld: contentTld(this.contentBase, absPath),
+                    id: fm.id,
+                    index: this.linkIndex,
+                    name: resolveName(fm),
+                });
+                this.unresolvedLinks += unresolved.length;
+                const entry = this.buildEntry(
+                    type,
+                    fm,
+                    markdown ? md.render(markdown) : "",
+                );
                 this.writeItem(entry);
                 counts[type]++;
             } catch (err) {

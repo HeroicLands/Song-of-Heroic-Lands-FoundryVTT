@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: Base Item
 slug: "item-base"
+shortcode: baseitem
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -37,9 +38,9 @@ mechanism — the action types, their fields, and who is permitted to run them.
 
 Most actions belong to one kind of item, and are documented on that item's own
 page. A handful belong to **everything**, and are documented here once:
-[the shared document actions](#the-shared-document-actions). Several **dialogs**
+[[#the-shared-document-actions|the shared document actions]]. Several **dialogs**
 are shared the same way — nearly every roll in SoHL opens
-[the standard test dialog](#the-standard-test-dialog) — and those are described
+[[#the-standard-test-dialog|the standard test dialog]] — and those are described
 once here too.
 
 To reach an item's actions, **right-click the item's row** on the actor sheet, or
@@ -49,18 +50,18 @@ open the item and use its **Actions** tab.
 
 Various active effects can be applied to an item that either effect the item, the actor the item is located on, or other items on the same parent actor.
 
-# The Shared Document Actions
+# The Shared Document Actions {#the-shared-document-actions}
 
 Four actions are not features of any one item type — they belong to every
 document that has them, and every other page in this guide links here rather than
 repeating them.
 
-| Action                                                    | Shortcode           | Belongs to      | Where you meet it    |
-| --------------------------------------------------------- | ------------------- | --------------- | -------------------- |
-| [Edit](#edit)                                             | `editDocument`      | Every document  | Actions context menu |
-| [Delete](#delete)                                         | `deleteDocument`    | Every document  | Actions context menu |
-| [Output Description to Chat](#output-description-to-chat) | `outputDescription` | Every **item**  | Actions context menu |
-| [Make Default Medium](#make-default-medium)               | `makeDefaultMedium` | Every **actor** | The movement rows    |
+| Action                                                      | Shortcode           | Belongs to      | Where you meet it    |
+| ----------------------------------------------------------- | ------------------- | --------------- | -------------------- |
+| [[#edit\|Edit]]                                             | `editDocument`      | Every document  | Actions context menu |
+| [[#delete\|Delete]]                                         | `deleteDocument`    | Every document  | Actions context menu |
+| [[#output-description-to-chat\|Output Description to Chat]] | `outputDescription` | Every **item**  | Actions context menu |
+| [[#make-default-medium\|Make Default Medium]]               | `makeDefaultMedium` | Every **actor** | The movement rows    |
 
 None of them roll anything, and none of them touch another character's sheet.
 
@@ -68,7 +69,7 @@ None of them roll anything, and none of them touch another character's sheet.
 > left out of the menu: the tracker has its own controls for both. See
 > [[Combatant]].
 
-# Edit
+# Edit {#edit}
 
 |               |                                                                                                                  |
 | ------------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -86,7 +87,7 @@ It exists as an action because the context menu is often closer to hand than the
 row: when you have right-clicked a skill to run a test and find you want to look
 at the skill instead, **Edit** is right there.
 
-# Delete
+# Delete {#delete}
 
 |               |                                                                                                                      |
 | ------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -120,7 +121,7 @@ one on purpose.
 
 ## Containers delete their contents
 
-A [[Item_Containergear|Container]] asks a stronger question, because the answer
+A [[Container]] asks a stronger question, because the answer
 costs more: its dialog is titled **Delete Container: _{name}_** and warns
 _"WARNING: All items in this container will be deleted as well!"_. Confirming
 removes the container **and everything inside it** in one step.
@@ -128,7 +129,7 @@ removes the container **and everything inside it** in one step.
 If you want to keep the contents, move them out of the container first, then
 delete the empty container.
 
-# Output Description to Chat
+# Output Description to Chat {#output-description-to-chat}
 
 |               |                                                                                                                                                     |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -163,7 +164,7 @@ name and type.
 Everyone in the chat log sees the card. If a description would spoil something,
 read it before you post it.
 
-# Make Default Medium
+# Make Default Medium {#make-default-medium}
 
 |               |                                                                                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -202,16 +203,16 @@ Three dialogs turn up over and over, attached to actions all across the system.
 They are described here once; the per-action entries elsewhere in this guide name
 the dialog and link back here rather than listing its fields again.
 
-| Dialog                                              | When you see it                                                 |
-| --------------------------------------------------- | --------------------------------------------------------------- |
-| [Standard test dialog](#the-standard-test-dialog)   | Before almost every roll — your chance to modify it             |
-| [Strike-mode picker](#the-strike-mode-picker)       | A combat action on an item with more than one way of being used |
-| [Offer-schedule dialog](#the-offer-schedule-dialog) | An effect with a recurring check asks whether to set a reminder |
+| Dialog                                                | When you see it                                                 |
+| ----------------------------------------------------- | --------------------------------------------------------------- |
+| [[#the-standard-test-dialog\|Standard test dialog]]   | Before almost every roll — your chance to modify it             |
+| [[#the-strike-mode-picker\|Strike-mode picker]]       | A combat action on an item with more than one way of being used |
+| [[#the-offer-schedule-dialog\|Offer-schedule dialog]] | An effect with a recurring check asks whether to set a reminder |
 
-A fourth, [the GM's result edit](#editing-a-posted-test-result-gm), re-opens the
+A fourth, [[#editing-a-posted-test-result-gm|the GM's result edit]], re-opens the
 standard test dialog on a roll that has already been posted.
 
-# The Standard Test Dialog
+# The Standard Test Dialog {#the-standard-test-dialog}
 
 **Nearly every roll in SoHL opens this dialog first.** Skill tests, attribute
 tests, healing checks, morale, treatment — if an action ends in a d100, this is
@@ -251,7 +252,7 @@ costs you a keystroke, not a re-write of the chat log.
 
 Some tests add extra fields to this same window when their action needs them — an
 aim, an impact modifier, a target's movement. Those belong to combat and are
-described with the actions that use them; see [[Combat_Basics]] and
+described with the actions that use them; see [[Combat Basics]] and
 [[Combatant]].
 
 A few actions deliberately **skip** this dialog and roll straight away, because
@@ -259,7 +260,7 @@ the difficulty is not yours to set — the Trauma page's **Treatment Test** is t
 clearest example, where the wound decides the difficulty. Each such action says
 so in its own entry.
 
-# The Strike-Mode Picker
+# The Strike-Mode Picker {#the-strike-mode-picker}
 
 A weapon can have more than one way of being used — a blade that also has a
 pommel, a spear that thrusts or is thrown. Each of those is a **strike mode**.
@@ -285,7 +286,7 @@ The picker is what you get when the action was reached some other way — from t
 weapon's own Actions menu, or from a macro — with two or more modes to choose
 between.
 
-# The Offer-Schedule Dialog
+# The Offer-Schedule Dialog {#the-offer-schedule-dialog}
 
 SoHL never schedules anything on its own. When an effect has a recurring check —
 a wound's healing check, an infection's course test, a disease's onset — the
@@ -318,7 +319,7 @@ offered the same way.
 > **offer → remind → perform → offer the next.** Every recurring effect in SoHL
 > follows this loop, and a human answers at each step.
 
-# Editing a Posted Test Result (GM)
+# Editing a Posted Test Result (GM) {#editing-a-posted-test-result-gm}
 
 |               |                                                                                                                                       |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -330,10 +331,10 @@ offered the same way.
 
 Every standard test-result card carries a small pencil beside its title — but
 only on a GM's screen. Pressing it re-opens
-[the standard test dialog](#the-standard-test-dialog) for a roll that has already
+[[#the-standard-test-dialog|the standard test dialog]] for a roll that has already
 been made, pre-filled with the modifiers that roll actually used.
 
-This is the GM's counterpart to [[Fate_System|Fate]]: where a player spends Fate
+This is the GM's counterpart to [[User_Guide/thftsyst|Fate]]: where a player spends Fate
 to nudge a result, a GM adjusts the arithmetic that produced it — because a
 modifier was forgotten, or applied when it should not have been.
 
@@ -360,11 +361,11 @@ result."_
 
 - [[Actions]] — how actions work as a mechanism: types, fields, visibility, and
   execute permissions.
-- [[Understanding_Sheets]] — the sheets these tabs belong to.
+- [[Understanding Sheets]] — the sheets these tabs belong to.
 - [[Shortcodes]] — what a shortcode means and why it matters.
-- [[Skill_Tests]] — what the numbers in the standard test dialog are doing.
-- [[Fate_System|Fate]] — the player-side counterpart to the GM result edit.
-- [[Combat_Basics]] and [[Combatant]] — the combat actions that add fields to the
+- [[Skill Tests]] — what the numbers in the standard test dialog are doing.
+- [[User_Guide/thftsyst|Fate]] — the player-side counterpart to the GM result edit.
+- [[Combat Basics]] and [[Combatant]] — the combat actions that add fields to the
   standard test dialog, and where strike modes come from.
-- [[Item_Trauma|Trauma]] and [[Item_Affliction|Affliction]] — the recurring
+- [[Trauma]] and [[Affliction]] — the recurring
   checks that use the offer-schedule dialog most.

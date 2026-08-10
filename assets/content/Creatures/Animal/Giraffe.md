@@ -11,6 +11,7 @@ id: 087iR45QSKNTs1ze
 slug: giraffe
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: giraffe
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: LMyTG1K48t5guDBD
 slug: snow-leopard
 img: icons/game-icons/delapouite/feline.svg
 portrait: ""
+shortcode: snwlprd
 type: creature
 package: sohl
 sohl:

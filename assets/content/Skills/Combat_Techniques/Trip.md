@@ -7,9 +7,9 @@ name:
     aliases: []
 description: "Taking the legs out from under an opponent, and the fight with them."
 id: UnarmedTrip0001
-slug: unarmed-trip
+slug: trip
 img: icons/game-icons/lorc/hobbling-mace.svg
-shortcode: bflktrip
+shortcode: trip
 type: skill
 package: sohl
 sohl:

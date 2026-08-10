@@ -10,6 +10,7 @@ id: PdsQX4rPIfQgbxtn
 slug: gloomfang
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: glmfng
 type: creature
 package: sohl
 sohl:

@@ -10,6 +10,7 @@ id: l4GBcRoNaHSO3RRn
 slug: forest-troll
 img: icons/game-icons/skoll/troll.svg
 portrait: ""
+shortcode: frsttrll
 type: creature
 package: sohl
 sohl:

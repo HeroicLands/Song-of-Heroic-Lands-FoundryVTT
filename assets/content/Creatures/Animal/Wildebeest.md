@@ -12,6 +12,7 @@ id: fWFF00Xq9zTzMq0Z
 slug: wildebeest
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
+shortcode: wldbst
 type: creature
 package: sohl
 sohl:

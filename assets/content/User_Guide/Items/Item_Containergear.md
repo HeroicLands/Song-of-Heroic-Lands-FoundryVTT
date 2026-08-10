@@ -8,6 +8,7 @@ category: user-guide
 name:
     full: "Container"
 slug: "item-containergear"
+shortcode: cntnr
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -22,7 +23,7 @@ creating a hierarchical inventory structure.
 
 # Additional Properties
 
-In addition to the [[Item_Gear|Standard Gear Properties]], the following additional properties are defined for containers:
+In addition to the [[User_Guide/itemgear|Standard Gear Properties]], the following additional properties are defined for containers:
 
 - **Capacity** — how much the container can hold, limiting what can be
   stored inside.
@@ -46,9 +47,9 @@ is a standard action it already inherits:
 | Output Description to Chat | `outputDescription` |
 | Toggle Carried             | `toggleCarried`     |
 
-The first three belong to every item and are described on [[Item_Base|Base Item]];
+The first three belong to every item and are described on [[Base Item]];
 **Toggle Carried** belongs to every piece of gear and is described on
-[[Item_Gear|Gear]]. Those pages cover what each one does, how it is invoked, and
+[[Gear]]. Those pages cover what each one does, how it is invoked, and
 what it produces — none of it changes for a container.
 Everything else about a container — its capacity, and what is nested inside it —
 is set on the sheet or by dragging gear onto the container, not by running an

@@ -10,6 +10,7 @@ id: NZjkwSdqmk6Tuf64
 slug: wraithbloom
 img: icons/game-icons/lorc/werewolf.svg
 portrait: ""
+shortcode: wrthblm
 type: creature
 package: sohl
 sohl:

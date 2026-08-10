@@ -10,6 +10,7 @@ id: Q2oJByEiRbME0lGy
 slug: embermaw
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
+shortcode: embermaw
 type: creature
 package: sohl
 sohl:

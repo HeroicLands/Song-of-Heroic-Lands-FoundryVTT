@@ -33,6 +33,8 @@ import unidecode from "unidecode";
 import markdownit from "markdown-it";
 import log from "loglevel";
 
+import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
+
 export const md = markdownit({ html: true });
 
 /**
@@ -366,6 +368,70 @@ export function makeId(namespace, value) {
         .update(`${namespace}:${value}`)
         .digest("hex")
         .slice(0, 16);
+}
+
+/* ------------------------------------------------------------------------ */
+/*  Wikilink resolution: the content-wide link index                        */
+/* ------------------------------------------------------------------------ */
+
+/**
+ * The top-level content directory a note belongs to — the key a wikilink names
+ * and `PACK_BY_TLD` routes on.
+ *
+ * @param {string} contentBase - Root of the content tree.
+ * @param {string} absPath - Absolute path of a note within it.
+ * @returns {string} The first path segment below the content root.
+ */
+export function contentTld(contentBase, absPath) {
+    return path.relative(contentBase, absPath).split(path.sep)[0];
+}
+
+/**
+ * Indexes **every** note in the content tree so any pack compiler can resolve a
+ * wikilink to any other document. Shared by all three compilers: a skill links
+ * to another skill, a journal to a creature, a creature to a rules page, and
+ * each target's own TLD decides which pack the UUID points into.
+ *
+ * @param {string} contentBase - Root of the content tree.
+ * @returns {{byShortcode: Map, byAlias: Map}} From `buildWikilinkIndex`.
+ */
+export function buildContentLinkIndex(contentBase) {
+    const docs = [];
+    for (const { frontmatter: fm, absPath } of walkMarkdownTree(contentBase)) {
+        if (!fm?.id) continue;
+        const base = path.basename(absPath, ".md").replace(/_/g, " ");
+        docs.push({
+            tld: contentTld(contentBase, absPath),
+            id: fm.id,
+            shortcode: fm.shortcode ?? null,
+            name: fm.name?.full ?? base,
+            aliases: [
+                ...(Array.isArray(fm.aliases) ? fm.aliases : []),
+                ...(fm.name?.full ? [fm.name.full] : []),
+                ...(Array.isArray(fm.name?.aliases) ? fm.name.aliases : []),
+                base,
+            ].filter(Boolean),
+        });
+    }
+    log.debug(`Wikilink index: ${docs.length} linkable document(s)`);
+    return buildWikilinkIndex(docs);
+}
+
+/**
+ * Converts the wikilinks in one note's markdown, logging any that have no
+ * target in the content tree. Every compiler funnels through this so the
+ * warning text and the leave-it-alone fallback are identical everywhere.
+ *
+ * @param {string} body - The note's markdown body.
+ * @param {object} ctx - `{ tld, id, index, name }` — `name` is used in the log.
+ * @returns {{markdown: string, unresolved: Array<object>}}
+ */
+export function convertNoteWikilinks(body, { tld, id, index, name }) {
+    const result = convertWikilinks(body ?? "", { tld, id, index });
+    for (const u of result.unresolved) {
+        log.warn(`Unresolved wikilink in "${name}" (${u.reason}): ${u.link}`);
+    }
+    return result;
 }
 
 /* ------------------------------------------------------------------------ */
