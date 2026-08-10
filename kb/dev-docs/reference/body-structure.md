@@ -231,7 +231,7 @@ additional minimums.
 Impact is an **absolute** quantity, but an injury **level** is relative to the
 body absorbing it — the same 3-point dagger is trivial to a cow and grievous to a
 cat. The being's `body` carries a `bodyScaleBase` factor (`1.0` = a baseline human;
-larger = bigger/tougher body), exposed as the floored `bodyScale` `ValueModifier`
+larger = bigger/tougher body), exposed as the clamped `bodyScale` `ValueModifier`
 on {@link sohl.document.actor.logic.BodyLogic} (`being.body.bodyScale`). Seed it
 from `(typical species STR) / 11` (11 is the human strength the master table is
 calibrated for).
@@ -247,6 +247,29 @@ feeds — Shock Index, bleeding, amputation, stumble/fumble, health — becomes
 size-correct at the source, with no changes to those subsystems. An Active Effect
 on `system.body.bodyScaleBase` (shrink/enlarge) re-scales the table within the same
 prepare cycle.
+
+### The scale is clamped to 0.01 – 3
+
+`bodyScale` is floored at `MIN_BODY_SCALE` (0.01) and capped at `MAX_BODY_SCALE`
+(3), including any Active-Effect delta, so an enlarge cannot lift a being past
+the ceiling.
+
+The cap exists because impact and the thresholds grow at different rates
+(#1242). Impact tracks Strength at about `STR ÷ 2`, while an unbounded scale
+grows the top threshold at `20 × STR ÷ 11` — roughly `STR × 1.8`, some 3.6 times
+faster. Past a scale of about 3 the thresholds outrun every impact the system can
+produce: an Old Dragon at its raw 5.45 would need an effective 109 for a Grievous
+injury, where the largest impact in the game is its own 33-point bite, so nothing
+— not another dragon, not a trebuchet — could wound it at all.
+
+At the cap a body has thresholds `[3, 15, 30, 45, 60]`, which keeps the top of
+the range hard but reachable. **Natural armour, not body scale, is what makes a
+dragon proof against swords**: a hand weapon maxes at 15 impact and cannot pass a
+dragon's 28-point hide whatever the thresholds say, while a siege engine or a
+spell that does get through now wounds in proportion.
+
+Seeding `bodyScaleBase` from Strength above 33 is therefore harmless but
+inert — the creature is already at the ceiling.
 
 ## Body zones
 

@@ -369,6 +369,40 @@ describe("BeingLogic", () => {
                 expect(being.body.bodyScale.effective).toBe(0.01);
             });
 
+            it("caps bodyScale at 3 (#1242)", () => {
+                // An Old Dragon seeds 5.45 from its Strength. Uncapped, its top
+                // threshold would be 109 — beyond any impact the system can
+                // produce, so nothing could wound it at all.
+                const being = makeBeing({
+                    body: bodyData({ bodyScaleBase: 5.45 }),
+                });
+                being.initialize();
+                being.evaluate();
+                expect(being.body.bodyScale.effective).toBe(3);
+                expect(being.injuryTable).toEqual(scaled(3));
+            });
+
+            it("leaves a scale under the cap untouched", () => {
+                const being = makeBeing({
+                    body: bodyData({ bodyScaleBase: 2.9 }),
+                });
+                being.initialize();
+                being.evaluate();
+                expect(being.body.bodyScale.effective).toBe(2.9);
+                expect(being.injuryTable).toEqual(scaled(2.9));
+            });
+
+            it("caps a bodyScale raised past 3 by an enlarge delta", () => {
+                const being = makeBeing({
+                    body: bodyData({ bodyScaleBase: 2.5 }),
+                });
+                being.initialize();
+                being.body.bodyScale.add("Enlarge", "enlarge", 2);
+                being.evaluate();
+                expect(being.body.bodyScale.effective).toBe(3);
+                expect(being.injuryTable).toEqual(scaled(3));
+            });
+
             it("re-scales the table when a delta is layered on bodyScale", () => {
                 const being = makeBeing({
                     body: bodyData({ bodyScaleBase: 1.0 }),
