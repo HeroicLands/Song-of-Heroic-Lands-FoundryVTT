@@ -41,20 +41,20 @@ traits:
 sohl:
     archetype: 1
     attributes:
-        str: 10
-        end: 10
-        dex: 10
-        agl: 10
-        per: 10
-        cml: 10
-        aur: 10
-        wil: 10
-        rea: 10
-        cre: 10
-        emp: 10
-        elo: 10
-        mor: 10
-        voi: 10
+        str: 11
+        end: 11
+        dex: 11
+        agl: 11
+        per: 11
+        cml: 11
+        aur: 11
+        wil: 11
+        rea: 11
+        cre: 11
+        emp: 11
+        elo: 11
+        mor: 11
+        voi: 11
     body:
         structure:
             zones:
