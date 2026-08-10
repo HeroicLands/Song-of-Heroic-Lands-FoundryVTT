@@ -60,7 +60,7 @@ const STATS = buildStats("0.6.0");
  *
  * Returns an array of `{ name, anchorId, markdown }` in document order.
  */
-function splitPages(body) {
+export function splitPages(body) {
     const lines = body.split("\n");
     const pages = [];
     const beforeFirstH1 = [];
@@ -124,6 +124,28 @@ function splitPages(body) {
     return pages;
 }
 
+/**
+ * Two headings in one note sharing an `{#anchor}` derive the same page id, which
+ * the LevelDB packer reports only as an opaque duplicate-key collision. Catch it
+ * here, where the note and the slug can be named.
+ *
+ * @param {Array<{anchorSlug: string|null}>} rawPages - From {@link splitPages}.
+ * @param {string} noteName - The note, for the error message.
+ * @throws {Error} When an anchor is declared twice in the same note.
+ */
+export function assertUniqueAnchors(rawPages, noteName) {
+    const seen = new Set();
+    for (const page of rawPages) {
+        if (!page.anchorSlug) continue;
+        if (seen.has(page.anchorSlug)) {
+            throw new Error(
+                `note "${noteName}" declares the anchor {#${page.anchorSlug}} on more than one heading; an anchor must be unique within its note`,
+            );
+        }
+        seen.add(page.anchorSlug);
+    }
+}
+
 export class Journals {
     static id = "journals";
 
@@ -172,6 +194,7 @@ export class Journals {
                 `note "${noteName}" has no Introduction content and no H1 headings — nothing to compile`,
             );
         }
+        assertUniqueAnchors(rawPages, noteName);
         return rawPages.map((page, index) => {
             // An anchored page takes the id its inbound links compute from the
             // note id and the slug, so link and page agree without shared state.

@@ -317,7 +317,7 @@ There is **no dialog** — the action rolls straight away.
 The write lands on the ability alone. Improving one Mystical Ability never
 touches an Associated Skill, another ability, or anything else on the sheet.
 
-## Before you start {#before-you-start}
+## Before you start
 
 - **The ability must be flagged for improvement.** The action appears in the
   menu only for a flagged ability — flagging is what marks it as having earned a
