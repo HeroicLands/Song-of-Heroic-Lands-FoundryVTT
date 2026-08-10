@@ -515,7 +515,7 @@ sohl:
             base: 181
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -667,14 +667,22 @@ sohl:
           type: mysticalability
           system:
               masteryLevelBase: 33
-thalorna:
-    realm: kingdom-of-tarvenia
-    region: tarvenia-region
-    faith:
-        - "aureldian-pantheon/faith-of-murkir"
-harnworld:
-    realm: Tarvénia
-    ritual: []
+        - shortcode: bflkbite
+          type: skill
+        - shortcode: bflkgrab
+          type: skill
+        - shortcode: bflkheadbutt
+          type: skill
+        - shortcode: bflkkick
+          type: skill
+        - shortcode: bflklmbblk
+          type: skill
+        - shortcode: bflkpress
+          type: skill
+        - shortcode: bflkpunch
+          type: skill
+        - shortcode: bflktrip
+          type: skill
 ---
 
 # Appearance {#appearance}

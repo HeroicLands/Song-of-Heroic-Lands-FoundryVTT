@@ -517,41 +517,22 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 43
-        - name: Punch
+        - shortcode: bflkbite
           type: skill
-          system:
-              shortcode: punch
-              subType: combattechnique
-              masteryLevelBase: 56
-              combatCategory: melee
-              impairedByRoles:
-                  - manipulator
-              strikeMode:
-                  type: melee
-                  shortcode: punch
-                  name: Punch
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 3
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 0
-                      aspect: blunt
-                  lengthBase: 0
-                  defense:
-                      block:
-                          disabled: false
-                          modifier: -20
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits: {}
+        - shortcode: bflkgrab
+          type: skill
+        - shortcode: bflkheadbutt
+          type: skill
+        - shortcode: bflkkick
+          type: skill
+        - shortcode: bflklmbblk
+          type: skill
+        - shortcode: bflkpress
+          type: skill
+        - shortcode: bflkpunch
+          type: skill
+        - shortcode: bflktrip
+          type: skill
 ---
 
 # Appearance {#appearance}

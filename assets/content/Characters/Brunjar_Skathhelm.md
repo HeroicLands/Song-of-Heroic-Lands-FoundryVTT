@@ -509,7 +509,7 @@ sohl:
             base: 150
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -613,14 +613,22 @@ sohl:
           type: miscgear
           system:
               quantity: 2
-thalorna:
-    realm: vrystwald-tribes
-    region: vrystwald-region
-    faith:
-        - asguardian-pantheon/faith-of-thorr
-harnworld:
-    realm: ""
-    ritual: []
+        - shortcode: bflkbite
+          type: skill
+        - shortcode: bflkgrab
+          type: skill
+        - shortcode: bflkheadbutt
+          type: skill
+        - shortcode: bflkkick
+          type: skill
+        - shortcode: bflklmbblk
+          type: skill
+        - shortcode: bflkpress
+          type: skill
+        - shortcode: bflkpunch
+          type: skill
+        - shortcode: bflktrip
+          type: skill
 ---
 
 # Appearance {#appearance}

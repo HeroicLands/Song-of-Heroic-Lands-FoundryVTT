@@ -519,7 +519,7 @@ sohl:
             base: 148
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.0
+        bodyScaleBase: 1
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -563,14 +563,22 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 30
-thalorna:
-    realm: kingdom-of-provenzia
-    region: provenzia-region
-    faith:
-        - "aureldian-pantheon"
-harnworld:
-    realm: ""
-    ritual: []
+        - shortcode: bflkbite
+          type: skill
+        - shortcode: bflkgrab
+          type: skill
+        - shortcode: bflkheadbutt
+          type: skill
+        - shortcode: bflkkick
+          type: skill
+        - shortcode: bflklmbblk
+          type: skill
+        - shortcode: bflkpress
+          type: skill
+        - shortcode: bflkpunch
+          type: skill
+        - shortcode: bflktrip
+          type: skill
 ---
 
 # Appearance {#appearance}

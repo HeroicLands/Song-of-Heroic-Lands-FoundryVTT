@@ -309,7 +309,23 @@ sohl:
           strMod: -5 * floor((str - 10) / 2)
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: bflkbite
+          type: skill
+        - shortcode: bflkgrab
+          type: skill
+        - shortcode: bflkheadbutt
+          type: skill
+        - shortcode: bflkkick
+          type: skill
+        - shortcode: bflklmbblk
+          type: skill
+        - shortcode: bflkpress
+          type: skill
+        - shortcode: bflkpunch
+          type: skill
+        - shortcode: bflktrip
+          type: skill
 ---
 
 # Appearance {#appearance}
