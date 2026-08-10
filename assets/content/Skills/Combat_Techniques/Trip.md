@@ -5,7 +5,7 @@ tags: []
 name:
     full: Trip
     aliases: []
-description: "Taking an opponent's legs from under them."
+description: "Taking the legs out from under an opponent, and the fight with them."
 id: UnarmedTrip0001
 slug: unarmed-trip
 img: icons/game-icons/lorc/hobbling-mace.svg
@@ -80,9 +80,11 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Winning the Melee test earns an opposed `d6 + STR` roll, at +4 per Impact Tactical Advantage. If the tripper wins that roll as well, the margin decides what happens:
+A hooked ankle, a swept shin, a leg behind the knee. Like the press it does no harm of itself; what it does is put an opponent on the ground, and a prone fighter is a fighter at everyone's mercy — slow to rise, penalised while down, and unable to run.
 
-| Margin | Effect                                                                                   |
+Winning the Melee test earns an opposed `d6 + STR` roll, at +4 per Impact Tactical Advantage — the most generous bonus of the three manoeuvres, so a tripper who is thoroughly winning the exchange rarely fails. If the tripper wins that roll as well, the margin decides what happens:
+
+| Margin | Effect on the opponent                                                                   |
 | ------ | ---------------------------------------------------------------------------------------- |
 | 1–4    | Knocked prone.                                                                           |
 | 5–9    | Thrown five feet and knocked prone.                                                      |
@@ -90,4 +92,4 @@ Winning the Melee test earns an opposed `d6 + STR` roll, at +4 per Impact Tactic
 
 Otherwise there is no effect.
 
-Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.
+Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect. A counterstriking manoeuvre therefore cancels the attacker's — whoever won the Melee test gets the roll.

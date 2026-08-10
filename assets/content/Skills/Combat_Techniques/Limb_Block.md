@@ -5,7 +5,7 @@ tags: []
 name:
     full: Limb Block
     aliases: []
-description: "Warding a blow with a bare limb, and taking what comes of it."
+description: "Warding a blow with a bare limb — and taking the weapon on that limb when it only half-works."
 id: UnarmedLimbBlock
 slug: unarmed-limb-block
 img: icons/game-icons/lorc/arm-bandage.svg
@@ -80,8 +80,10 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-An unarmed Block, made with a limb. Apply −20 to the Melee test where the limb is at odds with the weapon's trajectory — a leg raised against a punch — and the GM may disallow it outright where it is radically awkward, as a leg is against a bite.
+The defence of last resort: no weapon in hand, no shield on the arm, and something already coming at you. An unarmed Block, made by putting a forearm, a shin or a shoulder in the way.
 
-**On tied successes** the blocking limb's zone is struck by the attacker's weapon, though 2 is subtracted from the strike impact for the partial ward.
+**This is genuinely dangerous, and against an armed opponent it is close to desperate.** A block only wards the blow safely on a **clear victory** — a higher success level than the attacker, without benefit of a tiebreak. On **tied successes** the attack lands on the blocking limb itself: the weapon strikes that limb's zone, a `d10` deciding where within it, and a mere **2** is subtracted from the strike impact for the partial ward. Two points is nothing against a sword. Blocking a blade with a bare forearm means, most of the time, that the blade is now in your forearm — and an edged weapon at a limb is how people lose hands.
 
-**On a clear victory** — a higher success level without benefit of a tiebreak — the blow is warded safely and the attack fails.
+Against a fist, a club or a kick it is a reasonable thing to do, because the worst case is a bruised arm. Against anything with an edge it should be a choice made only when the alternative is worse — a blade in the arm being better than a blade in the throat.
+
+Apply **−20** to the Melee test where the limb is at odds with the weapon's trajectory: a leg raised against a punch, for instance. The GM may disallow the block outright where it would be radically awkward, as a leg is against a bite.

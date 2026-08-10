@@ -5,7 +5,7 @@ tags: []
 name:
     full: Kick
     aliases: []
-description: "A boot driven out; the longest reach a person has unarmed."
+description: "A boot driven out — the longest reach a person has without a weapon."
 id: UnarmedKick0001
 slug: unarmed-kick
 img: icons/game-icons/lorc/foot-trip.svg
@@ -80,6 +80,8 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-A kick reaches further than any other unarmed strike and carries the weight of the leg behind it. What it cannot do is reach high: a kick aims low, at the legs and the body, and a head is out of its way.
+A kick reaches twice as far as a punch and carries the weight of the leg and hip behind it, which makes it the strongest opening an unarmed fighter has against someone who has not closed yet.
 
-A rigid helm, boot or gauntlet adds 2 to the impact. Used with an off-hand or off-foot, a punch or kick takes a −10 penalty and loses a point of impact.
+What it cannot do is reach high. A kick aims low, at the legs and the body, and a head is simply out of its way — the low aim is a property of the attack, not a choice. It is also slow to recover from: a leg in the air is a leg not holding you up, which is why a kick that misses so often ends with the kicker on the ground.
+
+A rigid helm, boot or gauntlet adds 2 to the impact — which is why a gauntleted fist is worth so much more than a bare one. Thrown with an off-hand or off-foot, the strike takes −10 and loses a point of impact.

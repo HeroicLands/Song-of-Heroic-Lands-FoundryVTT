@@ -5,7 +5,7 @@ tags: []
 name:
     full: Press
     aliases: []
-description: "Shoving an opponent back, off their line and off their feet."
+description: "A shove: putting an opponent where you want them, and sometimes on the ground."
 id: UnarmedPress0001
 slug: unarmed-press
 img: icons/game-icons/lorc/shield-bash.svg
@@ -80,14 +80,16 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Winning the Melee test earns an opposed `d6 + STR` roll, at +2 per Impact Tactical Advantage and +2 with a Charge. If the presser wins that roll as well, the margin decides what happens:
+A press is not an attack on the body but on the footing — a shoulder or both hands driven into an opponent to move them off their line. It wounds nobody. What it does is break a shield wall, shove a spearman off a bridge, or open the ground between you and a doorway.
 
-| Margin | Effect                                                                                                             |
+Winning the Melee test earns an opposed `d6 + STR` roll, at +2 per Impact Tactical Advantage and +2 if you pressed out of a Charge. If the presser wins that roll as well, the margin decides what happens:
+
+| Margin | Effect on the opponent                                                                                             |
 | ------ | ------------------------------------------------------------------------------------------------------------------ |
 | 1–4    | Knocked back five feet.                                                                                            |
 | 5–9    | Knocked back five feet, and a Stumble mishap roll.                                                                 |
 | 10+    | Knocked back ten feet and prone, and a Shock Roll against Shock Index 6 — 7 at a margin of 30–49, 8 at 50 or more. |
 
-Otherwise there is no effect.
+Otherwise there is no effect at all. A press against someone markedly stronger is simply a wasted turn.
 
-Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.
+Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect. A counterstriking manoeuvre therefore cancels the attacker's — whoever won the Melee test gets the roll.

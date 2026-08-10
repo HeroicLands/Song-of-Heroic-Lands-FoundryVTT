@@ -5,7 +5,7 @@ tags: []
 name:
     full: Punch
     aliases: []
-description: "A closed fist; the plainest thing a person can do in a fight."
+description: "A closed fist — the plainest thing a person can do in a fight, and the weakest."
 id: UnarmedPunch0001
 slug: unarmed-punch
 img: icons/game-icons/lorc/punch-blast.svg
@@ -80,6 +80,8 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-The plainest attack there is, and the weakest — a bare fist does little against anything padded, and rather less against anything rigid. What it has is speed and the fact that you are never without it.
+The plainest attack there is, and the feeblest on the table: a bare fist does little against anything padded and rather less against anything rigid, and a hand is a poor instrument for hitting hard things with. Boxers wrap their hands for a reason.
 
-A rigid helm, boot or gauntlet adds 2 to the impact. Used with an off-hand or off-foot, a punch or kick takes a −10 penalty and loses a point of impact.
+What a punch has is speed, a free hand to follow it with, and the fact that you are never without one. It is also the readiest unarmed attack to convert into something better — a gauntlet turns a punch from a nuisance into a real blow, and its Impact Tactical Advantage rewards a fighter who is winning the exchange.
+
+A rigid helm, boot or gauntlet adds 2 to the impact — which is why a gauntleted fist is worth so much more than a bare one. Thrown with an off-hand or off-foot, the strike takes −10 and loses a point of impact.

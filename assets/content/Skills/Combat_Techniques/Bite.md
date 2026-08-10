@@ -5,7 +5,7 @@ tags: []
 name:
     full: Bite
     aliases: []
-description: "Teeth to whatever is nearest; a last resort with surprising bite."
+description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."
 id: UnarmedBite0001
 slug: unarmed-bite
 img: icons/game-icons/lorc/fangs.svg
@@ -80,4 +80,8 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Biting is what is left when both hands are held and the head is not. It reaches no distance at all — the target must already be against you — and it is precise, because a mouth goes where the head turns. Its virtue is that teeth are pointed where a fist is not, so a bite that lands on something soft tells.
+Biting is what remains when both arms are held and the head is not — in a grapple, on the ground, pinned under a shield. It reaches no distance whatever: the target must already be pressed against you, which is why it never appears in an opening exchange and often decides a closing one.
+
+What it lacks in force it makes up in point. Teeth are piercing where a fist is blunt, so a bite that finds a throat, a wrist or a face does a kind of harm a punch cannot, and it carries the best Impact Tactical Advantage of any unarmed attack. It is also the most precise thing a person owns: a mouth goes exactly where the head turns, and its zone die is the tightest on the table.
+
+Against armour it is close to useless, and it puts your face inside your opponent's reach to deliver. Bite when you have nothing else, and bite something soft.

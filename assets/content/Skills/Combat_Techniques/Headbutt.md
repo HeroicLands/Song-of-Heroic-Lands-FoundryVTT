@@ -5,7 +5,7 @@ tags: []
 name:
     full: Headbutt
     aliases: []
-description: "The crown of the skull, driven into whatever is close enough."
+description: "The forehead driven into a face, from too close for anything else to work."
 id: UnarmedHeadbutt1
 slug: unarmed-headbutt
 img: icons/game-icons/lorc/wrecking-ball.svg
@@ -80,6 +80,8 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Delivered from inside a grapple or a crowd, where there is no room to draw a fist back. The skull is heavy and the forehead hard, and a headbutt hits accordingly — but it puts your own head where the damage is.
+Delivered from inside a grapple, a press of bodies, or any place where there is no room to draw a fist back. Like the bite it has no reach at all — but where a bite needs a mouth free, a headbutt needs only that your head can move, so it survives being held by both arms.
 
-A rigid helm, boot or gauntlet adds 2 to the impact. Used with an off-hand or off-foot, a punch or kick takes a −10 penalty and loses a point of impact.
+The skull is the heaviest bone a person has and the forehead the thickest part of it, so a headbutt lands harder than a punch. The cost is obvious: it puts your own head, and the thing inside it, into the exchange. A helm turns that trade considerably in your favour.
+
+A rigid helm, boot or gauntlet adds 2 to the impact — which is why a gauntleted fist is worth so much more than a bare one. Thrown with an off-hand or off-foot, the strike takes −10 and loses a point of impact.

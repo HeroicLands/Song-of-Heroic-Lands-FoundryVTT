@@ -5,7 +5,7 @@ tags: []
 name:
     full: Grab
     aliases: []
-description: "Seize a limb to take what it holds, or hold it still."
+description: "Seize a limb — to take the weapon out of it, or to hold it still."
 id: UnarmedGrab0001
 slug: unarmed-grab
 img: icons/game-icons/lorc/grab.svg
@@ -80,10 +80,14 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-A grab attempts one of two things: to **take** an object held in the zone struck — a left or right arm, the hit location within it being irrelevant — or to **hold** that zone immobile for a round.
+A grab is the opening of a wrestle rather than a blow, and the grabber declares which of two things they are attempting before any roll is made:
 
-Winning the Melee test only earns the attempt. Both combatants then make an opposed `d6 + STR` roll, at +3 per Impact Tactical Advantage, −2 one-handed and −3 off-handed. The manoeuvre happens only if the grabber wins that roll too; otherwise nothing does.
+**Take** an object held by the target in the zone struck — a left or right arm — pulling a weapon out of the hand that holds it. The hit _location_ within that zone is irrelevant; it is the limb you have hold of that matters. Disarming a swordsman ends a fight about as reliably as wounding him, and rather more cheaply.
 
-**A hold that lands** forces the target to Pass on their next turn, though they may still defend. On the grabber's next turn the opposed roll repeats: win and the hold continues, lose and it is broken.
+**Hold** that zone immobile for a round, which is how you pin the arm holding the knife while somebody else deals with it.
 
-Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect.
+Winning the Melee test only earns the attempt. Both combatants then make an opposed `d6 + STR` roll, at +3 per Impact Tactical Advantage, −2 if you have only one hand on them and −3 off-handed. The manoeuvre happens only if the grabber wins that roll as well; otherwise the grab simply fails and nothing at all occurs.
+
+**A hold that lands** forces the target to Pass on their next turn, though they may still defend if able. On the grabber's next turn the opposed roll repeats: win and the hold continues, lose and it is broken. Holding a stronger opponent is therefore a losing game played one round at a time.
+
+Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect. A counterstriking manoeuvre therefore cancels the attacker's — whoever won the Melee test gets the roll.
