@@ -15,7 +15,7 @@ package: sohl
 sohl:
     archetype: 0
     attributes:
-        str: 21
+        str: 16
         end: 18
         dex: 9
         agl: 8
@@ -25,7 +25,7 @@ sohl:
         rea: 7
         cre: 6
     attrRollFormula:
-        str: 1d6+17
+        str: 1d6+13
         end: 1d6+14
         dex: 1d4+6
         agl: 1d4+5
@@ -481,7 +481,7 @@ sohl:
             base: 172
             calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.91
+        bodyScaleBase: 1.45
         personalFatigue: enc + 5
     currentMoveMedium: terrestrial
     movementProfiles:
@@ -516,7 +516,7 @@ sohl:
         - shortcode: shok
           type: skill
           system:
-              masteryLevelBase: 50
+              masteryLevelBase: 43
         - name: Punch
           type: skill
           system:
@@ -539,7 +539,7 @@ sohl:
                   impactBase:
                       numDice: 1
                       die: 6
-                      modifier: 3
+                      modifier: 0
                       aspect: blunt
                   lengthBase: 0
                   defense:
@@ -616,7 +616,7 @@ The greatest weakness of the Grukar-Hai is each other. A warband led by a single
 
 ## Attributes
 
-- **Strength:** 18-23 (1d6+17)
+- **Strength:** 14-19 (1d6+13)
 
 - **Endurance:** 15-20 (1d6+14)
 
