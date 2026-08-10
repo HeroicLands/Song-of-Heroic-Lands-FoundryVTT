@@ -111,6 +111,6 @@ So Health is not a readiness score. A character can read **Excellent** and still
 be unconscious, exhausted, or paralysed with fear. Read Health for _how hurt they
 are_, and read their conditions for _whether they can act_.
 
-See also: [[rules/sohl-injury|Injury]] for how wounds and their impairments are
+See also: [[Rules/injrylvl|Injury]] for how wounds and their impairments are
 determined, [[Trauma]] for the wider picture of harm, and
 [[Healing Base]] for recovery.

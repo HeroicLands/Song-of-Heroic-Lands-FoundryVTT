@@ -162,7 +162,7 @@ Once the location is known, the blow resolves against it:
 3. **Check for a glancing blow.** An **edged or piercing** strike that would deal only a minor wound (effective impact 1–4) against a location covered by **rigid** armor glances off instead: it inflicts **no injury at all**, but the jolt still counts — it adds a point to the Shock Index and grants **+10 on the resulting Shock roll**.
 4. **Evaluate bleeding, amputation, and shock** from the tables above.
 
-See [Injury](Injury.md) for what the resulting wound then does over time.
+See [[Rules/injrylvl|Injury]] for what the resulting wound then does over time.
 
 ## Shock {#shock}
 
@@ -251,7 +251,7 @@ A second, narrower rule applies to weapons: a strike mode that requires particul
 
 ### Permanent impairment
 
-A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [Injury → Permanent Impairment](Injury.md#permanent-impairment).
+A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [[Rules/imprmnt|Injury → Permanent Impairment]].
 
 ### Immobilized, unusable, and holding on {#immobilized-unusable-and-holding-on}
 
@@ -364,7 +364,7 @@ Creating a new creature type needs no templates or special item types — duplic
 
 ## See also
 
-- [Injury](Injury.md) — injury levels, healing, and impairment over time
+- [[Rules/injrylvl|Injury]] — injury levels, healing, and impairment over time
 - [[Shock]] — the shock states in full, re-tests, Extended Shock, and Coma
 - [[Health]] — how impaired parts set the health ceiling
 - [[Bleeding]] — bleeders, blood loss, and stoppage

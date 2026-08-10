@@ -68,7 +68,7 @@ TBD
 - [[Health]] — the 0–100 figure and its bands: how injuries set a ceiling on a character, and what each band means.
 - [[Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
 - [[Healing Base]] — the recovery factor (average of END and WIL) used in every healing test.
-- [[rules/sohl-injury|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
+- [[Rules/injrylvl|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
 - [[Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and the Blood Stoppage Test.
 - [[Infection]] — infected wounds, their weakness fatigue, and the Infection Healing Test.
 - [[Shock]] — the shock states, the Shock Re-Test, and the lasting Extended Shock and Coma.

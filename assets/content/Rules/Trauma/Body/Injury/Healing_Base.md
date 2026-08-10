@@ -27,7 +27,7 @@ otherwise.
 | 12  | 13  | 12.5    | 12 (END ≤ WIL → down) |
 
 Healing Base is the mastery level used, together with a **Healing Rate**, in
-nearly every recovery roll in the system — the [Injury Healing Test](Injury.md#injury-healing-test),
+nearly every recovery roll in the system — the [[Rules/hlngtst|Injury Healing Test]],
 the affliction [[Rules/afflctns#course-test|Course Test]], the
 [[Infection Healing Test]], and the Extended Shock and Coma course
 tests (see [[Shock]]). In each case the test is rolled against
@@ -35,6 +35,6 @@ tests (see [[Shock]]). In each case the test is rolled against
 
 ## See also
 
-- [Injury](Injury.md) — Healing Rate and the Injury Healing Test.
+- [[Rules/injrylvl|Injury]] — Healing Rate and the Injury Healing Test.
 - [[Afflictions]] — the Course Test.
 - [[Success Tests]] — the CF / MF / MS / CS success levels.

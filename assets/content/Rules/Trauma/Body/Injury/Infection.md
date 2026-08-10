@@ -15,7 +15,7 @@ shortcode: infctn
 ---
 
 Some injuries can become **infected**. When such an injury's
-[Injury Healing Test](Injury.md#injury-healing-test) comes up a **Critical
+[[Rules/hlngtst|Injury Healing Test]] comes up a **Critical
 Failure**, a new infection takes hold. An infection starts with a **Healing Rate
 one step higher than the injury it came from** (originating injury HR + 1).
 
@@ -39,7 +39,7 @@ wound it came from, with:
 - **Injury Level** — "X" (not applicable).
 
 **An active infection halts injury healing.** While the patient carries any
-active infection, **no** [Injury Healing Tests](Injury.md#injury-healing-test)
+active infection, **no** [[Rules/hlngtst|Injury Healing Tests]]
 are made for them until every infection has been defeated.
 
 ## Infection Healing Test
@@ -56,9 +56,9 @@ The result changes the infection's Healing Rate:
 | CS (2)        | +2                     |
 
 When the infection's Healing Rate rises to **6 or greater**, the infection is
-**healed**, and normal [injury healing](Injury.md#injury-healing-test) can resume.
+**healed**, and normal [[Rules/hlngtst|injury healing]] can resume.
 
 ## See also
 
-- [Injury](Injury.md), [[Healing Base]], [[Fatigue]],
+- [[Rules/injrylvl|Injury]], [[Healing Base]], [[Fatigue]],
   [[Afflictions]].

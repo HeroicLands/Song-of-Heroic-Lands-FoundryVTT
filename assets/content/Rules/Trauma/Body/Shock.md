@@ -195,7 +195,7 @@ number of days spent in the coma**.
 
 ## See also
 
-- [Injury](Injury.md) — how injuries generate shock and impairment.
+- [[Rules/injrylvl|Injury]] — how injuries generate shock and impairment.
 - [[Body Structure]] — the Shock Value each body location carries.
 - [[Bleeding]] — blood loss advancing the shock state.
 - [[Fatigue]] — the fatigue that penalizes shock and course tests.

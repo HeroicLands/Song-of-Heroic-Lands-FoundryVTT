@@ -166,7 +166,7 @@ Two consequences are worth knowing at the table:
 - [[Working with Gear and Equipment]] — managing a character's
   kit day to day.
 - [[Combat Basics]] — where worn armor's protection is actually spent.
-- [[rules/sohl-injury|Injury]] (rules) — how armor protection is subtracted from an
+- [[Rules/injrylvl|Injury]] (rules) — how armor protection is subtracted from an
   impact to give an injury level.
 - [[Rules/bdystrct|Body Structure]] (rules) — the zones, parts, and
   locations an armor's coverage lists name.

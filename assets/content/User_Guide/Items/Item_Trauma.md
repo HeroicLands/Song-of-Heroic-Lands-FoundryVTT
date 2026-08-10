@@ -52,7 +52,7 @@ the sheet offers and which actions the Trauma has.
 | **Physical Condition**      | A lasting bodily trait, impediment, or debility            | Sub-Category        |
 
 The rules behind each of these live with the rules, not here — see
-[[Rules/trauma|Trauma]], [[rules/sohl-injury|Injury]],
+[[Rules/trauma|Trauma]], [[Rules/injrylvl|Injury]],
 [[Rules/bleeding|Bleeding]], [[Rules/infctn|Infection]],
 [[Rules/shock|Shock]], [[Rules/fatigue|Fatigue]],
 [[Rules/fear|Fear]], [[Rules/morale|Morale]],
@@ -336,7 +336,7 @@ That difficulty is set by what the wound actually needs, which follows from its
 **Aspect** and its severity band: cleaning and dressing a cut, warming a
 frostbitten limb, splinting a fracture, extracting a lodged point, or full surgery.
 A grievous wound is harder to treat well than a minor one. See
-[[rules/sohl-injury|the Injury rules]] for the treatment table itself.
+[[Rules/injrylvl|the Injury rules]] for the treatment table itself.
 
 ## What it changes
 
@@ -490,7 +490,7 @@ Course Test. While it is active, all healing stops.
 A wound flagged **permanent-impairment eligible** that finally closes may leave a
 **permanent impairment** on the body part it was on, scaled by how long the wound
 took to heal. A wound that lingered for months costs more than one that closed
-quickly. See [[rules/sohl-injury|the Injury rules]] for the scale.
+quickly. See [[Rules/injrylvl|the Injury rules]] for the scale.
 
 # Blood-Loss Advance Check {#blood-loss-advance-check}
 
@@ -700,7 +700,7 @@ See [[Rules/thepall|The Pall]] for what each fate means.
 - [[Combat Basics]] — where most wounds come from, and the injury card
   that creates them.
 - [[Actions]] — how the Actions context menu and chat-card buttons work.
-- [[Rules/trauma|Trauma]], [[rules/sohl-injury|Injury]],
+- [[Rules/trauma|Trauma]], [[Rules/injrylvl|Injury]],
   [[Rules/bleeding|Bleeding]], [[Rules/infctn|Infection]],
   [[Rules/shock|Shock]], and [[Rules/hlngtst|Healing Test]] (rules) —
   the mechanics behind these actions.

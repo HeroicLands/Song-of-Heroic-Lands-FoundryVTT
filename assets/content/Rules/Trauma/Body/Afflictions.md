@@ -55,7 +55,7 @@ state**:
 
 The same event can produce both: a snakebite inflicts a **poison/toxin
 affliction** (the venom running its course) and, where it breaks the skin, an
-**[injury](Injury.md) trauma** (the wound). When in doubt, ask _"is this an
+**[[Rules/injrylvl|injury]] trauma** (the wound). When in doubt, ask _"is this an
 agent running a course, or a condition being carried?"_ — the former is an
 affliction, the latter a trauma.
 
@@ -170,7 +170,7 @@ a character who is already in a worse state than it would impose.
 
 Where the Course Test asks whether the affliction is winning, the **Healing Test**
 asks whether the body is throwing it off. It works exactly as the
-[[Rules/trauma|Injury Healing Test]] does: a d100 against the
+[[Rules/hlngtst|Injury Healing Test]] does: a d100 against the
 affliction's **Healing target** — again **Healing Base × Healing Rate** — reducing
 the affliction's **Level**:
 
@@ -240,7 +240,7 @@ Symptomatic Period without being healed.
 ## Infection
 
 An **infection** is a specific form of affliction, contracted when an injury's
-[[Rules/trauma|Injury Healing Test]] critically fails. Its
+[[Rules/hlngtst|Injury Healing Test]] critically fails. Its
 Healing Rate starts one step higher than the infected injury's — the injury's
 Healing Rate + 1.
 
@@ -254,7 +254,7 @@ table:
 | HR 5+        | None                |
 
 While a character carries **any** active infection, all of their
-[[Rules/trauma|Injury Healing Tests]] are suspended until every
+[[Rules/hlngtst|Injury Healing Tests]] are suspended until every
 infection has been defeated.
 
 ## See also

@@ -701,7 +701,7 @@ record.
 
 A recorded wound becomes a trauma item on the sheet, shows up in the body-part
 grid, and drives the health bar. See [[Afflictions Injuries]] for living with it,
-the [[rules/sohl-injury|Injury]] rules for the tables behind it, and
+the [[Rules/injrylvl|Injury]] rules for the tables behind it, and
 [[Rules/bleeding|Bleeding]] for what a bleeder costs.
 
 # Contagion Check {#contagion-check}
