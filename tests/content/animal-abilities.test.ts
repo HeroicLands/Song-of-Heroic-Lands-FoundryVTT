@@ -512,6 +512,33 @@ function rollFormula(score: number): string {
     return bonus > 0 ? `1d${die}+${bonus}` : `1d${die}`;
 }
 
+/**
+ * Shortcodes of every combat-technique skill in the content tree. A creature
+ * may carry a technique inline or reference a shared one by shortcode, and both
+ * count as being armed.
+ */
+const SHARED_TECHNIQUES = (() => {
+    const root = path.resolve(__dirname, "../../assets/content/Skills");
+    const found = new Set<string>();
+    const walk = (dir: string): void => {
+        for (const entry of readdirSync(dir, { withFileTypes: true })) {
+            const full = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+                walk(full);
+            } else if (entry.name.endsWith(".md")) {
+                const text = readFileSync(full, "utf8");
+                const close = text.indexOf("\n---\n", 4);
+                const fm = parseYaml(text.slice(4, close + 1));
+                if (fm?.sohl?.subType === "combattechnique" && fm.shortcode) {
+                    found.add(fm.shortcode);
+                }
+            }
+        }
+    };
+    walk(root);
+    return found;
+})();
+
 /** Every embedded item of the given `(type, subType)`. */
 function items(sohl: any, type: string, subType?: string): any[] {
     return (sohl.items ?? []).filter(
@@ -706,12 +733,7 @@ const NO_ANATOMY_YET = new Set([
 ]);
 
 /** Creatures with an anatomy but, as yet, no natural weapon of their own. */
-const NO_WEAPON_YET = new Set([
-    "Folk/Cave_Goblin",
-    "Folk/Forest_Goblin",
-    "Helspawn/Helthraals",
-    "Helspawn/Nightwights",
-]);
+const NO_WEAPON_YET = new Set<string>([]);
 
 /** Every creature file under `assets/content/Creatures/`, as `Folder/Name`. */
 function creatureFiles(): string[] {
@@ -769,8 +791,14 @@ describe.each(ALL_CREATURES)("%s (every creature)", (file) => {
 
     it("can attack with at least one combat technique", () => {
         const techniques = items(sohl, "skill", "combattechnique");
+        const referenced = (sohl.items ?? []).filter((i: any) =>
+            SHARED_TECHNIQUES.has(i.shortcode),
+        );
         if (!NO_WEAPON_YET.has(file)) {
-            expect(techniques.length, "no combat technique").toBeGreaterThan(0);
+            expect(
+                techniques.length + referenced.length,
+                "no combat technique",
+            ).toBeGreaterThan(0);
         }
 
         const roles = new Set(

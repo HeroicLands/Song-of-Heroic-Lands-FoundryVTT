@@ -517,41 +517,22 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 43
-        - name: Punch
+        - shortcode: bite
           type: skill
-          system:
-              shortcode: punch
-              subType: combattechnique
-              masteryLevelBase: 56
-              combatCategory: melee
-              impairedByRoles:
-                  - manipulator
-              strikeMode:
-                  type: melee
-                  shortcode: punch
-                  name: Punch
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 3
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 0
-                      aspect: blunt
-                  lengthBase: 0
-                  defense:
-                      block:
-                          disabled: false
-                          modifier: -20
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits: {}
+        - shortcode: grab
+          type: skill
+        - shortcode: headbutt
+          type: skill
+        - shortcode: kick
+          type: skill
+        - shortcode: limbblock
+          type: skill
+        - shortcode: press
+          type: skill
+        - shortcode: punch
+          type: skill
+        - shortcode: trip
+          type: skill
 ---
 
 # Appearance {#appearance}

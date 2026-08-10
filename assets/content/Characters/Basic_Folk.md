@@ -500,17 +500,17 @@ sohl:
                       fire: 0
         weight:
             base: null
-            calc: "(9 * str) + 50"
+            calc: (9 * str) + 50
         reachBase: 0
-        bodyScaleBase: 1.0
-        personalFatigue: "enc + 5"
-    currentMoveMedium: "terrestrial"
+        bodyScaleBase: 1
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
     movementProfiles:
         - medium: terrestrial
           feetPerRound: 50
           leaguesPerWatch: 5
-          encumbrance: "floor(wt/4)"
-          strMod: "-5 * floor((str - 10) / 2)"
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
           disabled: false
     defaultCombatGroup: null
     items:
@@ -622,6 +622,22 @@ sohl:
           type: miscgear
           system:
               quantity: 1
+        - shortcode: bite
+          type: skill
+        - shortcode: grab
+          type: skill
+        - shortcode: headbutt
+          type: skill
+        - shortcode: kick
+          type: skill
+        - shortcode: limbblock
+          type: skill
+        - shortcode: press
+          type: skill
+        - shortcode: punch
+          type: skill
+        - shortcode: trip
+          type: skill
 ---
 
 <!-- The contents of the header with id "appearance" (and all sub-headers and contents) will  be written to the appearance property of the actor, and the contents of the header with id "dossier" (and all sub-headers and contents) will be written to the dossier property of the actor. To ensure least trouble, these should both be H1 headers. All other markdown text will be ignored when converting the note to a character. -->

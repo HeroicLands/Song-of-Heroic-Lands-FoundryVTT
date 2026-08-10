@@ -487,7 +487,23 @@ sohl:
           factors: []
           disabled: false
     defaultCombatGroup: null
-    items: []
+    items:
+        - shortcode: bite
+          type: skill
+        - shortcode: grab
+          type: skill
+        - shortcode: headbutt
+          type: skill
+        - shortcode: kick
+          type: skill
+        - shortcode: limbblock
+          type: skill
+        - shortcode: press
+          type: skill
+        - shortcode: punch
+          type: skill
+        - shortcode: trip
+          type: skill
 ---
 
 # Appearance {#appearance}
