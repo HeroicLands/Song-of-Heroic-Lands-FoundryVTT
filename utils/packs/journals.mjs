@@ -45,6 +45,8 @@ import {
     contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
+    collectContentDocs,
+    expandNoteTables,
 } from "./helpers.mjs";
 import { anchorPageId } from "./wikilinks.mjs";
 
@@ -218,7 +220,14 @@ export class Journals {
     buildEntry(fm, body, tld) {
         const name = resolveName(fm);
         const id = fm.id;
-        const { markdown, unresolved } = convertNoteWikilinks(body, {
+        // Generated tables expand first: their cells may carry wikilinks, which
+        // the conversion below then resolves along with the authored ones.
+        const tabulated = expandNoteTables(body, {
+            docs: this.contentDocs,
+            name,
+            pkg: fm.package,
+        });
+        const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
             tld,
             id,
             index: this.linkIndex,
@@ -256,6 +265,7 @@ export class Journals {
         let skippedOther = 0;
 
         this.linkIndex = buildContentLinkIndex(this.contentBase);
+        this.contentDocs = collectContentDocs(this.contentBase);
         this.unresolvedLinks = 0;
 
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
