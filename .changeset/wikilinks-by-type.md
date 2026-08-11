@@ -25,6 +25,9 @@ unique tree-wide by `npm run lint:packs`. All 240 authored links were rewritten.
   `unmapped-tld`).
 
 Every resolved link was verified unchanged: 843 `@UUID` references across the compiled
-packs, byte-identical before and after.
+packs, byte-identical before and after — with one deliberate correction. The user-guide
+_Item: Skill_ page carried `Combat Technique` / `Combat Techniques` aliases that do not
+belong to it, which silently captured two links about combat techniques; those aliases
+are removed and the links now point at the _Combat Techniques_ rules page.
 
 Closes #1276.

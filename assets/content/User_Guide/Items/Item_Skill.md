@@ -1,8 +1,6 @@
 ---
 aliases:
     - Skill
-    - Combat Technique
-    - Combat Techniques
 id: rbl6nD2s5gxsx9gR
 type: doc
 package: sohl
