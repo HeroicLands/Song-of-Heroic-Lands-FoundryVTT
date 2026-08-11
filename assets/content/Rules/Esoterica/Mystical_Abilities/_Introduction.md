@@ -29,9 +29,10 @@ it is governed:
 - **Self-rated abilities** carry their own mastery level directly, used when no
   separate skill governs them.
 
-Note that abilities do not themselves carry any skill base. All mystical
-abilities are affected by [[Aural Shock]], and no mystical ability can be
-performed while in Aural Shock.
+Note that abilities do not themselves carry any skill base. **No mystical ability
+of any kind can be performed while the character carries
+[[doc/arlshck|Aural Shock]]** — not penalized, but unusable, for as long as any
+of it remains.
 An ability's own modifiers always stack on top of whatever mastery level it
 draws upon.
 
