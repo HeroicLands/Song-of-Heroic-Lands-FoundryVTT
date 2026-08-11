@@ -27,4 +27,6 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Boomerang is the combat skill of hurling curved throwing-sticks at distant targets, whether for the hunt or for war. The returning variant—lighter, aerodynamically tuned to arc back toward a skilled thrower—is principally a hunting tool, used to break the legs of fleeing game or to startle birds from cover into nets. The heavier non-returning war boomerang flies a single straight or shallow-curved path and lands with bone-cracking force. Mastery demands a feel for the wrist-snap and release angle that govern flight, and steady practice to read crosswinds and adjust the throw accordingly.
+The boomerang is a shaped throwing stick, flung flat rather than end over end, and it exists in two quite different forms. The heavy non-returning kind is a hunting and fighting weapon — a hardwood club thrown at a running animal or a standing man, and thrown to stay where it lands. The light returning kind is the specialist's tool, curved and cambered so that a miss comes back to the hand, useful for driving birds into nets and for the sort of display that makes a reputation at a gathering.
+
+Throws are resolved through the missile sequence, and each stick carries its own base range, volley multiplier and impact. Because the flight is a curve rather than a line, the skill is a matter of reading wind and rotation as much as of aim, and a thrower trained on one culture's sticks does not automatically get on with another's.

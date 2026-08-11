@@ -28,4 +28,8 @@ sohl:
 folder: N5ozne3RRF0qSEdF
 ---
 
-Tracking is the art of reading the subtle signs left by the passage of people and animals through the environment—footprints, broken vegetation, disturbed soil, scent trails, and other physical evidence of movement. A skilled tracker can determine the number, direction, speed, and approximate time of passage of their quarry, and may identify specific individuals or species from their distinctive sign. The difficulty varies enormously with terrain and weather conditions, as hard ground and rain quickly erase the traces that soft earth and still air preserve.
+Tracking is finding a trail and staying on it — prints and their spacing, bruised vegetation, disturbed stone, droppings, blood, and the shape of the interval between one sign and the next. A tracker reads not only that something passed but how many, how fast, how long ago, and whether it knew it was being followed.
+
+Its principal use is the stalking phase of overland travel, where a trail is picked up and pursued across country over hours or days, and where losing it is as consequential as finding it.
+
+**Without the skill.** A character with no Tracking Mastery Level may usually test Perception or Awareness to notice obvious sign close at hand. Success in that case rarely permits any interpretation: they have established that there are tracks, and nothing beyond it.

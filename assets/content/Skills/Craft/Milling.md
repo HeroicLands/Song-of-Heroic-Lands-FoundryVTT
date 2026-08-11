@@ -27,4 +27,8 @@ sohl:
 folder: gqRvjlrWbuCwGy3N
 ---
 
-Milling is the craft of processing grain into flour and meal using millstones powered by water, wind, or animal labor. The miller must understand the mechanics of the mill itself, the proper setting and dressing of stones, and the characteristics of different grains to produce flour of consistent quality. Beyond grain processing, the skill encompasses an understanding of the broader milling infrastructure—water rights, dam maintenance, and the storage and transport of both raw grain and finished product.
+Milling is grinding grain and, in most communities, baking what comes of it. Folk in temperate country take something like three quarters of their calories from grain — wheat, rye and barley chiefly — and a single mill serves a manor of around twenty households. Five adults and children need roughly **36 bushels** a year, so the miller is grinding on the order of **40,000 pounds** annually and everyone in the settlement is waiting on him.
+
+The craft is as much mechanism as agriculture: dressing the stones so they cut rather than crush, setting the gap so the flour is neither scorched nor coarse, keeping gearing and sluice in order. A **yearly Milling Success Value test** measures the variance from that baseline output — a mill run well feeds the manor with a surplus to sell, a mill run badly is short before spring.
+
+Bread is a separate question: the loaf's quality is a Cookery Success Value test, whoever pulls it from the oven.

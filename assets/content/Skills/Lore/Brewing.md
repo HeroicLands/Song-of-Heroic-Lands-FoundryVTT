@@ -27,4 +27,17 @@ sohl:
 folder: QlkEHXbk2EXlRiMM
 ---
 
-Brewing is the craft of producing alcoholic beverages, from common ales consumed within days of production to fine wines and meads that improve with age over months or years. The skill encompasses the entire process—selecting ingredients, managing fermentation, and judging when a batch has reached its peak. Distillation of spirits is a rarer and more demanding branch of the craft. The quality of the finished product determines both its market value and its social impact when served at gatherings.
+Brewing is the making of alcoholic drink, and what it produces varies enormously in how far it will travel. Hops are not in general use as a preservative, so ale is drunk within a few days of being made and is therefore a strictly local product. Wine keeps, travels, and is traded at distance; the better vintages are chased. Distilling is a recent and uncommon art, and spirits are usually laid down for a further three to six months after they are made.
+
+A Brewing Success Value test measures a **five-gallon batch** on the standard table. **Time** is the labour that goes in; **days** is how long the batch will keep before it must be drunk.
+
+| Beverage | Cost | Time | Days      | Price |
+| -------- | ---- | ---- | --------- | ----- |
+| Ale      | 2d   | 20h  | 2d2       | 8d    |
+| Mead     | 10d  | 10h  | 24 + 6d6  | 15d   |
+| Spirits  | 92d  | 20h  | 4 + 2d2   | 120d  |
+| Wine     | 18d  | 30h  | 76 + 4d10 | 20d   |
+
+**Wine** alone rewards a fine hand at the price. Roll a number of d10 equal to the Value Diamonds of the test against the workshop's Target Number, and add **5d to the price for each success** — a distinction the brewer of ale never gets to collect on, because their product will be gone before anyone can argue about it.
+
+Brewing is one of the trades that develops a nose. A brewer notices odours that others walk past, and a character distracted or unfocused tests their best olfactory skill to register a smell at all.

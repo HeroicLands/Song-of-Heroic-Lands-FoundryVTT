@@ -27,4 +27,17 @@ sohl:
 folder: gqRvjlrWbuCwGy3N
 ---
 
-Hideworking covers the processes of curing furs and hides and transforming them into finished leather goods. From tanning raw skins to cutting and stitching them into practical items—bags, belts, boots, saddles, and armor—the craft demands both physical strength and fine attention to detail. Hideworkers also play a key role in producing leather and kurbul armor, making the trade essential to military readiness. The skill encompasses work with both soft leather and the harder rawhide used for more rugged applications.
+Hideworking is the whole passage from a raw skin to a finished article: fleshing, liming, tanning or tawing, currying, and then the cutting and stitching that turns the leather into something. It is filthy, protracted work, and tanneries stand downwind of everywhere for good reason.
+
+A Hideworking Success Value test on the standard table fixes the quality of what comes off the bench.
+
+| Leather item       | Cost | Time | Rawhide item      | Cost | Time |
+| ------------------ | ---- | ---- | ----------------- | ---- | ---- |
+| Backpack, 30 lb    | 18d  | 30h  | Quiver, 24 arrows | 7d   | 15h  |
+| Bag, 15 lb         | 8d   | 10h  | Quiver, 12 arrows | 4d   | 10h  |
+| Belt pouch, 5 lb   | 2½d  | 5h   | Saddle, riding    | 18d  | 150h |
+| Book binding       | 5d   | 40h  | Saddle, war       | 36d  | 300h |
+| Bow case           | 10d  | 20h  | Sling             | ½d   | 5h   |
+| Waterskin, 2 quart | 9d   | 50h  | Whip              | 4d   | 25h  |
+
+**Armour.** Hideworking makes leather armour outright, and lends its Secondary Modifier to the crafting of kurbul and scale — the first being hide hardened in wax, the second hide or fabric carrying metal or horn plates that somebody still has to sew on.

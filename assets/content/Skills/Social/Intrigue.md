@@ -25,4 +25,10 @@ sohl:
 folder: JBr2U30FsJTs8F3l
 ---
 
-Intrigue is the ability to perceive hidden motives, detect deception, and sense the undercurrents of conspiracy in social interactions. It operates on two scales: the personal, where one reads an individual's true intentions behind their words and manner, and the broader political, where one unravels plots and schemes within organizations or communities. Both applications rely on emotional perceptiveness and rational analysis working in concert. Intrigue serves as the primary defense against Guile and Theatrics, making it indispensable for anyone navigating the dangerous waters of court politics or criminal enterprise.
+Intrigue is the sense for motive — why a person is saying this, to this listener, now — and the practical knack for conspiracy that follows from it. It rests on emotional and rational reading in equal parts, and it operates at two quite different scales.
+
+**Discernment** is the immediate, personal scale. Intrigue is what resists Guile and Theatrics: catching a lie, a bluff, or an assumed persona. It resolves as an opposed test, and it takes place quickly — seconds to a few minutes of conversation. Where Awareness is alertness to the physical world, Intrigue is alertness to the psychological one, and a character may be excellent at one and hopeless at the other.
+
+**Conspiracy** is the longer scale: the ability to work within a faction, court, guild or underworld over weeks and months — knowing who owes whom, what will be believed, and which secret is worth more kept than spent.
+
+Intrigue is also what a character uses to work out the _motive_ behind an appeal that Empathy has merely reported the _feeling_ of.

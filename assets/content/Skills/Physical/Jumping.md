@@ -27,4 +27,12 @@ sohl:
 folder: Yt9THlZ0NT8H6aSK
 ---
 
-Jumping measures a character's ability to leap distances both horizontally and vertically, whether crossing a ditch, vaulting a low wall, or reaching an overhead handhold. A running start significantly extends the distance achievable, while vertical leaps allow a character to grasp objects above their normal reach. Miscalculated jumps risk stumbles and falls, making it a skill where confidence must be tempered by realistic assessment of one's limits.
+Jumping is deliberate leaping — across a gap, over an obstacle, up at a ledge just out of reach — and the distance covered is read straight off a Jumping Success Value test.
+
+**Horizontally**, a character clears a number of feet equal to the Success Value plus five. Every five feet of run-up taken in the same turn adds a foot, up to the bonus a full Move could supply.
+
+**Vertically**, a character reaches up with one hand to their own height plus half the Success Value in feet, fractions retained. Actually catching hold of what is up there may call for a Dexterity test of its own.
+
+Whatever distance is jumped counts against the character's movement for the turn. A Critical Failure trips the character before they leave the ground and forces a Stumble Test; any success lets the leap happen, and the Success Value is then read as usual.
+
+Jumping is also one of the two skills — Acrobatics being the other — that decide how well a fall is taken, and a purposeful leap is treated far more kindly than an unexpected drop.
