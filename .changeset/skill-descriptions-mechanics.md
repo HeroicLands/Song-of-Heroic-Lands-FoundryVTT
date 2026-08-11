@@ -3,7 +3,7 @@
 ---
 
 Give every skill a description that states how the skill actually works
-([#1299](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1299)).
+([#1294](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1294)).
 
 Each skill note carried one paragraph of flavor prose and nothing else. A reader
 could learn that Climbing exists and that cliffs are dangerous, but not what
