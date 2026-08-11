@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Filarial worm parasite; intense itching and skin rashes; eventual blindness."
 id: stwGy3btoH8gYpxi
-slug: river-blindness
 img: icons/game-icons/lorc/virus.svg
 shortcode: rivrblnd
 type: affliction

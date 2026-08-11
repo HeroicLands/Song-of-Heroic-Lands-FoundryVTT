@@ -5,7 +5,6 @@ name:
     full: Ombrophobia
     aliases: []
 id: qfWjzlEKoKt2Vh6b
-slug: ombrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ombrophb
 type: trauma

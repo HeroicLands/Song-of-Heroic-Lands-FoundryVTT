@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Leather shoulder sack for substantial travel or carrying loads."
 id: ljTbK59Vmzki2IHO
-slug: back-bag-lg-leather
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: backbaglgl
 type: containergear

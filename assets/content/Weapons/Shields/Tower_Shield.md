@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Man-tall standing shield providing total cover against arrow storms."
 id: HPLnDDmmSh4yH0UK
-slug: tower-shield
 img: icons/game-icons/badges/shield.svg
 shortcode: TwrSh
 type: weapongear

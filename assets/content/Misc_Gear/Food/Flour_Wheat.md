@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fine pale flour; light breads and pastries, reserved for wealthier folk."
 id: c9LsOCT5B5ERiuRj
-slug: flour-wheat
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flourwheat
 type: miscgear

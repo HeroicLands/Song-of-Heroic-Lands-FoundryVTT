@@ -8,7 +8,6 @@ name:
     full: Automated Attack
     aliases: []
 id: HSNwLca3kMYLN3Ag
-slug: autoattack
 shortcode: autoattack
 img: icons/game-icons/lorc/crossed-swords.svg
 package: sohl

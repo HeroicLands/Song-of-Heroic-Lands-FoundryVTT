@@ -8,7 +8,6 @@ name:
     full: Cheetah
     aliases: []
 id: mjqQVrKXPAtQyUUN
-slug: cheetah
 img: icons/game-icons/lorc/lion.svg
 portrait: ""
 shortcode: cheetah

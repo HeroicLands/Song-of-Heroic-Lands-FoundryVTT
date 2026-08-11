@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Metal ring head and neck armor providing substantial combat protection."
 id: z9JhnVJbfX7bCQfk
-slug: mail-cowl
 img: icons/game-icons/lorc/hood.svg
 shortcode: MCwl
 type: armorgear

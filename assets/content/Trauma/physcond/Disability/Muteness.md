@@ -5,7 +5,6 @@ name:
     full: Muteness
     aliases: []
 id: RhLLOxWjOCztbWRY
-slug: muteness
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: muteness
 type: trauma

@@ -11,7 +11,6 @@ category: rules
 name:
     full: Opposed Tests
     aliases: []
-slug: sohl-opposed-tests
 shortcode: oppsdtst
 folder: e0HEIHw9qUVWqyzJ
 ---

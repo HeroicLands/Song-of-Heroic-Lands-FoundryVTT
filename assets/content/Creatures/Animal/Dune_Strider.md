@@ -7,7 +7,6 @@ name:
     full: Dune Strider
     aliases: []
 id: FSZZ80hJvwUGnbkD
-slug: dune-strider
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: dnstrdr

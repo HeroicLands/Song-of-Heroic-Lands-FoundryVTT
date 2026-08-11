@@ -32,6 +32,7 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
+import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 
 const REPO = path.resolve(".");
@@ -59,6 +60,27 @@ const symbols = (() => {
         return JSON.parse(
             fs.readFileSync(
                 path.join(REPO, "kb/data/api-symbols.json"),
+                "utf8",
+            ),
+        );
+    } catch {
+        return {};
+    }
+})();
+
+/**
+ * The URL segment each content note used **before** URLs were derived from the
+ * shortcode (#1278), keyed by its `type:shortcode` identity. Authored `slug`
+ * frontmatter is gone, so this committed map is the only record of the old URLs
+ * — it exists to emit a Hugo `aliases` redirect for each one. Entries are
+ * append-only history: never edit one, and only add a row when a page's URL
+ * changes again.
+ */
+const legacySlugs = (() => {
+    try {
+        return JSON.parse(
+            fs.readFileSync(
+                path.join(REPO, "kb/data/legacy-slugs.json"),
                 "utf8",
             ),
         );
@@ -396,6 +418,7 @@ fs.rmSync(OUT, { recursive: true, force: true });
 const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 const entries = [];
 const refIndex = new Map();
+const slugErrors = [];
 
 // assets/content → reference pages (SoHL + Thalorna packages).
 for (const file of walk(CONTENT_SRC)) {
@@ -408,7 +431,18 @@ for (const file of walk(CONTENT_SRC)) {
     if (!KB_PACKAGES.has(fm.package) || !fm.type) continue;
 
     const name = fm.name?.full ?? path.basename(file, ".md");
-    const slug = fm.slug ?? slugify(name);
+    // The URL segment is derived from the name (#1278) — not from the shortcode,
+    // which is identity referenced by saved world data, not presentation.
+    let slug;
+    try {
+        slug = contentSlug(name);
+    } catch (err) {
+        slugErrors.push({
+            file: path.relative(REPO, file),
+            reason: err.message,
+        });
+        continue;
+    }
     const base = path.basename(file);
     const isReadme = base.toLowerCase() === "readme.md";
     const sec = sectionOf(fm);
@@ -478,6 +512,27 @@ for (const file of walk(DOCS_SRC)) {
         url,
         isReadme,
     });
+}
+
+// --- URL integrity -------------------------------------------------------
+// A note that cannot derive a URL, or two notes deriving the same one, would
+// silently drop or overwrite a page — fail the build naming the files instead.
+if (slugErrors.length) {
+    console.error(`\n\u2716 ${slugErrors.length} note(s) cannot derive a URL:`);
+    for (const e of slugErrors) console.error(`  ${e.reason}  (in ${e.file})`);
+    process.exit(1);
+}
+const collisions = findSlugCollisions(
+    entries
+        .filter((e) => e.kind === "content")
+        .map((e) => ({ sec: e.sec, slug: e.slug, src: `${e.tld}/${e.base}` })),
+);
+if (collisions.length) {
+    console.error(`\n\u2716 ${collisions.length} colliding page URL(s):`);
+    for (const c of collisions) {
+        console.error(`  ${c.url} claimed by ${c.sources.join(", ")}`);
+    }
+    process.exit(1);
 }
 
 // --- Wikilink index ------------------------------------------------------
@@ -585,6 +640,12 @@ for (const e of entries) {
     // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
     // live under /guide/ (assets/content) or /dev/ (developer docs).
     const aliases = new Set(Array.isArray(fm.aliases) ? fm.aliases : []);
+    // The pre-shortcode URL (#1278), so existing links and bookmarks still land.
+    const legacy =
+        e.kind === "content" ?
+            legacySlugs[`${fm.type}:${fm.shortcode}`]
+        :   undefined;
+    if (legacy) aliases.add(`/${sec}/${legacy}/`);
     const oldSec = e.kind === "dev" ? "dev" : oldSectionOf(fm, false);
     if (oldSec !== sec) {
         if (e.kind === "dev") {
@@ -598,14 +659,19 @@ for (const e of entries) {
                 :   `/${oldSec}/${relNoExt}/`,
             );
         } else {
-            aliases.add(`/${oldSec}/${slug}/`);
+            aliases.add(`/${oldSec}/${legacy ?? slug}/`);
             if (isReadme) aliases.add(`/${oldSec}/`);
         }
     }
     aliases.delete(url);
 
     if (e.kind === "content") {
-        const data = { ...fm, title: fm.title ?? name, kbfolder: e.folder };
+        const data = {
+            ...fm,
+            slug,
+            title: fm.title ?? name,
+            kbfolder: e.folder,
+        };
         if (fm.type === "character" || fm.type === "creature") {
             data.sohl = deriveBeingSohl(fm.sohl, refIndex);
         }

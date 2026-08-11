@@ -5,7 +5,6 @@ name:
     full: Phagophobia
     aliases: []
 id: wIgWz2bCKVCzr3SU
-slug: phagophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: phagophb
 type: trauma

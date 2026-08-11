@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Scene Setup and Tokens"
-slug: "scene-setup"
 shortcode: scnstpan
 folder: IgwaG8rAUUO9vrtz
 ---

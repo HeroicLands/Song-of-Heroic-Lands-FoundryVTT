@@ -7,7 +7,6 @@ name:
     full: Luminshade
     aliases: []
 id: V51NYCYdbU2A7tse
-slug: luminshade
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
 shortcode: lmnshd

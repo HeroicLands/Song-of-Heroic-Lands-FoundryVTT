@@ -5,7 +5,6 @@ name:
     full: Koumpounophobia
     aliases: []
 id: g32rVis8q7yT3BFf
-slug: koumpounophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: kmpnphb
 type: trauma

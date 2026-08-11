@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Lightweight breathable straw skirt; airy garment for hot climates."
 id: zN79qDikzE4YrB1p
-slug: straw-skirt
 img: icons/game-icons/delapouite/skirt.svg
 shortcode: StSkirt
 type: armorgear

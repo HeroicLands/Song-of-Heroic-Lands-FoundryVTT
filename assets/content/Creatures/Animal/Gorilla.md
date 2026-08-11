@@ -7,7 +7,6 @@ name:
     full: Gorilla
     aliases: []
 id: bDs9MTm1QajerNwp
-slug: gorilla
 img: icons/game-icons/delapouite/gorilla.svg
 portrait: ""
 shortcode: gorilla

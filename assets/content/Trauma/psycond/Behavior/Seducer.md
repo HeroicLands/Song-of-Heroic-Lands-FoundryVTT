@@ -5,7 +5,6 @@ name:
     full: Seducer
     aliases: []
 id: wPARDi4HYN0v2dxP
-slug: seducer
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: seducer
 type: trauma

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth trousers offering comfort and warmth for everyday wear."
 id: lpUOt6Pu4RLj0zBq
-slug: cloth-trousers
 img: icons/game-icons/lorc/trousers.svg
 shortcode: CTrsr
 type: armorgear

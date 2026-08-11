@@ -5,7 +5,6 @@ name:
     full: Scent
     aliases: []
 id: RoMRyFlHJGNDcAF8
-slug: scent
 img: icons/game-icons/lorc/snout.svg
 shortcode: snt
 type: attribute

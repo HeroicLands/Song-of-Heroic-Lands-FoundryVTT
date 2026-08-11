@@ -12,7 +12,6 @@ name:
     full: Health
     aliases: []
 folder: SSkatgtYj9d71kaz
-slug: sohl-health
 shortcode: health
 ---
 

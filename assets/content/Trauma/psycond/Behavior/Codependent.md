@@ -5,7 +5,6 @@ name:
     full: Codependent
     aliases: []
 id: ViIV4vp6PSpMqlsW
-slug: codependent
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cdpndnt
 type: trauma

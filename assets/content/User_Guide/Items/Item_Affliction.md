@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Affliction"
-slug: "item-affliction"
 shortcode: afflctn
 folder: QtOgPodi8X6gDWL0
 ---

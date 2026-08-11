@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Metal ring hand protection offering excellent defense in combat."
 id: yGq8YaZNfYYfwxT7
-slug: mail-mittens
 img: icons/game-icons/lorc/mailed-fist.svg
 shortcode: MMtn
 type: armorgear

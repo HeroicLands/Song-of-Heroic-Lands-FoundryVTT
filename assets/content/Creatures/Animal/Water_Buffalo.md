@@ -8,7 +8,6 @@ name:
     full: Water Buffalo
     aliases: []
 id: QpWdvTgOQceHrZhi
-slug: water-buffalo
 img: icons/game-icons/delapouite/buffalo-head.svg
 portrait: ""
 shortcode: wtrbffl

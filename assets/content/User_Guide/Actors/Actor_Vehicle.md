@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Vehicle"
-slug: "actor-vehicle"
 shortcode: vehicle
 folder: sYK1BozT9xFcinXK
 ---

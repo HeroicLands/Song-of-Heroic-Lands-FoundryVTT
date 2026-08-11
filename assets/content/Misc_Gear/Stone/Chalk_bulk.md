@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Soft quarried chalk block; masons' plaster, scribes' pouncing, shepherd marking stock."
 id: i1cgp6eMs6Nn34E6
-slug: chalk-bulk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chalkbulk
 type: miscgear

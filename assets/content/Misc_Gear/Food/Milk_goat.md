@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Tangy dairy curdles quickly into sharp cheese, richer than sheep's."
 id: jlsqjTtntXSF7cBi
-slug: milk-goat
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milkgoat
 type: miscgear

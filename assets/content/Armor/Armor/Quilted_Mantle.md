@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Layered shoulder-wrap; insulates without restriction."
 id: e6dlqgRLYAwuecer
-slug: quilted-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: QMntl
 type: armorgear

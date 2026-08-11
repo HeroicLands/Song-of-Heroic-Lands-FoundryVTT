@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Single-arm torsion stone-thrower; kicks like the wild ass it is named for."
 id: SiegeOnager0001
-slug: onager-engine
 img: icons/game-icons/lorc/falling-boulder.svg
 shortcode: Onagr
 type: weapongear

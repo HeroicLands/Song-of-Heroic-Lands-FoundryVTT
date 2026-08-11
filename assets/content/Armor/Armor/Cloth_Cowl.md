@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth cowl offering comfort and everyday warmth."
 id: VYrQYoRDmEefkhbe
-slug: cloth-cowl
 img: icons/game-icons/lorc/hood.svg
 shortcode: CCowl
 type: armorgear

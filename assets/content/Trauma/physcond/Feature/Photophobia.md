@@ -5,7 +5,6 @@ name:
     full: Photophobia
     aliases: []
 id: 69Bur733yhdGFSWi
-slug: photophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: photophb
 type: trauma

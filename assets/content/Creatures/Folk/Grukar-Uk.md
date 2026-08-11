@@ -7,7 +7,6 @@ name:
     full: Grukar-Uk
     aliases: []
 id: VBfGJvhWaj4uisjN
-slug: grukar-uk
 img: icons/game-icons/delapouite/orc-head.svg
 portrait: ""
 shortcode: grukaruk

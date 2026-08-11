@@ -7,7 +7,6 @@ name:
     full: Cat
     aliases: []
 id: HssiDLDnWMtX8Yp4
-slug: cat
 img: icons/game-icons/lorc/cat.svg
 portrait: ""
 shortcode: cat

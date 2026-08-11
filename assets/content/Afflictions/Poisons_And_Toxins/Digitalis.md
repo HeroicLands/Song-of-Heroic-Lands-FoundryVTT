@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Foxglove cardiac glycoside; nausea, visual disturbances, severe cardiac effects."
 id: SAqg0v8Xgy2cFp8w
-slug: digitalis
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: dgtls
 type: affliction

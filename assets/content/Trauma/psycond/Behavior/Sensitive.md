@@ -5,7 +5,6 @@ name:
     full: Sensitive
     aliases: []
 id: 7QSiWr7US4JKHNSg
-slug: sensitive
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: snstv
 type: trauma

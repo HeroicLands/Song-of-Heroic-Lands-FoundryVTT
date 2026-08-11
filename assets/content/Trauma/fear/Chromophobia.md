@@ -5,7 +5,6 @@ name:
     full: Chromophobia
     aliases: []
 id: j8xTwqrJDrcatBXq
-slug: chromophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: chrmphb
 type: trauma

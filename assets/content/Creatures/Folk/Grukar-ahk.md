@@ -8,7 +8,6 @@ name:
     full: Grukar-ahk
     aliases: []
 id: ZwRLpmQF1zAklkyE
-slug: grukar-ahk
 img: icons/game-icons/delapouite/orc-head.svg
 portrait: ""
 shortcode: grkrahk

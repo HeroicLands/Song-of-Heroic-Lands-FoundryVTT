@@ -7,7 +7,6 @@ name:
     full: Thunderhorn
     aliases: []
 id: AimHPopglSXjxhWa
-slug: thunderhorn
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: thndrhrn

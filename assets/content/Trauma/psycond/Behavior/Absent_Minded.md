@@ -6,7 +6,6 @@ name:
     full: Absent-Minded
     aliases: []
 id: XMqegcBQDnAe1IIC
-slug: absentminded
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: absntmd
 type: trauma

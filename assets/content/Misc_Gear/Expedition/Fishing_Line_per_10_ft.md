@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Waxed linen or gut-spun cord; fine enough for wary fish and sturdy."
 id: T1cTQTa0EjrkQm03
-slug: fishing-line-per-10-ft
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fishinglin
 type: miscgear

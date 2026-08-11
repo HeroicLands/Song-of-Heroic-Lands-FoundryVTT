@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stitched-layer coat; warms without heavy weight or bulk."
 id: RgLCjUKoNBXWGsnk
-slug: quilted-coat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: QCoat
 type: armorgear

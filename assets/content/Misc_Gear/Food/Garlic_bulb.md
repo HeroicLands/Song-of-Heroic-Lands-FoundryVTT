@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Papery-skinned bulb of cloves; sharp pungent seasoning, keeps for months."
 id: P1BWxECTXvblbBfV
-slug: garlic-bulb
 img: icons/game-icons/delapouite/herbs-bundle.svg
 shortcode: garlic
 type: miscgear

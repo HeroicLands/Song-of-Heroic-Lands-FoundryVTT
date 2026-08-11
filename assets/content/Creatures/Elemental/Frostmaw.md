@@ -7,7 +7,6 @@ name:
     full: Frostmaw
     aliases: []
 id: eUOcXzXo2vWIG2sf
-slug: frostmaw
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: frostmaw

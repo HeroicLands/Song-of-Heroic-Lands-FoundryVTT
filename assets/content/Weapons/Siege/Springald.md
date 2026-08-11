@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
 id: SiegeSpringald1
-slug: springald
 img: icons/game-icons/lorc/spear-hook.svg
 shortcode: Sprngld
 type: weapongear

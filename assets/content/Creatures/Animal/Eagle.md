@@ -7,7 +7,6 @@ name:
     full: Eagle
     aliases: []
 id: Q1LL76ihY4CmtAqA
-slug: eagle
 img: icons/game-icons/delapouite/eagle-head.svg
 portrait: ""
 shortcode: eagle

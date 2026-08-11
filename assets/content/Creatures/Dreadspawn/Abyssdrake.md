@@ -7,7 +7,6 @@ name:
     full: Abyssdrake
     aliases: []
 id: MoaH3MMvKwCfPZpw
-slug: abyssdrake
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
 shortcode: abyssdrk

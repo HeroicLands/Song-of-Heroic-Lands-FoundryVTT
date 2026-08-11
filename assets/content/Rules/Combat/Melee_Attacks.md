@@ -9,7 +9,6 @@ name:
     full: Melee Attacks
     aliases: []
 folder: rotB8uN12YUN0Oba
-slug: sohl-melee-attacks
 shortcode: mlattcks
 ---
 

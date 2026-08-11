@@ -7,7 +7,6 @@ name:
     full: Sky Serpent
     aliases: []
 id: IufOc6e3iYJZ46GV
-slug: sky-serpent
 img: icons/game-icons/lorc/harpy.svg
 portrait: ""
 shortcode: skysrpnt

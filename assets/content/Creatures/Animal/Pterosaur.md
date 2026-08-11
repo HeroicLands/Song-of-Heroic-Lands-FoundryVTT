@@ -7,7 +7,6 @@ name:
     full: Pterosaur
     aliases: []
 id: zueyvDAb2JF9wc8p
-slug: pterosaur
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: pterosau

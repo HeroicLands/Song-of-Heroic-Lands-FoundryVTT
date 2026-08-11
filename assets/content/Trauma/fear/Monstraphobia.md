@@ -5,7 +5,6 @@ name:
     full: Monstraphobia
     aliases: []
 id: osjRQrub3oiIVMlb
-slug: monstraphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: mnstrphb
 type: trauma

@@ -9,7 +9,6 @@ description: "Light quarrel with padded knob; stuns small game; spares fur and f
 type: projectilegear
 package: sohl
 id: K3xckwemrgxTl0wl
-slug: light-blunt-bolt
 shortcode: BltLBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Blunt

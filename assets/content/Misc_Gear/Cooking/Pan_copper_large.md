@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Wide tinned copper pan with iron handle; fries and sautés multiple portions."
 id: TRdqyOC32SUeAIik
-slug: pan-copper-large
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pancopperl
 type: miscgear

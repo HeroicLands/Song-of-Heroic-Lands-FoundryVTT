@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Beeswax or tallow stick; melted, impressed with seal ring to authenticate letters."
 id: fAUJ8RepRHtX7vAN
-slug: wax-sealing
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: waxsealing
 type: miscgear

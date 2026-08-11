@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stoneware jar with fitted lid for dried goods and seasonal preserves."
 id: sVue6O4wgrWjU3iR
-slug: jar-lidded-large
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarliddedl
 type: containergear

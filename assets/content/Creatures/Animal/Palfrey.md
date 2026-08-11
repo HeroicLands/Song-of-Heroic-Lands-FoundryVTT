@@ -7,7 +7,6 @@ name:
     full: Palfrey
     aliases: []
 id: tj9o2Ujavc9DuSxb
-slug: palfrey
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: ""
 shortcode: palfrey

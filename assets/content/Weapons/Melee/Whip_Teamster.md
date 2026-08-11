@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Short cord lash stinging rather than cutting; driver's incidental combat tool."
 id: peZMGgdpM5LQ60a9
-slug: whip-teamster
 img: icons/game-icons/lorc/whip.svg
 shortcode: TWhp
 type: weapongear

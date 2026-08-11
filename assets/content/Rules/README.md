@@ -9,7 +9,6 @@ category: rules
 name:
     full: Song of Heroic Lands Rules
     aliases: []
-slug: sohl-rules
 shortcode: rulesidx
 folder: RqKUTBUBN2Y3MHYB
 ---

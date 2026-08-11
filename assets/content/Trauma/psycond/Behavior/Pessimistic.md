@@ -5,7 +5,6 @@ name:
     full: Pessimistic
     aliases: []
 id: LlfNyX9IWa1uG00R
-slug: pessimistic
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: pssmstc
 type: trauma

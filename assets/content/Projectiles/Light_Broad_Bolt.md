@@ -9,7 +9,6 @@ description: "Light quarrel, leaf-bladed iron head; opens bleeding wound; hunter
 type: projectilegear
 package: sohl
 id: GXOYUjcV8KKAIK7a
-slug: light-broad-bolt
 shortcode: BltLBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Broad

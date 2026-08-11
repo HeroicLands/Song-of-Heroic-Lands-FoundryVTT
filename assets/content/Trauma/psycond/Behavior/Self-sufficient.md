@@ -5,7 +5,6 @@ name:
     full: Self-sufficient
     aliases: []
 id: bNm2Q0383zIRo2wG
-slug: self-sufficient
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: self-suf
 type: trauma

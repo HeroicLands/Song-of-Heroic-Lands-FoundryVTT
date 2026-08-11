@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Iron roasting spit on adjustable stand for campfire or hearth cooking."
 id: OfwJBd3Xmz4B6eMV
-slug: spit-and-stand-iron
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spitandsta
 type: miscgear

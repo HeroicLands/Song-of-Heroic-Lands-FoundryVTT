@@ -9,7 +9,6 @@ name:
     full: Trauma
     aliases: []
 folder: 4SPG9O9H7puwZsve
-slug: sohl-trauma
 shortcode: trauma
 ---
 

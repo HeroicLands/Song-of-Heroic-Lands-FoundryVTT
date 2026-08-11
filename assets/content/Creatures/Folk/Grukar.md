@@ -11,7 +11,6 @@ id: GudJhPy3GCGZhsWS
 name:
     full: Grukar
     aliases: []
-slug: grukar
 ---
 
 ## The Grukar: A Blight Upon the Land

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable torso covering for warmer weather comfort."
 id: 3J0Uu57GRTND9Qpd
-slug: linen-coat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: LCoat
 type: armorgear

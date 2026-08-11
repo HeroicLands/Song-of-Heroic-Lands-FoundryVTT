@@ -8,7 +8,6 @@ name:
     full: Tapir
     aliases: []
 id: uL25TIgj48GJ02pY
-slug: tapir
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: tapir

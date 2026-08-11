@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stoneware jar for household storage of honey, jam, oil, or salt."
 id: bldbp87wycGx7KL1
-slug: jar-lidded-medium
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarliddedm
 type: containergear

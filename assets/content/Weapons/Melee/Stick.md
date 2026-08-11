@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Plain ashwood walking-staff pressed into service by travelers in scuffle."
 id: ZU82Ji5jLQp8MQwZ
-slug: stick
 img: icons/game-icons/badges/club.svg
 shortcode: Stk
 type: weapongear

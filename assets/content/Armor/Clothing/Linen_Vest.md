@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable sleeveless garment perfect for warm weather activities."
 id: aeLCQjniXioqN8oH
-slug: linen-vest
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: LVest
 type: armorgear

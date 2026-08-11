@@ -7,7 +7,6 @@ name:
     full: Starcrawler
     aliases: []
 id: KwgKiSFDeCgFjebo
-slug: starcrawler
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: strcrwlr

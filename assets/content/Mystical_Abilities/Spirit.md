@@ -5,7 +5,6 @@ name:
     full: Spirit
     aliases: []
 id: ftsDAUwOXEKBcn0Q
-slug: spirit
 img: icons/game-icons/lorc/psychic-waves.svg
 shortcode: sprt
 type: mysticalability

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Quilted linen vest; inner padding offers warmth and under-armor cushioning."
 id: NMUYUZPdUl0yzC21
-slug: padded-vest
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: PVest
 type: armorgear

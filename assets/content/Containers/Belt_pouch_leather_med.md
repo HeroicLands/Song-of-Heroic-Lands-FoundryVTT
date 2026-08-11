@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Moderate leather belt pouch for coins and small items."
 id: ob1pnMnpnXJ9hAYS
-slug: belt-pouch-leather-med
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: bpchmd
 type: containergear

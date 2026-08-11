@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Long stitched tunic; warmth and light padding for cold seasons."
 id: r9QbAH4YA5kaQq6f
-slug: quilted-longshirt
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: QLgSht
 type: armorgear

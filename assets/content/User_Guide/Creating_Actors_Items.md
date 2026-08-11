@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Creating Actors and Items"
-slug: "creating-actors-items"
 shortcode: crtngact
 folder: IgwaG8rAUUO9vrtz
 ---

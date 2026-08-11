@@ -5,7 +5,6 @@ name:
     full: Gynophobia
     aliases: []
 id: kKzle4wma82HHV6P
-slug: gynophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: gynophb
 type: trauma

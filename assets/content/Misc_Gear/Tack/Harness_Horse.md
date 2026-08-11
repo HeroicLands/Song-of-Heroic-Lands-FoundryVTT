@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Leather straps, brass rings, iron buckles; distributes wagon-pull across shoulders, chest."
 id: BFH8N4DwXnIpY2l3
-slug: harness-horse
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: harnesshor
 type: miscgear

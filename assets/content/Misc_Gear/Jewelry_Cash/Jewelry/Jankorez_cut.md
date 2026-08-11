@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
 id: hQmMPH6YyURDjcCB
-slug: jankorez-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jankorezcu
 type: miscgear

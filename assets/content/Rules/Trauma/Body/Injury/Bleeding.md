@@ -11,7 +11,6 @@ category: rules
 name:
     full: Bleeding
     aliases: []
-slug: sohl-bleeding
 shortcode: bleeding
 folder: F4NGyU9QQgWwTcHe
 ---

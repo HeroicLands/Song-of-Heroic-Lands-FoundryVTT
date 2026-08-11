@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fossilized golden resin; craftspeople carve or polish into beads and ornaments."
 id: P8KOgfPK1euQYrku
-slug: amber
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amber
 type: miscgear

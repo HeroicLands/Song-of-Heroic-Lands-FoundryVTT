@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Broad steel shoulder-guards; display heraldic pride and shield upper arms."
 id: FicdL283PUVYcDBa
-slug: plate-ailettes
 img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: PlAil
 type: armorgear

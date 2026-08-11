@@ -7,7 +7,6 @@ name:
     full: Dire Wolf
     aliases: []
 id: ILqvei5kP8X84icm
-slug: dire-wolf
 img: icons/game-icons/lorc/wolf-head.svg
 portrait: ""
 shortcode: direwolf

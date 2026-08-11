@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stout hide footwear; durable and protective."
 id: LYfhICyBxISMNHmc
-slug: rawhide-shoes
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: RhShoe
 type: armorgear

@@ -5,7 +5,6 @@ name:
     full: Playful
     aliases: []
 id: NM0AUwRLfMP3q2ec
-slug: playful
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: playful
 type: trauma

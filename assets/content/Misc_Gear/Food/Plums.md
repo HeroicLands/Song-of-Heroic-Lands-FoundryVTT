@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Late-summer dried fruit, chewy nuggets sustaining soldiers through cold winter."
 id: UYXTXCempUnGZCGE
-slug: plums
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: plums
 type: miscgear

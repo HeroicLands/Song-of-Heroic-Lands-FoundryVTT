@@ -8,7 +8,6 @@ category: rules
 name:
     full: Tasseomancy
     aliases: []
-slug: sohl-tasseomancy
 shortcode: tssmncy
 folder: k6DghEucd6umnBJx
 ---

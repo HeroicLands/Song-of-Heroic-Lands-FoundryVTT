@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Soft tin-lead alloy; cheaper than silver; tavern cups and household goods."
 id: Ja0Ix9LKndf0c5mm
-slug: pewter
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pewter
 type: miscgear

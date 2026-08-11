@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Two-handed wooden bludgeon for shattering shields; giant's breach weapon."
 id: VPjA2yGU9VV6NdTZ
-slug: club-large
 img: icons/game-icons/badges/club.svg
 shortcode: ClbLg
 type: weapongear

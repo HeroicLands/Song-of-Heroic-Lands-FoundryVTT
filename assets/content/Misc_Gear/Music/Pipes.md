@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Bound bone-and-reed tubes; reedy pastoral voice for dances and love songs."
 id: VEfkAkPoc2CNWsgc
-slug: pipes
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pipes
 type: miscgear

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Controlling mounted animals through communication and empathic connection."
 id: mARFb83ni5upS4h3
-slug: riding
 img: icons/game-icons/delapouite/cavalry.svg
 shortcode: ridg
 type: skill

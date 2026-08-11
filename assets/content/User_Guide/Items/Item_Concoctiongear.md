@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Concoction"
-slug: "item-conctiongear"
 shortcode: cncctn
 
 folder: QtOgPodi8X6gDWL0

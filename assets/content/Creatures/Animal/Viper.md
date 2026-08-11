@@ -7,7 +7,6 @@ name:
     full: Viper
     aliases: []
 id: TscKeVS3HigBRoWZ
-slug: viper
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
 shortcode: viper

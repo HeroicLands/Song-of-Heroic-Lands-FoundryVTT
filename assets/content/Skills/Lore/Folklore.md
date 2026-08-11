@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Knowledge of homeland culture, history, traditions, myth and social customs."
 id: Na0Kzoqj13YDU3Xt
-slug: folklore
 img: icons/game-icons/delapouite/unicorn.svg
 shortcode: folklr
 type: skill

@@ -7,7 +7,6 @@ name:
     aliases:
 description: "Sustained weariness from astral travel, paid on reembodiment."
 id: PEmWjX4fBnNuPIha
-slug: astral-journeying
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: astjourn
 type: trauma

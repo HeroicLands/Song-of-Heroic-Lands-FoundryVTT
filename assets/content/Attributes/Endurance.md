@@ -5,7 +5,6 @@ name:
     full: Endurance
     aliases: []
 id: bZCm7bURkPsffnIW
-slug: endurance
 img: icons/game-icons/caro-asercion/mountain-climbing.svg
 shortcode: end
 type: attribute

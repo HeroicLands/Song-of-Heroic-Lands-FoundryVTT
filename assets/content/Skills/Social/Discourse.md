@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Convincing through reasoned argument, evidence, and rhetorical skill."
 id: L3Glc3p57exL0wQK
-slug: discourse
 img: icons/game-icons/delapouite/face-to-face.svg
 shortcode: dscr
 type: skill

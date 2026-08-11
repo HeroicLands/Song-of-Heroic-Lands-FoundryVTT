@@ -5,7 +5,6 @@ name:
     full: Comeliness
     aliases: []
 id: L4Dr0xLDD9EpAxlm
-slug: comeliness
 img: icons/game-icons/lorc/charm.svg
 shortcode: cml
 type: attribute

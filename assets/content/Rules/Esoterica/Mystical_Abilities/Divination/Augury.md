@@ -8,7 +8,6 @@ category: rules
 name:
     full: Augury
     aliases: []
-slug: sohl-augury
 shortcode: augury
 folder: k6DghEucd6umnBJx
 ---

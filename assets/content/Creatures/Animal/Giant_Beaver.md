@@ -7,7 +7,6 @@ name:
     full: Giant Beaver
     aliases: []
 id: sChYtBXlCKoOHaHl
-slug: giant-beaver
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: gntbvr

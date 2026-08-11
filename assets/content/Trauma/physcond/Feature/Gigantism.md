@@ -5,7 +5,6 @@ name:
     full: Gigantism
     aliases: []
 id: CUrZV9t7UWIBaqpQ
-slug: gigantism
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ggntsm
 type: trauma

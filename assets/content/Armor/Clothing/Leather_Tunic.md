@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Rugged styled leather garment providing minimal protection and style."
 id: RNYs3FOV7vV7ENbZ
-slug: leather-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: LtTunic
 type: armorgear

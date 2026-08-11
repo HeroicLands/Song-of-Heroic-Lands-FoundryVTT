@@ -9,7 +9,6 @@ name:
     full: Healing Base
     aliases: []
 folder: F4NGyU9QQgWwTcHe
-slug: sohl-healing-base
 shortcode: hlngbs
 ---
 

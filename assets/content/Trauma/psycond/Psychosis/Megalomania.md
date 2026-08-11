@@ -5,7 +5,6 @@ name:
     full: Megalomania
     aliases: []
 id: H2Dbs28M2NU20NlM
-slug: megalomania
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mglmn
 type: trauma

@@ -5,7 +5,6 @@ name:
     full: Entomophobia
     aliases: []
 id: Jd2Lli0rggAbkUEX
-slug: entomophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: entmphb
 type: trauma

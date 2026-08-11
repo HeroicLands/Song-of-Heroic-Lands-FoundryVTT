@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool tunic; full-arm coverage for warmth."
 id: AOcRbO5Yo5vnlflg
-slug: russet-sleeved-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: RSTnc
 type: armorgear

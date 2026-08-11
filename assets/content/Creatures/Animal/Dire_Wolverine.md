@@ -7,7 +7,6 @@ name:
     full: Dire Wolverine
     aliases: []
 id: 9zpdW3LB7gb3PZXi
-slug: dire-wolverine
 img: icons/game-icons/caro-asercion/badger.svg
 portrait: ""
 shortcode: drwlvrn

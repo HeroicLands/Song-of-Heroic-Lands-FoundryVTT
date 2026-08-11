@@ -11,7 +11,6 @@ name:
     full: Spirit
     aliases: []
 folder: oPWOe5cjsYc1ev2h
-slug: sohl-spirit
 shortcode: spirit
 ---
 

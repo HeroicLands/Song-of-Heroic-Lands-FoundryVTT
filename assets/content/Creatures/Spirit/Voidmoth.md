@@ -7,7 +7,6 @@ name:
     full: Voidmoth
     aliases: []
 id: 0YaWh1FabKCGtnAs
-slug: voidmoth
 img: icons/game-icons/lorc/butterfly.svg
 portrait: ""
 shortcode: voidmoth

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons."
 id: MMWQAgkjekFMjaqw
-slug: fletching
 img: icons/game-icons/lorc/broadhead-arrow.svg
 shortcode: fltch
 type: skill

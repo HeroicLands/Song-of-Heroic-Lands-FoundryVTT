@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Using Compendiums"
-slug: "using-compendiums"
 shortcode: usngcmpn
 folder: IgwaG8rAUUO9vrtz
 ---

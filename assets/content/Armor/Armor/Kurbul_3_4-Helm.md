@@ -9,7 +9,6 @@ name:
     aliases: []
 description: "Treated leather helm with reinforced ridges and embossing for protection and style."
 id: nC7j4q4v8570Yuam
-slug: kurbul-34-helm
 img: icons/game-icons/lorc/crested-helmet.svg
 shortcode: K34Hlm
 type: armorgear

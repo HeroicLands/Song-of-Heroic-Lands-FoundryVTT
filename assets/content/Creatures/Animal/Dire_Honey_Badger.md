@@ -7,7 +7,6 @@ name:
     full: Dire Honey Badger
     aliases: []
 id: yfdwPLNfDfwLHV8b
-slug: dire-honey-badger
 img: icons/game-icons/caro-asercion/badger.svg
 portrait: ""
 shortcode: drhnybdg

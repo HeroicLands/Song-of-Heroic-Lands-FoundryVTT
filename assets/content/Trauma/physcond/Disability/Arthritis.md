@@ -5,7 +5,6 @@ name:
     full: Arthritis
     aliases: []
 id: bIjL13tItFaEubGX
-slug: arthritis
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: arthrts
 type: trauma

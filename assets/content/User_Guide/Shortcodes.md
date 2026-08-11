@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Shortcodes"
-slug: "shortcodes"
 shortcode: shrtcds
 folder: IgwaG8rAUUO9vrtz
 ---

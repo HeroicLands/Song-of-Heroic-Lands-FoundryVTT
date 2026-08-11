@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
 id: nyNbxOjZbuHKEds5
-slug: opsararnos
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: opsararnos
 type: mystery

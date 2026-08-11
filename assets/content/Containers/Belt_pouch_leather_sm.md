@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Small leather belt pouch barely larger than a fist."
 id: 23fY6O8R0VZw82c4
-slug: belt-pouch-leather-sm
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: beltpouchl3
 type: containergear

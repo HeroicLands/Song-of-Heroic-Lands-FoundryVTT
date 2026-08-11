@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool shirt; durable, practical garment for activities."
 id: 5b54D3dEpUwvhHbv
-slug: worsted-shirt
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: WShirt
 type: armorgear

@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Understanding Sheets"
-slug: "understanding-sheets"
 shortcode: undrstnd
 folder: IgwaG8rAUUO9vrtz
 ---

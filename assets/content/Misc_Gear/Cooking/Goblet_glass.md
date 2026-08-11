@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Stemmed glass goblet; rare and costly for formal feasts and display."
 id: oqvxrbmO7YWqzAdR
-slug: goblet-glass
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: gobletglas
 type: miscgear

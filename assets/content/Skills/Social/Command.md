@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Compelling obedience through authority, intimidation, and commanding presence."
 id: tKieDfHG5pLS0Pca
-slug: command
 img: icons/game-icons/lorc/conversation.svg
 shortcode: cmd
 type: skill

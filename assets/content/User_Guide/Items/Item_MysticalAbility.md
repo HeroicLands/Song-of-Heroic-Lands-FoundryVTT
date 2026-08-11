@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Mystical Ability"
-slug: "item-mysticalability"
 shortcode: mystclab
 folder: QtOgPodi8X6gDWL0
 ---

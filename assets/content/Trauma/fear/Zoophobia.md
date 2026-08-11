@@ -5,7 +5,6 @@ name:
     full: Zoophobia
     aliases: []
 id: PKfsH5edHX3OB8B6
-slug: zoophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: zoophb
 type: trauma

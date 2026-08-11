@@ -9,7 +9,6 @@ name:
     full: Reindeer
     aliases: []
 id: o5zGvTtdOAvkEa0u
-slug: reindeer
 img: icons/game-icons/caro-asercion/deer.svg
 portrait: ""
 shortcode: reindeer

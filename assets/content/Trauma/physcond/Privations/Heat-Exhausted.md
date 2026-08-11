@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Moderate heat injury; pale, clammy skin, weak pulse, nausea, faintness."
 id: us65TjFmPUDBVg5s
-slug: heat-exhausted
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: htexh
 type: trauma

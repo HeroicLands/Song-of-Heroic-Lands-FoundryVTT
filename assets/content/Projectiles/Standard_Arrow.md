@@ -9,7 +9,6 @@ description: "Ash or birch shaft, goose-feather fletching; workaday deer or skir
 type: projectilegear
 package: sohl
 id: vBAd1CyPEqHNJyb0
-slug: standard-arrow
 shortcode: ArwStd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Standard

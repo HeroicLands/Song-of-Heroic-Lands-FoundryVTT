@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Physiological resilience to absorb violent blows without incapacitation."
 id: UufDJlNBkyC6FG7E
-slug: shock
 img: icons/game-icons/lorc/lightning-arc.svg
 shortcode: shok
 type: skill

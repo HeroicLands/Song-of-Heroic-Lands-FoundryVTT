@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Heavy iron triple-warded deadbolt; secures vault doors and fortified manor gates."
 id: LQQ3TNTvZ58LGG5H
-slug: lock-door-heavy-duty
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lockdoorhe
 type: miscgear

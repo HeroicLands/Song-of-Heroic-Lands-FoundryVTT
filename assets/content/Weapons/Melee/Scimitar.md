@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Curved single-edged blade favors mounted slash; southern cavalry's efficiency."
 id: iZJd1F4KbMZe3nMR
-slug: scimitar
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: Scmtr
 type: weapongear

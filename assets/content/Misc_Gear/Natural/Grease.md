@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Rendered mutton-beef-hog fat; cooking, waterproofing leather, axle lubrication."
 id: tnQLJqOSADXL6gMh
-slug: grease
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grease
 type: miscgear

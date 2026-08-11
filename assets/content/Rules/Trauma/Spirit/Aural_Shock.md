@@ -9,7 +9,6 @@ name:
     full: Aural Shock
     aliases: []
 folder: TiVEgAyetL6JTjqG
-slug: sohl-aural-shock
 shortcode: arlshck
 ---
 

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Three-pronged fork binding and piercing; favored by pit-fighters."
 id: 3ifIDzsp6chxC60S
-slug: trident
 img: icons/game-icons/lorc/trident.svg
 shortcode: Tri
 type: weapongear

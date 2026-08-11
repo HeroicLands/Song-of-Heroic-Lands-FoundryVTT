@@ -7,7 +7,6 @@ name:
     full: Guard Dog
     aliases: []
 id: BfM41VLgQk9RdUFa
-slug: guard-dog
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
 shortcode: guarddog

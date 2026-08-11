@@ -5,7 +5,6 @@ name:
     full: Self-protective
     aliases: []
 id: hYanCELEhmAkCpEo
-slug: self-protective
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: self-pro
 type: trauma

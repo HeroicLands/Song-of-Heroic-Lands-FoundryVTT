@@ -7,7 +7,6 @@ name:
     full: Margrush
     aliases: []
 id: hfTq2IglUl64LTn9
-slug: margrush
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: margrush

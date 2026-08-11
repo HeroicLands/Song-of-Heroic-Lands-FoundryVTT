@@ -10,7 +10,6 @@ category: rules
 name:
     full: Success Value Tests
     aliases: []
-slug: sohl-success-value-tests
 shortcode: sccssvlt
 folder: e0HEIHw9qUVWqyzJ
 ---

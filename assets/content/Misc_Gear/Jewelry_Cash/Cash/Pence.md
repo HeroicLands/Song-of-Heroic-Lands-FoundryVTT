@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Silver coin, everyday currency of trade; durable, standard weight ensures acceptance anywhere."
 id: u3ezQ6GIIHgRMhZz
-slug: pence
 img: icons/game-icons/badges/coins.svg
 shortcode: pence
 type: miscgear

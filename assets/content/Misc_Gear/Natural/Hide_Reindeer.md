@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Thick northern hide; salted, dried, water-resistant; arctic cloaks."
 id: 9n4GUpB7HjBkHnCP
-slug: hide-reindeer
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidereinde
 type: miscgear

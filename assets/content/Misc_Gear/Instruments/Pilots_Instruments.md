@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Brass-bound case with compass, astrolabe, cross-staff, dividers, rule, charts; navigators."
 id: D5h49Papv0HVhcEJ
-slug: pilots-instruments
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pilotinstr
 type: miscgear

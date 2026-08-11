@@ -9,7 +9,6 @@ name:
     full: Prone
     aliases: []
 folder: rotB8uN12YUN0Oba
-slug: sohl-prone
 shortcode: prone
 ---
 

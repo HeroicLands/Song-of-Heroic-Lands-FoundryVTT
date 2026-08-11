@@ -7,7 +7,6 @@ name:
     full: Boulderback
     aliases: []
 id: yBv7xJJafJv5vXrt
-slug: boulderback
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: bldrbck

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Down and flight feathers; stuff quilts and padding, used for arrow fletching."
 id: hFxDjaThgTDwfZ2X
-slug: feathers
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: feathers
 type: miscgear

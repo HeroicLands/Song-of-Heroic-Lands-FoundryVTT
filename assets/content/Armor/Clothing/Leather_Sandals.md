@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Lightweight leather foot covering combining comfort with rugged charm."
 id: zqLrR90jgECDsRkk
-slug: leather-sandals
 img: icons/game-icons/delapouite/flip-flops.svg
 shortcode: LtSndls
 type: armorgear

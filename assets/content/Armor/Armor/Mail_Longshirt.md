@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Metal ring torso and upper arm garment providing substantial protection."
 id: r6GPQ3FF3Ci4TbDV
-slug: mail-longshirt
 img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MLShirt
 type: armorgear

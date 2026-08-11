@@ -8,7 +8,6 @@ category: rules
 name:
     full: Rune Casting
     aliases: []
-slug: sohl-rune-casting
 shortcode: rncstng
 folder: k6DghEucd6umnBJx
 ---

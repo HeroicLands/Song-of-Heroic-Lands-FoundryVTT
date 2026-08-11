@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."
 id: jKJI0RAuL2IEBDl3
-slug: engineering
 img: icons/game-icons/lorc/gears.svg
 shortcode: eng
 type: skill

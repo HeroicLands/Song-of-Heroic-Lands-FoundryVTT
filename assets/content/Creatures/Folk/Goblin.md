@@ -11,7 +11,6 @@ id: lMmw2KlMPGvuR6d3
 name:
     full: Goblin
     aliases: []
-slug: goblin
 ---
 
 ## Cunning Tricksters

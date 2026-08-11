@@ -7,7 +7,6 @@ name:
     full: Stonebeast
     aliases: []
 id: vkJVD3VzKCKvgPCx
-slug: stonebeast
 img: icons/game-icons/delapouite/rock-golem.svg
 portrait: ""
 shortcode: stnbst

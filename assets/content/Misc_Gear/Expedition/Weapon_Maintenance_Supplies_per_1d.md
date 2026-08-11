@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Oil, wax, whetstone chips, cord, rivets, wire; one pence buys one pence of weapon upkeep."
 id: nihK8aG46nMa1dP6
-slug: weapon-maintenance-supplies-per-1d
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wpnsup
 type: miscgear

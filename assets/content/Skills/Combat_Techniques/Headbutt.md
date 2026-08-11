@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "The forehead driven into a face, from too close for anything else to work."
 id: UnarmedHeadbutt1
-slug: folk-headbutt
 img: icons/game-icons/lorc/wrecking-ball.svg
 shortcode: bflkheadbutt
 type: skill

@@ -5,7 +5,6 @@ name:
     full: Aquaphobia
     aliases: []
 id: nZB40vp2lBMXt5fE
-slug: aquaphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: aquaphb
 type: trauma

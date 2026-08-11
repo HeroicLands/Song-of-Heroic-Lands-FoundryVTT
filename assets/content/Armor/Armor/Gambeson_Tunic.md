@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Padded tunic offering protection worn under or over armor."
 id: WUFzVIR5S7961tcp
-slug: gambeson-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: GTnc
 type: armorgear

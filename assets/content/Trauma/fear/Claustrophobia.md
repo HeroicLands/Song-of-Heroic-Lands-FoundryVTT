@@ -5,7 +5,6 @@ name:
     full: Claustrophobia
     aliases: []
 id: z5upL9KjhkxKmyOd
-slug: claustrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: clstrphb
 type: trauma

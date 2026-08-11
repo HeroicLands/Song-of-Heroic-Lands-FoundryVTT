@@ -7,7 +7,6 @@ name:
     full: Hunting Dog
     aliases: []
 id: Po2VUAbp6OfYsojS
-slug: hunting-dog
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
 shortcode: hntngdg

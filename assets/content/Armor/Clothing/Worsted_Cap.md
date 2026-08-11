@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool cap; durable, versatile head covering."
 id: 8UDoUj75sDQCJX84
-slug: worsted-cap
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: WCap
 type: armorgear

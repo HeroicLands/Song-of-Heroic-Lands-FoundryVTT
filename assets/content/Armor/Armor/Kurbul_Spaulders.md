@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Treated leather shoulder guards combining functionality with elaborate decorative patterns."
 id: 5lXKChuoeMP2qUBv
-slug: kurbul-spaulders
 img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: KSpld
 type: armorgear

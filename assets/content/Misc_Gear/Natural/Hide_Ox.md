@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Prime even-grained oxhide; strong stock for saddles, breeches, shoe uppers."
 id: XYwOF5tafvjGEezx
-slug: hide-ox
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideox
 type: miscgear

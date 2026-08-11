@@ -6,7 +6,6 @@ name:
     full: Partial Amnesia
     aliases: []
 id: ICWyMofRDcMz9QwR
-slug: partial-amnesia
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: amnsprtl
 type: trauma

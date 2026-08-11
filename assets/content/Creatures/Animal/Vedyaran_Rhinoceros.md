@@ -8,7 +8,6 @@ name:
     full: Vedyaran Rhinoceros
     aliases: []
 id: gg3f6OB21jF3mg0f
-slug: vedyaran-rhinoceros
 img: icons/game-icons/delapouite/rhinoceros-horn.svg
 portrait: ""
 shortcode: vdyrnrhn

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Soft cloth breeches offering everyday comfort for all wearers."
 id: CiEQIhtMHCGviip4
-slug: cloth-breeches
 img: icons/game-icons/lorc/trousers.svg
 shortcode: CBrch
 type: armorgear

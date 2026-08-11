@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Vaulting, balance, tumbling; recovers gracefully from perilous falls."
 id: MCxEVjsyUzLvJd4j
-slug: acrobatics
 img: icons/game-icons/lorc/cartwheel.svg
 shortcode: acro
 type: skill

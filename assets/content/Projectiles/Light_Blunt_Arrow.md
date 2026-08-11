@@ -9,7 +9,6 @@ description: "Light shaft with wooden knob or leather pad; squirrel, hare, bird 
 type: projectilegear
 package: sohl
 id: 8i5eKRDIguMJHsXx
-slug: light-blunt-arrow
 shortcode: ArwLBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Blunt

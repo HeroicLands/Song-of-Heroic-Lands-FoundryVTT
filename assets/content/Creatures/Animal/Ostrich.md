@@ -8,7 +8,6 @@ name:
     full: Ostrich
     aliases: []
 id: a2TPhQDzEJLjlYMv
-slug: ostrich
 img: icons/game-icons/delapouite/cassowary-head.svg
 portrait: ""
 shortcode: ostrich

@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Being"
-slug: "actor-being"
 shortcode: being
 folder: sYK1BozT9xFcinXK
 ---

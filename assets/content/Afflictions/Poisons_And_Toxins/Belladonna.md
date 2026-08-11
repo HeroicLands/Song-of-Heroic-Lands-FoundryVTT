@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Tropane alkaloids; visual disturbances and delirium; often ingested secretly."
 id: 4IS3ubM0teikWEpD
-slug: belladonna
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: bldna
 type: affliction

@@ -5,7 +5,6 @@ name:
     full: Anthophobia
     aliases: []
 id: XnufMkKabctrsnsH
-slug: anthophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: anthphb
 type: trauma

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Leather case with picks, files, hammer, key blanks; locksmith's tools."
 id: 1CP98H299YJRAIYO
-slug: lockcraft-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lkcrftkt
 type: miscgear

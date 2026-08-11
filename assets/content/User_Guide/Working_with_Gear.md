@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Working with Gear and Equipment"
-slug: "working-with-gear"
 shortcode: wrkngwth
 folder: IgwaG8rAUUO9vrtz
 ---

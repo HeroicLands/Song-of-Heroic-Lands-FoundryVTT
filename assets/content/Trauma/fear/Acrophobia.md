@@ -5,7 +5,6 @@ name:
     full: Acrophobia
     aliases: []
 id: RIMqNQLf9x9rCps3
-slug: acrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: acrophb
 type: trauma

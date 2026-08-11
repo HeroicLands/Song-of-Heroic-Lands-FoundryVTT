@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Luxurious silk cloak for high-status occasions and formal events."
 id: X5appzIGFEX9OXYt
-slug: silk-cloak
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: SlkClk
 type: armorgear

@@ -9,7 +9,6 @@ name:
     full: Coma
     aliases: []
 folder: edGOkxiCotuMzc1O
-slug: sohl-coma
 shortcode: coma
 ---
 

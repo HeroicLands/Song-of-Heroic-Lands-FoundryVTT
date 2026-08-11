@@ -7,7 +7,6 @@ name:
     full: Cragclimber
     aliases: []
 id: lehcDkx0YgAsYjaw
-slug: cragclimber
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: crgclmbr

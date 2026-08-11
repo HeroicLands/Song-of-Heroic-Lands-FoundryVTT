@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Eighty-pound cavalry bow for charged volleys from saddle."
 id: FDhKyOsZ0Bdcf39X
-slug: composite-bow-80
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: CBw80
 type: weapongear

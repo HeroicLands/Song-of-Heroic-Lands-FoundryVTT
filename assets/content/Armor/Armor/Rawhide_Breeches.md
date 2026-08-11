@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tough hide leg-wear; harsh-climate work or rough labor."
 id: 0kF4so7ufezAvDpW
-slug: rawhide-breeches
 img: icons/game-icons/lorc/trousers.svg
 shortcode: RhBrch
 type: armorgear

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Pestilential fever with black buboes; highly contagious, usually fatal."
 id: 2syFpxzmukGOSUxx
-slug: black-death
 img: icons/game-icons/lorc/virus.svg
 shortcode: blkdth
 type: affliction

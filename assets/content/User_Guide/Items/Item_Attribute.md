@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Attribute"
-slug: "item-attribute"
 shortcode: attrbt
 folder: QtOgPodi8X6gDWL0
 ---

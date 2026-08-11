@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple lightweight leather cap offering basic elemental protection and rugged charm."
 id: Ll2GXzDMkBcvy89F
-slug: leather-cap
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: LtCap
 type: armorgear

@@ -7,7 +7,6 @@ name:
     full: Aurochs
     aliases: []
 id: nFUslZMExtT6iJVp
-slug: aurochs
 img: icons/game-icons/lorc/bull.svg
 portrait: ""
 shortcode: aurochs

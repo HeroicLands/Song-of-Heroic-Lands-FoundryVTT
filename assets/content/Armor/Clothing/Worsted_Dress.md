@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool dress; durable, versatile garment for activities."
 id: nit9nJYs2wHJytyJ
-slug: worsted-dress
 img: icons/game-icons/skoll/dress.svg
 shortcode: WDress
 type: armorgear

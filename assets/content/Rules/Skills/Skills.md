@@ -10,7 +10,6 @@ name:
     full: Skills
     aliases: []
 folder: e0HEIHw9qUVWqyzJ
-slug: sohl-skills
 shortcode: skills
 ---
 

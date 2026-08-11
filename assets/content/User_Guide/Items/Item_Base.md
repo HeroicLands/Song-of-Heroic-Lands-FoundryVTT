@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: Base Item
-slug: "item-base"
 shortcode: baseitem
 folder: QtOgPodi8X6gDWL0
 ---

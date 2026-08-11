@@ -7,7 +7,6 @@ name:
     full: Giant Spider
     aliases: []
 id: HzxG1auqS4IJfpH1
-slug: giant-spider
 img: icons/game-icons/carl-olsen/spider-alt.svg
 portrait: ""
 shortcode: gntspdr

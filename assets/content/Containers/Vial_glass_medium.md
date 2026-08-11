@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Glass vial with stopper for traveling medicine kits and apothecary supplies."
 id: 73TbQJto0EJO7f2c
-slug: vial-glass-medium
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vialglassm
 type: containergear

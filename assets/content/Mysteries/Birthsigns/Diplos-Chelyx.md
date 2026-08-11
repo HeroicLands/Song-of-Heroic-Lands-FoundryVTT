@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
 id: 1BJtjynJ84exfZTe
-slug: diploschelyx
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: diploschelyx
 type: mystery

@@ -8,7 +8,6 @@ category: rules
 name:
     full: Divine Incantation
     aliases: []
-slug: sohl-divine-incantation
 shortcode: dvnincnt
 folder: J8ppkzls4ERyzTpv
 ---

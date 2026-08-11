@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Woad and madder blend; dark sage green favored by hunters and foresters."
 id: XpaDgSpzOeo8tNUx
-slug: dye-forest-green
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyefst
 type: miscgear

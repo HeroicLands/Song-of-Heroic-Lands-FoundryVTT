@@ -7,7 +7,6 @@ name:
     full: Terrakith Sentinel
     aliases: []
 id: mYRlDMSiKnHIpUzq
-slug: terrakith-sentinel
 img: icons/game-icons/delapouite/rock-golem.svg
 portrait: ""
 shortcode: trrkthsn

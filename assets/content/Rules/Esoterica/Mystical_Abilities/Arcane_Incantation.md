@@ -8,7 +8,6 @@ category: rules
 name:
     full: Arcane Incantation
     aliases: []
-slug: sohl-arcane-incantation
 shortcode: arcnincn
 folder: J8ppkzls4ERyzTpv
 ---

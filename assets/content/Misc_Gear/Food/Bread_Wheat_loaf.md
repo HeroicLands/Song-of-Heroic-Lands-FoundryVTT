@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Light golden loaf; finer crumb than rye, keeps shorter than peasant bread."
 id: g55417EbKtEMw8S2
-slug: bread-wheat-loaf
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: breadwheat
 type: miscgear

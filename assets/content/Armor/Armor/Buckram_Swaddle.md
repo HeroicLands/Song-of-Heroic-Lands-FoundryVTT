@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stiff buckram swaddle offering sturdy rigid infant wrapping."
 id: rzKn6HYBdfkVOLsw
-slug: buckram-swaddle
 img: icons/game-icons/lorc/trousers.svg
 shortcode: BSwd
 type: armorgear

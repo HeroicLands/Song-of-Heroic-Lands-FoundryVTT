@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Dark rich meat with fat layer; roasted whole, fat renders for cooking."
 id: BuedzU9Hwrs1mkYy
-slug: duck
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: duck
 type: miscgear

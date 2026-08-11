@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Throwing curved wooden sticks for hunting and warfare, with returning and non-returning variants."
 id: VohGBRfU8WdCUqj3
-slug: boomerang
 img: icons/game-icons/delapouite/sling.svg
 shortcode: bmrng
 type: skill

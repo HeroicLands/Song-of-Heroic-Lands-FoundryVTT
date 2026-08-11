@@ -11,7 +11,6 @@ name:
     full: Divine
     aliases: []
 folder: oPWOe5cjsYc1ev2h
-slug: sohl-divine
 shortcode: divine
 ---
 

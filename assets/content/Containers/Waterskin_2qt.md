@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Pitch-lined hide waterskin with horn plug; essential traveling gear."
 id: XybyEdF3GrJWBhh2
-slug: waterskin-2qt
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wtrskin
 type: containergear

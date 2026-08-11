@@ -6,7 +6,6 @@ name:
     full: Shortness of Breath
     aliases: []
 id: OLiKXQQdP54xRsIi
-slug: shortness-of-breath
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: shrtbrth
 type: trauma

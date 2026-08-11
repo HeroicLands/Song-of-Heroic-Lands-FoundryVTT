@@ -7,7 +7,6 @@ name:
     full: Falcon
     aliases: []
 id: Gs2wXshABfQ16Lc0
-slug: falcon
 img: icons/game-icons/delapouite/falcon-moon.svg
 portrait: ""
 shortcode: falcon

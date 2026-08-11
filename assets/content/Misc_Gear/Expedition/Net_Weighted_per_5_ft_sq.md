@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Hempen fishing net with lead weights for casting and sinking."
 id: XwQlQpZX3XzLVrpm
-slug: net-weighted-per-5-ft-sq
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: netweighte
 type: miscgear

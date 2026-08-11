@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Structure"
-slug: "actor-structure"
 shortcode: structure
 folder: sYK1BozT9xFcinXK
 ---

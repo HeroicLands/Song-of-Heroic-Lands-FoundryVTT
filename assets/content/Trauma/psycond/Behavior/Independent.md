@@ -5,7 +5,6 @@ name:
     full: Independent
     aliases: []
 id: DT52JKFZj5MVKqb1
-slug: independent
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: indpndnt
 type: trauma

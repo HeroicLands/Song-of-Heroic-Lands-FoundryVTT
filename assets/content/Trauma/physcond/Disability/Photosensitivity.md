@@ -5,7 +5,6 @@ name:
     full: Photosensitivity
     aliases: []
 id: XjdCLakpybIfqBsi
-slug: photosensitivity
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: photosen
 type: trauma

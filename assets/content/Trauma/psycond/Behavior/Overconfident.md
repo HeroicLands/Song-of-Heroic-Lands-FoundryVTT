@@ -5,7 +5,6 @@ name:
     full: Overconfident
     aliases: []
 id: fngDLImVxPbStZFh
-slug: overconfident
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: overconf
 type: trauma

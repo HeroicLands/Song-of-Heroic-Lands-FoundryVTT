@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light wooden-prod crossbow; hunter's arm for unarmoured targets."
 id: MzteDoECGKTdkb59
-slug: wooden-crossbow-80
 img: icons/game-icons/carl-olsen/crossbow.svg
 shortcode: WCxBw80
 type: weapongear

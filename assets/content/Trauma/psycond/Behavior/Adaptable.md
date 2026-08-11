@@ -5,7 +5,6 @@ name:
     full: Adaptable
     aliases: []
 id: fYDcn2RjGBLWlTvi
-slug: adaptable
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: adapt
 type: trauma

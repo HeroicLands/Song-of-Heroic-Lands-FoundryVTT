@@ -7,7 +7,6 @@ name:
     full: Chimpanzee
     aliases: []
 id: LifKo43B3FiV9ez0
-slug: chimpanzee
 img: icons/game-icons/lorc/monkey.svg
 portrait: ""
 shortcode: chmpnz

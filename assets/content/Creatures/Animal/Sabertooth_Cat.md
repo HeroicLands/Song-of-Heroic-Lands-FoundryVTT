@@ -7,7 +7,6 @@ name:
     full: Sabertooth Cat
     aliases: []
 id: pEWPIYv8UGQDka8v
-slug: sabertooth-cat
 img: icons/game-icons/lorc/lion.svg
 portrait: ""
 shortcode: sbrtthct

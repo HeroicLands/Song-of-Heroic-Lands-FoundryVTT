@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Jute or hemp twine for bundling firewood and securing pack animals."
 id: w2vPZlNJAkMnZTnS
-slug: twine-per-10-yards-5-lb-cap
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: twineper10
 type: miscgear

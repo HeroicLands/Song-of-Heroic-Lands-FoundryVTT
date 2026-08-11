@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Weapon"
-slug: "item-weapongear"
 shortcode: weapon
 folder: QtOgPodi8X6gDWL0
 ---

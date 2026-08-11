@@ -5,7 +5,6 @@ name:
     full: Coulrophobia
     aliases: []
 id: vue9iUYrPF8WrpdN
-slug: coulrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: clrphb
 type: trauma

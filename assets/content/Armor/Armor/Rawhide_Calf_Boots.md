@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stout hide boots; heavy protection for rough travel."
 id: G4fHOgIaPuEswpDb
-slug: rawhide-calf-boots
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: RhCBoot
 type: armorgear

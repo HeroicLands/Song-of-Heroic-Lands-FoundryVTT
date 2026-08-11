@@ -10,7 +10,6 @@ category: rules
 name:
     full: Secondary Mastery
     aliases: []
-slug: sohl-secondary-mastery
 shortcode: scndryms
 folder: e0HEIHw9qUVWqyzJ
 ---

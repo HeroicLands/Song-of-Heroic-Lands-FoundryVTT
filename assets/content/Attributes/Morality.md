@@ -5,7 +5,6 @@ name:
     full: Morality
     aliases: []
 id: 5eOjes9tQHVozVcl
-slug: morality
 img: icons/game-icons/lorc/scales.svg
 shortcode: mor
 type: attribute

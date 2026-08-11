@@ -9,7 +9,6 @@ name:
     full: Painted Dog
     aliases: []
 id: 0tPcOrOwOP9EOWuE
-slug: painted-dog
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
 shortcode: pntddg

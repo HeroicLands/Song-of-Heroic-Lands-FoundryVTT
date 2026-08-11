@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Medium copper pan; even heat distribution for sauces and sautéing vegetables."
 id: clMS8trgKKuBtxWH
-slug: pan-copper-medium
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pancopperm
 type: miscgear

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "The shared trade tongue that carries a traveler across realms — broad in reach, thin in nuance."
 id: dBrBO21uaYdmmk5j
-slug: common
 img: icons/game-icons/lorc/conversation.svg
 shortcode: common
 type: skill

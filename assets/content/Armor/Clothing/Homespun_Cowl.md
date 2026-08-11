@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade cowl offering warmth and basic protection."
 id: iUe7OR9b2FUzLgrs
-slug: homespun-cowl
 img: icons/game-icons/lorc/hood.svg
 shortcode: HsCowl
 type: armorgear

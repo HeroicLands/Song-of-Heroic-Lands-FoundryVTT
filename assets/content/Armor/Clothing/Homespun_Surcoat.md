@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade surcoat providing coverage and practical wear."
 id: CSlrhTxvGVYFhKmz
-slug: homespun-surcoat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: HsScoat
 type: armorgear

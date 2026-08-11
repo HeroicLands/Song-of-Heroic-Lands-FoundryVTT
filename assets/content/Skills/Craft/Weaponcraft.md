@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Forging swords, axes, and weapons with superior balance and performance."
 id: j33FxOHddwk3WYnE
-slug: weaponcraft
 img: icons/game-icons/lorc/sword-smithing.svg
 shortcode: wpnc
 type: skill

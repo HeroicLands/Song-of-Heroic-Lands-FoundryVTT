@@ -11,7 +11,6 @@ name:
     full: Fate Points
     aliases: []
 folder: gmHoAXi9mq8O9DUn
-slug: sohl-fate-points
 shortcode: fatepnts
 ---
 

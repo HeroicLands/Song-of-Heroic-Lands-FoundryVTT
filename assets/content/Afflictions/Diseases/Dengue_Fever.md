@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Mosquito-borne virus; high fever, joint pain, mild bleeding."
 id: xrF7d46zo1QswNPA
-slug: dengue-fever
 img: icons/game-icons/lorc/virus.svg
 shortcode: dngfvr
 type: affliction

@@ -5,7 +5,6 @@ name:
     full: Nervous
     aliases: []
 id: eAZExp10nrLByqV1
-slug: nervous
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: nervous
 type: trauma

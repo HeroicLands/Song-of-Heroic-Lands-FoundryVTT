@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Dozen polished glass spheres for play, ballast, and crude observation."
 id: wYVxakyrxjt4PpVp
-slug: marbles-glass-pack-of-12
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: marblesgla
 type: miscgear

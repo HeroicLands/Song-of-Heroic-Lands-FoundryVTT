@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Pale yellow-green faceted gem; nobility and clergy set in rings."
 id: KR9GCv683WX64ogr
-slug: chrysolite-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chrysolite
 type: miscgear

@@ -14,7 +14,6 @@ name:
 id: KSL4vCrnfP7FxZqU
 folder: Nu7AgLZEmR26u2pk
 shortcode: alverriktarvall
-slug: alverrik-tarvallor
 img: icons/game-icons/delapouite/person.svg
 portrait: ""
 type: character

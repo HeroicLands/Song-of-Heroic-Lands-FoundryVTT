@@ -7,7 +7,6 @@ name:
     full: Phosphorescent Globule
     aliases: []
 id: WQjWcb6PtRpcRxGe
-slug: phosphorescent-globule
 img: icons/game-icons/delapouite/slime.svg
 portrait: ""
 shortcode: phsphrsc

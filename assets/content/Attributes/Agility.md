@@ -5,7 +5,6 @@ name:
     full: Agility
     aliases: []
 id: IQ6sKftvOoHAJOi5
-slug: agility
 img: icons/game-icons/lorc/cartwheel.svg
 shortcode: agl
 type: attribute

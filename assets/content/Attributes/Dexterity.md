@@ -5,7 +5,6 @@ name:
     full: Dexterity
     aliases: []
 id: CK3tV3RtyxzcM6Sw
-slug: dexterity
 img: icons/game-icons/lorc/juggler.svg
 shortcode: dex
 type: attribute

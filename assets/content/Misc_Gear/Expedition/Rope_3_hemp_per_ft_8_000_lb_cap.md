@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Massive cable for anchoring vessels and hoisting siege equipment."
 id: w29C3rXf0IvhwzcZ
-slug: rope-3-hemp-per-ft-8-000-lb-cap
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope3hempp
 type: miscgear

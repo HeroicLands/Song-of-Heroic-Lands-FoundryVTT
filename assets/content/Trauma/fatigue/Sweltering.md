@@ -7,7 +7,6 @@ name:
         - Heat Exposure
 description: "Sustained weariness from prolonged heat exposure short of heat injury."
 id: Md5Txip6KMAelFK2
-slug: sweltering
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: swltr
 type: trauma

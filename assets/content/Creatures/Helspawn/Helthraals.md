@@ -7,7 +7,6 @@ name:
     full: Helthraals
     aliases: []
 id: Y8roQ11S5nFysVFW
-slug: helthraal
 img: icons/game-icons/lorc/werewolf.svg
 portrait: ""
 shortcode: hlthrls

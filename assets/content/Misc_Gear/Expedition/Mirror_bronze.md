@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
 id: ipjrHJVFn6MUdWG0
-slug: mirror-bronze
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mirrorbron
 type: miscgear

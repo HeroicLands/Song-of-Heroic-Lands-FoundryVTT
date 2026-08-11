@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fatty rich swine meat, salts and smokes excellently, garrison staple."
 id: zZNuSN5hvKPk0F0G
-slug: pork
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pork
 type: miscgear

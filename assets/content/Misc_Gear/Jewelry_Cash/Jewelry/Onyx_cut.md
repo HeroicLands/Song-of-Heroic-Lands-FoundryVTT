@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Black-and-white banded chalcedony; striking striped pattern, favored for signet rings."
 id: tNBtfRIBwXrvgW3a
-slug: onyx-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: onyxcut
 type: miscgear

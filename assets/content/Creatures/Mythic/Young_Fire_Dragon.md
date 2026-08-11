@@ -8,7 +8,6 @@ name:
     full: Young Fire Dragon
     aliases: []
 id: x9FJYB3bym5ZUUgs
-slug: young-fire-dragon
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
 shortcode: yngfrdrg

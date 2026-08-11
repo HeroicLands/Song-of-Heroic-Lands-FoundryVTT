@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Long metal ring shirt providing substantial protection for mounted and foot soldiers."
 id: qDHgQoGBQumxcuHO
-slug: mail-hauberk
 img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MHbk
 type: armorgear

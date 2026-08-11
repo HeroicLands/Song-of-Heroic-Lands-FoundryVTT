@@ -7,7 +7,6 @@ name:
     full: Bone Scorpion
     aliases: []
 id: 6qq2ohVEMdu3Lmwo
-slug: bone-scorpion
 img: icons/game-icons/lorc/scorpion.svg
 portrait: ""
 shortcode: bnscrpn

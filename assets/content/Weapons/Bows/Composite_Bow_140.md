@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "One-hundred-forty pound master-archer's bow; punches plate at distance."
 id: cUV5jRbQTx1Sqpfn
-slug: composite-bow-140
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: CBw140
 type: weapongear

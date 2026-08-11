@@ -7,7 +7,6 @@ name:
     full: Raven
     aliases: []
 id: anLTCI9lpmxYgalD
-slug: raven
 img: icons/game-icons/lorc/raven.svg
 portrait: ""
 shortcode: raven

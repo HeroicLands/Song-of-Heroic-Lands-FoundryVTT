@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Rugged leather outer garment protecting against elements for travelers."
 id: HikmN8O8IKCyIKhJ
-slug: leather-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: LtMntl
 type: armorgear

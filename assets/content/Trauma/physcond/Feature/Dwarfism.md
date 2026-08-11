@@ -5,7 +5,6 @@ name:
     full: Dwarfism
     aliases: []
 id: ShfK05q4kdaeCC9s
-slug: dwarfism
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dwarfism
 type: trauma

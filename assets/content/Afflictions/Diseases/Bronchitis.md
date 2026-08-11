@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Wet cough, fever, chest pain; inflames airways for weeks."
 id: 4DOGxp07TkUURNZP
-slug: bronchitis
 img: icons/game-icons/lorc/virus.svg
 shortcode: brnchts
 type: affliction

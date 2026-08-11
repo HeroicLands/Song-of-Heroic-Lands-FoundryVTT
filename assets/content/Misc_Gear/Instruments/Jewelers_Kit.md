@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fine leather roll with graduated files, pin hammer, pliers, loupe, tweezers, drawplate, burnishers; goldsmiths' precision tools."
 id: E00iP87U4KX47oJl
-slug: jewelers-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jewelerskt
 type: miscgear

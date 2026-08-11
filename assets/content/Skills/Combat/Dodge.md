@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Evading attacks by shifting body; instinctive defense in combat."
 id: E3HpfTHGnCfauHAc
-slug: dodge
 img: icons/game-icons/felbrigg/dodge.svg
 shortcode: dge
 type: skill

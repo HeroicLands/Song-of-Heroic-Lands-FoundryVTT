@@ -5,7 +5,6 @@ name:
     full: Dentophobia
     aliases: []
 id: LBJ80zK1VGngjWUe
-slug: dentophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: dentophb
 type: trauma

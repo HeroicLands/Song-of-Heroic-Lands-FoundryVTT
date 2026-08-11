@@ -8,7 +8,6 @@ package: sohl
 category: user-guide
 name:
     full: "Combatant"
-slug: "combatant"
 shortcode: cmbtnt
 folder: IgwaG8rAUUO9vrtz
 ---

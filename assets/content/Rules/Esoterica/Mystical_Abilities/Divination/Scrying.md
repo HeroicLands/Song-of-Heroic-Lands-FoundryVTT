@@ -8,7 +8,6 @@ category: rules
 name:
     full: Scrying
     aliases: []
-slug: sohl-scrying
 shortcode: scrying
 folder: k6DghEucd6umnBJx
 ---

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Ceramic apothecary jar with wide mouth for creams and medicinal tinctures."
 id: L1gk9O7a3TGurUh4
-slug: jar-ointment-medium
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarointmen2
 type: containergear

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade vest offering comfort and practical warmth."
 id: Zdl0sjv3Pbs3wAKp
-slug: homespun-vest
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: HsVest
 type: armorgear

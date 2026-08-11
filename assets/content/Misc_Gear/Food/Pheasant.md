@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Prized game bird, delicate meat roasts well, smokes into jerky."
 id: pf47vQyIl9I7d2JC
-slug: pheasant
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pheasant
 type: miscgear

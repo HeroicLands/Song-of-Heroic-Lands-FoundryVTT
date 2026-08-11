@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool cloak; durable, practical garment for weather."
 id: bgyHT5REPPpPhKW5
-slug: worsted-cloak
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: WClk
 type: armorgear

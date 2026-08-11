@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Leather forearm guards with intricate designs providing function and style."
 id: WQUI5MnoU4jf4t8v
-slug: kurbul-vambraces
 img: icons/game-icons/delapouite/bracer.svg
 shortcode: KVamb
 type: armorgear

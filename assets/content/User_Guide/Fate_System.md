@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "The Fate System"
-slug: "fate-system"
 shortcode: thftsyst
 folder: IgwaG8rAUUO9vrtz
 ---

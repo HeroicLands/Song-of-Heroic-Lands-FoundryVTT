@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Calf skin; finest white durable surface for royal charters, illuminated gospels."
 id: V7QZuj6IcixIikhT
-slug: vellum-per-page
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vellumperp
 type: miscgear

@@ -5,7 +5,6 @@ name:
     full: Innovative
     aliases: []
 id: vBN4QkHETMR4kl9C
-slug: innovative
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: innvtv
 type: trauma

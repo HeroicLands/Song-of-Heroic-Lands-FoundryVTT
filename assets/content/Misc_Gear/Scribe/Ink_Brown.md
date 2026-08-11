@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Walnut-husk ink; common in ledgers, fades with time, suits working copies."
 id: SfwROmoRdYQjPB0M
-slug: ink-brown
 img: icons/game-icons/lorc/ink-swirl.svg
 shortcode: inkbrn
 type: miscgear

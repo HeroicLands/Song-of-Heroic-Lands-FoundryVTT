@@ -5,7 +5,6 @@ name:
     full: Thalassophobia
     aliases: []
 id: LS3zBCfYxqLl0vyq
-slug: thalassophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: thlssphb
 type: trauma

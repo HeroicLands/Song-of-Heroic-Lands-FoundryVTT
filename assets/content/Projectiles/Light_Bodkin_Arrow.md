@@ -9,7 +9,6 @@ description: "Slender shaft, square-sectioned spike; splits light mail at distan
 type: projectilegear
 package: sohl
 id: 1TU7NC5Xy0q2NVmr
-slug: light-bodkin-arrow
 shortcode: ArwLBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin

@@ -12,7 +12,6 @@ name:
 id: d1cddnpaqRl0a0Q8
 folder: riXU4Q2fRsu2tyub
 shortcode: basicfolk
-slug: basic-folk
 img: icons/game-icons/delapouite/person.svg
 portrait: ""
 type: character

@@ -15,7 +15,6 @@ name:
 id: elrlXp3vtP02E0Tr
 folder: Nu7AgLZEmR26u2pk
 shortcode: brunjarskathhel
-slug: brunjar-skathhelm
 img: icons/game-icons/delapouite/person.svg
 portrait: ""
 type: character

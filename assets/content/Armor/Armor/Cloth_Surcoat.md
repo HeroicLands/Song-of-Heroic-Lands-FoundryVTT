@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth surcoat providing comfort and practical outer wear."
 id: kW4XEgFpOfaPS0dN
-slug: cloth-surcoat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CScoat
 type: armorgear

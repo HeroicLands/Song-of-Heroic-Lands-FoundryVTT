@@ -5,7 +5,6 @@ name:
     full: Dystychiphobia
     aliases: []
 id: CTfLicg6fn1Uh6eO
-slug: dystychiphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: dystychi
 type: trauma

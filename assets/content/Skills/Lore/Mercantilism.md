@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Trade, commerce, appraisal, negotiation, and understanding market principles."
 id: 0PErwXxsCUOTgoMV
-slug: mercantilism
 img: icons/game-icons/badges/coins.svg
 shortcode: mrcn
 type: skill

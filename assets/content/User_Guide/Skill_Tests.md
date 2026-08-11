@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Skill Tests and Opposed Tests"
-slug: "skill-tests"
 shortcode: sklltsts
 folder: IgwaG8rAUUO9vrtz
 ---

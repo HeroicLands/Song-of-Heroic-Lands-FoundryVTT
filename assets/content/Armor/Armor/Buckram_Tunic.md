@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stiff buckram tunic offering durability and reliable rigid protection."
 id: 4XzFD0CVXGNq8gir
-slug: buckram-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: BTunic
 type: armorgear

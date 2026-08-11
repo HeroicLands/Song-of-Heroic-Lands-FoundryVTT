@@ -6,7 +6,6 @@ name:
     full: Right Dominance
     aliases: []
 id: idSEkL1vtiToutYV
-slug: right-dominance
 img: icons/game-icons/lorc/hand.svg
 shortcode: rdmnc
 type: trauma

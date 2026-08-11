@@ -12,7 +12,6 @@ category: rules
 name:
     full: Afflictions
     aliases: []
-slug: sohl-afflictions
 shortcode: afflctns
 folder: edGOkxiCotuMzc1O
 ---

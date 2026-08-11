@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Single-edged curved blade favors overhead chop; sailor and soldier's steel."
 id: XlHwAsy5jkJz1fPt
-slug: falchion
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: Falcn
 type: weapongear

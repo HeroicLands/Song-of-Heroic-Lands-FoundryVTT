@@ -5,7 +5,6 @@ name:
     full: Spontaneous
     aliases: []
 id: vROxy4RTxxgFPXbd
-slug: spontaneous
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: spntns
 type: trauma

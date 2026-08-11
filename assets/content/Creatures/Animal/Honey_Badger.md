@@ -7,7 +7,6 @@ name:
     full: Honey Badger
     aliases: []
 id: ChZvdUocVZoLXeL0
-slug: honey-badger
 img: icons/game-icons/caro-asercion/badger.svg
 portrait: ""
 shortcode: hnybdgr

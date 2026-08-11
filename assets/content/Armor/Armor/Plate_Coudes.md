@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Steel elbow-caps; joint-guard for armed combat or labor."
 id: 2ryS8kQlPEAX3raG
-slug: plate-coudes
 img: icons/game-icons/delapouite/elbow-pad.svg
 shortcode: PlCou
 type: armorgear

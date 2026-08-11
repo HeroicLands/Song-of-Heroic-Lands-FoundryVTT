@@ -7,7 +7,6 @@ name:
         - Disease
 description: "Long-term weakness from carrying an active disease."
 id: gsxHptSAKPJcqCV3
-slug: diseased
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: disd
 type: trauma

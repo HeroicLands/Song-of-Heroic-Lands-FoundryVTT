@@ -8,7 +8,6 @@ category: rules
 name:
     full: Spirit Talent
     aliases: []
-slug: sohl-spirit-talent
 shortcode: sprttlnt
 folder: J8ppkzls4ERyzTpv
 ---

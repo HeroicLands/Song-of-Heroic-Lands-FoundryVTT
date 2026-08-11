@@ -7,7 +7,6 @@ name:
     full: Acidtoad
     aliases: []
 id: ho5hsRAglADOtInP
-slug: acidtoad
 img: icons/game-icons/lorc/toad-teeth.svg
 portrait: ""
 shortcode: acidtoad

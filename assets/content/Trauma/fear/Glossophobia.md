@@ -5,7 +5,6 @@ name:
     full: Glossophobia
     aliases: []
 id: lH0nz6gWlJDLILL8
-slug: glossophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: glssphb
 type: trauma
