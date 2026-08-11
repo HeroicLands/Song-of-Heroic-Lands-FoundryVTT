@@ -37,8 +37,8 @@ often the body's [[#course-test|Course Test]] is made.
 
 ## Affliction vs. Trauma {#affliction-vs-trauma}
 
-An affliction and a [[doc/traumaintro|trauma]] are the two ways the system records
-lasting harm, and they are easy to confuse. The distinction is **process vs.
+An affliction and a [[doc/traumaintro|trauma]] are the two kinds of lasting harm a
+character can carry, and they are easy to confuse. The distinction is **process vs.
 state**:
 
 - An **affliction** is an ongoing, hostile _agent_ acting on the Being over
@@ -73,10 +73,9 @@ agent_:
 The subtype is descriptive: it does **not** change the
 [[#course-test|Course Test]] or [[#outcome|outcome]] machinery, which is the
 same for every affliction. It classifies the affliction thematically and governs
-which afflictions the system treats as **contagious diseases** when modelling
-exposure — only **Disease**-subtype afflictions appear there. A **maladiction**
-is never contagious in that sense; it reaches a victim only by the arcane,
-divine, or spirit means its author specifies.
+which afflictions spread as **contagious diseases** — only **Disease**-subtype
+afflictions do. A **maladiction** is never contagious in that sense; it reaches a
+victim only by the arcane, divine, or spirit means its author specifies.
 
 ## Transmission and contagion
 
@@ -93,12 +92,12 @@ describing how readily it spreads: **the lower the index, the more contagious**.
 When a character is exposed, whether they contract it is a success test against a
 target of **CI × the character's Endurance** — a lower index yields a lower target
 and so a greater chance of contraction. Only **[[#subtypes|Disease]]**-subtype
-afflictions are offered for contagion this way; poisons and maladictions reach a
-victim by their own specific means, not by casual exposure.
+afflictions spread by exposure this way; poisons and maladictions reach a victim
+by their own specific means, not by casual exposure.
 
-As with everything the system automates, contracting a disease is **offered, not
-imposed** — the exposure is presented as an action the target's controlling player
-accepts, and only then is the contraction test resolved and the affliction added.
+Exposure and contraction are two different things. Being exposed is something the
+world does to a character; whether they catch it is their own roll, and it is
+always made on the exposed character's side.
 
 ## Dormancy
 
@@ -110,17 +109,15 @@ but it does not proceed to onset or any further state — it is simply marked
 ## Onset
 
 When the Incubation Period ends, the affliction reaches **onset** and becomes
-**symptomatic**. Because an affliction can be almost anything, its symptoms are
-usually a matter of play — described and role-played by the GM and players rather
-than modeled by the system — so at onset the system simply marks the affliction
-**Symptomatic** and begins its [[#course-test|Course Test]] and
-[[#outcome|resolution]] cycle.
+**symptomatic**. Because an affliction can be almost anything, its symptoms are a
+matter of play — described and role-played by the GM and players rather than
+prescribed here. What onset settles is the mechanical clock: from that moment the
+affliction is **symptomatic**, and its [[#course-test|Course Test]] and
+[[#outcome|resolution]] cycle begin.
 
-An affliction may also name an **optional onset macro** — a Macro (referenced by
-UUID) that runs at onset. This lets an author attach concrete mechanical
-consequences to a specific affliction, and the macro may itself schedule further
-events. (As always, the affliction carries only a _reference_ to the macro, never
-executable code.)
+A particular affliction may also carry consequences of its own that fall due at
+onset — a specific weakness, a lost sense, a compulsion. These belong to that
+affliction, not to the general rule.
 
 ## Course Test {#course-test}
 
@@ -190,9 +187,9 @@ kinder.
 
 ## Diagnosis and treatment {#diagnosis-and-treatment}
 
-Treatment for an affliction is **mostly ineffectual**, and that is the rule rather
-than a limitation of the system: the body either fights the affliction off or it
-does not. A physician can improve the odds; they cannot cure by treating.
+Treatment for an affliction is **mostly ineffectual**, and that is deliberate: the
+body either fights the affliction off or it does not. A physician can improve the
+odds; they cannot cure by treating.
 
 A patient may **request treatment**, which any physician can answer. The physician
 makes a **Treatment Success Value test** against their own Physician skill, and the
@@ -217,26 +214,22 @@ accepts.
 ## Outcome {#outcome}
 
 When the Symptomatic Period ends, if the affliction has **not** been defeated
-(has not reached HR 6), its **outcome** is applied. Every affliction declares its
-outcome in two authored fields:
+(has not reached HR 6), its **outcome** is applied. Every affliction names an
+outcome, and it is one of two:
 
-- **`outcome`** — the affliction's standard result, one of:
-    - **`AFFLICTION_OUTCOME.DEATH`** — the character's state becomes _dead_.
-    - **`AFFLICTION_OUTCOME.CURED`** — the affliction is defeated (its Healing
-      Rate becomes 6).
-- **`outcomeTrauma`** _(optional)_ — a
-  [[doc/sfexprss|Safe Expression]] that evaluates to a single
-  shortcode, or an array of shortcodes, of the [[doc/traumaintro|traumas]] the host
-  contracts as part of the outcome. Matching traumas are searched first among the
-  world's items, then in the compendiums, and the first match found is used.
+- **Death** — the character dies.
+- **Cured** — the affliction is defeated: its Healing Rate becomes 6 and it
+  troubles the character no further.
 
-The two fields combine. For example, an affliction with `outcome` set to
-**Cured** and `outcomeTrauma` set to `"weakness20"` leaves the host cured of the
-affliction but saddled with a **new trauma** — the one whose shortcode is
-`weakness20`.
+An affliction may _also_ name one or more **outcome traumas** — the
+[[doc/traumaintro|traumas]] the host is left with when it runs its course. These
+combine with the outcome above: an affliction that ends **Cured** but leaves a
+lasting weakness frees its victim of the disease and marks them permanently. The
+fever breaks; the blindness stays.
 
-These outcomes apply **only** if the affliction reaches the end of the
-Symptomatic Period without being healed.
+An outcome applies **only** if the affliction reaches the end of the Symptomatic
+Period without being healed. An affliction the body throws off first has no
+outcome at all.
 
 ## Infection
 
@@ -262,5 +255,4 @@ infection has been defeated.
 
 - [[Healing Test]] — Healing Base and Healing Rate, and the
   recovery of ordinary injuries.
-- [[doc/sfexprss|Safe Expressions]] — the language used by the
-  `outcomeTrauma` field.
+- [[doc/traumaintro|Trauma]] — the conditions an affliction can leave behind.

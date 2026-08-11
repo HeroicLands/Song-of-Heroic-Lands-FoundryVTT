@@ -42,7 +42,7 @@ complication worth playing, not an error.
 
 ## Affiliation as credential
 
-Level is not decorative. An affiliation is the system's **capability
+Level is not decorative. An affiliation is a character's **capability
 credential**, and it is where religious rank and arcane grade are recorded —
 not on a skill. A character's skill says how well they work a rite or an
 incantation; their affiliation level says what grade of practitioner they are

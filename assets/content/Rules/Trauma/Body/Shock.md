@@ -98,24 +98,16 @@ Some effects instead raise the shock state directly, by their own means — most
 notably [[doc/bleeding#blood-loss-advance-test|blood loss]], which advances the shock
 state one step per Blood Loss Point.
 
-### Implementation
+### One state at a time
 
-The shock state **is** a set of **status effects** (Active Effects on the actor):
-there is one status effect for each shock state — **Stunned**, **Incapacitated**,
-**Unconscious**, and **Dead**. When none is present the state is **None**.
-Normally exactly one is active; if more than one is somehow present, the **most
-severe (highest) one is the creature's shock state**. A `BeingLogic` accessor
-reports the current shock state as the highest active status, so consumers never
-inspect the individual effects.
+A creature is in exactly **one** shock state — **None**, **Stunned**,
+**Incapacitated**, **Unconscious**, or **Dead** — never two at once. Whatever
+changes it (blood loss, an injury's shock result, a Shock Re-Test) **replaces**
+the state rather than adding to it, and the change runs in both directions: a
+victim who improves from Unconscious to Stunned is Stunned, and no longer
+unconscious in any degree.
 
-All changes go through a single **set-shock-state** operation that first **clears
-every** shock status effect and then applies only the one for the new state (and
-none for _None_). This keeps transitions clean in **both** directions and repairs
-any stray multiple-status situation: improving from Unconscious to Stunned, for
-example, removes the Unconscious effect, so the accessor does not keep reporting
-the higher state. An effect that changes the shock state (blood loss, an injury
-shock result, a Shock Re-Test) reads the current state, computes the new one, and
-sets it through this operation.
+Where two things would set the state at once, the **more severe** one holds.
 
 ## Shock Re-Test {#shock-re-test}
 
