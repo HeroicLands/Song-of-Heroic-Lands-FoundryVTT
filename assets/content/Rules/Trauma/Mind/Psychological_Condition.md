@@ -22,7 +22,7 @@ Levels, mental strain is rated in **Psyche Stress Levels (PSY)**.
 
 Psyche Stress rarely arises on its own; it typically spins off from another
 event — for instance a Critical Failure on a [[Fear]] or
-[[#aural-shock|Aural Shock]] recovery test. Every separate occurrence generates
+[[doc/arlshck|Aural Shock]] recovery test. Every separate occurrence generates
 its own PSY level, normally in the range **1 to 6**, and — as with each physical
 wound — each instance is recorded separately.
 
@@ -62,31 +62,8 @@ failure the condition expresses itself. An expressed condition lasts while the
 trigger is present and for roughly ten minutes afterward — a Critical Failure on
 the Will test lengthens that aftermath to **d6 × 10 minutes**.
 
-## Aural Shock {#aural-shock}
-
-**Aural Shock (AS)** is a temporary severance between a character's soul and body.
-Each instance is rated **1–6**, and levels from multiple sources stack into one
-running total.
-
-While a character carries Aural Shock they **cannot voluntarily** make Aura tests
-or Aura-modified tests — Fate tests, Spirit tests, and Mystical Skill tests among
-them. If circumstances compel such a test (being targeted by a spell or artifact,
-say), the result is an automatic **Critical Failure**.
-
-Recovery is a **Will** test made once per day; fatigue and impairment penalties do
-not apply.
-
-| Result  | Outcome                                               |
-| ------- | ----------------------------------------------------- |
-| CF (−1) | No recovery — Aural Shock continues; gain **+1 PSY**. |
-| MF (0)  | No recovery — Aural Shock continues.                  |
-| MS (1)  | Recovery — −1 AS.                                     |
-| CS (2)  | Recovery — −2 AS.                                     |
-
-The victim recovers from Aural Shock when AS reaches 0. Aural Shock inflicts **5
-[[doc/fatigue|weakness fatigue]] per AS level**, which recovers as the AS decreases.
-
 ## See also
 
-- [[Fear]], [[Morale]], [[Fatigue]],
-  [[The Pall]], [[doc/traumaintro|Trauma]].
+- [[Fear]], [[Morale]], [[Fatigue]], [[doc/arlshck|Aural Shock]],
+  [[The Pall]], [[doc/physclcn|Physical Condition]],
+  [[doc/traumaintro|Trauma]].

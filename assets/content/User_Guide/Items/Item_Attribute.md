@@ -157,7 +157,7 @@ roll. A Strength test made on a crushed arm is not a normal Strength test.
 
 > **Known gap. No Fate can be spent on an attribute test.** The card never offers the
 > **Fate** button, even when the character holds a general Fate Point, although
-> the [[doc/ftdvn|Fate rules]] allow one on any skill _or attribute_ test
+> the [[doc/fatepnts|Fate rules]] allow one on any skill _or attribute_ test
 > (issue #1106). Until it is fixed, spend Fate at the table by agreement, or
 > have the GM adjust the result with the pencil.
 

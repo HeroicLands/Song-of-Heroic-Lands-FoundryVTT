@@ -25,7 +25,7 @@ while in any shock state it **cannot concentrate** until it recovers.
 Ordinary (normal) shock is a **very temporary** condition: a stunned, incapacitated,
 or unconscious victim shakes it off quickly through a [[#shock-re-test|Shock Re-Test]].
 Only a _failed_ Re-Test drops a victim into the lasting condition of
-[[#extended-shock|Extended Shock]] (or a [[#coma|Coma]]), which has no time limit
+[[#extended-shock|Extended Shock]] (or a [[doc/coma|Coma]]), which has no time limit
 on recovery.
 
 ## Shock States
@@ -116,12 +116,12 @@ try to recover: a **Shock** skill test at **−20** (fatigue penalties apply;
 injury-impairment penalties do not). It is made at the end of the next turn for
 an Incapacitated victim, or ten minutes later for an Unconscious one.
 
-| Success Level | Result                                                                                      |
-| ------------- | ------------------------------------------------------------------------------------------- |
-| CF (−1)       | Incapacitated → [[#extended-shock\|Extended Shock]] at HR 4. Unconscious → [[#coma\|Coma]]. |
-| MF (0)        | The victim slips into [[#extended-shock\|Extended Shock]] at HR 5.                          |
-| MS (1)        | The shock state improves to **Stunned**.                                                    |
-| CS (2)        | The victim recovers from all shock states.                                                  |
+| Success Level | Result                                                                                         |
+| ------------- | ---------------------------------------------------------------------------------------------- |
+| CF (−1)       | Incapacitated → [[#extended-shock\|Extended Shock]] at HR 4. Unconscious → [[doc/coma\|Coma]]. |
+| MF (0)        | The victim slips into [[#extended-shock\|Extended Shock]] at HR 5.                             |
+| MS (1)        | The shock state improves to **Stunned**.                                                       |
+| CS (2)        | The victim recovers from all shock states.                                                     |
 
 ## Extended Shock {#extended-shock}
 
@@ -156,35 +156,11 @@ there is **no recovery from fatigue** while in Extended Shock.
 
 If HR falls to **0 or below** the victim dies. If HR rises to **6 or greater**
 the victim comes out of Extended Shock and is no longer Incapacitated or
-Unconscious (a victim in a [[#coma|Coma]] remains in the coma).
+Unconscious (a victim in a [[doc/coma|Coma]] remains in the coma).
 
-## Coma {#coma}
+## See also {#see-also}
 
-A **coma** is a state of deep unconsciousness in which the victim is near death —
-unaware and wholly unable to act, communicate, or care for themselves.
-
-A coma is recorded as a **new injury** with Injury Level and Aspect marked "X",
-and a Healing Rate of **`12 − Location Shock Value − Injury Level`**, using the
-Shock Value of the location that induced the coma.
-
-### Coma Course Test
-
-Every **d10 days** the victim may make a Course Roll — a test of
-**`Healing Base × Coma Healing Rate`**:
-
-| Success Level | Change to Coma HR |
-| ------------- | ----------------- |
-| CF (−1)       | −2                |
-| MF (0)        | −1                |
-| MS (1)        | +1                |
-| CS (2)        | +2                |
-
-If HR falls to **0 or below** the victim dies. If HR rises to **6 or greater**
-the victim comes out of the coma, but carries **weariness fatigue equal to the
-number of days spent in the coma**.
-
-## See also
-
+- [[doc/coma|Coma]] — the deep unconsciousness a Critically Failed Re-Test ends in.
 - [[doc/injrylvl|Injury]] — how injuries generate shock and impairment.
 - [[Body Structure]] — the Shock Value each body location carries.
 - [[Bleeding]] — blood loss advancing the shock state.
