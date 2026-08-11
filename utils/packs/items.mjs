@@ -50,6 +50,8 @@ import {
     contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
+    collectContentDocs,
+    expandNoteTables,
 } from "./helpers.mjs";
 // Per-type default art lives in one framework-free module shared with the
 // runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
@@ -471,6 +473,7 @@ export class Items {
         let skippedOtherType = 0;
 
         this.linkIndex = buildContentLinkIndex(this.contentBase);
+        this.contentDocs = collectContentDocs(this.contentBase);
         this.unresolvedLinks = 0;
 
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
@@ -500,7 +503,14 @@ export class Items {
             try {
                 // Wikilinks resolve against the whole content tree, so an item
                 // may link to another item, a creature, or a rules journal.
-                const { markdown, unresolved } = convertNoteWikilinks(body, {
+                // Generated tables expand before wikilinks, so a cell
+                // they emit is resolved along with the authored links.
+                const tabulated = expandNoteTables(body, {
+                    docs: this.contentDocs,
+                    name: resolveName(fm),
+                    pkg: fm.package,
+                });
+                const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
                     tld: contentTld(this.contentBase, absPath),
                     id: fm.id,
                     index: this.linkIndex,
