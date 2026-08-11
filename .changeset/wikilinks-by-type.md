@@ -27,7 +27,7 @@ unique tree-wide by `npm run lint:packs`. All 240 authored links were rewritten.
 Every resolved link was verified unchanged: 843 `@UUID` references across the compiled
 packs, byte-identical before and after — apart from four deliberate corrections.
 
-Auditing the tree for aliases that name a **different** document turned up four notes
+Auditing the tree for aliases that name a **different** document turned up five notes
 squatting on names they do not own, silently capturing every link meant for the real
 page. Those aliases are removed and the affected links now reach their proper targets:
 
@@ -37,6 +37,7 @@ page. Those aliases are removed and the affected links now reach their proper ta
 | _Gear_ (rules)                    | `Weapons`, `Armor`, `Projectiles`, `Containers`, `Concoctions` |
 | _Shock_ (rules)                   | `Coma`                                                         |
 | _Psychological Condition_ (rules) | `Aural Shock`                                                  |
+| _Infected_ (trauma)               | `Infection`                                                    |
 
 Aliases that are a variant of a note's **own** name are untouched — _Skills_ → `Skill`,
 _Afflictions_ → `Affliction`, _The Pall_ → `Pall`.
