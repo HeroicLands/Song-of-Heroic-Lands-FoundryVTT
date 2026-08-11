@@ -454,8 +454,9 @@ for (const file of walk(CONTENT_SRC)) {
         name,
         slug,
         base,
-        // Top-level content directory ("Rules", "Skills", …). Wikilinks name a
-        // target as `TLD/shortcode`, and a bare `[[Text]]` is scoped to it.
+        // Top-level content directory ("Rules", "Skills", …) — a generated
+        // table's `tld:` search key. Wikilinks no longer use it: they address a
+        // note as `type/shortcode`, wherever it is filed.
         tld: path.relative(CONTENT_SRC, file).split(path.sep)[0],
         // Location below the content root, POSIX-separated — what a generated
         // table's `path:` search term globs.
@@ -561,21 +562,24 @@ for (const e of entries) {
     addFallback(e.slug, v);
 }
 
-// The authored form: `TLD/shortcode`, where the TLD is the content directory and
-// the shortcode is unique within it — so this key is unique by construction, the
-// same guarantee `section/slug` gives. Alongside it, every alias is indexed
-// *scoped to its TLD*, which is what makes a bare `[[Text]]` resolvable even
-// when the same name is used in another directory ("Shock" the rules page and
-// "Shock" the trauma item both exist).
-const tldAlias = new Map(); // `tld|alias` → { url, name }
-const tldCollide = new Set();
-const contentTlds = new Set();
+// The authored form: `type/shortcode` — `(type, shortcode)` is the system's
+// logical identity and is unique by rule, so this key is unique by construction,
+// the same guarantee `section/slug` gives. Alongside it, every alias is indexed
+// *scoped to its type*, which is what makes a bare `[[Text]]` resolvable even
+// when the same name is used for another kind of document ("Shock" the rules
+// page and "Shock" the trauma item both exist). Two notes of the *same* type
+// sharing a name poison it: the bare form is then ambiguous and the author must
+// write `[[type/shortcode|Text]]`.
+const typeAlias = new Map(); // `type|alias` → { url, name }
+const typeCollide = new Set();
+const contentTypes = new Set();
 for (const e of entries) {
-    if (!e.tld) continue; // developer docs have no content directory
-    contentTlds.add(e.tld.toLowerCase());
+    if (e.kind !== "content") continue; // developer docs carry no type/shortcode
+    const type = String(e.fm.type).toLowerCase();
+    contentTypes.add(type);
     const v = { url: e.url, name: e.name };
     if (typeof e.fm.shortcode === "string" && e.fm.shortcode) {
-        wikiIndex.set(`${e.tld}/${e.fm.shortcode}`.toLowerCase(), v);
+        wikiIndex.set(`${type}/${e.fm.shortcode}`.toLowerCase(), v);
     }
     const aliases = [
         ...(Array.isArray(e.fm.aliases) ? e.fm.aliases : []),
@@ -584,14 +588,14 @@ for (const e of entries) {
         path.basename(e.base, ".md").replace(/_/g, " "),
     ].filter((a) => typeof a === "string" && a);
     for (const a of aliases) {
-        const k = `${e.tld}|${a}`.toLowerCase();
-        if (tldCollide.has(k)) continue;
-        const cur = tldAlias.get(k);
+        const k = `${type}|${a}`.toLowerCase();
+        if (typeCollide.has(k)) continue;
+        const cur = typeAlias.get(k);
         if (cur && cur.url !== v.url) {
-            tldAlias.delete(k);
-            tldCollide.add(k);
+            typeAlias.delete(k);
+            typeCollide.add(k);
         } else if (!cur) {
-            tldAlias.set(k, v);
+            typeAlias.set(k, v);
         }
     }
 }
@@ -618,14 +622,14 @@ const tableLinkable = (d) => Boolean(d.fm.shortcode);
 
 const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
 const wikiErrors = [];
-const wikiCtx = (src, tld = null) => ({
+const wikiCtx = (src, type = null) => ({
     index: wikiIndex,
     collide: wikiCollide,
     sections: knownSections,
-    tldAlias,
-    tldCollide,
-    contentTlds,
-    tld,
+    typeAlias,
+    typeCollide,
+    contentTypes,
+    type,
     errors: wikiErrors,
     src,
 });
@@ -635,7 +639,7 @@ for (const e of entries) {
     const { fm, name, slug, sec, url, base, isReadme } = e;
     const src = e.rel ?? `${sec}/${base}`;
     const resolve = (t) =>
-        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.tld));
+        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.fm.type));
 
     // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
     // live under /guide/ (assets/content) or /dev/ (developer docs).

@@ -58,7 +58,7 @@ Some abilities and mysteries can be spent a limited number of times before they 
 
 # General Mysteries
 
-Some mysteries belong to no single tradition — they can attach to a skill of any tradition, and are described here once rather than repeated on each tradition page. (The tradition-specific mysteries appear on their own pages: the [[Arcane]] Fate and [[Rules/arcane|Birthsign]], and the [[Divine]] Grace and Piety.)
+Some mysteries belong to no single tradition — they can attach to a skill of any tradition, and are described here once rather than repeated on each tradition page. (The tradition-specific mysteries appear on their own pages: the [[Arcane]] Fate and [[doc/arcane|Birthsign]], and the [[Divine]] Grace and Piety.)
 
 ## Boon
 

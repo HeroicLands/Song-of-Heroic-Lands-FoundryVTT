@@ -1,8 +1,6 @@
 ---
 aliases:
     - Skill
-    - Combat Technique
-    - Combat Techniques
 id: rbl6nD2s5gxsx9gR
 type: doc
 package: sohl
@@ -45,11 +43,11 @@ Each row on the Skills tab is itself a set of controls:
 | **☆ star**       | [[#toggle-improve-flag\|Flags the skill for improvement]]. Shown only when you may improve it      |
 | **⋮ menu**       | The Actions context menu — every action on this page                                               |
 
-Spending Fate is described on [[User_Guide/thftsyst|Fate]].
+Spending Fate is described on [[doc/thftsyst|Fate]].
 
 # Additional Properties
 
-Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Category:** Type of this skill. One of:
     - **Social**
@@ -63,7 +61,7 @@ Along with the [[User_Guide/baseitem|Standard Item Properties]], the following p
     - **Combat**
     - **Combat Technique** — a natural or unarmed fighting maneuver; adds a
       **Strike Modes** tab (see [[#combat-techniques|Combat Techniques]])
-- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[User_Guide/sfexprss|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **✎** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a ✗ in the Skills tab's SB column.
+- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[doc/sfexprss|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **✎** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a ✗ in the Skills tab's SB column.
 - **Mastery Level:** Base mastery level representing training and experience. Leave it **blank** to have a skill on a character open automatically at _Skill Base × Init Multiplier_; enter a number to set the level explicitly.
 - **Init Multiplier:** Multiplier applied to the skill base to open the skill's mastery level for a new character. When _Mastery Level_ is blank and the skill is on a character, the opening mastery level is _Skill Base × Init Multiplier_.
 - **Parent Skill:** Shortcode of the base skill if this is a specialization. Leave it as _None_ when the skill stands on its own.
@@ -207,7 +205,7 @@ is graded rather than passed — a week at a forge, a season's research — use
 | **Fate** button          | Offered when the character has a Fate Point to spend                     |
 
 The GM's pencil is described on [[Base Item]], under _Editing a Posted
-Test Result_; spending Fate is described on [[User_Guide/thftsyst|Fate]].
+Test Result_; spending Fate is described on [[doc/thftsyst|Fate]].
 
 ## Two things that change the roll for you
 
@@ -384,7 +382,7 @@ their own.
 The whole flow — the targeting rules, both cards, the responder's dialog, and how
 Victory Stars are read — is described once on [[Token]], under _Starting an
 Opposed Test_. For the rules behind a contest, see the
-[[Rules/oppsdtst|Opposed Tests]] rules.
+[[doc/oppsdtst|Opposed Tests]] rules.
 
 **Nobody rolls for anybody.** The request card sits in the chat log until a user who
 owns the target answers it, and it can be ignored entirely if the table would rather
@@ -446,11 +444,11 @@ and turning impact into a wound — see [[Combat Basics]] and [[Combatant]].
   roll on this page opens.
 - [[Skill Tests]] — what the numbers in a skill test mean, and how success levels
   are read.
-- [[User_Guide/thftsyst|Fate]] — spending a Fate Point to improve a settled result.
+- [[doc/thftsyst|Fate]] — spending a Fate Point to improve a settled result.
 - [[Safe Expressions]] — how to write a Skill Base formula.
 - [[Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
 - [[Combat Basics]] and [[Combatant]] — where a combat technique's attack, block,
   and counterstrike sit in a fight.
-- [[User_Guide/weapon|Weapon Gear]] — the weapon counterpart, with the same three
+- [[doc/weapon|Weapon Gear]] — the weapon counterpart, with the same three
   combat actions across several strike modes.
 - [[Shortcodes]] — what **Parent Skill** and **Associated Skill** are naming.

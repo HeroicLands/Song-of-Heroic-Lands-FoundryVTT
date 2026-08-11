@@ -33,7 +33,7 @@ import unidecode from "unidecode";
 import markdownit from "markdown-it";
 import log from "loglevel";
 
-import { buildWikilinkIndex, convertWikilinks, PACK_BY_TLD } from "./wikilinks.mjs";
+import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
 import { expandContentTables } from "../content-tables.mjs";
 
 export const md = markdownit({ html: true });
@@ -377,22 +377,10 @@ export function makeId(namespace, value) {
 /* ------------------------------------------------------------------------ */
 
 /**
- * The top-level content directory a note belongs to — the key a wikilink names
- * and `PACK_BY_TLD` routes on.
- *
- * @param {string} contentBase - Root of the content tree.
- * @param {string} absPath - Absolute path of a note within it.
- * @returns {string} The first path segment below the content root.
- */
-export function contentTld(contentBase, absPath) {
-    return path.relative(contentBase, absPath).split(path.sep)[0];
-}
-
-/**
  * Indexes **every** note in the content tree so any pack compiler can resolve a
  * wikilink to any other document. Shared by all three compilers: a skill links
  * to another skill, a journal to a creature, a creature to a rules page, and
- * each target's own TLD decides which pack the UUID points into.
+ * each target's own **type** decides which pack the UUID points into.
  *
  * @param {string} contentBase - Root of the content tree.
  * @returns {{byShortcode: Map, byAlias: Map}} From `buildWikilinkIndex`.
@@ -403,7 +391,7 @@ export function buildContentLinkIndex(contentBase) {
         if (!fm?.id) continue;
         const base = path.basename(absPath, ".md").replace(/_/g, " ");
         docs.push({
-            tld: contentTld(contentBase, absPath),
+            type: fm.type,
             id: fm.id,
             shortcode: fm.shortcode ?? null,
             name: fm.name?.full ?? base,
@@ -425,11 +413,11 @@ export function buildContentLinkIndex(contentBase) {
  * warning text and the leave-it-alone fallback are identical everywhere.
  *
  * @param {string} body - The note's markdown body.
- * @param {object} ctx - `{ tld, id, index, name }` — `name` is used in the log.
+ * @param {object} ctx - `{ type, id, index, name }` — `name` is used in the log.
  * @returns {{markdown: string, unresolved: Array<object>}}
  */
-export function convertNoteWikilinks(body, { tld, id, index, name }) {
-    const result = convertWikilinks(body ?? "", { tld, id, index });
+export function convertNoteWikilinks(body, { type, id, index, name }) {
+    const result = convertWikilinks(body ?? "", { type, id, index });
     for (const u of result.unresolved) {
         log.warn(`Unresolved wikilink in "${name}" (${u.reason}): ${u.link}`);
     }
@@ -470,14 +458,14 @@ export function collectContentDocs(contentBase) {
 }
 
 /**
- * A note is linkable from a generated table cell when it has a shortcode to
- * address it by *and* its content directory compiles into a pack — the two
- * things {@link convertWikilinks} needs to turn `[[TLD/shortcode|Text]]` into a
- * Foundry UUID. Anything else renders as plain text rather than shipping a
+ * A note is linkable from a generated table cell when it carries the identity
+ * {@link convertWikilinks} addresses it by — a `type` and a `shortcode`. Every
+ * type routes to a pack ({@link packForType}), so nothing else can make a note
+ * unlinkable; a note missing either renders as plain text rather than shipping a
  * literal wikilink into a journal.
  */
 const packLinkable = (doc) =>
-    Boolean(doc.fm?.shortcode) && Boolean(PACK_BY_TLD[doc.tld]);
+    Boolean(doc.fm?.shortcode) && Boolean(doc.fm?.type);
 
 /**
  * Expand the `(@Table …)` directives in one note's markdown, before wikilinks

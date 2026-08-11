@@ -13,7 +13,7 @@ shortcode: userguide
 folder: IgwaG8rAUUO9vrtz
 ---
 
-Welcome to the _Song of Heroic Lands_ system for Foundry VTT. This system has been designed to be compatible with [_HârnMaster: Roleplaying in the World of Kethira_](https://www.kelestia.com/hmk-pdf) (HMK) system by Kelestia Productions, Inc. (https://www.kelestia.com/). You may either use the [[Rules/rulesidx|abbreviated SoHL rules]] or you may purchase the HMK book (I heartily recommend that).
+Welcome to the _Song of Heroic Lands_ system for Foundry VTT. This system has been designed to be compatible with [_HârnMaster: Roleplaying in the World of Kethira_](https://www.kelestia.com/hmk-pdf) (HMK) system by Kelestia Productions, Inc. (https://www.kelestia.com/). You may either use the [[doc/rulesidx|abbreviated SoHL rules]] or you may purchase the HMK book (I heartily recommend that).
 
 This page is an index to the instructions on how to use this system.
 

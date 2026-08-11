@@ -28,7 +28,7 @@
  * yields the same table in Foundry and on the KB.
  *
  * The emitted table is **markdown**, not HTML, and it is expanded *before*
- * wikilink resolution: a cell may therefore carry `[[TLD/shortcode|Text]]`,
+ * wikilink resolution: a cell may therefore carry `[[type/shortcode|Text]]`,
  * which each build then resolves into its own flavour of link (a Foundry
  * `@UUID` enricher, or a KB href). Linking the row's own document is the
  * default for the first column.
@@ -384,7 +384,7 @@ export function renderContentTable(spec, rows, linkable) {
             // table cell; the resolvers unescape it before splitting, so the
             // display text itself must not carry one.
             const label = text.replace(/\\?\|/g, "/");
-            return `[[${doc.tld}/${doc.fm.shortcode}\\|${label}]]`;
+            return `[[${doc.fm.type}/${doc.fm.shortcode}\\|${label}]]`;
         }),
     );
 

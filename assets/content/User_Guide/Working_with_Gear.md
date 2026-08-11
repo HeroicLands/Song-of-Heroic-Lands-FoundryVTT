@@ -16,7 +16,7 @@ Gear in SoHL includes weapons, armor, containers, potions, projectiles, and
 miscellaneous equipment. This guide explains how to manage gear on a
 character — adding, removing, equipping, and organizing items.
 
-See also: [[Creating Actors and Items]], [[User_Guide/armor|Armor Gear]], [[User_Guide/weapon|Weapon Gear]]
+See also: [[Creating Actors and Items]], [[doc/armor|Armor Gear]], [[doc/weapon|Weapon Gear]]
 
 # Adding Gear to a Character {#gear-adding}
 

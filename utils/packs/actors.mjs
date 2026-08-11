@@ -45,7 +45,6 @@ import {
     buildStats,
     withArchetypeFlag,
     md,
-    contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
     collectContentDocs,
@@ -500,7 +499,7 @@ export class Actors {
                         pkg: fm.package,
                     }),
                     {
-                        tld: contentTld(this.contentBase, absPath),
+                        type: fm.type,
                         id: fm.id,
                         index: this.linkIndex,
                         name: resolveName(fm),

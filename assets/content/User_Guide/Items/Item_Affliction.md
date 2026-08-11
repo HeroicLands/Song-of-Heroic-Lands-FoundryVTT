@@ -17,7 +17,7 @@ An Affliction is **something working on a character from the outside** — a
 disease, a poison, a curse. It has a source, a way of reaching a victim, a course
 it runs, and an end it is heading toward.
 
-What separates it from a [[Trauma]] is _where the harm comes from_.
+What separates it from a [[doc/itemtrauma|Trauma]] is _where the harm comes from_.
 A Trauma is a state the character **carries**: a wound, exhaustion, terror. An
 Affliction is an **agent** at work on them, and it will get better or worse
 whether or not anything else happens. A poisoned character has an Affliction; the
@@ -31,7 +31,7 @@ Every affliction runs through three phases:
 3. **Outcome** — the end of the road: death, or a cure, possibly leaving a Trauma
    behind.
 
-The [[Rules/afflctns|Afflictions]] rules describe the mechanics behind
+The [[doc/afflctns|Afflictions]] rules describe the mechanics behind
 those phases. This page describes the item, its fields, and the three actions
 that move it from one phase to the next.
 
@@ -82,9 +82,9 @@ machinery, which are the same for every affliction. It decides only which
 afflictions count as **contagious diseases** for exposure — only _Disease_
 afflictions can be caught with a **Contagion Test**. Conditions a character
 _carries_ — fatigue, fear, morale, infection, aural shock — are
-**[[User_Guide/itemtrauma|Traumas]]**, not afflictions.
+**[[doc/itemtrauma|Traumas]]**, not afflictions.
 
-Along with the [[User_Guide/baseitem|Standard Item Properties]], the **Properties** tab
+Along with the [[doc/baseitem|Standard Item Properties]], the **Properties** tab
 offers:
 
 | Field                | What it is                                                                                                                                     |
@@ -178,7 +178,7 @@ rolled or applied without someone pressing a button first.
 
 ## How an affliction moves through the system
 
-1. **It is contracted.** A [[User_Guide/being|Contagion Check]] on the exposed
+1. **It is contracted.** A [[doc/being|Contagion Check]] on the exposed
    character offers a **Contagion Test**; failing that test catches the
    affliction, and — if the test's _add to character sheet_ box was ticked — it is
    created with **Contracted** stamped and its incubation already rolled. A
@@ -422,7 +422,7 @@ sits:
 | **1**         | **Unconscious**                                  |
 | **Below 1**   | **Dead**                                         |
 
-The fatigue is recorded as its own Fatigue [[Trauma]] — the affliction
+The fatigue is recorded as its own Fatigue [[doc/itemtrauma|Trauma]] — the affliction
 is the agent, the exhaustion it causes is a Trauma the character carries.
 
 The shock states only ever **worsen** the character's condition. A character
@@ -528,7 +528,7 @@ Every affliction declares what it does to a character it beats:
 an ending for lets its victim go.
 
 Alongside it, an affliction may name an **Outcome Trauma** — a
-[[User_Guide/sfexprss|Safe Expression]] giving the shortcode, or a list of
+[[doc/sfexprss|Safe Expression]] giving the shortcode, or a list of
 shortcodes, of Traumas the character contracts at resolution. Each is looked for
 among the world's items first, then in the
 compendiums, and the first match found is added to the character's sheet. A
@@ -546,7 +546,7 @@ Rate settled, and any Trauma it left behind now sitting on the Health tab.
 
 # See also
 
-- [[Trauma]] — what a character _carries_: wounds, fatigue, fear, and
+- [[doc/itemtrauma|Trauma]] — what a character _carries_: wounds, fatigue, fear, and
   the Traumas an affliction inflicts along the way.
 - [[Afflictions and Injuries]] — the overview of how harm
   works on a character.
@@ -555,6 +555,6 @@ Rate settled, and any Trauma it left behind now sitting on the Health tab.
 - [[Base Item]] — the standard item properties and the offer-schedule
   dialog these three checks use.
 - [[Actions]] — how the Actions context menu and chat-card buttons work.
-- [[Rules/afflctns|Afflictions]] and
-  [[Rules/hlngtst|Healing Test]] (rules) — the mechanics behind the
+- [[doc/afflctns|Afflictions]] and
+  [[doc/hlngtst|Healing Test]] (rules) — the mechanics behind the
   Course Test, the reaction table, and the outcomes.

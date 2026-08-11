@@ -17,7 +17,7 @@ folder: edGOkxiCotuMzc1O
 shortcode: fatigue
 ---
 
-**Fatigue** is a form of physical [[Trauma]], measured in **Fatigue
+**Fatigue** is a form of physical [[doc/trauma|Trauma]], measured in **Fatigue
 Levels (FL)**. Unlike an injury it has no Healing Rate and needs no treatment;
 instead each instance recovers by its own special rules.
 

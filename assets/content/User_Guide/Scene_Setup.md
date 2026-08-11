@@ -16,7 +16,7 @@ Scenes in SoHL work like standard Foundry VTT scenes, with some additional
 features specific to SoHL. This guide covers placing tokens on scenes,
 Theatre of the Mind mode, and the Cohort expand feature.
 
-See also: [[User_Guide/being|Beings]], [[User_Guide/cohort|Cohorts]]
+See also: [[doc/being|Beings]], [[doc/cohort|Cohorts]]
 
 # Placing Actors on Scenes {#scene-placing}
 

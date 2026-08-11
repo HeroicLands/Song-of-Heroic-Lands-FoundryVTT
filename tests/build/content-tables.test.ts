@@ -368,7 +368,9 @@ describe("expandContentTables — rendering", () => {
         const { markdown } = expand(
             "(@Table search=[sohl.material:Mail] columns=[Name:name.full, Weight:sohl.weight])",
         );
-        expect(markdown).toContain("| [[Armor/MHaub\\|Mail Hauberk]] | 20 |");
+        expect(markdown).toContain(
+            "| [[armorgear/MHaub\\|Mail Hauberk]] | 20 |",
+        );
     });
 
     it("leaves the cell as plain text when the row's document is not linkable", () => {
@@ -385,7 +387,7 @@ describe("expandContentTables — rendering", () => {
             "(@Table search=[sohl.material:Mail] columns=[Name:name.full, Code:shortcode] link=Code)",
         );
         expect(markdown).toContain(
-            "| Mail Hauberk | [[Armor/MHaub\\|MHaub]] |",
+            "| Mail Hauberk | [[armorgear/MHaub\\|MHaub]] |",
         );
     });
 

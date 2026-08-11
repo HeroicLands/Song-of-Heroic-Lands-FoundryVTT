@@ -48,7 +48,6 @@ import {
     buildStats,
     withArchetypeFlag,
     md,
-    contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
     collectContentDocs,
@@ -515,7 +514,7 @@ export class Items {
                     pkg: fm.package,
                 });
                 const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
-                    tld: contentTld(this.contentBase, absPath),
+                    type,
                     id: fm.id,
                     index: this.linkIndex,
                     name: resolveName(fm),
