@@ -3,8 +3,7 @@ aliases: []
 tags: []
 name:
     full: Infected
-    aliases:
-        - Infection
+    aliases: []
 description: "Long-term weakness from septic injury or contaminated wound."
 id: 3yd91D3xc5ygiWLQ
 slug: infected
