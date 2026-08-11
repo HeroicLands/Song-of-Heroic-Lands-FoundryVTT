@@ -1,21 +1,57 @@
 ---
 aliases:
-    - Arcane
-    - Arcane Tradition
-    - Arcane Abilities
-id: RE8x4ggnbK5VfTkY
+    - Mystical Abilities Introduction
+id: Flm6eeiyl4UHZUIq
 type: doc
 package: sohl
 category: rules
 name:
-    full: Arcane
+    full: Mystical Abilities Introduction
     aliases: []
-folder: oPWOe5cjsYc1ev2h
-slug: sohl-arcane
-shortcode: arcane
+folder:
+shortcode: mystabilintro
 ---
 
-The **Arcane** tradition draws its power from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly — where a priest asks and a spirit-worker petitions, an arcanist commands. This page collects the arcane **Mysteries** a character may carry and the arcane **Mystical Abilities** they perform. For the shared framework — the Mystery-versus-Ability distinction, how abilities are tested, and the general mysteries (Boon, Boost, Other) — see the [[Esoterica Introduction]].
+Supernatural powers are expressed in _Song of Heroic Lands_ as a
+**Mystical Ability**.
+
+Invoking a Mystical Ability is resolved as a [[Success Test]], exactly like a
+skill. Where an ability's EML comes from depends on how it is governed:
+
+- **Skill-governed abilities** draw their mastery level from an
+  **associated skill** — the discipline or lore the ability rests on. Many
+  abilities can share one governing skill, so they improve together and inherit
+  whatever modifiers apply to that skill.
+- **Spirit-governed abilities** — Spirit Rites and Spirit Actions — draw
+  instead on the **Spirit Power** they are performed through.
+- **Self-rated abilities** carry their own mastery level directly, used when no
+  separate skill governs them.
+
+Note that abilities do not themselves carry any skill base. All mystical
+abilities are affected by [[Aural Shock]], and no mystical ability can be
+performed while in Aural Shock.
+An ability's own modifiers always stack on top of whatever mastery level it
+draws upon.
+
+# Arcane Mysteries
+
+- [[Arcane Incantation]]
+- [[Arcane Talent]]
+- [[Alchemy]]
+- [[Divination]]
+
+# Divine Mysteries
+
+- [[Divine Incantation]]
+- [[Ritual Action]]
+- [[Divine Intervention]]
+
+# Spirit Mysteries
+
+- [[Spirit Power]]
+- [[Spirit Action]]
+- [[Spirit Rite]]
+- [[Spirit Talent]]
 
 # Birthsign
 

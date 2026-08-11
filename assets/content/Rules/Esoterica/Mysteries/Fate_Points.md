@@ -15,6 +15,8 @@ slug: sohl-fate-points
 shortcode: fatepnts
 ---
 
+The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its success level by one. See [[Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
+
 Some characters are touched by **Fate** — a thread of luck or destiny they can
 call on at a crucial moment. Fate lets a character improve a test they have
 **already rolled**: spending a **Fate Point** raises that test's

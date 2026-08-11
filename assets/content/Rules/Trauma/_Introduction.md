@@ -1,16 +1,15 @@
 ---
 aliases:
-    - Trauma
+    - Trauma Introduction
 id: Np0h2gEc4EziXNeM
 type: doc
 package: sohl
 category: rules
 name:
-    full: Trauma
+    full: Trauma Introduction
     aliases: []
 folder: 4SPG9O9H7puwZsve
-slug: sohl-trauma
-shortcode: trauma
+shortcode: traumaintro
 ---
 
 A **Trauma** is harm to a character — to the physical **body**, to the **mind**,
@@ -31,25 +30,6 @@ processes by which a character recovers from — or succumbs to — it.
 
 ## Forms of trauma
 
-### Body
-
-- **Injury** — physical wounds, with Injury Levels, impairment,
-  treatment, and the Injury Healing Test.
-- [[Fatigue]] — windedness, weariness, and weakness, measured in
-  Fatigue Levels and summed into the Fatigue Penalty.
-- [[Shock]] — the **Shock Test**, the **Shock Index** that drives it,
-  and the stunned/incapacitated/unconscious/dead states it produces from violent
-  injury and blood loss, plus the lasting Extended Shock and Coma states.
-
-### Mind
-
-- [[Psychological Condition]] — Psyche Stress
-  Levels, their recovery, and their behavioral effects, including [[Rules/arlshck|Aural Shock]].
-- [[Fear]] — the Fear Test and its states, from Catatonic to Brave.
-- [[Morale]] — the Morale Test, the Rally Test, and the Reaction
-  Test that steadies a shaken combatant.
-
-### Spirit
-
-- [[The Pall]] — the forces of death that assail Spirit, corrupt
-  mortals into the undead, and must be resisted or faced.
+- [[doc/bodytrmaintro|Body]]
+- [[doc/mindtrmaintro|Mind]]
+- [[doc/spirittrmaintro|Spirit]]
