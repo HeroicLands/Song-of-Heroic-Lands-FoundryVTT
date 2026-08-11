@@ -8,7 +8,7 @@ category: rules
 name:
     full: Weapons
     aliases: []
-folder:
+folder: UWD774fzcqX7dbil
 shortcode: weapons
 ---
 

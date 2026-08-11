@@ -8,7 +8,7 @@ category: rules
 name:
     full: Misc Gear
     aliases: []
-folder:
+folder: UWD774fzcqX7dbil
 shortcode: miscgear
 ---
 

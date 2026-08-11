@@ -8,7 +8,7 @@ category: rules
 name:
     full: Armor and Clothing
     aliases: []
-folder:
+folder: UWD774fzcqX7dbil
 shortcode: armorclothing
 ---
 
