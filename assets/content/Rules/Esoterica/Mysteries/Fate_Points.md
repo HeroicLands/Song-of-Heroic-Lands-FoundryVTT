@@ -48,7 +48,7 @@ character without a usable one cannot call on it at all.
 
 **The test is governed by Aura.** An Aura-governed test cannot be fated — neither
 the Aura attribute's own test, nor a test of any skill whose
-[[doc/skills|Skill Base]] is computed from Aura. Fate answers _through_ Aura, and it
+[[doc/skillsintro|Skill Base]] is computed from Aura. Fate answers _through_ Aura, and it
 will not be turned back on the thing that summons it.
 
 **The test is a Mystical Ability.** No Mystical Ability test can be fated, ever.
@@ -113,5 +113,5 @@ when called.
 
 - [[Success Tests]] — the success levels Fate shifts, including
   the extended levels above a Critical Success.
-- [[Skills]] — Skill Base, which decides whether a skill is Aura-governed
+- [[doc/skillsintro|Skills]] — Skill Base, which decides whether a skill is Aura-governed
   and therefore beyond Fate's reach.

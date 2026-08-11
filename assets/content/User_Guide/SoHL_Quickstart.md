@@ -47,5 +47,5 @@ See [[Combat Basics]] for round flow and common checks.
 
 # See Also
 
-- [[doc/rulesidx|Song of Heroic Lands Rules]]
+- [[doc/rulesintro|Song of Heroic Lands Rules]]
 - [[Song of Heroic Lands User Guide]]

@@ -27,5 +27,5 @@ processes by which a character recovers from — or succumbs to — it.
 ## Forms of trauma
 
 - [[doc/bodytrmaintro|Body]]
-- [[doc/mindtrmaintro|Mind]]
+- [[doc/mindtraumaintro|Mind]]
 - [[doc/sprttraumaintro|Spirit]]

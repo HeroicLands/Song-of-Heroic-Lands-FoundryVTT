@@ -20,7 +20,7 @@ The rules presented here are basic rules necessary to run a game. For more detai
 ## Sections
 
 - [[doc/attrintro|Attributes]]
-- [[doc/skillintro|Skills]]
+- [[doc/skillsintro|Skills]]
 - [[doc/affilintro|Affiliations]]
 - [[doc/gearintro|Gear]]
 - [[doc/combatintro|Combat]]
@@ -53,7 +53,7 @@ Skills improve through use. Characters who test their abilities in play develop 
 
 ## Skills
 
-- [[Skills]] — how skills are rated and tested: Success Tests and success levels (CF/MF/MS/CS, and extended CS+1/CF−1), Opposed Tests, Success Value Tests and Value Diamonds, and Secondary Mastery.
+- [[doc/skillsintro|Skills]] — how skills are rated and tested: Success Tests and success levels (CF/MF/MS/CS, and extended CS+1/CF−1), Opposed Tests, Success Value Tests and Value Diamonds, and Secondary Mastery.
 
 ## Gear & Equipment
 
@@ -65,9 +65,9 @@ Skills improve through use. Characters who test their abilities in play develop 
 The supernatural: standing mystical conditions (**Mysteries**) and the mystical acts performed (**Mystical Abilities**), organised by tradition.
 
 - [[Esoterica Introduction]] — the distinction between a **Mystery** (what a character _is_) and a **Mystical Ability** (what a character _does_), the three traditions, how abilities are tested (and the Incantation Casting Penalty), and the general mysteries (Boon, Boost, Other).
-- [[Arcane]] — power from the caster's own aura and taught lore: the Birthsign, the Fate mystery, and the Arcane Incantation, Arcane Talent, Alchemy, and Divination abilities.
-- [[Divine]] — power granted by a deity in answer to devotion: the Grace and Piety mysteries, and the Ritual Action and Divine Incantation abilities.
-- [[Spirit]] — power channelled through spirits: Spirit Powers, and the Spirit Rites, Spirit Actions, and Spirit Talents performed through them.
+- [[doc/estrcint|Arcane]] — power from the caster's own aura and taught lore: the Birthsign, the Fate mystery, and the Arcane Incantation, Arcane Talent, Alchemy, and Divination abilities.
+- [[doc/estrcint|Divine]] — power granted by a deity in answer to devotion: the Grace and Piety mysteries, and the Ritual Action and Divine Incantation abilities.
+- [[doc/estrcint|Spirit]] — power channelled through spirits: Spirit Powers, and the Spirit Rites, Spirit Actions, and Spirit Talents performed through them.
 
 ## Combat
 

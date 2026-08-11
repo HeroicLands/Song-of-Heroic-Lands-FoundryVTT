@@ -42,7 +42,7 @@ a priest asks and a spirit-worker petitions, an arcanist commands.
 - [[Arcane Incantation]]
 - [[Arcane Talent]]
 - [[Alchemy]]
-- [[Divination]]
+- [[doc/divintro|Divination]]
 
 # Divine Mysteries
 

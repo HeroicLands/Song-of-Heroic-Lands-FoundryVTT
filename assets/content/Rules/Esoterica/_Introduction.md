@@ -12,7 +12,7 @@ folder: oPWOe5cjsYc1ev2h
 shortcode: estrcint
 ---
 
-**Esoterica** gathers the supernatural rules of _Song of Heroic Lands_: the standing mystical conditions a character carries, and the mystical acts they perform. This introduction explains the two kinds of thing the rest of the section is built from, how mystical acts are tested, and the general mysteries that belong to no single tradition. The particular powers themselves are organised by **tradition** — see [[Arcane]], [[Divine]], and [[Spirit]].
+**Esoterica** gathers the supernatural rules of _Song of Heroic Lands_: the standing mystical conditions a character carries, and the mystical acts they perform. This introduction explains the two kinds of thing the rest of the section is built from, how mystical acts are tested, and the general mysteries that belong to no single tradition. The particular powers themselves are organised by **tradition** — see [[doc/estrcint|Arcane]], [[doc/estrcint|Divine]], and [[doc/estrcint|Spirit]].
 
 # Mysteries and Mystical Abilities
 
@@ -24,5 +24,5 @@ A **Mystical Ability** is something a character _does_: a spell, rite, prayer, o
 
 Most mystical traditions combine the two. A spirit-worker _is_ bonded to spirits (Spirit Powers, a kind of ability that stands ready) and _does_ perform rites and spirit actions through them; a priest _has_ piety (a Mystery) and _performs_ ritual actions and incantations (Mystical Abilities) that draw on it.
 
-- [[Mysteries]]
-- [[Mystical Abilities]]
+- [[doc/mysteryintro|Mysteries]]
+- [[doc/mystabilintro|Mystical Abilities]]
