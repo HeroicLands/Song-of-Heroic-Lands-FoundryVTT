@@ -5,7 +5,6 @@ name:
     full: Perfectionist
     aliases: []
 id: 4xBiroorPi6nLdal
-slug: perfectionist
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: prfctnst
 type: trauma

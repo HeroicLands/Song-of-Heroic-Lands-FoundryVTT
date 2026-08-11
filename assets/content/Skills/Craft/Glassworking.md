@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."
 id: Q0KPXtE0ZsH1YION
-slug: glassworking
 img: icons/game-icons/lorc/round-bottom-flask.svg
 shortcode: glas
 type: skill

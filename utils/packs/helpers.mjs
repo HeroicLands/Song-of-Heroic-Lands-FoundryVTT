@@ -34,6 +34,7 @@ import markdownit from "markdown-it";
 import log from "loglevel";
 
 import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
+import { expandContentTables } from "../content-tables.mjs";
 
 export const md = markdownit({ html: true });
 
@@ -269,13 +270,14 @@ export function slugify(name) {
 }
 
 /**
- * Build a documentation URL from an item type and slug:
+ * Build a documentation URL from an item type and its URL segment:
  *   https://heroiclands.org/sohl/{type}/{slug}/
- * If the slug is absent, slugifies the display name.
+ *
+ * The segment is the item's shortcode (see {@link contentSlug}), so this URL and
+ * the knowledgebase page address the same item the same way.
  */
-export function buildDocUrl(type, slug, fallbackName) {
-    const finalSlug = (slug && String(slug).trim()) || slugify(fallbackName);
-    return `https://heroiclands.org/sohl/${type}/${finalSlug}/`;
+export function buildDocUrl(type, slug) {
+    return `https://heroiclands.org/sohl/${type}/${slug}/`;
 }
 
 /**
@@ -375,22 +377,10 @@ export function makeId(namespace, value) {
 /* ------------------------------------------------------------------------ */
 
 /**
- * The top-level content directory a note belongs to — the key a wikilink names
- * and `PACK_BY_TLD` routes on.
- *
- * @param {string} contentBase - Root of the content tree.
- * @param {string} absPath - Absolute path of a note within it.
- * @returns {string} The first path segment below the content root.
- */
-export function contentTld(contentBase, absPath) {
-    return path.relative(contentBase, absPath).split(path.sep)[0];
-}
-
-/**
  * Indexes **every** note in the content tree so any pack compiler can resolve a
  * wikilink to any other document. Shared by all three compilers: a skill links
  * to another skill, a journal to a creature, a creature to a rules page, and
- * each target's own TLD decides which pack the UUID points into.
+ * each target's own **type** decides which pack the UUID points into.
  *
  * @param {string} contentBase - Root of the content tree.
  * @returns {{byShortcode: Map, byAlias: Map}} From `buildWikilinkIndex`.
@@ -401,7 +391,7 @@ export function buildContentLinkIndex(contentBase) {
         if (!fm?.id) continue;
         const base = path.basename(absPath, ".md").replace(/_/g, " ");
         docs.push({
-            tld: contentTld(contentBase, absPath),
+            type: fm.type,
             id: fm.id,
             shortcode: fm.shortcode ?? null,
             name: fm.name?.full ?? base,
@@ -423,15 +413,89 @@ export function buildContentLinkIndex(contentBase) {
  * warning text and the leave-it-alone fallback are identical everywhere.
  *
  * @param {string} body - The note's markdown body.
- * @param {object} ctx - `{ tld, id, index, name }` — `name` is used in the log.
+ * @param {object} ctx - `{ type, id, index, name }` — `name` is used in the log.
  * @returns {{markdown: string, unresolved: Array<object>}}
  */
-export function convertNoteWikilinks(body, { tld, id, index, name }) {
-    const result = convertWikilinks(body ?? "", { tld, id, index });
+export function convertNoteWikilinks(body, { type, id, index, name }) {
+    const result = convertWikilinks(body ?? "", { type, id, index });
     for (const u of result.unresolved) {
         log.warn(`Unresolved wikilink in "${name}" (${u.reason}): ${u.link}`);
     }
     return result;
+}
+
+/* ------------------------------------------------------------------------ */
+/*  Generated tables: the searchable content universe                       */
+/* ------------------------------------------------------------------------ */
+
+/**
+ * Every note in the content tree, in the shape the `(@Table …)` expander
+ * searches: its frontmatter plus where it sits in the tree. Ordered by path so
+ * a table that leaves rows tied still emits identically on every build.
+ *
+ * @param {string} contentBase - Root of the content tree.
+ * @returns {Array<{fm: object, path: string, tld: string, folder: string,
+ *   absPath: string}>}
+ */
+export function collectContentDocs(contentBase) {
+    const docs = [];
+    for (const { frontmatter: fm, absPath } of walkMarkdownTree(contentBase)) {
+        if (!fm) continue;
+        const segments = path.relative(contentBase, absPath).split(path.sep);
+        docs.push({
+            fm,
+            // POSIX-separated and relative to the content root — what a
+            // `path:` search term globs, on every platform.
+            path: segments.join("/"),
+            tld: segments[0],
+            folder: segments[segments.length - 2] ?? segments[0],
+            absPath,
+        });
+    }
+    docs.sort((a, b) => (a.absPath < b.absPath ? -1 : a.absPath > b.absPath ? 1 : 0));
+    log.debug(`Content table index: ${docs.length} searchable note(s)`);
+    return docs;
+}
+
+/**
+ * A note is linkable from a generated table cell when it carries the identity
+ * {@link convertWikilinks} addresses it by — a `type` and a `shortcode`. Every
+ * type routes to a pack ({@link packForType}), so nothing else can make a note
+ * unlinkable; a note missing either renders as plain text rather than shipping a
+ * literal wikilink into a journal.
+ */
+const packLinkable = (doc) =>
+    Boolean(doc.fm?.shortcode) && Boolean(doc.fm?.type);
+
+/**
+ * Expand the `(@Table …)` directives in one note's markdown, before wikilinks
+ * are resolved — so a generated cell may itself be a wikilink.
+ *
+ * A table searches only notes of the source note's own `package`, so a SoHL
+ * page never tabulates setting-package content (and vice versa).
+ *
+ * @param {string} body - The note's markdown body.
+ * @param {object} ctx
+ * @param {Array<object>} ctx.docs - From {@link collectContentDocs}.
+ * @param {string} ctx.name - The note, for the error message.
+ * @param {string} [ctx.pkg] - The source note's `package`.
+ * @returns {string} The body with every table expanded.
+ * @throws {Error} When a directive is malformed or matches nothing — the note
+ *   fails to compile rather than shipping a table-shaped hole.
+ */
+export function expandNoteTables(body, { docs, name, pkg }) {
+    const scoped = pkg ? docs.filter((d) => d.fm?.package === pkg) : docs;
+    const { markdown, errors } = expandContentTables(body ?? "", {
+        docs: scoped,
+        linkable: packLinkable,
+        source: name,
+    });
+    if (errors.length) {
+        throw new Error(
+            errors.map((e) => `content table — ${e.reason}`).join("; "),
+        );
+    }
+    return markdown;
 }
 
 /* ------------------------------------------------------------------------ */

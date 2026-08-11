@@ -5,7 +5,6 @@ name:
     full: Irresponsible
     aliases: []
 id: VQlpTGHFybZZ5d2u
-slug: irresponsible
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: irrespon
 type: trauma

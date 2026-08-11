@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool vest; durable, practical protective garment."
 id: 7mMgwEnV0diVVp0p
-slug: worsted-vest
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: WVest
 type: armorgear

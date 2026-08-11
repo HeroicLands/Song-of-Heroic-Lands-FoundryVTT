@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable long garment perfect for warm weather wear."
 id: XqdQUWK4OzX3TxHx
-slug: linen-robe
 img: icons/game-icons/lorc/robe.svg
 shortcode: LRobe
 type: armorgear

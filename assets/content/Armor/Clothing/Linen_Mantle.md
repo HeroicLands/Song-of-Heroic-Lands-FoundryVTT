@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Breathable outer layer providing sun protection without causing overheating."
 id: PrpF6ico4CLaZVHU
-slug: linen-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: LMntl
 type: armorgear

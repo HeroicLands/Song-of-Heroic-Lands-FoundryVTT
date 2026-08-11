@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Hurling stones and lead bullets from a sling with accuracy and force."
 id: 7BpaZQE9sEtgmAx5
-slug: sling
 img: icons/game-icons/delapouite/sling.svg
 shortcode: slng
 type: skill

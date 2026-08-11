@@ -5,7 +5,6 @@ name:
     full: Confident
     aliases: []
 id: shNugj93vne76oyF
-slug: confident
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfdnt
 type: trauma

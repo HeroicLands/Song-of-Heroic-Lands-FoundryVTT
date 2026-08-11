@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Tarred hemp rope for shipboard, hoisting, and tethering pack animals."
 id: RwORU55bA3l73XEW
-slug: rope-1-2-hemp-per-ft-330-lb-cap
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope12hemp
 type: miscgear

@@ -5,7 +5,6 @@ name:
     full: Chiroptophobia
     aliases: []
 id: u8cYYNzMnYNQfmWO
-slug: chiroptophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: chrptphb
 type: trauma

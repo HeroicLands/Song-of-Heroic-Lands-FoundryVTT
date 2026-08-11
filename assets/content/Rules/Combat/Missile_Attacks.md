@@ -9,7 +9,6 @@ name:
     full: Missile Attacks
     aliases: []
 folder: rotB8uN12YUN0Oba
-slug: sohl-missile-attacks
 shortcode: msslattc
 ---
 

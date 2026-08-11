@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool cowl; durable, versatile head covering."
 id: Pj5pzkJGmXXOFdiC
-slug: worsted-cowl
 img: icons/game-icons/lorc/hood.svg
 shortcode: WCowl
 type: armorgear

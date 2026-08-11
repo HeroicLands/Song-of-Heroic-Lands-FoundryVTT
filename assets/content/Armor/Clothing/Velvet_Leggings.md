@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Plush velvet leggings; opulent garment for high-status formal occasions."
 id: SRJPql92VlC8Ek5e
-slug: velvet-leggings
 img: icons/game-icons/lorc/trousers.svg
 shortcode: VLeg
 type: armorgear

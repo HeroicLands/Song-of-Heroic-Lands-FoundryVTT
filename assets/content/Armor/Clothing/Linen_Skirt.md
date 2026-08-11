@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable leg covering for warm weather casual outings."
 id: y3btwLS86WgSbxRk
-slug: linen-skirt
 img: icons/game-icons/delapouite/skirt.svg
 shortcode: LSkirt
 type: armorgear

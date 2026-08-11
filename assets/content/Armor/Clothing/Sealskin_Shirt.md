@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Waterproof seal-fur shirt; basic upper-body weather protection."
 id: uwduPuqzBweumd9o
-slug: sealskin-shirt
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: SlsShirt
 type: armorgear

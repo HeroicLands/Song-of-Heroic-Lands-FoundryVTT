@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Mystery"
-slug: "item-mystery"
 shortcode: mystery
 folder: QtOgPodi8X6gDWL0
 ---
@@ -22,7 +21,7 @@ Mysteries appear on the Being sheet's **Mysteries** tab.
 
 # Additional Properties
 
-Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **SubType:**
 - **Level:** Power level of this mystery, if applicable

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Twilled serge trousers; practical, versatile everyday leg wear."
 id: B0ZxXBBPqqOVLi0g
-slug: serge-trousers
 img: icons/game-icons/lorc/trousers.svg
 shortcode: SgTrsr
 type: armorgear

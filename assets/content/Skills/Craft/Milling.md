@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Processing grain into flour and meal using mill mechanics and stone-dressing."
 id: ojQ9h4Gv5xdDuCWm
-slug: milling
 img: icons/game-icons/caro-asercion/water-mill.svg
 shortcode: mill
 type: skill

@@ -9,7 +9,6 @@ name:
     full: Old Ice Dragon
     aliases: []
 id: IHBBFMFd2LieAudc
-slug: old-ice-dragon
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
 shortcode: oldicdrg

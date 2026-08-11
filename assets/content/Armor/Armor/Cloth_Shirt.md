@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth shirt offering basic comfort and everyday coverage."
 id: njwi2VwRTjXML9KJ
-slug: cloth-shirt
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CShirt
 type: armorgear

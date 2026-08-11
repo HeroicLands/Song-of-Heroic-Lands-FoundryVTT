@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Delicate brass bell; high thin tone; amulet or chamber summons."
 id: fJUhdF7Ltvntt56l
-slug: bell-tiny
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltiny
 type: miscgear

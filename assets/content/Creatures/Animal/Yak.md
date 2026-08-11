@@ -8,7 +8,6 @@ name:
     full: Yak
     aliases: []
 id: XoxshfojIWfr4kTc
-slug: yak
 img: icons/game-icons/delapouite/bison.svg
 portrait: ""
 shortcode: yak

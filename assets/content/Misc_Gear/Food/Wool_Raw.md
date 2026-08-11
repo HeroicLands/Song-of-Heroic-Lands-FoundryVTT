@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Freshly sheared fleece, carded clean, traded by weight for spinning."
 id: QhXFBXG6OXliukiD
-slug: wool-raw
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: woolraw
 type: miscgear

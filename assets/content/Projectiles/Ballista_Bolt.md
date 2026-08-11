@@ -9,7 +9,6 @@ description: "Iron-headed shaft the length of a leg; loosed by engine, not by ar
 type: projectilegear
 package: sohl
 id: ProjBallstaBolt
-slug: ballista-bolt
 shortcode: BltSge
 img: icons/game-icons/lorc/barbed-spear.svg
 easyname: Ballista

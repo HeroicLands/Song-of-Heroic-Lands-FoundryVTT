@@ -9,7 +9,6 @@ description: "Light hunting shaft, leaf-shaped iron edge; bleeds prey, deer, fox
 type: projectilegear
 package: sohl
 id: VaCPXogiH2DZlFrH
-slug: light-broad-arrow
 shortcode: ArwLBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Broad

@@ -5,7 +5,6 @@ name:
     full: Lepidopterophobia
     aliases: []
 id: FmFmSEVFuXRwgMcx
-slug: lepidopterophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: lepidopt
 type: trauma

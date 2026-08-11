@@ -6,7 +6,6 @@ name:
     aliases: []
 description: ""
 id: vXrNYKTPRjCPF2n4
-slug: fate
 img: icons/game-icons/lorc/crystal-ball.svg
 shortcode: fate
 type: mysticalability

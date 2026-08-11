@@ -8,7 +8,6 @@ category: rules
 name:
     full: Alchemy
     aliases: []
-slug: sohl-alchemy
 shortcode: alchemy
 folder: J8ppkzls4ERyzTpv
 ---

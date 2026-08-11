@@ -7,7 +7,6 @@ name:
     full: Ironjaw
     aliases: []
 id: HKFCGWSqLCYSzPqf
-slug: ironjaw
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: ironjaw

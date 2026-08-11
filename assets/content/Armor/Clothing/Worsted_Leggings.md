@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool leggings; warm, durable leg coverage."
 id: t3SFBNKtKc5uTGhw
-slug: worsted-leggings
 img: icons/game-icons/lorc/trousers.svg
 shortcode: WLeg
 type: armorgear

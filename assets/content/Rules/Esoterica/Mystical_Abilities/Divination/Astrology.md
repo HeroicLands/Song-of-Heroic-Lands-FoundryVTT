@@ -8,7 +8,6 @@ category: rules
 name:
     full: Astrology
     aliases: []
-slug: sohl-astrology
 shortcode: astrlgy
 folder: k6DghEucd6umnBJx
 ---

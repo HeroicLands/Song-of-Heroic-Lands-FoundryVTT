@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth cap offering basic comfort and everyday protection."
 id: stFAoZe8ONCQq95c
-slug: cloth-cap
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: CCap
 type: armorgear

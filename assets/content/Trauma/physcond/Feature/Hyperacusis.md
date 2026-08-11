@@ -5,7 +5,6 @@ name:
     full: Hyperacusis
     aliases: []
 id: up0PMJxnaEFHqBDy
-slug: hyperacusis
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: hyprcss
 type: trauma

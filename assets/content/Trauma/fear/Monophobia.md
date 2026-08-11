@@ -5,7 +5,6 @@ name:
     full: Monophobia
     aliases: []
 id: C0mcJriSUJrhOm68
-slug: monophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: monophb
 type: trauma

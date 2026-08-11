@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Well-insulated outer garment providing warmth and protection in cold climates."
 id: uGI1aEXIQ6zJxajg
-slug: padded-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: PMntl
 type: armorgear

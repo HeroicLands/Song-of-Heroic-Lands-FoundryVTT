@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Spinning, weaving, dyeing, and sewing fabrics into finished textile goods."
 id: j7taHswPlFhvFIec
-slug: textilecraft
 img: icons/game-icons/lorc/sewing-needle.svg
 shortcode: txtl
 type: skill

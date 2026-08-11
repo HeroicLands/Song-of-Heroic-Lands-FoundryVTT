@@ -5,7 +5,6 @@ name:
     full: Sociophobia
     aliases: []
 id: UOlTBNjJR5hQeYiU
-slug: sociophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: sociophb
 type: trauma

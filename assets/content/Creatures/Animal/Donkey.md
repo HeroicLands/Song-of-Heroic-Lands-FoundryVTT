@@ -7,7 +7,6 @@ name:
     full: Donkey
     aliases: []
 id: Z0cG8fAIzSARDUaH
-slug: donkey
 img: icons/game-icons/skoll/donkey.svg
 portrait: ""
 shortcode: donkey

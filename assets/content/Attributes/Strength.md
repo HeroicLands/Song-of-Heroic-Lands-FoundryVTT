@@ -5,7 +5,6 @@ name:
     full: Strength
     aliases: []
 id: LDCPcITBQjtXB87S
-slug: strength
 img: icons/game-icons/delapouite/biceps.svg
 shortcode: str
 type: attribute

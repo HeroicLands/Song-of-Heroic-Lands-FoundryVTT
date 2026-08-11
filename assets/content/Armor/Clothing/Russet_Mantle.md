@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool shoulder-wrap; practical outer layer."
 id: f0XUqgoKqrD6uQOs
-slug: russet-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: RMntl
 type: armorgear

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Plant toxin; neuromuscular paralysis progressing from extremities inward; respiratory failure."
 id: PQLxHwunw4q55rDD
-slug: curare
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: curare
 type: affliction

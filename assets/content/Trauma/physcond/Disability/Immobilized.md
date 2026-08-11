@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "A limb pinned, bound, or paralyzed — it cannot be moved, but it keeps its grip."
 id: L5Jzm8yQ4Gijxuen
-slug: immobilized
 img: icons/game-icons/delapouite/handcuffed.svg
 shortcode: immob
 type: trauma
@@ -28,7 +27,7 @@ The condition names the limb it applies to. A character can be immobilized in on
 
 The affected limb cannot be moved. It may not strike, block, parry, gesture, or be brought to bear on anything, and any test that requires moving it fails.
 
-Crucially, an immobilized limb **does not drop what it is holding**. Being held is not being disabled — the fingers still close, and a weapon in an immobilized hand stays in that hand. Taking it requires prising it loose, not merely pinning the arm. This is what distinguishes a hold from a disarm, and it is why a limb rendered **unusable** — by a grievous wound or a permanent maiming — is treated differently: an unusable limb is immobilized _and_ loses its grip, and drops what it held. See [[Rules/bdystrct#body-parts|Body Structure]].
+Crucially, an immobilized limb **does not drop what it is holding**. Being held is not being disabled — the fingers still close, and a weapon in an immobilized hand stays in that hand. Taking it requires prising it loose, not merely pinning the arm. This is what distinguishes a hold from a disarm, and it is why a limb rendered **unusable** — by a grievous wound or a permanent maiming — is treated differently: an unusable limb is immobilized _and_ loses its grip, and drops what it held. See [[doc/bdystrct#body-parts|Body Structure]].
 
 ### Physical Symptoms
 

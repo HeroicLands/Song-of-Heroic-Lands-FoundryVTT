@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Modest bronze-iron bell with handle; lighter, sharper than hand bell; livestock tracking."
 id: QAVGirwmcQMrNjZX
-slug: bell-small
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bellsmall
 type: miscgear

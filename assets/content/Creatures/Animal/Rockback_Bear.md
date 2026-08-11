@@ -7,7 +7,6 @@ name:
     full: Rockback Bear
     aliases: []
 id: KRJCfi3ZMuOYTwFd
-slug: rockback-bear
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: ""
 shortcode: rckbckbr

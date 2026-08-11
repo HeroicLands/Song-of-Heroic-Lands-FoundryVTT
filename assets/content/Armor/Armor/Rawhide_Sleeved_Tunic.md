@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Sturdy hide tunic; arms and torso protection."
 id: prNeekK6Y0uI0qF4
-slug: rawhide-sleeved-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: RhSTunic
 type: armorgear

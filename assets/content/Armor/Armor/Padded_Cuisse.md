@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Cushioned thigh protection ideal for wear under heavier armor."
 id: 4OtUWcPTnCERvQsF
-slug: padded-cuisse
 img: icons/game-icons/lorc/trousers.svg
 shortcode: PCuis
 type: armorgear

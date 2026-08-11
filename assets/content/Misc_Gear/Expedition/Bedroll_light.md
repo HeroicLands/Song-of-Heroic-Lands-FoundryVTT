@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Compact quilted linen bedroll with fleece; portable for mild seasons."
 id: ODDPodIfVZffiUgI
-slug: bedroll-light
 img: icons/game-icons/delapouite/sleeping-bag.svg
 shortcode: LiteBdrl
 type: miscgear

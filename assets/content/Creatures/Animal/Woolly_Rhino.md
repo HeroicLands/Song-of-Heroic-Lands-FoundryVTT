@@ -7,7 +7,6 @@ name:
     full: Woolly Rhino
     aliases: []
 id: vxgCrkIE0FSMA3Ty
-slug: woolly-rhino
 img: icons/game-icons/delapouite/rhinoceros-horn.svg
 portrait: ""
 shortcode: wllyrhn

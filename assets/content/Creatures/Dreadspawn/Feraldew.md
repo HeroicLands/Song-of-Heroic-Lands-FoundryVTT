@@ -7,7 +7,6 @@ name:
     full: Feraldew
     aliases: []
 id: c9Dwi7Xceu24w4P6
-slug: feraldew
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: feraldew

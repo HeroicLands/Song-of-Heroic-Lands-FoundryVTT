@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Breathable outer garment protecting from sun without causing overheating."
 id: nudRYFaC2QT8CRmj
-slug: linen-cloak
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: LClk
 type: armorgear

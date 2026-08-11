@@ -8,7 +8,6 @@ name:
     full: Giant Rat
     aliases: []
 id: JYYfIP5IvvkQ0oJK
-slug: giant-rat
 img: icons/game-icons/delapouite/rat.svg
 portrait: ""
 shortcode: giantrat

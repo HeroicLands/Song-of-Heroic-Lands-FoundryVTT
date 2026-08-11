@@ -8,7 +8,6 @@ name:
     full: Hippogryph
     aliases: []
 id: 9JVkmvPhZ6b3UtGU
-slug: hippogryph
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: hppgryph

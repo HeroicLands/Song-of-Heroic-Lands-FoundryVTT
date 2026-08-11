@@ -7,7 +7,6 @@ name:
     full: Stormseer
     aliases: []
 id: TXoRX749dQrUkWYC
-slug: stormseer
 img: icons/game-icons/lorc/werewolf.svg
 portrait: ""
 shortcode: strmsr

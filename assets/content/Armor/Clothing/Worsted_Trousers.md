@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool trousers; warm, durable leg wear."
 id: RYEcin42vR205Lmk
-slug: worsted-trousers
 img: icons/game-icons/lorc/trousers.svg
 shortcode: WTrsr
 type: armorgear

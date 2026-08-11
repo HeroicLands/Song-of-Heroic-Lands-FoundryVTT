@@ -3,11 +3,6 @@ aliases:
     - Gear
     - Equipment
     - Inventory
-    - Weapons
-    - Armor
-    - Projectiles
-    - Containers
-    - Concoctions
     - Encumbrance
 id: wjqsgt0VbETSKE6Y
 type: doc
@@ -17,7 +12,6 @@ name:
     full: Gear
     aliases: []
 folder: SSkatgtYj9d71kaz
-slug: sohl-gear
 shortcode: gear
 ---
 

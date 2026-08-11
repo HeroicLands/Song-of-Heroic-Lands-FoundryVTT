@@ -7,7 +7,6 @@ name:
     full: Courser
     aliases: []
 id: inCsJVZjrrZVkpJI
-slug: courser
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: ""
 shortcode: courser

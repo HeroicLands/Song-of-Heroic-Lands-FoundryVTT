@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Deep green beryl gem; set into crowns, brooches, and formal rings."
 id: mF4Ubog9ycfXeJYO
-slug: emerald-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: emeraldcut
 type: miscgear

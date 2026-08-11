@@ -11,7 +11,6 @@ category: rules
 name:
     full: Success Tests
     aliases: []
-slug: sohl-success-tests
 shortcode: sccsstst
 folder: e0HEIHw9qUVWqyzJ
 ---

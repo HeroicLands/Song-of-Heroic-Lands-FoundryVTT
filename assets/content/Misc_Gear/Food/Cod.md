@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Salt-cured white fish; dried or salted for long trade voyages."
 id: PoTftOCpRY4tsKfJ
-slug: cod
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cod
 type: miscgear

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Hinged wooden case with quills, penknife, inkhorns, sand caster, wax, seals, vellum; scribes and draughtsmen."
 id: 74Njo5FTdcP8JbSw
-slug: scribes-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scribekit
 type: miscgear

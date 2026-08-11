@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Large leather pouch for coins, rations, or daily essentials."
 id: sPTtZNEA7tXg6ZD8
-slug: belt-pouch-leather-lg
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: bpchlg
 type: containergear

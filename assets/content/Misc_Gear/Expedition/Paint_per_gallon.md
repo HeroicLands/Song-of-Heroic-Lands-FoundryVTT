@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Pigmented oil or lime-wash for painters and masons; premium colors cost more."
 id: 25ZZVDGChKWQ2Ca5
-slug: paint-per-gallon
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: paintperga
 type: miscgear

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Heavy hide cloak; harsh-weather outer layer."
 id: 3QTcJDMzx1IOZRTF
-slug: rawhide-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: RhMntl
 type: armorgear

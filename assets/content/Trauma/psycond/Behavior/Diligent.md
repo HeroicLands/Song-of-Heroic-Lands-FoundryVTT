@@ -5,7 +5,6 @@ name:
     full: Diligent
     aliases: []
 id: 6ogsEHCl84nLyDTt
-slug: diligent
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: diligent
 type: trauma

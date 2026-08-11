@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Shaping clay into durable pots, bowls, tiles, bricks, and sculpture."
 id: JOWydK8KF9LbJg8r
-slug: ceramics
 img: icons/game-icons/delapouite/amphora.svg
 shortcode: cmcs
 type: skill

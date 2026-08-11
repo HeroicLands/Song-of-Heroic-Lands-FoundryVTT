@@ -7,7 +7,6 @@ name:
     full: Fox
     aliases: []
 id: Z7axZ4NaELTtdReY
-slug: fox
 img: icons/game-icons/caro-asercion/fox.svg
 portrait: ""
 shortcode: fox

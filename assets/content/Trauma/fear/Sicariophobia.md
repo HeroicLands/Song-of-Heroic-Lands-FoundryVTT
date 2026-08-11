@@ -5,7 +5,6 @@ name:
     full: Sicariophobia
     aliases: []
 id: VO5fu6767h6Mojc5
-slug: sicariophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: scrphb
 type: trauma

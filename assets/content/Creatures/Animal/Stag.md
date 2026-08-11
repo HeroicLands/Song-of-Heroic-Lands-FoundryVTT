@@ -7,7 +7,6 @@ name:
     full: Stag
     aliases: []
 id: N9K2ohKoe0Iv7iJ7
-slug: stag
 img: icons/game-icons/lorc/stag-head.svg
 portrait: ""
 shortcode: stag

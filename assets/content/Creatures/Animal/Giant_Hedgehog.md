@@ -7,7 +7,6 @@ name:
     full: Giant Hedgehog
     aliases: []
 id: DWJU5xSE5N4KxtaN
-slug: giant-hedgehog
 img: icons/game-icons/caro-asercion/hedgehog.svg
 portrait: ""
 shortcode: gnthdghg

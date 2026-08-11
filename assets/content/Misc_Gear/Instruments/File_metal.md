@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Broad coarse-toothed steel file hafted in wood; blacksmiths use to true edges."
 id: fhN5diCWOhahHxWK
-slug: file-metal
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: filemetal
 type: miscgear

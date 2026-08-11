@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Barbed leaf-shaped throw-spear; wounds and disrupt before close-quarters."
 id: POF0Eyv7rL1OI8c0
-slug: javelin-barbed
 img: icons/game-icons/lorc/spears.svg
 shortcode: BarJav
 type: weapongear

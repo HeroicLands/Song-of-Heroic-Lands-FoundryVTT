@@ -7,7 +7,6 @@ name:
     full: Shadow Lynx
     aliases: []
 id: i1hrH7tYkoFMzTzq
-slug: shadow-lynx
 img: icons/game-icons/delapouite/lynx-head.svg
 portrait: ""
 shortcode: shdwlynx

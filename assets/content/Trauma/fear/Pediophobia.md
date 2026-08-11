@@ -5,7 +5,6 @@ name:
     full: Pediophobia
     aliases: []
 id: TbK0FLyZdHmrdBQG
-slug: pediophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: pediophb
 type: trauma

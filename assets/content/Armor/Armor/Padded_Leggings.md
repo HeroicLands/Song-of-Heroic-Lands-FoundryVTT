@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Cushioned leg coverings providing warmth for armor wear."
 id: puJfSP6LC70XqSOT
-slug: padded-leggings
 img: icons/game-icons/lorc/trousers.svg
 shortcode: PLeg
 type: armorgear

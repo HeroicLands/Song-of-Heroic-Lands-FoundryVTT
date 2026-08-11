@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Clear crystalline gem; affordable and common; catches light creating bright glimmer."
 id: 1C6Nkzrgxli5qaZg
-slug: quartz-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: quartzcut
 type: miscgear

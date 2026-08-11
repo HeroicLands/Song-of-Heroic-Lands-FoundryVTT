@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Beaver fur tunic blending function and status for cold weather."
 id: ajDPIlGZir1XJ16S
-slug: beaver-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: BvTunic
 type: armorgear

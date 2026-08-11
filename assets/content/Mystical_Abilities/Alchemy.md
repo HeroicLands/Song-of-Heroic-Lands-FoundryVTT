@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Distilling herbal and mineral substances into magical elixirs and reagents."
 id: uCTDMG4EGHB6dI5u
-slug: alchemy
 img: icons/game-icons/lorc/bubbling-flask.svg
 shortcode: alch
 type: mysticalability

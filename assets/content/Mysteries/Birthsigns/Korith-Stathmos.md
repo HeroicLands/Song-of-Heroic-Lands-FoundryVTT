@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
 id: MgJQ2lCs1syUg2Mo
-slug: korithstathmos
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: korithstathmos
 type: mystery

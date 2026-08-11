@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Supple silk rope; strong, light, and prized by climbers and thieves."
 id: ZCaBLp5K2xVkpwn2
-slug: rope-1-2-silk-per-ft-1000-lb-cap
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope12silk
 type: miscgear

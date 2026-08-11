@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Versatile straight blade for one or two hands; knight's choice."
 id: QTItBsnxjW6mQ3S0
-slug: bastard-sword
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: BstdSwd
 type: weapongear

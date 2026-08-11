@@ -5,7 +5,6 @@ name:
     full: Perception
     aliases: []
 id: qI1YEU3drmyEAiEl
-slug: perception
 img: icons/game-icons/lorc/awareness.svg
 shortcode: per
 type: attribute

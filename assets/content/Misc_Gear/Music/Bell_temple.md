@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Substantial bronze bell on frame; deep tone carries far beyond sanctuary."
 id: 58zPXzLGkb5cDkvI
-slug: bell-temple
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltemple
 type: miscgear

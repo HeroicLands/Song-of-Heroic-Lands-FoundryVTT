@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Ash-staved leather case on shoulder strap; protects finished bow during travel."
 id: n3ddTfbaCQMgVZlp
-slug: bow-case
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bowcase
 type: miscgear

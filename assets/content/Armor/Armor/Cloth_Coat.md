@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth coat providing comfort and warmth for everyday use."
 id: l84fJfEPdMbtWROO
-slug: cloth-coat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CCoat
 type: armorgear

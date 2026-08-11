@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fifty gallons pale ale; garrison staple; drains in weeks of daily supply."
 id: tmXuoiVwgO1b8QhY
-slug: hogshead-ale
 img: icons/game-icons/lorc/beer-stein.svg
 shortcode: alehgsh
 type: miscgear

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Soft plush velvet sleeved tunic; luxurious garment for formal occasions."
 id: fvwoslsqCB3UbxZP
-slug: velvet-sleeved-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: VSTnc
 type: armorgear

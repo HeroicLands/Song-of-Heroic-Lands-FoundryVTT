@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Detecting hidden motives, deception; unraveling plots and conspiracies."
 id: 2oOsN38lUZHGDinC
-slug: intrigue
 img: icons/game-icons/lorc/cloak-dagger.svg
 shortcode: intr
 type: skill

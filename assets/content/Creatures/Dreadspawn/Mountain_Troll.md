@@ -7,7 +7,6 @@ name:
     full: Mountain Troll
     aliases: []
 id: CkpnCdKnSiNWnnjO
-slug: mountain-troll
 img: icons/game-icons/skoll/troll.svg
 portrait: ""
 shortcode: mntntrll

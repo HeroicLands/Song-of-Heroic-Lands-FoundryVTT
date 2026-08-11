@@ -5,7 +5,6 @@ name:
     full: Enthusiastic
     aliases: []
 id: ZF80NMxf2tVWteeJ
-slug: enthusiastic
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: enthsstc
 type: trauma

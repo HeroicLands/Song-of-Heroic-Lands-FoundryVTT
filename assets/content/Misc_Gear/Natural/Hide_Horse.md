@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Supple durable horsehide; favored for saddles and armor linings by cavalry outposts."
 id: yYVOEWtjTgoq3M39
-slug: hide-horse
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidehorse
 type: miscgear

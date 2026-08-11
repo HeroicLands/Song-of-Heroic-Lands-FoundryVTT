@@ -42,9 +42,10 @@ import {
     resolveName,
     buildStats,
     md,
-    contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
+    collectContentDocs,
+    expandNoteTables,
 } from "./helpers.mjs";
 import { anchorPageId } from "./wikilinks.mjs";
 
@@ -215,11 +216,18 @@ export class Journals {
         });
     }
 
-    buildEntry(fm, body, tld) {
+    buildEntry(fm, body) {
         const name = resolveName(fm);
         const id = fm.id;
-        const { markdown, unresolved } = convertNoteWikilinks(body, {
-            tld,
+        // Generated tables expand first: their cells may carry wikilinks, which
+        // the conversion below then resolves along with the authored ones.
+        const tabulated = expandNoteTables(body, {
+            docs: this.contentDocs,
+            name,
+            pkg: fm.package,
+        });
+        const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
+            type: fm.type,
             id,
             index: this.linkIndex,
             name,
@@ -244,11 +252,6 @@ export class Journals {
         };
     }
 
-    /** @see contentTld */
-    tldOf(absPath) {
-        return contentTld(this.contentBase, absPath);
-    }
-
     async compile() {
         let compiled = 0;
         let skippedNoId = 0;
@@ -256,6 +259,7 @@ export class Journals {
         let skippedOther = 0;
 
         this.linkIndex = buildContentLinkIndex(this.contentBase);
+        this.contentDocs = collectContentDocs(this.contentBase);
         this.unresolvedLinks = 0;
 
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
@@ -278,7 +282,7 @@ export class Journals {
 
             log.debug(`Processing journal: ${resolveName(fm)} (${absPath})`);
             try {
-                const doc = this.buildEntry(fm, body, this.tldOf(absPath));
+                const doc = this.buildEntry(fm, body);
                 this.writeEntry(doc);
                 compiled++;
             } catch (err) {

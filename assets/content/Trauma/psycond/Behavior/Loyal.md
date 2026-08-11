@@ -5,7 +5,6 @@ name:
     full: Loyal
     aliases: []
 id: dZsXpK6LNwh13oqk
-slug: loyal
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: loyal
 type: trauma

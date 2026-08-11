@@ -7,7 +7,6 @@ name:
     full: Mossback Turtle
     aliases: []
 id: 8e0pLwFIiIUuHOsb
-slug: mossback-turtle
 img: icons/game-icons/lorc/turtle.svg
 portrait: ""
 shortcode: mssbcktr

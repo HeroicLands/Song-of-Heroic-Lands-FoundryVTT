@@ -5,7 +5,6 @@ name:
     full: Empathy
     aliases: []
 id: ibMPowNe3RLSw06o
-slug: empathy
 img: icons/game-icons/zeromancer/heart-plus.svg
 shortcode: emp
 type: attribute

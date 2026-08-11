@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Copper-and-tin alloy resistant to corrosion; merchants trade ingots by weight."
 id: p0tv5i6QrzL1Agtc
-slug: brass
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: brass
 type: miscgear

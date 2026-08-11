@@ -11,7 +11,6 @@ name:
     full: Fate Points
     aliases: []
 folder: gmHoAXi9mq8O9DUn
-slug: sohl-fate-points
 shortcode: fatepnts
 ---
 
@@ -49,7 +48,7 @@ character without a usable one cannot call on it at all.
 
 **The test is governed by Aura.** An Aura-governed test cannot be fated — neither
 the Aura attribute's own test, nor a test of any skill whose
-[[Rules/skills|Skill Base]] is computed from Aura. Fate answers _through_ Aura, and it
+[[doc/skills|Skill Base]] is computed from Aura. Fate answers _through_ Aura, and it
 will not be turned back on the thing that summons it.
 
 **The test is a Mystical Ability.** No Mystical Ability test can be fated, ever.
@@ -84,7 +83,7 @@ the success level changes — not the roll — every derived description and
 consequence of the original test simply re-resolves at the new, better level.
 
 **The gain is not capped at a Critical Success.** Success levels continue past it
-into the [[Rules/sccsstst|extended levels]], so a Marginal Success carried up two
+into the [[doc/sccsstst|extended levels]], so a Marginal Success carried up two
 rungs by a critical Fate Test becomes a **CS+1**, not merely a Critical Success.
 Fate can push a good result past the top of the ordinary scale — that is precisely
 what makes spending a point on an already-successful test worth considering.

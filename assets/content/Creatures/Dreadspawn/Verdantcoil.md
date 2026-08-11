@@ -7,7 +7,6 @@ name:
     full: Verdantcoil
     aliases: []
 id: e18xTUwy6qZEDvSE
-slug: verdantcoil
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: vrdntcl

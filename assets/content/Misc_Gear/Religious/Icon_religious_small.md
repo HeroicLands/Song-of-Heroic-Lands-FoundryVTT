@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Portable palm-sized icon for pilgrims and soldiers; kept at chest or shelf."
 id: I4tzGdJLGklE8lsc
-slug: icon-religious-small
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: iconreligi2
 type: miscgear

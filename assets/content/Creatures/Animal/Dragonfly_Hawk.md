@@ -7,7 +7,6 @@ name:
     full: Dragonfly Hawk
     aliases: []
 id: Ld3BjQ7uxeuVYQa7
-slug: dragonfly-hawk
 img: icons/game-icons/lorc/dragonfly.svg
 portrait: ""
 shortcode: drgnflyh

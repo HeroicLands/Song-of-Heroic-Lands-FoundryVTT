@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Balanced head tumbling end-over-end to break skirmish formation."
 id: DeRbT8UBKzngQxJQ
-slug: throwing-axe
 img: icons/game-icons/lorc/battle-axe.svg
 shortcode: Shkn
 type: weapongear

@@ -5,7 +5,6 @@ name:
     full: Eosophobia
     aliases: []
 id: NY9t5YdzVChALCbC
-slug: eosophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: eosophb
 type: trauma

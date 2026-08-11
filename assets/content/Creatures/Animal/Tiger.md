@@ -8,7 +8,6 @@ name:
     full: Tiger
     aliases: []
 id: j5rGiDYFcb0LAlmN
-slug: tiger
 img: icons/game-icons/delapouite/tiger.svg
 portrait: ""
 shortcode: tiger

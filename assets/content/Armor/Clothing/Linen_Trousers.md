@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable leg coverings ideal for warm weather comfort."
 id: qUWkcNqbvlPLiDCz
-slug: linen-trousers
 img: icons/game-icons/lorc/trousers.svg
 shortcode: LTrsr
 type: armorgear

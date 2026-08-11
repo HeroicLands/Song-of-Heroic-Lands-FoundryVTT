@@ -7,7 +7,6 @@ name:
     full: Sickleclaw Troodon
     aliases: []
 id: Nhye3QyqJk7qjPvr
-slug: sickleclaw-troodon
 img: icons/game-icons/lorc/dinosaur-rex.svg
 portrait: ""
 shortcode: scklclwt

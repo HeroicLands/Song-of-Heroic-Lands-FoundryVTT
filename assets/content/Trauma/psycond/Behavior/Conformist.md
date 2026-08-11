@@ -5,7 +5,6 @@ name:
     full: Conformist
     aliases: []
 id: W2jFes7iMr1QY4kF
-slug: conformist
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfrmst
 type: trauma

@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Understanding Sheets"
-slug: "understanding-sheets"
 shortcode: undrstnd
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -22,7 +21,7 @@ This guide explains the common tabs you'll encounter across all sheets, so
 you know where to find things regardless of which type of actor or item you're
 looking at.
 
-See also: [[User_Guide/being|Beings]], [[Character Creation]]
+See also: [[doc/being|Beings]], [[Character Creation]]
 
 # Sheet Header {#sheets-header}
 

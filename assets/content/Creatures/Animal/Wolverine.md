@@ -7,7 +7,6 @@ name:
     full: Wolverine
     aliases: []
 id: bQLlmKIoRwxXeHV7
-slug: wolverine
 img: icons/game-icons/caro-asercion/badger.svg
 portrait: ""
 shortcode: wlvrn

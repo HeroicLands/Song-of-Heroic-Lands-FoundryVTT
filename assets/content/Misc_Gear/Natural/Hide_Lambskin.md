@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Young sheep pelt with wool; light, dyes well; pliant warm leather."
 id: PdZJ54PZzoJaYppd
-slug: hide-lambskin
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidelambsk
 type: miscgear

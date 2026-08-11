@@ -7,7 +7,6 @@ name:
     full: Ratter
     aliases: []
 id: 1rt4bCbVyGDW9hKA
-slug: ratter
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
 shortcode: ratter

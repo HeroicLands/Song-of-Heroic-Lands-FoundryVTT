@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Steel wedge for cleaving logs; lasts years and saves labor on campaign."
 id: L71iKjCGM000Nhv4
-slug: wedge-splitting
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wedgesplit
 type: miscgear

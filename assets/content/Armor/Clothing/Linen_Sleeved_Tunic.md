@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable sleeved garment perfect for warm weather activities."
 id: qL942fGv15e2TYX0
-slug: linen-sleeved-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: LSTnc
 type: armorgear

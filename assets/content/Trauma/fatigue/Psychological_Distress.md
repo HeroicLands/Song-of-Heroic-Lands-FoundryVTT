@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Long-term weakness from sustained psychological strain."
 id: yd83oCkGuZe9cfxZ
-slug: psychological-distress
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: psydist
 type: trauma

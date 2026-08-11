@@ -7,7 +7,6 @@ name:
     full: Venomspitter
     aliases: []
 id: YmCBrcF6Kw2CrctD
-slug: venomspitter
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: vnmspttr

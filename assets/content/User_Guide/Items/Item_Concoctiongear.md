@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Concoction"
-slug: "item-conctiongear"
 shortcode: cncctn
 
 folder: QtOgPodi8X6gDWL0
@@ -27,7 +26,7 @@ Concoctions appear on the **Gear** tab, and are often placed inside of container
 
 # Additional Properties
 
-In addition to the [[User_Guide/itemgear|Standard Gear Properties]], the following additional properties are defined for concoctions:
+In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for concoctions:
 
 - **Quantity** — how many doses remain.
 - **Weight** — the weight of the concoction, contributing to encumbrance.
@@ -58,7 +57,7 @@ is a standard action it already inherits:
 
 The first three belong to every item and are described on [[Base Item]];
 **Toggle Carried** belongs to every piece of gear and is described on
-[[Gear]]. Those pages cover what each one does, how it is invoked, and
+[[doc/itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
 what it produces — none of it changes for a concoction.
 In particular there is no "use" action: drinking, applying, or administering a
 concoction stays a table decision, so you adjust its **Quantity** and apply its

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Carpenter's iron tool; claw hooks and shaft bludgeons alike."
 id: QsHlk6gE2d9E4T11
-slug: crowbar
 img: icons/game-icons/badges/club.svg
 shortcode: Crwbr
 type: weapongear

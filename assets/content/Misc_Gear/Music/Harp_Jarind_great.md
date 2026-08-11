@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Master-crafted frame harp; thirty-plus strings; rich sonorous voice spanning three octaves."
 id: paY1FUBrezK0bFU4
-slug: harp-jarind-great
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: harpjarind
 type: miscgear

@@ -12,7 +12,6 @@ name:
     full: Morale
     aliases: []
 folder: hAloT0Y1xg1vcIIn
-slug: sohl-morale
 shortcode: morale
 ---
 
@@ -75,4 +74,4 @@ turn.
 ## See also
 
 - [[Fear]], [[Shock]],
-  [[Psychological Condition]], [[Trauma]].
+  [[Psychological Condition]], [[doc/trauma|Trauma]].

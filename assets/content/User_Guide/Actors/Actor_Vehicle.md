@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Vehicle"
-slug: "actor-vehicle"
 shortcode: vehicle
 folder: sYK1BozT9xFcinXK
 ---
@@ -127,4 +126,4 @@ active one. **Add Movement Profile**, in that table's header, adds a rate for a
 medium the vehicle does not yet have.
 
 The cargo and equipment a vehicle carries are ordinary gear items with actions of
-their own — see [[Gear]] and the page for each kind of gear.
+their own — see [[doc/itemgear|Gear]] and the page for each kind of gear.

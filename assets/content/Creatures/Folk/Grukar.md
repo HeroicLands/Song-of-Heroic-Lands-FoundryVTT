@@ -11,7 +11,6 @@ id: GudJhPy3GCGZhsWS
 name:
     full: Grukar
     aliases: []
-slug: grukar
 ---
 
 ## The Grukar: A Blight Upon the Land
@@ -20,11 +19,11 @@ The Grukar are a brutal and prolific folk, feared wherever their guttural war-cr
 
 ### Biology and Reproduction
 
-The Grukar are genderless. They are not "males" or "females" in any meaningful sense — the words simply do not apply, and Grukar themselves have no concept of male or female roles, mating pairs, or sexual difference. Reproduction in Grukar society is the exclusive function of a separate subspecies, the [[Grukar-ahk]], which is hermaphroditic and self-fertilizing. A fertile Grukar-ahk lays clutches of eggs from which all other Grukar are spawned, and one of the Grukar-ahk's most remarkable abilities is the capacity to choose the subspecies of its spawn — to lay eggs that hatch as Grukar-Uk, Grukar-Sha, or Grukar-Hai according to the changing needs of its tribe.
+The Grukar are genderless. They are not "males" or "females" in any meaningful sense — the words simply do not apply, and Grukar themselves have no concept of male or female roles, mating pairs, or sexual difference. Reproduction in Grukar society is the exclusive function of a separate subspecies, the [[creature/grkrahk|Grukar-ahk]], which is hermaphroditic and self-fertilizing. A fertile Grukar-ahk lays clutches of eggs from which all other Grukar are spawned, and one of the Grukar-ahk's most remarkable abilities is the capacity to choose the subspecies of its spawn — to lay eggs that hatch as Grukar-Uk, Grukar-Sha, or Grukar-Hai according to the changing needs of its tribe.
 
 ### The Hive-like Society of the Grukar
 
-A Grukar tribe is centered on a single fertile [[Grukar-ahk]], the spawning matrix on whom the entire tribe's continuation depends. Around the fertile Grukar-ahk live a small number of infertile Grukar-ahk — usually three to six — who serve as personal guardians and as a kind of biological reserve. These infertile Grukar-ahk are physically smaller and structurally simpler than the fertile one; they cannot spawn while the fertile Grukar-ahk lives, but each carries the latent capacity to become fertile if the circumstances arise.
+A Grukar tribe is centered on a single fertile [[creature/grkrahk|Grukar-ahk]], the spawning matrix on whom the entire tribe's continuation depends. Around the fertile Grukar-ahk live a small number of infertile Grukar-ahk — usually three to six — who serve as personal guardians and as a kind of biological reserve. These infertile Grukar-ahk are physically smaller and structurally simpler than the fertile one; they cannot spawn while the fertile Grukar-ahk lives, but each carries the latent capacity to become fertile if the circumstances arise.
 
 When a tribe grows too large for its territory to support, internal pressure builds toward fragmentation. A faction of disaffected Grukar — typically a Grukar-Hai with its retainers, sometimes coordinated by a Grukar-Sha plotting an exit — will mount a raid on the inner sanctum, seize one of the infertile Grukar-ahk, and flee with it into unclaimed land. Once the abducted Grukar-ahk is sufficiently distant from its mother-tribe's fertile spawner, its dormant biology activates and it becomes fertile in turn. From that moment a new tribe exists; from its first clutch of eggs, the new Grukar-ahk begins shaping it.
 
@@ -58,13 +57,13 @@ Beyond the tribe's immediate range the Ahk's calculation shifts but does not sof
 
 The Grukar are not one creature but four, each subspecies as distinct from the others as a wolf from a jackal. They share a common ancestry, a common mode of communication (body posture and gesture as the primary channel, supplemented by chest- and throat-generated clicks, rasps, and subsonic and ultrasonic calls that lie outside human hearing), and a common brutality — but beyond that, they are shaped by vastly different pressures and the deliberate spawning choices of the Grukar-ahk into vastly different forms. Together they constitute a crude but effective society: the spawner sustains, the strong rule, the clever manipulate, and the many toil and die.
 
-[[Grukar-ahk]] — The spawners. Hermaphroditic, self-fertilizing, present in any tribe as one fertile individual plus a small handful of infertile guardians-and-reserves. The Grukar-ahk decide the demographic composition of the tribe by selecting the subspecies of each clutch they lay. They are physically substantial — stronger than the Sha, less massive than the Hai — but rarely fight personally; their role is biological, not martial.
+[[creature/grkrahk|Grukar-ahk]] — The spawners. Hermaphroditic, self-fertilizing, present in any tribe as one fertile individual plus a small handful of infertile guardians-and-reserves. The Grukar-ahk decide the demographic composition of the tribe by selecting the subspecies of each clutch they lay. They are physically substantial — stronger than the Sha, less massive than the Hai — but rarely fight personally; their role is biological, not martial.
 
-[[Grukar-Uk]] — The common Grukar, comprising roughly eighty-five percent of any tribe. Stocky, strong, and numbingly stupid, they are the laborers, the foot soldiers, and the expendable masses. What they lack in wit they make up for in sheer numbers and a stubborn, muscular endurance.
+[[creature/grukaruk|Grukar-Uk]] — The common Grukar, comprising roughly eighty-five percent of any tribe. Stocky, strong, and numbingly stupid, they are the laborers, the foot soldiers, and the expendable masses. What they lack in wit they make up for in sheer numbers and a stubborn, muscular endurance.
 
-[[Grukar-Sha]] — The thinkers, the whisperers, the ones who survive by being too useful to kill. Roughly ten percent of the population, the Grukar-Sha are thin, cunning, and physically the weakest of their kind — but their intelligence makes them indispensable as scouts, spies, and counselors to the mighty.
+[[creature/grkrsh|Grukar-Sha]] — The thinkers, the whisperers, the ones who survive by being too useful to kill. Roughly ten percent of the population, the Grukar-Sha are thin, cunning, and physically the weakest of their kind — but their intelligence makes them indispensable as scouts, spies, and counselors to the mighty.
 
-[[Grukar-Hai]] — The towering apex of Grukar-kind, and the rarest of the warrior castes, comprising perhaps five percent of the population. Massively built and savagely violent, the Grukar-Hai are spawned to dominate — but their ferocious temperament drives them to fight one another as readily as any enemy, ensuring that only the most fearsome survive while their own numbers remain forever thin.
+[[creature/grkrh|Grukar-Hai]] — The towering apex of Grukar-kind, and the rarest of the warrior castes, comprising perhaps five percent of the population. Massively built and savagely violent, the Grukar-Hai are spawned to dominate — but their ferocious temperament drives them to fight one another as readily as any enemy, ensuring that only the most fearsome survive while their own numbers remain forever thin.
 
 ### The Grukar Threat
 

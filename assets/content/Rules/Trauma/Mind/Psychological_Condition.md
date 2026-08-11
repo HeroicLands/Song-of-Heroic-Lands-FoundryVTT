@@ -3,7 +3,6 @@ aliases:
     - Psychological Condition
     - Psyche Stress
     - Psyche Stress Level
-    - Aural Shock
 id: R6LpCJeZV0uruifv
 type: doc
 package: sohl
@@ -12,11 +11,10 @@ name:
     full: Psychological Condition
     aliases: []
 folder: hAloT0Y1xg1vcIIn
-slug: sohl-psychological-condition
 shortcode: psychlgc
 ---
 
-A **psychological condition** is a [[Trauma]] of the mind — a quirk,
+A **psychological condition** is a [[doc/trauma|Trauma]] of the mind — a quirk,
 impulse, or disorder that colors behavior. Just as bodily harm is rated in Injury
 Levels, mental strain is rated in **Psyche Stress Levels (PSY)**.
 
@@ -50,7 +48,7 @@ psychological condition** whose intensity is measured in PSY levels. It does not
 take hold immediately: it surfaces roughly **ten minutes** after the triggering
 trauma and then lingers for as long as any PSY remains (and over the course of
 recovery may become permanent). When it manifests, the victim gains **5
-[[Rules/fatigue|weakness fatigue]] per PSY level**; further stress tied to the same
+[[doc/fatigue|weakness fatigue]] per PSY level**; further stress tied to the same
 condition raises its PSY.
 
 | PSY | Presentation                                                                                                   |
@@ -86,9 +84,9 @@ not apply.
 | CS (2)  | Recovery — −2 AS.                                     |
 
 The victim recovers from Aural Shock when AS reaches 0. Aural Shock inflicts **5
-[[Rules/fatigue|weakness fatigue]] per AS level**, which recovers as the AS decreases.
+[[doc/fatigue|weakness fatigue]] per AS level**, which recovers as the AS decreases.
 
 ## See also
 
 - [[Fear]], [[Morale]], [[Fatigue]],
-  [[The Pall]], [[Trauma]].
+  [[The Pall]], [[doc/trauma|Trauma]].

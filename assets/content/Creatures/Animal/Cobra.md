@@ -8,7 +8,6 @@ name:
     full: Cobra
     aliases: []
 id: NQZVX98HeA9QlGWY
-slug: cobra
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
 shortcode: cobra

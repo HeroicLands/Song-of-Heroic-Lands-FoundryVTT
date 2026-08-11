@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool robe; durable, practical versatile garment."
 id: gawXBfAtXL0g5NKs
-slug: worsted-robe
 img: icons/game-icons/lorc/robe.svg
 shortcode: WRobe
 type: armorgear

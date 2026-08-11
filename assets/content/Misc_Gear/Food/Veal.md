@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Pale tender young calf meat, fine-grained, favored by wealthy households."
 id: WtF9W9cqrBiW7S6y
-slug: veal
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: veal
 type: miscgear

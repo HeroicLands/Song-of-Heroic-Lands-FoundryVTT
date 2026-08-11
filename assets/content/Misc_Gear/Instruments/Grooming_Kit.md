@@ -11,7 +11,6 @@ name:
         - Toilet Kit
 description: "Leather roll with comb, brush, folding razor, hand mirror, soap, pomade; daily upkeep of hair, beard, and skin."
 id: WAoCcpTuCJlTBP3O
-slug: grooming-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: groomkit
 type: miscgear

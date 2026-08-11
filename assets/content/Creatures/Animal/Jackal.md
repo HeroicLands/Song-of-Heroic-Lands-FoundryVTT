@@ -8,7 +8,6 @@ name:
     full: Jackal
     aliases: []
 id: QwBtVq9RDqpwnf7s
-slug: jackal
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
 shortcode: jackal

@@ -9,7 +9,6 @@ description: "Dressed round shot for an engine; a stone the weight of a man."
 type: projectilegear
 package: sohl
 id: ProjSiegeStone1
-slug: siege-stone
 shortcode: StnSge
 img: icons/game-icons/lorc/stone-block.svg
 easyname: Siege Stone

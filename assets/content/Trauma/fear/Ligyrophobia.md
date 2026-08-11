@@ -5,7 +5,6 @@ name:
     full: Ligyrophobia
     aliases: []
 id: MVDM93vscWJUYlVF
-slug: ligyrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: lgyrphb
 type: trauma

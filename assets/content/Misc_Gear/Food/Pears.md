@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Dried autumn fruit, hardened sweet traveler's treat and childhood prize."
 id: 6mM62JZVn3FEZRaR
-slug: pears
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pears
 type: miscgear

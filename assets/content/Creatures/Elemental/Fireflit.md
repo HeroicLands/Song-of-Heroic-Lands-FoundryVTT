@@ -7,7 +7,6 @@ name:
     full: Fireflit
     aliases: []
 id: WTtS70pyqXortIMX
-slug: fireflit
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: fireflit

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Vibrio bacterium; sudden profuse watery diarrhea; rapid dehydration fatal without treatment."
 id: H8oEH0fN3IXFHJpJ
-slug: cholera
 img: icons/game-icons/lorc/virus.svg
 shortcode: cholera
 type: affliction

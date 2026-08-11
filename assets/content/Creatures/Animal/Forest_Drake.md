@@ -7,7 +7,6 @@ name:
     full: Forest Drake
     aliases: []
 id: TD1mrTArS6vzQzxW
-slug: forest-drake
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
 shortcode: frstdrk

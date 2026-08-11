@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Using Compendiums"
-slug: "using-compendiums"
 shortcode: usngcmpn
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -18,7 +17,7 @@ that come with SoHL. They contain ready-to-use characters, creatures,
 equipment, skills, and reference material. Instead of creating everything
 from scratch, you import from compendiums and customize.
 
-See also: [[Creating Actors and Items]], [[User_Guide/quickstart|Quickstart]]
+See also: [[Creating Actors and Items]], [[doc/quickstart|Quickstart]]
 
 # Available Compendium Packs {#compendium-packs}
 

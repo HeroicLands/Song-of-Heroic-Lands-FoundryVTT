@@ -5,7 +5,6 @@ name:
     full: Generous
     aliases: []
 id: qdgboSZu0vOQXf4v
-slug: generous
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: generous
 type: trauma

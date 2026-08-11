@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Soft white ermine gloves; mark of high status and wealth."
 id: C5CEWxxBG7zeuYD7
-slug: ermine-gloves
 img: icons/game-icons/delapouite/gloves.svg
 shortcode: EGlv
 type: armorgear

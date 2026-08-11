@@ -9,7 +9,6 @@ name:
     full: Orca
     aliases: []
 id: HUbSiJXZrGu9Uz6t
-slug: orca
 img: icons/game-icons/delapouite/sperm-whale.svg
 portrait: ""
 shortcode: orca

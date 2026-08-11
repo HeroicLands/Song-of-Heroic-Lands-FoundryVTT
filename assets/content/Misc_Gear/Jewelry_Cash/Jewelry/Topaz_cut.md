@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Golden-yellow brilliant gem; hard and lustrous; throws light like a miniature sun."
 id: FIXSjmfSDNXqDtQr
-slug: topaz-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: topazcut
 type: miscgear

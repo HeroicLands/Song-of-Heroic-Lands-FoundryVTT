@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Distant leaf brew stretched across days, sharpens mind and warms."
 id: cx4864ua847fNyCk
-slug: tea
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tea
 type: miscgear

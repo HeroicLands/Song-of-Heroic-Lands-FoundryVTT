@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "A birthsign of the Astrokýklos: the influence conferred by the celestial sign under which a being was born."
 id: R6kUskyAmO8AmYuz
-slug: korith
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: korith
 type: mystery

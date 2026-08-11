@@ -5,7 +5,6 @@ name:
     full: Galeophobia
     aliases: []
 id: 3Ui5Wkcg6iWFKm8L
-slug: galeophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: galeophb
 type: trauma

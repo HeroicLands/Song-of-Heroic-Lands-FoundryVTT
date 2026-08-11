@@ -5,7 +5,6 @@ name:
     full: Voice
     aliases: []
 id: FnaXc1K99zsHxghH
-slug: voice
 img: icons/game-icons/lorc/sing.svg
 shortcode: voi
 type: attribute

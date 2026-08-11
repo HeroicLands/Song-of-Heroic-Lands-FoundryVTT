@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Plush velvet gloves; opulent garment for high-status formal occasions."
 id: btNiEwcqDXtJw4Di
-slug: velvet-gloves
 img: icons/game-icons/delapouite/gloves.svg
 shortcode: VGlv
 type: armorgear

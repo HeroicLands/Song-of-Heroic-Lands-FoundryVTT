@@ -9,7 +9,6 @@ name:
     full: Polar Bear
     aliases: []
 id: gFFrYYtroCDjUsx4
-slug: polar-bear
 img: icons/game-icons/cathelineau/polar-bear.svg
 portrait: ""
 shortcode: plrbr

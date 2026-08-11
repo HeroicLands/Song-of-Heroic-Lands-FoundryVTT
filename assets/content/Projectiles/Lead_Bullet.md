@@ -9,7 +9,6 @@ description: "Cast lead almond-shaped ball; farther-flying, harder-striking than
 type: projectilegear
 package: sohl
 id: AeDgnvIYfTWbk4Z7
-slug: lead-bullet
 shortcode: LBul
 img: icons/game-icons/delapouite/stone-pile.svg
 easyname: Lead Bullet

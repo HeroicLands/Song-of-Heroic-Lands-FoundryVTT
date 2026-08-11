@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Cushioned torso covering for warmth and cold weather protection."
 id: 6xlSLAghi4ujcdEB
-slug: padded-shirt
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: PSht
 type: armorgear

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Small pelt of stoat or marten; snow-white or dark fur for cloak-trim."
 id: 5e4HPnC1RcbhChnn
-slug: hide-ermine-sable
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideermine
 type: miscgear

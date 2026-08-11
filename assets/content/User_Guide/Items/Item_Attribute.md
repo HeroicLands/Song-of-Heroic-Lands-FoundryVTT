@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Attribute"
-slug: "item-attribute"
 shortcode: attrbt
 folder: QtOgPodi8X6gDWL0
 ---
@@ -40,7 +39,7 @@ shortcut past the pre-roll dialog.
 
 Attributes are displayed prominently since they form the basis of skill base
 formulas — every skill derives its starting value from one or more attributes,
-named in the skill's [[User_Guide/sfexprss|Skill Base formula]] by shortcode.
+named in the skill's [[doc/sfexprss|Skill Base formula]] by shortcode.
 
 Attributes are typically added from compendium packs when creating a character,
 not created from scratch. **Add Attribute** above the grid creates a blank one.
@@ -51,7 +50,7 @@ character's attributes alongside their skills.
 
 # Additional Properties
 
-Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Score:** The attribute's base value — the number the Profile card shows, and
   the number the Target Level is five times. This is the **first** of the two
@@ -158,7 +157,7 @@ roll. A Strength test made on a crushed arm is not a normal Strength test.
 
 > **Known gap. No Fate can be spent on an attribute test.** The card never offers the
 > **Fate** button, even when the character holds a general Fate Point, although
-> the [[Rules/ftdvn|Fate rules]] allow one on any skill _or attribute_ test
+> the [[doc/ftdvn|Fate rules]] allow one on any skill _or attribute_ test
 > (issue #1106). Until it is fixed, spend Fate at the table by agreement, or
 > have the GM adjust the result with the pencil.
 
@@ -206,7 +205,7 @@ attribute of their own.
 The whole flow — the targeting rules, both cards, the responder's dialog, and how
 Victory Stars are read — is described once on [[Token]], under _Starting an
 Opposed Test_. For the rules behind a contest, see the
-[[Rules/oppsdtst|Opposed Tests]] rules.
+[[doc/oppsdtst|Opposed Tests]] rules.
 
 **Nobody rolls for anybody.** The request card sits in the chat log until a user
 who owns the target answers it, and it can be ignored entirely if the table would
@@ -217,12 +216,12 @@ rather rule the outcome by hand.
 - [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, and the standard test dialog both
   rolls on this page open.
-- [[Skill]] — the learned counterpart, whose Skill Base formulas are
+- [[doc/skill|Skill]] — the learned counterpart, whose Skill Base formulas are
   built from these attributes.
 - [[Skill Tests]] — what the numbers in a test mean, and how success levels are read.
 - [[Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
-- [[Rules/oppsdtst|Opposed Tests]] (rules) — Victory Stars and ties.
-- [[User_Guide/thftsyst|Fate]] — spending a Fate Point on a settled result.
+- [[doc/oppsdtst|Opposed Tests]] (rules) — Victory Stars and ties.
+- [[doc/thftsyst|Fate]] — spending a Fate Point on a settled result.
 - [[Safe Expressions]] — how an attribute is referenced from a Skill Base formula.
 - [[Shortcodes]] — what a Skill Base formula is naming when it says `attr.str`.
 - [[Character Creation]] — where a character's attribute scores come from.

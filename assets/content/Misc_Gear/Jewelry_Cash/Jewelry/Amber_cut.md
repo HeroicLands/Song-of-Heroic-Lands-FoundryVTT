@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Translucent golden gem faceted by lapidary; glows warmly for modest jewelry."
 id: EMMjYTR3WFgCf6OL
-slug: amber-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ambercut
 type: miscgear

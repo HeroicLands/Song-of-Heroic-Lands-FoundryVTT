@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool breeches; warm and hardy leg-wear."
 id: azl99CUBdZoB3lgj
-slug: russet-breeches
 img: icons/game-icons/lorc/trousers.svg
 shortcode: RBrch
 type: armorgear

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Steel knee-guards; protects joints from heavy blows."
 id: Q3zaG4MFlXnGiqrg
-slug: plate-kneecops
 img: icons/game-icons/delapouite/knee-pad.svg
 shortcode: PlKncp
 type: armorgear

@@ -7,7 +7,6 @@ name:
     full: Stoneclimber
     aliases: []
 id: K2ltSub3JftqQzbn
-slug: stoneclimber
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: stnclmbr

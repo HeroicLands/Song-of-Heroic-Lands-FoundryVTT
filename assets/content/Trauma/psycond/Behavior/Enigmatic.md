@@ -5,7 +5,6 @@ name:
     full: Enigmatic
     aliases: []
 id: eiZ5TYf2XaCPtojK
-slug: enigmatic
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: engmtc
 type: trauma

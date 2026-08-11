@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Unbound quires with oak boards and bronze clasps; ready for binding."
 id: dVuC9SoU1Vsrja1P
-slug: book-base
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bookbase
 type: miscgear

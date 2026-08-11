@@ -9,7 +9,6 @@ name:
     full: Boost
     aliases: []
 folder: gmHoAXi9mq8O9DUn
-slug: sohl-boost
 shortcode: boost
 ---
 

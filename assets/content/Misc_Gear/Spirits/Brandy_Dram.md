@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Clear fiery distilled spirit; warms chest on winter roads, steadies trembling hands."
 id: fD7GLm6IzHncHQvm
-slug: brandy-dram
 img: icons/game-icons/lorc/brandy-bottle.svg
 shortcode: brdydrm
 type: miscgear

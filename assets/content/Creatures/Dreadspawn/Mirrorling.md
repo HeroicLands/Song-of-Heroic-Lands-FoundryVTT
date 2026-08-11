@@ -7,7 +7,6 @@ name:
     full: Mirrorling
     aliases: []
 id: u7FShyu98eDuRwVS
-slug: mirrorling
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: mrrrlng

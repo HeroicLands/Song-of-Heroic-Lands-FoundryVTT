@@ -5,7 +5,6 @@ name:
     full: Xenophobia
     aliases: []
 id: nqCFqn4OB3WoOu61
-slug: xenophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: xenophb
 type: trauma

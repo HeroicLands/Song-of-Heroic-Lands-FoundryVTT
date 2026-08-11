@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Fabric-backed overlapping metal scales; flexible torso defense."
 id: jk9kZHYxBW4JR67X
-slug: scale-byrnie
 img: icons/game-icons/lorc/scale-mail.svg
 shortcode: SByrn
 type: armorgear

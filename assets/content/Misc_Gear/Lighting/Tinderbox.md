@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Iron box with charred linen, steel striker, flint; kindles fire anywhere."
 id: sVIqivW8l6eNVdSl
-slug: tinderbox
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tndrbx
 type: miscgear

@@ -11,12 +11,11 @@ category: rules
 name:
     full: Bleeding
     aliases: []
-slug: sohl-bleeding
 shortcode: bleeding
 folder: F4NGyU9QQgWwTcHe
 ---
 
-A physical [[User_Guide/afflandi|Injury]] marked as **bleeding**
+A physical [[doc/afflandi|Injury]] marked as **bleeding**
 is losing blood in a life-threatening way. Left unchecked, a bleeder will likely
 kill the character within **10–15 minutes** unless the bleeding is staunched.
 
@@ -49,13 +48,13 @@ Dead.
 
 So a character who is **Incapacitated** and accrues 1 BLP becomes
 **Unconscious**; accruing 2 BLP instead would kill them. (This is the ordinal
-counterpart of the [[Rules/shock#shock-state-index|Shock State Index]] that injuries
+counterpart of the [[doc/shock#shock-state-index|Shock State Index]] that injuries
 drive.)
 
 ### Anemia
 
 Each Blood Loss Advance Test also inflicts **5 points of
-[[Rules/fatigue|weakness fatigue]] per Blood Loss Point** accrued, representing the
+[[doc/fatigue|weakness fatigue]] per Blood Loss Point** accrued, representing the
 anemia of ongoing blood loss. This fatigue is applied every time the test is
 made.
 

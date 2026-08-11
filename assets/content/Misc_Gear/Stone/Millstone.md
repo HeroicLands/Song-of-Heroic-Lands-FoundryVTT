@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Large granite or basalt disc with dressed furrows; grinds grain for decades."
 id: DH8AbckWaXc27pSf
-slug: millstone
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: millstone
 type: miscgear

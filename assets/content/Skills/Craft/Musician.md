@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Playing various instruments with technical facility and musical interpretation."
 id: 5DPlnTLCpfyz4Rar
-slug: musician
 img: icons/game-icons/delapouite/harp.svg
 shortcode: musc
 type: skill

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Soft, breathable cloth knee boots for casual and light duty."
 id: xpA3p2phrtzfhbbO
-slug: cloth-knee-boots
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: CKBoot
 type: armorgear

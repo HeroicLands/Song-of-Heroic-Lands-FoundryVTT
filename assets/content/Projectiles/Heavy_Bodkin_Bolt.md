@@ -9,7 +9,6 @@ description: "Heavy shaft, square-sectioned spike; splits mail, dents breastplat
 type: projectilegear
 package: sohl
 id: 1ykjrEPFWG47kjtO
-slug: heavy-bodkin-bolt
 shortcode: BltHBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Bodkin

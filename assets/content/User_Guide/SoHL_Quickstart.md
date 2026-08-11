@@ -9,7 +9,6 @@ category: user-guide
 name:
     full: Song of Heroic Lands Quickstart
     alises: []
-slug: "sohl-quickstart"
 shortcode: quickstart
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -48,5 +47,5 @@ See [[Combat Basics]] for round flow and common checks.
 
 # See Also
 
-- [[Rules/rulesidx|Song of Heroic Lands Rules]]
+- [[doc/rulesidx|Song of Heroic Lands Rules]]
 - [[Song of Heroic Lands User Guide]]

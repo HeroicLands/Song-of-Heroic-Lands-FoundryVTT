@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Salt-cured pork belly cold-smoked; keeps through summer, enriches bread or pottage."
 id: tT0TrgOmwLYrVxqR
-slug: bacon
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bacon
 type: miscgear

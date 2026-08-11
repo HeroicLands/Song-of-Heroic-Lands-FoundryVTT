@@ -5,7 +5,6 @@ name:
     full: Watchful
     aliases: []
 id: 0E85eT5vUuk0Xu6f
-slug: watchful
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: watchful
 type: trauma

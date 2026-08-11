@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Calling and compelling spirits, forces, or beings from beyond the physical world."
 id: oXYa53IldDytbfFq
-slug: summoning
 img: icons/game-icons/delapouite/enrage.svg
 shortcode: summ
 type: mysticalability

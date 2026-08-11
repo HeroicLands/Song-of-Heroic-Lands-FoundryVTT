@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Marked candle burned to measure hours; favored by scribes, scholars, astrologers."
 id: Tysu8Gs9sCWF4BeS
-slug: candle-calibrated
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlecali
 type: miscgear

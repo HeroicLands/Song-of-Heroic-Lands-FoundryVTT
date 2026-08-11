@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Beaver pelt with dense underfur and waterproof guard hairs; cloaks, winter garments."
 id: 21lNzznQTTqz5Dg8
-slug: hide-beaver
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidebeaver
 type: miscgear

@@ -8,7 +8,6 @@ name:
     full: Vulture
     aliases: []
 id: CDvOpm9UbhRybcAy
-slug: vulture
 img: icons/game-icons/lorc/vulture.svg
 portrait: ""
 shortcode: vulture

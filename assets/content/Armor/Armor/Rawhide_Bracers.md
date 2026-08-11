@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stiff hide forearm-guards; durable wrist and arm defense."
 id: mCFgK5g4PXLyoD5k
-slug: rawhide-bracers
 img: icons/game-icons/delapouite/bracer.svg
 shortcode: RhBrcr
 type: armorgear

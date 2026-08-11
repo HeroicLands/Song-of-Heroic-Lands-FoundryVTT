@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade dress providing coverage and comfort."
 id: bDmChthDrGgnwJ8i
-slug: homespun-dress
 img: icons/game-icons/skoll/dress.svg
 shortcode: HsDress
 type: armorgear

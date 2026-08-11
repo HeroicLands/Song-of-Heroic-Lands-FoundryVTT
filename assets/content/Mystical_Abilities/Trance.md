@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Deep meditation opening consciousness to astral and spiritual perception."
 id: W5zBa8cOWNIr58UE
-slug: trance
 img: icons/game-icons/lorc/meditation.svg
 shortcode: trnc
 type: mysticalability

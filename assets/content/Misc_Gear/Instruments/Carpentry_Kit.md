@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Journeyman's leather roll holding chisels, plane, saw, auger, rules."
 id: 7xEE6PVS14HORuNO
-slug: carpentry-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: carpentryk
 type: miscgear

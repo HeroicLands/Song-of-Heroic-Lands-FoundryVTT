@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Calendar JSON Format"
-slug: "calendar-format"
 shortcode: clndrjsn
 folder: IgwaG8rAUUO9vrtz
 ---

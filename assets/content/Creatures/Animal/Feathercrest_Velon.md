@@ -7,7 +7,6 @@ name:
     full: Feathercrest Velon
     aliases: []
 id: Or8DbTmkrdKMEqDi
-slug: feathercrest-velon
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: fthrcrst

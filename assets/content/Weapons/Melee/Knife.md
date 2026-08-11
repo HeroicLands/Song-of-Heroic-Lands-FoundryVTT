@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Single-edged blade for camp work and brawl alike."
 id: FF9MpNPDmRw6wV0t
-slug: knife
 img: icons/game-icons/lorc/plain-dagger.svg
 shortcode: Kni
 type: weapongear

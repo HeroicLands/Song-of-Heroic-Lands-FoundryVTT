@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Deliberate deception; distorting facts while appearing truthful oneself."
 id: WZblksWtuxXkT40X
-slug: guile
 img: icons/game-icons/lorc/imp.svg
 shortcode: guil
 type: skill

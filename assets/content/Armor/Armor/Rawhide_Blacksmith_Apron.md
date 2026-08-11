@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Thick hide apron; guards against forge-spark and heat."
 id: 7sfKMsj67RzZGgbJ
-slug: rawhide-blacksmith-apron
 img: icons/game-icons/delapouite/cook.svg
 shortcode: RhApr
 type: armorgear

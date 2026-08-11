@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Steel forearm-guards; protects wrists and inner arms."
 id: VNnWgvw6fBMJxx00
-slug: plate-vambraces
 img: icons/game-icons/delapouite/bracer.svg
 shortcode: PlVamb
 type: armorgear

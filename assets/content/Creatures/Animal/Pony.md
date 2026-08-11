@@ -7,7 +7,6 @@ name:
     full: Pony
     aliases: []
 id: dAk8STANJlO4S4YW
-slug: pony
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: ""
 shortcode: pony

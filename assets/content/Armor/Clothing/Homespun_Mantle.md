@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade mantle providing weather protection for folk."
 id: 3Ya3ZFTchRKrCj3Z
-slug: homespun-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: HsMntl
 type: armorgear

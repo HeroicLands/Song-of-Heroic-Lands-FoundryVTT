@@ -9,7 +9,6 @@ name:
     full: Healing Base
     aliases: []
 folder: F4NGyU9QQgWwTcHe
-slug: sohl-healing-base
 shortcode: hlngbs
 ---
 
@@ -27,14 +26,14 @@ otherwise.
 | 12  | 13  | 12.5    | 12 (END ≤ WIL → down) |
 
 Healing Base is the mastery level used, together with a **Healing Rate**, in
-nearly every recovery roll in the system — the [[Rules/hlngtst|Injury Healing Test]],
-the affliction [[Rules/afflctns#course-test|Course Test]], the
+nearly every recovery roll in the system — the [[doc/hlngtst|Injury Healing Test]],
+the affliction [[doc/afflctns#course-test|Course Test]], the
 [[Infection Healing Test]], and the Extended Shock and Coma course
 tests (see [[Shock]]). In each case the test is rolled against
 **`Healing Base × Healing Rate`**.
 
 ## See also
 
-- [[Rules/injrylvl|Injury]] — Healing Rate and the Injury Healing Test.
+- [[doc/injrylvl|Injury]] — Healing Rate and the Injury Healing Test.
 - [[Afflictions]] — the Course Test.
 - [[Success Tests]] — the CF / MF / MS / CS success levels.

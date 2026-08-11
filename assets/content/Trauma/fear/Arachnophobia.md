@@ -5,7 +5,6 @@ name:
     full: Arachnophobia
     aliases: []
 id: NrP2jApnrRDINrUm
-slug: arachnophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: aracphb
 type: trauma

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Lean pale meat cooks quickly, jerked for campaigns, fur for furriers."
 id: VWvemhIoCuxy1YMv
-slug: rabbit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rabbit
 type: miscgear

@@ -10,7 +10,6 @@ name:
     full: Fear
     aliases: []
 folder: hAloT0Y1xg1vcIIn
-slug: sohl-fear
 shortcode: fear
 ---
 
@@ -39,4 +38,4 @@ state affects the victim.
 ## See also
 
 - [[Morale]], [[Psychological Condition]],
-  [[Trauma]].
+  [[doc/trauma|Trauma]].

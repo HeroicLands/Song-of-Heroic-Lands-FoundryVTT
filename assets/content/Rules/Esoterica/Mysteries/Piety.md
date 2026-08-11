@@ -9,7 +9,6 @@ name:
     full: Piety
     aliases: []
 folder: gmHoAXi9mq8O9DUn
-slug: sohl-piety
 shortcode: piety
 ---
 

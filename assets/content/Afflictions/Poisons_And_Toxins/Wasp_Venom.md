@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Peptide and enzyme toxins from sting; intense pain and swelling."
 id: I3rFAMgdPx9akg62
-slug: wasp-venom
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: waspvnm
 type: affliction

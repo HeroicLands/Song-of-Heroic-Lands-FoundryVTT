@@ -5,7 +5,6 @@ name:
     full: Deafness
     aliases: []
 id: j8Zh8nMXAlumoHMU
-slug: deafness
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: deafness
 type: trauma

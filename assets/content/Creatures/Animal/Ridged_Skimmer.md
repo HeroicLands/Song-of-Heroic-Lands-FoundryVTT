@@ -7,7 +7,6 @@ name:
     full: Ridged Skimmer
     aliases: []
 id: 6dbt4Nbd3KY7TJta
-slug: ridged-skimmer
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: rdgdskmm

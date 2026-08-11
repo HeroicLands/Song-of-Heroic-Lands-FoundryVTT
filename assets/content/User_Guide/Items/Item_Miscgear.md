@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Miscellaneous Gear"
-slug: "item-miscgear"
 shortcode: mscllnsg
 folder: QtOgPodi8X6gDWL0
 ---
@@ -27,7 +26,7 @@ Misc Gear appears on the Being sheet's **Gear** tab and can optionally be nested
 
 # Additional Properties
 
-There are no additional properties beyond the [[User_Guide/itemgear|Standard Gear Properties]].
+There are no additional properties beyond the [[doc/itemgear|Standard Gear Properties]].
 
 # Intrinsic Actions
 
@@ -43,5 +42,5 @@ a piece of it is a standard action it already inherits:
 
 The first three belong to every item and are described on [[Base Item]];
 **Toggle Carried** belongs to every piece of gear and is described on
-[[Gear]]. Those pages cover what each one does, how it is invoked, and
+[[doc/itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
 what it produces — none of it changes for Miscellaneous Gear.

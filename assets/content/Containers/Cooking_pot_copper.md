@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tinned-copper pot with lid for simmering without metallic taste."
 id: 0eiiEoznXlZ8Frvu
-slug: cooking-pot-copper
 img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: cookingpot
 type: containergear

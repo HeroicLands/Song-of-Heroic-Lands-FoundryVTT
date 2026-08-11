@@ -7,7 +7,6 @@ name:
     full: Duneclaw
     aliases: []
 id: 2DpHrcNw4BfmRgld
-slug: duneclaw
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: duneclaw

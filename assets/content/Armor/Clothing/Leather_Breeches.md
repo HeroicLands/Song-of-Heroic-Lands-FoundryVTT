@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Lightweight stylish leather leg covering for rugged adventuring or everyday wear."
 id: aYp2LCPPci2Wl19T
-slug: leather-breeches
 img: icons/game-icons/lorc/trousers.svg
 shortcode: LtBrch
 type: armorgear

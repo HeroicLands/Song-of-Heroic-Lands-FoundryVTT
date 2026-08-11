@@ -7,7 +7,6 @@ name:
     full: Pyroclasm
     aliases: []
 id: 2ubjJNt3rPAcOeTj
-slug: pyroclasm
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: pyrclsm

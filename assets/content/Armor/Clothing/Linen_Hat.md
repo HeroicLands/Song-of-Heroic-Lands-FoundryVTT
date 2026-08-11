@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable head covering for warm climates with sun protection."
 id: N0S9Wl0RwsLg81Y2
-slug: linen-hat
 img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: LHat
 type: armorgear

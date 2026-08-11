@@ -11,7 +11,6 @@ id: qR1EVSAOP4e6cuGM
 name:
     full: Helspawn
     aliases: []
-slug: helspawn
 ---
 
 A creeping dread fills the air as the Helspawn emerge from the shadows — a host of ghastly figures summoned from the underworld by dark priests. Their appearances vary from grotesque and decayed to eerily beautiful, a testament to the fell magic that binds them. Some retain a semblance of their former selves but with a chill touch of death, while others are twisted and malformed, their bodies marred by necrotic energy. Each Helspawn exudes an unsettling aura, a tangible sense of the unnatural that makes one's skin crawl and breath catch in the throat.
@@ -30,7 +29,7 @@ The Helspawn divide into two major classes, distinguished by intelligence, means
 
 ### The Undead Hierarchy
 
-Helspawn exist on a spectrum defined by the completeness of the soul bound to the body. At one extreme are the [[Nightwights]] — intelligent, powerful, and semi-permanent, created through deliberate ritual from willing and powerful subjects whose souls were intercepted before entering the afterlife. At the other extreme are the [[Helthraals]] in their most degraded state — mindless, shambling corpses animated by the barest fragments of spiritual energy.
+Helspawn exist on a spectrum defined by the completeness of the soul bound to the body. At one extreme are the [[creature/nghtwght|Nightwights]] — intelligent, powerful, and semi-permanent, created through deliberate ritual from willing and powerful subjects whose souls were intercepted before entering the afterlife. At the other extreme are the [[creature/hlthrls|Helthraals]] in their most degraded state — mindless, shambling corpses animated by the barest fragments of spiritual energy.
 
 Between these poles lies the full range of undead existence. A soul pulled back from the afterlife arrives damaged, incomplete, diminished by the passage. How much of the person remains depends on how long the soul had been dead, how far it had progressed into the underworld, and the skill of whoever performed the reanimation. The recently dead, pulled back quickly by a powerful priest, may retain speech, memory, and even fragments of personality. But all Helspawn below the Nightwight tier degrade over time — the soul fragments eroding, the body decaying, identity slipping away week by week until nothing remains but the mindless hunger of a terminal Helthraal.
 

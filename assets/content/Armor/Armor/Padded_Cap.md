@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Cushioned head covering providing warmth for wear under helmets."
 id: XClZwCLpLsWvnWbH
-slug: padded-cap
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: PCap
 type: armorgear

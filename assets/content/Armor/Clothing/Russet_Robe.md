@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool robe; everyday garment for cooler weather."
 id: l88Lo8FeVrLXaJUK
-slug: russet-robe
 img: icons/game-icons/lorc/robe.svg
 shortcode: RRobe
 type: armorgear

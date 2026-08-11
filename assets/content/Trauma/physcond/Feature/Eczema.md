@@ -5,7 +5,6 @@ name:
     full: Eczema
     aliases: []
 id: Jio2YGG0lXIm6KFU
-slug: eczema
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: eczema
 type: trauma

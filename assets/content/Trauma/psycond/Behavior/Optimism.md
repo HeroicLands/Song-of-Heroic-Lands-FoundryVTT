@@ -5,7 +5,6 @@ name:
     full: Optimism
     aliases: []
 id: Wn0xXFSWaEqLYo7j
-slug: optimism
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: optimism
 type: trauma

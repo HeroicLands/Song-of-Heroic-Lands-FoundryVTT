@@ -5,7 +5,6 @@ name:
     full: Apiphobia
     aliases: []
 id: seS1A8yesJQTqO7G
-slug: apiphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: apiphb
 type: trauma

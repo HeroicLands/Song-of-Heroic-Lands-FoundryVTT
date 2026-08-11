@@ -7,7 +7,6 @@ name:
     full: Phantomwing
     aliases: []
 id: HgferELsOeHk6yUO
-slug: phantomwing
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
 shortcode: phntmwng

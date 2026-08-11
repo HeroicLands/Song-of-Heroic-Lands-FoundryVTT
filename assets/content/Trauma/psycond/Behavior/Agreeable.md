@@ -5,7 +5,6 @@ name:
     full: Agreeable
     aliases: []
 id: NRCshSzJzZWPjJKf
-slug: agreeable
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: agree
 type: trauma

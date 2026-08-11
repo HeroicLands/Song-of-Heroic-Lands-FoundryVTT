@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Large calf hide between calf and steer; splits into shoe-sole and vamp."
 id: 1kJVHXuzWJF18aBd
-slug: hide-kip-large-calf
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidekiplar
 type: miscgear

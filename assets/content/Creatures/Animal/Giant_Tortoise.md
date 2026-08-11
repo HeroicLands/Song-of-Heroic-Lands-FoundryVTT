@@ -7,7 +7,6 @@ name:
     full: Giant Tortoise
     aliases: []
 id: ydAbGU9VRn1tdWQ5
-slug: giant-tortoise
 img: icons/game-icons/delapouite/tortoise.svg
 portrait: ""
 shortcode: gnttrts

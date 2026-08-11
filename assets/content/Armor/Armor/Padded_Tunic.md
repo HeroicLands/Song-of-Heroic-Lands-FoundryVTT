@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Cushioned garment providing warmth and protection for various activities."
 id: bcS9FlEOENwUXzRf
-slug: padded-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: PTnc
 type: armorgear

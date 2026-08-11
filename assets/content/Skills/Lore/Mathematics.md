@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Numerical calculation, geometry, and reasoning for engineering and commerce."
 id: SOBolhplOfgbMpre
-slug: mathematics
 img: icons/game-icons/delapouite/abacus.svg
 shortcode: math
 type: skill

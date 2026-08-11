@@ -5,7 +5,6 @@ name:
     full: Botanophobia
     aliases: []
 id: sVX9qQ3Qj4ghmr6F
-slug: botanophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: btnphb
 type: trauma

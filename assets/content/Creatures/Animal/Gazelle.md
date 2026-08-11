@@ -8,7 +8,6 @@ name:
     full: Gazelle
     aliases: []
 id: RwQKjvaCuKSBw2TD
-slug: gazelle
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: gazelle

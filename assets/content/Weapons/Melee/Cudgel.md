@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Short heavy-headed bludgeon for close-quarters; sell-sword's preference."
 id: Ad2rrvw7Xg6vMEV6
-slug: cudgel
 img: icons/game-icons/badges/club.svg
 shortcode: Cdgl
 type: weapongear

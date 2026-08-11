@@ -45,9 +45,10 @@ import {
     buildStats,
     withArchetypeFlag,
     md,
-    contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
+    collectContentDocs,
+    expandNoteTables,
 } from "./helpers.mjs";
 
 const STATS = buildStats("0.6.0");
@@ -460,6 +461,7 @@ export class Actors {
         let skippedOther = 0;
 
         this.linkIndex ??= buildContentLinkIndex(this.contentBase);
+        this.contentDocs ??= collectContentDocs(this.contentBase);
         this.unresolvedLinks ??= 0;
 
         for (const { frontmatter: fm, body: rawBody, absPath } of walkMarkdownTree(
@@ -488,10 +490,16 @@ export class Actors {
             try {
                 // Wikilinks in an actor's prose sections resolve against the
                 // whole content tree, exactly as they do in items and journals.
+                // Generated tables expand before wikilinks, so a cell
+                // they emit is resolved along with the authored links.
                 const { markdown: body, unresolved } = convertNoteWikilinks(
-                    rawBody,
+                    expandNoteTables(rawBody, {
+                        docs: this.contentDocs,
+                        name: resolveName(fm),
+                        pkg: fm.package,
+                    }),
                     {
-                        tld: contentTld(this.contentBase, absPath),
+                        type: fm.type,
                         id: fm.id,
                         index: this.linkIndex,
                         name: resolveName(fm),

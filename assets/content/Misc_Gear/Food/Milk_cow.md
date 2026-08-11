@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fresh dairy, curdles into cheese and butter by afternoon daily."
 id: 48qm03HEYQ96D8e1
-slug: milk-cow
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milkcow
 type: miscgear

@@ -5,7 +5,6 @@ name:
     full: Androphobia
     aliases: []
 id: roP2bnXGS1zSOD45
-slug: androphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: andphb
 type: trauma

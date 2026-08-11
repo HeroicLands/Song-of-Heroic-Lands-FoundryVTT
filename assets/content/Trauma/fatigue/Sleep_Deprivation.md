@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Extended wakefulness; weariness, slow reflexes, hallucinations, collapse."
 id: s63FgaHbjReLffnl
-slug: sleep-deprivation
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: sleepdep
 type: trauma

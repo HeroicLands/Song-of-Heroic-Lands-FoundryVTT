@@ -5,7 +5,6 @@ name:
     full: Clubfoot
     aliases: []
 id: wrdg2XnsqMP1NEwN
-slug: clubfoot
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: clubfoot
 type: trauma

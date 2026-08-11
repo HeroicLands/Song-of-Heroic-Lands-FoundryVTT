@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Plush velvet breeches; luxurious garment for high-status formal events."
 id: cCo141bVbd3rNwnA
-slug: velvet-breeches
 img: icons/game-icons/lorc/trousers.svg
 shortcode: VBrch
 type: armorgear

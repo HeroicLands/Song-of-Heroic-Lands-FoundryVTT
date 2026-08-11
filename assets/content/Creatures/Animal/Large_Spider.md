@@ -7,7 +7,6 @@ name:
     full: Large Spider
     aliases: []
 id: 7z21KuX3vzQ2XC2E
-slug: large-spider
 img: icons/game-icons/carl-olsen/spider-alt.svg
 portrait: ""
 shortcode: lrgspdr

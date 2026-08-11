@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool tunic; durable, practical garment for activities."
 id: GHvRvj1MmFKArZHE
-slug: worsted-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: WTunic
 type: armorgear

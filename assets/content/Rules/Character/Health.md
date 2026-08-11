@@ -12,7 +12,6 @@ name:
     full: Health
     aliases: []
 folder: SSkatgtYj9d71kaz
-slug: sohl-health
 shortcode: health
 ---
 
@@ -43,7 +42,7 @@ those impairments decide the ceiling, and nothing else does:
    or is core to the body, such as the head, the chest, or the abdomen — or it is
    a **limb**: an arm, a leg, a hand, a foot. Harm to a critical part costs far
    more than the same harm to a limb. Which of the two a part is follows from its
-   [[Rules/bdystrct#body-part-roles|body roles]]: a part carrying **Vital** or
+   [[doc/bdystrct#body-part-roles|body roles]]: a part carrying **Vital** or
    **Core** is critical, and a part carrying only **Manipulator** or **Locomotor**
    is a limb.
 3. **How many parts are in that same state.** A second injury of a given severity
@@ -103,14 +102,14 @@ not died yet, and the figure will not pronounce them dead before they are.
 # What Health does not cover
 
 Health measures **bodily injury only**. It is deliberately blind to every other
-way a character can be taken out of a fight — being [[Rules/fatigue|winded or weary]],
-[[Rules/shock|stunned or unconscious]], [[Rules/fear|afraid]], or otherwise
+way a character can be taken out of a fight — being [[doc/fatigue|winded or weary]],
+[[doc/shock|stunned or unconscious]], [[doc/fear|afraid]], or otherwise
 overcome. Those are tracked separately and have their own effects.
 
 So Health is not a readiness score. A character can read **Excellent** and still
 be unconscious, exhausted, or paralysed with fear. Read Health for _how hurt they
 are_, and read their conditions for _whether they can act_.
 
-See also: [[Rules/injrylvl|Injury]] for how wounds and their impairments are
-determined, [[Trauma]] for the wider picture of harm, and
+See also: [[doc/injrylvl|Injury]] for how wounds and their impairments are
+determined, [[doc/trauma|Trauma]] for the wider picture of harm, and
 [[Healing Base]] for recovery.

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stiff hide tunic; durable core protection."
 id: 1yT1S5gyaj6BB1MS
-slug: rawhide-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: RhTunic
 type: armorgear

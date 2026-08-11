@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Twilled serge shirt; practical, versatile garment for various activities."
 id: nNLrFG22t19kEyLM
-slug: serge-shirt
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: SgShirt
 type: armorgear

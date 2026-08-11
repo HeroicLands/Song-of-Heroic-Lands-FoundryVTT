@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Heater-shield painted with heraldic coat; nobleman's marked defense."
 id: 59cM9pz7xPicblSK
-slug: knight-s-shield
 img: icons/game-icons/badges/shield.svg
 shortcode: KnSh
 type: weapongear

@@ -9,7 +9,6 @@ package: sohl
 category: user-guide
 name:
     full: "Icon Legend"
-slug: "icon-legend"
 shortcode: icnlgnd
 folder: IgwaG8rAUUO9vrtz
 ---

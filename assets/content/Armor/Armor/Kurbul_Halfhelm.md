@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Leather helm covering head and jawline with styled design and reduced weight."
 id: xi8WoJFZFH48so9o
-slug: kurbul-halfhelm
 img: icons/game-icons/lorc/barbute.svg
 shortcode: KHlfHelm
 type: armorgear

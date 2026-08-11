@@ -9,7 +9,6 @@ name:
     full: Macaque
     aliases: []
 id: Wd9cQgzgGxgMomn7
-slug: macaque
 img: icons/game-icons/lorc/monkey.svg
 portrait: ""
 shortcode: macaque

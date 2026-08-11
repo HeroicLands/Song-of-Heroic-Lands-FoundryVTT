@@ -5,7 +5,6 @@ name:
     full: Imaginative
     aliases: []
 id: iXMXRILiLs4Zbl8t
-slug: imaginative
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: imgntv
 type: trauma

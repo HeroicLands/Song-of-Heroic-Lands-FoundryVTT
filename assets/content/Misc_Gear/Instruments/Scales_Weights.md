@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Brass balance with calibrated weights; merchants weigh goods and settle accounts fairly."
 id: bilPNNYuuQW9jZa9
-slug: scales-weights
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scalesweig
 type: miscgear

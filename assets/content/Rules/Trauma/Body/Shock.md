@@ -5,7 +5,6 @@ aliases:
     - Shock State Index
     - Shock Re-Test
     - Extended Shock
-    - Coma
 id: im1oSbKUZQFCBBI8
 type: doc
 package: sohl
@@ -14,7 +13,6 @@ name:
     full: Shock
     aliases: []
 folder: edGOkxiCotuMzc1O
-slug: sohl-shock
 shortcode: shock
 ---
 
@@ -78,11 +76,11 @@ is immediately **Dead**.
 come from any cause:
 
 - **Injury** — the struck body **location's Shock Value + the Injury Level**, plus
-  **1** more if the blow was a [[Rules/bdystrct#from-blow-to-injury|glancing one]].
+  **1** more if the blow was a [[doc/bdystrct#from-blow-to-injury|glancing one]].
   Every body location carries its own Shock Value: on a human the skull, eyes,
   nose, and neck are the worst at 5, the forearm and calf the mildest at 1. Other
   body structures carry their own values. See
-  [[Rules/bdystrct#shock|Body Structure → Shock]].
+  [[doc/bdystrct#shock|Body Structure → Shock]].
 - **Fear and other systemic or psychological forces** — each by its own measure.
 
 **Modifiers to the roll.** Two circumstances adjust the Shock Test itself rather
@@ -97,7 +95,7 @@ wound to the forearm (Shock Value 1) would open at 4 — below 5, so no roll is 
 and no shock results at all.
 
 Some effects instead raise the shock state directly, by their own means — most
-notably [[Rules/bleeding#blood-loss-advance-test|blood loss]], which advances the shock
+notably [[doc/bleeding#blood-loss-advance-test|blood loss]], which advances the shock
 state one step per Blood Loss Point.
 
 ### Implementation
@@ -195,7 +193,7 @@ number of days spent in the coma**.
 
 ## See also
 
-- [[Rules/injrylvl|Injury]] — how injuries generate shock and impairment.
+- [[doc/injrylvl|Injury]] — how injuries generate shock and impairment.
 - [[Body Structure]] — the Shock Value each body location carries.
 - [[Bleeding]] — blood loss advancing the shock state.
 - [[Fatigue]] — the fatigue that penalizes shock and course tests.

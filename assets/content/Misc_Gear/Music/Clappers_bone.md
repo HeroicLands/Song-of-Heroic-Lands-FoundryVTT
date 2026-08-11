@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Carved bone blades hinged or strung; rhythmic snap for folk dances, processionals."
 id: i7RPzHfwNH74HUeu
-slug: clappers-bone
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: clappersbo
 type: miscgear

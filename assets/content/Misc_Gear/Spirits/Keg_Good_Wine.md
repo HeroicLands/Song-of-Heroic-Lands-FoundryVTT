@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Aged fine wine in keg; lord's cellar treasure, craftsman's yearly wage."
 id: hGQxGAwqwXPVIhYf
-slug: keg-good-wine
 img: icons/game-icons/delapouite/wine-bottle.svg
 shortcode: gwinekeg
 type: miscgear

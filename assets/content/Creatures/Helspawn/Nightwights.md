@@ -7,7 +7,6 @@ name:
     full: Nightwights
     aliases: []
 id: Kpo7Htb3b9uJEh6x
-slug: nightwight
 img: icons/game-icons/delapouite/person.svg
 portrait: ""
 shortcode: nghtwght

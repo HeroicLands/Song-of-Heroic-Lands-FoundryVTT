@@ -8,7 +8,6 @@ package: sohl
 category: user-guide
 name:
     full: "Safe Expressions"
-slug: "safe-expressions"
 shortcode: sfexprss
 folder: IgwaG8rAUUO9vrtz
 ---

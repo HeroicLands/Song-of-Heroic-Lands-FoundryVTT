@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stylish leather long-sleeved garment with modest coverage for light adventuring."
 id: gWRxLn2XfDEZbhIT
-slug: leather-longshirt
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: LtLgShrt
 type: armorgear

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Tropane alkaloid; hallucinations and confusion; large doses cause respiratory failure."
 id: 8vvRURzDh1x6l4Nt
-slug: mandrake
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: mandrk
 type: affliction

@@ -7,7 +7,6 @@ name:
     full: Necrotic Mire
     aliases: []
 id: a2al6XRUzVftGyhp
-slug: necrotic-mire
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: ncrtcmr

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Charting celestial bodies; interpreting alignments to divine fate and truth."
 id: xSuXXuS0hRjrSdzR
-slug: astrology
 img: icons/game-icons/lorc/star-swirl.svg
 shortcode: astr
 type: mysticalability

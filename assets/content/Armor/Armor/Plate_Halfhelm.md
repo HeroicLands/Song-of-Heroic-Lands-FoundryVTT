@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Steel helm covering crown and sides; exposes face for visibility."
 id: 5EDCAu3uGFk5JedD
-slug: plate-halfhelm
 img: icons/game-icons/lorc/barbute.svg
 shortcode: PlHHelm
 type: armorgear

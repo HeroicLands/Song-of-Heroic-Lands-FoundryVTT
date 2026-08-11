@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Refined iron lock for chamber doors and cabinet shutters; finely warded."
 id: Dr4ZcYbcWAQLjHv8
-slug: lock-door-small
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lockdoorsm
 type: miscgear

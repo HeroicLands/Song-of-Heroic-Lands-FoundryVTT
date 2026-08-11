@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Cushioned sleeved garment for cold weather or under-armor protection."
 id: SomxyDzmbxABARDj
-slug: padded-sleeved-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: PSTnc
 type: armorgear

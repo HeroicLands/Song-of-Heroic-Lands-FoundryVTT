@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Iron star-spikes thrown for distraction and wound; assassin's surprise reach."
 id: yapKwxwxqfwZy6Zq
-slug: shuriken
 img: icons/game-icons/darkzaitzev/shuriken.svg
 shortcode: Shrkn
 type: weapongear

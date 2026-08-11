@@ -33,6 +33,7 @@ import fs from "fs";
 import path from "path";
 import log from "loglevel";
 
+import { contentSlug } from "../content-slug.mjs";
 import {
     walkMarkdownTree,
     sohlField,
@@ -47,9 +48,10 @@ import {
     buildStats,
     withArchetypeFlag,
     md,
-    contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
+    collectContentDocs,
+    expandNoteTables,
 } from "./helpers.mjs";
 // Per-type default art lives in one framework-free module shared with the
 // runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
@@ -85,13 +87,16 @@ const PERCEPTION_TEST =
  *   shortcode, docUrl, actionDefs, notes, docHtml.
  */
 function commonSystem(fm, description, type, name) {
-    const slug = fm.slug || slugify(name);
-    if (!fm.shortcode) {
-        throw new Error(`Missing required shortcode for item "${name}" (slug: ${slug})`);
+    // The doc URL is derived from the name, exactly like the KB page (#1278).
+    let slug;
+    try {
+        slug = contentSlug(name);
+    } catch (err) {
+        throw new Error(`item "${name}": ${err.message}`);
     }
     return {
         shortcode: fm.shortcode,
-        docUrl: buildDocUrl(type, slug, name),
+        docUrl: buildDocUrl(type, slug),
         actionDefs: Array.isArray(fm.actionDefs) ? fm.actionDefs : [],
         notes: "",
         docHtml: description || "",
@@ -471,6 +476,7 @@ export class Items {
         let skippedOtherType = 0;
 
         this.linkIndex = buildContentLinkIndex(this.contentBase);
+        this.contentDocs = collectContentDocs(this.contentBase);
         this.unresolvedLinks = 0;
 
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
@@ -500,8 +506,15 @@ export class Items {
             try {
                 // Wikilinks resolve against the whole content tree, so an item
                 // may link to another item, a creature, or a rules journal.
-                const { markdown, unresolved } = convertNoteWikilinks(body, {
-                    tld: contentTld(this.contentBase, absPath),
+                // Generated tables expand before wikilinks, so a cell
+                // they emit is resolved along with the authored links.
+                const tabulated = expandNoteTables(body, {
+                    docs: this.contentDocs,
+                    name: resolveName(fm),
+                    pkg: fm.package,
+                });
+                const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
+                    type,
                     id: fm.id,
                     index: this.linkIndex,
                     name: resolveName(fm),

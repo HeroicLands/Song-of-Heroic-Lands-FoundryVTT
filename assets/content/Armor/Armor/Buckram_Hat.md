@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stiff buckram hat providing durability and reliable rigid headwear."
 id: 0sLgREZBVVKRvN00
-slug: buckram-hat
 img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: BHat
 type: armorgear

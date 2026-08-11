@@ -7,7 +7,6 @@ name:
     full: Shadowspinner
     aliases: []
 id: 0zzYLJWzwisk1CDQ
-slug: shadowspinner
 img: icons/game-icons/carl-olsen/spider-alt.svg
 portrait: ""
 shortcode: shdwspnn

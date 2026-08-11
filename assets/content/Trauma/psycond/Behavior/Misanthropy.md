@@ -5,7 +5,6 @@ name:
     full: Misanthropy
     aliases: []
 id: eJl63KsBXvPbCpNK
-slug: misanthropy
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: msnthrpy
 type: trauma

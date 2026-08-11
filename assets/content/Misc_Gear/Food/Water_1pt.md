@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
 id: mxGYatEWGjscY4MH
-slug: water-1pt
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: Wtr1pt
 type: miscgear

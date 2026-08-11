@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Acute windedness from spiritual struggle against a contesting entity."
 id: XuQiB0mzLPGDqqHt
-slug: spirit-conflict
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: spiritcnfl
 type: trauma

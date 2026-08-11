@@ -7,7 +7,6 @@ name:
     full: Blinkfox
     aliases: []
 id: yWF2AXVSDAjJXF4f
-slug: blinkfox
 img: icons/game-icons/caro-asercion/fox.svg
 portrait: ""
 shortcode: blinkfox

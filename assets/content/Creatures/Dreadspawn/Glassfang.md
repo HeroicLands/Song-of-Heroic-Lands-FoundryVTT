@@ -7,7 +7,6 @@ name:
     full: Glassfang
     aliases: []
 id: ehEf5wCFXsQmP6pd
-slug: glassfang
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: glssfng

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Chronic bacterial infection; skin patches and nerve damage causing permanent disfigurement."
 id: ADyc8j8ugJpFufqk
-slug: leprosy
 img: icons/game-icons/lorc/virus.svg
 shortcode: leprosy
 type: affliction

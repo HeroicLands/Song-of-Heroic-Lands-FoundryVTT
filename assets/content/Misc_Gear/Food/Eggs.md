@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Chicken, duck, or goose eggs; kept cool and eaten within days."
 id: yvCUqFduhNInaQCl
-slug: eggs
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: eggs
 type: miscgear

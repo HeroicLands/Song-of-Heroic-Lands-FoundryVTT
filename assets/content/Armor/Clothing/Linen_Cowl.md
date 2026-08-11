@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Breathable head and shoulder covering providing sun protection without overheating."
 id: xu1OdXu3vnQ0K3ay
-slug: linen-cowl
 img: icons/game-icons/lorc/hood.svg
 shortcode: LCowl
 type: armorgear

@@ -7,7 +7,6 @@ name:
     full: Mule
     aliases: []
 id: aquEJHnE8u8I9pur
-slug: mule
 img: icons/game-icons/skoll/donkey.svg
 portrait: ""
 shortcode: mule

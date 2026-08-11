@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Colored glass beads with swirls; prized for beadwork and fine clothing ornament."
 id: kAh4kAClSazimdKm
-slug: beads-glass
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beadsglass
 type: miscgear

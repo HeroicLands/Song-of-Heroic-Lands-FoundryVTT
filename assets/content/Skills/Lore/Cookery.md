@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Preparing food; transforming ingredients into nourishing, delightful meals."
 id: vOMFCy5llDJ16W5G
-slug: cookery
 img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: cook
 type: skill

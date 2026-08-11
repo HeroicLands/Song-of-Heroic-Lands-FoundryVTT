@@ -5,7 +5,6 @@ name:
     full: Resilient
     aliases: []
 id: g28yHTzC5UZKea80
-slug: resilient
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: rslnt
 type: trauma

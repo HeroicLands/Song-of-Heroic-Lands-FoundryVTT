@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Leather satchel with currycomb, brushes, hoof pick, bridle awl, strap stock, oil; mount care and tack repair."
 id: 1rRMihBm9Rso96gE
-slug: tack-and-grooming-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tackkit
 type: miscgear

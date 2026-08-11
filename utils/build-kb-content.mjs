@@ -32,6 +32,8 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
+import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
+import { expandContentTables } from "./content-tables.mjs";
 
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");
@@ -58,6 +60,27 @@ const symbols = (() => {
         return JSON.parse(
             fs.readFileSync(
                 path.join(REPO, "kb/data/api-symbols.json"),
+                "utf8",
+            ),
+        );
+    } catch {
+        return {};
+    }
+})();
+
+/**
+ * The URL segment each content note used **before** URLs were derived from the
+ * shortcode (#1278), keyed by its `type:shortcode` identity. Authored `slug`
+ * frontmatter is gone, so this committed map is the only record of the old URLs
+ * — it exists to emit a Hugo `aliases` redirect for each one. Entries are
+ * append-only history: never edit one, and only add a row when a page's URL
+ * changes again.
+ */
+const legacySlugs = (() => {
+    try {
+        return JSON.parse(
+            fs.readFileSync(
+                path.join(REPO, "kb/data/legacy-slugs.json"),
                 "utf8",
             ),
         );
@@ -395,6 +418,7 @@ fs.rmSync(OUT, { recursive: true, force: true });
 const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 const entries = [];
 const refIndex = new Map();
+const slugErrors = [];
 
 // assets/content → reference pages (SoHL + Thalorna packages).
 for (const file of walk(CONTENT_SRC)) {
@@ -407,7 +431,18 @@ for (const file of walk(CONTENT_SRC)) {
     if (!KB_PACKAGES.has(fm.package) || !fm.type) continue;
 
     const name = fm.name?.full ?? path.basename(file, ".md");
-    const slug = fm.slug ?? slugify(name);
+    // The URL segment is derived from the name (#1278) — not from the shortcode,
+    // which is identity referenced by saved world data, not presentation.
+    let slug;
+    try {
+        slug = contentSlug(name);
+    } catch (err) {
+        slugErrors.push({
+            file: path.relative(REPO, file),
+            reason: err.message,
+        });
+        continue;
+    }
     const base = path.basename(file);
     const isReadme = base.toLowerCase() === "readme.md";
     const sec = sectionOf(fm);
@@ -419,9 +454,13 @@ for (const file of walk(CONTENT_SRC)) {
         name,
         slug,
         base,
-        // Top-level content directory ("Rules", "Skills", …). Wikilinks name a
-        // target as `TLD/shortcode`, and a bare `[[Text]]` is scoped to it.
+        // Top-level content directory ("Rules", "Skills", …) — a generated
+        // table's `tld:` search key. Wikilinks no longer use it: they address a
+        // note as `type/shortcode`, wherever it is filed.
         tld: path.relative(CONTENT_SRC, file).split(path.sep)[0],
+        // Location below the content root, POSIX-separated — what a generated
+        // table's `path:` search term globs.
+        relPath: path.relative(CONTENT_SRC, file).split(path.sep).join("/"),
         // Immediate source subfolder (Creatures/Animal/Aurochs.md → "Animal") —
         // the only surviving record of the authoring folder, for grouped landings.
         folder: path.basename(path.dirname(file)),
@@ -476,6 +515,27 @@ for (const file of walk(DOCS_SRC)) {
     });
 }
 
+// --- URL integrity -------------------------------------------------------
+// A note that cannot derive a URL, or two notes deriving the same one, would
+// silently drop or overwrite a page — fail the build naming the files instead.
+if (slugErrors.length) {
+    console.error(`\n\u2716 ${slugErrors.length} note(s) cannot derive a URL:`);
+    for (const e of slugErrors) console.error(`  ${e.reason}  (in ${e.file})`);
+    process.exit(1);
+}
+const collisions = findSlugCollisions(
+    entries
+        .filter((e) => e.kind === "content")
+        .map((e) => ({ sec: e.sec, slug: e.slug, src: `${e.tld}/${e.base}` })),
+);
+if (collisions.length) {
+    console.error(`\n\u2716 ${collisions.length} colliding page URL(s):`);
+    for (const c of collisions) {
+        console.error(`  ${c.url} claimed by ${c.sources.join(", ")}`);
+    }
+    process.exit(1);
+}
+
 // --- Wikilink index ------------------------------------------------------
 // `section/slug` is unique by construction and always resolves. Name, filename,
 // and bare slug are collision-aware fallbacks: a key mapping to two different
@@ -502,21 +562,24 @@ for (const e of entries) {
     addFallback(e.slug, v);
 }
 
-// The authored form: `TLD/shortcode`, where the TLD is the content directory and
-// the shortcode is unique within it — so this key is unique by construction, the
-// same guarantee `section/slug` gives. Alongside it, every alias is indexed
-// *scoped to its TLD*, which is what makes a bare `[[Text]]` resolvable even
-// when the same name is used in another directory ("Shock" the rules page and
-// "Shock" the trauma item both exist).
-const tldAlias = new Map(); // `tld|alias` → { url, name }
-const tldCollide = new Set();
-const contentTlds = new Set();
+// The authored form: `type/shortcode` — `(type, shortcode)` is the system's
+// logical identity and is unique by rule, so this key is unique by construction,
+// the same guarantee `section/slug` gives. Alongside it, every alias is indexed
+// *scoped to its type*, which is what makes a bare `[[Text]]` resolvable even
+// when the same name is used for another kind of document ("Shock" the rules
+// page and "Shock" the trauma item both exist). Two notes of the *same* type
+// sharing a name poison it: the bare form is then ambiguous and the author must
+// write `[[type/shortcode|Text]]`.
+const typeAlias = new Map(); // `type|alias` → { url, name }
+const typeCollide = new Set();
+const contentTypes = new Set();
 for (const e of entries) {
-    if (!e.tld) continue; // developer docs have no content directory
-    contentTlds.add(e.tld.toLowerCase());
+    if (e.kind !== "content") continue; // developer docs carry no type/shortcode
+    const type = String(e.fm.type).toLowerCase();
+    contentTypes.add(type);
     const v = { url: e.url, name: e.name };
     if (typeof e.fm.shortcode === "string" && e.fm.shortcode) {
-        wikiIndex.set(`${e.tld}/${e.fm.shortcode}`.toLowerCase(), v);
+        wikiIndex.set(`${type}/${e.fm.shortcode}`.toLowerCase(), v);
     }
     const aliases = [
         ...(Array.isArray(e.fm.aliases) ? e.fm.aliases : []),
@@ -525,28 +588,48 @@ for (const e of entries) {
         path.basename(e.base, ".md").replace(/_/g, " "),
     ].filter((a) => typeof a === "string" && a);
     for (const a of aliases) {
-        const k = `${e.tld}|${a}`.toLowerCase();
-        if (tldCollide.has(k)) continue;
-        const cur = tldAlias.get(k);
+        const k = `${type}|${a}`.toLowerCase();
+        if (typeCollide.has(k)) continue;
+        const cur = typeAlias.get(k);
         if (cur && cur.url !== v.url) {
-            tldAlias.delete(k);
-            tldCollide.add(k);
+            typeAlias.delete(k);
+            typeCollide.add(k);
         } else if (!cur) {
-            tldAlias.set(k, v);
+            typeAlias.set(k, v);
         }
     }
 }
 
+// --- Generated tables ----------------------------------------------------
+// The universe a `(@Table …)` directive searches: every reference page, grouped
+// by package so a SoHL page never tabulates setting-package content. Reference
+// pages only — a developer doc documents the syntax, it does not tabulate content.
+const docsByPackage = new Map();
+for (const e of entries) {
+    if (e.kind !== "content") continue;
+    const pkg = e.fm.package;
+    if (!docsByPackage.has(pkg)) docsByPackage.set(pkg, []);
+    docsByPackage.get(pkg).push({
+        fm: e.fm,
+        path: e.relPath,
+        tld: e.tld,
+        folder: e.folder,
+    });
+}
+const tableErrors = [];
+/** A cell can link to a note that has a shortcode to address it by. */
+const tableLinkable = (d) => Boolean(d.fm.shortcode);
+
 const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
 const wikiErrors = [];
-const wikiCtx = (src, tld = null) => ({
+const wikiCtx = (src, type = null) => ({
     index: wikiIndex,
     collide: wikiCollide,
     sections: knownSections,
-    tldAlias,
-    tldCollide,
-    contentTlds,
-    tld,
+    typeAlias,
+    typeCollide,
+    contentTypes,
+    type,
     errors: wikiErrors,
     src,
 });
@@ -556,11 +639,17 @@ for (const e of entries) {
     const { fm, name, slug, sec, url, base, isReadme } = e;
     const src = e.rel ?? `${sec}/${base}`;
     const resolve = (t) =>
-        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.tld));
+        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.fm.type));
 
     // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
     // live under /guide/ (assets/content) or /dev/ (developer docs).
     const aliases = new Set(Array.isArray(fm.aliases) ? fm.aliases : []);
+    // The pre-shortcode URL (#1278), so existing links and bookmarks still land.
+    const legacy =
+        e.kind === "content" ?
+            legacySlugs[`${fm.type}:${fm.shortcode}`]
+        :   undefined;
+    if (legacy) aliases.add(`/${sec}/${legacy}/`);
     const oldSec = e.kind === "dev" ? "dev" : oldSectionOf(fm, false);
     if (oldSec !== sec) {
         if (e.kind === "dev") {
@@ -574,14 +663,19 @@ for (const e of entries) {
                 :   `/${oldSec}/${relNoExt}/`,
             );
         } else {
-            aliases.add(`/${oldSec}/${slug}/`);
+            aliases.add(`/${oldSec}/${legacy ?? slug}/`);
             if (isReadme) aliases.add(`/${oldSec}/`);
         }
     }
     aliases.delete(url);
 
     if (e.kind === "content") {
-        const data = { ...fm, title: fm.title ?? name, kbfolder: e.folder };
+        const data = {
+            ...fm,
+            slug,
+            title: fm.title ?? name,
+            kbfolder: e.folder,
+        };
         if (fm.type === "character" || fm.type === "creature") {
             data.sohl = deriveBeingSohl(fm.sohl, refIndex);
         }
@@ -596,9 +690,23 @@ for (const e of entries) {
                 path.join(OUT, sec, "_index.md")
             :   path.join(OUT, sec, `${slug}.md`);
         fs.mkdirSync(path.dirname(dest), { recursive: true });
+        // Tables expand before wikilinks resolve, so a generated cell may
+        // itself be a wikilink — the same order the pack compilers use.
+        const expandTables = (t) => {
+            const { markdown, errors } = expandContentTables(t, {
+                docs: docsByPackage.get(fm.package) ?? [],
+                linkable: tableLinkable,
+                source: src,
+            });
+            tableErrors.push(...errors);
+            return markdown;
+        };
         fs.writeFileSync(
             dest,
-            matter.stringify(protectCode(e.body, resolve), data),
+            matter.stringify(
+                protectCode(e.body, (t) => resolve(expandTables(t))),
+                data,
+            ),
         );
         items++;
     } else {
@@ -635,6 +743,15 @@ for (const [sec, meta] of Object.entries(SECTION_META)) {
         path.join(dir, "_index.md"),
         matter.stringify("", { title: meta.title, banner: meta.banner }),
     );
+}
+
+// Fail the build on any table directive that could not be honoured.
+if (tableErrors.length) {
+    console.error(`\n\u2716 ${tableErrors.length} bad content table(s):`);
+    for (const e of tableErrors) {
+        console.error(`  ${e.reason}  (in ${e.source})`);
+    }
+    process.exit(1);
 }
 
 // Fail the build on any unresolved or ambiguous wikilink.

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Rare distant pelts: crocodile, ostrich, tiger, python; premium prices for noble collectors."
 id: HnjQXdxSNuQdvbxj
-slug: hide-exotic
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideexotic
 type: miscgear

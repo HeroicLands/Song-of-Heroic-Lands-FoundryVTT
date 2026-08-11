@@ -5,7 +5,6 @@ name:
     full: Tremors
     aliases: []
 id: 8wsl3ifOv5JxXgpC
-slug: tremors
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tremors
 type: trauma

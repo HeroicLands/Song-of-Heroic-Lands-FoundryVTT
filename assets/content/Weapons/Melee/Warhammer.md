@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Flat-faced hammer with spike; one-handed armor-breaker for knights."
 id: 1cnmkDSTXFmmkX19
-slug: warhammer
 img: icons/game-icons/delapouite/warhammer.svg
 shortcode: Whmr
 type: weapongear

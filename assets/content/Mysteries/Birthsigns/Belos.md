@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "A birthsign of the Astrokýklos: the influence conferred by the celestial sign under which a being was born."
 id: VDbFbTOOigCx0XOp
-slug: belos
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: belos
 type: mystery

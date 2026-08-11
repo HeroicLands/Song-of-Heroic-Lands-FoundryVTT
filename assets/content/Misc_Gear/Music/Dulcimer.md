@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Trapezoidal frame with gut strings struck by hammers; sweet, haunting chiming voice."
 id: QTedGo6TQqefe1s4
-slug: dulcimer
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: dulcimer
 type: miscgear

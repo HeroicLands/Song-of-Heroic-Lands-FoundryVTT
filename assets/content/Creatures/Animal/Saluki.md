@@ -9,7 +9,6 @@ name:
     full: Saluki
     aliases: []
 id: t7edWGJipMjipWWu
-slug: saluki
 img: icons/game-icons/lorc/hound.svg
 portrait: ""
 shortcode: saluki
