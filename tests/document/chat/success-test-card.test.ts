@@ -253,7 +253,8 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
         expect(html.match(/fa-solid fa-diamond/g) ?? []).toHaveLength(1);
         expect(html.match(/fa-regular fa-diamond/g) ?? []).toHaveLength(4);
         // The count is still available to screen readers.
-        expect(html).toContain('aria-label="1 Value Diamonds"');
+        // "of 5" keeps the bounded scale audible and sidesteps "1 Diamonds".
+        expect(html).toContain('aria-label="1 of 5 Value Diamonds"');
     });
 
     it("shows the graded meaning text", async () => {

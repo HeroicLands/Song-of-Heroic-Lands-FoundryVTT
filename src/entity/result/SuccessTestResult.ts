@@ -125,6 +125,20 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  */
 export const VALUE_DIAMOND_SCALE = 5;
 
+/**
+ * Spread an earned Value Diamond count across the fixed
+ * {@link VALUE_DIAMOND_SCALE | 0-5 scale} as one entry per diamond — `true`
+ * where the diamond was earned. A count outside the scale is clamped rather
+ * than overflowing (or truncating) the row.
+ *
+ * @param earned - The graded count, as resolved from the result-description table.
+ * @returns One boolean per diamond on the scale.
+ */
+export function toValueDiamondMarks(earned: number): boolean[] {
+    const n = Math.max(0, Math.min(VALUE_DIAMOND_SCALE, Math.trunc(earned)));
+    return Array.from({ length: VALUE_DIAMOND_SCALE }, (_, i) => i < n);
+}
+
 export class SuccessTestResult extends TestResult {
     private _successLevel: number;
     protected _tokenLogic?: SohlTokenDocumentLogic;
@@ -438,14 +452,7 @@ export class SuccessTestResult extends TestResult {
      * is clamped rather than overflowing the row.
      */
     get valueDiamondMarks(): boolean[] {
-        const earned = Math.max(
-            0,
-            Math.min(VALUE_DIAMOND_SCALE, Math.trunc(this.valueDiamonds)),
-        );
-        return Array.from(
-            { length: VALUE_DIAMOND_SCALE },
-            (_, i) => i < earned,
-        );
+        return toValueDiamondMarks(this.valueDiamonds);
     }
 
     /**
@@ -840,7 +847,7 @@ export class SuccessTestResult extends TestResult {
      * the modifier's critical-success/-failure digit lists, applies
      * `successLevelMod`, and — when criticals are disallowed — clamps the level
      * to marginal failure/success and selects the localized description. The
-     * result text and success-star count are not set here: they derive on read
+     * result text and Value Diamond count are not set here: they derive on read
      * from the description table (see {@link valueDiamonds}).
      *
      * @returns `false` if the base evaluation disallows the result, or if the
@@ -985,7 +992,9 @@ export class SuccessTestResult extends TestResult {
             resultText: label,
             resultDesc: description,
             valueDiamonds: result,
-            vdMarks: this.valueDiamondMarks,
+            // Spread from the count resolved just above, not re-derived, so the
+            // icons and the count can never disagree.
+            vdMarks: toValueDiamondMarks(result),
             // Success Value test (#848): the card shows the Success Value (the
             // graded target value = Index + Modifier) and the Value Diamonds
             // (`valueDiamonds` above). `svSuccess` styles the graded outcome the
