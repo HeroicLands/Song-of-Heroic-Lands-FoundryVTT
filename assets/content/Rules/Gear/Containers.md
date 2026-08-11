@@ -12,4 +12,4 @@ folder: UWD774fzcqX7dbil
 shortcode: containers
 ---
 
-(@Table select=[type:containergear] columns=[Name:name, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Capacity:sohl.maxCapacity, Description:description])
+(@Table search=[type:containergear] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Capacity:sohl.maxCapacity, Description:description])
