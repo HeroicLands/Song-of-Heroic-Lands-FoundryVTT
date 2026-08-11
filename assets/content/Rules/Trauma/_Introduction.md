@@ -14,8 +14,8 @@ shortcode: traumaintro
 
 A **Trauma** is harm to a character — to the physical **body**, to the **mind**,
 to the **spirit**, or from the forces of death (**The Pall**). Trauma is the
-umbrella under which the system records every lasting harm and the ongoing
-processes by which a character recovers from — or succumbs to — it.
+umbrella covering every lasting harm a character carries and the ongoing
+processes by which they recover from — or succumb to — it.
 
 > **Trauma vs. Affliction.** A trauma is a _condition the character is in_ — a
 > state they carry and recover from. An [[doc/afflctns|affliction]] is instead

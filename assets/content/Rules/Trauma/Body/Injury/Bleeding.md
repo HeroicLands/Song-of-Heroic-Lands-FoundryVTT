@@ -15,7 +15,7 @@ shortcode: bleeding
 folder: F4NGyU9QQgWwTcHe
 ---
 
-A physical [[doc/afflandi|Injury]] marked as **bleeding**
+A physical [[doc/injrylvl|Injury]] marked as **bleeding**
 is losing blood in a life-threatening way. Left unchecked, a bleeder will likely
 kill the character within **10–15 minutes** unless the bleeding is staunched.
 
@@ -58,14 +58,13 @@ Each Blood Loss Advance Test also inflicts **5 points of
 anemia of ongoing blood loss. This fatigue is applied every time the test is
 made.
 
-### In play
+### Stoppage comes first
 
-When a Blood Loss Advance Test comes due, the system first presents a request
-for a [[#blood-stoppage-test|Blood Stoppage Test]]: a dialog announcing that the
-character is bleeding, with an **Accept** button. The Accept button appears only
-for characters with the **Physician** skill. If no one accepts the request by
-the end of the round, the Blood Loss Advance Test proceeds as though a Blood
-Stoppage Test had been a Critical Failure — the bleeding continues.
+The chance to staunch comes first. Before each Blood Loss Advance Test, a
+physician at the bleeding character's side may attempt a
+[[#blood-stoppage-test|Blood Stoppage Test]]. If none is attempted by the end of
+the round, the Blood Loss Advance Test proceeds as though a Blood Stoppage Test
+had been a Critical Failure — the bleeding continues.
 
 ## Blood Stoppage Test {#blood-stoppage-test}
 
@@ -80,11 +79,9 @@ injury once every 5 minutes with a **Blood Stoppage Test** — a Physician
 | MS (1)        | Bleeding stops **after** the next Blood Loss Advance Test.                  |
 | CS (2)        | Bleeding stops **immediately**.                                             |
 
-### In play
-
-The physician sees a card in the chat log requesting a Blood Stoppage Test.
-Clicking **Accept** rolls their Physician test, and the result is conveyed back
-to the bleeding character (resolving the pending Blood Loss Advance Test).
+A Blood Stoppage Test names the one injury it treats, and its result applies to
+that injury alone. A character bleeding from more than one wound must have each
+bleeder staunched separately.
 
 ## See also
 

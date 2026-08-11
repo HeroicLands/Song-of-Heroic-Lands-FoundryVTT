@@ -61,8 +61,8 @@ in detail on the **Armor** and **Weapons** pages, but in summary:
 
 ## Gear Types
 
-The system distinguishes several kinds of gear, each with its own properties and
-behavior, described on the pages that follow:
+Gear comes in several kinds, each with its own properties and behavior,
+described on the pages that follow:
 
 - **Miscellaneous Gear** — ordinary goods with no special mechanics.
 - **Container Gear** — gear that holds other gear.

@@ -239,7 +239,7 @@ Injuries on _different_ parts do not merge either. A wounded arm and a wounded l
 
 ### What impairment costs
 
-This is where roles do their work. When you make a test, the skill or attribute being tested names the roles that impair it, and the system looks at every part holding one of those roles:
+This is where roles do their work. When you make a test, the skill or attribute being tested names the roles that impair it, and every part holding one of those roles is consulted:
 
 - If any such part is **unusable**, the test **automatically Critically Fails**. You cannot climb with two ruined arms, and no roll is made to pretend otherwise.
 - Otherwise, the test takes the **worst penalty** among those parts — −5 or −10.
@@ -283,7 +283,7 @@ When a test is called for, it is a **keep-control test**:
 - A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [[doc/prone|fall prone]], the worse the failure the harder the fall.
 - A **Fumble Test** — keeping your grip — rolls the **better of your Dexterity or your Legerdemain skill**. Keep control and the item stays in hand; fail and you drop it, a critical fumble flinging it from your grasp entirely.
 
-You roll whichever of the attribute or skill serves you better, and a character with neither cannot make the test. Like every consequence in the system, a keep-control test is **offered** to the affected character's player, never imposed.
+You roll whichever of the attribute or skill serves you better, and a character with neither cannot make the test. The roll belongs to the character who took the wound: a keep-control test is theirs to make, never made for them.
 
 ## Compound Injuries
 
@@ -351,15 +351,13 @@ Weight is relative _within the part_; Shock is the location's Shock Value.
 
 The skull's weight of 500 against the rest of the head is why a blow to the head nearly always finds skull, and the eyes and ears at 15 are the rare, terrible exceptions.
 
-## Anatomy as Actor Data
+## Anatomy Is Intrinsic
 
-A creature's body structure is stored **on the actor itself**, not as a collection of items. Anatomy is intrinsic to what a creature _is_, not something it possesses; every actor has exactly one, and it is always present. A creature whose body structure is **empty** has no anatomy at all — it is incorporeal, a spirit, and cannot be struck.
+A creature's body structure is part of what it _is_, not something it possesses. Every creature has exactly one, and it cannot be put down, taken away, or traded. A creature whose body structure is **empty** has no anatomy at all — it is incorporeal, a spirit, and cannot be struck.
 
-The three tiers are stored as three flat lists — zones, parts, and locations — with each part naming its zone and each location naming its part. The hierarchy is rebuilt from those names whenever the creature is prepared. Storing them flat means adding, removing, or moving any entry rewrites exactly one list, and a part can be moved between zones without disturbing its locations.
+Everything else that concerns the body _refers_ to a location rather than containing it: an injury is recorded at the location it struck, and armor covers the locations it is worn over. Wounds and equipment change constantly in play; the anatomy they name changes almost never.
 
-Other game elements _reference_ locations rather than containing them: an injury records the location it sits at, and armor records the locations it covers. Those change constantly in play; the anatomy they point at changes almost never.
-
-Creating a new creature type needs no templates or special item types — duplicate an actor with a similar body plan and adjust the anatomy: change the zone weights, re-weight the parts, add or remove locations, retag the roles.
+A new kind of creature is described by its anatomy alone — its zones and their weights, its parts, its locations, and the roles those parts carry. Nothing else about a creature needs to know what shape it is.
 
 ## See also
 

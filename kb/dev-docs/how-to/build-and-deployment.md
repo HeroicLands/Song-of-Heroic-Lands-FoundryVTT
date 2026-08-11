@@ -96,6 +96,7 @@ reads the Markdown directly.
 | `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
 | `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
+| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content](#authoring-content-under-assetscontent). |
 | `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`. |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
 | `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`. |
@@ -235,6 +236,15 @@ referenced from entries via `sohl.folder: <id>`.
 # assets/content/ Markdown → build/packs-json/ (JSON) → build/stage/packs/ (LevelDB)
 npm run build:compiledb
 ```
+
+**The rules never describe the VTT.** Content under `assets/content/Rules/` is the
+_specification_ the Foundry system implements, and must read as though no VTT
+exists — no clicks, buttons, dialogs, chat log, or "the system". A rule that says
+"click **Accept** on the card" describes an interface, and goes silently wrong the
+moment the interface changes. Automation behaviour — the consent/offer flow, what
+is prompted and when — is worth documenting, but its home is
+`assets/content/User_Guide/`, which is exempt from the rule. `npm run
+lint:rules-vtt` (part of `npm run lint`) enforces this over the rules tree.
 
 `build:compiledb` runs `utils/packs/generate.mjs`, which drives three per-pack
 compilers (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): each walks
