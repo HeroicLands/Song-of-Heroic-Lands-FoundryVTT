@@ -74,10 +74,10 @@ reads the result on a graded scale. The chat card shows:
 
 - **Success Value** — the graded number, derived from the skill's Index (its
   mastery level ÷ 10) plus a modifier for how well the roll went.
-- **Success Stars** — how far the work exceeds an ordinary result, from zero up
-  to five stars.
+- **Value Diamonds** — how far the work exceeds an ordinary result, from zero up
+  to five diamonds.
 - **Result** — the plain-language meaning of that Success Value (no value, little
-  value, base value, or a starred bonus value).
+  value, base value, or a bonus value carrying diamonds).
 
 The card also shows the underlying roll and target, so you can see how the grade
 was reached. See the [[doc/sccssvlt|Success Value Tests]]

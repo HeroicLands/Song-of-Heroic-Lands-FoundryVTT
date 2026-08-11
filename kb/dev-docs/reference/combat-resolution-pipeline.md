@@ -98,7 +98,7 @@ The standard d100 roll-under mastery level test.
 1. Roll 1d100 (or reuse prior roll for fate).
 2. Success level = constrained ML − roll.
 3. Check critical success/failure against last-digit lists.
-4. Compute success stars from description table.
+4. Compute value diamonds from description table.
 5. Populate result text for chat.
 
 **Chat output:** Renders via `templates/chat/standard-test-card.hbs`.
@@ -258,7 +258,7 @@ manual Add Injury flow:
   Footing" / "Stumbles" / "Drops It", a shock state, a fear reaction) is **not** a
   new class. Drive the one generic `MasteryLevelModifier.successTest(context)` and
   pass the outcome mapping as **data** in the action scope:
-  `scope.successStarTable` supplies the [result-description
+  `scope.resultDescTable` supplies the [result-description
   table](./result-description-tables.md) (label / description / stars per rung),
   and an optional `scope.targetValueFunc` remaps the target when the test grades
   off something other than the raw mastery level. Follow-up **consent buttons** ride

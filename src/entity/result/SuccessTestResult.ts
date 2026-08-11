@@ -105,8 +105,8 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * 2. Success level = constrained ML − roll result.
  * 3. Critical success/failure checked against last-digit lists.
  *
- * Result text and success stars are then derived on read from the description
- * table (see {@link successStars}); they are not stored on the result.
+ * Result text and value diamonds are then derived on read from the description
+ * table (see {@link valueDiamonds}); they are not stored on the result.
  *
  * ## Chat output
  *
@@ -118,6 +118,27 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * - {@link AttackResult} — attacker's roll, with impact dice and aim
  * - {@link DefendResult} — defender's roll with situational modifiers
  */
+/**
+ * The fixed ceiling of the **Value Diamond** scale — the quality grade of a
+ * Success Value test runs 0-5, so the card draws five diamonds and fills the
+ * earned ones (see {@link SuccessTestResult.valueDiamondMarks}).
+ */
+export const VALUE_DIAMOND_SCALE = 5;
+
+/**
+ * Spread an earned Value Diamond count across the fixed
+ * {@link VALUE_DIAMOND_SCALE | 0-5 scale} as one entry per diamond — `true`
+ * where the diamond was earned. A count outside the scale is clamped rather
+ * than overflowing (or truncating) the row.
+ *
+ * @param earned - The graded count, as resolved from the result-description table.
+ * @returns One boolean per diamond on the scale.
+ */
+export function toValueDiamondMarks(earned: number): boolean[] {
+    const n = Math.max(0, Math.min(VALUE_DIAMOND_SCALE, Math.trunc(earned)));
+    return Array.from({ length: VALUE_DIAMOND_SCALE }, (_, i) => i < n);
+}
+
 export class SuccessTestResult extends TestResult {
     private _successLevel: number;
     protected _tokenLogic?: SohlTokenDocumentLogic;
@@ -144,8 +165,8 @@ export class SuccessTestResult extends TestResult {
     protected _canFate: boolean;
     /**
      * Whether this is a **Success Value test** (#848) — a success test whose
-     * roll is graded into a Success Value (Index + Modifier) and Success Stars
-     * via the `successStarTable`. Drives the card's Success Value / Success Stars
+     * roll is graded into a Success Value (Index + Modifier) and Value Diamonds
+     * via the `resultDescTable`. Drives the card's Success Value / Value Diamonds
      * display. Serialized so a reconstructed result keeps the distinction.
      */
     protected _isSuccessValue: boolean;
@@ -153,7 +174,7 @@ export class SuccessTestResult extends TestResult {
     /** Foundry roll mode (public / private GM / blind / self) used when posting to chat. */
     rollMode: string;
     protected _targetValueFunc: (successLevel: number) => number;
-    protected _successStarTable: SuccessTestResult.LimitedDescription[];
+    protected _resultDescTable: SuccessTestResult.LimitedDescription[];
 
     /**
      * Construct an empty success-test result owned by `parent` — shorthand for
@@ -228,12 +249,9 @@ export class SuccessTestResult extends TestResult {
             );
         // The table rides the wire as data; revive any serialized SafeExpression
         // rows into live expressions owned by this result's parent.
-        this._successStarTable =
-            data.successStarTable ?
-                reviveLimitedDescriptionTable(
-                    data.successStarTable,
-                    this.parent,
-                )
+        this._resultDescTable =
+            data.resultDescTable ?
+                reviveLimitedDescriptionTable(data.resultDescTable, this.parent)
             :   [];
         this.rollMode = data.rollMode || SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         this._testType = data.testType || TEST_TYPE.SUCCESSTEST.id;
@@ -286,7 +304,7 @@ export class SuccessTestResult extends TestResult {
      * trip; the `successLevel` getter normalizes it on read. `_targetValueFunc`
      * is a live function and is not serializable — it defaults back to identity
      * on reconstruction. The derived outcome data (`resultText`, `resultDesc`,
-     * `successStars`) is deliberately **not** emitted — it recomputes on read
+     * `valueDiamonds`) is deliberately **not** emitted — it recomputes on read
      * from the serialized table
      * plus the success level (see the getters and issue #205).
      *
@@ -299,7 +317,7 @@ export class SuccessTestResult extends TestResult {
      *   the reconstructed result in `standard-test-card.hbs` and
      *   `opposed-result-card.hbs`. A summarized form would lose that breakdown,
      *   so the full modifier is intentionally serialized.
-     * - `successStarTable` is serialized as data (not a table reference)
+     * - `resultDescTable` is serialized as data (not a table reference)
      *   because custom, per-result tables are a supported design goal; the
      *   table is the datum the receiver renders against, so it travels with the
      *   result rather than through a registry (see issue #206).
@@ -311,8 +329,8 @@ export class SuccessTestResult extends TestResult {
             successLevel: this._successLevel,
             tokenUuid: this._tokenLogic?.uuid,
             masteryLevelModifier: this._masteryLevelModifier.toJSON(),
-            successStarTable: serializeLimitedDescriptionTable(
-                this._successStarTable,
+            resultDescTable: serializeLimitedDescriptionTable(
+                this._resultDescTable,
             ),
             rollMode: this.rollMode,
             testType: this._testType,
@@ -373,7 +391,7 @@ export class SuccessTestResult extends TestResult {
      * Raise this result's stored success level by `delta` — the **post-roll Fate
      * bump** (#854). This mutates the already-settled outcome: it does **not**
      * re-roll and does **not** re-evaluate. Because the outcome text/stars are
-     * derived on read (see {@link resultText} / {@link successStars}), re-posting
+     * derived on read (see {@link resultText} / {@link valueDiamonds}), re-posting
      * the card after a bump re-resolves the description table against the new
      * level automatically.
      *
@@ -409,19 +427,38 @@ export class SuccessTestResult extends TestResult {
     }
 
     /**
-     * Number of success "stars" (quality grade), **derived on read** from the
+     * Number of **Value Diamonds** (quality grade), **derived on read** from the
      * description table. Never
      * stored (issue #205) — recomputed from the table plus the evaluated
      * success level / target value / roll last-digit.
      */
-    get successStars(): number {
+    get valueDiamonds(): number {
         return this.resolveDescription().result;
+    }
+
+    /**
+     * {@link valueDiamonds} as one entry per diamond on the fixed
+     * {@link VALUE_DIAMOND_SCALE | 0-5 scale} for the card to draw — `true` where
+     * the diamond was **earned** (drawn filled) and `false` where it was not
+     * (drawn hollow), so the line reads as a rating rather than a bare tally.
+     *
+     * @remarks
+     * Marks, not markup: the card turns each entry into a Font Awesome diamond
+     * (`fa-solid` / `fa-regular`), the same way
+     * {@link sohl.entity.result.OpposedTestResult.victoryStarMarks} is drawn as
+     * stars. Unlike a contest margin — which is unbounded, so it can only be
+     * shown as a count of filled stars — the grade has a fixed ceiling, so the
+     * unearned diamonds are worth drawing. A table that grades outside the scale
+     * is clamped rather than overflowing the row.
+     */
+    get valueDiamondMarks(): boolean[] {
+        return toValueDiamondMarks(this.valueDiamonds);
     }
 
     /**
      * Short result label for the chat card, **derived on read** from the
      * description table (empty when
-     * no table is supplied). Never stored — see {@link successStars}.
+     * no table is supplied). Never stored — see {@link valueDiamonds}.
      */
     get resultText(): string {
         return this.resolveDescription().label;
@@ -430,7 +467,7 @@ export class SuccessTestResult extends TestResult {
     /**
      * Longer result description for the chat card, **derived on read** from the
      * description table (empty when
-     * no table is supplied). Never stored — see {@link successStars}.
+     * no table is supplied). Never stored — see {@link valueDiamonds}.
      */
     get resultDesc(): string {
         return this.resolveDescription().description;
@@ -443,7 +480,7 @@ export class SuccessTestResult extends TestResult {
      * {@link sohl.entity.expr.SafeExpression} row against the test bindings.
      *
      * Purely computed — the source of {@link resultText}, {@link resultDesc},
-     * and {@link successStars}, none of which are stored (issue #205; the
+     * and {@link valueDiamonds}, none of which are stored (issue #205; the
      * table itself rides the wire as data, #206). Returns empty text and a zero
      * star count when the table is empty or no row matches.
      *
@@ -461,7 +498,7 @@ export class SuccessTestResult extends TestResult {
             result: 0,
             success: false,
         };
-        const table = this._successStarTable;
+        const table = this._resultDescTable;
         if (table.length === 0) return empty;
         const targetValue = this.targetValue;
         const lastDigit = this.lastDigit;
@@ -612,8 +649,8 @@ export class SuccessTestResult extends TestResult {
 
     /**
      * Whether this is a Success Value test (#848) — its roll is graded into a
-     * Success Value and Success Stars rather than a plain pass/fail. Drives the
-     * card's Success Value / Success Stars rows.
+     * Success Value and Value Diamonds rather than a plain pass/fail. Drives the
+     * card's Success Value / Value Diamonds rows.
      */
     get isSuccessValue(): boolean {
         return this._isSuccessValue;
@@ -810,8 +847,8 @@ export class SuccessTestResult extends TestResult {
      * the modifier's critical-success/-failure digit lists, applies
      * `successLevelMod`, and — when criticals are disallowed — clamps the level
      * to marginal failure/success and selects the localized description. The
-     * result text and success-star count are not set here: they derive on read
-     * from the description table (see {@link successStars}).
+     * result text and Value Diamond count are not set here: they derive on read
+     * from the description table (see {@link valueDiamonds}).
      *
      * @returns `false` if the base evaluation disallows the result, or if the
      *   current user does not own the speaker (it cannot roll on their behalf);
@@ -915,14 +952,14 @@ export class SuccessTestResult extends TestResult {
      * {@link speaker}, attaching the Foundry roll and the dice sound.
      *
      * @remarks
-     * The derived display outcome (`resultText`, `resultDesc`, `successStars`)
+     * The derived display outcome (`resultText`, `resultDesc`, `valueDiamonds`)
      * is not carried by {@link toJSON} — it is folded into the card data here,
      * rendered once by the sender with a live `targetValueFunc` (issue #205).
      *
      * An optional `buttons` entry in `data` (one {@link ActionCardButton} or an
      * array) is folded through {@link toRenderableButtons} — the same normalizer
      * the action-card framework uses — so the standard card can carry arbitrary
-     * follow-up consent buttons (a graded test = `successStarTable` mapping +
+     * follow-up consent buttons (a graded test = `resultDescTable` mapping +
      * `buttons` follow-ups), dispatched through the shared chat-card chokepoint
      * exactly like an action card. Nothing auto-fires (#853).
      * @param data - Extra template data merged into the card. A `buttons` key
@@ -954,10 +991,13 @@ export class SuccessTestResult extends TestResult {
             fateScopeJSON,
             resultText: label,
             resultDesc: description,
-            successStars: result,
+            valueDiamonds: result,
+            // Spread from the count resolved just above, not re-derived, so the
+            // icons and the count can never disagree.
+            vdMarks: toValueDiamondMarks(result),
             // Success Value test (#848): the card shows the Success Value (the
-            // graded target value = Index + Modifier) and the Success Stars
-            // (`successStars` above). `svSuccess` styles the graded outcome the
+            // graded target value = Index + Modifier) and the Value Diamonds
+            // (`valueDiamonds` above). `svSuccess` styles the graded outcome the
             // way `isSuccess` styles a plain one.
             isSuccessValue: this._isSuccessValue,
             successValue: this.targetValue,
@@ -1121,10 +1161,10 @@ export namespace SuccessTestResult {
         /**
          * The description table used to derive result text and stars. Rides the
          * wire as data (#206); the display outcome ({@link SuccessTestResult.resultText | text},
-         * {@link SuccessTestResult.successStars | stars}) is computed from it on
+         * {@link SuccessTestResult.valueDiamonds | stars}) is computed from it on
          * read, never stored (#205).
          */
-        successStarTable: LimitedDescription[];
+        resultDescTable: LimitedDescription[];
         /** Foundry roll mode for chat output. */
         rollMode: SohlSpeakerRollMode;
         /** Which kind of test this is (a {@link TEST_TYPE} id). */
@@ -1144,7 +1184,7 @@ export namespace SuccessTestResult {
         canFate: boolean;
         /**
          * Whether this is a Success Value test (#848) — graded into a Success
-         * Value and Success Stars via {@link successStarTable}. Defaults `false`.
+         * Value and Value Diamonds via {@link resultDescTable}. Defaults `false`.
          */
         isSuccessValue?: boolean;
         /** Maps a success level to the test's target value (identity for a plain success test). */
@@ -1158,7 +1198,7 @@ export namespace SuccessTestResult {
      * {@link sohl.entity.modifier.MasteryLevelModifier.successTest} — **not** only
      * for resuming one. All are optional (the method reads them as a
      * `Partial<ContextScope>`); together they turn the single generic success test
-     * into any bespoke graded test as **data**, with no subclass. `successStarTable`
+     * into any bespoke graded test as **data**, with no subclass. `resultDescTable`
      * carries the outcome mapping and `targetValueFunc` the grading value; follow-up
      * consent buttons are passed separately to
      * {@link SuccessTestResult.toChat}. See the
@@ -1194,7 +1234,7 @@ export namespace SuccessTestResult {
         /** Maps a success level to the test's target value. */
         targetValueFunc: (sl: number) => number;
         /** The description table used to resolve result text and stars. */
-        successStarTable: LimitedDescription[];
+        resultDescTable: LimitedDescription[];
         /**
          * Whether the resulting card may offer a Fate spend (gated further by the
          * item's `availableFate`). Defaults `true`; the Fate test itself passes
@@ -1203,7 +1243,7 @@ export namespace SuccessTestResult {
         canFate?: boolean;
         /**
          * Mark the test as a **Success Value test** (#848), so its card shows the
-         * Success Value and Success Stars. Set by
+         * Success Value and Value Diamonds. Set by
          * {@link sohl.entity.modifier.MasteryLevelModifier.successValueTest}
          * alongside the svTable and grading `targetValueFunc`.
          */

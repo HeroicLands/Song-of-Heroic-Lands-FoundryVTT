@@ -169,7 +169,7 @@ compiled.
 
 - `str` — The being's effective Strength score.
 
-**`test.resultRow`** — Computes a result-table row's text or success-star count from the settled test result. Evaluated only for the one row a test matches.
+**`test.resultRow`** — Computes a result-table row's text or Value Diamond count from the settled test result. Evaluated only for the one row a test matches.
 
 - `successLevel` — The test's computed success level.
 - `targetValue` — The test's effective target value.

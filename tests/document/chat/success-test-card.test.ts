@@ -117,7 +117,7 @@ describe("standard-test-card renders the evaluated success test", () => {
         const { html } = await renderCard(50, 32);
         // Assert on the footer specifically: the edit pencil's `data-scope`
         // (#856) legitimately serializes the result — including the
-        // `successStarTable`, whose entries are i18n keys — so a whole-HTML key
+        // `resultDescTable`, whose entries are i18n keys — so a whole-HTML key
         // check would match that reconstruction payload, not a display string.
         const footer = html.match(/<footer[\s\S]*?<\/footer>/)?.[0] ?? "";
         expect(footer).not.toContain("SOHL.SuccessTestResult.");
@@ -152,7 +152,7 @@ describe("standard-test-card renders the evaluated success test", () => {
 describe("standard-test-card renders a Skill Value Test (#848)", () => {
     /**
      * Render a Skill Value Test result. It is an ordinary success test carrying
-     * `isSuccessValue`, a graded `successStarTable`, and a `targetValueFunc` that
+     * `isSuccessValue`, a graded `resultDescTable`, and a `targetValueFunc` that
      * maps the success level to the Success Value (Index + Modifier). A small
      * inline table with literal labels keeps the card assertions independent of
      * localization.
@@ -191,7 +191,7 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
             {
                 maxValue: 5,
                 label: "Bonus Value",
-                description: "One Success Star.",
+                description: "One Value Diamond.",
                 lastDigits: [],
                 success: true,
                 result: 1,
@@ -199,7 +199,7 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
             {
                 maxValue: Number.MAX_SAFE_INTEGER,
                 label: "Bonus Value",
-                description: "Two Success Stars.",
+                description: "Two Value Diamonds.",
                 lastDigits: [],
                 success: true,
                 result: 2,
@@ -226,7 +226,7 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
                 roll,
                 title: "Weaponcraft SV Test",
                 isSuccessValue: true,
-                successStarTable: svTable,
+                resultDescTable: svTable,
                 // Index 5 (ML 50) → SV = 5 + successLevel − 1.
                 targetValueFunc: (sl: number) => 5 + sl - 1,
             } as any,
@@ -246,13 +246,15 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
         );
     });
 
-    it("shows the number of Success Stars", async () => {
+    it("draws the Value Diamonds as icons, filled for earned and hollow for the rest", async () => {
         const { html, result } = await renderSvCard(50, 32);
-        // SV 5 → one Success Star.
-        expect(result.successStars).toBe(1);
-        expect(html).toMatch(
-            /Success Stars:<\/span>\s*<span class="value">1<\/span>/,
-        );
+        // SV 5 → one Value Diamond of the five on the scale.
+        expect(result.valueDiamonds).toBe(1);
+        expect(html.match(/fa-solid fa-diamond/g) ?? []).toHaveLength(1);
+        expect(html.match(/fa-regular fa-diamond/g) ?? []).toHaveLength(4);
+        // The count is still available to screen readers.
+        // "of 5" keeps the bounded scale audible and sidesteps "1 Diamonds".
+        expect(html).toContain('aria-label="1 of 5 Value Diamonds"');
     });
 
     it("shows the graded meaning text", async () => {
@@ -263,7 +265,7 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
     it("omits the Success Value block for a plain (non-SV) success test", async () => {
         const { html } = await renderCard(50, 32);
         expect(html).not.toContain("Success Value:");
-        expect(html).not.toContain("Success Stars:");
+        expect(html).not.toContain("Value Diamonds:");
     });
 });
 

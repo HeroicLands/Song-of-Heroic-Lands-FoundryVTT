@@ -307,7 +307,7 @@ export async function performFateTest(
         scope: {
             situationalModifier: 0,
             targetValueFunc: (successLevel: number) => successLevel,
-            successStarTable: getFateDescTable(),
+            resultDescTable: getFateDescTable(),
             // A Fate roll cannot itself be fated.
             canFate: false,
         },

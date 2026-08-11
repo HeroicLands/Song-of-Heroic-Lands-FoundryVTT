@@ -387,7 +387,7 @@ describe("opposed cards render the shaped data (#845)", () => {
             title: "Opposed Result",
         });
         expect(html).toContain("Victory Stars:");
-        expect(html).not.toContain("Success Stars");
+        expect(html).not.toContain("Value Diamonds");
     });
 
     it("result card reports a broken tie with the winner and the deciding rule (#1160)", async () => {

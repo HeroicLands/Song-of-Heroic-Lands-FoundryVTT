@@ -394,7 +394,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * becomes a bespoke graded test _without a subclass_ (see the
      * [pass-data pattern](https://kb.heroiclands.org/dev/how-to/extension-points/)):
      *
-     * - `successStarTable` — the {@link sohl.entity.result.SuccessTestResult.LimitedDescription | result-description table}
+     * - `resultDescTable` — the {@link sohl.entity.result.SuccessTestResult.LimitedDescription | result-description table}
      *   mapping each rung to its label / description / star count. Defaults to this
      *   modifier's `testDescTable`.
      * - `targetValueFunc` — remaps the value the outcome grades against when the
@@ -425,7 +425,7 @@ export class MasteryLevelModifier extends ValueModifier {
     ): Promise<SuccessTestResult | undefined | false> {
         context.scope ??= {} as Partial<SuccessTestResult.ContextScope>;
         context.scope.targetValueFunc ??= (sl: number) => sl;
-        context.scope.successStarTable ??= this.testDescTable;
+        context.scope.resultDescTable ??= this.testDescTable;
 
         // A test whose governing skill/attribute depends on a body part the actor
         // cannot use auto-Critically-Fails (#568). Derived from the owning logic's
@@ -498,9 +498,9 @@ export class MasteryLevelModifier extends ValueModifier {
                         this.parent,
                     ) as MasteryLevelModifier,
                     targetValueFunc: context.scope.targetValueFunc,
-                    successStarTable: context.scope.successStarTable,
+                    resultDescTable: context.scope.resultDescTable,
                     // A Success Value test (#848) marks the result so its card
-                    // shows the Success Value / Success Stars; a plain test does
+                    // shows the Success Value / Value Diamonds; a plain test does
                     // not. Passed as data via scope, no bespoke test method.
                     isSuccessValue: context.scope.isSuccessValue ?? false,
                     // The token this test is made *as*, when the caller knows it
@@ -662,7 +662,7 @@ export class MasteryLevelModifier extends ValueModifier {
             ),
             // Post the graded card (unless the caller suppresses chat). The SV
             // test is a normal success test whose result is graded into a Success
-            // Value and Success Stars — the "special results" are the svTable data
+            // Value and Value Diamonds — the "special results" are the svTable data
             // in scope, not a bespoke test method (#848).
             noChat: context.noChat,
             skipDialog: context.skipDialog,
@@ -672,7 +672,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 isSuccessValue: true,
                 targetValueFunc: (successLevel: number) =>
                     this.index + successLevel - 1,
-                successStarTable: this.svTable,
+                resultDescTable: this.svTable,
             },
         });
 

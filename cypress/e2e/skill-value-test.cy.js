@@ -17,8 +17,8 @@
  *
  * - the `successValueTest` intrinsic action is registered and runnable on a skill;
  * - it grades the (forced) roll into a Success Value (Index + Modifier) and
- *   Success Stars via the skill's svTable, marking the result `isSuccessValue`;
- * - it posts a card showing the Success Value and Success Stars.
+ *   Value Diamonds via the skill's svTable, marking the result `isSuccessValue`;
+ * - it posts a card showing the Success Value and Value Diamonds.
  *
  * The roll is forced to a deterministic, non-critical outcome so no
  * critical-choice dialog opens; the action runs with `skipDialog`. The card is
@@ -38,7 +38,7 @@ describe("Skill Value Test — graded success value (#848)", () => {
         cy.cleanupWorld();
     });
 
-    it("grades a forced roll into a Success Value and Success Stars, and posts the card", () => {
+    it("grades a forced roll into a Success Value and Value Diamonds, and posts the card", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "skill", {
                 name: "Weaponcraft",
@@ -72,7 +72,7 @@ describe("Skill Value Test — graded success value (#848)", () => {
                         hasAction,
                         isSuccessValue: result.isSuccessValue,
                         successValue: result.targetValue,
-                        successStars: result.successStars,
+                        valueDiamonds: result.valueDiamonds,
                     };
                 }).then((r) => {
                     expect(r.hasAction, "successValueTest action registered").to
@@ -80,11 +80,11 @@ describe("Skill Value Test — graded success value (#848)", () => {
                     expect(r.isSuccessValue, "marked a Success Value test").to
                         .be.true;
                     expect(r.successValue, "SV = Index 5 + MS 0").to.eq(5);
-                    expect(r.successStars, "one Success Star").to.eq(1);
+                    expect(r.valueDiamonds, "one Value Diamond").to.eq(1);
                 });
 
                 // The card posts fire-and-forget; poll until it arrives, then
-                // assert it shows the Success Value and Success Stars rows.
+                // assert it shows the Success Value and Value Diamonds rows.
                 cy.window().should((win) => {
                     expect(win.game.messages.size).to.be.greaterThan(
                         win.__svBefore,
@@ -92,7 +92,17 @@ describe("Skill Value Test — graded success value (#848)", () => {
                     const content =
                         win.game.messages.contents.at(-1)?.content ?? "";
                     expect(content).to.contain("Success Value:");
-                    expect(content).to.contain("Success Stars:");
+                    expect(content).to.contain("Value Diamonds:");
+                    // The grade is drawn as icons on the fixed five-diamond
+                    // scale: one earned here, so one filled and four hollow.
+                    expect(
+                        (content.match(/fa-solid fa-diamond/g) ?? []).length,
+                        "earned diamonds drawn filled",
+                    ).to.eq(1);
+                    expect(
+                        (content.match(/fa-regular fa-diamond/g) ?? []).length,
+                        "the rest of the scale drawn hollow",
+                    ).to.eq(4);
                 });
             });
         });
