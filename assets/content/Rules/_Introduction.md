@@ -19,6 +19,7 @@ The rules presented here are basic rules necessary to run a game. For more detai
 
 ## Sections
 
+- [[doc/resolutionintro|Resolution]]
 - [[doc/attrintro|Attributes]]
 - [[doc/skillsintro|Skills]]
 - [[doc/affilintro|Affiliations]]

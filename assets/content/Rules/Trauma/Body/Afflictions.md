@@ -126,7 +126,8 @@ executable code.)
 
 Once onset has occurred, the body fights the affliction. Each course period the
 character makes a **Course Test** — a d100 rolled against the affliction's
-**Course target** — and the result changes the **affliction's Healing Rate**:
+**Course target** — and its [[doc/sccsstst#success-level|success level]] changes
+the **affliction's Healing Rate**:
 
 | Success Level | Change to affliction's Healing Rate |
 | ------------- | ----------------------------------- |
@@ -195,7 +196,8 @@ does not. A physician can improve the odds; they cannot cure by treating.
 
 A patient may **request treatment**, which any physician can answer. The physician
 makes a **Treatment Success Value test** against their own Physician skill, and the
-**Value Diamonds** it earns become the proposed **Course Bonus**:
+[[doc/sccssvlt#value-diamonds|Value Diamonds]] it earns become the proposed
+**Course Bonus**:
 
 | Treatment result   | Course Bonus |
 | ------------------ | ------------ |

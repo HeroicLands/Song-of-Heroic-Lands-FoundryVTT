@@ -15,8 +15,10 @@ shortcode: mystabilintro
 Supernatural powers are expressed in _Song of Heroic Lands_ as a
 **Mystical Ability**.
 
-Invoking a Mystical Ability is resolved as a [[Success Test]], exactly like a
-skill. Where an ability's EML comes from depends on how it is governed:
+Invoking a Mystical Ability is resolved as a
+[[doc/sccsstst#success-test|Success Test]], exactly like a skill. Where an
+ability's [[doc/mstrylvl#effective-mastery-level|EML]] comes from depends on how
+it is governed:
 
 - **Skill-governed abilities** draw their mastery level from an
   **associated skill** — the discipline or lore the ability rests on. Many
@@ -93,7 +95,7 @@ is performed.
 
 A passive influence conferred by the celestial sign under which the character was born. A birthsign is never invoked; it quietly shapes the character, strengthening the aptitudes it favours and weakening others.
 
-A birthsign is a standing **Mystery** the character carries: attach the sign the character was born under, and it adjusts the Effective Mastery Level of the skills it governs — a bonus to those the sign favours, a penalty to those it hinders. The signs are named, droppable items in the compendium; a character bears the one under which they were born.
+A birthsign is a standing **Mystery** the character carries: attach the sign the character was born under, and it adjusts the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills it governs — a bonus to those the sign favours, a penalty to those it hinders. The signs are named, droppable items in the compendium; a character bears the one under which they were born.
 
 # Mysteries
 
@@ -101,7 +103,7 @@ Standing arcane conditions a character carries. (The tradition-agnostic mysterie
 
 ## Fate
 
-The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its success level by one. See [[Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
+The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its [[doc/sccsstst#success-level|success level]]. See [[doc/fatepnts|Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
 
 # Mystical Abilities
 
