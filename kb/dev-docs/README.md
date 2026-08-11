@@ -62,6 +62,7 @@ Task-oriented guides for getting something done.
 Contracts, catalogs, and specifications.
 
 - [Type Catalog](reference/type-catalog.md)
+- [Generated Content Tables](reference/content-tables.md) — the `(@Table …)` directive: tabulate content notes from their frontmatter.
 - [Modifier Model](reference/modifier-model.md)
 - [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)
 - [Result-description Tables](reference/result-description-tables.md)

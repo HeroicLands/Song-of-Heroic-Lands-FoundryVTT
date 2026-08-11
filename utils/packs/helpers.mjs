@@ -33,7 +33,8 @@ import unidecode from "unidecode";
 import markdownit from "markdown-it";
 import log from "loglevel";
 
-import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
+import { buildWikilinkIndex, convertWikilinks, PACK_BY_TLD } from "./wikilinks.mjs";
+import { expandContentTables } from "../content-tables.mjs";
 
 export const md = markdownit({ html: true });
 
@@ -433,6 +434,80 @@ export function convertNoteWikilinks(body, { tld, id, index, name }) {
         log.warn(`Unresolved wikilink in "${name}" (${u.reason}): ${u.link}`);
     }
     return result;
+}
+
+/* ------------------------------------------------------------------------ */
+/*  Generated tables: the searchable content universe                       */
+/* ------------------------------------------------------------------------ */
+
+/**
+ * Every note in the content tree, in the shape the `(@Table …)` expander
+ * searches: its frontmatter plus where it sits in the tree. Ordered by path so
+ * a table that leaves rows tied still emits identically on every build.
+ *
+ * @param {string} contentBase - Root of the content tree.
+ * @returns {Array<{fm: object, path: string, tld: string, folder: string,
+ *   absPath: string}>}
+ */
+export function collectContentDocs(contentBase) {
+    const docs = [];
+    for (const { frontmatter: fm, absPath } of walkMarkdownTree(contentBase)) {
+        if (!fm) continue;
+        const segments = path.relative(contentBase, absPath).split(path.sep);
+        docs.push({
+            fm,
+            // POSIX-separated and relative to the content root — what a
+            // `path:` search term globs, on every platform.
+            path: segments.join("/"),
+            tld: segments[0],
+            folder: segments[segments.length - 2] ?? segments[0],
+            absPath,
+        });
+    }
+    docs.sort((a, b) => (a.absPath < b.absPath ? -1 : a.absPath > b.absPath ? 1 : 0));
+    log.debug(`Content table index: ${docs.length} searchable note(s)`);
+    return docs;
+}
+
+/**
+ * A note is linkable from a generated table cell when it has a shortcode to
+ * address it by *and* its content directory compiles into a pack — the two
+ * things {@link convertWikilinks} needs to turn `[[TLD/shortcode|Text]]` into a
+ * Foundry UUID. Anything else renders as plain text rather than shipping a
+ * literal wikilink into a journal.
+ */
+const packLinkable = (doc) =>
+    Boolean(doc.fm?.shortcode) && Boolean(PACK_BY_TLD[doc.tld]);
+
+/**
+ * Expand the `(@Table …)` directives in one note's markdown, before wikilinks
+ * are resolved — so a generated cell may itself be a wikilink.
+ *
+ * A table searches only notes of the source note's own `package`, so a SoHL
+ * page never tabulates setting-package content (and vice versa).
+ *
+ * @param {string} body - The note's markdown body.
+ * @param {object} ctx
+ * @param {Array<object>} ctx.docs - From {@link collectContentDocs}.
+ * @param {string} ctx.name - The note, for the error message.
+ * @param {string} [ctx.pkg] - The source note's `package`.
+ * @returns {string} The body with every table expanded.
+ * @throws {Error} When a directive is malformed or matches nothing — the note
+ *   fails to compile rather than shipping a table-shaped hole.
+ */
+export function expandNoteTables(body, { docs, name, pkg }) {
+    const scoped = pkg ? docs.filter((d) => d.fm?.package === pkg) : docs;
+    const { markdown, errors } = expandContentTables(body ?? "", {
+        docs: scoped,
+        linkable: packLinkable,
+        source: name,
+    });
+    if (errors.length) {
+        throw new Error(
+            errors.map((e) => `content table — ${e.reason}`).join("; "),
+        );
+    }
+    return markdown;
 }
 
 /* ------------------------------------------------------------------------ */

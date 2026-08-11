@@ -33,6 +33,7 @@ import matter from "gray-matter";
 
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
 import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
+import { expandContentTables } from "./content-tables.mjs";
 
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");
@@ -456,6 +457,9 @@ for (const file of walk(CONTENT_SRC)) {
         // Top-level content directory ("Rules", "Skills", …). Wikilinks name a
         // target as `TLD/shortcode`, and a bare `[[Text]]` is scoped to it.
         tld: path.relative(CONTENT_SRC, file).split(path.sep)[0],
+        // Location below the content root, POSIX-separated — what a generated
+        // table's `path:` search term globs.
+        relPath: path.relative(CONTENT_SRC, file).split(path.sep).join("/"),
         // Immediate source subfolder (Creatures/Animal/Aurochs.md → "Animal") —
         // the only surviving record of the authoring folder, for grouped landings.
         folder: path.basename(path.dirname(file)),
@@ -592,6 +596,26 @@ for (const e of entries) {
     }
 }
 
+// --- Generated tables ----------------------------------------------------
+// The universe a `(@Table …)` directive searches: every reference page, grouped
+// by package so a SoHL page never tabulates setting-package content. Reference
+// pages only — a developer doc documents the syntax, it does not tabulate content.
+const docsByPackage = new Map();
+for (const e of entries) {
+    if (e.kind !== "content") continue;
+    const pkg = e.fm.package;
+    if (!docsByPackage.has(pkg)) docsByPackage.set(pkg, []);
+    docsByPackage.get(pkg).push({
+        fm: e.fm,
+        path: e.relPath,
+        tld: e.tld,
+        folder: e.folder,
+    });
+}
+const tableErrors = [];
+/** A cell can link to a note that has a shortcode to address it by. */
+const tableLinkable = (d) => Boolean(d.fm.shortcode);
+
 const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
 const wikiErrors = [];
 const wikiCtx = (src, tld = null) => ({
@@ -662,9 +686,23 @@ for (const e of entries) {
                 path.join(OUT, sec, "_index.md")
             :   path.join(OUT, sec, `${slug}.md`);
         fs.mkdirSync(path.dirname(dest), { recursive: true });
+        // Tables expand before wikilinks resolve, so a generated cell may
+        // itself be a wikilink — the same order the pack compilers use.
+        const expandTables = (t) => {
+            const { markdown, errors } = expandContentTables(t, {
+                docs: docsByPackage.get(fm.package) ?? [],
+                linkable: tableLinkable,
+                source: src,
+            });
+            tableErrors.push(...errors);
+            return markdown;
+        };
         fs.writeFileSync(
             dest,
-            matter.stringify(protectCode(e.body, resolve), data),
+            matter.stringify(
+                protectCode(e.body, (t) => resolve(expandTables(t))),
+                data,
+            ),
         );
         items++;
     } else {
@@ -701,6 +739,15 @@ for (const [sec, meta] of Object.entries(SECTION_META)) {
         path.join(dir, "_index.md"),
         matter.stringify("", { title: meta.title, banner: meta.banner }),
     );
+}
+
+// Fail the build on any table directive that could not be honoured.
+if (tableErrors.length) {
+    console.error(`\n\u2716 ${tableErrors.length} bad content table(s):`);
+    for (const e of tableErrors) {
+        console.error(`  ${e.reason}  (in ${e.source})`);
+    }
+    process.exit(1);
 }
 
 // Fail the build on any unresolved or ambiguous wikilink.
