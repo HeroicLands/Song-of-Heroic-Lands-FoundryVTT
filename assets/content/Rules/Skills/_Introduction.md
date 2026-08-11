@@ -8,7 +8,7 @@ category: rules
 name:
     full: Skills Introduction
     aliases: []
-folder:
+folder: e0HEIHw9qUVWqyzJ
 shortcode: skillsintro
 ---
 

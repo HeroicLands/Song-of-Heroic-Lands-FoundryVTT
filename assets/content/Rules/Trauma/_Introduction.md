@@ -17,19 +17,15 @@ to the **spirit**, or from the forces of death (**The Pall**). Trauma is the
 umbrella under which the system records every lasting harm and the ongoing
 processes by which a character recovers from — or succumbs to — it.
 
-> **Traumas, not traits.** Psyche and physical conditions that a character
-> _acquires_ (disorders, phobias, scars, and the like) are **traumas**, recorded
-> and recovered under the rules below.
-
 > **Trauma vs. Affliction.** A trauma is a _condition the character is in_ — a
 > state they carry and recover from. An [[affliction]] is instead
 > an ongoing hostile _agent_ (a disease, a poison, a maladiction) that runs a
 > course and ends in death or cure. See
-> [[Rules/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] for the full
+> [[affliction/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] for the full
 > distinction and worked examples.
 
 ## Forms of trauma
 
 - [[doc/bodytrmaintro|Body]]
 - [[doc/mindtrmaintro|Mind]]
-- [[doc/spirittrmaintro|Spirit]]
+- [[doc/sprttraumaintro|Spirit]]

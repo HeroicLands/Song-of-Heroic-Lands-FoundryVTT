@@ -1,7 +1,7 @@
 ---
 aliases:
     - Weapons
-id:
+id: aqrivB7VwJMPHFFN
 type: doc
 package: sohl
 category: rules
