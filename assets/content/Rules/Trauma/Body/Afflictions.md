@@ -38,7 +38,7 @@ often the body's [[#course-test|Course Test]] is made.
 
 ## Affliction vs. Trauma {#affliction-vs-trauma}
 
-An affliction and a [[trauma]] are the two ways the system records
+An affliction and a [[doc/trauma|trauma]] are the two ways the system records
 lasting harm, and they are easy to confuse. The distinction is **process vs.
 state**:
 
@@ -49,7 +49,7 @@ state**:
   [[#outcome|outcome]] of death or cure. Diseases, poisons, and maladictions are
   afflictions: _something is attacking the Being_, and it will get better or
   worse.
-- A **[[trauma]]** is a _condition the Being is in_ — usually the
+- A **[[doc/trauma|trauma]]** is a _condition the Being is in_ — usually the
   result of harm or stress that it then carries and recovers from. Injuries,
   fatigue, fear, morale, shock, infection, aural shock, and the Pall are traumas.
 

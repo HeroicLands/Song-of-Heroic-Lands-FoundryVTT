@@ -23,7 +23,7 @@ processes by which a character recovers from — or succumbs to — it.
 > and recovered under the rules below.
 
 > **Trauma vs. Affliction.** A trauma is a _condition the character is in_ — a
-> state they carry and recover from. An [[affliction]] is instead
+> state they carry and recover from. An [[doc/afflctns|affliction]] is instead
 > an ongoing hostile _agent_ (a disease, a poison, a maladiction) that runs a
 > course and ends in death or cure. See
 > [[doc/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] for the full

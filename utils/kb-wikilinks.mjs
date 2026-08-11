@@ -18,7 +18,7 @@
  * (see `utils/packs/wikilinks.mjs`) become site-local hrefs here:
  *
  *   `[[type/shortcode|Text]]`       → `[Text](/section/slug/)`
- *   `[[Text]]`                      → the same, via a section-scoped alias
+ *   `[[Text]]`                      → the same, via a type-scoped alias
  *   `[[type/shortcode#slug|Text]]`   → `[Text](/section/slug/#slug)`
  *   `[[#slug|Text]]`                 → `[Text](#slug)`
  *
@@ -41,8 +41,8 @@ export const slugify = (s) =>
  * Rewrites the wikilinks in a markdown body as KB-local markdown links.
  *
  * A target is looked up case-insensitively: first as an alias scoped to the
- * source's own **section** (`ctx.sectionAlias`, keyed `section|alias`), which is
- * where authoring guarantees uniqueness, then in the KB-wide `ctx.index` (keyed
+ * source's own **type** (`ctx.typeAlias`, keyed `type|alias`) — a note's
+ * directory and `category` play no part — then in the KB-wide `ctx.index` (keyed
  * by the unambiguous `section/slug` and `type/shortcode`, plus name/filename/slug
  * fallbacks).
  *
@@ -53,8 +53,8 @@ export const slugify = (s) =>
  * plain text. Failures are collected in `ctx.errors`.
  *
  * @param {string} body - The markdown body.
- * @param {object} ctx - `{ index, sectionAlias, collide, sectionCollide,
- *   sections, contentTypes, section, errors, src }`.
+ * @param {object} ctx - `{ index, typeAlias, collide, typeCollide, sections,
+ *   contentTypes, type, errors, src }`.
  * @returns {string} The body with wikilinks rewritten.
  */
 export function resolveKbWikilinks(body, ctx) {
@@ -75,10 +75,9 @@ export function resolveKbWikilinks(body, ctx) {
         }
 
         const key = target.toLowerCase();
-        const sectionKey =
-            ctx.section ? `${ctx.section}|${key}`.toLowerCase() : null;
+        const typeKey = ctx.type ? `${ctx.type}|${key}`.toLowerCase() : null;
         const hit =
-            (sectionKey ? ctx.sectionAlias.get(sectionKey) : undefined) ??
+            (typeKey ? ctx.typeAlias.get(typeKey) : undefined) ??
             ctx.index.get(key);
         if (hit) {
             // With no explicit label, a *qualified* target has no prose to show
@@ -96,10 +95,7 @@ export function resolveKbWikilinks(body, ctx) {
         const badQualified =
             prefix !== null &&
             (ctx.sections.has(prefix) || ctx.contentTypes.has(prefix));
-        if (
-            (sectionKey && ctx.sectionCollide.has(sectionKey)) ||
-            ctx.collide.has(key)
-        ) {
+        if ((typeKey && ctx.typeCollide.has(typeKey)) || ctx.collide.has(key)) {
             ctx.errors.push({ file: ctx.src, target, reason: "ambiguous" });
         } else if (badQualified) {
             ctx.errors.push({

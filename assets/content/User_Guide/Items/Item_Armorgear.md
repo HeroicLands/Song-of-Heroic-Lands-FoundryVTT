@@ -55,7 +55,7 @@ Armor adds one action of its own to the ones every piece of gear carries:
 | [[#toggle-worn\|Toggle Worn]] | `toggleWorn` | The 🛡 button on the Gear tab row, or the Actions tab |
 
 Everything else on an armor item is inherited and documented elsewhere:
-**Toggle Carried** belongs to all gear and is described on [[Gear]], and
+**Toggle Carried** belongs to all gear and is described on [[doc/itemgear|Gear]], and
 **Edit**, **Delete**, and **Output Description to Chat** belong to every item and
 are described once on [[Base Item]]. None of them behaves differently on
 armor.
@@ -97,7 +97,7 @@ the armor is not carried:
 - the **Worn** checkbox on the armor's own Properties tab is disabled;
 - and the action refuses to run however it is invoked.
 
-Pick the armor up with **Toggle Carried** ([[Gear]]) and Toggle Worn
+Pick the armor up with **Toggle Carried** ([[doc/itemgear|Gear]]) and Toggle Worn
 becomes available again — but the armor comes back **not worn**, so putting it on is
 always a deliberate act. Setting armor **down** while it is worn takes it off in the
 same stroke, so armor can never sit in a cart while still counting as protection.
@@ -159,7 +159,7 @@ Two consequences are worth knowing at the table:
 
 # See also
 
-- [[Gear]] — the standard gear properties, **Toggle Carried**, and the
+- [[doc/itemgear|Gear]] — the standard gear properties, **Toggle Carried**, and the
   carried-gear rule this page's action depends on.
 - [[Base Item]] — the standard item properties and the shared **Edit** /
   **Delete** / **Output Description to Chat** actions.

@@ -163,7 +163,7 @@ hand? It lists every piece of gear the cohort's members carry _and have marked a
 shared with this cohort_ — the party's rope, lantern, tent, and rations, gathered
 into one view no matter whose pack they are actually in.
 
-It shows the same columns as an ordinary [[Gear]] tab — item, type,
+It shows the same columns as an ordinary [[doc/itemgear|Gear]] tab — item, type,
 quantity, weight, quality, durability, notes — plus one more: **Carried By**, the
 member whose sheet the item actually lives on.
 
@@ -189,7 +189,7 @@ member's actor — the item simply stops appearing here. Nothing is orphaned.
 
 Sharing is set on the **item**, on the character that carries it: open the gear
 item's **Properties** tab and pick the cohort (or cohorts) in **Shared With**.
-See [[Gear]] for the control. Because sharing lives on the item, the
+See [[doc/itemgear|Gear]] for the control. Because sharing lives on the item, the
 carrier's player is always the one who decides what the group gets to see — the
 cohort can never reach out and claim something.
 

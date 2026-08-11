@@ -121,4 +121,4 @@ _None_ row; the control is there because movement is a capability every actor
 carries, not because a building is expected to use it.
 
 The contents stored in a structure are ordinary gear items with actions of their
-own — see [[Gear]] and the page for each kind of gear.
+own — see [[doc/itemgear|Gear]] and the page for each kind of gear.

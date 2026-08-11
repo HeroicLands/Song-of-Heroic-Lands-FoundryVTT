@@ -376,20 +376,6 @@ export function makeId(namespace, value) {
 /* ------------------------------------------------------------------------ */
 
 /**
- * The section a note belongs to — its `type`, except that prose pages
- * (`type: doc`) group by their `category` (rules, user-guide, …). It is what
- * scopes a bare `[[Text]]` wikilink, and it is the knowledgebase's route
- * segment, so both builds agree on where a note "lives" without either of them
- * consulting the directory tree.
- *
- * @param {object} fm - The note's frontmatter.
- * @returns {string} The section key.
- */
-export function contentSection(fm) {
-    return fm?.type === "doc" ? String(fm.category ?? "doc") : String(fm?.type);
-}
-
-/**
  * Indexes **every** note in the content tree so any pack compiler can resolve a
  * wikilink to any other document. Shared by all three compilers: a skill links
  * to another skill, a journal to a creature, a creature to a rules page, and
@@ -405,7 +391,6 @@ export function buildContentLinkIndex(contentBase) {
         const base = path.basename(absPath, ".md").replace(/_/g, " ");
         docs.push({
             type: fm.type,
-            section: contentSection(fm),
             id: fm.id,
             shortcode: fm.shortcode ?? null,
             name: fm.name?.full ?? base,
@@ -427,12 +412,11 @@ export function buildContentLinkIndex(contentBase) {
  * warning text and the leave-it-alone fallback are identical everywhere.
  *
  * @param {string} body - The note's markdown body.
- * @param {object} ctx - `{ type, section, id, index, name }` — `name` is used in
- *   the log.
+ * @param {object} ctx - `{ type, id, index, name }` — `name` is used in the log.
  * @returns {{markdown: string, unresolved: Array<object>}}
  */
-export function convertNoteWikilinks(body, { type, section, id, index, name }) {
-    const result = convertWikilinks(body ?? "", { type, section, id, index });
+export function convertNoteWikilinks(body, { type, id, index, name }) {
+    const result = convertWikilinks(body ?? "", { type, id, index });
     for (const u of result.unresolved) {
         log.warn(`Unresolved wikilink in "${name}" (${u.reason}): ${u.link}`);
     }

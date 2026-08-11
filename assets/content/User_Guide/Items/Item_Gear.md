@@ -16,7 +16,7 @@ folder: QtOgPodi8X6gDWL0
 
 Gear are physical items that are carried by the character. There are a number of different types of gear:
 
-- [[Armor]]
+- [[doc/armor|Armor]]
 - [[doc/cncctn|Potions, Elixirs, and Concoctions]]
 - [[doc/cntnr|Containers]]
 - [[doc/weapon|Weapons]]
@@ -76,7 +76,7 @@ gear.
 
 Individual gear types add further actions of their own: a weapon has its attack
 and defence actions ([[Weapon]]) and armor has **Toggle Worn**
-([[Armor]]). The types that add nothing —
+([[doc/armor|Armor]]). The types that add nothing —
 [[doc/cntnr|Containers]], [[doc/cncctn|Concoctions]],
 [[doc/prjctl|Projectiles]], and [[Miscellaneous Gear]] —
 inherit **Toggle Carried** exactly as described below.
@@ -148,7 +148,7 @@ Two details of that tally are worth knowing:
   immediately; run it again to put the state back.
 - **It does not put anything on.** Picking an item back up leaves it merely
   carried: armor comes back off the character's body, and you put it back on
-  deliberately with **Toggle Worn** on [[Armor]]. Setting an item
+  deliberately with **Toggle Worn** on [[doc/armor|Armor]]. Setting an item
   **down**, on the other hand, does take it off — see **Carried Gear Only**,
   below.
 - **It does not cascade into a container.** Each item tracks its own carried

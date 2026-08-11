@@ -58,7 +58,7 @@ is a standard action it already inherits:
 
 The first three belong to every item and are described on [[Base Item]];
 **Toggle Carried** belongs to every piece of gear and is described on
-[[Gear]]. Those pages cover what each one does, how it is invoked, and
+[[doc/itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
 what it produces — none of it changes for a concoction.
 In particular there is no "use" action: drinking, applying, or administering a
 concoction stays a table decision, so you adjust its **Quantity** and apply its

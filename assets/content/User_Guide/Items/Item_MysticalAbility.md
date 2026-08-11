@@ -22,7 +22,7 @@ Invoking one is a **roll** — see [[#success-test|Success Test]] below. SoHL ro
 it and reports how well it went; what the ability then _does_ is read off the
 rulebook and applied by the people at the table. An ability that carries a
 mastery level of its own can also be **developed**, exactly the way a
-[[Skill]] is — see
+[[doc/skill|Skill]] is — see
 [[#toggle-improve-flag|Toggle Improve Flag]] and
 [[#improve-with-sdr|Improve with SDR]].
 
@@ -187,7 +187,7 @@ the ancestor — whenever a character uses a Mystical Ability and the table want
 to know whether it worked, this is the roll. It rolls a d100 against the
 ability's **Effective Mastery Level** and reports critical success, marginal
 success, marginal failure, or critical failure, exactly as a
-[[Skill]] test does.
+[[doc/skill|Skill]] test does.
 
 Use it at the moment of invocation, not before: the EML shown on the row already
 includes everything the system knows about, including the
@@ -273,7 +273,7 @@ ability's mastery level is live, and the ability has **no Associated Skill or
 Spirit Power**. An ability that borrows its mastery level has nothing of its own
 to raise, so it shows no star and offers neither improvement action.
 
-This is the same action, with the same behaviour, that a [[Skill]]
+This is the same action, with the same behaviour, that a [[doc/skill|Skill]]
 carries — including the **two hidden half-toggles**, _Flag for Improvement_
 (`setImproveFlag`) and _Clear Improvement Flag_ (`unsetImproveFlag`), which set
 and clear the flag outright rather than flipping it. Neither appears in the
@@ -338,7 +338,7 @@ touches an Associated Skill, another ability, or anything else on the sheet.
   page's roll opens.
 - [[doc/mystery|Mysteries]] — the passive counterpart: what a character _is_
   rather than something they invoke.
-- [[Skill]] — the governing skill an ability usually draws its mastery
+- [[doc/skill|Skill]] — the governing skill an ability usually draws its mastery
   level from, and the source of the identical improvement actions.
 - [[Affiliation]] — the body whose standing an ability can draw on.
 - [[Skill Tests]] — what the numbers in a test mean, and how success levels are read.

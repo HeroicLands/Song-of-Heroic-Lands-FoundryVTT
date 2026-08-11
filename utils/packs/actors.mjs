@@ -47,7 +47,6 @@ import {
     md,
     buildContentLinkIndex,
     convertNoteWikilinks,
-    contentSection,
     collectContentDocs,
     expandNoteTables,
 } from "./helpers.mjs";
@@ -501,7 +500,6 @@ export class Actors {
                     }),
                     {
                         type: fm.type,
-                        section: contentSection(fm),
                         id: fm.id,
                         index: this.linkIndex,
                         name: resolveName(fm),

@@ -25,7 +25,7 @@ dressed wound, and the Pall clinging to a soul.
 whose **Trauma Type** is _Injury_. Everything on this page about wounds, bleeding,
 treatment, and healing is describing that sub-type.
 
-What separates a Trauma from an [[Affliction]] is _where the harm
+What separates a Trauma from an [[doc/afflctn|Affliction]] is _where the harm
 comes from_. A Trauma is something the character **carries** — the state their
 body or mind is now in. An Affliction is an outside **agent** working on them: a
 disease, a poison, a curse. A poisoned character has an Affliction; the fatigue
@@ -691,7 +691,7 @@ See [[doc/thepall|The Pall]] for what each fate means.
 
 - [[Afflictions and Injuries]] — the overview of how harm
   works, and how a Trauma differs from an Affliction.
-- [[Affliction]] — diseases, poisons, and curses: the outside agents
+- [[doc/afflctn|Affliction]] — diseases, poisons, and curses: the outside agents
   that inflict Traumas.
 - [[Being]] — the physician's side of treatment and blood stoppage, and
   the character's shock state.

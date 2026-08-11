@@ -12,7 +12,7 @@ import { slugify, resolveKbWikilinks } from "../../utils/kb-wikilinks.mjs";
 
 /**
  * A stand-in KB index. `index` holds the unambiguous keys (`section/slug` and
- * `type/shortcode`); `sectionAlias` holds aliases scoped to a section.
+ * `type/shortcode`); `typeAlias` holds aliases scoped to a content type.
  */
 function makeCtx(overrides: Record<string, unknown> = {}) {
     const shock = { url: "/rules/sohl-shock/", name: "Shock" };
@@ -24,15 +24,15 @@ function makeCtx(overrides: Record<string, unknown> = {}) {
             ["skill/climbing", climb],
             ["skill/climb", climb], // type/shortcode
         ]),
-        sectionAlias: new Map<string, object>([
-            ["rules|shock", shock],
-            ["rules|shock state", shock],
+        typeAlias: new Map<string, object>([
+            ["doc|shock", shock],
+            ["doc|shock state", shock],
         ]),
         collide: new Set<string>(["gear"]),
-        sectionCollide: new Set<string>(["rules|coma"]),
+        typeCollide: new Set<string>(["doc|coma"]),
         sections: new Set<string>(["rules", "skill"]),
         contentTypes: new Set<string>(["doc", "skill", "creature"]),
-        section: "rules",
+        type: "doc",
         errors: [] as object[],
         src: "rules/Bleeding.md",
         ...overrides,
@@ -61,7 +61,7 @@ describe("resolveKbWikilinks", () => {
         expect(ctx.errors).toEqual([]);
     });
 
-    it("resolves a bare alias scoped to the source's own section", () => {
+    it("resolves a bare alias scoped to the source's own type", () => {
         const ctx = makeCtx();
         expect(resolveKbWikilinks("worsens the [[Shock State]]", ctx)).toBe(
             "worsens the [Shock State](/rules/sohl-shock/)",
@@ -116,7 +116,7 @@ describe("resolveKbWikilinks", () => {
         });
     });
 
-    it("reports an alias that is ambiguous within the source's section", () => {
+    it("reports an alias that is ambiguous within the source's type", () => {
         const ctx = makeCtx();
         expect(resolveKbWikilinks("a [[Coma]] state", ctx)).toBe(
             "a Coma state",

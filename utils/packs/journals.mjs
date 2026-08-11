@@ -44,7 +44,6 @@ import {
     md,
     buildContentLinkIndex,
     convertNoteWikilinks,
-    contentSection,
     collectContentDocs,
     expandNoteTables,
 } from "./helpers.mjs";
@@ -229,7 +228,6 @@ export class Journals {
         });
         const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
             type: fm.type,
-            section: contentSection(fm),
             id,
             index: this.linkIndex,
             name,

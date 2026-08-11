@@ -18,7 +18,7 @@ An Affliction is **something working on a character from the outside** — a
 disease, a poison, a curse. It has a source, a way of reaching a victim, a course
 it runs, and an end it is heading toward.
 
-What separates it from a [[Trauma]] is _where the harm comes from_.
+What separates it from a [[doc/itemtrauma|Trauma]] is _where the harm comes from_.
 A Trauma is a state the character **carries**: a wound, exhaustion, terror. An
 Affliction is an **agent** at work on them, and it will get better or worse
 whether or not anything else happens. A poisoned character has an Affliction; the
@@ -423,7 +423,7 @@ sits:
 | **1**         | **Unconscious**                                  |
 | **Below 1**   | **Dead**                                         |
 
-The fatigue is recorded as its own Fatigue [[Trauma]] — the affliction
+The fatigue is recorded as its own Fatigue [[doc/itemtrauma|Trauma]] — the affliction
 is the agent, the exhaustion it causes is a Trauma the character carries.
 
 The shock states only ever **worsen** the character's condition. A character
@@ -547,7 +547,7 @@ Rate settled, and any Trauma it left behind now sitting on the Health tab.
 
 # See also
 
-- [[Trauma]] — what a character _carries_: wounds, fatigue, fear, and
+- [[doc/itemtrauma|Trauma]] — what a character _carries_: wounds, fatigue, fear, and
   the Traumas an affliction inflicts along the way.
 - [[Afflictions and Injuries]] — the overview of how harm
   works on a character.

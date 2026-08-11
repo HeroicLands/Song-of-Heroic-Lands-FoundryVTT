@@ -17,7 +17,7 @@
  * Content notes link to one another with wikilinks rather than file paths:
  *
  *   `[[type/shortcode|Text]]`   a document of that type
- *   `[[Text]]`                  an alias unique within the source's own section
+ *   `[[Text]]`                  an alias unique within the source's own type
  *   `[[type/shortcode#slug|T]]` a section (see below)
  *   `[[#slug|Text]]`            a section of the source note itself
  *
@@ -27,12 +27,13 @@
  * unique per type, not per directory, so a directory qualifier would add nothing
  * to the address while breaking every inbound link the moment a note is refiled.
  *
- * The bare form is an authoring shorthand rather than an address, and it is
- * scoped to the source's **section** — its type, except that prose pages
- * (`type: doc`) scope by `category`. That is where authoring actually guarantees
- * a unique name: every `doc` shares one type, so scoping the shorthand by type
- * would make `[[Gear]]` ambiguous between the rules page and the user-guide page
- * that both legitimately carry the name.
+ * The bare form is the same address with the qualifier left implicit: it resolves
+ * against the aliases of the source's **own type**, so a `doc` reaches any other
+ * `doc` by name wherever it is filed. Nothing narrower is consulted — a note's
+ * directory and its `category` play no part in resolution. Where two notes of a
+ * type legitimately share a name (a rules page and a user-guide page both called
+ * "Gear"), the bare form is ambiguous and resolves to neither; the author writes
+ * the full `[[type/shortcode|Text]]` form instead.
  *
  * At compile time each becomes a Foundry UUID enricher, routed to the pack that
  * the target's type compiles into (see {@link packForType}):
@@ -109,11 +110,10 @@ export function anchorPageId(noteId, anchorSlug) {
 /**
  * Builds the link-resolution tables for a content tree.
  *
- * @param {Array<{type: string, section: string, id: string,
- *   shortcode?: string|null, aliases?: string[], name?: string}>} docs - One
- *   entry per content note.
+ * @param {Array<{type: string, id: string, shortcode?: string|null,
+ *   aliases?: string[], name?: string}>} docs - One entry per content note.
  * @returns {{byShortcode: Map<string, object>, byAlias: Map<string, object|null>,
- *   types: Set<string>}} `byAlias` holds `null` where a section-scoped alias is
+ *   types: Set<string>}} `byAlias` holds `null` where a type-scoped alias is
  *   claimed by more than one document, which makes the bare `[[Text]]` form
  *   unusable for it. `types` is every type the tree actually contains, so a
  *   qualifier naming no real type can be told apart from a missing target.
@@ -127,7 +127,7 @@ export function buildWikilinkIndex(docs) {
         types.add(norm(d.type));
         if (d.shortcode) byShortcode.set(`${norm(d.type)}/${norm(d.shortcode)}`, d);
         for (const a of d.aliases ?? []) {
-            const key = `${norm(d.section ?? d.type)}|${norm(a)}`;
+            const key = `${norm(d.type)}|${norm(a)}`;
             // Second claimant poisons the alias: it can no longer be resolved.
             byAlias.set(key, byAlias.has(key) && byAlias.get(key) !== d ? null : d);
         }
@@ -147,16 +147,14 @@ const WIKILINK = /\[\[([^\]\n]+)\]\]/g;
  *
  * @param {string} markdown - The note body (frontmatter already stripped).
  * @param {object} ctx
- * @param {string} ctx.type - The source note's `type`.
- * @param {string} ctx.section - The source note's section, which scopes a bare
- *   `[[Text]]` (its type, or its `category` when the note is a `doc`).
+ * @param {string} ctx.type - The source note's `type`, which scopes a bare `[[Text]]`.
  * @param {string} ctx.id - The source note's document id.
  * @param {{byShortcode: Map, byAlias: Map, types: Set}} ctx.index - From
  *   {@link buildWikilinkIndex}.
  * @returns {{markdown: string, unresolved: Array<{link: string, target: string,
  *   reason: "unknown"|"ambiguous"|"unknown-type"}>}}
  */
-export function convertWikilinks(markdown, { type, section, id, index }) {
+export function convertWikilinks(markdown, { type, id, index }) {
     const unresolved = [];
 
     const out = String(markdown).replace(WIKILINK, (all, rawInner) => {
@@ -193,9 +191,7 @@ export function convertWikilinks(markdown, { type, section, id, index }) {
                     `${targetType}/${norm(target.slice(slash + 1))}`,
                 );
             } else {
-                const hit = index.byAlias.get(
-                    `${norm(section ?? type)}|${norm(target)}`,
-                );
+                const hit = index.byAlias.get(`${norm(type)}|${norm(target)}`);
                 if (hit === null) {
                     unresolved.push({ link: all, target, reason: "ambiguous" });
                     return all;

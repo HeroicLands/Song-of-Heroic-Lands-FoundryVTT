@@ -47,7 +47,7 @@ Skills improve through use. Characters who test their abilities in play develop 
 
 ## Gear & Equipment
 
-- [[Gear]] — the property a character owns and carries: the common gear properties, carrying and encumbrance, and each gear type (Miscellaneous, Container, Weapons, Projectiles, Armor, Concoctions). Covers worn vs. carried armor, armor protection by aspect (Blunt/Edged/Piercing/Fire), layering and coverage, and the sensory penalties some armor imposes.
+- [[doc/gear|Gear]] — the property a character owns and carries: the common gear properties, carrying and encumbrance, and each gear type (Miscellaneous, Container, Weapons, Projectiles, Armor, Concoctions). Covers worn vs. carried armor, armor protection by aspect (Blunt/Edged/Piercing/Fire), layering and coverage, and the sensory penalties some armor imposes.
 - [[Strike Modes]] — the ways an attack is delivered: the melee and missile strike modes a weapon (one or more each) or combat technique uses, and the attack, impact, reach, defense, and range they carry.
 
 ## Esoterica
@@ -66,7 +66,7 @@ TBD
 ## Health, Injury & Recovery
 
 - [[Health]] — the 0–100 figure and its bands: how injuries set a ceiling on a character, and what each band means.
-- [[Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
+- [[doc/trauma|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
 - [[Healing Base]] — the recovery factor (average of END and WIL) used in every healing test.
 - [[doc/injrylvl|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
 - [[Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and the Blood Stoppage Test.

@@ -18,19 +18,19 @@ import {
 
 /** A small stand-in content tree spanning three packs. */
 const DOCS = [
-    { type: "doc", section: "rules", id: "aaaaaaaaaaaaaaa1", shortcode: "shock", aliases: ["Shock", "Shock State"] },
-    { type: "doc", section: "rules", id: "aaaaaaaaaaaaaaa2", shortcode: "bleeding", aliases: ["Bleeding"] },
-    { type: "doc", section: "rules", id: "aaaaaaaaaaaaaaa3", shortcode: "coma", aliases: ["Coma"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa1", shortcode: "shock", aliases: ["Shock", "Shock State"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa2", shortcode: "bleeding", aliases: ["Bleeding"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa3", shortcode: "coma", aliases: ["Coma"] },
     // Shares the "Coma" alias with the doc above — ambiguous, so unusable bare.
-    { type: "doc", section: "rules", id: "aaaaaaaaaaaaaaa4", shortcode: "extshock", aliases: ["Coma"] },
-    { type: "skill", section: "skill", id: "bbbbbbbbbbbbbbb1", shortcode: "climb", aliases: ["Climbing"] },
-    { type: "creature", section: "creature", id: "ccccccccccccccc1", shortcode: "condor", aliases: ["Condor"] },
-    { type: "macro", section: "macro", id: "ddddddddddddddd1", shortcode: "rollit", aliases: ["Roll It"] },
-    { type: "containergear", section: "containergear", id: "eeeeeeeeeeeeeee1", shortcode: "backpack", aliases: ["Backpack"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa4", shortcode: "extshock", aliases: ["Coma"] },
+    { type: "skill", id: "bbbbbbbbbbbbbbb1", shortcode: "climb", aliases: ["Climbing"] },
+    { type: "creature", id: "ccccccccccccccc1", shortcode: "condor", aliases: ["Condor"] },
+    { type: "macro", id: "ddddddddddddddd1", shortcode: "rollit", aliases: ["Roll It"] },
+    { type: "containergear", id: "eeeeeeeeeeeeeee1", shortcode: "backpack", aliases: ["Backpack"] },
 ];
 
 const index = buildWikilinkIndex(DOCS);
-const from = { type: "doc", section: "rules", id: "aaaaaaaaaaaaaaa2" }; // "Bleeding"
+const from = { type: "doc", id: "aaaaaaaaaaaaaaa2" }; // "Bleeding"
 
 const convert = (src: string, ctx = from) =>
     convertWikilinks(src, { ...ctx, index });
@@ -90,7 +90,7 @@ describe("convertWikilinks", () => {
         expect(unresolved).toEqual([]);
     });
 
-    it("converts a bare link via a unique alias in the source's own section", () => {
+    it("converts a bare link via a unique alias in the source's own type", () => {
         const { markdown } = convert("worsens the [[Shock State]] of the victim");
         expect(markdown).toBe(
             "worsens the @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock State} of the victim",
@@ -153,7 +153,7 @@ describe("convertWikilinks", () => {
     });
 
     it("cannot resolve a bare alias that belongs to another type", () => {
-        const { markdown } = convert("[[Coma]]", { type: "skill", section: "skill", id: "bbbbbbbbbbbbbbb1" });
+        const { markdown } = convert("[[Coma]]", { type: "skill", id: "bbbbbbbbbbbbbbb1" });
         // "Coma" is not an alias of any skill — unresolvable from there.
         expect(markdown).toBe("[[Coma]]");
     });

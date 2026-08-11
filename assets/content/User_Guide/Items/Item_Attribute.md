@@ -217,7 +217,7 @@ rather rule the outcome by hand.
 - [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, and the standard test dialog both
   rolls on this page open.
-- [[Skill]] — the learned counterpart, whose Skill Base formulas are
+- [[doc/skill|Skill]] — the learned counterpart, whose Skill Base formulas are
   built from these attributes.
 - [[Skill Tests]] — what the numbers in a test mean, and how success levels are read.
 - [[Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.

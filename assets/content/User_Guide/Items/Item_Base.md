@@ -367,5 +367,5 @@ result."_
 - [[doc/thftsyst|Fate]] — the player-side counterpart to the GM result edit.
 - [[Combat Basics]] and [[Combatant]] — the combat actions that add fields to the
   standard test dialog, and where strike modes come from.
-- [[Trauma]] and [[Affliction]] — the recurring
+- [[doc/itemtrauma|Trauma]] and [[doc/afflctn|Affliction]] — the recurring
   checks that use the offer-schedule dialog most.

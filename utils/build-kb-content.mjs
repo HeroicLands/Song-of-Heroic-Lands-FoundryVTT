@@ -510,11 +510,13 @@ for (const e of entries) {
 // The authored form: `type/shortcode` — `(type, shortcode)` is the system's
 // logical identity and is unique by rule, so this key is unique by construction,
 // the same guarantee `section/slug` gives. Alongside it, every alias is indexed
-// *scoped to its section*, which is what makes a bare `[[Text]]` resolvable even
-// when the same name is used elsewhere ("Shock" the rules page and "Shock" the
-// trauma item both exist, as do a rules "Gear" page and a user-guide one).
-const sectionAlias = new Map(); // `section|alias` → { url, name }
-const sectionCollide = new Set();
+// *scoped to its type*, which is what makes a bare `[[Text]]` resolvable even
+// when the same name is used for another kind of document ("Shock" the rules
+// page and "Shock" the trauma item both exist). Two notes of the *same* type
+// sharing a name poison it: the bare form is then ambiguous and the author must
+// write `[[type/shortcode|Text]]`.
+const typeAlias = new Map(); // `type|alias` → { url, name }
+const typeCollide = new Set();
 const contentTypes = new Set();
 for (const e of entries) {
     if (e.kind !== "content") continue; // developer docs carry no type/shortcode
@@ -531,14 +533,14 @@ for (const e of entries) {
         path.basename(e.base, ".md").replace(/_/g, " "),
     ].filter((a) => typeof a === "string" && a);
     for (const a of aliases) {
-        const k = `${e.sec}|${a}`.toLowerCase();
-        if (sectionCollide.has(k)) continue;
-        const cur = sectionAlias.get(k);
+        const k = `${type}|${a}`.toLowerCase();
+        if (typeCollide.has(k)) continue;
+        const cur = typeAlias.get(k);
         if (cur && cur.url !== v.url) {
-            sectionAlias.delete(k);
-            sectionCollide.add(k);
+            typeAlias.delete(k);
+            typeCollide.add(k);
         } else if (!cur) {
-            sectionAlias.set(k, v);
+            typeAlias.set(k, v);
         }
     }
 }
@@ -565,14 +567,14 @@ const tableLinkable = (d) => Boolean(d.fm.shortcode);
 
 const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
 const wikiErrors = [];
-const wikiCtx = (src, section = null) => ({
+const wikiCtx = (src, type = null) => ({
     index: wikiIndex,
     collide: wikiCollide,
     sections: knownSections,
-    sectionAlias,
-    sectionCollide,
+    typeAlias,
+    typeCollide,
     contentTypes,
-    section,
+    type,
     errors: wikiErrors,
     src,
 });
@@ -582,7 +584,7 @@ for (const e of entries) {
     const { fm, name, slug, sec, url, base, isReadme } = e;
     const src = e.rel ?? `${sec}/${base}`;
     const resolve = (t) =>
-        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.sec));
+        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.fm.type));
 
     // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
     // live under /guide/ (assets/content) or /dev/ (developer docs).
