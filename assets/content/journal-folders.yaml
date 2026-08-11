@@ -33,6 +33,14 @@
   id: RqKUTBUBN2Y3MHYB
   parentFolderId: ""
   color: "#d35400"
+- name: Affiliations
+  id: ersDTBJUjBoHUp51
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#9c5060"
+- name: Attributes
+  id: J8sz6xxxSv85UBio
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#462662"
 - name: Character
   id: SSkatgtYj9d71kaz
   parentFolderId: RqKUTBUBN2Y3MHYB
