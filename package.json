@@ -1,7 +1,7 @@
 {
     "name": "sohl",
     "productName": "Song of Heroic Lands",
-    "description": "A Foundry VTT system for Song of Heroic Lands",
+    "description": "No classes. No levels. Just the character you imagined, shaped by what actually happens to them. Combat that bites, wounds that linger, magic that differs by tradition, and Fate for the day you should have died. Your world, Thalorna, or HârnWorld. A game system for Foundry VTT.",
     "version": "0.8.2",
     "private": true,
     "author": {
