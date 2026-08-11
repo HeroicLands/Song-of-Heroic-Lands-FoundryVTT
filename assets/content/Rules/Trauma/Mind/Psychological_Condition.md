@@ -3,7 +3,6 @@ aliases:
     - Psychological Condition
     - Psyche Stress
     - Psyche Stress Level
-    - Aural Shock
 id: R6LpCJeZV0uruifv
 type: doc
 package: sohl

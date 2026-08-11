@@ -133,7 +133,7 @@ properties, it has:
 
 - **Projectile type** — the ammunition it consumes (arrow, bolt, bullet, dart),
   or **none** when the weapon itself is the missile (a thrown spear or axe). A
-  weapon that fires ammunition draws matching **[[projectiles]]**, and the
+  weapon that fires ammunition draws matching **[[doc/prjctl|projectiles]]**, and the
   projectile's impact combines with the strike mode's to determine the blow.
 - **Range** — the base distance the attack can reach before range penalties apply.
 - **Draw** — the time needed to ready, nock, or reload before the mode can fire.

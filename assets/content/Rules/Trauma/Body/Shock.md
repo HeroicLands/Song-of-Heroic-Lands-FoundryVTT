@@ -5,7 +5,6 @@ aliases:
     - Shock State Index
     - Shock Re-Test
     - Extended Shock
-    - Coma
 id: im1oSbKUZQFCBBI8
 type: doc
 package: sohl

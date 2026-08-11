@@ -25,9 +25,20 @@ unique tree-wide by `npm run lint:packs`. All 240 authored links were rewritten.
   `unmapped-tld`).
 
 Every resolved link was verified unchanged: 843 `@UUID` references across the compiled
-packs, byte-identical before and after — with one deliberate correction. The user-guide
-_Item: Skill_ page carried `Combat Technique` / `Combat Techniques` aliases that do not
-belong to it, which silently captured two links about combat techniques; those aliases
-are removed and the links now point at the _Combat Techniques_ rules page.
+packs, byte-identical before and after — apart from four deliberate corrections.
+
+Auditing the tree for aliases that name a **different** document turned up four notes
+squatting on names they do not own, silently capturing every link meant for the real
+page. Those aliases are removed and the affected links now reach their proper targets:
+
+| Note                              | Aliases removed                                                |
+| --------------------------------- | -------------------------------------------------------------- |
+| _Item: Skill_ (user guide)        | `Combat Technique`, `Combat Techniques`                        |
+| _Gear_ (rules)                    | `Weapons`, `Armor`, `Projectiles`, `Containers`, `Concoctions` |
+| _Shock_ (rules)                   | `Coma`                                                         |
+| _Psychological Condition_ (rules) | `Aural Shock`                                                  |
+
+Aliases that are a variant of a note's **own** name are untouched — _Skills_ → `Skill`,
+_Afflictions_ → `Affliction`, _The Pall_ → `Pall`.
 
 Closes #1276.
