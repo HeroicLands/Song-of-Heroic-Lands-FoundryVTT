@@ -12,6 +12,10 @@ folder: UWD774fzcqX7dbil
 shortcode: miscgear
 ---
 
+## Cash
+
+(@Table search=[type:miscgear, sohl.kbcat=cash] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
 ## Cooking
 
 (@Table search=[type:miscgear, sohl.kbcat=cooking] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
@@ -32,9 +36,9 @@ shortcode: miscgear
 
 (@Table search=[type:miscgear, sohl.kbcat=instruments] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
 
-## Jewelry and Cash
+## Jewelry
 
-(@Table search=[type:miscgear, sohl.kbcat=jewelrycash] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+(@Table search=[type:miscgear, sohl.kbcat=jewelry] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
 
 ## Lighting
 
