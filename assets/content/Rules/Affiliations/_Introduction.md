@@ -25,7 +25,7 @@ protection when a patient dies under their hands.
 
 ## What an affiliation records
 
-Four things, of which only the last is a number:
+Four things, of which the last is the one with mechanical weight:
 
 - **Society** — the body itself: which temple, which guild, which convocation.
 - **Office** — the position held within it, where the character holds one.
@@ -34,9 +34,7 @@ Four things, of which only the last is a number:
 
 **Level** is the part that moves. It rises with service, patronage and the slow
 accumulation of good standing, and it falls with negligence, scandal and
-transgression. It can also be altered by effects that bear on standing directly:
-a public disgrace or a granted dispensation adjusts the level rather than
-replacing it, so the character's history remains legible underneath.
+transgression.
 
 A character may hold as many affiliations as their life has earned, and they
 need not sit comfortably together. Standing in two rival houses is a
@@ -44,16 +42,39 @@ complication worth playing, not an error.
 
 ## Affiliation as credential
 
-Where an affiliation matters most is as the **source of authority** behind
-mystical practice. A Mystery or a Mystical Ability may name the affiliation that
-credentials it — the temple whose rites a priest is ordained to perform, the
-convocation whose teaching an arcanist was admitted to. The power is the
-character's, but the standing to wield it legitimately is the affiliation's, and
-a character stripped of standing keeps the training while losing the right.
+Level is not decorative. An affiliation is the system's **capability
+credential**, and it is where religious rank and arcane grade are recorded —
+not on a skill. A character's skill says how well they work a rite or an
+incantation; their affiliation level says what grade of practitioner they are
+within the body that taught them.
 
-How far that goes is a matter for the body being described. Some treat their
-teaching as a trade secret and count its unlicensed use as theft; others care
-only that the rites are performed correctly, by whoever performs them.
+That distinction has mechanical weight. A Mystery or a Mystical Ability may name
+the affiliation that credentials it — the temple whose rites a priest is
+ordained to perform, the convocation whose teaching an arcanist was admitted to
+— and an ability which names one **may consult that level when working out what
+the character can do with it**. Standing can therefore bear on whether a spell
+may be cast or a rite performed at all, and on how effectively, quite apart from
+the character's skill at it.
+
+Level begins at 0, which is ordinarily a lay member: someone of the faith or
+attached to the school, but holding no grade within it. It rises from there with
+service and advancement. Because level is a modifier rather than a bare number,
+effects can adjust it without overwriting what the character has earned — a
+dispensation raising a priest's effective grade for a particular working, a
+censure lowering it while a disgrace stands — and the underlying standing
+remains legible beneath the adjustment.
+
+What an affiliation never does is act on the character by itself. It informs
+what a practice is capable of; it does not decide for the player whether to
+attempt one, and it does not reach into a character to enforce a
+sanction. A character stripped of standing keeps everything they were taught and
+loses the right to use it, and what follows from that is played out, not
+applied.
+
+How far a body presses that right is a matter for the body being described. Some
+treat their teaching as a trade secret and count its unlicensed use as theft;
+others care only that the rites are performed correctly, by whoever performs
+them.
 
 ## Using affiliations for particular bodies
 
