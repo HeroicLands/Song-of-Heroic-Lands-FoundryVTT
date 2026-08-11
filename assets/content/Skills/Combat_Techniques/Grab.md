@@ -85,8 +85,8 @@ A grab is the opening of a wrestle rather than a blow, and the grabber declares 
 
 **Hold** that zone immobile for a round, which is how you pin the arm holding the knife while somebody else deals with it.
 
-Winning the Melee test only earns the attempt. Both combatants then make an opposed `d6 + STR` roll, at +3 per Impact Tactical Advantage, −2 if you have only one hand on them and −3 off-handed. The manoeuvre happens only if the grabber wins that roll as well; otherwise the grab simply fails and nothing at all occurs.
+Winning the Melee test only earns the attempt. Both combatants then make an opposed **Strength Trial** (`d6 + STR`), at +3 per Impact Tactical Advantage, −2 if you have only one hand on them and −3 off-handed. The manoeuvre happens only if the grabber wins the Trial as well; otherwise the grab simply fails and nothing at all occurs.
 
-**A hold that lands** forces the target to Pass on their next turn, though they may still defend if able. On the grabber's next turn the opposed roll repeats: win and the hold continues, lose and it is broken. Holding a stronger opponent is therefore a losing game played one round at a time.
+**A hold that lands** forces the target to Pass on their next turn, though they may still defend if able. On the grabber's next turn the Strength Trial repeats: win and the hold continues, lose and it is broken. Holding a stronger opponent is therefore a losing game played one round at a time.
 
-Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect. A counterstriking manoeuvre therefore cancels the attacker's — whoever won the Melee test gets the roll.
+Only one Strength Trial is made per opposed Melee test, and only a combatant who _initiates_ one and wins it may inflict the special effect. A counterstriking manoeuvre therefore cancels the attacker's — whoever won the Melee test gets the Trial.

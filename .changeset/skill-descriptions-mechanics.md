@@ -49,5 +49,8 @@ Timbercraft, Brewing, Perfumery, Masonry and Shipwright carry their cost, time
 and price tables, together with the workshop-quality and Masterwork Success
 ladders the two crafting routines share.
 
-The eight Combat Techniques are unchanged — they already describe their own
-mechanics and have no counterpart in the source material.
+**The opposed `d6 + STR` roll is now named a Strength Trial**, in the three
+Combat Techniques that call for one — Grab, Press and Trip. Those three
+otherwise keep their existing text, as do the other five techniques: they
+already describe their own mechanics and have no counterpart in the source
+material.

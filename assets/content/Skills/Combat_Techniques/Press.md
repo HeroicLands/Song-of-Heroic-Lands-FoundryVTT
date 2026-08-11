@@ -81,7 +81,7 @@ folder: EphAMAfFhWBrJxyF
 
 A press is not an attack on the body but on the footing — a shoulder or both hands driven into an opponent to move them off their line. It wounds nobody. What it does is break a shield wall, shove a spearman off a bridge, or open the ground between you and a doorway.
 
-Winning the Melee test earns an opposed `d6 + STR` roll, at +2 per Impact Tactical Advantage and +2 if you pressed out of a Charge. If the presser wins that roll as well, the margin decides what happens:
+Winning the Melee test earns an opposed **Strength Trial** (`d6 + STR`), at +2 per Impact Tactical Advantage and +2 if you pressed out of a Charge. If the presser wins the Trial as well, the margin decides what happens:
 
 | Margin | Effect on the opponent                                                                                             |
 | ------ | ------------------------------------------------------------------------------------------------------------------ |
@@ -91,4 +91,4 @@ Winning the Melee test earns an opposed `d6 + STR` roll, at +2 per Impact Tactic
 
 Otherwise there is no effect at all. A press against someone markedly stronger is simply a wasted turn.
 
-Only one opposed `d6 + STR` roll is made per opposed Melee test, and only a combatant who _initiates_ such a roll and wins it may inflict the special effect. A counterstriking manoeuvre therefore cancels the attacker's — whoever won the Melee test gets the roll.
+Only one Strength Trial is made per opposed Melee test, and only a combatant who _initiates_ one and wins it may inflict the special effect. A counterstriking manoeuvre therefore cancels the attacker's — whoever won the Melee test gets the Trial.
