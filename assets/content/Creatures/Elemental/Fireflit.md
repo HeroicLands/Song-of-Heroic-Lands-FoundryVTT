@@ -13,6 +13,7 @@ shortcode: fireflit
 type: creature
 package: sohl
 sohl:
+    kbcat: elemental
     archetype: 0
     attributes:
         end: 6

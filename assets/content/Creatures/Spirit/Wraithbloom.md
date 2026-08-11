@@ -13,6 +13,7 @@ shortcode: wrthblm
 type: creature
 package: sohl
 sohl:
+    kbcat: spirit
     archetype: 0
     attributes:
         str: 6

@@ -13,6 +13,7 @@ shortcode: glssfng
 type: creature
 package: sohl
 sohl:
+    kbcat: dreadspawn
     archetype: 0
     attributes:
         end: 6

@@ -13,6 +13,7 @@ shortcode: nghtwght
 type: creature
 package: sohl
 sohl:
+    kbcat: helspawn
     archetype: 0
     attributes:
         str: 16

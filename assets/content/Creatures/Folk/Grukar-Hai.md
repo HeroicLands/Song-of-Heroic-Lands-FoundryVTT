@@ -13,6 +13,7 @@ shortcode: grkrh
 type: creature
 package: sohl
 sohl:
+    kbcat: folk
     archetype: 0
     attributes:
         str: 16

@@ -13,6 +13,7 @@ shortcode: glmsprt
 type: creature
 package: sohl
 sohl:
+    kbcat: spirit
     archetype: 0
     attributes:
         end: 8
