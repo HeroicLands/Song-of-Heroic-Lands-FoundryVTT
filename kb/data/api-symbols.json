@@ -4529,6 +4529,7 @@
   "sohl.entity.result.VALUE_DIAMOND_SCALE": "variables/sohl.entity.result.VALUE_DIAMOND_SCALE.html",
   "sohl.entity.result.reviveLimitedDescriptionTable": "functions/sohl.entity.result.reviveLimitedDescriptionTable.html",
   "sohl.entity.result.serializeLimitedDescriptionTable": "functions/sohl.entity.result.serializeLimitedDescriptionTable.html",
+  "sohl.entity.result.toValueDiamondMarks": "functions/sohl.entity.result.toValueDiamondMarks.html",
   "sohl.entity.roll": "modules/sohl.entity.roll.html",
   "sohl.entity.roll.SimpleRoll": "classes/sohl.entity.roll.SimpleRoll-1.html",
   "sohl.entity.roll.SimpleRoll.Data": "interfaces/sohl.entity.roll.SimpleRoll.Data.html",
