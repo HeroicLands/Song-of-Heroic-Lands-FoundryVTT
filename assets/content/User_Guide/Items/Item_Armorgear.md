@@ -25,7 +25,7 @@ Armor items are typically added from compendium packs that define standard equip
 
 # Additional Properties
 
-In addition to the [[User_Guide/itemgear|Standard Gear Properties]], the following additional properties are defined for armor:
+In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for armor:
 
 - **Material:** The type of material the armor is constructed from (chain, leather, kurbul, cloth, etc.). This is the word that appears in the **Material** column of the Combat tab's body-locations table for every location the armor covers.
 - **Flexible Locations:** Body locations covered by flexible portions of this armor. Add one with **Add Flexible Location** and remove one with the 🗑 beside it; each is a body-location shortcode such as `thrxloc` (Thorax) or `skullloc` (Skull).
@@ -166,9 +166,9 @@ Two consequences are worth knowing at the table:
 - [[Working with Gear and Equipment]] — managing a character's
   kit day to day.
 - [[Combat Basics]] — where worn armor's protection is actually spent.
-- [[Rules/injrylvl|Injury]] (rules) — how armor protection is subtracted from an
+- [[doc/injrylvl|Injury]] (rules) — how armor protection is subtracted from an
   impact to give an injury level.
-- [[Rules/bdystrct|Body Structure]] (rules) — the zones, parts, and
+- [[doc/bdystrct|Body Structure]] (rules) — the zones, parts, and
   locations an armor's coverage lists name.
 - [[Shortcodes]] — what a body-location shortcode such as `thrxloc` refers to.
 

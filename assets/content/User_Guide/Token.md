@@ -39,7 +39,7 @@ The token therefore defines two actions, described on this page:
 > lives, and because a module or macro can call them directly.
 
 For the rules behind a contest — Victory Stars, ties, and tiebreaks — see the
-[[Rules/oppsdtst|Opposed Tests]] rules. For the d100 roll each side
+[[doc/oppsdtst|Opposed Tests]] rules. For the d100 roll each side
 makes, see [[Skill Tests and Opposed Tests]].
 
 # Starting an Opposed Test {#starting-an-opposed-test}
@@ -191,14 +191,14 @@ Reading the outcome:
   which case the tie is settled, the winner is announced with a single star, and a
   note says which rule decided it — _Tie broken on the higher roll_, _…on the
   higher Mastery Level_, or _…on a d10 roll-off_. See the
-  [[Rules/oppsdtst|Opposed Tests]] rules for the tiebreak order.
+  [[doc/oppsdtst|Opposed Tests]] rules for the tiebreak order.
 - Rolls, effective mastery levels, and the modifier breakdowns are all shown, so
   you can see exactly how each side arrived at its result.
 
 A settled contest is a record, not a verdict: nothing is applied to either
 character automatically. What the win, the tie, or the number of stars _means_
 in play is a ruling for the table — see the
-[[Rules/oppsdtst|Opposed Tests]] rules.
+[[doc/oppsdtst|Opposed Tests]] rules.
 
 ## Editing a settled contest (GM only)
 
@@ -231,7 +231,7 @@ What it does and does not do:
 
 - [[Skill Tests and Opposed Tests]] — the d100 roll-under test both
   sides of a contest make, and the GM's per-result edit.
-- [[Rules/oppsdtst|Opposed Tests]] (rules) — Victory Stars, ties, and
+- [[doc/oppsdtst|Opposed Tests]] (rules) — Victory Stars, ties, and
   tiebreaks.
 - [[Combat Basics]] — attack against defence, the combat-specific
   form of an opposed test.

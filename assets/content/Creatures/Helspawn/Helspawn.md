@@ -30,7 +30,7 @@ The Helspawn divide into two major classes, distinguished by intelligence, means
 
 ### The Undead Hierarchy
 
-Helspawn exist on a spectrum defined by the completeness of the soul bound to the body. At one extreme are the [[Nightwights]] — intelligent, powerful, and semi-permanent, created through deliberate ritual from willing and powerful subjects whose souls were intercepted before entering the afterlife. At the other extreme are the [[Helthraals]] in their most degraded state — mindless, shambling corpses animated by the barest fragments of spiritual energy.
+Helspawn exist on a spectrum defined by the completeness of the soul bound to the body. At one extreme are the [[creature/nghtwght|Nightwights]] — intelligent, powerful, and semi-permanent, created through deliberate ritual from willing and powerful subjects whose souls were intercepted before entering the afterlife. At the other extreme are the [[creature/hlthrls|Helthraals]] in their most degraded state — mindless, shambling corpses animated by the barest fragments of spiritual energy.
 
 Between these poles lies the full range of undead existence. A soul pulled back from the afterlife arrives damaged, incomplete, diminished by the passage. How much of the person remains depends on how long the soul had been dead, how far it had progressed into the underworld, and the skill of whoever performed the reanimation. The recently dead, pulled back quickly by a powerful priest, may retain speech, memory, and even fragments of personality. But all Helspawn below the Nightwight tier degrade over time — the soul fragments eroding, the body decaying, identity slipping away week by week until nothing remains but the mindless hunger of a terminal Helthraal.
 

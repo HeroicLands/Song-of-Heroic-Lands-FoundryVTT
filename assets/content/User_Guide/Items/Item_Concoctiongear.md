@@ -27,7 +27,7 @@ Concoctions appear on the **Gear** tab, and are often placed inside of container
 
 # Additional Properties
 
-In addition to the [[User_Guide/itemgear|Standard Gear Properties]], the following additional properties are defined for concoctions:
+In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for concoctions:
 
 - **Quantity** — how many doses remain.
 - **Weight** — the weight of the concoction, contributing to encumbrance.

@@ -12,7 +12,7 @@ import { slugify, resolveKbWikilinks } from "../../utils/kb-wikilinks.mjs";
 
 /**
  * A stand-in KB index. `index` holds the unambiguous keys (`section/slug` and
- * `TLD/shortcode`); `tldAlias` holds aliases scoped to a content directory.
+ * `type/shortcode`); `sectionAlias` holds aliases scoped to a section.
  */
 function makeCtx(overrides: Record<string, unknown> = {}) {
     const shock = { url: "/rules/sohl-shock/", name: "Shock" };
@@ -20,19 +20,19 @@ function makeCtx(overrides: Record<string, unknown> = {}) {
     return {
         index: new Map<string, object>([
             ["rules/sohl-shock", shock],
-            ["rules/shock", shock], // TLD/shortcode
+            ["doc/shock", shock], // type/shortcode
             ["skill/climbing", climb],
-            ["skills/climb", climb], // TLD/shortcode
+            ["skill/climb", climb], // type/shortcode
         ]),
-        tldAlias: new Map<string, object>([
+        sectionAlias: new Map<string, object>([
             ["rules|shock", shock],
             ["rules|shock state", shock],
         ]),
         collide: new Set<string>(["gear"]),
-        tldCollide: new Set<string>(["rules|coma"]),
+        sectionCollide: new Set<string>(["rules|coma"]),
         sections: new Set<string>(["rules", "skill"]),
-        contentTlds: new Set<string>(["rules", "skills", "creatures"]),
-        tld: "Rules",
+        contentTypes: new Set<string>(["doc", "skill", "creature"]),
+        section: "rules",
         errors: [] as object[],
         src: "rules/Bleeding.md",
         ...overrides,
@@ -53,15 +53,15 @@ describe("slugify (KB heading/anchor slug)", () => {
 });
 
 describe("resolveKbWikilinks", () => {
-    it("resolves TLD/shortcode to the target's KB url", () => {
+    it("resolves type/shortcode to the target's KB url", () => {
         const ctx = makeCtx();
-        expect(resolveKbWikilinks("see [[Rules/shock|the rules]]", ctx)).toBe(
+        expect(resolveKbWikilinks("see [[doc/shock|the rules]]", ctx)).toBe(
             "see [the rules](/rules/sohl-shock/)",
         );
         expect(ctx.errors).toEqual([]);
     });
 
-    it("resolves a bare alias scoped to the source's own content directory", () => {
+    it("resolves a bare alias scoped to the source's own section", () => {
         const ctx = makeCtx();
         expect(resolveKbWikilinks("worsens the [[Shock State]]", ctx)).toBe(
             "worsens the [Shock State](/rules/sohl-shock/)",
@@ -72,7 +72,7 @@ describe("resolveKbWikilinks", () => {
         const ctx = makeCtx();
         expect(
             resolveKbWikilinks(
-                "the [[Rules/shock#shock-state-index|Index]]",
+                "the [[doc/shock#shock-state-index|Index]]",
                 ctx,
             ),
         ).toBe("the [Index](/rules/sohl-shock/#shock-state-index)");
@@ -88,33 +88,35 @@ describe("resolveKbWikilinks", () => {
 
     it("crosses content directories to another KB section", () => {
         const ctx = makeCtx();
-        expect(
-            resolveKbWikilinks("a [[Skills/climb|Climbing]] test", ctx),
-        ).toBe("a [Climbing](/skill/climbing/) test");
+        expect(resolveKbWikilinks("a [[skill/climb|Climbing]] test", ctx)).toBe(
+            "a [Climbing](/skill/climbing/) test",
+        );
     });
 
     it("accepts a table-escaped pipe", () => {
         const ctx = makeCtx();
-        expect(resolveKbWikilinks("| [[Rules/shock\\|Shock]] |", ctx)).toBe(
+        expect(resolveKbWikilinks("| [[doc/shock\\|Shock]] |", ctx)).toBe(
             "| [Shock](/rules/sohl-shock/) |",
         );
     });
 
     it("falls back to the target's own name when unlabelled", () => {
         const ctx = makeCtx();
-        expect(resolveKbWikilinks("[[Rules/shock]]", ctx)).toBe(
+        expect(resolveKbWikilinks("[[doc/shock]]", ctx)).toBe(
             "[Shock](/rules/sohl-shock/)",
         );
     });
 
     it("reports a qualified target whose key does not exist", () => {
         const ctx = makeCtx();
-        expect(resolveKbWikilinks("[[Rules/nosuch|X]]", ctx)).toBe("X");
+        expect(resolveKbWikilinks("[[doc/nosuch|X]]", ctx)).toBe("X");
         expect(ctx.errors).toHaveLength(1);
-        expect(ctx.errors[0]).toMatchObject({ reason: "broken section/slug" });
+        expect(ctx.errors[0]).toMatchObject({
+            reason: "broken type/shortcode",
+        });
     });
 
-    it("reports an alias that is ambiguous within the source's directory", () => {
+    it("reports an alias that is ambiguous within the source's section", () => {
         const ctx = makeCtx();
         expect(resolveKbWikilinks("a [[Coma]] state", ctx)).toBe(
             "a Coma state",

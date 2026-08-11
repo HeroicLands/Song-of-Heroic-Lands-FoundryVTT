@@ -55,7 +55,7 @@ state**:
 
 The same event can produce both: a snakebite inflicts a **poison/toxin
 affliction** (the venom running its course) and, where it breaks the skin, an
-**[[Rules/injrylvl|injury]] trauma** (the wound). When in doubt, ask _"is this an
+**[[doc/injrylvl|injury]] trauma** (the wound). When in doubt, ask _"is this an
 agent running a course, or a condition being carried?"_ — the former is an
 affliction, the latter a trauma.
 
@@ -170,7 +170,7 @@ a character who is already in a worse state than it would impose.
 
 Where the Course Test asks whether the affliction is winning, the **Healing Test**
 asks whether the body is throwing it off. It works exactly as the
-[[Rules/hlngtst|Injury Healing Test]] does: a d100 against the
+[[doc/hlngtst|Injury Healing Test]] does: a d100 against the
 affliction's **Healing target** — again **Healing Base × Healing Rate** — reducing
 the affliction's **Level**:
 
@@ -224,8 +224,8 @@ outcome in two authored fields:
     - **`AFFLICTION_OUTCOME.CURED`** — the affliction is defeated (its Healing
       Rate becomes 6).
 - **`outcomeTrauma`** _(optional)_ — a
-  [[User_Guide/sfexprss|Safe Expression]] that evaluates to a single
-  shortcode, or an array of shortcodes, of the [[Rules/trauma|traumas]] the host
+  [[doc/sfexprss|Safe Expression]] that evaluates to a single
+  shortcode, or an array of shortcodes, of the [[doc/trauma|traumas]] the host
   contracts as part of the outcome. Matching traumas are searched first among the
   world's items, then in the compendiums, and the first match found is used.
 
@@ -240,7 +240,7 @@ Symptomatic Period without being healed.
 ## Infection
 
 An **infection** is a specific form of affliction, contracted when an injury's
-[[Rules/hlngtst|Injury Healing Test]] critically fails. Its
+[[doc/hlngtst|Injury Healing Test]] critically fails. Its
 Healing Rate starts one step higher than the infected injury's — the injury's
 Healing Rate + 1.
 
@@ -254,12 +254,12 @@ table:
 | HR 5+        | None                |
 
 While a character carries **any** active infection, all of their
-[[Rules/hlngtst|Injury Healing Tests]] are suspended until every
+[[doc/hlngtst|Injury Healing Tests]] are suspended until every
 infection has been defeated.
 
 ## See also
 
 - [[Healing Test]] — Healing Base and Healing Rate, and the
   recovery of ordinary injuries.
-- [[User_Guide/sfexprss|Safe Expressions]] — the language used by the
+- [[doc/sfexprss|Safe Expressions]] — the language used by the
   `outcomeTrauma` field.

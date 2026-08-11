@@ -22,7 +22,7 @@ Settings are divided into two categories:
 - **Player settings** are configured independently by each user.
 
 This guide documents all available settings. For a quick start, see
-[[User_Guide/quickstart|Quickstart]].
+[[doc/quickstart|Quickstart]].
 
 # World Settings {#WorldSettings}
 

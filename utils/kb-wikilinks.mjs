@@ -17,13 +17,13 @@
  * The same authored links the pack compilers turn into Foundry `@UUID` enrichers
  * (see `utils/packs/wikilinks.mjs`) become site-local hrefs here:
  *
- *   `[[TLD/shortcode|Text]]`        → `[Text](/section/slug/)`
- *   `[[Text]]`                      → the same, via a directory-scoped alias
- *   `[[TLD/shortcode#slug|Text]]`    → `[Text](/section/slug/#slug)`
+ *   `[[type/shortcode|Text]]`       → `[Text](/section/slug/)`
+ *   `[[Text]]`                      → the same, via a section-scoped alias
+ *   `[[type/shortcode#slug|Text]]`   → `[Text](/section/slug/#slug)`
  *   `[[#slug|Text]]`                 → `[Text](#slug)`
  *
- * The KB *section* is not the content directory: a document routes by its `type`
- * (or `category` for prose pages), so `Skills/climb` lands on `/skill/climbing/`.
+ * The KB *section* is not always the type: prose pages (`type: doc`) route by
+ * their `category`, so `doc/quickstart` lands on `/user-guide/sohl-quickstart/`.
  * The caller supplies that mapping already resolved, in the index it builds.
  *
  * Extracted from `build-kb-content.mjs` so the resolution rules can be unit
@@ -41,9 +41,9 @@ export const slugify = (s) =>
  * Rewrites the wikilinks in a markdown body as KB-local markdown links.
  *
  * A target is looked up case-insensitively: first as an alias scoped to the
- * source's own content directory (`ctx.tldAlias`, keyed `tld|alias`), which is
+ * source's own **section** (`ctx.sectionAlias`, keyed `section|alias`), which is
  * where authoring guarantees uniqueness, then in the KB-wide `ctx.index` (keyed
- * by the unambiguous `section/slug` and `TLD/shortcode`, plus name/filename/slug
+ * by the unambiguous `section/slug` and `type/shortcode`, plus name/filename/slug
  * fallbacks).
  *
  * An unresolved target fails the build only when it is a genuine intra-KB
@@ -53,8 +53,8 @@ export const slugify = (s) =>
  * plain text. Failures are collected in `ctx.errors`.
  *
  * @param {string} body - The markdown body.
- * @param {object} ctx - `{ index, tldAlias, collide, tldCollide, sections,
- *   contentTlds, tld, errors, src }`.
+ * @param {object} ctx - `{ index, sectionAlias, collide, sectionCollide,
+ *   sections, contentTypes, section, errors, src }`.
  * @returns {string} The body with wikilinks rewritten.
  */
 export function resolveKbWikilinks(body, ctx) {
@@ -75,9 +75,10 @@ export function resolveKbWikilinks(body, ctx) {
         }
 
         const key = target.toLowerCase();
-        const tldKey = ctx.tld ? `${ctx.tld}|${key}`.toLowerCase() : null;
+        const sectionKey =
+            ctx.section ? `${ctx.section}|${key}`.toLowerCase() : null;
         const hit =
-            (tldKey ? ctx.tldAlias.get(tldKey) : undefined) ??
+            (sectionKey ? ctx.sectionAlias.get(sectionKey) : undefined) ??
             ctx.index.get(key);
         if (hit) {
             // With no explicit label, a *qualified* target has no prose to show
@@ -94,14 +95,17 @@ export function resolveKbWikilinks(body, ctx) {
             slash === -1 ? null : target.slice(0, slash).toLowerCase();
         const badQualified =
             prefix !== null &&
-            (ctx.sections.has(prefix) || ctx.contentTlds.has(prefix));
-        if ((tldKey && ctx.tldCollide.has(tldKey)) || ctx.collide.has(key)) {
+            (ctx.sections.has(prefix) || ctx.contentTypes.has(prefix));
+        if (
+            (sectionKey && ctx.sectionCollide.has(sectionKey)) ||
+            ctx.collide.has(key)
+        ) {
             ctx.errors.push({ file: ctx.src, target, reason: "ambiguous" });
         } else if (badQualified) {
             ctx.errors.push({
                 file: ctx.src,
                 target,
-                reason: "broken section/slug",
+                reason: "broken type/shortcode",
             });
         }
         return display ?? target;

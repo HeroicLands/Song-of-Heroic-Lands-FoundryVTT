@@ -18,7 +18,7 @@ folder: e0HEIHw9qUVWqyzJ
 
 Some actions are not measured against a fixed difficulty but against another character: sneaking past a sentry, wrestling an opponent's blade aside, talking a rival down in front of a crowd. Both characters make [[Success Tests]] at the same time, and the outcomes are compared.
 
-The victor is the character who **succeeds** — a Marginal or Critical Success, never a failure of any kind — **and** reaches a higher [[Rules/sccsstst#success-level|success level]] than the other. Merely doing less badly is not winning: if neither character succeeds, neither one prevails, however close the rolls were.
+The victor is the character who **succeeds** — a Marginal or Critical Success, never a failure of any kind — **and** reaches a higher [[doc/sccsstst#success-level|success level]] than the other. Merely doing less badly is not winning: if neither character succeeds, neither one prevails, however close the rolls were.
 
 Success levels rank from lowest to highest: Critical Failure, Marginal Failure, Marginal Success, Critical Success.
 

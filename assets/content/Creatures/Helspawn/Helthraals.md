@@ -551,7 +551,7 @@ A Helthraal in its final stage of degradation is barely mobile — a collection 
 
 ## Failed-Ritual Helthraals
 
-Not all Helthraals are created by pulling souls back from the spirit realm. Some are the products of failed [[Creatures/nghtwght|Nightwight]] creation rituals. When a subject undergoes the deliberate ritual of killing and reanimation that is meant to produce a Nightwight, but the individual proves insufficient — lacking the spiritual strength, the devotion, or simply the raw power necessary to survive the transition with their soul intact — the result is a Helthraal.
+Not all Helthraals are created by pulling souls back from the spirit realm. Some are the products of failed [[creature/nghtwght|Nightwight]] creation rituals. When a subject undergoes the deliberate ritual of killing and reanimation that is meant to produce a Nightwight, but the individual proves insufficient — lacking the spiritual strength, the devotion, or simply the raw power necessary to survive the transition with their soul intact — the result is a Helthraal.
 
 These failed-ritual Helthraals are notably more powerful than those produced by spirit-realm retrieval. They begin at a higher point on the spectrum and degrade more slowly. A failed Nightwight who emerges from the ritual as a near-human Helthraal may retain intelligence and capability for months before the slide begins. The end is always the same — eventually they degrade into the Shambling Dead and then the Terminal — but their ascendant phase lasts longer.
 

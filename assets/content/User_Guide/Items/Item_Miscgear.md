@@ -27,7 +27,7 @@ Misc Gear appears on the Being sheet's **Gear** tab and can optionally be nested
 
 # Additional Properties
 
-There are no additional properties beyond the [[User_Guide/itemgear|Standard Gear Properties]].
+There are no additional properties beyond the [[doc/itemgear|Standard Gear Properties]].
 
 # Intrinsic Actions
 

@@ -51,7 +51,7 @@ them — an **empty predicate matches every candidate**.
 
 When the scope is an item kind or a strike-mode scope, the **Target Predicate**
 decides which candidates are actually affected. It is a
-[[User_Guide/sfexprss|Safe Expression]] that must evaluate to `true` for a
+[[doc/sfexprss|Safe Expression]] that must evaluate to `true` for a
 candidate to be included.
 
 What the expression can see depends on the scope:

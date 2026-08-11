@@ -17,7 +17,7 @@ There are several ways to create actors and items in SoHL. The method you
 choose depends on whether you're starting from scratch, copying something
 from a compendium, or building a complex item with nested components.
 
-See also: [[User_Guide/quickstart|Quickstart]], [[Understanding Sheets]]
+See also: [[doc/quickstart|Quickstart]], [[Understanding Sheets]]
 
 # Creating Actors {#creating-actors}
 

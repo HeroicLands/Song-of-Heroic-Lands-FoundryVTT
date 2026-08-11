@@ -45,9 +45,9 @@ import {
     buildStats,
     withArchetypeFlag,
     md,
-    contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
+    contentSection,
     collectContentDocs,
     expandNoteTables,
 } from "./helpers.mjs";
@@ -500,7 +500,8 @@ export class Actors {
                         pkg: fm.package,
                     }),
                     {
-                        tld: contentTld(this.contentBase, absPath),
+                        type: fm.type,
+                        section: contentSection(fm),
                         id: fm.id,
                         index: this.linkIndex,
                         name: resolveName(fm),

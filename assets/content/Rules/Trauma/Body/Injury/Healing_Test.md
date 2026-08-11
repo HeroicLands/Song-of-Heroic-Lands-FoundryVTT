@@ -36,7 +36,7 @@ consequences each period: being an untreated wound exposed to infection, it cont
 an [[infection]].
 
 This governs **healing tests only**. The Physician's
-[[Rules/trtnginj|Treatment Test]] is _not_ a healing test — it is rolled against
+[[doc/trtnginj|Treatment Test]] is _not_ a healing test — it is rolled against
 the Physician's own skill, and it is what establishes the Healing Rate that later
 healing tests use. (An untreated wound is separately resolved as though _its
 treatment roll_ were a Critical Failure, which is the rule that leaves it exposed to

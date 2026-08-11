@@ -23,7 +23,7 @@ creating a hierarchical inventory structure.
 
 # Additional Properties
 
-In addition to the [[User_Guide/itemgear|Standard Gear Properties]], the following additional properties are defined for containers:
+In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for containers:
 
 - **Capacity** — how much the container can hold, limiting what can be
   stored inside.

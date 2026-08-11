@@ -52,12 +52,12 @@ the sheet offers and which actions the Trauma has.
 | **Physical Condition**      | A lasting bodily trait, impediment, or debility            | Sub-Category        |
 
 The rules behind each of these live with the rules, not here — see
-[[Rules/trauma|Trauma]], [[Rules/injrylvl|Injury]],
-[[Rules/bleeding|Bleeding]], [[Rules/infctn|Infection]],
-[[Rules/shock|Shock]], [[Rules/fatigue|Fatigue]],
-[[Rules/fear|Fear]], [[Rules/morale|Morale]],
-[[Rules/psychlgc|Psychological Condition]], and
-[[Rules/thepall|The Pall]].
+[[doc/trauma|Trauma]], [[doc/injrylvl|Injury]],
+[[doc/bleeding|Bleeding]], [[doc/infctn|Infection]],
+[[doc/shock|Shock]], [[doc/fatigue|Fatigue]],
+[[doc/fear|Fear]], [[doc/morale|Morale]],
+[[doc/psychlgc|Psychological Condition]], and
+[[doc/thepall|The Pall]].
 
 # Where It Appears
 
@@ -81,7 +81,7 @@ works generally.
 
 # Additional Properties
 
-Along with the [[User_Guide/baseitem|Standard Item Properties]], a Trauma's **Properties**
+Along with the [[doc/baseitem|Standard Item Properties]], a Trauma's **Properties**
 tab shows only the fields that mean something for its Trauma Type — a Fear Trauma
 has no Aspect, and a wound has no Sub-Category.
 
@@ -336,7 +336,7 @@ That difficulty is set by what the wound actually needs, which follows from its
 **Aspect** and its severity band: cleaning and dressing a cut, warming a
 frostbitten limb, splinting a fracture, extracting a lodged point, or full surgery.
 A grievous wound is harder to treat well than a minor one. See
-[[Rules/injrylvl|the Injury rules]] for the treatment table itself.
+[[doc/injrylvl|the Injury rules]] for the treatment table itself.
 
 ## What it changes
 
@@ -490,7 +490,7 @@ Course Test. While it is active, all healing stops.
 A wound flagged **permanent-impairment eligible** that finally closes may leave a
 **permanent impairment** on the body part it was on, scaled by how long the wound
 took to heal. A wound that lingered for months costs more than one that closed
-quickly. See [[Rules/injrylvl|the Injury rules]] for the scale.
+quickly. See [[doc/injrylvl|the Injury rules]] for the scale.
 
 # Blood-Loss Advance Check {#blood-loss-advance-check}
 
@@ -614,7 +614,7 @@ Trauma is removed from the sheet. A **permanent** one never does; it can be worn
 down, but it stays. That is what a critical failure really costs — not points, but
 the possibility of ever being rid of it.
 
-See [[Rules/psychlgc|the Psychological Condition rules]].
+See [[doc/psychlgc|the Psychological Condition rules]].
 
 # Aural Shock Recovery {#aural-shock-recovery}
 
@@ -685,7 +685,7 @@ belongs to their player and the GM. The card exists to put the choice in front o
 the table, in the victim's own terms, and then get out of the way. Whatever you
 decide is played out by hand.
 
-See [[Rules/thepall|The Pall]] for what each fate means.
+See [[doc/thepall|The Pall]] for what each fate means.
 
 # See also
 
@@ -700,7 +700,7 @@ See [[Rules/thepall|The Pall]] for what each fate means.
 - [[Combat Basics]] — where most wounds come from, and the injury card
   that creates them.
 - [[Actions]] — how the Actions context menu and chat-card buttons work.
-- [[Rules/trauma|Trauma]], [[Rules/injrylvl|Injury]],
-  [[Rules/bleeding|Bleeding]], [[Rules/infctn|Infection]],
-  [[Rules/shock|Shock]], and [[Rules/hlngtst|Healing Test]] (rules) —
+- [[doc/trauma|Trauma]], [[doc/injrylvl|Injury]],
+  [[doc/bleeding|Bleeding]], [[doc/infctn|Infection]],
+  [[doc/shock|Shock]], and [[doc/hlngtst|Healing Test]] (rules) —
   the mechanics behind these actions.

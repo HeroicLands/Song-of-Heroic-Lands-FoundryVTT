@@ -18,7 +18,7 @@ against a target number derived from a character's skill mastery level.
 When two characters compete, the system uses **opposed tests** to determine
 the winner.
 
-See also: [[User_Guide/skill|Skills]], [[Combat Basics]]
+See also: [[doc/skill|Skills]], [[Combat Basics]]
 
 # Performing a Skill Test {#tests-performing}
 
@@ -81,14 +81,14 @@ reads the result on a graded scale. The chat card shows:
   value, base value, or a starred bonus value).
 
 The card also shows the underlying roll and target, so you can see how the grade
-was reached. See the [[Rules/sccssvlt|Success Value Tests]]
+was reached. See the [[doc/sccssvlt|Success Value Tests]]
 rules for the full scale.
 
 # Editing a Test Result (GM) {#tests-gm-edit}
 
 Every posted test result card carries a small **edit pencil** in its header.
 This is a **GM-only** tool — players do not see it — and it is the GM's
-higher-fidelity counterpart to a player spending [[User_Guide/thftsyst|Fate]]:
+higher-fidelity counterpart to a player spending [[doc/thftsyst|Fate]]:
 it lets you correct or adjust a result you have already rolled **without
 re-rolling the dice**.
 
@@ -149,7 +149,7 @@ Dexterity.
 The skill base is calculated automatically when attributes are set. The
 mastery level builds on top of the skill base through training and experience.
 
-See [[User_Guide/skill|Skills]] for more about how skill bases work.
+See [[doc/skill|Skills]] for more about how skill bases work.
 
 <!-- TODO: Document how skill improvement works — SDR (Skill Development
      Roll), experience-based advancement, and the relationship between

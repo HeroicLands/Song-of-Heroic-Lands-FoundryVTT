@@ -19,7 +19,7 @@ wounds from combat or accidents) and **afflictions** (ongoing conditions like
 diseases, poisons, and curses). Both have their own lifecycle and can
 significantly affect a character's capabilities.
 
-See also: [[Trauma]], [[User_Guide/afflctn|Afflictions]], [[Combat Basics]]
+See also: [[Trauma]], [[doc/afflctn|Afflictions]], [[Combat Basics]]
 
 # Injuries {#conditions-injuries}
 

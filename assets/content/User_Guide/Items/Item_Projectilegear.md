@@ -22,7 +22,7 @@ Projectiles appear on the Being sheet's **Gear** tab and can be nested inside Co
 
 # Additional Properties
 
-In addition to the [[User_Guide/itemgear|Standard Gear Properties]], the following additional properties are defined for projectiles:
+In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for projectiles:
 
 - **SubType:** Type of ranged weapon. This is used to determine what sort of weapon the projectile can be used as ammunition for. Types include:
     - **Arrow:** A projectile that is fired from a bow.

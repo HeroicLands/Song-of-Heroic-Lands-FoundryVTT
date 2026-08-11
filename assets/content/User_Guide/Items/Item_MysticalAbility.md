@@ -57,7 +57,7 @@ shown, so you can see what the roll _would_ be; see
 
 # Additional Properties
 
-Along with the [[User_Guide/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Mastery Level:** The ability's _own_ internal mastery level. It is used
   **only** when no Associated Skill (or Spirit Power) is set — see
@@ -336,7 +336,7 @@ touches an Associated Skill, another ability, or anything else on the sheet.
 - [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, and the standard test dialog this
   page's roll opens.
-- [[User_Guide/mystery|Mysteries]] — the passive counterpart: what a character _is_
+- [[doc/mystery|Mysteries]] — the passive counterpart: what a character _is_
   rather than something they invoke.
 - [[Skill]] — the governing skill an ability usually draws its mastery
   level from, and the source of the identical improvement actions.
@@ -344,5 +344,5 @@ touches an Associated Skill, another ability, or anything else on the sheet.
 - [[Skill Tests]] — what the numbers in a test mean, and how success levels are read.
 - [[Actions]] — how actions work, and how to attach a Script Action that automates
   what an ability actually does.
-- [[Rules/estrcint|Esoterica]] — the rules behind the mystical traditions.
+- [[doc/estrcint|Esoterica]] — the rules behind the mystical traditions.
 - [[Shortcodes]] — what the Associated Skill and Affiliation selectors are naming.

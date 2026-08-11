@@ -40,7 +40,7 @@ Weapon items are typically added from compendium packs.
 
 # Additional Properties
 
-Along with the [[User_Guide/itemgear|Standard Gear Properties]] (Quantity, Weight, Value,
+Along with the [[doc/itemgear|Standard Gear Properties]] (Quantity, Weight, Value,
 Quality, Durability, and Is Carried), a weapon's **Properties** tab adds:
 
 - **Encumbrance:** If specified, this overrides the encumbrance based on weight
@@ -215,7 +215,7 @@ Test Result_.
 > **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the
 > **Fate** button, even to a character holding a charged Fate Point, and even
 > though the very skill the weapon rolls through _does_ offer it on its own tests
-> (issue #1106). Spending Fate is described on [[User_Guide/thftsyst|Fate]].
+> (issue #1106). Spending Fate is described on [[doc/thftsyst|Fate]].
 
 ## Where they are unavailable
 

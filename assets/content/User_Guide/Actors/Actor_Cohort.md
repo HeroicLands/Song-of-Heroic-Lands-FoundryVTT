@@ -49,7 +49,7 @@ and it works by pointing at them. If you want a mob you never have to detail, a
 single Being standing in for the whole is the simpler tool.
 
 **A Cohort is also not a combat side.** Who fights whom in an encounter is decided
-by [[User_Guide/cmbtnt|combat groups]], not by cohort membership; a cohort's
+by [[doc/cmbtnt|combat groups]], not by cohort membership; a cohort's
 members can end up on opposite sides of a brawl. See _Combat groups_ on the
 [[Combatant]] page.
 

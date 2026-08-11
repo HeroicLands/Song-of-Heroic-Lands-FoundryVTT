@@ -42,9 +42,9 @@ import {
     resolveName,
     buildStats,
     md,
-    contentTld,
     buildContentLinkIndex,
     convertNoteWikilinks,
+    contentSection,
     collectContentDocs,
     expandNoteTables,
 } from "./helpers.mjs";
@@ -217,7 +217,7 @@ export class Journals {
         });
     }
 
-    buildEntry(fm, body, tld) {
+    buildEntry(fm, body) {
         const name = resolveName(fm);
         const id = fm.id;
         // Generated tables expand first: their cells may carry wikilinks, which
@@ -228,7 +228,8 @@ export class Journals {
             pkg: fm.package,
         });
         const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
-            tld,
+            type: fm.type,
+            section: contentSection(fm),
             id,
             index: this.linkIndex,
             name,
@@ -251,11 +252,6 @@ export class Journals {
             _stats: STATS,
             _key: `!journal!${id}`,
         };
-    }
-
-    /** @see contentTld */
-    tldOf(absPath) {
-        return contentTld(this.contentBase, absPath);
     }
 
     async compile() {
@@ -288,7 +284,7 @@ export class Journals {
 
             log.debug(`Processing journal: ${resolveName(fm)} (${absPath})`);
             try {
-                const doc = this.buildEntry(fm, body, this.tldOf(absPath));
+                const doc = this.buildEntry(fm, body);
                 this.writeEntry(doc);
                 compiled++;
             } catch (err) {

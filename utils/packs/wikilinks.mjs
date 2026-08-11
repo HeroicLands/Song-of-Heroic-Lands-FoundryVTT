@@ -16,13 +16,26 @@
  *
  * Content notes link to one another with wikilinks rather than file paths:
  *
- *   `[[TLD/shortcode|Text]]`   a document in that top-level content directory
- *   `[[Text]]`                 an alias unique within the source's own TLD
- *   `[[TLD/shortcode#slug|T]]` a section (see below)
- *   `[[#slug|Text]]`           a section of the source note itself
+ *   `[[type/shortcode|Text]]`   a document of that type
+ *   `[[Text]]`                  an alias unique within the source's own section
+ *   `[[type/shortcode#slug|T]]` a section (see below)
+ *   `[[#slug|Text]]`            a section of the source note itself
+ *
+ * The qualifier is the note's **type**, which with its shortcode is the system's
+ * logical identity: `(type, shortcode)` is unique by rule (see the Shortcode
+ * Integrity doc). It is deliberately not the note's directory — shortcodes are
+ * unique per type, not per directory, so a directory qualifier would add nothing
+ * to the address while breaking every inbound link the moment a note is refiled.
+ *
+ * The bare form is an authoring shorthand rather than an address, and it is
+ * scoped to the source's **section** — its type, except that prose pages
+ * (`type: doc`) scope by `category`. That is where authoring actually guarantees
+ * a unique name: every `doc` shares one type, so scoping the shorthand by type
+ * would make `[[Gear]]` ambiguous between the rules page and the user-guide page
+ * that both legitimately carry the name.
  *
  * At compile time each becomes a Foundry UUID enricher, routed to the pack that
- * the target's TLD compiles into (see {@link PACK_BY_TLD}):
+ * the target's type compiles into (see {@link packForType}):
  *
  *   `@UUID[Compendium.sohl.items.Item.<id>]{Text}`
  *   `@UUID[Compendium.sohl.journals.JournalEntry.<id>.JournalEntryPage.<anchorId>]{Text}`
@@ -38,28 +51,35 @@
 import crypto from "crypto";
 
 /**
- * Top-level content directory → the compendium UUID prefix its documents
- * compile into. A TLD absent from this map cannot be linked to.
+ * Content type → the compendium UUID prefix its documents compile into, for the
+ * types that are **not** items.
  *
  * @type {Readonly<Record<string, string>>}
  */
-export const PACK_BY_TLD = Object.freeze({
-    Afflictions: "Compendium.sohl.items.Item",
-    Armor: "Compendium.sohl.items.Item",
-    Attributes: "Compendium.sohl.items.Item",
-    Characters: "Compendium.sohl.actors.Actor",
-    Creatures: "Compendium.sohl.actors.Actor",
-    Macros: "Compendium.sohl.macros.Macro",
-    Misc_Gear: "Compendium.sohl.items.Item",
-    Mysteries: "Compendium.sohl.items.Item",
-    Mystical_Abilities: "Compendium.sohl.items.Item",
-    Projectiles: "Compendium.sohl.items.Item",
-    Rules: "Compendium.sohl.journals.JournalEntry",
-    Skills: "Compendium.sohl.items.Item",
-    Trauma: "Compendium.sohl.items.Item",
-    User_Guide: "Compendium.sohl.journals.JournalEntry",
-    Weapons: "Compendium.sohl.items.Item",
+export const PACK_BY_TYPE = Object.freeze({
+    doc: "Compendium.sohl.journals.JournalEntry",
+    macro: "Compendium.sohl.macros.Macro",
+    character: "Compendium.sohl.actors.Actor",
+    creature: "Compendium.sohl.actors.Actor",
 });
+
+/** Where every other content type compiles: the items pack. */
+export const ITEM_PACK = "Compendium.sohl.items.Item";
+
+/**
+ * The compendium a type's documents live in.
+ *
+ * Item types are the open set — a new one is added whenever the system grows a
+ * document type — so they are the **default** rather than an enumerated list. A
+ * hand-maintained list is what made an entire content directory silently
+ * unlinkable once (#1276); nothing to maintain, nothing to forget.
+ *
+ * @param {string} type - The target note's `type`.
+ * @returns {string} The compendium UUID prefix.
+ */
+export function packForType(type) {
+    return PACK_BY_TYPE[type] ?? ITEM_PACK;
+}
 
 const norm = (s) => String(s).toLowerCase().trim();
 
@@ -89,25 +109,30 @@ export function anchorPageId(noteId, anchorSlug) {
 /**
  * Builds the link-resolution tables for a content tree.
  *
- * @param {Array<{tld: string, id: string, shortcode?: string|null,
- *   aliases?: string[], name?: string}>} docs - One entry per content note.
- * @returns {{byShortcode: Map<string, object>, byAlias: Map<string, object|null>}}
- *   `byAlias` holds `null` where a TLD-scoped alias is claimed by more than one
- *   document, which makes the bare `[[Text]]` form unusable for it.
+ * @param {Array<{type: string, section: string, id: string,
+ *   shortcode?: string|null, aliases?: string[], name?: string}>} docs - One
+ *   entry per content note.
+ * @returns {{byShortcode: Map<string, object>, byAlias: Map<string, object|null>,
+ *   types: Set<string>}} `byAlias` holds `null` where a section-scoped alias is
+ *   claimed by more than one document, which makes the bare `[[Text]]` form
+ *   unusable for it. `types` is every type the tree actually contains, so a
+ *   qualifier naming no real type can be told apart from a missing target.
  */
 export function buildWikilinkIndex(docs) {
     const byShortcode = new Map();
     const byAlias = new Map();
+    const types = new Set();
     for (const d of docs) {
-        if (!d.id) continue;
-        if (d.shortcode) byShortcode.set(`${d.tld}/${norm(d.shortcode)}`, d);
+        if (!d.id || !d.type) continue;
+        types.add(norm(d.type));
+        if (d.shortcode) byShortcode.set(`${norm(d.type)}/${norm(d.shortcode)}`, d);
         for (const a of d.aliases ?? []) {
-            const key = `${d.tld}|${norm(a)}`;
+            const key = `${norm(d.section ?? d.type)}|${norm(a)}`;
             // Second claimant poisons the alias: it can no longer be resolved.
             byAlias.set(key, byAlias.has(key) && byAlias.get(key) !== d ? null : d);
         }
     }
-    return { byShortcode, byAlias };
+    return { byShortcode, byAlias, types };
 }
 
 /** Matches a whole wikilink, capturing its inner text. */
@@ -122,13 +147,16 @@ const WIKILINK = /\[\[([^\]\n]+)\]\]/g;
  *
  * @param {string} markdown - The note body (frontmatter already stripped).
  * @param {object} ctx
- * @param {string} ctx.tld - The source note's top-level content directory.
+ * @param {string} ctx.type - The source note's `type`.
+ * @param {string} ctx.section - The source note's section, which scopes a bare
+ *   `[[Text]]` (its type, or its `category` when the note is a `doc`).
  * @param {string} ctx.id - The source note's document id.
- * @param {{byShortcode: Map, byAlias: Map}} ctx.index - From {@link buildWikilinkIndex}.
+ * @param {{byShortcode: Map, byAlias: Map, types: Set}} ctx.index - From
+ *   {@link buildWikilinkIndex}.
  * @returns {{markdown: string, unresolved: Array<{link: string, target: string,
- *   reason: "unknown"|"ambiguous"|"unmapped-tld"}>}}
+ *   reason: "unknown"|"ambiguous"|"unknown-type"}>}}
  */
-export function convertWikilinks(markdown, { tld, id, index }) {
+export function convertWikilinks(markdown, { type, section, id, index }) {
     const unresolved = [];
 
     const out = String(markdown).replace(WIKILINK, (all, rawInner) => {
@@ -149,23 +177,25 @@ export function convertWikilinks(markdown, { tld, id, index }) {
             target = target.slice(0, hash).trim();
         }
 
-        // Resolve the document: same-page (empty target), TLD/shortcode, or alias.
+        // Resolve the document: same-page (empty target), type/shortcode, or alias.
         let doc;
         if (target === "" && slug) {
-            doc = { tld, id };
+            doc = { type, id };
         } else {
             const slash = target.lastIndexOf("/");
             if (slash !== -1) {
-                const targetTld = target.slice(0, slash);
-                if (!PACK_BY_TLD[targetTld]) {
-                    unresolved.push({ link: all, target, reason: "unmapped-tld" });
+                const targetType = norm(target.slice(0, slash));
+                if (!index.types.has(targetType)) {
+                    unresolved.push({ link: all, target, reason: "unknown-type" });
                     return all;
                 }
                 doc = index.byShortcode.get(
-                    `${targetTld}/${norm(target.slice(slash + 1))}`,
+                    `${targetType}/${norm(target.slice(slash + 1))}`,
                 );
             } else {
-                const hit = index.byAlias.get(`${tld}|${norm(target)}`);
+                const hit = index.byAlias.get(
+                    `${norm(section ?? type)}|${norm(target)}`,
+                );
                 if (hit === null) {
                     unresolved.push({ link: all, target, reason: "ambiguous" });
                     return all;
@@ -178,13 +208,9 @@ export function convertWikilinks(markdown, { tld, id, index }) {
             return all;
         }
 
-        const pack = PACK_BY_TLD[doc.tld];
-        if (!pack) {
-            unresolved.push({ link: all, target, reason: "unmapped-tld" });
-            return all;
-        }
         if (!text) text = doc.name ?? target;
 
+        const pack = packForType(doc.type);
         const uuid = slug
             ? `${pack}.${doc.id}.JournalEntryPage.${anchorPageId(doc.id, slug)}`
             : `${pack}.${doc.id}`;

@@ -33,7 +33,7 @@ technique**. A single instrument of attack rarely does just one thing: a sword c
 **pommel** (blunt) — three separate ways of attacking, and so three separate
 strike modes on the same weapon. A spear can be **Thrust** in the hand or
 **Thrown**; a war-axe can **Chop** in melee or be **Hurled** as a missile. A
-**[[Rules/gear|weapon]]** therefore carries **one or more** strike modes, and the
+**[[doc/gear|weapon]]** therefore carries **one or more** strike modes, and the
 wielder chooses which mode to use for a given attack.
 
 Each mode is a distinct attack with its **own properties** — a different
@@ -100,7 +100,7 @@ flagged to take no Strength modifier at all, and those never receive it.
 Two reductions apply on top, and they stack:
 
 - **Off-hand** — reduce the modifier by **1** when the weapon is held only in
-  the non-favored hand. See [[Rules/bdystrct#dominance|Dominance]].
+  the non-favored hand. See [[doc/bdystrct#dominance|Dominance]].
 - **Thrown** — reduce the modifier by **1** when the weapon is thrown.
 
 ## Melee and Missile

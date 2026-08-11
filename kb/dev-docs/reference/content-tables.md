@@ -94,13 +94,12 @@ emits identically on every build.
 
 ### Linking a row to its note
 
-The `link` column is emitted as a wikilink to the row's own note, which each build
-then resolves the way it resolves any other wikilink: into a `@UUID` enricher for
+The `link` column is emitted as a `[[type/shortcode|Name]]` wikilink to the row's own
+note, which each build then resolves the way it resolves any other wikilink: into a `@UUID` enricher for
 Foundry, and into a site href for the knowledgebase. The same directive therefore
 yields a clickable catalog in both places.
 
-A note the build cannot address that way — one with no `shortcode`, or in a content
-directory that compiles into no pack (`PACK_BY_TLD` in `utils/packs/wikilinks.mjs`) —
+A note the build cannot address that way — one carrying no `type` or no `shortcode` —
 renders as plain text rather than shipping a literal `[[…]]` into a journal.
 
 ## Scope and failure

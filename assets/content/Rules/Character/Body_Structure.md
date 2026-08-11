@@ -77,7 +77,7 @@ Most people favor one side of the body — not the hand alone, but the whole sid
 - **Right Dominance** alone — the right side is dominant.
 - **Both, or neither** — the being is **ambidextrous** and has no dominant side.
 
-An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [[Rules/strkmds#the-strength-impact-modifier|Strength Impact Modifier]].
+An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [[doc/strkmds#the-strength-impact-modifier|Strength Impact Modifier]].
 
 A weapon counts as **off-hand** only when _every_ limb gripping it is on the non-favored side. A two-handed grip includes the dominant hand, so it is never off-hand.
 
@@ -114,7 +114,7 @@ Each location carries:
 
 **Shock Value.** How stunning a blow to this location is in itself, before severity is considered — see [[#shock|Shock]] below. The skull, eyes, nose, and neck are the worst on a human at 5; the forearm and calf the mildest at 1.
 
-**Bleeding Susceptibility.** A tier — **none**, **low**, **medium**, or **high** — governing how readily a wound here becomes a [[Rules/bleeding|Bleeder]]. It is not a single threshold but a grid against injury severity and weapon aspect:
+**Bleeding Susceptibility.** A tier — **none**, **low**, **medium**, or **high** — governing how readily a wound here becomes a [[doc/bleeding|Bleeder]]. It is not a single threshold but a grid against injury severity and weapon aspect:
 
 | Susceptibility | S3 bleeds on | G4 bleeds on    | G5 bleeds on           |
 | -------------- | ------------ | --------------- | ---------------------- |
@@ -162,7 +162,7 @@ Once the location is known, the blow resolves against it:
 3. **Check for a glancing blow.** An **edged or piercing** strike that would deal only a minor wound (effective impact 1–4) against a location covered by **rigid** armor glances off instead: it inflicts **no injury at all**, but the jolt still counts — it adds a point to the Shock Index and grants **+10 on the resulting Shock roll**.
 4. **Evaluate bleeding, amputation, and shock** from the tables above.
 
-See [[Rules/injrylvl|Injury]] for what the resulting wound then does over time.
+See [[doc/injrylvl|Injury]] for what the resulting wound then does over time.
 
 ## Shock {#shock}
 
@@ -251,7 +251,7 @@ A second, narrower rule applies to weapons: a strike mode that requires particul
 
 ### Permanent impairment
 
-A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [[Rules/imprmnt|Injury → Permanent Impairment]].
+A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [[doc/imprmnt|Injury → Permanent Impairment]].
 
 ### Immobilized, unusable, and holding on {#immobilized-unusable-and-holding-on}
 
@@ -281,7 +281,7 @@ A wound serious enough, to a location that invites it, can cost you your grip or
 
 When a test is called for, it is a **keep-control test**:
 
-- A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [[Rules/prone|fall prone]], the worse the failure the harder the fall.
+- A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [[doc/prone|fall prone]], the worse the failure the harder the fall.
 - A **Fumble Test** — keeping your grip — rolls the **better of your Dexterity or your Legerdemain skill**. Keep control and the item stays in hand; fail and you drop it, a critical fumble flinging it from your grasp entirely.
 
 You roll whichever of the attribute or skill serves you better, and a character with neither cannot make the test. Like every consequence in the system, a keep-control test is **offered** to the affected character's player, never imposed.
@@ -364,7 +364,7 @@ Creating a new creature type needs no templates or special item types — duplic
 
 ## See also
 
-- [[Rules/injrylvl|Injury]] — injury levels, healing, and impairment over time
+- [[doc/injrylvl|Injury]] — injury levels, healing, and impairment over time
 - [[Shock]] — the shock states in full, re-tests, Extended Shock, and Coma
 - [[Health]] — how impaired parts set the health ceiling
 - [[Bleeding]] — bleeders, blood loss, and stoppage

@@ -15,7 +15,7 @@ folder: F4NGyU9QQgWwTcHe
 
 The **Healing Rate (HR)** is a factor from **0 to 6** representing the likelihood
 of recovering from an injury — lower is worse. It is generally **fixed once the
-injury is treated** (see [[Rules/trtnginj|Injury Treatment]]), though some
+injury is treated** (see [[doc/trtnginj|Injury Treatment]]), though some
 circumstances change it.
 
 An **untreated** injury has **no Healing Rate at all** — which is not the same as a

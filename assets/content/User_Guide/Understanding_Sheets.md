@@ -22,7 +22,7 @@ This guide explains the common tabs you'll encounter across all sheets, so
 you know where to find things regardless of which type of actor or item you're
 looking at.
 
-See also: [[User_Guide/being|Beings]], [[Character Creation]]
+See also: [[doc/being|Beings]], [[Character Creation]]
 
 # Sheet Header {#sheets-header}
 

@@ -26,7 +26,7 @@ processes by which a character recovers from — or succumbs to — it.
 > state they carry and recover from. An [[affliction]] is instead
 > an ongoing hostile _agent_ (a disease, a poison, a maladiction) that runs a
 > course and ends in death or cure. See
-> [[Rules/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] for the full
+> [[doc/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] for the full
 > distinction and worked examples.
 
 ## Forms of trauma
@@ -44,7 +44,7 @@ processes by which a character recovers from — or succumbs to — it.
 ### Mind
 
 - [[Psychological Condition]] — Psyche Stress
-  Levels, their recovery, and their behavioral effects, including [[Rules/arlshck|Aural Shock]].
+  Levels, their recovery, and their behavioral effects, including [[doc/arlshck|Aural Shock]].
 - [[Fear]] — the Fear Test and its states, from Catatonic to Brave.
 - [[Morale]] — the Morale Test, the Rally Test, and the Reaction
   Test that steadies a shaken combatant.
