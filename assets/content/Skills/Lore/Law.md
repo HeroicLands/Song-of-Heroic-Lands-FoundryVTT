@@ -25,4 +25,8 @@ sohl:
 folder: QlkEHXbk2EXlRiMM
 ---
 
-Law represents knowledge of the legal codes, customs, and judicial procedures that govern a character's society. This encompasses a wide range of jurisprudence—clan traditions, feudal obligations, royal statutes, mercantile regulations, and the complex rules of guild-governed towns. Religious law falls under the domain of Ritual rather than this skill. Preparing formal legal documents requires both legal knowledge and literacy, and arguing a case in court draws upon Discourse ability as well. Foreign legal systems carry the same unfamiliarity penalties as other forms of regional knowledge.
+Law is knowledge of the legal order the character was raised inside — which is rarely one order at all. Clan custom and the vendetta that enforces it, feudal obligation and the lord's court, royal justice where it reaches, and the dense, jealously guarded regulation of a guild town all operate at once and frequently against one another. Canon law is not covered here; that belongs to the relevant Ritual skill.
+
+The skill is knowledge rather than advocacy. **Arguing a case aloud** is a **Discourse (Law)** persuasion test — the law tells the litigant what to say, and Discourse decides whether saying it works. **Preparing a writ** follows the ordinary rules for composing a document, with Law supplying the subject; such documents are usually dictated to a professional scribe, since being learned in law and being able to write a fair hand are separate accomplishments.
+
+Foreign law carries the same distance penalties as foreign folklore, and a character arguing in a jurisdiction not their own is very often wrong in ways they cannot detect.

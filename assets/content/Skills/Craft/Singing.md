@@ -27,4 +27,8 @@ sohl:
 folder: gqRvjlrWbuCwGy3N
 ---
 
-Singing measures vocal performance ability—the control of pitch, tone, volume, and phrasing that transforms the human voice into a musical instrument. Every culture has its own repertoire of songs for work, worship, celebration, and mourning, and a skilled singer can move audiences to emotion, enhance ceremonial occasions, and earn social standing through their art. Natural vocal quality provides a foundation, but true excellence requires training and creative interpretation.
+Singing rests on a physiology quite separate from a good speaking voice, which is why fine orators sing badly and fine singers are often unremarkable in conversation. The skill therefore carries its own primary quality, **Voice**, averaged with Creativity to give its Skill Base — the instrument and the musicianship, neither of which is worth much without the other.
+
+A Singing Success Value test measures the aesthetic worth of a performance, read exactly as Dancing is: its Value Diamonds bear on persuasion for as long as the singing lasts, and a genuinely fine voice in a hall is a political instrument as much as an artistic one.
+
+Where a song is performed with an instrument, the two are tested separately; a lutenist who cannot sing is well advised to hire someone who can.

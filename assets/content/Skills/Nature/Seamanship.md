@@ -28,4 +28,18 @@ sohl:
 folder: N5ozne3RRF0qSEdF
 ---
 
-Seamanship governs the practical operation of sailing vessels on open water—setting and trimming sails, reading wind and weather, managing crew during maneuvers, and maintaining the ship in seaworthy condition during long voyages. It is the core competency of any mariner and encompasses the accumulated practical knowledge that keeps a vessel on course and afloat in conditions ranging from calm seas to howling gales. Seamanship complements the more specialized skills of Piloting for coastal navigation and Shipwright for vessel construction and repair.
+Seamanship is the handling of a vessel — sails, sheets, oars, ground tackle, cargo and the thousand pieces of ropework that keep all of it working — together with a practical knowledge of the sea's animals and plants. It is the crew's skill, where Piloting is the navigator's.
+
+For a voyage, a collective **seafaring** ability is built from the average Seamanship of the crew, with the pilot's Piloting as a Secondary Modifier, and that composite is what the passage is resolved against.
+
+In the short term — sail-setting or ropework carried out inside a handful of five-second rounds, which is the sort of thing that happens when a squall arrives or a boarding party does — Seamanship is tested with **Strength, Dexterity or Climbing** as a Secondary Modifier, whichever the task actually calls on.
+
+**Discipline.** A leader addressing sailors aboard a vessel applies their Seamanship as a Secondary Modifier to persuasion tests. Mariners are a clannish lot and are not readily moved by a landsman, however eloquent.
+
+**Rowing.** Some work on the water needs no seamanship at all. Rowing a boat is a **Strength (Seamanship SR)** Success Value test, the successful Secondary Roll adding one to the Success Value — anyone can pull an oar, and someone who has spent their life doing it pulls it better.
+
+**Weather lore.** A sailor may test Seamanship to predict the weather for the next four-hour watch, resolved exactly as under Agriculture.
+
+| CF      | MF         | MS      | CS       |
+| ------- | ---------- | ------- | -------- |
+| Unknown | Incomplete | General | Specific |

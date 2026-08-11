@@ -27,4 +27,10 @@ sohl:
 folder: IY7snVGTGcpTxofH
 ---
 
-Ritual encompasses the knowledge and practice of religious ceremonies, liturgical rites, and sacred observances specific to a character's faith. This includes conducting worship services, performing blessings and consecrations, presiding over rites of passage such as births, marriages, and funerals, and interpreting the tenets and canon law of one's religion. Advanced practitioners may channel divine power through their rites, making Ritual both a spiritual discipline and a practical source of supernatural aid.
+Ritual is a character's grasp of the beliefs and observances of **one religion** — its liturgy, its calendar, its sacraments and rites of passage, its canon law, and the practical business of conducting a service so that the congregation is served and the god is not offended. Each religion is a separate Ritual skill with its own Mastery Level, named for the faith it belongs to.
+
+The skill covers the whole of what a cleric is for: presiding at worship, blessing and consecrating, marrying, naming and burying, hearing what the laity bring, and knowing which of the faith's rules bend and which do not. Canon law lives here rather than under Law, which handles secular jurisdictions only.
+
+**Pantheons.** A religion is usually one among several within a culture, and a character must build Ritual separately for each faith they claim to know. A broad, outsider's grasp of the _other_ religions of a shared pantheon — who they are, what they want, what their festivals look like from the street — is a **Folklore** matter instead, and a competent priest is expected to have it.
+
+At its higher reaches, Ritual is also the vehicle by which the devout draw on what their faith actually offers, and the observances that seem merely formal from outside are, to a practitioner, the mechanism itself.

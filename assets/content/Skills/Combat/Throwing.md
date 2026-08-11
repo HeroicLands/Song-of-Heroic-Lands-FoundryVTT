@@ -27,4 +27,6 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Throwing governs the ability to hurl objects—daggers, hand axes, javelins, stones, and other improvised or purpose-made projectiles—with accuracy and force. While less powerful than archery at extended ranges, thrown weapons offer the advantage of quick deployment and require less specialized equipment. Coordination and perception are the primary physical attributes involved, and skilled throwers can achieve surprising accuracy even with objects not designed as weapons.
+Throwing covers weapons and objects sent by the arm alone — daggers, hand axes, javelins, rocks, a lit pot of pitch — whether flung flat at something in view or lobbed for distance at something that is not. Each item carries its own base range, volley multiplier and impact characteristics, and throws are resolved through the missile sequence.
+
+The skill rewards a very particular kind of practice, because a thrown weapon must arrive at the right rotation as well as the right place: a knife that reaches the target sideways has still missed. That is why a character who has drilled sleight of hand throws better than one who has not — twice a character's Legerdemain Index applies as a bonus to Throwing tests.

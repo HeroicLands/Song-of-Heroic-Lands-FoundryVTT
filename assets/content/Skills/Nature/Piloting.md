@@ -27,4 +27,14 @@ sohl:
 folder: N5ozne3RRF0qSEdF
 ---
 
-Piloting is the skill of navigating watercraft through coastal waters, rivers, lakes, and harbors—the practical art of guiding a vessel safely through confined or treacherous passages. Unlike Seamanship, which governs the operation of a ship on open water, Piloting focuses on the intimate knowledge of local waters: channels, shallows, currents, tidal patterns, and landmarks. Skilled pilots are essential for safe passage through unfamiliar harbors and dangerous coastal approaches.
+Piloting is navigation — knowing where a vessel is, where it is going, and what lies between. It is a separate accomplishment from handling the ship, which is Seamanship's business: a pilot who cannot work a sail is common, and so is a fine sailor who could not find a coast twice.
+
+The craft is pilotage in shallow, dangerous or unfamiliar water — reading soundings, bearings and marks, judging tide and current, and knowing which channel of a harbour approach is the one that is still there this year — together with dead reckoning offshore, which is arithmetic and therefore leans on Mathematics.
+
+For a voyage as a whole, the pilot's skill is folded in as a Secondary Modifier to the crew's collective seamanship, and it is very often what decides whether a passage is merely slow or actually lost.
+
+**Weather lore.** A pilot reads the sky as a matter of professional survival, and may test Piloting to predict temperature, precipitation and wind for the next four-hour watch, resolved exactly as under Agriculture.
+
+| CF      | MF         | MS      | CS       |
+| ------- | ---------- | ------- | -------- |
+| Unknown | Incomplete | General | Specific |

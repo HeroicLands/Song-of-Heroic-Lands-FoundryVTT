@@ -27,4 +27,8 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Sling is the combat skill of using a sling to hurl stones or lead bullets at distant targets. Though deceptively simple in construction—little more than a leather pouch and two cords—the sling is a surprisingly effective ranged weapon in skilled hands, capable of delivering crushing impacts at considerable distance. Mastery requires extensive practice to develop the precise timing and release that consistent accuracy demands. Slingers can use readily available river stones in a pinch, though purpose-made ammunition yields superior results.
+The sling is a cord and a pouch, and in the hands of someone raised to it a stone from one arrives with an authority out of all proportion to the equipment. Sling covers both the shepherd's sling, whirled from the hand, and the staff sling, whose lever arm trades accuracy for range and lets a heavier missile be lobbed over an obstacle or a shield wall.
+
+Shots are resolved through the missile sequence, with each sling carrying its own base range, volley multiplier and impact.
+
+Ammunition is where the skill's economy sits. Ordinary stones cost nothing and are everywhere, though finding ones of the right weight and shape takes some picking over. Cast lead bullets are made by a metalsmith and fly further and truer for being uniform. The slings themselves are leatherwork — a plain sling is a trivial afternoon for a hideworker, a staff sling wants a woodworker's hand as well.

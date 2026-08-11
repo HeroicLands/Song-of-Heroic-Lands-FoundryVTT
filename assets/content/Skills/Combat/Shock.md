@@ -26,4 +26,8 @@ sohl:
 folder: EphAMAfFhWBrJxyF
 ---
 
-Shock represents a combatant's physiological resilience to the trauma of violent injury—the ability to absorb a blow without being incapacitated by pain, blood loss, or the body's involuntary shutdown responses. It is tested whenever a character suffers significant physical damage in combat, determining whether they can continue to fight or are overcome by the shock of their wounds. Conditioning, body mass, and raw endurance all contribute to this capacity, which can mean the difference between staying on one's feet and collapsing from a wound that a tougher individual might shrug off.
+Shock is the body's answer to being badly hurt: whether a wound simply hurts or actually stops the character who took it. It is a subskill of Initiative, sharing that skill's Skill Multiple but resting on its own Skill Base of Strength and Endurance — mass and conditioning, which is honestly most of what decides the question.
+
+It is tested whenever a Shock Roll or a Shock Reroll is called for, against a Shock Index set by the injuries the character is carrying. Failure runs down the ladder of shock states — stunned, incapacitated, unconscious — and a character who has been fighting on through accumulated wounds is being asked the same question repeatedly with worse odds each time.
+
+Shock is why two fighters who take the same wound do not have the same afternoon. The wound is identical; what happens next is not.

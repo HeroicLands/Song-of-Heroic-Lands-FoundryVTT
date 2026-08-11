@@ -27,4 +27,8 @@ sohl:
 folder: Yt9THlZ0NT8H6aSK
 ---
 
-Riding governs the ability to control a mounted animal—typically a horse, but potentially a mule, camel, or more exotic beast—in a variety of situations from casual travel to the chaos of mounted combat. The skill encompasses not only balance and posture in the saddle but the subtle communication between rider and mount through leg, hand, and voice commands. An empathic connection with the animal underlies all effective riding, and the most accomplished riders seem to act as a single entity with their mount.
+Almost anyone can sit a walking horse. Riding measures what is needed beyond that: the empathy to know what the animal is about to do and the balance to still be aboard when it does it — in a press of bodies, under noise, over ground the horse would rather not cross.
+
+The skill is tested for anything complicated or dangerous done from the saddle, and it governs the mounted rider's relationship with the beast under them the way Animalcraft governs the handler's on foot. **Control** works alike in both cases: the rider tests at the start of their turn, and in battle or other distress the test is adjusted by the mount's own Initiative Secondary Modifier. Any success issues the command as a free action; any failure spends a turn getting it across. Left unridden, the animal simply carries on with whatever it was already doing.
+
+A mount is not a vehicle. It has its own Initiative, its own morale, its own skills, and a horse that has been trained to war behaves very differently from one that has been trained to plough. What the mount brings, and what it will and will not tolerate, varies by breed and by training.
