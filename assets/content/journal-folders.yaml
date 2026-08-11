@@ -33,6 +33,14 @@
   id: RqKUTBUBN2Y3MHYB
   parentFolderId: ""
   color: "#d35400"
+- name: Affiliations
+  id: ersDTBJUjBoHUp51
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#9c5060"
+- name: Attributes
+  id: J8sz6xxxSv85UBio
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#462662"
 - name: Character
   id: SSkatgtYj9d71kaz
   parentFolderId: RqKUTBUBN2Y3MHYB
@@ -57,6 +65,10 @@
   id: k6DghEucd6umnBJx
   parentFolderId: J8ppkzls4ERyzTpv
   color: "#b806f1"
+- name: Gear
+  id: UWD774fzcqX7dbil
+  parentFolderId: RqKUTBUBN2Y3MHYB
+  color: "#027c54"
 - name: Skills
   id: e0HEIHw9qUVWqyzJ
   parentFolderId: RqKUTBUBN2Y3MHYB

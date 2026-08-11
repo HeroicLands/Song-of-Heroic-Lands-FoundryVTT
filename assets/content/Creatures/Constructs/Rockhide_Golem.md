@@ -13,6 +13,7 @@ shortcode: rckhdglm
 type: creature
 package: sohl
 sohl:
+    kbcat: construct
     archetype: 0
     attributes:
         str: 36

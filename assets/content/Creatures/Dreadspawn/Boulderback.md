@@ -13,6 +13,7 @@ shortcode: bldrbck
 type: creature
 package: sohl
 sohl:
+    kbcat: dreadspawn
     archetype: 0
     attributes:
         per: 10

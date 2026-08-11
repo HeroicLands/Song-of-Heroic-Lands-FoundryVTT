@@ -14,6 +14,7 @@ shortcode: grkrahk
 type: creature
 package: sohl
 sohl:
+    kbcat: grukar
     archetype: 0
     attributes:
         str: 13

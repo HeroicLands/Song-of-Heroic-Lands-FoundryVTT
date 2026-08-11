@@ -1,27 +1,25 @@
 ---
 aliases:
     - Grukar
-tags:
-    - folk
-shortcode: grukar
-type: doc
-category: lore
-package: sohl
+tags: []
 id: GudJhPy3GCGZhsWS
 name:
     full: Grukar
     aliases: []
+shortcode: grukbst
+type: doc
+category: rules
+package: sohl
+folder:
 ---
-
-## The Grukar: A Blight Upon the Land
 
 The Grukar are a brutal and prolific folk, feared wherever their guttural war-cries echo across the hills. Thick-skinned, tusked, and foul-tempered, they inhabit the blighted wastes, the deep ravines, and the ruined places of the world where no civilized folk would willingly tread. Ranging in height from roughly four and a half feet among the stunted common breed to a towering six and a half feet among the rarest and most fearsome of their kind, the Grukar are not a single uniform threat but a fractious, seething mass of subspecies locked in perpetual internal struggle — a struggle that, paradoxically, is the very engine of their survival.
 
-### Biology and Reproduction
+# Biology and Reproduction
 
 The Grukar are genderless. They are not "males" or "females" in any meaningful sense — the words simply do not apply, and Grukar themselves have no concept of male or female roles, mating pairs, or sexual difference. Reproduction in Grukar society is the exclusive function of a separate subspecies, the [[creature/grkrahk|Grukar-ahk]], which is hermaphroditic and self-fertilizing. A fertile Grukar-ahk lays clutches of eggs from which all other Grukar are spawned, and one of the Grukar-ahk's most remarkable abilities is the capacity to choose the subspecies of its spawn — to lay eggs that hatch as Grukar-Uk, Grukar-Sha, or Grukar-Hai according to the changing needs of its tribe.
 
-### The Hive-like Society of the Grukar
+# The Hive-like Society of the Grukar
 
 A Grukar tribe is centered on a single fertile [[creature/grkrahk|Grukar-ahk]], the spawning matrix on whom the entire tribe's continuation depends. Around the fertile Grukar-ahk live a small number of infertile Grukar-ahk — usually three to six — who serve as personal guardians and as a kind of biological reserve. These infertile Grukar-ahk are physically smaller and structurally simpler than the fertile one; they cannot spawn while the fertile Grukar-ahk lives, but each carries the latent capacity to become fertile if the circumstances arise.
 
@@ -29,7 +27,7 @@ When a tribe grows too large for its territory to support, internal pressure bui
 
 This pattern of fission is the engine of Grukar expansion. A successful tribe never remains static — it grows, splits, grows again, and splits again, sending fragmentary tribes outward in every direction along the frontier of viable land. Grukar holds spread the way mold spreads: not by march and conquest but by repeated budding from any tribe that has accumulated enough mass to fracture.
 
-### The Ahk's Quiet Hand
+# The Ahk's Quiet Hand
 
 The fertile Ahk has one purpose, and only one: the welfare and increase of its tribe. The Ahk does not lead the tribe so much as cultivate it, and every social structure within it serves that single end through the Ahk's deliberate management.
 
@@ -53,7 +51,7 @@ The same calculation is what restrains the tribe from the destruction it would o
 
 Beyond the tribe's immediate range the Ahk's calculation shifts but does not soften. Weaker neighbors — small villages, isolated farmsteads, lone caravans, the fringe outposts of larger powers — are valid targets, and a tribe with surplus Hai will send raiding parties to take what those settlements have. But the Ahk is careful in its choices. Groups likely to organize a successful response, settlements backed by serious military power, neighbors whose retaliation could break the tribe — these the Ahk leaves alone, and a Hai pushing for a raid against such a target will find its plans subtly undermined by the same channels through which the spawn-chamber's other instructions flow. The Ahk fears no creature for itself, but the survival of the tribe is the only thing it values, and a raid that brings down a vengeful army is no different from a famine.
 
-### Sub-species of Grukar
+# Sub-species of Grukar
 
 The Grukar are not one creature but four, each subspecies as distinct from the others as a wolf from a jackal. They share a common ancestry, a common mode of communication (body posture and gesture as the primary channel, supplemented by chest- and throat-generated clicks, rasps, and subsonic and ultrasonic calls that lie outside human hearing), and a common brutality — but beyond that, they are shaped by vastly different pressures and the deliberate spawning choices of the Grukar-ahk into vastly different forms. Together they constitute a crude but effective society: the spawner sustains, the strong rule, the clever manipulate, and the many toil and die.
 
@@ -65,6 +63,6 @@ The Grukar are not one creature but four, each subspecies as distinct from the o
 
 [[creature/grkrh|Grukar-Hai]] — The towering apex of Grukar-kind, and the rarest of the warrior castes, comprising perhaps five percent of the population. Massively built and savagely violent, the Grukar-Hai are spawned to dominate — but their ferocious temperament drives them to fight one another as readily as any enemy, ensuring that only the most fearsome survive while their own numbers remain forever thin.
 
-### The Grukar Threat
+# The Grukar Threat
 
 Where the Grukar spread, the land suffers. Their tribes are a roiling cauldron of violence, held in a precarious balance by the interplay of their subspecies: the Grukar-Hai too few and too fractious to organize alone, the Grukar-Sha too weak to seize power openly, and the Grukar-Uk too lazy and dim to act without a boot on their necks. Yet when a strong leader rises — a Grukar-Hai cunning enough to listen to a Sha counselor and brutal enough to whip the Uk into a marching horde — the result is a tide of destruction that has swallowed towns, scattered armies, and laid waste to entire regions before burning itself out in the inevitable internal collapse that follows.

@@ -14,6 +14,7 @@ shortcode: wtrbffl
 type: creature
 package: sohl
 sohl:
+    kbcat: animal
     archetype: 0
     attributes:
         str: 18

@@ -51,7 +51,7 @@ the sheet offers and which actions the Trauma has.
 | **Physical Condition**      | A lasting bodily trait, impediment, or debility            | Sub-Category        |
 
 The rules behind each of these live with the rules, not here — see
-[[doc/trauma|Trauma]], [[doc/injrylvl|Injury]],
+[[doc/traumaintro|Trauma]], [[doc/injrylvl|Injury]],
 [[doc/bleeding|Bleeding]], [[doc/infctn|Infection]],
 [[doc/shock|Shock]], [[doc/fatigue|Fatigue]],
 [[doc/fear|Fear]], [[doc/morale|Morale]],
@@ -699,7 +699,7 @@ See [[doc/thepall|The Pall]] for what each fate means.
 - [[Combat Basics]] — where most wounds come from, and the injury card
   that creates them.
 - [[Actions]] — how the Actions context menu and chat-card buttons work.
-- [[doc/trauma|Trauma]], [[doc/injrylvl|Injury]],
+- [[doc/traumaintro|Trauma]], [[doc/injrylvl|Injury]],
   [[doc/bleeding|Bleeding]], [[doc/infctn|Infection]],
   [[doc/shock|Shock]], and [[doc/hlngtst|Healing Test]] (rules) —
   the mechanics behind these actions.

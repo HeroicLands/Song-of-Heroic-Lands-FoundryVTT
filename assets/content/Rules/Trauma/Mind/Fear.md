@@ -38,4 +38,4 @@ state affects the victim.
 ## See also
 
 - [[Morale]], [[Psychological Condition]],
-  [[doc/trauma|Trauma]].
+  [[doc/traumaintro|Trauma]].

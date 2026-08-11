@@ -16,7 +16,7 @@ folder: TiVEgAyetL6JTjqG
 shortcode: thepall
 ---
 
-**The Pall** is the most dangerous [[doc/trauma|Trauma]] a character can face. Where
+**The Pall** is the most dangerous [[doc/traumaintro|Trauma]] a character can face. Where
 other trauma assails Will or Initiative, the Pall tests **Spirit** in a struggle
 for the character's soul. It emanates from the forces of death and chaos, corrupts
 mortals into the undead **Helspawn**, can infuse beings and objects alike, and can
@@ -86,4 +86,4 @@ even death and chaos can _demand_ undeath:
 
 ## See also
 
-- [[Psychological Condition]], [[doc/trauma|Trauma]].
+- [[Psychological Condition]], [[doc/traumaintro|Trauma]].

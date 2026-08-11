@@ -13,6 +13,7 @@ shortcode: frstgbln
 type: creature
 package: sohl
 sohl:
+    kbcat: goblin
     archetype: 0
     attributes:
         str: 8

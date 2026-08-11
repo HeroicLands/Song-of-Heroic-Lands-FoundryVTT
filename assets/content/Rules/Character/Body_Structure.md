@@ -368,5 +368,5 @@ Creating a new creature type needs no templates or special item types — duplic
 - [[Health]] — how impaired parts set the health ceiling
 - [[Bleeding]] — bleeders, blood loss, and stoppage
 - [[Strike Modes]] — Spread and the other properties of an attack
-- [[Skills]] — how skills declare the roles that impair them
+- [[doc/skillsintro|Skills]] — how skills declare the roles that impair them
 - [[Prone]] — the consequence of a failed stumble

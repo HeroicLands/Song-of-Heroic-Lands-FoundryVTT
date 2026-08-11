@@ -271,7 +271,7 @@ const SECTION_NOTES = {
         " tester and hollow for the target, and worth one star when a tiebreak" +
         " settles a tie. The margin has no ceiling, so only the earned stars are" +
         " drawn. **Value Diamonds** are an unrelated measure: the quality of a" +
-        " single Success Value test (see [[Skill_Tests|Skill Tests]]). That scale" +
+        " single Success Value test (see [[doc/sklltsts|Skill Tests]]). That scale" +
         " does have a ceiling \u2014 five \u2014 so the whole scale is drawn and the" +
         " earned diamonds are filled. The same filled/hollow star pair marks a" +
         " skill flagged for improvement on the Skills tab.",

@@ -39,4 +39,4 @@ consequences each period, including infection.
 
 This applies to healing tests only. The Physician's **Treatment Test** is not a
 healing test: it is rolled against the Physician's own skill and is what
-_establishes_ the Healing Rate in the first place — see [[Injury Sequence]].
+_establishes_ the Healing Rate in the first place — see [[doc/trtnginj|Treating Injuries]].

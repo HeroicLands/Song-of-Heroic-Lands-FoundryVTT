@@ -13,6 +13,7 @@ shortcode: strmsr
 type: creature
 package: sohl
 sohl:
+    kbcat: elemental
     archetype: 0
     attributes:
         str: 9

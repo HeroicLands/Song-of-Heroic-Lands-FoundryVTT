@@ -14,7 +14,7 @@ folder: hAloT0Y1xg1vcIIn
 shortcode: psychlgc
 ---
 
-A **psychological condition** is a [[doc/trauma|Trauma]] of the mind — a quirk,
+A **psychological condition** is a [[doc/traumaintro|Trauma]] of the mind — a quirk,
 impulse, or disorder that colors behavior. Just as bodily harm is rated in Injury
 Levels, mental strain is rated in **Psyche Stress Levels (PSY)**.
 
@@ -89,4 +89,4 @@ The victim recovers from Aural Shock when AS reaches 0. Aural Shock inflicts **5
 ## See also
 
 - [[Fear]], [[Morale]], [[Fatigue]],
-  [[The Pall]], [[doc/trauma|Trauma]].
+  [[The Pall]], [[doc/traumaintro|Trauma]].

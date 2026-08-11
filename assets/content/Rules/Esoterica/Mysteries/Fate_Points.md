@@ -14,6 +14,8 @@ folder: gmHoAXi9mq8O9DUn
 shortcode: fatepnts
 ---
 
+The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its success level by one. See [[Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
+
 Some characters are touched by **Fate** — a thread of luck or destiny they can
 call on at a crucial moment. Fate lets a character improve a test they have
 **already rolled**: spending a **Fate Point** raises that test's
@@ -46,7 +48,7 @@ character without a usable one cannot call on it at all.
 
 **The test is governed by Aura.** An Aura-governed test cannot be fated — neither
 the Aura attribute's own test, nor a test of any skill whose
-[[doc/skills|Skill Base]] is computed from Aura. Fate answers _through_ Aura, and it
+[[doc/skillsintro|Skill Base]] is computed from Aura. Fate answers _through_ Aura, and it
 will not be turned back on the thing that summons it.
 
 **The test is a Mystical Ability.** No Mystical Ability test can be fated, ever.
@@ -111,5 +113,5 @@ when called.
 
 - [[Success Tests]] — the success levels Fate shifts, including
   the extended levels above a Critical Success.
-- [[Skills]] — Skill Base, which decides whether a skill is Aura-governed
+- [[doc/skillsintro|Skills]] — Skill Base, which decides whether a skill is Aura-governed
   and therefore beyond Fate's reach.

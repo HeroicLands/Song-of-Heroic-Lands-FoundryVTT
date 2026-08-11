@@ -13,6 +13,7 @@ shortcode: ironjaw
 type: creature
 package: sohl
 sohl:
+    kbcat: dreadspawn
     archetype: 0
     attributes:
         str: 15

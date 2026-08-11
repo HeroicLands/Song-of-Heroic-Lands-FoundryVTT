@@ -74,4 +74,4 @@ turn.
 ## See also
 
 - [[Fear]], [[Shock]],
-  [[Psychological Condition]], [[doc/trauma|Trauma]].
+  [[Psychological Condition]], [[doc/traumaintro|Trauma]].

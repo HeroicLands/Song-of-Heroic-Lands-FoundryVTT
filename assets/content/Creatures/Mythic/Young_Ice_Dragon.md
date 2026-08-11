@@ -14,6 +14,7 @@ shortcode: yngicdrg
 type: creature
 package: sohl
 sohl:
+    kbcat: mythic
     archetype: 0
     attributes:
         str: 36
