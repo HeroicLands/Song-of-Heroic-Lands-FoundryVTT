@@ -425,14 +425,7 @@ export class MasteryLevelModifier extends ValueModifier {
     ): Promise<SuccessTestResult | undefined | false> {
         context.scope ??= {} as Partial<SuccessTestResult.ContextScope>;
         context.scope.targetValueFunc ??= (sl: number) => sl;
-        // The legacy `successStarTable` scope key (pre-#1283) is still honoured,
-        // so a house rule or macro written against the old name keeps working.
-        context.scope.resultDescTable ??=
-            (
-                context.scope as {
-                    successStarTable?: SuccessTestResult.LimitedDescription[];
-                }
-            ).successStarTable ?? this.testDescTable;
+        context.scope.resultDescTable ??= this.testDescTable;
 
         // A test whose governing skill/attribute depends on a body part the actor
         // cannot use auto-Critically-Fails (#568). Derived from the owning logic's

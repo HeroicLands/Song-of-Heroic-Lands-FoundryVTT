@@ -84,7 +84,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     <div class="card-content">
         <span class="label">Value Diamonds:</span>
-        <span class="value">{{valueDiamonds}}</span>
+        <span class="value value-diamonds" aria-label="{{valueDiamonds}} Value Diamonds">{{#each vdMarks}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-diamond" aria-hidden="true"></i>{{/each}}</span>
     </div>
     {{/if}}
 

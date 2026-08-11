@@ -246,13 +246,14 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
         );
     });
 
-    it("shows the number of Value Diamonds", async () => {
+    it("draws the Value Diamonds as icons, filled for earned and hollow for the rest", async () => {
         const { html, result } = await renderSvCard(50, 32);
-        // SV 5 → one Value Diamond.
+        // SV 5 → one Value Diamond of the five on the scale.
         expect(result.valueDiamonds).toBe(1);
-        expect(html).toMatch(
-            /Value Diamonds:<\/span>\s*<span class="value">1<\/span>/,
-        );
+        expect(html.match(/fa-solid fa-diamond/g) ?? []).toHaveLength(1);
+        expect(html.match(/fa-regular fa-diamond/g) ?? []).toHaveLength(4);
+        // The count is still available to screen readers.
+        expect(html).toContain('aria-label="1 Value Diamonds"');
     });
 
     it("shows the graded meaning text", async () => {

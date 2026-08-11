@@ -29,10 +29,25 @@ consumers. The developer documentation already called the mechanism
 
 **Compatibility**
 
-Localization keys are unchanged — only their values. Both legacy keys are still
-accepted on read, so chat cards already sitting in a world's log reconstruct
-unchanged, and a house rule or macro passing `scope.successStarTable` keeps
-working. Serialization now emits the new names only.
+The old names are removed outright — there are no aliases. No DataModel field
+changed (the generated type catalog is untouched), so no world migration is
+needed and persisted actor/item data is unaffected. Localization keys are
+unchanged; only their values were reworded, so no key was renamed or retired.
 
-The grade still displays as a count from zero to five, not as icons, exactly as
-before. Victory Stars are untouched.
+The one thing that does not survive is a **chat card posted before this
+release**. The serialized test result rides inside the card's `data-scope`, so
+pressing a button on an older card reconstructs a result with no description
+table: its Result row reads empty and its grade reads zero. Nothing is corrupted
+and nothing is applied silently — a treatment card's Course Bonus, for instance,
+is still confirmed in a dialog before it takes effect. Re-run the test to get a
+current card.
+
+**Display**
+
+The grade is now drawn as **diamond icons** rather than a bare number. Because
+the scale has a fixed ceiling of five, the card draws all five and fills the
+earned ones, so the row reads as a rating; a contest margin is unbounded, so
+Victory Stars still draws only the stars actually earned. The count remains
+available to screen readers via `aria-label`.
+
+Victory Stars are otherwise untouched.

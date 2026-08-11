@@ -223,12 +223,13 @@ function collectActionIcons(lang) {
 }
 
 /**
- * The two star icons the result cards draw, which nothing in the source declares
- * as a set — the only hand-maintained rows on this page. Font Awesome's solid and
- * regular star are the same shape filled and hollow, which is what carries the
- * "whose stars are these" distinction; a Game-Icons star has no hollow twin.
+ * The star and diamond icons the result cards draw, which nothing in the source
+ * declares as a set \u2014 the only hand-maintained rows on this page. Font
+ * Awesome's solid and regular weights are the same shape filled and hollow, which
+ * is what carries both the "whose stars are these" distinction and the earned /
+ * unearned split on the diamond scale; a Game-Icons glyph has no hollow twin.
  */
-const STAR_ROWS = [
+const MARK_ROWS = [
     {
         cls: "fa-solid fa-star",
         name: "Victory Star (tester's)",
@@ -243,6 +244,20 @@ const STAR_ROWS = [
             "The same margin drawn hollow, when the side that answered the" +
             " contest won it \u2014 so the line says who won as well as by how much",
     },
+    {
+        cls: "fa-solid fa-diamond",
+        name: "Value Diamond (earned)",
+        note:
+            "Success Value test cards \u2014 one filled diamond per point of" +
+            " quality earned above Base Value, out of the five on the scale",
+    },
+    {
+        cls: "fa-regular fa-diamond",
+        name: "Value Diamond (unearned)",
+        note:
+            "The remainder of the five-diamond scale, drawn hollow \u2014 so the" +
+            " row reads as a rating rather than a bare tally",
+    },
 ];
 
 /**
@@ -250,14 +265,15 @@ const STAR_ROWS = [
  * unsaid. Keyed by section name.
  */
 const SECTION_NOTES = {
-    Stars:
+    "Stars & Diamonds":
         "**Victory Stars** are the margin of a contest \u2014 how far the" +
         " winner's success level exceeded the loser's \u2014 drawn filled for the" +
         " tester and hollow for the target, and worth one star when a tiebreak" +
-        " settles a tie. **Value Diamonds** are an unrelated measure: the" +
-        " quality of a single Success Value test (see [[Skill_Tests|Skill" +
-        " Tests]]), graded zero to five and shown on its card as a count" +
-        " rather than as icons. The same filled/hollow star pair marks a" +
+        " settles a tie. The margin has no ceiling, so only the earned stars are" +
+        " drawn. **Value Diamonds** are an unrelated measure: the quality of a" +
+        " single Success Value test (see [[Skill_Tests|Skill Tests]]). That scale" +
+        " does have a ceiling \u2014 five \u2014 so the whole scale is drawn and the" +
+        " earned diamonds are filled. The same filled/hollow star pair marks a" +
         " skill flagged for improvement on the Skills tab.",
 };
 
@@ -292,7 +308,7 @@ function main() {
         ],
         ["Being sheet tabs", collectTabIcons(sheet, lang)],
         ["Actions", collectActionIcons(lang)],
-        ["Stars", STAR_ROWS],
+        ["Stars & Diamonds", MARK_ROWS],
     ];
 
     // A silently empty section would publish a legend that looks complete but

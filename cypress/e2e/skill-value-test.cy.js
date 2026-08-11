@@ -93,6 +93,16 @@ describe("Skill Value Test — graded success value (#848)", () => {
                         win.game.messages.contents.at(-1)?.content ?? "";
                     expect(content).to.contain("Success Value:");
                     expect(content).to.contain("Value Diamonds:");
+                    // The grade is drawn as icons on the fixed five-diamond
+                    // scale: one earned here, so one filled and four hollow.
+                    expect(
+                        (content.match(/fa-solid fa-diamond/g) ?? []).length,
+                        "earned diamonds drawn filled",
+                    ).to.eq(1);
+                    expect(
+                        (content.match(/fa-regular fa-diamond/g) ?? []).length,
+                        "the rest of the scale drawn hollow",
+                    ).to.eq(4);
                 });
             });
         });

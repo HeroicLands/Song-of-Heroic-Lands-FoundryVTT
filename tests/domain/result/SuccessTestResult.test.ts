@@ -313,6 +313,65 @@ describe("SuccessTestResult", () => {
             expect(revived.resultDesc).toBe("well done");
         });
 
+        /**
+         * The grade is drawn as icons, so the logic layer yields **marks, not
+         * markup** — one entry per diamond on the fixed 0–5 scale, `true` where
+         * the diamond was earned. Mirrors `OpposedTestResult.victoryStarMarks`.
+         */
+        describe("valueDiamondMarks", () => {
+            /** A table whose result is a fixed literal count. */
+            function fixed(n: number) {
+                return [
+                    {
+                        maxValue: 999,
+                        lastDigits: [],
+                        label: "Graded",
+                        description: "",
+                        success: true,
+                        result: n,
+                    },
+                ];
+            }
+
+            function marksFor(n: number) {
+                return new SuccessTestResult(
+                    { resultDescTable: fixed(n), successLevel: 0 } as any,
+                    { parent },
+                ).valueDiamondMarks;
+            }
+
+            it("fills the earned diamonds and leaves the rest hollow", () => {
+                expect(marksFor(2)).toEqual([true, true, false, false, false]);
+            });
+
+            it("is always five entries long, so the scale reads as a rating", () => {
+                for (const n of [0, 1, 3, 5]) {
+                    expect(marksFor(n)).toHaveLength(5);
+                }
+            });
+
+            it("leaves every diamond hollow at zero", () => {
+                expect(marksFor(0)).toEqual([
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                ]);
+            });
+
+            it("clamps a table that grades outside the 0-5 scale", () => {
+                expect(marksFor(9)).toEqual([true, true, true, true, true]);
+                expect(marksFor(-3)).toEqual([
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                ]);
+            });
+        });
+
         it("returns empty text and zero stars when no table is supplied", () => {
             const result = new SuccessTestResult({} as any, { parent });
             expect(result.valueDiamonds).toBe(0);

@@ -113,48 +113,4 @@ describe("result-description table serialization (#206)", () => {
         );
         expect(liveRow.result.evaluate({ successLevel: 3 })).toBe(4);
     });
-
-    /**
-     * The table and star-count keys were renamed in #1283 (`successStarTable` →
-     * `resultDescTable`, `successStars` → `valueDiamonds`). Chat cards already
-     * sitting in a world's log carry the old key, so it stays readable.
-     */
-    describe("legacy key compatibility (#1283)", () => {
-        it("revives a table supplied under the legacy successStarTable key", () => {
-            const revived = new SuccessTestResult(
-                { successStarTable: exprTable(), successLevel: 2 } as any,
-                { parent },
-            );
-            // Reached the table: a match yields the row's label rather than the
-            // empty-table fallback.
-            expect(revived.resultText).toBe(
-                "You go screaming down the halls in terror",
-            );
-        });
-
-        it("prefers the new key when both are present", () => {
-            const legacy = exprTable();
-            legacy[0].label = "legacy";
-            const result = new SuccessTestResult(
-                {
-                    resultDescTable: exprTable(),
-                    successStarTable: legacy,
-                    successLevel: 2,
-                } as any,
-                { parent },
-            );
-            expect(result.resultText).toBe(
-                "You go screaming down the halls in terror",
-            );
-        });
-
-        it("serializes under the new key only", () => {
-            const wire = new SuccessTestResult(
-                { successStarTable: exprTable() } as any,
-                { parent },
-            ).toJSON();
-            expect(wire).toHaveProperty("resultDescTable");
-            expect(wire).not.toHaveProperty("successStarTable");
-        });
-    });
 });

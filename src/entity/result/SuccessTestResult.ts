@@ -118,6 +118,13 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * - {@link AttackResult} — attacker's roll, with impact dice and aim
  * - {@link DefendResult} — defender's roll with situational modifiers
  */
+/**
+ * The fixed ceiling of the **Value Diamond** scale — the quality grade of a
+ * Success Value test runs 0-5, so the card draws five diamonds and fills the
+ * earned ones (see {@link SuccessTestResult.valueDiamondMarks}).
+ */
+export const VALUE_DIAMOND_SCALE = 5;
+
 export class SuccessTestResult extends TestResult {
     private _successLevel: number;
     protected _tokenLogic?: SohlTokenDocumentLogic;
@@ -227,19 +234,10 @@ export class SuccessTestResult extends TestResult {
                 },
             );
         // The table rides the wire as data; revive any serialized SafeExpression
-        // rows into live expressions owned by this result's parent. The legacy
-        // `successStarTable` key is still read so a chat card serialized before
-        // the rename (#1283) reconstructs unchanged.
-        const descTable =
-            data.resultDescTable ??
-            (
-                data as {
-                    successStarTable?: SuccessTestResult.LimitedDescription[];
-                }
-            ).successStarTable;
+        // rows into live expressions owned by this result's parent.
         this._resultDescTable =
-            descTable ?
-                reviveLimitedDescriptionTable(descTable, this.parent)
+            data.resultDescTable ?
+                reviveLimitedDescriptionTable(data.resultDescTable, this.parent)
             :   [];
         this.rollMode = data.rollMode || SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         this._testType = data.testType || TEST_TYPE.SUCCESSTEST.id;
@@ -415,13 +413,39 @@ export class SuccessTestResult extends TestResult {
     }
 
     /**
-     * Number of success "stars" (quality grade), **derived on read** from the
+     * Number of **Value Diamonds** (quality grade), **derived on read** from the
      * description table. Never
      * stored (issue #205) — recomputed from the table plus the evaluated
      * success level / target value / roll last-digit.
      */
     get valueDiamonds(): number {
         return this.resolveDescription().result;
+    }
+
+    /**
+     * {@link valueDiamonds} as one entry per diamond on the fixed
+     * {@link VALUE_DIAMOND_SCALE | 0-5 scale} for the card to draw — `true` where
+     * the diamond was **earned** (drawn filled) and `false` where it was not
+     * (drawn hollow), so the line reads as a rating rather than a bare tally.
+     *
+     * @remarks
+     * Marks, not markup: the card turns each entry into a Font Awesome diamond
+     * (`fa-solid` / `fa-regular`), the same way
+     * {@link sohl.entity.result.OpposedTestResult.victoryStarMarks} is drawn as
+     * stars. Unlike a contest margin — which is unbounded, so it can only be
+     * shown as a count of filled stars — the grade has a fixed ceiling, so the
+     * unearned diamonds are worth drawing. A table that grades outside the scale
+     * is clamped rather than overflowing the row.
+     */
+    get valueDiamondMarks(): boolean[] {
+        const earned = Math.max(
+            0,
+            Math.min(VALUE_DIAMOND_SCALE, Math.trunc(this.valueDiamonds)),
+        );
+        return Array.from(
+            { length: VALUE_DIAMOND_SCALE },
+            (_, i) => i < earned,
+        );
     }
 
     /**
@@ -961,6 +985,7 @@ export class SuccessTestResult extends TestResult {
             resultText: label,
             resultDesc: description,
             valueDiamonds: result,
+            vdMarks: this.valueDiamondMarks,
             // Success Value test (#848): the card shows the Success Value (the
             // graded target value = Index + Modifier) and the Value Diamonds
             // (`valueDiamonds` above). `svSuccess` styles the graded outcome the

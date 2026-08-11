@@ -416,20 +416,9 @@ export class AfflictionLogic<
         context: SohlActionContext,
     ): Promise<{ treatmentDate: number; courseBonus: number } | undefined> {
         const scope = context.scope as
-            | {
-                  valueDiamonds?: unknown;
-                  successStars?: unknown;
-                  courseBonus?: unknown;
-              }
+            | { valueDiamonds?: unknown; courseBonus?: unknown }
             | undefined;
-        // `successStars` is the pre-#1283 name for `valueDiamonds`; a treatment
-        // card posted before the rename still seeds the Course Bonus through it.
-        const seeded = Number(
-            scope?.courseBonus ??
-                scope?.valueDiamonds ??
-                scope?.successStars ??
-                0,
-        );
+        const seeded = Number(scope?.courseBonus ?? scope?.valueDiamonds ?? 0);
         let courseBonus = Number.isFinite(seeded) ? Math.trunc(seeded) : 0;
 
         if (!context.skipDialog) {
