@@ -148,7 +148,7 @@ describe("attack-result-card renders the supplied variables (#844)", () => {
     it("shows the Victory Stars as star icons", async () => {
         const html = await render();
         expect(html).toContain("Victory Stars:");
-        expect(html).not.toContain("Success Stars:");
+        expect(html).not.toContain("Value Diamonds:");
         // Three filled stars, drawn as icons rather than text glyphs.
         expect(html.match(/fa-solid fa-star/g) ?? []).toHaveLength(3);
         expect(html).not.toContain("fa-regular fa-star");

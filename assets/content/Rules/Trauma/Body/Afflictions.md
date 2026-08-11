@@ -195,12 +195,12 @@ does not. A physician can improve the odds; they cannot cure by treating.
 
 A patient may **request treatment**, which any physician can answer. The physician
 makes a **Treatment Success Value test** against their own Physician skill, and the
-**Success Stars** it earns become the proposed **Course Bonus**:
+**Value Diamonds** it earns become the proposed **Course Bonus**:
 
-| Treatment result  | Course Bonus |
-| ----------------- | ------------ |
-| No Success Stars  | 0            |
-| _n_ Success Stars | +_n_         |
+| Treatment result   | Course Bonus |
+| ------------------ | ------------ |
+| No Value Diamonds  | 0            |
+| _n_ Value Diamonds | +_n_         |
 
 The patient then accepts the treatment, which records the **treatment date** and
 applies the Course Bonus. A bonus above zero is a **standing modifier on the

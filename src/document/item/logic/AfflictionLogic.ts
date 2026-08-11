@@ -400,14 +400,14 @@ export class AfflictionLogic<
      * treatment exchange, and the counterpart to {@link requestTreatment}.
      *
      * Opens a dialog confirming the **treatment date** and a **Course Bonus**.
-     * The bonus defaults to the Success Stars of the physician's Treatment
+     * The bonus defaults to the Value Diamonds of the physician's Treatment
      * Success Value test when the action was reached from that card's Accept
-     * button (`scope.successStars`), and to `0` when run by hand. A Course Bonus
+     * button (`scope.valueDiamonds`), and to `0` when run by hand. A Course Bonus
      * above zero is persisted as an Active Effect on this affliction, keyed
      * {@link AFFLICTION_EFFECT_KEY | COURSE}, so it raises the target of every
      * subsequent {@link courseTest}.
      *
-     * @param context - The action context; `scope.successStars` seeds the Course
+     * @param context - The action context; `scope.valueDiamonds` seeds the Course
      *   Bonus and `skipDialog` accepts the seeded values without confirmation.
      * @returns The recorded treatment date and Course Bonus, or `undefined` when
      *   the dialog was dismissed.
@@ -416,9 +416,20 @@ export class AfflictionLogic<
         context: SohlActionContext,
     ): Promise<{ treatmentDate: number; courseBonus: number } | undefined> {
         const scope = context.scope as
-            | { successStars?: unknown; courseBonus?: unknown }
+            | {
+                  valueDiamonds?: unknown;
+                  successStars?: unknown;
+                  courseBonus?: unknown;
+              }
             | undefined;
-        const seeded = Number(scope?.courseBonus ?? scope?.successStars ?? 0);
+        // `successStars` is the pre-#1283 name for `valueDiamonds`; a treatment
+        // card posted before the rename still seeds the Course Bonus through it.
+        const seeded = Number(
+            scope?.courseBonus ??
+                scope?.valueDiamonds ??
+                scope?.successStars ??
+                0,
+        );
         let courseBonus = Number.isFinite(seeded) ? Math.trunc(seeded) : 0;
 
         if (!context.skipDialog) {

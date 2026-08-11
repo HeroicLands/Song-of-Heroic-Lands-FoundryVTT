@@ -134,7 +134,7 @@ describe("SuccessTestResult", () => {
         // "critical outcomes on a standard test (#908)" block below.
         it.todo("applies successLevelMod to the success level");
         it.todo("clamps success level to MS/MF range when crits not allowed");
-        // successStars is no longer computed in evaluate() — it derives on read
+        // valueDiamonds is no longer computed in evaluate() — it derives on read
         // from the description table (see the "derived outcome data (#205)" block).
     });
 
@@ -257,7 +257,7 @@ describe("SuccessTestResult", () => {
         });
     });
 
-    // Derived outcome data (resultText / resultDesc / successStars) is never
+    // Derived outcome data (resultText / resultDesc / valueDiamonds) is never
     // stored — it is computed on read from the description table (which rides
     // the wire as data, #206) plus the evaluated successLevel / targetValue /
     // lastDigit. See #205.
@@ -279,43 +279,43 @@ describe("SuccessTestResult", () => {
             ];
         }
 
-        it("omits successStars, resultText, resultDesc from toJSON", () => {
+        it("omits valueDiamonds, resultText, resultDesc from toJSON", () => {
             const result = new SuccessTestResult(
-                { successStarTable: starTable(), successLevel: 2 } as any,
+                { resultDescTable: starTable(), successLevel: 2 } as any,
                 { parent },
             );
             const wire = result.toJSON();
-            expect(wire).not.toHaveProperty("successStars");
+            expect(wire).not.toHaveProperty("valueDiamonds");
             expect(wire).not.toHaveProperty("resultText");
             expect(wire).not.toHaveProperty("resultDesc");
         });
 
-        it("derives successStars/resultText/resultDesc from the table on read", () => {
+        it("derives valueDiamonds/resultText/resultDesc from the table on read", () => {
             const result = new SuccessTestResult(
-                { successStarTable: starTable(), successLevel: 2 } as any,
+                { resultDescTable: starTable(), successLevel: 2 } as any,
                 { parent },
             );
             // targetValueFunc defaults to identity → targetValue === successLevel (2).
-            expect(result.successStars).toBe(3);
+            expect(result.valueDiamonds).toBe(3);
             expect(result.resultText).toBe("Superb");
             expect(result.resultDesc).toBe("well done");
         });
 
         it("recomputes derived data correctly after a JSON round-trip", () => {
             const source = new SuccessTestResult(
-                { successStarTable: starTable(), successLevel: 2 } as any,
+                { resultDescTable: starTable(), successLevel: 2 } as any,
                 { parent },
             );
             const wire = JSON.parse(JSON.stringify(source.toJSON()));
             const revived = new SuccessTestResult(wire, { parent });
-            expect(revived.successStars).toBe(3);
+            expect(revived.valueDiamonds).toBe(3);
             expect(revived.resultText).toBe("Superb");
             expect(revived.resultDesc).toBe("well done");
         });
 
         it("returns empty text and zero stars when no table is supplied", () => {
             const result = new SuccessTestResult({} as any, { parent });
-            expect(result.successStars).toBe(0);
+            expect(result.valueDiamonds).toBe(0);
             expect(result.resultText).toBe("");
             expect(result.resultDesc).toBe("");
         });

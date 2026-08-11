@@ -109,7 +109,7 @@ describe("standard-test-card re-posts the bumped outcome (#854)", () => {
         const result = new SuccessTestResult(
             {
                 successLevel: MARGINAL_FAILURE,
-                successStarTable: TABLE,
+                resultDescTable: TABLE,
                 canFate: true,
             },
             { parent },
@@ -132,7 +132,7 @@ describe("standard-test-card re-posts the bumped outcome (#854)", () => {
         const result = new SuccessTestResult(
             {
                 successLevel: MARGINAL_FAILURE,
-                successStarTable: TABLE,
+                resultDescTable: TABLE,
                 canFate: true,
             },
             { parent },

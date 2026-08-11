@@ -132,7 +132,7 @@ a Shock test, a Fear test. **None of these is a new class.** Do not subclass
 well-tested generic path — {@link sohl.entity.modifier.MasteryLevelModifier.successTest} — and
 supply everything bespoke as **data in the action scope**:
 
-- **`scope.successStarTable`** — a [result-description
+- **`scope.resultDescTable`** — a [result-description
   table](../reference/result-description-tables.md) (`LimitedDescription[]`) that
   maps each success rung to its label / description / star count. This _is_ the
   bespoke result text, carried as serializable data.
@@ -158,7 +158,7 @@ it `buttons` — one {@link sohl.document.chat.ActionCardButton} or an array:
 const result = await mlMod.successTest(
     new SohlActionContext({
         speaker,
-        scope: { successStarTable: keepControlTable(winner), noChat: true },
+        scope: { resultDescTable: keepControlTable(winner), noChat: true },
     }),
 );
 if (result) {

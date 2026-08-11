@@ -795,7 +795,7 @@ The physician's half of treating someone else's affliction. Only a character wit
 the **Physician** skill can answer; anyone else is told so and nothing happens.
 
 It rolls **this** physician's own Physician skill as a Success Value test and posts
-a result card. The **Success Stars** earned become a proposed **Course Bonus**,
+a result card. The **Value Diamonds** earned become a proposed **Course Bonus**,
 which the patient accepts through their affliction's
 [[doc/afflctn|Treat Affliction]] action — nothing is applied to the patient
 until they press that button.

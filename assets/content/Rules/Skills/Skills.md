@@ -38,7 +38,7 @@ See [[Opposed Tests]] for ties and tiebreaks.
 
 # Success Value Tests
 
-Sustained or complex efforts — crafting a sword, sailing a ship, researching a topic — are resolved with a single **Success Value (SV) test** rather than many individual rolls. The SV combines the skill's **Index** (ML divided by ten, rounded down) with a modifier taken from a Success Test's success level, producing a graduated measure of quality rather than a simple pass or fail. A high Success Value earns **Success Stars**: none at Base Value or below, and one through five above it (SV 5 = one star, up to SV 9 = five stars). The more stars, the further the work exceeds a plain result.
+Sustained or complex efforts — crafting a sword, sailing a ship, researching a topic — are resolved with a single **Success Value (SV) test** rather than many individual rolls. The SV combines the skill's **Index** (ML divided by ten, rounded down) with a modifier taken from a Success Test's success level, producing a graduated measure of quality rather than a simple pass or fail. A high Success Value earns **Value Diamonds**: none at Base Value or below, and one through five above it (SV 5 = one diamond, up to SV 9 = five diamonds). The more diamonds, the further the work exceeds a plain result.
 
 See [[Success Value Tests]] for the full four-step procedure.
 

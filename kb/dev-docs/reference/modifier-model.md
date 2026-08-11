@@ -157,7 +157,7 @@ All test methods accept a `priorTestResult` in `context.scope`. When provided, t
 Fate is the canonical `priorTestResult` consumer, and a worked example of a
 mechanic that adds no bespoke test type. A player spends a Fate Point **after** a
 test is rolled to raise its **stored success level** — the die is never re-rolled,
-and the change sits _below_ the [`successStarTable`](./result-description-tables.md)
+and the change sits _below_ the [`resultDescTable`](./result-description-tables.md)
 mapping, so it applies to **any** success test (skill, attribute, or combat) for
 free. The pieces, all on `SkillLogic`:
 

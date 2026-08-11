@@ -272,7 +272,7 @@ of its own. The affliction stores only the Macro's _reference_, never any code.
 Posts a card asking someone to treat this affliction, naming it so a physician
 knows what they are being asked to look at. The card's button is open to any
 character with the **Physician** skill, who makes a Treatment Success Value test;
-the Success Stars they earn come back to you as a proposed **Course Bonus**, which
+the Value Diamonds they earn come back to you as a proposed **Course Bonus**, which
 you accept — or not — through [[#treat-affliction|Treat Affliction]].
 
 Be clear-eyed about what treatment buys you. Unlike a wound, an affliction is
@@ -294,7 +294,7 @@ not. A Course Bonus improves the odds on every later
 
 Records that this affliction has been treated. A dialog confirms two things: the
 **treatment date** (stamped as now) and a **Course Bonus**. Reached from a
-physician's result card, the bonus arrives pre-filled with the Success Stars they
+physician's result card, the bonus arrives pre-filled with the Value Diamonds they
 earned; run by hand, it starts at zero and is yours to set.
 
 A Course Bonus above zero is written as an **Active Effect** on the affliction

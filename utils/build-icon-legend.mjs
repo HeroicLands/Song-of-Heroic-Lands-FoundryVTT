@@ -254,11 +254,11 @@ const SECTION_NOTES = {
         "**Victory Stars** are the margin of a contest \u2014 how far the" +
         " winner's success level exceeded the loser's \u2014 drawn filled for the" +
         " tester and hollow for the target, and worth one star when a tiebreak" +
-        " settles a tie. **Success Stars** are a different measure entirely: the" +
+        " settles a tie. **Value Diamonds** are an unrelated measure: the" +
         " quality of a single Success Value test (see [[Skill_Tests|Skill" +
-        " Tests]]), shown on its card as a count from zero to five, not as stars." +
-        " The same filled/hollow pair marks a skill flagged for improvement on" +
-        " the Skills tab.",
+        " Tests]]), graded zero to five and shown on its card as a count" +
+        " rather than as icons. The same filled/hollow star pair marks a" +
+        " skill flagged for improvement on the Skills tab.",
 };
 
 /** Render one markdown table per group. */

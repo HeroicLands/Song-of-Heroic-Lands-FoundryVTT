@@ -1371,7 +1371,7 @@ export class BeingLogic<
         >;
         testContext.scope = {
             ...testContext.scope,
-            successStarTable: keepControlTable(winner, opts.tablePrefix),
+            resultDescTable: keepControlTable(winner, opts.tablePrefix),
         };
 
         const result = await winner.masteryLevel.successTest(testContext);
@@ -2112,7 +2112,7 @@ export class BeingLogic<
      *
      * Self-gates: only a Physician-skilled character answers. Rolls **this**
      * physician's own Physician skill as a success-value test, and posts a result
-     * card whose owner-gated Accept button relays the earned **Success Stars** to
+     * card whose owner-gated Accept button relays the earned **Value Diamonds** to
      * the patient's affliction as its Course Bonus — nothing is applied until the
      * patient presses it.
      *
@@ -2121,12 +2121,12 @@ export class BeingLogic<
      *
      * @param context - The action context; `scope.afflictionUuid` targets the
      *   affliction being treated.
-     * @returns The earned Success Stars and physician name, or `undefined` if it
+     * @returns The earned Value Diamonds and physician name, or `undefined` if it
      *   aborts.
      */
     async performAfflictionTreatment(
         context: SohlActionContext,
-    ): Promise<{ successStars: number; physicianName: string } | undefined> {
+    ): Promise<{ valueDiamonds: number; physicianName: string } | undefined> {
         const physicianSkill = this.getItemLogic(
             SKILL_CODE.PHYSICIAN,
             ITEM_KIND.SKILL,
@@ -2147,21 +2147,21 @@ export class BeingLogic<
             context as SohlActionContext<any>,
         );
         if (result === undefined) return undefined; // cancelled
-        const successStars = result ? result.successStars : 0;
+        const valueDiamonds = result ? result.valueDiamonds : 0;
 
         await postActionCard(this.speaker, {
             template:
                 "systems/sohl/templates/chat/affliction-treatment-result-card.hbs",
             data: {
                 physicianName: this.name ?? "",
-                successStars,
+                valueDiamonds,
             },
             buttons:
                 afflictionUuid ?
                     {
                         action: "treatAffliction",
                         handlerUuid: afflictionUuid,
-                        scope: { successStars },
+                        scope: { valueDiamonds },
                         label: sohl.i18n.localize(
                             "SOHL.Affliction.Action.treatAffliction.accept",
                         ),
@@ -2170,7 +2170,7 @@ export class BeingLogic<
                 :   undefined,
         });
 
-        return { successStars, physicianName: this.name ?? "" };
+        return { valueDiamonds, physicianName: this.name ?? "" };
     }
 
     /**

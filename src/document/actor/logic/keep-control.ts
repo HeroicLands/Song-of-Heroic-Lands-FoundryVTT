@@ -18,7 +18,7 @@
  * footing; a **Fumble** test (better of Dexterity / Legerdemain) whether it
  * keeps its grip. Both are ordinary success tests whose only bespoke part is how
  * the roll maps to a result — so, per the {@link sohl.entity.modifier.MasteryLevelModifier.successTest}
- * design, that mapping travels as **data** (a `successStarTable` passed in the
+ * design, that mapping travels as **data** (a `resultDescTable` passed in the
  * action scope), not as new bespoke test code. This module is the Foundry-free
  * builder of that table; the two executors live on {@link BeingLogic}.
  */
