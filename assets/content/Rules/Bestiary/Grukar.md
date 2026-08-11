@@ -8,7 +8,7 @@ name:
     aliases: []
 shortcode: grukbst
 type: doc
-category: lore
+category: rules
 package: sohl
 folder:
 ---

@@ -8,7 +8,7 @@ name:
     aliases: []
 shortcode: helspawn
 type: doc
-category: lore
+category: rules
 package: sohl
 folder:
 ---

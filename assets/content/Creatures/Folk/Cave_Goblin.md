@@ -13,7 +13,7 @@ shortcode: cvgbln
 type: creature
 package: sohl
 sohl:
-    kbcat: folk
+    kbcat: goblin
     archetype: 0
     attributes:
         str: 8

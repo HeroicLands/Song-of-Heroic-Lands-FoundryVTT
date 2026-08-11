@@ -8,20 +8,28 @@ name:
     aliases: []
 shortcode: bestiaryintro
 type: doc
-category: lore
+category: rules
 package: sohl
 folder:
 ---
 
 ## Animals
 
+(@Table search=[type:creature, sohl.kbcat=animal] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+
 ## Constructs
 
 Golems are powerful, magical constructs animated by the mystical arts of skilled magicians. Crafted from a variety of materials such as clay, stone, iron, or other substances, these humanoid figures are brought to life through the infusion of arcane energy and complex enchantments. Unlike living creatures, golems lack free will and consciousness, operating solely under the commands and directives of their creators. Their imposing forms and immense strength make them formidable guardians and relentless enforcers, capable of executing simple but crucial tasks with precision and unwavering loyalty. The intricate runes and mystical symbols often etched into their surfaces are the binding spells that maintain their animation and tireless purpose. Golems are typically found guarding ancient treasures, sacred sites, or serving as tireless laborers in tasks too dangerous or demanding for mortal hands, embodying the pinnacle of magical craftsmanship and arcane ingenuity.
 
+(@Table search=[type:creature, sohl.kbcat=construct] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+
 ## Dreadspawn
 
+(@Table search=[type:creature, sohl.kbcat=dreadspawn] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+
 ## Elementals
+
+(@Table search=[type:creature, sohl.kbcat=elemental] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
 
 ## Folk
 
@@ -44,6 +52,8 @@ very engine of their survival.
 
 For more information, see [[doc/grukbst|Grukar]].
 
+(@Table search=[type:creature, sohl.kbcat=grukar] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+
 ### Goblins - The Cunning Tricksters
 
 Goblins are small, mischievous creatures known for their cunning, stealth, and
@@ -60,6 +70,8 @@ enhanced with poisons and toxins. Whether lurking in the underbrush or hiding
 in the shadows, goblins present a constant nuisance and danger to adventurers
 with their unpredictable and treacherous nature.
 
+(@Table search=[type:creature, sohl.kbcat=goblin] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+
 ## Helspawn
 
 Helspawn are the undead — the dead made animate through the power of gods,
@@ -71,6 +83,12 @@ touches on death or chaos has its own theological explanation for why the dead
 sometimes walk, and every such tradition has those who can — or who dare
 to — call them back.
 
+(@Table search=[type:creature, sohl.kbcat=helspawn] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+
 ## Mythic Creatures
 
+(@Table search=[type:creature, sohl.kbcat=mythic] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+
 ## Spirit Creatures
+
+(@Table search=[type:creature, sohl.kbcat=spirit] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
