@@ -24,7 +24,7 @@ aspect, and (for close combat) how it can defend. Strike modes are the common
 language of every attack, whether it comes from a wielded weapon or from a
 character's own trained technique.
 
-# Strike Modes
+# Strike Modes {#strike-modes}
 
 A strike mode represents a **particular way of using a weapon or combat
 technique**. A single instrument of attack rarely does just one thing: a sword can
@@ -44,9 +44,14 @@ Strike modes are not exclusive to gear. **Combat techniques** — a character's
 trained unarmed and natural attacks (a punch, a kick, a bite, a claw) — are
 expressed through strike modes as well, using exactly the same structure. That is
 why strike modes are documented here as an independent concept rather than buried
-inside weapons.
+inside weapons. The techniques themselves, and the manoeuvres that inflict no
+damage at all, are covered in [[doc/unrmdcmb|Unarmed Combat]].
 
-## Common Properties
+How a strike mode is then used to resolve an attack — the contest, the defences,
+the margin, and what a landed blow does — is
+[[doc/atkreslv|Attack Resolution]].
+
+## Common Properties {#common-properties}
 
 Every strike mode, whatever its type, records:
 
@@ -103,7 +108,7 @@ Two reductions apply on top, and they stack:
   the non-favored hand. See [[doc/bdystrct#dominance|Dominance]].
 - **Thrown** — reduce the modifier by **1** when the weapon is thrown.
 
-## Melee and Missile
+## Melee and Missile {#melee-and-missile}
 
 Strike modes come in two types — **melee** and **missile** — and a single weapon
 may carry **both**. A thrown spear has a melee **Thrust** and a missile **Throw**;
@@ -111,7 +116,7 @@ a **bow** shoots arrows through a missile mode but can also be swung in melee as
 sort of fragile club through a (poor) melee mode. Which types a weapon offers, and
 how many of each, is simply a matter of which strike modes it carries.
 
-### Melee Strike Modes
+### Melee Strike Modes {#melee-strike-modes}
 
 A **melee** strike mode is a close-combat attack. In addition to the common
 properties, it has:
@@ -126,7 +131,7 @@ properties, it has:
     Either defense can be individually disabled — a weapon that cannot block, or a
     mode with no counterstrike.
 
-### Missile Strike Modes
+### Missile Strike Modes {#missile-strike-modes}
 
 A **missile** strike mode is a ranged attack. In addition to the common
 properties, it has:
@@ -135,12 +140,16 @@ properties, it has:
   or **none** when the weapon itself is the missile (a thrown spear or axe). A
   weapon that fires ammunition draws matching **[[doc/prjctl|projectiles]]**, and the
   projectile's impact combines with the strike mode's to determine the blow.
-- **Range** — the base distance the attack can reach before range penalties apply.
-- **Draw** — the time needed to ready, nock, or reload before the mode can fire.
-- **Volley multiplier** — how much the mode's rate of fire can be increased when
-  loosing rapidly.
+- **Range** — the base distance of a direct shot, and the measure the
+  [[doc/msslattc#range|range bands]] are read against.
+- **Draw** — the pull the weapon demands of whoever shoots it. A bow too heavy
+  to manage is a bow that cannot be shot well; heavy crossbows are spanned with
+  mechanical aid for exactly that reason.
+- **Volley multiplier** — how far past its base range the mode can put a
+  **lobbed** shot, as a multiple of that range. A war bow reaching 210 feet
+  directly volleys four times as far; a javelin manages twice its throw.
 
-## Choosing a Strike Mode
+## Choosing a Strike Mode {#choosing-a-strike-mode}
 
 Because a weapon may offer several strike modes — and some are melee while others
 are missile — choosing the right mode is part of using the weapon well. A thrown
