@@ -1408,7 +1408,7 @@ describe("BeingLogic", () => {
             // Labelled and scoped as a Stumble test carrying the bespoke table.
             const ctx = spy.mock.calls[0][0] as any;
             expect(ctx.type).toBe(TEST_TYPE.STUMBLETEST.id);
-            expect(ctx.scope.successStarTable).toHaveLength(4);
+            expect(ctx.scope.resultDescTable).toHaveLength(4);
         });
 
         it("stumbleTest rolls Acrobatics when it beats Agility", async () => {

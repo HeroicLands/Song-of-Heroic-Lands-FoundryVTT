@@ -39,14 +39,14 @@ Make a [[Success Test]] that includes any applicable bonuses or penalties. The r
 
 The sum of the Index (step 1) and the Modifier (step 2) equals the Success Value. Some skills further modify this SV or read it in their own way, as described in their specific entries. Where a skill gives no special reading, the standard interpretation applies:
 
-| SV  | Grade        | Meaning                                                                                                                 |
-| --- | ------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| ≤ 0 | No Value     | The effort comes to nothing the character can use.                                                                      |
-| 1–2 | Little Value | The effort yields only a poor or partial outcome.                                                                       |
-| 3–4 | Base Value   | The effort yields a sound, workmanlike outcome.                                                                         |
-| 5+  | Bonus Value  | A superior outcome; every point past 4 adds one **Success Star** of quality (SV 5 = one star, up to SV 9 = five stars). |
+| SV  | Grade        | Meaning                                                                                                                        |
+| --- | ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| ≤ 0 | No Value     | The effort comes to nothing the character can use.                                                                             |
+| 1–2 | Little Value | The effort yields only a poor or partial outcome.                                                                              |
+| 3–4 | Base Value   | The effort yields a sound, workmanlike outcome.                                                                                |
+| 5+  | Bonus Value  | A superior outcome; every point past 4 adds one **Value Diamond** of quality (SV 5 = one diamond, up to SV 9 = five diamonds). |
 
-The number of **Success Stars** — zero at Base Value or below, one through five above it — measures how far the work exceeds a plain result.
+The number of **Value Diamonds** — zero at Base Value or below, one through five above it — measures how far the work exceeds a plain result.
 
 ## \[4\] Critical Failure
 

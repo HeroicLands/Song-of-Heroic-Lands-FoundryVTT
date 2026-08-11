@@ -42,7 +42,7 @@ and whose `lastDigits` matches the roll's last digit, then reads its
 
 ## Derived on read, never stored
 
-The display outcome — `resultText`, `resultDesc`, and the numeric `successStars` —
+The display outcome — `resultText`, `resultDesc`, and the numeric `valueDiamonds` —
 is **not** stored on a `SuccessTestResult`. Those are getters that resolve the table
 against the result's evaluated `successLevel` / `targetValue` / `lastDigit` each time
 they are read, so `toJSON` carries only the raw `successLevel` and the table, never
@@ -114,9 +114,9 @@ reference-on-wire / live-object-in-memory rule:
   success-value table); the skill fate table.
 - **Per test** — a {@link sohl.entity.modifier.MasteryLevelModifier} may be built
   with a custom `testDescTable`/`svTable`, or a result with a custom
-  `successStarTable`, to attach a bespoke set of descriptions to that test.
+  `resultDescTable`, to attach a bespoke set of descriptions to that test.
 
-A `successStarTable` is how a **generic** `successTest()` becomes a bespoke
+A `resultDescTable` is how a **generic** `successTest()` becomes a bespoke
 graded test **without a subclass or a bespoke card** — it is the "outcome
 mapping as data" half of the pattern in
 [Extension Points §3](../how-to/extension-points.md#adding-a-graded--special-result-test--pass-data-dont-subclass).
@@ -135,7 +135,7 @@ contract:
 
 | Card-data field           | Source                                                                 | Why it must be folded                                                      |
 | ------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `resultText` / `resultDesc` / `successStars` | `resolveDescription()` against the `successStarTable`     | Derived-on-read, never stored (see [above](#derived-on-read-never-stored)) |
+| `resultText` / `resultDesc` / `valueDiamonds` | `resolveDescription()` against the `resultDescTable`     | Derived-on-read, never stored (see [above](#derived-on-read-never-stored)) |
 | `mlMod`                   | the `MasteryLevelModifier`'s `constrainedEffective`, `effective`, `chatHtml`, `empty`, `successLevelMod` | The **Target** (roll-at-or-under value) and the per-delta breakdown — live getters |
 | `roll.total`              | `SimpleRoll.total`                                                      | A getter absent from `SimpleRoll.toJSON`                                    |
 | `isSuccess` / `isCritical`| the result's outcome getters                                           | Drive pass/fail styling and the localized footer                           |
@@ -170,7 +170,7 @@ Each rendered button carries the well-known `action-card-button` handles
 (`data-action` / `data-handler-uuid` / `data-scope` / `data-skip-dialog`) and
 dispatches through the shared chat-card chokepoint. **Nothing auto-fires** — the
 button is _offered_ and the target's controlling player accepts (the consent
-model). Combined with `successStarTable`, a graded test is now the outcome
-_mapping_ (`successStarTable`) **plus** the follow-up _actions_ (`buttons`), both
+model). Combined with `resultDescTable`, a graded test is now the outcome
+_mapping_ (`resultDescTable`) **plus** the follow-up _actions_ (`buttons`), both
 as data — removing the last reason several bespoke result cards existed. The
 existing edit-pencil and _Perform Fate Test_ buttons are unaffected.

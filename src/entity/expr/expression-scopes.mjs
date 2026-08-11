@@ -207,7 +207,7 @@ export const EXPRESSION_SCOPES = Object.freeze({
         field: "`label`, `description`, `result`",
         result: "string (label/description) or number (result)",
         summary:
-            "Computes a result-table row's text or success-star count from the settled test result. " +
+            "Computes a result-table row's text or Value Diamond count from the settled test result. " +
             "Evaluated only for the one row a test matches.",
         bindings: {
             successLevel: "The test's computed success level.",

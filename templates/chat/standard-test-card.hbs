@@ -74,7 +74,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         
     {{!--
     Success Value test (#848): the graded outcome — the Success Value (Index +
-    Modifier) and the number of Success Stars (0–5). The meaning of the grade is
+    Modifier) and the Value Diamonds (0–5), drawn as icons. The meaning of the grade is
     shown in the Result row below (resultText / resultDesc from the svTable).
     --}}
     {{#if isSuccessValue}}
@@ -83,8 +83,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <span class="value">{{successValue}}</span>
     </div>
     <div class="card-content">
-        <span class="label">Success Stars:</span>
-        <span class="value">{{successStars}}</span>
+        <span class="label">Value Diamonds:</span>
+        <span class="value value-diamonds" aria-label="{{valueDiamonds}} of 5 Value Diamonds">{{#each vdMarks}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-diamond" aria-hidden="true"></i>{{/each}}</span>
     </div>
     {{/if}}
 

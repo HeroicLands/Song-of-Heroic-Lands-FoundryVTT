@@ -42,7 +42,7 @@ Skills improve through use. Characters who test their abilities in play develop 
 
 ## Skills
 
-- [[Skills]] — how skills are rated and tested: Success Tests and success levels (CF/MF/MS/CS, and extended CS+1/CF−1), Opposed Tests, Success Value Tests and Success Stars, and Secondary Mastery.
+- [[Skills]] — how skills are rated and tested: Success Tests and success levels (CF/MF/MS/CS, and extended CS+1/CF−1), Opposed Tests, Success Value Tests and Value Diamonds, and Secondary Mastery.
 
 ## Gear & Equipment
 

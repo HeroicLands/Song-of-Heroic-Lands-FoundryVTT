@@ -16,7 +16,7 @@
  * your body" success test a combat mishap can flag: Stumble rolls the better of
  * Agility / Acrobatics, Fumble the better of Dexterity / Legerdemain, and each
  * posts a result card whose bespoke text ("Keeps Footing", "Drops It", …) comes
- * from a `successStarTable` supplied in scope.
+ * from a `resultDescTable` supplied in scope.
  *
  * Basic Folk ships the `agl` and `dex` attributes (score 10 → ML 50) and no
  * `acro` / `lgdm` skill, so a created skill above/below ML 50 pins which ability

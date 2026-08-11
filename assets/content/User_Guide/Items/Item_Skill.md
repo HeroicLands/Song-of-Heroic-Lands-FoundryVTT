@@ -243,19 +243,19 @@ skill and the better the roll, the higher the value of the work produced.
 The pre-roll dialog and the d100 are identical to the Success Test. The card that
 posts is the same card with two extra rows:
 
-| Row               | What it shows                                                                 |
-| ----------------- | ----------------------------------------------------------------------------- |
-| **Success Value** | The graded value of the work — the Skill Index shifted by how well you rolled |
-| **Success Stars** | 0 to 5 stars, the quick read on quality                                       |
+| Row                | What it shows                                                                 |
+| ------------------ | ----------------------------------------------------------------------------- |
+| **Success Value**  | The graded value of the work — the Skill Index shifted by how well you rolled |
+| **Value Diamonds** | 0 to 5 diamonds, the quick read on quality                                    |
 
 The **Result** row names the grade reached:
 
-| Grade            | What it means                                       | Stars |
-| ---------------- | --------------------------------------------------- | ----- |
-| **No Value**     | The effort comes to nothing the character can use   | —     |
-| **Little Value** | The effort yields only a poor or partial outcome    | 0     |
-| **Base Value**   | A sound, workmanlike outcome                        | 0     |
-| **Bonus Value**  | A superior outcome, worth one to five Success Stars | 1–5   |
+| Grade            | What it means                                        | Diamonds |
+| ---------------- | ---------------------------------------------------- | -------- |
+| **No Value**     | The effort comes to nothing the character can use    | —        |
+| **Little Value** | The effort yields only a poor or partial outcome     | 0        |
+| **Base Value**   | A sound, workmanlike outcome                         | 0        |
+| **Bonus Value**  | A superior outcome, worth one to five Value Diamonds | 1–5      |
 
 What a Success Value _buys_ is a matter for the rules of the work being done — how
 many arrows the fletcher finished, how much ground the tracker covered, how good the

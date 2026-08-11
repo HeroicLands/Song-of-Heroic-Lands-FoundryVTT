@@ -348,7 +348,7 @@ describe("MasteryLevelModifier", () => {
 
         afterEach(() => SimpleRoll.clearForced());
 
-        it("grades the frozen roll into a Success Value and Success Stars", async () => {
+        it("grades the frozen roll into a Success Value and Value Diamonds", async () => {
             vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(
                 undefined,
             );
@@ -368,13 +368,13 @@ describe("MasteryLevelModifier", () => {
                 }),
             )) as SuccessTestResult;
 
-            // SV = index(5) + level(1) − 1 = 5 → Bonus Value, one Success Star.
+            // SV = index(5) + level(1) − 1 = 5 → Bonus Value, one Value Diamond.
             expect(result.isSuccessValue).toBe(true);
             expect(result.targetValue).toBe(5);
-            expect(result.successStars).toBe(1);
+            expect(result.valueDiamonds).toBe(1);
         });
 
-        it("a marginal failure grades to Base Value (zero Success Stars)", async () => {
+        it("a marginal failure grades to Base Value (zero Value Diamonds)", async () => {
             vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(
                 undefined,
             );
@@ -395,7 +395,7 @@ describe("MasteryLevelModifier", () => {
 
             // SV = index(5) + level(0) − 1 = 4 → Base Value, zero stars.
             expect(result.targetValue).toBe(4);
-            expect(result.successStars).toBe(0);
+            expect(result.valueDiamonds).toBe(0);
         });
     });
 

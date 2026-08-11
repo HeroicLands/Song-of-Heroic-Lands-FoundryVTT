@@ -26,7 +26,7 @@ const parent = {
     [BRAND.SohlLogic]: true,
 } as any;
 
-/** A one-row table whose star count is computed by a SafeExpression. */
+/** A one-row table whose result is computed by a SafeExpression. */
 function exprTable() {
     return [
         {
@@ -43,32 +43,32 @@ function exprTable() {
     ];
 }
 
-describe("success-star table serialization (#206)", () => {
+describe("result-description table serialization (#206)", () => {
     it("carries a SafeExpression result as data on the wire (not a dropped function)", () => {
         const result = new SuccessTestResult(
-            { successStarTable: exprTable() } as any,
+            { resultDescTable: exprTable() } as any,
             { parent },
         );
         // JSON.stringify runs each SafeExpression's toJSON — the row's computed
         // result survives as a __kind-tagged source string, where a raw function
         // would have been silently dropped.
         const wire = JSON.parse(JSON.stringify(result.toJSON()));
-        expect(wire.successStarTable[0].result.source).toBe("successLevel + 1");
-        expect(wire.successStarTable[0].result.__kind).toBeTruthy();
-        expect(wire.successStarTable[0].label).toBe(
+        expect(wire.resultDescTable[0].result.source).toBe("successLevel + 1");
+        expect(wire.resultDescTable[0].result.__kind).toBeTruthy();
+        expect(wire.resultDescTable[0].label).toBe(
             "You go screaming down the halls in terror",
         );
     });
 
     it("revives the wire table's SafeExpression into a live, evaluable instance", () => {
         const source = new SuccessTestResult(
-            { successStarTable: exprTable() } as any,
+            { resultDescTable: exprTable() } as any,
             { parent },
         );
         const wire = JSON.parse(JSON.stringify(source.toJSON()));
 
         const revived = new SuccessTestResult(wire, { parent });
-        const row = (revived as any)._successStarTable[0];
+        const row = (revived as any)._resultDescTable[0];
         expect(row.result).toBeInstanceOf(SafeExpression);
         expect(row.result.evaluate({ successLevel: 2 })).toBe(3);
         expect(row.label).toBe("You go screaming down the halls in terror");
@@ -86,12 +86,12 @@ describe("success-star table serialization (#206)", () => {
             },
         ];
         const source = new SuccessTestResult(
-            { successStarTable: table } as any,
+            { resultDescTable: table } as any,
             { parent },
         );
         const wire = JSON.parse(JSON.stringify(source.toJSON()));
         const revived = new SuccessTestResult(wire, { parent });
-        const row = (revived as any)._successStarTable[0];
+        const row = (revived as any)._resultDescTable[0];
         expect(row.result).toBe(2);
         expect(row.label).toBe("Critical Failure");
     });

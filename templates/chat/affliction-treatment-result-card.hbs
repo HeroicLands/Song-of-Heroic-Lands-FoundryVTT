@@ -13,7 +13,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {{!--
 Affliction Treatment result card body (spoken by the physician). Reports the
-Success Stars earned, which the appended owner-gated [Accept Treatment] button
+Value Diamonds earned, which the appended owner-gated [Accept Treatment] button
 relays to the patient's affliction as its Course Bonus. Body only — no buttons
 here; nothing is applied until the patient accepts.
 --}}
@@ -23,7 +23,7 @@ here; nothing is applied until the patient accepts.
     </header>
 
     <div class="card-content center">
-        <span>{{localize "SOHL.Chat.AfflictionTreatmentResult.result" physician=physicianName stars=successStars}}</span>
+        <span>{{localize "SOHL.Chat.AfflictionTreatmentResult.result" physician=physicianName diamonds=valueDiamonds}}</span>
     </div>
 
     <div class="card-content center">

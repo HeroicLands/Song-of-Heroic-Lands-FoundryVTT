@@ -228,7 +228,7 @@ describe("MasteryLevelModifier", () => {
             // Must pass a different context object (svTestContext), not original
             expect(calledCtx).not.toBe(original);
             // The scope must reference the sv-specific table
-            expect(calledCtx.scope?.successStarTable).toBe(ml.svTable);
+            expect(calledCtx.scope?.resultDescTable).toBe(ml.svTable);
         });
 
         it("svTestContext.scope.targetValueFunc applies index-offset to the success level", async () => {
