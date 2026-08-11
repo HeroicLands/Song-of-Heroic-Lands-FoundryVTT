@@ -111,5 +111,5 @@ be unconscious, exhausted, or paralysed with fear. Read Health for _how hurt the
 are_, and read their conditions for _whether they can act_.
 
 See also: [[doc/injrylvl|Injury]] for how wounds and their impairments are
-determined, [[doc/trauma|Trauma]] for the wider picture of harm, and
+determined, [[doc/traumaintro|Trauma]] for the wider picture of harm, and
 [[Healing Base]] for recovery.

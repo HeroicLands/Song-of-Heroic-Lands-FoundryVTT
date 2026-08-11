@@ -76,7 +76,7 @@ TBD
 ## Health, Injury & Recovery
 
 - [[Health]] — the 0–100 figure and its bands: how injuries set a ceiling on a character, and what each band means.
-- [[doc/trauma|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
+- [[doc/traumaintro|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
 - [[Healing Base]] — the recovery factor (average of END and WIL) used in every healing test.
 - [[doc/injrylvl|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
 - [[Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and the Blood Stoppage Test.
