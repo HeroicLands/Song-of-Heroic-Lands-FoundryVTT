@@ -430,11 +430,11 @@ for (const file of walk(CONTENT_SRC)) {
     if (!KB_PACKAGES.has(fm.package) || !fm.type) continue;
 
     const name = fm.name?.full ?? path.basename(file, ".md");
-    // The URL segment is the shortcode: `(type, shortcode)` is already unique by
-    // rule, so an authored `slug` would only be a second spelling of it (#1278).
+    // The URL segment is derived from the name (#1278) — not from the shortcode,
+    // which is identity referenced by saved world data, not presentation.
     let slug;
     try {
-        slug = contentSlug(fm);
+        slug = contentSlug(name);
     } catch (err) {
         slugErrors.push({
             file: path.relative(REPO, file),

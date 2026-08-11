@@ -2,21 +2,24 @@
 "sohl": minor
 ---
 
-**Content URLs are derived from the shortcode** (#1278)
+**Content URLs are derived, not authored** (#1278)
 
-`(type, shortcode)` is already the system's logical identity and is unique by rule, so
-a content note's URL segment is now derived from its shortcode and the authored `slug`
-property has been removed from all 1546 notes. A knowledgebase page is
-`/<section>/<shortcode>/`, and an item's `system.docUrl` addresses it the same way.
+The hand-maintained `slug` property is gone from all 1546 content notes; a page's URL
+segment is derived from its name instead. A knowledgebase page is
+`/<section>/<name-slug>/`, and an item's `system.docUrl` addresses it the same way.
 
-- _Old URLs keep working._ `kb/data/legacy-slugs.json` records the pre-shortcode URL of
-  every page, and the knowledgebase build emits a Hugo `aliases` redirect from each.
-- _Collisions fail the build._ Two notes that would publish to the same URL — shortcodes
-  differing only in case or punctuation — are reported by file, rather than one silently
-  overwriting the other.
-- _Accented names are addressable again._ The shortcode is transliterated instead of
-  having its non-ASCII characters dropped, which is what previously reduced `Ālverrik` to
-  `lverrik` and forced a hand-written override.
+- _Old URLs keep working._ `kb/data/legacy-slugs.json` records the previous URL of every
+  page whose derivation differs from what was authored (120 of 1546), and the
+  knowledgebase build emits a Hugo `aliases` redirect from each.
+- _Accented names are addressable again._ The name is transliterated instead of having
+  its non-ASCII characters dropped — `Nüsvōrroth` yields `nusvorroth` where the old
+  slugifier produced `n-sv-rroth`, which is why such pages needed a hand-written slug.
+  Ligatures expand as a reader would spell them (`þ`→`th`, `æ`→`ae`, `œ`→`oe`, `ß`→`ss`),
+  apostrophes are removed rather than made separators, and a fraction keeps its digits
+  together (`Kûrbúl ¾-Helm` → `kurbul-34-helm`).
+- _Collisions fail the build._ Two notes in one section deriving the same URL are
+  reported by file, rather than one silently overwriting the other.
 
-Heading anchors, developer-doc URLs, pack filenames, and `slugifyShortcode` are
-unchanged — none of them is document identity.
+Shortcodes remain identity — referenced from saved world data — and are deliberately not
+the URL. Heading anchors, developer-doc URLs, pack filenames, and `slugifyShortcode` are
+unchanged.

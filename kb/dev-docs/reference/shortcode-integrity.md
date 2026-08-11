@@ -132,31 +132,42 @@ operation field, so typed call sites cast the options object.
   until it is unique (warning key `SOHL.CreateDocument.duplicateShortcode`). See
   [Extension Points §10](../how-to/extension-points.md).
 
-## The shortcode is the published URL
+## Shortcodes are identity, not URLs
 
-Because `(type, shortcode)` is unique by rule, it is also what **addresses a content
-note on the web** — content notes carry no authored `slug` (#1278):
+A shortcode is unique, stable, and short — which makes it a tempting URL segment. It
+is deliberately **not** one. Content notes carry no authored `slug` either (#1278);
+the published URL is derived from the note's **name**:
 
 | Surface | URL |
 | --- | --- |
-| Knowledgebase page | `/<section>/<shortcode>/` — e.g. `/armorgear/mbyrn/` |
-| An item's `system.docUrl` | `https://heroiclands.org/sohl/<type>/<shortcode>/` |
+| Knowledgebase page | `/<section>/<name-slug>/` — e.g. `/creature/nusvorroth/` |
+| An item's `system.docUrl` | `https://heroiclands.org/sohl/<type>/<name-slug>/` |
 
-`contentSlug` in `utils/content-slug.mjs` derives the segment: the shortcode,
-transliterated (so a non-ASCII character is carried across rather than dropped) and
-reduced to lowercase URL-safe characters. A KB section _is_ its type, so the shortcode
-alone addresses the page unambiguously; two notes that would nonetheless publish to the
-same URL (shortcodes differing only in case or punctuation) fail the build via
-`findSlugCollisions`, which names both files.
+The reason is the invariant above: a shortcode is referenced from **saved world
+data** — actions, cohorts, expressions, archetypes, pack lookups. Binding a public URL
+to it would turn a cosmetic URL change into a data migration, and would publish
+`/creature/nsvrroth/` where a reader expects `/creature/nusvorroth/`. Identity and
+presentation are kept apart: the shortcode addresses the document, the name addresses
+the page.
 
-Deriving the URL rather than authoring it removes a field that could drift from the
-identity it duplicated — under the old name-derived slugifier, `Ālverrik` reduced to
-`lverrik`, so accented names needed a hand-written override to stay addressable.
+`contentSlug` in `utils/content-slug.mjs` is the single derivation. It transliterates
+before reducing, so an accented character is carried across rather than dropped —
+`Nüsvōrroth` becomes `nusvorroth`, where the old slugifier produced `n-sv-rroth` and
+forced a hand-written override. Ligatures expand as a reader would spell them
+(`þ`→`th`, `æ`→`ae`, `œ`→`oe`, `ß`→`ss`, `ĳ`→`ij`, `ﬁ`→`fi`; eth follows the Icelandic
+`d`), apostrophes are removed rather than made separators (`Armorer's Kit` →
+`armorers-kit`), and a fraction keeps its digits together (`Kûrbúl ¾-Helm` →
+`kurbul-34-helm`, not `kurbul-3-4-helm`).
+
+Nothing stops two notes in one section from sharing a name, so `findSlugCollisions`
+fails the build naming every claimant rather than letting one page overwrite the other;
+the fix is a more specific title. The content tree has no collisions today.
 
 **The one record of the old URLs** is `kb/data/legacy-slugs.json`, keyed by
-`type:shortcode`. The knowledgebase build emits a Hugo `aliases` redirect from each,
-so pre-existing links keep resolving. It is append-only history: never edit an entry,
-and add a row only when a page's URL changes again.
+`type:shortcode` — the identity, which is exactly why the shortcode belongs *here*
+rather than in the URL. The knowledgebase build emits a Hugo `aliases` redirect from
+each, so a rename never orphans an inbound link. It is append-only history: never edit
+an entry, and add a row only when a page's URL changes again.
 
 Developer docs (`kb/dev-docs/`) are not content notes — they have no shortcode and keep
 their own `slug` frontmatter, routed by source path.

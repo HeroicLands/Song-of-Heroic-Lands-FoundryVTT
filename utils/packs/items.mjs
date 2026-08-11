@@ -86,10 +86,10 @@ const PERCEPTION_TEST =
  *   shortcode, docUrl, actionDefs, notes, docHtml.
  */
 function commonSystem(fm, description, type, name) {
-    // The doc URL is addressed by shortcode, exactly like the KB page (#1278).
+    // The doc URL is derived from the name, exactly like the KB page (#1278).
     let slug;
     try {
-        slug = contentSlug(fm);
+        slug = contentSlug(name);
     } catch (err) {
         throw new Error(`item "${name}": ${err.message}`);
     }

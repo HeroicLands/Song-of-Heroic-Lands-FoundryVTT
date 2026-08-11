@@ -12,13 +12,20 @@
  */
 
 /**
- * The URL segment of a content note — derived from its `shortcode`.
+ * The URL segment of a content note — derived from its name.
  *
- * `(type, shortcode)` is already the system's logical identity and is unique by
- * rule (enforced by `npm run lint:packs`; see the Shortcode Integrity doc). A KB
- * page routes into a section that _is_ its type, so the shortcode alone
- * addresses it unambiguously — an authored `slug` property would only be a
- * second, drift-prone spelling of the same identity.
+ * Content notes carry no authored `slug`: it was a hand-maintained second
+ * spelling of something already determined, free to drift from the page it
+ * named. The URL is derived instead.
+ *
+ * It is derived from the **name**, deliberately not from the `shortcode`, even
+ * though `(type, shortcode)` is unique by rule and would be a tempting key. A
+ * shortcode is *identity*: it is referenced from saved world data — actions,
+ * cohorts, expressions, archetypes, pack lookups — so binding the public URL to
+ * it would make a cosmetic URL change into a data migration. A URL is
+ * presentation, and it should read like one (`/creature/nusvorroth/`, not
+ * `/creature/nsvrroth/`). Renames are what a URL must survive, and they do:
+ * every change appends to the legacy-URL map, which emits a redirect.
  *
  * This is document identity, and it is deliberately **not** the same operation
  * as the other slug-shaped transforms in the build:
@@ -38,31 +45,41 @@ import unidecode from "unidecode";
 /**
  * The URL segment for one content note.
  *
- * The shortcode is transliterated before it is reduced, so a non-ASCII
- * character is carried across rather than dropped: dropping is what let
- * `Ālverrik` and `lverrik` collapse onto one URL under the old name-derived
- * slugifier.
+ * The name is **transliterated** before it is reduced, so an accented character
+ * is carried across rather than dropped — dropping is what turned `Nüsvōrroth`
+ * into `n-sv-rroth` and forced a hand-written slug. Ligatures expand the way a
+ * reader would spell them out: `þ`→`th`, `æ`→`ae`, `œ`→`oe`, `ß`→`ss`, `ĳ`→`ij`,
+ * `ﬁ`→`fi`, and eth (`ð`) follows the Icelandic convention of a bare `d`.
  *
- * @param {{shortcode?: string, type?: string}} fm - The note's frontmatter.
+ * Two reductions are ours rather than the transliterator's:
+ *
+ * - **apostrophes are removed**, not treated as separators (`Armorer's Kit` →
+ *   `armorers-kit`), matching the URLs these pages already publish at;
+ * - **a fraction keeps its digits together** — a vulgar fraction expands to
+ *   `3/4`, and the solidus would otherwise split it into `3-4`, so a slash
+ *   *between digits* is closed up (`Kûrbúl ¾-Helm` → `kurbul-34-helm`).
+ *
+ * @param {string | undefined} name - The note's display name (`name.full`),
+ *   which a malformed note may not have at all.
  * @returns {string} The URL segment (never empty).
- * @throws {Error} When the note has no shortcode, or its shortcode carries no
- *   URL-safe characters — either way the note cannot be addressed, which is a
- *   content error rather than something to paper over with a fallback.
+ * @throws {Error} When there is no name, or the name carries no URL-safe
+ *   characters — either way the note cannot be addressed, which is a content
+ *   error rather than something to paper over with a fallback.
  */
-export function contentSlug(fm) {
-    const raw = typeof fm?.shortcode === "string" ? fm.shortcode.trim() : "";
+export function contentSlug(name) {
+    const raw = typeof name === "string" ? name.trim() : "";
     if (!raw) {
-        throw new Error(
-            `content note has no shortcode, so it has no URL${fm?.type ? ` (type: ${fm.type})` : ""}`,
-        );
+        throw new Error("content note has no name, so it has no URL");
     }
     const slug = unidecode(raw)
         .toLowerCase()
+        .replace(/['\u2019]/g, "")
+        .replace(/(\d)\/(\d)/g, "$1$2")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
     if (!slug) {
         throw new Error(
-            `shortcode "${raw}" has no URL-safe characters, so it cannot address a page`,
+            `name "${raw}" has no URL-safe characters, so it cannot address a page`,
         );
     }
     return slug;
@@ -71,10 +88,10 @@ export function contentSlug(fm) {
 /**
  * Find pages that would publish to the same URL.
  *
- * `(type, shortcode)` uniqueness makes this impossible in principle, but the
- * derivation lowercases and reduces, so two shortcodes differing only in case or
- * punctuation would still collide — and a collision silently overwrites one page
- * with the other. This turns that into a build failure that names both notes.
+ * Nothing constrains two notes in one section from sharing a name, and a
+ * collision silently overwrites one page with the other. This turns it into a
+ * build failure that names every claimant, so the fix is a more specific title.
+ * (The content tree has no collisions today.)
  *
  * @param {Array<{sec: string, slug: string, src: string}>} pages
  * @returns {Array<{url: string, sources: string[]}>} One entry per collision, in
