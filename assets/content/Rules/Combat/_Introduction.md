@@ -14,7 +14,8 @@ shortcode: combatintro
 
 **Combat** resolves as a contest between two characters rather than as a roll
 against a fixed difficulty: attacker and defender each test, and the margin
-between their success levels decides how decisively the exchange went.
+between their [[doc/sccsstst#success-level|success levels]] decides how
+decisively the exchange went.
 
 How an attack is delivered depends on the strike mode being used — the specific
 way a weapon, a natural weapon, or an empty hand is brought to bear — and on

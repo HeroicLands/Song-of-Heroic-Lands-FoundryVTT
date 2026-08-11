@@ -208,13 +208,13 @@ Continuing the example: the skull wound opened at 8, so a Shock test is made. A 
 
 ### What the Shock States mean
 
-| Shock State       | Effect                                                                                                                                     |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **None**          | No shock.                                                                                                                                  |
-| **Stunned**       | Reeling and disoriented. Movement is difficult, double Moves are barred, and impaired tests drop a success level. A re-test comes quickly. |
-| **Incapacitated** | Awake but down. No actions of your own, and melee attacks against you must be Ignored.                                                     |
-| **Unconscious**   | Blacked out, prone, and Helpless — melee attackers score a critical success against you.                                                   |
-| **Dead**          | The victim dies on the spot.                                                                                                               |
+| Shock State       | Effect                                                                                                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **None**          | No shock.                                                                                                                                                                  |
+| **Stunned**       | Reeling and disoriented. Movement is difficult, double Moves are barred, and impaired tests drop a [[doc/sccsstst#success-level\|success level]]. A re-test comes quickly. |
+| **Incapacitated** | Awake but down. No actions of your own, and melee attacks against you must be Ignored.                                                                                     |
+| **Unconscious**   | Blacked out, prone, and Helpless — melee attackers score a critical success against you.                                                                                   |
+| **Dead**          | The victim dies on the spot.                                                                                                                                               |
 
 While in **any** shock state a creature cannot concentrate. Ordinary shock is temporary — a stunned, incapacitated, or unconscious victim shakes it off with a re-test — and only a _failed_ re-test drops the victim into lasting Extended Shock or a Coma.
 

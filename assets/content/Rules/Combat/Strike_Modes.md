@@ -51,7 +51,8 @@ inside weapons.
 Every strike mode, whatever its type, records:
 
 - **Name** — the label for this mode of attack ("Cut", "Thrust", "Shoot").
-- **Associated skill** — the skill whose Mastery Level governs attacks made with
+- **Associated skill** — the skill whose
+  [[doc/mstrylvl#mastery-level|Mastery Level]] governs attacks made with
   this mode.
 - **Minimum body parts** — the number of body parts required to wield the weapon
   in this mode. A weapon is **held by body parts that can grip items** (for a

@@ -19,7 +19,8 @@ rite, a spirit sent in answer to prayer. An intervention has no such hand behind
 it.
 
 Unlike the divine abilities, an intervention is **not performed and not
-tested**. There is no roll, no target, and no success level. It is not something
+tested**. There is no roll, no target, and no
+[[doc/sccsstst#success-level|success level]]. It is not something
 a character does; it is something a deity does, and the gamemaster is the one
 who decides whether it happens at all.
 

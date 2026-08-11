@@ -15,6 +15,9 @@ shortcode: mysteryintro
 - [[Birthsign]]
 - [[Boon]]
 - [[Boost]]
-- [[Fate Points]]
 - [[Grace]]
 - [[Piety]]
+
+A character's Fate is held as a Mystery too, but because it acts on any test at
+all it is described with the rest of the resolution rules, under
+[[doc/fatepnts|Fate]].

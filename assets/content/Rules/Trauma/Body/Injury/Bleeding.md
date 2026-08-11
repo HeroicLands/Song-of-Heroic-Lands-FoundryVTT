@@ -90,5 +90,5 @@ to the bleeding character (resolving the pending Blood Loss Advance Test).
 
 - [[Healing Test]] — periodic recovery of injuries and restoration
   of lost blood once the bleeding has stopped.
-- [[Success Tests]] — the CF / MF / MS / CS success levels used
+- [[doc/sccsstst#success-level|Success levels]] — the CF / MF / MS / CS scale used
   throughout.

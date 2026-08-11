@@ -15,7 +15,8 @@ folder: F4NGyU9QQgWwTcHe
 
 Injuries recover through periodic **Injury Healing Tests**, one
 per injury on that injury's own healing period. Each is a test of
-**`Healing Base × Healing Rate`** (see [[Healing Base]]):
+**`Healing Base × Healing Rate`** (see [[Healing Base]]), read by
+[[doc/sccsstst#success-level|success level]]:
 
 | Success Level | Result                                                          |
 | ------------- | --------------------------------------------------------------- |
@@ -54,4 +55,4 @@ An immediate Healing Test or the single highest test bonus from an arcane healin
 - [[Healing Base]] — Primary metric determining healing.
 - [[Healing Rate]] - Describes the Healing Rate.
 - [[Afflictions]] — the Course Test.
-- [[Success Tests]] — the CF / MF / MS / CS success levels.
+- [[doc/sccsstst#success-level|Success levels]] — the CF / MF / MS / CS scale.

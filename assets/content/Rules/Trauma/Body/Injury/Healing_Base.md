@@ -36,4 +36,4 @@ tests (see [[Shock]]). In each case the test is rolled against
 
 - [[doc/injrylvl|Injury]] — Healing Rate and the Injury Healing Test.
 - [[Afflictions]] — the Course Test.
-- [[Success Tests]] — the CF / MF / MS / CS success levels.
+- [[doc/sccsstst#success-level|Success levels]] — the CF / MF / MS / CS scale.
