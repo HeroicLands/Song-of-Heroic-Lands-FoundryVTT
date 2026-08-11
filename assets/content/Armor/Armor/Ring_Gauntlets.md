@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Leather gloves with ring-reinforced back and fingers."
 id: ka8b28LXh1oFLnIG
-slug: ring-gauntlets
 img: icons/game-icons/lorc/mailed-fist.svg
 shortcode: RMtn
 type: armorgear

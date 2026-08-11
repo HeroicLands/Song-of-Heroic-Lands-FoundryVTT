@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Brass-mounted bronze dial; marks hours on clear days when set true."
 id: xo2SJIqzl9chHdyk
-slug: sundial-bronze
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sundialbro
 type: miscgear

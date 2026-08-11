@@ -7,7 +7,6 @@ name:
     full: Brown Bear
     aliases: []
 id: a9JXetcPtDFkcvRj
-slug: brown-bear
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: ""
 shortcode: brwnbr

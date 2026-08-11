@@ -269,13 +269,14 @@ export function slugify(name) {
 }
 
 /**
- * Build a documentation URL from an item type and slug:
+ * Build a documentation URL from an item type and its URL segment:
  *   https://heroiclands.org/sohl/{type}/{slug}/
- * If the slug is absent, slugifies the display name.
+ *
+ * The segment is the item's shortcode (see {@link contentSlug}), so this URL and
+ * the knowledgebase page address the same item the same way.
  */
-export function buildDocUrl(type, slug, fallbackName) {
-    const finalSlug = (slug && String(slug).trim()) || slugify(fallbackName);
-    return `https://heroiclands.org/sohl/${type}/${finalSlug}/`;
+export function buildDocUrl(type, slug) {
+    return `https://heroiclands.org/sohl/${type}/${slug}/`;
 }
 
 /**

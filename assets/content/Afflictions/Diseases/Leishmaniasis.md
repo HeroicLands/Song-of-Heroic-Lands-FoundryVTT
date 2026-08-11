@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Leishmania parasite via sandfly bite; skin sores or organ damage."
 id: MKuBflNcGCbCof06
-slug: leishmaniasis
 img: icons/game-icons/lorc/virus.svg
 shortcode: lshmnss
 type: affliction

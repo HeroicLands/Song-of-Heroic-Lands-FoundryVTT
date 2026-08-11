@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Bodkin-pointed throw-spear penetrates mail; cavalry-disruptor."
 id: Y5KlEXXYfWMtHgPn
-slug: javelin-bodkin
 img: icons/game-icons/lorc/spears.svg
 shortcode: BodJav
 type: weapongear

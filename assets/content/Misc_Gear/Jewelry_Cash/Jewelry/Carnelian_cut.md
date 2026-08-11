@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Translucent warm orange-red gem from iron oxide; durable favorite for rings."
 id: FHQXXrnxUgs2vgbi
-slug: carnelian-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: carnelianc
 type: miscgear

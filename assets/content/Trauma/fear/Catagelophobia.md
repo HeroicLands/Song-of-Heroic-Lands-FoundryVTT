@@ -5,7 +5,6 @@ name:
     full: Catagelophobia
     aliases: []
 id: 2vcPf8isUC3TJSKY
-slug: catagelophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ctglphb
 type: trauma

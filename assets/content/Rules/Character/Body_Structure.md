@@ -18,7 +18,6 @@ category: rules
 name:
     full: Body Structure
     aliases: []
-slug: sohl-body-structure
 shortcode: bdystrct
 folder: SSkatgtYj9d71kaz
 ---

@@ -9,7 +9,6 @@ package: sohl
 category: user-guide
 name:
     full: "Skill"
-slug: "item-skill"
 shortcode: skill
 folder: QtOgPodi8X6gDWL0
 ---

@@ -5,7 +5,6 @@ name:
     full: Thaumatophobia
     aliases: []
 id: QDnPROa6EooJldMK
-slug: thaumatophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: thmtphb
 type: trauma

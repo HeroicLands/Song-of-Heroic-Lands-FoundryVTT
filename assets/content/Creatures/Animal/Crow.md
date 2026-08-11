@@ -7,7 +7,6 @@ name:
     full: Crow
     aliases: []
 id: 12aoq5wWUTMD33Jm
-slug: crow
 img: icons/game-icons/lorc/crow-dive.svg
 portrait: ""
 shortcode: crow

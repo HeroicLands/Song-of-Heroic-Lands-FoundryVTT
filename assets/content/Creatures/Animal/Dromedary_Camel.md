@@ -7,7 +7,6 @@ name:
     full: Dromedary Camel
     aliases: []
 id: pnpVKwADEnFpUPcL
-slug: dromedary-camel
 img: icons/game-icons/delapouite/camel-head.svg
 portrait: ""
 shortcode: drmdrycm

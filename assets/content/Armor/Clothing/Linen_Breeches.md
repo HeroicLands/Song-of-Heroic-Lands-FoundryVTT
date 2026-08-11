@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable leg covering perfect for warm climates or strenuous activity."
 id: F96n27AFUFnCUkf8
-slug: linen-breeches
 img: icons/game-icons/lorc/trousers.svg
 shortcode: LnBrch
 type: armorgear

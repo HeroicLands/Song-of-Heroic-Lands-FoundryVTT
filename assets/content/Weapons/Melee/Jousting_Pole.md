@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Blunted tournament pole breaks cleanly; knight's horsemanship-testing reach."
 id: tTvMfFHzwX8SomqY
-slug: jousting-pole
 img: icons/game-icons/delapouite/cavalry.svg
 shortcode: JPole
 type: weapongear

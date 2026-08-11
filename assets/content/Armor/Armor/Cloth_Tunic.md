@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth tunic offering comfort and warmth for daily wear."
 id: v0mRcS0ebr2uLmLO
-slug: cloth-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CTunic
 type: armorgear

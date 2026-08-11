@@ -17,7 +17,6 @@ name:
     full: Gear
     aliases: []
 folder: SSkatgtYj9d71kaz
-slug: sohl-gear
 shortcode: gear
 ---
 

@@ -5,7 +5,6 @@ name:
     full: Polydactyly
     aliases: []
 id: dhu4Ziv1CtzeFuX1
-slug: polydactyly
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: polydact
 type: trauma

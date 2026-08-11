@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Effect Targeting"
-slug: "effect-targeting"
 shortcode: effcttrg
 folder: IgwaG8rAUUO9vrtz
 ---

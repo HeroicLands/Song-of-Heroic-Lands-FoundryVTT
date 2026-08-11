@@ -7,7 +7,6 @@ name:
     full: Stone Ram
     aliases: []
 id: ev0hqSRmPJlFtV7E
-slug: stone-ram
 img: icons/game-icons/delapouite/sheep.svg
 portrait: ""
 shortcode: stoneram

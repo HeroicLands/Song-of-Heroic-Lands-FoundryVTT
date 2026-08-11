@@ -5,7 +5,6 @@ name:
     full: Haematophobia
     aliases: []
 id: zimua24dvXMSJdBm
-slug: haematophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: hmtphb
 type: trauma

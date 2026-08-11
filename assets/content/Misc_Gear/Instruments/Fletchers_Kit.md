@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Wooden case with feather shears, binding silk, glue pot, nocking jig, shaft plane for arrows."
 id: zTtXjPgpLSLCBLEC
-slug: fletchers-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fletchkit
 type: miscgear

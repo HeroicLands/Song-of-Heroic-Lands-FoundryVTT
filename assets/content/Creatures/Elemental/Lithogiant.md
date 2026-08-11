@@ -7,7 +7,6 @@ name:
     full: Lithogiant
     aliases: []
 id: OBrElkIzfPrZaQbM
-slug: lithogiant
 img: icons/game-icons/delapouite/rock-golem.svg
 portrait: ""
 shortcode: lthgnt

@@ -9,7 +9,6 @@ name:
     full: Unarmed Combat
     aliases: []
 folder: rotB8uN12YUN0Oba
-slug: sohl-unarmed-combat
 shortcode: unrmdcmb
 ---
 

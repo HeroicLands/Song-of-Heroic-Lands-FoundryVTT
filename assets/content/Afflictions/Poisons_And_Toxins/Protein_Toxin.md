@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Marine spine venom; intense pain and tissue necrosis; cardiovascular distress."
 id: KwEmcDpeSx9jPnqK
-slug: protein-toxin
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: prottxn
 type: affliction

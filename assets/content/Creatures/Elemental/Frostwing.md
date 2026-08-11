@@ -7,7 +7,6 @@ name:
     full: Frostwing
     aliases: []
 id: MzYAPPEnFLXmQ6Cg
-slug: frostwing
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: frstwng

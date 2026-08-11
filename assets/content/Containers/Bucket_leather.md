@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Fire-bucket of boiled cowhide with iron rim."
 id: keFukmGhbobvDx7R
-slug: bucket-leather
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bucketleat
 type: containergear

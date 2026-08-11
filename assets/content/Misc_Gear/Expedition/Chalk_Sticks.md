@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Soft mineral sticks; marks stone, parchment, and leather for masons and merchants."
 id: w9A0Ud5fPNT6QAAr
-slug: chalk-sticks
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chalkstick
 type: miscgear

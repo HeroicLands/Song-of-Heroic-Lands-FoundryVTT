@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "System Settings"
-slug: "settings"
 shortcode: systmstt
 folder: IgwaG8rAUUO9vrtz
 ---

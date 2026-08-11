@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade tunic providing comfort and practical warmth."
 id: jJ1imuGfdw2jrjK0
-slug: homespun-sleeved-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: HsSTnc
 type: armorgear

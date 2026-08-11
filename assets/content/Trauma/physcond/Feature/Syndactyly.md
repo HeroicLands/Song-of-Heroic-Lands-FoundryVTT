@@ -5,7 +5,6 @@ name:
     full: Syndactyly
     aliases: []
 id: YyQdZWfAYHdCE9Ft
-slug: syndactyly
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: syndacty
 type: trauma

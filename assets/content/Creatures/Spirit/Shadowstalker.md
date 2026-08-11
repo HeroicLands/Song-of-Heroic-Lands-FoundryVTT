@@ -7,7 +7,6 @@ name:
     full: Shadowstalker
     aliases: []
 id: K30OECnGa5hVR22R
-slug: shadowstalker
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
 shortcode: shdwstlk

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Freshwater predator with firm white flaky flesh, salts and smokes well."
 id: qx4BhJyHa2vRXjjP
-slug: pike
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pike
 type: miscgear

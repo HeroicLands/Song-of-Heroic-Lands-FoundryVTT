@@ -8,7 +8,6 @@ name:
     full: Giant Camel Spider
     aliases: []
 id: k5mpq1z2caMC2nJ0
-slug: giant-camel-spider
 img: icons/game-icons/carl-olsen/spider-alt.svg
 portrait: ""
 shortcode: gntcmlsp

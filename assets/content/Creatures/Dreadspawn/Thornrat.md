@@ -7,7 +7,6 @@ name:
     full: Thornrat
     aliases: []
 id: RIxGnXKWRth60BN7
-slug: thornrat
 img: icons/game-icons/delapouite/rat.svg
 portrait: ""
 shortcode: thornrat

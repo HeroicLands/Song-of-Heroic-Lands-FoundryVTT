@@ -5,7 +5,6 @@ name:
     full: Inquisitive
     aliases: []
 id: CClK27QWUTdf6dM6
-slug: inquisitive
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: inqstv
 type: trauma

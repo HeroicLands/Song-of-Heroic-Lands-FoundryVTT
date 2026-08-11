@@ -5,7 +5,6 @@ name:
     full: Intuitive
     aliases: []
 id: gCqxoueeDJlZuS8u
-slug: intuitive
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: inttv
 type: trauma

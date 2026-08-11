@@ -5,7 +5,6 @@ name:
     full: Pteromerhanophobia
     aliases: []
 id: UW3rF6stfsPMXYYA
-slug: pteromerhanophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: pteromer
 type: trauma

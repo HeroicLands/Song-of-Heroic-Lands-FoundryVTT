@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Chronic shortage of nutrients; poor healing, scurvy-like signs."
 id: oKkk7uWZEiRChlmc
-slug: malnourished
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: malnut
 type: trauma

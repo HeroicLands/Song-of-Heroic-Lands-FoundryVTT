@@ -5,7 +5,6 @@ name:
     full: Passive-Aggressive
     aliases: []
 id: VL5nGA9H8M4d5Uc3
-slug: passive-aggressive
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: passivea
 type: trauma

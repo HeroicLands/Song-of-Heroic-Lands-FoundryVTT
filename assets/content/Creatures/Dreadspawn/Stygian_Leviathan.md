@@ -7,7 +7,6 @@ name:
     full: Stygian Leviathan
     aliases: []
 id: NTZQh3DsxPrIxvtI
-slug: stygian-leviathan
 img: icons/game-icons/lorc/sea-serpent.svg
 portrait: ""
 shortcode: stygnlvt

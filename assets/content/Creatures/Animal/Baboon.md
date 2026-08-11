@@ -8,7 +8,6 @@ name:
     full: Baboon
     aliases: []
 id: XVM9UHpPPciqBXFy
-slug: baboon
 img: icons/game-icons/lorc/monkey.svg
 portrait: ""
 shortcode: baboon

@@ -9,7 +9,6 @@ name:
     full: Injury Levels
     aliases: []
 folder: F4NGyU9QQgWwTcHe
-slug: sohl-injury-levels
 shortcode: injrylvl
 ---
 

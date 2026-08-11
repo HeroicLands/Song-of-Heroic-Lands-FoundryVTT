@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Melted, cast ingots or sheets; resists weathering, worked into vessels and ornaments."
 id: N4Qx4O6buCoIOQgP
-slug: copper-bronze
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: copperbron
 type: miscgear

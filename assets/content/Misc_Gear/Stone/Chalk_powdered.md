@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Ground chalk powder in sealed pot; scribes erase, masons whitewash."
 id: KZ5mXd7yvIS2rfT8
-slug: chalk-powdered
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chalkpowde
 type: miscgear

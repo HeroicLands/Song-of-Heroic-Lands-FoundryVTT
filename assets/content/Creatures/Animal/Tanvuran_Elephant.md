@@ -8,7 +8,6 @@ name:
     full: Tānvüran Elephant
     aliases: []
 id: hKF5XSPgvAUIQtLc
-slug: tanvuran-elephant
 img: icons/game-icons/delapouite/elephant.svg
 portrait: ""
 shortcode: tnvrnelp

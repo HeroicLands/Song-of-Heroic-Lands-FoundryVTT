@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Iron mirror backed with silver; superior reflection for noble and field use."
 id: 2eiULGcTo1vq9Yqz
-slug: mirror-iron-silver-coated
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mirroriron
 type: miscgear

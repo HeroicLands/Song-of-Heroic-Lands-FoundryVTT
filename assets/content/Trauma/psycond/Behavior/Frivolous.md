@@ -5,7 +5,6 @@ name:
     full: Frivolous
     aliases: []
 id: DS3xePFIQI7OOKZm
-slug: frivolous
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: frvls
 type: trauma

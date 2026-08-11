@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Crimson resin powder; rich red dye for fine silk and noble garments."
 id: NVV2aU3wR59DnZRK
-slug: dye-dragons-blood
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyedrgn
 type: miscgear

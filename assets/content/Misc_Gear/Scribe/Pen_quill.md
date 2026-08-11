@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Goose or swan feather; soft flowing strokes, dulls quickly, needs frequent resharpening."
 id: eFG6UDTsM6qqj4Mi
-slug: pen-quill
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: penquill
 type: miscgear

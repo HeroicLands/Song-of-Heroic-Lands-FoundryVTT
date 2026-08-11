@@ -8,7 +8,6 @@ package: sohl
 category: user-guide
 name:
     full: "Trauma"
-slug: "item-trauma"
 shortcode: itemtrauma
 folder: QtOgPodi8X6gDWL0
 ---

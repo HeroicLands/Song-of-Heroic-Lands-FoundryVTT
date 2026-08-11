@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool leg-covers; warmth for the lower body."
 id: 3VD5xSDeHrGiaDdN
-slug: russet-leggings
 img: icons/game-icons/lorc/trousers.svg
 shortcode: RLeg
 type: armorgear

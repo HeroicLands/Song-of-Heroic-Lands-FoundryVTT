@@ -14,7 +14,6 @@ name:
     full: Strike Modes
     aliases: []
 folder: rotB8uN12YUN0Oba
-slug: sohl-strike-modes
 shortcode: strkmds
 ---
 

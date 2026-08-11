@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Small tinned copper pan for warming sauces or cooking for one."
 id: fLiHazH054PGtXSI
-slug: pan-copper-small
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pancoppers
 type: miscgear

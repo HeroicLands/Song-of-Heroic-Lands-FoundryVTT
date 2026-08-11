@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stiff buckram surcoat providing durability and reliable structured fit."
 id: HthCdVmtbefMdVxD
-slug: buckram-surcoat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: BScoat
 type: armorgear

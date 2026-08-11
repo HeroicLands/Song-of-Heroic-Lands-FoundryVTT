@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Padded vest worn under armor or alone, offering protection."
 id: 0MGGI6C7E0fTuxpQ
-slug: gambeson-long-vest
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: GLngVest
 type: armorgear

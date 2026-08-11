@@ -13,7 +13,6 @@ name:
     full: The Pall
     aliases: []
 folder: TiVEgAyetL6JTjqG
-slug: sohl-the-pall
 shortcode: thepall
 ---
 

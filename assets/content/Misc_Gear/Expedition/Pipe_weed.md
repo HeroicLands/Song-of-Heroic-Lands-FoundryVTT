@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Dried tobacco leaf for smoking; eases fatigue and steadies nerves."
 id: lyjo9CSEafzkiqdW
-slug: pipe-weed
 img: icons/game-icons/delapouite/herbs-bundle.svg
 shortcode: pipewd
 type: miscgear

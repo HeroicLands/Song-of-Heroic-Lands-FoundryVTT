@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Elegant flowing silk sleeved tunic; perfect for formal occasions."
 id: Fk2pJOLPWi6SPHsI
-slug: silk-sleeved-tunic
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: SlkSTnc
 type: armorgear

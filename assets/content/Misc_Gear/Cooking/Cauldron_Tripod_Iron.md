@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Wrought-iron tripod frame for hanging cauldron over open fire."
 id: KBLgA14HSoLxxDaQ
-slug: cauldron-tripod-iron
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cauldrontr
 type: miscgear

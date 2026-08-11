@@ -5,7 +5,6 @@ name:
     full: Vitiligo
     aliases: []
 id: 59msy73NBMHpaVoR
-slug: vitiligo
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vitiligo
 type: trauma

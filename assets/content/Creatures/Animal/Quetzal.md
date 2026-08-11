@@ -8,7 +8,6 @@ name:
     full: Quetzal
     aliases: []
 id: vM0KoDFiLa917lSx
-slug: quetzal
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: quetzal

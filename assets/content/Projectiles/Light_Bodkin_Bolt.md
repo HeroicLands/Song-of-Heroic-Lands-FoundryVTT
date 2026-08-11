@@ -9,7 +9,6 @@ description: "Light narrow shaft, small square spike; pierces light mail, flat t
 type: projectilegear
 package: sohl
 id: NnOZe07hIf924QvY
-slug: light-bodkin-bolt
 shortcode: BltLBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin

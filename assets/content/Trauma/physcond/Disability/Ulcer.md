@@ -5,7 +5,6 @@ name:
     full: Ulcer
     aliases: []
 id: d2LF42meCO17Khog
-slug: ulcer
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ulcer
 type: trauma

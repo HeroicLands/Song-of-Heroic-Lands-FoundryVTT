@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Affiliation"
-slug: "item-affiliation"
 shortcode: affltn
 folder: QtOgPodi8X6gDWL0
 ---

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stiff, glue-stiffened cloth cloak providing structure and reliable durability."
 id: gKMGLeXQKiW0QqTx
-slug: buckram-cloak
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: BClk
 type: armorgear

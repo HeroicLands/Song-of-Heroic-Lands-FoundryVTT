@@ -8,7 +8,6 @@ name:
     full: Llama
     aliases: []
 id: ZVyZDoJ0iDiQn5J9
-slug: llama
 img: icons/game-icons/delapouite/camel-head.svg
 portrait: ""
 shortcode: llama

@@ -14,7 +14,6 @@ name:
     full: Shock
     aliases: []
 folder: edGOkxiCotuMzc1O
-slug: sohl-shock
 shortcode: shock
 ---
 

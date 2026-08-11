@@ -7,7 +7,6 @@ name:
     full: Gloomsprite
     aliases: []
 id: TzpgPd5BTOfbWPIY
-slug: gloomsprite
 img: icons/game-icons/delapouite/fairy.svg
 portrait: ""
 shortcode: glmsprt

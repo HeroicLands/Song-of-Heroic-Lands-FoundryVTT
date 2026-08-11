@@ -5,7 +5,6 @@ name:
     full: Depression
     aliases: []
 id: nm3hkD4ctKMzYOje
-slug: depression
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dprssn
 type: trauma

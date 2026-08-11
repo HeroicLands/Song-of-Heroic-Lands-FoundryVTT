@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Stitched outer garment; layered insulation over other dress."
 id: 4aF26GtmSRqOSXuh
-slug: quilted-surcoat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: QScoat
 type: armorgear

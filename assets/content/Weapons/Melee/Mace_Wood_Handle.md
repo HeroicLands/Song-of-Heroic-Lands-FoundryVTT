@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Flanged iron head on wooden shaft; footman and guard's bone-cracker."
 id: jAbqiClSdPnki5rd
-slug: mace-wood-handle
 img: icons/game-icons/delapouite/flanged-mace.svg
 shortcode: WdMce
 type: weapongear

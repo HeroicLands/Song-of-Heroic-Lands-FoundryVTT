@@ -7,7 +7,6 @@ name:
     full: Wild Boar
     aliases: []
 id: 8SaQoBO7t7QGurHE
-slug: wild-boar
 img: icons/game-icons/caro-asercion/boar.svg
 portrait: ""
 shortcode: wildboar

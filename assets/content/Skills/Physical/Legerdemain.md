@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Sleight of hand, purse-cutting, juggling; intricate manual dexterity."
 id: CJxIqMc6kNXL3dxb
-slug: legerdemain
 img: icons/game-icons/lorc/juggler.svg
 shortcode: lgdm
 type: skill

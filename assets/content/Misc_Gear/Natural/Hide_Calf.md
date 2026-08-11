@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Young bovine hide, soft and thin; fine leather for gloves, saddle linings."
 id: GOU7wJy8kXSSeiWS
-slug: hide-calf
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidecalf
 type: miscgear

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Beaver fur vest combining comfort and status for the elite wearer."
 id: Mjh9J4AgtbmlL0OP
-slug: beaver-vest
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: BvVest
 type: armorgear

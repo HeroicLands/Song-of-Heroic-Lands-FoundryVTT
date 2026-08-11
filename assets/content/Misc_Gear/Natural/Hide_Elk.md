@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Thick durable elk hide; heavy leather for armor backing and saddles."
 id: xxp9kNeJ5fXzxJqb
-slug: hide-elk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideelk
 type: miscgear

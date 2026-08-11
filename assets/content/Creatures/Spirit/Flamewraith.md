@@ -7,7 +7,6 @@ name:
     full: Flamewraith
     aliases: []
 id: IkisGKow2uz3lPSw
-slug: flamewraith
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
 shortcode: flmwrth

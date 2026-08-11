@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Character Creation"
-slug: sohl-character-creation
 shortcode: chrctrcr
 folder: IgwaG8rAUUO9vrtz
 ---

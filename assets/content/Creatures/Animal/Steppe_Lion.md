@@ -7,7 +7,6 @@ name:
     full: Steppe Lion
     aliases: []
 id: qzveOIr4oOPGkWen
-slug: steppe-lion
 img: icons/game-icons/lorc/lion.svg
 portrait: ""
 shortcode: stppln

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool mantle; durable, practical protective garment."
 id: MOPmmLBlIOSxmCFM
-slug: worsted-mantle
 img: icons/game-icons/delapouite/cape.svg
 shortcode: WMntl
 type: armorgear

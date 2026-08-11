@@ -7,7 +7,6 @@ name:
     full: Nightwraith
     aliases: []
 id: ep28BnO3DsmrKAf2
-slug: nightwraith
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
 shortcode: nghtwrth

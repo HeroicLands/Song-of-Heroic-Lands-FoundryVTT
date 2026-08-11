@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Squared dressed stone blocks; smooth facing, precise joints; churches, fortifications."
 id: 4YT7IALRsIulSwsI
-slug: stone-fine
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: stonefine
 type: miscgear

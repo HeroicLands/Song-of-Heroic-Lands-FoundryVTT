@@ -5,7 +5,6 @@ name:
     full: Kind
     aliases: []
 id: mUurc02Xy7jsHjYE
-slug: kind
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: kind
 type: trauma

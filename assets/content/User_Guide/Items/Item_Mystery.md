@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Mystery"
-slug: "item-mystery"
 shortcode: mystery
 folder: QtOgPodi8X6gDWL0
 ---

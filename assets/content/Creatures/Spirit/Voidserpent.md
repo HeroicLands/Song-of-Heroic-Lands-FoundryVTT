@@ -7,7 +7,6 @@ name:
     full: Voidserpent
     aliases: []
 id: mXr47FnIDlmq2RCz
-slug: voidserpent
 img: icons/game-icons/lorc/snake.svg
 portrait: ""
 shortcode: vdsrpnt

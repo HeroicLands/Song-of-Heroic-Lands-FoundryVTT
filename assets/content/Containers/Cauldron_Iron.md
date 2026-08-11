@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Heavy cast-iron pot for communal cooking or laundry."
 id: 0FvWMn567aCWyqm4
-slug: cauldron-iron
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cauldronir
 type: containergear

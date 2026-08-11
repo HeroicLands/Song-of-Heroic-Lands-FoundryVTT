@@ -7,7 +7,6 @@ name:
     full: Black Bear
     aliases: []
 id: 8ZGl0AAQhCMIrz8h
-slug: black-bear
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: ""
 shortcode: blckbr

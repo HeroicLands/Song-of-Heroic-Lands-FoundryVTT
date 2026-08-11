@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Forest knowledge for selecting timber and managing woodland for sustainable yield."
 id: VoZDMnV29TjcrO4T
-slug: timbercraft
 img: icons/game-icons/delapouite/wood-pile.svg
 shortcode: timb
 type: skill

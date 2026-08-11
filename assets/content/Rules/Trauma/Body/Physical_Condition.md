@@ -9,7 +9,6 @@ name:
     full: Physical Condition
     aliases: []
 folder: edGOkxiCotuMzc1O
-slug: sohl-physical-condition
 shortcode: physclcn
 ---
 

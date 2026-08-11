@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."
 id: CVA6O8CNz68e9wFd
-slug: throwing
 img: icons/game-icons/delapouite/throwing-ball.svg
 shortcode: thro
 type: skill

@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Projectile"
-slug: "item-projectilegear"
 shortcode: prjctl
 folder: QtOgPodi8X6gDWL0
 ---

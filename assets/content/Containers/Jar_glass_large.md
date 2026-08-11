@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Capacious blown glass jar for preserves and dried herbs."
 id: ulRTx0rVKIzCMnaF
-slug: jar-glass-large
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarglassla
 type: containergear

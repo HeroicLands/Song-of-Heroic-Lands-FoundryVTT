@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Tissue freezes in extremities; numbness, waxy skin, blackened flesh."
 id: XYxcQfNRWE3iLnfr
-slug: frostbitten
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: frost
 type: trauma

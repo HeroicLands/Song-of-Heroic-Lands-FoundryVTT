@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fresh freshwater fish; rich fat, distinctive flavor, preserves well smoked."
 id: 8zzT10Vdg8TQ9vYe
-slug: eels
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: eels
 type: miscgear

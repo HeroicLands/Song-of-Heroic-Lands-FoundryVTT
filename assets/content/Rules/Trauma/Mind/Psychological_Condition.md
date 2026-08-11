@@ -12,7 +12,6 @@ name:
     full: Psychological Condition
     aliases: []
 folder: hAloT0Y1xg1vcIIn
-slug: sohl-psychological-condition
 shortcode: psychlgc
 ---
 

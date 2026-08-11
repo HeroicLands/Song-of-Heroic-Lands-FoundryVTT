@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Winning trust and favor through warmth, wit, and emotional persuasion."
 id: 1XbsPwLnfTNbmBld
-slug: charm
 img: icons/game-icons/lorc/charm.svg
 shortcode: chrm
 type: skill

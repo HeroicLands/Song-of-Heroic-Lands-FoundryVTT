@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Tiny soft fur pelt; lined winter hoods and muffs by furriers."
 id: WdE1i0tIq2EUjIo4
-slug: hide-rabbit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hiderabbit
 type: miscgear

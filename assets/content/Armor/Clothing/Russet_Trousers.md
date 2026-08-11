@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool breeches; leg-wear for outdoor work."
 id: jL4u5NYoQ1t1VXmV
-slug: russet-trousers
 img: icons/game-icons/lorc/trousers.svg
 shortcode: RTrsr
 type: armorgear

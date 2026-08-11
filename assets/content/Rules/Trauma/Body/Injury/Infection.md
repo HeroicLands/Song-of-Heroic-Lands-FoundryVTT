@@ -10,7 +10,6 @@ name:
     full: Infection
     aliases: []
 folder: F4NGyU9QQgWwTcHe
-slug: sohl-infection
 shortcode: infctn
 ---
 

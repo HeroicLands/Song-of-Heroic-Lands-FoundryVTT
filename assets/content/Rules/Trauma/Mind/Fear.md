@@ -10,7 +10,6 @@ name:
     full: Fear
     aliases: []
 folder: hAloT0Y1xg1vcIIn
-slug: sohl-fear
 shortcode: fear
 ---
 

@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Catastrophic heat injury; dry hot skin, confusion, seizure, death."
 id: RLBiZ0UJrNwUN64O
-slug: heatstruck
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: htstrk
 type: trauma

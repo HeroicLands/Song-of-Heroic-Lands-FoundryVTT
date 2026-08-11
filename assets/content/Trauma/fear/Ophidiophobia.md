@@ -5,7 +5,6 @@ name:
     full: Ophidiophobia
     aliases: []
 id: xEjgU6mwDTNufZOu
-slug: ophidiophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ophdphb
 type: trauma

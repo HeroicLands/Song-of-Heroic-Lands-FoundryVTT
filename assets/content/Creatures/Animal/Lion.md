@@ -7,7 +7,6 @@ name:
     full: Lion
     aliases: []
 id: TpFdKsRE286DXe8u
-slug: lion
 img: icons/game-icons/lorc/lion.svg
 portrait: ""
 shortcode: lion

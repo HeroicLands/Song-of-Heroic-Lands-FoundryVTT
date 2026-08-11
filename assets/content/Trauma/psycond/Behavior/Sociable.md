@@ -5,7 +5,6 @@ name:
     full: Sociable
     aliases: []
 id: V7SgIzOsc1osFt9Q
-slug: sociable
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sociable
 type: trauma

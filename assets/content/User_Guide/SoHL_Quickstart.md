@@ -9,7 +9,6 @@ category: user-guide
 name:
     full: Song of Heroic Lands Quickstart
     alises: []
-slug: "sohl-quickstart"
 shortcode: quickstart
 folder: IgwaG8rAUUO9vrtz
 ---

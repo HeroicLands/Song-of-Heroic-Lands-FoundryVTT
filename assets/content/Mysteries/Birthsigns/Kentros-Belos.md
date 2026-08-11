@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
 id: m4heSsik8iKuIreP
-slug: kentrosbelos
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: kentrosbelos
 type: mystery

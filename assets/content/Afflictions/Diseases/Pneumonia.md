@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Lung infection; fever, productive cough, chest pain, shortness of breath."
 id: GUSSUcyIBcWvRB1H
-slug: pneumonia
 img: icons/game-icons/lorc/virus.svg
 shortcode: pnmna
 type: affliction

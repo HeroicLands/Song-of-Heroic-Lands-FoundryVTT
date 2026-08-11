@@ -9,7 +9,6 @@ description: "Smooth river pebble or kiln-fired clay; cracks skulls, breaks houn
 type: projectilegear
 package: sohl
 id: y4TUxJVQbQYoQThq
-slug: sling-stone
 shortcode: SSton
 img: icons/game-icons/delapouite/stone-pile.svg
 easyname: Stone

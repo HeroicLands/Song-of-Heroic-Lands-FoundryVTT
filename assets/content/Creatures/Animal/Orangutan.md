@@ -7,7 +7,6 @@ name:
     full: Orangutan
     aliases: []
 id: Wbfpz2YIVuGcO8ZS
-slug: orangutan
 img: icons/game-icons/lorc/monkey.svg
 portrait: ""
 shortcode: orngtn

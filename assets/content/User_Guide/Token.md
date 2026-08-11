@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Token"
-slug: "token"
 shortcode: token
 folder: IgwaG8rAUUO9vrtz
 ---

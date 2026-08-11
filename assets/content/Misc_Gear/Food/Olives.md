@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Pickled brined relish, luxury trade good, keeps indefinitely under brine."
 id: fzxD5ervi1GdhNce
-slug: olives
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: olives
 type: miscgear

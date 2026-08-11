@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
 id: GwlCKs0inxH9Bh9Y
-slug: raisins
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: raisins
 type: miscgear

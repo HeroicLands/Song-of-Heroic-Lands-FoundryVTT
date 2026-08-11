@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Steel-reinforced wood, high pommel, cantle; braces rider in lance-work, combat impacts."
 id: U4XENkA69elz3lFS
-slug: saddle-war
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saddlewar
 type: miscgear

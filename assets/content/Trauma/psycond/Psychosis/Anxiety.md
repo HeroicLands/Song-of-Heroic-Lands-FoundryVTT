@@ -5,7 +5,6 @@ name:
     full: Anxiety
     aliases: []
 id: uBpPfDK9Q71U8n27
-slug: anxiety
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: anxiety
 type: trauma

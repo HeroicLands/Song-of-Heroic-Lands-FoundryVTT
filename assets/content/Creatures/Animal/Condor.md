@@ -8,7 +8,6 @@ name:
     full: Condor
     aliases: []
 id: IlgMSpMhh6Hel8gD
-slug: condor
 img: icons/game-icons/lorc/vulture.svg
 portrait: ""
 shortcode: condor

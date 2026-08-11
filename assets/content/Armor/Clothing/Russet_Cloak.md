@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool cloak; durable cold-weather outer garment."
 id: D6D82xNJMyqILYVx
-slug: russet-cloak
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: RClk
 type: armorgear

@@ -7,7 +7,6 @@ name:
     full: Quillbear
     aliases: []
 id: oqNIZvLCRl1RMynG
-slug: quillbear
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: ""
 shortcode: qllbr

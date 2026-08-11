@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Sustained weariness from prolonged mental effort — reading, scribing, calculation, deep focus."
 id: tz9rLDZ0N2vzJBJ8
-slug: mental-strain
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: mentstn
 type: trauma

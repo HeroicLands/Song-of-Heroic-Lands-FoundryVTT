@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tall teardrop shield protects mounted leg; cavalry skirmisher's deep coverage."
 id: TkX3GNORKY6L0J6Y
-slug: kite-shield
 img: icons/game-icons/badges/shield.svg
 shortcode: KiSh
 type: weapongear

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Acute windedness from armed close combat."
 id: 4xM2HdylF5p2fWJJ
-slug: fighting
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: fight
 type: trauma

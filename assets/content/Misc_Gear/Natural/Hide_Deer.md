@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Light supple deer hide; used for chamois, fine gloves, soft linings."
 id: L8JbTqte8ut24Ijz
-slug: hide-deer
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidedeer
 type: miscgear

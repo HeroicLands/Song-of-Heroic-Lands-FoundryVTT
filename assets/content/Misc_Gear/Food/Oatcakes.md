@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Thin griddle rounds, traveler's bread keeping months bundled and dry."
 id: 5gGCMxDun741ZDY5
-slug: oatcakes
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oatcakes
 type: miscgear

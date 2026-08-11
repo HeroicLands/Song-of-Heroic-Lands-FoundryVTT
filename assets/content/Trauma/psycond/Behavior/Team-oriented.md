@@ -5,7 +5,6 @@ name:
     full: Team-oriented
     aliases: []
 id: VPj3MrttXD1Ow5GJ
-slug: team-oriented
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tmrntd
 type: trauma

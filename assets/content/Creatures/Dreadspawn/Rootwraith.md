@@ -7,7 +7,6 @@ name:
     full: Rootwraith
     aliases: []
 id: 1deqLlOJoWRJ2sPS
-slug: rootwraith
 img: icons/game-icons/lorc/spectre.svg
 portrait: ""
 shortcode: rtwrth

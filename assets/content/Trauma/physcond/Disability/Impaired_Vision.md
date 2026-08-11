@@ -6,7 +6,6 @@ name:
     full: Impaired Vision
     aliases: []
 id: w3H7Bagx4ta4SPTV
-slug: impaired-vision
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: imprdvsn
 type: trauma

@@ -5,7 +5,6 @@ name:
     full: Indigiphobia
     aliases: []
 id: cYal2nge3QuKPr03
-slug: indigiphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: indgphb
 type: trauma

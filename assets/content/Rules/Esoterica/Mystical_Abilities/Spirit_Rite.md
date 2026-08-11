@@ -8,7 +8,6 @@ category: rules
 name:
     full: Spirit Rite
     aliases: []
-slug: sohl-spirit-rite
 shortcode: sprtrt
 folder: J8ppkzls4ERyzTpv
 ---

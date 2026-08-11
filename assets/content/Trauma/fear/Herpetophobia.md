@@ -5,7 +5,6 @@ name:
     full: Herpetophobia
     aliases: []
 id: ewJ47b2h2aEwNULS
-slug: herpetophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: hrptphb
 type: trauma

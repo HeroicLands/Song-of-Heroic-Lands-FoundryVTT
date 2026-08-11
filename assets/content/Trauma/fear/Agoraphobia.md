@@ -5,7 +5,6 @@ name:
     full: Agoraphobia
     aliases: []
 id: BalaG26I7UrG7Q1A
-slug: agoraphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: agorphb
 type: trauma

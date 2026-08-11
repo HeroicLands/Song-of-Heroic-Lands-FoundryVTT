@@ -33,6 +33,7 @@ import fs from "fs";
 import path from "path";
 import log from "loglevel";
 
+import { contentSlug } from "../content-slug.mjs";
 import {
     walkMarkdownTree,
     sohlField,
@@ -85,13 +86,16 @@ const PERCEPTION_TEST =
  *   shortcode, docUrl, actionDefs, notes, docHtml.
  */
 function commonSystem(fm, description, type, name) {
-    const slug = fm.slug || slugify(name);
-    if (!fm.shortcode) {
-        throw new Error(`Missing required shortcode for item "${name}" (slug: ${slug})`);
+    // The doc URL is addressed by shortcode, exactly like the KB page (#1278).
+    let slug;
+    try {
+        slug = contentSlug(fm);
+    } catch (err) {
+        throw new Error(`item "${name}": ${err.message}`);
     }
     return {
         shortcode: fm.shortcode,
-        docUrl: buildDocUrl(type, slug, name),
+        docUrl: buildDocUrl(type, slug),
         actionDefs: Array.isArray(fm.actionDefs) ? fm.actionDefs : [],
         notes: "",
         docHtml: description || "",

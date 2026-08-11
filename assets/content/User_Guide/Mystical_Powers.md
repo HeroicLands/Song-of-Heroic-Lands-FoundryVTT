@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: Mystical Powers
-slug: "mystical-powers"
 shortcode: mystclpw
 folder: IgwaG8rAUUO9vrtz
 ---

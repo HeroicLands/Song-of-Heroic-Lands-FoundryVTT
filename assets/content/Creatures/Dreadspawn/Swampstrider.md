@@ -7,7 +7,6 @@ name:
     full: Swampstrider
     aliases: []
 id: nx1JBaUtNq1pa3Ki
-slug: swampstrider
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: swmpstrd

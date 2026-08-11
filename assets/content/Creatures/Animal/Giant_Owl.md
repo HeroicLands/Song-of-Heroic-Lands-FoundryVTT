@@ -7,7 +7,6 @@ name:
     full: Giant Owl
     aliases: []
 id: QQBrXJej14IhQbcW
-slug: giant-owl
 img: icons/game-icons/lorc/owl.svg
 portrait: ""
 shortcode: giantowl

@@ -7,7 +7,6 @@ name:
     full: Giant Jumping Spider
     aliases: []
 id: A95HDhCBTL8EVKBO
-slug: giant-jumping-spider
 img: icons/game-icons/carl-olsen/spider-alt.svg
 portrait: ""
 shortcode: gntjmpng

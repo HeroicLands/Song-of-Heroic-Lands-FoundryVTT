@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Heavy three-strand hemp cable for oxen hauling and ship mainmast rigging."
 id: oyrb461V69UflW66
-slug: rope-2-hemp-per-ft-3-875-lb-cap
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope2hempp
 type: miscgear

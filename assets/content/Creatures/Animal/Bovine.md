@@ -7,7 +7,6 @@ name:
     full: Bovine
     aliases: []
 id: h55JBmYxilMVO7mS
-slug: bovine
 img: icons/game-icons/delapouite/cow.svg
 portrait: ""
 shortcode: bovine

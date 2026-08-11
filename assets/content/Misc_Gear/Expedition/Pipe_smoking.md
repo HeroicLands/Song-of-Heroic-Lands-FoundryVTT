@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fruitwood or horn pipe for tobacco; carved for nobles, plain for soldiers."
 id: xIxE2oCpGFJp8HJE
-slug: pipe-smoking
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pipesmokin
 type: miscgear

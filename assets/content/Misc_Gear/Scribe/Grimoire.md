@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
 id: 4l2auY8DlPzAVMFN
-slug: grimoire
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grimoire
 type: miscgear

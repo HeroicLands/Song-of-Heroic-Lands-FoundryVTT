@@ -5,7 +5,6 @@ name:
     full: Pall
     aliases: []
 id: zB8xoPCL2JkAATl8
-slug: pall
 img: icons/game-icons/lorc/triple-skulls.svg
 shortcode: pal
 type: attribute

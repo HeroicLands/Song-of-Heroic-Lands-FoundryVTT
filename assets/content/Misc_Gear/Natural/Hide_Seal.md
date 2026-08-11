@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Coastal oiled hide; waterproof supple leather for sea-boots, deckcloaks."
 id: KSeVw5IkzHIAXYh8
-slug: hide-seal
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideseal
 type: miscgear

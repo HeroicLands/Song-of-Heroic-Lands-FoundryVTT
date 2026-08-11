@@ -5,7 +5,6 @@ name:
     full: Catoptrophobia
     aliases: []
 id: dKXcUoz8Ha0gBhDX
-slug: catoptrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ctptrphb
 type: trauma

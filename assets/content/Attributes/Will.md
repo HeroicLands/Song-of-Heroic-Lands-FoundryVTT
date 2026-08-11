@@ -5,7 +5,6 @@ name:
     full: Will
     aliases: []
 id: cSe7fh1LN9mEwwYs
-slug: will
 img: icons/game-icons/lorc/meditation.svg
 shortcode: wil
 type: attribute

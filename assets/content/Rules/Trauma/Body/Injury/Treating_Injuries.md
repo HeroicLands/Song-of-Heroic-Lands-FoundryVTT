@@ -8,7 +8,6 @@ category: rules
 name:
     full: Treating Injuries
     aliases: []
-slug: sohl-treating-injuries
 shortcode: trtnginj
 folder: F4NGyU9QQgWwTcHe
 ---

@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Cohort"
-slug: "actor-cohort"
 shortcode: cohort
 folder: sYK1BozT9xFcinXK
 ---

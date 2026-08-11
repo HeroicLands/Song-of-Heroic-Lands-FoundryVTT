@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Dried coastal fronds rehydrating in broth, iodine-rich food and umami."
 id: ISEPqfmryqg0TWum
-slug: seaweed-dolce
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: seaweeddol
 type: miscgear

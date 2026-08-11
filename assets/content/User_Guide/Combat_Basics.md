@@ -6,7 +6,6 @@ package: sohl
 category: user-guide
 name:
     full: "Combat Basics"
-slug: "combat-basics"
 shortcode: cmbtbscs
 folder: IgwaG8rAUUO9vrtz
 ---

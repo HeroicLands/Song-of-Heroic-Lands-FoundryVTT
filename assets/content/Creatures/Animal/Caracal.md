@@ -8,7 +8,6 @@ name:
     full: Caracal
     aliases: []
 id: IDVdbQRzboB9CFFT
-slug: caracal
 img: icons/game-icons/delapouite/lynx-head.svg
 portrait: ""
 shortcode: caracal

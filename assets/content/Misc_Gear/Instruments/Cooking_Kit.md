@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Oiled-leather satchel holding iron pans, spoons, knife, grater, ladle for field cooking."
 id: MBs9o3d3sVAw83kk
-slug: cooking-kit
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cookkit
 type: miscgear

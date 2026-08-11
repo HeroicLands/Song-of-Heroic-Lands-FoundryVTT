@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Treated leather chest armor offering agility without sacrificing defense."
 id: HiUQP9aeolV45y4R
-slug: kurbul-breastplate
 img: icons/game-icons/lorc/breastplate.svg
 shortcode: KBrst
 type: armorgear

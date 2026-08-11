@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."
 id: fudqfR2nnjqpo5O7
-slug: law
 img: icons/game-icons/lorc/scales.svg
 shortcode: law
 type: skill

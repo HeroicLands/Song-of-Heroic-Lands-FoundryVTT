@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Steel plates protecting lower legs and shins."
 id: jJQidNhSSEQzP9oJ
-slug: plate-greaves
 img: icons/game-icons/delapouite/greaves.svg
 shortcode: PlGrvs
 type: armorgear

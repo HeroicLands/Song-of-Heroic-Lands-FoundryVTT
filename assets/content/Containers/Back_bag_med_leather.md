@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Moderate leather shoulder pouch for daily personal belongings."
 id: 0ff9DMYvUOotdFjO
-slug: back-bag-med-leather
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: backbagmed
 type: containergear

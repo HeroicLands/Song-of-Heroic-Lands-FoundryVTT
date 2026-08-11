@@ -5,7 +5,6 @@ name:
     full: Nosocomephobia
     aliases: []
 id: 6G0piz89VWmuhHF3
-slug: nosocomephobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: nscmphb
 type: trauma

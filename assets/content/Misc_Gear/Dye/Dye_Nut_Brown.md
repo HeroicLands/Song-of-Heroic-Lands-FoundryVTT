@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Walnut hulls and iron salts; warm earthy brown for everyday working garments."
 id: wDh2U8SPT6dqKtQV
-slug: dye-nut-brown
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyenut
 type: miscgear

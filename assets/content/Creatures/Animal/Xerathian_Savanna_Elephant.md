@@ -7,7 +7,6 @@ name:
     full: Xerathian Savanna Elephant
     aliases: []
 id: XghBgeCi6JfLAZbD
-slug: xerathian-savanna-elephant
 img: icons/game-icons/delapouite/elephant.svg
 portrait: ""
 shortcode: xrthnsvn

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Hundred-pound yew warbow; footman archer's competent field standard."
 id: cVBQ9bCrUJiPizU9
-slug: longbow-100
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: LBw100
 type: weapongear

@@ -7,7 +7,6 @@ name:
     full: Webcrawler
     aliases: []
 id: c0MYxLmxJqlP3eq6
-slug: webcrawler
 img: icons/game-icons/carl-olsen/spider-alt.svg
 portrait: ""
 shortcode: wbcrwlr

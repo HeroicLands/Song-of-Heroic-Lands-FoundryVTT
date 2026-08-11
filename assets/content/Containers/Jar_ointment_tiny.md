@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
 id: 9LjGgpnbnS2pg1Nv
-slug: jar-ointment-tiny
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarointmen4
 type: containergear

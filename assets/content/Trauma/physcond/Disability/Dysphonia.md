@@ -5,7 +5,6 @@ name:
     full: Dysphonia
     aliases: []
 id: b50mWkG7YOA2mvOH
-slug: dysphonia
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dysphn
 type: trauma

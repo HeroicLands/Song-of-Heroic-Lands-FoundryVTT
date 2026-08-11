@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade skirt offering coverage and practical comfort."
 id: 8sLvP0EU5cKhNUid
-slug: homespun-skirt
 img: icons/game-icons/delapouite/skirt.svg
 shortcode: HsSkirt
 type: armorgear

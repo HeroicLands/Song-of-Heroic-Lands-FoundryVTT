@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Steel helm covering crown and face; knight-favored with narrow sight-slit."
 id: ssLbPwGRpgmg3CpB
-slug: plate-34-helm
 img: icons/game-icons/lorc/crested-helmet.svg
 shortcode: Pl34Hlm
 type: armorgear

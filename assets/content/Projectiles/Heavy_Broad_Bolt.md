@@ -9,7 +9,6 @@ description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted
 type: projectilegear
 package: sohl
 id: EjqzVPXe2q47OCWK
-slug: heavy-broad-bolt
 shortcode: BltHBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Broad

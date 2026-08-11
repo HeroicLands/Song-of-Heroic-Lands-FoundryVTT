@@ -7,7 +7,6 @@ name:
     full: Mirelurker
     aliases: []
 id: EAg26B2pYAXS9TJv
-slug: mirelurker
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: mrlrkr

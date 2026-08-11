@@ -7,7 +7,6 @@ name:
     full: Earthcharger
     aliases: []
 id: u8zP1zROlFGp2zuv
-slug: earthcharger
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: erthchrg

@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Treated leather leg armor combining protection and flexibility with decorative patterns."
 id: 6sIPe9G3RJRjQrAz
-slug: kurbul-greaves
 img: icons/game-icons/delapouite/greaves.svg
 shortcode: KGrvs
 type: armorgear

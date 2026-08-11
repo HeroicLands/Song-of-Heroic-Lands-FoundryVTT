@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Straight-sided pewter tankard for taverns and barracks serving ale by pint."
 id: FOXdpFfY3XYtD3rT
-slug: tankard-pewter
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tankardpew
 type: miscgear

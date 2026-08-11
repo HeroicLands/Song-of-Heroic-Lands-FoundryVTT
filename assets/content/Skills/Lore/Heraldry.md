@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Interpreting coats of arms, crests, badges; revealing lineage and history."
 id: A6dgxBXv4Tu6rua4
-slug: heraldry
 img: icons/game-icons/badges/shield.svg
 shortcode: hrld
 type: skill

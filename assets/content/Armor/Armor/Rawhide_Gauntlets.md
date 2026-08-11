@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Thick hide hand-guards; resists abrasion and impact."
 id: 0ZrCUWYiONN27h3c
-slug: rawhide-gauntlets
 img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: RhGntl
 type: armorgear

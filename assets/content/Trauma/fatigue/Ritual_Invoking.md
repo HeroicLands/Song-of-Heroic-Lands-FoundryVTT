@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Acute windedness from channeling power through ritual invocation."
 id: tFRbY5UycgJqeDxR
-slug: ritual-invoking
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: invk
 type: trauma

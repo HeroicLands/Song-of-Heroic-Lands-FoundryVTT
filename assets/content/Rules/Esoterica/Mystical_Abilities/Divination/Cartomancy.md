@@ -8,7 +8,6 @@ category: rules
 name:
     full: Cartomancy
     aliases: []
-slug: sohl-cartomancy
 shortcode: crtmncy
 folder: k6DghEucd6umnBJx
 ---

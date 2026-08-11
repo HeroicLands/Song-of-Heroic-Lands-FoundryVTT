@@ -9,7 +9,6 @@ name:
     full: Impairment
     aliases: []
 folder: F4NGyU9QQgWwTcHe
-slug: sohl-impairment
 shortcode: imprmnt
 ---
 

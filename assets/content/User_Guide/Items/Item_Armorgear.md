@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Armor"
-slug: "item-armorgear"
 shortcode: armor
 folder: QtOgPodi8X6gDWL0
 ---

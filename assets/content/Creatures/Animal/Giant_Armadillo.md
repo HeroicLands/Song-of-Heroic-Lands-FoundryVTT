@@ -7,7 +7,6 @@ name:
     full: Giant Armadillo
     aliases: []
 id: n2nQ2Jd3wZHiIlb9
-slug: giant-armadillo
 img: icons/game-icons/caro-asercion/pangolin.svg
 portrait: ""
 shortcode: gntarmdl

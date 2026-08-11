@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "One-person ridge-pole tent; tight profile resists wind, packs readily."
 id: AatqvN9WOOf49Af1
-slug: tent-ridged-small
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tentridged2
 type: miscgear

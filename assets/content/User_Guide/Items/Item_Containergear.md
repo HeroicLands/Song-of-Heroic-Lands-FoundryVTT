@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Container"
-slug: "item-containergear"
 shortcode: cntnr
 folder: QtOgPodi8X6gDWL0
 ---

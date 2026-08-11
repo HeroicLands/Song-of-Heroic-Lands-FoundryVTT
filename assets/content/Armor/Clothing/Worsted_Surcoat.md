@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Tightly-spun wool surcoat; durable, practical protective garment."
 id: mzZ3KmDTTuXQ2eD6
-slug: worsted-surcoat
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: WScoat
 type: armorgear

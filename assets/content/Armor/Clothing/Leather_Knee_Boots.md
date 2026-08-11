@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Durable leather foot coverings extending above the knee for flexible footwear."
 id: oP4DZiYZmShsWYOs
-slug: leather-knee-boots
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: LtKBoot
 type: armorgear

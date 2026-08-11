@@ -10,7 +10,6 @@ name:
         - "Piton, iron, looped"
 description: "Iron spike with looped eye; ~1 per 10 ft of vertical climb. Consumable — usually left in the rock."
 id: JEmyKHG6jffHZwYg
-slug: piton
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: piton
 type: miscgear

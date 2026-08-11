@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light breathable infant wrapping perfect for warm climates."
 id: yAyq80z0iciJjVSg
-slug: linen-swaddle
 img: icons/game-icons/lorc/trousers.svg
 shortcode: LnSwd
 type: armorgear

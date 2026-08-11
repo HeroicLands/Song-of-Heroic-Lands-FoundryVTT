@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Metal ring leg coverings providing substantial protection against slashes."
 id: 6xYCu0LohWTCUsEq
-slug: mail-leggings
 img: icons/game-icons/lorc/trousers.svg
 shortcode: MLeg
 type: armorgear

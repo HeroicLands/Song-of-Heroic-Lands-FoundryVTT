@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Water-resistant seal-fur hood; ideal for coastal regions."
 id: cPnsG7hVk006GOHs
-slug: sealskin-cowl
 img: icons/game-icons/lorc/hood.svg
 shortcode: SlsCowl
 type: armorgear

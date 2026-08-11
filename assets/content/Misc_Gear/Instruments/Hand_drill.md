@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Spring-driven iron spindle with rocking crank; carpenters bore clean holes for rivets."
 id: 9Rmq8rou339Jx48e
-slug: hand-drill
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: handdrill
 type: miscgear

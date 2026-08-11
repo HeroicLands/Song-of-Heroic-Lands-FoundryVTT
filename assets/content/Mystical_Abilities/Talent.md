@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Innate psychic sensitivity for perceiving and influencing the unseen world."
 id: 9IdvC4RAPsx7og3I
-slug: talent
 img: icons/psychic-waves.svg
 shortcode: tlnt
 type: mysticalability

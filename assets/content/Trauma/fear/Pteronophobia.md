@@ -5,7 +5,6 @@ name:
     full: Pteronophobia
     aliases: []
 id: tYbkwucE3cD8QITZ
-slug: pteronophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ptrnphb
 type: trauma

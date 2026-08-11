@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Dried crocus stigmas; brilliant golden yellow for noble silk garments."
 id: LSTeW5LSSioSkscy
-slug: dye-saffron-yellow
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyesfrn
 type: miscgear

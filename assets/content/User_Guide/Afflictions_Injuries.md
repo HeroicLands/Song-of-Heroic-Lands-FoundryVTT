@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Afflictions and Injuries"
-slug: "afflictions-injuries"
 shortcode: afflandi
 folder: IgwaG8rAUUO9vrtz
 ---

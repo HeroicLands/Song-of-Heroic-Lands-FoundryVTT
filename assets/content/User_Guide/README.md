@@ -9,7 +9,6 @@ category: user-guide
 name:
     full: Song of Heroic Lands User Guide
     aliases: []
-slug: sohl-user-guide
 shortcode: userguide
 folder: IgwaG8rAUUO9vrtz
 ---

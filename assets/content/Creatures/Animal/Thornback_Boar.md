@@ -7,7 +7,6 @@ name:
     full: Thornback Boar
     aliases: []
 id: eQYklk8rdEDE0Dzb
-slug: thornback-boar
 img: icons/game-icons/caro-asercion/boar.svg
 portrait: ""
 shortcode: thrnbckb

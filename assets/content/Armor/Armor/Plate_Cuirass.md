@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Shaped steel plates protecting torso and ribs."
 id: 546myP182pUV4f30
-slug: plate-cuirass
 img: icons/game-icons/lorc/breastplate.svg
 shortcode: PlCui
 type: armorgear

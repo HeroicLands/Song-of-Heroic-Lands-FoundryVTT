@@ -5,7 +5,6 @@ name:
     full: Iatrophobia
     aliases: []
 id: Xjnim9EdLlw6bPfr
-slug: iatrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: iatrophb
 type: trauma

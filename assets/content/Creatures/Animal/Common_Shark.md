@@ -7,7 +7,6 @@ name:
     full: Common Shark
     aliases: []
 id: Dlb33sZtEOy97jZz
-slug: common-shark
 img: icons/game-icons/lorc/shark-jaws.svg
 portrait: ""
 shortcode: cmmnshrk

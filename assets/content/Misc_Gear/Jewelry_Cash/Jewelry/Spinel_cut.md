@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Hard gemstone in red-pink-purple; brilliant and durable; often confused with ruby."
 id: T5e6N6ftn0YD5dQx
-slug: spinel-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spinelcut
 type: miscgear

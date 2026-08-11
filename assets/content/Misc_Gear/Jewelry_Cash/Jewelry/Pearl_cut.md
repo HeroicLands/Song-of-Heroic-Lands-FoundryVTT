@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Lustrous oyster gem, soft white-cream-pink; favored for delicate bracelets and necklaces."
 id: ZYtGL9b5sDXXTprJ
-slug: pearl-cut
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pearlcut
 type: miscgear

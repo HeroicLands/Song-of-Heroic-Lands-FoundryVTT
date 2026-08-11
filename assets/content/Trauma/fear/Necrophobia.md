@@ -5,7 +5,6 @@ name:
     full: Necrophobia
     aliases: []
 id: t4A2K9avcp5Rf6WE
-slug: necrophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: necrophb
 type: trauma

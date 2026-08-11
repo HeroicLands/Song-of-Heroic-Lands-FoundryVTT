@@ -5,7 +5,6 @@ name:
     full: Schizophrenia
     aliases: []
 id: b2GfR3llVmETAEbd
-slug: schizophrenia
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: schizop
 type: trauma

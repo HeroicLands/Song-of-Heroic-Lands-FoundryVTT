@@ -7,7 +7,6 @@ name:
     full: Swampgolem
     aliases: []
 id: rkqNzivEoFUry3Wa
-slug: swampgolem
 img: icons/game-icons/delapouite/golem-head.svg
 portrait: ""
 shortcode: swmpglm

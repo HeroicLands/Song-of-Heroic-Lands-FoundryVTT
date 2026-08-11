@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Layered-fabric head-cover; light insulation for mild cold."
 id: QSVLHtneRK9Xc6bM
-slug: quilted-cap
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: QCap
 type: armorgear

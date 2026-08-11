@@ -11,7 +11,6 @@ name:
     full: Arcane
     aliases: []
 folder: oPWOe5cjsYc1ev2h
-slug: sohl-arcane
 shortcode: arcane
 ---
 

@@ -7,7 +7,6 @@ name:
     full: Earthreaver
     aliases: []
 id: sSoExpz4Qk9l3k5m
-slug: earthreaver
 img: icons/game-icons/delapouite/griffin-symbol.svg
 portrait: ""
 shortcode: erthrvr

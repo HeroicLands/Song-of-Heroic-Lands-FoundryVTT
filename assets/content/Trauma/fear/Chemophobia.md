@@ -5,7 +5,6 @@ name:
     full: Chemophobia
     aliases: []
 id: It119DUjOzhfGtGz
-slug: chemophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: chemophb
 type: trauma

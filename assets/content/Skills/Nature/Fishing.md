@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Catching fish using hooks, nets, spears; adapting to local conditions."
 id: udl3mzMb0IyASIVy
-slug: fishing
 img: icons/game-icons/delapouite/fishing.svg
 shortcode: fish
 type: skill

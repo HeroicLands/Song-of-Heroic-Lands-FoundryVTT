@@ -5,7 +5,6 @@ name:
     full: Decisive
     aliases: []
 id: Io04JX6x1b3reGYd
-slug: decisive
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: decisive
 type: trauma

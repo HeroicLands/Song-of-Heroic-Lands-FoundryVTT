@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Weak sour small-beer; cheap garrison drink, prevents tainted water sickness."
 id: UcPGAwFF1kUSIZSw
-slug: beer-hogshead
 img: icons/game-icons/lorc/beer-stein.svg
 shortcode: beerhgsh
 type: miscgear

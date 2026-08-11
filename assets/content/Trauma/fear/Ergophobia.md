@@ -5,7 +5,6 @@ name:
     full: Ergophobia
     aliases: []
 id: nTU4fbViT5bQP2io
-slug: ergophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ergophb
 type: trauma

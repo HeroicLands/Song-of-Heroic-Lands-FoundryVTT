@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "White ermine fur hat signifying high status and elite prestige."
 id: 51lcSTbYQhP0xMFK
-slug: ermine-hat
 img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: EHat
 type: armorgear

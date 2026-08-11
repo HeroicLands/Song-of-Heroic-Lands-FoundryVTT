@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Bronze tubes on frame, struck with mallet; marks prayer hours in temples."
 id: w73KsFmuEevTnJHP
-slug: chime
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chime
 type: miscgear

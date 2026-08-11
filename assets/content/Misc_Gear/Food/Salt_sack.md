@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Bulk coarse crystals, preserves a dozen fish or full ham."
 id: Ai4qwiaLyOnQVUID
-slug: salt-sack
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saltsack
 type: miscgear

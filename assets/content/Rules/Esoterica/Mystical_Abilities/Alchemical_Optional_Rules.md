@@ -8,7 +8,6 @@ category: rules
 name:
     full: Alchemical Optional Rules
     aliases: []
-slug: sohl-alchemical-optional-rule
 shortcode: alchmclo
 folder: J8ppkzls4ERyzTpv
 ---

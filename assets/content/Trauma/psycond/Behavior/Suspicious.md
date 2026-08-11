@@ -5,7 +5,6 @@ name:
     full: Suspicious
     aliases: []
 id: bcmfnzhm5Ky5X5te
-slug: suspicious
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sspcs
 type: trauma

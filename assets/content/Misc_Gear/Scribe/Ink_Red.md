@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Vermilion or madder-root; reserved for titles, rubrication, illuminated capitals."
 id: fGtnJW4Or5chRpOZ
-slug: ink-red
 img: icons/game-icons/lorc/ink-swirl.svg
 shortcode: inkred
 type: miscgear

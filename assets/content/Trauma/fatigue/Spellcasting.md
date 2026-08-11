@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Acute windedness from casting a spell."
 id: mD6TdehNGD0XvWR7
-slug: casting
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: cast
 type: trauma

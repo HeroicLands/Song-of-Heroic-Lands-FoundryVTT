@@ -8,7 +8,6 @@ name:
     full: Mature Fire Dragon
     aliases: []
 id: KnuTXF76FU1MTtAN
-slug: mature-fire-dragon
 img: icons/game-icons/faithtoken/dragon-head.svg
 portrait: ""
 shortcode: mtrfrdrg

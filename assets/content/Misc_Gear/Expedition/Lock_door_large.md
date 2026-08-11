@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Standard iron deadbolt with careful wards; main doors of halls and townhouses."
 id: WhTLgTrKp7F8Q9gA
-slug: lock-door-large
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lockdoorla
 type: miscgear

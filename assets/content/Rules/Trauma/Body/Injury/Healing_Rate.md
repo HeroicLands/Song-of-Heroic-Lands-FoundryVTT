@@ -8,7 +8,6 @@ category: rules
 name:
     full: Healing Rate
     aliases: []
-slug: sohl-healing-rate
 shortcode: hlngrt
 folder: F4NGyU9QQgWwTcHe
 ---

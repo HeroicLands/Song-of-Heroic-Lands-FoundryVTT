@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Spiked iron sphere on short haft; mounted man-at-arms' shock-versatility."
 id: ryOspfRbgG4qRb8i
-slug: morningstar
 img: icons/game-icons/delapouite/flanged-mace.svg
 shortcode: MgStr
 type: weapongear

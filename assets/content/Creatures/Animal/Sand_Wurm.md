@@ -7,7 +7,6 @@ name:
     full: Sand Wurm
     aliases: []
 id: 7hW9W4pXEtgVMSMD
-slug: sand-wurm
 img: icons/game-icons/lorc/worm-mouth.svg
 portrait: ""
 shortcode: sandwurm

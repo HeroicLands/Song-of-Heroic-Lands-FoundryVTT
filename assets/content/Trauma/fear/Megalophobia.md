@@ -5,7 +5,6 @@ name:
     full: Megalophobia
     aliases: []
 id: dfUoFYiBvAcCZJKx
-slug: megalophobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: mglphb
 type: trauma

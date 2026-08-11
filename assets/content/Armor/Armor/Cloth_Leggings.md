@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple cloth leg-wear offering comfort and warmth for everyday wear."
 id: 4YLllmW2d5ahnPsC
-slug: cloth-leggings
 img: icons/game-icons/lorc/trousers.svg
 shortcode: CLeg
 type: armorgear

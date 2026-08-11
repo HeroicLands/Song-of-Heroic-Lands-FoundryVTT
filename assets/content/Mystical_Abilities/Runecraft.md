@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Inscribing and activating runes imbued with arcane power and significance."
 id: 2J0wXp8grPjaA70I
-slug: runecraft
 img: icons/game-icons/lorc/rune-stone.svg
 shortcode: Rune
 type: mysticalability

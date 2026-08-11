@@ -7,7 +7,6 @@ name:
     full: Bramblespine Dartel
     aliases: []
 id: eDyiMoyAhdyDQpvk
-slug: bramblespine-dartel
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: brmblspn

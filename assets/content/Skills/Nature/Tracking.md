@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Reading footprints, vegetation, and signs of passage through environments."
 id: rve7MQf46F3L7gkU
-slug: tracking
 img: icons/game-icons/lorc/footprint.svg
 shortcode: trak
 type: skill

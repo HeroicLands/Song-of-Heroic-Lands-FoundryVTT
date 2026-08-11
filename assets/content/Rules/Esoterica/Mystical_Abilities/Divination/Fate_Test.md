@@ -8,7 +8,6 @@ category: rules
 name:
     full: Fate Test
     aliases: []
-slug: sohl-fate-test
 shortcode: fatetest
 folder: k6DghEucd6umnBJx
 ---

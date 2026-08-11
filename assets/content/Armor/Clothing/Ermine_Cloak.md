@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "White ermine cloak; status symbol of nobility and high prestige."
 id: Ku6i5jSS2MyJWoWr
-slug: ermine-cloak
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: ECloak
 type: armorgear

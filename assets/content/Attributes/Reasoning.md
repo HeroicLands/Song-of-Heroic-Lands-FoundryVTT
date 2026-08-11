@@ -5,7 +5,6 @@ name:
     full: Reasoning
     aliases: []
 id: l2gx8lA2IzZbeKOB
-slug: reasoning
 img: icons/game-icons/lorc/brain.svg
 shortcode: rea
 type: attribute

@@ -8,7 +8,6 @@ name:
     full: Crane
     aliases: []
 id: i63ZifkjQf8TYoHl
-slug: crane
 img: icons/game-icons/lorc/paw-print.svg
 portrait: ""
 shortcode: crane

@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Miscellaneous Gear"
-slug: "item-miscgear"
 shortcode: mscllnsg
 folder: QtOgPodi8X6gDWL0
 ---

@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Metal ring thigh protection offering flexibility and defense for soldiers."
 id: EbxRF3Rb4IFl50ud
-slug: mail-cuisse
 img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MCui
 type: armorgear

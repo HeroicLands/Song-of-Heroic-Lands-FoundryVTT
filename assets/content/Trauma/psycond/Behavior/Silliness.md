@@ -5,7 +5,6 @@ name:
     full: Silliness
     aliases: []
 id: uq8CXyXUlwx8eMVH
-slug: silliness
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sllnss
 type: trauma

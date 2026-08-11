@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Simple homemade robe providing comfort and warmth for everyday."
 id: mvpXPzqOD4LgF7NV
-slug: homespun-robe
 img: icons/game-icons/lorc/robe.svg
 shortcode: HsRobe
 type: armorgear

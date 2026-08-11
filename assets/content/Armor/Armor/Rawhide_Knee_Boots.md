@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Rugged hide boots; leg protection in harsh terrain."
 id: EQ0pP5rQTr5vW5ZH
-slug: rawhide-knee-boots
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: RhKBoot
 type: armorgear

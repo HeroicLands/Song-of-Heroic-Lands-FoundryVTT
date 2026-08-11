@@ -14,7 +14,6 @@ name:
     full: Fatigue
     aliases: []
 folder: edGOkxiCotuMzc1O
-slug: sohl-fatigue
 shortcode: fatigue
 ---
 

@@ -132,10 +132,41 @@ operation field, so typed call sites cast the options object.
   until it is unique (warning key `SOHL.CreateDocument.duplicateShortcode`). See
   [Extension Points §10](../how-to/extension-points.md).
 
+## The shortcode is the published URL
+
+Because `(type, shortcode)` is unique by rule, it is also what **addresses a content
+note on the web** — content notes carry no authored `slug` (#1278):
+
+| Surface | URL |
+| --- | --- |
+| Knowledgebase page | `/<section>/<shortcode>/` — e.g. `/armorgear/mbyrn/` |
+| An item's `system.docUrl` | `https://heroiclands.org/sohl/<type>/<shortcode>/` |
+
+`contentSlug` in `utils/content-slug.mjs` derives the segment: the shortcode,
+transliterated (so a non-ASCII character is carried across rather than dropped) and
+reduced to lowercase URL-safe characters. A KB section _is_ its type, so the shortcode
+alone addresses the page unambiguously; two notes that would nonetheless publish to the
+same URL (shortcodes differing only in case or punctuation) fail the build via
+`findSlugCollisions`, which names both files.
+
+Deriving the URL rather than authoring it removes a field that could drift from the
+identity it duplicated — under the old name-derived slugifier, `Ālverrik` reduced to
+`lverrik`, so accented names needed a hand-written override to stay addressable.
+
+**The one record of the old URLs** is `kb/data/legacy-slugs.json`, keyed by
+`type:shortcode`. The knowledgebase build emits a Hugo `aliases` redirect from each,
+so pre-existing links keep resolving. It is append-only history: never edit an entry,
+and add a row only when a page's URL changes again.
+
+Developer docs (`kb/dev-docs/`) are not content notes — they have no shortcode and keep
+their own `slug` frontmatter, routed by source path.
+
 ## Testing
 
 - **Resolver** — `tests/utils/helpers.test.ts` exercises every matrix cell with an
   injected `makeRandomId` stub (no Foundry).
+- **URL derivation** — `tests/build/content-slug.test.ts` covers `contentSlug` and
+  `findSlugCollisions` (no Foundry).
 - **Runtime + dialog + pack** — `cypress/e2e/shortcode-uniqueness.cy.js` drives the
   live client: an explicit collision is rejected on create, `shortcodeDedupe` suffixes
   it, renaming into a collision is rejected on update, and the same code on a different

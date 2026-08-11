@@ -5,7 +5,6 @@ name:
     full: Aura
     aliases: []
 id: LwA1PJKKtH0DyGvg
-slug: aura
 img: icons/game-icons/lorc/aura.svg
 shortcode: aur
 type: attribute

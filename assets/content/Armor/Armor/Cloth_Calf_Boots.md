@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Light, breathable cloth boots for casual wear and comfort."
 id: wg4u1iP8RxwdWSkj
-slug: cloth-calf-boots
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: CCBoot
 type: armorgear

@@ -8,7 +8,6 @@ name:
     full: Ibex
     aliases: []
 id: Mbqn2UmueYKKnynf
-slug: ibex
 img: icons/game-icons/skoll/goat.svg
 portrait: ""
 shortcode: ibex

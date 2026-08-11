@@ -9,7 +9,6 @@ category: rules
 name:
     full: Healing Test
     aliases: []
-slug: sohl-healing-test
 shortcode: hlngtst
 folder: F4NGyU9QQgWwTcHe
 ---

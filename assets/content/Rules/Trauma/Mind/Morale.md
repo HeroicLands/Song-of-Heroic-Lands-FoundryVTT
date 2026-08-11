@@ -12,7 +12,6 @@ name:
     full: Morale
     aliases: []
 folder: hAloT0Y1xg1vcIIn
-slug: sohl-morale
 shortcode: morale
 ---
 

@@ -9,7 +9,6 @@ name:
     full: Skill Descriptions
     aliases: []
 folder: e0HEIHw9qUVWqyzJ
-slug: sohl-skill-descriptions
 shortcode: skldesc
 ---
 

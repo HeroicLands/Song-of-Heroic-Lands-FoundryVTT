@@ -5,7 +5,6 @@ name:
     full: Precise
     aliases: []
 id: ny13be08Ai05NFZN
-slug: precise
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: precise
 type: trauma

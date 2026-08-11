@@ -5,7 +5,6 @@ name:
     full: Blindness
     aliases: []
 id: ToWzjyTHRq2a5fCn
-slug: blindness
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: blndnss
 type: trauma

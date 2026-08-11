@@ -5,7 +5,6 @@ name:
     full: Ephebiphobia
     aliases: []
 id: fvJwWCQ9PMJFm5UM
-slug: ephebiphobia
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ephbphb
 type: trauma

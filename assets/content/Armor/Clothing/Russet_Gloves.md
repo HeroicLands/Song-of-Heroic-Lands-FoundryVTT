@@ -7,7 +7,6 @@ name:
     aliases: []
 description: "Reddish-brown wool hand-covers; cold-weather protection."
 id: zZyBYx27eMQNyGOb
-slug: russet-gloves
 img: icons/game-icons/delapouite/gloves.svg
 shortcode: RGlv
 type: armorgear

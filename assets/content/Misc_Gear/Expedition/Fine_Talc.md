@@ -8,7 +8,6 @@ name:
     aliases: []
 description: "Fine mineral powder; dries sweat, prevents chafing, dusts wounds, and gives grip to the climber's or wrestler's hands."
 id: AMiSwMSeSCPtfy0M
-slug: fine-talc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: talc
 type: miscgear

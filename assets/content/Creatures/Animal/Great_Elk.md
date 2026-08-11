@@ -7,7 +7,6 @@ name:
     full: Great Elk
     aliases: []
 id: MMuW0ZSPSzJPFbmM
-slug: great-elk
 img: icons/game-icons/lorc/stag-head.svg
 portrait: ""
 shortcode: greatelk

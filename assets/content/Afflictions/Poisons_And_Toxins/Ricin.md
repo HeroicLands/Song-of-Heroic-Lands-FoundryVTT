@@ -6,7 +6,6 @@ name:
     aliases: []
 description: "Castor bean toxin; organ failure over days; lethal in tiny amounts."
 id: FdrJ7yAj3GXKJtpI
-slug: ricin
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: ricin
 type: affliction

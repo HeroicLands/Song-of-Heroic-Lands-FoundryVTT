@@ -5,7 +5,6 @@ name:
     full: Adventurous
     aliases: []
 id: 0TZN0CGGianrV453
-slug: adventurous
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: advs
 type: trauma

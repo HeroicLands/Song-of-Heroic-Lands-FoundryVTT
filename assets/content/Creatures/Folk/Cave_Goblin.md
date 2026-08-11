@@ -7,7 +7,6 @@ name:
     full: Cave Goblin
     aliases: []
 id: pDiXk1iBL5unp4Q3
-slug: cave-goblin
 img: icons/game-icons/caro-asercion/goblin.svg
 portrait: ""
 shortcode: cvgbln

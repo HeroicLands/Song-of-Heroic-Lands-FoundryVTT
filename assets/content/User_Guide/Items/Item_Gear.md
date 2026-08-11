@@ -7,7 +7,6 @@ package: sohl
 category: user-guide
 name:
     full: "Gear"
-slug: "item-gear"
 shortcode: itemgear
 folder: QtOgPodi8X6gDWL0
 ---

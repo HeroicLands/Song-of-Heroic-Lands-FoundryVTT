@@ -9,7 +9,6 @@ name:
     full: Combat Techniques
     aliases: []
 folder: e0HEIHw9qUVWqyzJ
-slug: sohl-combat-techniques
 shortcode: cmbttchn
 ---
 
