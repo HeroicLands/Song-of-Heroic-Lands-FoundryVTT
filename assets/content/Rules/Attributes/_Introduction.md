@@ -21,3 +21,5 @@ Attributes matter chiefly through **Skill Base**: a skill's starting Mastery
 Level is derived from the attributes that skill depends on, so a character's
 innate capacities shape what they can readily learn. They are also tested
 directly when a situation calls on raw capacity rather than trained technique.
+
+(@Table search=[type:attribute] columns=[Name:name.full, Shortcode:shortcode, Description:description])

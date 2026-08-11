@@ -21,3 +21,5 @@ rises and falls with service and disgrace. Standing is what gates access to a
 group's teaching, resources and protection, so an affiliation is often the
 reason a character may attempt something at all rather than the measure of how
 well they do it.
+
+(@Table search=[type:affiliation] columns=[Name:name.full, Shortcode:shortcode, Description:description])
