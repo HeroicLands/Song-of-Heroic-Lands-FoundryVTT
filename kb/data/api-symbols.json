@@ -5209,6 +5209,7 @@
   "sohl.utils.defaultFromJSON": "functions/sohl.utils.defaultFromJSON.html",
   "sohl.utils.defaultToJSON": "functions/sohl.utils.defaultToJSON.html",
   "sohl.utils.defineType": "functions/sohl.utils.defineType.html",
+  "sohl.utils.descriptionLinkTarget": "functions/sohl.utils.descriptionLinkTarget.html",
   "sohl.utils.escapeHTML": "functions/sohl.utils.escapeHTML.html",
   "sohl.utils.gearKindLabels": "variables/sohl.utils.gearKindLabels.html",
   "sohl.utils.getChoicesMap": "functions/sohl.utils.getChoicesMap.html",
