@@ -31,6 +31,11 @@ sohl:
     rigidloc:
         - thrxloc
         - abdmnloc
+    facing:
+        - location: thrxloc
+          side: front
+        - location: abdmnloc
+          side: front
     protection:
         blunt: 4
         edged: 8

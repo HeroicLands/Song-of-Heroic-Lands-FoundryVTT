@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Padded
     material: Padded
     durability: 10
-    value: 66
-    weight: 2.64
+    value: 69
+    weight: 2.8
     encumbrance: 0
     perception:
         value: 0
@@ -30,19 +30,43 @@ sohl:
     flexloc:
         - lshldloc
         - rshldloc
-        - lupaloc
-        - rupaloc
         - thrxloc
         - abdmnloc
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
     rigidloc: []
+    facing:
+        - location: thrxloc
+          side: back
+        - location: abdmnloc
+          side: back
+        - location: plvisloc
+          side: back
+        - location: lthghloc
+          side: back
+        - location: rthghloc
+          side: back
+        - location: lkneeloc
+          side: back
+        - location: rkneeloc
+          side: back
+        - location: lcalfloc
+          side: back
+        - location: rcalfloc
+          side: back
     protection:
         blunt: 4
         edged: 8
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 66
-origWeight: 2.64
+origValue: 69
+origWeight: 2.8
 ---
 
 A cloak of quilted and padded cloth, layered and stitched through so that it turns a
