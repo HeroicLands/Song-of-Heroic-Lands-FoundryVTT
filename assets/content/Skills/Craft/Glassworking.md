@@ -31,12 +31,20 @@ Glassworking is the winning of vessels and panes out of a substance that is only
 
 Reckon **one day per 6d of the item's sale price**, at a material cost of **2½d per day**. A Glassworking Success Value test on the standard table fixes the quality: clarity, freedom from bubble and streak, evenness of wall.
 
-| Item            | lb  | Price | Item                 | lb   | Price |
-| --------------- | --- | ----- | -------------------- | ---- | ----- |
-| Beads, 12       | 1   | 12d   | Jar, 1 pint          | 0.75 | 6d    |
-| Bottle, 2 pints | 2   | 6d    | Lenses               | 0.1  | 120d  |
-| Flask, 1 pint   | 1   | 6d    | Phial, 4 oz, 2″ × 5″ | 0.25 | 4d    |
-| Hourglass       | 0.3 | 150d  | Window, per ft²      | 3    | 2d    |
-| Inkwell, 2 oz   | 1   | 30d   | Window, stained, ft² | 4    | 12d   |
+| Item                  | lb  | Price | Item                | lb   | Price |
+| --------------------- | --- | ----- | ------------------- | ---- | ----- |
+| Beads, glass          | 1   | 12d   | Inkwell, glass      | 1    | 30d   |
+| Bottle, glass, medium | 2   | 6d    | Jar, glass, 1 pt.   | 0.75 | 6d    |
+| Flask, glass, 1 pint  | 1   | 6d    | Lenses              | 0.1  | 120d  |
+| Hourglass             | 0.3 | 150d  | Vial, glass, medium | 0.25 | 4d    |
+
+**Glazing** is sold and worked by the square foot rather than as an article, and
+is the bulk of a town glazier's trade — a cathedral window is reckoned in
+hundreds of feet and years of work.
+
+| Glazing         | lb per ft² | Price per ft² |
+| --------------- | ---------- | ------------- |
+| Window, plain   | 3          | 2d            |
+| Window, stained | 4          | 12d           |
 
 Glass phials are also the vessel of choice for anything that must be seen without being opened, and a thin-walled jar is the standard body of a fire pot — which is a use the maker is rarely told about.

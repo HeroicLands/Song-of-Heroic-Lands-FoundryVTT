@@ -33,14 +33,22 @@ The shaping is quick. An experienced potter throws a bowl on a stick wheel in mi
 
 Quality is a Ceramics Success Value test read on the standard table, so that the same potter's kiln yields flawed ware, plain sound ware, and the occasional piece worth keeping.
 
-| Item                        | lb  | Price | Item                 | lb  | Price |
-| --------------------------- | --- | ----- | -------------------- | --- | ----- |
-| Amphora, 15 gallon          | 28  | 28d   | Jar, lidded, 1 quart | 3   | 5d    |
-| Beads, 12                   | 2   | 6d    | Jug, 1 gallon        | 5   | 9d    |
-| Brick, 8″ × 3¾″ × 2¼″       | 3   | 6d    | Plate, 8″            | 2   | 3d    |
-| Bottle, 2 pints             | 1   | 2d    | Pot, 2 quart         | 3   | 4d    |
-| Bowl, 8″ × 4″               | 3   | 6d    | Tile, 4″ × 4″ × 1″   | 2   | 1d    |
-| Box with lid, 12″ × 8″ × 6″ | 2   | 3d    | Urn, 5 gallon        | 9   | 12d   |
-| Icon, 4″                    | 1   | 2d    | Vase                 | 2   | 4d    |
+| Item                                | lb  | Price | Item                   | lb  | Price |
+| ----------------------------------- | --- | ----- | ---------------------- | --- | ----- |
+| Amphora, ceramic, 15 gallon         | 28  | 28d   | Jar, lidded, 1 quart   | 3   | 5d    |
+| Beads, ceramic, 12                  | 2   | 6d    | Jug, ceramic, 1 gallon | 5   | 9d    |
+| Bottle, ceramic, 2 pints            | 1   | 2d    | Plate, ceramic         | 2   | 3d    |
+| Bowl, ceramic                       | 3   | 6d    | Pot, ceramic, 2 quart  | 3   | 4d    |
+| Box, ceramic, lidded, 12 x 8 x 6 in | 2   | 3d    | Urn, ceramic, 5 gallon | 9   | 12d   |
+| Icon, ceramic, 4 in                 | 1   | 2d    | Vase, ceramic          | 2   | 4d    |
+
+**Building materials** are priced by the piece rather than as possessions —
+nobody inventories a brick — and a potter fires them by the cartload alongside
+everything else.
+
+| Material              | lb  | Price each |
+| --------------------- | --- | ---------- |
+| Brick, 8″ × 3¾″ × 2¼″ | 3   | 6d         |
+| Tile, 4″ × 4″ × 1″    | 2   | 1d         |
 
 Knowing the craft's history, or recognising an unfamiliar technique or an anomalous clay, is a different question from throwing a pot — that is a Reasoning (Ceramics) test rather than a Ceramics one.

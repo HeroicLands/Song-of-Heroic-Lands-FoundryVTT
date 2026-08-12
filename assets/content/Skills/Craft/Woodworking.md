@@ -31,20 +31,28 @@ Woodworking is the joiner's and turner's trade: furniture, containers, vehicles,
 
 Reckon **ten hours per 3d of the item's price**, at a material cost of **1d per 30 lb**. A Woodworking Success Value test on the standard table fixes the quality. A **[d]** marks a decorative piece; weapons **[w]** are made by the weaponmaking routine instead.
 
-| Item                    | lb  | Price | Item                  | lb  | Price |
-| ----------------------- | --- | ----- | --------------------- | --- | ----- |
-| Barrel, 10 gallon       | 30  | 12d   | Club [w]              | 3   | 12d   |
-| Barrel, 50 gallon       | 90  | 36d   | Cup                   | 1   | 3d    |
-| Bed, single             | 85  | 48d   | Grainflail [w]        | 2   | 12d   |
-| Bench                   | 22  | 18d   | Ladder, 8′            | 19  | 6d    |
-| Box, 12″ × 8″ × 6″ [d]  | 3   | 2d    | Maul [w]              | 7   | 24d   |
-| Bucket, 3 gallon        | 10  | 8d    | Staff [w]             | 3   | 36d   |
-| Cabinet [d]             | 60  | 144d  | Table, 4′ × 2′ × 6′   | 47  | 36d   |
-| Cage, 27 ft³            | 40  | 15d   | Trunk, 1½′ × 2′ × 3½′ | 40  | 12d   |
-| Cage, 1 ft³             | 4   | 7d    | Wagon, 4-wheel        | 800 | 220d  |
-| Cart or sled            | 200 | 80d   | Wheel                 | 20  | 18d   |
-| Chair                   | 7   | 12d   | Wheelbarrow           | 24  | 10d   |
-| Chest, 1′ × 2′ × 2′ [d] | 24  | 18d   | Yoke, ox              | 2   | 3d    |
+| Item                       | lb  | Price | Item           | lb  | Price |
+| -------------------------- | --- | ----- | -------------- | --- | ----- |
+| Barrel, 10 gallon          | 30  | 12d   | Club [w]       | 3   | 12d   |
+| Barrel, 50 gallon          | 90  | 36d   | Cup, wooden    | 1   | 3d    |
+| Bed, single                | 85  | 48d   | Grainflail [w] | 2   | 12d   |
+| Bench                      | 22  | 18d   | Ladder, 8 ft   | 19  | 6d    |
+| Box, wooden, 12 x 8 x 6 in | 3   | 2d    | Maul [w]       | 7   | 24d   |
+| Bucket, wooden, 3 gallon   | 10  | 8d    | Staff [w]      | 3   | 36d   |
+| Cabinet                    | 60  | 144d  | Table          | 47  | 36d   |
+| Cage, wooden, large        | 40  | 15d   | Trunk, wooden  | 40  | 12d   |
+| Cage, wooden, small        | 4   | 7d    | Wheel          | 20  | 18d   |
+| Chair                      | 7   | 12d   | Wheelbarrow    | 24  | 10d   |
+| Chest, wooden              | 24  | 18d   | Yoke, ox       | 2   | 3d    |
+
+**Vehicles.** A wagon or a cart is not a thing anyone carries, and is not tracked
+as a possession the way the articles above are. The wright's figures are given
+here for the cost of building one.
+
+| Vehicle        | lb  | Price |
+| -------------- | --- | ----- |
+| Cart or sled   | 200 | 80d   |
+| Wagon, 4-wheel | 800 | 220d  |
 
 **Wooden structures** follow the same two-stage procedure as stone ones: an Engineering Design Roll first, then a Construction Roll made as for Masonry but testing the skill below. Cottages, hovels, fences and palisades are simple enough to need no design at all.
 
