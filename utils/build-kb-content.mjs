@@ -34,6 +34,7 @@ import matter from "gray-matter";
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
 import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
 import { expandContentTables } from "./content-tables.mjs";
+import { isItemDocType } from "./packs/item-docs.mjs";
 
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");
@@ -580,6 +581,18 @@ for (const e of entries) {
     const v = { url: e.url, name: e.name };
     if (typeof e.fm.shortcode === "string" && e.fm.shortcode) {
         wikiIndex.set(`${type}/${e.fm.shortcode}`.toLowerCase(), v);
+        // In Foundry an item and its documentation are two separate documents,
+        // so `skill/wpnc` and `docskill/wpnc` resolve to two different UUIDs
+        // (#1362). Here the item note renders as one page which *is* its
+        // documentation, so the two qualifiers are **aliases for the same URL**
+        // and an anchor on either is an ordinary in-page anchor. One authored
+        // link, correct in both builds. Restricted to the types that actually
+        // have an item doc, so a qualifier the packs would reject is reported
+        // broken here too.
+        if (isItemDocType(type)) {
+            contentTypes.add(`doc${type}`);
+            wikiIndex.set(`doc${type}/${e.fm.shortcode}`.toLowerCase(), v);
+        }
     }
     const aliases = [
         ...(Array.isArray(e.fm.aliases) ? e.fm.aliases : []),

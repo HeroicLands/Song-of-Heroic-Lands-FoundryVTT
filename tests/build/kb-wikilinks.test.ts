@@ -23,6 +23,10 @@ function makeCtx(overrides: Record<string, unknown> = {}) {
             ["doc/shock", shock], // type/shortcode
             ["skill/climbing", climb],
             ["skill/climb", climb], // type/shortcode
+            // In Foundry the item and its documentation are two documents; on
+            // the KB the item note *is* its documentation, so the build indexes
+            // `doc<type>` as an alias of the same page (#1362).
+            ["docskill/climb", climb],
         ]),
         typeAlias: new Map<string, object>([
             ["doc|shock", shock],
@@ -58,6 +62,31 @@ describe("resolveKbWikilinks", () => {
         expect(resolveKbWikilinks("see [[doc/shock|the rules]]", ctx)).toBe(
             "see [the rules](/rules/sohl-shock/)",
         );
+        expect(ctx.errors).toEqual([]);
+    });
+
+    it("treats `doc<type>` as an alias of the item's own page (#1362)", () => {
+        const ctx = makeCtx();
+        // The item and its documentation are one page here, so both qualifiers
+        // land on the same URL — the same authored link that addresses two
+        // separate documents in Foundry.
+        expect(resolveKbWikilinks("[[docskill/climb|Climbing]]", ctx)).toBe(
+            "[Climbing](/skill/climbing/)",
+        );
+        expect(resolveKbWikilinks("[[skill/climb|Climbing]]", ctx)).toBe(
+            "[Climbing](/skill/climbing/)",
+        );
+        expect(ctx.errors).toEqual([]);
+    });
+
+    it("keeps an anchor on `doc<type>` an ordinary in-page anchor", () => {
+        const ctx = makeCtx();
+        expect(
+            resolveKbWikilinks(
+                "[[docskill/climb#crafting|how it is made]]",
+                ctx,
+            ),
+        ).toBe("[how it is made](/skill/climbing/#crafting)");
         expect(ctx.errors).toEqual([]);
     });
 

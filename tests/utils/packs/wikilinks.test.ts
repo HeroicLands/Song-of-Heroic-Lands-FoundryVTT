@@ -15,6 +15,7 @@ import {
     buildWikilinkIndex,
     convertWikilinks,
 } from "../../../utils/packs/wikilinks.mjs";
+import { itemDocEntryId } from "../../../utils/packs/item-docs.mjs";
 
 /** A small stand-in content tree spanning three packs. */
 const DOCS = [
@@ -189,5 +190,118 @@ describe("convertWikilinks", () => {
             "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock} and " +
                 "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing} both",
         );
+    });
+});
+
+/**
+ * An item and its documentation are two different documents in two different
+ * packs, so they need two different addresses. `skill/climb` is the item;
+ * `docskill/climb` is the JournalEntry that item's prose compiled into (#1362).
+ */
+describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
+    const climbDoc = itemDocEntryId("bbbbbbbbbbbbbbb1");
+
+    it("addresses the item doc entry, not the item", () => {
+        const { markdown, unresolved } = convert("see [[docskill/climb|the Climbing rules]]");
+        expect(markdown).toBe(
+            `see @UUID[Compendium.sohl.journals.JournalEntry.${climbDoc}]{the Climbing rules}`,
+        );
+        expect(unresolved).toEqual([]);
+        // The two addresses must not collide.
+        expect(climbDoc).not.toBe("bbbbbbbbbbbbbbb1");
+    });
+
+    it("addresses a page within the item doc via an anchor", () => {
+        const page = anchorPageId(climbDoc, "crafting");
+        const { markdown } = convert("the [[docskill/climb#crafting|crafting rules]]");
+        expect(markdown).toBe(
+            "the @UUID[Compendium.sohl.journals.JournalEntry." +
+                `${climbDoc}.JournalEntryPage.${page}]{crafting rules}`,
+        );
+    });
+
+    it("hashes the anchor against the item doc entry id, never the item id", () => {
+        const page = anchorPageId(climbDoc, "crafting");
+        expect(page).not.toBe(anchorPageId("bbbbbbbbbbbbbbb1", "crafting"));
+    });
+
+    it("works for any item type, including one it has never seen", () => {
+        const backpackDoc = itemDocEntryId("eeeeeeeeeeeeeee1");
+        expect(convert("[[doccontainergear/backpack|Backpack]]").markdown).toBe(
+            `@UUID[Compendium.sohl.journals.JournalEntry.${backpackDoc}]{Backpack}`,
+        );
+    });
+
+    it("matches the virtual qualifier case-insensitively", () => {
+        expect(convert("[[DocSkill/Climb|Climbing]]").markdown).toBe(
+            `@UUID[Compendium.sohl.journals.JournalEntry.${climbDoc}]{Climbing}`,
+        );
+    });
+
+    it("leaves the plain item qualifier pointing at the item", () => {
+        expect(convert("[[skill/climb|Climbing]]").markdown).toBe(
+            "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing}",
+        );
+    });
+
+    it("rejects `doc` applied to a type that has no item doc", () => {
+        // `doc` and `creature` compile to the journals and actors packs
+        // respectively; neither has an item doc to address.
+        for (const link of ["[[docdoc/shock|Shock]]", "[[doccreature/condor|Condor]]"]) {
+            const { markdown, unresolved } = convert(link);
+            expect(markdown).toBe(link);
+            expect(unresolved[0]).toMatchObject({ reason: "unknown-type" });
+        }
+    });
+
+    it("reports an unknown shortcode under a valid virtual qualifier", () => {
+        const { markdown, unresolved } = convert("[[docskill/nosuchcode|Nope]]");
+        expect(markdown).toBe("[[docskill/nosuchcode|Nope]]");
+        expect(unresolved[0]).toMatchObject({ reason: "unknown" });
+    });
+
+    it("ignores an anchor applied to an Item — an Item has no pages", () => {
+        // Only a JournalEntry has pages. Rather than forge a JournalEntryPage id
+        // onto a document that can never hold one (the #1362 defect), the anchor
+        // is simply dropped and the link addresses the item.
+        const { markdown, unresolved } = convert("[[skill/climb#crafting|Climbing]]");
+        expect(markdown).toBe(
+            "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing}",
+        );
+        expect(markdown).not.toContain("JournalEntryPage");
+        expect(unresolved).toEqual([]);
+    });
+
+    it("ignores an anchor on an actor or a macro for the same reason", () => {
+        expect(convert("[[creature/condor#wings|Condor]]").markdown).toBe(
+            "@UUID[Compendium.sohl.actors.Actor.ccccccccccccccc1]{Condor}",
+        );
+        expect(convert("[[macro/rollit#step|Roll It]]").markdown).toBe(
+            "@UUID[Compendium.sohl.macros.Macro.ddddddddddddddd1]{Roll It}",
+        );
+    });
+
+    it("still honours the anchor on the item's documentation", () => {
+        // The same anchor that is meaningless on the item addresses a real page
+        // on its item doc.
+        const page = anchorPageId(climbDoc, "crafting");
+        expect(convert("[[docskill/climb#crafting|Crafting]]").markdown).toBe(
+            "@UUID[Compendium.sohl.journals.JournalEntry." +
+                `${climbDoc}.JournalEntryPage.${page}]{Crafting}`,
+        );
+    });
+
+    it("prefers a real content type over the virtual reading of the same name", () => {
+        // Were a type literally named `docskill` ever authored, it would own the
+        // qualifier — the virtual form is only consulted when no such type exists.
+        const withReal = buildWikilinkIndex([
+            ...DOCS,
+            { type: "docskill", id: "fffffffffffffff1", shortcode: "climb", aliases: [] },
+        ]);
+        const { markdown } = convertWikilinks("[[docskill/climb|X]]", {
+            ...from,
+            index: withReal,
+        });
+        expect(markdown).toBe("@UUID[Compendium.sohl.items.Item.fffffffffffffff1]{X}");
     });
 });

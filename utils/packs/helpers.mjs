@@ -361,16 +361,13 @@ export function buildStats(systemVersion = "0.6.0") {
 }
 
 /**
- * Stable 16-char hex id derived from `${namespace}:${value}`. Use for
- * deriving page ids from heading text when no explicit id is supplied.
+ * Stable 16-char hex id derived from `${namespace}:${value}`.
+ *
+ * Defined in {@link sohl.utils.packs.ids} — a leaf module, so that the link
+ * resolver this one imports can derive ids too — and re-exported here for the
+ * passes that have always reached it through `helpers`.
  */
-export function makeId(namespace, value) {
-    return crypto
-        .createHash("sha1")
-        .update(`${namespace}:${value}`)
-        .digest("hex")
-        .slice(0, 16);
-}
+export { makeId } from "./ids.mjs";
 
 /* ------------------------------------------------------------------------ */
 /*  Wikilink resolution: the content-wide link index                        */
