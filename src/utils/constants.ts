@@ -944,6 +944,34 @@ export const {
 /** Union of all impact-aspect values. */
 export type ImpactAspect = (typeof IMPACT_ASPECT)[keyof typeof IMPACT_ASPECT];
 
+export const {
+    /** Map of encumbrance-group key → value. */
+    kind: ENCUMBRANCE_GROUP,
+    /** All encumbrance-group values, as an array. */
+    values: EncumbranceGroups,
+    /** Type guard for encumbrance-group values. */
+    isValue: isEncumbranceGroup,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: EncumbranceGroupChoices,
+} = defineType("SOHL.ArmorGear.EncumbranceGroup", {
+    ARM: "arm",
+});
+
+/**
+ * Union of all encumbrance-group values — the articles whose encumbrance is
+ * charged to a set rather than to each piece.
+ *
+ * Most armour carries an encumbrance value that applies whenever it is worn.
+ * The small rigid arm pieces do not: a spaulder or a pair of vambraces costs
+ * nothing alone, and it is wearing three or more together that costs 5 between
+ * them. A threshold on the set cannot be written as a per-article number — a
+ * sum lands on the right answer only at exactly three.
+ *
+ * An article carries an encumbrance value or belongs to a group, never both.
+ */
+export type EncumbranceGroup =
+    (typeof ENCUMBRANCE_GROUP)[keyof typeof ENCUMBRANCE_GROUP];
+
 /** Single-character abbreviation for each impact aspect (b/e/p/f). */
 export const IMPACT_ASPECT_CHAR: Record<ImpactAspect, string> = {
     [IMPACT_ASPECT.BLUNT]: "b",

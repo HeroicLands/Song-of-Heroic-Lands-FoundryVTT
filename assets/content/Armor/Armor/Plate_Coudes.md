@@ -24,11 +24,9 @@ sohl:
     value: 40
     weight: 0.8
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: HAFfaByH2SmeQEpT
+    perceptionPenaltyBase: 0
+    encumbranceGroup: arm
     flexloc: []
-
     rigidloc:
         - lelbloc
         - relbloc

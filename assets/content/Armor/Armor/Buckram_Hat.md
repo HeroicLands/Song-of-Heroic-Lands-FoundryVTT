@@ -24,13 +24,10 @@ sohl:
     value: 4
     weight: 0.2
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: cGD0OfoPLmfw8vNr
+    perceptionPenaltyBase: 0
     flexloc:
         - skullloc
     rigidloc: []
-
     protection:
         blunt: 4
         edged: 8

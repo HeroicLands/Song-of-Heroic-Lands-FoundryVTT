@@ -24,11 +24,9 @@ sohl:
     value: 100
     weight: 1.9
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: a4pduvoBqoLXZ2gp
+    perceptionPenaltyBase: 0
+    encumbranceGroup: arm
     flexloc: []
-
     rigidloc:
         - lfraloc
         - rfraloc

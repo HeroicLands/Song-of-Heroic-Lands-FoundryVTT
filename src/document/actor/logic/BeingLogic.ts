@@ -15,6 +15,10 @@ import { entity } from "@src/entity/registry";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
+import {
+    armHarnessEncumbrance,
+    worstPerceptionPenalty,
+} from "@src/document/item/logic/worn-armour-effects";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -120,6 +124,7 @@ import {
     ImpactAspectChoices,
     isImpactAspect,
     type ImpactAspect,
+    ENCUMBRANCE_GROUP,
     ITEM_KIND,
     type BodySide,
     SKILL_CODE,
@@ -422,6 +427,23 @@ export class BeingLogic<
      * `encumbrance` expression of the being's {@link carriedWeight}.
      */
     encumbrance!: ValueModifier;
+
+    /**
+     * The perception penalty the being currently suffers from worn headgear, as
+     * a non-positive number.
+     *
+     * The **worst** worn penalty applies rather than their sum — a great helm
+     * subsumes what a mail cowl does to sight and hearing. Consumed by anything
+     * built on Perception; see
+     * {@link sohl.document.item.logic.worstPerceptionPenalty}.
+     */
+    get wornPerceptionPenalty(): number {
+        return worstPerceptionPenalty(
+            this.logicTypes[ITEM_KIND.ARMORGEAR]
+                .filter((a) => a.data.isWorn)
+                .map((a) => a.data.perceptionPenaltyBase ?? 0),
+        );
+    }
 
     /**
      * This being's size-scaled injury-level thresholds — delegated to the
@@ -2643,8 +2665,15 @@ export class BeingLogic<
         // explicit encumbrance value representing awkwardness beyond raw weight.
         // While the item is in use — armor worn, a weapon carried ready for use —
         // that value is added on top of the weight-derived base.
+        let armArticlesWorn = 0;
         for (const armor of this.logicTypes[ITEM_KIND.ARMORGEAR]) {
             if (!armor.data.isWorn) continue;
+            // An article in an encumbrance group carries no value of its own —
+            // its cost is charged to the set below.
+            if (armor.data.encumbranceGroup === ENCUMBRANCE_GROUP.ARM) {
+                armArticlesWorn++;
+                continue;
+            }
             const enc = armor.encumbrance.effective;
             if (enc) {
                 this.encumbrance.add(
@@ -2653,6 +2682,14 @@ export class BeingLogic<
                     enc,
                 );
             }
+        }
+
+        // Arm harness: three or more arm articles cost 5 between them, and 5
+        // however many beyond three are worn. A threshold on the set, so it is
+        // charged once here rather than divided among the pieces.
+        const harness = armHarnessEncumbrance(armArticlesWorn);
+        if (harness) {
+            this.encumbrance.add("armHarnessEnc", "Arm Harness", harness);
         }
         for (const weapon of this.logicTypes[ITEM_KIND.WEAPONGEAR]) {
             if (!weapon.data.isCarried) continue;

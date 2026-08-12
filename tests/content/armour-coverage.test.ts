@@ -177,6 +177,28 @@ const ENCUMBRANCE: Record<string, number> = {
     "Ring/Leggings": 10,
 };
 
+/**
+ * The articles the table marks (A): they carry no encumbrance of their own, and
+ * instead cost ENC 5 between them once three or more are worn together. The
+ * marker is separate from the ENC column precisely because the two differ —
+ * ENC is always on, (A) applies only above a threshold.
+ */
+const ARM_ARTICLES = new Set([
+    "Kûrbúl/Spaulders",
+    "Kûrbúl/Rerebraces",
+    "Kûrbúl/Coudes",
+    "Kûrbúl/Vambraces",
+    "Kûrbúl/Ailettes",
+    "Plate/Spaulders",
+    "Plate/Rerebraces",
+    "Plate/Coudes",
+    "Plate/Vambraces",
+    "Plate/Ailettes",
+    "Scale/Gauntlets",
+    "Mail/Mittens",
+    "Ring/Gauntlets",
+]);
+
 /** The perception penalty each marked article imposes: −5 black, −10 red. */
 const PERCEPTION: Record<string, number> = {
     "Padded/Cowl": -5,
@@ -198,6 +220,7 @@ interface Article {
     facing: { location: string; side: string }[];
     value: number;
     encumbrance: number;
+    encumbranceGroup: string | null;
     perception: number;
 }
 
@@ -225,7 +248,8 @@ const ARTICLES: Article[] = walk(ARMOR_ROOT)
         facing: d.sohl.facing ?? [],
         value: d.sohl.value,
         encumbrance: d.sohl.encumbrance ?? 0,
-        perception: d.sohl.perception?.value ?? 0,
+        encumbranceGroup: d.sohl.encumbranceGroup ?? null,
+        perception: d.sohl.perceptionPenaltyBase ?? 0,
     }));
 
 const coverage = (a: Article) =>
@@ -286,6 +310,16 @@ describe("armour coverage", () => {
             expect(a.perception, `${a.file} perception`).toBe(
                 PERCEPTION[key] ?? 0,
             );
+        }
+    });
+
+    it("marks the arm articles, and only those", () => {
+        for (const a of ARTICLES) {
+            const expected =
+                ARM_ARTICLES.has(`${a.material}/${a.armorType}`) ? "arm" : null;
+            expect(a.encumbranceGroup, a.file).toBe(expected);
+            // An article in a group carries no encumbrance of its own.
+            if (expected) expect(a.encumbrance, a.file).toBe(0);
         }
     });
 
