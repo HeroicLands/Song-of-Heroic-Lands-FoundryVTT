@@ -81,6 +81,10 @@
   id: cHM58zOI1EcSG3cP
   parentFolderId: xJuw3RXTfrjeQbG8
   color: "#F5DEB3"
+- name: Furniture
+  id: Wq1tmMJTjDoFFtLS
+  parentFolderId: xJuw3RXTfrjeQbG8
+  color: "#007000"
 - name: Instruments
   id: xniLjmZWYQZkSxyv
   parentFolderId: xJuw3RXTfrjeQbG8
