@@ -28,9 +28,15 @@ sohl:
         value: 0
         effectId: UsKmxHK3bZWLBr3f
     flexloc: []
+
     rigidloc:
         - thrxloc
         - abdmnloc
+    facing:
+        - location: thrxloc
+          side: front
+        - location: abdmnloc
+          side: front
     protection:
         blunt: 4
         edged: 8

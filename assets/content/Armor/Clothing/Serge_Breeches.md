@@ -28,12 +28,12 @@ sohl:
         value: 0
         effectId: AxIQt4rfwWNCRgDX
     flexloc:
-        - plvisloc
         - lthghloc
         - rthghloc
         - lkneeloc
         - rkneeloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

@@ -35,6 +35,7 @@ sohl:
         - thrxloc
         - abdmnloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

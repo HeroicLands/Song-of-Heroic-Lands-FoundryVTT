@@ -28,7 +28,6 @@ sohl:
         value: 0
         effectId: nQTIF8aI1mH4oOBU
     flexloc:
-        - plvisloc
         - lthghloc
         - rthghloc
         - lkneeloc
@@ -38,6 +37,7 @@ sohl:
         - lfootloc
         - rfootloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

@@ -28,13 +28,13 @@ sohl:
         value: 0
         effectId: adZyigOO7sdCbiDV
     flexloc:
-        - neckloc
         - lshldloc
         - rshldloc
         - thrxloc
         - abdmnloc
         - plvisloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

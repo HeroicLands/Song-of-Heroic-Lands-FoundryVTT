@@ -28,6 +28,7 @@ sohl:
         value: 0
         effectId: 4jcrtN54G9p020xj
     flexloc: []
+
     rigidloc:
         - lshldloc
         - rshldloc
@@ -35,6 +36,8 @@ sohl:
         - rupaloc
         - lelbloc
         - relbloc
+        - lfraloc
+        - rfraloc
         - thrxloc
         - abdmnloc
         - plvisloc

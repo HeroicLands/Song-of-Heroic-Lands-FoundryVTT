@@ -29,6 +29,7 @@ sohl:
         value: 0
         effectId: 3xnhbGy6GVoMDRMI
     flexloc: []
+
     rigidloc:
         - lfraloc
         - rfraloc

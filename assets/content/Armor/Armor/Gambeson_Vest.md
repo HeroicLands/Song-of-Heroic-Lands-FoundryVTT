@@ -27,7 +27,9 @@ sohl:
     perception:
         value: 0
         effectId: 0IFQmOw2sZuuzV8Z
-    flexloc: []
+    flexloc:
+        - neckloc
+
     rigidloc:
         - thrxloc
         - abdmnloc

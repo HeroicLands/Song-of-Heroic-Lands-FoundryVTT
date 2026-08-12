@@ -31,6 +31,7 @@ sohl:
         - skullloc
         - neckloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

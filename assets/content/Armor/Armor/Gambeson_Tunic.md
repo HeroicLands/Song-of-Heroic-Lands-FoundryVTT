@@ -28,6 +28,7 @@ sohl:
         value: 0
         effectId: VnIs4sytitpEYcsP
     flexloc:
+        - neckloc
         - lshldloc
         - rshldloc
         - lupaloc

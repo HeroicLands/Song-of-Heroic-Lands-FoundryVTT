@@ -32,13 +32,11 @@ sohl:
         - rshldloc
         - lupaloc
         - rupaloc
-        - lfraloc
-        - rfraloc
-        - lelbloc
-        - relbloc
         - thrxloc
         - abdmnloc
+        - plvisloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

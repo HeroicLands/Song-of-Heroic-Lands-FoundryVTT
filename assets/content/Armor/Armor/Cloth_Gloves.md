@@ -31,6 +31,7 @@ sohl:
         - lhandloc
         - rhandloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

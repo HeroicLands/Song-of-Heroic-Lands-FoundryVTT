@@ -27,14 +27,15 @@ sohl:
     perception:
         value: 0
         effectId: HF8b8Wn5cIckHV8g
-    flexloc:
+    flexloc: []
+    rigidloc:
         - lshldloc
         - rshldloc
         - lupaloc
         - rupaloc
         - thrxloc
         - abdmnloc
-    rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

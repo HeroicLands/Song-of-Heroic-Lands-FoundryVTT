@@ -42,6 +42,7 @@ sohl:
         - lthghloc
         - rthghloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

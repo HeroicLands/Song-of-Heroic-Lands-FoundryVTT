@@ -27,10 +27,11 @@ sohl:
     perception:
         value: 0
         effectId: 9Bav8f0VvnTTkiWz
-    flexloc:
+    flexloc: []
+    rigidloc:
         - lhandloc
         - rhandloc
-    rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

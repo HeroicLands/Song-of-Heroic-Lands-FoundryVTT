@@ -30,6 +30,7 @@ sohl:
     flexloc:
         - skullloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

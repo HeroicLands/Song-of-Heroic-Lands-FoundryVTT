@@ -27,8 +27,8 @@ sohl:
     perception:
         value: 0
         effectId: qMhxXRwpaqcBlOak
-    flexloc:
-        - plvisloc
+    flexloc: []
+    rigidloc:
         - lthghloc
         - rthghloc
         - lkneeloc
@@ -37,7 +37,7 @@ sohl:
         - rcalfloc
         - lfootloc
         - rfootloc
-    rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

@@ -28,9 +28,12 @@ sohl:
         value: 0
         effectId: 5KGiMuzEb7DtEQtl
     flexloc: []
+
     rigidloc:
         - lupaloc
         - rupaloc
+        - lelbloc
+        - relbloc
     protection:
         blunt: 4
         edged: 8

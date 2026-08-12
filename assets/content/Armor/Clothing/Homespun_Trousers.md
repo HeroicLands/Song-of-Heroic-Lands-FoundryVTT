@@ -36,6 +36,7 @@ sohl:
         - lcalfloc
         - rcalfloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

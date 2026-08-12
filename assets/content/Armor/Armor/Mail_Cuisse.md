@@ -28,10 +28,11 @@ sohl:
         value: 0
         effectId: kfWr865enTlLibRF
     flexloc: []
+
     rigidloc:
         - lthghloc
-        - lkneeloc
         - rthghloc
+        - lkneeloc
         - rkneeloc
     protection:
         blunt: 4

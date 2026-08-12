@@ -28,6 +28,7 @@ sohl:
         value: 0
         effectId: QVQOvJuRQZn2syQY
     flexloc:
+        - neckloc
         - lshldloc
         - rshldloc
         - lupaloc
@@ -36,17 +37,12 @@ sohl:
         - relbloc
         - lfraloc
         - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
         - lthghloc
         - rthghloc
     rigidloc:
         - thrxloc
         - abdmnloc
         - plvisloc
-        - rthghloc
-        - lthghloc
     protection:
         blunt: 4
         edged: 8

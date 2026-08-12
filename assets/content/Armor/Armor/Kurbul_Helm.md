@@ -29,6 +29,7 @@ sohl:
         value: 0
         effectId: JxyiR142wUMbprJK
     flexloc: []
+
     rigidloc:
         - skullloc
     protection:

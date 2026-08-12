@@ -35,6 +35,7 @@ sohl:
         - lfootloc
         - rfootloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

@@ -28,6 +28,7 @@ sohl:
         value: 0
         effectId: U2W8pecqeX7XACEW
     flexloc: []
+
     rigidloc:
         - lshldloc
         - rshldloc

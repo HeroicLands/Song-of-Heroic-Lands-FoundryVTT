@@ -28,12 +28,15 @@ sohl:
         value: 0
         effectId: Xi6IgiVB3dQucPOE
     flexloc:
+        - neckloc
         - lshldloc
         - rshldloc
         - lupaloc
         - rupaloc
         - lelbloc
         - relbloc
+        - lfraloc
+        - rfraloc
     rigidloc:
         - thrxloc
         - abdmnloc

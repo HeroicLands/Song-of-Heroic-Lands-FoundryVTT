@@ -33,6 +33,7 @@ sohl:
         - lkneeloc
         - rkneeloc
     rigidloc: []
+
     protection:
         blunt: 4
         edged: 8

@@ -28,6 +28,7 @@ sohl:
         value: 0
         effectId: PgWAI3jymshHLrmM
     flexloc: []
+
     rigidloc:
         - lshldloc
         - rshldloc
@@ -39,7 +40,6 @@ sohl:
         - rfraloc
         - thrxloc
         - abdmnloc
-        - plvisloc
     protection:
         blunt: 4
         edged: 8

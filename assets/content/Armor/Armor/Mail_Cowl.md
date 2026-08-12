@@ -28,6 +28,7 @@ sohl:
         value: -5
         effectId: xGUOjaeC7UCnZAVn
     flexloc: []
+
     rigidloc:
         - skullloc
         - neckloc

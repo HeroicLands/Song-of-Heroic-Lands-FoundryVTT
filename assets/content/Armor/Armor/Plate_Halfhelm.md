@@ -28,10 +28,16 @@ sohl:
         value: 0
         effectId: FNN31dTJvVW540PY
     flexloc: []
+
     rigidloc:
         - skullloc
-        - rearloc
+        - jawloc
+        - lcheekloc
+        - rcheekloc
         - learloc
+        - rearloc
+        - mouthloc
+        - noseloc
     protection:
         blunt: 4
         edged: 8

@@ -28,8 +28,8 @@ sohl:
         value: 0
         effectId: oOG4DQRX6g9JaqQT
     flexloc: []
+
     rigidloc:
-        - plvisloc
         - lthghloc
         - rthghloc
         - lkneeloc
