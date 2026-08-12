@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Padded
     material: Padded
     durability: 10
-    value: 66
-    weight: 2.64
+    value: 132
+    weight: 5.3
     encumbrance: 0
     perception:
         value: 0
@@ -67,8 +67,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 66
-origWeight: 2.64
+origValue: 132
+origWeight: 5.3
 ---
 
 A cloak of quilted and padded cloth, layered and stitched through so that it turns a
