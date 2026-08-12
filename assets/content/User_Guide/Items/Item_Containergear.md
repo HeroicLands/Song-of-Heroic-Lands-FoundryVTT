@@ -53,3 +53,14 @@ what it produces — none of it changes for a container.
 Everything else about a container — its capacity, and what is nested inside it —
 is set on the sheet or by dragging gear onto the container, not by running an
 action.
+
+# See also
+
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/itemgear|Gear]] — the properties and the **Toggle Carried** action every
+  carried thing has.
+- [[doc/baseitem|Base Item]] — the three shared actions named above, including
+  what deleting a container does to its contents.
+- [[doc/wrkngwth|Working with Gear and Equipment]] — nesting gear, and moving it
+  between containers.
+- [[doc/userguide|User Guide]] — back to the index.

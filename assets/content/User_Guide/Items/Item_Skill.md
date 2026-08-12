@@ -452,3 +452,5 @@ and turning impact into a wound — see [[Combat Basics]] and [[Combatant]].
 - [[doc/weapon|Weapon Gear]] — the weapon counterpart, with the same three
   combat actions across several strike modes.
 - [[Shortcodes]] — what **Parent Skill** and **Associated Skill** are naming.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.

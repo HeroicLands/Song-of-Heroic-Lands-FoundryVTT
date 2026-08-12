@@ -56,6 +56,17 @@ This is useful when a group encounter transitions into individual combat —
 start with one cohort token for the approaching band of bandits, then expand
 them when initiative is rolled.
 
+# See also
+
+- [[doc/token|Token]] — what you can do from a placed token, including starting
+  and answering an opposed test.
+- [[doc/cmbtbscs|Combat Basics]] — running the fight the scene is set up for.
+- [[doc/cmbtnt|Combatant]] — the combat tracker, its groups, and the combatant
+  row.
+- [[doc/cohort|Cohort]] — the group a scene can expand into its members.
+- [[doc/being|Being]] — the actor most tokens stand for.
+- [[doc/userguide|User Guide]] — back to the index.
+
 <!-- TODO: Document how to collapse individual tokens back into a cohort,
      if that feature exists. Document what happens to cohort-level effects
      when expanded. -->

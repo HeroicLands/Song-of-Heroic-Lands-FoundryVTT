@@ -41,6 +41,21 @@ A skill test rolls against the effective mastery level. The result is one of:
 
 The exact thresholds depend on the effective mastery level.
 
+# See also
+
+- [[doc/skill|Skill]] and [[doc/attrbt|Attribute]] — the items these tests are
+  run from, and their own test actions.
+- [[doc/baseitem|Base Item]] — the standard test dialog every roll opens, and
+  the GM's result edit.
+- [[doc/token|Token]] — starting and answering an opposed test between two
+  tokens.
+- [[doc/thftsyst|The Fate System]] — improving a result after it has settled.
+- [[doc/iconlgnd|Icon Legend]] — the Victory Stars and Value Diamonds a result
+  card draws.
+- [[doc/resolutionintro|Resolution]] (rules) — what a Mastery Level, a success
+  level, and a Victory Star actually are.
+- [[doc/userguide|User Guide]] — back to the index.
+
 <!-- TODO: Document the exact success/failure determination rules,
      including the critical success and critical failure thresholds. -->
 

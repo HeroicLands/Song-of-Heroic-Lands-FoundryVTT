@@ -49,6 +49,20 @@ Injuries impose penalties on the character:
   the character
 - **Bleeding** — some injuries cause ongoing blood loss
 
+# See also
+
+- [[doc/itemtrauma|Trauma]] — the wound item itself: its properties, its
+  severity, and every check it offers.
+- [[doc/afflctn|Affliction]] — the disease or poison item, with its onset,
+  course, and treatment.
+- [[doc/being|Being]] — the health bar, the body-part grid, and the shock,
+  contagion, and treatment actions on the character.
+- [[doc/cmbtbscs|Combat Basics]] — where most wounds come from, and the injury
+  card that records them.
+- [[doc/traumaintro|Trauma]] and [[doc/afflctns|Afflictions]] (rules) — the
+  mechanics all of this implements.
+- [[doc/userguide|User Guide]] — back to the index.
+
 <!-- TODO: Document the injury severity levels, how injury penalties are
      calculated per body location, shock thresholds, and the stumble/fumble
      mechanics that result from injuries -->

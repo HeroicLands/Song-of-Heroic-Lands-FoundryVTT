@@ -236,3 +236,4 @@ What it does and does not do:
   form of an opposed test.
 - [[Scene Setup and Tokens]] — placing tokens and configuring them.
 - [[Base Item]] — the standard test dialog every roll uses.
+- [[doc/userguide|User Guide]] — back to the index.

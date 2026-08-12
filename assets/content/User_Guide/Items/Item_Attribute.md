@@ -225,3 +225,5 @@ rather rule the outcome by hand.
 - [[Safe Expressions]] — how an attribute is referenced from a Skill Base formula.
 - [[Shortcodes]] — what a Skill Base formula is naming when it says `attr.str`.
 - [[Character Creation]] — where a character's attribute scores come from.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.

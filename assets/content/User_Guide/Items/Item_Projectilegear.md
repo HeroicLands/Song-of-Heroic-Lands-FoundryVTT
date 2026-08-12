@@ -57,3 +57,14 @@ what it produces — none of it changes for a projectile.
 Shooting one is not an action on the projectile itself: you attack with the ranged
 weapon, whose Missile Strike Mode names the ammunition it uses — see
 [[Weapon]].
+
+# See also
+
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/itemgear|Gear]] — the properties and the **Toggle Carried** action every
+  carried thing has.
+- [[doc/weapon|Weapon]] — the missile strike mode that names the ammunition and
+  makes the attack.
+- [[doc/baseitem|Base Item]] — the three shared actions named above.
+- [[doc/systmstt|System Settings]] — the **Track Projectiles** setting.
+- [[doc/userguide|User Guide]] — back to the index.

@@ -558,3 +558,5 @@ Rate settled, and any Trauma it left behind now sitting on the Health tab.
 - [[doc/afflctns|Afflictions]] and
   [[doc/hlngtst|Healing Test]] (rules) — the mechanics behind the
   Course Test, the reaction table, and the outcomes.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.

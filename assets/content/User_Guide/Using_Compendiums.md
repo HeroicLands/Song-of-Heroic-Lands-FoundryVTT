@@ -34,6 +34,19 @@ sometimes gear.
 - **Basic Folk** — a template human character suitable for duplication and
   customization. Start here when creating new player characters.
 
+# See also
+
+- [[doc/crtngact|Creating Actors and Items]] — the other three ways to make a
+  document.
+- [[doc/shrtcds|Shortcodes]] — the identifier that keeps an imported copy
+  matched to its compendium original.
+- [[doc/chrctrcr|Character Creation]] — building on top of an imported
+  character.
+- [[doc/quickstart|Quickstart]] — the import-and-play path, in ten minutes.
+- [[doc/systmstt|System Settings]] — what to set before importing into a new
+  world.
+- [[doc/userguide|User Guide]] — back to the index.
+
 <!-- TODO: List other notable entries as they are added to the compendium -->
 
 ## Vehicles & Structures

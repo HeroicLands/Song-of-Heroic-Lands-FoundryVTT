@@ -345,3 +345,5 @@ touches an Associated Skill, another ability, or anything else on the sheet.
   what an ability actually does.
 - [[doc/estrcint|Esoterica]] — the rules behind the mystical traditions.
 - [[Shortcodes]] — what the Associated Skill and Affiliation selectors are naming.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.

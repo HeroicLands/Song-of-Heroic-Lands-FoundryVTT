@@ -12,7 +12,7 @@
  */
 
 /**
- * CI guard: content links land somewhere, and the rules can be read through.
+ * CI guard: content links land somewhere, and the corpus can be read through.
  *
  * Two link defects survive both content builds silently, so neither the pack
  * compilers nor the knowledgebase build catches them:
@@ -21,11 +21,11 @@
  *    hashing `"<noteId>-<anchorSlug>"` — it never checks that a heading
  *    declaring that slug exists. A link to an anchor nobody declares compiles
  *    cleanly, emits a `@UUID` enricher, and dead-ends for the reader.
- * 2. **Unreachable rules documents.** A note with no inbound link is still
- *    compiled into the pack and still published to the knowledgebase; it is
- *    simply impossible to arrive at by reading. The rules are a book, so every
- *    `Rules/**` document must be reachable from the root introduction by
- *    following links.
+ * 2. **Unreachable documents.** A note with no inbound link is still compiled
+ *    into the pack and still published to the knowledgebase; it is simply
+ *    impossible to arrive at by reading. The rules are a book and the user
+ *    guide is a manual, so every `Rules/**` and `User_Guide/**` document must
+ *    be reachable from its own root by following links.
  *
  * Both checks resolve wikilinks the way the builds do (see
  * `utils/kb-wikilinks.mjs`): `type/shortcode` first, then an alias scoped to the
@@ -45,15 +45,24 @@ import { expandContentTables } from "./content-tables.mjs";
 
 const CONTENT = path.join("assets", "content");
 /**
- * The rules are a book: this is page one, and everything must follow from it.
+ * The corpora that must be readable end to end, each declared as
+ * `[label, root]`; the directory it owns is the root's own.
  *
- * It is a `README.md` because that is what the content build routes to a
- * section's landing page, so page one publishes at `/rules/` — the same shape
- * as the user guide's `User_Guide/README.md` at `/user-guide/`. Chapter openers
- * below it are ordinary pages and keep the `_Introduction.md` name.
+ * The rules are a book and the user guide is a manual: each has a page one, and
+ * everything in its tree must follow from it. Both roots are `README.md`,
+ * because that is the filename the content build routes to a section's landing
+ * page — so page one publishes at `/rules/` and `/user-guide/`. Chapter and
+ * section openers below a root are ordinary pages and keep the
+ * `_Introduction.md` name.
  */
-const RULES_ROOT = path.join(CONTENT, "Rules", "README.md");
-const RULES_DIR = path.join(CONTENT, "Rules") + path.sep;
+const CORPORA = [
+    ["rules", path.join(CONTENT, "Rules", "README.md")],
+    ["user guide", path.join(CONTENT, "User_Guide", "README.md")],
+].map(([label, root]) => ({
+    label,
+    root,
+    dir: path.dirname(root) + path.sep,
+}));
 /**
  * Index pages are walked *to*, never *through*. The glossary links to nearly
  * every page in the corpus, so following it would make the reachability check
@@ -183,31 +192,46 @@ for (const note of notes) {
     }
 }
 
-// --- Check 2: every rules document is reachable from the root ------------
+// --- Check 2: every document is reachable from its corpus's root ---------
 
-const isRules = (note) => note.file.startsWith(RULES_DIR);
-const root = notes.find((n) => n.file === RULES_ROOT);
-if (!root) {
-    console.error(`check-content-links: no rules root at ${RULES_ROOT}`);
-    process.exit(1);
-}
-
-const reached = new Set([root]);
-const queue = [root];
-while (queue.length) {
-    const note = queue.shift();
-    if (INDEX_SHORTCODES.has(String(note.fm.shortcode))) continue;
-    for (const { target } of linksOf(note)) {
-        if (!target) continue;
-        const dest = resolve(note, target);
-        // The walk stays inside the book: a link out to an item or a creature
-        // is a real link, but it is not a page of the rules.
-        if (!dest || !isRules(dest) || reached.has(dest)) continue;
-        reached.add(dest);
-        queue.push(dest);
+/**
+ * Walks one corpus from its root and returns what it could and could not reach.
+ *
+ * @param {{label: string, root: string, dir: string}} corpus
+ * @returns {{reached: Set<object>, orphans: object[]}}
+ */
+function walkCorpus(corpus) {
+    const inCorpus = (note) => note.file.startsWith(corpus.dir);
+    const root = notes.find((n) => n.file === corpus.root);
+    if (!root) {
+        console.error(
+            `check-content-links: no ${corpus.label} root at ${corpus.root}`,
+        );
+        process.exit(1);
     }
+    const reached = new Set([root]);
+    const queue = [root];
+    while (queue.length) {
+        const note = queue.shift();
+        if (INDEX_SHORTCODES.has(String(note.fm.shortcode))) continue;
+        for (const { target } of linksOf(note)) {
+            if (!target) continue;
+            const dest = resolve(note, target);
+            // The walk stays inside the corpus: a link out to an item, a
+            // creature, or the other corpus is a real link, but it is not a
+            // page of this one.
+            if (!dest || !inCorpus(dest) || reached.has(dest)) continue;
+            reached.add(dest);
+            queue.push(dest);
+        }
+    }
+    return {
+        reached,
+        orphans: notes.filter((n) => inCorpus(n) && !reached.has(n)),
+    };
 }
-const orphans = notes.filter((n) => isRules(n) && !reached.has(n));
+
+const walks = CORPORA.map((corpus) => ({ corpus, ...walkCorpus(corpus) }));
 
 // --- Report ---------------------------------------------------------------
 
@@ -228,20 +252,24 @@ if (deadAnchors.length) {
     );
 }
 
-if (orphans.length) {
+for (const { corpus, orphans } of walks) {
+    if (!orphans.length) continue;
     failed = true;
     console.error(
-        `\ncheck-content-links: ${orphans.length} rules document(s) unreachable from ${RULES_ROOT}:\n`,
+        `\ncheck-content-links: ${orphans.length} ${corpus.label} document(s) unreachable from ${corpus.root}:\n`,
     );
     for (const o of orphans) console.error(`  ${o.file}`);
     console.error(
-        "\nThe rules are a book, not a pile of notes: a document nobody links to cannot be\n" +
-            "arrived at by reading. Link each one from the chapter that owns it.\n",
+        "\nA corpus is a book, not a pile of notes: a document nobody links to cannot be\n" +
+            "arrived at by reading. Link each one from the chapter or section that owns it.\n",
     );
 }
 
 if (failed) process.exit(1);
 console.log(
     `check-content-links: ${notes.length} notes, every anchor link lands; ` +
-        `all ${reached.size} rules documents reachable from the root.`,
+        walks
+            .map((w) => `all ${w.reached.size} ${w.corpus.label} documents`)
+            .join(" and ") +
+        " reachable from their roots.",
 );

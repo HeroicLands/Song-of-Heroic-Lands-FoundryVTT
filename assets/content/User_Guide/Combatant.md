@@ -315,3 +315,4 @@ else — or because you are incapacitated and it is the only option left.
 - [[Actions]] — how actions work in general, and how to add your own.
 - [[Afflictions Injuries]] — recording and healing the injuries an exchange
   produces.
+- [[doc/userguide|User Guide]] — back to the index.

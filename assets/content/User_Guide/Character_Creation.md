@@ -63,3 +63,18 @@ Before play, confirm:
 - Wrong actor type selected (not **Being**).
 - Missing nested strike mode on a weapon setup.
 - Using incorrect base values for attributes or skills.
+
+# See also
+
+- [[doc/quickstart|Quickstart]] — the shortest version of this, from install to
+  first roll.
+- [[doc/being|Being]] — the sheet you are filling in, tab by tab.
+- [[doc/attrbt|Attribute]] and [[doc/skill|Skill]] — the two item types a
+  character is mostly made of, and how their values are set.
+- [[doc/usngcmpn|Using Compendiums]] — importing a starting character rather
+  than building one from nothing.
+- [[doc/crtngact|Creating Actors and Items]] — the four ways to make an actor,
+  and how to add items to it.
+- [[doc/wrkngwth|Working with Gear and Equipment]] — arming and equipping the
+  finished character.
+- [[doc/userguide|User Guide]] — back to the index.

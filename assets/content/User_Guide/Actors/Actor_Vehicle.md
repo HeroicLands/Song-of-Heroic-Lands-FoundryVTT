@@ -127,3 +127,16 @@ medium the vehicle does not yet have.
 
 The cargo and equipment a vehicle carries are ordinary gear items with actions of
 their own — see [[doc/itemgear|Gear]] and the page for each kind of gear.
+
+# See also
+
+- [[doc/ugactors|Actors]] — the four actor kinds and how to choose between
+  them.
+- [[doc/structure|Structure]] — the fixed counterpart, for a place that does
+  not move.
+- [[doc/cohort|Cohort]] — a whole group named as a single occupant.
+- [[doc/itemgear|Gear]] and [[doc/wrkngwth|Working with Gear and Equipment]] —
+  the cargo a vehicle carries.
+- [[doc/undrstnd|Understanding Sheets]] — the tabs a vehicle shares with every
+  other actor.
+- [[doc/userguide|User Guide]] — back to the index.

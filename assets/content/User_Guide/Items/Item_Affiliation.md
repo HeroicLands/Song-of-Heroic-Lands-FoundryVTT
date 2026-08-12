@@ -68,3 +68,14 @@ Nothing is rolled against an affiliation. A power that takes the character's
 standing into account is invoked from the
 [[Mystical Ability]] that names this affiliation, and it is
 always the player who invokes it.
+
+# See also
+
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/baseitem|Base Item]] — the three shared actions named above.
+- [[doc/mystclab|Mystical Ability]] — the item that draws on an affiliation's
+  standing, and the roll that does it.
+- [[doc/being|Being]] — the Profile tab an affiliation appears on.
+- [[doc/affiliation|Affiliations]] (rules) — what standing is, and what it
+  entitles a character to.
+- [[doc/userguide|User Guide]] — back to the index.

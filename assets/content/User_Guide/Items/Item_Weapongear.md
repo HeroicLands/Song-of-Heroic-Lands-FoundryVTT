@@ -250,3 +250,5 @@ against a defender, and turning impact into a wound — see [[Combat Basics]] an
 - [[Combat Basics]] and [[Combatant]] — where a weapon's attack, block, and
   counterstrike sit in a fight.
 - [[Shortcodes]] — what the **Associated Skill** field is naming.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.

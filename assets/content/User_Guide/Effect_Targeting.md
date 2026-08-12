@@ -173,3 +173,4 @@ one specific weapon.
   their trigger and visibility conditions.
 - API reference:
   [`SafeExpression`](https://api.heroiclands.org/latest/classes/API_Reference.SafeExpression.html).
+- [[doc/userguide|User Guide]] — back to the index.

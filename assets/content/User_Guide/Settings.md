@@ -206,3 +206,15 @@ This is primarily a debugging tool.
 - **Info** — General informational messages (default).
 - **Debug** — Verbose output including lifecycle details. Use this when
   diagnosing bugs or developing modules.
+
+# See also
+
+- [[doc/clndrjsn|Calendar JSON Format]] — the shape of a custom calendar file
+  the **Calendar** setting can load.
+- [[doc/thftsyst|The Fate System]] — what the **Fate** setting turns on.
+- [[doc/afflandi|Afflictions and Injuries]] — what the **Healing Interval**
+  setting paces.
+- [[doc/cmbtbscs|Combat Basics]] — the combat behaviour the projectile, gear
+  damage, and distance settings affect.
+- [[doc/usngcmpn|Using Compendiums]] — the content a new world starts from.
+- [[doc/userguide|User Guide]] — back to the index.

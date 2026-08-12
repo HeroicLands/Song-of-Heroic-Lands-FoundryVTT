@@ -133,5 +133,19 @@ When deleting items, be aware that **items with nested children cannot be
 deleted**. You must first remove or delete all nested items before the parent
 can be deleted. This prevents accidentally orphaning items.
 
+# See also
+
+- [[doc/ugactors|Actors]] — what each of the four actor kinds is for.
+- [[doc/ugitems|Items]] — what each item type is for, and what they share.
+- [[doc/usngcmpn|Using Compendiums]] — the content that ships with the system,
+  and importing from it.
+- [[doc/shrtcds|Shortcodes]] — why a duplicate keeps its original's shortcode,
+  and when to change it.
+- [[doc/chrctrcr|Character Creation]] — building a playable character end to
+  end.
+- [[doc/undrstnd|Understanding Sheets]] — reading the sheet you have just
+  created.
+- [[doc/userguide|User Guide]] — back to the index.
+
 <!-- TODO: Expand with details on bulk operations, folder organization in
      the sidebar, and import/export workflows -->
