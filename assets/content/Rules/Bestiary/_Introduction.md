@@ -83,6 +83,8 @@ touches on death or chaos has its own theological explanation for why the dead
 sometimes walk, and every such tradition has those who can — or who dare
 to — call them back.
 
+For more information, see [[doc/helspawn|Helspawn]].
+
 (@Table search=[type:creature, sohl.kbcat=helspawn] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
 
 ## Mythic Creatures

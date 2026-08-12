@@ -97,6 +97,7 @@ reads the Markdown directly.
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
 | `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
 | `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content](#authoring-content-under-assetscontent). |
+| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content](#authoring-content-under-assetscontent). |
 | `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`. |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
 | `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`. |
@@ -245,6 +246,24 @@ moment the interface changes. Automation behaviour — the consent/offer flow, w
 is prompted and when — is worth documenting, but its home is
 `assets/content/User_Guide/`, which is exempt from the rule. `npm run
 lint:rules-vtt` (part of `npm run lint`) enforces this over the rules tree.
+
+**The rules are a book, and its links have to land.** Two link defects survive
+both content builds silently, so `npm run lint:content-links` (also part of
+`npm run lint`) checks for them:
+
+- **A `#anchor` link that no heading declares.** The journal compiler derives a
+  Foundry page id by hashing `"<noteId>-<anchorSlug>"`, so a link to an anchor
+  nothing declares compiles cleanly, emits a `@UUID` enricher, and dead-ends for
+  the reader. Declare `{#the-anchor}` on the heading the link means, or point the
+  link at one that exists.
+- **A rules document unreachable from `Rules/_Introduction.md`.** An
+  unlinked note still compiles and still publishes; it is simply impossible to
+  arrive at by reading. Link each one from the chapter that owns it. The walk
+  resolves links exactly as the builds do — `type/shortcode` first, then a
+  type-scoped alias — and expands `(@Table …)` directives first, so a generated
+  row link counts. It stops **at** the glossary rather than walking through it:
+  an index links to nearly everything, and following it would make the check
+  vacuous.
 
 `build:compiledb` runs `utils/packs/generate.mjs`, which drives three per-pack
 compilers (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): each walks

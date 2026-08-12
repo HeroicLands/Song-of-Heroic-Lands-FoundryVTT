@@ -15,7 +15,7 @@ folder: QtOgPodi8X6gDWL0
 
 Weapon represents an offensive device carried by a Being — a sword, axe, bow,
 dagger, staff, or any other instrument of combat. These are separated from natural
-weapons such as claws and teeth, which are [[doc/skldesc#combat-techniques|Combat Techniques]].
+weapons such as claws and teeth, which are [[doc/unrmdcmb#combat-techniques|Combat Techniques]].
 
 The weapon item is the physical object: its weight, value, quality, durability, and
 how awkward it is to carry. **What the weapon can actually _do_ lives in its strike
@@ -165,7 +165,7 @@ weapon:
 - **Counterstrike** — defending and hitting back in the same motion.
 
 Reach for them whenever the table needs to know whether a blow landed or was
-turned. They are the same three tests a [[doc/skldesc#combat-techniques|Combat Technique]] offers, on
+turned. They are the same three tests a [[doc/unrmdcmb#combat-techniques|Combat Technique]] offers, on
 the same rows of the Combat tab — a weapon is simply a technique the character can
 drop.
 
