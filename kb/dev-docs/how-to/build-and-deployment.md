@@ -228,7 +228,8 @@ Items, actors, and journal entries are authored as Markdown files with YAML
 frontmatter (`package: sohl`, a `type:`, a stable `id:`, and folder/embedding
 metadata) anywhere under `assets/content/`. **Classification is frontmatter-driven,
 not directory-driven:** a file joins a pack because of its `type` (item kinds →
-the items pack; `type: doc` → journals; `character` / `creature` → actors), so the
+the items pack **and**, for its prose, the journals pack; `type: doc` → journals;
+`character` / `creature` → actors), so the
 folder layout is for human organization only and can be reorganized freely. Folder
 hierarchies are declared per pack in `assets/content/<pack>-folders.yaml` and
 referenced from entries via `sohl.folder: <id>`.
@@ -270,6 +271,37 @@ compilers (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): each walks
 `assets/content/`, selects files by frontmatter, validates folders against the
 pack's `*-folders.yaml`, and writes per-entry JSON — from which the LevelDB is then
 compiled.
+
+### An item's prose compiles to a journal, not into the item
+
+An item note's **body** does not become the item's description. It compiles into
+that item's **item doc** — a JournalEntry in the journals pack, in the same
+folder and under the same name as the item — and `system.docHtml` becomes
+nothing but a `@UUID` link to that entry's first page. The runtime recognises a
+description that is only a link as a **pointer** and shows what it points at —
+`descriptionLinkTarget()` decides, and Display Description follows. See
+`utils/packs/item-docs.mjs`. A reader of the chat card sees the prose, not a
+link.
+
+The prose therefore exists **once**. It used to exist once per item and again on
+every actor holding that item — 7.59 MB across the actors pack, of which 133 KB
+was distinct text, so a typo fixed in an item description left 57 stale copies on
+a single character. Nothing about the actors pass changed: it still embeds the
+item wholesale, and what it embeds is now a link.
+
+Two passes have to agree on the link without either seeing the other's output,
+which they do by deriving both ids from the item note's own `id` — the technique
+`anchorPageId()` already uses to let a section link and its page agree:
+
+| | Items pass | Journals pass |
+| --- | --- | --- |
+| Entry id | `itemDocEntryId(fm.id)` | same |
+| First page id | `journalPageId(entryId, page, 0)` | same, for every page |
+| Splits the body | to name page 0 | into the pages themselves |
+
+Both split the **converted** markdown, so an H1 carrying a wikilink names the
+same page on both sides. An item note with an empty body gets no entry and an
+empty description, rather than a pointer to nothing.
 
 ## 6. Deploying to a Foundry instance
 
