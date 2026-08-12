@@ -456,7 +456,6 @@ export class Actors {
         log.info(`Loaded ${itemsMap.size} predefined items for actor resolution`);
 
         let compiled = 0;
-        let skippedNoId = 0;
         let skippedDraft = 0;
         let skippedOther = 0;
 
@@ -481,9 +480,8 @@ export class Actors {
                 continue;
             }
             if (!fm.id) {
-                skippedNoId++;
-                log.warn(`Actor missing id, skipping: ${absPath}`);
-                continue;
+                // Fatal, not a warning — see the matching check in items.mjs.
+                throw new Error(`Actor missing id: ${absPath}`);
             }
 
             log.debug(`Processing actor: ${resolveName(fm)} (${absPath})`);
@@ -518,7 +516,6 @@ export class Actors {
         }
 
         log.info(`Compiled ${compiled} actor${compiled === 1 ? "" : "s"}`);
-        if (skippedNoId) log.info(`Skipped ${skippedNoId} actor(s) missing id`);
         if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
         log.debug(
             `Skipped ${skippedOther} non-actor file(s) (not character/creature, package:sohl)`,
