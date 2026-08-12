@@ -12,6 +12,9 @@ shortcode: WFl
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: flail
     archetype: 0
     durability: 11

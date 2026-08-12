@@ -12,6 +12,9 @@ shortcode: CCxBw200
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: fltch
+        secondary: [wood, timb]
     kbcat: crossbow
     archetype: 0
     durability: 11

@@ -13,6 +13,9 @@ shortcode: rabbit
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: srvl
+        secondary: []
     kbcat: food
     archetype: 0
     quality: 0

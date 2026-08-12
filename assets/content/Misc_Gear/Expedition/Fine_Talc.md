@@ -13,6 +13,9 @@ shortcode: talc
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mnrl
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

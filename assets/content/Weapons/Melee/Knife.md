@@ -12,6 +12,9 @@ shortcode: Kni
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: [wood]
     kbcat: knife
     archetype: 0
     durability: 10

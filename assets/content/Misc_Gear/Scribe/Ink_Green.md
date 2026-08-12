@@ -13,6 +13,9 @@ shortcode: inkgrn
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: herb
+        secondary: []
     kbcat: scribe
     archetype: 0
     quality: 0

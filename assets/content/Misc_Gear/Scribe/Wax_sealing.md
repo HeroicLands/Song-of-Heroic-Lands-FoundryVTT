@@ -13,6 +13,9 @@ shortcode: waxsealing
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: anmcft
+        secondary: []
     kbcat: scribe
     archetype: 0
     quality: 0

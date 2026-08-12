@@ -12,6 +12,9 @@ shortcode: LtApn
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: leather
     archetype: 0
     armorType: Apron

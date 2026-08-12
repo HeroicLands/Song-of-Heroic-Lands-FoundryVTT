@@ -12,6 +12,9 @@ shortcode: ShrtSwd
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: sword
     archetype: 0
     durability: 12

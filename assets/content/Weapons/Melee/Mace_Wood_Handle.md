@@ -12,6 +12,9 @@ shortcode: WdMce
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: club
     archetype: 0
     durability: 11

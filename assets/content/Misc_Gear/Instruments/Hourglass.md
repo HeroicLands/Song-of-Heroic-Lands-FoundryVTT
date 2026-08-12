@@ -13,6 +13,9 @@ shortcode: hourglass
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: glas
+        secondary: []
     kbcat: instruments
     archetype: 0
     quality: 0

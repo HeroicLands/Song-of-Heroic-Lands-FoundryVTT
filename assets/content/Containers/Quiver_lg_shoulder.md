@@ -12,6 +12,9 @@ shortcode: quiverlgsh
 type: containergear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     archetype: 0
     quality: 0
     durability: 8

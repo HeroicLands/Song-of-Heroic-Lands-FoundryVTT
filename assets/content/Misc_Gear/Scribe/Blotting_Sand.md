@@ -14,6 +14,9 @@ shortcode: blotsand
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mnrl
+        secondary: []
     kbcat: scribe
     archetype: 0
     quality: 0

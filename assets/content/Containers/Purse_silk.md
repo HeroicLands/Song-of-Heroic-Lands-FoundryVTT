@@ -12,6 +12,9 @@ shortcode: pursesilk
 type: containergear
 package: sohl
 sohl:
+    craft:
+        skill: txtl
+        secondary: []
     archetype: 0
     quality: 0
     durability: 1

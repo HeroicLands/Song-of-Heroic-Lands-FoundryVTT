@@ -13,6 +13,9 @@ shortcode: spurs
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     kbcat: tack
     archetype: 0
     quality: 0

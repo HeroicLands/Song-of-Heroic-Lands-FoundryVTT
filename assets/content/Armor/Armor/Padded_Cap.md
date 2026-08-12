@@ -12,6 +12,9 @@ shortcode: PCap
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: txtl
+        secondary: []
     kbcat: padded
     archetype: 0
     armorType: Cap

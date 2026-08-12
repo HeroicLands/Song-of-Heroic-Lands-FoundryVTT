@@ -14,6 +14,9 @@ shortcode: K34Hlm
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [hide]
     kbcat: kurbul
     archetype: 0
     armorType: 3/4-Helm

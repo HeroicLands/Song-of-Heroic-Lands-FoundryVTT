@@ -13,6 +13,9 @@ shortcode: horsemeat
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: anmcft
+        secondary: []
     kbcat: food
     archetype: 0
     quality: 0

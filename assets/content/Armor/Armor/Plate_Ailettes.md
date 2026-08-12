@@ -12,6 +12,9 @@ shortcode: PlAil
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: plate
     archetype: 0
     armorType: Ailettes

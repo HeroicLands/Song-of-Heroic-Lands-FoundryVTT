@@ -13,6 +13,9 @@ shortcode: horndrinki
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

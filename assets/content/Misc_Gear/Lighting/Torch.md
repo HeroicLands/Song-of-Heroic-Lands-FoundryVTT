@@ -13,6 +13,9 @@ shortcode: torch2
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: lighting
     archetype: 0
     quality: 0

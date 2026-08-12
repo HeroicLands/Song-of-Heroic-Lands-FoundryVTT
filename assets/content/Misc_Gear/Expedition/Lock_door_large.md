@@ -13,6 +13,9 @@ shortcode: lockdoorla
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: lock
+        secondary: [mtlc]
     kbcat: expedition
     archetype: 0
     quality: 0

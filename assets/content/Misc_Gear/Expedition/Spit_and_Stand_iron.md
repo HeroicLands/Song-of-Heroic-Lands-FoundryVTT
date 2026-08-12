@@ -13,6 +13,9 @@ shortcode: spitandsta
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

@@ -13,6 +13,9 @@ shortcode: tar
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: natural
     archetype: 0
     quality: 0

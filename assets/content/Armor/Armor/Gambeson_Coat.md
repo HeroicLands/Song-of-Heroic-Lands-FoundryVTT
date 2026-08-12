@@ -12,6 +12,9 @@ shortcode: GCoat
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: txtl
+        secondary: []
     kbcat: gambeson
     archetype: 0
     armorType: Coat

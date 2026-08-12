@@ -12,6 +12,9 @@ shortcode: Ballsta
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: siege
     archetype: 0
     durability: 16

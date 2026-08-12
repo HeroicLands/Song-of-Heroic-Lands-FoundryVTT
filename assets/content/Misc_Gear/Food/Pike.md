@@ -13,6 +13,9 @@ shortcode: pike
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: fish
+        secondary: []
     kbcat: food
     archetype: 0
     quality: 0

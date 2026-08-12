@@ -13,6 +13,9 @@ shortcode: medsupil
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: herb
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

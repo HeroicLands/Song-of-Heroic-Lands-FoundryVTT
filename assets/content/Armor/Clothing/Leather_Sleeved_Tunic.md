@@ -12,6 +12,9 @@ shortcode: LtSTunic
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: leather
     archetype: 0
     armorType: Sleeved Tunic

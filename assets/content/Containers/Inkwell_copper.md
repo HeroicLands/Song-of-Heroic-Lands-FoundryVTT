@@ -12,6 +12,9 @@ shortcode: inkwellcop
 type: containergear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     archetype: 0
     quality: 0
     durability: 5

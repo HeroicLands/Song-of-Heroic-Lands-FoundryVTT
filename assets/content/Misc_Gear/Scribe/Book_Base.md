@@ -13,6 +13,9 @@ shortcode: bookbase
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: scribe
     archetype: 0
     quality: 0

@@ -13,6 +13,9 @@ shortcode: Pl34Hlm
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: plate
     archetype: 0
     armorType: 3/4-Helm

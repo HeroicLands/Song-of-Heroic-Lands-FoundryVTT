@@ -12,6 +12,9 @@ shortcode: CBw140
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: fltch
+        secondary: [wood, hide]
     kbcat: bow
     archetype: 0
     durability: 12

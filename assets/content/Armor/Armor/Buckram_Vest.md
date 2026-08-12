@@ -12,6 +12,9 @@ shortcode: BVest
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: txtl
+        secondary: []
     kbcat: cloth
     archetype: 0
     armorType: Vest

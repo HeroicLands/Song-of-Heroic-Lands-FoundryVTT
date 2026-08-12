@@ -31,13 +31,13 @@ Hideworking is the whole passage from a raw skin to a finished article: fleshing
 
 A Hideworking Success Value test on the standard table fixes the quality of what comes off the bench.
 
-| Leather item       | Cost | Time | Rawhide item      | Cost | Time |
-| ------------------ | ---- | ---- | ----------------- | ---- | ---- |
-| Backpack, 30 lb    | 18d  | 30h  | Quiver, 24 arrows | 7d   | 15h  |
-| Bag, 15 lb         | 8d   | 10h  | Quiver, 12 arrows | 4d   | 10h  |
-| Belt pouch, 5 lb   | 2½d  | 5h   | Saddle, riding    | 18d  | 150h |
-| Book binding       | 5d   | 40h  | Saddle, war       | 36d  | 300h |
-| Bow case           | 10d  | 20h  | Sling             | ½d   | 5h   |
-| Waterskin, 2 quart | 9d   | 50h  | Whip              | 4d   | 25h  |
+| Leather item            | Cost | Time | Rawhide item                 | Cost | Time |
+| ----------------------- | ---- | ---- | ---------------------------- | ---- | ---- |
+| Backpack                | 18d  | 30h  | Quiver, lg (shoulder)        | 7d   | 15h  |
+| Bag, 15 lb, leather     | 8d   | 10h  | Quiver, sm (shoulder or hip) | 4d   | 10h  |
+| Belt pouch, leather, lg | 2½d  | 5h   | Saddle, Riding               | 18d  | 150h |
+| Book, Base              | 5d   | 40h  | Saddle, War                  | 36d  | 300h |
+| Bow case                | 10d  | 20h  | Sling                        | ½d   | 5h   |
+| Waterskin, 2qt.         | 9d   | 50h  | Whip                         | 4d   | 25h  |
 
 **Armour.** Hideworking makes leather armour outright, and lends its Secondary Modifier to the crafting of kurbul and scale — the first being hide hardened in wax, the second hide or fabric carrying metal or horn plates that somebody still has to sew on.

@@ -13,6 +13,9 @@ shortcode: iconreligi
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: religious
     archetype: 0
     quality: 0

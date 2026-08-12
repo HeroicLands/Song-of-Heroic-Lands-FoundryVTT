@@ -13,6 +13,9 @@ shortcode: dyeblk
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: herb
+        secondary: []
     kbcat: dye
     archetype: 0
     quality: 0

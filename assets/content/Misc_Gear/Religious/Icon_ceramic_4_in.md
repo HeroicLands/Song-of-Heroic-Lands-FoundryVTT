@@ -13,6 +13,9 @@ shortcode: iconcer4
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: cmcs
+        secondary: []
     kbcat: religious
     archetype: 0
     quality: 0

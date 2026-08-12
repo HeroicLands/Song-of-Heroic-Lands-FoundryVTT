@@ -12,6 +12,9 @@ shortcode: QSht
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: txtl
+        secondary: []
     kbcat: quilted
     archetype: 0
     armorType: Shirt

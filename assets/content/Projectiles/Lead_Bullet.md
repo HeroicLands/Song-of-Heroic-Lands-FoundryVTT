@@ -13,6 +13,9 @@ shortcode: LBul
 img: icons/game-icons/delapouite/stone-pile.svg
 easyname: Lead Bullet
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     archetype: 0
     quality: 0
     durability: 10

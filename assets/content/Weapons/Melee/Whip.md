@@ -12,6 +12,9 @@ shortcode: Whp
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: whip
     archetype: 0
     durability: 9

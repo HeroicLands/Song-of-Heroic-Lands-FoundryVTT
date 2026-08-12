@@ -12,6 +12,9 @@ shortcode: Whmr
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: axe
     archetype: 0
     durability: 11

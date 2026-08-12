@@ -13,6 +13,9 @@ shortcode: SSton
 img: icons/game-icons/delapouite/stone-pile.svg
 easyname: Stone
 sohl:
+    craft:
+        skill: srvl
+        secondary: []
     archetype: 0
     quality: 0
     durability: 10

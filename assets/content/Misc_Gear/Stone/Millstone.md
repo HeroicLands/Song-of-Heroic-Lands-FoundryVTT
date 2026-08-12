@@ -13,6 +13,9 @@ shortcode: millstone
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     kbcat: stone
     archetype: 0
     quality: 0

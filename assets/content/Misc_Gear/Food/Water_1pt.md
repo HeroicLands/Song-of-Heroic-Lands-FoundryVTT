@@ -15,6 +15,9 @@ package: sohl
 hmk:
     name: "Water, 1pt."
 sohl:
+    craft:
+        skill: srvl
+        secondary: []
     kbcat: food
     archetype: 0
     quality: 0

@@ -12,6 +12,9 @@ shortcode: vialglasss
 type: containergear
 package: sohl
 sohl:
+    craft:
+        skill: glas
+        secondary: []
     archetype: 0
     quality: 0
     durability: 2

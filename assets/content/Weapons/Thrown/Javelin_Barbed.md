@@ -12,6 +12,9 @@ shortcode: BarJav
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: thrown
     archetype: 0
     durability: 10

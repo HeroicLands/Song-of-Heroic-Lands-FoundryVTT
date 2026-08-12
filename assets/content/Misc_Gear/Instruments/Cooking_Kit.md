@@ -13,6 +13,9 @@ shortcode: cookkit
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     kbcat: instruments
     archetype: 0
     quality: 0

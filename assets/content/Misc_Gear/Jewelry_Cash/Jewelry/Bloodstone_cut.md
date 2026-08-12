@@ -13,6 +13,9 @@ shortcode: bloodstone
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: jewl
+        secondary: []
     kbcat: jewelry
     archetype: 0
     quality: 0
