@@ -21,7 +21,7 @@ sohl:
     detailMaterial: Straw
     material: Cloth
     durability: 5
-    value: 5
+    value: 1.8
     weight: 0.1
     encumbrance: 0
     perception:
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 15
-origWeight: 0.3
+origValue: 1.8
+origWeight: 0.1
 ---
 
 Straw Sandals offer light and breathable footwear, perfect for hot climates. They provide minimal protection but ensure maximum comfort and airflow, making them ideal for everyday use.

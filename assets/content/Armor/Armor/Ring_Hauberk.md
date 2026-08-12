@@ -23,7 +23,7 @@ sohl:
     durability: 13
     value: 864
     weight: 34.6
-    encumbrance: 10
+    encumbrance: 15
     perception:
         value: 0
         effectId: UIJqtC3abVwFjm16

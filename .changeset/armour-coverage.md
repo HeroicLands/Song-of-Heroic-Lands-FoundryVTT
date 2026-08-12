@@ -43,7 +43,14 @@ silk 9.00; rawhide 1.00, leather 2.00, beaver and sealskin 3.00, ermine 6.00. Ap
 those to the 84 added articles that were priced independently puts every article in the
 tree on one rule: coverage × the material rate × the grade.
 
-The three straw articles are left alone — no straw article appears in the table, so there
-is nothing to derive a rate from.
+Straw is priced as cloth at a quarter, which the table does not cover.
+
+**Encumbrance and perception** are reconciled with the table's ENC column. Fourteen arm
+pieces carried 1.67 — five thirds — standing in for the rule that three or more arm
+articles cost ENC 5 between them. That is only correct at exactly three: one piece charged
+1.67 and five charged 8.35. Those are now 0, which is what an arm piece costs on its own;
+the article still carries its weight, and the ENC column is a surcharge for awkwardness
+beyond weight rather than the whole burden. Applying the threshold needs logic and is left
+for its own change. Perception penalties already matched, including the great helm's −10.
 
 Part of #1336. Cloaks are corrected separately; the encumbrance column remains open there.

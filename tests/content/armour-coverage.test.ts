@@ -138,6 +138,56 @@ const ALL_FLEXIBLE = new Set(["Cloth", "Leather", "Padded", "Quilted"]);
 /** Gambeson alone is mixed: rigid over the torso, flexible everywhere else. */
 const TORSO = new Set(["thrxloc", "abdmnloc", "plvisloc"]);
 
+/**
+ * The table's ENC column, for the articles that carry a number. Everything else
+ * is 0 — including the pieces marked (A), which impose nothing on their own and
+ * only cost ENC 5 once three or more arm articles are worn together.
+ */
+const ENCUMBRANCE: Record<string, number> = {
+    "Leather/Long Vest": 5,
+    "Quilted/Sleeved Tunic": 5,
+    "Quilted/Coat": 5,
+    "Gambeson/Shirt": 5,
+    "Gambeson/Long Vest": 5,
+    "Gambeson/Tunic": 5,
+    "Gambeson/Sleeved Tunic": 10,
+    "Gambeson/Coat": 10,
+    "Kûrbúl/Cuirass": 5,
+    "Kûrbúl/Breastplate": 5,
+    "Kûrbúl/Greaves": 5,
+    "Scale/Vest": 5,
+    "Scale/Byrnie": 10,
+    "Scale/Sleeved Byrnie": 15,
+    "Scale/Habergeon": 15,
+    "Scale/Hauberk": 20,
+    "Scale/Cuisse": 5,
+    "Scale/Leggings": 10,
+    "Mail/Byrnie": 5,
+    "Mail/Sleeved Byrnie": 10,
+    "Mail/Habergeon": 10,
+    "Mail/Hauberk": 15,
+    "Mail/Cuisse": 5,
+    "Mail/Leggings": 10,
+    "Plate/Cuirass": 5,
+    "Plate/Breastplate": 5,
+    "Plate/Greaves": 5,
+    // Ring is absent from the table and follows mail.
+    "Ring/Byrnie": 5,
+    "Ring/Hauberk": 15,
+    "Ring/Leggings": 10,
+};
+
+/** The perception penalty each marked article imposes: −5 black, −10 red. */
+const PERCEPTION: Record<string, number> = {
+    "Padded/Cowl": -5,
+    "Quilted/Cowl": -5,
+    "Kûrbúl/3/4-Helm": -5,
+    "Scale/Cowl": -5,
+    "Mail/Cowl": -5,
+    "Plate/3/4-Helm": -5,
+    "Plate/Great Helm": -10,
+};
+
 interface Article {
     file: string;
     material: string;
@@ -147,6 +197,8 @@ interface Article {
     rigid: string[];
     facing: { location: string; side: string }[];
     value: number;
+    encumbrance: number;
+    perception: number;
 }
 
 function walk(dir: string): string[] {
@@ -172,6 +224,8 @@ const ARTICLES: Article[] = walk(ARMOR_ROOT)
         rigid: d.sohl.rigidloc ?? [],
         facing: d.sohl.facing ?? [],
         value: d.sohl.value,
+        encumbrance: d.sohl.encumbrance ?? 0,
+        perception: d.sohl.perception?.value ?? 0,
     }));
 
 const coverage = (a: Article) =>
@@ -219,6 +273,19 @@ describe("armour coverage", () => {
                 for (const l of a.flexible)
                     expect(TORSO.has(l), `${a.file}: ${l}`).toBe(false);
             }
+        }
+    });
+
+    it("gives each table article the encumbrance and perception the table does", () => {
+        for (const a of ARTICLES) {
+            const key = `${a.material}/${a.armorType}`;
+            if (!TABLE_ARTICLES.has(key)) continue;
+            expect(a.encumbrance, `${a.file} encumbrance`).toBe(
+                ENCUMBRANCE[key] ?? 0,
+            );
+            expect(a.perception, `${a.file} perception`).toBe(
+                PERCEPTION[key] ?? 0,
+            );
         }
     });
 
