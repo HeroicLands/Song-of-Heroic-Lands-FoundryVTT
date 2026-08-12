@@ -54,6 +54,10 @@ export class ArmorGearSheet extends SohlItemSheetBase {
             locations: system.locations,
             protectionBase: system.protectionBase,
             encumbrance: system.encumbrance,
+            // An article either carries an encumbrance value or belongs to a
+            // group whose cost is charged to the set — the arm harness.
+            encumbranceGroup: system.encumbranceGroup,
+            perceptionPenaltyBase: system.perceptionPenaltyBase,
         });
     }
 }

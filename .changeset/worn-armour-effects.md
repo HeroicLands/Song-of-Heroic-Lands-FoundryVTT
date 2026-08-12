@@ -30,4 +30,11 @@ third and a full harness half as much again.
 value or belongs to a group, never both, and the threshold is charged once to the set.
 Since worn armour contributes no weight, this is the whole of what an arm harness costs.
 
+**Both are documented and visible.** The Gear rules gain an _Arm Harness_ rule under
+Armor Encumbrance and a precise _Sensory Penalties_ rule stating that the worst worn
+penalty applies rather than the sum; the generated armour tables gain Harness and
+Perception columns, so a reader sees that a spaulder costs nothing alone but belongs to a
+set; and both fields are editable on the armour sheet, with the encumbrance value disabled
+for an article that belongs to a group.
+
 Closes #1339.

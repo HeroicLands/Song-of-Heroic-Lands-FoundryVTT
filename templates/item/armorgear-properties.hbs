@@ -24,8 +24,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{formGroup fields.qualityBase rootId="armgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
             {{formGroup fields.durabilityBase rootId="armgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
             {{!-- Encumbrance (#1133): added to the wearer's encumbrance while
-                  the armor is worn (BeingLogic.finalize, #1010). --}}
-            {{formGroup fields.encumbrance rootId="armgear-enc" classes="text-field" stacked=true value=system.encumbrance}}
+                  the armor is worn (BeingLogic.finalize, #1010). Disabled for an
+                  article in a group, whose cost is charged to the set instead. --}}
+            {{formGroup fields.encumbrance rootId="armgear-enc" classes="text-field" stacked=true value=system.encumbrance disabled=system.encumbranceGroup}}
+            {{!-- Encumbrance group: the arm pieces cost nothing alone and 5
+                  between them once three or more are worn. An article carries a
+                  value or belongs to a group, never both. --}}
+            {{formGroup fields.encumbranceGroup rootId="armgear-encgrp" classes="text-field" stacked=true value=system.encumbranceGroup}}
+            {{!-- Perception penalty: applied to anything built on Perception
+                  while worn; the worst worn penalty applies, never the sum. --}}
+            {{formGroup fields.perceptionPenaltyBase rootId="armgear-perc" classes="text-field" stacked=true value=system.perceptionPenaltyBase}}
         </div>
         {{!-- Cohort sharing (#76): marks this item as shared with a cohort,
               which then lists it on its read-only Shared Gear tab. --}}
