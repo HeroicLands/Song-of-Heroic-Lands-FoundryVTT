@@ -4,7 +4,7 @@ tags: []
 name:
     full: Tragyx
     aliases: []
-description: "A birthsign of the Astrokýklos: the influence conferred by the celestial sign under which a being was born."
+description: "The Stag: favours Spirit and Water (+10), hinders Metal and Fire (−10)."
 id: jq8GiYBpQYyWBMdA
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: tragyx
@@ -69,4 +69,17 @@ effects:
 
 Tragyx, the Stag, gives an eloquent tongue and a searching mind. Born orators, linguists, and adepts of the mysteries, its children have little inclination for the workshop bench or the practice of arms.
 
-A birthsign is not a power the character wields but a standing cast of fortune: attach the sign the character was born under, and its Active Effects adjust the Effective Mastery Level of the affected skills.
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+
+| Element | Skills it claims          | EML |
+| ------- | ------------------------- | --- |
+| Earth   | Nature                    | —   |
+| Metal   | Craft, Script             | −10 |
+| Fire    | Combat, Combat Techniques | −10 |
+| Air     | Physical                  | —   |
+| Spirit  | Lore, Mystical            | +10 |
+| Water   | Language, Social          | +10 |
+
+Its natives come readiest to **Spirit** (old learning and the mysteries) and **Water** (tongues, courts, and company) at +10, and hardest to **Metal** (the maker's bench and the written page) and **Fire** (the drill-yard and the clash of arms) at −10.
+
+The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

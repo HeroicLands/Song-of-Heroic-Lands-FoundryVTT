@@ -4,7 +4,7 @@ tags: []
 name:
     full: Stathmos-Kentros
     aliases: []
-description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
+description: "The cusp of the Balance and the Goad: favours Air (+15), hinders Earth (−10)."
 id: G6MZNQyN2RIZwVbD
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: stathmoskentros
@@ -81,4 +81,17 @@ effects:
 
 Where Stathmos, the Balance, gives way to Kentros, the Goad, tested flesh turns toward hidden things. Robust and inward-looking, its natives have scant patience for the field, the forge, or the written page.
 
-A birthsign is not a power the character wields but a standing cast of fortune: attach the sign the character was born under, and its Active Effects adjust the Effective Mastery Level of the affected skills.
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+
+| Element | Skills it claims          | EML |
+| ------- | ------------------------- | --- |
+| Earth   | Nature                    | −10 |
+| Metal   | Craft, Script             | −5  |
+| Fire    | Combat, Combat Techniques | +5  |
+| Air     | Physical                  | +15 |
+| Spirit  | Lore, Mystical            | +10 |
+| Water   | Language, Social          | —   |
+
+Its natives come readiest to **Air** (feats of balance, stealth, and speed) at +15, and hardest to **Earth** (the growing field and the wild places) at −10.
+
+The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

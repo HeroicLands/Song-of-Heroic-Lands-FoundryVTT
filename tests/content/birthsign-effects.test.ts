@@ -204,6 +204,39 @@ function readBirthsign(sign: string): Birthsign {
 }
 
 /**
+ * Read one birthsign's prose body — everything after the frontmatter.
+ * @param sign - The sign name (and file basename).
+ * @returns The Markdown body.
+ */
+function readBody(sign: string): string {
+    const raw = readFileSync(path.join(BIRTHSIGN_DIR, `${sign}.md`), "utf8");
+    const body = raw.replace(/^---\n[\s\S]*?\n---\n/, "");
+    if (body === raw) throw new Error(`${sign}.md has no YAML frontmatter`);
+    return body;
+}
+
+/**
+ * Parse the modifier a note's authored table states for each element.
+ *
+ * The table is the reader's only sight of the numbers — the Active Effects that
+ * carry them are not rendered anywhere a player reads — so it is authored, and
+ * this parse is what keeps it honest against {@link MATRIX}.
+ * @param body - The note's Markdown body.
+ * @returns The stated modifier per element, in table order.
+ */
+function parseModifierTable(body: string): [string, number][] {
+    // The header row cannot match: its last cell is not a modifier.
+    const rows = body.matchAll(
+        /^\|\s*([A-Za-z]+)\s*\|[^|]*\|\s*([+−-]?\d+|—)\s*\|$/gm,
+    );
+    return [...rows].map(([, element, modifier]) => [
+        element.toLowerCase(),
+        // An em dash is how the table spells "this element is untouched".
+        modifier === "—" ? 0 : Number(modifier.replace("−", "-")),
+    ]);
+}
+
+/**
  * Build the evaluable form of an effect's `test`, under the scope the effect is
  * actually evaluated in.
  * @param test - The authored expression source.
@@ -253,6 +286,22 @@ describe("birthsign Active Effects", () => {
                         ),
                         `${effect.name}: ${effect.system.test}`,
                     ).toBeUndefined();
+                }
+            });
+
+            it("states every element, in element order, in its table", () => {
+                const stated = parseModifierTable(readBody(sign));
+                expect(stated.map(([element]) => element)).toEqual(
+                    ELEMENT_NAMES,
+                );
+            });
+
+            it("states the matrix modifier for every element", () => {
+                const stated = Object.fromEntries(
+                    parseModifierTable(readBody(sign)),
+                );
+                for (const element of ELEMENT_NAMES) {
+                    expect(stated[element], element).toBe(row[element]);
                 }
             });
 

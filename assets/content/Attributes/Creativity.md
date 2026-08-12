@@ -4,6 +4,7 @@ tags: []
 name:
     full: Creativity
     aliases: []
+description: "Imagination: seeing new connections and forging original solutions."
 id: R61ev5j1ZVltQ42m
 img: icons/game-icons/lorc/light-bulb.svg
 shortcode: cre

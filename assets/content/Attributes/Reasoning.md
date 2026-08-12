@@ -4,6 +4,7 @@ tags: []
 name:
     full: Reasoning
     aliases: []
+description: "Logic, memory, and deduction; the foundation of learning and craft."
 id: l2gx8lA2IzZbeKOB
 img: icons/game-icons/lorc/brain.svg
 shortcode: rea

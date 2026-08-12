@@ -4,6 +4,7 @@ tags: []
 name:
     full: Morality
     aliases: []
+description: "Ethical conscience, and the willingness to act on it under temptation."
 id: 5eOjes9tQHVozVcl
 img: icons/game-icons/lorc/scales.svg
 shortcode: mor
