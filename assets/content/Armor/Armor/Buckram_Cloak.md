@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Buckram
     material: Cloth
     durability: 10
-    value: 66
-    weight: 3.3
+    value: 34.5
+    weight: 1.7
     encumbrance: 0
     perception:
         value: 0
@@ -30,8 +30,6 @@ sohl:
     flexloc:
         - lshldloc
         - rshldloc
-        - lupaloc
-        - rupaloc
         - thrxloc
         - abdmnloc
         - plvisloc
@@ -67,8 +65,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 66
-origWeight: 3.3
+origValue: 34.5
+origWeight: 1.7
 ---
 
 The Buckram Cloak is stiff and durable, made from coarse cloth stiffened with glue. It offers a structured fit and is suitable for activities requiring a more rigid, reliable garment.

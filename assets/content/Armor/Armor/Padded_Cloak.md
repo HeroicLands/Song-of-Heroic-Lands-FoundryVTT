@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Padded
     material: Padded
     durability: 10
-    value: 132
-    weight: 5.3
+    value: 69
+    weight: 2.8
     encumbrance: 0
     perception:
         value: 0
@@ -30,8 +30,6 @@ sohl:
     flexloc:
         - lshldloc
         - rshldloc
-        - lupaloc
-        - rupaloc
         - thrxloc
         - abdmnloc
         - plvisloc
@@ -67,8 +65,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 132
-origWeight: 5.3
+origValue: 69
+origWeight: 2.8
 ---
 
 A cloak of quilted and padded cloth, layered and stitched through so that it turns a

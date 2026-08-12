@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Silk
     material: Cloth
     durability: 7
-    value: 594
-    weight: 1.7
+    value: 310.5
+    weight: 0.9
     encumbrance: 0
     perception:
         value: 0
@@ -30,8 +30,6 @@ sohl:
     flexloc:
         - lshldloc
         - rshldloc
-        - lupaloc
-        - rupaloc
         - thrxloc
         - abdmnloc
         - plvisloc
@@ -67,8 +65,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 66
-origWeight: 3.3
+origValue: 310.5
+origWeight: 0.9
 ---
 
 The Silk Cloak is a luxurious, lightweight garment designed for high-status individuals. While not particularly protective, its smooth texture and elegant drape make it perfect for formal events and special occasions.

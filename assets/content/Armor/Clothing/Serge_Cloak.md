@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Serge
     material: Cloth
     durability: 7
-    value: 40
-    weight: 1.7
+    value: 20.9
+    weight: 0.9
     encumbrance: 0
     perception:
         value: 0
@@ -30,8 +30,6 @@ sohl:
     flexloc:
         - lshldloc
         - rshldloc
-        - lupaloc
-        - rupaloc
         - thrxloc
         - abdmnloc
         - plvisloc
@@ -67,8 +65,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 66
-origWeight: 3.3
+origValue: 20.9
+origWeight: 0.9
 ---
 
 The Serge Cloak is made from durable twilled fabric, making it both comfortable and resilient. It’s a versatile outer garment that provides good protection and can withstand the wear and tear of daily use.

@@ -88,10 +88,12 @@ describe("armour facing", () => {
         }
     });
 
-    it("leaves a cloak's shoulders and arms protected from all sides", () => {
+    // A cloak hangs from the shoulders alone — the arms are outside it, which
+    // is why the table gives Cloak the shoulders and no upper-arm coverage.
+    it("leaves a cloak's shoulders protected from all sides", () => {
         for (const cloak of byType("Cloak")) {
             const directional = cloak.facing.map((f) => f.location);
-            for (const loc of ["lshldloc", "rshldloc", "lupaloc", "rupaloc"]) {
+            for (const loc of ["lshldloc", "rshldloc"]) {
                 expect(cloak.covered, cloak.name).toContain(loc);
                 expect(directional, cloak.name).not.toContain(loc);
             }

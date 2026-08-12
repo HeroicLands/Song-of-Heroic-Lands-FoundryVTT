@@ -14,11 +14,18 @@ means "protected from any direction", so every all-round article ships an empty 
 nothing needs migrating.
 
 Directional coverage is genuinely the exception, so it is modelled as an exception list
-rather than a qualifier on all 309 armour articles. The thirteen cloaks now mark their
-torso, pelvis, thighs, knees and calves as rear-facing — locations most of them were not
-recording as covered at all, which is why a cloak read as barely more than a mantle — and
-the two breastplates mark their torso as front-facing. Cuirasses are all-round rigid and
-are left alone.
+rather than a qualifier on all 309 armour articles. The thirteen cloaks now cover the
+shoulders all round, and the thorax, abdomen, pelvis, thighs, knees and calves to the
+rear — locations most of them were not recording at all, which is why a cloak read as
+barely more than a mantle. The two breastplates mark their torso as front-facing;
+cuirasses are all-round rigid and are left alone.
+
+**One-sided articles cost half.** A breastplate is literally the front half of a cuirass,
+and the table prices it that way — 60d / 4.6 lb against the cuirass's 120d / 9.1. Cloaks
+were priced as though their rear coverage were full, so all thirteen are rescaled by the
+same factor, which keeps every material's relative pricing intact: the base cloth cloak
+moves from 66d / 3.3 lb to 34.5d / 1.7, matching coverage of 0.345 against the cloth base
+price of 100.
 
 **Data now; resolution when outnumbering lands.** The rules never ask which way a
 combatant is pointing. They settle one-sided armour by circumstance, and the two cases

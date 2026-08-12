@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Homespun
     material: Cloth
     durability: 5
-    value: 20
-    weight: 0.8
+    value: 10.5
+    weight: 0.4
     encumbrance: 0
     perception:
         value: 0
@@ -30,8 +30,6 @@ sohl:
     flexloc:
         - lshldloc
         - rshldloc
-        - lupaloc
-        - rupaloc
         - thrxloc
         - abdmnloc
         - plvisloc
@@ -67,8 +65,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 66
-origWeight: 3.3
+origValue: 10.5
+origWeight: 0.4
 ---
 
 The Homespun Cloak is a practical and simple garment woven from homemade fabric. It provides basic protection against the elements, making it suitable for peasants and everyday wearers who need a reliable, no-frills outer layer.
