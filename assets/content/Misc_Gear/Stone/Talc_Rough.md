@@ -13,6 +13,9 @@ shortcode: talcrough
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mnrl
+        secondary: []
     kbcat: stone
     archetype: 0
     quality: 0

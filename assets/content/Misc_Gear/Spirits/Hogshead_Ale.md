@@ -15,6 +15,9 @@ package: sohl
 hmk:
     name: Hogshead Ale
 sohl:
+    craft:
+        skill: brew
+        secondary: []
     kbcat: spirits
     archetype: 0
     quality: 0

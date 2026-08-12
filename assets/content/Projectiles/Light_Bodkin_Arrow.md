@@ -13,6 +13,9 @@ shortcode: ArwLBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin
 sohl:
+    craft:
+        skill: fltch
+        secondary: [wood, mtlc]
     archetype: 0
     quality: 0
     durability: 10

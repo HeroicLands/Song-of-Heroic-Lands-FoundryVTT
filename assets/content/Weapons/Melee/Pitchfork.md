@@ -12,6 +12,9 @@ shortcode: Pfrk
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: [wood]
     kbcat: polearm
     archetype: 0
     durability: 9

@@ -12,6 +12,9 @@ shortcode: potcooking
 type: containergear
 package: sohl
 sohl:
+    craft:
+        skill: cmcs
+        secondary: []
     archetype: 0
     quality: 0
     durability: 3

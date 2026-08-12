@@ -12,6 +12,9 @@ shortcode: Hcht
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: [wood]
     kbcat: axe
     archetype: 0
     durability: 9

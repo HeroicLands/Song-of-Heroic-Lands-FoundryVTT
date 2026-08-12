@@ -13,6 +13,9 @@ shortcode: beerkeg
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: brew
+        secondary: []
     kbcat: spirits
     archetype: 0
     quality: 0

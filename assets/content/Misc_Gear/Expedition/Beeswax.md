@@ -13,6 +13,9 @@ shortcode: bswax
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: anmcft
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

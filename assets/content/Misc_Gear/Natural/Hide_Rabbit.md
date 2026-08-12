@@ -13,6 +13,9 @@ shortcode: hiderabbit
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: srvl
+        secondary: []
     kbcat: natural
     archetype: 0
     quality: 0

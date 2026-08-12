@@ -12,6 +12,9 @@ shortcode: Net
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: txtl
+        secondary: [mtlc]
     kbcat: net
     archetype: 0
     durability: 9

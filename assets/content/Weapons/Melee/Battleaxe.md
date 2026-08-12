@@ -12,6 +12,9 @@ shortcode: BAxe
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: axe
     archetype: 0
     durability: 12

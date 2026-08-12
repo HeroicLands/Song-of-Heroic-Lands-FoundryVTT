@@ -12,6 +12,9 @@ shortcode: bktlrg
 type: containergear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     archetype: 0
     quality: 0
     durability: 8

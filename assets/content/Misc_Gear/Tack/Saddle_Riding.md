@@ -13,6 +13,9 @@ shortcode: saddleridi
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: tack
     archetype: 0
     quality: 0

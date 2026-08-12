@@ -13,6 +13,9 @@ shortcode: FRtns
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: cook
+        secondary: []
     kbcat: food
     archetype: 0
     quality: 0

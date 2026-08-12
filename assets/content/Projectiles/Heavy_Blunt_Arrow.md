@@ -13,6 +13,9 @@ shortcode: ArwHBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Blunt
 sohl:
+    craft:
+        skill: fltch
+        secondary: [wood, mtlc]
     archetype: 0
     subType: arrow
     quality: 0

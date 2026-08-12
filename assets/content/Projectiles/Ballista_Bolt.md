@@ -13,6 +13,9 @@ shortcode: BltSge
 img: icons/game-icons/lorc/barbed-spear.svg
 easyname: Ballista
 sohl:
+    craft:
+        skill: fltch
+        secondary: [wood, mtlc]
     archetype: 0
     subType: bolt
     quality: 0

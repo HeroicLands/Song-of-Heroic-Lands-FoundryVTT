@@ -13,6 +13,9 @@ shortcode: bench
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: furniture
     archetype: 0
     quality: 0

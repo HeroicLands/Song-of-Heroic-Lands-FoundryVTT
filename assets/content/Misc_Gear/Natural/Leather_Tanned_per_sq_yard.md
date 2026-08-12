@@ -13,6 +13,9 @@ shortcode: leathertan
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: natural
     archetype: 0
     quality: 0

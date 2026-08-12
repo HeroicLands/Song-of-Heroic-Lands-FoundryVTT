@@ -13,6 +13,9 @@ shortcode: BltHBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Bodkin
 sohl:
+    craft:
+        skill: fltch
+        secondary: [wood, mtlc]
     archetype: 0
     subType: bolt
     quality: 0

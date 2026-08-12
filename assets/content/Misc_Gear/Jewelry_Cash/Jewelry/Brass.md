@@ -13,6 +13,9 @@ shortcode: brass
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mnrl
+        secondary: []
     kbcat: jewelry
     archetype: 0
     quality: 0

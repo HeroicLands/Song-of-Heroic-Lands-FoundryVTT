@@ -13,6 +13,9 @@ shortcode: platecer
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: cmcs
+        secondary: []
     kbcat: cooking
     archetype: 0
     quality: 0

@@ -12,6 +12,9 @@ shortcode: Bklr
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: shield
     archetype: 0
     durability: 9

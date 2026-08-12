@@ -12,6 +12,9 @@ shortcode: SLeg
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [hide, mtlc]
     kbcat: scale
     archetype: 0
     armorType: Leggings

@@ -13,6 +13,9 @@ shortcode: hidecalf
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: anmcft
+        secondary: []
     kbcat: natural
     archetype: 0
     quality: 0

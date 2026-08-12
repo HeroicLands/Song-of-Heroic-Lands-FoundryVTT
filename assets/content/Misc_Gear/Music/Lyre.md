@@ -13,6 +13,9 @@ shortcode: lyre
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: music
     archetype: 0
     quality: 0

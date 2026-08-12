@@ -12,6 +12,9 @@ shortcode: GrnFl
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: [wood]
     kbcat: flail
     archetype: 0
     durability: 9

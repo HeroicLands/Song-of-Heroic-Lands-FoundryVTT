@@ -12,6 +12,9 @@ shortcode: SlngStf
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: [wood]
     kbcat: sling
     archetype: 0
     durability: 9

@@ -12,6 +12,9 @@ shortcode: ClbLg
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: club
     archetype: 0
     durability: 9

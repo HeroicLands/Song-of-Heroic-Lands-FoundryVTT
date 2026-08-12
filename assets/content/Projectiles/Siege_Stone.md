@@ -13,6 +13,9 @@ shortcode: StnSge
 img: icons/game-icons/lorc/stone-block.svg
 easyname: Siege Stone
 sohl:
+    craft:
+        skill: srvl
+        secondary: []
     archetype: 0
     subType: bullet
     quality: 0

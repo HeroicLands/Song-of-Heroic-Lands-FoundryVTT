@@ -13,6 +13,9 @@ shortcode: gldcrwn
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     kbcat: cash
     archetype: 0
     quality: 0

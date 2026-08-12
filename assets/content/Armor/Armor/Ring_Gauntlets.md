@@ -12,6 +12,9 @@ shortcode: RMtn
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: ring
     archetype: 0
     armorType: Gauntlets

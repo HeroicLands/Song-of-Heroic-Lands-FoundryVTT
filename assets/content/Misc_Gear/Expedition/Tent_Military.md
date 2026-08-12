@@ -13,6 +13,9 @@ shortcode: tentmilita
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: txtl
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

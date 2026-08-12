@@ -13,6 +13,9 @@ shortcode: sponge
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: srvl
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

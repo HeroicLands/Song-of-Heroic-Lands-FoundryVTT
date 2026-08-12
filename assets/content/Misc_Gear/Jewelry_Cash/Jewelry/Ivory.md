@@ -13,6 +13,9 @@ shortcode: ivory
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: srvl
+        secondary: []
     kbcat: jewelry
     archetype: 0
     quality: 0

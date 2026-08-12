@@ -12,6 +12,9 @@ shortcode: Crwbr
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: [wood]
     kbcat: club
     archetype: 0
     durability: 11

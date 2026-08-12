@@ -12,6 +12,9 @@ shortcode: LBw75
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: fltch
+        secondary: [wood, timb]
     kbcat: bow
     archetype: 0
     durability: 10

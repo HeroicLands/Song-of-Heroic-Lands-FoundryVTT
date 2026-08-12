@@ -13,6 +13,9 @@ shortcode: candlestal
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: anmcft
+        secondary: []
     kbcat: lighting
     archetype: 0
     quality: 0

@@ -13,6 +13,9 @@ shortcode: pipewd
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: agri
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

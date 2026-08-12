@@ -13,6 +13,9 @@ shortcode: beadscer12
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: cmcs
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

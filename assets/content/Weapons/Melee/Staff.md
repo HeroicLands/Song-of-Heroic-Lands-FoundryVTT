@@ -12,6 +12,9 @@ shortcode: Stf
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: polearm
     archetype: 0
     durability: 11

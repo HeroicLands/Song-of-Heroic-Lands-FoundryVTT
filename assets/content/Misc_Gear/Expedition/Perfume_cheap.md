@@ -13,6 +13,9 @@ shortcode: perfumecheap
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: pfmy
+        secondary: []
     kbcat: expedition
     archetype: 0
     quality: 0

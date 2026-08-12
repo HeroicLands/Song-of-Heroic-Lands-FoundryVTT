@@ -13,6 +13,9 @@ shortcode: saltsack
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mnrl
+        secondary: []
     kbcat: food
     archetype: 0
     quality: 0

@@ -13,6 +13,9 @@ shortcode: barley
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: agri
+        secondary: []
     kbcat: food
     archetype: 0
     quality: 0

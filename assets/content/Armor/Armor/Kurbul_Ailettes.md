@@ -13,6 +13,9 @@ shortcode: KAil
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [hide]
     kbcat: kurbul
     archetype: 0
     armorType: Ailettes

@@ -12,6 +12,9 @@ shortcode: SlngSht
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: hide
+        secondary: []
     kbcat: thrown
     archetype: 0
     durability: 9

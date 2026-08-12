@@ -12,6 +12,9 @@ shortcode: MLHbk
 type: armorgear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: mail
     archetype: 0
     armorType: Long Hauberk

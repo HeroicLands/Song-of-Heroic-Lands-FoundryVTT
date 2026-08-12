@@ -12,6 +12,9 @@ shortcode: Spr
 type: weapongear
 package: sohl
 sohl:
+    craft:
+        skill: wpnc
+        secondary: [mtlc, mnrl]
     kbcat: polearm
     archetype: 0
     durability: 11

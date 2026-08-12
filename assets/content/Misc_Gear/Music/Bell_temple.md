@@ -13,6 +13,9 @@ shortcode: belltemple
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: mtlc
+        secondary: []
     kbcat: music
     archetype: 0
     quality: 0

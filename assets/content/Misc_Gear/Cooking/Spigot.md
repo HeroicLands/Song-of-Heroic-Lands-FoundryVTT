@@ -13,6 +13,9 @@ shortcode: spigot
 type: miscgear
 package: sohl
 sohl:
+    craft:
+        skill: wood
+        secondary: []
     kbcat: cooking
     archetype: 0
     quality: 0
