@@ -63,13 +63,12 @@ describe("Item docs — a shipped description is a pointer (#1348)", () => {
                         name: page?.name ?? null,
                         itemName: doc.name,
                         content: page?.text?.content ?? "",
-                        // The doc records its item's folder id verbatim. Read
-                        // the stored value, not the resolved `.folder`: the
-                        // Folder documents themselves are declared in the
-                        // items pack, so until the journals pack declares them
-                        // too the id resolves to nothing.
-                        docFolder: page?.parent?._source?.folder ?? null,
-                        itemFolder: doc._source?.folder ?? null,
+                        // The doc is filed with its item: the journals pack
+                        // declares the same folder tree the items pack does
+                        // (#1358), so the id resolves to a real Folder on both
+                        // sides rather than dropping the entry at the root.
+                        docFolder: page?.parent?.folder?.id ?? null,
+                        itemFolder: doc.folder?.id ?? null,
                     };
                 }).should((r) => {
                     expect(r.name, "the page exists").to.eq(r.itemName);
@@ -80,10 +79,9 @@ describe("Item docs — a shipped description is a pointer (#1348)", () => {
                         r.content.length,
                         "of a paragraph's worth, not a link",
                     ).to.be.greaterThan(100);
-                    expect(
-                        r.docFolder,
-                        "the doc records its item's folder id",
-                    ).to.eq(r.itemFolder);
+                    expect(r.docFolder, "the doc is filed with its item").to.eq(
+                        r.itemFolder,
+                    );
                 });
             },
         );
