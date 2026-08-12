@@ -21,14 +21,11 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 96
-    weight: 3.6
+    value: 68
+    weight: 2.7
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: jUeLqWLw8NX4FrFF
+    perceptionPenaltyBase: 0
     flexloc:
-        - plvisloc
         - lthghloc
         - rthghloc
         - lkneeloc
@@ -40,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 96
-origWeight: 3.6
+origValue: 68
+origWeight: 2.7
 ---
 
 Rawhide Breeches are thick, rugged, and highly protective. Ideal for harsh environments or combat scenarios, they are less about comfort and more about standing up to the rigors of tough tasks.

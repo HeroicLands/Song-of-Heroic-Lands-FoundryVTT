@@ -23,11 +23,9 @@ sohl:
     material: Kûrbúl
     durability: 13
     value: 60
-    weight: 4.5
+    weight: 4.6
     encumbrance: 5
-    perception:
-        value: 0
-        effectId: 01IJlQFKkrHi4oGH
+    perceptionPenaltyBase: 0
     flexloc: []
     rigidloc:
         - thrxloc

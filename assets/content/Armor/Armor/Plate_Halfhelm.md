@@ -21,25 +21,28 @@ sohl:
     detailMaterial: Plate
     material: Plate
     durability: 14
-    value: 80
-    weight: 3
+    value: 140
+    weight: 2.7
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: FNN31dTJvVW540PY
+    perceptionPenaltyBase: 0
     flexloc: []
     rigidloc:
         - skullloc
-        - rearloc
+        - jawloc
+        - lcheekloc
+        - rcheekloc
         - learloc
+        - rearloc
+        - mouthloc
+        - noseloc
     protection:
         blunt: 4
         edged: 8
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 80
-origWeight: 3
+origValue: 140
+origWeight: 2.7
 ---
 
 The Plate Halfhelm is a steel helmet covering the top and sides of the head, leaving the face exposed. It offers moderate protection while allowing for better visibility and airflow compared to a full helm.

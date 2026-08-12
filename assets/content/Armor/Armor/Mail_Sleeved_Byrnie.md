@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Mail
     material: Mail
     durability: 13
-    value: 400
-    weight: 22
+    value: 600
+    weight: 18
     encumbrance: 10
-    perception:
-        value: 0
-        effectId: PgWAI3jymshHLrmM
+    perceptionPenaltyBase: 0
     flexloc: []
     rigidloc:
         - lshldloc
@@ -39,7 +37,6 @@ sohl:
         - rfraloc
         - thrxloc
         - abdmnloc
-        - plvisloc
     protection:
         blunt: 4
         edged: 8

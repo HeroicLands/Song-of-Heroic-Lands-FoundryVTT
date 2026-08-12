@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Silk
     material: Cloth
     durability: 7
-    value: 180
-    weight: 0.2
+    value: 45
+    weight: 0.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: GOMjxhPyxETfZ5yv
+    perceptionPenaltyBase: 0
     flexloc:
         - lhandloc
         - rhandloc
@@ -37,8 +35,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 20
-origWeight: 0.3
+origValue: 45
+origWeight: 0.1
 ---
 
 Silk Gloves offer a touch of luxury and elegance. Soft and lightweight, they are perfect for formal events and special occasions, where style is more important than ruggedness.

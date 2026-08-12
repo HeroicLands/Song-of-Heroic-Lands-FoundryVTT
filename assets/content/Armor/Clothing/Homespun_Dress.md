@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Homespun
     material: Cloth
     durability: 5
-    value: 24
+    value: 23.7
     weight: 1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: c8w627oqi7lKXz3G
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -52,8 +50,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 79
-origWeight: 4
+origValue: 23.7
+origWeight: 1
 ---
 
 A Homespun Dress is a simple, practical garment woven from homemade fabric. It provides basic coverage and comfort, ideal for everyday wear by common folk.

@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Velvet
     material: Cloth
     durability: 10
-    value: 70
+    value: 17.5
     weight: 0.3
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: kMs2GwIeBFsdUUoO
+    perceptionPenaltyBase: 0
     flexloc:
         - lhandloc
         - rhandloc
@@ -37,7 +35,7 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 20
+origValue: 17.5
 origWeight: 0.3
 ---
 

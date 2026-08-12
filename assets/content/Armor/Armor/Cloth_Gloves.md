@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Cloth
     material: Cloth
     durability: 10
-    value: 20
+    value: 5
     weight: 0.3
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: OvKpV71kLvDSKM69
+    perceptionPenaltyBase: 0
     flexloc:
         - lhandloc
         - rhandloc
@@ -37,7 +35,7 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 20
+origValue: 5
 origWeight: 0.3
 ---
 

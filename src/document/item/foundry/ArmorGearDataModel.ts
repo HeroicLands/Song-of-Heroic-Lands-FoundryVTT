@@ -19,8 +19,10 @@ import {
 import {
     ARMOR_FACING,
     ArmorFacingChoices,
+    EncumbranceGroupChoices,
     ImpactAspects,
     ITEM_KIND,
+    type EncumbranceGroup,
 } from "@src/utils/constants";
 import type { ArmorLocationFacing } from "@src/entity/body/armor-aggregation";
 const { StringField, SchemaField, ArrayField, NumberField, BooleanField } =
@@ -68,6 +70,20 @@ function defineArmorGearSchema(): foundry.data.fields.DataSchema {
             fire: new NumberField({ integer: true, initial: 0, min: 0 }),
         }),
         encumbrance: new NumberField({ initial: 0, min: 0 }),
+        // Articles whose encumbrance is charged to a set rather than to each
+        // piece: null for nearly everything, "arm" for the small rigid arm
+        // pieces that cost nothing alone and 5 between them once three or more
+        // are worn. An article has an encumbrance value or a group, never both.
+        encumbranceGroup: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+            choices: EncumbranceGroupChoices,
+        }),
+        // How much this article obstructs the senses when worn, as a
+        // non-positive number. Applied to tests built on Perception, worst
+        // rather than summed — see `worn-armour-effects.ts`.
+        perceptionPenaltyBase: new NumberField({ initial: 0, max: 0 }),
     };
 }
 
@@ -104,6 +120,8 @@ export class ArmorGearDataModel<
         fire: number;
     };
     encumbrance!: number;
+    encumbranceGroup!: EncumbranceGroup | null;
+    perceptionPenaltyBase!: number;
 
     /**
      * Returns the Foundry data schema for the armor gear item.

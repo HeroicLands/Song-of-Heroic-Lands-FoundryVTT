@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Worsted
     material: Cloth
     durability: 9
-    value: 96
-    weight: 2.4
+    value: 93.8
+    weight: 1.6
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: Z1kGcY3bs29IhGyQ
+    perceptionPenaltyBase: 0
     flexloc:
         - plvisloc
         - lthghloc
@@ -42,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 40
-origWeight: 3
+origValue: 93.8
+origWeight: 1.6
 ---
 
 The Worsted Skirt, made from tightly-spun wool fibers, offers both style and durability. It is a versatile garment that provides good insulation and resilience, suitable for a wide range of activities and weather conditions.

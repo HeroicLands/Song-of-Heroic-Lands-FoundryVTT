@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Straw
     material: Cloth
     durability: 5
-    value: 12
-    weight: 0.8
+    value: 9.8
+    weight: 0.5
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: Zts7L6NzmMxHoyyR
+    perceptionPenaltyBase: 0
     flexloc:
         - plvisloc
         - lthghloc
@@ -42,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 40
-origWeight: 3
+origValue: 9.8
+origWeight: 0.5
 ---
 
 The Straw Skirt is lightweight and breathable, providing a unique and airy garment. Ideal for hot climates, it offers minimal protection but ensures maximum comfort and airflow.

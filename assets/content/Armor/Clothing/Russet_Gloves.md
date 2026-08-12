@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Russet
     material: Cloth
     durability: 7
-    value: 24
-    weight: 0.2
+    value: 6
+    weight: 0.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: VDpkx2KBz6TbVkMW
+    perceptionPenaltyBase: 0
     flexloc:
         - lhandloc
         - rhandloc
@@ -37,8 +35,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 20
-origWeight: 0.3
+origValue: 6
+origWeight: 0.1
 ---
 
 Russet Gloves are made from coarse wool dyed reddish-brown, offering warmth and durability. They are practical for colder climates and outdoor activities.

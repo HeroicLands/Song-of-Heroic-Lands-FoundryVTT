@@ -21,23 +21,18 @@ sohl:
     detailMaterial: Padded
     material: Padded
     durability: 10
-    value: 88
-    weight: 3.3
+    value: 86
+    weight: 3.4
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: jPnQlzUkGMl3AZlr
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
         - lupaloc
         - rupaloc
-        - lfraloc
-        - rfraloc
-        - lelbloc
-        - relbloc
         - thrxloc
         - abdmnloc
+        - plvisloc
     rigidloc: []
     protection:
         blunt: 4
@@ -45,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 88
-origWeight: 3.3
+origValue: 86
+origWeight: 3.4
 ---
 
 A Padded Longshirt offers cushioning and warmth, perfect for additional under-armor padding or as a standalone garment. It provides comfort and protection in both combat and everyday use.

@@ -24,9 +24,7 @@ sohl:
     value: 3
     weight: 0.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: 8y8LJHlq07AuYXQu
+    perceptionPenaltyBase: 0
     flexloc:
         - skullloc
         - neckloc

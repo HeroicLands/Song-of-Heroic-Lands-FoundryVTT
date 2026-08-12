@@ -21,6 +21,7 @@ import {
     ImpactAspects,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    type EncumbranceGroup,
 } from "@src/utils/constants";
 
 /**
@@ -240,4 +241,16 @@ export interface ArmorGearData<
     };
     /** Encumbrance value of the armor */
     encumbrance: number;
+    /**
+     * The set this article's encumbrance is charged to, if any. An article
+     * belongs to a group *instead of* carrying a value: the arm pieces cost
+     * nothing alone and 5 between them once three or more are worn.
+     */
+    encumbranceGroup: EncumbranceGroup | null;
+    /**
+     * How much wearing this article obstructs the senses, as a non-positive
+     * number. The worst of those worn applies to tests built on Perception,
+     * never their sum.
+     */
+    perceptionPenaltyBase: number;
 }

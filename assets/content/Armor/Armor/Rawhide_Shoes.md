@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 35
-    weight: 1.5
+    value: 28
+    weight: 1.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: gxokQLmwYcJxzLiZ
+    perceptionPenaltyBase: 0
     flexloc:
         - lfootloc
         - rfootloc

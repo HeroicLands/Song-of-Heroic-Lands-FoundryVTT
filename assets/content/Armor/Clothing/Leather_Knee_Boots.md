@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 240
-    weight: 2.3
+    value: 176
+    weight: 2.2
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: TQJwqZaw9EtlayE2
+    perceptionPenaltyBase: 0
     flexloc:
         - lkneeloc
         - rkneeloc
@@ -41,8 +39,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 120
-origWeight: 3.8
+origValue: 176
+origWeight: 2.2
 ---
 
 Leather Knee Boots, made from lightweight yet durable leather, extend up just past the knee. They offer a mix of style and modest protection, suitable for those needing flexible footwear for active pursuits.

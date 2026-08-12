@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Beaver
     material: Leather
     durability: 9
-    value: 165
-    weight: 2
+    value: 396
+    weight: 4.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: ei9HDz0vkuo8XWXF
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -41,8 +39,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 55
-origWeight: 2.5
+origValue: 396
+origWeight: 4.1
 ---
 
 A Beaver Shirt, made from dense beaver fur, offers exceptional warmth and a touch of luxury. Perfect for cold climates, it combines function and status, providing both comfort and elegance.

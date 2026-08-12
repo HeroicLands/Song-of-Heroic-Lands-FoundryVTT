@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Homespun
     material: Cloth
     durability: 5
-    value: 12
-    weight: 0.8
+    value: 11.7
+    weight: 0.5
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: MDS8yQjjEl4DPuvD
+    perceptionPenaltyBase: 0
     flexloc:
         - plvisloc
         - lthghloc
@@ -42,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 40
-origWeight: 3
+origValue: 11.7
+origWeight: 0.5
 ---
 
 A Homespun Skirt is a simple and practical garment woven from homemade fabric. It provides basic coverage and comfort, ideal for everyday wear by common folk.

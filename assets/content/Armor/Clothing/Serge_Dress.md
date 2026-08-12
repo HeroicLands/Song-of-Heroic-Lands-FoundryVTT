@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Serge
     material: Cloth
     durability: 7
-    value: 47
-    weight: 2
+    value: 47.2
+    weight: 2.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: z29HMU2otujSBT3W
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -52,8 +50,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 79
-origWeight: 4
+origValue: 47.2
+origWeight: 2.1
 ---
 
 Made from durable, twilled fabric, the Serge Dress provides both comfort and resilience. It’s an everyday garment that can withstand wear and tear, ideal for a range of activities.

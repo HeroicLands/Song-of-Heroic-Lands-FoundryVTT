@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 70
-    weight: 0.9
+    value: 56
+    weight: 1.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: eoNILrZZINBPjLeZ
+    perceptionPenaltyBase: 0
     flexloc:
         - lfootloc
         - rfootloc
@@ -37,8 +35,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 35
-origWeight: 1.5
+origValue: 56
+origWeight: 1.1
 ---
 
 Leather Shoes provide lightweight and comfortable footwear, perfect for everyday wear. They offer a touch of rugged charm and minimal protection, suitable for casual activities and light adventuring.

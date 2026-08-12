@@ -78,10 +78,6 @@ const ITEM_TYPES = new Set([
     "weapongear",
 ]);
 
-const PERCEPTION_TEST =
-    "(doc.type==='skill' && doc.logic.hasAttr('per'))" +
-    "||(doc.type==='attribute' && doc.system.shortcode==='per')";
-
 /**
  * Build the `system.*` fields shared by every item type:
  *   shortcode, docUrl, actionDefs, notes, docHtml.
@@ -294,6 +290,11 @@ function buildArmorGear(fm) {
             fire: Number(protection.fire) || 0,
         },
         encumbrance: Number(sohlField(fm, "encumbrance", 0)) || 0,
+        // An article belongs to an encumbrance group instead of carrying a
+        // value when its cost is charged to a set — the arm harness.
+        encumbranceGroup: sohlField(fm, "encumbranceGroup", null) || null,
+        perceptionPenaltyBase:
+            Number(sohlField(fm, "perceptionPenaltyBase", 0)) || 0,
     };
 }
 
@@ -353,31 +354,6 @@ const BUILDERS = {
 /* -------------------------------------------------------------------- */
 /*  Synthesized Active Effects                                          */
 /* -------------------------------------------------------------------- */
-
-/**
- * Armor with a non-zero perception modifier emits one Active Effect that
- * dampens any skill using `per` and the `per` attribute itself.
- */
-function buildPerceptionEffect(itemId, perception) {
-    return {
-        name: "Anything Using Perception",
-        type: "sohleffectdata",
-        _id: perception.effectId,
-        system: {
-            scope: "test",
-            test: PERCEPTION_TEST,
-        },
-        changes: [
-            {
-                key: "mod:logic.masteryLevel",
-                mode: 2,
-                value: String(perception.value),
-                priority: null,
-            },
-        ],
-        _key: `!items.effects!${itemId}.${perception.effectId}`,
-    };
-}
 
 /* -------------------------------------------------------------------- */
 /*  Compiler                                                            */
@@ -439,19 +415,6 @@ export class Items {
         };
 
         const effects = Array.isArray(fm.effects) ? [...fm.effects] : [];
-
-        // Armor perception → one synthesized AE per item.
-        if (type === "armorgear") {
-            const perception = sohlField(fm, "perception", null);
-            if (
-                perception &&
-                typeof perception === "object" &&
-                perception.value &&
-                perception.effectId
-            ) {
-                effects.push(buildPerceptionEffect(id, perception));
-            }
-        }
 
         const folderId = sohlField(fm, "folder", null);
         const folder = this.folderResolver(folderId);

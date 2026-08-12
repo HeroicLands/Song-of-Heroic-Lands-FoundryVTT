@@ -22,11 +22,9 @@ sohl:
     material: Leather
     durability: 9
     value: 152
-    weight: 1.7
+    weight: 1.9
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: i54sCGnjftvTIUpk
+    perceptionPenaltyBase: 0
     flexloc:
         - lcalfloc
         - rcalfloc
@@ -39,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 76
-origWeight: 2.9
+origValue: 152
+origWeight: 1.9
 ---
 
 These Leather Calf Boots are made from lightweight, stylish leather, hugging your legs snugly just below the knee. A mix of modest protection and agile comfort, perfect for active adventurers.

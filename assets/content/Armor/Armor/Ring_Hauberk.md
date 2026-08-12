@@ -21,33 +21,33 @@ sohl:
     detailMaterial: Ring
     material: Ring
     durability: 13
-    value: 462
-    weight: 26.4
-    encumbrance: 10
-    perception:
-        value: 0
-        effectId: UIJqtC3abVwFjm16
-    flexloc:
+    value: 864
+    weight: 34.6
+    encumbrance: 15
+    perceptionPenaltyBase: 0
+    flexloc: []
+    rigidloc:
         - lshldloc
         - rshldloc
         - lupaloc
         - rupaloc
         - lelbloc
         - relbloc
+        - lfraloc
+        - rfraloc
         - thrxloc
         - abdmnloc
         - plvisloc
         - lthghloc
         - rthghloc
-    rigidloc: []
     protection:
         blunt: 4
         edged: 8
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 462
-origWeight: 26.4
+origValue: 864
+origWeight: 34.6
 ---
 
 A long-sleeved leather coat reinforced with metal rings, covering the torso, arms, and thighs for comprehensive protection.

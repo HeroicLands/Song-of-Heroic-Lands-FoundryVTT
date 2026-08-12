@@ -21,23 +21,18 @@ sohl:
     detailMaterial: Sealskin
     material: Leather
     durability: 11
-    value: 444
-    weight: 8.2
+    value: 516
+    weight: 7.6
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: 2lnW9kqZdyPfpvag
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
         - lupaloc
         - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
         - thrxloc
         - abdmnloc
+        - plvisloc
     rigidloc: []
     protection:
         blunt: 4
@@ -45,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 148
-origWeight: 6.8
+origValue: 516
+origWeight: 7.6
 ---
 
 Water-resistant and warm, the Sealskin Longshirt is ideal for harsh, wet, and cold environments. It offers excellent protection against the elements while providing comfort.

@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 65
-    weight: 4
+    value: 156
+    weight: 6.2
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: 8BwCpIGIltfKGVQB
+    perceptionPenaltyBase: 0
     flexloc:
         - plvisloc
         - lthghloc
@@ -42,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 65
-origWeight: 4
+origValue: 156
+origWeight: 6.2
 ---
 
 The Rawhide Skirt is thick and rugged, offering substantial protection and durability. Ideal for harsh environments, it provides a sturdy and reliable garment for those needing extra toughness.

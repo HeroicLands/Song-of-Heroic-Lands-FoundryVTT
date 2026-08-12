@@ -21,18 +21,16 @@ sohl:
     detailMaterial: Velvet
     material: Cloth
     durability: 10
-    value: 35
-    weight: 4.4
+    value: 168.3
+    weight: 2.4
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: CWD2u8RpHJKZH6q1
+    perceptionPenaltyBase: 0
     flexloc:
-        - lshldloc
-        - rshldloc
         - thrxloc
         - abdmnloc
         - plvisloc
+        - lthghloc
+        - rthghloc
     rigidloc: []
     protection:
         blunt: 4
@@ -40,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 10
-origWeight: 4.4
+origValue: 168.3
+origWeight: 2.4
 ---
 
 The Velvet Apron exudes elegance and refinement, though it is more for show than practical use. Soft and plush, it’s an ideal accessory for high-status individuals partaking in light duties, adding a regal touch to their attire.

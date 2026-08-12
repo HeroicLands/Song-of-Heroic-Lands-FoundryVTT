@@ -38,6 +38,7 @@ import {
     postFateResultCard,
     type FateHost,
 } from "@src/document/item/logic/fate-host";
+import { perceptionPenaltyApplies } from "@src/document/item/logic/worn-armour-effects";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
@@ -861,6 +862,32 @@ export class SkillLogic<
             const bodyReach =
                 getActorBody(this.actorLogic)?.reach.effective ?? 0;
             this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", bodyReach);
+        }
+
+        // Worn headgear that obstructs the senses penalizes anything *built on*
+        // Perception — read off the parsed basis, so a formula that merely
+        // adjusts its result by Perception is unaffected, exactly as for the
+        // Aura → no-Fate rule below. The worst worn penalty applies, never the
+        // sum: a great helm subsumes what a cowl does rather than compounding
+        // it.
+        if (perceptionPenaltyApplies(this.skillBaseAttrs)) {
+            // Structural read: only a Being wears armour, and the logic layer
+            // does not narrow the actor type here (cf. `unusableRoles` in
+            // MasteryLevelModifier).
+            const penalty =
+                (
+                    this.actorLogic as
+                        | { wornPerceptionPenalty?: number }
+                        | null
+                        | undefined
+                )?.wornPerceptionPenalty ?? 0;
+            if (penalty) {
+                this.masteryLevel.add(
+                    "SOHL.ArmorGear.perceptionPenalty",
+                    "Headgear",
+                    penalty,
+                );
+            }
         }
     }
 

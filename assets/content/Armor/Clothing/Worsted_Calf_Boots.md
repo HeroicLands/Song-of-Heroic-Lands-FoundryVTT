@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Worsted
     material: Cloth
     durability: 9
-    value: 91
-    weight: 1
+    value: 45.7
+    weight: 0.8
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: WQty5yo5Dn6Au04G
+    perceptionPenaltyBase: 0
     flexloc:
         - lcalfloc
         - rcalfloc
@@ -39,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 38
-origWeight: 1.2
+origValue: 45.7
+origWeight: 0.8
 ---
 
 Worsted Calf Boots are fashioned from tightly-spun wool fabric, offering warmth and comfort. They are practical for cold weather, providing durable and reliable footwear.

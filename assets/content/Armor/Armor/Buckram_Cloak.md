@@ -24,9 +24,7 @@ sohl:
     value: 34.5
     weight: 1.7
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: zcK4x9KU1LDZp5bM
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc

@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Sealskin
     material: Leather
     durability: 11
-    value: 450
-    weight: 8.2
+    value: 600
+    weight: 8.9
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: qqAd2iZPSLEOnr1u
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -34,6 +32,8 @@ sohl:
         - rupaloc
         - lelbloc
         - relbloc
+        - lfraloc
+        - rfraloc
         - thrxloc
         - abdmnloc
         - plvisloc
@@ -44,8 +44,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 150
-origWeight: 6.8
+origValue: 600
+origWeight: 8.9
 ---
 
 Water-resistant and warm, the Sealskin Sleeved Tunic is ideal for harsh, wet, and cold environments. It offers excellent protection against the elements while providing comfort for seafaring folk or those in extreme conditions.

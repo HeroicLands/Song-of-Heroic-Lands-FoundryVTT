@@ -21,14 +21,11 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 192
-    weight: 2.2
+    value: 136
+    weight: 1.7
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: vSBA5WiBPUWoD8pP
+    perceptionPenaltyBase: 0
     flexloc:
-        - plvisloc
         - lthghloc
         - rthghloc
         - lkneeloc
@@ -40,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 96
-origWeight: 3.6
+origValue: 136
+origWeight: 1.7
 ---
 
 Leather Breeches are stylish and offer a touch of rugged flair. Lightweight and supple, they allow for a full range of motion while adding a bit of protective value for light adventuring or everyday wear.

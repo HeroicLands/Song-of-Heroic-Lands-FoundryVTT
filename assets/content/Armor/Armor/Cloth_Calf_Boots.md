@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Cloth
     material: Cloth
     durability: 10
-    value: 38
-    weight: 1.2
+    value: 19
+    weight: 1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: WXGJv8Hg0YkRQidw
+    perceptionPenaltyBase: 0
     flexloc:
         - lcalfloc
         - rcalfloc
@@ -39,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 38
-origWeight: 1.2
+origValue: 19
+origWeight: 1
 ---
 
 Cloth Calf Boots are light and breathable, made from various fabrics. They offer minimal protection but are extremely comfortable, ideal for casual wear or non-combat activities.

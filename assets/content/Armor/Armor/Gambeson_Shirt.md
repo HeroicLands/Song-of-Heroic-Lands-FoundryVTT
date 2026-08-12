@@ -23,17 +23,14 @@ sohl:
     durability: 11
     value: 280
     weight: 9.8
-    encumbrance: 0
-    perception:
-        value: 0
-        effectId: dZxTdAuKqWTmgN3M
+    encumbrance: 5
+    perceptionPenaltyBase: 0
     flexloc:
+        - neckloc
         - lshldloc
         - rshldloc
         - lupaloc
         - rupaloc
-        - thrxloc
-        - abdmnloc
     rigidloc:
         - thrxloc
         - abdmnloc

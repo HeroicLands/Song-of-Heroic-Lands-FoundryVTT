@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Ermine
     material: Leather
     durability: 7
-    value: 444
-    weight: 0.7
+    value: 504
+    weight: 2
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: N5ZWUnToapdSJ7qS
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -40,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 74
-origWeight: 1.1
+origValue: 504
+origWeight: 2
 ---
 
 The Ermine Mantle, crafted from soft white ermine fur, signifies wealth and nobility. It provides excellent insulation and a plush texture, ideal for elite individuals needing both warmth and a show of prestige.

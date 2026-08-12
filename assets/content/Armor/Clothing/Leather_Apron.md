@@ -21,18 +21,16 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 160
-    weight: 3
+    value: 384
+    weight: 4.8
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: Yw9jyLfpywwhqJLY
+    perceptionPenaltyBase: 0
     flexloc:
-        - lshldloc
-        - rshldloc
         - thrxloc
         - abdmnloc
         - plvisloc
+        - lthghloc
+        - rthghloc
     rigidloc: []
     protection:
         blunt: 4
@@ -40,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 80
-origWeight: 5
+origValue: 384
+origWeight: 4.8
 ---
 
 A Leather Apron combines style and a bit of practical protection for craftsmen and artisans. Soft and pliable, it's more about looking the part than offering significant defense against nicks and scrapes.

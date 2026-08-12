@@ -294,6 +294,23 @@ worn** — representing the stiffness and restriction the armor imposes beyond i
 mass. Armor with no encumbrance value burdens the wearer only through the general
 weight rules (and, since worn, that weight is excluded from encumbrance).
 
+Because worn armor's weight is excluded, an encumbrance value is the **whole** of
+what a worn piece costs. A piece with none is free to wear.
+
+### Arm Harness
+
+The small rigid arm pieces — spaulders, rerebraces, coudes, vambraces, gauntlets
+and mittens — are the exception. **No such piece encumbers on its own**, however
+finely made; a single vambrace is not what slows an arm down. But wearing **three
+or more of them together** costs **5 encumbrance between them**, and 5 no matter
+how many beyond three are worn. It is the harness getting in the way of the arms,
+not the pieces adding up.
+
+Such a piece therefore carries no encumbrance value of its own. It belongs to the
+**arm harness** instead, and the cost is charged once to the set. The pieces need
+not match: a plate spaulder, a mail mitten and a scale gauntlet make three as
+surely as a matched set does.
+
 ## Protection
 
 Armor is graded by its resistance to each **aspect** of an attack:
@@ -331,47 +348,54 @@ same piece may be flexible at some locations and rigid at others.
 
 ## Sensory Penalties
 
-Certain armor — **particularly helmets** — can impose **sensory perception
-penalties** on the wearer. A closed helm narrows vision and muffles hearing, so
-while it protects the head it also hampers the wearer's ability to perceive their
-surroundings. Such penalties are a deliberate trade-off against the protection the
-piece provides.
+Certain armor — **particularly helmets** — imposes a **perception penalty** on the
+wearer. A closed helm narrows vision and muffles hearing, so while it protects the
+head it also hampers the wearer's ability to perceive their surroundings. Such
+penalties are a deliberate trade-off against the protection the piece provides.
+
+The penalty applies to any test **built on Perception** — the attribute itself, and
+every skill whose Skill Base is derived from it. A skill that merely takes
+Perception into account some other way is unaffected.
+
+**The worst penalty applies, never the sum.** A wearer in a mail cowl beneath a
+great helm suffers the great helm's penalty alone: the helm already subsumes what
+the cowl does to sight and hearing, and a wearer cannot be blinded twice over.
 
 ## Cloth
 
-(@Table search=[type:armorgear, sohl.kbcat=cloth] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=cloth] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Gambeson
 
-(@Table search=[type:armorgear, sohl.kbcat=gambeson] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=gambeson] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Kurbul
 
-(@Table search=[type:armorgear, sohl.kbcat=kurbul] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=kurbul] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Leather
 
-(@Table search=[type:armorgear, sohl.kbcat=leather] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=leather] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Mail
 
-(@Table search=[type:armorgear, sohl.kbcat=mail] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=mail] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Padded
 
-(@Table search=[type:armorgear, sohl.kbcat=padded] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=padded] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Plate
 
-(@Table search=[type:armorgear, sohl.kbcat=plate] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=plate] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Quilted
 
-(@Table search=[type:armorgear, sohl.kbcat=quilted] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=quilted] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 ## Scale
 
-(@Table search=[type:armorgear, sohl.kbcat=scale] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+(@Table search=[type:armorgear, sohl.kbcat=scale] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 # Concoctions
 

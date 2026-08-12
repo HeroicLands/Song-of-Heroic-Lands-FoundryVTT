@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Sealskin
     material: Leather
     durability: 11
-    value: 444
-    weight: 8.2
+    value: 540
+    weight: 8
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: tGGFFCpkYbnDnE9g
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -44,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 148
-origWeight: 6.8
+origValue: 540
+origWeight: 8
 ---
 
 Water-resistant and warm, the Sealskin Tunic is ideal for harsh, wet, and cold environments. It offers excellent protection against the elements while providing comfort for seafaring folk or those in extreme conditions.

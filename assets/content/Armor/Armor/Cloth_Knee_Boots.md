@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Cloth
     material: Cloth
     durability: 10
-    value: 45
-    weight: 1.5
+    value: 22
+    weight: 1.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: ZoMtMyeraIJbSEhX
+    perceptionPenaltyBase: 0
     flexloc:
         - lkneeloc
         - rkneeloc
@@ -41,8 +39,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 45
-origWeight: 1.5
+origValue: 22
+origWeight: 1.1
 ---
 
 Cloth Knee Boots, made from various soft and breathable fabrics, offer basic comfort and minimal protection. They are suitable for casual wear or light-duty activities.

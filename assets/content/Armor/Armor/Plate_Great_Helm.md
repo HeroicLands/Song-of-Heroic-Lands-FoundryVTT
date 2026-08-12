@@ -23,20 +23,18 @@ sohl:
     durability: 14
     value: 180
     weight: 6.8
-    encumbrance: 1.67
-    perception:
-        value: -10
-        effectId: SB4mcvbVVO5Dhtlg
+    encumbrance: 0
+    perceptionPenaltyBase: -10
     flexloc: []
     rigidloc:
         - skullloc
-        - noseloc
-        - rcheekloc
-        - lcheekloc
-        - rearloc
-        - learloc
-        - mouthloc
         - jawloc
+        - lcheekloc
+        - rcheekloc
+        - learloc
+        - rearloc
+        - mouthloc
+        - noseloc
         - neckloc
     protection:
         blunt: 4

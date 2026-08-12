@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Linen
     material: Cloth
     durability: 5
-    value: 20
-    weight: 0.8
+    value: 19.6
+    weight: 0.5
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: t8Q2Vx0G9YjMJeGY
+    perceptionPenaltyBase: 0
     flexloc:
         - plvisloc
         - lthghloc
@@ -42,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 40
-origWeight: 3
+origValue: 19.6
+origWeight: 0.5
 ---
 
 Light and breathable, the Linen Skirt is perfect for warm weather. It offers comfort and ease of movement, suitable for casual outings and everyday activities.

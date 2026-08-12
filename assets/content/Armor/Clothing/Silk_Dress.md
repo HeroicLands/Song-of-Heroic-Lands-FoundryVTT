@@ -22,11 +22,9 @@ sohl:
     material: Cloth
     durability: 7
     value: 711
-    weight: 2
+    weight: 2.1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: P5nGYCgI5upkLHsr
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -52,8 +50,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 79
-origWeight: 4
+origValue: 711
+origWeight: 2.1
 ---
 
 A Silk Dress exudes elegance and sophistication. Lightweight and flowing, it’s perfect for formal events and special occasions where appearance is paramount.

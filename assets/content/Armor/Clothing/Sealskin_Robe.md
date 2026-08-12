@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Sealskin
     material: Leather
     durability: 11
-    value: 675
-    weight: 12.2
+    value: 948
+    weight: 14
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: usdkBsaU9GKZMUFV
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -52,8 +50,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 225
-origWeight: 10.2
+origValue: 948
+origWeight: 14
 ---
 
 Water-resistant and warm, the Sealskin Robe is ideal for harsh, wet, and cold environments. It provides excellent protection against the elements, perfect for seafaring folk or those living in extreme conditions.

@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 120
-    weight: 3.8
+    value: 88
+    weight: 3.5
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: vBVzAJzcLHubJz0c
+    perceptionPenaltyBase: 0
     flexloc:
         - lkneeloc
         - rkneeloc
@@ -41,8 +39,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 120
-origWeight: 3.8
+origValue: 88
+origWeight: 3.5
 ---
 
 Rawhide Knee Boots are thick and rugged, providing excellent leg protection. Ideal for harsh environments or combat scenarios, they offer a durable and reliable option for those needing sturdy footwear.

@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 50
-    weight: 0.3
+    value: 56
+    weight: 0.7
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: jz32cNBcE3kjHo6q
+    perceptionPenaltyBase: 0
     flexloc:
         - lfootloc
         - rfootloc
@@ -37,8 +35,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 25
-origWeight: 0.5
+origValue: 56
+origWeight: 0.7
 ---
 
 Leather Sandals combine style and moderate protection, providing lightweight and comfortable footwear. Suitable for casual outings or light adventuring, they offer a touch of rugged charm.

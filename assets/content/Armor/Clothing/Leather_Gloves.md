@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 60
-    weight: 0.3
+    value: 40
+    weight: 0.5
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: RvcW4WgKSIEL627R
+    perceptionPenaltyBase: 0
     flexloc:
         - lhandloc
         - rhandloc
@@ -37,7 +35,7 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 30
+origValue: 40
 origWeight: 0.5
 ---
 

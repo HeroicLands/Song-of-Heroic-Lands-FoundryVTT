@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Beaver
     material: Leather
     durability: 9
-    value: 444
-    weight: 5.4
+    value: 540
+    weight: 5.5
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: 9aXK0sCy1LxF17Qx
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -44,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 148
-origWeight: 6.8
+origValue: 540
+origWeight: 5.5
 ---
 
 A Beaver Tunic, made from dense beaver fur, offers exceptional warmth and a touch of luxury. Perfect for cold climates, it combines function and status, providing both comfort and elegance.

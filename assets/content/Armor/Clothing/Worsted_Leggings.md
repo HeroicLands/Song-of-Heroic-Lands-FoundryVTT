@@ -21,14 +21,11 @@ sohl:
     detailMaterial: Worsted
     material: Cloth
     durability: 9
-    value: 86
+    value: 86.6
     weight: 1.4
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: rkpr5Ude9Yt41lZs
+    perceptionPenaltyBase: 0
     flexloc:
-        - plvisloc
         - lthghloc
         - rthghloc
         - lkneeloc
@@ -44,7 +41,7 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 36
+origValue: 86.6
 origWeight: 1.8
 ---
 

@@ -21,23 +21,18 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 296
-    weight: 4.1
+    value: 344
+    weight: 4.3
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: B34ADg0yCwSv3TzV
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
         - lupaloc
         - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
         - thrxloc
         - abdmnloc
+        - plvisloc
     rigidloc: []
     protection:
         blunt: 4
@@ -45,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 148
-origWeight: 6.8
+origValue: 344
+origWeight: 4.3
 ---
 
 The Leather Longshirt is a stylish and practical garment offering minimal protection. It provides a bit more coverage than a standard shirt, suitable for light adventuring or everyday wear.

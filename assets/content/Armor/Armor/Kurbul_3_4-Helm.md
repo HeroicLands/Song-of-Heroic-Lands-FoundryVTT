@@ -26,17 +26,17 @@ sohl:
     value: 35
     weight: 5.3
     encumbrance: 0
-    perception:
-        value: -5
-        effectId: 0I6fhc9Z3b2XqWQo
+    perceptionPenaltyBase: -5
     flexloc: []
     rigidloc:
         - skullloc
-        - noseloc
-        - rcheekloc
+        - jawloc
         - lcheekloc
-        - rearloc
+        - rcheekloc
         - learloc
+        - rearloc
+        - mouthloc
+        - noseloc
     protection:
         blunt: 4
         edged: 8

@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 70
-    weight: 1
+    value: 48
+    weight: 0.6
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: EHNfKHRagxhBYVmk
+    perceptionPenaltyBase: 0
     flexloc:
         - skullloc
         - neckloc
@@ -37,8 +35,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 35
-origWeight: 1.6
+origValue: 48
+origWeight: 0.6
 ---
 
 A simple yet stylish Leather Cowl provides basic head and shoulder protection. Lightweight and versatile, it’s suitable for everyday wear and offers a touch of rugged charm.

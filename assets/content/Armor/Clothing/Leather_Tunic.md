@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 296
-    weight: 4.1
+    value: 360
+    weight: 4.5
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: WpjDyyslvBKOI1q7
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -44,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 148
-origWeight: 6.8
+origValue: 360
+origWeight: 4.5
 ---
 
 A Leather Tunic offers a rugged look with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a bit of edge to the wearer’s attire.

@@ -22,25 +22,28 @@ sohl:
     detailMaterial: Kûrbúl
     material: Kûrbúl
     durability: 13
-    value: 20
-    weight: 3
+    value: 35
+    weight: 2.7
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: tOyk2y6I3jb3kWRJ
+    perceptionPenaltyBase: 0
     flexloc: []
     rigidloc:
         - skullloc
-        - rearloc
+        - jawloc
+        - lcheekloc
+        - rcheekloc
         - learloc
+        - rearloc
+        - mouthloc
+        - noseloc
     protection:
         blunt: 4
         edged: 8
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 20
-origWeight: 3
+origValue: 35
+origWeight: 2.7
 ---
 
 The Kûrbúl Halfhelm, made from treated leather, covers the top of the head and down to the jawline, offering moderate protection and reduced weight. It is decorated with intricate designs, combining function with a stylish appearance.

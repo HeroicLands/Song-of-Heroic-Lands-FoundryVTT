@@ -21,24 +21,23 @@ sohl:
     detailMaterial: Ring
     material: Ring
     durability: 13
-    value: 28
-    weight: 1.6
+    value: 67.5
+    weight: 2.7
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: 9Bav8f0VvnTTkiWz
-    flexloc:
+    perceptionPenaltyBase: 0
+    encumbranceGroup: arm
+    flexloc: []
+    rigidloc:
         - lhandloc
         - rhandloc
-    rigidloc: []
     protection:
         blunt: 4
         edged: 8
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 28
-origWeight: 1.6
+origValue: 67.5
+origWeight: 2.7
 ---
 
 Leather gloves reinforced with metal rings across the back and fingers for enhanced hand and wrist defense.

@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Russet
     material: Cloth
     durability: 7
-    value: 48
-    weight: 1.5
+    value: 46.8
+    weight: 1
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: gC5EbebcdCPnKvFh
+    perceptionPenaltyBase: 0
     flexloc:
         - plvisloc
         - lthghloc
@@ -42,8 +40,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 40
-origWeight: 3
+origValue: 46.8
+origWeight: 1
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Skirt offers warmth and durability. It is practical for colder climates and rougher environments, providing reliable coverage.

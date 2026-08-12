@@ -23,10 +23,8 @@ sohl:
     durability: 11
     value: 256
     weight: 11.5
-    encumbrance: 0
-    perception:
-        value: 0
-        effectId: kvpicc7nOK2dSgwY
+    encumbrance: 5
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc

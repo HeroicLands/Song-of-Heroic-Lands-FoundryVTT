@@ -21,12 +21,10 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 450
-    weight: 6.1
+    value: 632
+    weight: 7.9
     encumbrance: 0
-    perception:
-        value: 0
-        effectId: yVI8PSNZaftRl54g
+    perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
@@ -52,8 +50,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 225
-origWeight: 10.2
+origValue: 632
+origWeight: 7.9
 ---
 
 A Leather Robe combines a touch of rugged style with moderate protection. It’s a unique choice for adventurers and free spirits who need an outer garment that can withstand the elements while making a statement.
