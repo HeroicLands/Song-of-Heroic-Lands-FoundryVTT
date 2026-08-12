@@ -969,12 +969,17 @@ export const {
  * behind (`BACK`), and a breastplate is the mirror case (`FRONT`).
  *
  * The rules never ask which way a combatant is pointing. They settle one-sided
- * armour by circumstance: its Armour Value is ignored against a single aware
- * foe, who can keep to your front, and applies half the time against several,
- * who cannot all be faced at once. That clause needs the opponent count,
- * awareness, and a coin flip — not an angle — so this field is what marks which
- * Armour Value is subject to it. Deriving the angle itself from token rotation
- * stays out of scope: the rules abstract it away deliberately.
+ * armour by circumstance, and the two cases are not mirrors of each other:
+ *
+ * - `BACK` — ignore Armour Value against one aware foe, who can simply keep to
+ *   your front; against several, it applies 50% of the time (d10 versus TN 5).
+ * - `FRONT` — ignore Armour Value when caught unaware from the rear; against
+ *   several, it applies 70% of the time (d10 versus TN 7).
+ *
+ * Both need the opponent count, awareness, and a die — not an angle — so this
+ * field is what marks which Armour Value is subject to the clause. Deriving the
+ * angle itself from token rotation stays out of scope: the rules abstract it
+ * away deliberately.
  */
 export type ArmorFacing = (typeof ARMOR_FACING)[keyof typeof ARMOR_FACING];
 

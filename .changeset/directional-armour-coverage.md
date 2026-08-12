@@ -17,16 +17,19 @@ Directional coverage is genuinely the exception, so it is modelled as an excepti
 rather than a qualifier on all 309 armour articles. The thirteen cloaks now mark their
 torso, pelvis, thighs, knees and calves as rear-facing — locations most of them were not
 recording as covered at all, which is why a cloak read as barely more than a mantle — and
-the breastplates and cuirasses mark their torso as front-facing.
+the two breastplates mark their torso as front-facing. Cuirasses are all-round rigid and
+are left alone.
 
 **Data now; resolution when outnumbering lands.** The rules never ask which way a
-combatant is pointing. They settle one-sided armour by circumstance instead: its Armour
-Value is ignored against a single aware foe, who can simply keep to your front, and
-applies half the time against several, who cannot all be faced at once. That clause needs
-only the opponent count, awareness, and a coin flip — so it becomes mechanizable as soon
-as the outnumbered rule supplies the first of those, and this field is its input, marking
-which Armour Value is subject to the clause at all. A hauberk wraps and is never ignored;
-a cloak's rear protection is exactly what an aware opponent steps around.
+combatant is pointing. They settle one-sided armour by circumstance, and the two cases
+are not mirrors: rear-facing armour is ignored against one aware foe who can keep to your
+front, and applies 50% of the time against several (d10 versus TN 5), while front-facing
+armour is ignored when you are caught unaware from behind, and applies 70% of the time
+against several (d10 versus TN 7). Both need the opponent count, awareness and a die
+rather than an angle — so the clause becomes mechanizable as soon as the outnumbered rule
+supplies the first, and this field is its input, marking which Armour Value is subject to
+it at all. A hauberk wraps and is never ignored; a cloak's rear protection is exactly what
+an aware opponent steps around.
 
 What stays out of scope is deriving the angle itself from token rotation. The rules
 deliberately abstract that away, and computing it would have the system make a ruling

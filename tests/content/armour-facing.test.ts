@@ -59,10 +59,9 @@ const byType = (t: string) => NOTES.filter((n) => n.armorType === t);
  * means adding it here first.
  */
 describe("armour facing", () => {
-    it("finds cloaks and front-plate articles to check", () => {
+    it("finds cloaks and breastplates to check", () => {
         expect(byType("Cloak").length).toBeGreaterThan(0);
         expect(byType("Breastplate").length).toBeGreaterThan(0);
-        expect(byType("Cuirass").length).toBeGreaterThan(0);
     });
 
     it("marks every cloak's torso and legs as rear-facing", () => {
@@ -99,8 +98,12 @@ describe("armour facing", () => {
         }
     });
 
-    it("marks breastplates and cuirasses as front-facing", () => {
-        for (const art of [...byType("Breastplate"), ...byType("Cuirass")]) {
+    // A cuirass wraps the torso and is not directional; only the breastplate,
+    // which is a front plate alone, carries the front-facing mark.
+    it("marks breastplates as front-facing, and leaves cuirasses alone", () => {
+        for (const art of byType("Cuirass"))
+            expect(art.facing, art.name).toEqual([]);
+        for (const art of byType("Breastplate")) {
             const front = art.facing
                 .filter((f) => f.side === "front")
                 .map((f) => f.location)
@@ -110,7 +113,7 @@ describe("armour facing", () => {
     });
 
     it("leaves every other article protected from all sides", () => {
-        const oneSided = new Set(["Cloak", "Breastplate", "Cuirass"]);
+        const oneSided = new Set(["Cloak", "Breastplate"]);
         for (const note of NOTES) {
             if (oneSided.has(note.armorType)) continue;
             expect(note.facing, note.name).toEqual([]);
