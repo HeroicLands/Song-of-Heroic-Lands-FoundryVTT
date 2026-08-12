@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Ermine
     material: Leather
     durability: 7
-    value: 180
-    weight: 0.3
+    value: 120
+    weight: 0.5
     encumbrance: 0
     perception:
         value: 0
@@ -38,7 +38,7 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 30
+origValue: 120
 origWeight: 0.5
 ---
 

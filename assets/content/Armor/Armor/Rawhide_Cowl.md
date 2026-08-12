@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 35
-    weight: 1.6
+    value: 24
+    weight: 1
     encumbrance: 0
     perception:
         value: -5
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 35
-origWeight: 1.6
+origValue: 24
+origWeight: 1
 ---
 
 The Rawhide Cowl is thick and rugged, providing substantial protection. It’s ideal for tough environments where a durable head and shoulder covering is necessary.

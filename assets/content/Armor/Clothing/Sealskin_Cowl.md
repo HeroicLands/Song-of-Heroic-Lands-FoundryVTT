@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Sealskin
     material: Leather
     durability: 11
-    value: 105
-    weight: 1.9
+    value: 72
+    weight: 1.1
     encumbrance: 0
     perception:
         value: 0
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 35
-origWeight: 1.6
+origValue: 72
+origWeight: 1.1
 ---
 
 Water-resistant and warm, the Sealskin Cowl is ideal for harsh, wet, and cold environments. It provides excellent protection against the elements, perfect for seafaring folk and those living in extreme conditions.

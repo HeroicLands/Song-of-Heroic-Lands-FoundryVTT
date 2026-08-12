@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Beaver
     material: Leather
     durability: 9
-    value: 90
-    weight: 0.4
+    value: 60
+    weight: 0.6
     encumbrance: 0
     perception:
         value: 0
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 30
-origWeight: 0.5
+origValue: 60
+origWeight: 0.6
 ---
 
 Beaver Gloves, made from dense beaver fur, offer excellent warmth and a luxurious feel. They are perfect for cold weather, providing both comfort and a touch of opulence.

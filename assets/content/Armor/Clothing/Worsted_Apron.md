@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Worsted
     material: Cloth
     durability: 9
-    value: 24
-    weight: 3.5
+    value: 115.5
+    weight: 2
     encumbrance: 0
     perception:
         value: 0
@@ -41,8 +41,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 10
-origWeight: 4.4
+origValue: 115.5
+origWeight: 2
 ---
 
 The Worsted Apron is crafted from tightly-spun wool fibers, offering durability and resistance to moisture. It's ideal for tasks that require both comfort and a bit more resilience than lighter fabrics can provide.

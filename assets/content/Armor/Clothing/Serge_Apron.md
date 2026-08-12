@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Serge
     material: Cloth
     durability: 7
-    value: 6
-    weight: 2.2
+    value: 28.7
+    weight: 1.3
     encumbrance: 0
     perception:
         value: 0
@@ -41,8 +41,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 10
-origWeight: 4.4
+origValue: 28.7
+origWeight: 1.3
 ---
 
 The Serge Apron is designed for tougher tasks, woven from a durable, diagonal-twilled fabric. This apron can withstand heavy wear and tear while remaining comfortable and functional for labor-intensive activities.

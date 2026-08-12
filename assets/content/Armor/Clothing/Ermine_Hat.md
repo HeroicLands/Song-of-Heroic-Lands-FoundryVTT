@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Ermine
     material: Leather
     durability: 7
-    value: 150
-    weight: 0.5
+    value: 96
+    weight: 0.4
     encumbrance: 0
     perception:
         value: 0
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 25
-origWeight: 0.8
+origValue: 96
+origWeight: 0.4
 ---
 
 Made from soft white ermine fur, the Ermine Hat signifies high status and wealth. It offers excellent insulation and a plush texture, ideal for the elite needing both warmth and a show of prestige.

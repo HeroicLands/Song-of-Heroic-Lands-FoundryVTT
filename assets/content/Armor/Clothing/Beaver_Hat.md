@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Beaver
     material: Leather
     durability: 9
-    value: 75
-    weight: 0.6
+    value: 48
+    weight: 0.5
     encumbrance: 0
     perception:
         value: 0
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 25
-origWeight: 0.8
+origValue: 48
+origWeight: 0.5
 ---
 
 The Beaver Hat, made from dense beaver fur, offers excellent warmth and a luxurious feel. It’s perfect for cold weather, providing both comfort and a touch of opulence.

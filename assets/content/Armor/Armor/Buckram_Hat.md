@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Buckram
     material: Cloth
     durability: 10
-    value: 15
-    weight: 0.3
+    value: 4
+    weight: 0.2
     encumbrance: 0
     perception:
         value: 0
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 15
-origWeight: 0.3
+origValue: 4
+origWeight: 0.2
 ---
 
 The Buckram Hat is stiff and structured, crafted from coarse cloth stiffened with glue. It offers durability and a reliable fit, suitable for activities requiring a more rigid head covering.

@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 110
-    weight: 1.5
+    value: 264
+    weight: 3.3
     encumbrance: 0
     perception:
         value: 0
@@ -42,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 55
-origWeight: 2.5
+origValue: 264
+origWeight: 3.3
 ---
 
 A Leather Shirt offers a stylish and practical garment, providing minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring.

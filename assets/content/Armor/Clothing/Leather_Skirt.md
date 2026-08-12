@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 130
-    weight: 2.4
+    value: 312
+    weight: 3.9
     encumbrance: 0
     perception:
         value: 0
@@ -43,8 +43,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 65
-origWeight: 4
+origValue: 312
+origWeight: 3.9
 ---
 
 A Leather Skirt combines a touch of rugged style with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a bit of edge to the wearer’s attire.

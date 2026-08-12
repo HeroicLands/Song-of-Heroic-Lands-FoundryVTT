@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 148
-    weight: 0.7
+    value: 168
+    weight: 2.1
     encumbrance: 0
     perception:
         value: 0
@@ -41,8 +41,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 74
-origWeight: 1.1
+origValue: 168
+origWeight: 2.1
 ---
 
 A Leather Mantle combines rugged style with moderate protection against wind and light rain. It’s an excellent choice for adventurers and travelers who need an outer garment that can withstand the elements.

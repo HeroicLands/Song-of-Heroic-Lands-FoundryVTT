@@ -21,7 +21,7 @@ sohl:
     detailMaterial: Worsted
     material: Cloth
     durability: 9
-    value: 36
+    value: 9.6
     weight: 0.2
     encumbrance: 0
     perception:
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 15
-origWeight: 0.3
+origValue: 9.6
+origWeight: 0.2
 ---
 
 The Worsted Hat, made from tightly-spun wool fibers, offers both style and resilience. It provides good insulation and durability, suitable for a wide range of activities and weather conditions.

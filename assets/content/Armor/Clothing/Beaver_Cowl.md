@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Beaver
     material: Leather
     durability: 9
-    value: 105
-    weight: 1.3
+    value: 72
+    weight: 0.7
     encumbrance: 0
     perception:
         value: 0
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 35
-origWeight: 1.6
+origValue: 72
+origWeight: 0.7
 ---
 
 The Beaver Cowl, made from dense beaver fur, offers excellent warmth and a luxurious feel. Perfect for cold weather, it provides both comfort and a touch of opulence.

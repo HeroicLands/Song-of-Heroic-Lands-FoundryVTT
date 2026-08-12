@@ -21,7 +21,7 @@ sohl:
     detailMaterial: Cloth
     material: Cloth
     durability: 10
-    value: 20
+    value: 5
     weight: 0.3
     encumbrance: 0
     perception:
@@ -38,7 +38,7 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 20
+origValue: 5
 origWeight: 0.3
 ---
 

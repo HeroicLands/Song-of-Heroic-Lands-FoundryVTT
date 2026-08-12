@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Mail
     material: Mail
     durability: 13
-    value: 120
-    weight: 3.5
+    value: 90
+    weight: 2.7
     encumbrance: 5
     perception:
         value: -5
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 120
-origWeight: 3.5
+origValue: 90
+origWeight: 2.7
 ---
 
 The Mail Long Cowl is made from interlinked metal rings, providing substantial protection for the head, neck, and shoulders. It offers flexibility and defense against slashes, making it essential for combat.

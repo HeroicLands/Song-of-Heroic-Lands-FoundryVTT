@@ -58,7 +58,11 @@ for (const f of [
 ])
     WEIGHT[f] = 0.03 / 7;
 
-/** Base price per unit of coverage, by material. */
+/**
+ * Base price per unit of coverage, by material. Ring is SoHL's own addition,
+ * absent from the source table: it is mail a tenth cheaper (1500 × 0.9) and a
+ * fifth heavier (45 × 1.2).
+ */
 const BASE_PRICE: Record<string, number> = {
     Cloth: 100,
     Leather: 400,
@@ -68,6 +72,7 @@ const BASE_PRICE: Record<string, number> = {
     Kûrbúl: 500,
     Scale: 1000,
     Mail: 1500,
+    Ring: 1350,
     Plate: 2000,
 };
 

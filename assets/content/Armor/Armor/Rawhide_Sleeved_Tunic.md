@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 150
-    weight: 6.8
+    value: 200
+    weight: 7.9
     encumbrance: 0
     perception:
         value: 0
@@ -47,8 +47,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 150
-origWeight: 6.8
+origValue: 200
+origWeight: 7.9
 ---
 
 The Rawhide Sleeved Tunic is thick and rugged, providing substantial protection and durability. Ideal for harsh environments, it offers a sturdy and reliable garment for those needing extra toughness.

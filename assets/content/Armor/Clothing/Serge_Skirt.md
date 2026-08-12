@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Serge
     material: Cloth
     durability: 7
-    value: 24
-    weight: 1.5
+    value: 23.3
+    weight: 1
     encumbrance: 0
     perception:
         value: 0
@@ -43,8 +43,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 40
-origWeight: 3
+origValue: 23.3
+origWeight: 1
 ---
 
 The Serge Skirt, crafted from durable twilled fabric, offers both comfort and resilience. Suitable for everyday wear, it provides a practical and versatile garment for various activities.

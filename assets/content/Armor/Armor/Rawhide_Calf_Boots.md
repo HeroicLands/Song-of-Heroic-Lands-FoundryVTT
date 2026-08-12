@@ -22,7 +22,7 @@ sohl:
     material: Leather
     durability: 11
     value: 76
-    weight: 2.9
+    weight: 3
     encumbrance: 0
     perception:
         value: 0
@@ -41,7 +41,7 @@ sohl:
         fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 76
-origWeight: 2.9
+origWeight: 3
 ---
 
 Rawhide Calf Boots are rugged and durable, providing excellent protection against environmental hazards. They are heavier but great for those needing sturdy, reliable footwear for tough conditions.

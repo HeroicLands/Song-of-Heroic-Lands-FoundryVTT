@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Linen
     material: Cloth
     durability: 5
-    value: 5
-    weight: 1.1
+    value: 24.2
+    weight: 0.6
     encumbrance: 0
     perception:
         value: 0
@@ -41,8 +41,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 10
-origWeight: 4.4
+origValue: 24.2
+origWeight: 0.6
 ---
 
 A simple Linen Apron is light, breathable, and perfect for daily chores or cooking. It's made from high-quality linen that is both durable and easy to clean, making it a staple for households and artisans alike.

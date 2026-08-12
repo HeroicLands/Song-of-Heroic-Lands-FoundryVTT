@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Ring
     material: Ring
     durability: 13
-    value: 308
-    weight: 17.6
+    value: 486
+    weight: 19.4
     encumbrance: 5
     perception:
         value: 0
@@ -44,8 +44,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 308
-origWeight: 17.6
+origValue: 486
+origWeight: 19.4
 ---
 
 Leather leggings reinforced with rows of metal rings, shielding the thighs and lower legs from harm.

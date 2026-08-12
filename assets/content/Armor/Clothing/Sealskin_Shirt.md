@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Sealskin
     material: Leather
     durability: 11
-    value: 165
-    weight: 3
+    value: 396
+    weight: 5.8
     encumbrance: 0
     perception:
         value: 0
@@ -42,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 55
-origWeight: 2.5
+origValue: 396
+origWeight: 5.8
 ---
 
 Water-resistant and warm, the Sealskin Shirt is ideal for harsh, wet, and cold environments. It offers excellent protection against the elements while providing comfort for seafaring folk or those living in extreme conditions.

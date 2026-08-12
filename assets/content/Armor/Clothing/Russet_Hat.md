@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Russet
     material: Cloth
     durability: 7
-    value: 18
-    weight: 0.2
+    value: 4.8
+    weight: 0.1
     encumbrance: 0
     perception:
         value: 0
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 15
-origWeight: 0.3
+origValue: 4.8
+origWeight: 0.1
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Hat offers warmth and durability. It is practical for colder climates and rougher outdoor environments.

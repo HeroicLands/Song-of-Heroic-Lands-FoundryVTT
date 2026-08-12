@@ -21,7 +21,7 @@ sohl:
     detailMaterial: Linen
     material: Cloth
     durability: 5
-    value: 40
+    value: 39.8
     weight: 1
     encumbrance: 0
     perception:
@@ -53,8 +53,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 79
-origWeight: 4
+origValue: 39.8
+origWeight: 1
 ---
 
 The Linen Dress is light and breathable, perfect for warm weather. It offers comfort and ease of movement, suitable for day-to-day activities or casual outings.

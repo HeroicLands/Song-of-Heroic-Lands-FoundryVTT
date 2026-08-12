@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Buckram
     material: Cloth
     durability: 10
-    value: 40
-    weight: 3
+    value: 39
+    weight: 2
     encumbrance: 0
     perception:
         value: 0
@@ -43,8 +43,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 40
-origWeight: 3
+origValue: 39
+origWeight: 2
 ---
 
 The Buckram Skirt is stiff and structured, crafted from coarse cloth stiffened with glue. It offers durability and a reliable fit, suitable for tasks requiring a more rigid and dependable garment.

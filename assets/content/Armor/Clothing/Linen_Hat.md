@@ -21,7 +21,7 @@ sohl:
     detailMaterial: Linen
     material: Cloth
     durability: 5
-    value: 8
+    value: 2
     weight: 0.1
     encumbrance: 0
     perception:
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 15
-origWeight: 0.3
+origValue: 2
+origWeight: 0.1
 ---
 
 A Linen Hat is light and breathable, perfect for warm climates. It provides sun protection and comfort, suitable for everyday wear or light-duty tasks.

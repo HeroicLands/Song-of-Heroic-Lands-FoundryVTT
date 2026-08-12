@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Ring
     material: Ring
     durability: 13
-    value: 196
-    weight: 11.2
+    value: 324
+    weight: 13
     encumbrance: 0
     perception:
         value: 0
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 196
-origWeight: 11.2
+origValue: 324
+origWeight: 13
 ---
 
 A sleeveless leather vest reinforced with strategically placed metal rings, providing lightweight torso protection.

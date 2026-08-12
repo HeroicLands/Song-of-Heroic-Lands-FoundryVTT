@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Silk
     material: Cloth
     durability: 7
-    value: 90
-    weight: 2.2
+    value: 432
+    weight: 1.2
     encumbrance: 0
     perception:
         value: 0
@@ -41,8 +41,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 10
-origWeight: 4.4
+origValue: 432
+origWeight: 1.2
 ---
 
 A Silk Apron offers a touch of luxury to mundane tasks. While not particularly durable, its soft, smooth texture is perfect for formal settings or lightweight activities where appearance matters more than ruggedness.

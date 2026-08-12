@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Buckram
     material: Cloth
     durability: 10
-    value: 45
-    weight: 1.5
+    value: 22
+    weight: 1.1
     encumbrance: 0
     perception:
         value: 0
@@ -42,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 45
-origWeight: 1.5
+origValue: 22
+origWeight: 1.1
 ---
 
 Buckram Knee Boots provide a stiff and structured fit, made from coarse cloth stiffened with glue. They offer durability and reliable protection for the legs, suitable for tasks requiring a more rigid boot.

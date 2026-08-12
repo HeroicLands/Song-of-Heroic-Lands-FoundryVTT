@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Ermine
     material: Leather
     durability: 7
-    value: 210
-    weight: 1
+    value: 144
+    weight: 0.6
     encumbrance: 0
     perception:
         value: 0
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 35
-origWeight: 1.6
+origValue: 144
+origWeight: 0.6
 ---
 
 The Ermine Cowl is made from soft white ermine fur, signifying nobility and wealth. It offers excellent insulation and a plush texture, ideal for the elite needing both warmth and a show of prestige.

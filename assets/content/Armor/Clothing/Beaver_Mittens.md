@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Beaver
     material: Leather
     durability: 9
-    value: 126
-    weight: 1
+    value: 60
+    weight: 0.6
     encumbrance: 0
     perception:
         value: 0
@@ -38,8 +38,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 42
-origWeight: 1.2
+origValue: 60
+origWeight: 0.6
 ---
 
 Beaver Mittens are crafted from dense beaver fur, providing excellent warmth. They’re perfect for cold weather, offering both comfort and a touch of luxury.

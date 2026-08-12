@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 148
-    weight: 6.8
+    value: 180
+    weight: 7.1
     encumbrance: 0
     perception:
         value: 0
@@ -45,8 +45,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 148
-origWeight: 6.8
+origValue: 180
+origWeight: 7.1
 ---
 
 The Rawhide Tunic is thick and rugged, providing substantial protection and durability. Ideal for harsh environments, it offers a sturdy and reliable garment for those needing extra toughness.

@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 74
-    weight: 1.1
+    value: 84
+    weight: 3.3
     encumbrance: 0
     perception:
         value: 0
@@ -41,8 +41,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 74
-origWeight: 1.1
+origValue: 84
+origWeight: 3.3
 ---
 
 The Rawhide Mantle is thick and rugged, providing substantial protection. Ideal for harsh environments, it offers durable coverage for those needing a reliable outer layer in tough conditions.

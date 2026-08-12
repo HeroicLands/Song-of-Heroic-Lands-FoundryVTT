@@ -31,5 +31,19 @@ arms and neck; and every article the table prices matches the checksum. Note tha
 plain grade of leather is **rawhide**, with "Leather" a better grade at twice the price,
 so the checksum is applied against rawhide.
 
-Part of #1336. Cloaks are corrected separately, and the encumbrance column and the Ring
-material question remain open there.
+**Ring becomes a real material.** The source table has no ring mail at all, so its five
+articles had nothing to price against. Ring is now defined against mail — a tenth cheaper
+and a fifth heavier, giving a base rate of 1350 and a base weight of 54 — and all five
+articles are priced from it.
+
+**The articles SoHL adds beyond the table** are brought onto the same footing. Each
+material has grade multipliers that its table-priced articles establish exactly: homespun
+at 0.30 of the plain rate, linen 0.50, serge 0.60, russet 1.20, worsted 2.41, velvet 3.51,
+silk 9.00; rawhide 1.00, leather 2.00, beaver and sealskin 3.00, ermine 6.00. Applying
+those to the 84 added articles that were priced independently puts every article in the
+tree on one rule: coverage × the material rate × the grade.
+
+The three straw articles are left alone — no straw article appears in the table, so there
+is nothing to derive a rate from.
+
+Part of #1336. Cloaks are corrected separately; the encumbrance column remains open there.

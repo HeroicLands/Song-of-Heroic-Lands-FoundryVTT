@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Ermine
     material: Leather
     durability: 7
-    value: 330
-    weight: 1.5
+    value: 792
+    weight: 3.2
     encumbrance: 0
     perception:
         value: 0
@@ -42,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 55
-origWeight: 2.5
+origValue: 792
+origWeight: 3.2
 ---
 
 Made from soft white ermine fur, the Ermine Shirt signifies high status and wealth. It offers excellent insulation and a plush texture, ideal for elite individuals needing both warmth and a show of prestige.

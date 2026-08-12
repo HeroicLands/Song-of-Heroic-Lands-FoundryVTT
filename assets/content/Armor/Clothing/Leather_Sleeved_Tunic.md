@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 300
-    weight: 4.1
+    value: 400
+    weight: 5
     encumbrance: 0
     perception:
         value: 0
@@ -47,8 +47,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 150
-origWeight: 6.8
+origValue: 400
+origWeight: 5
 ---
 
 A Leather Sleeved Tunic combines a rugged look with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a bit of edge to the wearer’s attire.

@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Rawhide
     material: Leather
     durability: 11
-    value: 20
-    weight: 2.8
+    value: 40
+    weight: 1.6
     encumbrance: 0
     perception:
         value: 0
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 20
-origWeight: 2.8
+origValue: 40
+origWeight: 1.6
 ---
 
 The Rawhide Loincloth is thick and rugged, providing substantial coverage and durability. Ideal for harsh environments, it offers a more protective and sturdy option.

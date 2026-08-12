@@ -22,7 +22,7 @@ sohl:
     material: Cloth
     durability: 10
     value: 10
-    weight: 0.8
+    weight: 0.5
     encumbrance: 0
     perception:
         value: 0
@@ -38,7 +38,7 @@ sohl:
         fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 10
-origWeight: 0.8
+origWeight: 0.5
 ---
 
 A Cloth Loincloth, made from various soft fabrics, offers basic coverage and comfort. It is suitable for casual wear or light-duty tasks, providing minimal protection.

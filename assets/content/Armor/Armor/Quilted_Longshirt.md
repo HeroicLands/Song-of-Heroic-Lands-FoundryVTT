@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Quilted
     material: Quilted
     durability: 11
-    value: 150
-    weight: 6.6
+    value: 172
+    weight: 7.7
     encumbrance: 0
     perception:
         value: 0
@@ -43,8 +43,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 150
-origWeight: 6.6
+origValue: 172
+origWeight: 7.7
 ---
 
 The Quilted Longshirt, made with layers of fabric sewn together, offers excellent insulation and comfort. It’s suitable for colder climates, providing both warmth and a bit of extra protection.

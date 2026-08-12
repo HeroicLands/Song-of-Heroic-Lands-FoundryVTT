@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Mail
     material: Mail
     durability: 13
-    value: 240
-    weight: 13.2
+    value: 495
+    weight: 14.9
     encumbrance: 1.67
     perception:
         value: 0
@@ -42,8 +42,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 240
-origWeight: 13.2
+origValue: 495
+origWeight: 14.9
 ---
 
 A Mail Shirt, crafted from interlinked metal rings, provides substantial protection for the torso and upper arms. It offers excellent defense against slashes while maintaining flexibility.

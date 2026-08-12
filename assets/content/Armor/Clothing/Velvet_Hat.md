@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Velvet
     material: Cloth
     durability: 10
-    value: 53
-    weight: 0.3
+    value: 14
+    weight: 0.2
     encumbrance: 0
     perception:
         value: 0
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 15
-origWeight: 0.3
+origValue: 14
+origWeight: 0.2
 ---
 
 Soft and plush, the Velvet Hat exudes luxury. While not particularly durable, its rich texture and appearance make it perfect for formal settings and high-status individuals.

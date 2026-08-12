@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Ring
     material: Ring
     durability: 13
-    value: 462
-    weight: 26.4
+    value: 864
+    weight: 34.6
     encumbrance: 10
     perception:
         value: 0
@@ -49,8 +49,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: M4nHcUWOatfVGuh3
-origValue: 462
-origWeight: 26.4
+origValue: 864
+origWeight: 34.6
 ---
 
 A long-sleeved leather coat reinforced with metal rings, covering the torso, arms, and thighs for comprehensive protection.

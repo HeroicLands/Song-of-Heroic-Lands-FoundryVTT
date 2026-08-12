@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Leather
     material: Leather
     durability: 9
-    value: 40
-    weight: 1.7
+    value: 80
+    weight: 1
     encumbrance: 0
     perception:
         value: 0
@@ -37,8 +37,8 @@ sohl:
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 20
-origWeight: 2.8
+origValue: 80
+origWeight: 1
 ---
 
 The Leather Loincloth is a simple yet stylish garment providing basic coverage. Made from lightweight leather, it offers a touch of rugged charm and minimal protection.
