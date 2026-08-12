@@ -44,8 +44,15 @@ import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 
 const CONTENT = path.join("assets", "content");
-/** The rules are a book: this is page one, and everything must follow from it. */
-const RULES_ROOT = path.join(CONTENT, "Rules", "_Introduction.md");
+/**
+ * The rules are a book: this is page one, and everything must follow from it.
+ *
+ * It is a `README.md` because that is what the content build routes to a
+ * section's landing page, so page one publishes at `/rules/` — the same shape
+ * as the user guide's `User_Guide/README.md` at `/user-guide/`. Chapter openers
+ * below it are ordinary pages and keep the `_Introduction.md` name.
+ */
+const RULES_ROOT = path.join(CONTENT, "Rules", "README.md");
 const RULES_DIR = path.join(CONTENT, "Rules") + path.sep;
 /**
  * Index pages are walked *to*, never *through*. The glossary links to nearly
