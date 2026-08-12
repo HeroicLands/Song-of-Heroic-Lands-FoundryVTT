@@ -368,3 +368,5 @@ result."_
   standard test dialog, and where strike modes come from.
 - [[doc/itemtrauma|Trauma]] and [[doc/afflctn|Affliction]] — the recurring
   checks that use the offer-schedule dialog most.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.

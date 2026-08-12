@@ -350,3 +350,4 @@ Once a blow connects and a location is chosen:
 - [[doc/afflandi|Afflictions & Injuries]] — recording and healing the
   injuries combat produces.
 - [[Fate System]] — spending fate to re-roll.
+- [[doc/userguide|User Guide]] — back to the index.

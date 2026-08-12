@@ -62,3 +62,13 @@ what it produces — none of it changes for a concoction.
 In particular there is no "use" action: drinking, applying, or administering a
 concoction stays a table decision, so you adjust its **Quantity** and apply its
 effect yourself.
+
+# See also
+
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/itemgear|Gear]] — the properties and the **Toggle Carried** action every
+  carried thing has.
+- [[doc/baseitem|Base Item]] — the three shared actions named above.
+- [[doc/wrkngwth|Working with Gear and Equipment]] — quantities, containers, and
+  handing an item over.
+- [[doc/userguide|User Guide]] — back to the index.

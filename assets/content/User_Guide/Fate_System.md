@@ -59,3 +59,14 @@ The **Fate** option in the system settings controls whether Fate is
 tracked automatically.
 
 See [[Settings]] for more configuration options.
+
+# See also
+
+- [[doc/sklltsts|Skill Tests and Opposed Tests]] — the settled result that Fate
+  is spent to improve.
+- [[doc/baseitem|Base Item]] — the test-result card the Fate button appears on,
+  and the GM's counterpart result edit.
+- [[doc/being|Being]] — where a character's Fate Points are held.
+- [[doc/systmstt|System Settings]] — the **Fate** world setting.
+- [[doc/fatepnts|Fate]] (rules) — what Fate is and what spending it may buy.
+- [[doc/userguide|User Guide]] — back to the index.

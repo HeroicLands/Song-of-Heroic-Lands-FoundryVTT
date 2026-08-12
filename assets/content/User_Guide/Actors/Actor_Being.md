@@ -921,3 +921,5 @@ Loss Advances and what running out of blood means.
 - [[Combatant]] — the combat tracker row and its own actions.
 - [[Skill Tests]] — the d100 roll-under test underneath all of these.
 - [[Character Creation]] — building the Being in the first place.
+- [[doc/ugactors|Actors]] — the other three actor kinds, and how to choose.
+- [[doc/userguide|User Guide]] — back to the index.

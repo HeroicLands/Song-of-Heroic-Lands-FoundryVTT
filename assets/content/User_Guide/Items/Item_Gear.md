@@ -184,3 +184,17 @@ actions comes back the moment it is carried.
 Setting an item **down** also clears any "in use" state that depended on carrying
 it. For armor, that means it stops being worn: you cannot leave a hauberk marked
 as worn while it sits in a cart.
+
+# See also
+
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/baseitem|Base Item]] — the tabs, actions, and dialogs every item
+  shares.
+- [[doc/wrkngwth|Working with Gear and Equipment]] — using gear at the table:
+  adding, equipping, nesting, and handing it over.
+- [[doc/weapon|Weapon]], [[doc/armor|Armor]], [[doc/prjctl|Projectile]],
+  [[doc/cntnr|Container]], [[doc/cncctn|Concoction]], and
+  [[doc/mscllnsg|Miscellaneous Gear]] — the kinds that build on these
+  properties.
+- [[doc/cohort|Cohort]] — sharing a piece of gear with a group.
+- [[doc/userguide|User Guide]] — back to the index.

@@ -205,6 +205,17 @@ the actor.
   long lists
 - Changes are saved automatically — there's no "save" button
 
+# See also
+
+- [[doc/ugactors|Actors]] — the four actor sheets, kind by kind.
+- [[doc/ugitems|Items]] — the item sheets, and what every one of them shares.
+- [[doc/iconlgnd|Icon Legend]] — every glyph on a tab strip or a row.
+- [[doc/actions|Actions]] — what the Actions tab lists, and how to add to it.
+- [[doc/crtngact|Creating Actors and Items]] — making the documents these
+  sheets open onto.
+- [[doc/wrkngwth|Working with Gear and Equipment]] — using the Gear tab.
+- [[doc/userguide|User Guide]] — back to the index.
+
 <!-- TODO: Add screenshots showing the sheet layout for each actor type.
      Add annotated screenshots highlighting where specific fields are located
      on the Properties tab for common item types. -->

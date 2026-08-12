@@ -51,6 +51,19 @@ Chat — stay available, so you can always manage the item's own record.
 Putting an item down also clears any "in use" state that depended on carrying it:
 un-carrying worn armor takes it off, so it stops contributing protection.
 
+# See also
+
+- [[doc/itemgear|Gear]] — the properties every carried thing has, and the
+  **Toggle Carried** action.
+- [[doc/weapon|Weapon]], [[doc/armor|Armor]], [[doc/prjctl|Projectile]],
+  [[doc/cntnr|Container]], [[doc/cncctn|Concoction]], and
+  [[doc/mscllnsg|Miscellaneous Gear]] — the individual kinds.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/cohort|Cohort]] — pooling gear across a group, and who is carrying
+  what.
+- [[doc/being|Being]] — the Gear tab and the encumbrance it feeds.
+- [[doc/userguide|User Guide]] — back to the index.
+
 <!-- TODO: Document the specific icons and states, and how encumbrance
      is calculated from carried vs equipped items -->
 

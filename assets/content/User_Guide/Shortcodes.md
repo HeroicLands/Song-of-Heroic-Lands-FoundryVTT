@@ -87,3 +87,16 @@ their own. Keep two things in mind:
   the shortcode governs the match.
 - **Change the shortcode when you want a genuinely new, distinct thing** — a new kind
   of being or a bespoke item that should not be matched to anything shipped.
+
+# See also
+
+- [[doc/baseitem|Base Item]] — where the shortcode field lives on an item
+  sheet.
+- [[doc/usngcmpn|Using Compendiums]] — importing content, and why the copy
+  stays matched to its original.
+- [[doc/crtngact|Creating Actors and Items]] — duplicating a thing, and when to
+  give the copy a new shortcode.
+- [[doc/ugitems|Items]] — the item types a shortcode identifies.
+- [[doc/sfexprss|Safe Expressions]] — expressions that name a skill or
+  attribute by its shortcode.
+- [[doc/userguide|User Guide]] — back to the index.

@@ -149,3 +149,13 @@ display as plain year numbers.
 | `beforeName`   | string  | Name of the era before year zero.                                                                   |
 | `beforeAbbrev` | string  | Abbreviation for the before-era (e.g., "BCE").                                                      |
 | `description`  | string  | Optional description of the era system.                                                             |
+
+# See also
+
+- [[doc/systmstt|System Settings]] — where a calendar is chosen and the world
+  date is set.
+- [[doc/afflandi|Afflictions and Injuries]] — the healing and course reminders
+  that the passage of game time drives.
+- [[doc/itemtrauma|Trauma]] and [[doc/afflctn|Affliction]] — the items whose
+  scheduled checks come due on this calendar.
+- [[doc/userguide|User Guide]] — back to the index.

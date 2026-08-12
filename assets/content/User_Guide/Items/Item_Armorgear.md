@@ -170,6 +170,8 @@ Two consequences are worth knowing at the table:
 - [[doc/character#body-structure|Body Structure]] (rules) — the zones, parts, and
   locations an armor's coverage lists name.
 - [[Shortcodes]] — what a body-location shortcode such as `thrxloc` refers to.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.
 
 <!-- TODO: Expand with the relationship between armor quality and
      protection, and armor damage/repair mechanics -->

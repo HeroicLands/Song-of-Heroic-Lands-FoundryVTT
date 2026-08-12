@@ -50,3 +50,14 @@ which covers what each one does, how it is invoked, and what it produces.
 A Mystery's effect on a character is applied through the Active Effects it
 carries, and any power a character actively invokes is a
 [[Mystical Ability]], which has its own action and roll.
+
+# See also
+
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/baseitem|Base Item]] — the three shared actions named above.
+- [[doc/mystclab|Mystical Ability]] — the counterpart a character actively
+  invokes.
+- [[doc/mystclpw|Mystical Powers]] — the Mysteries tab, and using the
+  supernatural at the table.
+- [[doc/mysteryintro|Mysteries]] (rules) — the standing conditions themselves.
+- [[doc/userguide|User Guide]] — back to the index.

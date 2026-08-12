@@ -241,3 +241,16 @@ because movement is a capability every actor carries.
 The Beings listed on the **Members** tab keep their own actions on their own
 sheets; running an action on the cohort never rolls for a member, and running one
 on a member never speaks for the group.
+
+# See also
+
+- [[doc/ugactors|Actors]] — the four actor kinds and how to choose between
+  them.
+- [[doc/being|Being]] — the actor each member of a cohort is.
+- [[doc/scnstpan|Scene Setup and Tokens]] — placing a cohort on a scene and
+  expanding it into its members.
+- [[doc/itemgear|Gear]] and [[doc/wrkngwth|Working with Gear and Equipment]] —
+  the items the Shared Gear tab is a view onto.
+- [[doc/undrstnd|Understanding Sheets]] — the tabs a cohort shares with every
+  other actor.
+- [[doc/userguide|User Guide]] — back to the index.

@@ -703,3 +703,5 @@ See [[doc/thepall|The Pall]] for what each fate means.
   [[doc/bleeding|Bleeding]], [[doc/infctn|Infection]],
   [[doc/shock|Shock]], and [[doc/hlngtst|Healing Test]] (rules) —
   the mechanics behind these actions.
+- [[doc/ugitems|Items]] — every item type at a glance.
+- [[doc/userguide|User Guide]] — back to the index.
