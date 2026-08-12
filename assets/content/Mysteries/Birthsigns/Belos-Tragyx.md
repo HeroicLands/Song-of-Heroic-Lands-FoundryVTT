@@ -4,7 +4,7 @@ tags: []
 name:
     full: Belos-Tragyx
     aliases: []
-description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
+description: "The cusp of the Lamp and the Stag: favours Spirit (+15), hinders Metal (−10)."
 id: jokiHcSovj5CGFUS
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: belostragyx
@@ -81,4 +81,17 @@ effects:
 
 Where Belos, the Lamp, passes into Tragyx, the Stag, the seer finds a voice. Keepers of lore who speak well and persuade easily, its natives have little inclination for the workshop bench or the practice of arms.
 
-A birthsign is not a power the character wields but a standing cast of fortune: attach the sign the character was born under, and its Active Effects adjust the Effective Mastery Level of the affected skills.
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+
+| Element | Skills it claims          | EML |
+| ------- | ------------------------- | --- |
+| Earth   | Nature                    | —   |
+| Metal   | Craft, Script             | −10 |
+| Fire    | Combat, Combat Techniques | −5  |
+| Air     | Physical                  | +5  |
+| Spirit  | Lore, Mystical            | +15 |
+| Water   | Language, Social          | +10 |
+
+Its natives come readiest to **Spirit** (old learning and the mysteries) at +15, and hardest to **Metal** (the maker's bench and the written page) at −10.
+
+The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

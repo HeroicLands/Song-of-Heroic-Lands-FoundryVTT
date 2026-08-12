@@ -4,6 +4,7 @@ tags: []
 name:
     full: Endurance
     aliases: []
+description: "Stamina and constitutional health: hardship borne without collapse."
 id: bZCm7bURkPsffnIW
 img: icons/game-icons/caro-asercion/mountain-climbing.svg
 shortcode: end

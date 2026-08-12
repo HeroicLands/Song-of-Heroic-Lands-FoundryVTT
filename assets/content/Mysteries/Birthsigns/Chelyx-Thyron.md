@@ -4,7 +4,7 @@ tags: []
 name:
     full: Chelyx-Thyron
     aliases: []
-description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
+description: "The cusp of the Tortoise and the Gate: favours Fire (+15), hinders Water (−10)."
 id: M0BHVOQvuLepIQUw
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: chelyxthyron
@@ -81,4 +81,17 @@ effects:
 
 Where Chelyx, the Tortoise, opens onto Thyron, the Gate, craft turns to arms. Its natives carry the workshop's discipline into the drill-yard, exact and hardy, though courts and tongues are closed to them.
 
-A birthsign is not a power the character wields but a standing cast of fortune: attach the sign the character was born under, and its Active Effects adjust the Effective Mastery Level of the affected skills.
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+
+| Element | Skills it claims          | EML |
+| ------- | ------------------------- | --- |
+| Earth   | Nature                    | —   |
+| Metal   | Craft, Script             | +10 |
+| Fire    | Combat, Combat Techniques | +15 |
+| Air     | Physical                  | +5  |
+| Spirit  | Lore, Mystical            | −5  |
+| Water   | Language, Social          | −10 |
+
+Its natives come readiest to **Fire** (the drill-yard and the clash of arms) at +15, and hardest to **Water** (tongues, courts, and company) at −10.
+
+The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

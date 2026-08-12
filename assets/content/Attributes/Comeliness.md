@@ -4,6 +4,7 @@ tags: []
 name:
     full: Comeliness
     aliases: []
+description: "How far a person's physical form pleases the eye."
 id: L4Dr0xLDD9EpAxlm
 img: icons/game-icons/lorc/charm.svg
 shortcode: cml

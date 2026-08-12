@@ -4,6 +4,7 @@ tags: []
 name:
     full: Empathy
     aliases: []
+description: "Sensing and understanding the feelings and motives of others."
 id: ibMPowNe3RLSw06o
 img: icons/game-icons/zeromancer/heart-plus.svg
 shortcode: emp

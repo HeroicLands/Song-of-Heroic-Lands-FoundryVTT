@@ -4,7 +4,7 @@ tags: []
 name:
     full: Arnos-Bourax
     aliases: []
-description: "A cusp birthsign of the Astrokýklos: the influence conferred by being born on the threshold between two celestial signs."
+description: "The cusp of the Ram and the Ox: favours Earth (+15), hinders Air (−10)."
 id: A9WwbSaWae9Fl3EO
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: arnosbourax
@@ -81,4 +81,17 @@ effects:
 
 Born on the threshold where Arnos, the Ram, gives way to Bourax, the Ox, these natives keep the Ram's green vigour and gain the Ox's patient hand. Field and bench answer them alike, while the breath of the body and the deeper mysteries remain distant.
 
-A birthsign is not a power the character wields but a standing cast of fortune: attach the sign the character was born under, and its Active Effects adjust the Effective Mastery Level of the affected skills.
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+
+| Element | Skills it claims          | EML |
+| ------- | ------------------------- | --- |
+| Earth   | Nature                    | +15 |
+| Metal   | Craft, Script             | +10 |
+| Fire    | Combat, Combat Techniques | —   |
+| Air     | Physical                  | −10 |
+| Spirit  | Lore, Mystical            | −5  |
+| Water   | Language, Social          | +5  |
+
+Its natives come readiest to **Earth** (the growing field and the wild places) at +15, and hardest to **Air** (feats of balance, stealth, and speed) at −10.
+
+The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].
