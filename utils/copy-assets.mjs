@@ -14,10 +14,10 @@
 /**
  * Copies static assets into the build output tree.
  *
- * Recursively copies `assets/docs` into `build/docs`, and the audio/icons/
- * silhouette/fonts/ui asset folders plus `lang` and `templates` into
- * `build/stage/...`; also copies `LICENSE.md` and `README.md` into
- * `build/stage`. Destination directories are created as needed.
+ * Recursively copies the audio/icons/silhouette/fonts/ui asset folders plus
+ * `lang` and `templates` into `build/stage/...`; also copies `LICENSE.md` and
+ * `README.md` into `build/stage`. Destination directories are created as
+ * needed.
  *
  * Usage:
  *   npm run build:assets        // node utils/copy-assets.mjs
@@ -67,9 +67,6 @@ function copyFile(src, dest) {
     mkdirSync(dirname(dest), { recursive: true });
     copyFileSync(src, dest);
 }
-
-// Copy custom documentation markdown to doc directory
-copyFolder("assets/docs", "build/docs");
 
 // Copy static assets to build/stage
 copyFolder("assets/audio", "build/stage/assets/audio");
