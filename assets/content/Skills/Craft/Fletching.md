@@ -29,9 +29,14 @@ folder: gqRvjlrWbuCwGy3N
 
 Strictly, a fletcher makes arrows and a bowyer makes bows, but the guilds long ago stopped observing the distinction and the first word has swallowed the second. Fletching covers bows, crossbows, arrows and quarrels from stave and billet through to a finished, tillered, nocked weapon.
 
-**Workshop.** The crafter works in a fletching workshop, rated from one to five stars, which sets the Target Number for masterwork rolls.
+# Crafting {#crafting}
 
-**Expense.** Materials are paid in pence and the work in hours or months; a crafter puts in up to ten hours a day.
+Bows, crossbows and projectiles are made by the common
+[[doc/crafting|crafting routine]] — workshop, expense, test, result, masterwork
+rolls, repair. A fletcher works in a fletching workshop. What follows is what is
+particular to this bench.
+
+**Expense.** Materials are paid in pence and the work in hours or months.
 
 | Item                 | Cost | Time | Success Value test                   |
 | -------------------- | ---- | ---- | ------------------------------------ |
@@ -64,30 +69,11 @@ not change the reckoning; weight does. Every projectile here is a Fletching
 
 Composite bows are sinew-backed, which is why they call for Hideworking; the months they take to cure are why bowyers outside the dry horse countries rarely attempt them.
 
-**Test and result.**
+**What the modifier does.** On a **projectile**, each point of modifier adds one to impact; a flawed projectile loses the same d2 from both its quality and its impact. On a **weapon**, each point of modifier adds 30 feet of base range; a flawed weapon loses d2 quality and that same d2 × 30 feet of range. An SV of 0 or less doubles what a flaw takes away.
 
-| SV  | Outcome                                                                                                                                |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| ≤ 2 | Flawed. The item's performance is reduced as below; an SV of 0 or less doubles the reduction.                                          |
-| 3–4 | The base item, exactly as catalogued.                                                                                                  |
-| 5+  | Masterwork. Each Value Diamond buys either one d10 masterwork roll or a 10% reduction in the time expense, to a maximum 30% reduction. |
-
-A Critical Failure is a setback: crafting time increases by half.
-
-**Masterwork rolls.** Each diamond so committed rolls one d10 against a Target Number equal to the workshop's star quality — one to five dice against a TN of 1 to 5, rolled separately. Successes are Masterwork Successes.
-
-| Workshop  | TN  | MWS | Result                  | Value |
-| --------- | --- | --- | ----------------------- | ----- |
-| Makeshift | 1   | 0   | Base article            | ×1    |
-| Sparse    | 2   | 1   | Quality +1              | ×2    |
-| Standard  | 3   | 2   | Quality +1, modifier +1 | ×3    |
-| Plentiful | 4   | 3   | Quality +2, modifier +1 | ×4    |
-| Ideal     | 5   | 4   | Quality +2, modifier +2 | ×5    |
-|           |     | 5   | Quality +3, modifier +2 | ×6    |
-
-**Applicable successes** are capped at the item's base Weapon Quality minus eight — a WQ 10 bow takes at most two. Projectiles have no Weapon Quality; assume two.
-
-**What the modifier does.** On a **projectile**, each point of modifier adds one to impact; a flawed projectile loses the same d2 from both its quality and its impact. On a **weapon**, each point of modifier adds 30 feet of base range; a flawed weapon loses d2 quality and that same d2 × 30 feet of range.
+**Applicable successes** are capped at the item's base Weapon Quality minus
+eight — a WQ 10 bow takes at most two. Projectiles have no Weapon Quality;
+assume two.
 
 **Arrowheads** may be bought in rather than forged. If they are, the Metalcraft Secondary Modifier derives from the smith's Mastery Level rather than the fletcher's — cost doubles, crafting time halves.
 

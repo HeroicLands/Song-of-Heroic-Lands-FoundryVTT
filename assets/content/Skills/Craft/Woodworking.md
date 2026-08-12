@@ -29,7 +29,15 @@ folder: gqRvjlrWbuCwGy3N
 
 Woodworking is the joiner's and turner's trade: furniture, containers, vehicles, tools, and the decorative carving that distinguishes a chest somebody commissioned from a chest somebody needed. It is the most broadly employed of the crafts, because almost everything that is not stone, cloth or iron is wood.
 
-Reckon **ten hours per 3d of the item's price**, at a material cost of **1d per 30 lb**. A Woodworking Success Value test on the standard table fixes the quality. A **[d]** marks a decorative piece; weapons **[w]** are made by the weaponmaking routine instead.
+# Crafting {#crafting}
+
+Woodwork is made by the common [[doc/crafting|crafting routine]] — workshop,
+expense, test, result, masterwork rolls, repair. What follows is what is
+particular to the joiner's shop.
+
+**Expense.** Reckon **ten hours per 3d of the item's price**, at a material cost of **1d per 30 lb**.
+
+**Test.** A Woodworking Success Value test, read on the standard ladder. A **[d]** marks a decorative piece; weapons **[w]** are made by the [[skill/wpnc|weaponmaking]] routine instead.
 
 | Item                       | lb  | Price | Item           | lb  | Price |
 | -------------------------- | --- | ----- | -------------- | --- | ----- |

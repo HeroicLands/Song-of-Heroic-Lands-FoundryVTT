@@ -29,11 +29,16 @@ folder: gqRvjlrWbuCwGy3N
 
 Weaponcraft is the making and repair of arms and armour. It is the most exacting of the metal trades because the product is expected to survive being used as intended, and the difference between a sound blade and a brittle one is invisible until somebody is depending on it.
 
-**Making a weapon.**
+# Crafting {#crafting}
 
-**Workshop.** The crafter works in a workshop matching the skill tested below, rated one to five stars.
+Arms and armour are made by the common [[doc/crafting|crafting routine]] —
+workshop, expense, test, result, masterwork rolls, repair. A weaponsmith works
+in a workshop matching the skill tested below. What follows is what is
+particular to this bench.
 
-**Expense.** Materials in pence and labour in hours, at up to ten hours a day.
+## Weapons
+
+**Expense.**
 
 | Weapon         | Cost | Time | Weapon          | Cost | Time |
 | -------------- | ---- | ---- | --------------- | ---- | ---- |
@@ -60,7 +65,7 @@ Weaponcraft is the making and repair of arms and armour. It is the most exacting
 | Longknife      | 5d   | 200h |                 |      |      |
 | Mace           | 6d   | 140h |                 |      |      |
 
-**Test.** The formula depends on what is being made. Up to two others may assist, provided they are present for the whole of the work.
+**Test.** The formula depends on what is being made.
 
 | Mark      | Success Value test                   |
 | --------- | ------------------------------------ |
@@ -70,32 +75,18 @@ Weaponcraft is the making and repair of arms and armour. It is the most exacting
 | [t]       | Textilecraft (Metalcraft)            |
 | [w]       | Woodworking                          |
 
-**Result.**
+**A flaw** costs the weapon one Weapon Quality and one impact for every point of
+Success Value below 3.
 
-| SV  | Outcome                                                                                                                                |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| ≤ 2 | Flawed. The weapon loses one Weapon Quality and one impact for every point of Success Value below 3.                                   |
-| 3–4 | The base weapon, exactly as catalogued.                                                                                                |
-| 5+  | Masterwork. Each Value Diamond buys either one d10 masterwork roll or a 10% reduction in the time expense, to a maximum 30% reduction. |
+**Masterwork** reads as Weapon Quality and impact — impact being this trade's
+modifier. Applicable successes are capped at the weapon's base Weapon Quality
+minus eight, so a WQ 10 weapon takes at most two.
 
-A Critical Failure is a setback: crafting time increases by half.
+## Armour
 
-**Masterwork rolls.** Each diamond so committed rolls one d10 against a Target Number equal to the workshop's star quality, rolled separately. Successes are Masterwork Successes.
-
-| Workshop  | TN  | MWS | Result                | Value |
-| --------- | --- | --- | --------------------- | ----- |
-| Makeshift | 1   | 0   | Base article          | ×1    |
-| Sparse    | 2   | 1   | Quality +1            | ×2    |
-| Standard  | 3   | 2   | Quality +1, impact +1 | ×3    |
-| Plentiful | 4   | 3   | Quality +2, impact +1 | ×4    |
-| Ideal     | 5   | 4   | Quality +2, impact +2 | ×5    |
-|           |     | 5   | Quality +3, impact +2 | ×6    |
-
-Applicable successes are capped at the weapon's base Weapon Quality minus eight — a WQ 10 weapon takes at most two.
-
-**Repair.** A weapon reduced by only one Weapon Quality can be repaired in the field: a Success Value test of the appropriate skill above, without Secondary Modifiers, taking 10% of the listed time at no cost. **SV 1 or better restores the lost point** — which means field repair almost always works, and is limited by the hours it takes rather than the roll. In a workshop, the same test is made at **+2 SV**, and the quality restored is worked out through the masterwork steps above, never exceeding the weapon's undamaged rating.
-
-**Making armour** follows the same shape — workshop, expense, test, result, masterwork rolls — with the test set by the material rather than the item:
+Armour follows the same shape, with the test set by the material rather than by
+the article. It carries no separate expense table; the article's catalogue entry
+gives its cost.
 
 | Material                         | Success Value test                    |
 | -------------------------------- | ------------------------------------- |
@@ -105,13 +96,12 @@ Applicable successes are capped at the weapon's base Weapon Quality minus eight 
 | Scale                            | Weaponcraft (Hideworking, Metalcraft) |
 | Mail, plate                      | Weaponcraft (Metalcraft, Mineralogy)  |
 
-| SV  | Outcome                                                                                                                                |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| ≤ 2 | Flawed. The article loses one Armour Quality and one Armour Value — two of each at SV 0 or less.                                       |
-| 3–4 | The base article, exactly as catalogued.                                                                                               |
-| 5+  | Masterwork. Each Value Diamond buys either one d10 masterwork roll or a 10% reduction in the time expense, to a maximum 30% reduction. |
+**A flaw** costs the article one Armour Quality and one Armour Value — two of
+each at SV 0 or less.
 
-Masterwork successes on armour read as Armour Quality and Armour Value in place of weapon quality and impact, and the material itself caps how many can actually be applied:
+**Masterwork** reads as Armour Quality and Armour Value in place of weapon
+quality and impact, and the material itself caps how many successes can actually
+be applied:
 
 | Material | Max MWS | Material | Max MWS |
 | -------- | ------- | -------- | ------- |
@@ -121,4 +111,5 @@ Masterwork successes on armour read as Armour Quality and Armour Value in place 
 | Quilted  | 1       | Mail     | 5       |
 |          |         | Plate    | 5       |
 
-There is only so much that can be done with a quilted coat, however good the tailor.
+There is only so much that can be done with a quilted coat, however good the
+tailor.

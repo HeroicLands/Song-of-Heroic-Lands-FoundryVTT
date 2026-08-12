@@ -40,7 +40,16 @@ Warded and tumbler locks exist on chests and doors, but the padlock is far and a
 | MS    | The lock opens.                                                                                                                                                                                     |
 | CS    | The lock opens in half the rounds — luck, or a raking technique that some locks will tolerate.                                                                                                      |
 
-**Making.** A lock or comparable mechanism needs a lockcraft workshop and a Lockcraft (Metalcraft) Success Value test, following the same routine as weaponmaking. Below SV 3 the result is junk and **2d6 days** are lost. SV 3–4 produces an item of Complexity 1 to 4; each Masterwork Success permits one point beyond that. Cost and time follow from the Complexity chosen, and such items sell for **six times** their cost.
+# Crafting {#crafting}
+
+A lock or comparable mechanism is made by the common
+[[doc/crafting|crafting routine]] — workshop, expense, test, result, masterwork
+rolls, repair — in a lockcraft workshop. What follows is what is particular to
+the lockmaker's bench.
+
+**Test.** A Lockcraft (Metalcraft) Success Value test.
+
+**Result.** Lockcraft reads the ladder in Complexity rather than in quality. Below SV 3 the result is junk and **2d6 days** are lost. SV 3–4 produces an item of Complexity 1 to 4; each Masterwork Success permits one point beyond that. Cost and time follow from the Complexity chosen, and such items sell for **six times** their cost.
 
 | Complexity | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9    |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | ---- |
