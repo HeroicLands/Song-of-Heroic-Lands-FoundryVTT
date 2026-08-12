@@ -21,9 +21,10 @@
  * silently skipped.
  *
  * Type-specific `system.*` fields come from the nested `sohl:` block in
- * vault frontmatter, read via `sohlField()`. The rendered markdown body
- * becomes `system.docHtml`. Folder assignment is deferred — every item
- * currently emits `folder: null`.
+ * vault frontmatter, read via `sohlField()`. The body is **not** rendered
+ * here: it compiles into the item's doc in the journals pack, and
+ * `system.docHtml` becomes a pointer to it (see `item-docs.mjs`). Folder
+ * assignment is deferred — every item currently emits `folder: null`.
  *
  * Not a standalone script — exports the `Items` compiler class, imported and
  * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
@@ -47,7 +48,6 @@ import {
     resolveImg,
     buildStats,
     withArchetypeFlag,
-    md,
     buildContentLinkIndex,
     convertNoteWikilinks,
     collectContentDocs,
@@ -58,25 +58,37 @@ import {
 // Imported by relative path because the pack scripts run under bare `node`,
 // outside the `@src` alias tree.
 import { defaultItemArt } from "../../src/utils/default-item-art.mjs";
+import { journalPageId, splitPages } from "./journals.mjs";
+import { ITEM_TYPES, itemDocEntryId, itemDocPointer } from "./item-docs.mjs";
 
 const STATS = buildStats("0.6.0");
 
-const ITEM_TYPES = new Set([
-    "affiliation",
-    "affliction",
-    "armorgear",
-    "attribute",
-    "concoctiongear",
-    "containergear",
-    "miscgear",
-    "mystery",
-    "mysticalability",
-    "projectilegear",
-    "skill",
-    "trait",
-    "trauma",
-    "weapongear",
-]);
+/**
+ * The description an item carries: a pointer to its **item doc**, the
+ * JournalEntry the journals pass compiles this same body into (#1348).
+ *
+ * The prose is not rendered here at all. Carrying it would duplicate it onto
+ * every actor holding the item — 7.59 MB of copies across the actors pack, of
+ * which 133 KB was distinct — where a link is 60 bytes and always current. The
+ * two passes derive the target from the note's own id, so neither has to see
+ * the other's output; both split the *converted* markdown, so an H1 carrying a
+ * wikilink names the same page on both sides.
+ *
+ * An item with no prose points at nothing, exactly as the journals pass writes
+ * no entry for it.
+ *
+ * @param {string} markdown - The note body, tables expanded and wikilinks
+ *   resolved.
+ * @param {object} fm - The note's frontmatter.
+ * @param {string} name - The item's name.
+ * @returns {string} The pointer, or "" for a note with no body.
+ */
+function itemDescription(markdown, fm, name) {
+    if (!String(markdown).trim()) return "";
+    const [leadPage] = splitPages(markdown, name);
+    const pageId = journalPageId(itemDocEntryId(fm.id), leadPage, 0);
+    return itemDocPointer(fm.id, name, pageId);
+}
 
 /**
  * Build the `system.*` fields shared by every item type:
@@ -493,7 +505,7 @@ export class Items {
                 const entry = this.buildEntry(
                     type,
                     fm,
-                    markdown ? md.render(markdown) : "",
+                    itemDescription(markdown, fm, resolveName(fm)),
                 );
                 this.writeItem(entry);
                 counts[type]++;
