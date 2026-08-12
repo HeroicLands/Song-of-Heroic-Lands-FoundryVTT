@@ -43,7 +43,7 @@ thrown are the same object and two different attacks.
    [[#defending-against-missiles|Defending Against Missiles]] — the choices are
    narrower than in melee.
 5. **Resolve.** A landing shot rolls its [[#impact-at-range|impact]], and
-   [[doc/bdystrct#determining-hit-location|hit location]] follows from the aim
+   [[doc/character#determining-hit-location|hit location]] follows from the aim
    and the band's scatter.
 
 ## Skills and Weapons {#skills-and-weapons}
@@ -174,4 +174,4 @@ See [[doc/atkreslv#mishaps|Mishaps]] for the keep-control tests both lead to.
 - [[doc/atkreslv|Attack Resolution]] — the exchange in full
 - [[doc/strkmds|Strike Modes]] — projectile type, range, draw, volley multiplier
 - [[doc/mlattcks|Melee Attacks]] — attacking at contact
-- [[doc/weapons|Weapons]] — the missile weapons themselves
+- [[doc/gear#weapons|Weapons]] — the missile weapons themselves

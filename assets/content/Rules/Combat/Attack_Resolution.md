@@ -174,7 +174,7 @@ units digit of the roll that produced it:
 A fumble or a stumble is a **keep-control test**, made by the combatant it
 befell: a Fumble Test to keep hold of the weapon, a Stumble Test to keep your
 feet. Both are described under
-[[doc/bdystrct#mishaps-fumble-and-stumble|Mishaps]] — they are the same tests a
+[[doc/character#mishaps-fumble-and-stumble|Mishaps]] — they are the same tests a
 wound to the hand or the leg provokes, and they fail the same way, with a
 dropped weapon or a fall to [[doc/prone|prone]].
 
@@ -201,7 +201,7 @@ zone represents.
 Spread is a property of the strike mode, not of the fighter: a thrusting point
 places far better than a swung flail. The full treatment of zones, parts,
 locations, and how a hit zone number becomes a wounded limb is in
-[[doc/bdystrct#determining-hit-location|Determining Hit Location]].
+[[doc/character#determining-hit-location|Determining Hit Location]].
 
 ## Impact and Aspect {#impact-and-aspect}
 
@@ -239,7 +239,7 @@ From there the blow leaves combat's hands and becomes
    it the [[doc/imprmnt|impairment]] of the part struck, whether it
    [[doc/bleeding|bleeds]], and how long it will take to mend.
 2. **Shock.** Severity and location together give a
-   [[doc/bdystrct#shock|Shock Index]], and a wound of any consequence puts the
+   [[doc/character#shock|Shock Index]], and a wound of any consequence puts the
    victim to a [[doc/shock|Shock]] test that may leave them stunned,
    incapacitated, unconscious or dead on the spot.
 3. **Nerve.** A combatant still standing afterwards may still lose the will to
@@ -285,4 +285,4 @@ in it, and the other is left holding the ground.
 - [[doc/msslattc|Missile Attacks]] — the missile sequence
 - [[doc/unrmdcmb|Unarmed Combat]] — fighting with no weapon at all
 - [[doc/oppsdtst|Opposed Tests]] — the contest this page is a special case of
-- [[doc/bdystrct|Body Structure]] — hit location, protection, and impairment
+- [[doc/character#body-structure|Body Structure]] — hit location, protection, and impairment

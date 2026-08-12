@@ -11,7 +11,7 @@ category: rules
 name:
     full: Gear
     aliases: []
-folder: SSkatgtYj9d71kaz
+folder: RqKUTBUBN2Y3MHYB
 shortcode: gear
 ---
 
@@ -22,7 +22,7 @@ to another character. This page describes the properties common to all gear, the
 way gear burdens the character who carries it, and each of the gear types the
 system provides.
 
-# Gear
+# Gear Properties
 
 Every gear item, whatever its type, shares a common set of properties.
 
@@ -81,6 +81,66 @@ durability — and burdens its carrier by weight like anything else. When a piec
 of equipment does not fit one of the specialized types below, it is
 miscellaneous gear.
 
+## Cash
+
+(@Table search=[type:miscgear, sohl.kbcat=cash] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Cooking
+
+(@Table search=[type:miscgear, sohl.kbcat=cooking] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Dye
+
+(@Table search=[type:miscgear, sohl.kbcat=dye] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Expedition
+
+(@Table search=[type:miscgear, sohl.kbcat=expedition] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Food
+
+(@Table search=[type:miscgear, sohl.kbcat=food] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Instruments
+
+(@Table search=[type:miscgear, sohl.kbcat=instruments] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Jewelry
+
+(@Table search=[type:miscgear, sohl.kbcat=jewelry] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Lighting
+
+(@Table search=[type:miscgear, sohl.kbcat=lighting] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Music
+
+(@Table search=[type:miscgear, sohl.kbcat=music] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Natural Items
+
+(@Table search=[type:miscgear, sohl.kbcat=natural] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Religious
+
+(@Table search=[type:miscgear, sohl.kbcat=religious] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Scribe Materials
+
+(@Table search=[type:miscgear, sohl.kbcat=scribe] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Spirits and Brews
+
+(@Table search=[type:miscgear, sohl.kbcat=spirits] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Stone
+
+(@Table search=[type:miscgear, sohl.kbcat=stone] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Tack
+
+(@Table search=[type:miscgear, sohl.kbcat=tack] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
 # Container Gear
 
 **Container gear** is gear whose purpose is to hold other gear — a backpack, a
@@ -95,7 +155,9 @@ hierarchy. The weight of a container's contents still counts toward the
 character's carried weight while the container is carried — a full pack is no
 lighter than the sum of what is in it.
 
-# Weapons
+(@Table search=[type:containergear] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Capacity:sohl.maxCapacity, Description:description])
+
+# Weapons {#weapons}
 
 A **weapon** is a piece of gear made for attacking — a sword, a spear, a bow, a
 mace, a dagger. Along with the common gear properties, a weapon has:
@@ -131,6 +193,62 @@ added to the character's encumbrance while the weapon is worn or carried ready f
 use — a long weapon slung at the hip hampers movement more than its weight alone
 would suggest. A weapon with no encumbrance value contributes only its weight.
 
+## Bows
+
+(@Table search=[type:weapongear, sohl.kbcat:bow] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Crossbows
+
+(@Table search=[type:weapongear, sohl.kbcat=crossbow] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Slings
+
+(@Table search=[type:weapongear, sohl.kbcat=sling] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Thrown
+
+(@Table search=[type:weapongear, sohl.kbcat=thrown] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Flails
+
+(@Table search=[type:weapongear, sohl.kbcat=flail] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Swords
+
+(@Table search=[type:weapongear, sohl.kbcat=sword] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Axes
+
+(@Table search=[type:weapongear, sohl.kbcat=axe] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Clubs
+
+(@Table search=[type:weapongear, sohl.kbcat=club] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Knives
+
+(@Table search=[type:weapongear, sohl.kbcat=knife] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Polearms
+
+(@Table search=[type:weapongear, sohl.kbcat=polearm] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Nets
+
+(@Table search=[type:weapongear, sohl.kbcat=net] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Whips
+
+(@Table search=[type:weapongear, sohl.kbcat=whip] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+## Shields
+
+(@Table search=[type:weapongear, sohl.kbcat=shield] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
+# Siege Weapons
+
+(@Table search=[type:weapongear, sohl.kbcat=siege] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+
 # Projectiles
 
 **Projectile gear** is the ammunition that missile weapons consume — arrows for
@@ -147,6 +265,8 @@ behave — for example, a **broadhead** arrow.
 
 Projectiles are ordinarily tracked in quantity (a bundle of arrows) and are
 expended as they are used.
+
+(@Table search=[type:projectilegear] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
 
 # Armor
 
@@ -216,6 +336,42 @@ penalties** on the wearer. A closed helm narrows vision and muffles hearing, so
 while it protects the head it also hampers the wearer's ability to perceive their
 surroundings. Such penalties are a deliberate trade-off against the protection the
 piece provides.
+
+## Cloth
+
+(@Table search=[type:armorgear, sohl.kbcat=cloth] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Gambeson
+
+(@Table search=[type:armorgear, sohl.kbcat=gambeson] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Kurbul
+
+(@Table search=[type:armorgear, sohl.kbcat=kurbul] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Leather
+
+(@Table search=[type:armorgear, sohl.kbcat=leather] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Mail
+
+(@Table search=[type:armorgear, sohl.kbcat=mail] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Padded
+
+(@Table search=[type:armorgear, sohl.kbcat=padded] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Plate
+
+(@Table search=[type:armorgear, sohl.kbcat=plate] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Quilted
+
+(@Table search=[type:armorgear, sohl.kbcat=quilted] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+
+## Scale
+
+(@Table search=[type:armorgear, sohl.kbcat=scale] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
 
 # Concoctions
 

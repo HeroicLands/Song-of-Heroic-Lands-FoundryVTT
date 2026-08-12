@@ -69,7 +69,7 @@ off-hand does not spoil a one-handed cut with the good hand.
 
 **The off hand strikes weaker.** A weapon wielded only in the non-favoured hand
 loses a point of impact, on top of whatever the fighter's clumsiness with it
-costs the attack roll. See [[doc/bdystrct#dominance|Dominance]].
+costs the attack roll. See [[doc/character#dominance|Dominance]].
 
 ## Defending in Melee {#defending-in-melee}
 

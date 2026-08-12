@@ -114,7 +114,7 @@ that hand, and taking it means prising it loose rather than merely pinning the
 arm. That is precisely what separates a **hold** from a disarm. A limb made
 **unusable** — by a grievous wound or a permanent maiming — is worse off on both
 counts: it is immobilized _and_ it loses its grip, and drops what it held. See
-[[doc/bdystrct#immobilized-unusable-and-holding-on|Body Structure]].
+[[doc/character#immobilized-unusable-and-holding-on|Body Structure]].
 
 The condition lasts exactly as long as whatever imposes it, and no longer.
 
@@ -123,6 +123,6 @@ The condition lasts exactly as long as whatever imposes it, and no longer.
 - [[doc/psychlgc|Psychological Condition]] — the same idea for the mind
 - [[doc/imprmnt|Impairment]] — the penalties injuries and maimings impose, and
   the permanent impairment a slow-healing wound leaves
-- [[doc/bdystrct|Body Structure]] — the parts a condition attaches to
+- [[doc/character#body-structure|Body Structure]] — the parts a condition attaches to
 - [[doc/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] — why a disease is
   not a condition
