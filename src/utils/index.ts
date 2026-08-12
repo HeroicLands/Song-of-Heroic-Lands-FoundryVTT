@@ -19,6 +19,7 @@ export * as collection from "./collection";
 
 export * from "./Itr";
 export * from "./constants";
+export * from "./description-link";
 export * from "./handlebars-helpers";
 export * from "./helpers";
 export * from "./kindRegistry";

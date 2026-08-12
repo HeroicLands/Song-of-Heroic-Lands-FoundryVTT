@@ -21,10 +21,12 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
+import { descriptionLinkTarget } from "@src/utils/description-link";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import {
     fvttEnrichHTML,
+    fvttResolveUuidAsync,
     fvttIsCurrentUserGM,
     fvttRenderSheet,
 } from "@src/core/FoundryHelpers";
@@ -264,7 +266,33 @@ export async function buildItemDescCardData(
                 (data as unknown as { textReference?: string }).textReference ??
                 "",
             charges,
-            desc: await fvttEnrichHTML(data.docHtml ?? ""),
+            desc: await resolveDescription(data.docHtml ?? ""),
         },
     };
+}
+
+/**
+ * The description to show, following a pointer to its target.
+ *
+ * A description that is *only* a link says "my description lives there". Showing
+ * the link itself would make a reader click twice for something they have already
+ * asked to see, so the target's own text is shown instead. Anything else —
+ * including prose that merely opens with a link — is shown exactly as written,
+ * because a GM's own words are never discarded in favour of a target's.
+ *
+ * A pointer whose target will not resolve falls back to the link itself, which
+ * then renders as a broken content link: visibly wrong rather than silently
+ * blank.
+ *
+ * @param docHtml - The item's stored description.
+ * @returns Enriched HTML to display.
+ */
+async function resolveDescription(docHtml: string): Promise<string> {
+    const target = descriptionLinkTarget(docHtml);
+    if (!target) return fvttEnrichHTML(docHtml);
+    const doc = await fvttResolveUuidAsync(target);
+    // A journal page keeps its prose in `text.content`; a SoHL item in
+    // `system.docHtml`.
+    const text: string | undefined = doc?.text?.content ?? doc?.system?.docHtml;
+    return fvttEnrichHTML(text || docHtml);
 }
