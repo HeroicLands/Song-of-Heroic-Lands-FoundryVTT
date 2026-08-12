@@ -471,7 +471,6 @@ export class Items {
         const counts = Object.fromEntries(
             [...ITEM_TYPES].map((t) => [t, 0]),
         );
-        let skippedNoId = 0;
         let skippedDraft = 0;
         let skippedOtherType = 0;
 
@@ -497,9 +496,11 @@ export class Items {
                 continue;
             }
             if (!fm.id) {
-                skippedNoId++;
-                log.warn(`Item missing id, skipping: ${absPath}`);
-                continue;
+                // Fatal, not a warning: a skipped item silently vanishes from
+                // the compendium while its KB page and content still build, so
+                // the omission is invisible until someone looks for the item.
+                // Matches the folder-id check in helpers.mjs, which throws.
+                throw new Error(`Item missing id: ${absPath}`);
             }
 
             log.debug(`Processing ${type}: ${resolveName(fm)} (${absPath})`);
@@ -540,8 +541,6 @@ export class Items {
         for (const [t, n] of Object.entries(counts)) {
             if (n > 0) log.info(`  ${t}: ${n}`);
         }
-        if (skippedNoId)
-            log.info(`Skipped ${skippedNoId} item(s) missing id`);
         if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
         log.debug(
             `Skipped ${skippedOtherType} non-item file(s) (no recognized type)`,
