@@ -276,6 +276,12 @@ function buildArmorGear(fm) {
         locations: {
             flexible: sohlField(fm, "flexloc", []) || [],
             rigid: sohlField(fm, "rigidloc", []) || [],
+            // Only the one-sided articles carry entries; everything else
+            // protects from any direction and ships an empty list.
+            facing: (sohlField(fm, "facing", []) || []).map((f) => ({
+                location: String(f.location ?? ""),
+                side: String(f.side ?? "all"),
+            })),
         },
         protectionBase: {
             blunt: Number(protection.blunt) || 0,

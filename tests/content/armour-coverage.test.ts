@@ -252,11 +252,21 @@ const ARTICLES: Article[] = walk(ARMOR_ROOT)
         perception: d.sohl.perceptionPenaltyBase ?? 0,
     }));
 
-const coverage = (a: Article) =>
-    [...new Set([...a.flexible, ...a.rigid])].reduce(
-        (t, l) => t + (WEIGHT[l] ?? 0),
+/**
+ * Coverage as the article's cost reckons it: a location protected from one side
+ * only is half the material, so it counts half.
+ *
+ * Halving must be per location, not per article. A breastplate is one-sided
+ * throughout, but a cloak wraps the shoulders and hangs down the back — its
+ * shoulders count whole and everything below counts half.
+ */
+const costCoverage = (a: Article) => {
+    const oneSided = new Set(a.facing.map((f) => f.location));
+    return [...new Set([...a.flexible, ...a.rigid])].reduce(
+        (t, l) => t + (WEIGHT[l] ?? 0) / (oneSided.has(l) ? 2 : 1),
         0,
     );
+};
 
 describe("armour coverage", () => {
     it("has articles to check", () => {
@@ -339,8 +349,7 @@ describe("armour coverage", () => {
             if (!TABLE_ARTICLES.has(`${a.material}/${a.armorType}`)) continue;
             const rate = BASE_PRICE[a.material];
             if (!rate) continue;
-            const oneSided = a.facing.length > 0;
-            const cov = oneSided ? coverage(a) / 2 : coverage(a);
+            const cov = costCoverage(a);
             expect(
                 a.value,
                 `${a.file} (coverage ${cov.toFixed(3)})`,

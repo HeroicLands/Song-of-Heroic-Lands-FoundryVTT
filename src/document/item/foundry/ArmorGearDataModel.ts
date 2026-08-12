@@ -17,11 +17,14 @@ import {
     ArmorGearData,
 } from "@src/document/item/logic/ArmorGearLogic";
 import {
+    ARMOR_FACING,
+    ArmorFacingChoices,
     EncumbranceGroupChoices,
     ImpactAspects,
     ITEM_KIND,
     type EncumbranceGroup,
 } from "@src/utils/constants";
+import type { ArmorLocationFacing } from "@src/entity/body/armor-aggregation";
 const { StringField, SchemaField, ArrayField, NumberField, BooleanField } =
     foundry.data.fields;
 
@@ -43,6 +46,22 @@ function defineArmorGearSchema(): foundry.data.fields.DataSchema {
         locations: new SchemaField({
             flexible: new ArrayField(new StringField()),
             rigid: new ArrayField(new StringField()),
+            // Only the articles that protect a location from one side alone
+            // appear here — a cloak's rear-facing torso, a breastplate's
+            // front-facing one. An absent entry means the location is
+            // protected from any direction, so every all-round article (very
+            // nearly all of them) carries an empty list and needs no
+            // migration.
+            facing: new ArrayField(
+                new SchemaField({
+                    location: new StringField({ required: true, blank: false }),
+                    side: new StringField({
+                        choices: ArmorFacingChoices,
+                        initial: ARMOR_FACING.ALL,
+                    }),
+                }),
+                { initial: [] },
+            ),
         }),
         protectionBase: new SchemaField({
             blunt: new NumberField({ integer: true, initial: 0, min: 0 }),
@@ -89,7 +108,11 @@ export class ArmorGearDataModel<
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     isWorn!: boolean;
     material!: string | null;
-    locations!: { flexible: string[]; rigid: string[] };
+    locations!: {
+        flexible: string[];
+        rigid: string[];
+        facing: ArmorLocationFacing[];
+    };
     protectionBase!: {
         blunt: number;
         edged: number;

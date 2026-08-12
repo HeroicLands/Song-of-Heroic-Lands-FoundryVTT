@@ -21,26 +21,50 @@ sohl:
     detailMaterial: Velvet
     material: Cloth
     durability: 10
-    value: 231
-    weight: 3.3
+    value: 120.8
+    weight: 1.7
     encumbrance: 0
     perceptionPenaltyBase: 0
     flexloc:
         - lshldloc
         - rshldloc
-        - lupaloc
-        - rupaloc
         - thrxloc
         - abdmnloc
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
     rigidloc: []
+    facing:
+        - location: thrxloc
+          side: back
+        - location: abdmnloc
+          side: back
+        - location: plvisloc
+          side: back
+        - location: lthghloc
+          side: back
+        - location: rthghloc
+          side: back
+        - location: lkneeloc
+          side: back
+        - location: rkneeloc
+          side: back
+        - location: lcalfloc
+          side: back
+        - location: rcalfloc
+          side: back
     protection:
         blunt: 4
         edged: 8
         piercing: 5
         fire: 5
 folder: gaC79vNjSo6VO6Ym
-origValue: 66
-origWeight: 3.3
+origValue: 120.8
+origWeight: 1.7
 ---
 
 Soft and plush, the Velvet Cloak exudes opulence and refinement. It's designed more for show than for hardcore weather protection, perfect for nobility and high-status individuals making a grand impression.

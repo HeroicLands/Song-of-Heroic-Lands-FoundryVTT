@@ -12,6 +12,7 @@
  */
 
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
+import { ARMOR_FACING, type ArmorFacing } from "@src/utils/constants";
 
 /**
  * A single piece of worn armor's contribution to body-location protection,
@@ -37,6 +38,47 @@ export interface ArmorLayer {
     flexibleLocations: string[];
     /** Shortcodes of locations this layer covers rigidly. */
     rigidLocations: string[];
+    /**
+     * Locations this layer protects from one side only. Absent entries mean the
+     * location is protected from any direction, so all-round articles — nearly
+     * everything — carry nothing here.
+     */
+    facing?: ArmorLocationFacing[];
+}
+
+/** One covered location's protected side, for the articles that have one. */
+export interface ArmorLocationFacing {
+    /** Shortcode of the covered body location. */
+    location: string;
+    /** Which side of that location the article actually protects. */
+    side: ArmorFacing;
+}
+
+/**
+ * Which side of a covered location an armour layer protects.
+ *
+ * Returns {@link sohl.utils.ARMOR_FACING}`.ALL` unless the layer records an
+ * explicit side for that location — a cloak's rear-facing torso, a
+ * breastplate's front-facing one. Absence is the overwhelmingly common case and
+ * means "protected from any direction".
+ *
+ * Answers about the facing entry alone and does not test coverage; a caller
+ * that needs to know whether the layer covers the location at all should check
+ * `flexibleLocations` / `rigidLocations` first.
+ *
+ * Pure and Foundry-free. Not consulted during combat resolution — see
+ * {@link sohl.utils.ArmorFacing} for why facing stays a human judgement.
+ *
+ * @param layer - The worn armour layer to inspect.
+ * @param location - Shortcode of the body location in question.
+ * @returns The protected side, defaulting to `ALL`.
+ */
+export function armorFacingFor(
+    layer: ArmorLayer,
+    location: string,
+): ArmorFacing {
+    const entry = layer.facing?.find((f) => f.location === location);
+    return entry?.side ?? ARMOR_FACING.ALL;
 }
 
 /** The impact aspects iterated when summing per-aspect armor protection. @internal */

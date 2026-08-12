@@ -945,6 +945,45 @@ export const {
 export type ImpactAspect = (typeof IMPACT_ASPECT)[keyof typeof IMPACT_ASPECT];
 
 export const {
+    /** Map of armour-facing key → value. */
+    kind: ARMOR_FACING,
+    /** All armour-facing values, as an array. */
+    values: ArmorFacings,
+    /** Type guard for armour-facing values. */
+    isValue: isArmorFacing,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: ArmorFacingChoices,
+} = defineType("SOHL.ArmorGear.Facing", {
+    ALL: "all",
+    FRONT: "front",
+    BACK: "back",
+});
+
+/**
+ * Union of all armour-facing values — which side of a covered body location an
+ * article actually protects.
+ *
+ * Nearly every article wraps a location and protects it from any direction
+ * (`ALL`, the default, which is why it is never stored). The exceptions are
+ * real: a cloak hangs down the back and protects the torso and legs only from
+ * behind (`BACK`), and a breastplate is the mirror case (`FRONT`).
+ *
+ * The rules never ask which way a combatant is pointing. They settle one-sided
+ * armour by circumstance, and the two cases are not mirrors of each other:
+ *
+ * - `BACK` — ignore Armour Value against one aware foe, who can simply keep to
+ *   your front; against several, it applies 50% of the time (d10 versus TN 5).
+ * - `FRONT` — ignore Armour Value when caught unaware from the rear; against
+ *   several, it applies 70% of the time (d10 versus TN 7).
+ *
+ * Both need the opponent count, awareness, and a die — not an angle — so this
+ * field is what marks which Armour Value is subject to the clause. Deriving the
+ * angle itself from token rotation stays out of scope: the rules abstract it
+ * away deliberately.
+ */
+export type ArmorFacing = (typeof ARMOR_FACING)[keyof typeof ARMOR_FACING];
+
+export const {
     /** Map of encumbrance-group key → value. */
     kind: ENCUMBRANCE_GROUP,
     /** All encumbrance-group values, as an array. */
