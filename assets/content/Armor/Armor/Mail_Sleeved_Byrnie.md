@@ -21,8 +21,8 @@ sohl:
     detailMaterial: Mail
     material: Mail
     durability: 13
-    value: 400
-    weight: 22
+    value: 600
+    weight: 18
     encumbrance: 10
     perception:
         value: 0

@@ -22,7 +22,7 @@ sohl:
     material: Plate
     durability: 14
     value: 240
-    weight: 4.5
+    weight: 4.6
     encumbrance: 5
     perception:
         value: 0
