@@ -32,7 +32,7 @@ A coma is recorded as a **new injury** with Injury Level and Aspect marked "X"
 
 **`Coma HR = 12 − Location Shock Value − Injury Level`**
 
-using the [[doc/bdystrct#shock|Shock Value]] of the body location that induced
+using the [[doc/character#shock|Shock Value]] of the body location that induced
 the coma and the [[doc/injrylvl|Injury Level]] of the wound there. A blow that
 was barely survivable leaves the deepest coma: a skull wound (Shock Value 5) at
 Injury Level 3 opens the coma at HR 4, where the same level of wound to a calf
@@ -66,4 +66,4 @@ them long before the last Course Roll is made.
   Re-Test that leads into it
 - [[doc/hlngbs|Healing Base]] — the rating each Course Roll is made against
 - [[doc/fatigue|Fatigue]] — the weariness a survivor carries out
-- [[doc/bdystrct#shock|Body Structure]] — the Shock Value each location carries
+- [[doc/character#shock|Body Structure]] — the Shock Value each location carries

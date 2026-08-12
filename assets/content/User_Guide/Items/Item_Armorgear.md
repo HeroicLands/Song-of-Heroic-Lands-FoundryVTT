@@ -167,7 +167,7 @@ Two consequences are worth knowing at the table:
 - [[Combat Basics]] — where worn armor's protection is actually spent.
 - [[doc/injrylvl|Injury]] (rules) — how armor protection is subtracted from an
   impact to give an injury level.
-- [[doc/bdystrct|Body Structure]] (rules) — the zones, parts, and
+- [[doc/character#body-structure|Body Structure]] (rules) — the zones, parts, and
   locations an armor's coverage lists name.
 - [[Shortcodes]] — what a body-location shortcode such as `thrxloc` refers to.
 

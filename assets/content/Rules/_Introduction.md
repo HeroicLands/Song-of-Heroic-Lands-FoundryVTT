@@ -61,17 +61,17 @@ before it defined, so read the first one properly even if you skim the rest.
    Test and its success levels, Opposed Tests, Success Value Tests, Secondary
    Mastery, and Fate. Every later chapter is written on top of the terms defined
    here, so read it first.
-2. **[[doc/attrintro|Attributes]]** — the innate capacities a character is born
+2. **[[doc/attributes|Attributes]]** — the innate capacities a character is born
    with, and the raw material every skill is built from.
-3. **[[doc/skillsintro|Skills]]** — trained ability at some activity: which
+3. **[[doc/skills|Skills]]** — trained ability at some activity: which
    skills exist, what each is for, and how they attach to a character.
-4. **[[doc/affilintro|Affiliations]]** — standing with a body of people, and the
+4. **[[doc/affiliation|Affiliations]]** — standing with a body of people, and the
    credential that says not what a character can do but what they are entitled
    to do.
-5. **[[doc/charintro|Characters]]** — the character as a physical body: its
+5. **[[doc/character#body-structure|Characters]]** — the character as a physical body: its
    anatomy, where a blow lands on it, the health it carries, and what it is
    carrying.
-6. **[[doc/gearintro|Gear]]** — the catalogue: weapons, armour, containers, and
+6. **[[doc/gear|Gear]]** — the catalogue: weapons, armour, containers, and
    the ordinary equipment of a life.
 7. **[[doc/combatintro|Combat]]** — the most rules-dense part of play, and the
    one with the most at stake. An exchange is a single contest between attacker
@@ -83,7 +83,7 @@ before it defined, so read the first one properly even if you skim the rest.
    conditions a character _is_ subject to ([[doc/mysteryintro|Mysteries]]), and
    the acts a character _performs_
    ([[doc/mystabilintro|Mystical Abilities]]).
-10. **[[doc/bestiaryintro|Bestiary]]** — the creatures of the world, from
+10. **[[doc/bestiary|Bestiary]]** — the creatures of the world, from
     animals to the undead.
 
 The **[[doc/glossary|Glossary]]** indexes every term these chapters define, and

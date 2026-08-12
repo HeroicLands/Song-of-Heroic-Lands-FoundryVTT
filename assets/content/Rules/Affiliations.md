@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Affiliations Introduction
+    - Affiliations
 id: l6WtRZ8ua1K0wZOK
 type: doc
 package: sohl
 category: rules
 name:
-    full: Affiliations Introduction
+    full: Affiliations
     aliases: []
-folder: ersDTBJUjBoHUp51
-shortcode: affilintro
+folder: RqKUTBUBN2Y3MHYB
+shortcode: affiliation
 ---
 
 An **affiliation** is a character's standing with some body of people: a

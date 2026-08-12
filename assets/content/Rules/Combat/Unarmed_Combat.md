@@ -73,7 +73,7 @@ own, so their rules hold for any creature with the limbs to perform them.
 anatomy and their own Strength: claws, gores, tail lashes, talons, stings,
 constricting coils, breath. Where such a creature does share a name with a folk
 technique — a bite is a bite — it does not share the numbers. See the
-[[doc/bestiaryintro|Bestiary]].
+[[doc/bestiary|Bestiary]].
 
 ## The Strength Trial {#the-strength-trial}
 
@@ -147,11 +147,11 @@ weapon.
 
 The ordinary off-hand rules apply and bite harder here than anywhere: a strike
 thrown with the off hand or off foot takes **−10** and loses a point of impact.
-See [[doc/bdystrct#dominance|Dominance]].
+See [[doc/character#dominance|Dominance]].
 
 ## See also {#see-also}
 
 - [[doc/atkreslv|Attack Resolution]] — the exchange in full
 - [[doc/mlattcks|Melee Attacks]] — reach, engagement, and the melee defences
 - [[doc/strkmds|Strike Modes]] — the structure every technique is expressed in
-- [[doc/skldesc|Skill Descriptions]] — the individual techniques and their tables
+- [[doc/skills#skill-descriptions|Skill Descriptions]] — the individual techniques and their tables

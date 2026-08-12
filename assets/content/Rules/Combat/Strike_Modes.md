@@ -105,7 +105,7 @@ flagged to take no Strength modifier at all, and those never receive it.
 Two reductions apply on top, and they stack:
 
 - **Off-hand** — reduce the modifier by **1** when the weapon is held only in
-  the non-favored hand. See [[doc/bdystrct#dominance|Dominance]].
+  the non-favored hand. See [[doc/character#dominance|Dominance]].
 - **Thrown** — reduce the modifier by **1** when the weapon is thrown.
 
 ## Melee and Missile {#melee-and-missile}

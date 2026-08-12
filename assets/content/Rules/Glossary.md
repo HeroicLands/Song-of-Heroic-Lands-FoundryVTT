@@ -27,13 +27,13 @@ member intelligible.
 
 ## A
 
-- **Affiliation** — [[doc/affilintro|Affiliations]]
+- **Affiliation** — [[doc/affiliation|Affiliations]]
 - **Affliction** — [[doc/afflctns|Afflictions]]
-- **Ambidextrous** — [[doc/bdystrct#dominance|Body Structure: Dominance]]
+- **Ambidextrous** — [[doc/character#dominance|Body Structure: Dominance]]
 - **Aspect** — [[doc/atkreslv#impact-and-aspect|Attack Resolution: Impact and Aspect]]
 - **Assistance** — [[doc/mstrylvl#assistance|Mastery Level: Assistance]]
 - **Attack Test** — [[doc/atkreslv#the-attack-test|Attack Resolution: The Attack Test]]
-- **Attribute** — [[doc/attrintro|Attributes]]
+- **Attribute** — [[doc/attributes|Attributes]]
 - **Attribute Mastery Level** — [[doc/mstrylvl#attribute-mastery-level|Mastery Level: Attribute Mastery Levels]]
 - **Aural Shock** — [[doc/arlshck|Aural Shock]]
 - **Aural Shock Recovery Test** — [[doc/arlshck#recovery-test|Aural Shock: Recovery Test]]
@@ -46,8 +46,8 @@ member intelligible.
 - **Block** — [[doc/atkreslv#the-defence|Attack Resolution: The Defence]]
 - **Blood Loss Advance Test** — [[doc/bleeding#blood-loss-advance-test|Bleeding: Blood Loss Advance Test]]
 - **Blood Stoppage Test** — [[doc/bleeding#blood-stoppage-test|Bleeding: Blood Stoppage Test]]
-- **Body Part** — [[doc/bdystrct#body-parts|Body Structure: Body Parts]]
-- **Body Role** — [[doc/bdystrct#body-part-roles|Body Structure: Body Part Roles]]
+- **Body Part** — [[doc/character#body-parts|Body Structure: Body Parts]]
+- **Body Role** — [[doc/character#body-part-roles|Body Structure: Body Part Roles]]
 - **Boon** — [[doc/boon|Boon]]
 - **Boost** — [[doc/boost|Boost]]
 
@@ -57,7 +57,7 @@ member intelligible.
 - **Coma Course Test** — [[doc/coma#coma-course-test|Coma: Coma Course Test]]
 - **Combat Technique** — [[doc/unrmdcmb#combat-techniques|Unarmed Combat: Combat Techniques]]
 - **Competence** — [[doc/mstrylvl#competence|Mastery Level: Competence]]
-- **Core** (body role) — [[doc/bdystrct#body-part-roles|Body Structure: Body Part Roles]]
+- **Core** (body role) — [[doc/character#body-part-roles|Body Structure: Body Part Roles]]
 - **Counterstrike** — [[doc/atkreslv#the-defence|Attack Resolution: The Defence]]
 - **Course Test** — [[doc/afflctns#course-test|Afflictions: Course Test]]
 - **Critical Failure (CF)** — [[doc/sccsstst#success-level|Success Tests: Success Level]]
@@ -68,7 +68,7 @@ member intelligible.
 - **Defence** — [[doc/atkreslv#the-defence|Attack Resolution: The Defence]]
 - **Divination** — [[doc/divintro|Divination]]
 - **Dodge** — [[doc/atkreslv#the-defence|Attack Resolution: The Defence]]
-- **Dominance** — [[doc/bdystrct#dominance|Body Structure: Dominance]]
+- **Dominance** — [[doc/character#dominance|Body Structure: Dominance]]
 
 ## E
 
@@ -85,11 +85,11 @@ member intelligible.
 - **Fate Test** — [[doc/fatepnts#fate-test|Fate: Spending Fate]]
 - **Fatigue** — [[doc/fatigue|Fatigue]]
 - **Fear** — [[doc/fear|Fear]]
-- **Fumble Test** — [[doc/bdystrct#mishaps-fumble-and-stumble|Body Structure: Mishaps]]
+- **Fumble Test** — [[doc/character#mishaps-fumble-and-stumble|Body Structure: Mishaps]]
 
 ## G
 
-- **Gear** — [[doc/gearintro|Gear]]
+- **Gear** — [[doc/gear|Gear]]
 - **Grace** — [[doc/grace|Grace]]
 - **Grade** (physical condition) — [[doc/physclcn#grades|Physical Condition: Grades]]
 
@@ -98,9 +98,9 @@ member intelligible.
 - **Healing Base** — [[doc/hlngbs|Healing Base]]
 - **Healing Rate** — [[doc/hlngrt|Healing Rate]]
 - **Healing Test** — [[doc/hlngtst|Healing Test]]
-- **Health** — [[doc/health|Health]]
-- **Health Band** — [[doc/health#the-bands|Health: The bands]]
-- **Hit Location** — [[doc/bdystrct#determining-hit-location|Body Structure: Determining Hit Location]]
+- **Health** — [[doc/character#health|Health]]
+- **Health Band** — [[doc/character#the-bands|Health: The bands]]
+- **Hit Location** — [[doc/character#determining-hit-location|Body Structure: Determining Hit Location]]
 
 ## I
 
@@ -116,11 +116,11 @@ member intelligible.
 ## L
 
 - **Limb Block** — [[doc/unrmdcmb#limb-block|Unarmed Combat: Limb Block]]
-- **Locomotor** (body role) — [[doc/bdystrct#body-part-roles|Body Structure: Body Part Roles]]
+- **Locomotor** (body role) — [[doc/character#body-part-roles|Body Structure: Body Part Roles]]
 
 ## M
 
-- **Manipulator** (body role) — [[doc/bdystrct#body-part-roles|Body Structure: Body Part Roles]]
+- **Manipulator** (body role) — [[doc/character#body-part-roles|Body Structure: Body Part Roles]]
 - **Manoeuvre** — [[doc/mlattcks#manoeuvres|Melee Attacks: Manoeuvres]]
 - **Marginal Failure (MF)** — [[doc/sccsstst#success-level|Success Tests: Success Level]]
 - **Marginal Success (MS)** — [[doc/sccsstst#success-level|Success Tests: Success Level]]
@@ -132,7 +132,7 @@ member intelligible.
 
 ## O
 
-- **Off-hand** — [[doc/bdystrct#dominance|Body Structure: Dominance]]
+- **Off-hand** — [[doc/character#dominance|Body Structure: Dominance]]
 - **Opposed Test** — [[doc/oppsdtst#opposed-test|Opposed Tests]]
 - **Outcome** (affliction) — [[doc/afflctns#outcome|Afflictions: Outcome]]
 
@@ -161,18 +161,18 @@ member intelligible.
 - **Secondary Modifier** — [[doc/scndryms#secondary-modifier|Secondary Mastery: Secondary Modifier]]
 - **Secondary Roll** — [[doc/scndryms#secondary-roll|Secondary Mastery: Secondary Roll]]
 - **Shock** — [[doc/shock|Shock]]
-- **Shock Index** — [[doc/bdystrct#shock|Body Structure: Shock]]
+- **Shock Index** — [[doc/character#shock|Body Structure: Shock]]
 - **Shock Re-Test** — [[doc/shock#shock-re-test|Shock: Shock Re-Test]]
 - **Shock State Index** — [[doc/shock#shock-state-index|Shock: Shock State Index]]
-- **Shock Value** — [[doc/bdystrct#shock|Body Structure: Shock]]
-- **Skill** — [[doc/skillsintro|Skills]]
+- **Shock Value** — [[doc/character#shock|Body Structure: Shock]]
+- **Skill** — [[doc/skills|Skills]]
 - **Skill Base (SB)** — [[doc/mstrylvl#skill-base|Mastery Level: Skill Base]]
 - **Spirit Power** — [[doc/sprtpwr|Spirit Power]]
-- **Spread** — [[doc/bdystrct#determining-hit-location|Body Structure: Determining Hit Location]]
+- **Spread** — [[doc/character#determining-hit-location|Body Structure: Determining Hit Location]]
 - **Strength Impact Modifier** — [[doc/strkmds#the-strength-impact-modifier|Strike Modes: The Strength Impact Modifier]]
 - **Strength Trial** — [[doc/unrmdcmb#the-strength-trial|Unarmed Combat: The Strength Trial]]
 - **Strike Mode** — [[doc/strkmds#strike-modes|Strike Modes]]
-- **Stumble Test** — [[doc/bdystrct#mishaps-fumble-and-stumble|Body Structure: Mishaps]]
+- **Stumble Test** — [[doc/character#mishaps-fumble-and-stumble|Body Structure: Mishaps]]
 - **Subtype** (affliction) — [[doc/afflctns#subtypes|Afflictions: Subtypes]]
 - **Success Level** — [[doc/sccsstst#success-level|Success Tests: Success Level]]
 - **Success Test** — [[doc/sccsstst#success-test|Success Tests]]
@@ -190,14 +190,14 @@ member intelligible.
 
 ## U
 
-- **Unusable** — [[doc/bdystrct#immobilized-unusable-and-holding-on|Body Structure: Immobilized, unusable, and holding on]]
+- **Unusable** — [[doc/character#immobilized-unusable-and-holding-on|Body Structure: Immobilized, unusable, and holding on]]
 
 ## V
 
 - **Value Diamonds** — [[doc/sccssvlt#value-diamonds|Success Value Tests: Value Diamonds]]
 - **Victory Stars** — [[doc/oppsdtst#victory-stars|Opposed Tests: Victory Stars]]
-- **Vital** (body role) — [[doc/bdystrct#body-part-roles|Body Structure: Body Part Roles]]
+- **Vital** (body role) — [[doc/character#body-part-roles|Body Structure: Body Part Roles]]
 
 ## Z
 
-- **Zone Number** — [[doc/bdystrct#determining-hit-location|Body Structure: Determining Hit Location]]
+- **Zone Number** — [[doc/character#determining-hit-location|Body Structure: Determining Hit Location]]

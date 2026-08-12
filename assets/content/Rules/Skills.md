@@ -1,16 +1,56 @@
 ---
 aliases:
-    - Skill Descriptions
-id: r526RME0YscORpk3
+    - Skills Introduction
+id: A38qwbVdPQHhGVgB
 type: doc
 package: sohl
 category: rules
 name:
-    full: Skill Descriptions
+    full: Skills Introduction
     aliases: []
-folder: e0HEIHw9qUVWqyzJ
-shortcode: skldesc
+folder: RqKUTBUBN2Y3MHYB
+shortcode: skills
 ---
+
+A **skill** represents a character's trained ability at some activity — a
+weapon, a craft, a lore, a social art. Each skill is rated by a
+[[doc/mstrylvl#mastery-level|Mastery Level (ML)]], derived from a
+[[doc/mstrylvl#skill-base|Skill Base]] that the character's attributes decide;
+whenever the outcome of using a skill is uncertain, the character makes a test
+against it.
+
+Skills are tested exactly as attributes and mystical abilities are, by the
+procedures in the [[doc/resolutionintro|Resolution]] chapter — a
+[[doc/sccsstst#success-test|Success Test]] for a single uncertain act, a
+[[doc/sccssvlt#success-value-test|Success Value test]] for sustained work, an
+[[doc/oppsdtst#opposed-test|Opposed Test]] against another character. Nothing
+about testing a skill is peculiar to skills. What this chapter covers is which
+skills exist, what each of them is for, and how they attach to a character.
+
+# Skill Body Assignments
+
+[[doc/character#body-part-roles|Body Roles]] specify which of the body roles each body part enables. Every
+skill specifies which body roles it needs. If the given role is impaired or
+disabled, then the associated skills become impaired or unusable. For example,
+Climbing might list both Manipulator and Locomotor, in which case impairment of
+those body parts would impair the skill as well.
+
+When you test a skill, every body part holding one of the roles that skill lists
+is consulted:
+
+- If any of those parts is **unusable** — a grievous wound, or a limb lost
+  outright — the test **automatically Critically Fails**. No roll is made.
+- Otherwise the test suffers the **worst** impairment penalty among those parts:
+  **−5** or **−10** or worse. Penalties do not stack across parts; the single
+  worst applies.
+
+A skill that lists no roles is never impaired by injury, however badly hurt the
+character is.
+
+See [[doc/character#body-structure|Body Structure]] for the roles in full, how parts become impaired or
+unusable, and how a human's parts are tagged.
+
+# Skill Descriptions {#skill-descriptions}
 
 ## Combat
 

@@ -140,4 +140,4 @@ contest.
 
 - [[doc/sccsstst|Success Tests]] — what is done with an EML once it is settled
 - [[doc/scndryms|Secondary Mastery]] — how a second skill bears on a test
-- [[doc/attrintro|Attributes]] — the attributes a Skill Base is built from
+- [[doc/attributes|Attributes]] — the attributes a Skill Base is built from

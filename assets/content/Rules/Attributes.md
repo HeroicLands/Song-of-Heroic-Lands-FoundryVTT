@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Attributes Introduction
+    - Attributes
 id: dg1YJe27cn88Q2mi
 type: doc
 package: sohl
 category: rules
 name:
-    full: Attributes Introduction
+    full: Attributes
     aliases: []
-folder: J8sz6xxxSv85UBio
-shortcode: attrintro
+folder: RqKUTBUBN2Y3MHYB
+shortcode: attributes
 ---
 
 An **attribute** is an innate capacity a character is born with and develops

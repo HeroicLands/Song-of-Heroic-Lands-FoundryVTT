@@ -76,11 +76,11 @@ is immediately **Dead**.
 come from any cause:
 
 - **Injury** — the struck body **location's Shock Value + the Injury Level**, plus
-  **1** more if the blow was a [[doc/bdystrct#from-blow-to-injury|glancing one]].
+  **1** more if the blow was a [[doc/character#from-blow-to-injury|glancing one]].
   Every body location carries its own Shock Value: on a human the skull, eyes,
   nose, and neck are the worst at 5, the forearm and calf the mildest at 1. Other
   body structures carry their own values. See
-  [[doc/bdystrct#shock|Body Structure → Shock]].
+  [[doc/character#shock|Body Structure → Shock]].
 - **Fear and other systemic or psychological forces** — each by its own measure.
 
 **Modifiers to the roll.** Two circumstances adjust the Shock Test itself rather
@@ -162,6 +162,6 @@ Unconscious (a victim in a [[doc/coma|Coma]] remains in the coma).
 
 - [[doc/coma|Coma]] — the deep unconsciousness a Critically Failed Re-Test ends in.
 - [[doc/injrylvl|Injury]] — how injuries generate shock and impairment.
-- [[Body Structure]] — the Shock Value each body location carries.
+- [[doc/character#body-structure|Body Structure]] — the Shock Value each body location carries.
 - [[Bleeding]] — blood loss advancing the shock state.
 - [[Fatigue]] — the fatigue that penalizes shock and course tests.
