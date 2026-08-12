@@ -28,9 +28,10 @@
       page (issue #1115).
 
       So the auto-list becomes a GAP-FILLER: a section with a body lists only
-      the pages that body does not already link. A well-curated landing shows
-      nothing extra, and a page can never become unreachable — a newly added
-      page simply appears here until someone files it into the curated index.
+      the pages that are not reachable from that body by following links. A
+      landing whose hierarchy covers everything shows nothing extra, and a page
+      can never become unreachable — a newly added page appears under "Orphaned
+      Pages" until someone files it into the curated index.
 
       Taxonomy and term pages keep their own listing shapes below.
     */ -}}
@@ -40,23 +41,57 @@
          (eq .Kind "section")
     -}}
     {{- /*
-      Pages the authored body already links, matched on RelPermalink so the
+      Pages reachable from the authored body, matched on RelPermalink so the
       comparison survives aliases and wikilink resolution.
+
+      The needle deliberately stops after the URL rather than closing the quote,
+      so a link that carries a fragment counts. The rules landing reaches the
+      Characters chapter as `…/characters-introduction/#body-structure`, and
+      demanding the closing quote made that chapter read as unlinked. A trailing
+      slash ends every RelPermalink, so the open-ended match cannot bleed into a
+      sibling (`/rules/fate/` never prefixes `/rules/fate-points/`).
+
+      Reachability is TRANSITIVE, because a curated corpus is a hierarchy rather
+      than a flat index: the rules landing links ten chapter introductions, and
+      each of those links its own pages — up to four hops deep (root → Trauma →
+      Body → Injury → Bleeding). Testing only what the landing links DIRECTLY
+      counted every page below the first hop as a leftover and dumped 59 of them
+      under the reading path (issue #1322). So a page counts as listed when the
+      body links it, or when any page already counted as listed links it — the
+      same rule `utils/check-content-links.mjs` enforces for these corpora.
+
+      The walk runs to a fixed point: each pass appends the newly reached pages'
+      content to the haystack, and the first pass that reaches nothing new stops
+      it. Twelve passes is far past the depth of any corpus here (the rules need
+      four), and the `$growing` guard makes the surplus passes free.
     */ -}}
-    {{- $listed := slice -}}
     {{- $unlisted := .Pages -}}
     {{- if and (eq .Kind "section") .Content -}}
-      {{- $body := .Content -}}
-      {{- $unlisted = slice -}}
-      {{- range .Pages -}}
-        {{- if not (in $body (printf "href=\"%s\"" .RelPermalink)) -}}
-          {{- $unlisted = $unlisted | append . -}}
-        {{- else -}}
-          {{- $listed = $listed | append . -}}
+      {{- $haystack := .Content -}}
+      {{- $reached := slice -}}
+      {{- $growing := true -}}
+      {{- range seq 12 -}}
+        {{- if $growing -}}
+          {{- $growing = false -}}
+          {{- range $.Pages -}}
+            {{- if not (in $reached .RelPermalink) -}}
+              {{- if in $haystack (printf "href=\"%s" .RelPermalink) -}}
+                {{- $reached = $reached | append .RelPermalink -}}
+                {{- $haystack = print $haystack .Content -}}
+                {{- $growing = true -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
         {{- end -}}
       {{- end -}}
+      {{- $unlisted = where .Pages "RelPermalink" "not in" $reached -}}
     {{- end -}}
-    {{- /* Label the leftovers only when a curated body precedes them. */ -}}
+    {{- /*
+      Label the leftovers only when a curated body precedes them. With
+      reachability now transitive, anything still here is genuinely unreachable
+      by reading — an orphan — so the heading says so rather than claiming to be
+      the section's full contents.
+    */ -}}
     {{- $labelList := and (eq .Kind "section") .Content -}}
     {{- if $showAutoList -}}
       {{- with $unlisted -}}
@@ -71,12 +106,19 @@
         </ul>
         {{- else -}}
           {{- if $labelList }}
-          <h2 class="page-list-heading">All {{ $.Title }} pages</h2>
+          <h2 class="page-list-heading">Orphaned Pages</h2>
           {{- end }}
           {{ partial "catalog-rows.html" . }}
         {{- end -}}
       {{- else -}}
-      <p class="page-list-empty">Nothing here yet.</p>
+      {{- /*
+        "Nothing here yet" is the right answer for an empty auto-listed section,
+        and the wrong one for a curated landing — there a leftover list of zero
+        means the hierarchy covers everything, so nothing should be said at all.
+      */ -}}
+        {{- if not $labelList -}}
+        <p class="page-list-empty">Nothing here yet.</p>
+        {{- end -}}
       {{- end -}}
     {{- end }}
   </div>
