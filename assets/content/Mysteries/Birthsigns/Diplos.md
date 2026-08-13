@@ -4,7 +4,7 @@ tags: []
 name:
     full: Diplos
     aliases: []
-description: "The Twins: favours Metal (+15), hinders Spirit (−15)."
+description: "The Twins: clever, quick fingers for pen and craft, with no patience for old mysteries."
 id: aZEAJ3V0isBBQkHw
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: diplos
@@ -38,12 +38,10 @@ sohl:
         "subType:social": -5
         water: -5
         hydalis: -5
-folder: b1rthS1gnFldr001
+folder: 22zncJuZCvjO7YSY
 ---
 
 Diplos, the Twins, is a sign of quick wit and quicker fingers. Scribes, artisans, and duelists born beneath it prosper, but the arcane and the antiquarian find its natives distracted and ill-suited to long contemplation.
-
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |
@@ -53,7 +51,5 @@ A birthsign is not something a character does. It is fixed at the hour of birth 
 | Air     | Physical                  | −5  |
 | Spirit  | Lore, Mystical            | −15 |
 | Water   | Language, Social          | −5  |
-
-Its natives come readiest to **Metal** (the maker's bench and the written page) at +15, and hardest to **Spirit** (old learning and the mysteries) at −15.
 
 The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

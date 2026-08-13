@@ -4,7 +4,7 @@ tags: []
 name:
     full: Thyron
     aliases: []
-description: "The Gate: favours Fire (+15), hinders Water (−15)."
+description: "The Gate: born to the blade and hard to unnerve, blunt company in hall or market."
 id: aAfvLe0BicQaJg1Y
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: thyron
@@ -38,12 +38,10 @@ sohl:
         "subType:social": -15
         water: -15
         hydalis: -15
-folder: b1rthS1gnFldr001
+folder: 22zncJuZCvjO7YSY
 ---
 
 Thyron, the Gate, is the warrior's star. Its natives are born to the blade and the martial disciplines, hardy of body, though the sign grants them little gift for tongues, courts, or the study of wild places.
-
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |
@@ -53,7 +51,5 @@ A birthsign is not something a character does. It is fixed at the hour of birth 
 | Air     | Physical                  | +5  |
 | Spirit  | Lore, Mystical            | −5  |
 | Water   | Language, Social          | −15 |
-
-Its natives come readiest to **Fire** (the drill-yard and the clash of arms) at +15, and hardest to **Water** (tongues, courts, and company) at −15.
 
 The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

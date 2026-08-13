@@ -4,7 +4,7 @@ tags: []
 name:
     full: Opsar
     aliases: []
-description: "The Fish: favours Earth and Water (+10), hinders Fire and Air (−10)."
+description: "The Fish: easy with living things and with people, frail of body, no stomach for war."
 id: 7MjeFB12JeEiQEbU
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: opsar
@@ -38,12 +38,10 @@ sohl:
         "subType:social": 10
         water: 10
         hydalis: 10
-folder: b1rthS1gnFldr001
+folder: 22zncJuZCvjO7YSY
 ---
 
 Opsar, the Fish, closes the wheel of the year. Its natives are attuned to living things and gifted in speech and society, yet the arts of war and the strength of the body are not the gifts this sign bestows.
-
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |
@@ -53,7 +51,5 @@ A birthsign is not something a character does. It is fixed at the hour of birth 
 | Air     | Physical                  | −10 |
 | Spirit  | Lore, Mystical            | —   |
 | Water   | Language, Social          | +10 |
-
-Its natives come readiest to **Earth** (the growing field and the wild places) and **Water** (tongues, courts, and company) at +10, and hardest to **Fire** (the drill-yard and the clash of arms) and **Air** (feats of balance, stealth, and speed) at −10.
 
 The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

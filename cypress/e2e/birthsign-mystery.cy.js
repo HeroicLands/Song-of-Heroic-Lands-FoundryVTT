@@ -174,9 +174,10 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
             };
         }).should((result) => {
             expect(result.missing, "principal signs missing").to.deep.eq([]);
-            expect(result.lingering, "retired cusp items still packed").to.deep.eq(
-                [],
-            );
+            expect(
+                result.lingering,
+                "retired cusp items still packed",
+            ).to.deep.eq([]);
         });
     });
 });

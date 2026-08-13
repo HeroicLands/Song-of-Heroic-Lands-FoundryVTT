@@ -4,7 +4,7 @@ tags: []
 name:
     full: Nalos
     aliases: []
-description: "The River: favours Water (+15), hinders Fire (−15)."
+description: "The River: welcome in any company and persuasive in every tongue, no one's idea of a fighter."
 id: rqZ2w3pVH8POKZ1F
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: nalos
@@ -38,12 +38,10 @@ sohl:
         "subType:social": 15
         water: 15
         hydalis: 15
-folder: b1rthS1gnFldr001
+folder: 22zncJuZCvjO7YSY
 ---
 
 Nalos, the River, carries its children toward company and speech. Persuasive and worldly, at home in field and gathering, they are ill-starred for the martial disciplines and the labours of the maker's hand.
-
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |
@@ -53,7 +51,5 @@ A birthsign is not something a character does. It is fixed at the hour of birth 
 | Air     | Physical                  | −5  |
 | Spirit  | Lore, Mystical            | +5  |
 | Water   | Language, Social          | +15 |
-
-Its natives come readiest to **Water** (tongues, courts, and company) at +15, and hardest to **Fire** (the drill-yard and the clash of arms) at −15.
 
 The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

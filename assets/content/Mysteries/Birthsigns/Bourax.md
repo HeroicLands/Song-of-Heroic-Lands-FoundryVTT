@@ -4,7 +4,7 @@ tags: []
 name:
     full: Bourax
     aliases: []
-description: "The Ox: favours Earth and Metal (+10), hinders Air and Spirit (−10)."
+description: "The Ox: patient hands for field and workbench, slow of body, deaf to mysteries."
 id: vKmINLcD4XwVEtZv
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: bourax
@@ -38,12 +38,10 @@ sohl:
         "subType:social": 0
         water: 0
         hydalis: 0
-folder: b1rthS1gnFldr001
+folder: 22zncJuZCvjO7YSY
 ---
 
 Bourax, the Ox, lends steadiness of hand and patience of mind. Its children take naturally to the growing field, the written word, and the maker's bench, though the deeper mysteries and feats of the body come to them only with labour.
-
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |
@@ -53,7 +51,5 @@ A birthsign is not something a character does. It is fixed at the hour of birth 
 | Air     | Physical                  | −10 |
 | Spirit  | Lore, Mystical            | −10 |
 | Water   | Language, Social          | —   |
-
-Its natives come readiest to **Earth** (the growing field and the wild places) and **Metal** (the maker's bench and the written page) at +10, and hardest to **Air** (feats of balance, stealth, and speed) and **Spirit** (old learning and the mysteries) at −10.
 
 The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].
