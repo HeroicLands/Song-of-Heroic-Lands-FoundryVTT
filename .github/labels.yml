@@ -30,6 +30,10 @@
   color: "24bdb0"
   description: heroiclands.org — Hugo site, Cloudflare Pages, CDN.
 
+- name: vault
+  color: "7048e8"
+  description: The HeroicLands Obsidian vault — authored content notes and setting material.
+
 - name: devops
   color: "e07b31"
   description: Build, tooling, release pipeline, repo config.

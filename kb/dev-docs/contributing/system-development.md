@@ -116,7 +116,10 @@ content will be removed immediately.
 
 ### Definition of Done
 
-A fix is done when **all** of these hold:
+A fix **in this repository** is done when **all** of these hold. Work tracked here
+but delivered in the Obsidian vault or on heroiclands.org cannot meet the
+repository-specific gates — see [Work delivered in another
+repository](#work-delivered-in-another-repository) below.
 
 - [ ] A tracking issue exists (except `chore`), reproduced or with
       confirmed acceptance criteria, and the **root cause is recorded in a comment**.
@@ -139,6 +142,27 @@ A fix is done when **all** of these hold:
 - [ ] **`npm run build` and `npm run docs` both pass** without errors.
 - [ ] Committed in Conventional-Commits style and a PR is open with `Closes #<n>`
       and a what/why description.
+
+### Work delivered in another repository
+
+The project spans three repositories, and **this one is the single issue tracker for
+all of them** — see [Issue Reporting §9](../how-to/issue-reporting.md#9-cross-repository-work).
+An issue labelled `vault` or `site` is delivered in `HeroicLands` or
+`heroiclands-site`, where several gates above simply do not exist: there is no
+`.changeset/`, no `npm run build`, no `npm run docs`, and no `npm run format:check`.
+Do not invent equivalents, and do not treat their absence as work left undone.
+
+What still holds for any tracked work, wherever it lands:
+
+- [ ] A tracking issue here, labelled with its delivery target.
+- [ ] A correctly named branch in the repository the change is made in.
+- [ ] Verification appropriate to that repository — a site build that succeeds, a
+      vault check that passes, a page that renders.
+- [ ] Documentation updated for the changed behaviour.
+- [ ] A commit or PR description saying what changed and why.
+- [ ] The issue **closed by hand**, with a comment linking the delivering commit or
+      PR. `Closes #<n>` does not work across repositories: GitHub records the
+      reference and leaves the issue open.
 
 ### Issue first
 
