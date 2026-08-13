@@ -18,12 +18,14 @@
  * posts a result card whose bespoke text ("Keeps Footing", "Drops It", …) comes
  * from a `resultDescTable` supplied in scope.
  *
- * Basic Folk ships the `agl` and `dex` attributes (score 10 → ML 50) and no
- * `acro` / `lgdm` skill, so a created skill above/below ML 50 pins which ability
- * wins — proving the better-of selection in both directions. A forced d100
- * (`SimpleRoll.forceValues`) drives the pass/fail outcome deterministically; the
- * bespoke result label is read off the returned result. `skipDialog` pre-answers
- * the pre-roll dialog so the headless run never hangs.
+ * Basic Folk ships the `agl` and `dex` attributes and no `acro` / `lgdm` skill,
+ * so a created skill placed above/below the attribute's own mastery level pins
+ * which ability wins — proving the better-of selection in both directions. The
+ * attribute's ML is read off the actor rather than hard-coded, because it tracks
+ * the compendium's attribute scores and content moves them (#1271). A forced
+ * d100 (`SimpleRoll.forceValues`) drives the pass/fail outcome deterministically;
+ * the bespoke result label is read off the returned result. `skipDialog`
+ * pre-answers the pre-roll dialog so the headless run never hangs.
  */
 
 describe("Keep-control tests — Stumble & Fumble (#851, #852)", () => {
@@ -65,57 +67,98 @@ describe("Keep-control tests — Stumble & Fumble (#851, #852)", () => {
         });
     }
 
+    /**
+     * Read an attribute's derived mastery-level base off the actor. The value
+     * follows the compendium's attribute score, which content changes move, so
+     * the specs pin the better-of selection rule and not a content number.
+     *
+     * @param {object} actor - the imported Basic Folk actor.
+     * @param {string} shortcode - the attribute's shortcode (`"agl"`, `"dex"`).
+     */
+    function attrMasteryBase(actor, shortcode) {
+        return cy.foundry((win) => {
+            const a = win.game.actors.get(actor.id);
+            const attr = a.items.find(
+                (i) =>
+                    i.type === "attribute" && i.system.shortcode === shortcode,
+            );
+            if (!attr)
+                throw new Error(`No '${shortcode}' attribute on ${a.name}`);
+            return attr.logic.masteryLevel.base;
+        });
+    }
+
     it("Stumble rolls the better ability (Acrobatics beats Agility) and posts keep-footing cards", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "skill", {
-                name: "Acrobatics",
-                system: { shortcode: "acro", masteryLevelBase: 60 },
-            });
             cy.prepare(actor);
-            runBothOutcomes(actor, "stumbleTest").should((r) => {
-                expect(r.winnerBase, "Acrobatics (60) beat Agility (50)").to.eq(
-                    60,
-                );
-                expect(r.succIsSuccess).to.be.true;
-                expect(["Keeps Footing", "Sure-Footed"]).to.include(r.succText);
-                expect(r.failIsSuccess).to.be.false;
-                expect(["Stumbles", "Falls Hard"]).to.include(r.failText);
+            attrMasteryBase(actor, "agl").then((agl) => {
+                const acro = agl + 10;
+                cy.createItemOn(actor, "skill", {
+                    name: "Acrobatics",
+                    system: { shortcode: "acro", masteryLevelBase: acro },
+                });
+                cy.prepare(actor);
+                runBothOutcomes(actor, "stumbleTest").should((r) => {
+                    expect(
+                        r.winnerBase,
+                        `Acrobatics (${acro}) beat Agility (${agl})`,
+                    ).to.eq(acro);
+                    expect(r.succIsSuccess).to.be.true;
+                    expect(["Keeps Footing", "Sure-Footed"]).to.include(
+                        r.succText,
+                    );
+                    expect(r.failIsSuccess).to.be.false;
+                    expect(["Stumbles", "Falls Hard"]).to.include(r.failText);
+                });
             });
         });
     });
 
     it("Stumble falls back to Agility when Acrobatics is the weaker ability", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "skill", {
-                name: "Acrobatics",
-                system: { shortcode: "acro", masteryLevelBase: 40 },
-            });
             cy.prepare(actor);
-            runBothOutcomes(actor, "stumbleTest").should((r) => {
-                expect(r.winnerBase, "Agility (50) beat Acrobatics (40)").to.eq(
-                    50,
-                );
-                expect(["Keeps Footing", "Sure-Footed"]).to.include(r.succText);
+            attrMasteryBase(actor, "agl").then((agl) => {
+                const acro = agl - 10;
+                cy.createItemOn(actor, "skill", {
+                    name: "Acrobatics",
+                    system: { shortcode: "acro", masteryLevelBase: acro },
+                });
+                cy.prepare(actor);
+                runBothOutcomes(actor, "stumbleTest").should((r) => {
+                    expect(
+                        r.winnerBase,
+                        `Agility (${agl}) beat Acrobatics (${acro})`,
+                    ).to.eq(agl);
+                    expect(["Keeps Footing", "Sure-Footed"]).to.include(
+                        r.succText,
+                    );
+                });
             });
         });
     });
 
     it("Fumble rolls the better of Dexterity and Legerdemain and posts keep-grip cards", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "skill", {
-                name: "Legerdemain",
-                system: { shortcode: "lgdm", masteryLevelBase: 65 },
-            });
             cy.prepare(actor);
-            runBothOutcomes(actor, "fumbleTest").should((r) => {
-                expect(
-                    r.winnerBase,
-                    "Legerdemain (65) beat Dexterity (50)",
-                ).to.eq(65);
-                expect(r.succIsSuccess).to.be.true;
-                expect(["Keeps Grip", "Sure-Handed"]).to.include(r.succText);
-                expect(r.failIsSuccess).to.be.false;
-                expect(["Fumbles", "Drops It"]).to.include(r.failText);
+            attrMasteryBase(actor, "dex").then((dex) => {
+                const lgdm = dex + 15;
+                cy.createItemOn(actor, "skill", {
+                    name: "Legerdemain",
+                    system: { shortcode: "lgdm", masteryLevelBase: lgdm },
+                });
+                cy.prepare(actor);
+                runBothOutcomes(actor, "fumbleTest").should((r) => {
+                    expect(
+                        r.winnerBase,
+                        `Legerdemain (${lgdm}) beat Dexterity (${dex})`,
+                    ).to.eq(lgdm);
+                    expect(r.succIsSuccess).to.be.true;
+                    expect(["Keeps Grip", "Sure-Handed"]).to.include(
+                        r.succText,
+                    );
+                    expect(r.failIsSuccess).to.be.false;
+                    expect(["Fumbles", "Drops It"]).to.include(r.failText);
+                });
             });
         });
     });
