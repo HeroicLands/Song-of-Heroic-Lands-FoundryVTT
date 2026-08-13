@@ -15,7 +15,8 @@
  * Shortcode in the sheet header (#351):
  *
  * - **Item** sheets show an editable `system.shortcode` input directly under the
- *   Name field — no label, placeholder "shortcode" — persisting via submitOnChange.
+ *   Name field — no label, a localized placeholder (`SOHL.Common.shortcode`) —
+ *   persisting via submitOnChange.
  * - **Being** (actor) sheets, after the Manuscript redesign (#782/#798), show the
  *   shortcode as read-only header text (`span.sheet-header__shortcode`) edited
  *   together with the name through the `editIdentity` DialogV2 pencil — routing the
@@ -87,9 +88,20 @@ describe("shortcode header input (#351)", () => {
             }).then((item) => {
                 cy.closeAllSheets();
                 cy.openSheet(item);
-                cy.get(".sheet-header__shortcode")
-                    .should("have.attr", "placeholder", "shortcode")
-                    .and("have.value", "hdritem");
+                // The placeholder is localized (`SOHL.Common.shortcode`), so
+                // assert the localized value rather than a literal — the
+                // wording is free to change, the binding is not.
+                cy.foundry((win) =>
+                    win.game.i18n.localize("SOHL.Common.shortcode"),
+                ).then((placeholder) => {
+                    expect(
+                        placeholder,
+                        "placeholder is localized",
+                    ).to.not.match(/^SOHL\./);
+                    cy.get(".sheet-header__shortcode")
+                        .should("have.attr", "placeholder", placeholder)
+                        .and("have.value", "hdritem");
+                });
                 cy.editSheetField(item, "system.shortcode", "hdritem2");
                 cy.foundry(
                     (win) =>
