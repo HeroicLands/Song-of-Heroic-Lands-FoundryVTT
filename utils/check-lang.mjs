@@ -73,6 +73,52 @@ for (const file of files.sort()) {
         console.error(`check-lang: ${file} is not valid JSON: ${err.message}`);
         process.exit(1);
     }
+    // -- placeholder syntax ------------------------------------------------
+    // Foundry interpolates with `format()` and SINGLE braces. A `{{…}}` value
+    // renders literally unless some call site happens to hand it to a
+    // Handlebars pass — which is the rule-#10 pattern, not a placeholder (#1353).
+    for (const [key, value] of Object.entries(json)) {
+        if (typeof value !== "string") continue;
+        if (/\{\{|\}\}/.test(value)) {
+            total++;
+            console.error(
+                `check-lang: ${file}: "${key}" uses Handlebars double braces; ` +
+                    "Foundry placeholders are single-braced {camelCase}.",
+            );
+        }
+        const braces = value.split("").reduce(
+            (n, c) =>
+                n +
+                (c === "{" ? 1
+                : c === "}" ? -1
+                : 0),
+            0,
+        );
+        if (braces !== 0) {
+            total++;
+            console.error(
+                `check-lang: ${file}: "${key}" has an unbalanced brace.`,
+            );
+        }
+    }
+
+    // -- key-segment charset -----------------------------------------------
+    // A segment carrying anything but [A-Za-z0-9_] is data baked into a key —
+    // a path, a UUID — and a dotted payload is how the expandObject collision
+    // above gets in (#636, #1351).
+    for (const key of Object.keys(json)) {
+        const bad = key
+            .split(".")
+            .filter((seg) => !/^[A-Za-z0-9_-]*$/.test(seg));
+        if (bad.length) {
+            total++;
+            console.error(
+                `check-lang: ${file}: "${key}" has a segment outside ` +
+                    `[A-Za-z0-9_-]: ${bad.map((b) => `"${b}"`).join(", ")}`,
+            );
+        }
+    }
+
     const collisions = findPrefixCollisions(json);
     if (collisions.length) {
         total += collisions.length;
@@ -89,9 +135,10 @@ for (const file of files.sort()) {
 
 if (total) {
     console.error(
-        "\nfoundry.utils.expandObject throws on these, and Foundry then drops the " +
-            "whole\ntranslation file (issue #636). Make each key a leaf OR a branch, " +
-            "never both.\n",
+        "\nA dotted-prefix collision makes foundry.utils.expandObject throw, and " +
+            "Foundry\nthen drops the whole translation file (issue #636). Make each " +
+            "key a leaf OR a\nbranch, never both. See kb/dev-docs/reference/" +
+            "localization-keys.md for the\nplaceholder and key-segment rules.\n",
     );
     process.exit(1);
 }
