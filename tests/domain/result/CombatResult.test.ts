@@ -138,14 +138,31 @@ describe("calcMeleeCombatResult — Block", () => {
         expect(cr.tacticalAdvantages).toEqual({ side: "attacker", count: 1 });
     });
 
-    it("lands the attack on a tie and forces a defender weapon-break roll", () => {
+    it("wards the blow on a tie and forces a defender weapon-break roll", () => {
+        // A block need only tie: equal skill means the blow was met. The
+        // shield took the full force of it and must check for breakage.
         const cr = block(1, 1); // VS 0
-        expect(cr.attackerLandsBlow).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(false);
         expect(cr.weaponBreakCheck).toBe("defender");
     });
 
     it("stops the attack when the block wins", () => {
         const cr = block(0, 1); // VS -1
+        expect(cr.attackerLandsBlow).toBe(false);
+        expect(cr.weaponBreakCheck).toBe("none");
+    });
+
+    it("does not land a failed attack, however badly the block failed", () => {
+        // MF attack vs CF block: VS +1, but a swing that never found its line
+        // does not arrive because the defence blundered worse.
+        const cr = block(0, -1);
+        expect(cr.attackerLandsBlow).toBe(false);
+    });
+
+    it("neither lands nor checks breakage when both sides failed and tied", () => {
+        // MF vs MF: no blow was struck, so there was nothing for the shield to
+        // absorb — and nothing to check it for.
+        const cr = block(0, 0); // VS 0
         expect(cr.attackerLandsBlow).toBe(false);
         expect(cr.weaponBreakCheck).toBe("none");
     });
@@ -197,6 +214,11 @@ describe("calcMeleeCombatResult — Counterstrike", () => {
         const cr = cx(-1, 0); // VS -1, defender marginal failure
         expect(cr.attackerLandsBlow).toBe(false);
         expect(cr.defenderLandsBlow).toBe(false);
+    });
+
+    it("lands neither on a failed tie, nor when the counterstrike failed worse", () => {
+        expect(cx(0, 0).attackerLandsBlow).toBe(false); // VS 0, both MF
+        expect(cx(0, -1).attackerLandsBlow).toBe(false); // VS +1, attack still MF
     });
 });
 
@@ -260,6 +282,18 @@ describe("calcDodgeCombatResult — Dodge", () => {
         const cr = dodge(0, 1); // VS -1
         expect(cr.attackerLandsBlow).toBe(false);
         expect(cr.defenderLandsBlow).toBe(false);
+    });
+
+    it("does not land a failed attack, even against a worse dodge", () => {
+        const cr = dodge(0, -1); // VS +1, attack still a marginal failure
+        expect(cr.attackerLandsBlow).toBe(false);
+    });
+
+    it("does not tiebreak a tie both sides failed", () => {
+        // Only tied successes are broken; a tie in which both failed has no
+        // victor to find, so the higher attack roll wins nothing.
+        const cr = dodge(0, 0, 70, 40);
+        expect(cr.attackerLandsBlow).toBe(false);
     });
 });
 
