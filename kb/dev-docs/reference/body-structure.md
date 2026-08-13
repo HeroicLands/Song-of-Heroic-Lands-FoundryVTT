@@ -424,12 +424,19 @@ For the broader resolution flow (rolls → wound calculation → effects), see [
 
 ## Localization
 
-Two parallel mechanisms exist:
+A part's or location's display name is the **literal `name` field** on the part or
+location itself, baked into the compendium JSON in the active language
+(`"name": "Skull"`). That is the only name the system reads at runtime, and the only
+one to set when authoring a body structure.
 
-- **Literal `name` fields** on each part and location, baked into the compendium JSON in the active language (`"name": "Skull"`). This is what the system reads at runtime.
-- **`SOHL.BodyPart.<bare-shortcode>` and `SOHL.BodyLocation.<bare-shortcode>` keys** in [lang/en.json](../../../lang/en.json). Keys use bare names (`SOHL.BodyPart.head`, `SOHL.BodyLocation.skull`) without the `*part` / `*loc` suffix. These keys are used by UI affordances that need to render a label from a shortcode alone; the literal `name` field on the compendium item is preferred when the item is in hand.
+There is no parallel per-shortcode key mechanism. A `SOHL.BodyPart.*` /
+`SOHL.BodyLocation.*` key set once existed alongside the names, but nothing ever read
+it — 169 keys with zero call sites — and it was removed in #1349. Do not add keys for a
+new part or location; set its `name`.
 
-When authoring a new body structure, set the literal `name` field and add the corresponding localization key for the bare shortcode.
+The `SOHL.BodyPart.FIELDS.*`, `SOHL.BodyLocation.FIELDS.*` and `SOHL.BodyZone.FIELDS.*`
+keys that remain are a different thing: they label the **config apps' form fields**
+(Probability Weight, Causes Stumble, …), not the parts themselves.
 
 ## Reference: Human body
 
@@ -522,7 +529,7 @@ await beingActor.update(
 
 Add the zone first if it does not exist (`structure.addZoneUpdate(blankBodyZone("Tail", "tailzone"))`); a part whose `bodyZoneCode` names no zone is stored but stays out of the hierarchy.
 
-Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocation.<each location>`) belong in [lang/en.json](../../../lang/en.json).
+The part's and locations' display names are the literal `name` arguments above — there are no localization keys to add (see [Localization](#localization)).
 
 ### From the Being sheet
 
