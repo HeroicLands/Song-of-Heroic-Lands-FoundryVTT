@@ -122,6 +122,30 @@ key readable at the call site. Note that a `defineType` bundle's labels only rea
 UI when its `labels`/`choices` export is actually consumed — an unconsumed bundle
 produces dead keys, not live ones.
 
+**Borrowing a label that already has an owner.** When a member restates a word another
+namespace owns, point it at that owner with `defineType`'s optional third argument
+rather than minting a duplicate — every gear subtype's `WEIGHT` effect key resolves to
+`SOHL.Gear.FIELDS.weightBase.label` this way:
+
+```ts
+} = defineType("SOHL.MiscGear.EffectKey", {
+    WEIGHT: "mod:logic.weight",
+    SPECIAL: "mod:logic.special",
+}, {
+    WEIGHT: "SOHL.Gear.FIELDS.weightBase.label",  // borrowed
+});                                               // SPECIAL still mints its own
+```
+
+Members left out keep the default `<prefix>.<segment>` key. A duplicated label is a
+translation bug waiting to happen: the two copies get localized independently, drift,
+and the same field then reads two ways on two sheets.
+
+### Generic words live in `SOHL.Common`
+
+A word that belongs to no concept in particular — `None`, `Menu`, `Expand`,
+`Drag to reorder`, `Parent`, `Shortcode` — goes in `SOHL.Common.*`, once. Do not mint a
+per-namespace copy of it.
+
 ## Leaves are camelCase
 
 A leaf is camelCase (`editMacro`, `nameRequired`, `removeHint`) — or, for an enum
@@ -208,10 +232,10 @@ ordering.
 ### Every user-visible string is a key
 
 A literal English string in a `.hbs` template or in TypeScript is a bug, not a
-shortcut — it is invisible to translators and to the coverage guard. `npm run
-lint:lang-coverage` (`utils/check-lang-coverage.mjs`) fails on a referenced `SOHL.*` /
-`TYPES.*` key that has no entry. Text stored for later display (a
-`disabledReason`, a queued warning) stores the **key** and is localized at render.
+shortcut — it is invisible to translators. Two guards enforce this from opposite
+directions (`lint:lang-coverage` and `lint:lang-hardcoded`); see
+[The guards](#the-guards). Text stored for later display (a `disabledReason`, a queued
+warning) stores the **key** and is localized at render.
 
 ## Keys are permanent
 
@@ -235,10 +259,78 @@ Anything else — renaming a live key because you prefer the new spelling — is
 the churn rule 4 forbids. Add the correctly-named key and leave the old one alone, or
 file an issue.
 
-> Do not cite `node utils/check-lang-coverage.mjs --unused` as proof that a key is
-> dead. Its reachability test vouches for whole subtrees via `LOCALIZATION_PREFIXES`,
-> so it under-reports; establish deadness by grepping the key, its namespace prefix,
-> and any dynamic `` `SOHL.X.${…}` `` construction.
+`npm run lint:lang-coverage` decides deadness for you and **fails the build** on an
+unreferenced key — see [The guards](#the-guards) for what it can and cannot see, and
+for the one sanctioned way to keep a key it cannot.
+
+## The guards
+
+Three checks run in `npm run lint`, and all three **fail** the build. Between them they
+cover both directions — a key with no string, and a string with no key.
+
+| Check | Fails on |
+| --- | --- |
+| `lint:lang` (`check-lang.mjs`) | A key that is both a leaf and a branch (the `expandObject` collision above); a value using `{{…}}` or an unbalanced brace; a key segment outside `[A-Za-z0-9_-]`. |
+| `lint:lang-coverage` (`check-lang-coverage.mjs`) | A referenced key missing from `en.json`, **and** an `en.json` key nothing references. |
+| `lint:lang-hardcoded` (`check-lang-hardcoded.mjs`) | User-visible English left in a template; a template that fails to compile. |
+
+### What `lint:lang-coverage` can and cannot see
+
+It resolves concrete string literals (including keys inside inline HTML in a template
+literal), the keys a **consumed** `defineType` bundle generates, `<PREFIX>.FIELDS.<path>.label|hint`
+for each declared `LOCALIZATION_PREFIXES` entry, and a dynamic construction's **shape**
+— `` `SOHL.X.Month.${i}.label` `` vouches for `SOHL.X.Month.<segment>.label` and nothing
+else.
+
+What it cannot see is a key built from a **variable** prefix:
+
+```ts
+// defineImproveSdrActions(titlePrefix) — the prefix is a parameter, so no static
+// analysis can tell which namespace's keys this reaches.
+title: `${titlePrefix}.${shortcode}`,
+```
+
+…and keys Foundry reads itself without SoHL ever naming them (`TYPES.Item.*` for the
+sidebar and create dialog).
+
+### `RETAINED` and `ALLOWED` — the escape hatches
+
+Each guard carries one allowlist, and both take the same shape: a prefix (or literal)
+plus **a reason a reviewer can check**.
+
+- `RETAINED` in `check-lang-coverage.mjs` — keys that are genuinely reachable but
+  invisible to the scan, as above.
+- `ALLOWED` in `check-lang-hardcoded.mjs` — template literals that are not prose (a code
+  sample shown as a placeholder, say).
+
+```js
+const RETAINED = [
+    [
+        "SOHL.Gear.Action.",
+        "Intrinsic action titles built as `${titlePrefix}.${shortcode}` — the prefix is a parameter, so no scan can resolve it.",
+    ],
+];
+```
+
+**Adding an entry is the exception, not the remedy.** For an unreferenced key the honest
+fix is to delete it; for an unlocalized string it is to add the key. Reach for the
+allowlist only when the key or string is genuinely reachable-but-invisible, and say why.
+
+### A `{{localize}}` nested in a helper's hash will not compile
+
+This is the usual way to break a template while localizing it, and why
+`lint:lang-hardcoded` compiles every one:
+
+```hbs
+{{!-- HTML attribute: nesting is fine, it is just text --}}
+<div data-tooltip="{{localize "SOHL.X.y"}}">
+
+{{!-- Helper hash argument: MUST be a subexpression --}}
+{{formGroup fields.foo placeholder=(localize "SOHL.X.y")}}
+```
+
+`{{formGroup … placeholder="{{localize …}}"}}` is a parse error, and a template that
+fails to compile takes its whole sheet or card down at render time.
 
 ## Checklist for a new key
 
@@ -250,5 +342,5 @@ file an issue.
 - [ ] No method name and no data (paths, UUIDs, names) in any segment.
 - [ ] Placeholders are `{camelCase}`, single-braced.
 - [ ] The key is neither a prefix of, nor prefixed by, another key.
-- [ ] Inserted in sorted position; `npm run lint:lang` and `npm run lint:lang-coverage`
-      pass.
+- [ ] Inserted in sorted position; `lint:lang`, `lint:lang-coverage` and
+      `lint:lang-hardcoded` all pass — see [The guards](#the-guards).
