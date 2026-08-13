@@ -39,12 +39,15 @@ export class MiscGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements MiscGearData<TLogic>
 {
-    /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.MiscGear",
-        "SOHL.Gear",
-        "SOHL.Item",
-    ];
+    /**
+     * Localization prefixes for the misc-gear schema.
+     *
+     * @remarks Misc gear adds no fields of its own — its schema is exactly
+     * {@link GearDataModel}'s — and since #1352 its effect keys borrow the
+     * shared `SOHL.Gear.*` labels too, so a `SOHL.MiscGear` prefix would resolve
+     * to nothing. Add it back with the first MiscGear-specific field.
+     */
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Gear", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.MISCGEAR;
 

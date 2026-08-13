@@ -41,7 +41,8 @@ export class StructureDataModel<
         StructureLogic<StructureData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
     /**
-     * @inheritDoc
+     * Localization prefixes for the Structure schema.
+     *
      * @remarks Structure adds no fields of its own — its schema is exactly
      * {@link SohlActorDataModel}'s — so every label and hint comes from
      * `SOHL.Actor`. A `SOHL.Structure` prefix would resolve to nothing; add it

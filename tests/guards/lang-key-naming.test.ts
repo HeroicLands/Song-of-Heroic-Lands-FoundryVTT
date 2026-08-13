@@ -135,6 +135,78 @@ describe("lang/en.json key naming", () => {
         });
     });
 
+    describe("one owner per label (#1352)", () => {
+        it("has retired the SOHL.Key.* grab bag", () => {
+            // A v12-era catch-all that restated labels owned by their proper
+            // namespaces. Its one live member, `None`, moved to SOHL.Common.
+            expect(keys.filter((k) => k.startsWith("SOHL.Key."))).toEqual([]);
+            expect(lang["SOHL.Common.none"]).toBe("None");
+        });
+
+        it("does not restate the shared gear labels per subtype", () => {
+            // Every gear kind carries the same weight/value/quality/durability/
+            // encumbrance effect keys; `SOHL.Gear.FIELDS.*` owns those words and
+            // each subtype borrows them via defineType's labelKeys.
+            const SUBTYPES = [
+                "ArmorGear",
+                "ConcoctionGear",
+                "ContainerGear",
+                "MiscGear",
+                "ProjectileGear",
+                "WeaponGear",
+            ];
+            const SHARED = [
+                "WEIGHT",
+                "VALUE",
+                "QUALITY",
+                "DURABILITY",
+                "ENCUMBRANCE",
+            ];
+            const restated = SUBTYPES.flatMap((s) =>
+                SHARED.map((m) => `SOHL.${s}.EffectKey.${m}`),
+            ).filter((k) => k in lang);
+            expect(restated).toEqual([]);
+        });
+
+        it("keeps one owner for the duplicated enum sets", () => {
+            const retired = [
+                "SOHL.CombatResult.TacticalAdvantage.",
+                "SOHL.DefendResult.DefendMishap.",
+                "SOHL.Affliction.FEAR.",
+                "SOHL.Affliction.FATIGUE.",
+            ];
+            const survivors = keys.filter((k) =>
+                retired.some((prefix) => k.startsWith(prefix)),
+            );
+            expect(survivors).toEqual([]);
+            // …and the owners are still there.
+            expect(lang["SOHL.AttackResult.TacticalAdvantage.action"]).toBe(
+                "Action",
+            );
+            expect(lang["SOHL.AttackResult.Mishap.fumble"]).toBe("Fumble");
+            expect(lang["SOHL.Trauma.FEAR_CATEGORY.brave"]).toBe("Brave");
+        });
+
+        it("does not grow the duplicate-value count", () => {
+            // A ratchet, not a target: some duplicates are deliberate (distinct
+            // concepts whose English happens to coincide — an attack "Modifier"
+            // and an impact "Modifier"). Adding a *new* duplicated value should
+            // be a deliberate choice, so this fails when the count rises.
+            const byValue = new Map<string, string[]>();
+            for (const [key, value] of Object.entries(lang)) {
+                if (!value) continue;
+                byValue.set(value, [...(byValue.get(value) ?? []), key]);
+            }
+            const duplicated = [...byValue.values()].filter(
+                (ks) => ks.length > 1,
+            );
+            expect(duplicated.length).toBeLessThanOrEqual(279);
+            expect(
+                duplicated.reduce((n, ks) => n + ks.length, 0),
+            ).toBeLessThanOrEqual(728);
+        });
+    });
+
     describe("placeholders", () => {
         it("never uses Handlebars double braces (#1353)", () => {
             // Foundry interpolates with `format()` and single braces. A `{{…}}`

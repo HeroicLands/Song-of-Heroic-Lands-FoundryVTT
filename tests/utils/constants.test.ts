@@ -73,6 +73,40 @@ describe("defineType", () => {
         expect(labels.AFRAID).toBe("My.Prefix.AFRAID");
         expect(labels.SCORE).toBe("My.Prefix.SCORE");
     });
+
+    describe("labelKeys overrides (#1352)", () => {
+        it("borrows an existing key for the listed members only", () => {
+            // A member that restates a label another namespace owns points at
+            // that owner, so the word is translated once; the rest still mint
+            // their own key under the prefix.
+            const { labels, choices } = defineType(
+                "SOHL.MiscGear.EffectKey",
+                { WEIGHT: "mod:logic.weight", SPECIAL: "mod:logic.special" },
+                { WEIGHT: "SOHL.Gear.FIELDS.weightBase.label" },
+            );
+            expect(labels.WEIGHT).toBe("SOHL.Gear.FIELDS.weightBase.label");
+            expect(labels.SPECIAL).toBe("SOHL.MiscGear.EffectKey.SPECIAL");
+            // `choices` (value-keyed, for StringField) borrows the same key.
+            expect(choices["mod:logic.weight"]).toBe(
+                "SOHL.Gear.FIELDS.weightBase.label",
+            );
+        });
+
+        it("overrides an identifier-valued member too, not just change paths", () => {
+            const { labels } = defineType(
+                "My.Prefix",
+                { ONE: "one", TWO: "two" },
+                { ONE: "Other.Owner.one" },
+            );
+            expect(labels.ONE).toBe("Other.Owner.one");
+            expect(labels.TWO).toBe("My.Prefix.two");
+        });
+
+        it("is optional — omitting it leaves every label unchanged", () => {
+            const { labels } = defineType("My.Prefix", { ONE: "one" });
+            expect(labels.ONE).toBe("My.Prefix.one");
+        });
+    });
 });
 
 describe("ACTOR_KIND", () => {

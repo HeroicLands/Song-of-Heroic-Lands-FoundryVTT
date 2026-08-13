@@ -19,7 +19,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{> expressionField field=fields.skillBaseFormula rootId="skill-sbf" name="system.skillBaseFormula" value=system.skillBaseFormula}}
         {{formGroup fields.masteryLevelBase rootId="skill-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
         {{formGroup fields.initSkillMult rootId="skill-initmult" classes="text-field" stacked=true value=system.initSkillMult}}
-        {{> shortcodeRefField embedded=embedded field=fields.parentSkillCode rootId="skill-parent" name="system.parentSkillCode" value=system.parentSkillCode options=parentSkillCodeOptions label="SOHL.Skill.FIELDS.parentSkillCode.label" hint="SOHL.Skill.FIELDS.parentSkillCode.hint" blankLabel=(localize "SOHL.Key.None")}}
+        {{> shortcodeRefField embedded=embedded field=fields.parentSkillCode rootId="skill-parent" name="system.parentSkillCode" value=system.parentSkillCode options=parentSkillCodeOptions label="SOHL.Skill.FIELDS.parentSkillCode.label" hint="SOHL.Skill.FIELDS.parentSkillCode.hint" blankLabel=(localize "SOHL.Common.none")}}
         {{#if system.parentSkillCode}}
         {{formGroup fields.adoptParentMasteryLevel rootId="skill-adoptml" classes="text-field" stacked=true value=system.adoptParentMasteryLevel}}
         {{/if}}
