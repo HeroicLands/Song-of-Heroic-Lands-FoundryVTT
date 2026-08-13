@@ -42,6 +42,7 @@ import matter from "gray-matter";
 
 import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
+import { isItemDocType } from "./packs/item-docs.mjs";
 
 const CONTENT = path.join("assets", "content");
 /**
@@ -167,10 +168,27 @@ function linksOf(note) {
     return out;
 }
 
-/** Resolves a link target the way both content builds do, or `undefined`. */
-const resolve = (note, target) =>
-    byAlias.get(`${note.type}|${target}`.toLowerCase()) ??
-    byKey.get(target.toLowerCase());
+/**
+ * Resolves a link target the way both content builds do, or `undefined`.
+ *
+ * A `doc<type>/<shortcode>` target addresses an item's documentation rather
+ * than the item (#1362). Both are compiled from the one note, so the note is
+ * what resolution yields — which is also what makes the anchors of a
+ * `doc<type>` link checkable, since the headings live in that same note.
+ */
+const resolve = (note, target) => {
+    const direct =
+        byAlias.get(`${note.type}|${target}`.toLowerCase()) ??
+        byKey.get(target.toLowerCase());
+    if (direct) return direct;
+    const slash = target.lastIndexOf("/");
+    if (slash === -1) return undefined;
+    const qualifier = target.slice(0, slash).toLowerCase();
+    if (!qualifier.startsWith("doc")) return undefined;
+    const base = qualifier.slice(3);
+    if (!base || !isItemDocType(base)) return undefined;
+    return byKey.get(`${base}/${target.slice(slash + 1)}`.toLowerCase());
+};
 
 // --- Check 1: every `#anchor` link points at a heading that declares it ---
 

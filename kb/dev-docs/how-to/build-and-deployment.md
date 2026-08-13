@@ -303,6 +303,41 @@ Both split the **converted** markdown, so an H1 carrying a wikilink names the
 same page on both sides. An item note with an empty body gets no entry and an
 empty description, rather than a pointer to nothing.
 
+#### Linking to an item's documentation: the `doc<type>` qualifier
+
+> Authoring a link rather than changing the build? Read
+> [Linking Between Content Notes](../reference/content-links.md) instead — this
+> section is the mechanism behind it.
+
+Because the item and its prose are now **two documents in two packs**, they need
+two addresses:
+
+| Wikilink | Addresses |
+| --- | --- |
+| `[[skill/wpnc]]` | the Skill **Item**, in the items pack |
+| `[[docskill/wpnc]]` | that skill's **JournalEntry**, in the journals pack |
+| `[[docskill/wpnc#crafting]]` | the `{#crafting}` **page** of that entry |
+
+Every item type has a virtual `doc<type>` counterpart. It is formed by prefix
+and never enumerated, so a type added tomorrow is addressable the day it is
+authored — the same rule that keeps `packForType()` free of a hand-maintained
+list. A real content type of the same name always wins; the virtual reading is
+consulted only for a qualifier no authored note claims.
+
+**An anchor on an Item, an Actor or a Macro is a no-op** and is dropped. It is
+worth being clear why: a `@UUID` to a JournalEntry opens the journal — at its
+first page, or at the page an anchor names — whereas a `@UUID` to an Item or an
+Actor opens that document's **sheet**, not its documentation. A sheet has no
+sections, so there is nothing for an anchor to address. Reaching a page of an
+item's documentation is exactly what `doc<type>` is for; before it existed, such
+a link compiled to a `JournalEntryPage` id under the _items_ pack and dead-ended
+(#1362).
+
+**The knowledgebase reads the same link differently, by design.** There an item
+note renders as one page which *is* its documentation, so `doc<type>` and
+`<type>` are aliases for the same URL and the anchor stays an ordinary in-page
+anchor. One authored link, correct in both builds.
+
 ## 6. Deploying to a Foundry instance
 
 The push scripts copy the staged system into a Foundry data directory:

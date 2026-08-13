@@ -35,7 +35,7 @@
  * Plain ESM with no Foundry and no filesystem access, so it is unit-testable.
  */
 
-import { makeId } from "./helpers.mjs";
+import { makeId } from "./ids.mjs";
 
 /** The compendium item docs compile into. */
 const JOURNAL_PACK = "Compendium.sohl.journals.JournalEntry";

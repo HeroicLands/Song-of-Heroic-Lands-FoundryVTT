@@ -20,6 +20,7 @@
  *   `[[Text]]`                  an alias unique within the source's own type
  *   `[[type/shortcode#slug|T]]` a section (see below)
  *   `[[#slug|Text]]`            a section of the source note itself
+ *   `[[doctype/shortcode|T]]`   an item's *documentation* (see below)
  *
  * The qualifier is the note's **type**, which with its shortcode is the system's
  * logical identity: `(type, shortcode)` is unique by rule (see the Shortcode
@@ -46,10 +47,42 @@
  * its own page, whose id is {@link anchorPageId} — derived from the note id and
  * the slug so that the link and the page agree without any shared state.
  *
+ * **An anchor on an Item, an Actor or a Macro is a no-op** and is dropped. What
+ * such a link does is open that document's **sheet** — not its documentation —
+ * and a sheet has no sections to address. Only a JournalEntry link opens a
+ * journal, at its first page or at the page an anchor names. An item's pages are
+ * reached through its `doc<type>` counterpart, below.
+ *
+ * **Items and their documentation are two documents.** An item note compiles
+ * into an item — and, separately, its prose compiles into a JournalEntry in the
+ * journals pack (see {@link sohl.utils.packs.itemDocEntryId}). `skill/wpnc`
+ * addresses the skill; the **virtual qualifier** `docskill/wpnc` addresses that
+ * skill's documentation, and `docskill/wpnc#crafting` a page within it. Every
+ * item type has a `doc<type>` counterpart, formed by prefix and never
+ * enumerated; see {@link resolveItemDocType}. Without it a section link to an
+ * item note produced a UUID against the *items* pack, which cannot hold a
+ * JournalEntryPage, and dead-ended (#1362).
+ *
+ * **The two builds read the qualifier differently, by design.** In Foundry the
+ * item and its documentation are separate documents in separate packs, so the
+ * two qualifiers resolve to two different UUIDs. On the knowledgebase the item
+ * note renders as a single page which *is* its documentation, so `doc<type>` and
+ * `<type>` are aliases for the same URL and an anchor on either is an ordinary
+ * in-page anchor. One authored link, correct in both.
+ *
  * Plain ESM with no Foundry and no filesystem access, so it is unit-testable.
  */
 
 import crypto from "crypto";
+
+import { itemDocEntryId } from "./item-docs.mjs";
+
+/**
+ * The qualifier prefix that addresses an item's **documentation** rather than
+ * the item: `docskill/wpnc` is the JournalEntry that `skill/wpnc`'s prose
+ * compiled into. See {@link resolveItemDocType}.
+ */
+const ITEM_DOC_PREFIX = "doc";
 
 /**
  * Content type → the compendium UUID prefix its documents compile into, for the
@@ -83,6 +116,32 @@ export function packForType(type) {
 }
 
 const norm = (s) => String(s).toLowerCase().trim();
+
+/**
+ * Reads a qualifier as the **virtual `doc<type>`** form, or reports that it is
+ * not one.
+ *
+ * An item and its documentation are two documents in two packs, so they need
+ * two addresses (#1362). `skill/wpnc` is the item; `docskill/wpnc` is the
+ * JournalEntry its prose compiled into. The virtual form exists only for types
+ * that actually produce an item doc — which is exactly the types that compile
+ * into the items pack, so there is no second list to keep in step (#1276).
+ *
+ * A **real** type of the same name always wins: the virtual reading is only
+ * consulted for a qualifier no authored note claims.
+ *
+ * @param {string} qualifier - The already-normalised text before the `/`.
+ * @param {Set<string>} types - Every type the content tree contains.
+ * @returns {string|null} The underlying item type, or `null` when the qualifier
+ *   is not a virtual one.
+ */
+export function resolveItemDocType(qualifier, types) {
+    if (types.has(qualifier)) return null; // a real type owns its own name
+    if (!qualifier.startsWith(ITEM_DOC_PREFIX)) return null;
+    const base = qualifier.slice(ITEM_DOC_PREFIX.length);
+    if (!base || !types.has(base)) return null;
+    return packForType(base) === ITEM_PACK ? base : null;
+}
 
 /**
  * The deterministic JournalEntryPage id for one anchor: SHA-256 of
@@ -177,12 +236,20 @@ export function convertWikilinks(markdown, { type, id, index }) {
 
         // Resolve the document: same-page (empty target), type/shortcode, or alias.
         let doc;
+        // Set when the qualifier was the virtual `doc<type>` form, so the UUID
+        // is built against the item doc entry rather than the item itself.
+        let itemDoc = false;
         if (target === "" && slug) {
             doc = { type, id };
         } else {
             const slash = target.lastIndexOf("/");
             if (slash !== -1) {
-                const targetType = norm(target.slice(0, slash));
+                let targetType = norm(target.slice(0, slash));
+                const base = resolveItemDocType(targetType, index.types);
+                if (base) {
+                    itemDoc = true;
+                    targetType = base;
+                }
                 if (!index.types.has(targetType)) {
                     unresolved.push({ link: all, target, reason: "unknown-type" });
                     return all;
@@ -206,10 +273,20 @@ export function convertWikilinks(markdown, { type, id, index }) {
 
         if (!text) text = doc.name ?? target;
 
-        const pack = packForType(doc.type);
-        const uuid = slug
-            ? `${pack}.${doc.id}.JournalEntryPage.${anchorPageId(doc.id, slug)}`
-            : `${pack}.${doc.id}`;
+        // An item doc lives in the journals pack under its own derived entry id,
+        // and its pages hash against *that* id — not the item's.
+        const pack = itemDoc ? PACK_BY_TYPE.doc : packForType(doc.type);
+        const entryId = itemDoc ? itemDocEntryId(doc.id) : doc.id;
+        // A JournalEntry link opens a journal — at its first page, or at the
+        // page an anchor names. An Item or Actor link opens that document's
+        // *sheet*, which has no sections, so the anchor has nothing to address
+        // and is dropped. Forging a JournalEntryPage id onto a document that
+        // can never hold one is what made such links dead-end (#1362); an
+        // item's pages are addressed through its `doc<type>` counterpart.
+        const uuid =
+            slug && pack === PACK_BY_TYPE.doc
+                ? `${pack}.${entryId}.JournalEntryPage.${anchorPageId(entryId, slug)}`
+                : `${pack}.${entryId}`;
         return `@UUID[${uuid}]{${text}}`;
     });
 
