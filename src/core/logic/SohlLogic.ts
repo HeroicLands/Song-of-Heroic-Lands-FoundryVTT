@@ -284,12 +284,12 @@ export abstract class SohlLogic<
     get typeLabel(): string {
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
-        // Localize the document-type name (`TYPE.ACTOR.<type>` /
-        // `TYPE.ITEM.<type>`); the `SOHL.BASEDATA.typeLabel[WithSubtype]`
-        // templates ("{type}" / "{subType} {type}") interpolate the
-        // already-localized value.
+        // Localize the document-type name (`TYPES.Actor.<type>` /
+        // `TYPES.Item.<type>` — the roots Foundry itself reads); the
+        // `SOHL.BASEDATA.typeLabel[WithSubtype]` templates ("{type}" /
+        // "{subType} {type}") interpolate the already-localized value.
         const typeLabel = sohl.i18n.localize(
-            `TYPE.${ActorKinds.includes(type) ? "ACTOR" : "ITEM"}.${type}`,
+            `TYPES.${ActorKinds.includes(type) ? "Actor" : "Item"}.${type}`,
         );
         const subType = dataModel.subType;
         // Localize the sub-type via its schema field's `choices` (a value → i18n

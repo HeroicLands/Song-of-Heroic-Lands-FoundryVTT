@@ -98,7 +98,9 @@ content will be removed immediately.
    fields without a migration strategy (see below) — treat every data-model change
    as high-risk.
 6. **Stable localization keys.** Never rename existing keys in `lang/en.json`; add
-   new keys instead.
+   new keys instead. Name every new key by the standard in
+   [Localization Keys](../reference/localization-keys.md) — it is the rule the
+   "never rename" rule freezes in place.
 7. **The logic layer stays Foundry-free.** All Foundry API access goes through
    `src/core/FoundryHelpers.ts` (see [Architectural boundaries](#architectural-boundaries)).
 8. **Test-driven development.** Write the test before the code it verifies.
@@ -309,6 +311,14 @@ against real world data — migrations must never require manual user interventi
   from JSDoc has no page to resolve to. `{@link}` targets code symbols only, not
   doc pages. Non-rendered `//` or `/* */` comments (which TypeDoc does not emit)
   may instead cite the repo path `docs/…​.md`, which a source reader opens directly.
+- **Localization keys.** Every user-visible string is a key in `lang/en.json`, named
+  by the standard in [Localization Keys](../reference/localization-keys.md):
+  `SOHL.<Namespace>[.<Group>].<leaf>`, where the namespace is a singular PascalCase
+  **concept** (`SOHL.Action`, not `SOHL.SohlAction`), group segments are PascalCase
+  (ALL-CAPS is reserved for Foundry's own `FIELDS`), leaves are camelCase or an enum's
+  stored value, and placeholders are single-braced `{camelCase}`. No method names and
+  no data — paths, UUIDs, names — in a key segment. Since keys are permanent, get the
+  name right the first time.
 - **Foundry v14.** Target Foundry VTT v14+ and follow the v14 patterns described in
   the [Architecture Overview](../concepts/architecture.md).
 - **Null vs. undefined — null at the edges, undefined in the core.** Absence is not

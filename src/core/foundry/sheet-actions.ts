@@ -156,18 +156,18 @@ export async function createAction(doc: ActionOwner): Promise<void> {
         )
         .join("");
     const content = `<form><div class="form-group"><label>${esc(
-        game.i18n.localize("SOHL.Actions.name.label"),
+        game.i18n.localize("SOHL.Action.name.label"),
     )}</label><input type="text" name="title" autofocus /></div><div class="form-group"><label>${esc(
-        game.i18n.localize("SOHL.Actions.macro.label"),
+        game.i18n.localize("SOHL.Action.macro.label"),
     )}</label><select name="macro"><option value="__new__">${esc(
-        game.i18n.localize("SOHL.Actions.newMacro"),
+        game.i18n.localize("SOHL.Action.newMacro"),
     )}</option>${options}</select></div></form>`;
 
     const result = (await (foundry.applications.api.DialogV2 as any).prompt({
-        window: { title: game.i18n.localize("SOHL.Actions.create") },
+        window: { title: game.i18n.localize("SOHL.Action.create") },
         content,
         ok: {
-            label: game.i18n.localize("SOHL.Actions.create"),
+            label: game.i18n.localize("SOHL.Action.create"),
             callback: (_e: Event, button: any) =>
                 new (foundry.applications.ux as any).FormDataExtended(
                     button.form,
@@ -177,7 +177,7 @@ export async function createAction(doc: ActionOwner): Promise<void> {
     if (!result?.macro) return;
     const title = String(result.title ?? "").trim();
     if (!title) {
-        sohl.log.uiWarn(game.i18n.localize("SOHL.Actions.nameRequired"));
+        sohl.log.uiWarn(game.i18n.localize("SOHL.Action.nameRequired"));
         return;
     }
 
@@ -259,8 +259,8 @@ export async function deleteAction(
     const actionDefs = current.filter((d) => d.shortcode !== shortcode);
     if (actionDefs.length === current.length) return;
     const confirmed = await foundry.applications.api.DialogV2.confirm({
-        window: { title: game.i18n.localize("SOHL.Actions.remove") },
-        content: `<p>${game.i18n.localize("SOHL.Actions.removeHint")}</p>`,
+        window: { title: game.i18n.localize("SOHL.Action.remove") },
+        content: `<p>${game.i18n.localize("SOHL.Action.removeHint")}</p>`,
     } as any);
     if (!confirmed) return;
     await doc.update({ "system.actionDefs": actionDefs } as any);

@@ -172,10 +172,10 @@ describe("effect-sheet-view", () => {
                 parentItemType: ITEM_KIND.WEAPONGEAR,
             });
             // localize() is identity in tests, so the item type resolves to
-            // its TYPE.ITEM.* key and is passed through to the format call.
+            // its TYPES.Item.* key and is passed through to the format call.
             expect(spy).toHaveBeenCalledWith(
                 "SOHL.ActiveEffect.targetLabel.ThisItem",
-                { itemName: "TYPE.ITEM.weapongear" },
+                { itemName: "TYPES.Item.weapongear" },
             );
         });
 
@@ -207,7 +207,7 @@ describe("effect-sheet-view", () => {
                 resolveEffectTargetLabel(ITEM_KIND.SKILL, {
                     isActorEffect: false,
                 }),
-            ).toBe("TYPE.ITEM.skill");
+            ).toBe("TYPES.Item.skill");
         });
 
         it("falls back to the raw scope for an unrecognized value", () => {

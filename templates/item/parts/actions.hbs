@@ -16,23 +16,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Custom (script) actions — each bound to a Macro; GM-editable (#501) --}}
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-actions" value=""
-            aria-label="{{localize "SOHL.Actions.search"}}" placeholder="{{localize "SOHL.Actions.search"}}" autocomplete="off" />
+            aria-label="{{localize "SOHL.Action.search"}}" placeholder="{{localize "SOHL.Action.search"}}" autocomplete="off" />
     </div>
 
     <div class="section-legend">
-        <span class="section-legend__name">{{localize "SOHL.Actions.custom"}}</span>
+        <span class="section-legend__name">{{localize "SOHL.Action.custom"}}</span>
         <span class="section-legend__rule"></span>
         <span class="section-legend__add">
-            <a class="add-button action-create" data-action="createAction" data-tooltip="{{localize "SOHL.Actions.create"}}">
+            <a class="add-button action-create" data-action="createAction" data-tooltip="{{localize "SOHL.Action.create"}}">
                 <i class="fa-solid fa-file-circle-plus"></i>
-                <span>{{localize "SOHL.Actions.create"}}</span>
+                <span>{{localize "SOHL.Action.create"}}</span>
             </a>
         </span>
     </div>
     <div class="ledger" style="--ledger-cols:1.5rem minmax(150px,1fr) 6rem 1fr 5rem">
         <div class="ledger__head">
             <div></div>
-            <div>{{localize "SOHL.Actions.colAction"}}</div>
+            <div>{{localize "SOHL.Action.colAction"}}</div>
             <div>{{localize "SOHL.ContextMenu.SortGroup.label"}}</div>
             <div>{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
             <div></div>
@@ -46,16 +46,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__cell ledger__cell--text">{{localize (concat "SOHL.ContextMenu.SortGroup." action.data.group)}}</div>
             <div class="ledger__notes"></div>
             <div class="ledger__controls">
-                <a class="icon-button" data-action="editAction" title="{{localize "SOHL.Actions.editMacro"}}">
+                <a class="icon-button" data-action="editAction" title="{{localize "SOHL.Action.editMacro"}}">
                     <i class="fa-solid fa-file-pen"></i>
                 </a>
-                <a class="icon-button icon-button--danger" data-action="deleteAction" title="{{localize "SOHL.Actions.remove"}}">
+                <a class="icon-button icon-button--danger" data-action="deleteAction" title="{{localize "SOHL.Action.remove"}}">
                     <i class="fa-solid fa-trash"></i>
                 </a>
                 {{!-- A gated action (its trigger currently refuses it) reads as
                      disabled and says why, rather than offering a control that
                      silently does nothing (#1135). --}}
-                <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Actions.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
+                <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Action.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
                     <i class="fa-solid fa-play"></i>
                 </a>
             </div>
@@ -65,14 +65,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{!-- Intrinsic actions --}}
     <div class="section-legend">
-        <span class="section-legend__name">{{localize "SOHL.Actions.intrinsic"}}</span>
-        <span class="section-legend__meta">{{localize "SOHL.Actions.readOnly"}}</span>
+        <span class="section-legend__name">{{localize "SOHL.Action.intrinsic"}}</span>
+        <span class="section-legend__meta">{{localize "SOHL.Action.readOnly"}}</span>
         <span class="section-legend__rule"></span>
     </div>
     <div class="ledger" style="--ledger-cols:1.5rem minmax(150px,1fr) 6rem 1fr 2rem">
         <div class="ledger__head">
             <div></div>
-            <div>{{localize "SOHL.Actions.colAction"}}</div>
+            <div>{{localize "SOHL.Action.colAction"}}</div>
             <div>{{localize "SOHL.ContextMenu.SortGroup.label"}}</div>
             <div>{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
             <div></div>
@@ -89,7 +89,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 {{!-- A gated action (its trigger currently refuses it) reads as
                      disabled and says why, rather than offering a control that
                      silently does nothing (#1135). --}}
-                <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Actions.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
+                <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Action.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
                     <i class="fa-solid fa-play"></i>
                 </a>
             </div>

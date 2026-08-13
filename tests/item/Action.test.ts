@@ -337,7 +337,7 @@ describe("SohlAction.isAvailable / unavailableReason (#1135)", () => {
 
     it("falls back to the generic reason when none is declared", () => {
         expect(makeAction({ trigger: "false" }).unavailableReason).toBe(
-            "SOHL.Actions.unavailable",
+            "SOHL.Action.unavailable",
         );
     });
 });

@@ -61,7 +61,7 @@ describe("SohlActiveEffectDataModel.targetLabel", () => {
 
     it("reads the item-type label for an item-kind scope", () => {
         const sys = makeSystem({ scope: ITEM_KIND.SKILL });
-        expect(sys.targetLabel).toBe("TYPE.ITEM.skill");
+        expect(sys.targetLabel).toBe("TYPES.Item.skill");
     });
 
     it("reads the strike-mode scope label", () => {

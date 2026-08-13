@@ -170,7 +170,7 @@ export function resolveEffectTargetLabel(
                         itemName:
                             ctx.parentItemType ?
                                 sohl.i18n.localize(
-                                    `TYPE.ITEM.${ctx.parentItemType}`,
+                                    `TYPES.Item.${ctx.parentItemType}`,
                                 )
                             :   "",
                     });
@@ -181,7 +181,7 @@ export function resolveEffectTargetLabel(
             return sohl.i18n.localize(`SOHL.ActiveEffect.Scope.${scope}`);
         default:
             if (scope && isItemKind(scope)) {
-                return sohl.i18n.localize(`TYPE.ITEM.${scope}`);
+                return sohl.i18n.localize(`TYPES.Item.${scope}`);
             }
             return scope ?? "";
     }
