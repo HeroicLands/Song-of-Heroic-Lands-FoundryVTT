@@ -15,61 +15,35 @@ sohl:
     archetype: 0
     subType: other
     levelBase: 0
+    skillAptitudes:
+        "subType:nature": 0
+        earth: 0
+        physera: 0
+        "subType:script": 10
+        "subType:craft": 10
+        metal: 10
+        sideros: 10
+        "subType:combattechnique": 10
+        "subType:combat": 10
+        fire: 10
+        pyrethos: 10
+        "subType:physical": 0
+        air: 0
+        zepharis: 0
+        "subType:mystical": -10
+        "subType:lore": -10
+        spirit: -10
+        pneumenos: -10
+        "subType:language": -10
+        "subType:social": -10
+        water: -10
+        hydalis: -10
 folder: b1rthS1gnFldr001
-effects:
-    - name: "Chelyx — Metal skills (+10 EML)"
-      type: sohleffectdata
-      _id: FmiVRENaITHwoAxI
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["script", "craft"]) || has(itemLogic.data.shortcode, ["metal", "sideros"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.FmiVRENaITHwoAxI"
-    - name: "Chelyx — Fire skills (+10 EML)"
-      type: sohleffectdata
-      _id: dXbf1zw9GhJOjfSh
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.dXbf1zw9GhJOjfSh"
-    - name: "Chelyx — Spirit skills (-10 EML)"
-      type: sohleffectdata
-      _id: 5eVUsKFDaFQ4l7rL
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["mystical", "lore"]) || has(itemLogic.data.shortcode, ["spirit", "pneumenos"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.5eVUsKFDaFQ4l7rL"
-    - name: "Chelyx — Water skills (-10 EML)"
-      type: sohleffectdata
-      _id: iaU5GJo2vj3yBCkd
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!bteb60lsodiwjGtL.iaU5GJo2vj3yBCkd"
 ---
 
 Chelyx, the Tortoise, shields its children with method and craft. They excel in the disciplined arts of the pen, the workshop, and the drill-yard, yet the sign keeps them apart from easy speech and the numinous alike.
 
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |

@@ -158,6 +158,42 @@ export function resolveCharges(fm) {
 }
 
 /**
+ * Resolve an item's `skillAptitudes` map — selector → mastery-level modifier,
+ * where a selector is a skill shortcode or `subType:<value>`.
+ *
+ * Authored values must be whole numbers: the persisted field is an integer
+ * `NumberField`, and a fractional or non-numeric entry would be silently
+ * coerced at load, shipping an aptitude nobody authored. A malformed entry is a
+ * build error rather than a rounded surprise. A `0` is legitimate and must be
+ * kept — an element a sign leaves untouched still beats one another sign
+ * hinders, so it carries real weight when maps merge.
+ *
+ * @param {object} fm - The item frontmatter.
+ * @param {string} [ctx] - Label for the error (defaults to "item").
+ * @returns {Record<string, number>} The persisted aptitude map (empty when
+ *   the item authors none).
+ * @throws {Error} When a value is not an integer.
+ */
+export function resolveSkillAptitudes(fm, ctx = "item") {
+    const raw = sohlField(fm, "skillAptitudes", undefined);
+    if (raw == null) return {};
+    if (typeof raw !== "object" || Array.isArray(raw)) {
+        throw new Error(`${ctx}: skillAptitudes must be a map of selector → number`);
+    }
+    const out = {};
+    for (const [selector, value] of Object.entries(raw)) {
+        const num = Number(value);
+        if (!Number.isInteger(num)) {
+            throw new Error(
+                `${ctx}: skillAptitudes["${selector}"] must be a whole number, got "${value}"`,
+            );
+        }
+        out[selector] = num;
+    }
+    return out;
+}
+
+/**
  * Read the mandatory `subType` from an item's frontmatter, throwing when it is
  * absent or blank.
  *

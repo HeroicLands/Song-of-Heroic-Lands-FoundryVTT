@@ -28,6 +28,7 @@ import { applyWielderStrengthImpact } from "@src/document/item/logic/wielderStre
 import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { calcMasteryBoost } from "@src/document/item/logic/masteryBoost";
+import { skillAptitudeFor } from "@src/document/item/logic/skill-aptitudes";
 import type { FateOutcome } from "@src/document/item/logic/fate";
 import {
     AURA_SHORTCODE,
@@ -891,9 +892,35 @@ export class SkillLogic<
         }
     }
 
+    /**
+     * Apply the being's innate **aptitude** for this skill to its mastery level,
+     * as a single labeled delta.
+     *
+     * The being's accumulator is merged during the evaluate phase, so by
+     * `finalize` it holds every aptitude-bearing item's contribution, already
+     * reduced to the greatest value per selector. This skill takes its own entry
+     * — the greater of a match on its shortcode and a match on its subtype (see
+     * {@link sohl.document.item.logic.skillAptitudeFor}) — and adds it once.
+     *
+     * A selector matched at `0` adds no delta: the aptitude is real and mattered
+     * during the merge (an untouched element beats a hindered one), but it
+     * changes nothing here and would only clutter the derivation.
+     */
+    protected applySkillAptitude(): void {
+        const aptitude = skillAptitudeFor(
+            (this.actorLogic as any)?.skillAptitudes,
+            this.data.shortcode,
+            this.data.subType,
+        );
+        if (!aptitude) return;
+        this.masteryLevel.add(VALUE_DELTA_INFO.APTITUDE, aptitude);
+    }
+
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+
+        this.applySkillAptitude();
 
         // Rebuild the fate mastery level now that every sibling has evaluated:
         // it derives from the actor's Aura attribute, whose mastery level is not

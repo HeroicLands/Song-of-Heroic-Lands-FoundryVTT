@@ -15,61 +15,35 @@ sohl:
     archetype: 0
     subType: other
     levelBase: 0
+    skillAptitudes:
+        "subType:nature": 0
+        earth: 0
+        physera: 0
+        "subType:script": -10
+        "subType:craft": -10
+        metal: -10
+        sideros: -10
+        "subType:combattechnique": -10
+        "subType:combat": -10
+        fire: -10
+        pyrethos: -10
+        "subType:physical": 0
+        air: 0
+        zepharis: 0
+        "subType:mystical": 10
+        "subType:lore": 10
+        spirit: 10
+        pneumenos: 10
+        "subType:language": 10
+        "subType:social": 10
+        water: 10
+        hydalis: 10
 folder: b1rthS1gnFldr001
-effects:
-    - name: "Tragyx — Metal skills (-10 EML)"
-      type: sohleffectdata
-      _id: mI3KB5t082ZwL2s4
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["script", "craft"]) || has(itemLogic.data.shortcode, ["metal", "sideros"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!jq8GiYBpQYyWBMdA.mI3KB5t082ZwL2s4"
-    - name: "Tragyx — Fire skills (-10 EML)"
-      type: sohleffectdata
-      _id: 99xENObcwWcvw1rb
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!jq8GiYBpQYyWBMdA.99xENObcwWcvw1rb"
-    - name: "Tragyx — Spirit skills (+10 EML)"
-      type: sohleffectdata
-      _id: 1SRZsJ17BuZE8AWO
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["mystical", "lore"]) || has(itemLogic.data.shortcode, ["spirit", "pneumenos"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!jq8GiYBpQYyWBMdA.1SRZsJ17BuZE8AWO"
-    - name: "Tragyx — Water skills (+10 EML)"
-      type: sohleffectdata
-      _id: xjwJVovjP491ScXo
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!jq8GiYBpQYyWBMdA.xjwJVovjP491ScXo"
 ---
 
 Tragyx, the Stag, gives an eloquent tongue and a searching mind. Born orators, linguists, and adepts of the mysteries, its children have little inclination for the workshop bench or the practice of arms.
 
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |

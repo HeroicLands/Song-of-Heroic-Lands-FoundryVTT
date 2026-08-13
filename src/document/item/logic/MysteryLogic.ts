@@ -18,6 +18,7 @@ import type { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { resolveAssocAffiliation } from "@src/document/item/logic/resolveAssocAffiliation";
 import { computeBoostContribution } from "@src/document/item/logic/masteryBoost";
+import { mergeSkillAptitudes } from "@src/document/item/logic/skill-aptitudes";
 import {
     dialog,
     fvttCreateEmbeddedItems,
@@ -164,6 +165,8 @@ export class MysteryLogic<
     override evaluate(): void {
         super.evaluate();
 
+        this.contributeSkillAptitudes();
+
         // Resolve the associated skill (e.g. the skill a boon/boost affects or a
         // fate success-level bump applies to) from its shortcode, when the actor is known.
         const actorLogic = this.actorLogic;
@@ -187,6 +190,33 @@ export class MysteryLogic<
     override finalize(): void {
         super.finalize();
         this.contributeSkillEffect();
+    }
+
+    /**
+     * Merge this mystery's {@link MysteryData.skillAptitudes | aptitudes} into
+     * the being's accumulator, keeping the greater value per selector.
+     *
+     * Runs in `evaluate` so that the accumulator is complete — every mystery on
+     * the actor having contributed — before any skill reads it in its own
+     * `finalize`, which the phase barrier guarantees. Contribution is
+     * unconditional: unlike a boon or a boost, an aptitude is not gated on the
+     * mystery's level, because a birthsign has no level to be active at. It is
+     * simply true of the character.
+     *
+     * A being that carries no aptitude-bearing mystery never allocates anything
+     * beyond the empty accumulator; an actor kind that has no accumulator at all
+     * (only a Being does) is silently skipped.
+     */
+    protected contributeSkillAptitudes(): void {
+        const aptitudes = this.data.skillAptitudes;
+        if (!aptitudes) return;
+        // `skillAptitudes` is Being-specific state, reached the way other
+        // being-level accumulators are (cf. TraumaLogic and `fatiguePenalty`).
+        const accumulator = (this.actorLogic as any)?.skillAptitudes as
+            | Map<string, number>
+            | undefined;
+        if (!accumulator) return;
+        mergeSkillAptitudes(accumulator, aptitudes);
     }
 
     /**
@@ -349,6 +379,20 @@ export interface MysteryData<
      * `N` applied to the associated skill.
      */
     levelBase: number | null;
+    /**
+     * Innate aptitude toward or away from whole classes of skills, keyed by
+     * selector — a skill shortcode, or `subType:<value>` for every skill of a
+     * subtype. Contributed to the being's merged accumulator during
+     * {@link MysteryLogic.evaluate} and applied by each skill in its own
+     * `finalize`.
+     *
+     * The canonical carrier is a **birthsign**, whose six elements expand to
+     * the subtypes each element claims. Aptitudes from several mysteries never
+     * sum: the greatest value per selector wins, which is what makes a birth
+     * under two signs a cusp rather than a doubling. See
+     * {@link sohl.document.item.logic.mergeSkillAptitudes}.
+     */
+    skillAptitudes?: Record<string, number>;
     /**
      * Usage tracking: current charges and maximum. Whether the mystery uses
      * charges at all is carried by `max` alone — there is no separate flag.

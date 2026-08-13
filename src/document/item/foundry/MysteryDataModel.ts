@@ -22,7 +22,8 @@ import {
     type MysterySubType,
     MysterySubTypeChoices,
 } from "@src/utils/constants";
-const { SchemaField, NumberField, StringField } = foundry.data.fields;
+const { SchemaField, NumberField, StringField, TypedObjectField } =
+    foundry.data.fields;
 
 /**
  * Builds the data schema for the Mystery item, extending the base item schema
@@ -60,6 +61,14 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             initial: null,
             min: 0,
         }),
+        // Innate aptitude toward or away from whole classes of skills, keyed by
+        // selector (a skill shortcode, or `subType:<value>`). Aptitudes from
+        // several items never sum — the greatest value per selector wins. An
+        // empty map means the mystery asserts no aptitude at all.
+        skillAptitudes: new TypedObjectField(
+            new NumberField({ integer: true, nullable: false, initial: 0 }),
+            { initial: {} },
+        ),
         charges: new SchemaField({
             // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
@@ -101,6 +110,7 @@ export class MysteryDataModel<
     assocSkillCode!: string | null;
     assocAffiliationCode!: string | null;
     levelBase!: number;
+    skillAptitudes!: Record<string, number>;
     charges!: {
         value: number | null;
         max: number | null;

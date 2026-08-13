@@ -15,61 +15,35 @@ sohl:
     archetype: 0
     subType: other
     levelBase: 0
+    skillAptitudes:
+        "subType:nature": -10
+        earth: -10
+        physera: -10
+        "subType:script": -10
+        "subType:craft": -10
+        metal: -10
+        sideros: -10
+        "subType:combattechnique": 0
+        "subType:combat": 0
+        fire: 0
+        pyrethos: 0
+        "subType:physical": 10
+        air: 10
+        zepharis: 10
+        "subType:mystical": 10
+        "subType:lore": 10
+        spirit: 10
+        pneumenos: 10
+        "subType:language": 0
+        "subType:social": 0
+        water: 0
+        hydalis: 0
 folder: b1rthS1gnFldr001
-effects:
-    - name: "Kentros — Earth skills (-10 EML)"
-      type: sohleffectdata
-      _id: xDVDfGxmldFCRrzc
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "nature" || has(itemLogic.data.shortcode, ["earth", "physera"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!pybQNJnDiHWFS0A4.xDVDfGxmldFCRrzc"
-    - name: "Kentros — Metal skills (-10 EML)"
-      type: sohleffectdata
-      _id: XgkaTVDPzRfzlvRB
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["script", "craft"]) || has(itemLogic.data.shortcode, ["metal", "sideros"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!pybQNJnDiHWFS0A4.XgkaTVDPzRfzlvRB"
-    - name: "Kentros — Air skills (+10 EML)"
-      type: sohleffectdata
-      _id: KUqMwSzfJacBX6xb
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "physical" || has(itemLogic.data.shortcode, ["air", "zepharis"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!pybQNJnDiHWFS0A4.KUqMwSzfJacBX6xb"
-    - name: "Kentros — Spirit skills (+10 EML)"
-      type: sohleffectdata
-      _id: wj9CDxsvG3JrxY6G
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["mystical", "lore"]) || has(itemLogic.data.shortcode, ["spirit", "pneumenos"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!pybQNJnDiHWFS0A4.wj9CDxsvG3JrxY6G"
 ---
 
 Kentros, the Goad, drives its children inward toward hidden things. Strong of frame and drawn to the mysteries and old learning, they have scant patience for the field, the forge, or the written page.
 
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |

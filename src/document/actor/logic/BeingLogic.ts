@@ -395,6 +395,24 @@ export class BeingLogic<
     fatiguePenalty!: ValueModifier;
 
     /**
+     * The being's merged **skill aptitudes**: selector → mastery-level modifier,
+     * where a selector is a skill shortcode or `subType:<value>`.
+     *
+     * Accumulated ground-up like {@link carriedWeight}, but by *maximum* rather
+     * than by sum: each aptitude-bearing item — canonically a birthsign —
+     * merges its own map in during its `evaluate()` phase, and the greater value
+     * per selector wins (see
+     * {@link sohl.document.item.logic.mergeSkillAptitudes}). Every skill then
+     * reads its own entry in `finalize()`.
+     *
+     * Because the merge takes the maximum, a character born under two signs is
+     * as apt as the better of them in every element — the cusp — and further
+     * signs can only raise that, never lower it. The map is derived state,
+     * rebuilt every preparation cycle and never persisted.
+     */
+    skillAptitudes!: Map<string, number>;
+
+    /**
      * Running total of carried-gear weight (pounds) as a {@link sohl.entity.modifier.ValueModifier},
      * accumulated ground-up: each carried gear item adds a delta of its
      * `weight × quantity` during its own `evaluate()` phase (see
@@ -2546,6 +2564,9 @@ export class BeingLogic<
         // Reset the ground-up accumulator before any gear item's evaluate()
         // adds to it (all item initialize()/evaluate() run after this).
         this.carriedWeight = new entity.ValueModifier(this);
+        // Reset the aptitude accumulator before any mystery's evaluate() merges
+        // into it (all item phases run after the actor's initialize).
+        this.skillAptitudes = new Map<string, number>();
         this.strengthModifier = new entity.ValueModifier(this);
         this.encumbrance = new entity.ValueModifier(this);
         // An empty modifier now; its base is seeded from END/WIL in evaluate()

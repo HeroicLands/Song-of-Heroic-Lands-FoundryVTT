@@ -15,61 +15,35 @@ sohl:
     archetype: 0
     subType: other
     levelBase: 0
+    skillAptitudes:
+        "subType:nature": 10
+        earth: 10
+        physera: 10
+        "subType:script": 0
+        "subType:craft": 0
+        metal: 0
+        sideros: 0
+        "subType:combattechnique": -10
+        "subType:combat": -10
+        fire: -10
+        pyrethos: -10
+        "subType:physical": -10
+        air: -10
+        zepharis: -10
+        "subType:mystical": 0
+        "subType:lore": 0
+        spirit: 0
+        pneumenos: 0
+        "subType:language": 10
+        "subType:social": 10
+        water: 10
+        hydalis: 10
 folder: b1rthS1gnFldr001
-effects:
-    - name: "Opsar — Earth skills (+10 EML)"
-      type: sohleffectdata
-      _id: YINrwCF3FpALzduC
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "nature" || has(itemLogic.data.shortcode, ["earth", "physera"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!7MjeFB12JeEiQEbU.YINrwCF3FpALzduC"
-    - name: "Opsar — Fire skills (-10 EML)"
-      type: sohleffectdata
-      _id: 09vqGUn99gnfxwyb
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!7MjeFB12JeEiQEbU.09vqGUn99gnfxwyb"
-    - name: "Opsar — Air skills (-10 EML)"
-      type: sohleffectdata
-      _id: whRsRUPF9k6sUa1R
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "physical" || has(itemLogic.data.shortcode, ["air", "zepharis"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!7MjeFB12JeEiQEbU.whRsRUPF9k6sUa1R"
-    - name: "Opsar — Water skills (+10 EML)"
-      type: sohleffectdata
-      _id: t32amYLzB5uIwYOy
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!7MjeFB12JeEiQEbU.t32amYLzB5uIwYOy"
 ---
 
 Opsar, the Fish, closes the wheel of the year. Its natives are attuned to living things and gifted in speech and society, yet the arts of war and the strength of the body are not the gifts this sign bestows.
 
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
+A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character born on a threshold carries both neighbouring signs, and is then as apt as the better of the two in every element — see [[doc/brthsgn|Birthsign]]. Like every Mystery, a sign is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |
