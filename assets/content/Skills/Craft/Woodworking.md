@@ -37,7 +37,7 @@ particular to the joiner's shop.
 
 **Expense.** Reckon **ten hours per 3d of the item's price**, at a material cost of **1d per 30 lb**.
 
-**Test.** A Woodworking Success Value test, read on the standard ladder. A **[d]** marks a decorative piece; weapons **[w]** are made by the [[skill/wpnc|weaponmaking]] routine instead.
+**Test.** A Woodworking Success Value test, read on the standard ladder. A **[d]** marks a decorative piece; weapons **[w]** are made by the [[docskill/wpnc#crafting|weaponmaking]] routine instead.
 
 | Item                       | lb  | Price | Item           | lb  | Price |
 | -------------------------- | --- | ----- | -------------- | --- | ----- |

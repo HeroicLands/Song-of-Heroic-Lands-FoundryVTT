@@ -52,4 +52,4 @@ is particular to the loom and the needle.
 | Buckram Cloak  | 53d  | 13h  | Tent, Dome          | 432d | 15h  |
 | Padded Cloak   | 99d  | 20h  | Tent, Ridged, large | 518d | 20h  |
 
-**Armour.** Textilecraft is also the skill that fashions cloth, padded, quilted and gambeson armour, following the armour-making routine under [[skill/wpnc|Weaponcraft]].
+**Armour.** Textilecraft is also the skill that fashions cloth, padded, quilted and gambeson armour, following the [[docskill/wpnc#crafting|armour-making routine]] under Weaponcraft.
