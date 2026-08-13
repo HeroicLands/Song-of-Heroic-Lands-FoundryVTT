@@ -59,7 +59,7 @@ import {
  * - **Boost** — one or more temporary Mastery Boosts to an associated skill (the Mastery Boost table).
  * - **Fate** — quantifies the ability to alter destiny or fate (the stored fate pool). The "Fate" *invocation* is a Divination {@link MysticalAbilityLogic | Mystical Ability}; a per-skill fate bonus is modelled with Active Effects, and a fate-point bonus is not yet modelled.
  * - **Grace** — quantifies the ability to call effectually on divine favour.
- * - **Other** — a mechanically inert carrier whose entire effect lives in its Active Effects; a birthsign (a passive standing influence on associated skills) is authored this way.
+ * - **Other** — a mechanically inert carrier with no behaviour of its own; a birthsign (a passive standing influence on whole classes of skills) is authored this way, carrying its effect entirely in {@link MysteryData.skillAptitudes}.
  * - **Piety** — quantifies devotion to a religion.
  *
  * A **Boon** or **Boost** mystery names its target skill via
