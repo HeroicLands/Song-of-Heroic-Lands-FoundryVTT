@@ -94,6 +94,7 @@ in the registry is deleted on sync). `npm run lint` fails if the two disagree
 | `content`         | Non-documentation assets, such as new or modified images, compendium packs, actors, items, journals, or other content                   |
 | `thalorna`        | Thalorna setting material.                                                                                                              |
 | `site`            | heroiclands.org — Hugo site, Cloudflare Pages, CDN.                                                                                     |
+| `vault`           | The HeroicLands Obsidian vault — authored content notes and setting material (see §9).                                                  |
 | `devops`          | Build, tooling, release pipeline, repo config.                                                                                          |
 | `tests`           | Vitest, Quench, or Playwright test suites and harness.                                                                                  |
 | `security`        | Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure (see §7). |
@@ -337,6 +338,40 @@ maintainer decide whether to make it public.
 > **Title:** (private advisory) Sanitize macro input in item description renderer
 > **Type:** bug · **Priority:** Urgent · **Labels:** `security`, `system`
 > Filed as a **private advisory**, not a public issue, because it's exploitable.
+
+## 9. Cross-repository work
+
+The project spans three repositories in the `HeroicLands` organization:
+
+| Repository | Holds | Label |
+| --- | --- | --- |
+| `Song-of-Heroic-Lands-FoundryVTT` | The Foundry system, its content sources, and its build | `system`, `content`, … |
+| `HeroicLands` (private) | The Obsidian vault — authored notes and setting material | `vault` |
+| `heroiclands-site` | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN | `site` |
+
+**This repository is the single tracker for all three.** File the issue here even
+when the change will be made in the vault or on the site, and label it `vault` or
+`site` so the delivery target is visible. The reasons are practical: the four-axis
+standard is per-repository machinery (`.github/labels.yml`, `sync-labels.mjs`,
+`check-labels.mjs`, the issue forms) that would have to be triplicated and kept in
+step; the work is one dependency chain, which becomes invisible when split across
+backlogs; and the vault is private, so planning filed there is unreadable to everyone
+else. Only the Issue Type and Priority fields are organization-level and shared.
+
+**Closing keywords do not cross repositories.** A pull request in `heroiclands-site`
+or `HeroicLands` carrying `Closes HeroicLands/Song-of-Heroic-Lands-FoundryVTT#123`
+creates a reference but **does not close** the issue — GitHub only auto-closes within
+the same repository. A cross-repository issue is therefore **closed by hand**, with a
+comment linking the delivering commit or pull request. Never assume the keyword did
+it; check.
+
+**Done means something different off-repo.** The
+[Definition of Done](../contributing/system-development.md#definition-of-done) lists
+gates that only exist here — a `.changeset/` entry, `npm run build`, `npm run docs`,
+`npm run format:check`. A vault or site change cannot satisfy them and is not expected
+to. What still applies to any tracked work: a tracking issue, a correctly named branch
+in whichever repository the change lands, tests or a verification step appropriate to
+that repository, updated documentation, and a description of what changed and why.
 
 ## Self-check before filing
 
