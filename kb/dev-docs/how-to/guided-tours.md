@@ -116,7 +116,7 @@ the flagship **Character Creation** tour: ~20 steps that walk the whole Being sh
 (Facade, Profile, Skills, Gear, Combat, Mysteries, containers), mixing free steps
 with value/state gates. Its archetype gates are worth studying — each reads the
 created instance's inherited `system.shortcode` (see the [archetype-first create
-dialog](../../src/document/item/foundry/SohlItem.ts)) to confirm the _right
+dialog](../../../src/document/item/foundry/SohlItem.ts)) to confirm the _right
 archetype_ was chosen without forcing a name. It is driven end to end by
 `cypress/e2e/character-creation-tour.cy.js`.
 
@@ -315,7 +315,7 @@ the exit-path matrix in `cypress/e2e/guided-tours-drive.cy.js`.
 ## Registering a tour
 
 Register from the system `ready` hook in
-[`registerSystemTours`](../../src/apps/foundry/tours/register-tours.ts) so the tour
+[`registerSystemTours`](../../../src/apps/foundry/tours/register-tours.ts) so the tour
 appears in **Tour Management** (`display: true`) and can be launched from there:
 
 ```ts

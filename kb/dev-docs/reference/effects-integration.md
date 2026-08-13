@@ -123,7 +123,7 @@ All SoHL-prefix dispatch happens in `SohlActiveEffect._applyChangeUnguided` (sta
     - key choices resolved from the EFFECT_KEY namespace selected by `scope`
     - a conditional `strikeModePredicate` row, shown only when `scope === "weapongear"` and the change key starts with `sm:` or `mod:sm:` (helper: `isSmKey`)
 
-Templates: [templates/effects/details.hbs](../../templates/effects/details.hbs), [templates/effects/changes.hbs](../../templates/effects/changes.hbs).
+Templates: [templates/effect/details.hbs](../../../templates/effect/details.hbs), [templates/effect/changes.hbs](../../../templates/effect/changes.hbs).
 
 ## Actor/item sheet context exposure
 
@@ -190,7 +190,7 @@ SoHL ships its own dispatcher for document-level subscriptions ([`sohl.events`](
 | `turnStart`       | `combat, combatant, turn, round, skipped` | `combatTurn` (derived)  |
 | `turnEnd`         | `combat, combatant, turn, round, skipped` | `combatTurn` (derived)  |
 
-`roundEnd` / `turnEnd` are synthesised in [`SohlHookBridge`](../../src/core/logic/SohlHookBridge.ts) by tracking the prior state per combat across `combatRound` / `combatTurn` fires.
+`roundEnd` / `turnEnd` are synthesised in [`SohlHookBridge`](../../../src/core/logic/SohlHookBridge.ts) by tracking the prior state per combat across `combatRound` / `combatTurn` fires.
 
 ### Custom triggers
 
@@ -215,7 +215,7 @@ await fireSohlTrigger({ name: "sohlInjuryHealed", injury, actor });
 
 To keep the two dispatchers from drifting:
 
-- **Never call `Hooks.on(...)` for trigger dispatch outside [`SohlHookBridge`](../../src/core/logic/SohlHookBridge.ts).**
+- **Never call `Hooks.on(...)` for trigger dispatch outside [`SohlHookBridge`](../../../src/core/logic/SohlHookBridge.ts).**
 - **Never call `ActiveEffect.registry.refresh(...)` for custom triggers outside `fireSohlTrigger`.**
 - **Never call `sohl.events.fire(...)` for custom triggers outside `fireSohlTrigger`** — use `fireSohlTrigger` so both consumers receive the event.
 

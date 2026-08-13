@@ -98,6 +98,7 @@ reads the Markdown directly.
 | `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
 | `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content](#authoring-content-under-assetscontent). |
 | `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content](#authoring-content-under-assetscontent). |
+| `lint:doc-links`          | Fail on a relative link in `kb/dev-docs/` whose target does not exist, or an `#anchor` no heading declares. The developer tree links by path, so moving a page breaks every link into it; this is what says so. |
 | `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`. |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
 | `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`. |

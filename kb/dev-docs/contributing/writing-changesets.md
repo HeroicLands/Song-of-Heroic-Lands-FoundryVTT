@@ -17,7 +17,7 @@ SoHL uses [@changesets/cli](https://github.com/changesets/changesets) to manage
 versioning and release notes. A **changeset** is a small Markdown file in
 `.changeset/` that records one change and how it affects the version. At release
 time, `changeset version` consumes every pending changeset to bump the version in
-`package.json`, prepend a section to [`CHANGELOG.md`](../../CHANGELOG.md), and
+`package.json`, prepend a section to [`CHANGELOG.md`](../../../CHANGELOG.md), and
 populate the GitHub Release notes — then deletes the consumed files.
 
 ## When you need one
@@ -157,4 +157,4 @@ is indented two spaces beneath the bullet. The example above renders as:
 
 A `minor` change lands the same way under a `### Minor Changes` heading. The GitHub
 Release for the version emits only that version's section; the full history stays in
-[`CHANGELOG.md`](../../CHANGELOG.md).
+[`CHANGELOG.md`](../../../CHANGELOG.md).

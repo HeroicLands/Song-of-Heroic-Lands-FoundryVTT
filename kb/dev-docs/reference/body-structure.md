@@ -35,7 +35,7 @@ A body structure has three tiers: **body zones**, the **body parts** within each
 
 ## Where the data lives
 
-The schema is the `body` `SchemaField` on the Being actor's DataModel. See [src/document/actor/foundry/BeingDataModel.ts](../../src/document/actor/foundry/BeingDataModel.ts):
+The schema is the `body` `SchemaField` on the Being actor's DataModel. See [src/document/actor/foundry/BeingDataModel.ts](../../../src/document/actor/foundry/BeingDataModel.ts):
 
 ```
 system.body.structure
@@ -73,7 +73,7 @@ Convenience wrappers stamp the parent code for you: {@link sohl.entity.body.Body
 
 ## Body parts
 
-A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [BeingDataModel.ts](../../src/document/actor/foundry/BeingDataModel.ts):
+A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [BeingDataModel.ts](../../../src/document/actor/foundry/BeingDataModel.ts):
 
 | Field                 | Type                  | Purpose                                                                                                              |
 | --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -111,7 +111,7 @@ This is the single home for the dominance question wherever a favored side matte
 
 ## Body locations
 
-A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [BeingDataModel.ts](../../src/document/actor/foundry/BeingDataModel.ts):
+A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [BeingDataModel.ts](../../../src/document/actor/foundry/BeingDataModel.ts):
 
 | Field                    | Type                             | Purpose                                                                                                                                                                                       |
 | ------------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -122,7 +122,7 @@ A body location is a specific hit point within a part — Skull, Thorax, Right E
 | `shockValue`             | integer                          | Inherent shock inflicted by an injury at this location, regardless of severity.                                                                                                               |
 | `bleedingSusceptibility` | tier                             | `none` / `low` / `medium` / `high`. Combined with injury severity and weapon aspect by `BleedingDefaults` to decide whether a wound bleeds.                                                   |
 | `amputability`           | tier                             | `none` / `low` / `medium` / `high`. Drives the Strength-test modifier when a G5 Edge injury would amputate; see `AmputationDefaults`. `none` means amputation is disallowed at this location. |
-| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts). **May be negative** — see below.                                                                                     |
+| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../../src/utils/constants.ts). **May be negative** — see below.                                                                                     |
 
 Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleeding; same for amputability).
 
@@ -144,7 +144,7 @@ both.
 
 ## Body roles
 
-A cross-cutting tag set. The four values, defined in [src/utils/constants.ts](../../src/utils/constants.ts) under `BODY_ROLE`:
+A cross-cutting tag set. The four values, defined in [src/utils/constants.ts](../../../src/utils/constants.ts) under `BODY_ROLE`:
 
 | Role          | Anatomical examples                                                                                                        |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -157,7 +157,7 @@ A part may carry multiple roles. A wolf's foreleg might be `[locomotor, manipula
 
 **What roles drive:**
 
-1. **Skill / attribute impairment.** Skills and attributes carry an `impairedByRoles: BodyRole[]` field. When a body part takes an injury, every skill and attribute whose `impairedByRoles` intersects the part's `roles` is impaired. Mental attributes leave the list empty; physical ones list the relevant roles. See [src/document/item/foundry/SkillDataModel.ts](../../src/document/item/foundry/SkillDataModel.ts) and [AttributeDataModel.ts](../../src/document/item/foundry/AttributeDataModel.ts).
+1. **Skill / attribute impairment.** Skills and attributes carry an `impairedByRoles: BodyRole[]` field. When a body part takes an injury, every skill and attribute whose `impairedByRoles` intersects the part's `roles` is impaired. Mental attributes leave the list empty; physical ones list the relevant roles. See [src/document/item/foundry/SkillDataModel.ts](../../../src/document/item/foundry/SkillDataModel.ts) and [AttributeDataModel.ts](../../../src/document/item/foundry/AttributeDataModel.ts).
 2. **Mobility impairment.** `BodyPart.affectsMobility` returns `true` when the part has any of `vital`, `core`, or `locomotor`.
 3. **Mishap checks** (fumble / stumble) on injury severity:
     - `vital` Serious → fumble + stumble check; Grievous → both auto
@@ -261,7 +261,7 @@ dropdowns on the Being sheet, `BodyStructure.limbsHolding` behind strike-mode
 gating — therefore see the *effective* answer. Anything that writes the capability
 back must read the persisted value instead, or the flag would be clobbered while
 the limb is disabled: the body-part editor
-([BodyPartConfig.ts](../../src/apps/foundry/BodyPartConfig.ts)) edits the raw
+([BodyPartConfig.ts](../../../src/apps/foundry/BodyPartConfig.ts)) edits the raw
 `BodyPart.Data` and so is unaffected; a consumer holding an entity reads
 `canHoldItemBase`.
 
@@ -427,13 +427,13 @@ For the broader resolution flow (rolls → wound calculation → effects), see [
 Two parallel mechanisms exist:
 
 - **Literal `name` fields** on each part and location, baked into the compendium JSON in the active language (`"name": "Skull"`). This is what the system reads at runtime.
-- **`SOHL.BodyPart.<bare-shortcode>` and `SOHL.BodyLocation.<bare-shortcode>` keys** in [lang/en.json](../../lang/en.json). Keys use bare names (`SOHL.BodyPart.head`, `SOHL.BodyLocation.skull`) without the `*part` / `*loc` suffix. These keys are used by UI affordances that need to render a label from a shortcode alone; the literal `name` field on the compendium item is preferred when the item is in hand.
+- **`SOHL.BodyPart.<bare-shortcode>` and `SOHL.BodyLocation.<bare-shortcode>` keys** in [lang/en.json](../../../lang/en.json). Keys use bare names (`SOHL.BodyPart.head`, `SOHL.BodyLocation.skull`) without the `*part` / `*loc` suffix. These keys are used by UI affordances that need to render a label from a shortcode alone; the literal `name` field on the compendium item is preferred when the item is in hand.
 
 When authoring a new body structure, set the literal `name` field and add the corresponding localization key for the bare shortcode.
 
 ## Reference: Human body
 
-The Human body structure is the reference anatomy shipped today — carried on the "Basic Folk" being's `system.body.structure` (authored in [assets/content/Corpora/Human_Folk.md](../../assets/content/Corpora/Human_Folk.md)). Its structure:
+The Human body structure is the reference anatomy shipped today — carried on the "Basic Folk" being's `system.body.structure` (authored in [assets/content/Characters/Basic_Folk.md](../../../assets/content/Characters/Basic_Folk.md)). Its structure:
 
 | Part shortcode | Name      | Roles         | `probWeight` | Can hold |
 | -------------- | --------- | ------------- | -----------: | -------- |
@@ -522,7 +522,7 @@ await beingActor.update(
 
 Add the zone first if it does not exist (`structure.addZoneUpdate(blankBodyZone("Tail", "tailzone"))`); a part whose `bodyZoneCode` names no zone is stored but stays out of the hierarchy.
 
-Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocation.<each location>`) belong in [lang/en.json](../../lang/en.json).
+Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocation.<each location>`) belong in [lang/en.json](../../../lang/en.json).
 
 ### From the Being sheet
 
