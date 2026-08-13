@@ -6,7 +6,7 @@
 
 The hand-maintained `slug` property is gone from all 1546 content notes; a page's URL
 segment is derived from its name instead. A knowledgebase page is
-`/<section>/<name-slug>/`, and an item's `system.docUrl` addresses it the same way.
+`/<section>/<name-slug>/`.
 
 - _Old URLs keep working._ `kb/data/legacy-slugs.json` records the previous URL of every
   page whose derivation differs from what was authored (120 of 1546), and the
