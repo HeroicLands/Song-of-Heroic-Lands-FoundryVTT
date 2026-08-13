@@ -25,7 +25,7 @@ SoHL has two complementary test suites with very different scope and cadence:
 | ---------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **Scope**        | The Foundry-free **logic layer** — Logic classes and domain objects, in Node                                      | The **running system** in a real Foundry instance — sheets, hooks, documents, the full client                     |
 | **Needs**        | Just `npm` (no Foundry, no browser)                                                                               | Foundry (Docker/felddy container) **+ a Foundry license**                                                         |
-| **When it runs** | **Every CI build** — unit tests (plus the purity smoke test) are part of the build pipeline and gate every change | **On demand only** — run locally with `npm run test:e2e`; not part of standard CI (it needs a licensed container) |
+| **When it runs** | **Every CI build** — unit tests (plus the purity smoke test) are part of the build pipeline and gate every change | **On demand only** — `npm run test:e2e` from scratch, `npm run e2e` to iterate; not part of standard CI (it needs a licensed container) |
 | **Speed**        | Seconds                                                                                                           | Minutes (seeds a world, serves it, drives a browser)                                                              |
 | **Guide**        | [Running tests](#running-tests) and below                                                                         | [Browser end-to-end tests (Cypress)](#browser-end-to-end-tests-cypress) (near the end)                            |
 
@@ -346,9 +346,16 @@ once you can run it.
 ```bash
 npm run test:e2e        # headless: seed → serve → cypress run → tear down
 npm run test:e2e:open   # interactive: seed → serve → cypress open (leaves it up)
+npm run e2e -- --spec cypress/e2e/<name>.cy.js   # iterate: rebuild → redeploy → run
 ```
 
-Both assume you have already built (`npm run build`). The harness is fully
+The first two are the **from-scratch** path: they reseed the world and recreate
+the container every run, and assume you have already built (`npm run build`).
+Once a container is up, reach for `npm run e2e` instead — it rebuilds, redeploys,
+cycles the world, waits for it to serve, and runs the specs you name, which is
+the loop you actually want while writing a spec or chasing a failure. See
+[Fast iteration](#fast-iteration-npm-run-e2e). Do not hand-roll that sequence:
+every step of it has a quiet failure mode, catalogued there. The harness is fully
 isolated from your dev/qa worlds:
 
 | Piece                             | Role                                                                                                                              |
@@ -420,12 +427,35 @@ serve, and runs Cypress — in that order, as one command:
 ```bash
 npm run e2e -- --spec cypress/e2e/<name>.cy.js   # rebuild everything, run one spec
 npm run e2e -- --build=code --spec 'cypress/e2e/skill-*.cy.js'
-npm run e2e -- --build=none                      # redeploy nothing, just re-run
+npm run e2e -- --build=none                      # skip the build; redeploy + re-run
 npm run e2e -- --no-run                          # only make the environment current
 ```
 
-`--build` takes a comma-separated list of `assets`, `code`, `db`, `system`,
-`all` (default), or `none`. Anything after `--` passes through to Cypress.
+**Flags.** `--build` takes a comma-separated list of `assets`, `code`, `db`,
+`system`, `all` (default), or `none`; an unrecognized target fails fast rather
+than half-deploying. `--recreate` forces a container recreate, `--no-run` stops
+once the environment is current, and `--spec` is a convenience for the Cypress
+flag. Anything after a bare `--` passes through to Cypress verbatim, so its own
+options (`--browser`, `--headed`, `--reporter`, …) all work.
+
+**What it does, in order** (`utils/e2e-redeploy.mjs`):
+
+1. **Build** the selected targets, always running `code` first. `vite` empties
+   `build/stage`, so a later `build:code` would discard whatever the asset and
+   pack passes had just written into it.
+2. **Deploy** with `push:test`, mirroring `build/stage` into the test data root.
+   The mirror is destructive — it deletes anything not in the stage — which is
+   why step 1 must leave the stage complete.
+3. **Cycle the world**: `recreate` when no container exists or `--recreate` was
+   asked for (which naming `system` in `--build` implies), otherwise `restart`.
+   Both sweep a stale data-root lock on the way through.
+4. **Wait** for `/join` to answer 200, polling every 2s up to 3 minutes, then
+   fail with a pointer at the container logs rather than handing Cypress a dead
+   port.
+5. **Run Cypress** with `ELECTRON_RUN_AS_NODE` stripped from the environment.
+
+The exit code is Cypress's own, so it composes in a script. Steps 1–3 abort the
+run on the first failure instead of continuing with a half-built stage.
 
 The loop exists because each step has a quiet failure mode, and hand-rolling it
 means meeting them one at a time:
