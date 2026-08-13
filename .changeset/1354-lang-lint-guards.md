@@ -41,4 +41,13 @@ data into a key and invites the `expandObject` collision of #636).
 
 All three guards fail rather than warn, and the build is green — closing epic #1355.
 
+`kb/dev-docs/reference/localization-keys.md` gains a **The guards** section documenting
+all of it: what each check fails on, what `lint:lang-coverage` can and cannot see (a key
+built from a _variable_ prefix is invisible to it), the `RETAINED` / `ALLOWED` escape
+hatches and their `[prefix, reason]` format — with the standing rule that deleting the
+key is the honest fix — plus `defineType`'s `labelKeys`, the `SOHL.Common.*` home for
+generic words, and why a `{{localize}}` nested in a helper's hash will not compile. It
+also removes a caveat that had gone stale: the page told contributors not to trust
+`--unused`, which was true when it was written and is the very thing this issue fixed.
+
 (Closes #1354.)
