@@ -226,16 +226,21 @@ describe("gear equip / hold → combat-tab display", () => {
 
     // ------------------------------------------------------------------ combat tab
 
-    it("combat tab shows [data-sm-id] strike-mode rows only after holdItem", () => {
+    it("combat tab shows a weapon's [data-sm-id] strike-mode rows only after holdItem", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then(
                 (weapon) => {
+                    // Scope to THIS weapon's rows. Basic Folk owns unarmed
+                    // combat techniques (punch, kick, bite, …) whose natural
+                    // strike modes are intrinsic — they render with nothing
+                    // held, so an unscoped `[data-sm-id]` never reaches zero
+                    // (#1271). Each row carries its source item's id.
+                    const rows = `section.tab[data-tab="combat"] [data-sm-id][data-item-id="${weapon.id}"]`;
+
                     // Not held: filterHeldWeapons excludes it, so no rows render.
                     cy.openSheet(actor);
                     cy.switchTab("combat", "primary");
-                    cy.get(
-                        'section.tab[data-tab="combat"] [data-sm-id]',
-                    ).should("not.exist");
+                    cy.get(rows).should("not.exist");
                     cy.closeAllSheets();
 
                     // Held: the weapon's strike mode appears on the combat tab.
@@ -243,9 +248,7 @@ describe("gear equip / hold → combat-tab display", () => {
                     cy.prepare(actor);
                     cy.openSheet(actor);
                     cy.switchTab("combat", "primary");
-                    cy.get(
-                        'section.tab[data-tab="combat"] [data-sm-id]',
-                    ).should("exist");
+                    cy.get(rows).should("exist");
                 },
             );
         });

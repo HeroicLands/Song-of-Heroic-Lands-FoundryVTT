@@ -64,24 +64,44 @@ describe("skillbase calculation contract", () => {
 
     // ------------------------------------------------------------------ tests
 
-    it("Basic Folk — 25 two-attribute skills with all attrs=10 → every skillBase = 10", () => {
+    it("Basic Folk — every skill's skillBase equals its uniform attribute score", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                return a.items
-                    .filter((i) => i.type === "skill")
-                    .map((i) => ({
-                        name: i.name,
-                        formula: i.system.skillBaseFormula,
-                        skillBase: i.logic.skillBase,
-                    }));
-            }).should((rows) => {
-                expect(rows, "25 skills").to.have.length(25);
+                return {
+                    scores: Array.from(
+                        new Set(
+                            a.items
+                                .filter((i) => i.type === "attribute")
+                                .map((i) => i.system.scoreBase),
+                        ),
+                    ),
+                    rows: a.items
+                        .filter((i) => i.type === "skill")
+                        .map((i) => ({
+                            name: i.name,
+                            formula: i.system.skillBaseFormula,
+                            skillBase: i.logic.skillBase,
+                        })),
+                };
+            }).should(({ scores, rows }) => {
+                // Both the attribute score and the skill roster move with
+                // content (#1271), so derive the expectation from the actor
+                // rather than pinning either. Every Basic Folk attribute shares
+                // one score, and averaging equal attributes — two of them or
+                // three — yields exactly that score.
+                expect(
+                    scores,
+                    "Basic Folk attributes all share one score",
+                ).to.have.length(1);
+                const score = scores[0];
+                // A floor, so an empty or gutted roster still fails loudly.
+                expect(rows.length, "skills on Basic Folk").to.be.at.least(25);
                 rows.forEach((r) => {
                     expect(
                         r.skillBase,
                         `${r.name} (formula "${r.formula}") skillBase`,
-                    ).to.eq(10);
+                    ).to.eq(score);
                 });
             });
         });
