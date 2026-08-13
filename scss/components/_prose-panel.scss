@@ -16,6 +16,41 @@
     overflow: hidden;
 }
 
+// The toggle row above the card, shown only for a *pointer* description (#1357):
+// a single icon button in the upper right that swaps the resolved text for the
+// editor holding the link.
+.prose-panel__toolbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    // Tight to the card below it, so the icon reads as belonging to the panel
+    // rather than floating in the tab.
+    margin-bottom: 0.3rem;
+    flex: 0 0 auto;
+}
+
+// The read-only view of a pointer's target — same card as the editor, so the
+// tab looks the same whichever half is showing, and scrolls its own content.
+.prose-panel__rendered {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--sohl-color-bg-surface);
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: var(--sohl-radius-md);
+    padding: 0.6rem 0.7rem;
+
+    // The target's own prose: keep the first/last block flush with the card
+    // padding rather than doubling it.
+    > :first-child {
+        margin-top: 0;
+    }
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+
 // The bordered editor card — grows to fill the panel and scrolls its own content.
 .prose-panel__editor {
     flex: 1;

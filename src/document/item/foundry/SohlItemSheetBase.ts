@@ -25,12 +25,18 @@ import {
     deleteAction,
     runAction,
 } from "@src/core/foundry/sheet-actions";
-import { fvttCallHook, fvttWorldActors } from "@src/core/FoundryHelpers";
+import {
+    fvttCallHook,
+    fvttCleanHTML,
+    fvttWorldActors,
+} from "@src/core/FoundryHelpers";
 import { ACTOR_KIND, GearKinds } from "@src/utils/constants";
 import {
     localizeSubType,
     keyTransferredEffects,
 } from "@src/document/item/logic/item-sheet-view";
+import { resolveDescriptionHtml } from "@src/document/item/logic/SohlItemBaseLogic";
+import { descriptionLinkTarget } from "@src/utils/description-link";
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
@@ -155,8 +161,34 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             runAction: SohlItemSheetBase._onRunAction,
             addArrayItem: SohlItemSheetBase._onAddArrayItem,
             deleteArrayItem: SohlItemSheetBase._onDeleteArrayItem,
+            toggleDescriptionEdit: SohlItemSheetBase._onToggleDescriptionEdit,
         },
     };
+
+    /**
+     * Whether the Description tab is showing the editor for a **pointer**
+     * description rather than the text it points at (#1357). Per open sheet and
+     * deliberately not persisted: a pointer reads as its target every time the
+     * sheet is opened, and an author asks for the editor when they want it.
+     */
+    protected _descriptionEditing = false;
+
+    /**
+     * `data-action="toggleDescriptionEdit"`: swap the Description tab between
+     * the pointer's resolved text and the editor holding the link. Only the
+     * Description part is re-rendered, so switching costs no other tab's state.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked toggle control (unused).
+     */
+    protected static async _onToggleDescriptionEdit(
+        this: SohlItemSheetBase,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        this._descriptionEditing = !this._descriptionEditing;
+        await this.render({ parts: ["description"] } as RenderOptions);
+    }
 
     /**
      * `data-action="createAction"`: author a new custom (SCRIPT) action on this
@@ -384,6 +416,18 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     }
 
     /**
+     * On close, forget that the Description tab was showing a pointer's editor
+     * (#1357), so reopening the sheet reads as the target's text again — the
+     * state is a momentary "let me edit this", not a preference.
+     *
+     * @param options - The close options, forwarded to the base implementation.
+     */
+    protected override _onClose(options: PlainObject): void {
+        this._descriptionEditing = false;
+        super._onClose(options as any);
+    }
+
+    /**
      * Selects which sheet parts to render: always the header and tabs, plus
      * the remaining tabs unless the document is in limited-view mode.
      *
@@ -588,18 +632,42 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Prepare context for the Description tab — the item's long-form
      * description, persisted in `system.docHtml`. (The short one-line `notes`
      * field shown beside item rows on the actor sheet is edited elsewhere.)
+     *
+     * An ordinary description is edited by a `<prose-mirror>` element bound to
+     * `system.docHtml` (see `description.hbs`), which takes the raw value and
+     * enriches for display itself — no pre-enriched HTML needed.
+     *
+     * A description that is *only* a link is a **pointer** (#1356): the item's
+     * description lives at the target, so showing the link would hand a reader
+     * machinery instead of content (#1357). The target's text is resolved and
+     * shown read-only instead, and {@link _onToggleDescriptionEdit} swaps in the
+     * editor — holding the link — for an author who wants to re-aim it.
+     *
      * @param context - The render context to augment.
      * @param _options - Sheet render options (unused).
-     * @returns The context, unchanged.
+     * @returns The context extended with the description view state.
      */
     protected async _prepareDescriptionContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        // The description is edited by a <prose-mirror> element bound to
-        // `system.docHtml` (see description.hbs), which takes the raw value and
-        // enriches for display itself — no pre-enriched HTML needed.
-        return context;
+        const docHtml = ((this.document.system as any).docHtml ?? "") as string;
+        const isPointer = !!descriptionLinkTarget(docHtml);
+        // A non-pointer description has nothing to show but the editor, so it
+        // is always in "editing" mode and never grows a toggle.
+        const editing = !isPointer || this._descriptionEditing;
+        return Object.assign(context, {
+            descriptionIsPointer: isPointer,
+            descriptionEditing: editing,
+            // Enriched (content links and inline rolls stay live) and passed
+            // through Foundry's allowlist sanitizer, since the tab injects it
+            // as markup rather than handing it to an element that enriches for
+            // itself (issue #161).
+            descriptionHtml:
+                editing ? "" : (
+                    fvttCleanHTML(await resolveDescriptionHtml(docHtml))
+                ),
+        });
     }
 
     /**

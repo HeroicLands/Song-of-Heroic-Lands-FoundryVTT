@@ -11,10 +11,29 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
+{{!--
+A description that is only a link is a *pointer* (#1356): the item's description
+lives at the target. The tab then shows the target's text read-only, with an edit
+control that reveals the editor holding the link itself (#1357). An ordinary
+description is unchanged — the editor, directly.
+--}}
 <section class="tab description{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="description">
     <div class="prose-panel">
+        {{#if descriptionIsPointer}}
+        <div class="prose-panel__toolbar">
+            <a class="icon-button prose-panel__toggle" data-action="toggleDescriptionEdit"
+                data-tooltip="{{#if descriptionEditing}}{{localize "SOHL.Item.description.showTarget"}}{{else}}{{localize "SOHL.Item.description.editPointer"}}{{/if}}"
+                aria-label="{{#if descriptionEditing}}{{localize "SOHL.Item.description.showTarget"}}{{else}}{{localize "SOHL.Item.description.editPointer"}}{{/if}}">
+                <i class="fa-solid {{#if descriptionEditing}}fa-book-open{{else}}fa-pen-to-square{{/if}}"></i>
+            </a>
+        </div>
+        {{/if}}
+        {{#if descriptionEditing}}
         <div class="prose-panel__editor">
             <prose-mirror name="system.docHtml" value="{{system.docHtml}}" data-document-uuid="{{document.uuid}}"></prose-mirror>
         </div>
+        {{else}}
+        <div class="prose-panel__rendered">{{{descriptionHtml}}}</div>
+        {{/if}}
     </div>
 </section>

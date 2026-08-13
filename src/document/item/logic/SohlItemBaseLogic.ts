@@ -266,7 +266,7 @@ export async function buildItemDescCardData(
                 (data as unknown as { textReference?: string }).textReference ??
                 "",
             charges,
-            desc: await resolveDescription(data.docHtml ?? ""),
+            desc: await resolveDescriptionHtml(data.docHtml ?? ""),
         },
     };
 }
@@ -284,10 +284,14 @@ export async function buildItemDescCardData(
  * then renders as a broken content link: visibly wrong rather than silently
  * blank.
  *
+ * Shared by everything that *shows* a description rather than editing it — the
+ * description card ({@link buildItemDescCardData}) and the item sheet's
+ * Description tab — so a pointer reads the same wherever it is displayed.
+ *
  * @param docHtml - The item's stored description.
  * @returns Enriched HTML to display.
  */
-async function resolveDescription(docHtml: string): Promise<string> {
+export async function resolveDescriptionHtml(docHtml: string): Promise<string> {
     const target = descriptionLinkTarget(docHtml);
     if (!target) return fvttEnrichHTML(docHtml);
     const doc = await fvttResolveUuidAsync(target);

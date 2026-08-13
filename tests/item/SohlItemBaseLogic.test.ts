@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import {
     SohlItemBaseLogic,
     buildItemDescCardData,
+    resolveDescriptionHtml,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import { ContainerGearLogic } from "@src/document/item/logic/ContainerGearLogic";
 import { ITEM_KIND } from "@src/utils/constants";
@@ -236,5 +237,52 @@ describe("buildItemDescCardData → item-desc-card", () => {
         expect(
             (await buildItemDescCardData(none)).data!.charges,
         ).toBeUndefined();
+    });
+});
+
+describe("resolveDescriptionHtml — following a pointer (#1356, #1357)", () => {
+    afterEach(() => {
+        delete (globalThis as any).fromUuid;
+        vi.restoreAllMocks();
+    });
+
+    /** Stub the async UUID shim's underlying global with a fixed document. */
+    function targetDocument(doc: unknown): void {
+        (globalThis as any).fromUuid = async () => doc;
+    }
+
+    it("returns ordinary prose exactly as written", async () => {
+        targetDocument({ text: { content: "<p>Never asked for.</p>" } });
+        expect(await resolveDescriptionHtml("<p>A wide flat blade.</p>")).toBe(
+            "<p>A wide flat blade.</p>",
+        );
+    });
+
+    it("resolves a pointer to a journal page's text", async () => {
+        targetDocument({ text: { content: "<p>The craft, in full.</p>" } });
+        expect(
+            await resolveDescriptionHtml(
+                "@UUID[JournalEntry.j1.JournalEntryPage.p1]{Weaponcraft}",
+            ),
+        ).toBe("<p>The craft, in full.</p>");
+    });
+
+    it("resolves a pointer to another item's description", async () => {
+        targetDocument({ system: { docHtml: "<p>The parent's prose.</p>" } });
+        expect(await resolveDescriptionHtml("@UUID[Item.i1]")).toBe(
+            "<p>The parent's prose.</p>",
+        );
+    });
+
+    it("falls back to the link itself when the target will not resolve", async () => {
+        targetDocument(null);
+        // Rendered as a broken content link: visibly wrong rather than blank.
+        expect(await resolveDescriptionHtml("@UUID[Item.gone]")).toBe(
+            "@UUID[Item.gone]",
+        );
+    });
+
+    it("returns an empty description unchanged", async () => {
+        expect(await resolveDescriptionHtml("")).toBe("");
     });
 });

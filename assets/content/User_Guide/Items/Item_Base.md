@@ -29,6 +29,11 @@ Although each type of Item has different properties, some properties are common 
 - **Doc URL:** URL to the detailed documentation for this item. Normally points to the `www.heroiclands.org` site, but might also point elsewhere if applicable. Normally only one of **Doc URL** or **Documentation** are specified, not both.
 - **Documentation:** A multi-line documentation property containing text describing the item in detail. Normally used with an inline editor providing rich text (including tables) in HTML format.
 
+A **Documentation** field holding nothing but a link is a special case worth
+knowing about: the item then takes its description from whatever the link points
+at, and the tab shows that text instead of the link. See
+[[#a-description-that-is-only-a-link|a description that is only a link]].
+
 ## Actions Tab
 
 Actions represent specific behaviors that can be triggered. Some of these are
@@ -48,6 +53,52 @@ open the item and use its **Actions** tab.
 ## Effects Tab
 
 Various active effects can be applied to an item that either effect the item, the actor the item is located on, or other items on the same parent actor.
+
+## A Description That Is Only a Link {#a-description-that-is-only-a-link}
+
+A description made of **a link and nothing else** is read as a _pointer_: the
+item is saying "my description lives there" rather than carrying its own prose.
+The item then shows whatever the link points at — a journal page, or another
+item's description — wherever the description is displayed.
+
+This is a **choice**, not a new requirement. The **Documentation** field is
+unchanged, and ordinary prose still works exactly as it always has. The shorthand
+exists so a hundred copies of a weapon do not each carry their own copy of the
+same paragraph, and so correcting the paragraph once corrects it everywhere.
+
+**Writing one.** Put a link in the **Documentation** field and delete everything
+else. Drag a journal page onto the field, or type `@` in the editor and pick the
+page from the list; either way the editor shows a link. Save, and the item takes
+its description from the target.
+
+**What counts as "nothing else".** How the link is _wrapped_ makes no difference
+— a link inside a heading, in bold, or trailed by blank lines is still just a
+link. What matters is whether anything else would be **read**:
+
+| Documentation field contains                             | Read as                                |
+| -------------------------------------------------------- | -------------------------------------- |
+| A link to _Weaponcraft_                                  | A pointer — shows Weaponcraft's text   |
+| A link to _Weaponcraft_, then "— the craft it draws on." | Ordinary prose, shown exactly as typed |
+
+The second line is the one that catches people out: a sentence that merely
+_begins_ with a link is your own writing, and your words are never thrown away in
+favour of the target's.
+
+**Reading one.** The **Documentation** tab shows the linked text rather than the
+link, so the description is in front of you without leaving the sheet. Links
+inside that text stay live — click one to open the page itself. If the target has
+been deleted or moved, the tab shows the broken link instead of going blank, so
+you can see what went wrong and re-aim it.
+
+**Editing one.** A small **pencil** in the upper right of the tab swaps the text
+for the editor, with the link in it. Change where it points, or replace it with
+prose and it stops being a pointer. The icon becomes an open book, which switches
+back to reading. Closing the sheet always returns it to reading; without the
+pencil the description would look as though it had become read-only, which it has
+not.
+
+**Posting one.** [[#output-description-to-chat|Output Description to Chat]]
+follows the pointer too, and posts the target's text — never the bare link.
 
 # The Shared Document Actions {#the-shared-document-actions}
 
@@ -156,6 +207,10 @@ the item or its owner changes.
 | **Text Ref** | The item's text reference, for item kinds that carry one                            |
 | **Charges**  | Remaining charges as _value / max_ (or just the value when the item has no maximum) |
 | Body         | The item's **Documentation** text, formatted, with any links and rolls made live    |
+
+When the **Documentation** field holds nothing but a link, the card posts what
+the link points at rather than the link itself — see
+[[#a-description-that-is-only-a-link|a description that is only a link]].
 
 Rows with nothing in them are left out, so a bare item posts a card with just its
 name and type.

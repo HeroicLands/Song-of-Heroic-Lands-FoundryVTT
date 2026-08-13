@@ -137,3 +137,116 @@ describe("Item docs — a shipped description is a pointer (#1348)", () => {
         });
     });
 });
+
+/**
+ * **The Description tab** (#1357) — the sheet half of the same convention. A
+ * pointer must read as its target on the tab, not as the link that addresses it,
+ * with an edit control that hands the author the editor when they ask for it.
+ */
+describe("Item docs — the Description tab follows a pointer (#1357)", () => {
+    before(() => cy.login().then(() => cy.cleanupWorld()));
+    afterEach(() => cy.closeAllSheets().then(() => cy.cleanupWorld()));
+
+    /** The pointer a shipped item carries, reused so no fixture journal is needed. */
+    function shippedPointer() {
+        return cy
+            .getFromCompendium("sohl.items", ITEM.type, ITEM.shortcode)
+            .then((item) =>
+                cy.foundry((win) => win.fromUuidSync(item.uuid).system.docHtml),
+            );
+    }
+
+    /** Open an item's sheet on its Description tab and yield the tab section. */
+    function openDescriptionTab(item) {
+        cy.openSheet(item);
+        cy.switchTab("description", "sheet");
+        return cy.get('section.tab[data-tab="description"]');
+    }
+
+    it("shows the target's text read-only, with an edit control", () => {
+        shippedPointer().then((pointer) => {
+            cy.createWorldItem("miscgear", { system: { docHtml: pointer } })
+                .then((item) => {
+                    // A distinctive phrase from the page the pointer addresses.
+                    cy.foundry(async (win) => {
+                        const uuid = pointer.slice(
+                            "@UUID[".length,
+                            pointer.indexOf("]"),
+                        );
+                        const page = await win.fromUuid(uuid);
+                        return (page.text.content.match(/>([^<]{40,})</) ??
+                            [])[1]?.trim();
+                    }).as("phrase");
+                    openDescriptionTab(item);
+                })
+                .then(function () {
+                    cy.get('section.tab[data-tab="description"]')
+                        .find(".prose-panel__rendered")
+                        .should("contain.text", this.phrase);
+                    // The editor is not rendered at all until asked for.
+                    cy.get('section.tab[data-tab="description"]')
+                        .find("prose-mirror")
+                        .should("not.exist");
+                    cy.get('section.tab[data-tab="description"]')
+                        .find('[data-action="toggleDescriptionEdit"]')
+                        .should("be.visible");
+                });
+        });
+    });
+
+    it("reveals the editor holding the link, and switches back", () => {
+        shippedPointer().then((pointer) => {
+            cy.createWorldItem("miscgear", {
+                system: { docHtml: pointer },
+            }).then((item) => {
+                openDescriptionTab(item);
+                cy.get('[data-action="toggleDescriptionEdit"]').click();
+
+                // The element consumes its `value` attribute on hydration, so
+                // the link is read off the property it kept.
+                cy.get('section.tab[data-tab="description"]')
+                    .find('prose-mirror[name="system.docHtml"]')
+                    .should(($el) => {
+                        expect(
+                            $el[0].value,
+                            "the editor holds the link",
+                        ).to.contain("@UUID[Compendium.sohl.journals");
+                    });
+
+                // And back: the control is a toggle, not a one-way door.
+                cy.get('[data-action="toggleDescriptionEdit"]').click();
+                cy.get('section.tab[data-tab="description"]')
+                    .find(".prose-panel__rendered")
+                    .should("exist");
+            });
+        });
+    });
+
+    it("gives an ordinary description the editor directly, with no toggle", () => {
+        cy.createWorldItem("miscgear", {
+            system: { docHtml: "<p>A wide flat blade.</p>" },
+        }).then((item) => {
+            openDescriptionTab(item);
+            cy.get('section.tab[data-tab="description"]')
+                .find('prose-mirror[name="system.docHtml"]')
+                .should("exist");
+            cy.get('section.tab[data-tab="description"]')
+                .find('[data-action="toggleDescriptionEdit"]')
+                .should("not.exist");
+        });
+    });
+
+    it("shows the broken link, not an empty tab, when the target is gone", () => {
+        cy.createWorldItem("miscgear", {
+            system: {
+                docHtml:
+                    "@UUID[JournalEntry.zzzzzzzzzzzzzzzz.JournalEntryPage.zzzzzzzzzzzzzzzz]{Missing Page}",
+            },
+        }).then((item) => {
+            openDescriptionTab(item);
+            cy.get('section.tab[data-tab="description"]')
+                .find(".prose-panel__rendered")
+                .should("contain.text", "Missing Page");
+        });
+    });
+});

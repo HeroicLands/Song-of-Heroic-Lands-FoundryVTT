@@ -3121,6 +3121,7 @@
   "sohl.document.item.logic.psycheRecoveryOutcome": "functions/sohl.document.item.logic.psycheRecoveryOutcome-1.html",
   "sohl.document.item.logic.resolveAssocAffiliation": "functions/sohl.document.item.logic.resolveAssocAffiliation.html",
   "sohl.document.item.logic.resolveAssocSkill": "functions/sohl.document.item.logic.resolveAssocSkill.html",
+  "sohl.document.item.logic.resolveDescriptionHtml": "functions/sohl.document.item.logic.resolveDescriptionHtml.html",
   "sohl.document.item.logic.resolveFateOutcome": "functions/sohl.document.item.logic.resolveFateOutcome.html",
   "sohl.document.item.logic.resolveStrikeMode": "functions/sohl.document.item.logic.resolveStrikeMode.html",
   "sohl.document.item.logic.rollTimedTest": "functions/sohl.document.item.logic.rollTimedTest.html",
