@@ -21,22 +21,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab sharedgear{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="sharedgear">
     <div class="gear-list gear-list--readonly">
         <div class="section-legend">
-            <span class="section-legend__name">Shared Gear</span>
-            <span class="section-legend__meta">Carried by members &middot; read-only</span>
+            <span class="section-legend__name">{{localize "SOHL.Cohort.Heading.sharedGear"}}</span>
+            <span class="section-legend__meta">{{localize "SOHL.Cohort.Heading.sharedGearMeta"}}</span>
             <span class="section-legend__rule"></span>
         </div>
         {{#if sharedGear.length}}
         <div class="ledger" style="--ledger-cols:1.5rem minmax(130px,1.4fr) minmax(100px,1fr) 5.4rem 2.6rem 3.4rem 2.8rem 2.6rem 1fr">
             <div class="ledger__head">
                 <div></div>
-                <div>Item</div>
-                <div>Carried By</div>
-                <div class="ledger__head-num">Type</div>
-                <div class="ledger__head-num" data-tooltip="Quantity">Qty</div>
-                <div class="ledger__head-num">Weight</div>
-                <div class="ledger__head-num" data-tooltip="Quality">Qual</div>
-                <div class="ledger__head-num" data-tooltip="Durability">Dur</div>
-                <div>Notes</div>
+                <div>{{localize "SOHL.Gear.Column.item"}}</div>
+                <div>{{localize "SOHL.Gear.Column.carriedBy"}}</div>
+                <div class="ledger__head-num">{{localize "SOHL.Gear.Column.type"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Gear.FIELDS.quantity.label"}}">{{localize "SOHL.Gear.Column.qty"}}</div>
+                <div class="ledger__head-num">{{localize "SOHL.Gear.Column.weight"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Gear.FIELDS.qualityBase.label"}}">{{localize "SOHL.Gear.Column.qual"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Gear.FIELDS.durabilityBase.label"}}">{{localize "SOHL.Gear.Column.dur"}}</div>
+                <div>{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
             </div>
             {{#each sharedGear as |item|}}
             <div class="ledger__row" data-search-name="{{item.name}}" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}">

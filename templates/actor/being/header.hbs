@@ -53,7 +53,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     data-status-id="{{this.id}}" data-tooltip="{{localize this.label}}">{{localize this.abbr}}</a>
                 {{else}}
                 <span class="status-pill status-pill--indicator {{#if this.active}}status-pill--lit{{/if}}"
-                    data-tooltip="{{localize this.label}} (from affliction)">{{localize this.abbr}}</span>
+                    data-tooltip="{{localize "SOHL.Being.Header.fromAffliction" label=(localize this.label)}}">{{localize this.abbr}}</span>
                 {{/if}}
                 {{/each}}
             </div>

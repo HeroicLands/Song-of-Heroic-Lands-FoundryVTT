@@ -13,20 +13,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <div class="sohl chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header flexrow">
-        <h3 class="title">Rally!</h3>
+        <h3 class="title">{{localize "SOHL.Chat.Rally.title"}}</h3>
     </header>
 
     <div class="card-content center">
-        <span>{{rallierName}} rallies shaken allies.</span>
+        <span>{{localize "SOHL.Chat.Rally.prompt" name=rallierName}}</span>
     </div>
 
     <div class="card-content center">
         {{#if steady}}
-        <span>A Routed or Withdrawing ally may steady themselves.</span>
+        <span>{{localize "SOHL.Chat.Rally.eligible"}}</span>
         {{else}}
         <span
-            >A Routed or Withdrawing ally may make a Reaction Test to
-            steady.</span
+            >{{localize "SOHL.Chat.Rally.reactionTest"}}</span
         >
         {{/if}}
     </div>

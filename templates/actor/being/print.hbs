@@ -53,7 +53,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <tr>
                         <th>{{localize "SOHL.Print.attrName"}}</th>
                         <th class="num">{{localize "SOHL.Print.score"}}</th>
-                        <th class="num" data-title="Mastery Level">{{localize "SOHL.Print.tl"}}</th>
+                        <th class="num" data-title="{{localize "SOHL.MasteryLevel.FIELDS.masteryLevelBase.label"}}">{{localize "SOHL.Print.tl"}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,8 +91,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <thead>
                     <tr>
                         <th>{{localize "SOHL.Print.medium"}}</th>
-                        <th class="num" data-title="Feet per Round">{{localize "SOHL.Print.ftRd"}}</th>
-                        <th class="num" data-title="Leagues per Watch">{{localize "SOHL.Print.lgsWatch"}}</th>
+                        <th class="num" data-title="{{localize "SOHL.Print.Tip.ftRd"}}">{{localize "SOHL.Print.ftRd"}}</th>
+                        <th class="num" data-title="{{localize "SOHL.Print.Tip.lgsWatch"}}">{{localize "SOHL.Print.lgsWatch"}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,9 +149,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <thead>
                     <tr>
                         <th>{{localize "SOHL.Print.attrName"}}</th>
-                        <th class="num" data-title="Skill Base">SB</th>
-                        <th class="num" data-title="Mastery Level">ML</th>
-                        <th class="num" data-title="Effective Mastery Level">EML</th>
+                        <th class="num" data-title="{{localize "SOHL.Skill.Heading.SkillBase.tooltip"}}">{{localize "SOHL.Skill.Heading.SkillBase.label"}}</th>
+                        <th class="num" data-title="{{localize "SOHL.Skill.Heading.MasteryLevel.tooltip"}}">{{localize "SOHL.Skill.Heading.MasteryLevel.label"}}</th>
+                        <th class="num" data-title="{{localize "SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip"}}">{{localize "SOHL.Skill.Heading.EffectiveMasteryLevel.label"}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -182,13 +182,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <thead>
                 <tr>
                     <th>{{localize "SOHL.Print.mode"}}</th>
-                    <th class="num" data-title="Heft">HFT</th>
-                    <th class="num" data-title="Reach">RCH</th>
-                    <th class="num" data-title="Zone Die">{{localize "SOHL.Print.zd"}}</th>
-                    <th class="num" data-title="Impact">Impact</th>
-                    <th class="num" data-title="Attack">Atk</th>
-                    <th class="num" data-title="Block">Blk</th>
-                    <th class="num" data-title="Counterstrike">CX</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.heft"}}">{{localize "SOHL.Being.Column.heft"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.reach"}}">{{localize "SOHL.Being.Column.reach"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.zoneDice"}}">{{localize "SOHL.Print.zd"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.StrikeMode.FIELDS.impactBase.label"}}">{{localize "SOHL.Being.Column.impact"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.block"}}">{{localize "SOHL.Being.Column.block"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.counterstrike"}}">{{localize "SOHL.Being.Column.counterstrike"}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -219,11 +219,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <thead>
                 <tr>
                     <th>{{localize "SOHL.Print.mode"}}</th>
-                    <th class="num" data-title="Draw">Draw</th>
-                    <th class="num" data-title="Base Range">BR</th>
-                    <th class="num" data-title="Max Volley Multiplier">MaxVM</th>
-                    <th class="num" data-title="Impact">Impact</th>
-                    <th class="num" data-title="Attack">Atk</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.draw"}}">{{localize "SOHL.Being.Column.draw"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.baseRange"}}">{{localize "SOHL.Being.Column.baseRange"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.maxVolley"}}">{{localize "SOHL.Being.Column.maxVolley"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.Column.impact"}}">{{localize "SOHL.Being.Column.impact"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -257,11 +257,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <tr>
                     <th>{{localize "SOHL.Print.location"}}</th>
                     <th>{{localize "SOHL.Print.material"}}</th>
-                    <th class="num" data-title="Blunt">B</th>
-                    <th class="num" data-title="Edged">E</th>
-                    <th class="num" data-title="Piercing">P</th>
-                    <th class="num" data-title="Fire">F</th>
-                    <th class="num" data-title="Shock">Shk</th>
+                    <th class="num" data-title="{{localize "SOHL.ImpactModifier.ASPECT.blunt"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.blunt"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.ImpactModifier.ASPECT.edged"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.edged"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.ImpactModifier.ASPECT.piercing"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.piercing"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.ImpactModifier.ASPECT.fire"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.fire"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.shock"}}">{{localize "SOHL.Being.Column.shock"}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -299,11 +299,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <thead>
                 <tr>
                     <th>{{localize "SOHL.Print.trauma"}}</th>
-                    <th class="num" data-title="Severity">Sev</th>
-                    <th class="num" data-title="Healing Rate">HR</th>
+                    <th class="num" data-title="{{localize "SOHL.Trauma.COLTIP.sev"}}">{{localize "SOHL.Trauma.COLUMN.sev"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Trauma.COLTIP.hr"}}">{{localize "SOHL.Trauma.COLUMN.hr"}}</th>
                     <th>{{localize "SOHL.Print.aspect"}}</th>
                     <th>{{localize "SOHL.Print.area"}}</th>
-                    <th class="num" data-title="Bleeding">Bld</th>
+                    <th class="num" data-title="{{localize "SOHL.Trauma.COLTIP.bld"}}">{{localize "SOHL.Print.bld"}}</th>
                     <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
                 </tr>
             </thead>
@@ -312,7 +312,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <tr>
                     <td>{{injury.name}}</td>
                     <td class="num">{{#if injury.healed}}{{localize "SOHL.Print.healed"}}{{else}}{{injury.severity}}{{/if}}</td>
-                    <td class="num">{{#if injury.healingRateDisabled}}{{emDash}}{{else}}{{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}{{/if}}</td>
+                    <td class="num">{{#if injury.healingRateDisabled}}{{emDash}}{{else}}{{#unless injury.isTreated}}{{localize "SOHL.Print.notTreated"}}{{/unless}}{{injury.healingRate}}{{/if}}</td>
                     <td>{{injury.aspect}}</td>
                     <td>{{injury.area}}</td>
                     <td class="num">{{#if injury.isBleeding}}{{localize "SOHL.Print.yes"}}{{else}}{{localize "SOHL.Print.no"}}{{/if}}</td>
@@ -338,7 +338,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <th>{{localize "SOHL.Print.affliction"}}</th>
                     <th>{{localize "SOHL.Print.category"}}</th>
                     <th>{{localize "SOHL.Print.level"}}</th>
-                    <th class="num" data-title="Healing Rate">HR</th>
+                    <th class="num" data-title="{{localize "SOHL.Trauma.COLTIP.hr"}}">{{localize "SOHL.Trauma.COLUMN.hr"}}</th>
                     <th>{{localize "SOHL.Print.nextHealTest"}}</th>
                 </tr>
             </thead>
@@ -397,7 +397,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <th>{{localize "SOHL.Print.ability"}}</th>
                     <th>{{localize "SOHL.Print.skill"}}</th>
                     <th class="num">{{localize "SOHL.Print.level"}}</th>
-                    <th class="num" data-title="Mastery Level">ML</th>
+                    <th class="num" data-title="{{localize "SOHL.MasteryLevel.FIELDS.masteryLevelBase.label"}}">{{localize "SOHL.Skill.Heading.MasteryLevel.label"}}</th>
                     <th class="num">{{localize "SOHL.Print.charges"}}</th>
                     <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
                 </tr>
@@ -430,10 +430,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <tr>
                     <th>{{localize "SOHL.Print.item"}}</th>
                     <th>{{localize "SOHL.Print.type"}}</th>
-                    <th class="num" data-title="Quantity">Qty</th>
-                    <th class="num" data-title="Weight">Wt</th>
-                    <th class="num" data-title="Quality">Qual</th>
-                    <th class="num" data-title="Durability">Dur</th>
+                    <th class="num" data-title="{{localize "SOHL.Gear.FIELDS.quantity.label"}}">{{localize "SOHL.Gear.Column.qty"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Gear.FIELDS.weightBase.label"}}">{{localize "SOHL.Gear.Column.wt"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Gear.FIELDS.qualityBase.label"}}">{{localize "SOHL.Gear.Column.qual"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Gear.FIELDS.durabilityBase.label"}}">{{localize "SOHL.Gear.Column.dur"}}</th>
                     <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
                 </tr>
             </thead>

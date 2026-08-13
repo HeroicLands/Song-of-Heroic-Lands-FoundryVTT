@@ -14,35 +14,35 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="body-location-config__body">
 <header class="body-location-config__header">
     <h1 class="body-location-config__name">
-        <input type="text" name="name" value="{{loc.name}}" placeholder="Location Name" /></h1>
+        <input type="text" name="name" value="{{loc.name}}" placeholder="{{localize "SOHL.BodyLocation.FIELDS.name.label"}}" /></h1>
     <input class="body-location-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
-        placeholder="shortcode"
-        data-tooltip="A short code identifying this location. Must be unique within its body part." />
+        placeholder="{{localize "SOHL.Common.shortcode"}}"
+        data-tooltip="{{localize "SOHL.BodyLocation.FIELDS.shortcode.hint"}}" />
 </header>
 
 <fieldset>
-    <legend>Parent</legend>
+    <legend>{{localize "SOHL.Common.parent"}}</legend>
     {{> shortcodeRefField embedded=true rootId="bodyloc-part" name="bodyPartCode"
         value=loc.bodyPartCode options=bodyPartCodeOptions
         label="SOHL.BodyLocationConfig.partLabel" hint="SOHL.BodyLocationConfig.partHint"}}
 </fieldset>
 
 <fieldset>
-    <legend>General</legend>
+    <legend>{{localize "SOHL.Common.general"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Probability Weight</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.BodyLocation.FIELDS.probWeight.label"}}</span>
             <input type="number" step="1" min="0" name="probWeight" value="{{loc.probWeight}}"
-                data-tooltip="Selection weight for random hit-location rolls within this part." /></label>
-        <label class="form-group stacked"><span>Shock</span>
+                data-tooltip="{{localize "SOHL.BodyLocation.FIELDS.probWeight.hint"}}" /></label>
+        <label class="form-group stacked"><span>{{localize "SOHL.BodyLocation.FIELDS.shock.label"}}</span>
             <input type="number" step="1" min="0" name="shockValue" value="{{loc.shockValue}}"
-                data-tooltip="Base shock this location adds to the Shock Index when wounded." /></label>
-        <label class="form-group stacked"><span>Bleeding Susceptibility</span>
+                data-tooltip="{{localize "SOHL.BodyLocation.FIELDS.shock.hint"}}" /></label>
+        <label class="form-group stacked"><span>{{localize "SOHL.BodyLocation.FIELDS.bleedingSusceptibility.label"}}</span>
             <select name="bleedingSusceptibility">
                 {{#each bleedingOptions}}
                 <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{localize this.label}}</option>
                 {{/each}}
             </select></label>
-        <label class="form-group stacked"><span>Amputability</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.BodyLocation.FIELDS.amputability.label"}}</span>
             <select name="amputability">
                 {{#each amputabilityOptions}}
                 <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{localize this.label}}</option>
@@ -52,28 +52,28 @@ SPDX-License-Identifier: GPL-3.0-or-later
 </fieldset>
 
 <fieldset>
-    <legend>Protection</legend>
+    <legend>{{localize "SOHL.BodyLocation.Section.protection"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Blunt</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.ImpactModifier.ASPECT.blunt"}}</span>
             <input type="number" step="1" min="0" name="protectionBase.blunt" value="{{loc.protectionBase.blunt}}" /></label>
-        <label class="form-group stacked"><span>Edged</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.ImpactModifier.ASPECT.edged"}}</span>
             <input type="number" step="1" min="0" name="protectionBase.edged" value="{{loc.protectionBase.edged}}" /></label>
-        <label class="form-group stacked"><span>Piercing</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.ImpactModifier.ASPECT.piercing"}}</span>
             <input type="number" step="1" min="0" name="protectionBase.piercing" value="{{loc.protectionBase.piercing}}" /></label>
-        <label class="form-group stacked"><span>Fire</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.ImpactModifier.ASPECT.fire"}}</span>
             <input type="number" step="1" min="0" name="protectionBase.fire" value="{{loc.protectionBase.fire}}" /></label>
     </div>
 </fieldset>
 
 <fieldset>
-    <legend>Mishaps</legend>
+    <legend>{{localize "SOHL.BodyLocation.Section.mishaps"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked checkbox"><span>Causes Stumble</span>
+        <label class="form-group stacked checkbox"><span>{{localize "SOHL.BodyLocation.FIELDS.causesStumble.label"}}</span>
             <input type="checkbox" name="isStumble" {{#if loc.isStumble}}checked{{/if}}
-                data-tooltip="A Serious injury here forces a stumble roll; a Grievous injury stumbles automatically." /></label>
-        <label class="form-group stacked checkbox"><span>Causes Fumble</span>
+                data-tooltip="{{localize "SOHL.BodyLocation.FIELDS.causesStumble.hint"}}" /></label>
+        <label class="form-group stacked checkbox"><span>{{localize "SOHL.BodyLocation.FIELDS.causesFumble.label"}}</span>
             <input type="checkbox" name="isFumble" {{#if loc.isFumble}}checked{{/if}}
-                data-tooltip="A Serious injury here forces a fumble roll; a Grievous injury fumbles automatically." /></label>
+                data-tooltip="{{localize "SOHL.BodyLocation.FIELDS.causesFumble.hint"}}" /></label>
     </div>
 </fieldset>
 </div>

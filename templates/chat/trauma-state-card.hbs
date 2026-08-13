@@ -23,7 +23,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     <div class="card-content center">
-        <span class="label">State:</span>
+        <span class="label">{{localize "SOHL.Chat.TraumaState.state"}}</span>
         <span
             class="value {{#if isSuccess}}success-text{{else}}failure-text{{/if}}"
             >{{stateLabel}}</span
@@ -32,7 +32,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#if psyGain}}
     <div class="card-content center">
-        <span>Gains +{{psyGain}} Psyche Stress.</span>
+        <span>{{localize "SOHL.Chat.TraumaState.psycheGain" amount=psyGain}}</span>
     </div>
     {{/if}}
 

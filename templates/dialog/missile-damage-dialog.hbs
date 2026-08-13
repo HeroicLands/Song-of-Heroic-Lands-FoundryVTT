@@ -26,14 +26,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <form>
     <div class="form-group">
-        <h3>Missile Name: {{name}}</h3>
+        <h3>{{localize "SOHL.Dialog.MissileDamage.name" name=name}}</h3>
     </div>
     <div class="form-group">
-        <label>Num Damage Dice:</label>
+        <label>{{localize "SOHL.Dialog.MissileDamage.numDice"}}</label>
         <input type="number" name="damageDice" value="1" data-dtype="Number" />
     </div>
     <div class="form-group">
-        <label for="range">Range (&plus; Impact):</label>
+        <label for="range">{{localize "SOHL.Dialog.MissileDamage.range"}}</label>
         <select name="range">
             {{#each ranges as |value key|}}
             <option
@@ -46,7 +46,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </select>
     </div>
     <div class="form-group">
-        <label>Additional Weapon Impact:</label>
+        <label>{{localize "SOHL.Dialog.MissileDamage.additionalImpact"}}</label>
         <input type="number" name="addlImpact" value="0" data-dtype="Number" />
     </div>
 </form>

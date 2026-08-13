@@ -13,7 +13,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <fieldset>
-        <legend>Gear</legend>
+        <legend>{{localize "SOHL.Gear.Column.item"}}</legend>
         <div class="field-grid field-grid--3col">
             {{formGroup fields.quantity rootId="concgear-quant" classes="text-field" stacked=true value=system.quantity}}
             {{formGroup fields.weightBase rootId="concgear-wt" classes="text-field" stacked=true value=system.weightBase}}

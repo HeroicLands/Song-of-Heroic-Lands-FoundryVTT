@@ -26,7 +26,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <form id="document-create item-create" autocomplete="off">
     <div class="form-group" id="type-group"{{#unless askType}} style="display:none"{{/unless}}>
-        <label>Type</label>
+        <label>{{localize "SOHL.Dialog.CreateItem.type"}}</label>
         <div class="form-fields">
             <select name="type" autofocus>
                 {{selectOptions types selected=type}}
@@ -36,7 +36,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#if hasFolders}}
     <div class="form-group">
-        <label>Folder</label>
+        <label>{{localize "SOHL.Dialog.CreateItem.folder"}}</label>
         <div class="form-fields">
             <select name="folder">
                 {{selectOptions folders selected=folder valueAttr="id"
@@ -47,7 +47,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     <div class="form-group" id="subtypes"{{#unless hasSubtypes}} style="display:none"{{/unless}}>
-        <label>Subtypes</label>
+        <label>{{localize "SOHL.Dialog.CreateItem.subtypes"}}</label>
         <div class="form-fields">
             <select
                 class="resource-value"
@@ -60,39 +60,39 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <div class="form-group" id="archetypes">
-        <label>Archetype</label>
+        <label>{{localize "SOHL.Dialog.CreateItem.archetype"}}</label>
         <div class="form-fields">
             <select
                 id="archetype-select"
                 name="archetype"
                 data-dtype="String"
-                data-tooltip="Start from a populated template, or choose (none) for a blank document.">
+                data-tooltip="{{localize "SOHL.Dialog.CreateItem.archetypeTip"}}">
                 {{selectOptions archetypes selected=archetype}}
             </select>
         </div>
     </div>
 
     <div class="form-group">
-        <label>Name</label>
+        <label>{{localize "SOHL.Dialog.CreateItem.name"}}</label>
         <div class="form-fields">
             <input
                 type="text"
                 name="name"
                 value="{{name}}"
                 placeholder="{{defaultName}}"
-                data-tooltip="Optional — defaults to the chosen archetype's name." />
+                data-tooltip="{{localize "SOHL.Dialog.CreateItem.nameTip"}}" />
         </div>
     </div>
 
     {{#if showShortcode}}
     <div class="form-group" id="shortcode-group">
-        <label>Shortcode</label>
+        <label>{{localize "SOHL.Common.shortcode"}}</label>
         <div class="form-fields">
             <input
                 type="text"
                 name="shortcode"
                 value="{{shortcode}}"
-                data-tooltip="Optional — a short, unique code; defaults to the chosen archetype's (or the name)." />
+                data-tooltip="{{localize "SOHL.Dialog.CreateItem.shortcodeTip"}}" />
         </div>
     </div>
     {{/if}}

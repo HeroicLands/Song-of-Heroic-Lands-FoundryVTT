@@ -28,18 +28,18 @@ of them.
     </header>
 
     <div class="card-content">
-        <span class="label">Target:</span>
+        <span class="label">{{localize "SOHL.Chat.Sdr.target"}}</span>
         <span class="value">{{target}}</span>
     </div>
 
     <div class="card-content">
-        <span class="label">Roll:</span>
+        <span class="label">{{localize "SOHL.Chat.Sdr.roll"}}</span>
         <span class="value {{#if isSuccess}}success-text{{else}}failure-text{{/if}}">{{rollTotal}}</span>
     </div>
 
     {{#if resultText}}
     <div class="card-content">
-        <span class="label">Result:</span>
+        <span class="label">{{localize "SOHL.Chat.Sdr.result"}}</span>
         <span class="value {{#if isSuccess}}success-text{{else}}failure-text{{/if}}">{{resultText}}</span>
     </div>
 

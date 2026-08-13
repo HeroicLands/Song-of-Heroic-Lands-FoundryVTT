@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab gear{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="gear">
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-gear" value=""
-            aria-label="Search Gear" placeholder="Search Gear" autocomplete="off" />
+            aria-label="{{localize "SOHL.Gear.Search.label"}}" placeholder="{{localize "SOHL.Gear.Search.label"}}" autocomplete="off" />
     </div>
 
     {{!-- One gear section (On Body or a container): a section-legend banding
@@ -33,15 +33,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                   maximum and no encumbrance, so they carry none at all. --}}
             {{#if capacity}}
             <span class="section-legend__meta">{{~#if capacity.isEncumbrance~}}
-                Carried: {{capacity.used}} lb &middot; Enc {{capacity.encumbrance}}
+                {{localize "SOHL.Gear.Summary.carried" used=capacity.used encumbrance=capacity.encumbrance}}
                 {{~else~}}
-                Capacity: {{capacity.used}}/{{capacity.max}}
+                {{localize "SOHL.Gear.Summary.capacity" used=capacity.used max=capacity.max}}
                 {{~/if~}}</span>
             {{/if}}
             <span class="section-legend__rule"></span>
             <span class="section-legend__add">
-                <a class="item-create add-button" data-action="createItem" data-tooltip="Add Gear">
-                    <i class="fa-solid fa-file-circle-plus"></i><span>Add Gear</span>
+                <a class="item-create add-button" data-action="createItem" data-tooltip="{{localize "SOHL.Gear.Action.add"}}">
+                    <i class="fa-solid fa-file-circle-plus"></i><span>{{localize "SOHL.Gear.Action.add"}}</span>
                 </a>
             </span>
         </div>
@@ -49,13 +49,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__head">
                 <div></div>
                 <div></div>
-                <div>Item</div>
-                <div class="ledger__head-num">Type</div>
-                <div class="ledger__head-num" data-tooltip="Quantity">Qty</div>
-                <div class="ledger__head-num">Weight</div>
-                <div class="ledger__head-num" data-tooltip="Quality">Qual</div>
-                <div class="ledger__head-num" data-tooltip="Durability">Dur</div>
-                <div>Notes</div>
+                <div>{{localize "SOHL.Gear.Column.item"}}</div>
+                <div class="ledger__head-num">{{localize "SOHL.Gear.Column.type"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Gear.FIELDS.quantity.label"}}">{{localize "SOHL.Gear.Column.qty"}}</div>
+                <div class="ledger__head-num">{{localize "SOHL.Gear.Column.weight"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Gear.FIELDS.qualityBase.label"}}">{{localize "SOHL.Gear.Column.qual"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Gear.FIELDS.durabilityBase.label"}}">{{localize "SOHL.Gear.Column.dur"}}</div>
+                <div>{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
                 <div></div>
             </div>
             {{#each items as |item|}}
@@ -76,10 +76,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <i class="fa-solid fa-shield-halved"></i>
                     </a>
                     {{/if}}
-                    <a class="item-carried icon-button{{#if item.isCarried}} icon-button--on{{/if}}" data-action="toggleCarried" title="Carried">
+                    <a class="item-carried icon-button{{#if item.isCarried}} icon-button--on{{/if}}" data-action="toggleCarried" title="{{localize "SOHL.Gear.ColTip.carried"}}">
                         <i class="ginf-knapsack"></i>
                     </a>
-                    <a class="item-contextmenu icon-button" title="Menu">
+                    <a class="item-contextmenu icon-button" title="{{localize "SOHL.Common.menu"}}">
                         <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
                     </a>
                 </div>

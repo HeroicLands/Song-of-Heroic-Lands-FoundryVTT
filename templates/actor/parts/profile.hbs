@@ -45,14 +45,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             data-item-name="{{attr.name}}">
             <div class="attribute-score__header flexrow">
                 <h4 class="attribute-score__name">{{attr.name}}</h4>
-                <a class="icon-button item-contextmenu" title="Menu"><i
+                <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i
                         class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </div>
             <div class="attribute-score__value" data-tooltip="{{attr.scoreDeltaLabel}}"
                 data-tooltip-direction="UP">{{attr.score}}</div>
             <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
-            <div class="attribute-score__tl" data-tooltip="{{attr.tlDeltaLabel}}" data-tooltip-direction="UP">TL:
-                {{attr.tl}}</div>
+            <div class="attribute-score__tl" data-tooltip="{{attr.tlDeltaLabel}}" data-tooltip-direction="UP">{{localize "SOHL.Being.Attribute.traitLevel" value=attr.tl}}</div>
         </div>
         {{/each}}
     </div>
@@ -97,7 +96,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__cell ledger__cell--text">{{aff.title}}</div>
             <div class="ledger__notes" title="{{aff.notes}}">{{aff.notes}}</div>
             <div class="ledger__controls">
-                <a class="icon-button item-contextmenu" title="Menu"><i
+                <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i
                         class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </div>
         </div>

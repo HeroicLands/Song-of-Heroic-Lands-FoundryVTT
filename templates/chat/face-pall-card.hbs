@@ -13,34 +13,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <div class="sohl chat-card item-card">
     <header class="card-header flexrow">
-        <h3 class="title">Face the Pall</h3>
+        <h3 class="title">{{localize "SOHL.Chat.FacePall.title"}}</h3>
     </header>
 
     {{#if actorName}}
     <div class="card-content center">
-        <span>{{actorName}} must face the Pall — the choice is theirs.</span>
+        <span>{{localize "SOHL.Chat.FacePall.prompt" name=actorName}}</span>
     </div>
     {{/if}}
 
     <div class="card-content">
         <span
-            >The Pall cannot be expelled. The victim must choose one of three
-            fates:</span
+            >{{localize "SOHL.Chat.FacePall.choices"}}</span
         >
     </div>
 
     <ul>
         <li>
-            <strong>Embrace the Pall</strong> — the soul is imprisoned; the body
-            persists as an undead Nightwight.
+            <strong>{{localize "SOHL.Chat.FacePall.embrace"}}</strong> {{localize "SOHL.Chat.FacePall.embraceDesc"}}
         </li>
         <li>
-            <strong>Vacate the Body</strong> — the soul unanchors into a Shade;
-            the empty body becomes a mindless Helthraal.
+            <strong>{{localize "SOHL.Chat.FacePall.vacate"}}</strong> {{localize "SOHL.Chat.FacePall.vacateDesc"}}
         </li>
         <li>
-            <strong>Accept True Death</strong> — the soul departs to the
-            afterlife; the body allows only a brief moment as a Helthraal.
+            <strong>{{localize "SOHL.Chat.FacePall.trueDeath"}}</strong> {{localize "SOHL.Chat.FacePall.trueDeathDesc"}}
         </li>
     </ul>
 </div>

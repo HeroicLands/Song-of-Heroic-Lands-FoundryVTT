@@ -13,7 +13,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <fieldset>
-        <legend>Gear</legend>
+        <legend>{{localize "SOHL.Gear.Column.item"}}</legend>
         <div class="field-grid field-grid--3col">
             {{formGroup fields.quantity rootId="armgear-quant" classes="text-field" stacked=true value=system.quantity}}
             {{formGroup fields.weightBase rootId="armgear-wt" classes="text-field" stacked=true value=system.weightBase}}
@@ -57,7 +57,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
 
     <fieldset>
-        <legend>Body Armor Locations</legend>
+        <legend>{{localize "SOHL.ArmorGear.Heading.bodyArmorLocations"}}</legend>
         <div class="array-list">
             {{#each locations.flexible}}
             <div class="array-list__row">
@@ -67,7 +67,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     data-array="system.locations.flexible"
                     data-unique="true"
                     data-value="{{this}}"
-                    title="Flexible Location"
+                    title="{{localize "SOHL.ArmorGear.Heading.flexibleLocation"}}"
                     ><i class="fa-solid fa-trash"></i></a>
             </div>
             {{else}}
@@ -80,8 +80,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     data-unique="true"
                     data-dtype="String"
                     data-default-value=""
-                    data-title="Flexible Location"
-                    ><i class="fa-solid fa-plus"></i><span>Add Flexible Location</span></button>
+                    data-title="{{localize "SOHL.ArmorGear.Heading.flexibleLocation"}}"
+                    ><i class="fa-solid fa-plus"></i><span>{{localize "SOHL.ArmorGear.Action.addFlexible"}}</span></button>
             </div>
         </div>
         <div class="array-list">
@@ -93,7 +93,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     data-array="system.locations.rigid"
                     data-unique="true"
                     data-value="{{this}}"
-                    title="Rigid Location"
+                    title="{{localize "SOHL.ArmorGear.Heading.rigidLocation"}}"
                     ><i class="fa-solid fa-trash"></i></a>
             </div>
             {{else}}
@@ -106,8 +106,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     data-unique="true"
                     data-dtype="String"
                     data-default-value=""
-                    data-title="Rigid Location"
-                    ><i class="fa-solid fa-plus"></i><span>Add Rigid Location</span></button>
+                    data-title="{{localize "SOHL.ArmorGear.Heading.rigidLocation"}}"
+                    ><i class="fa-solid fa-plus"></i><span>{{localize "SOHL.ArmorGear.Action.addRigid"}}</span></button>
             </div>
         </div>
     </fieldset>
