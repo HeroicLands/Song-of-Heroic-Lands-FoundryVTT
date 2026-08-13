@@ -1,6 +1,6 @@
 # Generated Content Tables
 
-See also: [Shortcode Integrity](./shortcode-integrity.md), [System Development](../contributing/system-development.md)
+See also: [Linking Between Content Notes](./content-links.md), [Shortcode Integrity](./shortcode-integrity.md), [System Development](../contributing/system-development.md)
 
 A catalog table — every cloth armour, every animal's attributes, every trauma of a
 category — is data that already lives in the frontmatter of the notes it describes.

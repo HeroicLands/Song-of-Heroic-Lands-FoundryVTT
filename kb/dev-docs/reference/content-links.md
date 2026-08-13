@@ -1,0 +1,110 @@
+# Linking Between Content Notes
+
+See also: [Shortcode Integrity](./shortcode-integrity.md), [Generated Content Tables](./content-tables.md), [Build, Deployment, and Release](../how-to/build-and-deployment.md)
+
+Content notes link to one another with **wikilinks**, never with file paths. One
+authored link compiles into a Foundry `@UUID` enricher for the compendium packs
+and into an ordinary markdown link for the knowledgebase, so it has to be written
+once and be correct in both.
+
+This page is for anyone authoring notes under `assets/content/` — including the
+prose that becomes an **item's documentation**. The one thing to internalise is
+in [An item and its documentation are two documents](#an-item-and-its-documentation-are-two-documents):
+the link that opens a skill's *sheet* is not the link that opens its *write-up*.
+
+## The four forms
+
+| Form | Addresses |
+| --- | --- |
+| `[[type/shortcode\|Text]]` | a document of that type |
+| `[[Text]]` | an alias unique **within the source note's own type** |
+| `[[type/shortcode#slug\|Text]]` | a section of that document |
+| `[[#slug\|Text]]` | a section of the note you are writing |
+
+The qualifier is the note's **type**, not its directory. `(type, shortcode)` is
+the system's logical identity and is unique by rule (see
+[Shortcode Integrity](./shortcode-integrity.md)), so an address stays valid when
+a note is refiled. There is deliberately no path form.
+
+The bare `[[Text]]` form resolves only against aliases of the **source's own
+type** — a `doc` reaches another `doc` by name, but not a `skill`. Where two
+notes of one type share a name the bare form is ambiguous and resolves to
+neither; write the qualified form instead. A link that cannot be resolved is
+left as literal text and reported by the build, so a mistake degrades visibly
+rather than silently.
+
+## An item and its documentation are two documents
+
+An item note produces **two** documents. Its frontmatter becomes an **Item** in
+the items pack; its body becomes that item's **item doc** — a JournalEntry in
+the journals pack — and the item's description becomes nothing but a pointer to
+it (see
+[An item's prose compiles to a journal](../how-to/build-and-deployment.md#an-items-prose-compiles-to-a-journal-not-into-the-item)).
+
+Two documents need two addresses. Every item type therefore has a **virtual
+`doc<type>` qualifier** naming its documentation:
+
+| Wikilink | Opens |
+| --- | --- |
+| `[[skill/wpnc]]` | the Weaponcraft **item sheet** |
+| `[[docskill/wpnc]]` | the Weaponcraft **write-up**, at its first page |
+| `[[docskill/wpnc#crafting]]` | the **`{#crafting}` page** of that write-up |
+
+The prefix works for every item type — `docweapongear/…`, `docmystery/…`,
+`doctrauma/…` — and is formed by prefix rather than kept in a list, so a type
+added tomorrow is addressable the day it is authored.
+
+**Choose by what you want the reader to see.** Sending someone to
+`[[skill/wpnc]]` when you meant "read about weaponsmithing" opens a sheet of
+numbers. Sending them to `[[docskill/wpnc]]` opens the prose.
+
+## Anchors, and where they do nothing
+
+A heading carrying `{#slug}` becomes **its own journal page** — that is how a
+section can be addressed at all, since a Foundry UUID cannot point inside a page.
+Every H1 becomes a page whether or not it is anchored; anchor a heading at any
+level when you want an inbound link to reach it.
+
+```markdown
+# Crafting {#crafting}
+```
+
+**An anchor on an Item, an Actor or a Macro does nothing and is dropped.** Such a
+link opens that document's *sheet*, not its documentation, and a sheet has no
+sections to address. Only a JournalEntry link opens a journal, at its first page
+or at the page an anchor names.
+
+```markdown
+[[skill/wpnc#crafting]]      <!-- anchor ignored: opens the item sheet -->
+[[docskill/wpnc#crafting]]   <!-- opens the Crafting page of the write-up -->
+```
+
+This is the mistake worth knowing about: the first form looks right, resolves
+without complaint, and quietly takes the reader somewhere else.
+
+## The knowledgebase reads the same link differently
+
+Deliberately. On the KB an item note renders as a **single page which is its
+documentation**, so `doc<type>` and `<type>` are aliases for the same URL and an
+anchor on either is an ordinary in-page anchor. In Foundry the two qualifiers
+reach two separate documents. Author one link; each build does the right thing
+with it.
+
+An author who means to point at the **knowledgebase site itself** — rather than
+at a document — writes an ordinary markdown link to its URL.
+
+## What the build checks
+
+`npm run lint:content-links` (part of `npm run lint`) enforces two things the
+compilers cannot:
+
+- **Every `#anchor` link lands on a heading that declares it.** The page id is
+  derived by hashing, so a link to an anchor nobody declares would otherwise
+  compile cleanly and dead-end.
+- **Every `Rules/**` and `User_Guide/**` note is reachable** from its own root by
+  following links. An unlinked note still compiles and still publishes; it is
+  simply impossible to arrive at by reading.
+
+`(@Table …)` directives are expanded before the walk, so a link generated into a
+table row counts as a real link on both counts. Links that cannot be resolved at
+all are reported by both content builds.
