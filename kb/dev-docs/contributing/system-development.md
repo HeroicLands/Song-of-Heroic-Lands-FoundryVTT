@@ -22,7 +22,7 @@ first contribution.
 
 > Want to **build a module**, or write **macros / Script Actions**, rather than
 > change the system itself? Start from the repository's
-> [CONTRIBUTING.md](../../CONTRIBUTING.md), which points each audience to the right
+> [CONTRIBUTING.md](../../../CONTRIBUTING.md), which points each audience to the right
 > guide. This page is for working on the system codebase.
 
 ## Governance
@@ -70,7 +70,7 @@ content will be removed immediately.
 ## Getting set up
 
 - **Prerequisites:** **Node.js** (see `engines` in
-  [`package.json`](../../package.json) for supported versions) and **Git**. All
+  [`package.json`](../../../package.json) for supported versions) and **Git**. All
   other tooling (TypeScript, Vite, Sass, Prettier, ESLint, vitest) installs via
   `npm ci` and runs from `node_modules`. Optional, for specific workflows: SSH
   access to a remote host (deploying to a remote Foundry instance via

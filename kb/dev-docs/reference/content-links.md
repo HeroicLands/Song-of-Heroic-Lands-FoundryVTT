@@ -108,3 +108,20 @@ compilers cannot:
 `(@Table …)` directives are expanded before the walk, so a link generated into a
 table row counts as a real link on both counts. Links that cannot be resolved at
 all are reported by both content builds.
+
+## Developer docs are the exception: they link by path
+
+Everything above concerns notes under `assets/content/`. The developer tree,
+`kb/dev-docs/`, links with **relative paths** instead — and cannot use
+wikilinks at all. A wikilink resolves by `(type, shortcode)`, which lives in a
+note's frontmatter; developer docs have no frontmatter and are deliberately left
+out of the link index, so `[[Testing]]` would find nothing and render as literal
+text. Relative paths are also what GitHub and an IDE follow, and that tree is
+read in the repository at least as often as on the knowledgebase.
+
+A wikilink in a developer doc *pointing at a content note* does work — that
+direction resolves normally. It is only dev-doc → dev-doc that has no target.
+
+The cost of a path is that it encodes location: move a page and every link into
+it breaks. `npm run lint:doc-links` is what says so, checking that each relative
+target exists and that each `#anchor` matches a heading the target declares.
