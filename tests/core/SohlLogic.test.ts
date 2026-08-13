@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { SohlItemBaseLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
@@ -263,6 +264,53 @@ describe("SohlLogic", () => {
             expect(format).toHaveBeenCalledWith(
                 "SOHL.docLabelFormat",
                 expect.objectContaining({ name: "My Item" }),
+            );
+        });
+    });
+
+    describe("delete confirmation dialog (#1353)", () => {
+        /** Drive `deleteDocument` to a declined dialog and return the spec it built. */
+        async function captureDeleteSpec(): Promise<any> {
+            const spy = vi
+                .spyOn(FoundryHelpersMock, "dialog")
+                .mockResolvedValue(false);
+            const logic = makeItemLogic(
+                SohlItemBaseLogic,
+                "misc",
+                {},
+                { name: "My Item" },
+            );
+            await logic.deleteDocument({} as any);
+            return spy.mock.calls[0]![0] as any;
+        }
+
+        it("names the document type from the TYPES.* root Foundry reads", async () => {
+            // `TYPE.<DOCUMENT>.<type>` was the pre-v10 spelling; those keys are
+            // gone (#1351), so building one yields a raw key in the dialog.
+            const localize = vi.spyOn(sohl.i18n, "localize");
+            await captureDeleteSpec();
+            const asked = localize.mock.calls.map((c) => c[0]);
+            expect(asked).toContain("TYPES.Item.misc");
+            expect(asked.filter((k) => /^TYPE\./.test(k))).toEqual([]);
+        });
+
+        it("builds its caution from an author-static template, prose riding in data", async () => {
+            // Rule #10: `dialog()` Handlebars-compiles `content`, so localized
+            // prose must arrive through `data` (escaped) rather than be spliced
+            // into the template source. Mirrors ContainerGearLogic.
+            const spec = await captureDeleteSpec();
+            expect(spec.content).not.toMatch(/will be deleted/);
+            expect(String(spec.data.caution)).toMatch(
+                /SOHL\.SohlLogic\.delete\.caution/,
+            );
+        });
+
+        it("interpolates the type name through i18n.format, not through the dialog's Handlebars pass", async () => {
+            const format = vi.spyOn(sohl.i18n, "format");
+            await captureDeleteSpec();
+            expect(format).toHaveBeenCalledWith(
+                "SOHL.SohlLogic.delete.caution",
+                expect.objectContaining({ docType: expect.any(String) }),
             );
         });
     });

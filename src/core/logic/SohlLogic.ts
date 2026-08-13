@@ -126,20 +126,26 @@ export abstract class SohlLogic<
      * @param _context - The action context; unused.
      */
     async deleteDocument(_context: SohlActionContext): Promise<void> {
-        const docType = sohl.i18n.format(
-            `TYPE.${this.document.documentName.toUpperCase()}.${this.document.type}`,
+        // `documentName` is already the segment Foundry's `TYPES.*` root uses
+        // ("Item" / "Actor"), which is where document-type labels live.
+        const docType = sohl.i18n.localize(
+            `TYPES.${this.document.documentName}.${this.document.type}`,
         );
         const confirmed = await dialog({
             title: sohl.i18n.format("SOHL.SohlLogic.delete.title", {
                 name: this.name,
                 docType,
             }),
-            content: toHTMLString(
-                `<p>${sohl.i18n.localize("SOHL.SohlLogic.delete.caution")}</p>`,
-            ),
+            // `dialog()` Handlebars-compiles `content`, so the template source
+            // stays author-static and the localized prose rides in `data`, where
+            // Handlebars escapes it (rule #10).
+            content: toHTMLString(`<p>{{caution}}</p>`),
             data: {
                 name: this.name,
                 docType,
+                caution: sohl.i18n.format("SOHL.SohlLogic.delete.caution", {
+                    docType,
+                }),
             },
             buttons: [
                 {

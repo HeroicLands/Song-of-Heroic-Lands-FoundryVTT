@@ -1837,7 +1837,7 @@
     "SOHL.SohlLogic.Action.delete.title": "Delete",
     "SOHL.SohlLogic.Action.edit.title": "Edit",
     "SOHL.SohlLogic.Action.postfinalize.title": "Finalize",
-    "SOHL.SohlLogic.delete.caution": "This {{docType}} will be deleted and cannot be recovered. Are you sure?",
+    "SOHL.SohlLogic.delete.caution": "This {docType} will be deleted and cannot be recovered. Are you sure?",
     "SOHL.SohlLogic.delete.no": "Cancel",
     "SOHL.SohlLogic.delete.title": "Delete {docType}: {name}",
     "SOHL.SohlLogic.delete.yes": "Delete",
