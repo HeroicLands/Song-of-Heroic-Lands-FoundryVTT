@@ -12,8 +12,8 @@
  */
 
 /**
- * Localization rendering (issue #1353). Two surfaces the unit suite cannot
- * prove, because both are assembled by Foundry itself:
+ * Localization rendering (issues #1353, #1352). Surfaces the unit suite cannot
+ * prove, because Foundry assembles them itself:
  *
  *   1. The delete-confirmation dialog. It names the document's type from the
  *      `TYPES.*` root and interpolates it into the caution line — a raw key or a
@@ -21,6 +21,9 @@
  *   2. Structure actor sheet labels. Structure declares no fields of its own, so
  *      every label comes from the `SOHL.Actor` prefix; this asserts they resolve
  *      rather than falling back to raw keys.
+ *   3. Gear subtype labels. #1352 moved the shared gear words onto `SOHL.Gear`
+ *      and dropped MiscGear's own prefix, so the subtype → Gear → Item prefix
+ *      chain is now load-bearing.
  */
 
 /** The open (rendered) dialog's text, or "" when none is open. */
@@ -73,6 +76,31 @@ describe("localized labels reach the user (#1353)", () => {
             cy.foundry((win) =>
                 win.__del.then(() => !!win.game.items.get(itemId)),
             ).should("eq", true);
+        });
+    });
+
+    // ------------------------------------------------- shared gear prefix labels
+
+    it("labels a gear subtype's shared fields from the SOHL.Gear prefix", () => {
+        // #1352 moved `encumbrance` (and the shared effect-key labels) onto
+        // `SOHL.Gear`, relying on each subtype's LOCALIZATION_PREFIXES chain
+        // ["SOHL.<Subtype>", "SOHL.Gear", "SOHL.Item"] to resolve them. Misc gear
+        // no longer declares a subtype prefix at all, so it is the strictest case.
+        cy.createWorldItem("armorgear", { name: "Mail Hauberk" }).as("armor");
+        cy.createWorldItem("miscgear", { name: "Tin Cup" }).as("misc");
+        cy.then(function () {
+            for (const doc of [this.armor, this.misc]) {
+                cy.openSheet(doc);
+                cy.foundry((win) => {
+                    const app = win.game.items.get(doc.id).sheet;
+                    return `${app.element.textContent ?? ""}`;
+                }).should((text) => {
+                    expect(text).to.contain("Quality");
+                    expect(text).to.contain("Durability");
+                    expect(text).to.not.match(/SOHL\.[A-Za-z]+\./);
+                });
+                cy.closeAllSheets();
+            }
         });
     });
 

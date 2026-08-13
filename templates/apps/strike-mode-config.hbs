@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="grid grid-2col">
         <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.minParts.label"}}</span>
             <input type="number" name="minParts" value="{{sm.minParts}}" /></label>
-        {{> shortcodeRefField embedded=embedded name="assocSkillCode" value=sm.assocSkillCode options=assocSkillCodeOptions label="SOHL.StrikeMode.FIELDS.assocSkillCode.label" hint="SOHL.StrikeMode.FIELDS.assocSkillCode.hint" blankLabel=(localize "SOHL.Key.None")}}
+        {{> shortcodeRefField embedded=embedded name="assocSkillCode" value=sm.assocSkillCode options=assocSkillCodeOptions label="SOHL.StrikeMode.FIELDS.assocSkillCode.label" hint="SOHL.StrikeMode.FIELDS.assocSkillCode.hint" blankLabel=(localize "SOHL.Common.none")}}
         {{#if isMelee}}
         <label class="form-group stacked"><span>{{localize "SOHL.MeleeWeaponStrikeMode.FIELDS.lengthBase.label"}}</span>
             <input type="number" step="0.1" name="lengthBase" value="{{sm.lengthBase}}" /></label>

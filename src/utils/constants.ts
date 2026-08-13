@@ -710,13 +710,25 @@ export const {
     values: DefendResultMishaps,
     /** Type guard for defend-mishap values. */
     isValue: isDefendResultMishap,
-} = defineType("SOHL.DefendResult.DefendMishap", {
-    STUMBLE_TEST: "stumbletest",
-    STUMBLE: "stumble",
-    FUMBLE_TEST: "fumbletest",
-    FUMBLE: "fumble",
-    WEAPON_BREAK: "weaponBreak",
-});
+} = defineType(
+    "SOHL.DefendResult.DefendMishap",
+    {
+        STUMBLE_TEST: "stumbletest",
+        STUMBLE: "stumble",
+        FUMBLE_TEST: "fumbletest",
+        FUMBLE: "fumble",
+        WEAPON_BREAK: "weaponBreak",
+    },
+    {
+        // The five mishaps a defender shares with an attacker are the same words;
+        // `SOHL.AttackResult.Mishap` owns them (issue #1352).
+        STUMBLE_TEST: "SOHL.AttackResult.Mishap.stumbletest",
+        STUMBLE: "SOHL.AttackResult.Mishap.stumble",
+        FUMBLE_TEST: "SOHL.AttackResult.Mishap.fumbletest",
+        FUMBLE: "SOHL.AttackResult.Mishap.fumble",
+        WEAPON_BREAK: "SOHL.AttackResult.Mishap.weaponBreak",
+    },
+);
 /** Union of all defend-mishap values. */
 export type DefendResultMishap =
     (typeof DEFEND_MISHAP)[keyof typeof DEFEND_MISHAP];
@@ -1092,12 +1104,20 @@ export const {
     isValue: isAttributeEffectKey,
     /** Localization keys per attribute effect key. */
     labels: attributeEffectKeyLabels,
-} = defineType("SOHL.Attribute.EffectKey", {
-    SCORE: "mod:logic.score",
-    MASTERY_LEVEL: "mod:logic.masteryLevel",
-    FATE: "mod:logic.fateMasteryLevel",
-    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
-});
+} = defineType(
+    "SOHL.Attribute.EffectKey",
+    {
+        SCORE: "mod:logic.score",
+        MASTERY_LEVEL: "mod:logic.masteryLevel",
+        FATE: "mod:logic.fateMasteryLevel",
+        SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        MASTERY_LEVEL: "SOHL.MasteryLevel.FIELDS.masteryLevelBase.label",
+    },
+);
 /** Union of all attribute effect-key change paths. */
 export type AttributeEffectKey =
     (typeof ATTRIBUTE_EFFECT_KEY)[keyof typeof ATTRIBUTE_EFFECT_KEY];
@@ -1111,16 +1131,42 @@ export const {
     isValue: isAfflictionEffectKey,
     /** Localization keys per affliction effect key. */
     labels: afflictionEffectKeyLabels,
-} = defineType("SOHL.Affliction.EffectKey", {
-    LEVEL: "mod:logic.level",
-    HEALING_RATE: "mod:logic.healingRate",
-    CONTAGION_INDEX: "mod:logic.contagionIndex",
-    COURSE: "mod:logic.course",
-    HEALING: "mod:logic.healing",
-});
+} = defineType(
+    "SOHL.Affliction.EffectKey",
+    {
+        LEVEL: "mod:logic.level",
+        HEALING_RATE: "mod:logic.healingRate",
+        CONTAGION_INDEX: "mod:logic.contagionIndex",
+        COURSE: "mod:logic.course",
+        HEALING: "mod:logic.healing",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        LEVEL: "SOHL.Affliction.FIELDS.levelBase.label",
+        HEALING_RATE: "SOHL.Affliction.FIELDS.healingRateBase.label",
+    },
+);
 /** Union of all affliction effect-key change paths. */
 export type AfflictionEffectKey =
     (typeof AFFLICTION_EFFECT_KEY)[keyof typeof AFFLICTION_EFFECT_KEY];
+
+/**
+ * Localization keys the gear subtypes **share** rather than restate.
+ *
+ * Every gear kind carries the same weight / value / quality / durability /
+ * encumbrance effect keys, and `SOHL.Gear.FIELDS.*` already owns each of those
+ * words. Passing this as {@link defineType}'s `labelKeys` makes each subtype
+ * borrow the shared label instead of minting `SOHL.<Subtype>.EffectKey.WEIGHT`
+ * and friends — one word, translated once (issue #1352).
+ */
+const GEAR_SHARED_EFFECT_LABELS = {
+    WEIGHT: "SOHL.Gear.FIELDS.weightBase.label",
+    VALUE: "SOHL.Gear.FIELDS.valueBase.label",
+    QUALITY: "SOHL.Gear.FIELDS.qualityBase.label",
+    DURABILITY: "SOHL.Gear.FIELDS.durabilityBase.label",
+    ENCUMBRANCE: "SOHL.Gear.FIELDS.encumbrance.label",
+} as const;
 
 export const {
     /** Map of armor-gear effect-key name → change path. */
@@ -1131,17 +1177,21 @@ export const {
     isValue: isArmorGearEffectKey,
     /** Localization keys per armor-gear effect key. */
     labels: armorGearEffectKeyLabels,
-} = defineType("SOHL.ArmorGear.EffectKey", {
-    WEIGHT: "mod:logic.weight",
-    VALUE: "mod:logic.value",
-    QUALITY: "mod:logic.quality",
-    DURABILITY: "mod:logic.durability",
-    ENCUMBRANCE: "mod:logic.encumbrance",
-    BLUNT: "mod:logic.protection.blunt",
-    EDGED: "mod:logic.protection.edged",
-    PIERCING: "mod:logic.protection.piercing",
-    FIRE: "mod:logic.protection.fire",
-});
+} = defineType(
+    "SOHL.ArmorGear.EffectKey",
+    {
+        WEIGHT: "mod:logic.weight",
+        VALUE: "mod:logic.value",
+        QUALITY: "mod:logic.quality",
+        DURABILITY: "mod:logic.durability",
+        ENCUMBRANCE: "mod:logic.encumbrance",
+        BLUNT: "mod:logic.protection.blunt",
+        EDGED: "mod:logic.protection.edged",
+        PIERCING: "mod:logic.protection.piercing",
+        FIRE: "mod:logic.protection.fire",
+    },
+    GEAR_SHARED_EFFECT_LABELS,
+);
 /** Union of all armor-gear effect-key change paths. */
 export type ArmorGearEffectKey =
     (typeof ARMORGEAR_EFFECT_KEY)[keyof typeof ARMORGEAR_EFFECT_KEY];
@@ -1155,11 +1205,21 @@ export const {
     isValue: isMysteryEffectKey,
     /** Localization keys per mystery effect key. */
     labels: mysteryEffectKeyLabels,
-} = defineType("SOHL.Mystery.EffectKey", {
-    LEVEL: "mod:logic.level",
-    CHARGES: "mod:logic.charges.value",
-    MAX_CHARGES: "mod:logic.charges.max",
-});
+} = defineType(
+    "SOHL.Mystery.EffectKey",
+    {
+        LEVEL: "mod:logic.level",
+        CHARGES: "mod:logic.charges.value",
+        MAX_CHARGES: "mod:logic.charges.max",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        LEVEL: "SOHL.Mystery.FIELDS.levelBase.label",
+        CHARGES: "SOHL.Mystery.FIELDS.charges.label",
+        MAX_CHARGES: "SOHL.Mystery.FIELDS.charges.max.label",
+    },
+);
 /** Union of all mystery effect-key change paths. */
 export type MysteryEffectKey =
     (typeof MYSTERY_EFFECT_KEY)[keyof typeof MYSTERY_EFFECT_KEY];
@@ -1173,13 +1233,24 @@ export const {
     isValue: isMysticalAbilityEffectKey,
     /** Localization keys per mystical-ability effect key. */
     labels: mysticalAbilityEffectKeyLabels,
-} = defineType("SOHL.MysticalAbility.EffectKey", {
-    MASTERY_LEVEL: "mod:logic.masteryLevel",
-    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
-    LEVEL: "mod:logic.level",
-    CHARGES: "mod:logic.charges.value",
-    MAX_CHARGES: "mod:logic.charges.max",
-});
+} = defineType(
+    "SOHL.MysticalAbility.EffectKey",
+    {
+        MASTERY_LEVEL: "mod:logic.masteryLevel",
+        SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
+        LEVEL: "mod:logic.level",
+        CHARGES: "mod:logic.charges.value",
+        MAX_CHARGES: "mod:logic.charges.max",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        MASTERY_LEVEL: "SOHL.MasteryLevel.FIELDS.masteryLevelBase.label",
+        LEVEL: "SOHL.MysticalAbility.FIELDS.levelBase.label",
+        CHARGES: "SOHL.MysticalAbility.FIELDS.charges.label",
+        MAX_CHARGES: "SOHL.MysticalAbility.FIELDS.charges.max.label",
+    },
+);
 /** Union of all mystical-ability effect-key change paths. */
 export type MysticalAbilityEffectKey =
     (typeof MYSTICALABILITY_EFFECT_KEY)[keyof typeof MYSTICALABILITY_EFFECT_KEY];
@@ -1193,12 +1264,20 @@ export const {
     isValue: isSkillEffectKey,
     /** Localization keys per skill effect key. */
     labels: skillEffectKeyLabels,
-} = defineType("SOHL.Skill.EffectKey", {
-    BOOSTS: "logic.boosts",
-    MASTERY_LEVEL: "mod:logic.masteryLevel",
-    FATE: "mod:logic.fateMasteryLevel",
-    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
-});
+} = defineType(
+    "SOHL.Skill.EffectKey",
+    {
+        BOOSTS: "logic.boosts",
+        MASTERY_LEVEL: "mod:logic.masteryLevel",
+        FATE: "mod:logic.fateMasteryLevel",
+        SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        MASTERY_LEVEL: "SOHL.MasteryLevel.FIELDS.masteryLevelBase.label",
+    },
+);
 /** Union of all skill effect-key change paths. */
 export type SkillEffectKey =
     (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
@@ -1212,13 +1291,17 @@ export const {
     isValue: isConcoctionGearEffectKey,
     /** Localization keys per concoction-gear effect key. */
     labels: concoctionGearEffectKeyLabels,
-} = defineType("SOHL.ConcoctionGear.EffectKey", {
-    WEIGHT: "mod:logic.weight",
-    VALUE: "mod:logic.value",
-    QUALITY: "mod:logic.quality",
-    DURABILITY: "mod:logic.durability",
-    STRENGTH: "mod:logic.strength",
-});
+} = defineType(
+    "SOHL.ConcoctionGear.EffectKey",
+    {
+        WEIGHT: "mod:logic.weight",
+        VALUE: "mod:logic.value",
+        QUALITY: "mod:logic.quality",
+        DURABILITY: "mod:logic.durability",
+        STRENGTH: "mod:logic.strength",
+    },
+    GEAR_SHARED_EFFECT_LABELS,
+);
 /** Union of all concoction-gear effect-key change paths. */
 export type ConcoctionGearEffectKey =
     (typeof CONCOCTIONGEAR_EFFECT_KEY)[keyof typeof CONCOCTIONGEAR_EFFECT_KEY];
@@ -1232,13 +1315,17 @@ export const {
     isValue: isContainerGearEffectKey,
     /** Localization keys per container-gear effect key. */
     labels: containerGearEffectKeyLabels,
-} = defineType("SOHL.ContainerGear.EffectKey", {
-    WEIGHT: "mod:logic.weight",
-    VALUE: "mod:logic.value",
-    QUALITY: "mod:logic.quality",
-    DURABILITY: "mod:logic.durability",
-    MAX_CAPACITY: "mod:logic.maxCapacity",
-});
+} = defineType(
+    "SOHL.ContainerGear.EffectKey",
+    {
+        WEIGHT: "mod:logic.weight",
+        VALUE: "mod:logic.value",
+        QUALITY: "mod:logic.quality",
+        DURABILITY: "mod:logic.durability",
+        MAX_CAPACITY: "mod:logic.maxCapacity",
+    },
+    GEAR_SHARED_EFFECT_LABELS,
+);
 /** Union of all container-gear effect-key change paths. */
 export type ContainerGearEffectKey =
     (typeof CONTAINERGEAR_EFFECT_KEY)[keyof typeof CONTAINERGEAR_EFFECT_KEY];
@@ -1252,12 +1339,16 @@ export const {
     isValue: isMiscGearEffectKey,
     /** Localization keys per misc-gear effect key. */
     labels: miscGearEffectKeyLabels,
-} = defineType("SOHL.MiscGear.EffectKey", {
-    WEIGHT: "mod:logic.weight",
-    VALUE: "mod:logic.value",
-    QUALITY: "mod:logic.quality",
-    DURABILITY: "mod:logic.durability",
-});
+} = defineType(
+    "SOHL.MiscGear.EffectKey",
+    {
+        WEIGHT: "mod:logic.weight",
+        VALUE: "mod:logic.value",
+        QUALITY: "mod:logic.quality",
+        DURABILITY: "mod:logic.durability",
+    },
+    GEAR_SHARED_EFFECT_LABELS,
+);
 /** Union of all misc-gear effect-key change paths. */
 export type MiscGearEffectKey =
     (typeof MISCGEAR_EFFECT_KEY)[keyof typeof MISCGEAR_EFFECT_KEY];
@@ -1271,13 +1362,21 @@ export const {
     isValue: isProjectileGearEffectKey,
     /** Localization keys per projectile-gear effect key. */
     labels: projectileGearEffectKeyLabels,
-} = defineType("SOHL.ProjectileGear.EffectKey", {
-    WEIGHT: "mod:logic.weight",
-    VALUE: "mod:logic.value",
-    QUALITY: "mod:logic.quality",
-    DURABILITY: "mod:logic.durability",
-    IMPACT: "mod:logic.impact",
-});
+} = defineType(
+    "SOHL.ProjectileGear.EffectKey",
+    {
+        WEIGHT: "mod:logic.weight",
+        VALUE: "mod:logic.value",
+        QUALITY: "mod:logic.quality",
+        DURABILITY: "mod:logic.durability",
+        IMPACT: "mod:logic.impact",
+    },
+    {
+        ...GEAR_SHARED_EFFECT_LABELS,
+        // Restates the strike-mode impact label; borrow it (issue #1352).
+        IMPACT: "SOHL.ProjectileGear.FIELDS.impactBase.label",
+    },
+);
 /** Union of all projectile-gear effect-key change paths. */
 export type ProjectileGearEffectKey =
     (typeof PROJECTILEGEAR_EFFECT_KEY)[keyof typeof PROJECTILEGEAR_EFFECT_KEY];
@@ -1291,11 +1390,20 @@ export const {
     isValue: isTraumaEffectKey,
     /** Localization keys per trauma effect key. */
     labels: traumaEffectKeyLabels,
-} = defineType("SOHL.Trauma.EffectKey", {
-    LEVEL: "mod:logic.level",
-    HEALING_RATE: "mod:logic.healingRate",
-    HEALING: "mod:logic.healing",
-});
+} = defineType(
+    "SOHL.Trauma.EffectKey",
+    {
+        LEVEL: "mod:logic.level",
+        HEALING_RATE: "mod:logic.healingRate",
+        HEALING: "mod:logic.healing",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        LEVEL: "SOHL.Trauma.FIELDS.levelBase.label",
+        HEALING_RATE: "SOHL.Trauma.FIELDS.healingRateBase.label",
+    },
+);
 /** Union of all trauma effect-key change paths. */
 export type TraumaEffectKey =
     (typeof TRAUMA_EFFECT_KEY)[keyof typeof TRAUMA_EFFECT_KEY];
@@ -1309,13 +1417,17 @@ export const {
     isValue: isWeaponGearEffectKey,
     /** Localization keys per weapon-gear effect key. */
     labels: weaponGearEffectKeyLabels,
-} = defineType("SOHL.WeaponGear.EffectKey", {
-    WEIGHT: "mod:logic.weight",
-    VALUE: "mod:logic.value",
-    QUALITY: "mod:logic.quality",
-    DURABILITY: "mod:logic.durability",
-    ENCUMBRANCE: "mod:logic.encumbrance",
-});
+} = defineType(
+    "SOHL.WeaponGear.EffectKey",
+    {
+        WEIGHT: "mod:logic.weight",
+        VALUE: "mod:logic.value",
+        QUALITY: "mod:logic.quality",
+        DURABILITY: "mod:logic.durability",
+        ENCUMBRANCE: "mod:logic.encumbrance",
+    },
+    GEAR_SHARED_EFFECT_LABELS,
+);
 /** Union of all weapon-gear effect-key change paths. */
 export type WeaponGearEffectKey =
     (typeof WEAPONGEAR_EFFECT_KEY)[keyof typeof WEAPONGEAR_EFFECT_KEY];
@@ -1329,16 +1441,24 @@ export const {
     isValue: isMeleeStrikeModeEffectKey,
     /** Localization keys per melee-strike-mode effect key. */
     labels: meleeStrikeModeEffectKeyLabels,
-} = defineType("SOHL.MeleeStrikeMode.EffectKey", {
-    // Change paths are rooted at the strike-mode entity (the effect's target
-    // when `scope` is `meleestrikemode`), so no `sm:` prefix — the change is
-    // applied directly to the matched strike mode.
-    ATTACK: "mod:attack",
-    IMPACT: "mod:impact",
-    REACH: "mod:reach",
-    BLOCK: "mod:defense.block",
-    COUNTERSTRIKE: "mod:defense.counterstrike",
-});
+} = defineType(
+    "SOHL.MeleeStrikeMode.EffectKey",
+    {
+        // Change paths are rooted at the strike-mode entity (the effect's target
+        // when `scope` is `meleestrikemode`), so no `sm:` prefix — the change is
+        // applied directly to the matched strike mode.
+        ATTACK: "mod:attack",
+        IMPACT: "mod:impact",
+        REACH: "mod:reach",
+        BLOCK: "mod:defense.block",
+        COUNTERSTRIKE: "mod:defense.counterstrike",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        IMPACT: "SOHL.StrikeMode.FIELDS.impactBase.label",
+    },
+);
 /** Union of all melee-strike-mode effect-key change paths. */
 export type MeleeStrikeModeEffectKey =
     (typeof MELEESTRIKEMODE_EFFECT_KEY)[keyof typeof MELEESTRIKEMODE_EFFECT_KEY];
@@ -1352,15 +1472,23 @@ export const {
     isValue: isMissileStrikeModeEffectKey,
     /** Localization keys per missile-strike-mode effect key. */
     labels: missileStrikeModeEffectKeyLabels,
-} = defineType("SOHL.MissileStrikeMode.EffectKey", {
-    // Change paths are rooted at the strike-mode entity (the effect's target
-    // when `scope` is `missilestrikemode`).
-    ATTACK: "mod:attack",
-    IMPACT: "mod:impact",
-    SPREAD: "mod:spread",
-    BASE_RANGE: "mod:baseRange",
-    DRAW: "mod:draw",
-});
+} = defineType(
+    "SOHL.MissileStrikeMode.EffectKey",
+    {
+        // Change paths are rooted at the strike-mode entity (the effect's target
+        // when `scope` is `missilestrikemode`).
+        ATTACK: "mod:attack",
+        IMPACT: "mod:impact",
+        SPREAD: "mod:spread",
+        BASE_RANGE: "mod:baseRange",
+        DRAW: "mod:draw",
+    },
+    {
+        // Members that restate a label another namespace already owns
+        // borrow it rather than minting a duplicate (issue #1352).
+        IMPACT: "SOHL.StrikeMode.FIELDS.impactBase.label",
+    },
+);
 /** Union of all missile-strike-mode effect-key change paths. */
 export type MissileStrikeModeEffectKey =
     (typeof MISSILESTRIKEMODE_EFFECT_KEY)[keyof typeof MISSILESTRIKEMODE_EFFECT_KEY];
@@ -2452,11 +2580,19 @@ export interface DefinedType<KMap extends Record<string, unknown>> {
  * @param prefix - Localization-key prefix joined to each entry key with a `.`
  *   to form {@link DefinedType.labels} (e.g. `"TYPES.Actor"`).
  * @param def - The key → value map defining the set.
+ * @param labelKeys - Per-member overrides that point a member at an **existing**
+ *   localization key instead of minting one under `prefix`. Use it when a set
+ *   inherits a label that already has an owner elsewhere, so the word is
+ *   translated once rather than restated per subtype (issue #1352) — e.g. every
+ *   gear subtype's `WEIGHT` effect key resolving to
+ *   `SOHL.Gear.FIELDS.weightBase.label`. Members left out keep the default
+ *   `<prefix>.<segment>` key.
  * @returns A {@link DefinedType} bundle: `{ kind, values, isValue, labels, Type }`.
  */
 export function defineType<const T extends Record<string, unknown>>(
     prefix: string,
     def: T,
+    labelKeys?: Partial<Record<keyof T & string, string>>,
 ) {
     type StringKeys = keyof T & string;
     type KindValue = T[StringKeys];
@@ -2474,6 +2610,10 @@ export function defineType<const T extends Record<string, unknown>>(
     //     paths that contain `.` or `:` (e.g. `"mod:logic.score"`); those enums
     //     are labelled by key, and a change-path makes a nonsensical i18n key.
     const labelKey = (k: string, v: unknown): string => {
+        // An explicit override wins: the member borrows a label that is already
+        // owned elsewhere rather than restating it under this prefix.
+        const override = labelKeys?.[k as keyof T & string];
+        if (override) return override;
         const seg = typeof v === "string" && !/[.:]/.test(v) ? v : k;
         return `${prefix}.${seg}`;
     };

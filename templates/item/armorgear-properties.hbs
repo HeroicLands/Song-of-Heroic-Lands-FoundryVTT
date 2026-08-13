@@ -30,7 +30,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{!-- Encumbrance group: the arm pieces cost nothing alone and 5
                   between them once three or more are worn. An article carries a
                   value or belongs to a group, never both. --}}
-            {{formGroup fields.encumbranceGroup rootId="armgear-encgrp" classes="text-field" stacked=true value=system.encumbranceGroup}}
+            {{!-- `localize=true`: the field's `choices` are i18n keys, so without
+                  it the select renders the raw `SOHL.ArmorGear.EncumbranceGroup.*`
+                  key as its option text. --}}
+            {{formGroup fields.encumbranceGroup rootId="armgear-encgrp" classes="text-field" stacked=true localize=true value=system.encumbranceGroup}}
             {{!-- Perception penalty: applied to anything built on Perception
                   while worn; the worst worn penalty applies, never the sum. --}}
             {{formGroup fields.perceptionPenaltyBase rootId="armgear-perc" classes="text-field" stacked=true value=system.perceptionPenaltyBase}}

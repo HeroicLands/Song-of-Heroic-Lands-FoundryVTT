@@ -17,7 +17,7 @@
  *
  * Keys are gathered statically from two families of reference:
  *
- *  1. **`defineType(prefix, def)`-generated keys.** `defineType`
+ *  1. **`defineType(prefix, def, labelKeys?)`-generated keys.** `defineType`
  *     (`src/utils/constants.ts`) turns a `{ KEY: value }` map into localization keys
  *     `` `${prefix}.${seg}` ``, where `seg` is the **value** when it is a plain
  *     identifier string (no `.`/`:`) and the **key** otherwise. That rule is
@@ -203,6 +203,41 @@ for (const file of tsFiles) {
                     reason: !prefix ? "non-literal prefix" : "unresolved def",
                 });
             } else {
+                // A third argument maps member → an *existing* label key it
+                // borrows instead of minting one under `prefix` (#1352). Those
+                // members contribute the borrowed key, not a generated one.
+                const overrides = new Map();
+                let ovObj = unwrap(node.arguments[2]);
+                if (ovObj && ts.isIdentifier(ovObj))
+                    ovObj = constObjects.get(ovObj.text) ?? null;
+                if (ovObj && ts.isObjectLiteralExpression(ovObj)) {
+                    for (const prop of ovObj.properties) {
+                        if (ts.isSpreadAssignment(prop)) {
+                            let spread = unwrap(prop.expression);
+                            if (spread && ts.isIdentifier(spread))
+                                spread = constObjects.get(spread.text) ?? null;
+                            if (
+                                spread &&
+                                ts.isObjectLiteralExpression(spread)
+                            ) {
+                                for (const sp of spread.properties) {
+                                    if (!ts.isPropertyAssignment(sp)) continue;
+                                    const n = sp.name;
+                                    if (!ts.isIdentifier(n) && !isStr(n))
+                                        continue;
+                                    const v = unwrap(sp.initializer);
+                                    if (isStr(v)) overrides.set(n.text, v.text);
+                                }
+                            }
+                            continue;
+                        }
+                        if (!ts.isPropertyAssignment(prop)) continue;
+                        const n = prop.name;
+                        if (!ts.isIdentifier(n) && !isStr(n)) continue;
+                        const v = unwrap(prop.initializer);
+                        if (isStr(v)) overrides.set(n.text, v.text);
+                    }
+                }
                 const keys = [];
                 for (const prop of defObj.properties) {
                     let key;
@@ -213,6 +248,11 @@ for (const file of tsFiles) {
                         if (ts.isIdentifier(n) || isStr(n)) key = n.text;
                     }
                     if (key == null) continue; // spread / computed / method
+                    const borrowed = overrides.get(key);
+                    if (borrowed) {
+                        keys.push(borrowed);
+                        continue;
+                    }
                     const seg =
                         ts.isPropertyAssignment(prop) ?
                             segFor(key, prop.initializer)
