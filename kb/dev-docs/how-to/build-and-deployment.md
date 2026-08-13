@@ -91,7 +91,7 @@ reads the Markdown directly.
 | `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                   |
 | `test:coverage`           | Run with coverage.                                                                                                            |
 | `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                    |
-| `test:e2e`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md). |
+| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md). |
 | `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                            |
 | `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
@@ -551,7 +551,7 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
 | `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
 | `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                     |
-| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e`): rebuild → `push:test` → cycle the world → run Cypress. |
+| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress. |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |
 | `packs/build-compendiums.mjs`       | Compile/unpack `_source/` ↔ LevelDB packs (Foundry CLI).                                  |
 | `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                   |

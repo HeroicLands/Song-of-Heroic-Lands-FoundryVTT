@@ -15,7 +15,7 @@
  * The **fast e2e loop**: rebuild what changed, redeploy it to the running test
  * container, make sure the world is actually serving, and run Cypress.
  *
- * `npm run test:e2e` is the from-scratch path — it reseeds the world and
+ * `npm run e2e:full` is the from-scratch path — it reseeds the world and
  * recreates the container every run, which costs about a minute before the
  * first assertion. While iterating you want the container left up, and then the
  * loop is: build → `push:test` → (sometimes) restart → wait for the world →
@@ -39,10 +39,10 @@
  *   node utils/e2e-redeploy.mjs [--build=<targets>] [--recreate] [--no-run]
  *                               [--spec <glob>] [-- <cypress args…>]
  *
- *   npm run e2e -- --spec cypress/e2e/birthsign-mystery.cy.js
- *   npm run e2e -- --build=code --spec cypress/e2e/skill-*.cy.js
- *   npm run e2e -- --build=all            # every spec, full rebuild
- *   npm run e2e -- --no-run               # just get the environment current
+ *   npm run e2e:fast -- --spec cypress/e2e/birthsign-mystery.cy.js
+ *   npm run e2e:fast -- --build=code --spec cypress/e2e/skill-*.cy.js
+ *   npm run e2e:fast -- --build=all            # every spec, full rebuild
+ *   npm run e2e:fast -- --no-run               # just get the environment current
  *
  * `--build` takes a comma-separated list of `assets`, `code`, `db`, `system`,
  * `all`, or `none` (default `all`). Naming `system` implies `--recreate`.

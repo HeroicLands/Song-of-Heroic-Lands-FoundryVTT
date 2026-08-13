@@ -18,7 +18,7 @@
  *   3. run Cypress (`run` headless, or `open` interactive),
  *   4. tear the container down (only in `run` mode).
  *
- * Assumes the world has already been seeded (`test:e2e:seed`) and the system
+ * Assumes the world has already been seeded (`e2e:full:seed`) and the system
  * pushed (`push:test`). Foundry is single-seat: only one licensed instance can
  * run at a time, so this warns if another `sohl-foundry-*` container is up, and
  * surfaces a license-verification failure with a clear message.
