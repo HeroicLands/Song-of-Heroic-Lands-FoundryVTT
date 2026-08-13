@@ -27,7 +27,16 @@ sohl:
 folder: gqRvjlrWbuCwGy3N
 ---
 
-Masonry is quarrying, dressing and laying stone. A field wall or a carved plaque is a single Masonry Success Value test and no more. Anything large or structurally ambitious — a keep, a bridge, a gatehouse — must first be designed: an Engineering Design Roll is made before the first stone is cut, and its Success Value then modifies the Construction Roll below.
+Masonry is quarrying, dressing and laying stone — from a field wall or a carved plaque up to a keep, a bridge or a gatehouse, and the quarry and the scaffold that any of them needs.
+
+# Crafting {#crafting}
+
+Stonework is made by the common [[doc/crafting|crafting routine]] — workshop,
+expense, test, result, masterwork rolls, repair. A field wall or a carved plaque
+is a single Masonry Success Value test and no more. What follows is what is
+particular to a building.
+
+**Design.** Anything large or structurally ambitious — a keep, a bridge, a gatehouse — must first be designed: an Engineering Design Roll is made before the first stone is cut, and its Success Value then modifies the Construction Roll below.
 
 Most stone buildings also want a master woodworker for centring, scaffolding, floors and roof, and their Woodworking Mastery Level serves as a Secondary Modifier.
 

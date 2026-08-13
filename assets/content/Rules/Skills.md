@@ -87,6 +87,10 @@ to perform them at all.
 
 ## Craft
 
+Every trade below that makes an article makes it by the one routine in
+[[doc/crafting|Crafting]] — workshop, expense, test, result, masterwork. Each
+skill's own entry gives only what is particular to that trade.
+
 - [[skill/cmcs|Ceramics]] - Shaping clay into durable pots, bowls, tiles, bricks, and sculpture.
 - [[skill/draw|Drawing]] - Painting, sketching, fresco work; creating artistic and technical designs.
 - [[skill/fltch|Fletching]] - Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons.

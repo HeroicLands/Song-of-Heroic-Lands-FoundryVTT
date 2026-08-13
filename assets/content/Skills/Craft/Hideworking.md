@@ -29,7 +29,13 @@ folder: gqRvjlrWbuCwGy3N
 
 Hideworking is the whole passage from a raw skin to a finished article: fleshing, liming, tanning or tawing, currying, and then the cutting and stitching that turns the leather into something. It is filthy, protracted work, and tanneries stand downwind of everywhere for good reason.
 
-A Hideworking Success Value test on the standard table fixes the quality of what comes off the bench.
+# Crafting {#crafting}
+
+Leather goods are made by the common [[doc/crafting|crafting routine]] —
+workshop, expense, test, result, masterwork rolls, repair. What follows is what
+is particular to the tannery.
+
+**Test.** A Hideworking Success Value test, read on the standard ladder, fixes the quality of what comes off the bench.
 
 | Leather item            | Cost | Time | Rawhide item                 | Cost | Time |
 | ----------------------- | ---- | ---- | ---------------------------- | ---- | ---- |

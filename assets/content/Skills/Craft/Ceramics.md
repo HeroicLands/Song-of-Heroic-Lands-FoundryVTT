@@ -29,9 +29,19 @@ folder: gqRvjlrWbuCwGy3N
 
 Ceramics is making durable things out of clay and heat. A potter is nominally a specialist, but the underlying principles carry across an unusually wide range of goods — cooking pots and storage jars, roof tile and brick, oil lamps, drainpipe, votive figures — so a single trained pair of hands supplies most of what a village puts on a shelf or a roof.
 
-The shaping is quick. An experienced potter throws a bowl on a stick wheel in minutes and works several pieces at once. What takes time is everything after: drying without cracking, firing without exploding, glazing without ruin. Reckon **one day per 6d of the finished piece's sale price**, at a material cost of **3d per day**.
+The shaping is quick. An experienced potter throws a bowl on a stick wheel in minutes and works several pieces at once. What takes time is everything after: drying without cracking, firing without exploding, glazing without ruin.
 
-Quality is a Ceramics Success Value test read on the standard table, so that the same potter's kiln yields flawed ware, plain sound ware, and the occasional piece worth keeping.
+Knowing the craft's history, or recognising an unfamiliar technique or an anomalous clay, is a different question from throwing a pot — that is a Reasoning (Ceramics) test rather than a Ceramics one.
+
+# Crafting {#crafting}
+
+Pottery is made by the common [[doc/crafting|crafting routine]] — workshop,
+expense, test, result, masterwork rolls, repair. What follows is what is
+particular to the kiln.
+
+**Expense.** Reckon **one day per 6d of the finished piece's sale price**, at a material cost of **3d per day**.
+
+**Test.** A Ceramics Success Value test, read on the standard ladder, so that the same potter's kiln yields flawed ware, plain sound ware, and the occasional piece worth keeping.
 
 | Item                                | lb  | Price | Item                   | lb  | Price |
 | ----------------------------------- | --- | ----- | ---------------------- | --- | ----- |
@@ -50,5 +60,3 @@ everything else.
 | --------------------- | --- | ---------- |
 | Brick, 8″ × 3¾″ × 2¼″ | 3   | 6d         |
 | Tile, 4″ × 4″ × 1″    | 2   | 1d         |
-
-Knowing the craft's history, or recognising an unfamiliar technique or an anomalous clay, is a different question from throwing a pot — that is a Reasoning (Ceramics) test rather than a Ceramics one.

@@ -29,7 +29,17 @@ folder: gqRvjlrWbuCwGy3N
 
 Glassworking is the winning of vessels and panes out of a substance that is only workable while it is dangerously hot and unforgiving the moment it is not. Bottles, flasks, phials, goblets, beads, window quarries and — for the very few with the patience and the ground stone — lenses.
 
-Reckon **one day per 6d of the item's sale price**, at a material cost of **2½d per day**. A Glassworking Success Value test on the standard table fixes the quality: clarity, freedom from bubble and streak, evenness of wall.
+Glass phials are also the vessel of choice for anything that must be seen without being opened, and a thin-walled jar is the standard body of a fire pot — which is a use the maker is rarely told about.
+
+# Crafting {#crafting}
+
+Glass is made by the common [[doc/crafting|crafting routine]] — workshop,
+expense, test, result, masterwork rolls, repair. What follows is what is
+particular to the glasshouse.
+
+**Expense.** Reckon **one day per 6d of the item's sale price**, at a material cost of **2½d per day**.
+
+**Test.** A Glassworking Success Value test, read on the standard ladder. What it fixes is clarity, freedom from bubble and streak, and evenness of wall.
 
 | Item                  | lb  | Price | Item                | lb   | Price |
 | --------------------- | --- | ----- | ------------------- | ---- | ----- |
@@ -46,5 +56,3 @@ hundreds of feet and years of work.
 | --------------- | ---------- | ------------- |
 | Window, plain   | 3          | 2d            |
 | Window, stained | 4          | 12d           |
-
-Glass phials are also the vessel of choice for anything that must be seen without being opened, and a thin-walled jar is the standard body of a fire pot — which is a use the maker is rarely told about.

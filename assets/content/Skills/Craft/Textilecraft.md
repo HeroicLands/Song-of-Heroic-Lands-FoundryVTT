@@ -29,7 +29,17 @@ folder: gqRvjlrWbuCwGy3N
 
 Textilecraft covers cloth from the fibre onward — spinning, weaving, fulling, dyeing — and then the knitting, tailoring and embroidery that turn cloth into goods. The workhorse material for garments in temperate country is buckram: hard-wearing, cheap, and about as comfortable as sailcloth. Fine wool, soft leather and silk are what the money is spent on, and silk in particular multiplies in price many times over on its way from the countries that produce it.
 
-Costs and times below are for plain work; **double the time** for heavily decorated pieces, a figured tapestry against a plain carpet. A Success Value test on the standard table fixes the quality.
+What a character wears announces their class, or the class they wish to be taken for, and the price of a suit of clothes is mostly a statement about that.
+
+# Crafting {#crafting}
+
+Cloth and clothing are made by the common [[doc/crafting|crafting routine]] —
+workshop, expense, test, result, masterwork rolls, repair. What follows is what
+is particular to the loom and the needle.
+
+**Expense.** Costs and times below are for plain work; **double the time** for heavily decorated pieces, a figured tapestry against a plain carpet.
+
+**Test.** A Textilecraft Success Value test, read on the standard ladder.
 
 | Item           | Cost | Time | Item                | Cost | Time |
 | -------------- | ---- | ---- | ------------------- | ---- | ---- |
@@ -42,4 +52,4 @@ Costs and times below are for plain work; **double the time** for heavily decora
 | Buckram Cloak  | 53d  | 13h  | Tent, Dome          | 432d | 15h  |
 | Padded Cloak   | 99d  | 20h  | Tent, Ridged, large | 518d | 20h  |
 
-**Clothing and armour.** What a character wears announces their class, or the class they wish to be taken for, and the price of a suit of clothes is mostly a statement about that. Textilecraft is also the skill that fashions cloth, padded, quilted and gambeson armour, following the armour-making routine.
+**Armour.** Textilecraft is also the skill that fashions cloth, padded, quilted and gambeson armour, following the armour-making routine under [[skill/wpnc|Weaponcraft]].
