@@ -1197,6 +1197,8 @@
     "SOHL.Item.FIELDS.shortcode.hint": "A unique short identifier for this item within its type",
     "SOHL.Item.FIELDS.shortcode.label": "Shortcode",
     "SOHL.Item.deleteBlockedByChildren": "Cannot delete {name}: it has {count} nested item(s). Remove or un-nest them first.",
+    "SOHL.Item.description.editPointer": "Edit the link this description points at",
+    "SOHL.Item.description.showTarget": "Show the linked description",
     "SOHL.Item.tab.actions": "Actions",
     "SOHL.Item.tab.description": "Description",
     "SOHL.Item.tab.effects": "Effects",
