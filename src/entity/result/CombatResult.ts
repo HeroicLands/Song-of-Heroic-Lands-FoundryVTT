@@ -67,16 +67,20 @@ export interface TacticalAdvantages {
  * {@link OpposedTestResult.sourceWins}/{@link OpposedTestResult.isTied}
  * getters — those carve out a "both failed" case, whereas the SoHL combat
  * tables resolve every exchange by relative margin (a less-bad failure can
- * still beat a worse one).
+ * still beat a worse one). Winning the exchange is not the same as landing a
+ * blow: a failed attack takes the margin, and any Tactical Advantages that come
+ * with it, without ever connecting.
  *
- * Per-defense outcome (who lands the blow):
+ * Per-defense outcome (who lands the blow). The attacker's side of every row is
+ * conditional on the attack test having succeeded — a failed attack never
+ * lands, however badly the defence blundered:
  *
  * | Defense       | Attacker delivers            | Defender delivers           |
  * |---------------|------------------------------|-----------------------------|
- * | Block         | `VS >= 0` (tie → also rolls defender weapon-break) | never |
+ * | Block         | `VS > 0` (a tie wards the blow, and rolls the defender's weapon-break) | never |
  * | Counterstrike | `VS >= 0`                    | whenever the defender succeeds |
  * | Dodge         | `VS > 0`, or tie with the dodge roll lower than the attack roll | never |
- * | Ignore        | the attack itself succeeds (no defender contest) | never |
+ * | Ignore        | always — no defender contest | never |
  *
  * **Tactical Advantages** (display-only for now): the winner of a `|VS| >= 2`
  * exchange earns `|VS| − 1` TAs (attacker on `VS >= 2`, defender on
@@ -200,10 +204,14 @@ export class CombatResult extends OpposedTestResult {
         );
 
         // Block forces the defender to roll for weapon (shield) breakage on a
-        // tie; no other defense has a weapon-break side effect.
+        // tie — the blocking weapon absorbed a blow it did not out-fight, and
+        // may not survive doing so. It follows that there must have *been* a
+        // blow: a tie between two failures had nothing to absorb. No other
+        // defense has a weapon-break side effect.
         if (
             this.defendResult.testType === TEST_TYPE.BLOCK.id &&
-            this.margin === 0
+            this.margin === 0 &&
+            this.attackResult.isSuccess
         ) {
             this.weaponBreakCheck = "defender";
         }
@@ -257,20 +265,31 @@ export class CombatResult extends OpposedTestResult {
      * blow can still be fully absorbed by armor downstream, so this means
      * "connected", not "dealt damage".
      *
-     * - **Counterstrike** (defender side is an {@link AttackResult}): the attack
-     *   ties or wins (`margin >= 0`).
-     * - **Ignore:** the unopposed attack simply has to succeed.
-     * - **Dodge:** the attack out-margins the dodge, or ties with a lower dodge
-     *   roll than the attack roll (a lower successful roll is the weaker result).
-     * - **Block:** the attack ties or wins (`margin >= 0`).
+     * Two conditions govern a landed blow, and **both** must hold:
+     *
+     * 1. **The attack test succeeded.** However badly the defender blundered, a
+     *    swing that never found its line does not arrive.
+     * 2. **The attack beat the defence** by the margin that defence demands:
+     *
+     * - **Counterstrike** (defender side is an {@link AttackResult}): the
+     *   counterstrike does not out-level it (`margin >= 0`) — a counterstrike
+     *   wards nothing, so it only has to be the better attack to strike first.
+     * - **Ignore:** nothing is rolled, so there is no contest to win.
+     * - **Dodge:** the attack out-levels the dodge, or ties with a lower dodge
+     *   roll than the attack roll (the higher roll takes a broken tie).
+     * - **Block:** the attack out-levels the block (`margin > 0`) — a block need
+     *   only tie to ward the blow, at the cost of a weapon-break check.
      */
     get attackerLandsBlow(): boolean {
+        // A failed attack never lands, whatever the defence did.
+        if (!this.attackResult.isSuccess) return false;
+
         const vs = this.margin;
         // Counterstrike — the defender's response is itself an attack.
         if (this.defendResult instanceof AttackResult) return vs >= 0;
 
         const type = this.defendResult.testType;
-        if (type === TEST_TYPE.IGNORE.id) return this.attackResult.isSuccess;
+        if (type === TEST_TYPE.IGNORE.id) return true;
         if (type === TEST_TYPE.DODGE.id) {
             if (vs > 0) return true;
             if (vs < 0) return false;
@@ -279,7 +298,7 @@ export class CombatResult extends OpposedTestResult {
             return dodgeRoll < attackRoll;
         }
         // Block.
-        return vs >= 0;
+        return vs > 0;
     }
 
     /**

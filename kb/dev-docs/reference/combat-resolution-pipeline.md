@@ -178,17 +178,26 @@ The full combat exchange — composes AttackResult + DefendResult via opposed te
   This is the **raw level difference**, deliberately _not_ the inherited
   `sourceWins`/`isTied` getters — those carve out a "both failed" case, whereas
   the SoHL combat tables resolve every exchange by relative margin (a less-bad
-  failure still beats a worse one).
+  failure still beats a worse one). Winning the exchange is not the same as
+  landing a blow: a failed attack takes the margin, and any Tactical Advantages
+  with it, without connecting.
 - Tactical Advantages and the weapon-break check (display-only for now).
 
-Per-defense outcome:
+Per-defense outcome. Every attacker cell is additionally conditional on
+`attackResult.isSuccess` — **a failed attack never lands**, however badly the
+defence blundered:
 
-| Defense       | Attacker delivers                                         | Defender delivers          | Notes                                         |
-| ------------- | --------------------------------------------------------- | -------------------------- | --------------------------------------------- |
-| Block         | `VS >= 0`                                                 | never                      | tie also sets `weaponBreakCheck = "defender"` |
-| Counterstrike | `VS >= 0`                                                 | when its own roll succeeds | both blows may land                           |
-| Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never                      |                                               |
-| Ignore        | the attack itself succeeds                                | never                      | no defender contest                           |
+| Defense       | Attacker delivers                                         | Defender delivers          | Notes                                          |
+| ------------- | --------------------------------------------------------- | -------------------------- | ---------------------------------------------- |
+| Block         | `VS > 0`                                                  | never                      | a tie wards the blow, and sets `weaponBreakCheck = "defender"` |
+| Counterstrike | `VS >= 0`                                                 | when its own roll succeeds | both blows may land                            |
+| Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never                      |                                                |
+| Ignore        | always                                                    | never                      | no defender contest                            |
+
+A block need only **tie** to ward the blow — and the tie is what the blocker's
+weapon-break check exists for, so it fires only when there was a blow to absorb
+(a tie between two failures sets no check). A dodge must **win outright**; its
+tie goes to the ordinary tiebreak, which the higher roll takes.
 
 Tactical Advantages: the winner of a `|VS| >= 2` exchange earns `|VS| − 1` TAs
 (attacker on `VS >= 2`, defender on `VS <= -2`).
