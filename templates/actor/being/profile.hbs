@@ -17,8 +17,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <span class="section-legend__name">{{localize "TYPES.Item.attributePl"}}</span>
         <span class="section-legend__rule"></span>
         <span class="section-legend__add">
-            <a class="add-button item-create" data-action="createItem" data-tooltip="Add Attribute" data-type="attribute">
-                <i class="fa-solid fa-file-circle-plus"></i><span>Add Attribute</span>
+            <a class="add-button item-create" data-action="createItem" data-tooltip="{{localize "SOHL.Actor.SHEET.profile.addAttribute"}}" data-type="attribute">
+                <i class="fa-solid fa-file-circle-plus"></i><span>{{localize "SOHL.Actor.SHEET.profile.addAttribute"}}</span>
             </a>
         </span>
     </div>
@@ -27,11 +27,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="attribute-score item" data-item-id="{{attr.id}}" data-uuid="{{attr.uuid}}" data-item-name="{{attr.name}}">
             <div class="attribute-score__header flexrow">
                 <h4 class="attribute-score__name">{{attr.name}}</h4>
-                <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </div>
             <div class="attribute-score__value" data-tooltip="{{attr.scoreDeltaLabel}}" data-tooltip-direction="UP">{{attr.score}}</div>
             <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
-            <div class="attribute-score__tl" data-tooltip="{{attr.tlDeltaLabel}}" data-tooltip-direction="UP">TL: {{attr.tl}}</div>
+            <div class="attribute-score__tl" data-tooltip="{{attr.tlDeltaLabel}}" data-tooltip-direction="UP">{{localize "SOHL.Being.Attribute.traitLevel" value=attr.tl}}</div>
         </div>
         {{/each}}
     </div>
@@ -65,7 +65,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__cell ledger__cell--text">{{aff.title}}</div>
             <div class="ledger__notes" title="{{aff.notes}}">{{aff.notes}}</div>
             <div class="ledger__controls">
-                <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </div>
         </div>
         {{/each}}
@@ -78,8 +78,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <span class="section-legend__meta">{{localize "SOHL.Being.movement.unit"}}</span>
         <span class="section-legend__rule"></span>
         <span class="section-legend__add">
-            <a class="add-button" data-action="addMovementProfile" data-tooltip="Add Movement Profile">
-                <i class="fa-solid fa-file-circle-plus"></i><span>Add Movement Profile</span>
+            <a class="add-button" data-action="addMovementProfile" data-tooltip="{{localize "SOHL.Actor.SHEET.profile.addMovementProfile"}}">
+                <i class="fa-solid fa-file-circle-plus"></i><span>{{localize "SOHL.Actor.SHEET.profile.addMovementProfile"}}</span>
             </a>
         </span>
     </div>
@@ -113,15 +113,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#if structure}}
     <div class="section-legend">
         <span class="section-legend__name">{{localize "SOHL.Being.Heading.BodyStructure"}}</span>
-        <span class="section-legend__meta">{{bodyZones.length}} zones</span>
+        <span class="section-legend__meta">{{localize "SOHL.Being.BodyStructure.zoneCount" count=bodyZones.length}}</span>
         <span class="section-legend__rule"></span>
         <span class="section-legend__add">
-            <button type="button" class="add-button add-button--small body-structure__toggle-all" data-action="toggleBodyStructureAll" data-state="collapsed" data-tooltip="Expand or collapse the whole tree">
-                <i class="fa-solid fa-angles-down"></i><span>Expand All</span>
+            <button type="button" class="add-button add-button--small body-structure__toggle-all" data-action="toggleBodyStructureAll" data-state="collapsed" data-tooltip="{{localize "SOHL.Being.BodyStructure.expandAllTip"}}">
+                <i class="fa-solid fa-angles-down"></i><span>{{localize "SOHL.Being.BodyStructure.expandAll"}}</span>
             </button>
             {{#if canEditBody}}
-            <a class="add-button add-button--small bodyzone-add" data-action="addBodyZone" data-tooltip="Add Body Zone">
-                <i class="fa-solid fa-plus"></i><span>Add Zone</span>
+            <a class="add-button add-button--small bodyzone-add" data-action="addBodyZone" data-tooltip="{{localize "SOHL.Being.BodyStructure.addZoneTip"}}">
+                <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Being.BodyStructure.addZone"}}</span>
             </a>
             {{/if}}
         </span>
@@ -130,29 +130,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{#each bodyZones as |zone|}}
         <div class="body-structure__zone" data-zone-shortcode="{{zone.shortcode}}" data-zone-index="{{zone.index}}"
             {{#if @root.canEditBody}}draggable="true"{{/if}}>
-            <button type="button" class="disclosure" data-action="toggleZone" data-zone-shortcode="{{zone.shortcode}}" data-tooltip="Expand {{zone.label}}">
+            <button type="button" class="disclosure" data-action="toggleZone" data-zone-shortcode="{{zone.shortcode}}" data-tooltip="{{localize "SOHL.Being.BodyStructure.expand" label=zone.label}}">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
             <span class="body-structure__zone-name">{{zone.label}}</span>
             {{#if zone.zoneRange}}
-            <span class="chip chip--hit" data-tooltip="Zone Numbers">ZN {{zone.zoneRange}}</span>
+            <span class="chip chip--hit" data-tooltip="{{localize "SOHL.Being.BodyStructure.zoneNumberTip"}}">{{localize "SOHL.Being.BodyStructure.zoneNumber" range=zone.zoneRange}}</span>
             {{/if}}
             <span class="body-structure__controls">
                 {{#if @root.canEditBody}}
-                <a class="add-button add-button--small bodypart-add" data-action="addBodyPart" data-tooltip="Add Body Part">
-                    <i class="fa-solid fa-plus"></i><span>Add Part</span>
+                <a class="add-button add-button--small bodypart-add" data-action="addBodyPart" data-tooltip="{{localize "SOHL.Being.BodyStructure.addPartTip"}}">
+                    <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Being.BodyStructure.addPart"}}</span>
                 </a>
                 {{/if}}
-                <a class="icon-button bodyzone-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                <a class="icon-button bodyzone-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 {{#if @root.canEditBody}}
-                <span class="drag-grip" data-tooltip="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>
+                <span class="drag-grip" data-tooltip="{{localize "SOHL.Common.dragToReorder"}}"><i class="fa-solid fa-grip-vertical"></i></span>
                 {{/if}}
             </span>
         </div>
         {{#each zone.parts as |part|}}
         <div class="body-structure__part body-structure__part--collapsed" data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}"
             {{#if @root.canEditBody}}draggable="true"{{/if}}>
-            <button type="button" class="disclosure" data-action="togglePart" data-part-shortcode="{{part.shortcode}}" data-tooltip="Expand {{part.label}}">
+            <button type="button" class="disclosure" data-action="togglePart" data-part-shortcode="{{part.shortcode}}" data-tooltip="{{localize "SOHL.Being.BodyStructure.expand" label=part.label}}">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
             <span class="body-structure__part-name">{{part.label}}</span>
@@ -161,13 +161,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{/if}}
             <span class="body-structure__controls">
                 {{#if @root.canEditBody}}
-                <a class="add-button add-button--small bodylocation-add" data-action="addBodyLocation" data-tooltip="Add Hit Location">
-                    <i class="fa-solid fa-plus"></i><span>Add Location</span>
+                <a class="add-button add-button--small bodylocation-add" data-action="addBodyLocation" data-tooltip="{{localize "SOHL.Being.BodyStructure.addLocationTip"}}">
+                    <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Being.BodyStructure.addLocation"}}</span>
                 </a>
                 {{/if}}
-                <a class="icon-button bodypart-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                <a class="icon-button bodypart-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 {{#if @root.canEditBody}}
-                <span class="drag-grip" data-tooltip="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>
+                <span class="drag-grip" data-tooltip="{{localize "SOHL.Common.dragToReorder"}}"><i class="fa-solid fa-grip-vertical"></i></span>
                 {{/if}}
             </span>
         </div>
@@ -176,11 +176,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}"
             {{#if @root.canEditBody}}draggable="true"{{/if}}>
             {{#if @root.canEditBody}}
-            <span class="drag-grip" data-tooltip="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>
+            <span class="drag-grip" data-tooltip="{{localize "SOHL.Common.dragToReorder"}}"><i class="fa-solid fa-grip-vertical"></i></span>
             {{/if}}
             <span class="body-structure__location-name">{{loc.name}}</span>
             <span class="body-structure__controls">
-                <a class="icon-button bodylocation-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                <a class="icon-button bodylocation-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </span>
         </div>
         {{/each}}

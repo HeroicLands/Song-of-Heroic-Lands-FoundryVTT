@@ -29,7 +29,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#each taList as |idx|}}
     <div class="form-group flexrow">
-        <label>Tactical Advantage {{idx}}:</label>
+        <label>{{localize "SOHL.Dialog.QueryTacticalAdvantage.label" index=idx}}</label>
         <select name="tacadv_{{idx}}">
             {{#each ../taMap}}
             <option value="{{key}}">{{this}}</option>

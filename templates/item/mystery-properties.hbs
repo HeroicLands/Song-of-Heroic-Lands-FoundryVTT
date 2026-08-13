@@ -19,7 +19,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <fieldset>
-        <legend>Charges</legend>
+        <legend>{{localize "SOHL.Mystery.Column.charges"}}</legend>
         <div class="field-grid field-grid--3col">
             {{formGroup fields.charges.fields.value rootId="mystery-charges-val" classes="text-field" stacked=true value=system.charges.value}}
             {{formGroup fields.charges.fields.max rootId="mystery-charges-max" classes="text-field" stacked=true value=system.charges.max}}

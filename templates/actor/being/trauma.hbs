@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Injuries family: subtype-item pattern (§2.3a) — present-only SubType
     groups, per-subtype add, generic footer add. --}}
     <div class="section-legend">
-        <span class="section-legend__name">Injuries</span>
+        <span class="section-legend__name">{{localize "SOHL.Trauma.Heading.injuries"}}</span>
         <span class="section-legend__rule"></span>
     </div>
 
@@ -31,8 +31,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <span class="section-legend__add">
                     <a class="add-button add-button--small item-create" data-action="createItem"
                         data-type="trauma" data-sub-type="{{section.subType}}"
-                        data-tooltip="Add {{section.label}} Trauma">
-                        <i class="fa-solid fa-plus"></i><span>Add {{section.label}} Trauma</span>
+                        data-tooltip="{{localize "SOHL.Trauma.Action.addSubType" subType=section.label}}">
+                        <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Trauma.Action.addSubType" subType=section.label}}</span>
                     </a>
                 </span>
             </div>
@@ -55,7 +55,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{#if (eq col.kind "severity")}}
                         <div class="ledger__cell" data-tooltip="{{injury.severityDeltaLabel}}" data-tooltip-direction="UP">
                             {{#if injury.healed}}
-                            <i class="ledger__heal fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
+                            <i class="ledger__heal fa-solid fa-heart-circle-plus" data-tooltip="{{localize "SOHL.Trauma.healed"}}"></i>
                             {{else}}
                             {{injury.severity}}
                             {{/if}}
@@ -66,7 +66,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                             {{#if injury.healingRateDisabled}}
                             <i class="fa-solid fa-xmark fa-lg"></i>
                             {{else}}
-                            {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
+                            {{#unless injury.isTreated}}{{localize "SOHL.Print.notTreated"}}{{/unless}}{{injury.healingRate}}
                             {{/if}}
                         </div>
                         {{else if (eq col.kind "level")}}
@@ -82,7 +82,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{/if}}
                     {{/each}}
                     <div class="ledger__controls">
-                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </div>
                 {{/each}}
@@ -91,8 +91,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/each}}
     </div>
     <div class="add-footer">
-        <a class="add-button item-create" data-action="createItem" data-type="trauma" data-tooltip="Add Trauma">
-            <i class="fa-solid fa-plus"></i><span>Add Trauma</span>
+        <a class="add-button item-create" data-action="createItem" data-type="trauma" data-tooltip="{{localize "SOHL.Trauma.Action.add"}}">
+            <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Trauma.Action.add"}}</span>
         </a>
     </div>
 
@@ -100,7 +100,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     present-only by _prepareTraumaContext (buildAfflictionGroups); the SubType
     column is dropped in favor of the SubType header + per-subtype add. --}}
     <div class="section-legend">
-        <span class="section-legend__name">Afflictions</span>
+        <span class="section-legend__name">{{localize "SOHL.Affliction.Heading.afflictions"}}</span>
         <span class="section-legend__rule"></span>
     </div>
 
@@ -114,8 +114,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <span class="section-legend__add">
                     <a class="add-button add-button--small item-create" data-action="createItem"
                         data-type="affliction" data-sub-type="{{group.subType}}"
-                        data-tooltip="Add {{group.label}} Affliction">
-                        <i class="fa-solid fa-plus"></i><span>Add {{group.label}} Affliction</span>
+                        data-tooltip="{{localize "SOHL.Affliction.Action.addSubType" subType=group.label}}">
+                        <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Affliction.Action.addSubType" subType=group.label}}</span>
                     </a>
                 </span>
             </div>
@@ -123,11 +123,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="ledger__head">
                     <div></div>
                     <div></div>
-                    <div>Affliction</div>
-                    <div>Category</div>
-                    <div class="ledger__head-num">Level</div>
-                    <div class="ledger__head-num" data-tooltip="Healing Rate">HR</div>
-                    <div data-tooltip="Next course/recovery check">Next Heal Test</div>
+                    <div>{{localize "SOHL.Affliction.COLUMN.affliction"}}</div>
+                    <div>{{localize "SOHL.Affliction.COLUMN.category"}}</div>
+                    <div class="ledger__head-num">{{localize "SOHL.Affliction.COLUMN.level"}}</div>
+                    <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Trauma.COLTIP.hr"}}">{{localize "SOHL.Trauma.COLUMN.hr"}}</div>
+                    <div data-tooltip="{{localize "SOHL.Affliction.COLTIP.nextHeal"}}">{{localize "SOHL.Affliction.COLUMN.nextHeal"}}</div>
                     <div></div>
                 </div>
                 {{#each group.afflictions as |aff|}}
@@ -147,7 +147,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="ledger__cell ledger__cell--text">{{displayWorldTime aff.nextHealTest}}</div>
                     <div class="ledger__controls">
-                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </div>
                 {{/each}}

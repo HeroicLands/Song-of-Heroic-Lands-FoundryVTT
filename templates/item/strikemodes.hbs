@@ -13,24 +13,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab strikemodes{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="strikemodes">
     <div class="section-legend">
-        <span class="section-legend__name">Strike Modes</span>
+        <span class="section-legend__name">{{localize "SOHL.StrikeMode.Heading.strikeModes"}}</span>
         <span class="section-legend__rule"></span>
         {{#if canAdd}}
         <span class="section-legend__add">
             <button type="button" class="add-button strikemode-add" data-action="addStrikeMode"
-                data-tooltip="Add Strike Mode">
+                data-tooltip="{{localize "SOHL.StrikeMode.Action.add"}}">
                 <i class="fa-solid fa-plus"></i>
-                <span>Add Strike Mode</span>
+                <span>{{localize "SOHL.StrikeMode.Action.add"}}</span>
             </button>
         </span>
         {{/if}}
     </div>
     <div class="ledger" style="--ledger-cols:minmax(120px,1fr) 6rem 6rem 6rem 3rem">
         <div class="ledger__head">
-            <div>Strike Mode</div>
-            <div>Shortcode</div>
-            <div>Type</div>
-            <div>Impact</div>
+            <div>{{localize "SOHL.StrikeMode.Column.strikeMode"}}</div>
+            <div>{{localize "SOHL.StrikeMode.Column.shortcode"}}</div>
+            <div>{{localize "SOHL.StrikeMode.Column.type"}}</div>
+            <div>{{localize "SOHL.StrikeMode.Column.impact"}}</div>
             <div></div>
         </div>
         {{#each strikeModes as |sm|}}
@@ -40,7 +40,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__cell ledger__cell--text ele type">{{sm.typeLabel}}</div>
             <div class="ledger__cell ele impact">{{sm.impactFormula}}</div>
             <div class="ledger__controls">
-                <a class="icon-button strikemode-contextmenu" title="Menu">
+                <a class="icon-button strikemode-contextmenu" title="{{localize "SOHL.Common.menu"}}">
                     <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
                 </a>
             </div>
@@ -49,7 +49,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     {{#unless strikeModes.length}}
-    <p class="notification info">No strike modes yet.{{#if canAdd}} Use the <i class="fa-solid fa-plus"></i>
-        control above to add one.{{/if}}</p>
+    <p class="notification info">{{localize "SOHL.StrikeMode.emptyState"}}{{#if canAdd}} {{localize "SOHL.StrikeMode.emptyUseThe"}} <i class="fa-solid fa-plus"></i>
+        {{localize "SOHL.StrikeMode.emptyAddHint"}}{{/if}}</p>
     {{/unless}}
 </section>

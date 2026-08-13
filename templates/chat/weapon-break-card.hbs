@@ -33,7 +33,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="grid grid-2col">
         <div class="card-content center">
             <div class="flexrow">
-                <span class="label">Weapon Quality / Roll:</span>
+                <span class="label">{{localize "SOHL.Chat.WeaponBreak.quality"}}</span>
                 <span class="value">{{quality}} / {{rollValue}}</span>
             </div>
         </div>
@@ -41,11 +41,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#if weaponBroke}}
     <div class="card-content center">
-        <span class="weapon-broke">{{tokenName}}'s {{weaponName}} broke!</span>
+        <span class="weapon-broke">{{localize "SOHL.Chat.WeaponBreak.broke" name=tokenName weapon=weaponName}}</span>
     </div>
     {{else}}
     <div class="card-content center">
-        <span class="value">{{tokenName}}'s {{weaponName}} OK</span>
+        <span class="value">{{localize "SOHL.Chat.WeaponBreak.ok" name=tokenName weapon=weaponName}}</span>
     </div>
     {{/if}}
 </div>

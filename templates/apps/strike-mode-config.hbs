@@ -14,57 +14,57 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="strike-mode-config__body">
 <header class="strike-mode-config__header">
     <h1 class="strike-mode-config__name">
-        <input type="text" name="name" value="{{sm.name}}" placeholder="Strike Mode Name" /></h1>
+        <input type="text" name="name" value="{{sm.name}}" placeholder="{{localize "SOHL.StrikeMode.FIELDS.name.label"}}" /></h1>
     <input class="strike-mode-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
-        placeholder="shortcode" {{#unless isMulti}}readonly{{/unless}}
-        data-tooltip="A short code identifying this strike mode. Must be unique among the weapon's strike modes." />
+        placeholder="{{localize "SOHL.StrikeMode.FIELDS.shortcode.label"}}" {{#unless isMulti}}readonly{{/unless}}
+        data-tooltip="{{localize "SOHL.StrikeMode.FIELDS.shortcode.hint"}}" />
     <div class="strike-mode-config__type"
-        data-tooltip="A strike mode's type is fixed. To change it, delete this strike mode and create a new one.">{{typeLabel}}</div>
+        data-tooltip="{{localize "SOHL.StrikeMode.FIELDS.subType.hint"}}">{{typeLabel}}</div>
 </header>
 
 <fieldset>
-    <legend>General</legend>
+    <legend>{{localize "SOHL.StrikeMode.Section.general"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Min Parts</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.minParts.label"}}</span>
             <input type="number" name="minParts" value="{{sm.minParts}}" /></label>
-        {{> shortcodeRefField embedded=embedded name="assocSkillCode" value=sm.assocSkillCode options=assocSkillCodeOptions label="Associated Skill" hint="Optional. Leave blank to use the item's own mastery level; set to another skill's code to borrow its mastery level." blankLabel=(localize "SOHL.Key.None")}}
+        {{> shortcodeRefField embedded=embedded name="assocSkillCode" value=sm.assocSkillCode options=assocSkillCodeOptions label="SOHL.StrikeMode.FIELDS.assocSkillCode.label" hint="SOHL.StrikeMode.FIELDS.assocSkillCode.hint" blankLabel=(localize "SOHL.Key.None")}}
         {{#if isMelee}}
-        <label class="form-group stacked"><span>Length</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.MeleeWeaponStrikeMode.FIELDS.lengthBase.label"}}</span>
             <input type="number" step="0.1" name="lengthBase" value="{{sm.lengthBase}}" /></label>
         {{/if}}
         {{#if isMissile}}
-        <label class="form-group stacked"><span>Projectile Type</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.MissileWeaponStrikeMode.FIELDS.projectileType.label"}}</span>
             <input type="text" name="projectileType" value="{{sm.projectileType}}" /></label>
-        <label class="form-group stacked"><span>Base Range</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.MissileWeaponStrikeMode.FIELDS.baseRangeBase.label"}}</span>
             <input type="number" name="baseRangeBase" value="{{sm.baseRangeBase}}" /></label>
-        <label class="form-group stacked"><span>Draw</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.MissileWeaponStrikeMode.FIELDS.drawBase.label"}}</span>
             <input type="number" name="drawBase" value="{{sm.drawBase}}" /></label>
-        <label class="form-group stacked"><span>Max Volley ×</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.MissileWeaponStrikeMode.FIELDS.maxVolleyMult.label"}}</span>
             <input type="number" name="maxVolleyMult" value="{{sm.maxVolleyMult}}" /></label>
         {{/if}}
     </div>
 </fieldset>
 
 <fieldset>
-    <legend>Attack</legend>
+    <legend>{{localize "SOHL.StrikeMode.Section.attack"}}</legend>
     <div class="grid grid-2col">
         <label class="form-group stacked"><span>{{spreadLabel}}</span>
             <input type="number" name="attack.spread" value="{{sm.attack.spread}}" /></label>
-        <label class="form-group stacked"><span>Modifier</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.attack.modifier.label"}}</span>
             <input type="number" name="attack.modifier" value="{{sm.attack.modifier}}" /></label>
     </div>
 </fieldset>
 
 <fieldset>
-    <legend>Impact</legend>
+    <legend>{{localize "SOHL.StrikeMode.Section.impact"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Num Dice</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.impactBase.numDice.label"}}</span>
             <input type="number" name="impactBase.numDice" value="{{sm.impactBase.numDice}}" /></label>
-        <label class="form-group stacked"><span>Die</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.impactBase.die.label"}}</span>
             <input type="number" name="impactBase.die" value="{{sm.impactBase.die}}" /></label>
-        <label class="form-group stacked"><span>Modifier</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.impactBase.modifier.label"}}</span>
             <input type="number" name="impactBase.modifier" value="{{sm.impactBase.modifier}}" /></label>
-        <label class="form-group stacked"><span>Aspect</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.impactBase.aspect.label"}}</span>
             <select name="impactBase.aspect">
                 {{#each aspectOptions}}
                 <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{localize this.label}}</option>
@@ -75,11 +75,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {{#if isMelee}}
 <fieldset>
-    <legend>Defense</legend>
+    <legend>{{localize "SOHL.StrikeMode.Section.defense"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Block Modifier</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.defense.block.modifier.label"}}</span>
             <input type="number" name="defense.block.modifier" value="{{sm.defense.block.modifier}}" /></label>
-        <label class="form-group stacked"><span>Counterstrike Modifier</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.StrikeMode.FIELDS.defense.counterstrike.modifier.label"}}</span>
             <input type="number" name="defense.counterstrike.modifier" value="{{sm.defense.counterstrike.modifier}}" /></label>
     </div>
 </fieldset>

@@ -14,16 +14,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="sohl chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header flexcol">
         <h3 class="title">{{title}}</h3>
-        <h4 class="subtitle">{{attacker}} vs. {{defender}}</h4>
+        <h4 class="subtitle">{{localize "SOHL.Chat.Attack.subtitle" attacker=attacker defender=defender}}</h4>
     </header>
 
     <div class="card-content">
-        <span class="label center">Attacker</span>
+        <span class="label center">{{localize "SOHL.Chat.Attack.attacker"}}</span>
         <div class="card-content">
             <div class="adjustment">
                 <div class="flexrow">
-                    <span class="label adj-name">Adjustment</span>
-                    <span class="label adj-value">Value</span>
+                    <span class="label adj-name">{{localize "SOHL.Chat.Attack.adjustment"}}</span>
+                    <span class="label adj-value">{{localize "SOHL.Chat.Attack.value"}}</span>
                 </div>
                 {{#each attackMods}}
                 <div class="flexrow">
@@ -39,12 +39,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#if defendMods.length}}
     <div class="card-content">
-        <span class="label center">Defender</span>
+        <span class="label center">{{localize "SOHL.Chat.Attack.defender"}}</span>
         <div class="card-content">
             <div class="adjustment">
                 <div class="flexrow">
-                    <span class="label adj-name">Adjustment</span>
-                    <span class="label adj-value">Value</span>
+                    <span class="label adj-name">{{localize "SOHL.Chat.Attack.adjustment"}}</span>
+                    <span class="label adj-value">{{localize "SOHL.Chat.Attack.value"}}</span>
                 </div>
                 {{#each defendMods}}
                 <div class="flexrow">
@@ -60,20 +60,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     <div class="grid grid-2col mingap">
-        <span class="header">Attack</span>
-        <span class="header">Defend</span>
+        <span class="header">{{localize "SOHL.Chat.Attack.attack"}}</span>
+        <span class="header">{{localize "SOHL.Chat.Attack.defend"}}</span>
         <span class="center">{{attackWeapon}}</span>
         <span class="center"
             >{{#if defense}}{{defense}}{{else}}&#8212;{{/if}}</span
         >
-        <span class="center">Eff. AML: {{effAML}}</span>
+        <span class="center">{{localize "SOHL.Chat.Attack.effAML" value=effAML}}</span>
         <span class="center"
-            >{{#if effDML}}Eff. DML: {{effDML}}{{else}}&#8212;{{/if}}</span
+            >{{#if effDML}}{{localize "SOHL.Chat.Attack.effDML" value=effDML}}{{else}}&#8212;{{/if}}</span
         >
-        <span class="center">Roll: {{attackRoll}}</span>
+        <span class="center">{{localize "SOHL.Chat.Attack.roll" value=attackRoll}}</span>
         <span class="center"
-            >{{#if defenseRoll}}Roll:
-            {{defenseRoll}}{{else}}&#8212;{{/if}}</span
+            >{{#if defenseRoll}}{{localize "SOHL.Chat.Attack.roll" value=defenseRoll}}{{else}}&#8212;{{/if}}</span
         >
         {{#if atkIsSuccess}}
         <span
@@ -103,7 +102,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-content center">
         <span class="label">{{localize "SOHL.OpposedTestResult.toChat.victoryStars"}}:</span>
         <span class="value"
-            >{{#if vsStars}}<span class="victory-stars" aria-label="{{vsCount}} {{localize "SOHL.OpposedTestResult.toChat.victoryStars"}}">{{#each vsStars}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-star" aria-hidden="true"></i>{{/each}}</span>{{else}}<strong>None</strong>{{/if}}</span
+            >{{#if vsStars}}<span class="victory-stars" aria-label="{{vsCount}} {{localize "SOHL.OpposedTestResult.toChat.victoryStars"}}">{{#each vsStars}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-star" aria-hidden="true"></i>{{/each}}</span>{{else}}<strong>{{localize "SOHL.Common.none"}}</strong>{{/if}}</span
         >
     </div>
 
@@ -113,49 +112,49 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#if numAtkTA}}
     <div class="card-content center">
-        <span class="label">Attacker TAs:</span>
+        <span class="label">{{localize "SOHL.Chat.Attack.attackerTAs"}}</span>
         <span class="value">{{numAtkTA}}</span>
     </div>
     {{/if}} {{#if numDefTA}}
     <div class="card-content center">
-        <span class="label">Defender TAs:</span>
+        <span class="label">{{localize "SOHL.Chat.Attack.defenderTAs"}}</span>
         <span class="value">{{numDefTA}}</span>
     </div>
     {{/if}} {{#if atkWeaponBroke}}
     <div class="card-content center">
-        <span class="weapon-broke">{{attacker}}'s {{attackWeapon}} broke!</span>
+        <span class="weapon-broke">{{localize "SOHL.Chat.Attack.weaponBroke" name=attacker weapon=attackWeapon}}</span>
     </div>
     {{/if}} {{#if defWeaponBroke}}
     <div class="card-content center">
-        <span class="weapon-broke">{{defender}}'s {{defendWeapon}} broke!</span>
+        <span class="weapon-broke">{{localize "SOHL.Chat.Attack.weaponBroke" name=defender weapon=defendWeapon}}</span>
     </div>
     {{/if}} {{#if hasAttackHit}}
     <div class="card-content center">
-        <span class="label">Attack Impact:</span>
+        <span class="label">{{localize "SOHL.Chat.Attack.attackImpact"}}</span>
         <span class="value"><strong>{{impactFormula}}</strong></span>
     </div>
     {{/if}} {{#if isAtkFumbleTest}}
     <div class="card-content center">
         <span class="value failure-text"
-            >{{attacker}} must make Fumble test!</span
+            >{{localize "SOHL.Chat.Attack.fumbleTest" name=attacker}}</span
         >
     </div>
     {{/if}} {{#if isDefFumbleTest}}
     <div class="card-content center">
         <span class="value failure-text"
-            >{{defender}} must make Fumble test!</span
+            >{{localize "SOHL.Chat.Attack.fumbleTest" name=defender}}</span
         >
     </div>
     {{/if}} {{#if isAtkStumbleTest}}
     <div class="card-content center">
         <span class="value failure-text"
-            >{{attacker}} must make Stumble test!</span
+            >{{localize "SOHL.Chat.Attack.stumbleTest" name=attacker}}</span
         >
     </div>
     {{/if}} {{#if isDefStumbleTest}}
     <div class="card-content center">
         <span class="value failure-text"
-            >{{defender}} must make Stumble test!</span
+            >{{localize "SOHL.Chat.Attack.stumbleTest" name=defender}}</span
         >
     </div>
     {{/if}} {{#if (or hasAttackInjury hasDefendInjury)}}
@@ -172,7 +171,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             data-action="resolveInjury"
             data-handler-uuid="{{attackInjuryHandlerUuid}}"
             data-scope="{{toJSON attackInjuryScope}}">
-            Calculate {{attackInjuryTargetName}} Injury
+            {{localize "SOHL.Chat.Attack.calculateInjury" name=attackInjuryTargetName}}
         </button>
         {{/if}} {{#if hasDefendInjury}}
         <button
@@ -180,7 +179,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             data-action="resolveInjury"
             data-handler-uuid="{{defendInjuryHandlerUuid}}"
             data-scope="{{toJSON defendInjuryScope}}">
-            Calculate {{defendInjuryTargetName}} Injury
+            {{localize "SOHL.Chat.Attack.calculateInjury" name=defendInjuryTargetName}}
         </button>
         {{/if}}
     </div>

@@ -13,12 +13,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <div class="sohl chat-card">
     <header class="card-header flexrow">
-        <h3 class="title">Blood Stoppage Result</h3>
+        <h3 class="title">{{localize "SOHL.Chat.BloodStoppage.resultTitle"}}</h3>
     </header>
 
     {{#if physicianName}}
     <div class="card-content center">
-        <span>{{physicianName}} attempted to staunch {{woundName}}.</span>
+        <span>{{localize "SOHL.Chat.BloodStoppage.resultPrompt" physician=physicianName wound=woundName}}</span>
     </div>
     {{/if}}
 

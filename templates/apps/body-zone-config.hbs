@@ -14,21 +14,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="body-zone-config__body">
 <header class="body-zone-config__header">
     <h1 class="body-zone-config__name">
-        <input type="text" name="name" value="{{zone.name}}" placeholder="Body Zone Name" /></h1>
+        <input type="text" name="name" value="{{zone.name}}" placeholder="{{localize "SOHL.BodyZone.FIELDS.name.label"}}" /></h1>
     <input class="body-zone-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
-        placeholder="shortcode"
-        data-tooltip="A short code identifying this body zone. Must be unique among the being's body zones." />
+        placeholder="{{localize "SOHL.Common.shortcode"}}"
+        data-tooltip="{{localize "SOHL.BodyZone.FIELDS.shortcode.hint"}}" />
 </header>
 
 <fieldset>
-    <legend>Hit Determination</legend>
+    <legend>{{localize "SOHL.BodyZone.Section.hitDetermination"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Zone Weight</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.BodyZone.FIELDS.zoneWeight.label"}}</span>
             <input type="number" step="1" min="0" name="probWeight" value="{{zone.probWeight}}"
-                data-tooltip="How many zone numbers this zone claims. Zones are allotted numbers in order, so a body weighing 3 / 5 / 2 covers 1–3, 4–8, 9–10. A weight of 0 makes the zone unrollable." /></label>
-        <div class="form-group stacked"><span>Zone Numbers</span>
+                data-tooltip="{{localize "SOHL.BodyZone.FIELDS.zoneWeight.hint"}}" /></label>
+        <div class="form-group stacked"><span>{{localize "SOHL.Being.BodyStructure.zoneNumberTip"}}</span>
             <p class="body-zone-config__range">{{#if zoneRange}}{{zoneRange}}{{else}}&mdash;{{/if}}</p></div>
     </div>
-    <p class="hint">This zone holds {{partCount}} body part(s). Renaming its shortcode keeps them attached.</p>
+    <p class="hint">{{localize "SOHL.BodyZone.partCountHint" count=partCount}}</p>
 </fieldset>
 </div>

@@ -20,11 +20,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{#if group.skills.length}}
         <div class="section-legend section-legend--subtype">
             <span class="section-legend__name">{{group.label}}</span>
-            <span class="section-legend__meta">{{group.skills.length}} skill{{#if (gt group.skills.length 1)}}s{{/if}}</span>
+            <span class="section-legend__meta">{{localize "SOHL.Skill.Heading.skillCount" count=group.skills.length}}</span>
             <span class="section-legend__rule"></span>
             <span class="section-legend__add">
                 <a class="add-button add-button--small item-create" data-action="createItem" data-type="skill" data-sub-type="{{group.subType}}">
-                    <i class="fa-solid fa-plus"></i><span>Add {{group.label}} Skill</span>
+                    <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Skill.Action.addSubType" subType=group.label}}</span>
                 </a>
             </span>
         </div>
@@ -32,7 +32,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__head">
                 <div></div>
                 <div></div>
-                <div>Skill</div>
+                <div>{{localize "SOHL.Print.skill"}}</div>
                 <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.SkillBase.tooltip'}}">{{localize 'SOHL.Skill.Heading.SkillBase.label'}}</div>
                 <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.MasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.MasteryLevel.label'}}</div>
                 <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.Index.tooltip'}}">{{localize 'SOHL.Skill.Heading.Index.label'}}</div>
@@ -54,9 +54,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="ledger__notes">{{skill.notes}}</div>
                 <div class="ledger__controls">
                     {{#if skill.canImprove}}
-                    <a class="icon-button toggle-improve-flag{{#if skill.improveFlag}} icon-button--on{{/if}}" data-action="toggleImproveFlag" title="Improve"><i class="{{#if skill.improveFlag}}fas fa-star ledger__flag{{else}}far fa-star{{/if}}"></i></a>
+                    <a class="icon-button toggle-improve-flag{{#if skill.improveFlag}} icon-button--on{{/if}}" data-action="toggleImproveFlag" title="{{localize "SOHL.Common.improve"}}"><i class="{{#if skill.improveFlag}}fas fa-star ledger__flag{{else}}far fa-star{{/if}}"></i></a>
                     {{/if}}
-                    <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </div>
             {{/each}}

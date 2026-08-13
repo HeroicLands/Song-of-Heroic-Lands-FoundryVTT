@@ -50,19 +50,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     <div class="card-content">
-        <span class="label">Target:</span>
+        <span class="label">{{localize "SOHL.Chat.StandardTest.target"}}</span>
         <span class="value">{{mlMod.constrainedEffective}}</span>
     </div>
 
     {{#if mlMod.successLevelMod}}
     <div class="card-content">
-        <span class="label">Success Level Modifier:</span>
+        <span class="label">{{localize "SOHL.Chat.StandardTest.successLevelMod"}}</span>
         <span class="value">{{mlMod.successLevelMod}}</span>
     </div>
     {{/if}}
 
     <div class="card-content">
-        <span class="label">Roll:</span>
+        <span class="label">{{localize "SOHL.Chat.StandardTest.roll"}}</span>
         <span 
         {{#if isSuccess}}
         class="value success-text"
@@ -79,18 +79,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
     --}}
     {{#if isSuccessValue}}
     <div class="card-content">
-        <span class="label">Success Value:</span>
+        <span class="label">{{localize "SOHL.Chat.StandardTest.successValue"}}</span>
         <span class="value">{{successValue}}</span>
     </div>
     <div class="card-content">
-        <span class="label">Value Diamonds:</span>
-        <span class="value value-diamonds" aria-label="{{valueDiamonds}} of 5 Value Diamonds">{{#each vdMarks}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-diamond" aria-hidden="true"></i>{{/each}}</span>
+        <span class="label">{{localize "SOHL.Chat.StandardTest.valueDiamonds"}}</span>
+        <span class="value value-diamonds" aria-label="{{localize "SOHL.Chat.StandardTest.valueDiamondsAria" count=valueDiamonds}}">{{#each vdMarks}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-diamond" aria-hidden="true"></i>{{/each}}</span>
     </div>
     {{/if}}
 
     {{#if resultText}}
     <div class="card-content">
-        <span class="label">Result:</span>
+        <span class="label">{{localize "SOHL.Chat.StandardTest.result"}}</span>
         <span
             {{#if (ifThen isSuccessValue svSuccess isSuccess)}}
             class="value success-text"

@@ -14,25 +14,25 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab effects{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="effects">
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-effects" value=""
-            aria-label="Search Effects" placeholder="Search Effects" autocomplete="off" />
+            aria-label="{{localize "SOHL.ActiveEffect.Search.label"}}" placeholder="{{localize "SOHL.ActiveEffect.Search.label"}}" autocomplete="off" />
     </div>
 
     <div class="section-legend">
-        <span class="section-legend__name">Own Effects</span>
+        <span class="section-legend__name">{{localize "SOHL.ActiveEffect.Heading.own"}}</span>
         <span class="section-legend__rule"></span>
         <span class="section-legend__add">
-            <button class="add-button effect-create" data-action="effectCreate" data-tooltip="Create Effect">
-                <i class="fa-solid fa-plus"></i><span>Create Effect</span>
+            <button class="add-button effect-create" data-action="effectCreate" data-tooltip="{{localize "SOHL.ActiveEffect.Action.create"}}">
+                <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.ActiveEffect.Action.create"}}</span>
             </button>
         </span>
     </div>
     <div class="ledger effects__list" style="--ledger-cols:1.5rem minmax(150px,1.3fr) 6.5rem 6rem 5.5rem 4rem">
         <div class="ledger__head">
             <div></div>
-            <div>Effect</div>
-            <div>Target</div>
-            <div title="Remaining">Remaining</div>
-            <div>Changes</div>
+            <div>{{localize "SOHL.ActiveEffect.Column.effect"}}</div>
+            <div>{{localize "SOHL.ActiveEffect.Column.target"}}</div>
+            <div title="{{localize "SOHL.ActiveEffect.Column.remaining"}}">{{localize "SOHL.ActiveEffect.Column.remaining"}}</div>
+            <div>{{localize "SOHL.ActiveEffect.Column.changes"}}</div>
             <div></div>
         </div>
         {{#each effects as |effect|}}
@@ -42,17 +42,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__icon"><img src="{{effect.img}}" alt="" /></div>
             <div class="ledger__name" data-tooltip="{{effect.name}}">{{effect.name}}</div>
             <div class="ledger__cell ledger__cell--text" data-tooltip="{{effect.system.targetLabel}}">{{effect.system.targetLabel}}</div>
-            <div class="ledger__cell ledger__cell--text">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
-            <div class="ledger__cell ledger__cell--text">{{effect.system.changes.length}} changes</div>
+            <div class="ledger__cell ledger__cell--text">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}{{localize "SOHL.ActiveEffect.indefinite"}}{{/if}}</div>
+            <div class="ledger__cell ledger__cell--text">{{localize "SOHL.ActiveEffect.changeCount" count=effect.system.changes.length}}</div>
             <div class="ledger__controls">
                 <a class="icon-button{{#unless effect.disabled}} is-on{{/unless}} effect-toggle" data-action="effectToggle"
-                    data-tooltip="{{#if effect.disabled}}Enable Effect{{else}}Disable Effect{{/if}}">
+                    data-tooltip="{{#if effect.disabled}}{{localize "SOHL.ActiveEffect.Action.enable"}}{{else}}{{localize "SOHL.ActiveEffect.Action.disable"}}{{/if}}">
                     <i class="{{#if effect.disabled}}fas fa-toggle-off{{else}}fas fa-toggle-on{{/if}}"></i>
                 </a>
-                <a class="icon-button icon-button--danger effect-delete" data-action="effectDelete" data-tooltip="Delete Effect">
+                <a class="icon-button icon-button--danger effect-delete" data-action="effectDelete" data-tooltip="{{localize "SOHL.ActiveEffect.Action.delete"}}">
                     <i class="fa-solid fa-trash"></i>
                 </a>
-                <a class="icon-button effect-contextmenu" title="Menu">
+                <a class="icon-button effect-contextmenu" title="{{localize "SOHL.ActiveEffect.Action.menu"}}">
                     <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
                 </a>
             </div>
@@ -62,17 +62,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{!-- Transferred Effects (read-only) --}}
     <div class="section-legend">
-        <span class="section-legend__name">Transferred Effects</span>
-        <span class="section-legend__meta">read-only</span>
+        <span class="section-legend__name">{{localize "SOHL.ActiveEffect.Heading.transferred"}}</span>
+        <span class="section-legend__meta">{{localize "SOHL.ActiveEffect.Heading.readOnly"}}</span>
         <span class="section-legend__rule"></span>
     </div>
     <div class="ledger" style="--ledger-cols:1.5rem minmax(150px,1.3fr) 7rem 6rem 5.5rem">
         <div class="ledger__head">
             <div></div>
-            <div>Effect</div>
-            <div>Source</div>
-            <div>Remaining</div>
-            <div>Changes</div>
+            <div>{{localize "SOHL.ActiveEffect.Column.effect"}}</div>
+            <div>{{localize "SOHL.ActiveEffect.Column.source"}}</div>
+            <div>{{localize "SOHL.ActiveEffect.Column.remaining"}}</div>
+            <div>{{localize "SOHL.ActiveEffect.Column.changes"}}</div>
         </div>
         {{#each trxEffects as |effect|}}
         <div class="ledger__row effects__row{{#if effect.disabled}} disabled{{/if}}"
@@ -80,8 +80,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__icon"><img src="{{effect.img}}" alt="" /></div>
             <div class="ledger__name" data-tooltip="{{effect.name}}">{{effect.name}}</div>
             <div class="ledger__cell ledger__cell--text" data-tooltip="{{effect.sourceName}}">{{effect.sourceName}}</div>
-            <div class="ledger__cell ledger__cell--text">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
-            <div class="ledger__cell ledger__cell--text">{{effect.system.changes.length}} changes</div>
+            <div class="ledger__cell ledger__cell--text">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}{{localize "SOHL.ActiveEffect.indefinite"}}{{/if}}</div>
+            <div class="ledger__cell ledger__cell--text">{{localize "SOHL.ActiveEffect.changeCount" count=effect.system.changes.length}}</div>
         </div>
         {{/each}}
     </div>

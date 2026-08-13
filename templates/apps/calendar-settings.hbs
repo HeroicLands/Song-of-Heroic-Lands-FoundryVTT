@@ -44,7 +44,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{#each imported}}
             <div class="imported-calendar" data-calendar-id="{{this.id}}">
                 <span class="calendar-name">{{this.label}}</span>
-                <button type="button" class="delete-btn" data-action="deleteCalendar" data-tooltip="Delete">
+                <button type="button" class="delete-btn" data-action="deleteCalendar" data-tooltip="{{localize "SOHL.Calendar.Action.delete"}}">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>

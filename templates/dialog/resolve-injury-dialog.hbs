@@ -15,9 +15,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="grid grid-2col">
         <div
             class="form-group"
-            data-tooltip="Zone Number aimed at (1..{{maxZoneNumber}}); used only when the Location derives"
+            data-tooltip="{{localize "SOHL.Dialog.ResolveInjury.targetZnTip" max=maxZoneNumber}}"
         >
-            <label>Target ZN:</label>
+            <label>{{localize "SOHL.Dialog.ResolveInjury.targetZn"}}</label>
             <input
                 type="number"
                 name="targetZoneNumber"
@@ -29,9 +29,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
         <div
             class="form-group"
-            data-tooltip="Zone Die rolled to scatter the hit from the Target ZN"
+            data-tooltip="{{localize "SOHL.Dialog.ResolveInjury.zoneDieTip"}}"
         >
-            <label>Zone Die:</label>
+            <label>{{localize "SOHL.Dialog.ResolveInjury.zoneDie"}}</label>
             <input
                 type="number"
                 name="zoneDie"
@@ -43,9 +43,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <div class="form-group">
-        <label>Location:</label>
+        <label>{{localize "SOHL.Dialog.ResolveInjury.location"}}</label>
         <select name="bodyLocationCode">
-            <option value="">(derive from Target ZN + ZD)</option>
+            <option value="">{{localize "SOHL.Dialog.ResolveInjury.deriveLocation"}}</option>
             {{selectOptions hitLocations selected=bodyLocationCode
             valueAttr="code" labelAttr="name"}}
         </select>
@@ -53,14 +53,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <div class="grid grid-2col">
         <div class="form-group">
-            <label>Aspect:</label>
+            <label>{{localize "SOHL.Dialog.ResolveInjury.aspect"}}</label>
             <select name="aspect">
                 {{selectOptions aspectChoices selected=aspect localize=true}}
             </select>
         </div>
 
-        <div class="form-group" data-tooltip="Impact damage value (before armor)">
-            <label>Impact:</label>
+        <div class="form-group" data-tooltip="{{localize "SOHL.Dialog.ResolveInjury.impactTip"}}">
+            <label>{{localize "SOHL.Dialog.ResolveInjury.impact"}}</label>
             <input type="number" name="impact" value="{{impact}}" />
         </div>
     </div>
@@ -68,9 +68,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="grid grid-2col">
         <div
             class="form-group"
-            data-tooltip="Reduces armor — applied only for a piercing aspect"
+            data-tooltip="{{localize "SOHL.Dialog.ResolveInjury.armorReductionTip"}}"
         >
-            <label>Armor Reduction:</label>
+            <label>{{localize "SOHL.Dialog.ResolveInjury.armorReduction"}}</label>
             <input
                 type="number"
                 name="armorReduction"
@@ -80,9 +80,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
         <div
             class="form-group"
-            data-tooltip="Extra impact used only when deciding whether the wound bleeds"
+            data-tooltip="{{localize "SOHL.Dialog.ResolveInjury.bleedPenaltyTip"}}"
         >
-            <label>Bleed Impact Penalty:</label>
+            <label>{{localize "SOHL.Dialog.ResolveInjury.bleedPenalty"}}</label>
             <input
                 type="number"
                 name="bleedImpactPenalty"
@@ -91,8 +91,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
-    <div class="form-group" data-tooltip="Treatment modifier set on the resulting injury">
-        <label>Treatment Modifier:</label>
+    <div class="form-group" data-tooltip="{{localize "SOHL.Dialog.ResolveInjury.treatmentModTip"}}">
+        <label>{{localize "SOHL.Dialog.ResolveInjury.treatmentMod"}}</label>
         <input
             type="number"
             name="treatmentModifier"
@@ -107,6 +107,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
             value="{{autoAddInjury}}"
             data-dtype="Boolean"
             {{checked autoAddInjury}} />
-        <label for="autoAddInjury">Add to Character Sheet</label>
+        <label for="autoAddInjury">{{localize "SOHL.Dialog.ResolveInjury.addToSheet"}}</label>
     </div>
 </form>

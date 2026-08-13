@@ -30,13 +30,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <div class="section-legend section-legend--subtype">
-        <span class="section-legend__name">Impaired By Roles</span>
+        <span class="section-legend__name">{{localize "SOHL.Attribute.Heading.impairedByRoles"}}</span>
         <span class="section-legend__rule"></span>
         <span class="section-legend__add">
             <button class="add-button add-button--small add-array-item" data-action="addArrayItem"
                 data-array="system.impairedByRoles" data-dtype="String" data-default-value=""
-                data-title="Impaired By Role">
-                <i class="fa-solid fa-plus"></i><span>Add Role</span>
+                data-title="{{localize "SOHL.Attribute.Action.addRoleTip"}}">
+                <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Attribute.Action.addRole"}}</span>
             </button>
         </span>
     </div>
@@ -46,7 +46,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <span class="array-list__field">{{this}}</span>
             <a class="array-list__remove delete-array-item icon-button icon-button--danger"
                 data-action="deleteArrayItem" data-array="system.impairedByRoles" data-value="{{this}}"
-                title="Delete Role"><i class="fa-solid fa-trash"></i></a>
+                title="{{localize "SOHL.Attribute.Action.deleteRole"}}"><i class="fa-solid fa-trash"></i></a>
         </div>
         {{else}}
         <div class="array-list__empty">—</div>

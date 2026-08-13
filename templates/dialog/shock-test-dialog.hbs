@@ -27,20 +27,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <form>
     <div
         class="form-group"
-        data-tooltip="Shock Index consisting of Injury Level and Location Shock values">
-        <label>Shock Index:</label>
+        data-tooltip="{{localize "SOHL.Dialog.ShockTest.indexTip"}}">
+        <label>{{localize "SOHL.Dialog.ShockTest.index"}}</label>
         <input type="number" name="shockIndex" value="{{shockIndex}}" />
     </div>
-    <div class="form-group" data-tooltip="Target number for shock roll">
-        <label>Shock Target:</label>
+    <div class="form-group" data-tooltip="{{localize "SOHL.Dialog.ShockTest.targetTip"}}">
+        <label>{{localize "SOHL.Dialog.ShockTest.target"}}</label>
         <input type="number" name="target" value="{{target}}" />
     </div>
     {{#if mods}}
     <div class="form-group">
         <div class="flex flex-2col">
             <div class="flexrow">
-                <span class="label adj-name">Adjustment</span>
-                <span class="label adj-value">Value</span>
+                <span class="label adj-name">{{localize "SOHL.Chat.Shock.adjustment"}}</span>
+                <span class="label adj-value">{{localize "SOHL.Chat.Shock.value"}}</span>
             </div>
             {{#each mods}}
             <div class="flexrow">
@@ -55,14 +55,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
     <div
         class="form-group"
-        data-tooltip="Modifier to apply to the target Shock Test value before the roll is performed">
-        <label>Shock Target Modifier:</label>
+        data-tooltip="{{localize "SOHL.Dialog.ShockTest.targetModTip"}}">
+        <label>{{localize "SOHL.Dialog.ShockTest.targetMod"}}</label>
         <input type="number" name="modifier" value="{{modifier}}" />
     </div>
     <div
         class="form-group"
-        data-tooltip="Modifier to apply to the success level (e.g., CF, MF, MS, CF) after the roll is finished">
-        <label>Success Level Modifier:</label>
+        data-tooltip="{{localize "SOHL.Dialog.ShockTest.successLevelModTip"}}">
+        <label>{{localize "SOHL.Dialog.ShockTest.successLevelMod"}}</label>
         <input
             type="number"
             name="successLevelMod"

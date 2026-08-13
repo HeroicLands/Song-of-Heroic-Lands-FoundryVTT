@@ -30,18 +30,18 @@ bumped success level.
     {{/if}}
 
     <div class="card-content">
-        <span class="label">Target:</span>
+        <span class="label">{{localize "SOHL.Chat.FateRoll.target"}}</span>
         <span class="value">{{target}}</span>
     </div>
 
     <div class="card-content">
-        <span class="label">Roll:</span>
+        <span class="label">{{localize "SOHL.Chat.FateRoll.roll"}}</span>
         <span class="value {{#if isSuccess}}success-text{{else}}failure-text{{/if}}">{{rollTotal}}</span>
     </div>
 
     {{#if outcomeLabel}}
     <div class="card-content">
-        <span class="label">Result:</span>
+        <span class="label">{{localize "SOHL.Chat.FateRoll.result"}}</span>
         <span class="value {{#if isSuccess}}success-text{{else}}failure-text{{/if}}">{{outcomeLabel}}</span>
     </div>
     {{/if}}

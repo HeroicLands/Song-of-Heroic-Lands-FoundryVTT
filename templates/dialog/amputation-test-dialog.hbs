@@ -14,13 +14,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <form>
     <div class="card-content center">
         <p>
-            A grievous edged wound to the <strong>{{locationName}}</strong> may
-            sever it. Confirm the modifier for the Strength test.
+            {{localize "SOHL.Dialog.Amputation.prompt" location=locationName}}
         </p>
     </div>
 
-    <div class="form-group" data-tooltip="Modifier applied to the amputation Strength test">
-        <label>Amputation Test Modifier:</label>
+    <div class="form-group" data-tooltip="{{localize "SOHL.Dialog.Amputation.modifierTip"}}">
+        <label>{{localize "SOHL.Dialog.Amputation.modifier"}}</label>
         <input type="number" name="modifier" value="{{modifier}}" />
     </div>
 </form>

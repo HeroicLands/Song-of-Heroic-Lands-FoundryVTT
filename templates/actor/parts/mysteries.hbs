@@ -15,11 +15,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Mysteries --}}
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-mysteries" value=""
-            aria-label="Search Mysteries" placeholder="Search Mysteries" autocomplete="off" />
+            aria-label="{{localize "SOHL.Mystery.Search.label"}}" placeholder="{{localize "SOHL.Mystery.Search.label"}}" autocomplete="off" />
     </div>
 
     <div class="section-legend">
-        <span class="section-legend__name">Mysteries</span>
+        <span class="section-legend__name">{{localize "TYPES.Item.mysteryPl"}}</span>
         <span class="section-legend__rule"></span>
     </div>
 
@@ -33,20 +33,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <span class="section-legend__add">
                     <a class="item-create add-button add-button--small" data-action="createItem"
                         data-type="mystery" data-sub-type="{{section.subType}}"
-                        data-tooltip="Add {{section.label}} Mystery">
-                        <i class="fa-solid fa-file-circle-plus"></i><span>Add {{section.label}} Mystery</span>
+                        data-tooltip="{{localize "SOHL.Mystery.Action.addSubType" subType=section.label}}">
+                        <i class="fa-solid fa-file-circle-plus"></i><span>{{localize "SOHL.Mystery.Action.addSubType" subType=section.label}}</span>
                     </a>
                 </span>
             </div>
             <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.4fr) 6rem 6rem 3.6rem 4rem 1fr 1.6rem">
                 <div class="ledger__head">
                     <div></div>
-                    <div>Mystery</div>
-                    <div>Skill</div>
-                    <div>Affiliation</div>
-                    <div class="ledger__head-num">Level</div>
-                    <div class="ledger__head-num">Charges</div>
-                    <div>Notes</div>
+                    <div>{{localize "SOHL.Mystery.Column.mystery"}}</div>
+                    <div>{{localize "SOHL.Mystery.Column.skill"}}</div>
+                    <div>{{localize "SOHL.Mystery.Column.affiliation"}}</div>
+                    <div class="ledger__head-num">{{localize "SOHL.Mystery.Column.level"}}</div>
+                    <div class="ledger__head-num">{{localize "SOHL.Mystery.Column.charges"}}</div>
+                    <div>{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
                     <div></div>
                 </div>
                 {{#each section.items as |mystery|}}
@@ -85,7 +85,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="ledger__notes">{{mystery.system.notes}}</div>
                     <div class="ledger__controls">
-                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -94,19 +94,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/each}}
     </div>
     <div class="add-footer">
-        <a class="item-create add-button" data-action="createItem" data-type="mystery" data-tooltip="Add Mystery">
-            <i class="fa-solid fa-file-circle-plus"></i><span>Add Mystery</span>
+        <a class="item-create add-button" data-action="createItem" data-type="mystery" data-tooltip="{{localize "SOHL.Mystery.Action.add"}}">
+            <i class="fa-solid fa-file-circle-plus"></i><span>{{localize "SOHL.Mystery.Action.add"}}</span>
         </a>
     </div>
 
     {{!-- Mystical Abilities --}}
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-mysticalabilities" value=""
-            aria-label="Search Mystical Abilities" placeholder="Search Mystical Abilities" autocomplete="off" />
+            aria-label="{{localize "SOHL.MysticalAbility.Search.label"}}" placeholder="{{localize "SOHL.MysticalAbility.Search.label"}}" autocomplete="off" />
     </div>
 
     <div class="section-legend">
-        <span class="section-legend__name">Mystical Abilities</span>
+        <span class="section-legend__name">{{localize "TYPES.Item.mysticalabilityPl"}}</span>
         <span class="section-legend__rule"></span>
     </div>
 
@@ -120,8 +120,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <span class="section-legend__add">
                     <a class="item-create add-button add-button--small" data-action="createItem"
                         data-type="mysticalability" data-sub-type="{{section.subType}}"
-                        data-tooltip="Add {{section.label}} Mystical Ability">
-                        <i class="fa-solid fa-file-circle-plus"></i><span>Add {{section.label}} Mystical Ability</span>
+                        data-tooltip="{{localize "SOHL.MysticalAbility.Action.addSubType" subType=section.label}}">
+                        <i class="fa-solid fa-file-circle-plus"></i><span>{{localize "SOHL.MysticalAbility.Action.addSubType" subType=section.label}}</span>
                     </a>
                 </span>
             </div>
@@ -219,11 +219,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                               drawing on an associated Skill or Spirit Power
                               improves when that item does. --}}
                         {{#if ability.logic.canImprove}}
-                        <a class="icon-button toggle-improve-flag{{#if ability.system.improveFlag}} icon-button--on{{/if}}" data-action="toggleImproveFlag" title="Improve">
+                        <a class="icon-button toggle-improve-flag{{#if ability.system.improveFlag}} icon-button--on{{/if}}" data-action="toggleImproveFlag" title="{{localize "SOHL.Common.improve"}}">
                             <i class="{{#if ability.system.improveFlag}}fas fa-star ledger__flag{{else}}far fa-star{{/if}}"></i>
                         </a>
                         {{/if}}
-                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="icon-button item-contextmenu" title="{{localize "SOHL.Common.menu"}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -232,8 +232,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/each}}
     </div>
     <div class="add-footer">
-        <a class="item-create add-button" data-action="createItem" data-type="mysticalability" data-tooltip="Add Mystical Ability">
-            <i class="fa-solid fa-file-circle-plus"></i><span>Add Mystical Ability</span>
+        <a class="item-create add-button" data-action="createItem" data-type="mysticalability" data-tooltip="{{localize "SOHL.MysticalAbility.Action.add"}}">
+            <i class="fa-solid fa-file-circle-plus"></i><span>{{localize "SOHL.MysticalAbility.Action.add"}}</span>
         </a>
     </div>
 </section>

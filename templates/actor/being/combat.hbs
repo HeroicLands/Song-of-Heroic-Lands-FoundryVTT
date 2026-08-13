@@ -18,18 +18,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
          one column header, for the whole family. --}}
     {{#if meleeStrikeModes.length}}
     <div class="section-legend">
-        <span class="section-legend__name">Melee Strike Modes</span>
+        <span class="section-legend__name">{{localize "SOHL.Being.Heading.meleeStrikeModes"}}</span>
     </div>
     <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.3rem 2.3rem 2.6rem 3rem 2.4rem 2.4rem 2.4rem">
         <div class="ledger__head">
-            <div>Mode</div>
-            <div class="ledger__head-num" data-tooltip="Heft">HFT</div>
-            <div class="ledger__head-num" data-tooltip="Reach">RCH</div>
-            <div class="ledger__head-num" data-tooltip="Zone Dice">{{@root.spreadLabel}}</div>
-            <div class="ledger__head-num" data-tooltip="Impact">Impact</div>
-            <div class="ledger__head-num" data-tooltip="Attack ML">Atk</div>
-            <div class="ledger__head-num" data-tooltip="Block ML">Blk</div>
-            <div class="ledger__head-num" data-tooltip="Counterstrike ML">CX</div>
+            <div>{{localize "SOHL.Being.Column.mode"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.heft"}}">{{localize "SOHL.Being.Column.heft"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.reach"}}">{{localize "SOHL.Being.Column.reach"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.zoneDice"}}">{{@root.spreadLabel}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.StrikeMode.FIELDS.impactBase.label"}}">{{localize "SOHL.Being.Column.impact"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.block"}}">{{localize "SOHL.Being.Column.block"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.counterstrike"}}">{{localize "SOHL.Being.Column.counterstrike"}}</div>
         </div>
         {{#each meleeStrikeModes as |entry|}}
         <div class="section-legend section-legend--subtype">
@@ -73,16 +73,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
          one-ledger-per-family / per-weapon-subheader pattern as Melee. --}}
     {{#if missileStrikeModes.length}}
     <div class="section-legend">
-        <span class="section-legend__name">Missile Strike Modes</span>
+        <span class="section-legend__name">{{localize "SOHL.Being.Heading.missileStrikeModes"}}</span>
     </div>
     <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.6rem 2.6rem 3rem 3rem 2.6rem">
         <div class="ledger__head">
-            <div>Mode</div>
-            <div class="ledger__head-num" data-tooltip="Draw Time">Draw</div>
-            <div class="ledger__head-num" data-tooltip="Base Range">BR</div>
-            <div class="ledger__head-num" data-tooltip="Max Volley Multiplier">MaxVM</div>
-            <div class="ledger__head-num" data-tooltip="Impact">Impact</div>
-            <div class="ledger__head-num" data-tooltip="Attack ML">Atk</div>
+            <div>{{localize "SOHL.Being.Column.mode"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.draw"}}">{{localize "SOHL.Being.Column.draw"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.baseRange"}}">{{localize "SOHL.Being.Column.baseRange"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.maxVolley"}}">{{localize "SOHL.Being.Column.maxVolley"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.StrikeMode.FIELDS.impactBase.label"}}">{{localize "SOHL.Being.Column.impact"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</div>
         </div>
         {{#each missileStrikeModes as |entry|}}
         <div class="section-legend section-legend--subtype">
@@ -115,12 +115,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Held Items — one dropdown per hold-capable limb --}}
     {{#if heldItemLimbs.length}}
     <div class="section-legend">
-        <span class="section-legend__name">Held Items</span>
+        <span class="section-legend__name">{{localize "SOHL.Being.Heading.heldItems"}}</span>
     </div>
     <div class="ledger held-items" style="--ledger-cols: minmax(120px,1fr) 14rem">
         <div class="ledger__head">
-            <div>Limb</div>
-            <div>Item Held</div>
+            <div>{{localize "SOHL.Being.Column.limb"}}</div>
+            <div>{{localize "SOHL.Being.Column.itemHeld"}}</div>
         </div>
         {{#each heldItemLimbs as |limb|}}
         <div class="ledger__row" data-part-index="{{limb.index}}">
@@ -142,7 +142,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Default combat group: auto-assigns this actor's combatants on combat start --}}
         {{formGroup fields.defaultCombatGroup
             classes="text-field combat-default-group"
-            placeholder="Opponents"
+            placeholder=(localize "SOHL.Combat.defaultGroupName")
             localize=true
             stacked=false
             value=system.defaultCombatGroup}}
@@ -157,23 +157,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#if structure}}
     <div class="section-legend">
         <span class="section-legend__name">{{localize "SOHL.Being.Heading.BodyStructure"}}</span>
-        <span class="section-legend__meta">read-only — zones &amp; parts on Profile</span>
+        <span class="section-legend__meta">{{localize "SOHL.Being.Heading.bodyStructureMeta"}}</span>
     </div>
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-bodylocations" value=""
-            aria-label="Search Body Locations" placeholder="Search Body Locations" autocomplete="off" />
+            aria-label="{{localize "SOHL.Being.Search.bodyLocations"}}" placeholder="{{localize "SOHL.Being.Search.bodyLocations"}}" autocomplete="off" />
     </div>
     <div class="bodylocations-list">
         <div class="ledger" style="--ledger-cols: minmax(130px,1fr) 3.2rem 2rem 2rem 2rem 2rem 2.4rem 2.4rem">
             <div class="ledger__head">
-                <div>Location</div>
-                <div class="ledger__head-num">Material</div>
-                <div class="ledger__head-num" data-tooltip="Blunt">B</div>
-                <div class="ledger__head-num" data-tooltip="Edged">E</div>
-                <div class="ledger__head-num" data-tooltip="Piercing">P</div>
-                <div class="ledger__head-num" data-tooltip="Fire">F</div>
-                <div class="ledger__head-num" data-tooltip="Shock">Shk</div>
-                <div class="ledger__head-num" data-tooltip="Impairment">Imp</div>
+                <div>{{localize "SOHL.Being.Column.location"}}</div>
+                <div class="ledger__head-num">{{localize "SOHL.Being.Column.material"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.ImpactModifier.ASPECT.blunt"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.blunt"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.ImpactModifier.ASPECT.edged"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.edged"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.ImpactModifier.ASPECT.piercing"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.piercing"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.ImpactModifier.ASPECT.fire"}}">{{localize "SOHL.ImpactModifier.AspectAbbrev.fire"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.shock"}}">{{localize "SOHL.Being.Column.shock"}}</div>
+                <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.impairment"}}">{{localize "SOHL.Being.Column.impairment"}}</div>
             </div>
             {{#each bodyZones as |zone|}}
             {{#each zone.parts as |part|}}

@@ -14,24 +14,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="body-part-config__body">
 <header class="body-part-config__header">
     <h1 class="body-part-config__name">
-        <input type="text" name="name" value="{{part.name}}" placeholder="Body Part Name" /></h1>
+        <input type="text" name="name" value="{{part.name}}" placeholder="{{localize "SOHL.BodyPart.FIELDS.name.label"}}" /></h1>
     <input class="body-part-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
-        placeholder="shortcode"
-        data-tooltip="A short code identifying this body part. Must be unique among the being's body parts." />
+        placeholder="{{localize "SOHL.Common.shortcode"}}"
+        data-tooltip="{{localize "SOHL.BodyPart.FIELDS.shortcode.hint"}}" />
 </header>
 
 <fieldset>
-    <legend>Parent</legend>
+    <legend>{{localize "SOHL.Common.parent"}}</legend>
     {{> shortcodeRefField embedded=true rootId="bodypart-zone" name="bodyZoneCode"
         value=part.bodyZoneCode options=bodyZoneCodeOptions
         label="SOHL.BodyPartConfig.zoneLabel" hint="SOHL.BodyPartConfig.zoneHint"}}
 </fieldset>
 
 <fieldset>
-    <legend>Roles</legend>
-    <label class="form-group stacked"><span>Functional Roles</span>
+    <legend>{{localize "SOHL.BodyPart.Section.roles"}}</legend>
+    <label class="form-group stacked"><span>{{localize "SOHL.BodyPart.FIELDS.roles.label"}}</span>
         <select name="roles" multiple size="4"
-            data-tooltip="Which functional roles this part fulfills. Injury here impairs every skill or attribute that lists any of these roles.">
+            data-tooltip="{{localize "SOHL.BodyPart.FIELDS.roles.hint"}}">
             {{#each roleOptions}}
             <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{localize this.label}}</option>
             {{/each}}
@@ -39,25 +39,25 @@ SPDX-License-Identifier: GPL-3.0-or-later
 </fieldset>
 
 <fieldset>
-    <legend>General</legend>
+    <legend>{{localize "SOHL.Common.general"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Weight</span>
+        <label class="form-group stacked"><span>{{localize "SOHL.BodyPart.FIELDS.weight.label"}}</span>
             <input type="number" step="0.1" min="0" name="probWeight" value="{{part.probWeight}}"
-                data-tooltip="Selection weight within this part's zone: once the zone is rolled, its parts are drawn in proportion to this weight. Also the area an aimed strike spends its accuracy against." /></label>
-        <label class="form-group stacked"><span>Permanent Impairment</span>
+                data-tooltip="{{localize "SOHL.BodyPart.FIELDS.weight.hint"}}" /></label>
+        <label class="form-group stacked"><span>{{localize "SOHL.BodyPart.FIELDS.impairmentBase.label"}}</span>
             <input type="number" step="1" max="0" name="permanentImpairment" value="{{part.permanentImpairment}}"
-                data-tooltip="A non-positive floor (0 = none) the derived impairment can never be milder than — e.g. an old maiming." /></label>
+                data-tooltip="{{localize "SOHL.BodyPart.FIELDS.impairmentBase.hint"}}" /></label>
     </div>
 </fieldset>
 
 <fieldset>
-    <legend>Flags</legend>
+    <legend>{{localize "SOHL.BodyPart.Section.flags"}}</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked checkbox"><span>Can Hold Item</span>
+        <label class="form-group stacked checkbox"><span>{{localize "SOHL.BodyPart.FIELDS.canHoldItem.label"}}</span>
             <input type="checkbox" name="canHoldItem" {{#if part.canHoldItem}}checked{{/if}} /></label>
-        <label class="form-group stacked checkbox"><span>Permanently Unusable</span>
+        <label class="form-group stacked checkbox"><span>{{localize "SOHL.BodyPart.FIELDS.unusable.label"}}</span>
             <input type="checkbox" name="permanentlyUnusable" {{#if part.permanentlyUnusable}}checked{{/if}}
-                data-tooltip="Marks the part unusable regardless of tier (a withered or fully-amputated limb)." /></label>
+                data-tooltip="{{localize "SOHL.BodyPart.FIELDS.unusable.hint"}}" /></label>
     </div>
 </fieldset>
 </div>

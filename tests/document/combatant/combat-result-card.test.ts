@@ -157,7 +157,10 @@ describe("attack-result-card renders the supplied variables (#844)", () => {
     it("names the defender's broken weapon", async () => {
         const html = await render();
         // weaponBreakCheck "defender" → defWeaponBroke; the name must appear.
-        expect(html).toContain("Bandit's Shield broke!");
+        // The sentence is `SOHL.Chat.Attack.weaponBroke` (#1350), whose
+        // typographic apostrophe survives Handlebars escaping — a straight `'`
+        // would render as `&#x27;` and read as a literal in the raw HTML.
+        expect(html).toContain("Bandit’s Shield broke!");
     });
 
     it("no longer references the removed unbacked variables", async () => {
