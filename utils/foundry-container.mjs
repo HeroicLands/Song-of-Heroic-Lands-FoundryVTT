@@ -244,6 +244,21 @@ function dockerCapture(args) {
 
 /**
  * @param {string} name
+ * @returns {boolean} whether a container with exactly this name is running.
+ */
+function containerRunning(name) {
+    const out = dockerCapture([
+        "ps",
+        "--filter",
+        `name=^${name}$`,
+        "--format",
+        "{{.Names}}",
+    ]);
+    return out.split("\n").includes(name);
+}
+
+/**
+ * @param {string} name
  * @returns {boolean} whether a container with exactly this name exists.
  */
 function containerExists(name) {
@@ -371,10 +386,16 @@ function start(stage, name, dataRoot) {
     const url = `http://localhost:${port}`;
 
     if (containerExists(name)) {
+        // Nothing is running against this data root (we are about to start it),
+        // so any lock present was left by a previous crash — sweep it rather
+        // than boot into a failure that reads like corruption.
+        if (!containerRunning(name)) clearStaleLock(dataRoot);
         console.log(`Starting existing container '${name}' → ${url}`);
         const result = docker(["start", name]);
         process.exit(result.status ?? 0);
     }
+
+    clearStaleLock(dataRoot);
 
     console.log(
         `Creating container '${name}' from ${image}\n  data: ${dataRoot}\n  url:  ${url}`,
@@ -426,13 +447,17 @@ function removeContainer(name) {
 
 /**
  * Remove the Foundry data-root lock left behind by a container that did not
- * shut down cleanly (`docker rm -f`, a crash, a killed run). Foundry refuses to
- * start with "this directory ... is already locked by another process", so a
- * stale lock silently turns every subsequent `recreate` into a boot failure.
+ * shut down cleanly (`docker rm -f`, a crash, a killed run, an OOM). Foundry
+ * refuses to start with "this directory ... is already locked by another
+ * process", so a stale lock silently turns every subsequent boot into a failure
+ * — and the message names no owner, so it reads like corruption rather than
+ * litter.
  *
- * Only safe to call once the container is stopped and removed — at that point
- * nothing can hold a legitimate lock, so any lock present is by definition
- * stale. Called from `recreate` for exactly that reason.
+ * **Only safe while the container is stopped.** With nothing running against
+ * this data root, a lock present is by definition stale: the process that took
+ * it is gone. The caller must therefore establish that first — every boot path
+ * here (`start`, `restart`, `recreate`) does, which is why the sweep can be
+ * unconditional rather than something a human remembers to do by hand.
  *
  * @param {string} dataRoot - The Foundry user-data root bind-mounted at `/data`.
  */
@@ -477,7 +502,15 @@ function main() {
             break;
         }
         case "restart": {
-            const result = docker(["restart", name]);
+            // Not `docker restart`: that leaves no window between stop and
+            // start in which to sweep the lock, so a container that died
+            // holding one can never be restarted back into a working state.
+            // Stop, sweep, start — the sweep is safe precisely because the
+            // container is down at that moment.
+            const dataRoot = resolveDataRoot(stage);
+            docker(["stop", name]);
+            clearStaleLock(dataRoot);
+            const result = docker(["start", name]);
             process.exit(result.status ?? 0);
             break;
         }

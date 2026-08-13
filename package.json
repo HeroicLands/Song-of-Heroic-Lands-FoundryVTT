@@ -89,6 +89,7 @@
         "test:e2e:openrun": "node utils/e2e-run.mjs open",
         "test:e2e": "run-s push:test test:e2e:seed test:e2e:run",
         "test:e2e:open": "run-s push:test test:e2e:seed test:e2e:openrun",
+        "e2e": "node utils/e2e-redeploy.mjs",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "run-s lint:todos lint:lang lint:lang-coverage lint:lang-hardcoded lint:docs-index lint:doc-links lint:ns-barrels lint:type-catalog lint:expr-scopes lint:labels lint:packs lint:rules-vtt lint:content-links lint:e2e-red lint:eslint lint:dts",

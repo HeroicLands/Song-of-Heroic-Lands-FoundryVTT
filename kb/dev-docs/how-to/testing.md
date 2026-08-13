@@ -410,40 +410,40 @@ spec fails. Cypress 15 (Electron 37 / Chromium 138) is fine; do not downgrade
 below the pinned major. If specs suddenly fail with a `foundry.mjs`
 `<static_initializer>` error, suspect an out-of-date bundled browser first.
 
-### Fast iteration: the build → deploy cycle
+### Fast iteration: `npm run e2e`
 
-`npm run test:e2e` recreates the container every run (~a minute of setup). While
-authoring specs, keep the container up and re-run Cypress directly against it:
+`npm run test:e2e` reseeds the world and recreates the container every run (~a
+minute before the first assertion). While iterating, keep the container up and
+use the fast loop, which rebuilds, redeploys, cycles the world, waits for it to
+serve, and runs Cypress — in that order, as one command:
 
 ```bash
-# one-time: bring the container up
-FOUNDRY_WORLD=sohl-e2e node utils/foundry-container.mjs test recreate
-# wait until the world is active, then re-run at will:
-env -u ELECTRON_RUN_AS_NODE npx cypress run --spec cypress/e2e/<name>.cy.js
+npm run e2e -- --spec cypress/e2e/<name>.cy.js   # rebuild everything, run one spec
+npm run e2e -- --build=code --spec 'cypress/e2e/skill-*.cy.js'
+npm run e2e -- --build=none                      # redeploy nothing, just re-run
+npm run e2e -- --no-run                          # only make the environment current
 ```
 
-**`env -u ELECTRON_RUN_AS_NODE` is mandatory for a direct `npx cypress` run** if
-your shell exports that variable — VS Code's integrated terminal and many
-agent/CI shells do. With it set, Cypress's bundled Electron launches as plain
-Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic
-`MODULE_NOT_FOUND`. `npm run test:e2e` already strips it in `utils/e2e-run.mjs`,
-so only direct `npx cypress` runs need the prefix.
+`--build` takes a comma-separated list of `assets`, `code`, `db`, `system`,
+`all` (default), or `none`. Anything after `--` passes through to Cypress.
 
-The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not your
-`src/` — so a source change is only visible after a rebuild **and** `push:test`:
+The loop exists because each step has a quiet failure mode, and hand-rolling it
+means meeting them one at a time:
 
-| You changed…                              | Rebuild with           | Then                                             |
-| ----------------------------------------- | ---------------------- | ------------------------------------------------ |
-| TypeScript (`src/**`)                     | `npm run build:code`   | `npm run push:test`                              |
-| Handlebars template (`templates/**`)      | `npm run build:assets` | `npm run push:test`                              |
-| `system.json` (`documentTypes`, packs, …) | `npm run build:system` | `npm run push:test` **+ recreate the container** |
+| Step | What goes wrong by hand |
+| ---- | ----------------------- |
+| Build | The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not `src/`. Templates need `build:assets`, TypeScript `build:code`, content `build:db`. |
+| Order | `vite` (`build:code`) **empties `build/stage`**, so building it after the asset/pack passes silently discards them, and `push:test` — a destructive mirror — then deletes them from the target. |
+| `system.json` | Read only at world launch, so it needs a container **recreate**, not a restart. Naming `system` in `--build` implies `--recreate`. |
+| Restart | A running Foundry holds the old packs open, so a content change is invisible until the world reopens them. |
+| Stale lock | A container that died holding the data-root lock (`docker kill`, a crash, an OOM) leaves `Config/options.json.lock` behind, and Foundry then refuses to boot with "already locked by another process" — naming no owner, so it reads like corruption. Every boot path in `utils/foundry-container.mjs` (`start`, `restart`, `recreate`) now sweeps it, which is safe precisely because each does so while the container is down. |
+| Readiness | `docker start` returns long before Foundry serves; Cypress opens on a dead port and every spec fails for no visible reason. The loop polls `/join` until it answers. |
+| `ELECTRON_RUN_AS_NODE` | VS Code's integrated terminal and most agent/CI shells export it. With it set, Cypress's bundled Electron launches as plain Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic `MODULE_NOT_FOUND`. The loop strips it, as `npm run test:e2e` already does. |
 
-`system.json` is read only at world launch, so a `documentTypes` change needs a
-recreate: `docker rm -f sohl-foundry-test`, delete any `*.lock` under
-`FOUNDRYVTT_TEST_DATA` (a killed container leaves one and the next start refuses
-with "directory is already locked"), then `node utils/foundry-container.mjs test
-recreate`. After deploying, the next `cy.login()` (which re-visits `/game`) picks
-up new code — there is no browser cache to clear.
+A direct `npx cypress run` still works when the environment is already current —
+just remember the `env -u ELECTRON_RUN_AS_NODE` prefix that the loop applies for
+you. After deploying, the next `cy.login()` (which re-visits `/game`) picks up new
+code; there is no browser cache to clear.
 
 ### Test layout
 
