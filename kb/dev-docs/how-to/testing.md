@@ -25,7 +25,7 @@ SoHL has two complementary test suites with very different scope and cadence:
 | ---------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **Scope**        | The Foundry-free **logic layer** — Logic classes and domain objects, in Node                                      | The **running system** in a real Foundry instance — sheets, hooks, documents, the full client                     |
 | **Needs**        | Just `npm` (no Foundry, no browser)                                                                               | Foundry (Docker/felddy container) **+ a Foundry license**                                                         |
-| **When it runs** | **Every CI build** — unit tests (plus the purity smoke test) are part of the build pipeline and gate every change | **On demand only** — run locally with `npm run test:e2e`; not part of standard CI (it needs a licensed container) |
+| **When it runs** | **Every CI build** — unit tests (plus the purity smoke test) are part of the build pipeline and gate every change | **On demand only** — `npm run e2e:full` from scratch, `npm run e2e:fast` to iterate; not part of standard CI (it needs a licensed container) |
 | **Speed**        | Seconds                                                                                                           | Minutes (seeds a world, serves it, drives a browser)                                                              |
 | **Guide**        | [Running tests](#running-tests) and below                                                                         | [Browser end-to-end tests (Cypress)](#browser-end-to-end-tests-cypress) (near the end)                            |
 
@@ -344,11 +344,18 @@ See [Writing specs](#writing-specs) and [Gotchas](#gotchas-non-obvious) below
 once you can run it.
 
 ```bash
-npm run test:e2e        # headless: seed → serve → cypress run → tear down
-npm run test:e2e:open   # interactive: seed → serve → cypress open (leaves it up)
+npm run e2e:full        # headless: seed → serve → cypress run → tear down
+npm run e2e:full:open   # interactive: seed → serve → cypress open (leaves it up)
+npm run e2e:fast -- --spec cypress/e2e/<name>.cy.js   # iterate: rebuild → redeploy → run
 ```
 
-Both assume you have already built (`npm run build`). The harness is fully
+The first two are the **from-scratch** path: they reseed the world and recreate
+the container every run, and assume you have already built (`npm run build`).
+Once a container is up, reach for `npm run e2e:fast` instead — it rebuilds, redeploys,
+cycles the world, waits for it to serve, and runs the specs you name, which is
+the loop you actually want while writing a spec or chasing a failure. See
+[Fast iteration](#fast-iteration-npm-run-e2efast). Do not hand-roll that sequence:
+every step of it has a quiet failure mode, catalogued there. The harness is fully
 isolated from your dev/qa worlds:
 
 | Piece                             | Role                                                                                                                              |
@@ -410,40 +417,63 @@ spec fails. Cypress 15 (Electron 37 / Chromium 138) is fine; do not downgrade
 below the pinned major. If specs suddenly fail with a `foundry.mjs`
 `<static_initializer>` error, suspect an out-of-date bundled browser first.
 
-### Fast iteration: the build → deploy cycle
+### Fast iteration: `npm run e2e:fast`
 
-`npm run test:e2e` recreates the container every run (~a minute of setup). While
-authoring specs, keep the container up and re-run Cypress directly against it:
+`npm run e2e:full` reseeds the world and recreates the container every run (~a
+minute before the first assertion). While iterating, keep the container up and
+use the fast loop, which rebuilds, redeploys, cycles the world, waits for it to
+serve, and runs Cypress — in that order, as one command:
 
 ```bash
-# one-time: bring the container up
-FOUNDRY_WORLD=sohl-e2e node utils/foundry-container.mjs test recreate
-# wait until the world is active, then re-run at will:
-env -u ELECTRON_RUN_AS_NODE npx cypress run --spec cypress/e2e/<name>.cy.js
+npm run e2e:fast -- --spec cypress/e2e/<name>.cy.js   # rebuild everything, run one spec
+npm run e2e:fast -- --build=code --spec 'cypress/e2e/skill-*.cy.js'
+npm run e2e:fast -- --build=none                      # skip the build; redeploy + re-run
+npm run e2e:fast -- --no-run                          # only make the environment current
 ```
 
-**`env -u ELECTRON_RUN_AS_NODE` is mandatory for a direct `npx cypress` run** if
-your shell exports that variable — VS Code's integrated terminal and many
-agent/CI shells do. With it set, Cypress's bundled Electron launches as plain
-Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic
-`MODULE_NOT_FOUND`. `npm run test:e2e` already strips it in `utils/e2e-run.mjs`,
-so only direct `npx cypress` runs need the prefix.
+**Flags.** `--build` takes a comma-separated list of `assets`, `code`, `db`,
+`system`, `all` (default), or `none`; an unrecognized target fails fast rather
+than half-deploying. `--recreate` forces a container recreate, `--no-run` stops
+once the environment is current, and `--spec` is a convenience for the Cypress
+flag. Anything after a bare `--` passes through to Cypress verbatim, so its own
+options (`--browser`, `--headed`, `--reporter`, …) all work.
 
-The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not your
-`src/` — so a source change is only visible after a rebuild **and** `push:test`:
+**What it does, in order** (`utils/e2e-redeploy.mjs`):
 
-| You changed…                              | Rebuild with           | Then                                             |
-| ----------------------------------------- | ---------------------- | ------------------------------------------------ |
-| TypeScript (`src/**`)                     | `npm run build:code`   | `npm run push:test`                              |
-| Handlebars template (`templates/**`)      | `npm run build:assets` | `npm run push:test`                              |
-| `system.json` (`documentTypes`, packs, …) | `npm run build:system` | `npm run push:test` **+ recreate the container** |
+1. **Build** the selected targets, always running `code` first. `vite` empties
+   `build/stage`, so a later `build:code` would discard whatever the asset and
+   pack passes had just written into it.
+2. **Deploy** with `push:test`, mirroring `build/stage` into the test data root.
+   The mirror is destructive — it deletes anything not in the stage — which is
+   why step 1 must leave the stage complete.
+3. **Cycle the world**: `recreate` when no container exists or `--recreate` was
+   asked for (which naming `system` in `--build` implies), otherwise `restart`.
+   Both sweep a stale data-root lock on the way through.
+4. **Wait** for `/join` to answer 200, polling every 2s up to 3 minutes, then
+   fail with a pointer at the container logs rather than handing Cypress a dead
+   port.
+5. **Run Cypress** with `ELECTRON_RUN_AS_NODE` stripped from the environment.
 
-`system.json` is read only at world launch, so a `documentTypes` change needs a
-recreate: `docker rm -f sohl-foundry-test`, delete any `*.lock` under
-`FOUNDRYVTT_TEST_DATA` (a killed container leaves one and the next start refuses
-with "directory is already locked"), then `node utils/foundry-container.mjs test
-recreate`. After deploying, the next `cy.login()` (which re-visits `/game`) picks
-up new code — there is no browser cache to clear.
+The exit code is Cypress's own, so it composes in a script. Steps 1–3 abort the
+run on the first failure instead of continuing with a half-built stage.
+
+The loop exists because each step has a quiet failure mode, and hand-rolling it
+means meeting them one at a time:
+
+| Step | What goes wrong by hand |
+| ---- | ----------------------- |
+| Build | The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not `src/`. Templates need `build:assets`, TypeScript `build:code`, content `build:db`. |
+| Order | `vite` (`build:code`) **empties `build/stage`**, so building it after the asset/pack passes silently discards them, and `push:test` — a destructive mirror — then deletes them from the target. |
+| `system.json` | Read only at world launch, so it needs a container **recreate**, not a restart. Naming `system` in `--build` implies `--recreate`. |
+| Restart | A running Foundry holds the old packs open, so a content change is invisible until the world reopens them. |
+| Stale lock | A container that died holding the data-root lock (`docker kill`, a crash, an OOM) leaves `Config/options.json.lock` behind, and Foundry then refuses to boot with "already locked by another process" — naming no owner, so it reads like corruption. Every boot path in `utils/foundry-container.mjs` (`start`, `restart`, `recreate`) now sweeps it, which is safe precisely because each does so while the container is down. |
+| Readiness | `docker start` returns long before Foundry serves; Cypress opens on a dead port and every spec fails for no visible reason. The loop polls `/join` until it answers. |
+| `ELECTRON_RUN_AS_NODE` | VS Code's integrated terminal and most agent/CI shells export it. With it set, Cypress's bundled Electron launches as plain Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic `MODULE_NOT_FOUND`. The loop strips it, as `npm run e2e:full` already does. |
+
+A direct `npx cypress run` still works when the environment is already current —
+just remember the `env -u ELECTRON_RUN_AS_NODE` prefix that the loop applies for
+you. After deploying, the next `cy.login()` (which re-visits `/game`) picks up new
+code; there is no browser cache to clear.
 
 ### Test layout
 

@@ -91,7 +91,7 @@ reads the Markdown directly.
 | `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                   |
 | `test:coverage`           | Run with coverage.                                                                                                            |
 | `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                    |
-| `test:e2e`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md). |
+| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md). |
 | `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                            |
 | `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
@@ -401,14 +401,24 @@ The commands (`node utils/foundry-container.mjs <stage> <command>`):
 
 | Command    | Effect                                                                               |
 | ---------- | ------------------------------------------------------------------------------------ |
-| `start`    | Create (or restart) `sohl-foundry-<stage>` and serve `/data`.                        |
+| `start`    | Create (or restart) `sohl-foundry-<stage>` and serve `/data`. Sweeps a stale lock first when the container is down. |
 | `stop`     | Stop the container (state is kept for a fast `start`).                               |
-| `restart`  | Restart the container.                                                               |
+| `restart`  | Stop, sweep a stale lock, start. Deliberately **not** `docker restart`, which leaves no window in which to sweep. |
 | `recreate` | Remove and re-create the container so changed `FOUNDRY_*`/`CONTAINER_*` env applies. |
 | `rm`       | Stop and remove the container.                                                       |
 | `status`   | Show the container's `docker ps -a` row.                                             |
 | `logs`     | Follow the container log (watch first-run install / boot here).                      |
 | `pull`     | Pull the latest image.                                                               |
+
+**The data-root lock.** Foundry takes `Config/options.json.lock` while it runs
+and releases it on a clean shutdown. A container that dies holding it (`docker
+kill`, a crash, an OOM) strands the lock, and every later boot then fails with
+"this directory is already locked by another process" — an error naming no
+owner, so it reads like corruption rather than litter. Every command here that
+boots Foundry (`start`, `restart`, `recreate`) sweeps the lock first, which is
+safe precisely because each does so while the container is stopped: with nothing
+running against the data root, a lock present is by definition stale. You should
+never need to delete it by hand.
 
 The data root is bind-mounted at `/data`, so the system pushed to
 `<root>/Data/systems/sohl/` is served directly — the value **must be a local
@@ -541,6 +551,7 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
 | `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
 | `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                     |
+| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress. |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |
 | `packs/build-compendiums.mjs`       | Compile/unpack `_source/` ↔ LevelDB packs (Foundry CLI).                                  |
 | `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                   |

@@ -36,7 +36,7 @@
  *   - `SOHL_E2E_GM_PASSWORD`   GM password (default "sohl-e2e").
  *
  * Usage:
- *   npm run test:e2e:seed
+ *   npm run e2e:full:seed
  *   node utils/seed-test-world.mjs
  */
 
