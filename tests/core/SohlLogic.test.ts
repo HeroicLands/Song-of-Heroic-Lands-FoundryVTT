@@ -241,14 +241,14 @@ describe("SohlLogic", () => {
             const localize = vi.spyOn(sohl.i18n, "localize");
             const logic = makeItemLogic(SohlItemBaseLogic, "misc");
             void logic.typeLabel;
-            expect(localize).toHaveBeenCalledWith("TYPE.ITEM.misc");
+            expect(localize).toHaveBeenCalledWith("TYPES.Item.misc");
         });
 
         it("typeLabel uses the ACTOR namespace for actor kinds", () => {
             const localize = vi.spyOn(sohl.i18n, "localize");
             const logic = makeActorLogic(SohlActorBaseLogic, "being");
             void logic.typeLabel;
-            expect(localize).toHaveBeenCalledWith("TYPE.ACTOR.being");
+            expect(localize).toHaveBeenCalledWith("TYPES.Actor.being");
         });
 
         it("label formats type and name through docLabelFormat", () => {

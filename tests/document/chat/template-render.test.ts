@@ -650,7 +650,7 @@ describe("displayed enum values + labels are localized (#951)", () => {
                         group: "general",
                     },
                     available: true,
-                    unavailableReason: "SOHL.Actions.unavailable",
+                    unavailableReason: "SOHL.Action.unavailable",
                 },
             ],
             intrinsicActions: [],
@@ -678,7 +678,7 @@ describe("displayed enum values + labels are localized (#951)", () => {
                         group: "general",
                     },
                     available: true,
-                    unavailableReason: "SOHL.Actions.unavailable",
+                    unavailableReason: "SOHL.Action.unavailable",
                 },
             ],
             intrinsicActions: [
@@ -690,7 +690,7 @@ describe("displayed enum values + labels are localized (#951)", () => {
                         group: "essential",
                     },
                     available: true,
-                    unavailableReason: "SOHL.Actions.unavailable",
+                    unavailableReason: "SOHL.Action.unavailable",
                 },
             ],
         });
@@ -715,7 +715,7 @@ describe("displayed enum values + labels are localized (#951)", () => {
                         group: "general",
                     },
                     available: true,
-                    unavailableReason: "SOHL.Actions.unavailable",
+                    unavailableReason: "SOHL.Action.unavailable",
                 },
             ],
         });

@@ -26,7 +26,7 @@ import { makeMockSpeaker } from "@tests/mocks/logicHarness";
 function stubAction(overrides: Record<string, unknown> = {}): any {
     const {
         available = true,
-        unavailableReason = "SOHL.Actions.unavailable",
+        unavailableReason = "SOHL.Action.unavailable",
         ...data
     } = overrides;
     return {

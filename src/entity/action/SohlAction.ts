@@ -118,7 +118,7 @@ export class SohlAction extends SohlEntity {
      * Fallback i18n key for {@link unavailableReason} — used when a refused
      * action declares no `disabledReason` of its own.
      */
-    static readonly DEFAULT_DISABLED_REASON = "SOHL.Actions.unavailable";
+    static readonly DEFAULT_DISABLED_REASON = "SOHL.Action.unavailable";
 
     /** The persisted action definition (see {@link SohlAction.Data}). */
     data: SohlAction.Data;

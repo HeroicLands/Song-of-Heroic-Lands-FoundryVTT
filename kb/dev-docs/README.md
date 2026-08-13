@@ -77,6 +77,7 @@ Contracts, catalogs, and specifications.
 - [Event Queue](reference/event-queue.md)
 - [Randomness](reference/randomness.md)
 - [Handlebars Template Helpers](reference/handlebars-helpers.md)
+- [Localization Keys](reference/localization-keys.md) — the naming standard for `lang/en.json`: namespaces, group and leaf case, what may never appear in a key, and why keys are permanent.
 
 ## Contributing
 
