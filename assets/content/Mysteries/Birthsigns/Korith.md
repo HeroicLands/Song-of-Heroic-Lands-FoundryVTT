@@ -4,7 +4,7 @@ tags: []
 name:
     full: Korith
     aliases: []
-description: "The Helm: favours Fire and Air (+10), hinders Earth and Water (−10)."
+description: "The Helm: hard-bodied and steady under a blow, lost in wild country and worse in conversation."
 id: R6kUskyAmO8AmYuz
 img: systems/sohl/assets/icons/other/astrology.svg
 shortcode: korith
@@ -15,61 +15,33 @@ sohl:
     archetype: 0
     subType: other
     levelBase: 0
-folder: b1rthS1gnFldr001
-effects:
-    - name: "Korith — Earth skills (-10 EML)"
-      type: sohleffectdata
-      _id: NFIDMOs9O1Cb8DrG
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "nature" || has(itemLogic.data.shortcode, ["earth", "physera"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!R6kUskyAmO8AmYuz.NFIDMOs9O1Cb8DrG"
-    - name: "Korith — Fire skills (+10 EML)"
-      type: sohleffectdata
-      _id: VzAxfm9MhDrQVdvN
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["combattechnique", "combat"]) || has(itemLogic.data.shortcode, ["fire", "pyrethos"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!R6kUskyAmO8AmYuz.VzAxfm9MhDrQVdvN"
-    - name: "Korith — Air skills (+10 EML)"
-      type: sohleffectdata
-      _id: TDTDnF1gzzEGTwry
-      system:
-          scope: skill
-          test: 'itemLogic.data.subType === "physical" || has(itemLogic.data.shortcode, ["air", "zepharis"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "10"
-            priority: null
-      _key: "!items.effects!R6kUskyAmO8AmYuz.TDTDnF1gzzEGTwry"
-    - name: "Korith — Water skills (-10 EML)"
-      type: sohleffectdata
-      _id: UnziEQnkHBWCBYFF
-      system:
-          scope: skill
-          test: 'has(itemLogic.data.subType, ["language", "social"]) || has(itemLogic.data.shortcode, ["water", "hydalis"])'
-      changes:
-          - key: "mod:logic.masteryLevel"
-            type: add
-            value: "-10"
-            priority: null
-      _key: "!items.effects!R6kUskyAmO8AmYuz.UnziEQnkHBWCBYFF"
+    skillAptitudes:
+        "subType:nature": -10
+        earth: -10
+        physera: -10
+        "subType:script": 0
+        "subType:craft": 0
+        metal: 0
+        sideros: 0
+        "subType:combattechnique": 10
+        "subType:combat": 10
+        fire: 10
+        pyrethos: 10
+        "subType:physical": 10
+        air: 10
+        zepharis: 10
+        "subType:mystical": 0
+        "subType:lore": 0
+        spirit: 0
+        pneumenos: 0
+        "subType:language": -10
+        "subType:social": -10
+        water: -10
+        hydalis: -10
+folder: 22zncJuZCvjO7YSY
 ---
 
 Korith, the Helm, tempers its children for endurance and the clash of arms. Strong in body and steady under the strike, they nonetheless find the lore of nature and the graces of speech slow to answer their call.
-
-A birthsign is not something a character does. It is fixed at the hour of birth and carried for life — never invoked, never tested, and never spent — and the whole of its effect is a standing adjustment to the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills its elements claim. A character bears exactly one sign, and like every Mystery it is unavailable while they carry [[doc/arlshck|Aural Shock]].
 
 | Element | Skills it claims          | EML |
 | ------- | ------------------------- | --- |
@@ -79,7 +51,5 @@ A birthsign is not something a character does. It is fixed at the hour of birth 
 | Air     | Physical                  | +10 |
 | Spirit  | Lore, Mystical            | —   |
 | Water   | Language, Social          | −10 |
-
-Its natives come readiest to **Fire** (the drill-yard and the clash of arms) and **Air** (feats of balance, stealth, and speed) at +10, and hardest to **Earth** (the growing field and the wild places) and **Water** (tongues, courts, and company) at −10.
 
 The wheel of signs, and what the six elements of the Astrokýklos each claim, are set out under [[doc/brthsgn|Birthsign]].

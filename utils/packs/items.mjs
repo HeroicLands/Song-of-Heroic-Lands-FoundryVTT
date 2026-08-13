@@ -38,6 +38,7 @@ import { contentSlug } from "../content-slug.mjs";
 import {
     walkMarkdownTree,
     sohlField,
+    resolveSkillAptitudes,
     requireSubType,
     resolveCharges,
     makeFilename,
@@ -227,6 +228,7 @@ function buildMystery(fm) {
     return {
         subType: requireSubType(fm),
         levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
+        skillAptitudes: resolveSkillAptitudes(fm, `mystery "${fm?.name?.full ?? fm?.shortcode ?? "?"}"`),
         charges: resolveCharges(fm),
     };
 }

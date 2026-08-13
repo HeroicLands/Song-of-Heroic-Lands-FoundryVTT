@@ -37,6 +37,7 @@ export * from "./fate-host";
 export * from "./affliction-course";
 export * from "./fatigue";
 export * from "./improve-sdr";
+export * from "./skill-aptitudes";
 export * from "./item-sheet-view";
 export * from "./masteryBoost";
 export * from "./offer-schedule";

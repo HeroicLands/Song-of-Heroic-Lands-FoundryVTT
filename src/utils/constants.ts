@@ -559,6 +559,7 @@ export const {
     isValue: isValueDeltaInfo,
 } = defineType("SOHL.ValueDelta.INFO", {
     DISABLED: "Dsbl",
+    APTITUDE: "Apt",
     BASE: "Base",
     NOMSLDEF: "NoMslDef",
     NOMODIFIERNODIE: "NMND",
@@ -1893,6 +1894,16 @@ export const {
 });
 /** Union of all skill-subtype values. */
 export type SkillSubType = (typeof SKILL_SUBTYPE)[keyof typeof SKILL_SUBTYPE];
+
+/**
+ * The prefix marking a **skill-aptitude selector** as a subtype rather than a
+ * skill shortcode. A key of `subType:nature` selects every skill of subtype
+ * `nature`; an unprefixed key selects the one skill bearing that shortcode.
+ *
+ * Spelled to match `subType` everywhere else in the schema. See
+ * {@link sohl.document.item.logic.skillAptitudeFor}.
+ */
+export const SKILL_APTITUDE_SUBTYPE_PREFIX = "subType:";
 
 export const {
     /** Map of skill-combat-category key → value. */
