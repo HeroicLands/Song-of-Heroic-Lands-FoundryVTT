@@ -40,11 +40,14 @@ export class StructureDataModel<
     TLogic extends StructureLogic<StructureData> =
         StructureLogic<StructureData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.Structure",
-        "SOHL.Actor",
-    ];
+    /**
+     * @inheritDoc
+     * @remarks Structure adds no fields of its own — its schema is exactly
+     * {@link SohlActorDataModel}'s — so every label and hint comes from
+     * `SOHL.Actor`. A `SOHL.Structure` prefix would resolve to nothing; add it
+     * back together with the first Structure-specific field and its keys.
+     */
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Actor"];
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.STRUCTURE;
 

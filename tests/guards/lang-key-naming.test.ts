@@ -23,6 +23,7 @@
  * conformance here would fail on that legacy rather than on new work.
  */
 import { readFileSync } from "node:fs";
+import { globSync } from "glob";
 import { describe, expect, it } from "vitest";
 import { ActorKinds, ItemKinds } from "@src/utils/constants";
 
@@ -103,7 +104,49 @@ describe("lang/en.json key naming", () => {
         });
     });
 
+    describe("declared namespaces resolve", () => {
+        it("every SOHL.* LOCALIZATION_PREFIXES entry has at least one key (#1353)", () => {
+            // Foundry reads `<prefix>.FIELDS.<field>.label` / `.hint` off each
+            // prefix a DataModel declares. A prefix with no keys at all cannot
+            // label anything — it is stale configuration that reads as coverage.
+            // (Foundry-owned roots like `BEHAVIOR.TYPES.base` are core's to
+            // provide, so only `SOHL.*` is checked.)
+            const declared = new Set<string>();
+            for (const file of globSync("src/**/*.ts")) {
+                const src = readFileSync(file, "utf8");
+                for (const block of src.matchAll(
+                    /LOCALIZATION_PREFIXES\s*(?::[^=]*)?=\s*\[([^\]]*)\]/g,
+                )) {
+                    for (const m of block[1]!.matchAll(/"([^"]+)"/g)) {
+                        if (m[1]!.startsWith("SOHL.")) declared.add(m[1]!);
+                    }
+                }
+            }
+            expect(declared.size).toBeGreaterThan(0);
+            const dangling = [...declared]
+                .filter(
+                    (prefix) =>
+                        !keys.some(
+                            (k) => k === prefix || k.startsWith(`${prefix}.`),
+                        ),
+                )
+                .sort();
+            expect(dangling).toEqual([]);
+        });
+    });
+
     describe("placeholders", () => {
+        it("never uses Handlebars double braces (#1353)", () => {
+            // Foundry interpolates with `format()` and single braces. A `{{…}}`
+            // value only renders because some call sites hand their content to a
+            // Handlebars pass — which is the rule-#10 pattern (prose spliced into
+            // template source) rather than a placeholder.
+            const offenders = Object.entries(lang)
+                .filter(([, value]) => /\{\{|\}\}/.test(value))
+                .map(([key]) => key);
+            expect(offenders).toEqual([]);
+        });
+
         it("uses single-braced {camelCase} names throughout", () => {
             const offenders = Object.entries(lang)
                 .flatMap(([key, value]) =>
