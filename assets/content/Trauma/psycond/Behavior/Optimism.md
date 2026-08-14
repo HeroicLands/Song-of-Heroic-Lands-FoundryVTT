@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-optimism
 tags: []
 name:
     full: Optimism

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ibex
+    - creature-ibex
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: Mbqn2UmueYKKnynf
 img: icons/game-icons/skoll/goat.svg
-portrait: ""
+portrait: images/ibex.webp
 shortcode: ibex
 type: creature
 package: sohl

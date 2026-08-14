@@ -4,6 +4,7 @@ aliases:
     - Blood Loss
     - Blood Loss Advance Test
     - Blood Stoppage Test
+    - doc-bleeding
 id: edDvJKnODEldyaSh
 type: doc
 package: sohl
@@ -15,7 +16,7 @@ shortcode: bleeding
 folder: F4NGyU9QQgWwTcHe
 ---
 
-A physical [[doc/injrylvl|Injury]] marked as **bleeding**
+A physical [[doc-injrylvl|Injury]] marked as **bleeding**
 is losing blood in a life-threatening way. Left unchecked, a bleeder will likely
 kill the character within **10–15 minutes** unless the bleeding is staunched.
 
@@ -48,13 +49,13 @@ Dead.
 
 So a character who is **Incapacitated** and accrues 1 BLP becomes
 **Unconscious**; accruing 2 BLP instead would kill them. (This is the ordinal
-counterpart of the [[doc/shock#shock-state-index|Shock State Index]] that injuries
+counterpart of the [[doc-shock#shock-state-index|Shock State Index]] that injuries
 drive.)
 
 ### Anemia
 
 Each Blood Loss Advance Test also inflicts **5 points of
-[[doc/fatigue|weakness fatigue]] per Blood Loss Point** accrued, representing the
+[[doc-fatigue|weakness fatigue]] per Blood Loss Point** accrued, representing the
 anemia of ongoing blood loss. This fatigue is applied every time the test is
 made.
 
@@ -87,5 +88,5 @@ bleeder staunched separately.
 
 - [[Healing Test]] — periodic recovery of injuries and restoration
   of lost blood once the bleeding has stopped.
-- [[doc/sccsstst#success-level|Success levels]] — the CF / MF / MS / CS scale used
+- [[doc-sccsstst#success-level|Success levels]] — the CF / MF / MS / CS scale used
   throughout.

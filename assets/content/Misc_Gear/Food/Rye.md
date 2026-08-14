@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rye
+    - miscgear-rye
 tags:
     - food
 name:

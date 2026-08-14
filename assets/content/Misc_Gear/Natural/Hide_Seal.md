@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Hide, Seal"
+    - miscgear-hideseal
 tags:
     - natural
 name:

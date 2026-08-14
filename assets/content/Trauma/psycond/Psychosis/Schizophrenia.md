@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-schizop
 tags: []
 name:
     full: Schizophrenia

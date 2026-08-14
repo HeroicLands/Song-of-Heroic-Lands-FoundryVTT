@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-assrtv
 tags: []
 name:
     full: Assertive

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rock Python
+    - creature-rckpythn
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: 5GlgTelIHgQGv4A9
 img: icons/game-icons/lorc/snake.svg
-portrait: ""
+portrait: images/rckpythn.webp
 shortcode: rckpythn
 type: creature
 package: sohl

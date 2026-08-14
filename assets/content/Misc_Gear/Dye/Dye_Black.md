@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Dye, Black"
+    - miscgear-dyeblk
 tags:
     - clothing
 name:

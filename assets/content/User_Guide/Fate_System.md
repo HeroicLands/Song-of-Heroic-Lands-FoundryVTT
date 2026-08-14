@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-thftsyst
 id: kRs6ef5NELRdB2Ui
 type: doc
 package: sohl
@@ -62,11 +63,11 @@ See [[Settings]] for more configuration options.
 
 # See also
 
-- [[doc/sklltsts|Skill Tests and Opposed Tests]] — the settled result that Fate
+- [[doc-sklltsts|Skill Tests and Opposed Tests]] — the settled result that Fate
   is spent to improve.
-- [[doc/baseitem|Base Item]] — the test-result card the Fate button appears on,
+- [[doc-baseitem|Base Item]] — the test-result card the Fate button appears on,
   and the GM's counterpart result edit.
-- [[doc/being|Being]] — where a character's Fate Points are held.
-- [[doc/systmstt|System Settings]] — the **Fate** world setting.
-- [[doc/fatepnts|Fate]] (rules) — what Fate is and what spending it may buy.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-being|Being]] — where a character's Fate Points are held.
+- [[doc-systmstt|System Settings]] — the **Fate** world setting.
+- [[doc-fatepnts|Fate]] (rules) — what Fate is and what spending it may buy.
+- [[doc-userguide|User Guide]] — back to the index.

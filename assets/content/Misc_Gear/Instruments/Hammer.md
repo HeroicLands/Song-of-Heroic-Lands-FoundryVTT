@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Hammer"
+    - miscgear-hammer
 tags:
     - instruments
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckram Breeches
+    - armorgear-BBrch
 tags: []
 name:
     full: Buckram Breeches

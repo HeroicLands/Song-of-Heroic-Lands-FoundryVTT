@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Paint, per gallon"
+    - miscgear-paintperga
 tags:
     - expedition
 name:

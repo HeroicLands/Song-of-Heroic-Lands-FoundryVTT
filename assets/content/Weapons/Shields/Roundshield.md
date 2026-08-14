@@ -1,6 +1,7 @@
 ---
 aliases:
     - Roundshield
+    - weapongear-RndSh
 tags: []
 name:
     full: Roundshield

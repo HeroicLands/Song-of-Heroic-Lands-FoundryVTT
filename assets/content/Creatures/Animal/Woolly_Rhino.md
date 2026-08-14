@@ -1,6 +1,7 @@
 ---
 aliases:
     - Woolly Rhino
+    - creature-wllyrhn
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: vxgCrkIE0FSMA3Ty
 img: icons/game-icons/delapouite/rhinoceros-horn.svg
-portrait: ""
+portrait: images/wllyrhn.webp
 shortcode: wllyrhn
 type: creature
 package: sohl

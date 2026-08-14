@@ -1,6 +1,7 @@
 ---
 aliases:
     - Eels
+    - miscgear-eels
 tags:
     - food
 name:

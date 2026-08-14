@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-march
 tags: []
 name:
     full: Marching

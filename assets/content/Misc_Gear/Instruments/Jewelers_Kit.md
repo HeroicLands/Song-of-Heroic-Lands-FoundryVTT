@@ -1,6 +1,7 @@
 ---
 aliases:
     - Jeweler's Kit
+    - miscgear-jewelerskt
 tags:
     - instruments
 name:

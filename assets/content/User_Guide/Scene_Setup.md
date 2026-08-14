@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-scnstpan
 id: WxM4H3SLZKQhLTog
 type: doc
 package: sohl
@@ -16,7 +17,7 @@ Scenes in SoHL work like standard Foundry VTT scenes, with some additional
 features specific to SoHL. This guide covers placing tokens on scenes,
 Theatre of the Mind mode, and the Cohort expand feature.
 
-See also: [[doc/being|Beings]], [[doc/cohort|Cohorts]]
+See also: [[doc-being|Beings]], [[doc-cohort|Cohorts]]
 
 # Placing Actors on Scenes {#scene-placing}
 
@@ -58,14 +59,14 @@ them when initiative is rolled.
 
 # See also
 
-- [[doc/token|Token]] — what you can do from a placed token, including starting
+- [[doc-token|Token]] — what you can do from a placed token, including starting
   and answering an opposed test.
-- [[doc/cmbtbscs|Combat Basics]] — running the fight the scene is set up for.
-- [[doc/cmbtnt|Combatant]] — the combat tracker, its groups, and the combatant
+- [[doc-cmbtbscs|Combat Basics]] — running the fight the scene is set up for.
+- [[doc-cmbtnt|Combatant]] — the combat tracker, its groups, and the combatant
   row.
-- [[doc/cohort|Cohort]] — the group a scene can expand into its members.
-- [[doc/being|Being]] — the actor most tokens stand for.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-cohort|Cohort]] — the group a scene can expand into its members.
+- [[doc-being|Being]] — the actor most tokens stand for.
+- [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Document how to collapse individual tokens back into a cohort,
      if that feature exists. Document what happens to cohort-level effects

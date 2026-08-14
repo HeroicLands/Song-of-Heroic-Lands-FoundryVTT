@@ -1,6 +1,7 @@
 ---
 aliases:
     - Orangutan
+    - creature-orngtn
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Wbfpz2YIVuGcO8ZS
 img: icons/game-icons/lorc/monkey.svg
-portrait: ""
+portrait: images/orngtn.webp
 shortcode: orngtn
 type: creature
 package: sohl

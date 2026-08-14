@@ -3,6 +3,7 @@ aliases:
     - Secondary Mastery
     - Secondary Modifier
     - Secondary Roll
+    - doc-scndryms
 id: ZS7AkgrQvXdkku0g
 type: doc
 package: sohl
@@ -24,10 +25,10 @@ the ascent they have left in them.
 **Secondary Mastery** is how a second skill or attribute bears on a test of the
 first, without becoming the thing being tested. It takes two forms — a
 **Secondary Modifier**, which shifts the
-[[doc/mstrylvl#effective-mastery-level|EML]] of the test, and a **Secondary
+[[doc-mstrylvl#effective-mastery-level|EML]] of the test, and a **Secondary
 Roll**, which is a small roll of its own made alongside it.
 
-Both are read from the [[doc/mstrylvl#index|Index]] of the secondary skill or
+Both are read from the [[doc-mstrylvl#index|Index]] of the secondary skill or
 attribute, never from its EML. Bonuses and penalties apply to the d100 test
 only; they never move a Secondary Modifier or a Secondary Roll.
 
@@ -62,7 +63,7 @@ There are no critical results. A TN of 0 or less always fails, and a TN of 10 or
 more always succeeds.
 
 A Secondary Roll accompanies a Success Test or a
-[[doc/sccssvlt#success-value-test|Success Value test]] and does not change its
+[[doc-sccssvlt#success-value-test|Success Value test]] and does not change its
 outcome; it decides something beside it. A successful Endurance SR may spare the
 character fatigue; a crafting SR may add a point to a Success Value. What the
 roll buys is stated by the rule that calls for it.

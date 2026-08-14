@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bactrian Camel
+    - creature-bctrncml
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: 4MkB6ybeaITI3ntC
 img: icons/game-icons/delapouite/camel-head.svg
-portrait: ""
+portrait: images/bctrncml.webp
 shortcode: bctrncml
 type: creature
 package: sohl

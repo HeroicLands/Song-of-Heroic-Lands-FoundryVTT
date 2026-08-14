@@ -1,6 +1,7 @@
 ---
 aliases:
     - Chisel
+    - miscgear-chisel
 tags:
     - instruments
 name:

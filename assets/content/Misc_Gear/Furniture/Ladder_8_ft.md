@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Ladder, 8 ft"
+    - miscgear-ladder8
 tags:
     - furniture
 name:

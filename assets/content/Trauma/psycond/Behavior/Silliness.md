@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-sllnss
 tags: []
 name:
     full: Silliness

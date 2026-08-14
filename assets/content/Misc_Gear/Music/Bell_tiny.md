@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bell, tiny"
+    - miscgear-belltiny
 tags:
     - music
 name:

@@ -2,6 +2,7 @@
 aliases:
     - Peafowl
     - Peacock
+    - creature-peacock
 tags:
     - animal
     - image-needed
@@ -10,7 +11,7 @@ name:
     aliases: []
 id: auTdTI38hYwuX3sr
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/peacock.webp
 shortcode: peacock
 type: creature
 package: sohl

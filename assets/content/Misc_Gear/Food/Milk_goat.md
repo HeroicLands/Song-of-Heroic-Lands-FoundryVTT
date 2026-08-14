@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Milk, goat"
+    - miscgear-milkgoat
 tags:
     - food
 name:

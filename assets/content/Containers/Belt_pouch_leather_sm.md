@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Belt pouch, leather, sm"
+    - containergear-beltpouchl3
 tags: []
 name:
     full: "Belt pouch, leather, sm"

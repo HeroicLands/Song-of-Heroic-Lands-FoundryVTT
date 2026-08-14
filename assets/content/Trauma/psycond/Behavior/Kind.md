@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-kind
 tags: []
 name:
     full: Kind

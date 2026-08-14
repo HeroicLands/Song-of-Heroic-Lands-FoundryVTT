@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-starv
 tags: []
 name:
     full: Starving

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-scrphb
 tags: []
 name:
     full: Sicariophobia

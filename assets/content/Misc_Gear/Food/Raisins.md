@@ -1,6 +1,7 @@
 ---
 aliases:
     - Raisins
+    - miscgear-raisins
 tags:
     - food
 name:

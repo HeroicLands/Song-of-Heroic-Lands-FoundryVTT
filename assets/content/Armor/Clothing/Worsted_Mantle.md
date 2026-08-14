@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Mantle
+    - armorgear-WMntl
 tags: []
 name:
     full: Worsted Mantle

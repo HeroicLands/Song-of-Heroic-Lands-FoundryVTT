@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Tent, Ridged, large"
+    - miscgear-tentridged
 tags:
     - expedition
 name:

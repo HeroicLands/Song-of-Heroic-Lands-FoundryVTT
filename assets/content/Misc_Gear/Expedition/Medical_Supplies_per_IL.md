@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Medical Supplies, per IL"
+    - miscgear-medsupil
 tags:
     - medical
 name:

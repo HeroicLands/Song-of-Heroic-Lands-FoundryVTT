@@ -1,6 +1,7 @@
 ---
 aliases:
     - Prone
+    - doc-prone
 id: ly7IlkeD7MGlz6wt
 type: doc
 package: sohl
@@ -23,4 +24,4 @@ When a being stumbles or falls, it becomes **prone**, with the following effects
 
 ## See also
 
-- [[Shock]] — incapacitated, unconscious, and dead victims are prone.
+- [[doc-shock|Shock]] — incapacitated, unconscious, and dead victims are prone.

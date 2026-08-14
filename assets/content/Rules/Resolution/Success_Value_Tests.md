@@ -4,6 +4,7 @@ aliases:
     - SV Test
     - Success Value
     - Value Diamonds
+    - doc-sccssvlt
 id: PqED2bmjJU5AdEsU
 type: doc
 package: sohl
@@ -19,7 +20,7 @@ folder: BTGA1PmN0VlBWpCm
 
 Characters often undertake ventures that require sustained effort — crafting a
 sword, sailing a ship, researching a topic, treating a wound. Rather than making
-dozens of individual [[doc/sccsstst#success-test|Success Tests]], the task is
+dozens of individual [[doc-sccsstst#success-test|Success Tests]], the task is
 resolved with a single **Success Value (SV) test**, which asks how _good_ the
 work was rather than whether it was done at all.
 
@@ -27,7 +28,7 @@ An SV test takes four steps.
 
 ## Step 1: Index {#sv-index}
 
-Note the [[doc/mstrylvl#index|Index]] of the skill being used — its Mastery
+Note the [[doc-mstrylvl#index|Index]] of the skill being used — its Mastery
 Level divided by ten, rounded down. This is the value the character's competence
 alone is worth, before the day's luck is counted.
 
@@ -86,12 +87,12 @@ one: none at Base Value or below, and one for each point of Success Value above
 | 9 or more     | ◆◆◆◆◆          |
 
 Diamonds grade a single piece of work against a fixed scale of five, and are
-unrelated to the [[doc/oppsdtst#victory-stars|Victory Stars]] that measure the
+unrelated to the [[doc-oppsdtst#victory-stars|Victory Stars]] that measure the
 margin of a contest and have no ceiling at all.
 
 ## SV tests and Secondary Mastery {#sv-secondary-mastery}
 
-[[doc/scndryms#secondary-modifier|Secondary Modifiers]] affect the EML rolled in
-step 2, and [[doc/scndryms#secondary-roll|Secondary Rolls]] accompany an SV test
+[[doc-scndryms#secondary-modifier|Secondary Modifiers]] affect the EML rolled in
+step 2, and [[doc-scndryms#secondary-roll|Secondary Rolls]] accompany an SV test
 as they do any other. Neither touches step 1: the Index always comes from the
 unmodified Mastery Level.

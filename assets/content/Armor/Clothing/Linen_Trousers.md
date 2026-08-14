@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Trousers
+    - armorgear-LTrsr
 tags: []
 name:
     full: Linen Trousers

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-turophb
 tags: []
 name:
     full: Turophobia

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Marbles, glass, pack of 12"
+    - miscgear-marblesgla
 tags:
     - expedition
 name:

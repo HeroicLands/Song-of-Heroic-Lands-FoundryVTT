@@ -1,6 +1,7 @@
 ---
 aliases:
     - Weapon
+    - doc-weapon
 id: kSuLAvR1c8R8tIW6
 type: doc
 package: sohl
@@ -15,7 +16,7 @@ folder: QtOgPodi8X6gDWL0
 
 Weapon represents an offensive device carried by a Being — a sword, axe, bow,
 dagger, staff, or any other instrument of combat. These are separated from natural
-weapons such as claws and teeth, which are [[doc/unrmdcmb#combat-techniques|Combat Techniques]].
+weapons such as claws and teeth, which are [[doc-unrmdcmb#combat-techniques|Combat Techniques]].
 
 The weapon item is the physical object: its weight, value, quality, durability, and
 how awkward it is to carry. **What the weapon can actually _do_ lives in its strike
@@ -39,7 +40,7 @@ Weapon items are typically added from compendium packs.
 
 # Additional Properties
 
-Along with the [[doc/itemgear|Standard Gear Properties]] (Quantity, Weight, Value,
+Along with the [[doc-itemgear|Standard Gear Properties]] (Quantity, Weight, Value,
 Quality, Durability, and Is Carried), a weapon's **Properties** tab adds:
 
 - **Encumbrance:** If specified, this overrides the encumbrance based on weight
@@ -72,7 +73,7 @@ its editor. A weapon with no modes says so, and cannot attack with anything.
 ## The strike-mode editor
 
 Editing a mode opens the same configuration window a combat technique uses; its
-fields are described once on [[doc/skill|Skill]], under _The strike-mode editor_.
+fields are described once on [[doc-skill|Skill]], under _The strike-mode editor_.
 A mode's **Type** (Melee or Missile) is fixed once created — to change it, delete
 the mode and add a new one.
 
@@ -105,7 +106,7 @@ in a limb's dropdown and it is now held; choose the blank entry to let go.
 - **A two-handed grip is two selections.** Select the same weapon in _both_ limbs'
   dropdowns. That is also how a mode with **Min Parts** 2 becomes usable.
 - **Holding is not carrying.** Both must be true for a weapon to be usable: the
-  gear must be **carried** (see _Carried Gear Only_ on [[doc/itemgear|Gear]]) and it
+  gear must be **carried** (see _Carried Gear Only_ on [[doc-itemgear|Gear]]) and it
   must be **held**. Setting a weapon down with **Toggle Carried** takes its actions
   away even if a limb still names it.
 - **An injured hand costs you.** If a limb holding the weapon is impaired by an
@@ -122,7 +123,7 @@ in a limb's dropdown and it is now held; choose the blank entry to let go.
 | Toggle Carried                                     | `toggleCarried`     | The Actions context menu; the row's sack button       |
 
 **Toggle Carried** belongs to every piece of gear and is described once on
-[[doc/itemgear|Gear]] — it behaves no differently on a weapon. **Edit**, **Delete**,
+[[doc-itemgear|Gear]] — it behaves no differently on a weapon. **Edit**, **Delete**,
 and **Output Description to Chat** belong to every item and are described once on
 [[Base Item]].
 
@@ -165,7 +166,7 @@ weapon:
 - **Counterstrike** — defending and hitting back in the same motion.
 
 Reach for them whenever the table needs to know whether a blow landed or was
-turned. They are the same three tests a [[doc/unrmdcmb#combat-techniques|Combat Technique]] offers, on
+turned. They are the same three tests a [[doc-unrmdcmb#combat-techniques|Combat Technique]] offers, on
 the same rows of the Combat tab — a weapon is simply a technique the character can
 drop.
 
@@ -214,7 +215,7 @@ Test Result_.
 > **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the
 > **Fate** button, even to a character holding a charged Fate Point, and even
 > though the very skill the weapon rolls through _does_ offer it on its own tests
-> (issue #1106). Spending Fate is described on [[doc/thftsyst|Fate]].
+> (issue #1106). Spending Fate is described on [[doc-thftsyst|Fate]].
 
 ## Where they are unavailable
 
@@ -238,17 +239,17 @@ against a defender, and turning impact into a wound — see [[Combat Basics]] an
 
 # See also
 
-- [[doc/itemgear|Gear]] — the standard gear properties, **Toggle Carried**, and the
+- [[doc-itemgear|Gear]] — the standard gear properties, **Toggle Carried**, and the
   rule that uncarried gear can do nothing.
 - [[Base Item]] — the standard item properties, the shared **Edit** /
   **Delete** / **Output Description** actions, the standard test dialog, and the
   strike-mode picker.
-- [[doc/skill|Skill]] — weapon skills (what a strike mode's **Associated Skill**
+- [[doc-skill|Skill]] — weapon skills (what a strike mode's **Associated Skill**
   names), combat techniques, and the strike-mode editor's field-by-field reference.
 - [[Skill Tests]] — what the numbers in a test mean, and how success levels are
   read.
 - [[Combat Basics]] and [[Combatant]] — where a weapon's attack, block, and
   counterstrike sit in a fight.
 - [[Shortcodes]] — what the **Associated Skill** field is naming.
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-userguide|User Guide]] — back to the index.

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-muteness
 tags: []
 name:
     full: Muteness

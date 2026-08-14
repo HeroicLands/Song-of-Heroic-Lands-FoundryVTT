@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Cap
+    - armorgear-BvCap
 tags: []
 name:
     full: Beaver Cap

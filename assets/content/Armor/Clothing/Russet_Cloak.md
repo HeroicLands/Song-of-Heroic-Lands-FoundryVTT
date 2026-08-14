@@ -1,6 +1,7 @@
 ---
 aliases:
     - Russet Cloak
+    - armorgear-RClk
 tags: []
 name:
     full: Russet Cloak

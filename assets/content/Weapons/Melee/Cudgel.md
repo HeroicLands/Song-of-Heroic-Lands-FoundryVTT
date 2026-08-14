@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cudgel
+    - weapongear-Cdgl
 tags: []
 name:
     full: Cudgel

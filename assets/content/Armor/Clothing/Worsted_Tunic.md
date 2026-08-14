@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Tunic
+    - armorgear-WTunic
 tags: []
 name:
     full: Worsted Tunic

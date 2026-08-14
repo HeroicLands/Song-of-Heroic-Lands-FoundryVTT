@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-indpndnt
 tags: []
 name:
     full: Independent

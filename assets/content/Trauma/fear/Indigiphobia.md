@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-indgphb
 tags: []
 name:
     full: Indigiphobia

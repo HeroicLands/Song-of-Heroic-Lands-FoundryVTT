@@ -1,6 +1,7 @@
 ---
 aliases:
     - Herbalist's Kit
+    - miscgear-herbkit
 tags:
     - instruments
 name:

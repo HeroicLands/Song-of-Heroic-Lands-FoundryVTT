@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ring Vest
+    - armorgear-RnVest
 tags: []
 name:
     full: Ring Vest

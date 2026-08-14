@@ -96,8 +96,8 @@ reads the Markdown directly.
 | `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
 | `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
-| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content](#authoring-content-under-assetscontent). |
-| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content](#authoring-content-under-assetscontent). |
+| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes). |
+| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes). |
 | `lint:doc-links`          | Fail on a relative link in `kb/dev-docs/` whose target does not exist, or an `#anchor` no heading declares. The developer tree links by path, so moving a page breaks every link into it; this is what says so. |
 | `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`. |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
@@ -213,22 +213,53 @@ in the system manifest. Each has a committed JSON source tree at
 `assets/packs/<pack>/_source/`, which `build:compiledb` compiles into Foundry's
 LevelDB format under `build/stage/packs/<pack>/`.
 
-### Design decision — in-repo Markdown source, build-only JSON
+### Design decision — generated-and-committed Markdown, build-only JSON
 
-The compendium content is authored **in this repository** as Markdown under
-`assets/content/`, and the build compiles it directly. `build:compiledb`
-generates each pack's per-entry JSON into a disposable `build/packs-json/<pack>/`
-intermediate and compiles the LevelDB packs from it — so the JSON is **never
-committed**, there is no separate export step, and there is no vault dependency. A
-contributor builds from the repo alone: `npm run build` (or `npm run build:compiledb`
-for packs only).
+The compendium content is authored in the **HeroicLands vault** and exported into
+this repository, where `assets/content/` is a **generated artifact that is
+committed** — the same arrangement as
+[`type-catalog.md`](../reference/type-catalog.md). The build compiles that tree
+directly: `build:compiledb` generates each pack's per-entry JSON into a disposable
+`build/packs-json/<pack>/` intermediate and compiles the LevelDB packs from it, so
+the JSON is **never committed**.
 
-### Authoring content under `assets/content/`
+**Building never needs the vault.** The tree is committed precisely so that
+contributors and CI build from the repository alone — `npm run build`, or
+`npm run build:compiledb` for packs only. Only the maintainer running the export
+needs a vault checkout.
 
-Items, actors, and journal entries are authored as Markdown files with YAML
-frontmatter (`package: sohl`, a `type:`, a stable `id:`, and folder/embedding
-metadata) anywhere under `assets/content/`. **Classification is frontmatter-driven,
-not directory-driven:** a file joins a pack because of its `type` (item kinds →
+> ⚠️ **`assets/content/` is output, not source.** An edit made to it in this
+> repository is reverted by the next export, without a word. Content fixes belong
+> in the vault; pipeline fixes belong in `utils/export-vault-content.mjs`.
+
+#### Exporting from the vault (maintainers)
+
+Point `HEROICLANDS_VAULT` at a vault checkout in `.env.local`, then:
+
+```bash
+npm run content:check    # report drift between the vault and assets/content/
+npm run content:export   # regenerate assets/content/ — then commit it
+```
+
+The export is an **authoritative mirror** of the vault's `SoHL/` directory: it
+writes what the vault holds and retires what the vault no longer carries, so a
+note deleted in the vault cannot linger here and keep compiling into the packs.
+The vault's `Setting/` tree — campaign and world material — is never exported.
+
+Two guards exist because the destructive mirror and the empty tree are the
+dangerous cases. The export refuses to run when the vault yields **no** files
+(a mistyped path would otherwise retire the whole tree), and the pack build and
+`lint:packs` both fail on an empty content tree rather than compiling zero
+documents and succeeding — which would ship blank compendiums with nothing in the
+log to say so.
+
+### Authoring content notes
+
+Items, actors, and journal entries are Markdown files with YAML frontmatter
+(`package: sohl`, a `type:`, a stable `id:`, and folder/embedding metadata),
+authored in the vault and exported anywhere under `assets/content/`.
+**Classification is frontmatter-driven, not directory-driven:** a file joins a
+pack because of its `type` (item kinds →
 the items pack **and**, for its prose, the journals pack; `type: doc` → journals;
 `character` / `creature` → actors), so the
 folder layout is for human organization only and can be reorganized freely. Folder

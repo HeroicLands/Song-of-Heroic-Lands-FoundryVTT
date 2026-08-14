@@ -1,6 +1,7 @@
 ---
 aliases:
     - Fox
+    - creature-fox
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Z7axZ4NaELTtdReY
 img: icons/game-icons/caro-asercion/fox.svg
-portrait: ""
+portrait: images/fox.webp
 shortcode: fox
 type: creature
 package: sohl

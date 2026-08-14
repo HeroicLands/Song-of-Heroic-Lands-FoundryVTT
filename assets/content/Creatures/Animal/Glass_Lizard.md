@@ -1,6 +1,7 @@
 ---
 aliases:
     - Glass Lizard
+    - creature-glsslzrd
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: UvyV0EEhmSwlCuSW
 img: icons/game-icons/lorc/gecko.svg
-portrait: ""
+portrait: images/glsslzrd.webp
 shortcode: glsslzrd
 type: creature
 package: sohl

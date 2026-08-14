@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-musophb
 tags: []
 name:
     full: Musophobia

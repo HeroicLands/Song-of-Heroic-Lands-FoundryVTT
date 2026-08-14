@@ -305,3 +305,108 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
         expect(markdown).toBe("@UUID[Compendium.sohl.items.Item.fffffffffffffff1]{X}");
     });
 });
+
+describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
+    it("resolves a hyphen-qualified target exactly as the slash form does", () => {
+        const slash = convert("[[doc/shock|the Shock rules]]");
+        const hyphen = convert("[[doc-shock|the Shock rules]]");
+        expect(hyphen.markdown).toBe(slash.markdown);
+        expect(hyphen.unresolved).toEqual([]);
+    });
+
+    it("crosses types, which a bare alias cannot", () => {
+        // The alias index is scoped to the *source* note's type, so until the
+        // separator was understood this resolved only from a `doc` note and
+        // silently failed from every other type — 283 links at the time.
+        const fromSkill = { type: "skill", id: "bbbbbbbbbbbbbbb1" };
+        const { markdown, unresolved } = convert("[[doc-shock|Shock]]", fromSkill);
+        expect(markdown).toBe(
+            "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock}",
+        );
+        expect(unresolved).toEqual([]);
+    });
+
+    it("carries an anchor through to the page target", () => {
+        const page = anchorPageId("aaaaaaaaaaaaaaa1", "shock-state-index");
+        expect(convert("[[doc-shock#shock-state-index|Index]]").markdown).toBe(
+            "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1" +
+                `.JournalEntryPage.${page}]{Index}`,
+        );
+    });
+
+    it("reaches every pack, like the slash form", () => {
+        expect(convert("[[skill-climb|Climbing]]").markdown).toBe(
+            "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing}",
+        );
+        expect(convert("[[creature-condor|Condor]]").markdown).toBe(
+            "@UUID[Compendium.sohl.actors.Actor.ccccccccccccccc1]{Condor}",
+        );
+    });
+
+    it("supports the `doc<type>` virtual qualifier", () => {
+        const climbDoc = itemDocEntryId("bbbbbbbbbbbbbbb1");
+        expect(convert("[[docskill-climb|the Climbing rules]]").markdown).toBe(
+            `@UUID[Compendium.sohl.journals.JournalEntry.${climbDoc}]{the Climbing rules}`,
+        );
+    });
+
+    it("matches the qualifier case-insensitively", () => {
+        expect(convert("[[Skill-Climb|Climbing]]").markdown).toBe(
+            "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing}",
+        );
+    });
+
+    it("splits at the FIRST hyphen, so a hyphenated shortcode survives", () => {
+        // Two authored shortcodes contain a hyphen (`self-pro`, `self-suf`), so
+        // the shortcode is everything after the first separator — the remainder
+        // is never re-read as a second qualifier.
+        const withHyphenCode = buildWikilinkIndex([
+            ...DOCS,
+            {
+                type: "trauma",
+                id: "99999999999999a1",
+                shortcode: "self-pro",
+                aliases: [],
+            },
+        ]);
+        const { markdown, unresolved } = convertWikilinks(
+            "[[trauma-self-pro|Self-Protective]]",
+            { ...from, index: withHyphenCode },
+        );
+        expect(markdown).toBe(
+            "@UUID[Compendium.sohl.items.Item.99999999999999a1]{Self-Protective}",
+        );
+        expect(unresolved).toEqual([]);
+    });
+
+    it("leaves a hyphenated bare alias alone — it is not a qualified target", () => {
+        // `Grukar-ahk` is a note *name*, not `type-shortcode`. A hyphen only
+        // qualifies when what precedes it is a known type, which is why the
+        // hyphen form cannot be treated as unconditionally qualified the way the
+        // slash form is.
+        const withDash = buildWikilinkIndex([
+            ...DOCS,
+            {
+                type: "doc",
+                id: "77777777777777a1",
+                shortcode: "grukarahk",
+                aliases: ["Grukar-ahk"],
+            },
+        ]);
+        const { markdown, unresolved } = convertWikilinks("[[Grukar-ahk]]", {
+            ...from,
+            index: withDash,
+        });
+        expect(markdown).toBe(
+            "@UUID[Compendium.sohl.journals.JournalEntry.77777777777777a1]{Grukar-ahk}",
+        );
+        expect(unresolved).toEqual([]);
+    });
+
+    it("reports an unknown shortcode under a valid type", () => {
+        const { markdown, unresolved } = convert("[[doc-nosuchcode|Nope]]");
+        expect(markdown).toBe("[[doc-nosuchcode|Nope]]");
+        expect(unresolved[0]).toMatchObject({ reason: "unknown" });
+    });
+
+});

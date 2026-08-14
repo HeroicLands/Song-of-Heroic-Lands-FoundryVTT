@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sealskin Shirt
+    - armorgear-SlsShirt
 tags: []
 name:
     full: Sealskin Shirt

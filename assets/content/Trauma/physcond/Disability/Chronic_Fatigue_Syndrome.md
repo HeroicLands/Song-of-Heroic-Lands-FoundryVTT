@@ -1,6 +1,7 @@
 ---
 aliases:
     - Chronic Fatigue Syndrome
+    - trauma-cfs
 tags: []
 name:
     full: Chronic Fatigue Syndrome

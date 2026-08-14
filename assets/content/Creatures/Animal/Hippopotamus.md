@@ -1,6 +1,7 @@
 ---
 aliases:
     - Hippopotamus
+    - creature-hppptms
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: OB7yGxza3GSVUOFw
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/hppptms.webp
 shortcode: hppptms
 type: creature
 package: sohl

@@ -34,23 +34,11 @@ const UNARMED = path.resolve(
 const CONTENT = path.resolve(__dirname, "../../assets/content");
 
 /**
- * Everyone who fights with their hands: the pregenerated characters, and the
- * folk and Helspawn built on a humanoid body. The three family-overview entries
- * carry no `sohl` block and are not creatures.
+ * Everyone who fights with their hands: the pregenerated characters.
  */
-const HUMANOIDS = [
-    ...readdirSync(path.join(CONTENT, "Characters"))
-        .filter((f) => f.endsWith(".md"))
-        .map((f) => `Characters/${f.slice(0, -3)}`),
-    "Creatures/Folk/Cave_Goblin",
-    "Creatures/Folk/Forest_Goblin",
-    "Creatures/Folk/Grukar-Hai",
-    "Creatures/Folk/Grukar-ahk",
-    "Creatures/Folk/Grukar-Sha",
-    "Creatures/Folk/Grukar-Uk",
-    "Creatures/Helspawn/Helthraals",
-    "Creatures/Helspawn/Nightwights",
-];
+const HUMANOIDS = readdirSync(path.join(CONTENT, "Characters"))
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => `Characters/${f.slice(0, -3)}`);
 
 /**
  * One row of the unarmed table:

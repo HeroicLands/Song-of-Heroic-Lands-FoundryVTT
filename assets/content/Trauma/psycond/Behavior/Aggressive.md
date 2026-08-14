@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-aggr
 tags: []
 name:
     full: Aggressive

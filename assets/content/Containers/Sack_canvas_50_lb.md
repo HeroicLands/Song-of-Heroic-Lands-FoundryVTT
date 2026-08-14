@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Sack, canvas, 50 lb"
+    - containergear-sackcanvas50
 tags: []
 name:
     full: "Sack, canvas, 50 lb"

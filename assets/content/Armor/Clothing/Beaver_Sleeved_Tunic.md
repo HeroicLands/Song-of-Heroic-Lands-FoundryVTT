@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Sleeved Tunic
+    - armorgear-BvSTnc
 tags: []
 name:
     full: Beaver Sleeved Tunic

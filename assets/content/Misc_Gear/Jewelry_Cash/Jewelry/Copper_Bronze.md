@@ -1,6 +1,7 @@
 ---
 aliases:
     - Copper/Bronze
+    - miscgear-copperbron
 tags:
     - jewelry_cash
 name:

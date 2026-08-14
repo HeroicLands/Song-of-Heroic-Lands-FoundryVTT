@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Harp, Aeolian (small)"
+    - miscgear-harpaeolia
 tags:
     - music
 name:

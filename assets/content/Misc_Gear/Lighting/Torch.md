@@ -1,6 +1,7 @@
 ---
 aliases:
     - Torch
+    - miscgear-torch2
 tags:
     - lighting
 name:

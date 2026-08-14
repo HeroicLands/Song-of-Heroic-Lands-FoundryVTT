@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Apron
+    - armorgear-LApn
 tags: []
 name:
     full: Linen Apron

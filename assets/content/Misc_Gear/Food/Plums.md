@@ -1,6 +1,7 @@
 ---
 aliases:
     - Plums
+    - miscgear-plums
 tags:
     - food
 name:

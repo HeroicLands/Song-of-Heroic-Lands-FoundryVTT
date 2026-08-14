@@ -1,6 +1,7 @@
 ---
 aliases:
     - Plate Greaves
+    - armorgear-PlGrvs
 tags: []
 name:
     full: Plate Greaves

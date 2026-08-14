@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bread, Rye, loaf"
+    - miscgear-breadryelo
 tags:
     - food
 name:

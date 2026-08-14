@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Carpet, wool"
+    - miscgear-carpetwool
 tags:
     - expedition
 name:

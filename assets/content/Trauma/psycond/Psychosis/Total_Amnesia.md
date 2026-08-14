@@ -1,6 +1,7 @@
 ---
 aliases:
     - Total Amnesia
+    - trauma-amnsttl
 tags: []
 name:
     full: Total Amnesia

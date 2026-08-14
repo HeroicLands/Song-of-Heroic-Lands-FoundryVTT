@@ -1,6 +1,7 @@
 ---
 aliases:
     - Quilted Coat
+    - armorgear-QCoat
 tags: []
 name:
     full: Quilted Coat

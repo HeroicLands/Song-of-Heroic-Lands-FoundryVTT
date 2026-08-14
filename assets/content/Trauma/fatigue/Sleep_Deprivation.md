@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-sleepdep
 tags: []
 name:
     full: Sleep Deprivation

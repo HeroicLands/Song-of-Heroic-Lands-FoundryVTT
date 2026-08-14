@@ -1,6 +1,7 @@
 ---
 aliases:
     - Silk Cloak
+    - armorgear-SlkClk
 tags: []
 name:
     full: Silk Cloak

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Oil, myrtle"
+    - miscgear-oilmyrtle
 tags:
     - expedition
 name:

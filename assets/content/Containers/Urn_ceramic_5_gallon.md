@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Urn, ceramic, 5 gallon"
+    - containergear-urncer5gal
 tags: []
 name:
     full: "Urn, ceramic, 5 gallon"

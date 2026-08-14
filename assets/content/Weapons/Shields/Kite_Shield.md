@@ -1,6 +1,7 @@
 ---
 aliases:
     - Kite Shield
+    - weapongear-KiSh
 tags: []
 name:
     full: Kite Shield

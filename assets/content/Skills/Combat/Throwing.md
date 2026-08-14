@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-thro
 tags: []
 name:
     full: Throwing

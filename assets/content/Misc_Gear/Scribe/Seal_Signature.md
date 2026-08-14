@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Seal, Signature"
+    - miscgear-sealsignat
 tags:
     - scribe
 name:

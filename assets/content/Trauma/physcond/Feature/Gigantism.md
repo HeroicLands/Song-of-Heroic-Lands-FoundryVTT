@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ggntsm
 tags: []
 name:
     full: Gigantism

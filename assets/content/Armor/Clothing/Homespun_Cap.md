@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Cap
+    - armorgear-HsCap
 tags: []
 name:
     full: Homespun Cap

@@ -3,6 +3,7 @@ aliases:
     - Kurbul 3/4-Helm
     - Kûrbúl 3/4-Helm
     - Kûrbúl ¾-Helm
+    - armorgear-K34Hlm
 tags: []
 name:
     full: Kûrbúl ¾-Helm

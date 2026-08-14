@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Mantle
+    - armorgear-RhMntl
 tags: []
 name:
     full: Rawhide Mantle

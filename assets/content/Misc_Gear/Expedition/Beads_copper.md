@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Beads, copper"
+    - miscgear-beadscoppe
 tags:
     - expedition
 name:

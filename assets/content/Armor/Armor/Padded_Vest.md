@@ -1,6 +1,7 @@
 ---
 aliases:
     - Padded Vest
+    - armorgear-PVest
 tags: []
 name:
     full: Padded Vest

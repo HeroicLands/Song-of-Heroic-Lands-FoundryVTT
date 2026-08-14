@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pilot's Instruments
+    - miscgear-pilotinstr
 tags:
     - instruments
 name:

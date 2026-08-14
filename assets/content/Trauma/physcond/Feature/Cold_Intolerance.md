@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cold Intolerance
+    - trauma-coldinto
 tags: []
 name:
     full: Cold Intolerance

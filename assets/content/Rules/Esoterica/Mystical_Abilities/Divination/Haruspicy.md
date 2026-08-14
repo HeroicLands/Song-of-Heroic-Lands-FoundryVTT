@@ -1,6 +1,7 @@
 ---
 aliases:
     - Haruspicy
+    - doc-hrspcy
 id: jlpNdIs8NF0IB4MP
 type: doc
 package: sohl
@@ -36,6 +37,6 @@ people slaughter a sound ewe on a whim.
   poisoning, blight, corruption, and their sources
 
 Resolution and the reading of the result are as described in
-[[doc/divintro#resolution|Divination]]. A sickly or ill-chosen beast is a penalty
+[[doc-divintro#resolution|Divination]]. A sickly or ill-chosen beast is a penalty
 the gamemaster sets; a Critical Failure produces a clean liver over a poisoned
 household, or a foul one over a house with nothing wrong with it at all.

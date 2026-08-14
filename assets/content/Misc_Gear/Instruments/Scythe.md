@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Scythe"
+    - miscgear-scythe
 tags:
     - instruments
 name:

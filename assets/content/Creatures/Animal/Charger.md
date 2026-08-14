@@ -1,6 +1,7 @@
 ---
 aliases:
     - Charger
+    - creature-charger
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Cxlwa3jzWHmPyVl7
 img: icons/game-icons/delapouite/horse-head.svg
-portrait: ""
+portrait: images/charger.webp
 shortcode: charger
 type: creature
 package: sohl

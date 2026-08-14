@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cream
+    - miscgear-cream
 tags:
     - food
 name:

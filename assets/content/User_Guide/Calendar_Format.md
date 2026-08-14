@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-clndrjsn
 id: eFiHzB4DASknXQ2l
 type: doc
 package: sohl
@@ -152,10 +153,10 @@ display as plain year numbers.
 
 # See also
 
-- [[doc/systmstt|System Settings]] — where a calendar is chosen and the world
+- [[doc-systmstt|System Settings]] — where a calendar is chosen and the world
   date is set.
-- [[doc/afflandi|Afflictions and Injuries]] — the healing and course reminders
+- [[doc-afflandi|Afflictions and Injuries]] — the healing and course reminders
   that the passage of game time drives.
-- [[doc/itemtrauma|Trauma]] and [[doc/afflctn|Affliction]] — the items whose
+- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the items whose
   scheduled checks come due on this calendar.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sickleclaw Troodon
+    - creature-scklclwt
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Nhye3QyqJk7qjPvr
 img: icons/game-icons/lorc/dinosaur-rex.svg
-portrait: ""
+portrait: images/scklclwt.webp
 shortcode: scklclwt
 type: creature
 package: sohl

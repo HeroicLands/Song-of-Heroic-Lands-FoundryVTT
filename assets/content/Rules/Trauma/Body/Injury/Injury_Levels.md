@@ -1,6 +1,7 @@
 ---
 aliases:
     - Injury Levels
+    - doc-injrylvl
 id: B1UF3CTHNtQKtIxC
 type: doc
 package: sohl

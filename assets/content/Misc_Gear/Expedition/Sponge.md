@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sponge
+    - miscgear-sponge
 tags:
     - expedition
 name:

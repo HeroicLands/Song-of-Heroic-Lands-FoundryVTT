@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Vase, ceramic"
+    - containergear-vasecer
 tags: []
 name:
     full: "Vase, ceramic"

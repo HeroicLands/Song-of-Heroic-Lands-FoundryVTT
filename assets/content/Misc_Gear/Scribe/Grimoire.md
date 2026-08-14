@@ -1,6 +1,7 @@
 ---
 aliases:
     - Grimoire
+    - miscgear-grimoire
 tags:
     - scribe
 name:

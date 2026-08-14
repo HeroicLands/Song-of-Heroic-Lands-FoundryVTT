@@ -1,6 +1,7 @@
 ---
 aliases:
     - Llama
+    - creature-llama
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: ZVyZDoJ0iDiQn5J9
 img: icons/game-icons/delapouite/camel-head.svg
-portrait: ""
+portrait: images/llama.webp
 shortcode: llama
 type: creature
 package: sohl

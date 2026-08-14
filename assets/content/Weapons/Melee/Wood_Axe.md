@@ -1,6 +1,7 @@
 ---
 aliases:
     - Wood Axe
+    - weapongear-WAxe
 tags: []
 name:
     full: Wood Axe

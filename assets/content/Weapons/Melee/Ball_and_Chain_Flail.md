@@ -2,6 +2,7 @@
 aliases:
     - Ball & Chain Flail
     - Ball and Chain Flail
+    - weapongear-B&CFl
 tags: []
 name:
     full: Ball & Chain Flail

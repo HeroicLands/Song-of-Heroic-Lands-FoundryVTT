@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-spntns
 tags: []
 name:
     full: Spontaneous

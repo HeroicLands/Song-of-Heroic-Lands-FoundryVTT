@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Robe
+    - armorgear-SgRobe
 tags: []
 name:
     full: Serge Robe

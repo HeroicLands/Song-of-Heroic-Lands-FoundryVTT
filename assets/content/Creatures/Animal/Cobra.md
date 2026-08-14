@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cobra
+    - creature-cobra
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: NQZVX98HeA9QlGWY
 img: icons/game-icons/lorc/snake.svg
-portrait: ""
+portrait: images/cobra.webp
 shortcode: cobra
 type: creature
 package: sohl

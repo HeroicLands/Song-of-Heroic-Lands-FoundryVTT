@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Trousers
+    - armorgear-SgTrsr
 tags: []
 name:
     full: Serge Trousers

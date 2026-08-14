@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-mnstrphb
 tags: []
 name:
     full: Monstraphobia

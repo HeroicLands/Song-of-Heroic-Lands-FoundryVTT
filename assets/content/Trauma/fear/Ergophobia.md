@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ergophb
 tags: []
 name:
     full: Ergophobia

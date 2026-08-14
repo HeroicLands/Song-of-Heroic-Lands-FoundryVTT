@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scale Cuisse
+    - armorgear-SCui
 tags: []
 name:
     full: Scale Cuisse

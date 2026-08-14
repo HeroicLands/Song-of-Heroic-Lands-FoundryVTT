@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-cook
 tags: []
 name:
     full: Cookery

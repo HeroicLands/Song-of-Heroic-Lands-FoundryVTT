@@ -1,6 +1,7 @@
 ---
 aliases:
     - Donkey
+    - creature-donkey
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Z0cG8fAIzSARDUaH
 img: icons/game-icons/skoll/donkey.svg
-portrait: ""
+portrait: images/donkey.webp
 shortcode: donkey
 type: creature
 package: sohl

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Gazelle
+    - creature-gazelle
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: RwQKjvaCuKSBw2TD
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/gazelle.webp
 shortcode: gazelle
 type: creature
 package: sohl

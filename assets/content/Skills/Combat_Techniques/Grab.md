@@ -1,6 +1,7 @@
 ---
 aliases:
     - Grab
+    - skill-bflkgrab
 tags: []
 name:
     full: Grab

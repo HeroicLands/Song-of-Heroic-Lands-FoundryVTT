@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-crdphb
 tags: []
 name:
     full: Cardiophobia

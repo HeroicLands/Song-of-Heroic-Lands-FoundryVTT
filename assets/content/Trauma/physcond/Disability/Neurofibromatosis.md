@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-neurofib
 tags: []
 name:
     full: Neurofibromatosis

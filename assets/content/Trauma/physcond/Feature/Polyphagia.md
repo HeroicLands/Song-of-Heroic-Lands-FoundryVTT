@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-plyphg
 tags: []
 name:
     full: Polyphagia

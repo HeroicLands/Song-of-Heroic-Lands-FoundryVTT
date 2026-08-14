@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-astrphb
 tags: []
 name:
     full: Astraphobia

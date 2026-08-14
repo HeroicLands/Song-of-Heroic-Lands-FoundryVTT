@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Spanner, lever"
+    - miscgear-spannerlever
 tags:
     - instruments
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Gloves
+    - armorgear-VGlv
 tags: []
 name:
     full: Velvet Gloves

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-passivea
 tags: []
 name:
     full: Passive-Aggressive

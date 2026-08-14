@@ -1,6 +1,7 @@
 ---
 aliases:
     - Whip, Reksyni
+    - weapongear-RWhp
 tags: []
 name:
     full: Whip, Reksyni

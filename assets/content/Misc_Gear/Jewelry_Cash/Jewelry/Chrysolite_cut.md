@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Chrysolite, cut"
+    - miscgear-chrysolite
 tags:
     - jewelry_cash
 name:

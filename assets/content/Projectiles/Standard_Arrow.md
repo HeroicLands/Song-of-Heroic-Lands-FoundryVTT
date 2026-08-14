@@ -1,6 +1,7 @@
 ---
 aliases:
     - Standard Arrow
+    - projectilegear-ArwStd
 tags: []
 name:
     full: Standard Arrow

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Ink, Red"
+    - miscgear-inkred
 tags:
     - scribe
 name:

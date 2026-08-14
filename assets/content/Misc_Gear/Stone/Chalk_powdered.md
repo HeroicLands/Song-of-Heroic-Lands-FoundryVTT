@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Chalk, powdered"
+    - miscgear-chalkpowde
 tags:
     - stone
 name:

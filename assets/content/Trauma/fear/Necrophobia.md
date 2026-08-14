@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-necrophb
 tags: []
 name:
     full: Necrophobia

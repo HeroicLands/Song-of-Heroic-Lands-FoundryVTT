@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Horn, fanfare"
+    - miscgear-hornfanfar
 tags:
     - music
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Lance
+    - weapongear-Lnc
 tags: []
 name:
     full: Lance

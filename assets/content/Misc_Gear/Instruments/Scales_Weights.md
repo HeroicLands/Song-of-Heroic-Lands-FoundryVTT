@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Scales & Weights"
+    - miscgear-scalesweig
 tags:
     - instruments
 name:

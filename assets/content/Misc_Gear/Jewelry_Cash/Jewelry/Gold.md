@@ -1,6 +1,7 @@
 ---
 aliases:
     - Gold
+    - miscgear-gold
 tags:
     - jewelry_cash
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckram Cowl
+    - armorgear-BCowl
 tags: []
 name:
     full: Buckram Cowl

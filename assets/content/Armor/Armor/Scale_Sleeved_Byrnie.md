@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scale Sleeved Byrnie
+    - armorgear-SSlByrn
 tags: []
 name:
     full: Scale Sleeved Byrnie

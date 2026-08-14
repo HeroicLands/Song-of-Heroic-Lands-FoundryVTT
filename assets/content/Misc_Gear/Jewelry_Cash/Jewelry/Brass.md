@@ -1,6 +1,7 @@
 ---
 aliases:
     - Brass
+    - miscgear-brass
 tags:
     - jewelry_cash
 name:

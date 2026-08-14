@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cartomancy
+    - doc-crtmncy
 id: 3l5g6fs5EEwLMOzS
 type: doc
 package: sohl
@@ -38,6 +39,6 @@ them out.
   pressures, what is already under way
 
 Resolution and the reading of the result are as described in
-[[doc/divintro#resolution|Divination]]. Because a cartomantic answer arrives as
+[[doc-divintro#resolution|Divination]]. Because a cartomantic answer arrives as
 narrative, a Critical Failure here is the most dangerous of any art's: it is not
 a wrong fact but a wrong story, coherent, satisfying, and believed.

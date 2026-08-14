@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-tmrntd
 tags: []
 name:
     full: Team-oriented

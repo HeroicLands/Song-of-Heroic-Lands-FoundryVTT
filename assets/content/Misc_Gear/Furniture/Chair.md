@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Chair"
+    - miscgear-chair
 tags:
     - furniture
 name:

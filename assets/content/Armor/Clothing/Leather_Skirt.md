@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Skirt
+    - armorgear-LtSkirt
 tags: []
 name:
     full: Leather Skirt

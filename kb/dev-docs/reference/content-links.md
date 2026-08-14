@@ -16,15 +16,28 @@ the link that opens a skill's *sheet* is not the link that opens its *write-up*.
 
 | Form | Addresses |
 | --- | --- |
-| `[[type/shortcode\|Text]]` | a document of that type |
+| `[[type-shortcode\|Text]]` | a document of that type |
 | `[[Text]]` | an alias unique **within the source note's own type** |
-| `[[type/shortcode#slug\|Text]]` | a section of that document |
+| `[[type-shortcode#slug\|Text]]` | a section of that document |
 | `[[#slug\|Text]]` | a section of the note you are writing |
 
 The qualifier is the note's **type**, not its directory. `(type, shortcode)` is
 the system's logical identity and is unique by rule (see
 [Shortcode Integrity](./shortcode-integrity.md)), so an address stays valid when
 a note is refiled. There is deliberately no path form.
+
+**The separator is a hyphen, because content is authored in Obsidian.** Obsidian
+reads `/` inside a wikilink as a **path** and resolves it against the vault's
+folder structure, so a slash-qualified link is a broken link in the editor where
+notes are written — no autocomplete, no backlinks, and no warning when a target is
+renamed. Every note additionally carries its own `type-shortcode` in frontmatter
+`aliases`, which is what lets Obsidian resolve the form natively.
+
+A hyphen qualifies **only when what precedes it is a known type**: note names
+contain hyphens too (`Grukar-ahk`), and those keep resolving as aliases. The split
+is at the *first* hyphen, so a shortcode may itself contain one. The older
+`type/shortcode` form is still resolved, so a link written before the vault
+migration does not silently die.
 
 The bare `[[Text]]` form resolves only against aliases of the **source's own
 type** — a `doc` reaches another `doc` by name, but not a `skill`. Where two
@@ -46,12 +59,12 @@ Two documents need two addresses. Every item type therefore has a **virtual
 
 | Wikilink | Opens |
 | --- | --- |
-| `[[skill/wpnc]]` | the Weaponcraft **item sheet** |
-| `[[docskill/wpnc]]` | the Weaponcraft **write-up**, at its first page |
-| `[[docskill/wpnc#crafting]]` | the **`{#crafting}` page** of that write-up |
+| `[[skill-wpnc]]` | the Weaponcraft **item sheet** |
+| `[[docskill-wpnc]]` | the Weaponcraft **write-up**, at its first page |
+| `[[docskill-wpnc#crafting]]` | the **`{#crafting}` page** of that write-up |
 
-The prefix works for every item type — `docweapongear/…`, `docmystery/…`,
-`doctrauma/…` — and is formed by prefix rather than kept in a list, so a type
+The prefix works for every item type — `docweapongear-…`, `docmystery-…`,
+`doctrauma-…` — and is formed by prefix rather than kept in a list, so a type
 added tomorrow is addressable the day it is authored.
 
 **Choose by what you want the reader to see.** Sending someone to

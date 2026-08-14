@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-mnrl
 tags: []
 name:
     full: Mineralogy

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-anthphb
 tags: []
 name:
     full: Anthophobia

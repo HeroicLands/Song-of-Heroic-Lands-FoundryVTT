@@ -4,6 +4,7 @@ aliases:
     - Opposed Success Test
     - Victory Degrees
     - Victory Stars
+    - doc-oppsdtst
 id: qu9CxTZmDhQa31YN
 type: doc
 package: sohl
@@ -20,12 +21,12 @@ folder: BTGA1PmN0VlBWpCm
 Some actions are not measured against a fixed difficulty but against another
 character: sneaking past a sentry, wrestling an opponent's blade aside, talking
 a rival down in front of a crowd. Both characters make
-[[doc/sccsstst#success-test|Success Tests]] at the same time, and the outcomes
+[[doc-sccsstst#success-test|Success Tests]] at the same time, and the outcomes
 are compared.
 
 The victor is the character who **succeeds** — a Marginal or Critical Success,
 never a failure of any kind — **and** reaches a higher
-[[doc/sccsstst#success-level|success level]] than the other. Merely doing less
+[[doc-sccsstst#success-level|success level]] than the other. Merely doing less
 badly is not winning: if neither character succeeds, neither one prevails,
 however close the rolls were.
 
@@ -48,7 +49,7 @@ ordinarily one for a Marginal Success and two for a Critical Success — and
 individual rules may say otherwise for their own case.
 
 There is no ceiling on the count. When a rule or condition shifts a success
-level into the [[doc/sccsstst#extended-levels|extended levels]], the margin
+level into the [[doc-sccsstst#extended-levels|extended levels]], the margin
 widens with it: a Marginal Success against a Critical Failure that a penalty has
 pushed one step lower is a three-star victory. The worsened Critical Failure is
 still just a Critical Failure in every other respect — only the margin grows.
@@ -56,7 +57,7 @@ still just a Critical Failure in every other respect — only the margin grows.
 If both characters fail, there is usually no victor and no stars to award.
 
 Victory Stars measure one contest, and are not the star rating that names a
-character's [[doc/mstrylvl#competence|professional competence]].
+character's [[doc-mstrylvl#competence|professional competence]].
 
 ## Ties {#ties}
 
@@ -78,7 +79,7 @@ A broken tie is always a **one-star victory**, decided in this order:
 
 1. The character who rolled **higher** on the d100 takes the contest.
 2. If both rolled the same number, the character with the higher
-   [[doc/mstrylvl#mastery-level|Mastery Level]] takes it.
+   [[doc-mstrylvl#mastery-level|Mastery Level]] takes it.
 3. If the Mastery Levels are also equal, both roll a d10 and the higher roll
    takes it, re-rolling as long as they match.
 

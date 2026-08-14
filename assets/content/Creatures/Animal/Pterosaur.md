@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pterosaur
+    - creature-pterosau
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: zueyvDAb2JF9wc8p
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/pterosau.webp
 shortcode: pterosau
 type: creature
 package: sohl

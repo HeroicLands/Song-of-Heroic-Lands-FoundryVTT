@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ermine Gloves
+    - armorgear-EGlv
 tags: []
 name:
     full: Ermine Gloves

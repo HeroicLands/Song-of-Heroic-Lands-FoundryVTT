@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Gloves
+    - armorgear-BvGlv
 tags: []
 name:
     full: Beaver Gloves

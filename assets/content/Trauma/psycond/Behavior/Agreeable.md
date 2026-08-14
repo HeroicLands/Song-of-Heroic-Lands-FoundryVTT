@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-agree
 tags: []
 name:
     full: Agreeable

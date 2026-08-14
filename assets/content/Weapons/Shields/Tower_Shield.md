@@ -1,6 +1,7 @@
 ---
 aliases:
     - Tower Shield
+    - weapongear-TwrSh
 tags: []
 name:
     full: Tower Shield

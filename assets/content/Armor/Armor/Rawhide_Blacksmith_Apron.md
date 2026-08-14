@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Blacksmith Apron
+    - armorgear-RhApr
 tags: []
 name:
     full: Rawhide Blacksmith Apron

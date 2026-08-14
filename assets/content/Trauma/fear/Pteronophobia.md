@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ptrnphb
 tags: []
 name:
     full: Pteronophobia

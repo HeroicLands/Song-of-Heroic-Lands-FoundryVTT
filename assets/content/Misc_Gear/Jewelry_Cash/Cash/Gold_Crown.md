@@ -1,6 +1,7 @@
 ---
 aliases:
     - Gold Crown
+    - miscgear-gldcrwn
 tags:
     - jewelry_cash
 name:

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-init
 tags: []
 name:
     full: Initiative

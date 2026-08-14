@@ -1,6 +1,7 @@
 ---
 aliases:
     - Wolverine
+    - creature-wlvrn
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: bQLlmKIoRwxXeHV7
 img: icons/game-icons/caro-asercion/badger.svg
-portrait: ""
+portrait: images/wlvrn.webp
 shortcode: wlvrn
 type: creature
 package: sohl

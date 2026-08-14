@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-htexh
 tags: []
 name:
     full: Heat-Exhausted

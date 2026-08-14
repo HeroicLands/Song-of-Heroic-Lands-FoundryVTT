@@ -1,6 +1,7 @@
 ---
 aliases:
     - Longknife
+    - weapongear-LKni
 tags: []
 name:
     full: Longknife

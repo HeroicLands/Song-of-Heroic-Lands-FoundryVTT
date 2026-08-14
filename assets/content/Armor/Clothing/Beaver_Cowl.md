@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Cowl
+    - armorgear-BvCowl
 tags: []
 name:
     full: Beaver Cowl

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-anaemia
 tags: []
 name:
     full: Anaemia

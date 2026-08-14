@@ -1,6 +1,7 @@
 ---
 aliases:
     - Being
+    - doc-being
 id: yGlzMjLsBc8dCO6J
 type: doc
 package: sohl
@@ -234,7 +235,7 @@ route — it computes the index for you.
    while Unconscious. Declining arms nothing.
 
 For the full rules — the Shock State Index table and what each state means in
-play — see the [[doc/shock|Shock]] rules.
+play — see the [[doc-shock|Shock]] rules.
 
 # Shock Re-Test {#shock-re-test}
 
@@ -282,7 +283,7 @@ it never acts.
    other — so nothing re-arms itself behind your back.
 
 A Coma's Healing Rate is derived from the worst active wound (12 minus its
-location's Shock Value minus its Injury Level). See the [[doc/shock|Shock]]
+location's Shock Value minus its Injury Level). See the [[doc-shock|Shock]]
 rules for Extended Shock and Coma recovery, and [[Afflictions Injuries]] for
 living with the resulting trauma.
 
@@ -340,7 +341,7 @@ are carrying. Same flow; the result card reads:
 
 Neither test changes anything on the sheet — the card is the record, and what a
 stumble or a dropped weapon costs is played out at the table. Falling prone is
-described in the [[doc/prone|Prone]] rules.
+described in the [[doc-prone|Prone]] rules.
 
 ## The standard test dialog {#the-standard-test-dialog}
 
@@ -398,8 +399,8 @@ On the sheet:
   state across all sources, so the token shows it exactly while some source still
   frightens them.
 
-See the [[doc/fear|Fear]] rules for what each state permits, and
-[[doc/psychlgc|Psychological Condition]] for Psyche Stress.
+See the [[doc-fear|Fear]] rules for what each state permits, and
+[[doc-psychlgc|Psychological Condition]] for Psyche Stress.
 
 # Morale Test {#morale-test}
 
@@ -443,7 +444,7 @@ token** — the trauma items are the record.
 
 A shaken character can come back two ways: their own
 [[#reaction-test|Reaction Test]], or an ally's [[#rally-test|Rally Test]]. See the
-[[doc/morale|Morale]] rules.
+[[doc-morale|Morale]] rules.
 
 # Reaction Test {#reaction-test}
 
@@ -575,7 +576,7 @@ A failure accrues **Pall Stress Levels** on the character's single **Pall Cloud*
 trauma, creating it on the first failure and adding to it thereafter. A success
 changes nothing on the sheet.
 
-See the [[doc/thepall|The Pall]] rules for Pall Strength, what the
+See the [[doc-thepall|The Pall]] rules for Pall Strength, what the
 accumulated Cloud does to a character, and how it clears.
 
 # Calculate Impact {#calculate-impact}
@@ -700,8 +701,8 @@ record.
 
 A recorded wound becomes a trauma item on the sheet, shows up in the body-part
 grid, and drives the health bar. See [[Afflictions Injuries]] for living with it,
-the [[doc/injrylvl|Injury]] rules for the tables behind it, and
-[[doc/bleeding|Bleeding]] for what a bleeder costs.
+the [[doc-injrylvl|Injury]] rules for the tables behind it, and
+[[doc-bleeding|Bleeding]] for what a bleeder costs.
 
 # Contagion Check {#contagion-check}
 
@@ -777,7 +778,7 @@ If the checkbox was ticked, the affliction is created on the sheet with its
 **Nothing offers to schedule another Contagion Test.** Exposure is an event, not a
 condition — if the character walks back into the plague ward, that is a new check.
 What the affliction does from there is its own business; see
-[[Item Affliction]] and the [[doc/afflctns|Afflictions]] rules.
+[[Item Affliction]] and the [[doc-afflctns|Afflictions]] rules.
 
 # Perform Affliction Treatment {#perform-affliction-treatment}
 
@@ -797,7 +798,7 @@ the **Physician** skill can answer; anyone else is told so and nothing happens.
 It rolls **this** physician's own Physician skill as a Success Value test and posts
 a result card. The **Value Diamonds** earned become a proposed **Course Bonus**,
 which the patient accepts through their affliction's
-[[doc/afflctn|Treat Affliction]] action — nothing is applied to the patient
+[[doc-afflctn|Treat Affliction]] action — nothing is applied to the patient
 until they press that button.
 
 # Perform Treatment Test {#perform-treatment-test}
@@ -861,7 +862,7 @@ test with no linked wound posts the same card **without** the button; someone
 applies the result by hand.
 
 See [[Afflictions Injuries]] for treating and healing wounds, and the
-[[doc/hlngbs|Healing Base]] and [[doc/infctn|Infection]]
+[[doc-hlngbs|Healing Base]] and [[doc-infctn|Infection]]
 rules for what a Healing Rate does over time.
 
 # Perform Blood Stoppage {#perform-blood-stoppage}
@@ -908,7 +909,7 @@ The four outcomes are:
 | **Critical Failure** | Bleeding continues.                                          |
 
 As with treatment, **only the patient's side presses Accept**, and that press is
-what changes the wound. See the [[doc/bleeding|Bleeding]] rules for Blood
+what changes the wound. See the [[doc-bleeding|Bleeding]] rules for Blood
 Loss Advances and what running out of blood means.
 
 # See also
@@ -921,5 +922,5 @@ Loss Advances and what running out of blood means.
 - [[Combatant]] — the combat tracker row and its own actions.
 - [[Skill Tests]] — the d100 roll-under test underneath all of these.
 - [[Character Creation]] — building the Being in the first place.
-- [[doc/ugactors|Actors]] — the other three actor kinds, and how to choose.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-ugactors|Actors]] — the other three actor kinds, and how to choose.
+- [[doc-userguide|User Guide]] — back to the index.

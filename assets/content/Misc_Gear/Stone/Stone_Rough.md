@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Stone, Rough"
+    - miscgear-stonerough
 tags:
     - stone
 name:

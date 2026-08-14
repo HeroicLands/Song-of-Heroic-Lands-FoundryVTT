@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-cast
 tags: []
 name:
     full: Spellcasting

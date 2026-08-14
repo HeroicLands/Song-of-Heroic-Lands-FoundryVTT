@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Vest
+    - armorgear-RhVest
 tags: []
 name:
     full: Rawhide Vest

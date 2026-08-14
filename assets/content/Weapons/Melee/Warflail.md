@@ -1,6 +1,7 @@
 ---
 aliases:
     - Warflail
+    - weapongear-WFl
 tags: []
 name:
     full: Warflail

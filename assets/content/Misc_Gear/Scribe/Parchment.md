@@ -1,6 +1,7 @@
 ---
 aliases:
     - Parchment
+    - miscgear-parchment
 tags:
     - scribe
 name:

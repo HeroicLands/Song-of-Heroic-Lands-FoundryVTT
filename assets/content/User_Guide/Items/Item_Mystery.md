@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mystery
+    - doc-mystery
 id: 6fJTkfpqjc4srAqd
 type: doc
 package: sohl
@@ -21,7 +22,7 @@ Mysteries appear on the Being sheet's **Mysteries** tab.
 
 # Additional Properties
 
-Along with the [[doc/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **SubType:**
 - **Level:** Power level of this mystery, if applicable
@@ -53,11 +54,11 @@ carries, and any power a character actively invokes is a
 
 # See also
 
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/baseitem|Base Item]] — the three shared actions named above.
-- [[doc/mystclab|Mystical Ability]] — the counterpart a character actively
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-baseitem|Base Item]] — the three shared actions named above.
+- [[doc-mystclab|Mystical Ability]] — the counterpart a character actively
   invokes.
-- [[doc/mystclpw|Mystical Powers]] — the Mysteries tab, and using the
+- [[doc-mystclpw|Mystical Powers]] — the Mysteries tab, and using the
   supernatural at the table.
-- [[doc/mysteryintro|Mysteries]] (rules) — the standing conditions themselves.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-mysteryintro|Mysteries]] (rules) — the standing conditions themselves.
+- [[doc-userguide|User Guide]] — back to the index.

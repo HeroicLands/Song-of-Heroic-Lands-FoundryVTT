@@ -1,6 +1,7 @@
 ---
 aliases:
     - Palfrey
+    - creature-palfrey
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: tj9o2Ujavc9DuSxb
 img: icons/game-icons/delapouite/horse-head.svg
-portrait: ""
+portrait: images/palfrey.webp
 shortcode: palfrey
 type: creature
 package: sohl

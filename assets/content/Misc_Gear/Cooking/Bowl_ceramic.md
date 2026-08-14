@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bowl, ceramic"
+    - miscgear-bowlcer
 tags:
     - cooking
 name:

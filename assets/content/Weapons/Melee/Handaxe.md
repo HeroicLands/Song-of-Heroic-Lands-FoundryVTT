@@ -1,6 +1,7 @@
 ---
 aliases:
     - Handaxe
+    - weapongear-HAxe
 tags: []
 name:
     full: Handaxe

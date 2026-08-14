@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Apples, crate"
+    - miscgear-applescrat
 tags:
     - food
 name:

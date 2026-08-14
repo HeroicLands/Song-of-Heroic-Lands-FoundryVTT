@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - attribute-per
 tags: []
 name:
     full: Perception

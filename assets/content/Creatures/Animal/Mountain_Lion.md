@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mountain Lion
+    - creature-mntnln
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: izFUCMnqOWBiGfb5
 img: icons/game-icons/lorc/lion.svg
-portrait: ""
+portrait: images/mntnln.webp
 shortcode: mntnln
 type: creature
 package: sohl

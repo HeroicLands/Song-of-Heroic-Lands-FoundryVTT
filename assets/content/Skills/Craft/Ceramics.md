@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-cmcs
 tags: []
 name:
     full: Ceramics
@@ -35,7 +36,7 @@ Knowing the craft's history, or recognising an unfamiliar technique or an anomal
 
 # Crafting {#crafting}
 
-Pottery is made by the common [[doc/crafting|crafting routine]] — workshop,
+Pottery is made by the common [[doc-crafting|crafting routine]] — workshop,
 expense, test, result, masterwork rolls, repair. What follows is what is
 particular to the kiln.
 

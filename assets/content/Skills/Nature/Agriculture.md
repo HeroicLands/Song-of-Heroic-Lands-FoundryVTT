@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-agri
 tags: []
 name:
     full: Agriculture

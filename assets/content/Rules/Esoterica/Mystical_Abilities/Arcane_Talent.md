@@ -1,6 +1,7 @@
 ---
 aliases:
     - Arcane Talent
+    - doc-arcntlnt
 id: qOiNFIASYJVIfgHC
 type: doc
 package: sohl

@@ -5,6 +5,7 @@ aliases:
     - Course Test
     - Incubation Period
     - Symptomatic Period
+    - doc-afflctns
 id: Tt1JjQ3kmqtUDIm9
 type: doc
 package: sohl
@@ -37,7 +38,7 @@ often the body's [[#course-test|Course Test]] is made.
 
 ## Affliction vs. Trauma {#affliction-vs-trauma}
 
-An affliction and a [[doc/traumaintro|trauma]] are the two kinds of lasting harm a
+An affliction and a [[doc-traumaintro|trauma]] are the two kinds of lasting harm a
 character can carry, and they are easy to confuse. The distinction is **process vs.
 state**:
 
@@ -48,13 +49,13 @@ state**:
   [[#outcome|outcome]] of death or cure. Diseases, poisons, and maladictions are
   afflictions: _something is attacking the Being_, and it will get better or
   worse.
-- A **[[doc/traumaintro|trauma]]** is a _condition the Being is in_ — usually the
+- A **[[doc-traumaintro|trauma]]** is a _condition the Being is in_ — usually the
   result of harm or stress that it then carries and recovers from. Injuries,
   fatigue, fear, morale, shock, infection, aural shock, and the Pall are traumas.
 
 The same event can produce both: a snakebite inflicts a **poison/toxin
 affliction** (the venom running its course) and, where it breaks the skin, an
-**[[doc/injrylvl|injury]] trauma** (the wound). When in doubt, ask _"is this an
+**[[doc-injrylvl|injury]] trauma** (the wound). When in doubt, ask _"is this an
 agent running a course, or a condition being carried?"_ — the former is an
 affliction, the latter a trauma.
 
@@ -123,7 +124,7 @@ affliction, not to the general rule.
 
 Once onset has occurred, the body fights the affliction. Each course period the
 character makes a **Course Test** — a d100 rolled against the affliction's
-**Course target** — and its [[doc/sccsstst#success-level|success level]] changes
+**Course target** — and its [[doc-sccsstst#success-level|success level]] changes
 the **affliction's Healing Rate**:
 
 | Success Level | Change to affliction's Healing Rate |
@@ -167,7 +168,7 @@ a character who is already in a worse state than it would impose.
 
 Where the Course Test asks whether the affliction is winning, the **Healing Test**
 asks whether the body is throwing it off. It works exactly as the
-[[doc/hlngtst|Injury Healing Test]] does: a d100 against the
+[[doc-hlngtst|Injury Healing Test]] does: a d100 against the
 affliction's **Healing target** — again **Healing Base × Healing Rate** — reducing
 the affliction's **Level**:
 
@@ -193,7 +194,7 @@ odds; they cannot cure by treating.
 
 A patient may **request treatment**, which any physician can answer. The physician
 makes a **Treatment Success Value test** against their own Physician skill, and the
-[[doc/sccssvlt#value-diamonds|Value Diamonds]] it earns become the proposed
+[[doc-sccssvlt#value-diamonds|Value Diamonds]] it earns become the proposed
 **Course Bonus**:
 
 | Treatment result   | Course Bonus |
@@ -222,7 +223,7 @@ outcome, and it is one of two:
   troubles the character no further.
 
 An affliction may _also_ name one or more **outcome traumas** — the
-[[doc/traumaintro|traumas]] the host is left with when it runs its course. These
+[[doc-traumaintro|traumas]] the host is left with when it runs its course. These
 combine with the outcome above: an affliction that ends **Cured** but leaves a
 lasting weakness frees its victim of the disease and marks them permanently. The
 fever breaks; the blindness stays.
@@ -234,7 +235,7 @@ outcome at all.
 ## Infection
 
 An **infection** is a specific form of affliction, contracted when an injury's
-[[doc/hlngtst|Injury Healing Test]] critically fails. Its
+[[doc-hlngtst|Injury Healing Test]] critically fails. Its
 Healing Rate starts one step higher than the infected injury's — the injury's
 Healing Rate + 1.
 
@@ -248,11 +249,11 @@ table:
 | HR 5+        | None                |
 
 While a character carries **any** active infection, all of their
-[[doc/hlngtst|Injury Healing Tests]] are suspended until every
+[[doc-hlngtst|Injury Healing Tests]] are suspended until every
 infection has been defeated.
 
 ## See also
 
 - [[Healing Test]] — Healing Base and Healing Rate, and the
   recovery of ordinary injuries.
-- [[doc/traumaintro|Trauma]] — the conditions an affliction can leave behind.
+- [[doc-traumaintro|Trauma]] — the conditions an affliction can leave behind.

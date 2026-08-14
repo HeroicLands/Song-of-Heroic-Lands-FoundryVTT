@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Book case, travelling"
+    - containergear-bkcasetrv
 tags: []
 name:
     full: "Book case, travelling"

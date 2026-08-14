@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-biblphb
 tags: []
 name:
     full: Bibliophobia

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-nyctophb
 tags: []
 name:
     full: Nyctophobia

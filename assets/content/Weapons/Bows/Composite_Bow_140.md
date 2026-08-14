@@ -1,6 +1,7 @@
 ---
 aliases:
     - Composite Bow 140
+    - weapongear-CBw140
 tags: []
 name:
     full: Composite Bow 140

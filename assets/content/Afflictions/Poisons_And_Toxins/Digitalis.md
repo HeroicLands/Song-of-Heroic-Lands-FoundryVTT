@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-dgtls
 tags: []
 name:
     full: Digitalis

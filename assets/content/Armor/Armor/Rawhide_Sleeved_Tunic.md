@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Sleeved Tunic
+    - armorgear-RhSTunic
 tags: []
 name:
     full: Rawhide Sleeved Tunic

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Ladle, copper"
+    - miscgear-ladlecoppe
 tags:
     - cooking
 name:

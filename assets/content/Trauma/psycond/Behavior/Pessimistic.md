@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-pssmstc
 tags: []
 name:
     full: Pessimistic

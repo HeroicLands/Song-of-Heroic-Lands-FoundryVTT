@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mental Strain
+    - trauma-mentstn
 tags: []
 name:
     full: Mental Strain

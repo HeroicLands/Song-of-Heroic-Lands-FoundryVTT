@@ -1,6 +1,7 @@
 ---
 aliases:
     - Chicken
+    - miscgear-chicken
 tags:
     - food
 name:

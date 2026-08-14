@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ophdphb
 tags: []
 name:
     full: Ophidiophobia

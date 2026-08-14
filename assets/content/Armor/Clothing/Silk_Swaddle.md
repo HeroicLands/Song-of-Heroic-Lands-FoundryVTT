@@ -1,6 +1,7 @@
 ---
 aliases:
     - Silk Swaddle
+    - armorgear-SlkSwd
 tags: []
 name:
     full: Silk Swaddle

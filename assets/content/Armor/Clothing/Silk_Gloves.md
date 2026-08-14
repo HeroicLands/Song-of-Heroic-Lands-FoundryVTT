@@ -1,6 +1,7 @@
 ---
 aliases:
     - Silk Gloves
+    - armorgear-SlkGlv
 tags: []
 name:
     full: Silk Gloves

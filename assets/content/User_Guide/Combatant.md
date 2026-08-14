@@ -2,6 +2,7 @@
 aliases:
     - Combatant
     - Combatants
+    - doc-cmbtnt
 id: ORi4BIBMecFVaG4I
 type: doc
 package: sohl
@@ -28,7 +29,7 @@ exchange produces.
 
 > ⚗️ **Automated Combat is still being finished.** It is deliberately outside the
 > frozen feature set for the Being-centric beta, so expect rough edges. The
-> actions below are documented as they exist; [[doc/cmbtbscs|Assisted Combat]]
+> actions below are documented as they exist; [[doc-cmbtbscs|Assisted Combat]]
 > is the supported path for play in the meantime.
 
 # Combat groups {#combat-groups}
@@ -119,7 +120,7 @@ for example, is offered to the GM only.
 Two things are deliberately _not_ in this menu:
 
 - **The shared document actions** (Edit, Delete, and the rest described on
-  [[doc/baseitem|the Base Item page]]) are left out, because the tracker already has
+  [[doc-baseitem|the Base Item page]]) are left out, because the tracker already has
   its own controls for updating and removing a combatant.
 - **The defense responses** (Block, Dodge, Counterstrike, Ignore). They are
   **hidden actions**: they never appear in the context menu, because they only
@@ -139,7 +140,7 @@ Two things are deliberately _not_ in this menu:
 
 **What it does.** This is the **single entry point** for an automated attack —
 the workflow-driven exchange described under
-[[doc/cmbtbscs|Automated Combat in Combat Basics]]. Reach for it when you want
+[[doc-cmbtbscs|Automated Combat in Combat Basics]]. Reach for it when you want
 the system to run the whole attack-and-defense sequence: your attack roll, the
 defender's answer, the comparison on the combat tables, and — if the blow lands —
 impact, hit location, armor, and the injury.
@@ -150,7 +151,7 @@ combatant's row in the tracker and choose **Automated Combat**.
 **What it asks for.** It opens the automated-combat **attack dialog** (Strike
 Mode, Aim, and an additional modifier). Those fields, and every card the exchange
 posts, are described in one place — see
-[[doc/cmbtbscs|the Automated Combat section of Combat Basics]].
+[[doc-cmbtbscs|the Automated Combat section of Combat Basics]].
 
 **What happens.** Once you confirm the dialog, the system:
 
@@ -235,7 +236,7 @@ filtered to what your character can actually do:
 
 The cards themselves — what the attack card shows, and how to read the result card
 the exchange posts — are described under
-[[doc/cmbtbscs|Automated Combat in Combat Basics]].
+[[doc-cmbtbscs|Automated Combat in Combat Basics]].
 
 ## Block
 
@@ -315,4 +316,4 @@ else — or because you are incapacitated and it is the only option left.
 - [[Actions]] — how actions work in general, and how to add your own.
 - [[Afflictions Injuries]] — recording and healing the injuries an exchange
   produces.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

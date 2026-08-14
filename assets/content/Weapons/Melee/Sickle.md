@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sickle
+    - weapongear-Skl
 tags: []
 name:
     full: Sickle

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Stone, Marble"
+    - miscgear-stonemarbl
 tags:
     - stone
 name:

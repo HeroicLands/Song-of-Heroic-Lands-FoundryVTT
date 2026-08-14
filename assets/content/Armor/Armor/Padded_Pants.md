@@ -1,6 +1,7 @@
 ---
 aliases:
     - Padded Pants
+    - armorgear-PPant
 tags: []
 name:
     full: Padded Pants

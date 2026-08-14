@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-chrmphb
 tags: []
 name:
     full: Chromophobia

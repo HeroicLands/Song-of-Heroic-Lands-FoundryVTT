@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bedroll, light
+    - miscgear-LiteBdrl
 tags:
     - expedition
 name:

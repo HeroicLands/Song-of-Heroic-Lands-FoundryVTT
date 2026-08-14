@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-prfctnst
 tags: []
 name:
     full: Perfectionist

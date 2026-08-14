@@ -3,6 +3,7 @@ aliases:
     - Grooming Kit
     - Personal Grooming Kit
     - Toilet Kit
+    - miscgear-groomkit
 tags:
     - instruments
 name:

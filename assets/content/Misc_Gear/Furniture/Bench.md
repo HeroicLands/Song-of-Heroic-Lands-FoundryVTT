@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bench"
+    - miscgear-bench
 tags:
     - furniture
 name:

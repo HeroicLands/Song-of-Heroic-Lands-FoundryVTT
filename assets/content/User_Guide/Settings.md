@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-systmstt
 id: YApc5TRsPXe62WOA
 type: doc
 package: sohl
@@ -21,7 +22,7 @@ Settings are divided into two categories:
 - **Player settings** are configured independently by each user.
 
 This guide documents all available settings. For a quick start, see
-[[doc/quickstart|Quickstart]].
+[[doc-quickstart|Quickstart]].
 
 # World Settings {#WorldSettings}
 
@@ -209,12 +210,12 @@ This is primarily a debugging tool.
 
 # See also
 
-- [[doc/clndrjsn|Calendar JSON Format]] — the shape of a custom calendar file
+- [[doc-clndrjsn|Calendar JSON Format]] — the shape of a custom calendar file
   the **Calendar** setting can load.
-- [[doc/thftsyst|The Fate System]] — what the **Fate** setting turns on.
-- [[doc/afflandi|Afflictions and Injuries]] — what the **Healing Interval**
+- [[doc-thftsyst|The Fate System]] — what the **Fate** setting turns on.
+- [[doc-afflandi|Afflictions and Injuries]] — what the **Healing Interval**
   setting paces.
-- [[doc/cmbtbscs|Combat Basics]] — the combat behaviour the projectile, gear
+- [[doc-cmbtbscs|Combat Basics]] — the combat behaviour the projectile, gear
   damage, and distance settings affect.
-- [[doc/usngcmpn|Using Compendiums]] — the content a new world starts from.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-usngcmpn|Using Compendiums]] — the content a new world starts from.
+- [[doc-userguide|User Guide]] — back to the index.

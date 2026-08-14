@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Tankard, pewter"
+    - miscgear-tankardpew
 tags:
     - cooking
 name:

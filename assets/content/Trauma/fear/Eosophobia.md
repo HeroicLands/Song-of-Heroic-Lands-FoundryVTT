@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-eosophb
 tags: []
 name:
     full: Eosophobia

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Black Death
+    - affliction-blkdth
 tags: []
 name:
     full: Black Death

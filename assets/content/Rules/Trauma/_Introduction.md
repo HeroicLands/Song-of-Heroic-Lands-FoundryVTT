@@ -1,6 +1,7 @@
 ---
 aliases:
     - Trauma Introduction
+    - doc-traumaintro
 id: Np0h2gEc4EziXNeM
 type: doc
 package: sohl
@@ -18,14 +19,14 @@ umbrella covering every lasting harm a character carries and the ongoing
 processes by which they recover from — or succumb to — it.
 
 > **Trauma vs. Affliction.** A trauma is a _condition the character is in_ — a
-> state they carry and recover from. An [[doc/afflctns|affliction]] is instead
+> state they carry and recover from. An [[doc-afflctns|affliction]] is instead
 > an ongoing hostile _agent_ (a disease, a poison, a maladiction) that runs a
 > course and ends in death or cure. See
-> [[doc/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] for the full
+> [[doc-afflctns#affliction-vs-trauma|Affliction vs. Trauma]] for the full
 > distinction and worked examples.
 
 ## Forms of trauma
 
-- [[doc/bodytrmaintro|Body]]
-- [[doc/mindtraumaintro|Mind]]
-- [[doc/sprttraumaintro|Spirit]]
+- [[doc-bodytrmaintro|Body]]
+- [[doc-mindtraumaintro|Mind]]
+- [[doc-sprttraumaintro|Spirit]]

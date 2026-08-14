@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ichthyop
 tags: []
 name:
     full: Ichthyophobia

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-malnut
 tags: []
 name:
     full: Malnourished

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Russet Gloves
+    - armorgear-RGlv
 tags: []
 name:
     full: Russet Gloves

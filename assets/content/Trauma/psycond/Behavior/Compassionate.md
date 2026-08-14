@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-cmpssnt
 tags: []
 name:
     full: Compassionate

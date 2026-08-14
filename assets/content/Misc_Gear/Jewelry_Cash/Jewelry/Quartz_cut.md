@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Quartz, cut"
+    - miscgear-quartzcut
 tags:
     - jewelry_cash
 name:

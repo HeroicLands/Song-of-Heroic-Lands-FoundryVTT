@@ -1,6 +1,7 @@
 ---
 aliases:
     - Eggs
+    - miscgear-eggs
 tags:
     - food
 name:

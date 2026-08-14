@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pickaxe
+    - weapongear-PkAxe
 tags: []
 name:
     full: Pickaxe

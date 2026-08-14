@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Habergeon
+    - armorgear-MHbgn
 tags: []
 name:
     full: Mail Habergeon

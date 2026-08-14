@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bell, temple"
+    - miscgear-belltemple
 tags:
     - music
 name:

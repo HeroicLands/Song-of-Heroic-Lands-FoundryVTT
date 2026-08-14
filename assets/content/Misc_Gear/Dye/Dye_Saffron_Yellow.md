@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Dye, Saffron Yellow"
+    - miscgear-dyesfrn
 tags:
     - clothing
 name:

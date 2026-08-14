@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Glue, pint"
+    - miscgear-gluept
 tags:
     - expedition
 name:

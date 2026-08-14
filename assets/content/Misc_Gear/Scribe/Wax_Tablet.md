@@ -1,6 +1,7 @@
 ---
 aliases:
     - Wax Tablet
+    - miscgear-waxtablet
 tags:
     - scribe
 name:

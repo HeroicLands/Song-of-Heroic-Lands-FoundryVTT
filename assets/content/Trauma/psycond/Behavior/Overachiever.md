@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ovrchvr
 tags: []
 name:
     full: Overachiever

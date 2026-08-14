@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Harness, Horse"
+    - miscgear-harnesshor
 tags:
     - tack
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Muzzle
+    - miscgear-muzzle
 tags:
     - tack
 name:

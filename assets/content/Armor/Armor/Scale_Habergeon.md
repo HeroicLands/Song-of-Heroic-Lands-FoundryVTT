@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scale Habergeon
+    - armorgear-SHabg
 tags: []
 name:
     full: Scale Habergeon

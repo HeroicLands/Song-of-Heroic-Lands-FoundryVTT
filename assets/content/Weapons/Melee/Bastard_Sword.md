@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bastard Sword
+    - weapongear-BstdSwd
 tags: []
 name:
     full: Bastard Sword

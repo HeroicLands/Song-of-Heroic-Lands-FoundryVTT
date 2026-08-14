@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Paper case, leather"
+    - containergear-papercasel
 tags: []
 name:
     full: "Paper case, leather"

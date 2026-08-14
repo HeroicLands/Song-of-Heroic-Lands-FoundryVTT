@@ -1,6 +1,7 @@
 ---
 aliases:
     - Composite Crossbow 200
+    - weapongear-CCxBw200
 tags: []
 name:
     full: Composite Crossbow 200

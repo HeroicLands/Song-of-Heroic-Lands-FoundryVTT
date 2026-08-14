@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-engmtc
 tags: []
 name:
     full: Enigmatic

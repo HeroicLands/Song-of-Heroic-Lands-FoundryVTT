@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Dye, Ochre Yellow"
+    - miscgear-dyeochr
 tags:
     - clothing
 name:

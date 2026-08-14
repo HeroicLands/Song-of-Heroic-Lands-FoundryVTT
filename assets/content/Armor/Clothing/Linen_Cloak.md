@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Cloak
+    - armorgear-LClk
 tags: []
 name:
     full: Linen Cloak

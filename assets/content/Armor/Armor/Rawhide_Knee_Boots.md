@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Knee Boots
+    - armorgear-RhKBoot
 tags: []
 name:
     full: Rawhide Knee Boots

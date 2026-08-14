@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-masn
 tags: []
 name:
     full: Masonry
@@ -31,7 +32,7 @@ Masonry is quarrying, dressing and laying stone — from a field wall or a carve
 
 # Crafting {#crafting}
 
-Stonework is made by the common [[doc/crafting|crafting routine]] — workshop,
+Stonework is made by the common [[doc-crafting|crafting routine]] — workshop,
 expense, test, result, masterwork rolls, repair. A field wall or a carved plaque
 is a single Masonry Success Value test and no more. What follows is what is
 particular to a building.

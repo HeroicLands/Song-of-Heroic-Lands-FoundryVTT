@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-prctcl
 tags: []
 name:
     full: Practical

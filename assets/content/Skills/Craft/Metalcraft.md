@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-mtlc
 tags: []
 name:
     full: Metalcraft
@@ -31,11 +32,11 @@ Metalcraft is the everyday smith's trade: the tools, fittings and household meta
 
 # Crafting {#crafting}
 
-Ironmongery is made by the common [[doc/crafting|crafting routine]] — workshop,
+Ironmongery is made by the common [[doc-crafting|crafting routine]] — workshop,
 expense, test, result, masterwork rolls, repair. What follows is what is
 particular to the forge.
 
-**Test.** A Metalcraft Success Value test, read on the standard ladder, made after the cost and time below have been spent. Weapons marked **[M]** are made by the [[docskill/wpnc#crafting|weaponmaking]] routine instead, and Metalcraft serves as a Secondary Modifier in making metal armour.
+**Test.** A Metalcraft Success Value test, read on the standard ladder, made after the cost and time below have been spent. Weapons marked **[M]** are made by the [[docskill-wpnc#crafting|weaponmaking]] routine instead, and Metalcraft serves as a Secondary Modifier in making metal armour.
 
 | Item           | Cost | Time | Item               | Cost | Time |
 | -------------- | ---- | ---- | ------------------ | ---- | ---- |

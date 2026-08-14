@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Limestone, powdered"
+    - miscgear-limestonep
 tags:
     - stone
 name:

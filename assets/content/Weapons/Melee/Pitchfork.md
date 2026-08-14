@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pitchfork
+    - weapongear-Pfrk
 tags: []
 name:
     full: Pitchfork

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Coat
+    - armorgear-LCoat
 tags: []
 name:
     full: Linen Coat

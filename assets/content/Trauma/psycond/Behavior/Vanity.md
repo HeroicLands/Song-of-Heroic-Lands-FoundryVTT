@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-vanity
 tags: []
 name:
     full: Vanity

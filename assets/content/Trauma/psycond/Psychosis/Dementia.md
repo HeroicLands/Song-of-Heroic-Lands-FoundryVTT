@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-dementia
 tags: []
 name:
     full: Dementia

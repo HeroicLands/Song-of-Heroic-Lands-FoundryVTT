@@ -1,6 +1,7 @@
 ---
 aliases:
     - Gorilla
+    - creature-gorilla
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: bDs9MTm1QajerNwp
 img: icons/game-icons/delapouite/gorilla.svg
-portrait: ""
+portrait: images/gorilla.webp
 shortcode: gorilla
 type: creature
 package: sohl

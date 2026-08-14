@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Wedge, staying"
+    - miscgear-wedgestayi
 tags:
     - expedition
 name:

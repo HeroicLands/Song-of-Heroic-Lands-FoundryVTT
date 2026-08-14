@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-srvl
 tags: []
 name:
     full: Survival

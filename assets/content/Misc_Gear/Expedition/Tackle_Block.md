@@ -1,6 +1,7 @@
 ---
 aliases:
     - Tackle Block
+    - miscgear-tacklebloc
 tags:
     - expedition
 name:

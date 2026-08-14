@@ -1,6 +1,7 @@
 ---
 aliases:
     - Lyre
+    - miscgear-lyre
 tags:
     - music
 name:

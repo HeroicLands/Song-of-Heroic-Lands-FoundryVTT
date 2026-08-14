@@ -1,6 +1,7 @@
 ---
 aliases:
     - Plate Halfhelm
+    - armorgear-PlHHelm
 tags: []
 name:
     full: Plate Halfhelm

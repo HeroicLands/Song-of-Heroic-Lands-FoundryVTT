@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Spanner, windlass"
+    - miscgear-spannerwindlass
 tags:
     - instruments
 name:

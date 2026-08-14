@@ -1,6 +1,7 @@
 ---
 aliases:
     - Viper
+    - creature-viper
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: TscKeVS3HigBRoWZ
 img: icons/game-icons/lorc/snake.svg
-portrait: ""
+portrait: images/viper.webp
 shortcode: viper
 type: creature
 package: sohl

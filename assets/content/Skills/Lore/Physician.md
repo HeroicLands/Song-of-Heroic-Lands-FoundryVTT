@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-pysn
 tags: []
 name:
     full: Physician

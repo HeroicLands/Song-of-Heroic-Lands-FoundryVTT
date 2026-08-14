@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-gynophb
 tags: []
 name:
     full: Gynophobia

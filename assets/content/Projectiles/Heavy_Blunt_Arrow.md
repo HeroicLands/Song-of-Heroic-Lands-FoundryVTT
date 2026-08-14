@@ -1,6 +1,7 @@
 ---
 aliases:
     - Heavy Blunt Arrow
+    - projectilegear-ArwHBlt
 tags: []
 name:
     full: Heavy Blunt Arrow

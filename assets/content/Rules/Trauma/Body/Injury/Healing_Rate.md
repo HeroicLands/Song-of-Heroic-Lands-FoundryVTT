@@ -1,6 +1,7 @@
 ---
 aliases:
     - Healing Rate
+    - doc-hlngrt
 id: MRqOJqtZ0rvN9AQD
 type: doc
 package: sohl
@@ -14,7 +15,7 @@ folder: F4NGyU9QQgWwTcHe
 
 The **Healing Rate (HR)** is a factor from **0 to 6** representing the likelihood
 of recovering from an injury — lower is worse. It is generally **fixed once the
-injury is treated** (see [[doc/trtnginj|Injury Treatment]]), though some
+injury is treated** (see [[doc-trtnginj|Injury Treatment]]), though some
 circumstances change it.
 
 An **untreated** injury has **no Healing Rate at all** — which is not the same as a
@@ -39,4 +40,4 @@ consequences each period, including infection.
 
 This applies to healing tests only. The Physician's **Treatment Test** is not a
 healing test: it is rolled against the Physician's own skill and is what
-_establishes_ the Healing Rate in the first place — see [[doc/trtnginj|Treating Injuries]].
+_establishes_ the Healing Rate in the first place — see [[doc-trtnginj|Treating Injuries]].

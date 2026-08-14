@@ -1,6 +1,7 @@
 ---
 aliases:
     - Tasseomancy
+    - doc-tssmncy
 id: V37Cp2A3oqdWwCES
 type: doc
 package: sohl
@@ -35,7 +36,7 @@ divination most often practised on a guest who did not ask for it.
 - **Answers** — the drinker's own near future, health, and undeclared concerns
 
 Resolution and the reading of the result are as described in
-[[doc/divintro#resolution|Divination]]. The art's short reach is its safeguard: a
+[[doc-divintro#resolution|Divination]]. The art's short reach is its safeguard: a
 Critical Failure misleads one person about their own affairs, which is a small
 disaster next to a false scrying — though a reader who tells a healthy man he is
 poisoned has still done real harm.

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Icon, ceramic, 4 in"
+    - miscgear-iconcer4
 tags:
     - religious
 name:

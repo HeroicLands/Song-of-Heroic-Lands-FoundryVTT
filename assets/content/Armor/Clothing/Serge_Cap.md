@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Cap
+    - armorgear-SgCap
 tags: []
 name:
     full: Serge Cap

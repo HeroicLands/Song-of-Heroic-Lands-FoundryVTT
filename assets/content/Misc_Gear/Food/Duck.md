@@ -1,6 +1,7 @@
 ---
 aliases:
     - Duck
+    - miscgear-duck
 tags:
     - food
 name:

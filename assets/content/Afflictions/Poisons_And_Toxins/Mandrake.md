@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-mandrk
 tags: []
 name:
     full: Mandrake

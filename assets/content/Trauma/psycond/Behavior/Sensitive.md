@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-snstv
 tags: []
 name:
     full: Sensitive

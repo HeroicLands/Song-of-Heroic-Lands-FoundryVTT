@@ -1,6 +1,7 @@
 ---
 aliases:
     - Quilted Cap
+    - armorgear-QCap
 tags: []
 name:
     full: Quilted Cap

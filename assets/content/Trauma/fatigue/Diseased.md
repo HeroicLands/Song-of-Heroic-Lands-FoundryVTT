@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-disd
 tags: []
 name:
     full: Diseased

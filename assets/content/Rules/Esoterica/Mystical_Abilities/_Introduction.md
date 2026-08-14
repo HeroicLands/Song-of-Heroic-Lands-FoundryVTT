@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mystical Abilities Introduction
+    - doc-mystabilintro
 id: Flm6eeiyl4UHZUIq
 type: doc
 package: sohl
@@ -16,8 +17,8 @@ Supernatural powers are expressed in _Song of Heroic Lands_ as a
 **Mystical Ability**.
 
 Invoking a Mystical Ability is resolved as a
-[[doc/sccsstst#success-test|Success Test]], exactly like a skill. Where an
-ability's [[doc/mstrylvl#effective-mastery-level|EML]] comes from depends on how
+[[doc-sccsstst#success-test|Success Test]], exactly like a skill. Where an
+ability's [[doc-mstrylvl#effective-mastery-level|EML]] comes from depends on how
 it is governed:
 
 - **Skill-governed abilities** draw their mastery level from an
@@ -31,7 +32,7 @@ it is governed:
 
 Note that abilities do not themselves carry any skill base. **No mystical ability
 of any kind can be performed while the character carries
-[[doc/arlshck|Aural Shock]]** — not penalized, but unusable, for as long as any
+[[doc-arlshck|Aural Shock]]** — not penalized, but unusable, for as long as any
 of it remains.
 An ability's own modifiers always stack on top of whatever mastery level it
 draws upon.
@@ -44,8 +45,8 @@ a priest asks and a spirit-worker petitions, an arcanist commands.
 
 - [[Arcane Incantation]]
 - [[Arcane Talent]]
-- [[Alchemy]]
-- [[doc/divintro|Divination]]
+- [[doc-alchemy|Alchemy]]
+- [[doc-divintro|Divination]]
 
 # Divine Mysteries
 
@@ -96,7 +97,7 @@ is performed.
 
 A passive influence conferred by the celestial sign under which the character was born. A birthsign is never invoked; it quietly shapes the character, strengthening the aptitudes it favours and weakening others.
 
-A birthsign is a standing **Mystery** the character carries: attach the sign the character was born under, and it adjusts the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills it governs — a bonus to those the sign favours, a penalty to those it hinders. Each sign is named, and a character bears the one under which they were born.
+A birthsign is a standing **Mystery** the character carries: attach the sign the character was born under, and it adjusts the [[doc-mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills it governs — a bonus to those the sign favours, a penalty to those it hinders. Each sign is named, and a character bears the one under which they were born.
 
 # Mysteries
 
@@ -104,7 +105,7 @@ Standing arcane conditions a character carries. (The tradition-agnostic mysterie
 
 ## Fate
 
-The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its [[doc/sccsstst#success-level|success level]]. See [[doc/fatepnts|Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
+The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its [[doc-sccsstst#success-level|success level]]. See [[doc-fatepnts|Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
 
 # Mystical Abilities
 

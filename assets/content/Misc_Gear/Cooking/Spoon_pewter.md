@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Spoon, pewter"
+    - miscgear-spoonpewte
 tags:
     - cooking
 name:

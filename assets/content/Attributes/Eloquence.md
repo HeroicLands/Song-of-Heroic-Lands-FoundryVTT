@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - attribute-elo
 tags: []
 name:
     full: Eloquence

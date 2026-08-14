@@ -1,6 +1,7 @@
 ---
 aliases:
     - Broadsword
+    - weapongear-BrdSwd
 tags: []
 name:
     full: Broadsword

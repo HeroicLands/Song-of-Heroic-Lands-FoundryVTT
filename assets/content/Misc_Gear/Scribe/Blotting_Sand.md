@@ -2,6 +2,7 @@
 aliases:
     - Blotting Sand
     - Drying Sand
+    - miscgear-blotsand
 tags:
     - scribe
 name:

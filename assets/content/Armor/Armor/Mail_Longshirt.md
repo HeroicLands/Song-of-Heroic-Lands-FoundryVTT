@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Longshirt
+    - armorgear-MLShirt
 tags: []
 name:
     full: Mail Longshirt

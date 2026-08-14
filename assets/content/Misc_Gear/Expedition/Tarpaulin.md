@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Tarpaulin"
+    - miscgear-tarpaulin
 tags:
     - expedition
 name:

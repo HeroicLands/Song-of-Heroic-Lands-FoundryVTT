@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-dentophb
 tags: []
 name:
     full: Dentophobia

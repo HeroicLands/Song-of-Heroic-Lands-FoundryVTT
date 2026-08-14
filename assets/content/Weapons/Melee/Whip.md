@@ -1,6 +1,7 @@
 ---
 aliases:
     - Whip
+    - weapongear-Whp
 tags: []
 name:
     full: Whip

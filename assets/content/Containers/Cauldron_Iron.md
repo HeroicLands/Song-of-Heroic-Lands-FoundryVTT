@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Cauldron, Iron"
+    - containergear-cauldronir
 tags: []
 name:
     full: "Cauldron, Iron"

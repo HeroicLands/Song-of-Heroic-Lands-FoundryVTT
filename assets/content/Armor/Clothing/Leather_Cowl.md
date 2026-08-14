@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Cowl
+    - armorgear-LtCowl
 tags: []
 name:
     full: Leather Cowl

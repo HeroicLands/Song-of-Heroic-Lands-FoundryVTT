@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckram Vest
+    - armorgear-BVest
 tags: []
 name:
     full: Buckram Vest

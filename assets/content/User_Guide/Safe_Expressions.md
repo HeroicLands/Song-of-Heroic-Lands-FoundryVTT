@@ -2,6 +2,7 @@
 aliases:
     - Safe Expressions
     - SafeExpression
+    - doc-sfexprss
 id: JvKYOVjZcqyqQHgj
 type: doc
 package: sohl
@@ -477,4 +478,4 @@ those helper names available if your world provides them.
 - API reference:
   [`SafeExpression`](https://api.heroiclands.org/latest/classes/API_Reference.SafeExpression.html)
   — the authoritative definition of the grammar and evaluator.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

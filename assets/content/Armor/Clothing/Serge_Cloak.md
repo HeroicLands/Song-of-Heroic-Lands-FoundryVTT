@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Cloak
+    - armorgear-SgClk
 tags: []
 name:
     full: Serge Cloak

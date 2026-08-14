@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-intr
 tags: []
 name:
     full: Intrigue

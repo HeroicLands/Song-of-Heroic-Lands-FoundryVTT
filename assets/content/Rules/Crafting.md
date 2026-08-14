@@ -4,6 +4,7 @@ aliases:
     - Craft
     - Crafting Routine
     - Masterwork
+    - doc-crafting
 id: 3dQTVykMItQGXYTj
 type: doc
 package: sohl
@@ -81,13 +82,13 @@ The expense is what the work costs when it goes normally. A
 # The Test {#craft-test}
 
 The whole of the work is settled by a single
-[[doc/sccssvlt#success-value-test|Success Value test]] of the trade's skill,
+[[doc-sccssvlt#success-value-test|Success Value test]] of the trade's skill,
 made once the expense has been spent.
 
 Each trade names the test it takes, and names it in the ordinary way: a
 **Weaponcraft (Metalcraft, Mineralogy)** test is a Weaponcraft Success Value
 test carrying Metalcraft and Mineralogy as
-[[doc/scndryms#secondary-modifier|Secondary Modifiers]]. Where what is being
+[[doc-scndryms#secondary-modifier|Secondary Modifiers]]. Where what is being
 made decides the skill rather than the trade — a wooden haft against an iron
 head, a padded coat against a mail one — the trade's entry gives a table of
 which test applies to what.
@@ -98,14 +99,14 @@ work.
 # The Result {#craft-result}
 
 The Success Value is read on the ladder below. It is the crafting reading of the
-[[doc/sccssvlt#success-value|standard Success Value scale]], and every trade
+[[doc-sccssvlt#success-value|standard Success Value scale]], and every trade
 uses it unless it says otherwise.
 
 | SV  | Outcome                                                                                                                                                       |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ≤ 2 | **Flawed.** The article is finished, but short of the catalogue: it loses quality, and whatever second measure the trade keeps alongside it.                  |
 | 3–4 | **Sound.** The base article, exactly as catalogued.                                                                                                           |
-| 5+  | **Masterwork.** Each [[doc/sccssvlt#value-diamonds\|Value Diamond]] buys either one [[#masterwork\|masterwork roll]] or [[#fast-crafting\|10% off the time]]. |
+| 5+  | **Masterwork.** Each [[doc-sccssvlt#value-diamonds\|Value Diamond]] buys either one [[#masterwork\|masterwork roll]] or [[#fast-crafting\|10% off the time]]. |
 
 **A flaw costs what the trade says it costs.** How much quality is lost, what
 else goes with it, and how fast the loss grows as the Success Value falls
@@ -118,7 +119,7 @@ trades are harsher than that, and say so.
 # Masterwork {#masterwork}
 
 A Success Value of 5 or better yields
-[[doc/sccssvlt#value-diamonds|Value Diamonds]] — one for each point past 4, to a
+[[doc-sccssvlt#value-diamonds|Value Diamonds]] — one for each point past 4, to a
 maximum of five. Each diamond is spent, one way or the other: on a masterwork
 roll here, or on [[#fast-crafting|fast crafting]]. The crafter chooses for each
 diamond separately, and may split them between the two.
@@ -149,7 +150,7 @@ own cap.
 
 # Fast Crafting {#fast-crafting}
 
-A [[doc/sccssvlt#value-diamonds|Value Diamond]] need not be spent on
+A [[doc-sccssvlt#value-diamonds|Value Diamond]] need not be spent on
 [[#masterwork|masterwork]]. It may instead be spent to cut the **time** the work
 takes by **10%**, to a maximum reduction of **30%** — so at most three diamonds
 can be spent this way, however many the test produced. Any others may still be

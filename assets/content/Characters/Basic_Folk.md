@@ -1,6 +1,7 @@
 ---
 aliases:
     - Basic Folk
+    - character-basicfolk
 tags: []
 name:
     full: Basic Folk
@@ -13,7 +14,7 @@ id: d1cddnpaqRl0a0Q8
 folder: riXU4Q2fRsu2tyub
 shortcode: basicfolk
 img: icons/game-icons/delapouite/person.svg
-portrait: ""
+portrait: images/basicfolk.webp
 type: character
 package: sohl
 social:

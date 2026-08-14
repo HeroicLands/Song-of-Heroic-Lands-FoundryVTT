@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Hide, Deer"
+    - miscgear-hidedeer
 tags:
     - natural
 name:

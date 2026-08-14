@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Mirror, iron, silver-coated"
+    - miscgear-mirroriron
 tags:
     - expedition
 name:

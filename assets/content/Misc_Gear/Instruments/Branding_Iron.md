@@ -1,6 +1,7 @@
 ---
 aliases:
     - Branding Iron
+    - miscgear-brandingir
 tags:
     - instruments
 name:

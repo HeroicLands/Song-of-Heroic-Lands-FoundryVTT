@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ermine Cloak
+    - armorgear-ECloak
 tags: []
 name:
     full: Ermine Cloak

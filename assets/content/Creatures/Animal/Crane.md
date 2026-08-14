@@ -1,6 +1,7 @@
 ---
 aliases:
     - Celestial Crane
+    - creature-crane
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: i63ZifkjQf8TYoHl
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/crane.webp
 shortcode: crane
 type: creature
 package: sohl

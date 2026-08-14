@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rune Casting
+    - doc-rncstng
 id: 4qy1qawptXZ8xQda
 type: doc
 package: sohl
@@ -39,6 +40,6 @@ throws for "is the ford watched?" gets an answer.
 - **Answers** — a single narrow question, tersely
 
 Resolution and the reading of the result are as described in
-[[doc/divintro#resolution|Divination]]. Because the answers are so short, a
+[[doc-divintro#resolution|Divination]]. Because the answers are so short, a
 Critical Failure is correspondingly stark: a flat, confident wrong answer, with
 nothing in the reading to hint that it should be doubted.

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Butter
+    - miscgear-butter
 tags:
     - food
 name:

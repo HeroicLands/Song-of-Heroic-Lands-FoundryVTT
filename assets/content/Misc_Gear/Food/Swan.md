@@ -1,6 +1,7 @@
 ---
 aliases:
     - Swan
+    - miscgear-swan
 tags:
     - food
 name:

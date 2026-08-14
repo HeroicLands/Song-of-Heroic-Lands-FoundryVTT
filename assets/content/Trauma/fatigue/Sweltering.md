@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-swltr
 tags: []
 name:
     full: Sweltering

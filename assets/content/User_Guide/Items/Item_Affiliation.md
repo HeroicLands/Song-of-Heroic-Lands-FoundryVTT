@@ -1,6 +1,7 @@
 ---
 aliases:
     - Affiliation
+    - doc-affltn
 id: hJGjCXud883VX96W
 type: doc
 package: sohl
@@ -15,7 +16,7 @@ folder: QtOgPodi8X6gDWL0
 
 An Affiliation represents a character's membership and standing in an organized body within the game world — a group, faction, order, or institution the character belongs to. It records not merely _that_ a character belongs, but _how far up_ they stand: their rank, role, and title within that body.
 
-Think of an Affiliation as a **credential**. It states who a character answers to and what standing they hold; it is not, by itself, a list of powers or skills. A priest's affiliation says they are a rank-3 priest of their church — the invocations they can call on are recorded separately as [[doc/mystery|Mysteries]] and [[doc/mystclab|Mystical Abilities]].
+Think of an Affiliation as a **credential**. It states who a character answers to and what standing they hold; it is not, by itself, a list of powers or skills. A priest's affiliation says they are a rank-3 priest of their church — the invocations they can call on are recorded separately as [[doc-mystery|Mysteries]] and [[doc-mystclab|Mystical Abilities]].
 
 # Where It Appears
 
@@ -43,7 +44,7 @@ Reach for an Affiliation for any organized body the character belongs to. Common
 
 # Additional Properties
 
-Along with the [[doc/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Society:** The sub-group, sect, order, or convocation the character belongs to within the larger organization.
 - **Office:** The role or function the character fills within the organization, if any — for example a stewardship, a command, or a ministry.
@@ -71,11 +72,11 @@ always the player who invokes it.
 
 # See also
 
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/baseitem|Base Item]] — the three shared actions named above.
-- [[doc/mystclab|Mystical Ability]] — the item that draws on an affiliation's
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-baseitem|Base Item]] — the three shared actions named above.
+- [[doc-mystclab|Mystical Ability]] — the item that draws on an affiliation's
   standing, and the roll that does it.
-- [[doc/being|Being]] — the Profile tab an affiliation appears on.
-- [[doc/affiliation|Affiliations]] (rules) — what standing is, and what it
+- [[doc-being|Being]] — the Profile tab an affiliation appears on.
+- [[doc-affiliation|Affiliations]] (rules) — what standing is, and what it
   entitles a character to.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

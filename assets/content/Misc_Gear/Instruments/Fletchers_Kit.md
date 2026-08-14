@@ -1,6 +1,7 @@
 ---
 aliases:
     - Fletcher's Kit
+    - miscgear-fletchkit
 tags:
     - instruments
 name:

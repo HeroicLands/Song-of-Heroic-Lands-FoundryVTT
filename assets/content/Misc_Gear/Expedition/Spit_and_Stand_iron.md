@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Spit and Stand, iron"
+    - miscgear-spitandsta
 tags:
     - expedition
 name:

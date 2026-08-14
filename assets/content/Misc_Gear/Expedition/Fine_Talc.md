@@ -1,6 +1,7 @@
 ---
 aliases:
     - Fine Talc
+    - miscgear-talc
 tags:
     - expedition
 name:

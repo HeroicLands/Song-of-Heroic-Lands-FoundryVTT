@@ -1,6 +1,7 @@
 ---
 aliases:
     - Falchion
+    - weapongear-Falcn
 tags: []
 name:
     full: Falchion

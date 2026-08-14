@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Sapphire, cut"
+    - miscgear-sapphirecu
 tags:
     - jewelry_cash
 name:

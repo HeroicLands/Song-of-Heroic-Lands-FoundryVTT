@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-pain
 tags: []
 name:
     full: Pain

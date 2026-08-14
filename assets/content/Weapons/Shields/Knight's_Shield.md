@@ -1,6 +1,7 @@
 ---
 aliases:
     - Knight's Shield
+    - weapongear-KnSh
 tags: []
 name:
     full: Knight's Shield

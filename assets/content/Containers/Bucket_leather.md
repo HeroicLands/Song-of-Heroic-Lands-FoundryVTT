@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bucket, leather"
+    - containergear-bucketleat
 tags: []
 name:
     full: "Bucket, leather"

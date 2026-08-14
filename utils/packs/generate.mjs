@@ -42,6 +42,7 @@ import {
     buildFolderResolver,
     writeFolderDocs,
 } from "./helpers.mjs";
+import { countContentNotes } from "./content-tree.mjs";
 
 /** Authoritative in-repo content tree — the single source for shipped content. */
 const CONTENT_BASE = path.resolve("./assets/content");
@@ -129,6 +130,20 @@ export async function generatePacksJson({ only } = {}) {
         log.error(`Content tree not found at ${CONTENT_BASE}.`);
         return 1;
     }
+    // A tree that is present but empty compiles zero documents *without an
+    // error*, and ships blank compendiums. Refuse instead: this only happens
+    // when the generated tree was never exported, or exported from the wrong
+    // place, and neither is something to build on.
+    const noteCount = countContentNotes(CONTENT_BASE);
+    if (noteCount === 0) {
+        log.error(
+            `Content tree at ${CONTENT_BASE} holds no notes, so every pack would ` +
+                `compile empty. assets/content/ is generated — run ` +
+                `"npm run content:export" (maintainers) or check out the tree.`,
+        );
+        return 1;
+    }
+    log.info(`Content tree: ${noteCount} note(s) at ${CONTENT_BASE}`);
     fs.mkdirSync(BUILD_JSON_ROOT, { recursive: true });
 
     const configs = PACK_CONFIGS.filter((c) => !only || c.name === only);

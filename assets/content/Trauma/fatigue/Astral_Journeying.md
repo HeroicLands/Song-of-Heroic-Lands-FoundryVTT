@@ -1,6 +1,7 @@
 ---
 aliases:
     - Astral Journeying
+    - trauma-astjourn
 tags: []
 name:
     full: Astral Journeying

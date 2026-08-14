@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Mittens
+    - armorgear-BvMitt
 tags: []
 name:
     full: Beaver Mittens

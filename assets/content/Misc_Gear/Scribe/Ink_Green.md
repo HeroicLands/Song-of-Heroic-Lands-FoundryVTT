@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Ink, Green"
+    - miscgear-inkgrn
 tags:
     - scribe
 name:

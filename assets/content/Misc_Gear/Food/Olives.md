@@ -1,6 +1,7 @@
 ---
 aliases:
     - Olives
+    - miscgear-olives
 tags:
     - food
 name:

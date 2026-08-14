@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Jar, lidded, 1 quart"
+    - containergear-jarliddedm
 tags: []
 name:
     full: "Jar, lidded, 1 quart"

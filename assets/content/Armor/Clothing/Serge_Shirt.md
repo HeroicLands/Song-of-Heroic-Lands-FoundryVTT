@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Shirt
+    - armorgear-SgShirt
 tags: []
 name:
     full: Serge Shirt

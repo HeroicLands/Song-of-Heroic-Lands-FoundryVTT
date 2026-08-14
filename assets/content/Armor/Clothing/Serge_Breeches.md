@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Breeches
+    - armorgear-SgBrch
 tags: []
 name:
     full: Serge Breeches

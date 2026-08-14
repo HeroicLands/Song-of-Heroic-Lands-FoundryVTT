@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Ploughshare"
+    - miscgear-ploughshare
 tags:
     - instruments
 name:

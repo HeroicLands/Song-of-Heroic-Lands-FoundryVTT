@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Dress
+    - armorgear-LDress
 tags: []
 name:
     full: Linen Dress

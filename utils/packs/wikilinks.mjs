@@ -144,6 +144,77 @@ export function resolveItemDocType(qualifier, types) {
 }
 
 /**
+ * Read a link target as a **qualified** `type-shortcode` reference, or report
+ * that it is a bare alias instead.
+ *
+ * Two separators are accepted, and they are **not** interchangeable in how
+ * confidently they mark a target as qualified:
+ *
+ * - **`type-shortcode`** — the canonical form (#1398). Obsidian reads `/` inside
+ *   a wikilink as a *path* and resolves it against the vault's folders, so a
+ *   slash-qualified link is a broken link in the editor where the content is now
+ *   authored. A hyphen qualifies **only when what precedes it is a known type**:
+ *   note names contain hyphens too (`Grukar-ahk`), and those must keep resolving
+ *   as aliases. The split is at the **first** hyphen, so a shortcode may itself
+ *   contain one (`trauma-self-pro` → `trauma` + `self-pro`).
+ * - **`type/shortcode`** — the legacy form, still resolved so that a link
+ *   written before the vault migrated does not silently die. A slash is
+ *   *unconditionally* a qualifier: nothing else uses one, so an unknown type
+ *   before it is an error rather than an invitation to try the alias index. The
+ *   split is at the **last** slash, as it always was.
+ *
+ * @param {string} target - The link target, anchor already removed.
+ * @param {Set<string>} types - Every type the content tree contains.
+ * @returns {{type: string, shortcode: string, itemDoc: boolean,
+ *   reason?: undefined} | {reason: "unknown-type"} | null}
+ *   The resolved qualifier; a `reason` when the target is definitely qualified
+ *   but names no known type; or `null` when it is a bare alias.
+ */
+export function readQualifier(target, types) {
+    const slash = target.lastIndexOf("/");
+    if (slash > 0) {
+        const read = readTypeAndCode(
+            target.slice(0, slash),
+            target.slice(slash + 1),
+            types,
+        );
+        // A slash means qualified whether or not the type is real.
+        return read ?? { reason: "unknown-type" };
+    }
+
+    const hyphen = target.indexOf("-");
+    if (hyphen > 0) {
+        // A hyphen qualifies only on a known type; otherwise it is part of a name.
+        return readTypeAndCode(
+            target.slice(0, hyphen),
+            target.slice(hyphen + 1),
+            types,
+        );
+    }
+    return null;
+}
+
+/**
+ * Resolve a qualifier/shortcode pair, honouring the virtual `doc<type>` form.
+ *
+ * @param {string} rawType
+ * @param {string} rawCode
+ * @param {Set<string>} types
+ * @returns {{type: string, shortcode: string, itemDoc: boolean} | null}
+ *   `null` when the qualifier names no known type, or the shortcode is empty.
+ */
+function readTypeAndCode(rawType, rawCode, types) {
+    const shortcode = norm(rawCode);
+    if (!shortcode) return null;
+
+    let type = norm(rawType);
+    const base = resolveItemDocType(type, types);
+    if (base) return { type: base, shortcode, itemDoc: true };
+    if (!types.has(type)) return null;
+    return { type, shortcode, itemDoc: false };
+}
+
+/**
  * The deterministic JournalEntryPage id for one anchor: SHA-256 of
  * `"<noteId>-<anchorSlug>"`, base64-encoded, reduced to the 16 alphanumeric
  * characters a Foundry id allows.
@@ -234,7 +305,7 @@ export function convertWikilinks(markdown, { type, id, index }) {
             target = target.slice(0, hash).trim();
         }
 
-        // Resolve the document: same-page (empty target), type/shortcode, or alias.
+        // Resolve the document: same-page (empty target), type-shortcode, or alias.
         let doc;
         // Set when the qualifier was the virtual `doc<type>` form, so the UUID
         // is built against the item doc entry rather than the item itself.
@@ -242,20 +313,15 @@ export function convertWikilinks(markdown, { type, id, index }) {
         if (target === "" && slug) {
             doc = { type, id };
         } else {
-            const slash = target.lastIndexOf("/");
-            if (slash !== -1) {
-                let targetType = norm(target.slice(0, slash));
-                const base = resolveItemDocType(targetType, index.types);
-                if (base) {
-                    itemDoc = true;
-                    targetType = base;
-                }
-                if (!index.types.has(targetType)) {
-                    unresolved.push({ link: all, target, reason: "unknown-type" });
-                    return all;
-                }
+            const qualified = readQualifier(target, index.types);
+            if (qualified?.reason) {
+                unresolved.push({ link: all, target, reason: qualified.reason });
+                return all;
+            }
+            if (qualified) {
+                itemDoc = qualified.itemDoc;
                 doc = index.byShortcode.get(
-                    `${targetType}/${norm(target.slice(slash + 1))}`,
+                    `${qualified.type}/${qualified.shortcode}`,
                 );
             } else {
                 const hit = index.byAlias.get(`${norm(type)}|${norm(target)}`);

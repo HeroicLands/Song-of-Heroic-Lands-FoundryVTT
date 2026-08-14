@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cup Good Wine
+    - miscgear-gwinecup
 tags:
     - spirits
 name:

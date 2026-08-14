@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Cauldron Tripod, Iron"
+    - miscgear-cauldrontr
 tags:
     - cooking
 name:

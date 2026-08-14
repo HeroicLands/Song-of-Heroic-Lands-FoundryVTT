@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Icon, religions, large"
+    - miscgear-iconreligi
 tags:
     - religious
 name:

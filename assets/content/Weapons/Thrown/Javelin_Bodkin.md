@@ -1,6 +1,7 @@
 ---
 aliases:
     - Javelin, Bodkin
+    - weapongear-BodJav
 tags: []
 name:
     full: Javelin, Bodkin

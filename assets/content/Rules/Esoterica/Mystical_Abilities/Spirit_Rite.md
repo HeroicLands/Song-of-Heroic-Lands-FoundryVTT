@@ -1,6 +1,7 @@
 ---
 aliases:
     - Spirit Rite
+    - doc-sprtrt
 id: TgCJ7QeTOa3GOMHe
 type: doc
 package: sohl

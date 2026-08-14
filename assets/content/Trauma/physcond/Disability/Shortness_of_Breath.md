@@ -1,6 +1,7 @@
 ---
 aliases:
     - Shortness of Breath
+    - trauma-shrtbrth
 tags: []
 name:
     full: Shortness of Breath

@@ -4,6 +4,7 @@ aliases:
     - Combat Technique
     - Combat Techniques
     - Strength Trial
+    - doc-unrmdcmb
 id: SNdlp2B249F9Enwx
 type: doc
 package: sohl
@@ -18,9 +19,9 @@ shortcode: unrmdcmb
 # Unarmed Combat {#unarmed-combat}
 
 Fighting with no weapon is not a separate system. An empty hand, a boot, a set of
-teeth and a wrestler's grip are all **[[doc/strkmds|strike modes]]** like any
+teeth and a wrestler's grip are all **[[doc-strkmds|strike modes]]** like any
 other, and they resolve through the ordinary
-[[doc/atkreslv#resolving-an-attack|attack sequence]] against the **Melee** skill.
+[[doc-atkreslv#resolving-an-attack|attack sequence]] against the **Melee** skill.
 What distinguishes them is where they come from: not from a weapon carried, but
 from a **combat technique** the character has trained.
 
@@ -73,7 +74,7 @@ own, so their rules hold for any creature with the limbs to perform them.
 anatomy and their own Strength: claws, gores, tail lashes, talons, stings,
 constricting coils, breath. Where such a creature does share a name with a folk
 technique — a bite is a bite — it does not share the numbers. See the
-[[doc/bestiary|Bestiary]].
+[[doc-bestiary|Bestiary]].
 
 ## The Strength Trial {#the-strength-trial}
 
@@ -84,7 +85,7 @@ them earns only the _attempt_; what settles it is an opposed **Strength Trial**.
 > margin decides how completely.**
 
 The Trial takes a bonus for each **Impact**
-[[doc/atkreslv#tactical-advantages|Tactical Advantage]] the winner earned in the
+[[doc-atkreslv#tactical-advantages|Tactical Advantage]] the winner earned in the
 exchange — **+2** for a Press, **+3** for a Grab, **+4** for a Trip — so a
 combatant who is comprehensively winning does these things almost at will, and one
 who scraped a narrow victory usually does not. Other circumstances adjust it
@@ -100,8 +101,8 @@ Each manoeuvre reads its winning margin off its own table, and the tables are
 given with the techniques themselves. In outline:
 
 - **Press** knocks an opponent back, and at a wide enough margin puts them down
-  and into [[doc/shock|shock]].
-- **Trip** puts them [[doc/prone|prone]], and at a wide margin throws them and
+  and into [[doc-shock|shock]].
+- **Trip** puts them [[doc-prone|prone]], and at a wide margin throws them and
   leaves them open to an automatic Grab.
 - **Grab** either **takes** an object out of the limb struck — the disarm — or
   **holds** that limb fast. A hold costs the victim their next turn, though they
@@ -147,11 +148,11 @@ weapon.
 
 The ordinary off-hand rules apply and bite harder here than anywhere: a strike
 thrown with the off hand or off foot takes **−10** and loses a point of impact.
-See [[doc/character#dominance|Dominance]].
+See [[doc-character#dominance|Dominance]].
 
 ## See also {#see-also}
 
-- [[doc/atkreslv|Attack Resolution]] — the exchange in full
-- [[doc/mlattcks|Melee Attacks]] — reach, engagement, and the melee defences
-- [[doc/strkmds|Strike Modes]] — the structure every technique is expressed in
-- [[doc/skills#skill-descriptions|Skill Descriptions]] — the individual techniques and their tables
+- [[doc-atkreslv|Attack Resolution]] — the exchange in full
+- [[doc-mlattcks|Melee Attacks]] — reach, engagement, and the melee defences
+- [[doc-strkmds|Strike Modes]] — the structure every technique is expressed in
+- [[doc-skills#skill-descriptions|Skill Descriptions]] — the individual techniques and their tables

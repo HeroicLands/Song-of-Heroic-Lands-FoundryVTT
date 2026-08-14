@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-hide
 tags: []
 name:
     full: Hideworking
@@ -31,7 +32,7 @@ Hideworking is the whole passage from a raw skin to a finished article: fleshing
 
 # Crafting {#crafting}
 
-Leather goods are made by the common [[doc/crafting|crafting routine]] —
+Leather goods are made by the common [[doc-crafting|crafting routine]] —
 workshop, expense, test, result, masterwork rolls, repair. What follows is what
 is particular to the tannery.
 

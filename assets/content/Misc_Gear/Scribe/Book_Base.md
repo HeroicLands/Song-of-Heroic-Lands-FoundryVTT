@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Book, Base"
+    - miscgear-bookbase
 tags:
     - scribe
 name:

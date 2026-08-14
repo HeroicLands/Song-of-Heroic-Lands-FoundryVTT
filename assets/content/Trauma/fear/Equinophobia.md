@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-eqnphb
 tags: []
 name:
     full: Equinophobia

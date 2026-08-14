@@ -1,6 +1,7 @@
 ---
 aliases:
     - Crocodile
+    - creature-crcdl
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: YzoFPpU5UVHmM52o
 img: icons/game-icons/lorc/croc-jaws.svg
-portrait: ""
+portrait: images/crcdl.webp
 shortcode: crcdl
 type: creature
 package: sohl

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Left Dominance
+    - trauma-ldmnc
 tags: []
 name:
     full: Left Dominance

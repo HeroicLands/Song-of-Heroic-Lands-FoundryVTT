@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beef
+    - miscgear-beef
 tags:
     - food
 name:

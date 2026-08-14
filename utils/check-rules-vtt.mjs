@@ -32,7 +32,7 @@
  *   npm run lint:rules-vtt         // node utils/check-rules-vtt.mjs
  *   node utils/check-rules-vtt.mjs // direct invocation (no args)
  */
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join("assets", "content", "Rules");
@@ -56,6 +56,17 @@ function* walk(dir) {
         if (statSync(p).isDirectory()) yield* walk(p);
         else if (p.endsWith(".md")) yield p;
     }
+}
+
+if (!existsSync(ROOT)) {
+    // Say which tree is missing and how to get it, rather than letting the walk
+    // throw a bare ENOENT that reads like a corrupt checkout.
+    console.error(
+        `check-rules-vtt: no rules tree at ${ROOT}. assets/content/ is ` +
+            `generated — run "npm run content:export" (maintainers) or check out ` +
+            `the tree.`,
+    );
+    process.exit(1);
 }
 
 const violations = [];

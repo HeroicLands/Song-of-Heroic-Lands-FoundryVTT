@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bottle, glass, large"
+    - containergear-bottleglas
 tags: []
 name:
     full: "Bottle, glass, large"

@@ -6,6 +6,7 @@ aliases:
     - Combat Exchange
     - Tactical Advantage
     - Tactical Advantages
+    - doc-atkreslv
 id: OuEx3Wa9RNMHtrgc
 type: doc
 package: sohl
@@ -26,7 +27,7 @@ landed or where.
 
 An attack is resolved in six steps:
 
-1. The attacker chooses a [[doc/strkmds|strike mode]] and, if they wish, a body
+1. The attacker chooses a [[doc-strkmds|strike mode]] and, if they wish, a body
    part to [[#aiming-and-hit-location|aim]] at.
 2. The attacker makes the [[#the-attack-test|attack test]].
 3. The defender chooses a [[#the-defence|defence]] and tests it.
@@ -37,7 +38,7 @@ An attack is resolved in six steps:
 6. The blow becomes an injury, and the injury has consequences —
    [[#from-blow-to-trauma|shock, and then nerve]].
 
-Steps 2 and 3 together are an [[doc/oppsdtst#opposed-test|Opposed Test]]:
+Steps 2 and 3 together are an [[doc-oppsdtst#opposed-test|Opposed Test]]:
 attacker against defender, both rolling at once, read against each other. The
 whole of combat's resolution is that one contest, and everything else on this
 page either feeds it or follows from it.
@@ -45,10 +46,10 @@ page either feeds it or follows from it.
 ## The Attack Test {#the-attack-test}
 
 The attacker declares a target within the strike mode's
-[[doc/mlattcks#reach-and-engagement|reach]] or
-[[doc/msslattc#range|range]], names the strike mode they are using, and makes a
-[[doc/sccsstst#success-test|Success Test]] against the
-[[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skill
+[[doc-mlattcks#reach-and-engagement|reach]] or
+[[doc-msslattc#range|range]], names the strike mode they are using, and makes a
+[[doc-sccsstst#success-test|Success Test]] against the
+[[doc-mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skill
 that strike mode names — **Melee** for a close attack, **Archery**, **Throwing**
 or **Sling** for a missile.
 
@@ -58,11 +59,11 @@ Three kinds of adjustment reach that Mastery Level:
   mode than another; a pommel strike is not a cut.
 - **Standing penalties from the attacker's condition** — fatigue, impairment of
   the body parts the skill depends on, encumbrance, being
-  [[doc/prone|prone]].
+  [[doc-prone|prone]].
 - **Situational modifiers** the GM assigns for footing, light, surprise, and
   everything else the table can see and the rules cannot enumerate.
 
-The [[doc/sccsstst#success-level|success level]] of that roll is the attacker's
+The [[doc-sccsstst#success-level|success level]] of that roll is the attacker's
 side of the contest. It is not yet a hit.
 
 ## The Defence {#the-defence}
@@ -81,7 +82,7 @@ Which of them are available depends on the attack and on the defender. A strike
 mode may be barred from blocking, or from counterstriking; a defender with
 nothing in hand blocks with a limb and takes the consequences; a defender pinned,
 stunned or otherwise unable to act can only Ignore. Missile attacks admit a
-narrower set still — see [[doc/msslattc#defending-against-missiles|Missile
+narrower set still — see [[doc-msslattc#defending-against-missiles|Missile
 Attacks]].
 
 **Ignore is a defence, not the absence of one.** An ignored attack is resolved
@@ -89,9 +90,9 @@ against nothing: it lands if it simply succeeds, and no contest is made.
 
 ## Resolving the Exchange {#resolving-the-exchange}
 
-Attack and defence are compared by [[doc/sccsstst#success-level|success level]],
+Attack and defence are compared by [[doc-sccsstst#success-level|success level]],
 and the gap between them is counted in
-[[doc/oppsdtst#victory-stars|Victory Stars]]. That gap is what the rest of the
+[[doc-oppsdtst#victory-stars|Victory Stars]]. That gap is what the rest of the
 exchange reads.
 
 Two conditions govern whether a blow lands, and both must hold:
@@ -120,7 +121,7 @@ blocking weapon or shield takes the full force of the strike and must check for
 **A dodge must win outright.** Total evasion at arm's length is a much harder
 thing than deflection, and the tiebreak is where that difficulty is expressed —
 a tied dodge is settled by the ordinary
-[[doc/oppsdtst#tiebreaks|tiebreak rules]], and a dodger who loses the tiebreak
+[[doc-oppsdtst#tiebreaks|tiebreak rules]], and a dodger who loses the tiebreak
 is struck.
 
 **A counterstrike is not a defence at all** — it is a second attack, made in the
@@ -155,14 +156,14 @@ says which:
 | **Action**    | What the winner may do next                           |
 | **Setup**     | The position the exchange leaves both combatants in   |
 
-The manoeuvres that call for a [[doc/unrmdcmb#the-strength-trial|Strength
+The manoeuvres that call for a [[doc-unrmdcmb#the-strength-trial|Strength
 Trial]] are the clearest consumers: each takes a bonus to the Trial per **Impact**
 Tactical Advantage the winner earned, so a fighter who is comprehensively
 winning the exchange presses, trips or grabs almost at will.
 
 ## Mishaps {#mishaps}
 
-A [[doc/sccsstst#success-level|Critical Failure]] on an attack or a defence is
+A [[doc-sccsstst#success-level|Critical Failure]] on an attack or a defence is
 not merely a bad result — it is an accident, and which accident depends on the
 units digit of the roll that produced it:
 
@@ -174,9 +175,9 @@ units digit of the roll that produced it:
 A fumble or a stumble is a **keep-control test**, made by the combatant it
 befell: a Fumble Test to keep hold of the weapon, a Stumble Test to keep your
 feet. Both are described under
-[[doc/character#mishaps-fumble-and-stumble|Mishaps]] — they are the same tests a
+[[doc-character#mishaps-fumble-and-stumble|Mishaps]] — they are the same tests a
 wound to the hand or the leg provokes, and they fail the same way, with a
-dropped weapon or a fall to [[doc/prone|prone]].
+dropped weapon or a fall to [[doc-prone|prone]].
 
 **Weapon breakage** is checked separately, and follows from a tied block rather
 than from a critical failure: the blocking weapon or shield absorbed a blow it
@@ -201,7 +202,7 @@ zone represents.
 Spread is a property of the strike mode, not of the fighter: a thrusting point
 places far better than a swung flail. The full treatment of zones, parts,
 locations, and how a hit zone number becomes a wounded limb is in
-[[doc/character#determining-hit-location|Determining Hit Location]].
+[[doc-character#determining-hit-location|Determining Hit Location]].
 
 ## Impact and Aspect {#impact-and-aspect}
 
@@ -209,8 +210,8 @@ Impact is rolled only when a blow lands. Two things describe it:
 
 **Impact** is the force of the blow, expressed as dice plus a modifier — the
 strike mode's own impact, adjusted by the wielder's
-[[doc/strkmds#the-strength-impact-modifier|Strength Impact Modifier]], by a
-missile's [[doc/msslattc#range|range band]], and by any **Impact** Tactical
+[[doc-strkmds#the-strength-impact-modifier|Strength Impact Modifier]], by a
+missile's [[doc-msslattc#range|range band]], and by any **Impact** Tactical
 Advantages spent on it. A missile weapon that launches separate ammunition
 combines the strike mode's impact with the projectile's.
 
@@ -233,14 +234,14 @@ A light edged or piercing blow against rigid armour glances off instead,
 inflicting no wound but still jarring the victim.
 
 From there the blow leaves combat's hands and becomes
-[[doc/traumaintro|Trauma]]:
+[[doc-traumaintro|Trauma]]:
 
-1. **The wound.** Its [[doc/injrylvl|Injury Level]] fixes its severity, and with
-   it the [[doc/imprmnt|impairment]] of the part struck, whether it
-   [[doc/bleeding|bleeds]], and how long it will take to mend.
+1. **The wound.** Its [[doc-injrylvl|Injury Level]] fixes its severity, and with
+   it the [[doc-imprmnt|impairment]] of the part struck, whether it
+   [[doc-bleeding|bleeds]], and how long it will take to mend.
 2. **Shock.** Severity and location together give a
-   [[doc/character#shock|Shock Index]], and a wound of any consequence puts the
-   victim to a [[doc/shock|Shock]] test that may leave them stunned,
+   [[doc-character#shock|Shock Index]], and a wound of any consequence puts the
+   victim to a [[doc-shock|Shock]] test that may leave them stunned,
    incapacitated, unconscious or dead on the spot.
 3. **Nerve.** A combatant still standing afterwards may still lose the will to
    go on — see [[#morale|Morale]] below.
@@ -257,7 +258,7 @@ A **Morale Test** is a test of the **Initiative** skill, and its result places
 the combatant on a scale from Catatonic through Routed and Withdrawing to Steady
 and Brave. The full scale, its effects, the **Rally Test** by which a leader
 steadies faltering allies, and the **Reaction Test** by which a broken combatant
-recovers are all set out in [[doc/morale|Morale]].
+recovers are all set out in [[doc-morale|Morale]].
 
 In combat, a Morale Test is called for when a combatant:
 
@@ -280,9 +281,9 @@ in it, and the other is left holding the ground.
 
 ## See also {#see-also}
 
-- [[doc/strkmds|Strike Modes]] — what an attack is made _with_
-- [[doc/mlattcks|Melee Attacks]] — the close-quarters exchange
-- [[doc/msslattc|Missile Attacks]] — the missile sequence
-- [[doc/unrmdcmb|Unarmed Combat]] — fighting with no weapon at all
-- [[doc/oppsdtst|Opposed Tests]] — the contest this page is a special case of
-- [[doc/character#body-structure|Body Structure]] — hit location, protection, and impairment
+- [[doc-strkmds|Strike Modes]] — what an attack is made _with_
+- [[doc-mlattcks|Melee Attacks]] — the close-quarters exchange
+- [[doc-msslattc|Missile Attacks]] — the missile sequence
+- [[doc-unrmdcmb|Unarmed Combat]] — fighting with no weapon at all
+- [[doc-oppsdtst|Opposed Tests]] — the contest this page is a special case of
+- [[doc-character#body-structure|Body Structure]] — hit location, protection, and impairment

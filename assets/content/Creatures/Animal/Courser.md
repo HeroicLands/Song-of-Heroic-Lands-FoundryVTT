@@ -1,6 +1,7 @@
 ---
 aliases:
     - Courser
+    - creature-courser
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: inCsJVZjrrZVkpJI
 img: icons/game-icons/delapouite/horse-head.svg
-portrait: ""
+portrait: images/courser.webp
 shortcode: courser
 type: creature
 package: sohl

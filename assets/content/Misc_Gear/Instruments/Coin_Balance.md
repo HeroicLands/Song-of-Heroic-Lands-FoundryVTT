@@ -1,6 +1,7 @@
 ---
 aliases:
     - Coin Balance
+    - miscgear-coinbalanc
 tags:
     - instruments
 name:

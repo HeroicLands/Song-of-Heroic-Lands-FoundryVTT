@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Dye, Dragon's Blood"
+    - miscgear-dyedrgn
 tags:
     - clothing
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Composite Bow 40
+    - weapongear-CBw40
 tags: []
 name:
     full: Composite Bow 40

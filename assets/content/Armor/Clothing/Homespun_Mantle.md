@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Mantle
+    - armorgear-HsMntl
 tags: []
 name:
     full: Homespun Mantle

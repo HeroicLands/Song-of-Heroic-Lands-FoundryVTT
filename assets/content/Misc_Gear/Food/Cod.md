@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cod
+    - miscgear-cod
 tags:
     - food
 name:

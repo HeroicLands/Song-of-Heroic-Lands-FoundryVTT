@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Armor Maintenance Supplies, per 1d"
+    - miscgear-armrsup
 tags:
     - expedition
 name:

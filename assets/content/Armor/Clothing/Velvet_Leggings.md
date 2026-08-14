@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Leggings
+    - armorgear-VLeg
 tags: []
 name:
     full: Velvet Leggings

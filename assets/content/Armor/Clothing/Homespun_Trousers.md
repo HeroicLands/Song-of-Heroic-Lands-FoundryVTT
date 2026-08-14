@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Trousers
+    - armorgear-HsTrsr
 tags: []
 name:
     full: Homespun Trousers

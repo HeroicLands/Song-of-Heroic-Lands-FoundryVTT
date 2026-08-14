@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Cooking pot, copper"
+    - containergear-cookingpot
 tags: []
 name:
     full: "Cooking pot, copper"

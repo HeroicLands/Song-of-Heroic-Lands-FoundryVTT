@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Tent, Dome"
+    - miscgear-tentdome
 tags:
     - expedition
 name:

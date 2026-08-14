@@ -1,6 +1,7 @@
 ---
 aliases:
     - Siege Stone
+    - projectilegear-StnSge
 tags: []
 name:
     full: Siege Stone

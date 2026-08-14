@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Beads, ceramic, 12"
+    - miscgear-beadscer12
 tags:
     - expedition
 name:

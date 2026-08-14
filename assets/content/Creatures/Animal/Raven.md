@@ -1,6 +1,7 @@
 ---
 aliases:
     - Raven
+    - creature-raven
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: anLTCI9lpmxYgalD
 img: icons/game-icons/lorc/raven.svg
-portrait: ""
+portrait: images/raven.webp
 shortcode: raven
 type: creature
 package: sohl

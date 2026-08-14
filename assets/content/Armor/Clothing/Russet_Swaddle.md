@@ -1,6 +1,7 @@
 ---
 aliases:
     - Russet Swaddle
+    - armorgear-RSwd
 tags: []
 name:
     full: Russet Swaddle

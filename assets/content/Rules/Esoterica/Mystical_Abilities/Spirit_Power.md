@@ -1,6 +1,7 @@
 ---
 aliases:
     - Spirit Power
+    - doc-sprtpwr
 id: U2r6cMFiAZaQr4WZ
 type: doc
 package: sohl

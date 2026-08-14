@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sacred Quetzal
+    - creature-quetzal
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: vM0KoDFiLa917lSx
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/quetzal.webp
 shortcode: quetzal
 type: creature
 package: sohl

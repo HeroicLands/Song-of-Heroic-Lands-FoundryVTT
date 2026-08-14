@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-sing
 tags: []
 name:
     full: Singing

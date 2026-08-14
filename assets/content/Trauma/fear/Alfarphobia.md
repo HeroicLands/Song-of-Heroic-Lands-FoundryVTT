@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-alfrphb
 tags: []
 name:
     full: Alfarphobia

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scones
+    - miscgear-scones
 tags:
     - food
 name:

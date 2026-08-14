@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sealskin Cloak
+    - armorgear-SlsCloak
 tags: []
 name:
     full: Sealskin Cloak

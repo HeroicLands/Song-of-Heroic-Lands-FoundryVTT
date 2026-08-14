@@ -1,6 +1,7 @@
 ---
 aliases:
     - Grindstone
+    - miscgear-grindstone
 tags:
     - stone
 name:

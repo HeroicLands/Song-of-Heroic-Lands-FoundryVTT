@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Leather, Tanned, per sq yard"
+    - miscgear-leathertan
 tags:
     - natural
 name:

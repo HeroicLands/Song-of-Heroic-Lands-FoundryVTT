@@ -5,6 +5,7 @@ aliases:
     - Shock State Index
     - Shock Re-Test
     - Extended Shock
+    - doc-shock
 id: im1oSbKUZQFCBBI8
 type: doc
 package: sohl
@@ -25,7 +26,7 @@ while in any shock state it **cannot concentrate** until it recovers.
 Ordinary (normal) shock is a **very temporary** condition: a stunned, incapacitated,
 or unconscious victim shakes it off quickly through a [[#shock-re-test|Shock Re-Test]].
 Only a _failed_ Re-Test drops a victim into the lasting condition of
-[[#extended-shock|Extended Shock]] (or a [[doc/coma|Coma]]), which has no time limit
+[[#extended-shock|Extended Shock]] (or a [[doc-coma|Coma]]), which has no time limit
 on recovery.
 
 ## Shock States
@@ -33,7 +34,7 @@ on recovery.
 | Shock State       | Effect (summary)                                                                                                                                                                                                                                                                                                                                                               |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **None**          | No shock.                                                                                                                                                                                                                                                                                                                                                                      |
-| **Stunned**       | Reeling and disoriented. All movement is Difficult and double Moves are barred; every Impaired test drops one [[doc/sccsstst#success-level\|Success Level]]. At the end of the next turn (and each turn after) the victim may attempt a [[#shock-re-test\|Shock Re-Test]] to shake it off. A second Stunned result while already Stunned worsens immediately to Incapacitated. |
+| **Stunned**       | Reeling and disoriented. All movement is Difficult and double Moves are barred; every Impaired test drops one [[doc-sccsstst#success-level\|Success Level]]. At the end of the next turn (and each turn after) the victim may attempt a [[#shock-re-test\|Shock Re-Test]] to shake it off. A second Stunned result while already Stunned worsens immediately to Incapacitated. |
 | **Incapacitated** | Awake but knocked prone. Only an assisted Difficult half Move is possible, with no actions of the victim's own, and every melee attack must be Ignored. A Shock Re-Test is made at the end of the next turn. A fresh Incapacitated result while already Incapacitated drops the victim to Unconscious.                                                                         |
 | **Unconscious**   | Blacked out and prone — unaware, unable to act, and Helpless (melee attackers score a Critical Success Ignore). A Shock Re-Test is made ten minutes later.                                                                                                                                                                                                                     |
 | **Dead**          | The victim dies on the spot.                                                                                                                                                                                                                                                                                                                                                   |
@@ -76,11 +77,11 @@ is immediately **Dead**.
 come from any cause:
 
 - **Injury** — the struck body **location's Shock Value + the Injury Level**, plus
-  **1** more if the blow was a [[doc/character#from-blow-to-injury|glancing one]].
+  **1** more if the blow was a [[doc-character#from-blow-to-injury|glancing one]].
   Every body location carries its own Shock Value: on a human the skull, eyes,
   nose, and neck are the worst at 5, the forearm and calf the mildest at 1. Other
   body structures carry their own values. See
-  [[doc/character#shock|Body Structure → Shock]].
+  [[doc-character#shock|Body Structure → Shock]].
 - **Fear and other systemic or psychological forces** — each by its own measure.
 
 **Modifiers to the roll.** Two circumstances adjust the Shock Test itself rather
@@ -95,7 +96,7 @@ wound to the forearm (Shock Value 1) would open at 4 — below 5, so no roll is 
 and no shock results at all.
 
 Some effects instead raise the shock state directly, by their own means — most
-notably [[doc/bleeding#blood-loss-advance-test|blood loss]], which advances the shock
+notably [[doc-bleeding#blood-loss-advance-test|blood loss]], which advances the shock
 state one step per Blood Loss Point.
 
 ### One state at a time
@@ -118,7 +119,7 @@ an Incapacitated victim, or ten minutes later for an Unconscious one.
 
 | Success Level | Result                                                                                         |
 | ------------- | ---------------------------------------------------------------------------------------------- |
-| CF (−1)       | Incapacitated → [[#extended-shock\|Extended Shock]] at HR 4. Unconscious → [[doc/coma\|Coma]]. |
+| CF (−1)       | Incapacitated → [[#extended-shock\|Extended Shock]] at HR 4. Unconscious → [[doc-coma\|Coma]]. |
 | MF (0)        | The victim slips into [[#extended-shock\|Extended Shock]] at HR 5.                             |
 | MS (1)        | The shock state improves to **Stunned**.                                                       |
 | CS (2)        | The victim recovers from all shock states.                                                     |
@@ -156,12 +157,12 @@ there is **no recovery from fatigue** while in Extended Shock.
 
 If HR falls to **0 or below** the victim dies. If HR rises to **6 or greater**
 the victim comes out of Extended Shock and is no longer Incapacitated or
-Unconscious (a victim in a [[doc/coma|Coma]] remains in the coma).
+Unconscious (a victim in a [[doc-coma|Coma]] remains in the coma).
 
 ## See also {#see-also}
 
-- [[doc/coma|Coma]] — the deep unconsciousness a Critically Failed Re-Test ends in.
-- [[doc/injrylvl|Injury]] — how injuries generate shock and impairment.
-- [[doc/character#body-structure|Body Structure]] — the Shock Value each body location carries.
+- [[doc-coma|Coma]] — the deep unconsciousness a Critically Failed Re-Test ends in.
+- [[doc-injrylvl|Injury]] — how injuries generate shock and impairment.
+- [[doc-character#body-structure|Body Structure]] — the Shock Value each body location carries.
 - [[Bleeding]] — blood loss advancing the shock state.
 - [[Fatigue]] — the fatigue that penalizes shock and course tests.

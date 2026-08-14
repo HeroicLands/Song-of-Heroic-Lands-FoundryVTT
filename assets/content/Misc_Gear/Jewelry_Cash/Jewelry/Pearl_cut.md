@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Pearl, cut"
+    - miscgear-pearlcut
 tags:
     - jewelry_cash
 name:

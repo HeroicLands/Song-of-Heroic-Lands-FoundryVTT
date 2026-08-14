@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sealskin Robe
+    - armorgear-SlsRobe
 tags: []
 name:
     full: Sealskin Robe

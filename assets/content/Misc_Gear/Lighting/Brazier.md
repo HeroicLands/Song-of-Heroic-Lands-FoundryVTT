@@ -1,6 +1,7 @@
 ---
 aliases:
     - Brazier
+    - miscgear-brazier
 tags:
     - lighting
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Cloak
+    - armorgear-BvCloak
 tags: []
 name:
     full: Beaver Cloak

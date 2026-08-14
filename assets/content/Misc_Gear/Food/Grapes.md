@@ -1,6 +1,7 @@
 ---
 aliases:
     - Grapes
+    - miscgear-grapes
 tags:
     - food
 name:

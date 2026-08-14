@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Seaweed, Dolce"
+    - miscgear-seaweeddol
 tags:
     - food
 name:

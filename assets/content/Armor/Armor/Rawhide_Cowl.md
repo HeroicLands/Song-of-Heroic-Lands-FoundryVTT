@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Cowl
+    - armorgear-RhCowl
 tags: []
 name:
     full: Rawhide Cowl

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Quilted Cowl
+    - armorgear-QCwl
 tags: []
 name:
     full: Quilted Cowl

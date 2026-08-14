@@ -1,6 +1,7 @@
 ---
 aliases:
     - Crowbar
+    - weapongear-Crwbr
 tags: []
 name:
     full: Crowbar

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Candleholder, hand"
+    - miscgear-candlehold
 tags:
     - lighting
 name:

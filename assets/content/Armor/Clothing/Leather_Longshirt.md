@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Longshirt
+    - armorgear-LtLgShrt
 tags: []
 name:
     full: Leather Longshirt

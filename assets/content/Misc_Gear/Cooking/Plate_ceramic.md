@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Plate, ceramic"
+    - miscgear-platecer
 tags:
     - cooking
 name:

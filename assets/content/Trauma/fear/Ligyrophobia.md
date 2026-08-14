@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-lgyrphb
 tags: []
 name:
     full: Ligyrophobia

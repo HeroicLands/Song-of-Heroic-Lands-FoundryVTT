@@ -2,6 +2,7 @@
 aliases:
     - Kurbul Breastplate
     - Kûrbúl Breastplate
+    - armorgear-KBrst
 tags: []
 name:
     full: Kûrbúl Breastplate

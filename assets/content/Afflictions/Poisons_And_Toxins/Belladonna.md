@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-bldna
 tags: []
 name:
     full: Belladonna

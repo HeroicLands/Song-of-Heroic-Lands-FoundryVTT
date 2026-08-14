@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Perfume, fine"
+    - miscgear-perfumefine
 tags:
     - expedition
 name:

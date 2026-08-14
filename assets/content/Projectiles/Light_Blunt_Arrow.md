@@ -1,6 +1,7 @@
 ---
 aliases:
     - Light Blunt Arrow
+    - projectilegear-ArwLBlt
 tags: []
 name:
     full: Light Blunt Arrow

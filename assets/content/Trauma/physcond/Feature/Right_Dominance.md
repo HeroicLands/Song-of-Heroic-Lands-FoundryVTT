@@ -1,6 +1,7 @@
 ---
 aliases:
     - Right Dominance
+    - trauma-rdmnc
 tags: []
 name:
     full: Right Dominance

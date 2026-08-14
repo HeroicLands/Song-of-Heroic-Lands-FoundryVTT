@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-effcttrg
 id: U0j0CeD2HOvqJ3UX
 type: doc
 package: sohl
@@ -50,7 +51,7 @@ them — an **empty predicate matches every candidate**.
 
 When the scope is an item kind or a strike-mode scope, the **Target Predicate**
 decides which candidates are actually affected. It is a
-[[doc/sfexprss|Safe Expression]] that must evaluate to `true` for a
+[[doc-sfexprss|Safe Expression]] that must evaluate to `true` for a
 candidate to be included.
 
 What the expression can see depends on the scope:
@@ -173,4 +174,4 @@ one specific weapon.
   their trigger and visibility conditions.
 - API reference:
   [`SafeExpression`](https://api.heroiclands.org/latest/classes/API_Reference.SafeExpression.html).
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

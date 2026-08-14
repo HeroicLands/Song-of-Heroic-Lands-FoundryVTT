@@ -1,6 +1,7 @@
 ---
 aliases:
     - Stag
+    - creature-stag
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: N9K2ohKoe0Iv7iJ7
 img: icons/game-icons/lorc/stag-head.svg
-portrait: ""
+portrait: images/stag.webp
 shortcode: stag
 type: creature
 package: sohl

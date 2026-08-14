@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Swaddle
+    - armorgear-WSwd
 tags: []
 name:
     full: Worsted Swaddle

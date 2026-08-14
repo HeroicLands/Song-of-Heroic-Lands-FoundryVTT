@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cloth Vest
+    - armorgear-CVest
 tags: []
 name:
     full: Cloth Vest

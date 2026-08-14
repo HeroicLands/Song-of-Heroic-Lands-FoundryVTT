@@ -1,6 +1,7 @@
 ---
 aliases:
     - Hyena
+    - creature-hyena
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: qWLJoGsN56qVG65C
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/hyena.webp
 shortcode: hyena
 type: creature
 package: sohl

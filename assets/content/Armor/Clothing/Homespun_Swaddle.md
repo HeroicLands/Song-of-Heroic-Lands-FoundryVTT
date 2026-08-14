@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Swaddle
+    - armorgear-HsSwd
 tags: []
 name:
     full: Homespun Swaddle

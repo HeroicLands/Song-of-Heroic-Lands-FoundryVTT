@@ -1,6 +1,7 @@
 ---
 aliases:
     - Gambeson Long Vest
+    - armorgear-GLngVest
 tags: []
 name:
     full: Gambeson Long Vest

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Sleeved Byrnie
+    - armorgear-MSByr
 tags: []
 name:
     full: Mail Sleeved Byrnie

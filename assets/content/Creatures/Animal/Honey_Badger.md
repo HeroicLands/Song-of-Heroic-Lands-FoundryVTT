@@ -1,6 +1,7 @@
 ---
 aliases:
     - Honey Badger
+    - creature-hnybdgr
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: ChZvdUocVZoLXeL0
 img: icons/game-icons/caro-asercion/badger.svg
-portrait: ""
+portrait: images/hnybdgr.webp
 shortcode: hnybdgr
 type: creature
 package: sohl

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-brew
 tags: []
 name:
     full: Brewing

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Sleeved Tunic
+    - armorgear-LtSTunic
 tags: []
 name:
     full: Leather Sleeved Tunic

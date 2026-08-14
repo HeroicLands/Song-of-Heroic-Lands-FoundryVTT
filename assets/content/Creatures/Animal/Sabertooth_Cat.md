@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sabertooth Cat
+    - creature-sbrtthct
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: pEWPIYv8UGQDka8v
 img: icons/game-icons/lorc/lion.svg
-portrait: ""
+portrait: images/sbrtthct.webp
 shortcode: sbrtthct
 type: creature
 package: sohl

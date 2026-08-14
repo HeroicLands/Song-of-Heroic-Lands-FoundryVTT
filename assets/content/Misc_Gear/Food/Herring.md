@@ -1,6 +1,7 @@
 ---
 aliases:
     - Herring
+    - miscgear-herring
 tags:
     - food
 name:

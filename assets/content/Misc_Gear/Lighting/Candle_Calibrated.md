@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Candle, Calibrated"
+    - miscgear-candlecali
 tags:
     - lighting
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Agate, cut"
+    - miscgear-agatecut
 tags:
     - jewelry_cash
 name:

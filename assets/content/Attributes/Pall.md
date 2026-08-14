@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - attribute-pal
 tags: []
 name:
     full: Pall

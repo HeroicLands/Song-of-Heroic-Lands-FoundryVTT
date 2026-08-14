@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Cowl
+    - armorgear-SgCowl
 tags: []
 name:
     full: Serge Cowl

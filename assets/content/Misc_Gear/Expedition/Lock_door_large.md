@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Lock, door, large"
+    - miscgear-lockdoorla
 tags:
     - expedition
 name:

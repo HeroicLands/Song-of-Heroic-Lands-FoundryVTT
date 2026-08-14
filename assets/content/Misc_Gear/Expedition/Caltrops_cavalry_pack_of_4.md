@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Caltrops, cavalry, pack of 4"
+    - miscgear-caltropsca
 tags:
     - expedition
 name:

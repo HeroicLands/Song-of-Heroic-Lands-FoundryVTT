@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bowl, copper"
+    - miscgear-bowlcopper
 tags:
     - cooking
 name:

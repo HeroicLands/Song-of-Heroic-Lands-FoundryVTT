@@ -1,6 +1,7 @@
 ---
 aliases:
     - Plate Vambraces
+    - armorgear-PlVamb
 tags: []
 name:
     full: Plate Vambraces

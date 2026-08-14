@@ -2,6 +2,7 @@
 aliases:
     - Kurbul Vambraces
     - Kûrbúl Vambraces
+    - armorgear-KVamb
 tags: []
 name:
     full: Kûrbúl Vambraces

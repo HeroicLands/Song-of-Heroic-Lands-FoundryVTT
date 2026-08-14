@@ -1,6 +1,7 @@
 ---
 aliases:
     - Venison
+    - miscgear-venison
 tags:
     - food
 name:

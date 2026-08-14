@@ -1,6 +1,7 @@
 ---
 aliases:
     - Grace
+    - doc-grace
 id: VQ3MeSUiAE2YxrER
 type: doc
 package: sohl

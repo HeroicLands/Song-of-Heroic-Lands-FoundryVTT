@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-measles
 tags: []
 name:
     full: Measles

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Long Cowl
+    - armorgear-MLCowl
 tags: []
 name:
     full: Mail Long Cowl

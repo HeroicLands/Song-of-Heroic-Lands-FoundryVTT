@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pipes
+    - miscgear-pipes
 tags:
     - music
 name:

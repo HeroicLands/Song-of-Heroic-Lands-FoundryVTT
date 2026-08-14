@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Box, ceramic, lidded, 12 x 8 x 6 in"
+    - containergear-boxcerlid
 tags: []
 name:
     full: "Box, ceramic, lidded, 12 x 8 x 6 in"

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ermine Mantle
+    - armorgear-EMntl
 tags: []
 name:
     full: Ermine Mantle

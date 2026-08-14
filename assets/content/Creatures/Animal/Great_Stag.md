@@ -1,6 +1,7 @@
 ---
 aliases:
     - Great Stag
+    - creature-grtstg
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: SqaOIArv8es9t6IF
 img: icons/game-icons/lorc/stag-head.svg
-portrait: ""
+portrait: images/grtstg.webp
 shortcode: grtstg
 type: creature
 package: sohl

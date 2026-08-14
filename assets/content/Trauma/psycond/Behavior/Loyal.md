@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-loyal
 tags: []
 name:
     full: Loyal

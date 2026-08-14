@@ -1,6 +1,7 @@
 ---
 aliases:
     - Oysters
+    - miscgear-oysters
 tags:
     - food
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Long Vest
+    - armorgear-RhLngVst
 tags: []
 name:
     full: Rawhide Long Vest

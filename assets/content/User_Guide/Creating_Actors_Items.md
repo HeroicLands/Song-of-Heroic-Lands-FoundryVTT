@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-crtngact
 id: t5Fr0y9WRvj8YeGD
 type: doc
 package: sohl
@@ -16,7 +17,7 @@ There are several ways to create actors and items in SoHL. The method you
 choose depends on whether you're starting from scratch, copying something
 from a compendium, or building a complex item with nested components.
 
-See also: [[doc/quickstart|Quickstart]], [[Understanding Sheets]]
+See also: [[doc-quickstart|Quickstart]], [[Understanding Sheets]]
 
 # Creating Actors {#creating-actors}
 
@@ -135,17 +136,17 @@ can be deleted. This prevents accidentally orphaning items.
 
 # See also
 
-- [[doc/ugactors|Actors]] — what each of the four actor kinds is for.
-- [[doc/ugitems|Items]] — what each item type is for, and what they share.
-- [[doc/usngcmpn|Using Compendiums]] — the content that ships with the system,
+- [[doc-ugactors|Actors]] — what each of the four actor kinds is for.
+- [[doc-ugitems|Items]] — what each item type is for, and what they share.
+- [[doc-usngcmpn|Using Compendiums]] — the content that ships with the system,
   and importing from it.
-- [[doc/shrtcds|Shortcodes]] — why a duplicate keeps its original's shortcode,
+- [[doc-shrtcds|Shortcodes]] — why a duplicate keeps its original's shortcode,
   and when to change it.
-- [[doc/chrctrcr|Character Creation]] — building a playable character end to
+- [[doc-chrctrcr|Character Creation]] — building a playable character end to
   end.
-- [[doc/undrstnd|Understanding Sheets]] — reading the sheet you have just
+- [[doc-undrstnd|Understanding Sheets]] — reading the sheet you have just
   created.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Expand with details on bulk operations, folder organization in
      the sidebar, and import/export workflows -->

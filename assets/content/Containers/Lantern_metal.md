@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Lantern, metal"
+    - containergear-lanternmet
 tags: []
 name:
     full: "Lantern, metal"

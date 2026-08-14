@@ -1,6 +1,7 @@
 ---
 aliases:
     - Limb Block
+    - skill-limbblock
 tags: []
 name:
     full: Limb Block

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Cap
+    - armorgear-VCap
 tags: []
 name:
     full: Velvet Cap

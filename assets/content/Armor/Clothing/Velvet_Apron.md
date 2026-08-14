@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Apron
+    - armorgear-VApn
 tags: []
 name:
     full: Velvet Apron

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bipolar Disorder
+    - trauma-bipolar
 tags: []
 name:
     full: Bipolar Disorder

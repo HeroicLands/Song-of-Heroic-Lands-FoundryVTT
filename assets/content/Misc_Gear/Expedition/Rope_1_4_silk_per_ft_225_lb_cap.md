@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Rope, ¼” silk, per ft (225 lb cap.)"
+    - miscgear-rope14silk
 tags:
     - expedition
 name:

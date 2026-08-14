@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Oil, Cooking"
+    - miscgear-oilcook
 tags:
     - food
 name:

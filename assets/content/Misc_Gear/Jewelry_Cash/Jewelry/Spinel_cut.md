@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Spinel, cut"
+    - miscgear-spinelcut
 tags:
     - jewelry_cash
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Horn, drinking"
+    - miscgear-horndrinki
 tags:
     - expedition
 name:

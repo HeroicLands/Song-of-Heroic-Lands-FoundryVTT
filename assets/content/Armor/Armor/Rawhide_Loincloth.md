@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Loincloth
+    - armorgear-RhLoin
 tags: []
 name:
     full: Rawhide Loincloth

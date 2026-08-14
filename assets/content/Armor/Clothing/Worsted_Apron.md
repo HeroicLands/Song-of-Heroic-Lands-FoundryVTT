@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Apron
+    - armorgear-WApn
 tags: []
 name:
     full: Worsted Apron

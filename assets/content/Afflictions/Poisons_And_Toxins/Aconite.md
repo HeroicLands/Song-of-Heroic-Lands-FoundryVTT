@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-aconite
 tags: []
 name:
     full: Aconite

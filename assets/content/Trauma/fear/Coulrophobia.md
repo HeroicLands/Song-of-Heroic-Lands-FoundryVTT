@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-clrphb
 tags: []
 name:
     full: Coulrophobia

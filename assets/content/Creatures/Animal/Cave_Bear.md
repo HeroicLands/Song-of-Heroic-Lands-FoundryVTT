@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cave Bear
+    - creature-cavebear
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: R0digTz25VXmF4uo
 img: icons/game-icons/delapouite/bear-head.svg
-portrait: ""
+portrait: images/cavebear.webp
 shortcode: cavebear
 type: creature
 package: sohl

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Composite Crossbow 300
+    - weapongear-CCxBw300
 tags: []
 name:
     full: Composite Crossbow 300

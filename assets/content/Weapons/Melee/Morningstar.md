@@ -1,6 +1,7 @@
 ---
 aliases:
     - Morningstar
+    - weapongear-MgStr
 tags: []
 name:
     full: Morningstar

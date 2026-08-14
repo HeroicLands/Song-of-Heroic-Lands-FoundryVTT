@@ -2,6 +2,7 @@
 aliases:
     - Gnu
     - Wildebeest
+    - creature-wldbst
 tags:
     - animal
     - image-needed
@@ -10,7 +11,7 @@ name:
     aliases: []
 id: fWFF00Xq9zTzMq0Z
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/wldbst.webp
 shortcode: wldbst
 type: creature
 package: sohl

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Amber, cut"
+    - miscgear-ambercut
 tags:
     - jewelry_cash
 name:
