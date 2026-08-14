@@ -162,6 +162,22 @@ function worldHasContent(game: any): boolean {
 }
 
 /**
+ * The write terms every migration update is applied on, top-level and embedded
+ * alike.
+ *
+ * `diff: false` because a migration payload routinely restates data the document
+ * already holds — that is how a removed field is stripped, since Foundry prunes
+ * an undeclared key out of the change set and it cannot be deleted by key — and
+ * a diffed update would drop such a payload as a no-op, leaving the stored record
+ * untouched. `recursive: false` makes each root-level key a replacement of that
+ * whole object, which is the semantics {@link DocMigrator} is written against.
+ */
+const MIGRATION_UPDATE_OPTIONS = Object.freeze({
+    diff: false,
+    recursive: false,
+});
+
+/**
  * Fold one live document's source through the plan and, when it changes, write
  * the update. Errors are caught and counted so one bad document never aborts the
  * world-load migration.
@@ -180,7 +196,7 @@ async function applyToDocument(
     const update = migrateDocumentSource(snapshot(doc), kind, plan);
     if (Object.keys(update).length === 0) return;
     try {
-        await doc.update(update, { diff: false, recursive: false });
+        await doc.update(update, { ...MIGRATION_UPDATE_OPTIONS });
         stats.applied += 1;
     } catch (err) {
         stats.errors += 1;
@@ -218,7 +234,9 @@ async function applyToEmbedded(
     }
     if (updates.length === 0) return;
     try {
-        await parent.updateEmbeddedDocuments(embeddedName, updates);
+        await parent.updateEmbeddedDocuments(embeddedName, updates, {
+            ...MIGRATION_UPDATE_OPTIONS,
+        });
         stats.applied += updates.length;
     } catch (err) {
         stats.errors += 1;

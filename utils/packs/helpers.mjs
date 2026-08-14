@@ -348,17 +348,6 @@ export function slugify(name) {
 }
 
 /**
- * Build a documentation URL from an item type and its URL segment:
- *   https://heroiclands.org/sohl/{type}/{slug}/
- *
- * The segment is the item's shortcode (see {@link contentSlug}), so this URL and
- * the knowledgebase page address the same item the same way.
- */
-export function buildDocUrl(type, slug) {
-    return `https://heroiclands.org/sohl/${type}/${slug}/`;
-}
-
-/**
  * Parses the valueDesc / threshold array format. Accepts either:
  *   - Array of "Label:MaxValue" strings, e.g. ["Ugly:4", "Plain:12"]
  *   - Array of objects, e.g. [{ label, maxValue }]

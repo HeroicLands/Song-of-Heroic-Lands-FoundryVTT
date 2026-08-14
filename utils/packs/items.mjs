@@ -34,7 +34,6 @@ import fs from "fs";
 import path from "path";
 import log from "loglevel";
 
-import { contentSlug } from "../content-slug.mjs";
 import {
     walkMarkdownTree,
     sohlField,
@@ -44,7 +43,6 @@ import {
     resolveCharges,
     makeFilename,
     slugify,
-    buildDocUrl,
     parseValueDesc,
     resolveName,
     resolveImg,
@@ -94,19 +92,11 @@ function itemDescription(markdown, fm, name) {
 
 /**
  * Build the `system.*` fields shared by every item type:
- *   shortcode, docUrl, actionDefs, notes, docHtml.
+ *   shortcode, actionDefs, notes, docHtml.
  */
-function commonSystem(fm, description, type, name) {
-    // The doc URL is derived from the name, exactly like the KB page (#1278).
-    let slug;
-    try {
-        slug = contentSlug(name);
-    } catch (err) {
-        throw new Error(`item "${name}": ${err.message}`);
-    }
+function commonSystem(fm, description) {
     return {
         shortcode: fm.shortcode,
-        docUrl: buildDocUrl(type, slug),
         actionDefs: Array.isArray(fm.actionDefs) ? fm.actionDefs : [],
         notes: "",
         docHtml: description || "",
@@ -430,7 +420,7 @@ export class Items {
         const name = resolveName(fm);
         const id = fm.id;
         const system = {
-            ...commonSystem(fm, description, type, name),
+            ...commonSystem(fm, description),
             ...BUILDERS[type](fm),
         };
 

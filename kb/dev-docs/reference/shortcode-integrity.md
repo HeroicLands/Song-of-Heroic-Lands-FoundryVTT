@@ -138,10 +138,7 @@ A shortcode is unique, stable, and short — which makes it a tempting URL segme
 is deliberately **not** one. Content notes carry no authored `slug` either (#1278);
 the published URL is derived from the note's **name**:
 
-| Surface | URL |
-| --- | --- |
-| Knowledgebase page | `/<section>/<name-slug>/` — e.g. `/creature/nusvorroth/` |
-| An item's `system.docUrl` | `https://heroiclands.org/sohl/<type>/<name-slug>/` |
+a knowledgebase page is `/<section>/<name-slug>/` — e.g. `/creature/nusvorroth/`.
 
 The reason is the invariant above: a shortcode is referenced from **saved world
 data** — actions, cohorts, expressions, archetypes, pack lookups. Binding a public URL
@@ -149,6 +146,11 @@ to it would turn a cosmetic URL change into a data migration, and would publish
 `/creature/nsvrroth/` where a reader expects `/creature/nusvorroth/`. Identity and
 presentation are kept apart: the shortcode addresses the document, the name addresses
 the page.
+
+No document stores a URL of its own, either. In-app documentation is the compiled
+JournalEntry an item points at through `docHtml`'s `@UUID`, which survives any change
+to the published address; a per-document absolute URL would make one a pack rebuild
+plus a world migration.
 
 `contentSlug` in `utils/content-slug.mjs` is the single derivation. It transliterates
 before reducing, so an accented character is carried across rather than dropped —

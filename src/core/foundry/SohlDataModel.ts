@@ -43,7 +43,6 @@ import {
     COMMON_ITEM_LOGIC,
     COMBATANT_LOGIC,
 } from "@src/core/foundry/sohl-config";
-import { URLField } from "./URLField";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const {
     StringField,
@@ -56,7 +55,7 @@ const {
 
 /**
  * Builds the Foundry data schema shared by every SoHL data model (shortcode,
- * documentation URL, and the array of action definitions). Concrete document
+ * the array of action definitions, and the generic schedule). Concrete document
  * schemas (`defineSohlItemDataSchema`, `defineSohlActorDataSchema`, the
  * combatant schema) spread this so every SoHL data model carries these fields.
  * @returns The shared SoHL data schema.
@@ -72,7 +71,6 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
         // / `enforceShortcodeOnUpdate` (issue #766). Other documents (combatant,
         // …) never key on it and leave it blank.
         shortcode: new StringField({ initial: "" }),
-        docUrl: new URLField(),
         actionDefs: new ArrayField(
             new SchemaField({
                 // Unique code identifying this action on its Logic instance —

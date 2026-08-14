@@ -167,6 +167,7 @@ describe("runWorldMigrations — version-keyed runner (#957)", () => {
             expect.arrayContaining([
                 expect.objectContaining({ _id: item.id, "system.i": 1 }),
             ]),
+            expect.any(Object),
         );
         // Embedded effects updated on the actor and on the item.
         expect(actor.updateEmbeddedDocuments).toHaveBeenCalledWith(
@@ -174,16 +175,48 @@ describe("runWorldMigrations — version-keyed runner (#957)", () => {
             expect.arrayContaining([
                 expect.objectContaining({ "system.e": 1 }),
             ]),
+            expect.any(Object),
         );
         expect(item.updateEmbeddedDocuments).toHaveBeenCalledWith(
             "ActiveEffect",
             expect.any(Array),
+            expect.any(Object),
         );
         expect(setSpy).toHaveBeenCalledWith(
             "sohl",
             "systemMigrationVersion",
             "0.7.0",
         );
+    });
+
+    it("writes embedded documents on the same terms as top-level ones", async () => {
+        // The two paths must agree on the update options. Left to Foundry's
+        // defaults an embedded update is diffed, so a payload that restates the
+        // document's current data — how a migration that removes a field has to
+        // be expressed — is diffed away and the record is never rewritten;
+        // and `recursive` decides whether a root-level key replaces or merges,
+        // so the same migrator would mean different things depending on where
+        // the document lives.
+        getSpy.mockReturnValue("0.6.0");
+        const steps: MigrationStep[] = [
+            {
+                version: "0.7.0",
+                description: "rewrite system",
+                migrators: {
+                    Actor: () => ({ system: { a: 1 } }),
+                    Item: () => ({ system: { i: 1 } }),
+                },
+            },
+        ];
+        const item = mkDoc({ type: "skill" });
+        const actor = mkDoc({ type: "being", items: [item] });
+        await runWorldMigrations(mkGame([actor]), steps);
+
+        const [, topOptions] = actor.update.mock.calls[0];
+        const [, , embeddedOptions] =
+            actor.updateEmbeddedDocuments.mock.calls[0];
+        expect(topOptions).toEqual({ diff: false, recursive: false });
+        expect(embeddedOptions).toEqual(topOptions);
     });
 
     it("catches a per-document error, counts it, and still stamps the version", async () => {

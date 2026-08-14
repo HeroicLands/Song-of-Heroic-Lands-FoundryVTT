@@ -144,78 +144,216 @@ describe("SOHL_MIGRATIONS", () => {
         expect(Object.isFrozen(SOHL_MIGRATIONS)).toBe(true);
     });
 
-    it("is ordered oldest-first and every step is version-stamped", () => {
+    it("is registered in ascending version order", () => {
         const versions = SOHL_MIGRATIONS.map((s) => s.version);
         expect(versions).toEqual([...versions].sort(compareVersions));
-        for (const step of SOHL_MIGRATIONS) {
-            expect(step.version).toMatch(/^\d+\.\d+\.\d+/);
-            expect(step.description).toBeTruthy();
-        }
     });
 
-    describe("0.9.0 — affiliation subType (#1405)", () => {
-        const step = SOHL_MIGRATIONS.find((s) =>
-            s.description.toLowerCase().includes("affiliation"),
-        )!;
-        const migrate = (source: MigrationSource) =>
-            step.migrators!.Item!(source);
+    it("describes every step", () => {
+        for (const step of SOHL_MIGRATIONS) {
+            expect(step.version).toMatch(/^\d+\.\d+\.\d+/);
+            expect(step.description.length).toBeGreaterThan(0);
+        }
+    });
+});
 
-        it("is registered with an Item migrator", () => {
-            expect(step).toBeDefined();
-            expect(step.version).toBe("0.9.0");
-            expect(step.migrators?.Item).toBeTypeOf("function");
-        });
+// ---------------------------------------------------------------------------
+// 0.9.0 — strip the retired system.docUrl field (#1394)
+// ---------------------------------------------------------------------------
 
-        it("stamps the social default on an affiliation with no subType", () => {
-            expect(
-                migrate({ type: "affiliation", system: { society: "Guild" } }),
-            ).toEqual({ "system.subType": "social" });
-        });
+describe("0.9.0 — strip system.docUrl (#1394)", () => {
+    const step = SOHL_MIGRATIONS.find((s) => s.version === "0.9.0");
 
-        it("stamps an affiliation whose subType is blank or null", () => {
-            expect(
-                migrate({ type: "affiliation", system: { subType: "" } }),
-            ).toEqual({ "system.subType": "social" });
-            expect(
-                migrate({ type: "affiliation", system: { subType: null } }),
-            ).toEqual({ "system.subType": "social" });
-        });
+    it("is registered at the version that removes the field", () => {
+        expect(step).toBeDefined();
+        expect(step!.description).toContain("docUrl");
+    });
 
-        it("leaves an already-set subType untouched", () => {
-            expect(
-                migrate({ type: "affiliation", system: { subType: "divine" } }),
-            ).toBeUndefined();
-        });
+    it("targets exactly the document kinds that carried the field", () => {
+        // `defineSohlDataSchema` was spread into the Actor and Item system
+        // schemas. Combatants carry it too but are never walked by the runner,
+        // and effects / region behaviours never had it.
+        expect(Object.keys(step!.migrators ?? {}).sort()).toEqual([
+            "Actor",
+            "Item",
+        ]);
+    });
 
-        it("replaces a subType that is not a declared choice", () => {
-            // A hand-edited or third-party value would fail schema validation and
-            // be silently dropped; stamping the default keeps the item loadable.
-            expect(
-                migrate({
-                    type: "affiliation",
-                    system: { subType: "religious" },
-                }),
-            ).toEqual({ "system.subType": "social" });
-        });
+    for (const kind of ["Actor", "Item"] as const) {
+        describe(kind, () => {
+            const migrate = () => step!.migrators![kind]!;
 
-        it("ignores items of every other type", () => {
-            expect(migrate({ type: "skill", system: {} })).toBeUndefined();
-            expect(migrate({ type: "mystery", system: {} })).toBeUndefined();
-        });
+            it("omits docUrl from the payload", () => {
+                const update = migrate()({
+                    type: "skill",
+                    system: {
+                        shortcode: "sk-x",
+                        docUrl: "https://heroiclands.org/sohl/skill/x/",
+                        masteryLevelBase: 30,
+                    },
+                });
+                expect(update).toEqual({
+                    system: { shortcode: "sk-x", masteryLevelBase: 30 },
+                });
+                expect(update!.system).not.toHaveProperty("docUrl");
+            });
 
-        it("tolerates an affiliation with no system data at all", () => {
-            expect(migrate({ type: "affiliation" })).toEqual({
-                "system.subType": "social",
+            it("writes the whole system object back, never a deletion key", () => {
+                // Foundry v14 prunes any key absent from the schema out of the
+                // change set too, so `{"system.-=docUrl": null}` would delete
+                // nothing. A root-level key is the only payload the runner's
+                // non-recursive update turns into a forced replacement.
+                const update = migrate()({
+                    type: "being",
+                    system: { shortcode: "b-x" },
+                });
+                expect(Object.keys(update!)).toEqual(["system"]);
+            });
+
+            it("preserves every other field verbatim, including arrays", () => {
+                const system = {
+                    shortcode: "b-x",
+                    actionDefs: [{ shortcode: "a", subType: "intrinsic" }],
+                    nested: { deep: [1, 2, 3] },
+                };
+                const update = migrate()({ type: "being", system });
+                expect(update!.system).toEqual(system);
+            });
+
+            it("does not mutate the source it was handed", () => {
+                const system = { shortcode: "b-x", docUrl: "https://x.test/" };
+                migrate()({ type: "being", system });
+                expect(system.docUrl).toBe("https://x.test/");
+            });
+
+            it("no-ops for a document that carries no system data", () => {
+                expect(migrate()({ type: "base" })).toBeUndefined();
+            });
+
+            it("still emits a payload when the source shows no docUrl", () => {
+                // The runner only writes when the payload is non-empty, and
+                // rewriting the record is the whole point: Foundry has already
+                // pruned docUrl out of the source a migrator can see, so the
+                // stale value survives only in the database until the document
+                // is written again.
+                const update = migrate()({
+                    type: "being",
+                    system: { shortcode: "b-x" },
+                });
+                expect(update).toEqual({ system: { shortcode: "b-x" } });
             });
         });
+    }
 
-        it("does not mutate the source it is handed", () => {
-            const source: MigrationSource = {
+    it("folds through the runner for a world upgrading to 0.9.0", () => {
+        const plan = planMigrations("0.8.2", "0.9.0");
+        expect(plan.map((s) => s.version)).toContain("0.9.0");
+        const update = migrateDocumentSource(
+            {
+                type: "weapongear",
+                system: { shortcode: "wg-x", docUrl: "https://x.test/" },
+            },
+            "Item",
+            plan,
+        );
+        expect(update).toEqual({ system: { shortcode: "wg-x" } });
+    });
+
+    it("does not run for a world already at 0.9.0", () => {
+        expect(planMigrations("0.9.0", "0.9.0")).toEqual([]);
+    });
+});
+
+// ---------------------------------------------------------------------------
+// 0.9.0 — stamp the new required affiliation subType (#1405)
+// ---------------------------------------------------------------------------
+
+describe("0.9.0 — affiliation subType (#1405)", () => {
+    const step = SOHL_MIGRATIONS.find((s) =>
+        s.description.toLowerCase().includes("affiliation"),
+    );
+    const migrate = (source: MigrationSource) => step!.migrators!.Item!(source);
+
+    it("is registered at the version that adds the field, with an Item migrator", () => {
+        expect(step).toBeDefined();
+        expect(step!.version).toBe("0.9.0");
+        expect(Object.keys(step!.migrators ?? {})).toEqual(["Item"]);
+    });
+
+    it("stamps the social default on an affiliation with no subType", () => {
+        expect(
+            migrate({ type: "affiliation", system: { society: "Guild" } }),
+        ).toEqual({ system: { society: "Guild", subType: "social" } });
+    });
+
+    it("stamps an affiliation whose subType is blank or null", () => {
+        expect(
+            migrate({ type: "affiliation", system: { subType: "" } }),
+        ).toEqual({ system: { subType: "social" } });
+        expect(
+            migrate({ type: "affiliation", system: { subType: null } }),
+        ).toEqual({ system: { subType: "social" } });
+    });
+
+    it("replaces a subType that is not a declared choice", () => {
+        // A hand-edited or third-party value fails the field's `choices`
+        // validation and is dropped, landing where an absent value does.
+        expect(
+            migrate({ type: "affiliation", system: { subType: "religious" } }),
+        ).toEqual({ system: { subType: "social" } });
+    });
+
+    it("leaves an already-valid subType alone, writing nothing", () => {
+        expect(
+            migrate({ type: "affiliation", system: { subType: "divine" } }),
+        ).toBeUndefined();
+    });
+
+    it("ignores items of every other type", () => {
+        expect(migrate({ type: "skill", system: {} })).toBeUndefined();
+        expect(migrate({ type: "mystery", system: {} })).toBeUndefined();
+    });
+
+    it("preserves every other field verbatim — the payload replaces, it does not merge", () => {
+        // The runner updates non-recursively, so a bare `{"system.subType": …}`
+        // would replace the whole system object with that one key.
+        const system = {
+            shortcode: "aff-x",
+            society: "Guild",
+            level: 3,
+            relation: { peoni: "nemesis" },
+        };
+        expect(migrate({ type: "affiliation", system })).toEqual({
+            system: { ...system, subType: "social" },
+        });
+    });
+
+    it("tolerates an affiliation with no system data at all", () => {
+        expect(migrate({ type: "affiliation" })).toEqual({
+            system: { subType: "social" },
+        });
+    });
+
+    it("does not mutate the source it was handed", () => {
+        const system = { society: "Guild" };
+        migrate({ type: "affiliation", system });
+        expect(system).toEqual({ society: "Guild" });
+    });
+
+    it("folds through the runner alongside the docUrl strip", () => {
+        const plan = planMigrations("0.8.2", "0.9.0");
+        const update = migrateDocumentSource(
+            {
                 type: "affiliation",
-                system: { society: "Guild" },
-            };
-            migrate(source);
-            expect(source.system).toEqual({ society: "Guild" });
+                system: { shortcode: "aff-x", docUrl: "https://x.test/" },
+            },
+            "Item",
+            plan,
+        );
+        // One `system` replacement carries both changes: the source a migrator
+        // sees has already been pruned of docUrl by Foundry.
+        expect(update).toEqual({
+            system: { shortcode: "aff-x", subType: "social" },
         });
     });
 });
