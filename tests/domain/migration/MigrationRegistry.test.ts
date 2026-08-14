@@ -6,6 +6,7 @@ import {
     SOHL_MIGRATIONS,
     type MigrationStep,
 } from "@src/entity/migration/MigrationRegistry";
+import { compareVersions } from "@src/entity/migration/version";
 
 /** A few synthetic steps to exercise the planner/folder without real migrations. */
 const STEPS: MigrationStep[] = [
@@ -138,11 +139,126 @@ describe("resolveFromVersion", () => {
 });
 
 describe("SOHL_MIGRATIONS", () => {
-    it("ships empty — infrastructure only (#957)", () => {
-        expect(SOHL_MIGRATIONS).toEqual([]);
-    });
-
     it("is frozen so the registry cannot be mutated at runtime", () => {
         expect(Object.isFrozen(SOHL_MIGRATIONS)).toBe(true);
+    });
+
+    it("is registered in ascending version order", () => {
+        const versions = SOHL_MIGRATIONS.map((s) => s.version);
+        expect(versions).toEqual([...versions].sort(compareVersions));
+    });
+
+    it("describes every step", () => {
+        for (const step of SOHL_MIGRATIONS) {
+            expect(step.version).toMatch(/^\d+\.\d+\.\d+/);
+            expect(step.description.length).toBeGreaterThan(0);
+        }
+    });
+});
+
+// ---------------------------------------------------------------------------
+// 0.9.0 — strip the retired system.docUrl field (#1394)
+// ---------------------------------------------------------------------------
+
+describe("0.9.0 — strip system.docUrl (#1394)", () => {
+    const step = SOHL_MIGRATIONS.find((s) => s.version === "0.9.0");
+
+    it("is registered at the version that removes the field", () => {
+        expect(step).toBeDefined();
+        expect(step!.description).toContain("docUrl");
+    });
+
+    it("targets exactly the document kinds that carried the field", () => {
+        // `defineSohlDataSchema` was spread into the Actor and Item system
+        // schemas. Combatants carry it too but are never walked by the runner,
+        // and effects / region behaviours never had it.
+        expect(Object.keys(step!.migrators ?? {}).sort()).toEqual([
+            "Actor",
+            "Item",
+        ]);
+    });
+
+    for (const kind of ["Actor", "Item"] as const) {
+        describe(kind, () => {
+            const migrate = () => step!.migrators![kind]!;
+
+            it("omits docUrl from the payload", () => {
+                const update = migrate()({
+                    type: "skill",
+                    system: {
+                        shortcode: "sk-x",
+                        docUrl: "https://heroiclands.org/sohl/skill/x/",
+                        masteryLevelBase: 30,
+                    },
+                });
+                expect(update).toEqual({
+                    system: { shortcode: "sk-x", masteryLevelBase: 30 },
+                });
+                expect(update!.system).not.toHaveProperty("docUrl");
+            });
+
+            it("writes the whole system object back, never a deletion key", () => {
+                // Foundry v14 prunes any key absent from the schema out of the
+                // change set too, so `{"system.-=docUrl": null}` would delete
+                // nothing. A root-level key is the only payload the runner's
+                // non-recursive update turns into a forced replacement.
+                const update = migrate()({
+                    type: "being",
+                    system: { shortcode: "b-x" },
+                });
+                expect(Object.keys(update!)).toEqual(["system"]);
+            });
+
+            it("preserves every other field verbatim, including arrays", () => {
+                const system = {
+                    shortcode: "b-x",
+                    actionDefs: [{ shortcode: "a", subType: "intrinsic" }],
+                    nested: { deep: [1, 2, 3] },
+                };
+                const update = migrate()({ type: "being", system });
+                expect(update!.system).toEqual(system);
+            });
+
+            it("does not mutate the source it was handed", () => {
+                const system = { shortcode: "b-x", docUrl: "https://x.test/" };
+                migrate()({ type: "being", system });
+                expect(system.docUrl).toBe("https://x.test/");
+            });
+
+            it("no-ops for a document that carries no system data", () => {
+                expect(migrate()({ type: "base" })).toBeUndefined();
+            });
+
+            it("still emits a payload when the source shows no docUrl", () => {
+                // The runner only writes when the payload is non-empty, and
+                // rewriting the record is the whole point: Foundry has already
+                // pruned docUrl out of the source a migrator can see, so the
+                // stale value survives only in the database until the document
+                // is written again.
+                const update = migrate()({
+                    type: "being",
+                    system: { shortcode: "b-x" },
+                });
+                expect(update).toEqual({ system: { shortcode: "b-x" } });
+            });
+        });
+    }
+
+    it("folds through the runner for a world upgrading to 0.9.0", () => {
+        const plan = planMigrations("0.8.2", "0.9.0");
+        expect(plan.map((s) => s.version)).toContain("0.9.0");
+        const update = migrateDocumentSource(
+            {
+                type: "weapongear",
+                system: { shortcode: "wg-x", docUrl: "https://x.test/" },
+            },
+            "Item",
+            plan,
+        );
+        expect(update).toEqual({ system: { shortcode: "wg-x" } });
+    });
+
+    it("does not run for a world already at 0.9.0", () => {
+        expect(planMigrations("0.9.0", "0.9.0")).toEqual([]);
     });
 });

@@ -65,13 +65,22 @@ export interface MigrationSource {
 
 /**
  * A per-document-kind migrator. Receives the document's serialized source and
- * returns a **flattened update payload** (Foundry dot-path keys, e.g.
- * `{ "system.foo": 1 }`) to write, or `undefined` / an empty object for a no-op.
+ * returns an update payload to write, or `undefined` / an empty object for a
+ * no-op. A migrator must not mutate `source`.
  *
- * The payload is a Foundry `document.update()` argument, so express nested
- * changes as dot paths and write a **whole array** back rather than an element by
- * index (see the array-field contract in the runtime-contracts reference). A
- * migrator must not mutate `source`.
+ * **The payload replaces, it does not merge.** The runner updates with
+ * `recursive: false`, and a non-recursive Foundry update treats every root-level
+ * key as a forced replacement of that whole object — dot paths are expanded
+ * first, so `{ "system.foo": 1 }` replaces the document's entire `system` with
+ * `{ foo: 1 }`. Build the payload by spreading the source object and editing the
+ * copy: `{ system: { ...source.system, foo: 1 } }`. The same rule makes a whole
+ * array the only safe way to change an array field (see the array-field contract
+ * in the runtime-contracts reference).
+ *
+ * A key that has already left the schema **cannot be deleted** by a `-=` payload:
+ * Foundry prunes undeclared keys out of the change set. Omit it from a
+ * replacement payload instead — see the migration reference at
+ * https://kb.heroiclands.org/dev/reference/migration/.
  */
 export type DocMigrator = (
     source: MigrationSource,
@@ -94,14 +103,54 @@ export interface MigrationStep {
 }
 
 /**
+ * Rewrite a document's `system` object with the retired `docUrl` key removed
+ * (#1394).
+ *
+ * `docUrl` persisted an absolute documentation URL into every compiled item and,
+ * on import, into every world; nothing ever read it. Removing it from the schema
+ * is enough for the running client — Foundry prunes any key its schema does not
+ * declare out of a document's source the moment the document is constructed —
+ * but that same pruning is why the stale value cannot be deleted by key: a
+ * `{"system.-=docUrl": null}` change set is pruned before it can delete anything.
+ * The value survives only in the stored record, which is rewritten from the
+ * (already pruned) source the next time the document is written at all.
+ *
+ * So the migrator hands back the document's own `system` object, minus `docUrl`.
+ * The runner updates with `recursive: false`, which makes a root-level key a
+ * forced replacement of the whole object, and the write persists the pruned
+ * source. Nothing else changes — the payload is the document's current data.
+ *
+ * The payload is unconditional because a migrator cannot tell whether a given
+ * document still carries the key: by the time it sees the source, Foundry has
+ * already pruned it. Each actor and item is therefore rewritten once.
+ *
+ * @param source - The document's serialized source.
+ * @returns The replacement payload, or `undefined` for a document with no
+ *   system data.
+ */
+const stripDocUrl: DocMigrator = (source) => {
+    if (!source.system) return undefined;
+    const system = { ...source.system };
+    delete system.docUrl;
+    return { system };
+};
+
+/**
  * The ordered list of world migrations.
  *
- * **Empty — this is infrastructure only (#957).** No data migration is required
- * at this time; the runner, version comparison, per-type dispatch, and version
- * stamping are all in place so a future migration plugs in as one frozen entry
- * here (append in version order — the planner sorts defensively regardless).
+ * Append in version order — the planner sorts defensively regardless — and stamp
+ * each step with the system version that introduces it, so a world upgrading past
+ * that version runs it exactly once.
  */
-export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([]);
+export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
+    {
+        version: "0.9.0",
+        description:
+            "Strip the retired system.docUrl field, which baked an external " +
+            "documentation URL into world data (#1394).",
+        migrators: { Actor: stripDocUrl, Item: stripDocUrl },
+    },
+]);
 
 /**
  * Select the migration steps to run for a world, in ascending version order.
