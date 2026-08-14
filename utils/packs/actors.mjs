@@ -495,6 +495,7 @@ export class Actors {
                         docs: this.contentDocs,
                         name: resolveName(fm),
                         pkg: fm.package,
+                        fm,
                     }),
                     {
                         type: fm.type,

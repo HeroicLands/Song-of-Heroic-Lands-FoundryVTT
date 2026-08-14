@@ -105,7 +105,7 @@ compilers cannot:
   following links. An unlinked note still compiles and still publishes; it is
   simply impossible to arrive at by reading.
 
-`(@Table …)` directives are expanded before the walk, so a link generated into a
+Fenced `dataview` tables are expanded before the walk, so a link generated into a
 table row counts as a real link on both counts. Links that cannot be resolved at
 all are reported by both content builds.
 

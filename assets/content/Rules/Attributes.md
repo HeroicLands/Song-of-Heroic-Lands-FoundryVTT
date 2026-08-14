@@ -23,4 +23,11 @@ the attributes that skill depends on, so a character's
 innate capacities shape what they can readily learn. They are also tested
 directly when a situation calls on raw capacity rather than trained technique.
 
-(@Table search=[type:attribute] columns=[Name:name.full, Shortcode:shortcode, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  description AS "Description"
+WHERE type = "attribute"
+SORT name.full ASC
+```

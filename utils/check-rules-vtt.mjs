@@ -25,7 +25,7 @@
  * Move such prose there rather than deleting it.
  *
  * Scans every `.md` file under `assets/content/Rules/`, skipping YAML
- * frontmatter and `(@Table …)` directives (both are structural, not prose).
+ * frontmatter and fenced `dataview` blocks (both are structural, not prose).
  * Prints offending `file:line` locations and exits non-zero on any match.
  *
  * Usage:
@@ -62,14 +62,25 @@ const violations = [];
 for (const file of walk(ROOT)) {
     const lines = readFileSync(file, "utf8").split("\n");
     let inFrontmatter = lines[0]?.trim() === "---";
+    /** The fence marker of the `dataview` block currently open, if any. */
+    let inQuery = null;
     lines.forEach((line, i) => {
         if (inFrontmatter) {
             if (i > 0 && line.trim() === "---") inFrontmatter = false;
             return;
         }
-        // `(@Table search=[…] columns=[…])` directives are generated-table
-        // configuration, not prose.
-        if (line.trimStart().startsWith("(@Table ")) return;
+        // A fenced `dataview` block is generated-table configuration, not prose.
+        if (inQuery) {
+            if (new RegExp(`^[ \\t]*${inQuery}[ \\t]*$`).test(line)) {
+                inQuery = null;
+            }
+            return;
+        }
+        const fence = /^[ \t]*(`{3,}|~{3,})[ \t]*dataview\b/i.exec(line);
+        if (fence) {
+            inQuery = `${fence[1][0]}{${fence[1].length},}`;
+            return;
+        }
         for (const [pattern, why] of FORBIDDEN) {
             if (pattern.test(line)) {
                 violations.push(

@@ -455,12 +455,11 @@ for (const file of walk(CONTENT_SRC)) {
         name,
         slug,
         base,
-        // Top-level content directory ("Rules", "Skills", …) — a generated
-        // table's `tld:` search key. Wikilinks no longer use it: they address a
-        // note as `type/shortcode`, wherever it is filed.
+        // Top-level content directory ("Rules", "Skills", …). Wikilinks do not
+        // use it: they address a note as `type/shortcode`, wherever it is filed.
         tld: path.relative(CONTENT_SRC, file).split(path.sep)[0],
         // Location below the content root, POSIX-separated — what a generated
-        // table's `path:` search term globs.
+        // table reads as `file.path`, and scopes on with `FROM "…"`.
         relPath: path.relative(CONTENT_SRC, file).split(path.sep).join("/"),
         // Immediate source subfolder (Creatures/Animal/Aurochs.md → "Animal") —
         // the only surviving record of the authoring folder, for grouped landings.
@@ -614,7 +613,7 @@ for (const e of entries) {
 }
 
 // --- Generated tables ----------------------------------------------------
-// The universe a `(@Table …)` directive searches: every reference page, grouped
+// The universe a `dataview` table searches: every reference page, grouped
 // by package so a SoHL page never tabulates setting-package content. Reference
 // pages only — a developer doc documents the syntax, it does not tabulate content.
 const docsByPackage = new Map();
@@ -704,12 +703,17 @@ for (const e of entries) {
             :   path.join(OUT, sec, `${slug}.md`);
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         // Tables expand before wikilinks resolve, so a generated cell may
-        // itself be a wikilink — the same order the pack compilers use.
+        // itself be a wikilink — the same order the pack compilers use. It also
+        // runs *outside* protectCode: a table is authored as a fenced
+        // `dataview` block, which protectCode would otherwise stash away before
+        // the expander ever saw it. Expanding first leaves an ordinary markdown
+        // table for `resolve` to walk, and every other fence still protected.
         const expandTables = (t) => {
             const { markdown, errors } = expandContentTables(t, {
                 docs: docsByPackage.get(fm.package) ?? [],
                 linkable: tableLinkable,
                 source: src,
+                self: { fm, path: e.relPath },
             });
             tableErrors.push(...errors);
             return markdown;
@@ -717,7 +721,7 @@ for (const e of entries) {
         fs.writeFileSync(
             dest,
             matter.stringify(
-                protectCode(e.body, (t) => resolve(expandTables(t))),
+                protectCode(expandTables(e.body), (t) => resolve(t)),
                 data,
             ),
         );

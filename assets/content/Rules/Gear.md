@@ -83,63 +83,213 @@ miscellaneous gear.
 
 ## Cash
 
-(@Table search=[type:miscgear, sohl.kbcat=cash] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "cash"
+SORT name.full ASC
+```
 
 ## Cooking
 
-(@Table search=[type:miscgear, sohl.kbcat=cooking] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "cooking"
+SORT name.full ASC
+```
 
 ## Dye
 
-(@Table search=[type:miscgear, sohl.kbcat=dye] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "dye"
+SORT name.full ASC
+```
 
 ## Expedition
 
-(@Table search=[type:miscgear, sohl.kbcat=expedition] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "expedition"
+SORT name.full ASC
+```
 
 ## Food
 
-(@Table search=[type:miscgear, sohl.kbcat=food] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "food"
+SORT name.full ASC
+```
 
 ## Instruments
 
-(@Table search=[type:miscgear, sohl.kbcat=instruments] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "instruments"
+SORT name.full ASC
+```
 
 ## Jewelry
 
-(@Table search=[type:miscgear, sohl.kbcat=jewelry] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "jewelry"
+SORT name.full ASC
+```
 
 ## Lighting
 
-(@Table search=[type:miscgear, sohl.kbcat=lighting] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "lighting"
+SORT name.full ASC
+```
 
 ## Music
 
-(@Table search=[type:miscgear, sohl.kbcat=music] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "music"
+SORT name.full ASC
+```
 
 ## Natural Items
 
-(@Table search=[type:miscgear, sohl.kbcat=natural] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "natural"
+SORT name.full ASC
+```
 
 ## Religious
 
-(@Table search=[type:miscgear, sohl.kbcat=religious] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "religious"
+SORT name.full ASC
+```
 
 ## Scribe Materials
 
-(@Table search=[type:miscgear, sohl.kbcat=scribe] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "scribe"
+SORT name.full ASC
+```
 
 ## Spirits and Brews
 
-(@Table search=[type:miscgear, sohl.kbcat=spirits] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "spirits"
+SORT name.full ASC
+```
 
 ## Stone
 
-(@Table search=[type:miscgear, sohl.kbcat=stone] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "stone"
+SORT name.full ASC
+```
 
 ## Tack
 
-(@Table search=[type:miscgear, sohl.kbcat=tack] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "miscgear" and sohl.kbcat = "tack"
+SORT name.full ASC
+```
 
 # Container Gear
 
@@ -155,7 +305,18 @@ hierarchy. The weight of a container's contents still counts toward the
 character's carried weight while the container is carried — a full pack is no
 lighter than the sum of what is in it.
 
-(@Table search=[type:containergear] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Capacity:sohl.maxCapacity, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.maxCapacity AS "Capacity",
+  description AS "Description"
+WHERE type = "containergear"
+SORT name.full ASC
+```
 
 # Weapons {#weapons}
 
@@ -195,59 +356,199 @@ would suggest. A weapon with no encumbrance value contributes only its weight.
 
 ## Bows
 
-(@Table search=[type:weapongear, sohl.kbcat:bow] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "bow"
+SORT name.full ASC
+```
 
 ## Crossbows
 
-(@Table search=[type:weapongear, sohl.kbcat=crossbow] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "crossbow"
+SORT name.full ASC
+```
 
 ## Slings
 
-(@Table search=[type:weapongear, sohl.kbcat=sling] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "sling"
+SORT name.full ASC
+```
 
 ## Thrown
 
-(@Table search=[type:weapongear, sohl.kbcat=thrown] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "thrown"
+SORT name.full ASC
+```
 
 ## Flails
 
-(@Table search=[type:weapongear, sohl.kbcat=flail] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "flail"
+SORT name.full ASC
+```
 
 ## Swords
 
-(@Table search=[type:weapongear, sohl.kbcat=sword] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "sword"
+SORT name.full ASC
+```
 
 ## Axes
 
-(@Table search=[type:weapongear, sohl.kbcat=axe] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "axe"
+SORT name.full ASC
+```
 
 ## Clubs
 
-(@Table search=[type:weapongear, sohl.kbcat=club] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "club"
+SORT name.full ASC
+```
 
 ## Knives
 
-(@Table search=[type:weapongear, sohl.kbcat=knife] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "knife"
+SORT name.full ASC
+```
 
 ## Polearms
 
-(@Table search=[type:weapongear, sohl.kbcat=polearm] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "polearm"
+SORT name.full ASC
+```
 
 ## Nets
 
-(@Table search=[type:weapongear, sohl.kbcat=net] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "net"
+SORT name.full ASC
+```
 
 ## Whips
 
-(@Table search=[type:weapongear, sohl.kbcat=whip] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "whip"
+SORT name.full ASC
+```
 
 ## Shields
 
-(@Table search=[type:weapongear, sohl.kbcat=shield] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "shield"
+SORT name.full ASC
+```
 
 # Siege Weapons
 
-(@Table search=[type:weapongear, sohl.kbcat=siege] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "weapongear" and sohl.kbcat = "siege"
+SORT name.full ASC
+```
 
 # Projectiles
 
@@ -266,7 +567,17 @@ behave — for example, a **broadhead** arrow.
 Projectiles are ordinarily tracked in quantity (a bundle of arrows) and are
 expended as they are used.
 
-(@Table search=[type:projectilegear] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  description AS "Description"
+WHERE type = "projectilegear"
+SORT name.full ASC
+```
 
 # Armor
 
@@ -363,39 +674,183 @@ the cowl does to sight and hearing, and a wearer cannot be blinded twice over.
 
 ## Cloth
 
-(@Table search=[type:armorgear, sohl.kbcat=cloth] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "cloth"
+SORT name.full ASC
+```
 
 ## Gambeson
 
-(@Table search=[type:armorgear, sohl.kbcat=gambeson] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "gambeson"
+SORT name.full ASC
+```
 
 ## Kurbul
 
-(@Table search=[type:armorgear, sohl.kbcat=kurbul] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "kurbul"
+SORT name.full ASC
+```
 
 ## Leather
 
-(@Table search=[type:armorgear, sohl.kbcat=leather] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "leather"
+SORT name.full ASC
+```
 
 ## Mail
 
-(@Table search=[type:armorgear, sohl.kbcat=mail] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "mail"
+SORT name.full ASC
+```
 
 ## Padded
 
-(@Table search=[type:armorgear, sohl.kbcat=padded] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "padded"
+SORT name.full ASC
+```
 
 ## Plate
 
-(@Table search=[type:armorgear, sohl.kbcat=plate] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "plate"
+SORT name.full ASC
+```
 
 ## Quilted
 
-(@Table search=[type:armorgear, sohl.kbcat=quilted] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "quilted"
+SORT name.full ASC
+```
 
 ## Scale
 
-(@Table search=[type:armorgear, sohl.kbcat=scale] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.weight, Value:sohl.value, Durability:sohl.durability, Encumbrance:sohl.encumbrance, Harness:sohl.encumbranceGroup, Perception:sohl.perceptionPenaltyBase, B:sohl.protection.blunt, E:sohl.protection.edged, P:sohl.protection.piercing, F:sohl.protection.fire])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.weight AS "Weight",
+  sohl.value AS "Value",
+  sohl.durability AS "Durability",
+  sohl.encumbrance AS "Encumbrance",
+  sohl.encumbranceGroup AS "Harness",
+  sohl.perceptionPenaltyBase AS "Perception",
+  sohl.protection.blunt AS "B",
+  sohl.protection.edged AS "E",
+  sohl.protection.piercing AS "P",
+  sohl.protection.fire AS "F"
+WHERE type = "armorgear" and sohl.kbcat = "scale"
+SORT name.full ASC
+```
 
 # Concoctions
 

@@ -15,21 +15,57 @@ folder: RqKUTBUBN2Y3MHYB
 
 # Animals
 
-(@Table search=[type:creature, sohl.kbcat=animal] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "animal"
+SORT name.full ASC
+```
 
 # Constructs
 
 Golems are powerful, magical constructs animated by the mystical arts of skilled magicians. Crafted from a variety of materials such as clay, stone, iron, or other substances, these humanoid figures are brought to life through the infusion of arcane energy and complex enchantments. Unlike living creatures, golems lack free will and consciousness, operating solely under the commands and directives of their creators. Their imposing forms and immense strength make them formidable guardians and relentless enforcers, capable of executing simple but crucial tasks with precision and unwavering loyalty. The intricate runes and mystical symbols often etched into their surfaces are the binding spells that maintain their animation and tireless purpose. Golems are typically found guarding ancient treasures, sacred sites, or serving as tireless laborers in tasks too dangerous or demanding for mortal hands, embodying the pinnacle of magical craftsmanship and arcane ingenuity.
 
-(@Table search=[type:creature, sohl.kbcat=construct] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "construct"
+SORT name.full ASC
+```
 
 # Dreadspawn
 
-(@Table search=[type:creature, sohl.kbcat=dreadspawn] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "dreadspawn"
+SORT name.full ASC
+```
 
 # Elementals
 
-(@Table search=[type:creature, sohl.kbcat=elemental] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "elemental"
+SORT name.full ASC
+```
 
 # Grukar - A Blight Upon the Land {#grukar}
 
@@ -141,7 +177,16 @@ enhanced with poisons and toxins. Whether lurking in the underbrush or hiding
 in the shadows, goblins present a constant nuisance and danger to adventurers
 with their unpredictable and treacherous nature.
 
-(@Table search=[type:creature, sohl.kbcat=goblin] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "goblin"
+SORT name.full ASC
+```
 
 # Helspawn
 
@@ -210,12 +255,39 @@ below the Nightwight tier degrade over time — the soul fragments eroding, the
 body decaying, identity slipping away week by week until nothing remains but
 the mindless hunger.
 
-(@Table search=[type:creature, sohl.kbcat=helspawn] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "helspawn"
+SORT name.full ASC
+```
 
 # Mythic Creatures
 
-(@Table search=[type:creature, sohl.kbcat=mythic] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "mythic"
+SORT name.full ASC
+```
 
 # Spirit Creatures
 
-(@Table search=[type:creature, sohl.kbcat=spirit] columns=[Name:name.full, Shortcode:shortcode, Weight:sohl.body.structure.weight.base, BodyScale:sohl.body.structure.bodyScaleBase, Description:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  shortcode AS "Shortcode",
+  sohl.body.structure.weight.base AS "Weight",
+  sohl.body.structure.bodyScaleBase AS "BodyScale",
+  description AS "Description"
+WHERE type = "creature" and sohl.kbcat = "spirit"
+SORT name.full ASC
+```

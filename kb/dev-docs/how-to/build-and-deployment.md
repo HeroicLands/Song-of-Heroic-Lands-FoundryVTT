@@ -262,7 +262,7 @@ both content builds silently, so `npm run lint:content-links` (also part of
   unlinked note still compiles and still publishes; it is simply impossible to
   arrive at by reading. Link each one from the chapter that owns it. The walk
   resolves links exactly as the builds do — `type/shortcode` first, then a
-  type-scoped alias — and expands `(@Table …)` directives first, so a generated
+  type-scoped alias — and expands fenced `dataview` tables first, so a generated
   row link counts. It stops **at** the glossary rather than walking through it:
   an index links to nearly everything, and following it would make the check
   vacuous.

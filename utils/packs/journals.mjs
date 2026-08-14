@@ -280,6 +280,7 @@ export class Journals {
             docs: this.contentDocs,
             name,
             pkg: fm.package,
+            fm,
         });
         const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
             type: fm.type,

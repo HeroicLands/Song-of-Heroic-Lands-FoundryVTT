@@ -29,7 +29,7 @@
  *
  * Both checks resolve wikilinks the way the builds do (see
  * `utils/kb-wikilinks.mjs`): `type/shortcode` first, then an alias scoped to the
- * source note's own type. `(@Table …)` directives are expanded first, so a
+ * source note's own type. Fenced `dataview` tables are expanded first, so a
  * generated row link counts as a real link.
  *
  * Usage:
@@ -120,7 +120,7 @@ for (const note of notes) {
     }
 }
 
-/** The searchable universe a `(@Table …)` directive draws its rows from. */
+/** The searchable universe a `dataview` table draws its rows from. */
 const tableDocs = notes.map((n) => ({
     fm: n.fm,
     path: path.relative(CONTENT, n.file).split(path.sep).join("/"),
@@ -140,14 +140,14 @@ function anchorsOf(note) {
 const anchors = new Map(notes.map((n) => [n, anchorsOf(n)]));
 
 /**
- * Every wikilink in a note body, with its table directives already expanded.
+ * Every wikilink in a note body, with its `dataview` tables already expanded.
  *
  * @returns {Array<{target: string, anchor: string}>} `target` is `""` for a
  *   same-page `[[#anchor]]` link.
  */
 function linksOf(note) {
     let body = note.body;
-    if (body.includes("(@Table ")) {
+    if (/^[ \t]*(?:`{3,}|~{3,})[ \t]*dataview\b/im.test(body)) {
         body = expandContentTables(body, {
             docs: tableDocs.filter((d) => d.fm.package === note.fm.package),
             linkable: (d) => Boolean(d.fm.shortcode),
