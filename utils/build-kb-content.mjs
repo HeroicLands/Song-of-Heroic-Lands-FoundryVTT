@@ -34,6 +34,7 @@ import matter from "gray-matter";
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
 import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
 import { expandContentTables } from "./content-tables.mjs";
+import { applyRedirects, pageRedirects } from "./kb-redirects.mjs";
 import { isItemDocType } from "./packs/item-docs.mjs";
 
 const REPO = path.resolve(".");
@@ -283,16 +284,6 @@ const README_META = {
     "user-guide": { title: "User Guide", banner: "banners/user-guide.webp" },
     rules: { title: "Rules", banner: "banners/rules.webp" },
 };
-
-/**
- * Old (pre-split) section URL a moved page redirects from, so existing links and
- * bookmarks don't 404: every `type: doc` page used to live under `/guide/`
- * except the developer docs, which were under `/dev/`.
- */
-function oldSectionOf(fm, isDevDoc) {
-    if (fm.type !== "doc") return fm.type;
-    return isDevDoc ? "dev" : "guide";
-}
 
 /** Gear item `type` → the `sohl.gear` group key the equipment sidebar renders. */
 const GEAR_TYPE_TO_KEY = {
@@ -649,38 +640,16 @@ const wikiCtx = (src, type = null) => ({
 
 // --- Write phase ---------------------------------------------------------
 for (const e of entries) {
-    const { fm, name, slug, sec, url, base, isReadme } = e;
+    const { fm, name, slug, sec, base, isReadme } = e;
     const src = e.rel ?? `${sec}/${base}`;
     const resolve = (t) =>
         resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.fm.type));
 
     // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
-    // live under /guide/ (assets/content) or /dev/ (developer docs).
-    const aliases = new Set(Array.isArray(fm.aliases) ? fm.aliases : []);
-    // The pre-shortcode URL (#1278), so existing links and bookmarks still land.
-    const legacy =
-        e.kind === "content" ?
-            legacySlugs[`${fm.type}:${fm.shortcode}`]
-        :   undefined;
-    if (legacy) aliases.add(`/${sec}/${legacy}/`);
-    const oldSec = e.kind === "dev" ? "dev" : oldSectionOf(fm, false);
-    if (oldSec !== sec) {
-        if (e.kind === "dev") {
-            const relNoExt = e.rel.slice(0, -3).toLowerCase();
-            const dir = path.posix.dirname(relNoExt);
-            aliases.add(
-                isReadme ?
-                    dir === "." ?
-                        `/${oldSec}/`
-                    :   `/${oldSec}/${dir}/`
-                :   `/${oldSec}/${relNoExt}/`,
-            );
-        } else {
-            aliases.add(`/${oldSec}/${legacy ?? slug}/`);
-            if (isReadme) aliases.add(`/${oldSec}/`);
-        }
-    }
-    aliases.delete(url);
+    // live under /guide/ (assets/content) or /dev/ (developer docs), and content
+    // notes at a pre-shortcode slug. Wholly generated — an authored (Obsidian)
+    // `aliases` is a list of *names*, never a URL, so it never lands here.
+    const redirects = pageRedirects(e, legacySlugs);
 
     if (e.kind === "content") {
         const data = {
@@ -697,7 +666,7 @@ for (const e of entries) {
             if (meta)
                 Object.assign(data, { title: meta.title, banner: meta.banner });
         }
-        if (aliases.size) data.aliases = [...aliases];
+        applyRedirects(data, redirects);
         const dest =
             isReadme ?
                 path.join(OUT, sec, "_index.md")
@@ -727,7 +696,7 @@ for (const e of entries) {
         const meta = isReadme ? README_META[sec] : null;
         const data = { ...fm, title: meta?.title ?? fm.title ?? name };
         if (meta?.banner) data.banner = meta.banner;
-        if (aliases.size) data.aliases = [...aliases];
+        applyRedirects(data, redirects);
         const relOut =
             isReadme ?
                 path.posix.join(path.posix.dirname(e.rel), "_index.md")

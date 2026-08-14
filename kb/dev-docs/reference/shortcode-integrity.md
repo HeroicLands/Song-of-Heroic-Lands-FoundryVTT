@@ -171,6 +171,15 @@ rather than in the URL. The knowledgebase build emits a Hugo `aliases` redirect 
 each, so a rename never orphans an inbound link. It is append-only history: never edit
 an entry, and add a row only when a page's URL changes again.
 
+**`aliases` means two different things, and only one of them is a URL.** In Obsidian a
+note's `aliases` are alternative _names_ — what a reader might call the thing, and what
+makes a bare `[[Text]]` wikilink resolve (see
+[Linking Between Content Notes](content-links.md)). In Hugo they are _redirects_. A
+display name is not an old URL, so an authored alias is never published as one: every
+redirect a page emits is **generated**, by `pageRedirects` in `utils/kb-redirects.mjs`,
+from the legacy-slug map above and from the pre-split `/guide/` → section move. Names
+stay in the vault, where they mean something.
+
 Developer docs (`kb/dev-docs/`) are not content notes — they have no shortcode and keep
 their own `slug` frontmatter, routed by source path.
 
@@ -180,6 +189,9 @@ their own `slug` frontmatter, routed by source path.
   injected `makeRandomId` stub (no Foundry).
 - **URL derivation** — `tests/build/content-slug.test.ts` covers `contentSlug` and
   `findSlugCollisions` (no Foundry).
+- **Redirects** — `tests/build/kb-redirects.test.ts` covers `pageRedirects` and
+  `applyRedirects`: the legacy-slug and section-move redirects still emit, a display-name
+  alias never does, and no page redirects to itself.
 - **Runtime + dialog + pack** — `cypress/e2e/shortcode-uniqueness.cy.js` drives the
   live client: an explicit collision is rejected on create, `shortcodeDedupe` suffixes
   it, renaming into a collision is rejected on update, and the same code on a different
