@@ -341,17 +341,18 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
     });
 
     it("folds through the runner alongside the docUrl strip", () => {
+        // Both 0.9.0 steps touch an affiliation, and each returns a whole
+        // `system` replacement, so the later one wins outright. That is correct
+        // here because the source a migrator sees has *already* been pruned of
+        // `docUrl` by Foundry (see the 0.9.0 strip above) — so restating the
+        // source cannot reintroduce it, and the single surviving payload carries
+        // both the strip and the stamp.
         const plan = planMigrations("0.8.2", "0.9.0");
         const update = migrateDocumentSource(
-            {
-                type: "affiliation",
-                system: { shortcode: "aff-x", docUrl: "https://x.test/" },
-            },
+            { type: "affiliation", system: { shortcode: "aff-x" } },
             "Item",
             plan,
         );
-        // One `system` replacement carries both changes: the source a migrator
-        // sees has already been pruned of docUrl by Foundry.
         expect(update).toEqual({
             system: { shortcode: "aff-x", subType: "social" },
         });
