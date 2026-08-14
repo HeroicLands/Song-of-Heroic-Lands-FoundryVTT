@@ -4,8 +4,10 @@ import {
     migrateDocumentSource,
     resolveFromVersion,
     SOHL_MIGRATIONS,
+    type MigrationSource,
     type MigrationStep,
 } from "@src/entity/migration/MigrationRegistry";
+import { compareVersions } from "@src/entity/migration/version";
 
 /** A few synthetic steps to exercise the planner/folder without real migrations. */
 const STEPS: MigrationStep[] = [
@@ -138,11 +140,82 @@ describe("resolveFromVersion", () => {
 });
 
 describe("SOHL_MIGRATIONS", () => {
-    it("ships empty — infrastructure only (#957)", () => {
-        expect(SOHL_MIGRATIONS).toEqual([]);
-    });
-
     it("is frozen so the registry cannot be mutated at runtime", () => {
         expect(Object.isFrozen(SOHL_MIGRATIONS)).toBe(true);
+    });
+
+    it("is ordered oldest-first and every step is version-stamped", () => {
+        const versions = SOHL_MIGRATIONS.map((s) => s.version);
+        expect(versions).toEqual([...versions].sort(compareVersions));
+        for (const step of SOHL_MIGRATIONS) {
+            expect(step.version).toMatch(/^\d+\.\d+\.\d+/);
+            expect(step.description).toBeTruthy();
+        }
+    });
+
+    describe("0.9.0 — affiliation subType (#1405)", () => {
+        const step = SOHL_MIGRATIONS.find((s) =>
+            s.description.toLowerCase().includes("affiliation"),
+        )!;
+        const migrate = (source: MigrationSource) =>
+            step.migrators!.Item!(source);
+
+        it("is registered with an Item migrator", () => {
+            expect(step).toBeDefined();
+            expect(step.version).toBe("0.9.0");
+            expect(step.migrators?.Item).toBeTypeOf("function");
+        });
+
+        it("stamps the social default on an affiliation with no subType", () => {
+            expect(
+                migrate({ type: "affiliation", system: { society: "Guild" } }),
+            ).toEqual({ "system.subType": "social" });
+        });
+
+        it("stamps an affiliation whose subType is blank or null", () => {
+            expect(
+                migrate({ type: "affiliation", system: { subType: "" } }),
+            ).toEqual({ "system.subType": "social" });
+            expect(
+                migrate({ type: "affiliation", system: { subType: null } }),
+            ).toEqual({ "system.subType": "social" });
+        });
+
+        it("leaves an already-set subType untouched", () => {
+            expect(
+                migrate({ type: "affiliation", system: { subType: "divine" } }),
+            ).toBeUndefined();
+        });
+
+        it("replaces a subType that is not a declared choice", () => {
+            // A hand-edited or third-party value would fail schema validation and
+            // be silently dropped; stamping the default keeps the item loadable.
+            expect(
+                migrate({
+                    type: "affiliation",
+                    system: { subType: "religious" },
+                }),
+            ).toEqual({ "system.subType": "social" });
+        });
+
+        it("ignores items of every other type", () => {
+            expect(migrate({ type: "skill", system: {} })).toBeUndefined();
+            expect(migrate({ type: "mystery", system: {} })).toBeUndefined();
+        });
+
+        it("tolerates an affiliation with no system data at all", () => {
+            expect(migrate({ type: "affiliation" })).toEqual({
+                "system.subType": "social",
+            });
+        });
+
+        it("does not mutate the source it is handed", () => {
+            const source: MigrationSource = {
+                type: "affiliation",
+                system: { society: "Guild" },
+            };
+            migrate(source);
+            expect(source.system).toEqual({ society: "Guild" });
+        });
     });
 });

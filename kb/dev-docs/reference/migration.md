@@ -91,8 +91,8 @@ step does not touch.
 
 ## Adding a migration
 
-The registry (`SOHL_MIGRATIONS`) ships **empty** — there is no data migration at
-this time; the machinery is in place for the future. To add one:
+Every data migration is one frozen `MigrationStep` in `SOHL_MIGRATIONS`, listed
+in version order. To add one:
 
 1. Append a frozen `MigrationStep` to `SOHL_MIGRATIONS`, stamped with the system
    `version` it is introduced at.
@@ -105,19 +105,28 @@ this time; the machinery is in place for the future. To add one:
 4. Add unit tests under `tests/domain/migration/` for the pure step and, where the
    walk matters, an e2e assertion that the stored version advanced.
 
+The registry's first step is the shape to copy — a new `required` field with no
+`initial` needs stamping onto documents that predate it, or Foundry drops the
+invalid (absent) value and the document falls back to unset:
+
 ```ts
-// Illustrative only — SOHL_MIGRATIONS is empty today.
-const example: MigrationStep = {
-    version: "0.8.0",
-    description: "Rename skill.system.foo → skill.system.bar",
+{
+    version: "0.9.0",
+    description:
+        "Stamp the new required subType on existing affiliation items (#1405)",
     migrators: {
-        Item: (src) =>
-            src.type === "skill" ?
-                { "system.bar": (src.system as any)?.foo ?? 0 }
-            :   undefined,
+        Item: (source) => {
+            if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
+            if (isAffiliationSubType(source.system?.subType)) return undefined;
+            return { "system.subType": AFFILIATION_SUBTYPE.SOCIAL };
+        },
     },
-};
+}
 ```
+
+Note it re-stamps an *unrecognized* value as well as an absent one: a value
+outside the field's `choices` fails validation and is dropped silently, which
+would leave the field unset on a document the migration had already visited.
 
 ## Resilience
 

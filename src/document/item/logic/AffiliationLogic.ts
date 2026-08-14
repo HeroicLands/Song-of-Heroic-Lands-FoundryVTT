@@ -14,6 +14,11 @@
 import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
+    AFFILIATION_STANDING,
+    type AffiliationStanding,
+    type AffiliationSubType,
+} from "@src/utils/constants";
+import {
     SohlItemBaseLogic,
     type SohlItemData,
     type SohlItemLogic,
@@ -26,10 +31,12 @@ import {
  * membership, noble house allegiance, religious order, military unit, or
  * any other organizational relationship. Each affiliation tracks:
  *
+ * - **subType** — The kind of organization (arcane / divine / spirit / social)
  * - **society** — The name of the organization
  * - **office** — A specific position held (e.g., "Captain," "Acolyte")
  * - **title** — A formal title granted (e.g., "Sir," "Elder")
  * - **level** — Rank or standing within the organization
+ * - **relation** — How the organization stands toward *other* affiliations
  *
  * Affiliations are lightweight identity records with no complex calculations.
  * They can be attached to Beings, Cohorts, Structures, or Vehicles.
@@ -55,6 +62,35 @@ export class AffiliationLogic<
      * automatically.
      */
     level!: ValueModifier;
+
+    /**
+     * This organization's standing toward another affiliation (#1404).
+     *
+     * Reads the persisted {@link AffiliationData.relation} table directly — it is
+     * authored data, not derived state, so no lifecycle work builds it. Only
+     * relations that differ from neutral are recorded: a shortcode absent from
+     * the table (and an empty table, which is the default) answers
+     * `unaligned`.
+     *
+     * This *records and reports* a relationship; it never acts on one. Any
+     * downstream use — a reaction prompt, a credential check — stays behind a
+     * human trigger.
+     *
+     * @param shortcode - The other affiliation's shortcode.
+     * @returns The recorded standing, or `unaligned` when none is recorded.
+     */
+    standingWith(shortcode: string): AffiliationStanding {
+        const relation = this.data.relation;
+        // Own-property check: a bare `relation[shortcode]` would answer with an
+        // inherited Object.prototype member for a shortcode like `toString`.
+        if (
+            !relation ||
+            !Object.prototype.hasOwnProperty.call(relation, shortcode)
+        ) {
+            return AFFILIATION_STANDING.UNALIGNED;
+        }
+        return relation[shortcode] ?? AFFILIATION_STANDING.UNALIGNED;
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -91,6 +127,8 @@ export class AffiliationLogic<
 export interface AffiliationData<
     TLogic extends SohlItemLogic<AffiliationData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** The kind of organization this is (arcane / divine / spirit / social) */
+    subType: AffiliationSubType;
     /** Subdivision of the organization or faction */
     society: string | null;
     /** Specific position held within the organization */
@@ -99,4 +137,10 @@ export interface AffiliationData<
     title: string | null;
     /** Rank or standing within the organization */
     level: number;
+    /**
+     * Standing toward other affiliations, keyed by their shortcode. Only
+     * non-neutral relations are authored; an empty map means neutral toward
+     * everyone. Read it through {@link AffiliationLogic.standingWith}.
+     */
+    relation: Record<string, AffiliationStanding>;
 }

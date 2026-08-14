@@ -45,10 +45,33 @@ Reach for an Affiliation for any organized body the character belongs to. Common
 
 Along with the [[doc/baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
+- **Affiliation Type:** The kind of organization this is — **Arcane** (a school of magic, including an alchemical school), **Divine** (a religion or church), **Spirit** (a shamanic or totemic tradition, an ancestor or spirit cult), or **Social** (everything secular: guilds, banks, criminal syndicates, noble houses, military units). It is chosen when the affiliation is created, and it is what lets the system offer the right affiliations where one must be picked — a divine invocation is not offered a thieves' guild.
 - **Society:** The sub-group, sect, order, or convocation the character belongs to within the larger organization.
 - **Office:** The role or function the character fills within the organization, if any — for example a stewardship, a command, or a ministry.
 - **Title:** The title of the character's rank within the organization — the named form of their standing, sometimes influenced by their Office.
 - **Level:** The character's rank within the organization, as a number, with higher numbers indicating greater rank. Rank 0 is usually a lay member; rank 1 an initiate, acolyte, or apprentice; in most organizations a fully trained and accepted member — such as a guild master or an ordained priest — is around rank 3.
+- **Standing Toward Others:** How _this organization_ regards other affiliations — see below.
+
+# Standing Toward Other Affiliations
+
+An affiliation's rank says where a character stands _inside_ one body. **Standing Toward Others** records how that body stands toward _other_ bodies: a thieves' guild and the reeves who hunt it, two knightly houses in open rivalry, a church and the faith it names heretical.
+
+Each entry names another affiliation and one standing:
+
+| Standing      | Meaning                                    |
+| ------------- | ------------------------------------------ |
+| **Aligned**   | Allied or friendly toward that affiliation |
+| **Unaligned** | Neutral — no particular standing           |
+| **Rival**     | In competition; opposed but not implacable |
+| **Nemesis**   | Actively hostile                           |
+
+Only the relations that are _not_ neutral need recording. Anything left out is **Unaligned**, so an empty list means "neutral toward everyone" — which is the right starting point for most organizations.
+
+Use **+ Add Relation** to record one, and the trash icon to remove it (returning that pair to neutral). On a character's own affiliation the picker offers the other affiliations that character holds; on a world or compendium affiliation you type the other affiliation's shortcode.
+
+> **This is a record, not a rule.** Writing down that two organizations are nemeses tells you — and anything you later consult it with — how they regard one another. Nothing is rolled, applied, or imposed because of it; what a hostile standing _means_ at the table is yours to play.
+
+**Recording a wider grouping.** Where several affiliations sit in a shared frame — the gods of a pantheon, the convocations of one arcane tradition — make the grouping itself an Affiliation with its own shortcode and prose, and let each member name it. A member can then be aligned with the pantheon while remaining the nemesis of another god within it, which is usually exactly the situation.
 
 # Intrinsic Actions
 

@@ -26,6 +26,11 @@
  * @module
  */
 
+import {
+    AFFILIATION_SUBTYPE,
+    ITEM_KIND,
+    isAffiliationSubType,
+} from "@src/utils/constants";
 import { compareVersions, isNewerVersion } from "./version";
 
 /**
@@ -96,12 +101,29 @@ export interface MigrationStep {
 /**
  * The ordered list of world migrations.
  *
- * **Empty — this is infrastructure only (#957).** No data migration is required
- * at this time; the runner, version comparison, per-type dispatch, and version
- * stamping are all in place so a future migration plugs in as one frozen entry
- * here (append in version order — the planner sorts defensively regardless).
+ * Append new steps in version order — the planner sorts defensively regardless.
+ * The runner, version comparison, per-type dispatch, and version stamping are
+ * infrastructure (#957); each entry here is one data change.
  */
-export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([]);
+export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
+    {
+        version: "0.9.0",
+        description:
+            "Stamp the new required subType on existing affiliation items (#1405)",
+        migrators: {
+            Item: (source) => {
+                if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
+                // An unrecognized value (hand-edited, or from a third-party
+                // module) would fail the new `choices` validation and be dropped
+                // silently, leaving the field unset — so it is replaced too.
+                if (isAffiliationSubType(source.system?.subType)) {
+                    return undefined;
+                }
+                return { "system.subType": AFFILIATION_SUBTYPE.SOCIAL };
+            },
+        },
+    },
+]);
 
 /**
  * Select the migration steps to run for a world, in ascending version order.

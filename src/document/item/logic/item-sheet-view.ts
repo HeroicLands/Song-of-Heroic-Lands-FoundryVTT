@@ -98,3 +98,59 @@ export function findSimilarItem<T extends ItemMatchKey>(
     }
     return undefined;
 }
+
+/** A candidate affiliation a relation row can be named from. */
+export interface RelationCandidate {
+    /** The affiliation's shortcode — the key a relation is recorded under. */
+    shortcode: string;
+    /** The affiliation's display name. */
+    name: string;
+}
+
+/** One row of the Affiliation sheet's relation table (#1404). */
+export interface RelationRow {
+    /** The other affiliation's shortcode (the stored key). */
+    code: string;
+    /** The other affiliation's name, or the bare shortcode when unresolved. */
+    label: string;
+    /** The recorded standing toward it. */
+    standing: string;
+    /**
+     * `true` when the shortcode matched no candidate — the row is shown flagged
+     * rather than dropped, so an authored relation is never silently lost.
+     */
+    unresolved?: true;
+}
+
+/**
+ * Build the Affiliation sheet's relation rows from the persisted standing table
+ * and the affiliations available to name it from.
+ *
+ * Every recorded key becomes a row: one that matches a candidate is labelled
+ * with that candidate's name; one that does not keeps its shortcode as the label
+ * and is flagged `unresolved` (a world or compendium affiliation has no
+ * candidates at all, so every row is flagged there). Rows are sorted by label.
+ *
+ * @param relation - The persisted `shortcode → standing` table.
+ * @param candidates - The affiliations available to resolve keys against.
+ * @returns The rows, sorted by label.
+ */
+export function buildRelationRows(
+    relation: Record<string, string> | null | undefined,
+    candidates: ReadonlyArray<RelationCandidate>,
+): RelationRow[] {
+    const names = new Map(
+        candidates
+            .filter((c) => c.shortcode)
+            .map((c) => [c.shortcode, c.name || c.shortcode]),
+    );
+    return Object.entries(relation ?? {})
+        .map((entry) => {
+            const [code, standing] = entry;
+            const label = names.get(code);
+            return label === undefined ?
+                    { code, label: code, standing, unresolved: true as const }
+                :   { code, label, standing };
+        })
+        .sort((a, b) => a.label.localeCompare(b.label));
+}

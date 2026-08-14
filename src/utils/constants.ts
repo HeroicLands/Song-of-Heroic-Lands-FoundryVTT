@@ -1761,6 +1761,59 @@ export type SohlActionScope =
     (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
 
 export const {
+    /** Map of affiliation subtype key → value. */
+    kind: AFFILIATION_SUBTYPE,
+    /** All affiliation-subtype values, as an array. */
+    values: AffiliationSubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: AffiliationSubTypeChoices,
+    /** Type guard for affiliation-subtype values. */
+    isValue: isAffiliationSubType,
+} = defineType("SOHL.Affiliation.SubType", {
+    /** A school of magic, including an alchemical school. */
+    ARCANE: "arcane",
+    /** A religion or church — a deity-facing tradition. */
+    DIVINE: "divine",
+    /** A shamanic or totemic tradition; an ancestor or spirit cult. */
+    SPIRIT: "spirit",
+    /** A secular body: guild, bank, syndicate, noble house, military unit. */
+    SOCIAL: "social",
+});
+/**
+ * Union of all affiliation-subtype values.
+ *
+ * `divine` and `spirit` are deliberately separate rather than one "religious"
+ * bucket, because {@link MysticalAbilitySubType} already distinguishes the
+ * deity-facing families from the spirit families — a picker filter is only as
+ * useful as the partition it filters on.
+ */
+export type AffiliationSubType =
+    (typeof AFFILIATION_SUBTYPE)[keyof typeof AFFILIATION_SUBTYPE];
+
+export const {
+    /** Map of affiliation-standing key → value. */
+    kind: AFFILIATION_STANDING,
+    /** All affiliation-standing values, as an array. */
+    values: AffiliationStandings,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: AffiliationStandingChoices,
+    /** Type guard for affiliation-standing values. */
+    isValue: isAffiliationStanding,
+} = defineType("SOHL.Affiliation.Standing", {
+    /** Allied or friendly toward that affiliation. */
+    ALIGNED: "aligned",
+    /** Neutral — no particular standing. The default for an unlisted affiliation. */
+    UNALIGNED: "unaligned",
+    /** In competition; opposed but not implacable. */
+    RIVAL: "rival",
+    /** Actively hostile. */
+    NEMESIS: "nemesis",
+});
+/** Union of all affiliation-standing values. */
+export type AffiliationStanding =
+    (typeof AFFILIATION_STANDING)[keyof typeof AFFILIATION_STANDING];
+
+export const {
     /** Map of mystery-subtype key → value. */
     kind: MYSTERY_SUBTYPE,
     /** All mystery-subtype values, as an array. */

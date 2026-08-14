@@ -140,4 +140,68 @@ describe("actorItemRefOptions", () => {
         expect(actorItemRefOptions(undefined, ITEM_KIND.SKILL)).toEqual([]);
         expect(actorItemRefOptions(null, ITEM_KIND.SKILL)).toEqual([]);
     });
+
+    describe("filter predicate (#1405)", () => {
+        it("narrows the options to the candidates the predicate accepts", () => {
+            const actor = makeMockActor();
+            addSkill(actor, "swd", "Sword");
+            addSkill(actor, "axe", "Axe");
+            const opts = actorItemRefOptions(
+                actor.logic,
+                ITEM_KIND.SKILL,
+                undefined,
+                undefined,
+                (l) => l.data.shortcode === "axe",
+            );
+            expect(opts.map((o) => o.value)).toEqual(["axe"]);
+        });
+
+        it("sees each candidate's full data, so a subtype can be filtered on", () => {
+            const actor = makeMockActor();
+            addSkill(actor, "swd", "Sword");
+            const seen: unknown[] = [];
+            actorItemRefOptions(
+                actor.logic,
+                ITEM_KIND.SKILL,
+                undefined,
+                undefined,
+                (l) => {
+                    seen.push((l.data as any).subType);
+                    return true;
+                },
+            );
+            expect(seen).toEqual(["combattechnique"]);
+        });
+
+        it("still flags a dangling stored shortcode the predicate filtered out", () => {
+            // The stored value is never silently blanked, filter or no filter.
+            const actor = makeMockActor();
+            addSkill(actor, "swd", "Sword");
+            const opts = actorItemRefOptions(
+                actor.logic,
+                ITEM_KIND.SKILL,
+                "swd",
+                undefined,
+                () => false,
+            );
+            expect(opts).toEqual([
+                { value: "swd", label: "swd (unresolved)", unresolved: true },
+            ]);
+        });
+
+        it("is unchanged when no predicate is given", () => {
+            const actor = makeMockActor();
+            addSkill(actor, "swd", "Sword");
+            addSkill(actor, "axe", "Axe");
+            expect(actorItemRefOptions(actor.logic, ITEM_KIND.SKILL)).toEqual(
+                actorItemRefOptions(
+                    actor.logic,
+                    ITEM_KIND.SKILL,
+                    undefined,
+                    undefined,
+                    undefined,
+                ),
+            );
+        });
+    });
 });

@@ -16,17 +16,32 @@ import {
     AffiliationLogic,
     AffiliationData,
 } from "@src/document/item/logic/AffiliationLogic";
-import { ITEM_KIND } from "@src/utils/constants";
-const { StringField, NumberField } = foundry.data.fields;
+import {
+    AffiliationStandingChoices,
+    AffiliationSubTypeChoices,
+    ITEM_KIND,
+    type AffiliationStanding,
+    type AffiliationSubType,
+} from "@src/utils/constants";
+const { StringField, NumberField, TypedObjectField } = foundry.data.fields;
 
 /**
  * Builds the data schema for the Affiliation item, extending the base item
- * schema with affiliation-specific fields (society, office, title, level).
+ * schema with affiliation-specific fields (subtype, society, office, title,
+ * level, and standing toward other affiliations).
  * @returns The Foundry data schema for the affiliation.
  */
 function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
+        // The kind of organization — required with no default, as on every
+        // other subtype-bearing item: an Affiliation declares its kind at
+        // creation. `choices` is the value-keyed map (never the values array,
+        // which would submit option indices and be rejected wholesale).
+        subType: new StringField({
+            required: true,
+            choices: AffiliationSubTypeChoices,
+        }),
         society: new StringField({
             nullable: true,
             blank: false,
@@ -47,6 +62,19 @@ function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
+        // How this organization stands toward others, keyed by affiliation
+        // shortcode. Only relations that differ from neutral are authored; an
+        // absent key reads as `unaligned` (see AffiliationLogic.standingWith).
+        // `{}` rather than nullable: "neutral toward everyone" is a valid state,
+        // not an unset one.
+        relation: new TypedObjectField(
+            new StringField({
+                required: true,
+                blank: false,
+                choices: AffiliationStandingChoices,
+            }),
+            { initial: {} },
+        ),
     };
 }
 
@@ -68,10 +96,12 @@ export class AffiliationDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.AFFILIATION;
+    subType!: AffiliationSubType;
     society!: string | null;
     office!: string | null;
     title!: string | null;
     level!: number;
+    relation!: Record<string, AffiliationStanding>;
 
     /**
      * Returns the Foundry data schema for the affiliation item.
