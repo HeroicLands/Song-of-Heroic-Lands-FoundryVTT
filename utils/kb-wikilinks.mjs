@@ -149,16 +149,15 @@ export function resolveKbWikilinks(body, ctx) {
         const slash = target.indexOf("/");
         const prefix =
             slash === -1 ? null : target.slice(0, slash).toLowerCase();
-        // Deliberately *not* extended to the hyphen form. A slash is written
-        // only by this repository's own older links, so an unresolved one is a
-        // dead shortcode. The hyphen is what the vault writes, and the vault
-        // holds packages this build does not publish: `Rules/Bestiary.md`
-        // addresses `creature-grkrahk` — a real note, with exactly that alias,
-        // in the vault's `setting` package. Nothing in the syntax separates that
-        // legitimate cross-package reference from a genuine typo, so treating
-        // the form as definitely-local would fail the build on correct content.
-        // Restoring the guard needs the single-source tree (#1385), where every
-        // package is visible and the distinction becomes decidable.
+        // Deliberately *not* extended to the hyphen form, which is also how a
+        // note addresses content in a package this build does not publish
+        // (`Rules/Bestiary.md` → `creature-grkrahk`, a real note in the vault's
+        // `setting` package). Nothing in the syntax separates that from a typo,
+        // so failing here would break the build on correct content.
+        //
+        // A dead address is caught instead by `lint:content-links` (#1414),
+        // which holds the reviewed list of cross-package exceptions — and which,
+        // unlike this build, runs as part of `npm run lint` on every change.
         const badQualified =
             prefix !== null &&
             (ctx.sections.has(prefix) || ctx.contentTypes.has(prefix));

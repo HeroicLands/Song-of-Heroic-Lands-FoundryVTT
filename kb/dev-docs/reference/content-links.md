@@ -160,17 +160,26 @@ compilers cannot:
   following links. An unlinked note still compiles and still publishes; it is
   simply impossible to arrive at by reading.
 
-Fenced `dataview` tables are expanded before the walk, so a link generated into a
-table row counts as a real link on both counts.
+- **Every qualified `[[type-shortcode]]` resolves to a document.** A dead address
+  degrades to plain text and keeps its label, so the prose still reads correctly
+  while the link is simply gone — the failure mode that hides best.
 
-**A dead `type-shortcode` is not yet caught.** An unresolved link is left as
-plain text — the label still reads correctly, so the prose looks intact while the
-href is simply gone. The knowledgebase build does fail on an unresolved
-`type/shortcode`, but it cannot do the same for the hyphen form, because that is
-also how a note addresses content in a **package this build does not publish**:
-`Rules/Bestiary.md` links `creature-grkrahk`, a real note in the vault's setting
-package. Nothing in the syntax separates that from a typo. Until the tree has a
-single source (#1385), check a new cross-reference by following it.
+Fenced `dataview` tables are expanded before the walk, so a link generated into a
+table row counts as a real link on all three counts.
+
+**A bare `[[Name]]` is not an address and is never reported.** Unqualified targets
+are the long-standing placeholder for worldbuilding notes kept outside this
+repository, and a hyphenated *name* (`[[Grukar-ahk]]`) stays a name, since a hyphen
+only qualifies on a known type.
+
+**Addressing a package this build does not publish.** `assets/content/` is the
+vault's `sohl` package alone; its `setting` tree is never exported. A page may still
+legitimately address that material — `Rules/Bestiary.md` links six setting creatures
+— and nothing in the syntax separates such a reference from a typo. Those six are
+listed in `FOREIGN_ADDRESS_ALLOWLIST` in `utils/check-content-links.mjs`, each naming
+the vault note it means; anything else fails. Add an entry when you knowingly link
+across packages, and the check warns when an entry stops being used. The list
+disappears once the tree has a single source (#1385) and every package is visible.
 
 ## Developer docs are the exception: they link by path
 
