@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-apthtc
 tags: []
 name:
     full: Apathetic

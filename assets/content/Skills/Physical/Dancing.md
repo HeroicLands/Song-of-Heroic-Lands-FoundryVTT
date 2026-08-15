@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-dnce
 tags: []
 name:
     full: Dancing

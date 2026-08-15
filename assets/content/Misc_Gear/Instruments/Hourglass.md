@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Hourglass"
+    - miscgear-hourglass
 tags:
     - instruments
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Hide, Sheep"
+    - miscgear-hidesheep
 tags:
     - natural
 name:

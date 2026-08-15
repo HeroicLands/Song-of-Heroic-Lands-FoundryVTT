@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-timb
 tags: []
 name:
     full: Timbercraft

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-phagophb
 tags: []
 name:
     full: Phagophobia

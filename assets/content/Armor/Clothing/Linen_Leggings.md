@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Leggings
+    - armorgear-LLeg
 tags: []
 name:
     full: Linen Leggings

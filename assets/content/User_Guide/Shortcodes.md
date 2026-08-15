@@ -1,6 +1,7 @@
 ---
 aliases:
     - Shortcode
+    - doc-shrtcds
 id: b44b338b7c4477fb
 type: doc
 package: sohl
@@ -90,13 +91,13 @@ their own. Keep two things in mind:
 
 # See also
 
-- [[doc/baseitem|Base Item]] — where the shortcode field lives on an item
+- [[doc-baseitem|Base Item]] — where the shortcode field lives on an item
   sheet.
-- [[doc/usngcmpn|Using Compendiums]] — importing content, and why the copy
+- [[doc-usngcmpn|Using Compendiums]] — importing content, and why the copy
   stays matched to its original.
-- [[doc/crtngact|Creating Actors and Items]] — duplicating a thing, and when to
+- [[doc-crtngact|Creating Actors and Items]] — duplicating a thing, and when to
   give the copy a new shortcode.
-- [[doc/ugitems|Items]] — the item types a shortcode identifies.
-- [[doc/sfexprss|Safe Expressions]] — expressions that name a skill or
+- [[doc-ugitems|Items]] — the item types a shortcode identifies.
+- [[doc-sfexprss|Safe Expressions]] — expressions that name a skill or
   attribute by its shortcode.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

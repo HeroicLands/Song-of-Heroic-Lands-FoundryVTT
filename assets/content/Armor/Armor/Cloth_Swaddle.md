@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cloth Swaddle
+    - armorgear-CSwd
 tags: []
 name:
     full: Cloth Swaddle

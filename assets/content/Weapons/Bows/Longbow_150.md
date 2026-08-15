@@ -1,6 +1,7 @@
 ---
 aliases:
     - Longbow 150
+    - weapongear-LBw150
 tags: []
 name:
     full: Longbow 150

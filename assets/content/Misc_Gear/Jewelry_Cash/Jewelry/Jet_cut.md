@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Jet, cut"
+    - miscgear-jetcut
 tags:
     - jewelry_cash
 name:

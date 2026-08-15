@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Cup, wooden"
+    - miscgear-cupwood
 tags:
     - cooking
 name:

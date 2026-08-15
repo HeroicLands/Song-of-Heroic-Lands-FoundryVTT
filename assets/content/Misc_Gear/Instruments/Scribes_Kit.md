@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scribe's Kit
+    - miscgear-scribekit
 tags:
     - instruments
 name:

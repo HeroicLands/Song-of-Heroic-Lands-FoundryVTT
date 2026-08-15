@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-intrvrtd
 tags: []
 name:
     full: Introverted

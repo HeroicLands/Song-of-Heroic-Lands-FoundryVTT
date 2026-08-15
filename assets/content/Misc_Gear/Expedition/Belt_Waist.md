@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Belt, Waist"
+    - miscgear-beltwaist
 tags:
     - expedition
 name:

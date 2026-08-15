@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ring Byrnie
+    - armorgear-RByr
 tags: []
 name:
     full: Ring Byrnie

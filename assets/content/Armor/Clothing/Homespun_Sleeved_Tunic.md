@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Sleeved Tunic
+    - armorgear-HsSTnc
 tags: []
 name:
     full: Homespun Sleeved Tunic

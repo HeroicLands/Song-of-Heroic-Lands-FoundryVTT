@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-swim
 tags: []
 name:
     full: Swimming

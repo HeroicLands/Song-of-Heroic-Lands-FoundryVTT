@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bee Venom
+    - affliction-beevnm
 tags: []
 name:
     full: Bee Venom

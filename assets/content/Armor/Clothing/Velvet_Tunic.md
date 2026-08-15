@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Tunic
+    - armorgear-VTunic
 tags: []
 name:
     full: Velvet Tunic

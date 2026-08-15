@@ -1,6 +1,7 @@
 ---
 aliases:
     - Carpentry Kit
+    - miscgear-carpentryk
 tags:
     - instruments
 name:

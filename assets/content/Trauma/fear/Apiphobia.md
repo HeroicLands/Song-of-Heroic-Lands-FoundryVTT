@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-apiphb
 tags: []
 name:
     full: Apiphobia

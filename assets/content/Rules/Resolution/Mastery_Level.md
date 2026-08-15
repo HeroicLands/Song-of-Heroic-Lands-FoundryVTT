@@ -6,6 +6,7 @@ aliases:
     - EML
     - Skill Base
     - Index
+    - doc-mstrylvl
 id: uil7KCJxAUM4nXLC
 type: doc
 package: sohl
@@ -61,7 +62,7 @@ in a skill can never exceed **seven times its Skill Base (SB × 7)**. Talent set
 the ceiling; practice decides how near it the character comes.
 
 A skill whose Skill Base is derived from Aura is said to be **Aura-governed**,
-which matters when [[doc/fatepnts#fate|Fate]] is called on.
+which matters when [[doc-fatepnts#fate|Fate]] is called on.
 
 ## Attribute Mastery Levels {#attribute-mastery-level}
 
@@ -83,8 +84,8 @@ the tens digit.
 | 102 | 10    |
 
 Index appears wherever a rule needs a small number rather than a percentage: it
-is the starting point of a [[doc/sccssvlt#success-value|Success Value]], the
-target of a [[doc/scndryms#secondary-roll|Secondary Roll]], and the size of the
+is the starting point of a [[doc-sccssvlt#success-value|Success Value]], the
+target of a [[doc-scndryms#secondary-roll|Secondary Roll]], and the size of the
 bonus a helper contributes.
 
 An Index is always taken from the **unmodified** Mastery Level. Bonuses and
@@ -133,11 +134,11 @@ scale:
 | ★★★★★  | 90+   | Paragon      |
 
 These stars rate a character; they are not the
-[[doc/oppsdtst#victory-stars|Victory Stars]] that measure the margin of a single
+[[doc-oppsdtst#victory-stars|Victory Stars]] that measure the margin of a single
 contest.
 
 ## See also {#see-also}
 
-- [[doc/sccsstst|Success Tests]] — what is done with an EML once it is settled
-- [[doc/scndryms|Secondary Mastery]] — how a second skill bears on a test
-- [[doc/attributes|Attributes]] — the attributes a Skill Base is built from
+- [[doc-sccsstst|Success Tests]] — what is done with an EML once it is settled
+- [[doc-scndryms|Secondary Mastery]] — how a second skill bears on a test
+- [[doc-attributes|Attributes]] — the attributes a Skill Base is built from

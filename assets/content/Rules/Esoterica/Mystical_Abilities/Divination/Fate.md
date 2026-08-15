@@ -1,6 +1,7 @@
 ---
 aliases:
     - Fate
+    - doc-ftdvn
 id: GSeR40tvrYO1pOHw
 type: doc
 package: sohl
@@ -36,14 +37,14 @@ price: the reading can cost the very Fate that made it possible.
 Fate is not performed the way the other divinations are, and it is not resolved
 the way they are. It is a **resource a character holds and spends**, drawn
 through the Aura, and it works on a test that has already been rolled — raising
-its [[doc/sccsstst#success-level|success level]] rather than re-rolling the dice.
+its [[doc-sccsstst#success-level|success level]] rather than re-rolling the dice.
 
 All of it — where Fate Points come from, which tests are beyond Fate's reach, the
 Fate Test that decides what a spent point buys, and the Fate Mastery Level it
-rolls against — is set out in [[doc/fatepnts|Fate Points]]. It is not restated
+rolls against — is set out in [[doc-fatepnts|Fate Points]]. It is not restated
 here; that page is the whole of it.
 
 Two consequences are worth naming in this chapter, because they follow from Fate
 answering through the aura exactly as the other arts do: no Fate point can be
-spent while the character carries [[doc/arlshck|Aural Shock]], and a Fate Test
+spent while the character carries [[doc-arlshck|Aural Shock]], and a Fate Test
 can never itself be fated.

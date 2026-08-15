@@ -3,6 +3,7 @@ aliases:
     - Fate Point
     - Fate Points
     - Fate Mastery Level
+    - doc-fatepnts
 id: QTLdhEpRknXbUTsn
 type: doc
 package: sohl
@@ -22,7 +23,7 @@ resource they hold and spend, and it works on a test that has **already been
 rolled**.
 
 Spending a **Fate Point** raises that test's
-[[doc/sccsstst#success-level|success level]], turning a Marginal Failure into a
+[[doc-sccsstst#success-level|success level]], turning a Marginal Failure into a
 Marginal Success, or a Marginal Success into a Critical Success. Fate **never
 re-rolls the dice** — the same roll is simply re-graded at a higher level.
 
@@ -51,7 +52,7 @@ character without a usable one cannot call on it at all.
 
 **The test is governed by Aura.** An Aura-governed test cannot be fated —
 neither the Aura attribute's own test, nor a test of any skill whose
-[[doc/mstrylvl#skill-base|Skill Base]] is computed from Aura. Fate answers
+[[doc-mstrylvl#skill-base|Skill Base]] is computed from Aura. Fate answers
 _through_ Aura, and it will not be turned back on the thing that summons it.
 
 **The test is a Mystical Ability.** No Mystical Ability test can be fated, ever.
@@ -87,7 +88,7 @@ only the success level changes — not the roll — every derived description an
 consequence of the original test simply re-resolves at the new, better level.
 
 **The gain is not capped at a Critical Success.** Success levels continue past
-it into the [[doc/sccsstst#extended-levels|extended levels]], so a Marginal
+it into the [[doc-sccsstst#extended-levels|extended levels]], so a Marginal
 Success carried up two rungs by a critical Fate Test becomes a **CS+1**, not
 merely a Critical Success. Fate can push a good result past the top of the
 ordinary scale — that is precisely what makes spending a point on an
@@ -115,8 +116,8 @@ answers when called.
 
 ## See also {#see-also}
 
-- [[doc/sccsstst|Success Tests]] — the success levels Fate shifts, including the
+- [[doc-sccsstst|Success Tests]] — the success levels Fate shifts, including the
   extended levels above a Critical Success
-- [[doc/mstrylvl#skill-base|Skill Base]] — which decides whether a skill is
+- [[doc-mstrylvl#skill-base|Skill Base]] — which decides whether a skill is
   Aura-governed and therefore beyond Fate's reach
-- [[doc/mysteryintro|Mysteries]] — where a character's Fate Points come from
+- [[doc-mysteryintro|Mysteries]] — where a character's Fate Points come from

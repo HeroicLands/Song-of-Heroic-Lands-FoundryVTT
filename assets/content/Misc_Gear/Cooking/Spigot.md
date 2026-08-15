@@ -1,6 +1,7 @@
 ---
 aliases:
     - Spigot
+    - miscgear-spigot
 tags:
     - cooking
 name:

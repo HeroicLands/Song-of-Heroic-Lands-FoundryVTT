@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Beads, glass"
+    - miscgear-beadsglass
 tags:
     - expedition
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Mantle
+    - armorgear-LtMntl
 tags: []
 name:
     full: Leather Mantle

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Back bag, med, leather"
+    - containergear-backbagmed
 tags: []
 name:
     full: "Back bag, med, leather"

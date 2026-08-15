@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sealskin Sleeved Tunic
+    - armorgear-SlsSTnc
 tags: []
 name:
     full: Sealskin Sleeved Tunic

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Great White Shark
+    - creature-grtwhtsh
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: 7rJxMeCW3TSzstw6
 img: icons/game-icons/lorc/shark-jaws.svg
-portrait: ""
+portrait: images/grtwhtsh.webp
 shortcode: grtwhtsh
 type: creature
 package: sohl

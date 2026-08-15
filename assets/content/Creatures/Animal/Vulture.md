@@ -1,6 +1,7 @@
 ---
 aliases:
     - Vulture
+    - creature-vulture
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: CDvOpm9UbhRybcAy
 img: icons/game-icons/lorc/vulture.svg
-portrait: ""
+portrait: images/vulture.webp
 shortcode: vulture
 type: creature
 package: sohl

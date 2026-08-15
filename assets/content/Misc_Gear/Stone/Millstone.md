@@ -1,6 +1,7 @@
 ---
 aliases:
     - Millstone
+    - miscgear-millstone
 tags:
     - stone
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Dengue Fever
+    - affliction-dngfvr
 tags: []
 name:
     full: Dengue Fever

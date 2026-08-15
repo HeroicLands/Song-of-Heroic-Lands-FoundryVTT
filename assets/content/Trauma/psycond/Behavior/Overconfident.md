@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-overconf
 tags: []
 name:
     full: Overconfident

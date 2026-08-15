@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Harp, Jarind (great)"
+    - miscgear-harpjarind
 tags:
     - music
 name:

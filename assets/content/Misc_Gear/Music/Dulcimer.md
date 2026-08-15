@@ -1,6 +1,7 @@
 ---
 aliases:
     - Dulcimer
+    - miscgear-dulcimer
 tags:
     - music
 name:

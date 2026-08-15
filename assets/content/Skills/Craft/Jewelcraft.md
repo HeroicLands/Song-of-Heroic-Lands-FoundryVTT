@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-jewl
 tags: []
 name:
     full: Jewelcraft
@@ -31,7 +32,7 @@ Jewelcraft is gem-cutting, goldsmithing and silversmithing, and the fine metalwo
 
 # Crafting {#crafting}
 
-A piece is made by the common [[doc/crafting|crafting routine]] — workshop,
+A piece is made by the common [[doc-crafting|crafting routine]] — workshop,
 expense, test, result, masterwork rolls, repair. What follows is what is
 particular to the jeweller's bench.
 

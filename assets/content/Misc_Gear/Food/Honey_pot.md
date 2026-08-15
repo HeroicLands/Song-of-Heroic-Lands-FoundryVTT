@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Honey, pot"
+    - miscgear-honeypot
 tags:
     - food
 name:

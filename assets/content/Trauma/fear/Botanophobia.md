@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-btnphb
 tags: []
 name:
     full: Botanophobia

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Physical Exertion
+    - trauma-physex
 tags: []
 name:
     full: Physical Exertion

@@ -2,6 +2,7 @@
 aliases:
     - Caribou
     - Reindeer
+    - creature-reindeer
 tags:
     - animal
     - image-needed
@@ -10,7 +11,7 @@ name:
     aliases: []
 id: o5zGvTtdOAvkEa0u
 img: icons/game-icons/caro-asercion/deer.svg
-portrait: ""
+portrait: images/reindeer.webp
 shortcode: reindeer
 type: creature
 package: sohl

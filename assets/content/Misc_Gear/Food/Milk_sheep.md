@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Milk, sheep"
+    - miscgear-milksheep
 tags:
     - food
 name:

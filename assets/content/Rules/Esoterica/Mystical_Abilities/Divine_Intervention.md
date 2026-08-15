@@ -1,6 +1,7 @@
 ---
 aliases:
     - Divine Intervention
+    - doc-divnint
 id: CKWywNBAT5axa27a
 type: doc
 package: sohl
@@ -20,7 +21,7 @@ it.
 
 Unlike the divine abilities, an intervention is **not performed and not
 tested**. There is no roll, no target, and no
-[[doc/sccsstst#success-level|success level]]. It is not something
+[[doc-sccsstst#success-level|success level]]. It is not something
 a character does; it is something a deity does, and the gamemaster is the one
 who decides whether it happens at all.
 

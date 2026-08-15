@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Loincloth
+    - armorgear-LtLoin
 tags: []
 name:
     full: Leather Loincloth

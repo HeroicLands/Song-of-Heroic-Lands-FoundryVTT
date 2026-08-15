@@ -1,6 +1,7 @@
 ---
 aliases:
     - Aural Shock
+    - trauma-auralshk
 tags: []
 name:
     full: Aural Shock

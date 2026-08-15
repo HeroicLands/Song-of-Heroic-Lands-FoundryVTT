@@ -1,6 +1,7 @@
 ---
 aliases:
     - Lard
+    - miscgear-lard
 tags:
     - food
 name:

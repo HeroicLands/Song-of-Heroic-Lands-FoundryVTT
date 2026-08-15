@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Onyx, cut"
+    - miscgear-onyxcut
 tags:
     - jewelry_cash
 name:

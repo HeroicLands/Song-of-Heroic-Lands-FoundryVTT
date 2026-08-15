@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Rope, ½” hemp, per ft (330 lb cap.)"
+    - miscgear-rope12hemp
 tags:
     - expedition
 name:

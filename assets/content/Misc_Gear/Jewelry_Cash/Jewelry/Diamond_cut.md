@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Diamond, cut"
+    - miscgear-diamondcut
 tags:
     - jewelry_cash
 name:

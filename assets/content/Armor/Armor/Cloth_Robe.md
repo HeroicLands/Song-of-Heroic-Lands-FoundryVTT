@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cloth Robe
+    - armorgear-CRobe
 tags: []
 name:
     full: Cloth Robe

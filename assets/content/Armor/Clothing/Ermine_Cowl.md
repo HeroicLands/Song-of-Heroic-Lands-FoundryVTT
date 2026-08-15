@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ermine Cowl
+    - armorgear-ECowl
 tags: []
 name:
     full: Ermine Cowl

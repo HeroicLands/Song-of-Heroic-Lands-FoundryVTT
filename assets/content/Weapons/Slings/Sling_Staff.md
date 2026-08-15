@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sling Staff
+    - weapongear-SlngStf
 tags: []
 name:
     full: Sling Staff

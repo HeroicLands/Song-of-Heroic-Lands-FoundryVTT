@@ -1,6 +1,7 @@
 ---
 aliases:
     - Russet Cap
+    - armorgear-RCap
 tags: []
 name:
     full: Russet Cap

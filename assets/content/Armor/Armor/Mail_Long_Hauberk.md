@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Long Hauberk
+    - armorgear-MLHbk
 tags: []
 name:
     full: Mail Long Hauberk

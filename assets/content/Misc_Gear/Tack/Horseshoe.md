@@ -1,6 +1,7 @@
 ---
 aliases:
     - Horseshoe
+    - miscgear-horseshoe
 tags:
     - tack
 name:

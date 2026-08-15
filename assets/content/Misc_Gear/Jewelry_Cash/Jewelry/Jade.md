@@ -1,6 +1,7 @@
 ---
 aliases:
     - Jade
+    - miscgear-jade
 tags:
     - jewelry_cash
 name:

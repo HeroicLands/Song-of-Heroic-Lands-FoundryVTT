@@ -1,6 +1,7 @@
 ---
 aliases:
     - Lion
+    - creature-lion
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: TpFdKsRE286DXe8u
 img: icons/game-icons/lorc/lion.svg
-portrait: ""
+portrait: images/lion.webp
 shortcode: lion
 type: creature
 package: sohl

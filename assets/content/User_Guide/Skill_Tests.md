@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-sklltsts
 id: 8l2J6Pczsy0YpT0P
 type: doc
 package: sohl
@@ -17,7 +18,7 @@ against a target number derived from a character's skill mastery level.
 When two characters compete, the system uses **opposed tests** to determine
 the winner.
 
-See also: [[doc/skill|Skills]], [[Combat Basics]]
+See also: [[doc-skill|Skills]], [[Combat Basics]]
 
 # Performing a Skill Test {#tests-performing}
 
@@ -43,18 +44,18 @@ The exact thresholds depend on the effective mastery level.
 
 # See also
 
-- [[doc/skill|Skill]] and [[doc/attrbt|Attribute]] — the items these tests are
+- [[doc-skill|Skill]] and [[doc-attrbt|Attribute]] — the items these tests are
   run from, and their own test actions.
-- [[doc/baseitem|Base Item]] — the standard test dialog every roll opens, and
+- [[doc-baseitem|Base Item]] — the standard test dialog every roll opens, and
   the GM's result edit.
-- [[doc/token|Token]] — starting and answering an opposed test between two
+- [[doc-token|Token]] — starting and answering an opposed test between two
   tokens.
-- [[doc/thftsyst|The Fate System]] — improving a result after it has settled.
-- [[doc/iconlgnd|Icon Legend]] — the Victory Stars and Value Diamonds a result
+- [[doc-thftsyst|The Fate System]] — improving a result after it has settled.
+- [[doc-iconlgnd|Icon Legend]] — the Victory Stars and Value Diamonds a result
   card draws.
-- [[doc/resolutionintro|Resolution]] (rules) — what a Mastery Level, a success
+- [[doc-resolutionintro|Resolution]] (rules) — what a Mastery Level, a success
   level, and a Victory Star actually are.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Document the exact success/failure determination rules,
      including the critical success and critical failure thresholds. -->
@@ -95,14 +96,14 @@ reads the result on a graded scale. The chat card shows:
   value, base value, or a bonus value carrying diamonds).
 
 The card also shows the underlying roll and target, so you can see how the grade
-was reached. See the [[doc/sccssvlt|Success Value Tests]]
+was reached. See the [[doc-sccssvlt|Success Value Tests]]
 rules for the full scale.
 
 # Editing a Test Result (GM) {#tests-gm-edit}
 
 Every posted test result card carries a small **edit pencil** in its header.
 This is a **GM-only** tool — players do not see it — and it is the GM's
-higher-fidelity counterpart to a player spending [[doc/thftsyst|Fate]]:
+higher-fidelity counterpart to a player spending [[doc-thftsyst|Fate]]:
 it lets you correct or adjust a result you have already rolled **without
 re-rolling the dice**.
 
@@ -163,7 +164,7 @@ Dexterity.
 The skill base is calculated automatically when attributes are set. The
 mastery level builds on top of the skill base through training and experience.
 
-See [[doc/skill|Skills]] for more about how skill bases work.
+See [[doc-skill|Skills]] for more about how skill bases work.
 
 <!-- TODO: Document how skill improvement works — SDR (Skill Development
      Roll), experience-based advancement, and the relationship between

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Icon, religious, small"
+    - miscgear-iconreligi2
 tags:
     - religious
 name:

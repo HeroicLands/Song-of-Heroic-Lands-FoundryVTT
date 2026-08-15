@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Dress
+    - armorgear-HsDress
 tags: []
 name:
     full: Homespun Dress

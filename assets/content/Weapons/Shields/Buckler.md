@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckler
+    - weapongear-Bklr
 tags: []
 name:
     full: Buckler

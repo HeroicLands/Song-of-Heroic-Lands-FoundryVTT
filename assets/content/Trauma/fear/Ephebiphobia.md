@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ephbphb
 tags: []
 name:
     full: Ephebiphobia

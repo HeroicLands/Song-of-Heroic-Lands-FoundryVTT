@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Tunic
+    - armorgear-BvTunic
 tags: []
 name:
     full: Beaver Tunic

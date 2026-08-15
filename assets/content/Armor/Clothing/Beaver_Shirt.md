@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Shirt
+    - armorgear-BvShirt
 tags: []
 name:
     full: Beaver Shirt

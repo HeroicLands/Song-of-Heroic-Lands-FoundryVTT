@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ring Gauntlets
+    - armorgear-RMtn
 tags: []
 name:
     full: Ring Gauntlets

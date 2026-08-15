@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scallions
+    - miscgear-scallions
 tags:
     - food
 name:

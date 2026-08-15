@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cheetah
+    - creature-cheetah
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: mjqQVrKXPAtQyUUN
 img: icons/game-icons/lorc/lion.svg
-portrait: ""
+portrait: images/cheetah.webp
 shortcode: cheetah
 type: creature
 package: sohl

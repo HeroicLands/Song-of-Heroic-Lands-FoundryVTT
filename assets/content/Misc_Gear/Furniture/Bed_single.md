@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bed, single"
+    - miscgear-bedsingle
 tags:
     - furniture
 name:

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-rsrcfl
 tags: []
 name:
     full: Resourceful

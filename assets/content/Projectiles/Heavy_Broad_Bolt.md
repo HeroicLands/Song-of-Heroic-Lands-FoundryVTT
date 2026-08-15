@@ -1,6 +1,7 @@
 ---
 aliases:
     - Heavy Broad Bolt
+    - projectilegear-BltHBrd
 tags: []
 name:
     full: Heavy Broad Bolt

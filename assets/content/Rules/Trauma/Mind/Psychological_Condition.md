@@ -3,6 +3,7 @@ aliases:
     - Psychological Condition
     - Psyche Stress
     - Psyche Stress Level
+    - doc-psychlgc
 id: R6LpCJeZV0uruifv
 type: doc
 package: sohl
@@ -14,7 +15,7 @@ folder: hAloT0Y1xg1vcIIn
 shortcode: psychlgc
 ---
 
-A **psychological condition** is a [[doc/traumaintro|Trauma]] of the mind — a quirk,
+A **psychological condition** is a [[doc-traumaintro|Trauma]] of the mind — a quirk,
 impulse, or disorder that colors behavior. Just as bodily harm is rated in Injury
 Levels, mental strain is rated in **Psyche Stress Levels (PSY)**.
 
@@ -22,7 +23,7 @@ Levels, mental strain is rated in **Psyche Stress Levels (PSY)**.
 
 Psyche Stress rarely arises on its own; it typically spins off from another
 event — for instance a Critical Failure on a [[Fear]] or
-[[doc/arlshck|Aural Shock]] recovery test. Every separate occurrence generates
+[[doc-arlshck|Aural Shock]] recovery test. Every separate occurrence generates
 its own PSY level, normally in the range **1 to 6**, and — as with each physical
 wound — each instance is recorded separately.
 
@@ -48,7 +49,7 @@ psychological condition** whose intensity is measured in PSY levels. It does not
 take hold immediately: it surfaces roughly **ten minutes** after the triggering
 trauma and then lingers for as long as any PSY remains (and over the course of
 recovery may become permanent). When it manifests, the victim gains **5
-[[doc/fatigue|weakness fatigue]] per PSY level**; further stress tied to the same
+[[doc-fatigue|weakness fatigue]] per PSY level**; further stress tied to the same
 condition raises its PSY.
 
 | PSY | Presentation                                                                                                   |
@@ -64,6 +65,6 @@ the Will test lengthens that aftermath to **d6 × 10 minutes**.
 
 ## See also
 
-- [[Fear]], [[Morale]], [[Fatigue]], [[doc/arlshck|Aural Shock]],
-  [[The Pall]], [[doc/physclcn|Physical Condition]],
-  [[doc/traumaintro|Trauma]].
+- [[Fear]], [[Morale]], [[Fatigue]], [[doc-arlshck|Aural Shock]],
+  [[The Pall]], [[doc-physclcn|Physical Condition]],
+  [[doc-traumaintro|Trauma]].

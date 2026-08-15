@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Cowl
+    - armorgear-WCowl
 tags: []
 name:
     full: Worsted Cowl

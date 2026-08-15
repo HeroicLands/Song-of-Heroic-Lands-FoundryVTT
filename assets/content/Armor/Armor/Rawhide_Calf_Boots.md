@@ -1,6 +1,7 @@
 ---
 aliases:
     - Rawhide Calf Boots
+    - armorgear-RhCBoot
 tags: []
 name:
     full: Rawhide Calf Boots

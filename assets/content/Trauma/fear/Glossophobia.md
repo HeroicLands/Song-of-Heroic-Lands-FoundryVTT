@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-glssphb
 tags: []
 name:
     full: Glossophobia

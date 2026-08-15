@@ -1,6 +1,7 @@
 ---
 aliases:
     - Goat
+    - miscgear-goat
 tags:
     - food
 name:

@@ -2,6 +2,7 @@
 aliases:
     - Killer Whale
     - Orca
+    - creature-orca
 tags:
     - animal
     - image-needed
@@ -10,7 +11,7 @@ name:
     aliases: []
 id: HUbSiJXZrGu9Uz6t
 img: icons/game-icons/delapouite/sperm-whale.svg
-portrait: ""
+portrait: images/orca.webp
 shortcode: orca
 type: creature
 package: sohl

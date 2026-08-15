@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-tetdtxn
 tags: []
 name:
     full: Tetrodotoxin

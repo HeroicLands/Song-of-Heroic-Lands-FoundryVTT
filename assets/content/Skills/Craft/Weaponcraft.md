@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-wpnc
 tags: []
 name:
     full: Weaponcraft
@@ -31,7 +32,7 @@ Weaponcraft is the making and repair of arms and armour. It is the most exacting
 
 # Crafting {#crafting}
 
-Arms and armour are made by the common [[doc/crafting|crafting routine]] —
+Arms and armour are made by the common [[doc-crafting|crafting routine]] —
 workshop, expense, test, result, masterwork rolls, repair. A weaponsmith works
 in a workshop matching the skill tested below. What follows is what is
 particular to this bench.

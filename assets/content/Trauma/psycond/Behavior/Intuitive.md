@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-inttv
 tags: []
 name:
     full: Intuitive

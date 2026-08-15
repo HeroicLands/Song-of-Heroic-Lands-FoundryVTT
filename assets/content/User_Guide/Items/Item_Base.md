@@ -1,6 +1,7 @@
 ---
 aliases:
     - Base Item
+    - doc-baseitem
 id: DXyazxuH0KLFWj4l
 type: doc
 package: sohl
@@ -388,7 +389,7 @@ only on a GM's screen. Pressing it re-opens
 [[#the-standard-test-dialog|the standard test dialog]] for a roll that has already
 been made, pre-filled with the modifiers that roll actually used.
 
-This is the GM's counterpart to [[doc/thftsyst|Fate]]: where a player spends Fate
+This is the GM's counterpart to [[doc-thftsyst|Fate]]: where a player spends Fate
 to nudge a result, a GM adjusts the arithmetic that produced it — because a
 modifier was forgotten, or applied when it should not have been.
 
@@ -418,10 +419,10 @@ result."_
 - [[Understanding Sheets]] — the sheets these tabs belong to.
 - [[Shortcodes]] — what a shortcode means and why it matters.
 - [[Skill Tests]] — what the numbers in the standard test dialog are doing.
-- [[doc/thftsyst|Fate]] — the player-side counterpart to the GM result edit.
+- [[doc-thftsyst|Fate]] — the player-side counterpart to the GM result edit.
 - [[Combat Basics]] and [[Combatant]] — the combat actions that add fields to the
   standard test dialog, and where strike modes come from.
-- [[doc/itemtrauma|Trauma]] and [[doc/afflctn|Affliction]] — the recurring
+- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the recurring
   checks that use the offer-schedule dialog most.
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-userguide|User Guide]] — back to the index.

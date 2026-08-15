@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Vest
+    - armorgear-LVest
 tags: []
 name:
     full: Linen Vest

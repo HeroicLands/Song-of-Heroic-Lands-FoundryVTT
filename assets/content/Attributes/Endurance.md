@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - attribute-end
 tags: []
 name:
     full: Endurance

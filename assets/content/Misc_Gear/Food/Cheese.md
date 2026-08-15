@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cheese
+    - miscgear-cheese
 tags:
     - food
 name:

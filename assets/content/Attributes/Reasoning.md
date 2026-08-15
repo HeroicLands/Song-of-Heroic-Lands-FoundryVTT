@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - attribute-rea
 tags: []
 name:
     full: Reasoning

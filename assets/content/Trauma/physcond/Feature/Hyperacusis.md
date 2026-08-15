@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-hyprcss
 tags: []
 name:
     full: Hyperacusis

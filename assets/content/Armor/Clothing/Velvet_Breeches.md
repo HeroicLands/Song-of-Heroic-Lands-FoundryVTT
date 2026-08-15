@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Breeches
+    - armorgear-VBrch
 tags: []
 name:
     full: Velvet Breeches

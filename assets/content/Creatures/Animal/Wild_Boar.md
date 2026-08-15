@@ -1,6 +1,7 @@
 ---
 aliases:
     - Wild Boar
+    - creature-wildboar
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: 8SaQoBO7t7QGurHE
 img: icons/game-icons/caro-asercion/boar.svg
-portrait: ""
+portrait: images/wildboar.webp
 shortcode: wildboar
 type: creature
 package: sohl

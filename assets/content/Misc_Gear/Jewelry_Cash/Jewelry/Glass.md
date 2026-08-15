@@ -1,6 +1,7 @@
 ---
 aliases:
     - Glass
+    - miscgear-glass
 tags:
     - jewelry_cash
 name:

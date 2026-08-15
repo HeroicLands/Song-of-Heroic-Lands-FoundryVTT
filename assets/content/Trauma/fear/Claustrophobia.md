@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-clstrphb
 tags: []
 name:
     full: Claustrophobia

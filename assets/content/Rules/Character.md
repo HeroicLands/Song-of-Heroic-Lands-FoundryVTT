@@ -2,6 +2,7 @@
 aliases:
     - Characters Introduction
     - Character Introduction
+    - doc-character
 id: xl7OIGqVKu52E5Oc
 type: doc
 package: sohl
@@ -76,7 +77,7 @@ Most people favor one side of the body — not the hand alone, but the whole sid
 - **Right Dominance** alone — the right side is dominant.
 - **Both, or neither** — the being is **ambidextrous** and has no dominant side.
 
-An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [[doc/strkmds#the-strength-impact-modifier|Strength Impact Modifier]].
+An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [[doc-strkmds#the-strength-impact-modifier|Strength Impact Modifier]].
 
 A weapon counts as **off-hand** only when _every_ limb gripping it is on the non-favored side. A two-handed grip includes the dominant hand, so it is never off-hand.
 
@@ -113,7 +114,7 @@ Each location carries:
 
 **Shock Value.** How stunning a blow to this location is in itself, before severity is considered — see [[#shock|Shock]] below. The skull, eyes, nose, and neck are the worst on a human at 5; the forearm and calf the mildest at 1.
 
-**Bleeding Susceptibility.** A tier — **none**, **low**, **medium**, or **high** — governing how readily a wound here becomes a [[doc/bleeding|Bleeder]]. It is not a single threshold but a grid against injury severity and weapon aspect:
+**Bleeding Susceptibility.** A tier — **none**, **low**, **medium**, or **high** — governing how readily a wound here becomes a [[doc-bleeding|Bleeder]]. It is not a single threshold but a grid against injury severity and weapon aspect:
 
 | Susceptibility | S3 bleeds on | G4 bleeds on    | G5 bleeds on           |
 | -------------- | ------------ | --------------- | ---------------------- |
@@ -161,7 +162,7 @@ Once the location is known, the blow resolves against it:
 3. **Check for a glancing blow.** An **edged or piercing** strike that would deal only a minor wound (effective impact 1–4) against a location covered by **rigid** armor glances off instead: it inflicts **no injury at all**, but the jolt still counts — it adds a point to the Shock Index and grants **+10 on the resulting Shock roll**.
 4. **Evaluate bleeding, amputation, and shock** from the tables above.
 
-See [[doc/injrylvl|Injury]] for what the resulting wound then does over time.
+See [[doc-injrylvl|Injury]] for what the resulting wound then does over time.
 
 ## Shock {#shock}
 
@@ -211,14 +212,14 @@ Continuing the example: the skull wound opened at 8, so a Shock test is made. A 
 | Shock State       | Effect                                                                                                                                                                     |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **None**          | No shock.                                                                                                                                                                  |
-| **Stunned**       | Reeling and disoriented. Movement is difficult, double Moves are barred, and impaired tests drop a [[doc/sccsstst#success-level\|success level]]. A re-test comes quickly. |
+| **Stunned**       | Reeling and disoriented. Movement is difficult, double Moves are barred, and impaired tests drop a [[doc-sccsstst#success-level\|success level]]. A re-test comes quickly. |
 | **Incapacitated** | Awake but down. No actions of your own, and melee attacks against you must be Ignored.                                                                                     |
 | **Unconscious**   | Blacked out, prone, and Helpless — melee attackers score a critical success against you.                                                                                   |
 | **Dead**          | The victim dies on the spot.                                                                                                                                               |
 
 While in **any** shock state a creature cannot concentrate. Ordinary shock is temporary — a stunned, incapacitated, or unconscious victim shakes it off with a re-test — and only a _failed_ re-test drops the victim into lasting Extended Shock or a Coma.
 
-A resulting shock state is always **offered** to the victim's own player, never imposed, and only ever to _worsen_ the current state. Injury is not the only source of shock: fear, heavy [[blood loss]], and other systemic forces raise it by their own measures. See [[Shock]] for the states in full, the re-test, Extended Shock, and Coma.
+A resulting shock state is always **offered** to the victim's own player, never imposed, and only ever to _worsen_ the current state. Injury is not the only source of shock: fear, heavy [[blood loss]], and other systemic forces raise it by their own measures. See [[doc-shock|Shock]] for the states in full, the re-test, Extended Shock, and Coma.
 
 ## Impairment and Unusable Parts
 
@@ -250,7 +251,7 @@ A second, narrower rule applies to weapons: a strike mode that requires particul
 
 ### Permanent impairment
 
-A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [[doc/imprmnt|Injury → Permanent Impairment]].
+A wound that was slow to mend can leave a mark that never heals — a withered arm, a stiffened knee. Permanent impairment is scaled by how long the wound took to close, from −5 at twenty days to a floor of −25 at a hundred, and it applies from then on as the part's minimum impairment. Permanent impairment never renders a part _unusable_ on its own; only a grievous wound or an outright severed limb does that. See [[doc-imprmnt|Injury → Permanent Impairment]].
 
 ### Immobilized, unusable, and holding on {#immobilized-unusable-and-holding-on}
 
@@ -280,7 +281,7 @@ A wound serious enough, to a location that invites it, can cost you your grip or
 
 When a test is called for, it is a **keep-control test**:
 
-- A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [[doc/prone|fall prone]], the worse the failure the harder the fall.
+- A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [[doc-prone|fall prone]], the worse the failure the harder the fall.
 - A **Fumble Test** — keeping your grip — rolls the **better of your Dexterity or your Legerdemain skill**. Keep control and the item stays in hand; fail and you drop it, a critical fumble flinging it from your grasp entirely.
 
 You roll whichever of the attribute or skill serves you better, and a character with neither cannot make the test. The roll belongs to the character who took the wound: a keep-control test is theirs to make, never made for them.
@@ -361,12 +362,12 @@ A new kind of creature is described by its anatomy alone — its zones and their
 
 ## See also
 
-- [[doc/injrylvl|Injury]] — injury levels, healing, and impairment over time
-- [[Shock]] — the shock states in full, re-tests, Extended Shock, and Coma
+- [[doc-injrylvl|Injury]] — injury levels, healing, and impairment over time
+- [[doc-shock|Shock]] — the shock states in full, re-tests, Extended Shock, and Coma
 - [[#health|Health]] — how impaired parts set the health ceiling
 - [[Bleeding]] — bleeders, blood loss, and stoppage
 - [[Strike Modes]] — Spread and the other properties of an attack
-- [[doc/skills|Skills]] — how skills declare the roles that impair them
+- [[doc-skills|Skills]] — how skills declare the roles that impair them
 - [[Prone]] — the consequence of a failed stumble
 
 # Health {#health}
@@ -398,7 +399,7 @@ those impairments decide the ceiling, and nothing else does:
    or is core to the body, such as the head, the chest, or the abdomen — or it is
    a **limb**: an arm, a leg, a hand, a foot. Harm to a critical part costs far
    more than the same harm to a limb. Which of the two a part is follows from its
-   [[doc/character#body-part-roles|body roles]]: a part carrying **Vital** or
+   [[doc-character#body-part-roles|body roles]]: a part carrying **Vital** or
    **Core** is critical, and a part carrying only **Manipulator** or **Locomotor**
    is a limb.
 3. **How many parts are in that same state.** A second injury of a given severity
@@ -458,14 +459,14 @@ not died yet, and the figure will not pronounce them dead before they are.
 ## What Health does not cover
 
 Health measures **bodily injury only**. It is deliberately blind to every other
-way a character can be taken out of a fight — being [[doc/fatigue|winded or weary]],
-[[doc/shock|stunned or unconscious]], [[doc/fear|afraid]], or otherwise
+way a character can be taken out of a fight — being [[doc-fatigue|winded or weary]],
+[[doc-shock|stunned or unconscious]], [[doc-fear|afraid]], or otherwise
 overcome. Those are tracked separately and have their own effects.
 
 So Health is not a readiness score. A character can read **Excellent** and still
 be unconscious, exhausted, or paralysed with fear. Read Health for _how hurt they
 are_, and read their conditions for _whether they can act_.
 
-See also: [[doc/injrylvl|Injury]] for how wounds and their impairments are
-determined, [[doc/traumaintro|Trauma]] for the wider picture of harm, and
+See also: [[doc-injrylvl|Injury]] for how wounds and their impairments are
+determined, [[doc-traumaintro|Trauma]] for the wider picture of harm, and
 [[Healing Base]] for recovery.

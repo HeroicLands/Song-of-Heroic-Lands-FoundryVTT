@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-nscmphb
 tags: []
 name:
     full: Nosocomephobia

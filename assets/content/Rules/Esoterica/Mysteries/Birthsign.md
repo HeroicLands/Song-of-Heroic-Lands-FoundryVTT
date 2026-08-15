@@ -1,6 +1,7 @@
 ---
 aliases:
     - Birthsign
+    - doc-brthsgn
 id: HOIFkzHnXv5I4A4C
 type: doc
 package: sohl
@@ -14,7 +15,7 @@ shortcode: brthsgn
 
 A passive influence conferred by the celestial sign under which the character was born. A birthsign is never invoked; it quietly shapes the character, strengthening the aptitudes it favours and weakening others.
 
-A birthsign is a standing **Mystery** the character carries: it adjusts the [[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills it governs — a bonus to those the sign favours, a penalty to those it hinders. It is fixed at the hour of birth and carried for life; it is never tested, never spent, and never chosen. Like every Mystery, it is unavailable while the character carries [[doc/arlshck|Aural Shock]].
+A birthsign is a standing **Mystery** the character carries: it adjusts the [[doc-mstrylvl#effective-mastery-level|Effective Mastery Level]] of the skills it governs — a bonus to those the sign favours, a penalty to those it hinders. It is fixed at the hour of birth and carried for life; it is never tested, never spent, and never chosen. Like every Mystery, it is unavailable while the character carries [[doc-arlshck|Aural Shock]].
 
 **The six elements.** A sign does not name skills one at a time. The **Astrokýklos** — the wheel of signs — divides all human aptitude into six elements, and a sign's whole substance is where it stands in each. A skill belongs to an element by its kind, and each element also claims any mystical skill of its own name.
 
@@ -41,6 +42,6 @@ Because the better of two always applies, a cusp comes out ahead of either neigh
 
 **More than two.** Nothing in the rule stops a GM from granting a third sign, or more, for a portent or a strange nativity — the same "take the better" reading applies, and each further sign can only raise an element, never lower it. Understand that the surplus compounds: a character under three neighbouring signs outdoes any cusp, and one under the whole wheel would stand at +15 in everything. One sign is the ordinary birth and two the threshold; beyond that is a deliberate GM choice, not a natural one.
 
-Reading a sign — a stranger's, or a newborn's — is the work of [[doc/astrlgy|Astrology]], which needs the hour and place of birth to cast a natal chart.
+Reading a sign — a stranger's, or a newborn's — is the work of [[doc-astrlgy|Astrology]], which needs the hour and place of birth to cast a natal chart.
 
 (@Table search=[type:mystery, sohl.kbcat=birthsign] columns=[Sign:name.full, Shortcode:shortcode, Influence:description])

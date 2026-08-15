@@ -1,6 +1,7 @@
 ---
 aliases:
     - Quilted Mantle
+    - armorgear-QMntl
 tags: []
 name:
     full: Quilted Mantle

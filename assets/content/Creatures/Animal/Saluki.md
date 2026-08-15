@@ -2,6 +2,7 @@
 aliases:
     - Desert Sighthound
     - Saluki
+    - creature-saluki
 tags:
     - animal
     - image-needed
@@ -10,7 +11,7 @@ name:
     aliases: []
 id: t7edWGJipMjipWWu
 img: icons/game-icons/lorc/hound.svg
-portrait: ""
+portrait: images/saluki.webp
 shortcode: saluki
 type: creature
 package: sohl

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-math
 tags: []
 name:
     full: Mathematics

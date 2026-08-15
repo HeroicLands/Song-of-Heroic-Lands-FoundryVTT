@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Pipe, smoking"
+    - miscgear-pipesmokin
 tags:
     - expedition
 name:

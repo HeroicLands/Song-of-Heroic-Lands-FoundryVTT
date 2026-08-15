@@ -1,6 +1,7 @@
 ---
 aliases:
     - Jackal
+    - creature-jackal
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: QwBtVq9RDqpwnf7s
 img: icons/game-icons/lorc/hound.svg
-portrait: ""
+portrait: images/jackal.webp
 shortcode: jackal
 type: creature
 package: sohl

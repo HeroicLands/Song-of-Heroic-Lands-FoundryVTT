@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Pen, quill"
+    - miscgear-penquill
 tags:
     - scribe
 name:

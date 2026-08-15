@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Soap"
+    - miscgear-soap
 tags:
     - expedition
 name:

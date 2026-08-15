@@ -1,6 +1,7 @@
 ---
 aliases:
     - Automated Attack
+    - macro-autoattack
 tags: []
 description: "Adaptable and dominant across Thalorna, the defining lineage of civilization."
 type: macro

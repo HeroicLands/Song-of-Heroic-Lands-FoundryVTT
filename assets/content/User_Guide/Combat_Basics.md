@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - doc-cmbtbscs
 id: Mi1p8gYEKJ91dxsM
 type: doc
 package: sohl
@@ -324,7 +325,7 @@ Once a blow connects and a location is chosen:
   **amputation** results.
 - In Automated Combat the injury is recorded on the target sheet for you; you can
   also produce the same injury by hand via the **Add Injury** flow (see
-  [[doc/afflandi|Afflictions & Injuries]]).
+  [[doc-afflandi|Afflictions & Injuries]]).
 
 # Tips
 
@@ -347,7 +348,7 @@ Once a blow connects and a location is chosen:
   combat roll.
 - [[Working with Gear]] — equipping weapons, armor, and
   shields.
-- [[doc/afflandi|Afflictions & Injuries]] — recording and healing the
+- [[doc-afflandi|Afflictions & Injuries]] — recording and healing the
   injuries combat produces.
 - [[Fate System]] — spending fate to re-roll.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

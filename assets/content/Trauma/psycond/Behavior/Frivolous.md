@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-frvls
 tags: []
 name:
     full: Frivolous

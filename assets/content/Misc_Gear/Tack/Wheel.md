@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Wheel"
+    - miscgear-wheel
 tags:
     - tack
 name:

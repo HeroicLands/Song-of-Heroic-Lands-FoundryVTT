@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-arthrts
 tags: []
 name:
     full: Arthritis

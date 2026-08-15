@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-nrcssstc
 tags: []
 name:
     full: Narcissistic

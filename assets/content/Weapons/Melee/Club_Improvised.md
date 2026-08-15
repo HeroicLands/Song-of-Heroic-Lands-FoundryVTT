@@ -1,6 +1,7 @@
 ---
 aliases:
     - Club, Improvised
+    - weapongear-ClbImp
 tags: []
 name:
     full: Club, Improvised

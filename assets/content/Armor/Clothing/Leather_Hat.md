@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Hat
+    - armorgear-LtHat
 tags: []
 name:
     full: Leather Hat

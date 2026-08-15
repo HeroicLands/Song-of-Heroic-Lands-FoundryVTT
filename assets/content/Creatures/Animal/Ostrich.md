@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ostrich
+    - creature-ostrich
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: a2TPhQDzEJLjlYMv
 img: icons/game-icons/delapouite/cassowary-head.svg
-portrait: ""
+portrait: images/ostrich.webp
 shortcode: ostrich
 type: creature
 package: sohl

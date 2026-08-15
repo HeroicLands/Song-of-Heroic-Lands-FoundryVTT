@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Surcoat
+    - armorgear-HsScoat
 tags: []
 name:
     full: Homespun Surcoat

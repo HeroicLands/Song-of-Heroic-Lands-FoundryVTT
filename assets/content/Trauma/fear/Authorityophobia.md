@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-arithphb
 tags: []
 name:
     full: Authorityophobia

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Cloak
+    - armorgear-VClk
 tags: []
 name:
     full: Velvet Cloak

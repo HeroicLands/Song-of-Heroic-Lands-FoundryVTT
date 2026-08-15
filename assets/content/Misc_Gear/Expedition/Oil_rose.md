@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Oil, rose"
+    - miscgear-oilrose
 tags:
     - expedition
 name:

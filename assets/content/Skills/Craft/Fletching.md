@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-fltch
 tags: []
 name:
     full: Fletching
@@ -32,7 +33,7 @@ Strictly, a fletcher makes arrows and a bowyer makes bows, but the guilds long a
 # Crafting {#crafting}
 
 Bows, crossbows and projectiles are made by the common
-[[doc/crafting|crafting routine]] — workshop, expense, test, result, masterwork
+[[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork
 rolls, repair. A fletcher works in a fletching workshop. What follows is what is
 particular to this bench.
 

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Opal, cut"
+    - miscgear-opalcut
 tags:
     - jewelry_cash
 name:

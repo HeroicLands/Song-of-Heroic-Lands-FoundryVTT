@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bagpipes
+    - miscgear-bagpipes
 tags:
     - music
 name:

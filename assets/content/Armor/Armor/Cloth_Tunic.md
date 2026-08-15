@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cloth Tunic
+    - armorgear-CTunic
 tags: []
 name:
     full: Cloth Tunic

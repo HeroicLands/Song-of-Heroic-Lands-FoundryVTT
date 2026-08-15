@@ -1,6 +1,7 @@
 ---
 aliases:
     - Berries
+    - miscgear-berries
 tags:
     - food
 name:

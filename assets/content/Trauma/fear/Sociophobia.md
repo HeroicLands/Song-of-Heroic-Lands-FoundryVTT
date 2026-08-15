@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-sociophb
 tags: []
 name:
     full: Sociophobia

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ballista Bolt
+    - projectilegear-BltSge
 tags: []
 name:
     full: Ballista Bolt

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Vest
+    - armorgear-LtVest
 tags: []
 name:
     full: Leather Vest

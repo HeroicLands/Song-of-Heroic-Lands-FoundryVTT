@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckram Mantle
+    - armorgear-BMntl
 tags: []
 name:
     full: Buckram Mantle

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Club, Large
+    - weapongear-ClbLg
 tags: []
 name:
     full: Club, Large

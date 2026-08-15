@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ritual Action
+    - doc-rtlactn
 id: SAPsZAA28wMkaRbl
 type: doc
 package: sohl

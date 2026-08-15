@@ -1,6 +1,7 @@
 ---
 aliases:
     - Padded Tunic
+    - armorgear-PTnc
 tags: []
 name:
     full: Padded Tunic

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-law
 tags: []
 name:
     full: Law

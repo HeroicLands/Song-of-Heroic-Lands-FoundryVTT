@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-mlnphb
 tags: []
 name:
     full: Melanophobia

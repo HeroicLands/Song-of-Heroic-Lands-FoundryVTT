@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Hide, Reindeer"
+    - miscgear-hidereinde
 tags:
     - natural
 name:

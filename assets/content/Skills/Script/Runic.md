@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-runic
 tags: []
 name:
     full: Runic

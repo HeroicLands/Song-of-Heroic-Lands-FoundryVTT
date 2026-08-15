@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Flute, iron"
+    - miscgear-fluteiron
 tags:
     - music
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Cloth Gloves
+    - armorgear-CGlv
 tags: []
 name:
     full: Cloth Gloves

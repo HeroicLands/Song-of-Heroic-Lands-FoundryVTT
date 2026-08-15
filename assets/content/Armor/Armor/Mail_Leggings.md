@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Leggings
+    - armorgear-MLeg
 tags: []
 name:
     full: Mail Leggings

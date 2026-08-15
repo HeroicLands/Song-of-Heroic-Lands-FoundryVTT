@@ -1,6 +1,7 @@
 ---
 aliases:
     - Russet Tunic
+    - armorgear-RTunic
 tags: []
 name:
     full: Russet Tunic

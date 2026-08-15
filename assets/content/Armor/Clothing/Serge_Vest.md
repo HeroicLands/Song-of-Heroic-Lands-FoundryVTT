@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Vest
+    - armorgear-SgVest
 tags: []
 name:
     full: Serge Vest

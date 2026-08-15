@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-mglmn
 tags: []
 name:
     full: Megalomania

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Tent, Military"
+    - miscgear-tentmilita
 tags:
     - expedition
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Vest
+    - armorgear-WVest
 tags: []
 name:
     full: Worsted Vest

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Clappers, bone"
+    - miscgear-clappersbo
 tags:
     - music
 name:

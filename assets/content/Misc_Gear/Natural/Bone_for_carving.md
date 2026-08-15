@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bone (for carving)
+    - miscgear-boneforcar
 tags:
     - natural
 name:

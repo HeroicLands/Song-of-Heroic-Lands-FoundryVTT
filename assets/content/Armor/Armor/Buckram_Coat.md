@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckram Coat
+    - armorgear-BCoat
 tags: []
 name:
     full: Buckram Coat

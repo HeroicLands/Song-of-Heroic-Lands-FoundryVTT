@@ -1,6 +1,7 @@
 ---
 aliases:
     - Boost
+    - doc-boost
 id: 6xY5jkTDBbRHjEdk
 type: doc
 package: sohl

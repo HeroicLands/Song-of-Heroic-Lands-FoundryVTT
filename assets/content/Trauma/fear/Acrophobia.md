@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-acrophb
 tags: []
 name:
     full: Acrophobia

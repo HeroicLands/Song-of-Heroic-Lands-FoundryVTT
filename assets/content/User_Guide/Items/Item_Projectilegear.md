@@ -1,6 +1,7 @@
 ---
 aliases:
     - Projectile
+    - doc-prjctl
 id: vsv4MPXDQcskQEl9
 type: doc
 package: sohl
@@ -21,7 +22,7 @@ Projectiles appear on the Being sheet's **Gear** tab and can be nested inside Co
 
 # Additional Properties
 
-In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for projectiles:
+In addition to the [[doc-itemgear|Standard Gear Properties]], the following additional properties are defined for projectiles:
 
 - **SubType:** Type of ranged weapon. This is used to determine what sort of weapon the projectile can be used as ammunition for. Types include:
     - **Arrow:** A projectile that is fired from a bow.
@@ -52,7 +53,7 @@ a standard action it already inherits:
 
 The first three belong to every item and are described on [[Base Item]];
 **Toggle Carried** belongs to every piece of gear and is described on
-[[doc/itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
+[[doc-itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
 what it produces — none of it changes for a projectile.
 Shooting one is not an action on the projectile itself: you attack with the ranged
 weapon, whose Missile Strike Mode names the ammunition it uses — see
@@ -60,11 +61,11 @@ weapon, whose Missile Strike Mode names the ammunition it uses — see
 
 # See also
 
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/itemgear|Gear]] — the properties and the **Toggle Carried** action every
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-itemgear|Gear]] — the properties and the **Toggle Carried** action every
   carried thing has.
-- [[doc/weapon|Weapon]] — the missile strike mode that names the ammunition and
+- [[doc-weapon|Weapon]] — the missile strike mode that names the ammunition and
   makes the attack.
-- [[doc/baseitem|Base Item]] — the three shared actions named above.
-- [[doc/systmstt|System Settings]] — the **Track Projectiles** setting.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-baseitem|Base Item]] — the three shared actions named above.
+- [[doc-systmstt|System Settings]] — the **Track Projectiles** setting.
+- [[doc-userguide|User Guide]] — back to the index.

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-draw
 tags: []
 name:
     full: Drawing
@@ -33,7 +34,7 @@ The skill is also the executant hand behind other people's knowledge. Setting ou
 
 # Crafting {#crafting}
 
-A finished picture is made by the common [[doc/crafting|crafting routine]] —
+A finished picture is made by the common [[doc-crafting|crafting routine]] —
 workshop, expense, test, result, masterwork rolls, repair. What follows is what
 is particular to the drawing board.
 

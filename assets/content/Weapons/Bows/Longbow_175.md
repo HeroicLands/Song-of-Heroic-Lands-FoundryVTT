@@ -1,6 +1,7 @@
 ---
 aliases:
     - Longbow 175
+    - weapongear-LBw175
 tags: []
 name:
     full: Longbow 175

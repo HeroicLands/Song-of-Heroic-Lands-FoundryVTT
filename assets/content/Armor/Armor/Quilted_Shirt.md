@@ -1,6 +1,7 @@
 ---
 aliases:
     - Quilted Shirt
+    - armorgear-QSht
 tags: []
 name:
     full: Quilted Shirt

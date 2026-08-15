@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-antscl
 tags: []
 name:
     full: Antisocial

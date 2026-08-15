@@ -1,6 +1,7 @@
 ---
 aliases:
     - Impaired Smell
+    - trauma-impaire2
 tags: []
 name:
     full: Impaired Smell

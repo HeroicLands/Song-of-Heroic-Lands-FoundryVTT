@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-melee
 tags: []
 name:
     full: Melee

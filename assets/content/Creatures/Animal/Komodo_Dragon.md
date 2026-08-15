@@ -1,6 +1,7 @@
 ---
 aliases:
     - Komodo Dragon
+    - creature-kmddrgn
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: getyv8Y5C6ktjC6B
 img: icons/game-icons/lorc/gecko.svg
-portrait: ""
+portrait: images/kmddrgn.webp
 shortcode: kmddrgn
 type: creature
 package: sohl

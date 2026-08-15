@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Vest
+    - armorgear-VVest
 tags: []
 name:
     full: Velvet Vest

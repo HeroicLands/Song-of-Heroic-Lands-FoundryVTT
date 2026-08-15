@@ -1,6 +1,7 @@
 ---
 aliases:
     - Knife
+    - weapongear-Kni
 tags: []
 name:
     full: Knife

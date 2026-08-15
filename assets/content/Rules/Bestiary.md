@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bestiary
+    - doc-bestiary
 tags: []
 id: w21JSRk0uXGTaznQ
 name:
@@ -37,7 +38,7 @@ The Grukar are a brutal and prolific folk, feared wherever their guttural war-cr
 
 ## Biology and Reproduction
 
-The Grukar are genderless. They are not "males" or "females" in any meaningful sense — the words simply do not apply, and Grukar themselves have no concept of male or female roles, mating pairs, or sexual difference. Reproduction in Grukar society is the exclusive function of a separate subspecies, the [[creature/grkrahk|Grukar-ahk]], which is self-fertilizing. A fertile Grukar-ahk lays clutches of eggs from which all other Grukar are spawned, and one of the Grukar-ahk's most remarkable abilities is the capacity to choose the subspecies of its spawn — to lay eggs that hatch as Grukar-Uk, Grukar-Sha, or Grukar-Hai according to the changing needs of its tribe.
+The Grukar are genderless. They are not "males" or "females" in any meaningful sense — the words simply do not apply, and Grukar themselves have no concept of male or female roles, mating pairs, or sexual difference. Reproduction in Grukar society is the exclusive function of a separate subspecies, the [[creature-grkrahk|Grukar-ahk]], which is self-fertilizing. A fertile Grukar-ahk lays clutches of eggs from which all other Grukar are spawned, and one of the Grukar-ahk's most remarkable abilities is the capacity to choose the subspecies of its spawn — to lay eggs that hatch as Grukar-Uk, Grukar-Sha, or Grukar-Hai according to the changing needs of its tribe.
 
 The choice is made at the moment of laying. What decides a hatchling's subspecies is not its blood — every Grukar of a tribe is built from the same inheritance — but what the Ahk feeds into the egg as it lays: a chemistry that wakes some part of that common inheritance and puts the rest to sleep. The egg is not bred into a Grukar-Hai; it is told to become one. A clutch is dosed as a clutch and so comes out whole: a laying of Uk, or a laying of Sha, or — rarely, and never without cause — a laying of Hai. Word that the spawn-chamber has laid Hai runs through a tribe the way a declaration of war runs through a kingdom, which is precisely what it is.
 
@@ -65,7 +66,7 @@ To be invited is the highest distinction a Grukar can be given, and there is no 
 
 ## The Hive-like Society of the Grukar
 
-A Grukar tribe is centered on a single fertile [[creature/grkrahk|Grukar-ahk]], the spawning matrix on whom the entire tribe's continuation depends. Around the fertile Grukar-ahk live a small number of infertile Grukar-ahk — usually three to six — who serve as personal guardians and as a kind of biological reserve. These infertile Grukar-ahk are physically smaller and structurally simpler than the fertile one; they cannot spawn while the fertile Grukar-ahk lives, but each carries the latent capacity to become fertile if the circumstances arise.
+A Grukar tribe is centered on a single fertile [[creature-grkrahk|Grukar-ahk]], the spawning matrix on whom the entire tribe's continuation depends. Around the fertile Grukar-ahk live a small number of infertile Grukar-ahk — usually three to six — who serve as personal guardians and as a kind of biological reserve. These infertile Grukar-ahk are physically smaller and structurally simpler than the fertile one; they cannot spawn while the fertile Grukar-ahk lives, but each carries the latent capacity to become fertile if the circumstances arise.
 
 When a tribe grows too large for its territory to support, internal pressure builds toward fragmentation. A faction of disaffected Grukar — typically a Grukar-Hai with its retainers, sometimes coordinated by a Grukar-Sha plotting an exit — will mount a raid on the inner sanctum, seize one of the infertile Grukar-ahk, and flee with it into unclaimed land. Once the abducted Grukar-ahk is sufficiently distant from its mother-tribe's fertile spawner, its dormant biology activates and it becomes fertile in turn. From that moment a new tribe exists; from its first clutch of eggs, the new Grukar-ahk begins shaping it.
 
@@ -113,13 +114,13 @@ Fission is normally the work of a tribe carrying too much mass — a success she
 
 The Grukar are not one creature but four, each subspecies as distinct from the others as a wolf from a jackal. They share a common ancestry, a common mode of communication (body posture and gesture as the primary channel, supplemented by chest- and throat-generated clacks, rasps, and subsonic and ultrasonic calls that lie outside human hearing), and a common brutality — but beyond that, they are shaped by vastly different pressures and the deliberate spawning choices of the Grukar-ahk into vastly different forms. Together they constitute a crude but effective society: the spawner sustains, the strong rule, the clever manipulate, and the many toil and die.
 
-[[creature/grkrahk|Grukar-ahk]] — The spawners. Self-fertilizing, present in any tribe as one fertile individual plus a small handful of infertile guardians-and-reserves. The Grukar-ahk decide the demographic composition of the tribe by selecting the subspecies of each clutch they lay. They are physically substantial — stronger than the Sha, less massive than the Hai — but rarely fight personally; their role is biological, not martial. An Ahk clutch takes eighteen weeks, though time has never been what limits their number: the proto-Ahk are tethered within a chamber or two of the prime spawner's suppressing scent and cannot be sent anywhere, and beyond a handful they cease to be insurance and become a queue of successors.
+[[creature-grkrahk|Grukar-ahk]] — The spawners. Self-fertilizing, present in any tribe as one fertile individual plus a small handful of infertile guardians-and-reserves. The Grukar-ahk decide the demographic composition of the tribe by selecting the subspecies of each clutch they lay. They are physically substantial — stronger than the Sha, less massive than the Hai — but rarely fight personally; their role is biological, not martial. An Ahk clutch takes eighteen weeks, though time has never been what limits their number: the proto-Ahk are tethered within a chamber or two of the prime spawner's suppressing scent and cannot be sent anywhere, and beyond a handful they cease to be insurance and become a queue of successors.
 
-[[creature/grukaruk|Grukar-Uk]] — The common Grukar, comprising roughly eighty-five percent of any tribe. Stocky, strong, and numbingly stupid, they are the laborers, the foot soldiers, and the expendable masses. What they lack in wit they make up for in sheer numbers and a stubborn, muscular endurance. An Uk clutch hatches in six weeks, the quickest and cheapest laying a spawner can make.
+[[creature-grukaruk|Grukar-Uk]] — The common Grukar, comprising roughly eighty-five percent of any tribe. Stocky, strong, and numbingly stupid, they are the laborers, the foot soldiers, and the expendable masses. What they lack in wit they make up for in sheer numbers and a stubborn, muscular endurance. An Uk clutch hatches in six weeks, the quickest and cheapest laying a spawner can make.
 
-[[creature/grkrsh|Grukar-Sha]] — The thinkers, the whisperers, the ones who survive by being too useful to kill — until the day they become too useful to leave alive. Roughly ten percent of the population, the Grukar-Sha are thin, cunning, and physically the weakest of their kind — but their intelligence makes them indispensable as scouts, spies, and counselors to the mighty. A Sha clutch takes eighteen weeks to hatch, the longest of any Grukar, which is why a Sha lost is a loss the tribe feels for a season and more.
+[[creature-grkrsh|Grukar-Sha]] — The thinkers, the whisperers, the ones who survive by being too useful to kill — until the day they become too useful to leave alive. Roughly ten percent of the population, the Grukar-Sha are thin, cunning, and physically the weakest of their kind — but their intelligence makes them indispensable as scouts, spies, and counselors to the mighty. A Sha clutch takes eighteen weeks to hatch, the longest of any Grukar, which is why a Sha lost is a loss the tribe feels for a season and more.
 
-[[creature/grkrh|Grukar-Hai]] — The towering apex of Grukar-kind, and the rarest of the warrior castes, comprising perhaps five percent of the population. Massively built and savagely violent, the Grukar-Hai are spawned to dominate — but their ferocious temperament drives them to fight one another as readily as any enemy, ensuring that only the most fearsome survive while their own numbers remain forever thin. A Hai clutch takes twelve weeks and costs the tribe more in provision than any other laying.
+[[creature-grkrh|Grukar-Hai]] — The towering apex of Grukar-kind, and the rarest of the warrior castes, comprising perhaps five percent of the population. Massively built and savagely violent, the Grukar-Hai are spawned to dominate — but their ferocious temperament drives them to fight one another as readily as any enemy, ensuring that only the most fearsome survive while their own numbers remain forever thin. A Hai clutch takes twelve weeks and costs the tribe more in provision than any other laying.
 
 ## The Grukar Threat
 
@@ -186,11 +187,11 @@ died.
 ## The Undead Hierarchy
 
 Helspawn exist on a spectrum defined by the completeness of the soul bound to
-the body. At one extreme are the [[creature/nghtwght|Nightwights]] —
+the body. At one extreme are the [[creature-nghtwght|Nightwights]] —
 intelligent, powerful, and semi-permanent, created through deliberate ritual
 from willing and powerful subjects whose souls, often already perverted, were
 violently transformed to produce powerful undead beings. At the other extreme
-are the [[creature/hlthrls|Helthraals]] in their most degraded state —
+are the [[creature-hlthrls|Helthraals]] in their most degraded state —
 mindless, shambling, rotting corpses animated by the barest fragments of
 spiritual energy.
 

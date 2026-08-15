@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scimitar
+    - weapongear-Scmtr
 tags: []
 name:
     full: Scimitar

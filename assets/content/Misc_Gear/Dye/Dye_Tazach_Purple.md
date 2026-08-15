@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Dye, Tazach Purple"
+    - miscgear-dyetzch
 tags:
     - clothing
 name:

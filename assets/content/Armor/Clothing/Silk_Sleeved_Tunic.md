@@ -1,6 +1,7 @@
 ---
 aliases:
     - Silk Sleeved Tunic
+    - armorgear-SlkSTnc
 tags: []
 name:
     full: Silk Sleeved Tunic

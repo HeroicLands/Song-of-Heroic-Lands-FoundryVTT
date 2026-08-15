@@ -6,6 +6,7 @@ aliases:
     - Windedness
     - Weariness
     - Weakness
+    - doc-fatigue
 id: G1UDnlgH8sI9oNO7
 type: doc
 package: sohl
@@ -17,7 +18,7 @@ folder: edGOkxiCotuMzc1O
 shortcode: fatigue
 ---
 
-**Fatigue** is a form of physical [[doc/traumaintro|Trauma]], measured in **Fatigue
+**Fatigue** is a form of physical [[doc-traumaintro|Trauma]], measured in **Fatigue
 Levels (FL)**. Unlike an injury it has no Healing Rate and needs no treatment;
 instead each instance recovers by its own special rules.
 
@@ -42,4 +43,4 @@ otherwise) and to Move rate.
 
 - [[Bleeding]] and [[Infection]] — sources of weakness
   fatigue.
-- [[Shock]] — fatigue penalizes shock and course tests.
+- [[doc-shock|Shock]] — fatigue penalizes shock and course tests.

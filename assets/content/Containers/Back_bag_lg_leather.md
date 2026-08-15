@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Back bag, lg, leather"
+    - containergear-backbaglgl
 tags: []
 name:
     full: "Back bag, lg, leather"

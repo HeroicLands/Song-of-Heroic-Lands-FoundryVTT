@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-folklr
 tags: []
 name:
     full: Folklore

@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Pie, Meat"
+    - miscgear-piemeat
 tags:
     - food
 name:

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-entmphb
 tags: []
 name:
     full: Entomophobia

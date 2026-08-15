@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-lepidopt
 tags: []
 name:
     full: Lepidopterophobia

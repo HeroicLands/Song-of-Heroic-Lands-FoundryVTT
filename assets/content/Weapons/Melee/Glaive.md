@@ -1,6 +1,7 @@
 ---
 aliases:
     - Glaive
+    - weapongear-Glv
 tags: []
 name:
     full: Glaive

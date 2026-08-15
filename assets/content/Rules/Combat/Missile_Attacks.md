@@ -5,6 +5,7 @@ aliases:
     - Missile Sequence
     - Ranged Attacks
     - Volley
+    - doc-msslattc
 id: rDBP7stlZ05KJIfE
 type: doc
 package: sohl
@@ -20,11 +21,11 @@ shortcode: msslattc
 
 A **missile attack** is one delivered across ground the attacker does not cross:
 an arrow, a bolt, a sling stone, a hurled axe. It resolves through the ordinary
-[[doc/atkreslv#resolving-an-attack|attack sequence]], with three things
+[[doc-atkreslv#resolving-an-attack|attack sequence]], with three things
 particular to it — the weapon must be **ready**, the shot has a **range**, and
 the target usually cannot strike back.
 
-Every missile attack is made with a **missile [[doc/strkmds|strike mode]]**. A
+Every missile attack is made with a **missile [[doc-strkmds|strike mode]]**. A
 weapon may carry melee and missile modes both: a spear thrust in the hand and
 thrown are the same object and two different attacks.
 
@@ -37,13 +38,13 @@ thrown are the same object and two different attacks.
    which [[#range|range band]] the shot falls in, and the band settles how
    precisely it can be placed and how hard it lands.
 3. **Test.** The attacker makes a
-   [[doc/sccsstst#success-test|Success Test]] against the Effective Mastery Level
+   [[doc-sccsstst#success-test|Success Test]] against the Effective Mastery Level
    of the strike mode's skill — **Archery**, **Throwing** or **Sling**.
 4. **The target responds.** See
    [[#defending-against-missiles|Defending Against Missiles]] — the choices are
    narrower than in melee.
 5. **Resolve.** A landing shot rolls its [[#impact-at-range|impact]], and
-   [[doc/character#determining-hit-location|hit location]] follows from the aim
+   [[doc-character#determining-hit-location|hit location]] follows from the aim
    and the band's scatter.
 
 ## Skills and Weapons {#skills-and-weapons}
@@ -72,7 +73,7 @@ weapon can throw a lobbed shot — see [[#range|Range]].
 aimed like a tool, so an untrained shooter is far less handicapped by it than by
 a bow: a character shooting one tests the better of their Archery Mastery Level
 or an Effective Mastery Level equal to **three times their Archery
-[[doc/mstrylvl#skill-base|Skill Base]]**. Anyone at all can pick one up and hit
+[[doc-mstrylvl#skill-base|Skill Base]]**. Anyone at all can pick one up and hit
 something; only an archer improves.
 
 ## Range {#range}
@@ -127,7 +128,7 @@ resolved unopposed. A target who does may:
 - **Ignore**, and trust to armour.
 
 **Counterstrike is not available** against a shooter out of the defender's own
-[[doc/mlattcks#reach-and-engagement|reach]]. You cannot answer an archer at two
+[[doc-mlattcks#reach-and-engagement|reach]]. You cannot answer an archer at two
 hundred feet with a blow; you can only close, and closing is a different turn's
 business.
 
@@ -147,18 +148,18 @@ point blank.
 **Strength does not add to it.** A bow, a crossbow and a sling all put the force
 in the launcher rather than the arm, and a mighty archer's arrows strike no
 harder than anyone else's. The
-[[doc/strkmds#the-strength-impact-modifier|Strength Impact Modifier]] applies
+[[doc-strkmds#the-strength-impact-modifier|Strength Impact Modifier]] applies
 only to **thrown** weapons, where the arm genuinely is the engine — and even
 there it is reduced by one, because a thrown weapon is never driven as well as a
 held one.
 
 From there the blow resolves like any other: aspect against the struck location's
 protection, effective impact into an injury, and on into
-[[doc/atkreslv#from-blow-to-trauma|Trauma]].
+[[doc-atkreslv#from-blow-to-trauma|Trauma]].
 
 ## Mishaps {#missile-mishaps}
 
-A missile attack's [[doc/sccsstst#success-level|Critical Failure]] reads by its
+A missile attack's [[doc-sccsstst#success-level|Critical Failure]] reads by its
 units digit:
 
 - **Ending in 0 — Fumble.** The weapon is dropped or nearly so; a Fumble Test
@@ -167,11 +168,11 @@ units digit:
   be damaged in the process — a string parts, a prod cracks, a stave splits —
   while a thrown weapon instead risks the thrower's own footing.
 
-See [[doc/atkreslv#mishaps|Mishaps]] for the keep-control tests both lead to.
+See [[doc-atkreslv#mishaps|Mishaps]] for the keep-control tests both lead to.
 
 ## See also {#see-also}
 
-- [[doc/atkreslv|Attack Resolution]] — the exchange in full
-- [[doc/strkmds|Strike Modes]] — projectile type, range, draw, volley multiplier
-- [[doc/mlattcks|Melee Attacks]] — attacking at contact
-- [[doc/gear#weapons|Weapons]] — the missile weapons themselves
+- [[doc-atkreslv|Attack Resolution]] — the exchange in full
+- [[doc-strkmds|Strike Modes]] — projectile type, range, draw, volley multiplier
+- [[doc-mlattcks|Melee Attacks]] — attacking at contact
+- [[doc-gear#weapons|Weapons]] — the missile weapons themselves

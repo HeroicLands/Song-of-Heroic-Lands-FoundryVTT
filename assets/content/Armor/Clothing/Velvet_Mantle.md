@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Mantle
+    - armorgear-VMntl
 tags: []
 name:
     full: Velvet Mantle

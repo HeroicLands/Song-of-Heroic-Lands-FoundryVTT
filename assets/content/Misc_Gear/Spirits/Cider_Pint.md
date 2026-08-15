@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Cider, Pint"
+    - miscgear-cdrpt
 tags:
     - spirits
 name:

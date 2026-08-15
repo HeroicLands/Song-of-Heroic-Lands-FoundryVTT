@@ -1,6 +1,7 @@
 ---
 aliases:
     - Constrictor Snake
+    - creature-cnstrctr
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: ypPZpDVq1apz4CiH
 img: icons/game-icons/lorc/snake.svg
-portrait: ""
+portrait: images/cnstrctr.webp
 shortcode: cnstrctr
 type: creature
 package: sohl

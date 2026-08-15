@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-jump
 tags: []
 name:
     full: Jumping

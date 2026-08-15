@@ -2,6 +2,7 @@
 aliases:
     - Kurbul Cuirass
     - Kûrbúl Cuirass
+    - armorgear-KCui
 tags: []
 name:
     full: Kûrbúl Cuirass

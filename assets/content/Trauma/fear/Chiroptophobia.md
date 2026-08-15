@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-chrptphb
 tags: []
 name:
     full: Chiroptophobia

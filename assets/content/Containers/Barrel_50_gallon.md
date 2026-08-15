@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Barrel, 50 gallon"
+    - containergear-barrel50gal
 tags: []
 name:
     full: "Barrel, 50 gallon"

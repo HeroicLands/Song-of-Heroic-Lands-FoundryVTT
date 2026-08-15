@@ -1,6 +1,7 @@
 ---
 aliases:
     - Piton
+    - miscgear-piton
 tags:
     - expedition
 name:

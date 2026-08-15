@@ -1,6 +1,7 @@
 ---
 aliases:
     - Quilted Surcoat
+    - armorgear-QScoat
 tags: []
 name:
     full: Quilted Surcoat

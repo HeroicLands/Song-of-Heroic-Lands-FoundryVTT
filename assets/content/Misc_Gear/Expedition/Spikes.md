@@ -1,6 +1,7 @@
 ---
 aliases:
     - Spikes
+    - miscgear-spikes
 tags:
     - expedition
 name:

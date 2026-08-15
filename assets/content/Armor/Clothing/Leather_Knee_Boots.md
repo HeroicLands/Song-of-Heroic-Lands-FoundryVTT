@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Knee Boots
+    - armorgear-LtKBoot
 tags: []
 name:
     full: Leather Knee Boots

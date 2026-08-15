@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Trap, hunting, large"
+    - miscgear-traphuntin
 tags:
     - expedition
 name:

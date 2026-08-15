@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-inqstv
 tags: []
 name:
     full: Inquisitive

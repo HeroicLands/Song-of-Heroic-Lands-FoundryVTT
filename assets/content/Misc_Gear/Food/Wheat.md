@@ -1,6 +1,7 @@
 ---
 aliases:
     - Wheat
+    - miscgear-wheat
 tags:
     - food
 name:

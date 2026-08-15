@@ -1,6 +1,7 @@
 ---
 aliases:
     - Onager
+    - weapongear-Onagr
 tags: []
 name:
     full: Onager

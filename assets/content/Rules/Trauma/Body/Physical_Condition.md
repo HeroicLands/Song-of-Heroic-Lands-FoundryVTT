@@ -2,6 +2,7 @@
 aliases:
     - Physical Condition
     - Physical Conditions
+    - doc-physclcn
 id: BkGKJhvkDMx4HOrQ
 type: doc
 package: sohl
@@ -13,7 +14,7 @@ folder: edGOkxiCotuMzc1O
 shortcode: physclcn
 ---
 
-A **physical condition** is a [[doc/traumaintro|Trauma]] of the body that is not
+A **physical condition** is a [[doc-traumaintro|Trauma]] of the body that is not
 a wound — a lasting state the character is simply _in_. A limp, poor eyesight,
 albinism, a hand bound fast, the condition of a man who has not eaten in a
 fortnight: none of these is an injury, none of them is running a course toward
@@ -21,14 +22,14 @@ death or cure, and none of them heals by the day. They are the standing facts of
 a particular body.
 
 It is the bodily counterpart of a
-[[doc/psychlgc|psychological condition]], and it is told apart from its
+[[doc-psychlgc|psychological condition]], and it is told apart from its
 neighbours the same way:
 
 | Kind of trauma               | What it is                                                        |
 | ---------------------------- | ----------------------------------------------------------------- |
-| [[doc/injintro\|Injury]]     | Damage done to a location, which heals or kills                   |
-| [[doc/afflctns\|Affliction]] | A hostile agent — disease, poison, maladiction — running a course |
-| [[doc/fatigue\|Fatigue]]     | Depletion, which rest restores                                    |
+| [[doc-injintro\|Injury]]     | Damage done to a location, which heals or kills                   |
+| [[doc-afflctns\|Affliction]] | A hostile agent — disease, poison, maladiction — running a course |
+| [[doc-fatigue\|Fatigue]]     | Depletion, which rest restores                                    |
 | **Physical condition**       | A state of the body, which lasts until its cause is removed       |
 
 Unlike a wound, a physical condition has **no injury level and no healing rate**;
@@ -43,7 +44,7 @@ Physical conditions arrive by four roads:
   clubfoot, dwarfism, colour-blindness, a missing finger. These are part of the
   character rather than something that happened to them.
 - **Left behind by a wound.** A healed injury that took long enough to heal
-  leaves [[doc/imprmnt|permanent impairment]], and with it
+  leaves [[doc-imprmnt|permanent impairment]], and with it
   the condition that describes what the character is now like: the withered arm,
   the dimmed sight, the leg that will not bend. The wound is gone; the condition
   is what it left.
@@ -76,7 +77,7 @@ readings, and the one a character carries is recorded with the condition.
 A character may carry several physical conditions at once, and each is recorded
 separately. Where two of them bear on the same body part, the **worse** of the
 penalties holds; penalties for the state of one part are never added together,
-exactly as they are not for [[doc/imprmnt|impairment]].
+exactly as they are not for [[doc-imprmnt|impairment]].
 
 ## Recovery {#recovery}
 
@@ -114,15 +115,15 @@ that hand, and taking it means prising it loose rather than merely pinning the
 arm. That is precisely what separates a **hold** from a disarm. A limb made
 **unusable** — by a grievous wound or a permanent maiming — is worse off on both
 counts: it is immobilized _and_ it loses its grip, and drops what it held. See
-[[doc/character#immobilized-unusable-and-holding-on|Body Structure]].
+[[doc-character#immobilized-unusable-and-holding-on|Body Structure]].
 
 The condition lasts exactly as long as whatever imposes it, and no longer.
 
 ## See also {#see-also}
 
-- [[doc/psychlgc|Psychological Condition]] — the same idea for the mind
-- [[doc/imprmnt|Impairment]] — the penalties injuries and maimings impose, and
+- [[doc-psychlgc|Psychological Condition]] — the same idea for the mind
+- [[doc-imprmnt|Impairment]] — the penalties injuries and maimings impose, and
   the permanent impairment a slow-healing wound leaves
-- [[doc/character#body-structure|Body Structure]] — the parts a condition attaches to
-- [[doc/afflctns#affliction-vs-trauma|Affliction vs. Trauma]] — why a disease is
+- [[doc-character#body-structure|Body Structure]] — the parts a condition attaches to
+- [[doc-afflctns#affliction-vs-trauma|Affliction vs. Trauma]] — why a disease is
   not a condition

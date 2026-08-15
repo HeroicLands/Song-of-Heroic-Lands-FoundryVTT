@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Shirt
+    - armorgear-MShirt
 tags: []
 name:
     full: Mail Shirt

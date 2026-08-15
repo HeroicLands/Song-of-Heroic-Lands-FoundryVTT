@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Chest, wooden"
+    - containergear-chestwood
 tags: []
 name:
     full: "Chest, wooden"

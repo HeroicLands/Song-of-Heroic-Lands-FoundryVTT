@@ -1,6 +1,7 @@
 ---
 aliases:
     - Dromedary Camel
+    - creature-drmdrycm
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: pnpVKwADEnFpUPcL
 img: icons/game-icons/delapouite/camel-head.svg
-portrait: ""
+portrait: images/drmdrycm.webp
 shortcode: drmdrycm
 type: creature
 package: sohl

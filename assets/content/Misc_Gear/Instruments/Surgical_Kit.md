@@ -1,6 +1,7 @@
 ---
 aliases:
     - Surgical Kit
+    - miscgear-surgkit
 tags:
     - instruments
 name:

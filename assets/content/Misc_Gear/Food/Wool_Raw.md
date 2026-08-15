@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Wool, Raw"
+    - miscgear-woolraw
 tags:
     - food
 name:

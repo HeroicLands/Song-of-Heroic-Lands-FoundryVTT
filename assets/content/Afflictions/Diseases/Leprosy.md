@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-leprosy
 tags: []
 name:
     full: Leprosy

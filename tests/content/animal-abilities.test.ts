@@ -94,19 +94,6 @@ const ZONE_RUNS: Record<string, number[]> = {
     M: [3, 11, 6],
 };
 
-const ELEPHANT = {
-    table: "J",
-    scores: [56, 48, 7, 18, 7, 6, 16, 8, 8] as Scores,
-    lb: 10000,
-    move: 90,
-    ratings: [85, 48, 33, 48, 36, 90] as Ratings,
-    armour: [18, 17, 15, 17] as Armour,
-    weapons: [
-        ["Tusk", "tusk", 6, 12, 55, 6, 23, "piercing"],
-        ["Kick", "kick", 5, 24, 44, 6, 20, "blunt"],
-    ] as Weapon[],
-};
-
 const ROWS: Row[] = [
     /* ---- Domesticated Animal Abilities ---- */
     {
@@ -460,10 +447,6 @@ const ROWS: Row[] = [
         armour: [3, 2, 1, 3],
         weapons: [["Bite", "bite", 0, 1, 70, 6, 0, "piercing"]],
     },
-    // The single ELEPHANT row covers all three setting elephants.
-    { file: "Tanvuran_Elephant", ...ELEPHANT },
-    { file: "Xerathian_Forest_Elephant", ...ELEPHANT },
-    { file: "Xerathian_Savanna_Elephant", ...ELEPHANT },
 ];
 
 /* ------------------------------------------------------------------ */

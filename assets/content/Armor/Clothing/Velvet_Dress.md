@@ -1,6 +1,7 @@
 ---
 aliases:
     - Velvet Dress
+    - armorgear-VDress
 tags: []
 name:
     full: Velvet Dress

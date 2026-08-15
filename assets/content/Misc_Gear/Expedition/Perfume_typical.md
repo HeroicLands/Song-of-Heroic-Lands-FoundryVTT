@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Perfume, typical"
+    - miscgear-perfumetypical
 tags:
     - expedition
 name:

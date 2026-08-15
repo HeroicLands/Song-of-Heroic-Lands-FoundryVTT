@@ -1,6 +1,7 @@
 ---
 aliases:
     - Augury
+    - doc-augury
 id: vnhzmwxzgCuEHnuE
 type: doc
 package: sohl
@@ -37,7 +38,7 @@ says nothing about the same undertaking next month.
 - **Answers** — whether an imminent undertaking is favoured
 
 Resolution and the reading of the result are as described in
-[[doc/divintro#resolution|Divination]], with the ordinary reading narrowed to the
+[[doc-divintro#resolution|Divination]], with the ordinary reading narrowed to the
 question augury actually asks: a Marginal Success gives the disposition plainly,
 a Critical Success gives it along with what turns on it, and a Critical Failure
 gives an augur confidently urging the march that should not be made.

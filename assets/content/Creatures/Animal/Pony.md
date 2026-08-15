@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pony
+    - creature-pony
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: dAk8STANJlO4S4YW
 img: icons/game-icons/delapouite/horse-head.svg
-portrait: ""
+portrait: images/pony.webp
 shortcode: pony
 type: creature
 package: sohl

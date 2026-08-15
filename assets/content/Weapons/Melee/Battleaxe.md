@@ -1,6 +1,7 @@
 ---
 aliases:
     - Battleaxe
+    - weapongear-BAxe
 tags: []
 name:
     full: Battleaxe

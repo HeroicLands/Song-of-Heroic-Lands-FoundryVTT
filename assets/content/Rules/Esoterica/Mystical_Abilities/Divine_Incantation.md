@@ -1,6 +1,7 @@
 ---
 aliases:
     - Divine Incantation
+    - doc-dvnincnt
 id: oorZPGmBmLEyzvFe
 type: doc
 package: sohl

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pike
+    - weapongear-Pike
 tags: []
 name:
     full: Pike

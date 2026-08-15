@@ -1,6 +1,7 @@
 ---
 aliases:
     - Anchovies
+    - miscgear-anchovies
 tags:
     - food
 name:

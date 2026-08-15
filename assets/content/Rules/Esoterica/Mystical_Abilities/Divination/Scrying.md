@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scrying
+    - doc-scrying
 id: fnTUYkZZllrMQirG
 type: doc
 package: sohl
@@ -41,7 +42,7 @@ is itself a useful thing to learn.
 - **Answers** — what a distant place, person, or thing is actually like
 
 Resolution and the reading of the result are as described in
-[[doc/divintro#resolution|Divination]]. A weak link is a penalty the gamemaster
+[[doc-divintro#resolution|Divination]]. A weak link is a penalty the gamemaster
 sets. A Critical Failure shows a true-seeming vision of something that is not so
 — the hall that is not burning, the man who is not dead — and the scryer will
 swear to it, because they did see it.

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mind Trauma Introduction
+    - doc-mindtraumaintro
 id: WWs3rkA2U7iu5epz
 type: doc
 package: sohl

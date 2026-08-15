@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sledgehammer
+    - weapongear-SlgHmr
 tags: []
 name:
     full: Sledgehammer

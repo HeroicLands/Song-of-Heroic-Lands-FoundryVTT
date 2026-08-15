@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beeswax
+    - miscgear-bswax
 tags:
     - expedition
 name:

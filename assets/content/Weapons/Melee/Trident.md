@@ -1,6 +1,7 @@
 ---
 aliases:
     - Trident
+    - weapongear-Tri
 tags: []
 name:
     full: Trident

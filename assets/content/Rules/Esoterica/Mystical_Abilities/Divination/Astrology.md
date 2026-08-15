@@ -1,6 +1,7 @@
 ---
 aliases:
     - Astrology
+    - doc-astrlgy
 id: 5NyYLL2GEcOVdpjS
 type: doc
 package: sohl
@@ -22,7 +23,7 @@ What astrology reads is **tendency over long spans** — the cast of a life, the
 temper of a season, whether an enterprise is begun under influences that favour
 it. It will not say what waits around the next corner, and an astrologer asked
 for that answer will say so. The natal chart is its most characteristic work: the
-sign a character was born under is a standing [[Birthsign]] they carry through
+sign a character was born under is a standing [[doc-brthsgn|birthsign]] they carry through
 their whole life, and reading such a sign — a stranger's, or a newborn's — is
 exactly what this art is for.
 
@@ -39,6 +40,6 @@ usual cause of a confidently wrong horoscope.
   venture
 
 Resolution and the reading of the result are as described in
-[[doc/divintro#resolution|Divination]]. An astrologer working from an estimated
+[[doc-divintro#resolution|Divination]]. An astrologer working from an estimated
 birth-hour, or under broken cloud, is working at a penalty the gamemaster sets;
 one with a full night, good instruments, and an exact hour is not.

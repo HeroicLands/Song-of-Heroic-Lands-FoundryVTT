@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Goblet, glass"
+    - miscgear-gobletglas
 tags:
     - cooking
 name:

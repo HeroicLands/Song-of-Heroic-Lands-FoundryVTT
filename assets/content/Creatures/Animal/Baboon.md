@@ -1,6 +1,7 @@
 ---
 aliases:
     - Baboon
+    - creature-baboon
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: XVM9UHpPPciqBXFy
 img: icons/game-icons/lorc/monkey.svg
-portrait: ""
+portrait: images/baboon.webp
 shortcode: baboon
 type: creature
 package: sohl

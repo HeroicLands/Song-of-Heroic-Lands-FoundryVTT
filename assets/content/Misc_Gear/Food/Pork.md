@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pork
+    - miscgear-pork
 tags:
     - food
 name:

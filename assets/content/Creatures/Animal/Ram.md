@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ram
+    - creature-ramanml
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: ZwHwXKqpOkh0QMOt
 img: icons/game-icons/delapouite/sheep.svg
-portrait: ""
+portrait: images/ramanml.webp
 shortcode: ramanml
 type: creature
 package: sohl

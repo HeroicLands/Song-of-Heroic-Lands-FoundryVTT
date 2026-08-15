@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mail Byrnie
+    - armorgear-MByr
 tags: []
 name:
     full: Mail Byrnie

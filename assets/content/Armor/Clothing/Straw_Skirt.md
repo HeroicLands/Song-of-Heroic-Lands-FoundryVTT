@@ -1,6 +1,7 @@
 ---
 aliases:
     - Straw Skirt
+    - armorgear-StSkirt
 tags: []
 name:
     full: Straw Skirt

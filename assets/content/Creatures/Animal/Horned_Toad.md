@@ -1,6 +1,7 @@
 ---
 aliases:
     - Horned Toad
+    - creature-hrndtd
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Pw1yCo0E0c33EE6P
 img: icons/game-icons/delapouite/horned-reptile.svg
-portrait: ""
+portrait: images/hrndtd.webp
 shortcode: hrndtd
 type: creature
 package: sohl

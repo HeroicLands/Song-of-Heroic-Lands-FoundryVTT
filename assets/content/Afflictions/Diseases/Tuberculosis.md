@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-tbclos
 tags: []
 name:
     full: Tuberculosis

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Spirit Conflict
+    - trauma-spiritcnfl
 tags: []
 name:
     full: Spirit Conflict

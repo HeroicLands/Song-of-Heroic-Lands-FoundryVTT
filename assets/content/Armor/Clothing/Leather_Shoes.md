@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Shoes
+    - armorgear-LtShoe
 tags: []
 name:
     full: Leather Shoes

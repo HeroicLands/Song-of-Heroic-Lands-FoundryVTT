@@ -1,6 +1,7 @@
 ---
 aliases:
     - Truncheon
+    - weapongear-Trunch
 tags: []
 name:
     full: Truncheon

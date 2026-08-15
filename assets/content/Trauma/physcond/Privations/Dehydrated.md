@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-dehyd
 tags: []
 name:
     full: Dehydrated

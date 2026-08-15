@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bell, hand"
+    - miscgear-bellhand
 tags:
     - music
 name:

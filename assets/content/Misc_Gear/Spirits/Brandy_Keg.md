@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Brandy, Keg"
+    - miscgear-brdykeg
 tags:
     - spirits
 name:

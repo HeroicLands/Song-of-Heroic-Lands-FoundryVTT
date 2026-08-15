@@ -1,6 +1,7 @@
 ---
 aliases:
     - Bovine
+    - creature-bovine
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: h55JBmYxilMVO7mS
 img: icons/game-icons/delapouite/cow.svg
-portrait: ""
+portrait: images/bovine.webp
 shortcode: bovine
 type: creature
 package: sohl

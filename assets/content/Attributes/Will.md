@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - attribute-wil
 tags: []
 name:
     full: Will

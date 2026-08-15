@@ -1,6 +1,7 @@
 ---
 aliases:
     - Longbow 100
+    - weapongear-LBw100
 tags: []
 name:
     full: Longbow 100

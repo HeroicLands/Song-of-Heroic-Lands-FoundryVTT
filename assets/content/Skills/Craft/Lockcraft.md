@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-lock
 tags: []
 name:
     full: Lockcraft
@@ -43,7 +44,7 @@ Warded and tumbler locks exist on chests and doors, but the padlock is far and a
 # Crafting {#crafting}
 
 A lock or comparable mechanism is made by the common
-[[doc/crafting|crafting routine]] — workshop, expense, test, result, masterwork
+[[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork
 rolls, repair — in a lockcraft workshop. What follows is what is particular to
 the lockmaker's bench.
 

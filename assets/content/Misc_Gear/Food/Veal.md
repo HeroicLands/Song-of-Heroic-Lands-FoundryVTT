@@ -1,6 +1,7 @@
 ---
 aliases:
     - Veal
+    - miscgear-veal
 tags:
     - food
 name:

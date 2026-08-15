@@ -1,6 +1,7 @@
 ---
 aliases:
     - Eagle
+    - creature-eagle
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Q1LL76ihY4CmtAqA
 img: icons/game-icons/delapouite/eagle-head.svg
-portrait: ""
+portrait: images/eagle.webp
 shortcode: eagle
 type: creature
 package: sohl

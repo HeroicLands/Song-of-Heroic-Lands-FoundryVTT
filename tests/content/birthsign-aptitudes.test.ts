@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { readFileSync, readdirSync } from "node:fs";
-import path from "node:path";
 import { describe, it, expect } from "vitest";
-import { parse as parseYaml } from "yaml";
 import {
     mergeSkillAptitudes,
     skillAptitudeFor,
@@ -22,20 +19,19 @@ import {
 } from "@src/document/item/logic/skill-aptitudes";
 
 /**
- * The Astrokýklos birthsign matrix, as authored content.
+ * The Astrokýklos birthsign matrix, and how a character born under it reads.
  *
- * Only the **twelve principal signs** are authored. A cusp is not a thirteenth
- * kind of thing but a character born under two neighbouring signs at once: the
- * aptitude merge takes the greater value per selector, so the pair yields
- * exactly the cusp values the wheel has always had. Nothing here — and nothing
- * in `assets/content/` — states a cusp row, because none is authored.
+ * There are **twelve principal signs**. A cusp is not a thirteenth kind of thing
+ * but a character born under two neighbouring signs at once: the aptitude merge
+ * takes the greater value per selector, so the pair yields exactly the cusp
+ * values the wheel has always had. No cusp row is stated, because none exists.
  *
  * Each sign carries a modifier per **element**, and each element is a set of
- * skill `subType`s together with that element's own skill shortcodes. This file
- * is the executable copy of that specification: it drives the content in
- * `assets/content/Mysteries/Birthsigns/`, so a sign whose authored aptitudes
- * drift from the matrix fails here rather than silently applying the wrong
- * modifier in play.
+ * skill `subType`s together with that element's own skill shortcodes. The
+ * {@link MATRIX} below is the executable statement of that specification, and
+ * these tests hold {@link mergeSkillAptitudes} and {@link skillAptitudeFor} to
+ * it: combining signs must take the better value per element and never the sum,
+ * or a character born on a cusp quietly gets the wrong modifier in play.
  */
 
 /** The six elements, each defined by its skill subtypes and skill shortcodes. */
@@ -88,65 +84,7 @@ const ADJACENT_PAIRS = WHEEL.map(
     (sign, i) => [sign, WHEEL[(i + 1) % WHEEL.length]] as const,
 );
 
-const BIRTHSIGN_DIR = path.resolve(
-    __dirname,
-    "../../assets/content/Mysteries/Birthsigns",
-);
-
-/** A birthsign content file's parsed frontmatter. */
-interface Birthsign {
-    id: string;
-    shortcode: string;
-    effects?: unknown[];
-    sohl: { skillAptitudes?: Record<string, number> };
-}
-
-/**
- * Read and parse one birthsign's YAML frontmatter.
- * @param sign - The sign name (and file basename).
- * @returns The parsed frontmatter.
- */
-function readBirthsign(sign: string): Birthsign {
-    const raw = readFileSync(path.join(BIRTHSIGN_DIR, `${sign}.md`), "utf8");
-    const match = /^---\n([\s\S]*?)\n---/.exec(raw);
-    if (!match) throw new Error(`${sign}.md has no YAML frontmatter`);
-    return parseYaml(match[1]) as Birthsign;
-}
-
-/**
- * Read one birthsign's prose body — everything after the frontmatter.
- * @param sign - The sign name (and file basename).
- * @returns The Markdown body.
- */
-function readBody(sign: string): string {
-    const raw = readFileSync(path.join(BIRTHSIGN_DIR, `${sign}.md`), "utf8");
-    const body = raw.replace(/^---\n[\s\S]*?\n---\n/, "");
-    if (body === raw) throw new Error(`${sign}.md has no YAML frontmatter`);
-    return body;
-}
-
-/**
- * Parse the modifier a note's authored table states for each element.
- *
- * The table is the reader's only sight of the numbers — the aptitude map that
- * carries them is not rendered anywhere a player reads — so it is authored, and
- * this parse is what keeps it honest against {@link MATRIX}.
- * @param body - The note's Markdown body.
- * @returns The stated modifier per element, in table order.
- */
-function parseModifierTable(body: string): [string, number][] {
-    // The header row cannot match: its last cell is not a modifier.
-    const rows = body.matchAll(
-        /^\|\s*([A-Za-z]+)\s*\|[^|]*\|\s*([+−-]?\d+|—)\s*\|$/gm,
-    );
-    return [...rows].map(([, element, modifier]) => [
-        element.toLowerCase(),
-        // An em dash is how the table spells "this element is untouched".
-        modifier === "—" ? 0 : Number(modifier.replace("−", "-")),
-    ]);
-}
-
-/** Expand a matrix row into the selector → modifier map it should be authored as. */
+/** Expand a matrix row into the selector → modifier map a sign carries. */
 function expandRow(row: Record<ElementName, number>): Record<string, number> {
     const out: Record<string, number> = {};
     for (const element of ELEMENT_NAMES) {
@@ -180,11 +118,11 @@ function perElement(merged: Map<string, number>): Record<ElementName, number> {
     return out;
 }
 
-/** Merge the authored aptitudes of any number of signs, as an actor would. */
+/** Merge the aptitudes of any number of signs, as an actor would. */
 function born(...signs: string[]): Map<string, number> {
     const acc = new Map<string, number>();
     for (const sign of signs) {
-        mergeSkillAptitudes(acc, readBirthsign(sign).sohl.skillAptitudes);
+        mergeSkillAptitudes(acc, expandRow(MATRIX[sign]));
     }
     return acc;
 }
@@ -193,46 +131,33 @@ const sum = (row: Record<ElementName, number>): number =>
     ELEMENT_NAMES.reduce((total, el) => total + row[el], 0);
 
 describe("the Astrokýklos is twelve signs, and only twelve", () => {
-    it("authors a content file for every principal sign and nothing else", () => {
-        const files = readdirSync(BIRTHSIGN_DIR)
-            .filter((f) => f.endsWith(".md"))
-            .map((f) => f.replace(/\.md$/, ""))
-            .sort();
-        expect(files).toEqual([...WHEEL].sort());
+    it("states a row for every principal sign and nothing else", () => {
+        expect(Object.keys(MATRIX)).toHaveLength(12);
+        expect([...WHEEL].sort()).toEqual(Object.keys(MATRIX).sort());
     });
 
-    it("authors no cusp sign — a cusp is a birth under two signs, not a file", () => {
-        const files = readdirSync(BIRTHSIGN_DIR);
-        expect(files.filter((f) => f.includes("-"))).toEqual([]);
+    it("states no cusp row — a cusp is a birth under two signs, not a row", () => {
+        expect(WHEEL.filter((sign) => sign.includes("-"))).toEqual([]);
     });
 });
 
-describe("each principal sign's authored aptitudes", () => {
+describe("each principal sign's matrix row", () => {
     for (const [sign, row] of Object.entries(MATRIX)) {
         describe(sign, () => {
-            const data = readBirthsign(sign);
-
-            it("carries the matrix row, expanded to every selector its elements claim", () => {
-                expect(data.sohl.skillAptitudes).toEqual(expandRow(row));
-            });
-
-            it("carries no Active Effects — the aptitude map replaced them", () => {
-                expect(data.effects ?? []).toEqual([]);
-            });
-
-            it("states every element, in element order, in its table", () => {
-                const stated = parseModifierTable(readBody(sign));
-                expect(stated.map(([element]) => element)).toEqual(
-                    ELEMENT_NAMES,
-                );
-            });
-
-            it("states the matrix modifier for every element", () => {
-                const stated = Object.fromEntries(
-                    parseModifierTable(readBody(sign)),
-                );
+            it("expands to every selector its elements claim", () => {
+                const expanded = expandRow(row);
                 for (const element of ELEMENT_NAMES) {
-                    expect(stated[element], element).toBe(row[element]);
+                    for (const subType of ELEMENTS[element].subTypes) {
+                        expect(
+                            expanded[subTypeAptitudeKey(subType)],
+                            `subType ${subType}`,
+                        ).toBe(row[element]);
+                    }
+                    for (const shortcode of ELEMENTS[element].shortcodes) {
+                        expect(expanded[shortcode], shortcode).toBe(
+                            row[element],
+                        );
+                    }
                 }
             });
 

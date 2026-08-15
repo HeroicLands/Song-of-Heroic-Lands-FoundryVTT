@@ -1,6 +1,7 @@
 ---
 aliases:
     - Punch
+    - skill-bflkpunch
 tags: []
 name:
     full: Folk Punch

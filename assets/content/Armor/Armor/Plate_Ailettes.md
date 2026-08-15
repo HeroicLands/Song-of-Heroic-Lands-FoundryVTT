@@ -1,6 +1,7 @@
 ---
 aliases:
     - Plate Ailettes
+    - armorgear-PlAil
 tags: []
 name:
     full: Plate Ailettes

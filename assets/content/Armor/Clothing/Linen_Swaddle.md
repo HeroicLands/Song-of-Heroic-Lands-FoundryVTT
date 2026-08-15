@@ -1,6 +1,7 @@
 ---
 aliases:
     - Linen Swaddle
+    - armorgear-LnSwd
 tags: []
 name:
     full: Linen Swaddle

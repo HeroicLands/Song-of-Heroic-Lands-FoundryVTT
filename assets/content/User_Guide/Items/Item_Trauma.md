@@ -2,6 +2,7 @@
 aliases:
     - Injury
     - Injuries
+    - doc-itemtrauma
 id: PV8DkxfbuA1ORJ1U
 type: doc
 package: sohl
@@ -24,7 +25,7 @@ dressed wound, and the Pall clinging to a soul.
 whose **Trauma Type** is _Injury_. Everything on this page about wounds, bleeding,
 treatment, and healing is describing that sub-type.
 
-What separates a Trauma from an [[doc/afflctn|Affliction]] is _where the harm
+What separates a Trauma from an [[doc-afflctn|Affliction]] is _where the harm
 comes from_. A Trauma is something the character **carries** — the state their
 body or mind is now in. An Affliction is an outside **agent** working on them: a
 disease, a poison, a curse. A poisoned character has an Affliction; the fatigue
@@ -51,12 +52,12 @@ the sheet offers and which actions the Trauma has.
 | **Physical Condition**      | A lasting bodily trait, impediment, or debility            | Sub-Category        |
 
 The rules behind each of these live with the rules, not here — see
-[[doc/traumaintro|Trauma]], [[doc/injrylvl|Injury]],
-[[doc/bleeding|Bleeding]], [[doc/infctn|Infection]],
-[[doc/shock|Shock]], [[doc/fatigue|Fatigue]],
-[[doc/fear|Fear]], [[doc/morale|Morale]],
-[[doc/psychlgc|Psychological Condition]], and
-[[doc/thepall|The Pall]].
+[[doc-traumaintro|Trauma]], [[doc-injrylvl|Injury]],
+[[doc-bleeding|Bleeding]], [[doc-infctn|Infection]],
+[[doc-shock|Shock]], [[doc-fatigue|Fatigue]],
+[[doc-fear|Fear]], [[doc-morale|Morale]],
+[[doc-psychlgc|Psychological Condition]], and
+[[doc-thepall|The Pall]].
 
 # Where It Appears
 
@@ -80,7 +81,7 @@ works generally.
 
 # Additional Properties
 
-Along with the [[doc/baseitem|Standard Item Properties]], a Trauma's **Properties**
+Along with the [[doc-baseitem|Standard Item Properties]], a Trauma's **Properties**
 tab shows only the fields that mean something for its Trauma Type — a Fear Trauma
 has no Aspect, and a wound has no Sub-Category.
 
@@ -335,7 +336,7 @@ That difficulty is set by what the wound actually needs, which follows from its
 **Aspect** and its severity band: cleaning and dressing a cut, warming a
 frostbitten limb, splinting a fracture, extracting a lodged point, or full surgery.
 A grievous wound is harder to treat well than a minor one. See
-[[doc/injrylvl|the Injury rules]] for the treatment table itself.
+[[doc-injrylvl|the Injury rules]] for the treatment table itself.
 
 ## What it changes
 
@@ -489,7 +490,7 @@ Course Test. While it is active, all healing stops.
 A wound flagged **permanent-impairment eligible** that finally closes may leave a
 **permanent impairment** on the body part it was on, scaled by how long the wound
 took to heal. A wound that lingered for months costs more than one that closed
-quickly. See [[doc/injrylvl|the Injury rules]] for the scale.
+quickly. See [[doc-injrylvl|the Injury rules]] for the scale.
 
 # Blood-Loss Advance Check {#blood-loss-advance-check}
 
@@ -613,7 +614,7 @@ Trauma is removed from the sheet. A **permanent** one never does; it can be worn
 down, but it stays. That is what a critical failure really costs — not points, but
 the possibility of ever being rid of it.
 
-See [[doc/psychlgc|the Psychological Condition rules]].
+See [[doc-psychlgc|the Psychological Condition rules]].
 
 # Aural Shock Recovery {#aural-shock-recovery}
 
@@ -684,13 +685,13 @@ belongs to their player and the GM. The card exists to put the choice in front o
 the table, in the victim's own terms, and then get out of the way. Whatever you
 decide is played out by hand.
 
-See [[doc/thepall|The Pall]] for what each fate means.
+See [[doc-thepall|The Pall]] for what each fate means.
 
 # See also
 
 - [[Afflictions and Injuries]] — the overview of how harm
   works, and how a Trauma differs from an Affliction.
-- [[doc/afflctn|Affliction]] — diseases, poisons, and curses: the outside agents
+- [[doc-afflctn|Affliction]] — diseases, poisons, and curses: the outside agents
   that inflict Traumas.
 - [[Being]] — the physician's side of treatment and blood stoppage, and
   the character's shock state.
@@ -699,9 +700,9 @@ See [[doc/thepall|The Pall]] for what each fate means.
 - [[Combat Basics]] — where most wounds come from, and the injury card
   that creates them.
 - [[Actions]] — how the Actions context menu and chat-card buttons work.
-- [[doc/traumaintro|Trauma]], [[doc/injrylvl|Injury]],
-  [[doc/bleeding|Bleeding]], [[doc/infctn|Infection]],
-  [[doc/shock|Shock]], and [[doc/hlngtst|Healing Test]] (rules) —
+- [[doc-traumaintro|Trauma]], [[doc-injrylvl|Injury]],
+  [[doc-bleeding|Bleeding]], [[doc-infctn|Infection]],
+  [[doc-shock|Shock]], and [[doc-hlngtst|Healing Test]] (rules) —
   the mechanics behind these actions.
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-userguide|User Guide]] — back to the index.

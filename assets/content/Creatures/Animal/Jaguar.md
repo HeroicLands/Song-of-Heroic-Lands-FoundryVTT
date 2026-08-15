@@ -2,6 +2,7 @@
 aliases:
     - Ix'balam
     - Jaguar
+    - creature-jaguar
 tags:
     - animal
     - image-needed
@@ -10,7 +11,7 @@ name:
     aliases: []
 id: tkljuvLrqQH2rXzd
 img: icons/game-icons/delapouite/feline.svg
-portrait: ""
+portrait: images/jaguar.webp
 shortcode: jaguar
 type: creature
 package: sohl

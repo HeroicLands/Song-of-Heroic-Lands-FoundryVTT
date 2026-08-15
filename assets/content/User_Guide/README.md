@@ -2,6 +2,7 @@
 aliases:
     - Song of Heroic Lands User Guide
     - SoHL User Guide
+    - doc-userguide
 id: 9ULGczXC3UwIpgzI
 type: doc
 package: sohl
@@ -18,14 +19,14 @@ this guide is how it is operated: what the sheets show you, what the system asks
 you, what it keeps track of on your behalf, and where to click for each of it.
 
 If you want to be playing in ten minutes, go straight to the
-[[doc/quickstart|Quickstart]] and come back.
+[[doc-quickstart|Quickstart]] and come back.
 
 ## What this guide covers, and what it does not
 
 This guide describes the **implementation** — the sheets, the buttons, the
 dialogs, the chat cards, and the settings. It does not describe the game.
 
-The game itself is the [[doc/rulesintro|Song of Heroic Lands Rules]]: what a
+The game itself is the [[doc-rulesintro|Song of Heroic Lands Rules]]: what a
 Mastery Level is, how a Success Test is graded, what a wound does to a
 character. Those pages are written as though no virtual tabletop existed, and
 **where the two ever differ, the rules are what the game is** and the
@@ -87,62 +88,62 @@ learn to read a sheet, then the things on the sheet, then the things you do with
 them. Each is written on the terms the ones before it defined, so if you are
 reading rather than looking something up, read them in order.
 
-1. **[[doc/quickstart|Quickstart]]** — install the system, import a character,
+1. **[[doc-quickstart|Quickstart]]** — install the system, import a character,
    and make your first roll. The shortest path from nothing to playing.
 2. **Setting up a world** — the GM's opening moves:
-   [[doc/systmstt|System Settings]] (calendar, healing interval, fate rules, and
-   the rest), [[doc/usngcmpn|Using Compendiums]] (what ships with the system and
-   how to import it), [[doc/crtngact|Creating Actors and Items]] (the four ways
-   to make one), and [[doc/chrctrcr|Character Creation]] (building a playable
+   [[doc-systmstt|System Settings]] (calendar, healing interval, fate rules, and
+   the rest), [[doc-usngcmpn|Using Compendiums]] (what ships with the system and
+   how to import it), [[doc-crtngact|Creating Actors and Items]] (the four ways
+   to make one), and [[doc-chrctrcr|Character Creation]] (building a playable
    character end to end).
-3. **[[doc/undrstnd|Understanding Sheets]]** — the sheet anatomy every actor and
+3. **[[doc-undrstnd|Understanding Sheets]]** — the sheet anatomy every actor and
    item shares: the header, the tab strip, and what each tab is for. Read this
    before the chapters that describe individual sheets. Alongside it,
-   [[doc/iconlgnd|Icon Legend]] identifies every glyph the system uses, and
-   [[doc/shrtcds|Shortcodes]] explains the identifier that appears on every
+   [[doc-iconlgnd|Icon Legend]] identifies every glyph the system uses, and
+   [[doc-shrtcds|Shortcodes]] explains the identifier that appears on every
    sheet.
-4. **[[doc/ugactors|Actors]]** — the four kinds of actor and how to choose
-   between them: [[doc/being|Being]], [[doc/cohort|Cohort]],
-   [[doc/structure|Structure]], and [[doc/vehicle|Vehicle]].
-5. **[[doc/ugitems|Items]]** — nearly everything a character _is_ or _carries_:
+4. **[[doc-ugactors|Actors]]** — the four kinds of actor and how to choose
+   between them: [[doc-being|Being]], [[doc-cohort|Cohort]],
+   [[doc-structure|Structure]], and [[doc-vehicle|Vehicle]].
+5. **[[doc-ugitems|Items]]** — nearly everything a character _is_ or _carries_:
    attributes, skills, affiliations, wounds, afflictions, mysteries, and every
-   kind of gear. Start from [[doc/baseitem|Base Item]], which describes what
+   kind of gear. Start from [[doc-baseitem|Base Item]], which describes what
    every item type has in common. Using gear at the table —
    equipping, nesting, and handing it over — is
-   [[doc/wrkngwth|Working with Gear and Equipment]].
-6. **Making tests** — [[doc/sklltsts|Skill Tests and Opposed Tests]] is the
+   [[doc-wrkngwth|Working with Gear and Equipment]].
+6. **Making tests** — [[doc-sklltsts|Skill Tests and Opposed Tests]] is the
    ordinary roll and how to read its result card;
-   [[doc/thftsyst|The Fate System]] is how a settled result can still be
-   improved; and [[doc/actions|Actions]] is the mechanism behind every button
+   [[doc-thftsyst|The Fate System]] is how a settled result can still be
+   improved; and [[doc-actions|Actions]] is the mechanism behind every button
    the system offers you, including the script actions a GM writes for a house
    rule.
-7. **Scenes and tokens** — [[doc/scnstpan|Scene Setup and Tokens]] places actors
-   on a map (and expands a cohort into its members), and [[doc/token|Token]]
+7. **Scenes and tokens** — [[doc-scnstpan|Scene Setup and Tokens]] places actors
+   on a map (and expands a cohort into its members), and [[doc-token|Token]]
    covers what you do from a placed token: starting an opposed test against
    another token, and answering one.
-8. **[[doc/cmbtbscs|Combat Basics]]** — the two ways to run a fight, assisted
+8. **[[doc-cmbtbscs|Combat Basics]]** — the two ways to run a fight, assisted
    and automated, and how a hit is resolved either way.
-   [[doc/cmbtnt|Combatant]] then covers the combat tracker itself: groups, the
+   [[doc-cmbtnt|Combatant]] then covers the combat tracker itself: groups, the
    combatant row, and answering an attack.
-9. **[[doc/afflandi|Afflictions and Injuries]]** — what to do when a character
+9. **[[doc-afflandi|Afflictions and Injuries]]** — what to do when a character
    is hurt or sick: how wounds and diseases arrive, what they cost, and the
    reminder loop that carries them to a resolution.
-10. **[[doc/mystclpw|Mystical Powers]]** — using the supernatural at the table:
+10. **[[doc-mystclpw|Mystical Powers]]** — using the supernatural at the table:
     the Mysteries tab, casting and miracle-working, and mystical devices.
 
 **Customizing the system** is the last chapter, and is for GMs who want to go
-past what the sheets offer: [[doc/sfexprss|Safe Expressions]] is the small
+past what the sheets offer: [[doc-sfexprss|Safe Expressions]] is the small
 expression language SoHL evaluates wherever a value can be computed,
-[[doc/effcttrg|Effect Targeting]] is how an active effect chooses what it
-applies to, and [[doc/clndrjsn|Calendar JSON Format]] is the shape of a custom
+[[doc-effcttrg|Effect Targeting]] is how an active effect chooses what it
+applies to, and [[doc-clndrjsn|Calendar JSON Format]] is the shape of a custom
 calendar.
 
 ## Where to look something up
 
-- **A glyph you do not recognize** — [[doc/iconlgnd|Icon Legend]].
+- **A glyph you do not recognize** — [[doc-iconlgnd|Icon Legend]].
 - **A button on a sheet or a chat card** — the page for the item or actor it
   belongs to. The four buttons that belong to _everything_ are on
-  [[doc/baseitem|Base Item]].
-- **A rules term** — the rules [[doc/glossary|Glossary]], which indexes every
+  [[doc-baseitem|Base Item]].
+- **A rules term** — the rules [[doc-glossary|Glossary]], which indexes every
   term the rules define.
-- **A setting** — [[doc/systmstt|System Settings]].
+- **A setting** — [[doc-systmstt|System Settings]].

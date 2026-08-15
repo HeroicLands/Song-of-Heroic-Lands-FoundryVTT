@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-stubborn
 tags: []
 name:
     full: Stubborn

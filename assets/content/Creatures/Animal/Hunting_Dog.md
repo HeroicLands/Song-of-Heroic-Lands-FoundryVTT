@@ -1,6 +1,7 @@
 ---
 aliases:
     - Hunting Dog
+    - creature-hntngdg
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Po2VUAbp6OfYsojS
 img: icons/game-icons/lorc/hound.svg
-portrait: ""
+portrait: images/hntngdg.webp
 shortcode: hntngdg
 type: creature
 package: sohl

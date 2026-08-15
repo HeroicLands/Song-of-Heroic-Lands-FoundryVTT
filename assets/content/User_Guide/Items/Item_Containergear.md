@@ -1,6 +1,7 @@
 ---
 aliases:
     - Container
+    - doc-cntnr
 id: rF2XSEFWmBoOwkks
 type: doc
 package: sohl
@@ -22,7 +23,7 @@ creating a hierarchical inventory structure.
 
 # Additional Properties
 
-In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for containers:
+In addition to the [[doc-itemgear|Standard Gear Properties]], the following additional properties are defined for containers:
 
 - **Capacity** — how much the container can hold, limiting what can be
   stored inside.
@@ -48,7 +49,7 @@ is a standard action it already inherits:
 
 The first three belong to every item and are described on [[Base Item]];
 **Toggle Carried** belongs to every piece of gear and is described on
-[[doc/itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
+[[doc-itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
 what it produces — none of it changes for a container.
 Everything else about a container — its capacity, and what is nested inside it —
 is set on the sheet or by dragging gear onto the container, not by running an
@@ -56,11 +57,11 @@ action.
 
 # See also
 
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/itemgear|Gear]] — the properties and the **Toggle Carried** action every
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-itemgear|Gear]] — the properties and the **Toggle Carried** action every
   carried thing has.
-- [[doc/baseitem|Base Item]] — the three shared actions named above, including
+- [[doc-baseitem|Base Item]] — the three shared actions named above, including
   what deleting a container does to its contents.
-- [[doc/wrkngwth|Working with Gear and Equipment]] — nesting gear, and moving it
+- [[doc-wrkngwth|Working with Gear and Equipment]] — nesting gear, and moving it
   between containers.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

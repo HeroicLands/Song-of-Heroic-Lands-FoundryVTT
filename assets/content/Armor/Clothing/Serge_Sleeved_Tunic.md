@@ -1,6 +1,7 @@
 ---
 aliases:
     - Serge Sleeved Tunic
+    - armorgear-SgSTnc
 tags: []
 name:
     full: Serge Sleeved Tunic

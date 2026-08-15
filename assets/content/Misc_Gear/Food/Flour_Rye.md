@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Flour, Rye"
+    - miscgear-flourrye
 tags:
     - food
 name:

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Heat Intolerance
+    - trauma-htntlrnc
 tags: []
 name:
     full: Heat Intolerance

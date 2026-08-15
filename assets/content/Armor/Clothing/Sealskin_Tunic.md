@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sealskin Tunic
+    - armorgear-SlsTunic
 tags: []
 name:
     full: Sealskin Tunic

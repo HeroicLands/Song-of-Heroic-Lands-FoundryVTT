@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckram Sleeved Tunic
+    - armorgear-BSTnc
 tags: []
 name:
     full: Buckram Sleeved Tunic

@@ -2,6 +2,7 @@
 aliases:
     - Kurbul Greaves
     - Kûrbúl Greaves
+    - armorgear-KGrvs
 tags: []
 name:
     full: Kûrbúl Greaves

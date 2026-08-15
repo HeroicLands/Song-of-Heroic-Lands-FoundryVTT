@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scale Byrnie
+    - armorgear-SByrn
 tags: []
 name:
     full: Scale Byrnie

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Padded Longshirt
+    - armorgear-PLgSht
 tags: []
 name:
     full: Padded Longshirt

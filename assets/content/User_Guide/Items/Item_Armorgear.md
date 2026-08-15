@@ -1,6 +1,7 @@
 ---
 aliases:
     - Armor
+    - doc-armor
 id: yh3LCFXRlhJWMqLW
 type: doc
 package: sohl
@@ -24,7 +25,7 @@ Armor items are typically added from compendium packs that define standard equip
 
 # Additional Properties
 
-In addition to the [[doc/itemgear|Standard Gear Properties]], the following additional properties are defined for armor:
+In addition to the [[doc-itemgear|Standard Gear Properties]], the following additional properties are defined for armor:
 
 - **Material:** The type of material the armor is constructed from (chain, leather, kurbul, cloth, etc.). This is the word that appears in the **Material** column of the Combat tab's body-locations table for every location the armor covers.
 - **Flexible Locations:** Body locations covered by flexible portions of this armor. Add one with **Add Flexible Location** and remove one with the 🗑 beside it; each is a body-location shortcode such as `thrxloc` (Thorax) or `skullloc` (Skull).
@@ -54,7 +55,7 @@ Armor adds one action of its own to the ones every piece of gear carries:
 | [[#toggle-worn\|Toggle Worn]] | `toggleWorn` | The 🛡 button on the Gear tab row, or the Actions tab |
 
 Everything else on an armor item is inherited and documented elsewhere:
-**Toggle Carried** belongs to all gear and is described on [[doc/itemgear|Gear]], and
+**Toggle Carried** belongs to all gear and is described on [[doc-itemgear|Gear]], and
 **Edit**, **Delete**, and **Output Description to Chat** belong to every item and
 are described once on [[Base Item]]. None of them behaves differently on
 armor.
@@ -96,7 +97,7 @@ the armor is not carried:
 - the **Worn** checkbox on the armor's own Properties tab is disabled;
 - and the action refuses to run however it is invoked.
 
-Pick the armor up with **Toggle Carried** ([[doc/itemgear|Gear]]) and Toggle Worn
+Pick the armor up with **Toggle Carried** ([[doc-itemgear|Gear]]) and Toggle Worn
 becomes available again — but the armor comes back **not worn**, so putting it on is
 always a deliberate act. Setting armor **down** while it is worn takes it off in the
 same stroke, so armor can never sit in a cart while still counting as protection.
@@ -158,20 +159,20 @@ Two consequences are worth knowing at the table:
 
 # See also
 
-- [[doc/itemgear|Gear]] — the standard gear properties, **Toggle Carried**, and the
+- [[doc-itemgear|Gear]] — the standard gear properties, **Toggle Carried**, and the
   carried-gear rule this page's action depends on.
 - [[Base Item]] — the standard item properties and the shared **Edit** /
   **Delete** / **Output Description to Chat** actions.
 - [[Working with Gear and Equipment]] — managing a character's
   kit day to day.
 - [[Combat Basics]] — where worn armor's protection is actually spent.
-- [[doc/injrylvl|Injury]] (rules) — how armor protection is subtracted from an
+- [[doc-injrylvl|Injury]] (rules) — how armor protection is subtracted from an
   impact to give an injury level.
-- [[doc/character#body-structure|Body Structure]] (rules) — the zones, parts, and
+- [[doc-character#body-structure|Body Structure]] (rules) — the zones, parts, and
   locations an armor's coverage lists name.
 - [[Shortcodes]] — what a body-location shortcode such as `thrxloc` refers to.
-- [[doc/ugitems|Items]] — every item type at a glance.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Expand with the relationship between armor quality and
      protection, and armor damage/repair mechanics -->

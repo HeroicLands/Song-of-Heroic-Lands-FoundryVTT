@@ -1,6 +1,7 @@
 ---
 aliases:
     - Giraffe
+    - creature-giraffe
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: 087iR45QSKNTs1ze
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/giraffe.webp
 shortcode: giraffe
 type: creature
 package: sohl

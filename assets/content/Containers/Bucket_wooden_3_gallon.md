@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bucket, wooden, 3 gallon"
+    - containergear-bucketwood3
 tags: []
 name:
     full: "Bucket, wooden, 3 gallon"

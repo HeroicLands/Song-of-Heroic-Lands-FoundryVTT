@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pewter
+    - miscgear-pewter
 tags:
     - jewelry_cash
 name:

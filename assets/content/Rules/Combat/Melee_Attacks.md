@@ -4,6 +4,7 @@ aliases:
     - Melee Attack
     - Melee Combat
     - Reach
+    - doc-mlattcks
 id: OqIctLS39bjX8rbr
 type: doc
 package: sohl
@@ -20,10 +21,10 @@ shortcode: mlattcks
 A **melee attack** is one delivered at arm's length or a weapon's length —
 close enough that both combatants can reach each other, and close enough that
 the answer comes back in the same instant. It resolves by the ordinary
-[[doc/atkreslv#resolving-an-attack|attack sequence]]; what follows is what is
+[[doc-atkreslv#resolving-an-attack|attack sequence]]; what follows is what is
 particular to fighting at contact.
 
-Every melee attack is made with a **melee [[doc/strkmds|strike mode]]** and
+Every melee attack is made with a **melee [[doc-strkmds|strike mode]]** and
 tested against the **Melee** skill, whatever the weapon. A fighter's training
 does not fragment along weapon lines: the same Mastery Level serves a sword, an
 axe, a staff or a bare fist, and what changes between them is the strike mode —
@@ -47,14 +48,14 @@ spearman engages a knife-fighter well before the knife-fighter engages the
 spearman, and the knife-fighter's problem is the ground between. Closing that
 ground is the point of a charge; keeping it is the point of a polearm.
 
-A [[doc/prone|prone]] combatant does not hold an engagement zone at all — a
+A [[doc-prone|prone]] combatant does not hold an engagement zone at all — a
 moving opponent simply steps past it.
 
 ## Making a Melee Attack {#making-a-melee-attack}
 
 The attacker names a target within reach and a strike mode to use on it, aims if
 they wish, and tests **Melee** as described under
-[[doc/atkreslv#the-attack-test|The Attack Test]].
+[[doc-atkreslv#the-attack-test|The Attack Test]].
 
 Two conditions of the attacker's body bear on whether the attack can be made at
 all:
@@ -69,7 +70,7 @@ off-hand does not spoil a one-handed cut with the good hand.
 
 **The off hand strikes weaker.** A weapon wielded only in the non-favoured hand
 loses a point of impact, on top of whatever the fighter's clumsiness with it
-costs the attack roll. See [[doc/character#dominance|Dominance]].
+costs the attack roll. See [[doc-character#dominance|Dominance]].
 
 ## Defending in Melee {#defending-in-melee}
 
@@ -91,7 +92,7 @@ defence of someone who intends to end the fight rather than survive it.
 **Dodge** — evading entirely, tested against **Dodge**. It leaves the defender
 untouched when it works and nothing at all when it does not: a dodger must
 out-level the attack, and a tie goes to the
-[[doc/oppsdtst#tiebreaks|tiebreak]]. Its virtue is that it costs no weapon, risks
+[[doc-oppsdtst#tiebreaks|tiebreak]]. Its virtue is that it costs no weapon, risks
 no breakage, and works against attacks that a block would be foolish against.
 
 **Ignore** — taking the blow. A combatant who is stunned, restrained, or
@@ -99,14 +100,14 @@ otherwise unable to respond has no other option, and an attack against them is
 resolved unopposed.
 
 A defender with nothing in hand may still block with an arm or a leg — see
-[[doc/unrmdcmb#limb-block|Limb Block]] — but an unarmed block against an armed
+[[doc-unrmdcmb#limb-block|Limb Block]] — but an unarmed block against an armed
 opponent is a wager on where the blade goes rather than on whether it arrives.
 
 ## Strength Behind the Blow {#strength-behind-the-blow}
 
 Melee is the skill of **placing** a blow, not of driving it. How hard it lands is
 the attacker's **Strength**, folded into every melee strike mode's impact as the
-[[doc/strkmds#the-strength-impact-modifier|Strength Impact Modifier]]: roughly a
+[[doc-strkmds#the-strength-impact-modifier|Strength Impact Modifier]]: roughly a
 point of impact for every two points of Strength above or below the human
 middle, without limit in either direction, and falling away much faster at the
 bottom of the scale than it climbs at the top.
@@ -122,12 +123,12 @@ opponent back, **trip** them, **hold** a limb fast, or **take** what that limb i
 holding. Such manoeuvres are attacks like any other — they are declared, rolled
 and resolved through the same exchange — but winning the exchange only earns the
 _attempt_. What settles the attempt is a
-[[doc/unrmdcmb#the-strength-trial|Strength Trial]] between the two combatants,
+[[doc-unrmdcmb#the-strength-trial|Strength Trial]] between the two combatants,
 and only the combatant who initiated it and won the Melee test may inflict its
 effect.
 
 They are described with the unarmed techniques, in
-[[doc/unrmdcmb|Unarmed Combat]], because that is where most of them are found —
+[[doc-unrmdcmb|Unarmed Combat]], because that is where most of them are found —
 but nothing confines them to bare hands, and a strike mode on a weapon may carry
 any of them.
 
@@ -136,20 +137,20 @@ any of them.
 Melee is where a fighter's physical state tells hardest, because the roll happens
 at contact and there is no distance to hide in:
 
-- A [[doc/prone|prone]] combatant takes **−20** to every melee attack and every
+- A [[doc-prone|prone]] combatant takes **−20** to every melee attack and every
   melee defence, is easier for enemies to aim at, and must spend a quarter of
   their Move getting up.
-- [[doc/imprmnt|Impairment]] of a limb the strike mode needs applies its penalty,
+- [[doc-imprmnt|Impairment]] of a limb the strike mode needs applies its penalty,
   and an **unusable** limb the mode requires fails the attack outright.
-- [[doc/fatigue|Fatigue]] applies to the attack and the defence alike.
-- A combatant in any [[doc/shock|shock state]] is compromised: an incapacitated
+- [[doc-fatigue|Fatigue]] applies to the attack and the defence alike.
+- A combatant in any [[doc-shock|shock state]] is compromised: an incapacitated
   one can only Ignore melee attacks, and an unconscious one is Helpless — a
   melee attacker against them simply scores a Critical Success.
 
 ## See also {#see-also}
 
-- [[doc/atkreslv|Attack Resolution]] — the exchange in full
-- [[doc/strkmds|Strike Modes]] — reach, impact, aspect, and defence capability
-- [[doc/unrmdcmb|Unarmed Combat]] — techniques, manoeuvres, and the Strength Trial
-- [[doc/msslattc|Missile Attacks]] — attacking at a distance
-- [[doc/prone|Prone]] — fighting from the ground
+- [[doc-atkreslv|Attack Resolution]] — the exchange in full
+- [[doc-strkmds|Strike Modes]] — reach, impact, aspect, and defence capability
+- [[doc-unrmdcmb|Unarmed Combat]] — techniques, manoeuvres, and the Strength Trial
+- [[doc-msslattc|Missile Attacks]] — attacking at a distance
+- [[doc-prone|Prone]] — fighting from the ground

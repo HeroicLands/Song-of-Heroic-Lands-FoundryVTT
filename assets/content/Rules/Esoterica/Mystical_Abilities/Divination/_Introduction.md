@@ -1,6 +1,7 @@
 ---
 aliases:
     - Divination Introduction
+    - doc-divintro
 id: Nao57h8vo7wCINl9
 type: doc
 package: sohl
@@ -19,8 +20,8 @@ take; they do not differ in how they are resolved.
 
 ## The arts {#the-arts}
 
-- [[doc/ftdvn|Fate]] — reading, and tugging at, one's own thread
-- [[Astrology]] — the heavens, charted
+- [[doc-ftdvn|Fate]] — reading, and tugging at, one's own thread
+- [[doc-astrlgy|Astrology]] — the heavens, charted
 - [[Augury]] — omens in the living world
 - [[Cartomancy]] — cards laid out
 - [[Haruspicy]] — the entrails of a sacrifice
@@ -30,9 +31,9 @@ take; they do not differ in how they are resolved.
 
 ## How a divination is resolved {#resolution}
 
-A divination is invoked as a [[doc/sccsstst#success-test|Success Test]], exactly
-as any other [[doc/mystabilintro|Mystical Ability]] is. What is unusual is what
-the [[doc/sccsstst#success-level|success level]] buys: not an effect on the
+A divination is invoked as a [[doc-sccsstst#success-test|Success Test]], exactly
+as any other [[doc-mystabilintro|Mystical Ability]] is. What is unusual is what
+the [[doc-sccsstst#success-level|success level]] buys: not an effect on the
 world, but the **quality of the reading**. Where an art gives no reading of its
 own, the standard interpretation applies:
 
@@ -57,8 +58,8 @@ matter of what is actually true in the world, and no roll can supply that.
 - **It confers no bonus.** Foreknowledge is worth what the players make of it,
   and never a modifier on a later test.
 - **It answers through the aura.** No divination may be performed while the
-  diviner carries [[doc/arlshck|Aural Shock]], and — like every Mystical Ability
-  — a divination can never be [[doc/fatepnts#fate-exclusions|fated]].
+  diviner carries [[doc-arlshck|Aural Shock]], and — like every Mystical Ability
+  — a divination can never be [[doc-fatepnts#fate-exclusions|fated]].
 
 ### Asking again {#asking-again}
 

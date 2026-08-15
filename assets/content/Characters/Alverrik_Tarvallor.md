@@ -2,6 +2,7 @@
 aliases:
     - Álverrik Tárvallor
     - Alverrik Tarvallor
+    - character-alverriktarvall
 tags: []
 name:
     full: Álverrik Tárvallor
@@ -15,7 +16,7 @@ id: KSL4vCrnfP7FxZqU
 folder: Nu7AgLZEmR26u2pk
 shortcode: alverriktarvall
 img: icons/game-icons/delapouite/person.svg
-portrait: ""
+portrait: images/alverriktarvall.webp
 type: character
 package: sohl
 social:

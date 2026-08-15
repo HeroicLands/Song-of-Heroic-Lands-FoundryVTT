@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Talc, Rough"
+    - miscgear-talcrough
 tags:
     - stone
 name:

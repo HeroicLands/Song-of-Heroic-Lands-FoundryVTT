@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Chain, light"
+    - miscgear-chainlight
 tags:
     - expedition
 name:

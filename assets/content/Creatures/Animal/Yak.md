@@ -1,6 +1,7 @@
 ---
 aliases:
     - Yak
+    - creature-yak
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: XoxshfojIWfr4kTc
 img: icons/game-icons/delapouite/bison.svg
-portrait: ""
+portrait: images/yak.webp
 shortcode: yak
 type: creature
 package: sohl

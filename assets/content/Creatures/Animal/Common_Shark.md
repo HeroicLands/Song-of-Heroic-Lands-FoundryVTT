@@ -1,6 +1,7 @@
 ---
 aliases:
     - Common Shark
+    - creature-cmmnshrk
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: Dlb33sZtEOy97jZz
 img: icons/game-icons/lorc/shark-jaws.svg
-portrait: ""
+portrait: images/cmmnshrk.webp
 shortcode: cmmnshrk
 type: creature
 package: sohl

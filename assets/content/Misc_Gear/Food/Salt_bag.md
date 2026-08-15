@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Salt, bag"
+    - miscgear-saltbag
 tags:
     - food
 name:

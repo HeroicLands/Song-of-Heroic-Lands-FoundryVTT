@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-obsssv
 tags: []
 name:
     full: Obsessive

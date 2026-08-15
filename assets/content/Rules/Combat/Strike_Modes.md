@@ -6,6 +6,7 @@ aliases:
     - Missile Strike Mode
     - Attack Mode
     - Attack Modes
+    - doc-strkmds
 id: ixrwbYUvFCsmEkO9
 type: doc
 package: sohl
@@ -32,7 +33,7 @@ technique**. A single instrument of attack rarely does just one thing: a sword c
 **pommel** (blunt) — three separate ways of attacking, and so three separate
 strike modes on the same weapon. A spear can be **Thrust** in the hand or
 **Thrown**; a war-axe can **Chop** in melee or be **Hurled** as a missile. A
-**[[doc/gear|weapon]]** therefore carries **one or more** strike modes, and the
+**[[doc-gear|weapon]]** therefore carries **one or more** strike modes, and the
 wielder chooses which mode to use for a given attack.
 
 Each mode is a distinct attack with its **own properties** — a different
@@ -45,11 +46,11 @@ trained unarmed and natural attacks (a punch, a kick, a bite, a claw) — are
 expressed through strike modes as well, using exactly the same structure. That is
 why strike modes are documented here as an independent concept rather than buried
 inside weapons. The techniques themselves, and the manoeuvres that inflict no
-damage at all, are covered in [[doc/unrmdcmb|Unarmed Combat]].
+damage at all, are covered in [[doc-unrmdcmb|Unarmed Combat]].
 
 How a strike mode is then used to resolve an attack — the contest, the defences,
 the margin, and what a landed blow does — is
-[[doc/atkreslv|Attack Resolution]].
+[[doc-atkreslv|Attack Resolution]].
 
 ## Common Properties {#common-properties}
 
@@ -57,7 +58,7 @@ Every strike mode, whatever its type, records:
 
 - **Name** — the label for this mode of attack ("Cut", "Thrust", "Shoot").
 - **Associated skill** — the skill whose
-  [[doc/mstrylvl#mastery-level|Mastery Level]] governs attacks made with
+  [[doc-mstrylvl#mastery-level|Mastery Level]] governs attacks made with
   this mode.
 - **Minimum body parts** — the number of body parts required to wield the weapon
   in this mode. A weapon is **held by body parts that can grip items** (for a
@@ -105,7 +106,7 @@ flagged to take no Strength modifier at all, and those never receive it.
 Two reductions apply on top, and they stack:
 
 - **Off-hand** — reduce the modifier by **1** when the weapon is held only in
-  the non-favored hand. See [[doc/character#dominance|Dominance]].
+  the non-favored hand. See [[doc-character#dominance|Dominance]].
 - **Thrown** — reduce the modifier by **1** when the weapon is thrown.
 
 ## Melee and Missile {#melee-and-missile}
@@ -138,10 +139,10 @@ properties, it has:
 
 - **Projectile type** — the ammunition it consumes (arrow, bolt, bullet, dart),
   or **none** when the weapon itself is the missile (a thrown spear or axe). A
-  weapon that fires ammunition draws matching **[[doc/prjctl|projectiles]]**, and the
+  weapon that fires ammunition draws matching **[[doc-prjctl|projectiles]]**, and the
   projectile's impact combines with the strike mode's to determine the blow.
 - **Range** — the base distance of a direct shot, and the measure the
-  [[doc/msslattc#range|range bands]] are read against.
+  [[doc-msslattc#range|range bands]] are read against.
 - **Draw** — the pull the weapon demands of whoever shoots it. A bow too heavy
   to manage is a bow that cannot be shot well; heavy crossbows are spanned with
   mechanical aid for exactly that reason.

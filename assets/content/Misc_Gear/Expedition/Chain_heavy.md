@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Chain, heavy"
+    - miscgear-chainheavy
 tags:
     - expedition
 name:

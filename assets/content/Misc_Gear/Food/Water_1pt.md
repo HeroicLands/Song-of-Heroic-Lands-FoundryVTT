@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Water, 1pt."
+    - miscgear-Wtr1pt
 tags:
     - food
 name:

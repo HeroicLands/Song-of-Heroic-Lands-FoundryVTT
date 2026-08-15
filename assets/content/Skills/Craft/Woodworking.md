@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-wood
 tags: []
 name:
     full: Woodworking
@@ -31,13 +32,13 @@ Woodworking is the joiner's and turner's trade: furniture, containers, vehicles,
 
 # Crafting {#crafting}
 
-Woodwork is made by the common [[doc/crafting|crafting routine]] — workshop,
+Woodwork is made by the common [[doc-crafting|crafting routine]] — workshop,
 expense, test, result, masterwork rolls, repair. What follows is what is
 particular to the joiner's shop.
 
 **Expense.** Reckon **ten hours per 3d of the item's price**, at a material cost of **1d per 30 lb**.
 
-**Test.** A Woodworking Success Value test, read on the standard ladder. A **[d]** marks a decorative piece; weapons **[w]** are made by the [[docskill/wpnc#crafting|weaponmaking]] routine instead.
+**Test.** A Woodworking Success Value test, read on the standard ladder. A **[d]** marks a decorative piece; weapons **[w]** are made by the [[docskill-wpnc#crafting|weaponmaking]] routine instead.
 
 | Item                       | lb  | Price | Item           | lb  | Price |
 | -------------------------- | --- | ----- | -------------- | --- | ----- |

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-cmd
 tags: []
 name:
     full: Command

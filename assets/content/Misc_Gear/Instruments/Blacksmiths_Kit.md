@@ -1,6 +1,7 @@
 ---
 aliases:
     - Blacksmith's Kit
+    - miscgear-blacksmkit
 tags:
     - instruments
 name:

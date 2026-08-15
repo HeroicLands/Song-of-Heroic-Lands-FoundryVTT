@@ -1,6 +1,7 @@
 ---
 aliases:
     - Trebuchet
+    - weapongear-Trebch
 tags: []
 name:
     full: Trebuchet

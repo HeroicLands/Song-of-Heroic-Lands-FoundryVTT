@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-glrntd
 tags: []
 name:
     full: Goal-oriented

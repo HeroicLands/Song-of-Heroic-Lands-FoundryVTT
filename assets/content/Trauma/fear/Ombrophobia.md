@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-ombrophb
 tags: []
 name:
     full: Ombrophobia

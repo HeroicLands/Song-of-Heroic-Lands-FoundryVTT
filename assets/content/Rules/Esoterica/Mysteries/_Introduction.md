@@ -1,6 +1,7 @@
 ---
 aliases:
     - Mysteries Introduction
+    - doc-mysteryintro
 id: 8gqF9lyFp5S6zceE
 type: doc
 package: sohl
@@ -12,7 +13,7 @@ folder: gmHoAXi9mq8O9DUn
 shortcode: mysteryintro
 ---
 
-- [[Birthsign]]
+- [[doc-brthsgn|Birthsign]]
 - [[Boon]]
 - [[Boost]]
 - [[Grace]]
@@ -20,8 +21,8 @@ shortcode: mysteryintro
 
 A character's Fate is held as a Mystery too, but because it acts on any test at
 all it is described with the rest of the resolution rules, under
-[[doc/fatepnts|Fate]].
+[[doc-fatepnts|Fate]].
 
-**Every Mystery is unavailable under [[doc/arlshck|Aural Shock]].** A Boon or
+**Every Mystery is unavailable under [[doc-arlshck|Aural Shock]].** A Boon or
 Boost stops granting what it grants, and every other Mystery keeps its values but
 cannot be used, for as long as any Aural Shock remains.

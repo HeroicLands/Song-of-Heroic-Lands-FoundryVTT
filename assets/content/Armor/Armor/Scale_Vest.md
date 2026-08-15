@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scale Vest
+    - armorgear-SVest
 tags: []
 name:
     full: Scale Vest

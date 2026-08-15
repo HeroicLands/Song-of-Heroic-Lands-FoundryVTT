@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-imgntv
 tags: []
 name:
     full: Imaginative

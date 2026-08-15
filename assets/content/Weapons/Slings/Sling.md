@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sling
+    - weapongear-Slng
 tags: []
 name:
     full: Sling

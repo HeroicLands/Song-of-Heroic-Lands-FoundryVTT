@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Dye, Nut Brown"
+    - miscgear-dyenut
 tags:
     - clothing
 name:

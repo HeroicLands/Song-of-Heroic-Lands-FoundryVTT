@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Arrow bag"
+    - containergear-arrowbag
 tags: []
 name:
     full: "Arrow bag"

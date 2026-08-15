@@ -1,6 +1,7 @@
 ---
 aliases:
     - Brown Bear
+    - creature-brwnbr
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: a9JXetcPtDFkcvRj
 img: icons/game-icons/delapouite/bear-head.svg
-portrait: ""
+portrait: images/brwnbr.webp
 shortcode: brwnbr
 type: creature
 package: sohl

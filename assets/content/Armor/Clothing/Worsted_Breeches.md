@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Breeches
+    - armorgear-WBrch
 tags: []
 name:
     full: Worsted Breeches

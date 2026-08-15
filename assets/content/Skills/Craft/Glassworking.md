@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-glas
 tags: []
 name:
     full: Glassworking
@@ -33,7 +34,7 @@ Glass phials are also the vessel of choice for anything that must be seen withou
 
 # Crafting {#crafting}
 
-Glass is made by the common [[doc/crafting|crafting routine]] — workshop,
+Glass is made by the common [[doc-crafting|crafting routine]] — workshop,
 expense, test, result, masterwork rolls, repair. What follows is what is
 particular to the glasshouse.
 

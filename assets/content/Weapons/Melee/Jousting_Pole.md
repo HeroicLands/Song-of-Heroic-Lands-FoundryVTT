@@ -1,6 +1,7 @@
 ---
 aliases:
     - Jousting Pole
+    - weapongear-JPole
 tags: []
 name:
     full: Jousting Pole

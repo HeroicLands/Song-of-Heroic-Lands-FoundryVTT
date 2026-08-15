@@ -1,6 +1,7 @@
 ---
 aliases:
     - Buckram Leggings
+    - armorgear-BLeg
 tags: []
 name:
     full: Buckram Leggings

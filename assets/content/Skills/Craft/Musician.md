@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-musc
 tags: []
 name:
     full: Musician

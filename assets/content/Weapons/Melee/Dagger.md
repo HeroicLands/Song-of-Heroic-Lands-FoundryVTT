@@ -1,6 +1,7 @@
 ---
 aliases:
     - Dagger
+    - weapongear-Dgr
 tags: []
 name:
     full: Dagger

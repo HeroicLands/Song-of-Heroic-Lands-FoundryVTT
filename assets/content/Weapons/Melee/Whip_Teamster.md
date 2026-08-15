@@ -1,6 +1,7 @@
 ---
 aliases:
     - Whip, Teamster
+    - weapongear-TWhp
 tags: []
 name:
     full: Whip, Teamster

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Heavy Bodkin Arrow
+    - projectilegear-ArwHBod
 tags: []
 name:
     full: Heavy Bodkin Arrow

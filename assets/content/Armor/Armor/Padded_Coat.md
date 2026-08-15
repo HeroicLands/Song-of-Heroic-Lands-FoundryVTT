@@ -1,6 +1,7 @@
 ---
 aliases:
     - Padded Coat
+    - armorgear-PCoat
 tags: []
 name:
     full: Padded Coat

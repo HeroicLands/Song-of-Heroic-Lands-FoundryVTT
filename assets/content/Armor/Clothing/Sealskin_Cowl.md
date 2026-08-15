@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sealskin Cowl
+    - armorgear-SlsCowl
 tags: []
 name:
     full: Sealskin Cowl

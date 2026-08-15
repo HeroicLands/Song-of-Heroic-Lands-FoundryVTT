@@ -74,6 +74,18 @@ function main() {
         else byKey.set(key, [relative(".", file)]);
     }
 
+    // "Every one of nothing is unique" is a vacuous pass, and it is exactly what
+    // an unexported (generated) content tree produces — so the check would go
+    // green on the one state it most needs to catch.
+    if (byKey.size === 0) {
+        console.error(
+            `check-pack-shortcodes: ${ROOT}/ holds no keyed content, so ` +
+                `uniqueness is vacuous. assets/content/ is generated — run ` +
+                `"npm run content:export" (maintainers) or check out the tree.`,
+        );
+        return 1;
+    }
+
     const dupes = [...byKey.entries()].filter(([, fs]) => fs.length > 1);
     if (dupes.length === 0) {
         console.log(

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Composite Bow 120
+    - weapongear-CBw120
 tags: []
 name:
     full: Composite Bow 120

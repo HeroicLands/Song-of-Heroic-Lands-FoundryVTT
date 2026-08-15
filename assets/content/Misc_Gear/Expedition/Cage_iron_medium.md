@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Cage, iron, medium"
+    - miscgear-cageironme
 tags:
     - expedition
 name:

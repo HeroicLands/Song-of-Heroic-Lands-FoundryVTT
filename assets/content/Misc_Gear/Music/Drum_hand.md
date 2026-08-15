@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Drum, hand"
+    - miscgear-drumhand
 tags:
     - music
 name:

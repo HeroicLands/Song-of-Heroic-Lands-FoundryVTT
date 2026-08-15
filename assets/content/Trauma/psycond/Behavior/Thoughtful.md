@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-thghtfl
 tags: []
 name:
     full: Thoughtful

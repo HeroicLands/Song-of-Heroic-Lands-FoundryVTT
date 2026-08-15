@@ -1,6 +1,7 @@
 ---
 aliases:
     - Body Trauma Introduction
+    - doc-bodytrmaintro
 id: Yjn2JOJNvxe0I9HY
 type: doc
 package: sohl
@@ -12,9 +13,9 @@ folder: edGOkxiCotuMzc1O
 shortcode: bodytrmaintro
 ---
 
-- [[doc/injintro|Injuries]]
-- [[Afflictions]]
+- [[doc-injintro|Injuries]]
+- [[doc-afflctns|Afflictions]]
 - [[Fatigue]]
 - [[Physical Condition]]
-- [[Shock]]
+- [[doc-shock|Shock]]
 - [[Coma]]

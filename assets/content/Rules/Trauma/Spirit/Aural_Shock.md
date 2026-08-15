@@ -3,6 +3,7 @@ aliases:
     - Aural Shock
     - Aural Shock Level
     - Aural Shock Recovery Test
+    - doc-arlshck
 id: A8oMKQjucNVvKnpr
 type: doc
 package: sohl
@@ -30,22 +31,22 @@ not frightened — they are simply, for the moment, cut off.
 Aural Shock severs the character from everything they reach for through the aura.
 That is its whole effect, and it is a total one.
 
-**Every [[doc/mystabilintro|Mystical Ability]] is unusable.** Not penalized —
+**Every [[doc-mystabilintro|Mystical Ability]] is unusable.** Not penalized —
 unusable. No incantation, talent, rite, ritual, alchemy, or divination can be
 performed for as long as any Aural Shock remains, whatever the character's
 mastery of it.
 
-**Every [[doc/mysteryintro|Mystery]] is unavailable.** A
-[[doc/boon|Boon]] or [[doc/boost|Boost]] simply stops working: while the shock
+**Every [[doc-mysteryintro|Mystery]] is unavailable.** A
+[[doc-boon|Boon]] or [[doc-boost|Boost]] simply stops working: while the shock
 lasts, the bonuses it grants are not there. Every other Mystery — Fate, Grace,
-Piety, a [[Birthsign]] — **retains its values but cannot be used**. Nothing is
+Piety, a [[doc-brthsgn|birthsign]] — **retains its values but cannot be used**. Nothing is
 lost or spent; the character keeps every point and every rating and can reach
 none of them. A Fate point cannot be spent, a Grace cannot be answered, and the
 influence a birthsign exerts is silent until the shock passes.
 
 **The Aura attribute cannot be rolled, and Aura-based skills are unusable.** The
 **Aura** attribute itself is not tested while the shock lasts, and every skill
-whose [[doc/mstrylvl#skill-base|Skill Base]] is computed from Aura is unusable
+whose [[doc-mstrylvl#skill-base|Skill Base]] is computed from Aura is unusable
 along with it — as are Aura-modified tests generally, Fate tests and Spirit tests
 among them. The character has not forgotten the skill; the faculty it draws on is
 simply not answering.
@@ -55,7 +56,7 @@ an artifact and something must be rolled — the result is an automatic **Critic
 Failure**.
 
 **The body feels it too.** Aural Shock inflicts **5
-[[doc/fatigue|weakness fatigue]] per AS level**, which recovers as the AS
+[[doc-fatigue|weakness fatigue]] per AS level**, which recovers as the AS
 decreases — so the severed character is visibly drained, not merely mystically
 deaf.
 
@@ -80,13 +81,13 @@ The victim recovers from Aural Shock when AS reaches **0**.
 
 Because a Critical Failure adds a Psyche Stress level, a long severance leaves
 its own mark: the character who spends a fortnight failing to reach their own
-aura comes back with a [[doc/psychlgc|psychological condition]] to show for it.
+aura comes back with a [[doc-psychlgc|psychological condition]] to show for it.
 
 ## See also {#see-also}
 
 - [[The Pall]] — the other spirit trauma, and the harm that comes of death itself
-- [[doc/psychlgc|Psychological Condition]] — the Psyche Stress a failed recovery
+- [[doc-psychlgc|Psychological Condition]] — the Psyche Stress a failed recovery
   accrues
-- [[doc/mystabilintro|Mystical Abilities]] — none of which can be performed under
+- [[doc-mystabilintro|Mystical Abilities]] — none of which can be performed under
   Aural Shock
-- [[doc/fatigue|Fatigue]] — the weakness Aural Shock imposes while it lasts
+- [[doc-fatigue|Fatigue]] — the weakness Aural Shock imposes while it lasts

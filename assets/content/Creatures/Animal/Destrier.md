@@ -1,6 +1,7 @@
 ---
 aliases:
     - Destrier
+    - creature-destrier
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: AYrEr6jrDy802WIf
 img: icons/game-icons/delapouite/horse-head.svg
-portrait: ""
+portrait: images/destrier.webp
 shortcode: destrier
 type: creature
 package: sohl

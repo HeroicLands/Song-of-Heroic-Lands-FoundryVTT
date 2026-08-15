@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ham
+    - miscgear-ham
 tags:
     - food
 name:

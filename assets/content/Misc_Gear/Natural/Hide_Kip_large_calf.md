@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Hide, Kip (large calf)"
+    - miscgear-hidekiplar
 tags:
     - natural
 name:

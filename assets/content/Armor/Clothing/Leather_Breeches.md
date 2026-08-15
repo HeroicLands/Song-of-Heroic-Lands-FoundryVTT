@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Breeches
+    - armorgear-LtBrch
 tags: []
 name:
     full: Leather Breeches

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-embl
 tags: []
 name:
     full: Embalming

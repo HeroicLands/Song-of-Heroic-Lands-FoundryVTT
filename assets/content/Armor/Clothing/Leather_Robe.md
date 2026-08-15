@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Robe
+    - armorgear-LtRobe
 tags: []
 name:
     full: Leather Robe

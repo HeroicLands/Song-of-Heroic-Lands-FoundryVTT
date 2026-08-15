@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-asthma
 tags: []
 name:
     full: Asthma

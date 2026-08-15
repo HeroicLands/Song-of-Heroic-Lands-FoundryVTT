@@ -1,6 +1,7 @@
 ---
 aliases:
     - Scale Cowl
+    - armorgear-SCwl
 tags: []
 name:
     full: Scale Cowl

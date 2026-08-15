@@ -1,6 +1,7 @@
 ---
 aliases:
     - Psychological Distress
+    - trauma-psydist
 tags: []
 name:
     full: Psychological Distress

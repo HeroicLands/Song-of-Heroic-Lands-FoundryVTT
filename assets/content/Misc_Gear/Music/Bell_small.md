@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bell, small"
+    - miscgear-bellsmall
 tags:
     - music
 name:

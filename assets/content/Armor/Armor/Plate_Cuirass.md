@@ -1,6 +1,7 @@
 ---
 aliases:
     - Plate Cuirass
+    - armorgear-PlCui
 tags: []
 name:
     full: Plate Cuirass

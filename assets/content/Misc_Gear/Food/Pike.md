@@ -1,6 +1,7 @@
 ---
 aliases:
     - Pike
+    - miscgear-pike
 tags:
     - food
 name:

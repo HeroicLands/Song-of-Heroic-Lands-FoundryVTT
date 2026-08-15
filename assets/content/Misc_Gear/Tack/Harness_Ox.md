@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Harness, Ox"
+    - miscgear-harnessox
 tags:
     - tack
 name:

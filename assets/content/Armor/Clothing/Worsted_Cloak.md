@@ -1,6 +1,7 @@
 ---
 aliases:
     - Worsted Cloak
+    - armorgear-WClk
 tags: []
 name:
     full: Worsted Cloak

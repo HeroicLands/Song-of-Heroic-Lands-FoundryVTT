@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-ricin
 tags: []
 name:
     full: Ricin

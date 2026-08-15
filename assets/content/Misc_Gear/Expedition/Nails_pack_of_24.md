@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Nails, pack of 24"
+    - miscgear-nailspacko
 tags:
     - expedition
 name:

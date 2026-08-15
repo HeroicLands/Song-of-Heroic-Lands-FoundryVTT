@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bucket, copper"
+    - containergear-bucketcopp
 tags: []
 name:
     full: "Bucket, copper"

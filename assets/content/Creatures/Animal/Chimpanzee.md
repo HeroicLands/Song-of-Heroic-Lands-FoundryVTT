@@ -1,6 +1,7 @@
 ---
 aliases:
     - Chimpanzee
+    - creature-chmpnz
 tags:
     - animal
 name:
@@ -8,7 +9,7 @@ name:
     aliases: []
 id: LifKo43B3FiV9ez0
 img: icons/game-icons/lorc/monkey.svg
-portrait: ""
+portrait: images/chmpnz.webp
 shortcode: chmpnz
 type: creature
 package: sohl

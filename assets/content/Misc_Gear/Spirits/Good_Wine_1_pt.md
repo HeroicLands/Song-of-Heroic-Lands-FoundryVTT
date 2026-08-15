@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Good Wine, 1 pt."
+    - miscgear-gwinept
 tags:
     - spirits
 name:

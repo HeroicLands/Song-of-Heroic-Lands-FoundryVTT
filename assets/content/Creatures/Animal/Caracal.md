@@ -1,6 +1,7 @@
 ---
 aliases:
     - Caracal
+    - creature-caracal
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: IDVdbQRzboB9CFFT
 img: icons/game-icons/delapouite/lynx-head.svg
-portrait: ""
+portrait: images/caracal.webp
 shortcode: caracal
 type: creature
 package: sohl

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Russet Hat
+    - armorgear-RHat
 tags: []
 name:
     full: Russet Hat

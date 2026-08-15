@@ -1,6 +1,7 @@
 ---
 aliases:
     - Ring Leggings
+    - armorgear-RnLeg
 tags: []
 name:
     full: Ring Leggings

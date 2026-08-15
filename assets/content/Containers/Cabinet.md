@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Cabinet"
+    - containergear-cabinet
 tags: []
 name:
     full: "Cabinet"

@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-monophb
 tags: []
 name:
     full: Monophobia

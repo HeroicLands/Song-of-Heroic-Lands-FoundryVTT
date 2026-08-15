@@ -1,6 +1,7 @@
 ---
 aliases:
     - Lamb
+    - miscgear-lamb
 tags:
     - food
 name:

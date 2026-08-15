@@ -1,6 +1,7 @@
 ---
 aliases:
     - Beaver Hat
+    - armorgear-BvHat
 tags: []
 name:
     full: Beaver Hat

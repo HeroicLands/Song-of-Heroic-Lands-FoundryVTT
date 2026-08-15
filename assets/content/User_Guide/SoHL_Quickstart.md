@@ -2,6 +2,7 @@
 aliases:
     - Song of Herioc Lands Quickstart
     - SoHL Quickstart
+    - doc-quickstart
 id: nXSQAexjRb8kxrvn
 type: doc
 package: sohl
@@ -47,5 +48,5 @@ See [[Combat Basics]] for round flow and common checks.
 
 # See Also
 
-- [[doc/rulesintro|Song of Heroic Lands Rules]]
+- [[doc-rulesintro|Song of Heroic Lands Rules]]
 - [[Song of Heroic Lands User Guide]]

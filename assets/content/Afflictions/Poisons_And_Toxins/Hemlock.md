@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - affliction-hemlock
 tags: []
 name:
     full: Hemlock

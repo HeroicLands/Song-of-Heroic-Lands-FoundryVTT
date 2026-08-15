@@ -1,6 +1,7 @@
 ---
 aliases:
     - Padded Shirt
+    - armorgear-PSht
 tags: []
 name:
     full: Padded Shirt

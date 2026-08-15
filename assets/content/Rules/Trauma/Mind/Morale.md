@@ -4,6 +4,7 @@ aliases:
     - Morale Test
     - Rally Test
     - Reaction Test
+    - doc-morale
 id: jBDOZxRV8VpzsfPV
 type: doc
 package: sohl
@@ -38,7 +39,7 @@ affects the victim.
 A morale check is called for when a combatant:
 
 - takes a Serious or Grievous wound, once they have resolved that wound's
-  [[Shock]] test and shaken off any resulting shock state;
+  [[doc-shock|Shock]] test and shaken off any resulting shock state;
 - notices that **half or more** of their allies have been put out of action
   (judged against the survivors each time, so it can fire repeatedly as a fight
   wears a group down);
@@ -73,5 +74,5 @@ turn.
 
 ## See also
 
-- [[Fear]], [[Shock]],
-  [[Psychological Condition]], [[doc/traumaintro|Trauma]].
+- [[Fear]], [[doc-shock|Shock]],
+  [[Psychological Condition]], [[doc-traumaintro|Trauma]].

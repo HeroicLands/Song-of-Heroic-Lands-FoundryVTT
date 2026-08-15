@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - trauma-albinism
 tags: []
 name:
     full: Albinism

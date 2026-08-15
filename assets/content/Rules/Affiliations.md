@@ -1,6 +1,7 @@
 ---
 aliases:
     - Affiliations
+    - doc-affiliation
 id: l6WtRZ8ua1K0wZOK
 type: doc
 package: sohl

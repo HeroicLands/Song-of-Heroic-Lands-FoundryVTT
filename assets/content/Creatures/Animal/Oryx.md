@@ -1,6 +1,7 @@
 ---
 aliases:
     - Oryx
+    - creature-oryx
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: gIK5jksNoWu7af9z
 img: icons/game-icons/lorc/paw-print.svg
-portrait: ""
+portrait: images/oryx.webp
 shortcode: oryx
 type: creature
 package: sohl

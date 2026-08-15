@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-txtl
 tags: []
 name:
     full: Textilecraft
@@ -33,7 +34,7 @@ What a character wears announces their class, or the class they wish to be taken
 
 # Crafting {#crafting}
 
-Cloth and clothing are made by the common [[doc/crafting|crafting routine]] —
+Cloth and clothing are made by the common [[doc-crafting|crafting routine]] —
 workshop, expense, test, result, masterwork rolls, repair. What follows is what
 is particular to the loom and the needle.
 
@@ -52,4 +53,4 @@ is particular to the loom and the needle.
 | Buckram Cloak  | 53d  | 13h  | Tent, Dome          | 432d | 15h  |
 | Padded Cloak   | 99d  | 20h  | Tent, Ridged, large | 518d | 20h  |
 
-**Armour.** Textilecraft is also the skill that fashions cloth, padded, quilted and gambeson armour, following the [[docskill/wpnc#crafting|armour-making routine]] under Weaponcraft.
+**Armour.** Textilecraft is also the skill that fashions cloth, padded, quilted and gambeson armour, following the [[docskill-wpnc#crafting|armour-making routine]] under Weaponcraft.

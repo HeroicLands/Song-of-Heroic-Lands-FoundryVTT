@@ -1,5 +1,6 @@
 ---
-aliases: []
+aliases:
+    - skill-common
 tags: []
 name:
     full: Common

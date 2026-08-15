@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Calf Boots
+    - armorgear-LtCBoot
 tags: []
 name:
     full: Leather Calf Boots

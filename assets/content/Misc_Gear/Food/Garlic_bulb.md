@@ -1,6 +1,7 @@
 ---
 aliases:
     - Garlic bulb
+    - miscgear-garlic
 tags:
     - food
 name:

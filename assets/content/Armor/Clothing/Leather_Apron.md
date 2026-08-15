@@ -1,6 +1,7 @@
 ---
 aliases:
     - Leather Apron
+    - armorgear-LtApn
 tags: []
 name:
     full: Leather Apron

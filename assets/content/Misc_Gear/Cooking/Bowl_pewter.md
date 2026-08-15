@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Bowl, pewter"
+    - miscgear-bowlpewter
 tags:
     - cooking
 name:

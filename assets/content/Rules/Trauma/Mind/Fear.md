@@ -2,6 +2,7 @@
 aliases:
     - Fear
     - Fear Test
+    - doc-fear
 id: JQ6QycfbFNiwqmoW
 type: doc
 package: sohl
@@ -38,4 +39,4 @@ state affects the victim.
 ## See also
 
 - [[Morale]], [[Psychological Condition]],
-  [[doc/traumaintro|Trauma]].
+  [[doc-traumaintro|Trauma]].

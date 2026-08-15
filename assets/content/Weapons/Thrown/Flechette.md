@@ -1,6 +1,7 @@
 ---
 aliases:
     - Fléchette
+    - weapongear-Flch
 tags: []
 name:
     full: Fléchette

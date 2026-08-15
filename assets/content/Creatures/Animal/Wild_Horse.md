@@ -1,6 +1,7 @@
 ---
 aliases:
     - Wild Horse
+    - creature-wldhrs
 tags:
     - animal
     - image-needed
@@ -9,7 +10,7 @@ name:
     aliases: []
 id: O4pfq2TzV4c9SzsT
 img: icons/game-icons/delapouite/horse-head.svg
-portrait: ""
+portrait: images/wldhrs.webp
 shortcode: wldhrs
 type: creature
 package: sohl

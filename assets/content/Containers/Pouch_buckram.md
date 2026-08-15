@@ -1,6 +1,7 @@
 ---
 aliases:
     - "Pouch, buckram"
+    - containergear-pouchbuckram
 tags: []
 name:
     full: "Pouch, buckram"

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Lockcraft Kit
+    - miscgear-lkcrftkt
 tags:
     - instruments
 name:

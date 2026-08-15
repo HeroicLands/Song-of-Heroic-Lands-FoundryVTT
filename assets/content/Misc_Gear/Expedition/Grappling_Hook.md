@@ -1,6 +1,7 @@
 ---
 aliases:
     - Grappling Hook
+    - miscgear-grphook
 tags:
     - expedition
 name:

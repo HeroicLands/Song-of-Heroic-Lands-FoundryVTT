@@ -1,6 +1,7 @@
 ---
 aliases:
     - Impairment
+    - doc-imprmnt
 id: Aa8GO0i94Gh9cyGi
 type: doc
 package: sohl
@@ -33,7 +34,7 @@ impaired by −10, not −30, and takes only the single worst penalty among its
 injuries and its permanent impairment.
 
 Which tests an impaired part actually penalizes is decided by the part's
-[[doc/character#body-part-roles|body roles]] — each skill and attribute names
+[[doc-character#body-part-roles|body roles]] — each skill and attribute names
 the roles whose injury impairs it, and takes the worst penalty among the parts
 holding those roles (or Critically Fails outright if any of them is unusable).
 

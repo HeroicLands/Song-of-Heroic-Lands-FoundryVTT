@@ -1,6 +1,7 @@
 ---
 aliases:
     - Chime
+    - miscgear-chime
 tags:
     - music
 name:

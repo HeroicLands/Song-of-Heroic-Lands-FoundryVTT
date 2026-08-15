@@ -1,6 +1,7 @@
 ---
 aliases:
     - Sewing Kit
+    - miscgear-sewkit
 tags:
     - instruments
 name:

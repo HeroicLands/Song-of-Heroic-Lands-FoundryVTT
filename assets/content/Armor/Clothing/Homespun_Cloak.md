@@ -1,6 +1,7 @@
 ---
 aliases:
     - Homespun Cloak
+    - armorgear-HsClk
 tags: []
 name:
     full: Homespun Cloak

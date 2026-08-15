@@ -1,6 +1,7 @@
 ---
 aliases:
     - Quilted Vest
+    - armorgear-QVest
 tags: []
 name:
     full: Quilted Vest

@@ -1,6 +1,7 @@
 ---
 aliases:
     - Structure
+    - doc-structure
 id: STezcXhJMlmYv9XT
 type: doc
 package: sohl
@@ -120,17 +121,17 @@ _None_ row; the control is there because movement is a capability every actor
 carries, not because a building is expected to use it.
 
 The contents stored in a structure are ordinary gear items with actions of their
-own — see [[doc/itemgear|Gear]] and the page for each kind of gear.
+own — see [[doc-itemgear|Gear]] and the page for each kind of gear.
 
 # See also
 
-- [[doc/ugactors|Actors]] — the four actor kinds and how to choose between
+- [[doc-ugactors|Actors]] — the four actor kinds and how to choose between
   them.
-- [[doc/vehicle|Vehicle]] — the moving counterpart, for anything that carries
+- [[doc-vehicle|Vehicle]] — the moving counterpart, for anything that carries
   people.
-- [[doc/itemgear|Gear]] and [[doc/wrkngwth|Working with Gear and Equipment]] —
+- [[doc-itemgear|Gear]] and [[doc-wrkngwth|Working with Gear and Equipment]] —
   the goods a structure holds.
-- [[doc/actions|Actions]] — attaching an action to a place.
-- [[doc/undrstnd|Understanding Sheets]] — the tabs a structure shares with
+- [[doc-actions|Actions]] — attaching an action to a place.
+- [[doc-undrstnd|Understanding Sheets]] — the tabs a structure shares with
   every other actor.
-- [[doc/userguide|User Guide]] — back to the index.
+- [[doc-userguide|User Guide]] — back to the index.

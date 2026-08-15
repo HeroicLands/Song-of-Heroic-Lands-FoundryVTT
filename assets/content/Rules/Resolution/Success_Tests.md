@@ -4,6 +4,7 @@ aliases:
     - Skill Test
     - d100 Test
     - Success Level
+    - doc-sccsstst
 id: V5ocvTbZq3Vw94oz
 type: doc
 package: sohl
@@ -19,7 +20,7 @@ folder: BTGA1PmN0VlBWpCm
 
 When the outcome of an action is uncertain, the character makes a **Success
 Test**: roll d100 and compare the roll to their
-[[doc/mstrylvl#effective-mastery-level|Effective Mastery Level]] in the skill or
+[[doc-mstrylvl#effective-mastery-level|Effective Mastery Level]] in the skill or
 attribute being used.
 
 A roll **equal to or less than** the EML succeeds. A roll **greater than** it
@@ -58,7 +59,7 @@ just the EML; one success in five is critical, and so is one failure in five.
 ## Extended levels {#extended-levels}
 
 Some rules and effects shift a success level after it is rolled — a spent
-[[doc/fatepnts#fate|Fate]] point raises it, a penalty may lower it. A shift can
+[[doc-fatepnts#fate|Fate]] point raises it, a penalty may lower it. A shift can
 carry the level past either end of the ordinary four, and when it does the level
 simply keeps counting: 3, 4 and beyond above a Critical Success, −2 and below
 beneath a Critical Failure.
@@ -76,7 +77,7 @@ ordinary level and the offset from it:
 An extended level is still a success or a failure of its own kind — a CS+1 is a
 Critical Success and is treated as one wherever a rule asks only whether the
 test succeeded critically. What the extra step buys is margin, and rules that
-measure margin, such as [[doc/oppsdtst#victory-stars|Victory Stars]], count it.
+measure margin, such as [[doc-oppsdtst#victory-stars|Victory Stars]], count it.
 
 ## Basic tests {#basic-test}
 
@@ -87,7 +88,7 @@ as usual; only the grading is coarsened. A rule that wants a basic test says so.
 
 ## See also {#see-also}
 
-- [[doc/mstrylvl|Mastery Level]] — ML, Index, and the EML a test rolls against
-- [[doc/oppsdtst|Opposed Tests]] — two Success Tests compared
-- [[doc/sccssvlt|Success Value Tests]] — grading work rather than achievement
-- [[doc/fatepnts|Fate]] — improving a success level after the roll
+- [[doc-mstrylvl|Mastery Level]] — ML, Index, and the EML a test rolls against
+- [[doc-oppsdtst|Opposed Tests]] — two Success Tests compared
+- [[doc-sccssvlt|Success Value Tests]] — grading work rather than achievement
+- [[doc-fatepnts|Fate]] — improving a success level after the roll
