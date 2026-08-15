@@ -292,7 +292,8 @@ export function convertWikilinks(markdown, { type, id, index }) {
         const inner = rawInner.replace(/\\\|/g, "|");
         const bar = inner.indexOf("|");
         let target = (bar === -1 ? inner : inner.slice(0, bar)).trim();
-        let text = (bar === -1 ? inner : inner.slice(bar + 1)).trim();
+        const labelled = bar !== -1;
+        let text = (labelled ? inner.slice(bar + 1) : inner).trim();
 
         // Split off a section slug.
         let slug = null;
@@ -310,6 +311,9 @@ export function convertWikilinks(markdown, { type, id, index }) {
         // Set when the qualifier was the virtual `doc<type>` form, so the UUID
         // is built against the item doc entry rather than the item itself.
         let itemDoc = false;
+        // Set when the target was read as `type-shortcode` — an address rather
+        // than prose, which decides what an unlabelled link shows (#1409).
+        let addressed = false;
         if (target === "" && slug) {
             doc = { type, id };
         } else {
@@ -319,6 +323,7 @@ export function convertWikilinks(markdown, { type, id, index }) {
                 return all;
             }
             if (qualified) {
+                addressed = true;
                 itemDoc = qualified.itemDoc;
                 doc = index.byShortcode.get(
                     `${qualified.type}/${qualified.shortcode}`,
@@ -337,7 +342,13 @@ export function convertWikilinks(markdown, { type, id, index }) {
             return all;
         }
 
-        if (!text) text = doc.name ?? target;
+        // With no explicit label, a *qualified* target has no prose to show — a
+        // shortcode is an address, not display text — so the document's own name
+        // stands in (#1409). A bare `[[Text]]` is already the prose the author
+        // wrote, and substituting the canonical name there would rewrite the
+        // sentence ("worsens the [[Shock State]]" must not render as "Shock").
+        // The knowledgebase build reads the same authored link the same way.
+        if (!text || (!labelled && addressed)) text = doc.name ?? target;
 
         // An item doc lives in the journals pack under its own derived entry id,
         // and its pages hash against *that* id — not the item's.

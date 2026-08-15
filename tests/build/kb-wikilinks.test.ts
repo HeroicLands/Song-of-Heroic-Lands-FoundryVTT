@@ -31,6 +31,10 @@ function makeCtx(overrides: Record<string, unknown> = {}) {
         typeAlias: new Map<string, object>([
             ["doc|shock", shock],
             ["doc|shock state", shock],
+            // The vault exporter writes the canonical `type-shortcode` address
+            // as an alias of the note, which is how the hyphen form resolves
+            // here (#1398).
+            ["doc|doc-shock", shock],
         ]),
         collide: new Set<string>(["gear"]),
         typeCollide: new Set<string>(["doc|coma"]),
@@ -134,6 +138,28 @@ describe("resolveKbWikilinks", () => {
         expect(resolveKbWikilinks("[[doc/shock]]", ctx)).toBe(
             "[Shock](/rules/sohl-shock/)",
         );
+    });
+
+    it("falls back to the name for the hyphen form too (#1409)", () => {
+        // `type-shortcode` is the canonical address (#1398), so it is no more
+        // display text than `type/shortcode` is.
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("[[doc-shock]]", ctx)).toBe(
+            "[Shock](/rules/sohl-shock/)",
+        );
+    });
+
+    it("keeps a hyphenated bare alias as the prose the author wrote (#1409)", () => {
+        // `Grukar-ahk` is a note *name*, not `type-shortcode`: nothing before
+        // the hyphen is a content type, so the author's words stand.
+        const grukar = { url: "/creatures/grukar-ahk/", name: "Grukar-ahk" };
+        const ctx = makeCtx({
+            typeAlias: new Map<string, object>([["doc|grukar-ahk", grukar]]),
+        });
+        expect(resolveKbWikilinks("the [[Grukar-ahk]] raid", ctx)).toBe(
+            "the [Grukar-ahk](/creatures/grukar-ahk/) raid",
+        );
+        expect(ctx.errors).toEqual([]);
     });
 
     it("reports a qualified target whose key does not exist", () => {

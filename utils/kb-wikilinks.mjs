@@ -30,12 +30,35 @@
  * tested; that script runs its work at import time and exports nothing.
  */
 
+// Whether a target is an *address* rather than prose is read with the pack
+// build's own rule, so the two builds cannot drift apart on it: they disagreed
+// once over the unlabelled hyphen form, which the packs showed as a raw
+// shortcode and the knowledgebase as a name (#1409).
+import { readQualifier } from "./packs/wikilinks.mjs";
+
 /** KB heading/anchor slug: lowercase, non-alphanumerics to single hyphens. */
 export const slugify = (s) =>
     String(s)
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
+
+/**
+ * Whether a link target addresses a document as `type-shortcode` (or the legacy
+ * `type/shortcode`) rather than naming it in prose.
+ *
+ * Delegates to the pack build's {@link readQualifier} so one rule serves both
+ * builds. A `reason` is as much an address as a resolved qualifier is — the
+ * target is qualified either way, it just names no known type — and the caller
+ * only ever asks this of a target that already resolved.
+ *
+ * @param {string} target - The link target, anchor already removed.
+ * @param {Set<string>} [contentTypes] - Every content type the KB build saw.
+ * @returns {boolean} `true` when the target is an address.
+ */
+function isAddress(target, contentTypes) {
+    return readQualifier(target, contentTypes ?? new Set()) !== null;
+}
 
 /**
  * Rewrites the wikilinks in a markdown body as KB-local markdown links.
@@ -85,7 +108,12 @@ export function resolveKbWikilinks(body, ctx) {
             // name. A bare `[[Text]]` is already the prose the author wrote —
             // substituting the canonical name there would rewrite the sentence
             // ("worsens the [[Shock State]]" must not render as "Shock").
-            const text = display ?? (target.includes("/") ? hit.name : target);
+            // Both separators qualify: `type-shortcode` is the canonical form
+            // (#1398), and a hyphen inside a note *name* ("Grukar-ahk") is not
+            // one, which is why the rule is the packs' own (#1409).
+            const text =
+                display ??
+                (isAddress(target, ctx.contentTypes) ? hit.name : target);
             return `[${text}](${anchor ? `${hit.url}#${slugify(anchor)}` : hit.url})`;
         }
 
