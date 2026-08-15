@@ -61,6 +61,29 @@ function isAddress(target, contentTypes) {
 }
 
 /**
+ * The `type/shortcode` index key a qualified target resolves to, or `null`.
+ *
+ * The KB index is keyed by the canonical `type/shortcode`, so a target written
+ * in the hyphen separator — which is what the vault authors (#1398) — has to be
+ * rewritten to it before lookup. Uses the same {@link readQualifier} as
+ * {@link isAddress}, so recognising an address and resolving one can never
+ * disagree: the first-hyphen split and the known-type condition that keeps
+ * `[[Grukar-ahk]]` an alias are stated once, in the pack build.
+ *
+ * The build indexes an item note under both `skill/climb` and `docskill/climb`,
+ * and `contentTypes` carries both qualifiers, so either form finds the page.
+ *
+ * @param {string} target - The link target, anchor already removed.
+ * @param {Set<string>} [contentTypes] - Every content type the KB build saw.
+ * @returns {string | null} The index key, or `null` when not qualified.
+ */
+function qualifiedKey(target, contentTypes) {
+    const read = readQualifier(target, contentTypes ?? new Set());
+    if (!read || read.reason) return null;
+    return `${read.type}/${read.shortcode}`.toLowerCase();
+}
+
+/**
  * Rewrites the wikilinks in a markdown body as KB-local markdown links.
  *
  * A target is looked up case-insensitively: first as an alias scoped to the
@@ -99,9 +122,15 @@ export function resolveKbWikilinks(body, ctx) {
 
         const key = target.toLowerCase();
         const typeKey = ctx.type ? `${ctx.type}|${key}`.toLowerCase() : null;
+        // The canonical separator (#1398) has to be resolved, not merely
+        // recognised. Without this the form resolved only when source and
+        // target shared a type, by way of the seeded alias below; every
+        // *cross-type* link written in it silently lost its href.
+        const hyphenKey = qualifiedKey(target, ctx.contentTypes);
         const hit =
             (typeKey ? ctx.typeAlias.get(typeKey) : undefined) ??
-            ctx.index.get(key);
+            ctx.index.get(key) ??
+            (hyphenKey ? ctx.index.get(hyphenKey) : undefined);
         if (hit) {
             // With no explicit label, a *qualified* target has no prose to show
             // (a shortcode is not display text), so fall back to the document's
@@ -120,6 +149,16 @@ export function resolveKbWikilinks(body, ctx) {
         const slash = target.indexOf("/");
         const prefix =
             slash === -1 ? null : target.slice(0, slash).toLowerCase();
+        // Deliberately *not* extended to the hyphen form. A slash is written
+        // only by this repository's own older links, so an unresolved one is a
+        // dead shortcode. The hyphen is what the vault writes, and the vault
+        // holds packages this build does not publish: `Rules/Bestiary.md`
+        // addresses `creature-grkrahk` — a real note, with exactly that alias,
+        // in the vault's `setting` package. Nothing in the syntax separates that
+        // legitimate cross-package reference from a genuine typo, so treating
+        // the form as definitely-local would fail the build on correct content.
+        // Restoring the guard needs the single-source tree (#1385), where every
+        // package is visible and the distinction becomes decidable.
         const badQualified =
             prefix !== null &&
             (ctx.sections.has(prefix) || ctx.contentTypes.has(prefix));

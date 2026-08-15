@@ -39,6 +39,34 @@ is at the *first* hyphen, so a shortcode may itself contain one. The older
 `type/shortcode` form is still resolved, so a link written before the vault
 migration does not silently die.
 
+### Every note carries its own address, exactly once
+
+The alias is not decoration and it is not derived: Obsidian resolves a wikilink
+against the **files on disk**, so `[[skill-wpnc]]` only resolves in the editor if
+the literal string `skill-wpnc` sits in that note's frontmatter `aliases`. A
+build-time derivation cannot stand in for it — the editor is not running the
+build.
+
+```yaml
+---
+aliases:
+    - Weaponcraft
+    - skill-wpnc # ← the note's address
+type: skill
+shortcode: wpnc
+---
+```
+
+Write it by hand when you create a note. **Exactly one** address alias is
+allowed, and `npm run lint:content-aliases` fails on any note that has none, has
+two, or has one that is not its own address. The count is the point: change a
+shortcode and leave the old alias behind, and every stale `[[skill-oldcode|…]]`
+goes on resolving to the right note — nothing degrades, nothing is reported, and
+the tree quietly carries two live addresses for one document until the retired
+code is reused and the old links land somewhere else entirely.
+
+Nothing writes these for you. The check reports; you edit the note.
+
 The bare `[[Text]]` form resolves only against aliases of the **source's own
 type** — a `doc` reaches another `doc` by name, but not a `skill`. Where two
 notes of one type share a name the bare form is ambiguous and resolves to
@@ -75,8 +103,8 @@ The prefix works for every item type — `docweapongear-…`, `docmystery-…`,
 added tomorrow is addressable the day it is authored.
 
 **Choose by what you want the reader to see.** Sending someone to
-`[[skill/wpnc]]` when you meant "read about weaponsmithing" opens a sheet of
-numbers. Sending them to `[[docskill/wpnc]]` opens the prose.
+`[[skill-wpnc]]` when you meant "read about weaponsmithing" opens a sheet of
+numbers. Sending them to `[[docskill-wpnc]]` opens the prose.
 
 ## Anchors, and where they do nothing
 
@@ -95,8 +123,8 @@ sections to address. Only a JournalEntry link opens a journal, at its first page
 or at the page an anchor names.
 
 ```markdown
-[[skill/wpnc#crafting]]      <!-- anchor ignored: opens the item sheet -->
-[[docskill/wpnc#crafting]]   <!-- opens the Crafting page of the write-up -->
+[[skill-wpnc#crafting]]      <!-- anchor ignored: opens the item sheet -->
+[[docskill-wpnc#crafting]]   <!-- opens the Crafting page of the write-up -->
 ```
 
 This is the mistake worth knowing about: the first form looks right, resolves
@@ -115,6 +143,13 @@ at a document — writes an ordinary markdown link to its URL.
 
 ## What the build checks
 
+`npm run lint:content-aliases` (part of `npm run lint`) enforces that every note
+carrying a `type` also carries **exactly one** `type-shortcode` alias, equal to
+its own address — see
+[Every note carries its own address, exactly once](#every-note-carries-its-own-address-exactly-once).
+It verifies and fails; it never rewrites a note. Notes with no `shortcode` are
+skipped, since they cannot be link targets at all.
+
 `npm run lint:content-links` (part of `npm run lint`) enforces two things the
 compilers cannot:
 
@@ -126,8 +161,16 @@ compilers cannot:
   simply impossible to arrive at by reading.
 
 Fenced `dataview` tables are expanded before the walk, so a link generated into a
-table row counts as a real link on both counts. Links that cannot be resolved at
-all are reported by both content builds.
+table row counts as a real link on both counts.
+
+**A dead `type-shortcode` is not yet caught.** An unresolved link is left as
+plain text — the label still reads correctly, so the prose looks intact while the
+href is simply gone. The knowledgebase build does fail on an unresolved
+`type/shortcode`, but it cannot do the same for the hyphen form, because that is
+also how a note addresses content in a **package this build does not publish**:
+`Rules/Bestiary.md` links `creature-grkrahk`, a real note in the vault's setting
+package. Nothing in the syntax separates that from a typo. Until the tree has a
+single source (#1385), check a new cross-reference by following it.
 
 ## Developer docs are the exception: they link by path
 
