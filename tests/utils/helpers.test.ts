@@ -920,7 +920,7 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
                 resolveShortcodeKey("arrow", "Arrow", new Set(["arrow"]), {
                     dedupe: false,
                 }),
-            ).toEqual({ reject: true });
+            ).toEqual({ reject: true, reason: "collision" });
         });
 
         it("suffixes a collision for a Foundry duplicate even without dedupe", () => {
@@ -960,7 +960,7 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
                 resolveShortcodeKey("", "Deep Wound", new Set(["deepwound"]), {
                     dedupe: false,
                 }),
-            ).toEqual({ reject: true });
+            ).toEqual({ reject: true, reason: "collision" });
         });
     });
 
@@ -988,7 +988,66 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
         it("rejects when dedupe is false/absent", () => {
             expect(
                 resolveShortcodeKey("", "—", new Set(), { dedupe: false }),
-            ).toEqual({ reject: true });
+            ).toEqual({ reject: true, reason: "missing" });
+        });
+    });
+
+    describe("shape rule — shortcodes are strictly alphanumeric (#1397)", () => {
+        it("rejects a non-alphanumeric explicit shortcode, collision or not", () => {
+            expect(
+                resolveShortcodeKey("B&CFl", "Ball & Chain Flail", new Set(), {
+                    dedupe: false,
+                }),
+            ).toEqual({ reject: true, reason: "invalid" });
+            expect(
+                resolveShortcodeKey(
+                    "self-pro",
+                    "Self-protective",
+                    new Set(["selfpro"]),
+                    { dedupe: false },
+                ),
+            ).toEqual({ reject: true, reason: "invalid" });
+        });
+
+        it("repairs the shortcode instead when dedupe is on — that path never fails", () => {
+            expect(
+                resolveShortcodeKey("B&CFl", "Ball & Chain Flail", new Set(), {
+                    dedupe: true,
+                }),
+            ).toEqual({ shortcode: "BCFl" });
+            expect(
+                resolveShortcodeKey(
+                    "self-pro",
+                    "Self-protective",
+                    new Set(["selfpro"]),
+                    { dedupe: true },
+                ),
+            ).toEqual({ shortcode: "selfpro2" });
+        });
+
+        it("repairs a Foundry duplicate's shortcode without dedupe", () => {
+            expect(
+                resolveShortcodeKey("B&CFl", "Ball & Chain Flail", new Set(), {
+                    dedupe: false,
+                    isDuplicate: true,
+                }),
+            ).toEqual({ shortcode: "BCFl" });
+        });
+
+        it("falls back to the name slug when nothing alphanumeric survives", () => {
+            expect(
+                resolveShortcodeKey("—!—", "Deep Wound", new Set(), {
+                    dedupe: true,
+                }),
+            ).toEqual({ shortcode: "deepwound" });
+        });
+
+        it("trims surrounding whitespace rather than calling it invalid", () => {
+            expect(
+                resolveShortcodeKey("  arrow  ", "Arrow", new Set(), {
+                    dedupe: false,
+                }),
+            ).toEqual({ shortcode: "arrow" });
         });
     });
 });

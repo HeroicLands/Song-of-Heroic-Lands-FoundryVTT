@@ -31,6 +31,11 @@ import {
     ITEM_KIND,
     isAffiliationSubType,
 } from "@src/utils/constants";
+import { slugifyShortcode } from "@src/utils/helpers";
+import {
+    isValidShortcode,
+    sanitizeShortcode,
+} from "@src/utils/shortcode-format.mjs";
 import { compareVersions, isNewerVersion } from "./version";
 
 /**
@@ -69,7 +74,8 @@ export interface MigrationSource {
 }
 
 /**
- * A per-document-kind migrator. Receives the document's serialized source and
+ * A per-document-kind migrator. Receives the document's serialized source — as
+ * the earlier steps in the plan left it, see {@link migrateDocumentSource} — and
  * returns an update payload to write, or `undefined` / an empty object for a
  * no-op. A migrator must not mutate `source`.
  *
@@ -165,6 +171,43 @@ const stampAffiliationSubType: DocMigrator = (source) => {
 };
 
 /**
+ * Repair a `shortcode` that is not strictly alphanumeric (#1397).
+ *
+ * `shortcode` is the system's identity key, and the create/update guard now
+ * refuses any character outside `[A-Za-z0-9]` — so a world holding a legacy key
+ * would carry a document it could no longer save. Three shipped content notes
+ * had one (`trauma:self-pro`, `trauma:self-suf`, `weapongear:B&CFl`), and any
+ * world that imported them holds copies keyed by identity, as may any
+ * hand-authored or third-party document.
+ *
+ * The repair strips the offending characters while keeping case, which maps each
+ * of the three to exactly the replacement its content note now carries
+ * (`selfpro`, `selfsuf`, `BCFl`), so a world copy and its compendium origin stay
+ * the same entity. When nothing alphanumeric survives, the key is derived from
+ * the document name instead; when even that is empty the shortcode is left
+ * alone — there is nothing to derive from, and a random id would sever the
+ * identity rather than preserve it.
+ *
+ * A blank or absent shortcode is likewise left alone: filling one in is the
+ * create/update guard's job, and it holds a scope-aware taken-set this migrator
+ * cannot see. For the same reason the repair does not check uniqueness — the
+ * three renames collide with nothing, and the guard resolves any collision the
+ * next time the document is written.
+ *
+ * @param source - The document's serialized source.
+ * @returns The replacement payload, or `undefined` when nothing needs repair.
+ */
+const alphanumericShortcode: DocMigrator = (source) => {
+    const current = source.system?.shortcode;
+    if (typeof current !== "string" || !current) return undefined;
+    if (isValidShortcode(current)) return undefined;
+    const repaired =
+        sanitizeShortcode(current) || slugifyShortcode(source.name ?? "");
+    if (!repaired) return undefined;
+    return { system: { ...source.system, shortcode: repaired } };
+};
+
+/**
  * The ordered list of world migrations.
  *
  * Append in version order — the planner sorts defensively regardless — and stamp
@@ -184,6 +227,16 @@ export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
         description:
             "Stamp the new required subType on existing affiliation items (#1405)",
         migrators: { Item: stampAffiliationSubType },
+    },
+    {
+        version: "0.9.0",
+        description:
+            "Rewrite any shortcode that is not strictly alphanumeric, which " +
+            "the create/update guard now refuses (#1397).",
+        migrators: {
+            Actor: alphanumericShortcode,
+            Item: alphanumericShortcode,
+        },
     },
 ]);
 
@@ -224,6 +277,18 @@ export function planMigrations(
  * keys. Returns an empty object when nothing changed — the caller skips the
  * `document.update()` entirely in that case.
  *
+ * **Each step sees the document as the previous steps left it.** Because the
+ * runner updates non-recursively, a migrator that changes one field hands back
+ * the document's *whole* `system` object (see {@link DocMigrator}), built by
+ * spreading the source. Were every step handed the same untouched source, two
+ * steps that both touch one document would be mutually exclusive — the later
+ * payload, rebuilt from the original, would silently drop the earlier one's edit
+ * (and reinstate a key it had removed). So a whole-object replacement is fed
+ * forward into the source the next migrator receives, which is what a
+ * version-ordered chain means: 0.7's rename is applied before 0.9 reads the
+ * field. Only whole root keys chain; a dot-path payload (`{"system.foo": 1}`)
+ * accumulates into the update untouched, since expanding it would need Foundry.
+ *
  * @param source - The document's serialized source (`document.toObject()`).
  * @param kind - The document's class name (dispatch key).
  * @param plan - The steps to apply (already selected by {@link planMigrations}).
@@ -235,12 +300,18 @@ export function migrateDocumentSource(
     plan: readonly MigrationStep[],
 ): Record<string, unknown> {
     const update: Record<string, unknown> = {};
+    let current = source;
     for (const step of plan) {
         const migrator = step.migrators?.[kind];
         if (!migrator) continue;
-        const result = migrator(source);
-        if (result && Object.keys(result).length > 0) {
-            Object.assign(update, result);
+        const result = migrator(current);
+        if (!result || Object.keys(result).length === 0) continue;
+        Object.assign(update, result);
+        const replaced = Object.fromEntries(
+            Object.entries(result).filter(([key]) => !key.includes(".")),
+        );
+        if (Object.keys(replaced).length > 0) {
+            current = { ...current, ...replaced };
         }
     }
     return update;

@@ -1,13 +1,13 @@
 ---
 aliases:
-    - trauma-self-suf
+    - trauma-selfsuf
 tags: []
 name:
     full: Self-sufficient
     aliases: []
 id: bNm2Q0383zIRo2wG
 img: icons/game-icons/lorc/battle-gear.svg
-shortcode: self-suf
+shortcode: selfsuf
 type: trauma
 package: sohl
 sohl:
