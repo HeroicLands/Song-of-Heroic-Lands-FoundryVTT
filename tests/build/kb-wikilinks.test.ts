@@ -35,7 +35,9 @@ function makeCtx(overrides: Record<string, unknown> = {}) {
         collide: new Set<string>(["gear"]),
         typeCollide: new Set<string>(["doc|coma"]),
         sections: new Set<string>(["rules", "skill"]),
-        contentTypes: new Set<string>(["doc", "skill", "creature"]),
+        // The build seeds this with the real types *and* the virtual
+        // `doc<type>` qualifier of every item type (see build-kb-content.mjs).
+        contentTypes: new Set<string>(["doc", "skill", "creature", "docskill"]),
         type: "doc",
         errors: [] as object[],
         src: "rules/Bleeding.md",
@@ -143,6 +145,59 @@ describe("resolveKbWikilinks", () => {
         expect(ctx.errors[0]).toMatchObject({
             reason: "broken type/shortcode",
         });
+    });
+
+    it("tolerates an unresolved hyphen-qualified target (#1398)", () => {
+        // The hyphen form is what the *vault* writes, and the vault holds
+        // packages this build does not publish — `[[creature-grkrahk]]` is a
+        // real setting note carrying exactly that alias. Nothing in the syntax
+        // separates it from a typo, so an unresolved one is left as prose
+        // rather than failing the build on correct content. The slash form,
+        // written only by this repository's own older links, still errors.
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("[[creature-grkrahk|the Ahk]]", ctx)).toBe(
+            "the Ahk",
+        );
+        expect(ctx.errors).toEqual([]);
+    });
+
+    it("does not read a hyphenated *name* as a qualified target", () => {
+        // `Grukar-ahk` is a note name, not an address: a hyphen qualifies only
+        // when what precedes it is a known type. Reporting these would fail the
+        // build on every worldbuilding reference kept outside this repository.
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("[[Grukar-ahk|the Grukar]]", ctx)).toBe(
+            "the Grukar",
+        );
+        expect(ctx.errors).toEqual([]);
+    });
+
+    it("resolves the hyphen form across types, as the packs do", () => {
+        // The source note is a `doc`; the target is a `skill`, so the
+        // type-scoped alias index cannot reach it. Only reading the qualifier
+        // does — and until it did, every cross-type link written in the
+        // canonical separator rendered as plain text on the knowledgebase.
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("a [[skill-climb|Climbing]] test", ctx)).toBe(
+            "a [Climbing](/skill/climbing/) test",
+        );
+        expect(ctx.errors).toEqual([]);
+    });
+
+    it("resolves the hyphen form of `doc<type>` to the item's own page", () => {
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("[[docskill-climb|Climbing]]", ctx)).toBe(
+            "[Climbing](/skill/climbing/)",
+        );
+        expect(ctx.errors).toEqual([]);
+    });
+
+    it("carries an anchor through a hyphen-qualified target", () => {
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("[[skill-climb#crafting|how]]", ctx)).toBe(
+            "[how](/skill/climbing/#crafting)",
+        );
+        expect(ctx.errors).toEqual([]);
     });
 
     it("reports an alias that is ambiguous within the source's type", () => {

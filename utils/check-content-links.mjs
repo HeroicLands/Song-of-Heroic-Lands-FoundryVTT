@@ -27,10 +27,11 @@
  *    guide is a manual, so every `Rules/**` and `User_Guide/**` document must
  *    be reachable from its own root by following links.
  *
- * Both checks resolve wikilinks the way the builds do (see
- * `utils/kb-wikilinks.mjs`): `type/shortcode` first, then an alias scoped to the
- * source note's own type. Fenced `dataview` tables are expanded first, so a
- * generated row link counts as a real link.
+ * Both checks resolve wikilinks the way the builds do: an alias scoped to the
+ * source note's own type, then the qualifier — `type-shortcode`, or the legacy
+ * `type/shortcode` — read with the pack compilers' own {@link readQualifier}
+ * rather than a second copy of the rule. Fenced `dataview` tables are expanded
+ * first, so a generated row link counts as a real link.
  *
  * Usage:
  *   npm run lint:content-links         // node utils/check-content-links.mjs
@@ -42,7 +43,7 @@ import matter from "gray-matter";
 
 import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
-import { isItemDocType } from "./packs/item-docs.mjs";
+import { readQualifier } from "./packs/wikilinks.mjs";
 
 const CONTENT = path.join("assets", "content");
 /**
@@ -168,26 +169,36 @@ function linksOf(note) {
     return out;
 }
 
+/** Every type the tree contains — what makes a hyphen read as a qualifier. */
+const types = new Set(notes.map((n) => n.type));
+
 /**
  * Resolves a link target the way both content builds do, or `undefined`.
  *
- * A `doc<type>/<shortcode>` target addresses an item's documentation rather
- * than the item (#1362). Both are compiled from the one note, so the note is
- * what resolution yields — which is also what makes the anchors of a
- * `doc<type>` link checkable, since the headings live in that same note.
+ * The qualifier is read with the pack compilers' own {@link readQualifier}
+ * rather than a second copy of the rule, so this check cannot drift from what
+ * the builds actually do — the two separators, the first-hyphen split, and the
+ * known-type condition that keeps a hyphenated *name* an alias.
+ *
+ * That condition is why the type-scoped alias index is not enough on its own:
+ * it only reaches a target of the source's **own** type, so before the
+ * qualifier was read here, a cross-type `[[type-shortcode#anchor]]` resolved to
+ * nothing and its anchor went unchecked — silently, since an unresolvable
+ * target is treated as an external reference.
+ *
+ * A `doc<type>` target addresses an item's documentation rather than the item
+ * (#1362). Both are compiled from the one note, so the note is what resolution
+ * yields — which is also what makes the anchors of a `doc<type>` link
+ * checkable, since the headings live in that same note.
  */
 const resolve = (note, target) => {
     const direct =
         byAlias.get(`${note.type}|${target}`.toLowerCase()) ??
         byKey.get(target.toLowerCase());
     if (direct) return direct;
-    const slash = target.lastIndexOf("/");
-    if (slash === -1) return undefined;
-    const qualifier = target.slice(0, slash).toLowerCase();
-    if (!qualifier.startsWith("doc")) return undefined;
-    const base = qualifier.slice(3);
-    if (!base || !isItemDocType(base)) return undefined;
-    return byKey.get(`${base}/${target.slice(slash + 1)}`.toLowerCase());
+    const qualified = readQualifier(target, types);
+    if (!qualified || qualified.reason) return undefined;
+    return byKey.get(`${qualified.type}/${qualified.shortcode}`.toLowerCase());
 };
 
 // --- Check 1: every `#anchor` link points at a heading that declares it ---
