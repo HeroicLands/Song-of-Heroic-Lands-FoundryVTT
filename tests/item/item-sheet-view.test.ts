@@ -16,6 +16,7 @@ import {
     localizeSubType,
     keyTransferredEffects,
     findSimilarItem,
+    buildRelationRows,
     type ItemMatchKey,
 } from "@src/document/item/logic/item-sheet-view";
 
@@ -103,6 +104,70 @@ describe("item-sheet-view", () => {
             expect(
                 findSimilarItem(make("Sword", "weapongear", "melee"), []),
             ).toBeUndefined();
+        });
+    });
+
+    describe("buildRelationRows (#1404)", () => {
+        const candidates = [
+            { shortcode: "peoni", name: "Church of Peoni" },
+            { shortcode: "larani", name: "Church of Larani" },
+        ];
+
+        it("names each recorded shortcode from the matching candidate", () => {
+            const rows = buildRelationRows(
+                { peoni: "nemesis", larani: "aligned" },
+                candidates,
+            );
+            expect(rows).toEqual([
+                {
+                    code: "larani",
+                    label: "Church of Larani",
+                    standing: "aligned",
+                },
+                {
+                    code: "peoni",
+                    label: "Church of Peoni",
+                    standing: "nemesis",
+                },
+            ]);
+        });
+
+        it("sorts rows by label, not by insertion order", () => {
+            const rows = buildRelationRows(
+                { peoni: "rival", larani: "rival" },
+                candidates,
+            );
+            expect(rows.map((r) => r.code)).toEqual(["larani", "peoni"]);
+        });
+
+        it("flags a recorded shortcode that matches no candidate", () => {
+            // The stored standing is preserved and made visible, never dropped —
+            // an affiliation edited off-actor has no candidates at all.
+            const rows = buildRelationRows({ agrik: "nemesis" }, candidates);
+            expect(rows).toEqual([
+                {
+                    code: "agrik",
+                    label: "agrik",
+                    standing: "nemesis",
+                    unresolved: true,
+                },
+            ]);
+        });
+
+        it("returns an empty list for an empty or missing table", () => {
+            expect(buildRelationRows({}, candidates)).toEqual([]);
+            expect(buildRelationRows(undefined, candidates)).toEqual([]);
+        });
+
+        it("works with no candidates at all (a world/compendium item)", () => {
+            expect(buildRelationRows({ peoni: "aligned" }, [])).toEqual([
+                {
+                    code: "peoni",
+                    label: "peoni",
+                    standing: "aligned",
+                    unresolved: true,
+                },
+            ]);
         });
     });
 });

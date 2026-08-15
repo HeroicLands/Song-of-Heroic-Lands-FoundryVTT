@@ -194,6 +194,48 @@ export function resolveSkillAptitudes(fm, ctx = "item") {
 }
 
 /**
+ * The affiliation standings an authored `relation` map may use. Kept in step
+ * with `AFFILIATION_STANDING` in `src/utils/constants.ts` (the pack scripts run
+ * under bare `node`, outside the `@src` alias tree, so the list is restated
+ * rather than imported — a value absent here is a build error, never a silent
+ * ship).
+ */
+const AFFILIATION_STANDINGS = ["aligned", "unaligned", "rival", "nemesis"];
+
+/**
+ * Resolve an affiliation's `relation` map — the shortcode of another
+ * affiliation → this one's standing toward it (#1404).
+ *
+ * An unrecognized standing would fail the schema's `choices` validation at load
+ * and be dropped silently, shipping an affiliation whose authored hostility had
+ * quietly become neutrality — so it is a build error instead.
+ *
+ * @param {object} fm - The item frontmatter.
+ * @param {string} [ctx] - Label for the error (defaults to "item").
+ * @returns {Record<string, string>} The persisted relation map (empty when the
+ *   affiliation authors none — neutral toward everyone).
+ * @throws {Error} When the map is malformed or names an unknown standing.
+ */
+export function resolveRelation(fm, ctx = "item") {
+    const raw = sohlField(fm, "relation", undefined);
+    if (raw == null) return {};
+    if (typeof raw !== "object" || Array.isArray(raw)) {
+        throw new Error(`${ctx}: relation must be a map of shortcode → standing`);
+    }
+    const out = {};
+    for (const [code, value] of Object.entries(raw)) {
+        const standing = String(value);
+        if (!AFFILIATION_STANDINGS.includes(standing)) {
+            throw new Error(
+                `${ctx}: relation["${code}"] must be one of ${AFFILIATION_STANDINGS.join(", ")}, got "${value}"`,
+            );
+        }
+        out[code] = standing;
+    }
+    return out;
+}
+
+/**
  * Read the mandatory `subType` from an item's frontmatter, throwing when it is
  * absent or blank.
  *

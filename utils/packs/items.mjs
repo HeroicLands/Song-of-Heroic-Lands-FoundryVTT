@@ -39,6 +39,7 @@ import {
     sohlField,
     resolveSkillAptitudes,
     requireSubType,
+    resolveRelation,
     resolveCharges,
     makeFilename,
     slugify,
@@ -190,10 +191,15 @@ function buildAffliction(fm) {
 
 function buildAffiliation(fm) {
     return {
+        subType: requireSubType(fm),
         society: String(sohlField(fm, "society", "")),
         office: String(sohlField(fm, "office", "")),
         title: String(sohlField(fm, "title", "")),
         level: Number(sohlField(fm, "level", 0)) || 0,
+        relation: resolveRelation(
+            fm,
+            `affiliation "${fm?.name?.full ?? fm?.shortcode ?? "?"}"`,
+        ),
     };
 }
 

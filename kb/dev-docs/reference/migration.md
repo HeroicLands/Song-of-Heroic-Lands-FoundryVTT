@@ -117,7 +117,7 @@ const example: MigrationStep = {
             return { system };
         },
     },
-};
+}
 ```
 
 ### Payloads replace, they do not merge
@@ -154,6 +154,28 @@ omitted; the write persists the pruned source and the value is gone. Because a
 migrator cannot tell which documents still carry the key, the payload is
 unconditional and every document of that kind is rewritten once. `0.9.0`
 (`system.docUrl`, #1394) is the worked example.
+
+### Adding a required field
+
+The mirror case. A field declared `required` with no `initial` has no value at all
+on a document that predates it, so the migration stamps one — and it must stamp an
+**unrecognized** value too, not just an absent one: a value outside the field's
+`choices` fails validation and is dropped, landing exactly where an absent value
+does. Guard on the field's own type guard rather than on presence:
+
+```ts
+const stampAffiliationSubType: DocMigrator = (source) => {
+    if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
+    if (isAffiliationSubType(source.system?.subType)) return undefined;
+    return {
+        system: { ...source.system, subType: AFFILIATION_SUBTYPE.SOCIAL },
+    };
+};
+```
+
+Unlike a removal, this payload is conditional — a document already carrying a
+valid value is left alone and never written. `0.9.0` (affiliation `subType`,
+#1405) is the worked example.
 
 ## Resilience
 

@@ -13,9 +13,43 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="field-grid field-grid--3col">
+        {{formGroup fields.subType rootId="aff-subtype" classes="text-field" stacked=true localize=true value=system.subType}}
         {{formGroup fields.society rootId="aff-society" classes="text-field" stacked=true value=system.society}}
         {{formGroup fields.office rootId="aff-office" classes="text-field" stacked=true value=system.office}}
         {{formGroup fields.title rootId="aff-title" classes="text-field" stacked=true value=system.title}}
         {{formGroup fields.level rootId="aff-level" classes="text-field" stacked=true value=system.level}}
+    </div>
+
+    {{!--
+      Standing toward other affiliations (#1404). Only non-neutral relations are
+      recorded, so the list holds just what was authored; anything unlisted reads
+      as Unaligned. Each row's <select> is a plain form field, so a change is
+      saved by the sheet's own submitOnChange — no save button, no separate flow.
+    --}}
+    <div class="section-legend section-legend--subtype">
+        <span class="section-legend__name">{{localize "SOHL.Affiliation.FIELDS.relation.label"}}</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <button class="add-button add-button--small" data-action="addRelation"
+                data-tooltip="{{localize "SOHL.Affiliation.Action.addRelationTip"}}">
+                <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Affiliation.Action.addRelation"}}</span>
+            </button>
+        </span>
+    </div>
+    <p class="hint">{{localize "SOHL.Affiliation.FIELDS.relation.hint"}}</p>
+    <div class="array-list">
+        {{#each relationRows}}
+        <div class="array-list__row">
+            <span class="array-list__field{{#if this.unresolved}} unresolved{{/if}}">{{this.label}}</span>
+            <select class="array-list__field" name="system.relation.{{this.code}}">
+                {{selectOptions ../standingChoices selected=this.standing localize=true}}
+            </select>
+            <a class="array-list__remove icon-button icon-button--danger" data-action="deleteRelation"
+                data-code="{{this.code}}"
+                title="{{localize "SOHL.Affiliation.Action.deleteRelation"}}"><i class="fa-solid fa-trash"></i></a>
+        </div>
+        {{else}}
+        <div class="array-list__empty">{{localize "SOHL.Affiliation.relationEmpty"}}</div>
+        {{/each}}
     </div>
 </section>

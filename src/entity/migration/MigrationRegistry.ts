@@ -26,6 +26,11 @@
  * @module
  */
 
+import {
+    AFFILIATION_SUBTYPE,
+    ITEM_KIND,
+    isAffiliationSubType,
+} from "@src/utils/constants";
 import { compareVersions, isNewerVersion } from "./version";
 
 /**
@@ -136,6 +141,30 @@ const stripDocUrl: DocMigrator = (source) => {
 };
 
 /**
+ * Stamp the default subtype on an affiliation that predates the field (#1405).
+ *
+ * `subType` is `required` with no `initial`, so an affiliation authored before it
+ * existed carries no value at all — and an unrecognized value (hand-edited, or
+ * left by a third-party module) fails the field's `choices` validation and is
+ * dropped, which lands in the same place. Both are stamped `social`, the secular
+ * default, which is what an unclassified body most often is.
+ *
+ * The payload spreads the document's own `system` because the runner updates
+ * non-recursively: a bare `{"system.subType": …}` would replace the whole system
+ * object with just that one key. See {@link DocMigrator}.
+ *
+ * @param source - The document's serialized source.
+ * @returns The replacement payload, or `undefined` for anything already valid.
+ */
+const stampAffiliationSubType: DocMigrator = (source) => {
+    if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
+    if (isAffiliationSubType(source.system?.subType)) return undefined;
+    return {
+        system: { ...source.system, subType: AFFILIATION_SUBTYPE.SOCIAL },
+    };
+};
+
+/**
  * The ordered list of world migrations.
  *
  * Append in version order — the planner sorts defensively regardless — and stamp
@@ -149,6 +178,12 @@ export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
             "Strip the retired system.docUrl field, which baked an external " +
             "documentation URL into world data (#1394).",
         migrators: { Actor: stripDocUrl, Item: stripDocUrl },
+    },
+    {
+        version: "0.9.0",
+        description:
+            "Stamp the new required subType on existing affiliation items (#1405)",
+        migrators: { Item: stampAffiliationSubType },
     },
 ]);
 

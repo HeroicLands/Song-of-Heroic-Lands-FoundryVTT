@@ -168,7 +168,10 @@ describe("0.9.0 — system.docUrl is retired (#1394)", () => {
                     );
                 }
             }).then((r) => {
-                expect(r.planned, "steps planned").to.equal(1);
+                // At least this step — 0.9.0 may carry more than one, and the
+                // subject here is what the walk does, not how many steps
+                // share the version.
+                expect(r.planned, "steps planned").to.be.at.least(1);
                 expect(r.errors, "documents that threw").to.equal(0);
                 expect(r.applied, "documents rewritten").to.equal(r.expected);
             });

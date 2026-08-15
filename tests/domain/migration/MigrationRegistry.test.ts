@@ -4,6 +4,7 @@ import {
     migrateDocumentSource,
     resolveFromVersion,
     SOHL_MIGRATIONS,
+    type MigrationSource,
     type MigrationStep,
 } from "@src/entity/migration/MigrationRegistry";
 import { compareVersions } from "@src/entity/migration/version";
@@ -260,5 +261,100 @@ describe("0.9.0 — strip system.docUrl (#1394)", () => {
 
     it("does not run for a world already at 0.9.0", () => {
         expect(planMigrations("0.9.0", "0.9.0")).toEqual([]);
+    });
+});
+
+// ---------------------------------------------------------------------------
+// 0.9.0 — stamp the new required affiliation subType (#1405)
+// ---------------------------------------------------------------------------
+
+describe("0.9.0 — affiliation subType (#1405)", () => {
+    const step = SOHL_MIGRATIONS.find((s) =>
+        s.description.toLowerCase().includes("affiliation"),
+    );
+    const migrate = (source: MigrationSource) => step!.migrators!.Item!(source);
+
+    it("is registered at the version that adds the field, with an Item migrator", () => {
+        expect(step).toBeDefined();
+        expect(step!.version).toBe("0.9.0");
+        expect(Object.keys(step!.migrators ?? {})).toEqual(["Item"]);
+    });
+
+    it("stamps the social default on an affiliation with no subType", () => {
+        expect(
+            migrate({ type: "affiliation", system: { society: "Guild" } }),
+        ).toEqual({ system: { society: "Guild", subType: "social" } });
+    });
+
+    it("stamps an affiliation whose subType is blank or null", () => {
+        expect(
+            migrate({ type: "affiliation", system: { subType: "" } }),
+        ).toEqual({ system: { subType: "social" } });
+        expect(
+            migrate({ type: "affiliation", system: { subType: null } }),
+        ).toEqual({ system: { subType: "social" } });
+    });
+
+    it("replaces a subType that is not a declared choice", () => {
+        // A hand-edited or third-party value fails the field's `choices`
+        // validation and is dropped, landing where an absent value does.
+        expect(
+            migrate({ type: "affiliation", system: { subType: "religious" } }),
+        ).toEqual({ system: { subType: "social" } });
+    });
+
+    it("leaves an already-valid subType alone, writing nothing", () => {
+        expect(
+            migrate({ type: "affiliation", system: { subType: "divine" } }),
+        ).toBeUndefined();
+    });
+
+    it("ignores items of every other type", () => {
+        expect(migrate({ type: "skill", system: {} })).toBeUndefined();
+        expect(migrate({ type: "mystery", system: {} })).toBeUndefined();
+    });
+
+    it("preserves every other field verbatim — the payload replaces, it does not merge", () => {
+        // The runner updates non-recursively, so a bare `{"system.subType": …}`
+        // would replace the whole system object with that one key.
+        const system = {
+            shortcode: "aff-x",
+            society: "Guild",
+            level: 3,
+            relation: { peoni: "nemesis" },
+        };
+        expect(migrate({ type: "affiliation", system })).toEqual({
+            system: { ...system, subType: "social" },
+        });
+    });
+
+    it("tolerates an affiliation with no system data at all", () => {
+        expect(migrate({ type: "affiliation" })).toEqual({
+            system: { subType: "social" },
+        });
+    });
+
+    it("does not mutate the source it was handed", () => {
+        const system = { society: "Guild" };
+        migrate({ type: "affiliation", system });
+        expect(system).toEqual({ society: "Guild" });
+    });
+
+    it("folds through the runner alongside the docUrl strip", () => {
+        // Both 0.9.0 steps touch an affiliation, and each returns a whole
+        // `system` replacement, so the later one wins outright. That is correct
+        // here because the source a migrator sees has *already* been pruned of
+        // `docUrl` by Foundry (see the 0.9.0 strip above) — so restating the
+        // source cannot reintroduce it, and the single surviving payload carries
+        // both the strip and the stamp.
+        const plan = planMigrations("0.8.2", "0.9.0");
+        const update = migrateDocumentSource(
+            { type: "affiliation", system: { shortcode: "aff-x" } },
+            "Item",
+            plan,
+        );
+        expect(update).toEqual({
+            system: { shortcode: "aff-x", subType: "social" },
+        });
     });
 });

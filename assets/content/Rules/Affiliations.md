@@ -25,12 +25,21 @@ protection when a patient dies under their hands.
 
 ## What an affiliation records
 
-Four things, of which the last is the one with mechanical weight:
+Where the character sits within the body:
 
 - **Society** — the body itself: which temple, which guild, which convocation.
 - **Office** — the position held within it, where the character holds one.
 - **Title** — the form of address the office carries, where it carries one.
 - **Level** — the depth of the character's standing, from nothing upward.
+
+And what the body itself is:
+
+- **Kind** — whether it is an arcane body (a school of magic, including an
+  alchemical school), a divine one (a religion or church), a spirit one (a
+  shamanic or totemic tradition, an ancestor or spirit cult), or a secular one
+  (everything else: guilds, banks, syndicates, houses, war-bands).
+- **Standing toward others** — how this body regards other bodies. See
+  [Standing between bodies](#standing-between-bodies) below.
 
 **Level** is the part that moves. It rises with service, patronage and the slow
 accumulation of good standing, and it falls with negligence, scandal and
@@ -39,6 +48,12 @@ transgression.
 A character may hold as many affiliations as their life has earned, and they
 need not sit comfortably together. Standing in two rival houses is a
 complication worth playing, not an error.
+
+A body's **kind** does not change what standing in it is worth; it says what
+sort of thing the body is, so that a practice which must name the body that
+credentials it looks only among bodies of the right sort. A divine invocation is
+credentialed by a church and not by a syndicate, and an arcane one by a
+convocation and not by a shrine.
 
 ## Affiliation as credential
 
@@ -75,6 +90,37 @@ How far a body presses that right is a matter for the body being described. Some
 treat their teaching as a trade secret and count its unlicensed use as theft;
 others care only that the rites are performed correctly, by whoever performs
 them.
+
+## Standing between bodies
+
+A character's level says where they stand _inside_ a body. It says nothing about
+how that body stands toward any other, and at the table that second question
+comes up constantly: a syndicate member met by a guild reeve, a priest of one
+faith before the shrine of another, two houses in open rivalry. An affiliation
+therefore also records how it regards other affiliations, one entry apiece:
+
+- **Aligned** — allied or friendly toward that body.
+- **Unaligned** — neutral; no particular standing either way.
+- **Rival** — in competition, opposed but not implacable.
+- **Nemesis** — actively hostile.
+
+Only the relations that are not neutral are worth recording; a body unlisted is
+unaligned, so a body that names nothing is neutral toward everything. The
+relation is recorded from each side independently and need not be symmetrical:
+a great church may regard a heretical sect as beneath notice while the sect
+counts it a nemesis, and that asymmetry is usually the interesting part.
+
+What a hostile standing _means_ is played, not applied. Nothing is rolled
+because two bodies are nemeses and no penalty falls on a character for holding
+standing in both; what is recorded is how the bodies regard one another, which
+is exactly the thing a table needs settled before the scene rather than argued
+during it.
+
+Where several bodies sit in a shared frame — the gods of a pantheon, the
+convocations of one tradition — make the frame an affiliation in its own right
+and let each member name it. A member can then be aligned with the pantheon
+while remaining the nemesis of another god within it, which is more often the
+situation than not: kinship in a cosmology has never guaranteed goodwill.
 
 ## Using affiliations for particular bodies
 
