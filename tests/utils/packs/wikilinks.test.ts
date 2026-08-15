@@ -19,15 +19,15 @@ import { itemDocEntryId } from "../../../utils/packs/item-docs.mjs";
 
 /** A small stand-in content tree spanning three packs. */
 const DOCS = [
-    { type: "doc", id: "aaaaaaaaaaaaaaa1", shortcode: "shock", aliases: ["Shock", "Shock State"] },
-    { type: "doc", id: "aaaaaaaaaaaaaaa2", shortcode: "bleeding", aliases: ["Bleeding"] },
-    { type: "doc", id: "aaaaaaaaaaaaaaa3", shortcode: "coma", aliases: ["Coma"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa1", shortcode: "shock", name: "Shock", aliases: ["Shock", "Shock State"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa2", shortcode: "bleeding", name: "Bleeding", aliases: ["Bleeding"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa3", shortcode: "coma", name: "Coma", aliases: ["Coma"] },
     // Shares the "Coma" alias with the doc above — ambiguous, so unusable bare.
-    { type: "doc", id: "aaaaaaaaaaaaaaa4", shortcode: "extshock", aliases: ["Coma"] },
-    { type: "skill", id: "bbbbbbbbbbbbbbb1", shortcode: "climb", aliases: ["Climbing"] },
-    { type: "creature", id: "ccccccccccccccc1", shortcode: "condor", aliases: ["Condor"] },
-    { type: "macro", id: "ddddddddddddddd1", shortcode: "rollit", aliases: ["Roll It"] },
-    { type: "containergear", id: "eeeeeeeeeeeeeee1", shortcode: "backpack", aliases: ["Backpack"] },
+    { type: "doc", id: "aaaaaaaaaaaaaaa4", shortcode: "extshock", name: "Extreme Shock", aliases: ["Coma"] },
+    { type: "skill", id: "bbbbbbbbbbbbbbb1", shortcode: "climb", name: "Climbing", aliases: ["Climbing"] },
+    { type: "creature", id: "ccccccccccccccc1", shortcode: "condor", name: "Condor", aliases: ["Condor"] },
+    { type: "macro", id: "ddddddddddddddd1", shortcode: "rollit", name: "Roll It", aliases: ["Roll It"] },
+    { type: "containergear", id: "eeeeeeeeeeeeeee1", shortcode: "backpack", name: "Backpack", aliases: ["Backpack"] },
 ];
 
 const index = buildWikilinkIndex(DOCS);
@@ -409,4 +409,68 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
         expect(unresolved[0]).toMatchObject({ reason: "unknown" });
     });
 
+});
+
+describe("convertWikilinks — an unlabelled link (#1409)", () => {
+    it("shows a qualified target's document name, not its shortcode", () => {
+        // `doc-shock` is an *address*, not prose: showing it to the reader
+        // leaks the shortcode into the sentence.
+        expect(convert("see [[doc-shock]]").markdown).toBe(
+            "see @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock}",
+        );
+    });
+
+    it("does the same for the legacy slash form", () => {
+        expect(convert("see [[doc/shock]]").markdown).toBe(
+            "see @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock}",
+        );
+    });
+
+    it("shows the name of a target in another pack", () => {
+        expect(convert("a [[skill-climb]] test").markdown).toBe(
+            "a @UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing} test",
+        );
+    });
+
+    it("keeps the name when the link carries an anchor", () => {
+        const page = anchorPageId("aaaaaaaaaaaaaaa1", "shock-state-index");
+        expect(convert("[[doc-shock#shock-state-index]]").markdown).toBe(
+            "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1" +
+                `.JournalEntryPage.${page}]{Shock}`,
+        );
+    });
+
+    it("names the item behind the `doc<type>` virtual qualifier", () => {
+        const climbDoc = itemDocEntryId("bbbbbbbbbbbbbbb1");
+        expect(convert("[[docskill-climb]]").markdown).toBe(
+            `@UUID[Compendium.sohl.journals.JournalEntry.${climbDoc}]{Climbing}`,
+        );
+    });
+
+    it("leaves a bare alias as the prose the author wrote", () => {
+        // The bare form *is* the sentence: substituting the canonical name
+        // would rewrite it ("worsens the Shock State" → "worsens the Shock").
+        expect(convert("worsens the [[Shock State]]").markdown).toBe(
+            "worsens the @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock State}",
+        );
+    });
+
+    it("prefers the author's label over the document name", () => {
+        expect(convert("[[doc-shock|the Shock rules]]").markdown).toBe(
+            "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{the Shock rules}",
+        );
+    });
+
+    it("falls back to the target when the document has no name", () => {
+        const nameless = buildWikilinkIndex([
+            { type: "doc", id: "88888888888888a1", shortcode: "nameless", aliases: [] },
+        ]);
+        const { markdown } = convertWikilinks("[[doc-nameless]]", {
+            ...from,
+            index: nameless,
+        });
+        expect(markdown).toBe(
+            "@UUID[Compendium.sohl.journals.JournalEntry.88888888888888a1]{doc-nameless}",
+        );
+    });
 });

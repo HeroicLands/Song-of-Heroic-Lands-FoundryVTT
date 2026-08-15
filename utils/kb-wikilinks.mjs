@@ -30,6 +30,12 @@
  * tested; that script runs its work at import time and exports nothing.
  */
 
+// Whether a target is an *address* rather than prose is read with the pack
+// build's own rule, so the two builds cannot drift apart on it: they disagreed
+// once over the unlabelled hyphen form, which the packs showed as a raw
+// shortcode and the knowledgebase as a name (#1409).
+import { readQualifier } from "./packs/wikilinks.mjs";
+
 /** KB heading/anchor slug: lowercase, non-alphanumerics to single hyphens. */
 export const slugify = (s) =>
     String(s)
@@ -38,29 +44,43 @@ export const slugify = (s) =>
         .replace(/(^-|-$)/g, "");
 
 /**
- * Rewrites a `type-shortcode` target to the canonical `type/shortcode` index
- * key, or `null` when the target is not qualified at all.
+ * Whether a link target addresses a document as `type-shortcode` (or the legacy
+ * `type/shortcode`) rather than naming it in prose.
  *
- * The hyphen is the canonical separator (#1398) because Obsidian reads `/`
- * inside a wikilink as a path, and the content is authored in Obsidian. It
- * qualifies **only when what precedes it is a known type**: names are
- * hyphenated too, and `[[Grukar-ahk]]` has to keep resolving as an alias rather
- * than being reported as a broken `grukar/ahk`. The split is at the *first*
- * hyphen, so a shortcode may itself contain one.
+ * Delegates to the pack build's {@link readQualifier} so one rule serves both
+ * builds. A `reason` is as much an address as a resolved qualifier is — the
+ * target is qualified either way, it just names no known type — and the caller
+ * only ever asks this of a target that already resolved.
  *
- * `types` carries the virtual `doc<type>` qualifiers as well as the real types
- * (the KB build adds them), so `docskill-climb` is recognised here too.
- *
- * @param {string} key - The lowercased link target, anchor already removed.
- * @param {Set<string>} types - Known content types, including `doc<type>`.
- * @returns {string | null} The `type/shortcode` index key, or `null`.
+ * @param {string} target - The link target, anchor already removed.
+ * @param {Set<string>} [contentTypes] - Every content type the KB build saw.
+ * @returns {boolean} `true` when the target is an address.
  */
-function qualifiedKey(key, types) {
-    const hyphen = key.indexOf("-");
-    // `> 0` rather than `!== -1`: a leading hyphen leaves no type before it.
-    if (hyphen <= 0 || hyphen === key.length - 1) return null;
-    const type = key.slice(0, hyphen);
-    return types.has(type) ? `${type}/${key.slice(hyphen + 1)}` : null;
+function isAddress(target, contentTypes) {
+    return readQualifier(target, contentTypes ?? new Set()) !== null;
+}
+
+/**
+ * The `type/shortcode` index key a qualified target resolves to, or `null`.
+ *
+ * The KB index is keyed by the canonical `type/shortcode`, so a target written
+ * in the hyphen separator — which is what the vault authors (#1398) — has to be
+ * rewritten to it before lookup. Uses the same {@link readQualifier} as
+ * {@link isAddress}, so recognising an address and resolving one can never
+ * disagree: the first-hyphen split and the known-type condition that keeps
+ * `[[Grukar-ahk]]` an alias are stated once, in the pack build.
+ *
+ * The build indexes an item note under both `skill/climb` and `docskill/climb`,
+ * and `contentTypes` carries both qualifiers, so either form finds the page.
+ *
+ * @param {string} target - The link target, anchor already removed.
+ * @param {Set<string>} [contentTypes] - Every content type the KB build saw.
+ * @returns {string | null} The index key, or `null` when not qualified.
+ */
+function qualifiedKey(target, contentTypes) {
+    const read = readQualifier(target, contentTypes ?? new Set());
+    if (!read || read.reason) return null;
+    return `${read.type}/${read.shortcode}`.toLowerCase();
 }
 
 /**
@@ -102,16 +122,11 @@ export function resolveKbWikilinks(body, ctx) {
 
         const key = target.toLowerCase();
         const typeKey = ctx.type ? `${ctx.type}|${key}`.toLowerCase() : null;
-        // The canonical separator (#1398), read the way the pack resolver reads
-        // it (`readQualifier` in `utils/packs/wikilinks.mjs`): split at the
-        // *first* hyphen, and treat it as a qualifier **only when what precedes
-        // it is a known type** — note names are hyphenated too (`Grukar-ahk`)
-        // and must keep resolving as aliases. The index is keyed by the
-        // canonical `type/shortcode`, so a recognised qualifier is rewritten to
-        // it. Without this the form resolved only when source and target shared
-        // a type, by way of the seeded alias; every *cross-type* link written in
-        // the canonical separator silently lost its href.
-        const hyphenKey = qualifiedKey(key, ctx.contentTypes);
+        // The canonical separator (#1398) has to be resolved, not merely
+        // recognised. Without this the form resolved only when source and
+        // target shared a type, by way of the seeded alias below; every
+        // *cross-type* link written in it silently lost its href.
+        const hyphenKey = qualifiedKey(target, ctx.contentTypes);
         const hit =
             (typeKey ? ctx.typeAlias.get(typeKey) : undefined) ??
             ctx.index.get(key) ??
@@ -122,7 +137,12 @@ export function resolveKbWikilinks(body, ctx) {
             // name. A bare `[[Text]]` is already the prose the author wrote —
             // substituting the canonical name there would rewrite the sentence
             // ("worsens the [[Shock State]]" must not render as "Shock").
-            const text = display ?? (target.includes("/") ? hit.name : target);
+            // Both separators qualify: `type-shortcode` is the canonical form
+            // (#1398), and a hyphen inside a note *name* ("Grukar-ahk") is not
+            // one, which is why the rule is the packs' own (#1409).
+            const text =
+                display ??
+                (isAddress(target, ctx.contentTypes) ? hit.name : target);
             return `[${text}](${anchor ? `${hit.url}#${slugify(anchor)}` : hit.url})`;
         }
 
