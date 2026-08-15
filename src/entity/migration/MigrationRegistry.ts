@@ -165,6 +165,55 @@ const stampAffiliationSubType: DocMigrator = (source) => {
 };
 
 /**
+ * The `(type, shortcode)` keys retired by the alphanumeric rule (#1397), each
+ * mapped to its replacement.
+ *
+ * Keyed by **type** because the shortcode alone is not the identity: another
+ * type may legitimately carry the same string, and renaming it there would
+ * repoint an unrelated document.
+ */
+const RENAMED_SHORTCODES: Readonly<
+    Record<string, Readonly<Record<string, string>>>
+> = Object.freeze({
+    trauma: Object.freeze({ "self-pro": "selfpro", "self-suf": "selfsuf" }),
+    weapongear: Object.freeze({ "B&CFl": "BCFl" }),
+});
+
+/**
+ * Rewrite the three shortcodes that were not alphanumeric (#1397).
+ *
+ * A shortcode is identity, referenced from saved world data — a compendium item
+ * and the world copy imported from it are "the same thing" precisely because
+ * they share `(type, shortcode)`. So renaming the key in the content tree is a
+ * **data change**: without this step a world that imported the old
+ * `weapongear:B&CFl` would stop matching the pack entry it came from, and
+ * archetype shadowing and compendium reconciliation would both quietly treat the
+ * two as different entities.
+ *
+ * Both lookups use {@link Object.hasOwn}: `type` and `shortcode` come from
+ * stored data, so a bare property read on an object literal would resolve
+ * inherited names like `constructor` and rename on a match that is not there.
+ *
+ * The payload spreads the document's own `system` because the runner updates
+ * non-recursively. See {@link DocMigrator}.
+ *
+ * @param source - The document's serialized source.
+ * @returns The replacement payload, or `undefined` when nothing is renamed.
+ */
+const renameShortcodes: DocMigrator = (source) => {
+    const type = source.type;
+    if (typeof type !== "string" || !Object.hasOwn(RENAMED_SHORTCODES, type)) {
+        return undefined;
+    }
+    const current = source.system?.shortcode;
+    const renames = RENAMED_SHORTCODES[type];
+    if (typeof current !== "string" || !Object.hasOwn(renames, current)) {
+        return undefined;
+    }
+    return { system: { ...source.system, shortcode: renames[current] } };
+};
+
+/**
  * The ordered list of world migrations.
  *
  * Append in version order — the planner sorts defensively regardless — and stamp
@@ -184,6 +233,13 @@ export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
         description:
             "Stamp the new required subType on existing affiliation items (#1405)",
         migrators: { Item: stampAffiliationSubType },
+    },
+    {
+        version: "0.9.0",
+        description:
+            "Rename the three shortcodes that were not alphanumeric, which " +
+            "the type-shortcode address cannot parse unambiguously (#1397).",
+        migrators: { Item: renameShortcodes },
     },
 ]);
 
@@ -235,12 +291,21 @@ export function migrateDocumentSource(
     plan: readonly MigrationStep[],
 ): Record<string, unknown> {
     const update: Record<string, unknown> = {};
+    // Each step sees the previous steps' output, not the untouched source.
+    // Payloads are whole-object replacements (see {@link DocMigrator}), and they
+    // are merged at the *root*, so two steps that both rewrite `system` would
+    // otherwise not compose: the later one spreads the original `system` and
+    // silently reinstates whatever the earlier one removed. Threading the
+    // accumulated source is what makes a plan of several steps mean the sum of
+    // them rather than the last one.
+    let current = source;
     for (const step of plan) {
         const migrator = step.migrators?.[kind];
         if (!migrator) continue;
-        const result = migrator(source);
+        const result = migrator(current);
         if (result && Object.keys(result).length > 0) {
             Object.assign(update, result);
+            current = { ...current, ...result };
         }
     }
     return update;

@@ -21,6 +21,9 @@ import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 type MasteryLevelData = MysticalAbilityData | SkillData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { getCtorForKind } from "@src/utils/kindRegistry";
+// Framework-free so the build-time guard (`lint:packs`) applies the identical
+// rule; see the module's own note on why it is `.mjs`.
+import { isValidShortcode } from "@src/utils/shortcode-charset.mjs";
 
 /**
  * Resolver used by {@link defaultFromJSON} to revive a `ClientDocument`
@@ -325,6 +328,24 @@ export function uniqueShortcode(
 }
 
 /**
+ * Why {@link resolveShortcodeKey} refused to resolve a key.
+ *
+ * The caller warns differently for each: a duplicate names the scope that
+ * already holds the code, a charset failure names the rule the value broke, and
+ * an unnamed create has nothing to report but itself.
+ */
+export interface ShortcodeRejection {
+    /** Always `true`; the discriminant against a resolved `{ shortcode }`. */
+    reject: true;
+    /**
+     * `"charset"` — the authored code is not ASCII-alphanumeric (#1397);
+     * `"duplicate"` — the code is already taken in scope and `dedupe` is off;
+     * `"unnamed"` — no shortcode and no name to derive one from.
+     */
+    reason: "charset" | "duplicate" | "unnamed";
+}
+
+/**
  * Options governing how {@link resolveShortcodeKey} handles a collision or a
  * missing shortcode.
  */
@@ -372,25 +393,37 @@ export interface ResolveShortcodeOptions {
  * A Foundry duplicate (`isDuplicate`) suffixes an explicit collision even when
  * `dedupe` is off. `shortcode` is never `null`/blank on a resolved document.
  *
+ * An **authored** code must also be alphanumeric (`isValidShortcode`, in
+ * `src/utils/shortcode-charset.mjs`, #1397) and is rejected outright when it is
+ * not — before the collision check,
+ * because an illegal key is wrong whether or not it is free, and `dedupe` must
+ * not "fix" it by suffixing a 2 onto it. The other two branches cannot produce
+ * an illegal code: {@link slugifyShortcode} strips everything else, and the
+ * injected id generator uses the Foundry id charset.
+ *
  * @param desired - The requested shortcode (blank/whitespace ⇒ "not supplied").
  * @param fallbackName - The document name a blank shortcode is derived from.
  * @param taken - Shortcodes already used by same-scope, same-type siblings,
  *   excluding self.
  * @param opts - Collision/absence behavior; see {@link ResolveShortcodeOptions}.
- * @returns `{ shortcode }` with the code to use, or `{ reject: true }` when the
- *   resolve fails (a collision or name-less create without `dedupe`).
+ * @returns `{ shortcode }` with the code to use, or a `reject` carrying why:
+ *   `"charset"` (illegal characters), `"duplicate"` (the key is taken), or
+ *   `"unnamed"` (nothing to derive a key from).
  */
 export function resolveShortcodeKey(
     desired: string,
     fallbackName: string,
     taken: ReadonlySet<string>,
     opts: ResolveShortcodeOptions,
-): { shortcode: string } | { reject: true } {
+): { shortcode: string } | ShortcodeRejection {
     const { dedupe, isDuplicate = false, makeRandomId } = opts;
     const trimmed = (desired ?? "").trim();
 
     let base: string;
     if (trimmed) {
+        if (!isValidShortcode(trimmed)) {
+            return { reject: true, reason: "charset" };
+        }
         base = trimmed;
     } else {
         const slug = slugifyShortcode(fallbackName);
@@ -398,7 +431,7 @@ export function resolveShortcodeKey(
             base = slug;
         } else {
             // Neither a shortcode nor a usable name.
-            if (!dedupe) return { reject: true };
+            if (!dedupe) return { reject: true, reason: "unnamed" };
             if (!makeRandomId) {
                 throw new Error(
                     "resolveShortcodeKey: makeRandomId is required to generate a random shortcode",
@@ -414,7 +447,7 @@ export function resolveShortcodeKey(
     if (dedupe || isDuplicate) {
         return { shortcode: uniqueShortcode(base, taken) };
     }
-    return { reject: true };
+    return { reject: true, reason: "duplicate" };
 }
 
 /** Error thrown when a value fails HTML validation. */

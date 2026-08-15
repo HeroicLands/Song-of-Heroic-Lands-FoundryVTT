@@ -43,6 +43,34 @@ The uniqueness invariant below exists **to keep this identity well-defined**: if
 different entities within one scope shared a `(type, shortcode)`, "the same thing"
 would be ambiguous and every match above would be unsound.
 
+## The character set
+
+A `shortcode` matches `^[A-Za-z0-9]+$` — ASCII letters and digits, nothing else
+(#1397). It is an **identifier**, not prose, and every other character costs
+something in at least one of the three places these keys are read:
+
+- **A hyphen breaks addressing.** Notes are addressed `[[type-shortcode]]` and the
+  parse splits at the *first* hyphen (see
+  [Linking Between Content Notes](./content-links.md)), so `trauma-self-pro` was
+  only readable as `trauma` + `self-pro` by accident of `trauma` being a known type.
+- **A slash reads as a path** — both as the legacy qualifier and to Obsidian, where
+  the content is authored.
+- **Punctuation and spaces** land in an alias that has to be typed exactly
+  (`weapongear-B&CFl`), and `&` is markup in several of the surfaces that render it.
+
+**Case is deliberately not settled by this rule.** 418 authored shortcodes are mixed
+case (`armorgear:BCap`, `weapongear:Sprngld`) while `slugifyShortcode` generates
+lowercase, so authored and generated keys live in two case worlds. There are no
+collisions either way, case-sensitively or not, so nothing is broken; tightening to
+lowercase would be a consistency decision costing 418 renames and a migration, and
+belongs to its own issue.
+
+The rule itself is `isValidShortcode` in
+[src/utils/shortcode-charset.mjs](../../../src/utils/shortcode-charset.mjs) — a
+framework-free module deliberately, since it has to hold in the TypeScript runtime
+guard *and* in a plain-ESM build script, and a rule stated twice is a rule that
+drifts.
+
 ## The invariant
 
 `(type, shortcode)` is unique within each of four **scopes**, and `shortcode` is a
@@ -87,9 +115,28 @@ guarded and compendium creates were skipped; both gaps are now closed.
 Authored compendium content is Markdown under `assets/content/`, seeded into packs by
 the compendium CLI, which **bypasses `_preCreate`**. The build-time guard
 `lint:packs` (`utils/check-pack-shortcodes.mjs`, part of `npm run lint`) walks that
-content and fails on any duplicate `(type, shortcode)` within a pack. Because a type
-routes to exactly one pack, a global `(type, shortcode)` collision _is_ a within-pack
-collision.
+content and fails on any duplicate `(type, shortcode)` within a pack, **and on any
+shortcode that is not alphanumeric**. Because a type routes to exactly one pack, a
+global `(type, shortcode)` collision _is_ a within-pack collision.
+
+Both are reported in a single run: renaming a malformed key can itself collide, so an
+author fixing one wants to see the other in the same pass.
+
+### Renaming a shortcode is a data change
+
+`shortcode` is identity, referenced from saved world data — a compendium item and the
+world copy imported from it are "the same thing" precisely because they share
+`(type, shortcode)`. Renaming one in the content tree therefore needs **three**
+changes, not one:
+
+1. the note in the **vault** (`shortcode`, and the `type-shortcode` alias beside it);
+2. the re-exported `assets/content/`;
+3. a **world migration** mapping the old key to the new one.
+
+Skip the third and an upgraded world stops matching the pack entry its documents came
+from: compendium reconciliation and archetype shadowing both quietly begin treating
+the two as different entities. The 0.9.0 `renameShortcodes` step is the worked
+example.
 
 ## The resolver matrix
 
@@ -105,6 +152,20 @@ unit-tested. It takes the desired shortcode, the document name, the taken set, a
 | blank | non-empty | `false`/absent | base = slug; collides → **reject** |
 | blank | blank | `true` | random 16-char id |
 | blank | blank | `false`/absent | **reject** |
+
+An **authored** code is checked against the character set *before* any of this and
+rejected outright when it fails — an illegal key is wrong whether or not it is free,
+and `shortcodeDedupe` must not "fix" it by hanging a `2` off the end. The other two
+branches cannot produce an illegal code: `slugifyShortcode` strips everything but
+alphanumerics, and the injected id generator uses the Foundry id charset. A rejection
+therefore carries a `reason` — `"charset"`, `"duplicate"`, or `"unnamed"` — so the
+notification names the rule that was broken rather than sending the user to look for a
+clash that does not exist.
+
+On **update** the charset is only checked when the shortcode is actually *changing*.
+A payload that merely restates a document's existing code is let through: migrations
+rewrite whole `system` objects, and a document still carrying a legacy malformed key
+must remain writable long enough for the migration to repair it.
 
 A Foundry native duplicate (`_stats.duplicateSource`) suffixes an explicit collision
 even without `shortcodeDedupe`. The random-id branch uses an **injected** generator so

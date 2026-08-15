@@ -198,3 +198,113 @@ describe("0.9.0 — system.docUrl is retired (#1394)", () => {
         });
     });
 });
+
+describe("0.9.0 — shortcodes are alphanumeric (#1397)", () => {
+    before(() => cy.login().then(() => cy.cleanupWorld()));
+    after(() => cy.cleanupWorld());
+
+    it("refuses to create a document whose shortcode is not alphanumeric", () => {
+        cy.foundry(async (win) => {
+            const before = win.game.items.size;
+            try {
+                await win.Item.create({
+                    name: "Charset Probe",
+                    type: "trauma",
+                    system: { subType: "psycond", shortcode: "self-pro" },
+                });
+            } catch {
+                // A vetoed create may reject rather than resolve; either way
+                // what matters is that nothing was written.
+            }
+            return win.game.items.size - before;
+        }).should("equal", 0);
+    });
+
+    it("ships the renamed keys in the compendium, and none of the retired ones", () => {
+        // The whole chain in one assertion: the vault rename, the export, and
+        // the pack compile.
+        cy.foundry(async (win) => {
+            const found = {};
+            for (const [pack, type, code] of [
+                ["sohl.items", "trauma", "selfpro"],
+                ["sohl.items", "trauma", "selfsuf"],
+                ["sohl.items", "weapongear", "BCFl"],
+            ]) {
+                const index = await win.game.packs
+                    .get(pack)
+                    .getIndex({ fields: ["system.shortcode"] });
+                found[code] = index.some(
+                    (e) => e.type === type && e.system?.shortcode === code,
+                );
+            }
+            const index = await win.game.packs
+                .get("sohl.items")
+                .getIndex({ fields: ["system.shortcode"] });
+            const retired = index.filter((e) =>
+                ["self-pro", "self-suf", "B&CFl"].includes(e.system?.shortcode),
+            ).length;
+            return { ...found, retired };
+        }).should("deep.equal", {
+            selfpro: true,
+            selfsuf: true,
+            BCFl: true,
+            retired: 0,
+        });
+    });
+
+    it("migrates a world document still carrying a retired key", () => {
+        // The interaction worth proving in a live client: the update guard now
+        // rejects a non-alphanumeric shortcode, and the migration's own write
+        // must not be caught by it. The legacy value is planted with
+        // `updateSource` (in-memory, no `_preUpdate`) because a create carrying
+        // it is — correctly — refused.
+        cy.createWorldItem("weapongear", { name: "Legacy Code Gear" }).then(
+            (item) => {
+                cy.foundry(async (win) => {
+                    const doc = win.game.items.get(item.id);
+                    // Re-realm the payload: an object literal built in the
+                    // spec's realm is not an `Object` to the game window, and
+                    // Foundry rejects it outright.
+                    doc.updateSource(
+                        win.structuredClone({ "system.shortcode": "B&CFl" }),
+                    );
+                    const planted = doc.system.shortcode;
+
+                    const reported = win.game.system.version;
+                    const stored = win.game.settings.get(
+                        "sohl",
+                        "systemMigrationVersion",
+                    );
+                    win.game.system.version = "0.9.0";
+                    try {
+                        await win.game.settings.set(
+                            "sohl",
+                            "systemMigrationVersion",
+                            "0.8.2",
+                        );
+                        const summary =
+                            await win.sohl.core.foundry.runWorldMigrations(
+                                win.game,
+                            );
+                        return {
+                            planted,
+                            errors: summary.errors,
+                            after: win.game.items.get(item.id).system.shortcode,
+                        };
+                    } finally {
+                        win.game.system.version = reported;
+                        await win.game.settings.set(
+                            "sohl",
+                            "systemMigrationVersion",
+                            stored,
+                        );
+                    }
+                }).should("deep.equal", {
+                    planted: "B&CFl",
+                    errors: 0,
+                    after: "BCFl",
+                });
+            },
+        );
+    });
+});

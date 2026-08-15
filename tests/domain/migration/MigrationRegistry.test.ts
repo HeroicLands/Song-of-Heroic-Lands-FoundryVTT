@@ -121,6 +121,41 @@ describe("migrateDocumentSource", () => {
             },
         );
     });
+
+    it("hands each step the previous step's output, not the untouched source", () => {
+        // Payloads replace whole objects and merge at the root, so two steps
+        // that both rewrite `system` only compose if the second sees the
+        // first's result. Reading the original source instead would spread the
+        // stale `gone` key back in and silently undo step one.
+        const chained: MigrationStep[] = [
+            {
+                version: "0.5.0",
+                description: "drop a retired key",
+                migrators: {
+                    Item: (src) => {
+                        const system = { ...src.system };
+                        delete system.gone;
+                        return { system };
+                    },
+                },
+            },
+            {
+                version: "0.6.0",
+                description: "stamp a new key",
+                migrators: {
+                    Item: (src) => ({ system: { ...src.system, added: true } }),
+                },
+            },
+        ];
+        const plan = planMigrations("", "0.6.0", chained);
+        expect(
+            migrateDocumentSource(
+                { type: "skill", system: { gone: "x", kept: 1 } },
+                "Item",
+                plan,
+            ),
+        ).toEqual({ system: { kept: 1, added: true } });
+    });
 });
 
 describe("resolveFromVersion", () => {
@@ -356,5 +391,102 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
         expect(update).toEqual({
             system: { shortcode: "aff-x", subType: "social" },
         });
+    });
+});
+
+describe("0.9.0 — alphanumeric shortcode renames (#1397)", () => {
+    const step = SOHL_MIGRATIONS.find((s) => s.description.includes("#1397"));
+    const migrate = (source: MigrationSource) => step!.migrators!.Item!(source);
+
+    it("is registered at 0.9.0 with an Item migrator", () => {
+        expect(step).toBeDefined();
+        expect(step!.version).toBe("0.9.0");
+        // Only item types carried a malformed code; no actor is touched.
+        expect(Object.keys(step!.migrators ?? {})).toEqual(["Item"]);
+    });
+
+    it("renames each of the three retired keys", () => {
+        expect(
+            migrate({ type: "trauma", system: { shortcode: "self-pro" } }),
+        ).toEqual({ system: { shortcode: "selfpro" } });
+        expect(
+            migrate({ type: "trauma", system: { shortcode: "self-suf" } }),
+        ).toEqual({ system: { shortcode: "selfsuf" } });
+        expect(
+            migrate({ type: "weapongear", system: { shortcode: "B&CFl" } }),
+        ).toEqual({ system: { shortcode: "BCFl" } });
+    });
+
+    it("is scoped by type, so an unrelated item keeping the old string is left alone", () => {
+        // `(type, shortcode)` is the identity — the bare code means nothing on
+        // its own, and another type may legitimately use the same string.
+        expect(
+            migrate({ type: "skill", system: { shortcode: "self-pro" } }),
+        ).toBeUndefined();
+        expect(
+            migrate({ type: "trauma", system: { shortcode: "B&CFl" } }),
+        ).toBeUndefined();
+    });
+
+    it("writes nothing for a document that never carried a retired key", () => {
+        expect(
+            migrate({ type: "trauma", system: { shortcode: "selfpro" } }),
+        ).toBeUndefined();
+        expect(
+            migrate({ type: "weapongear", system: { shortcode: "bsw" } }),
+        ).toBeUndefined();
+        expect(migrate({ type: "trauma", system: {} })).toBeUndefined();
+        expect(migrate({ type: "trauma" })).toBeUndefined();
+    });
+
+    it("ignores a non-string shortcode rather than throwing", () => {
+        expect(
+            migrate({ type: "trauma", system: { shortcode: null } }),
+        ).toBeUndefined();
+        expect(
+            migrate({ type: "trauma", system: { shortcode: 42 } }),
+        ).toBeUndefined();
+    });
+
+    it("does not read inherited Object properties as a rename table", () => {
+        // `type` and `shortcode` come from stored data, so a lookup on a plain
+        // object literal would otherwise resolve "constructor" or "toString".
+        expect(
+            migrate({ type: "constructor", system: { shortcode: "self-pro" } }),
+        ).toBeUndefined();
+        expect(
+            migrate({ type: "trauma", system: { shortcode: "constructor" } }),
+        ).toBeUndefined();
+        expect(
+            migrate({ type: "trauma", system: { shortcode: "toString" } }),
+        ).toBeUndefined();
+    });
+
+    it("preserves every other field — the payload replaces, it does not merge", () => {
+        const system = {
+            shortcode: "self-pro",
+            subType: "psycond",
+            category: "behavior",
+            levelBase: 2,
+        };
+        expect(migrate({ type: "trauma", system })).toEqual({
+            system: { ...system, shortcode: "selfpro" },
+        });
+    });
+
+    it("folds together with the other 0.9.0 steps into one payload", () => {
+        // A world on 0.8.2 runs all three steps; the rename must survive the
+        // docUrl strip rewriting the same `system` object.
+        const plan = planMigrations("0.8.2", "0.9.0");
+        expect(
+            migrateDocumentSource(
+                {
+                    type: "trauma",
+                    system: { shortcode: "self-pro", docUrl: "https://x/y" },
+                },
+                "Item",
+                plan,
+            ),
+        ).toEqual({ system: { shortcode: "selfpro" } });
     });
 });

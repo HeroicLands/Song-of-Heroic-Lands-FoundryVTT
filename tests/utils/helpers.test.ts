@@ -920,7 +920,7 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
                 resolveShortcodeKey("arrow", "Arrow", new Set(["arrow"]), {
                     dedupe: false,
                 }),
-            ).toEqual({ reject: true });
+            ).toEqual({ reject: true, reason: "duplicate" });
         });
 
         it("suffixes a collision for a Foundry duplicate even without dedupe", () => {
@@ -960,7 +960,7 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
                 resolveShortcodeKey("", "Deep Wound", new Set(["deepwound"]), {
                     dedupe: false,
                 }),
-            ).toEqual({ reject: true });
+            ).toEqual({ reject: true, reason: "duplicate" });
         });
     });
 
@@ -988,7 +988,75 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
         it("rejects when dedupe is false/absent", () => {
             expect(
                 resolveShortcodeKey("", "—", new Set(), { dedupe: false }),
-            ).toEqual({ reject: true });
+            ).toEqual({ reject: true, reason: "unnamed" });
+        });
+    });
+
+    describe("character set (#1397)", () => {
+        it("rejects an authored shortcode that is not alphanumeric", () => {
+            // The three the content tree carried before this landed.
+            for (const bad of ["self-pro", "self-suf", "B&CFl"]) {
+                expect(
+                    resolveShortcodeKey(bad, "Whatever", new Set(), {
+                        dedupe: false,
+                    }),
+                ).toEqual({ reject: true, reason: "charset" });
+            }
+        });
+
+        it("rejects on charset even when dedupe is on", () => {
+            // `dedupe` forgives a *collision*; it cannot rehabilitate an
+            // illegal key, and suffixing one would just persist it with a 2 on
+            // the end.
+            expect(
+                resolveShortcodeKey("self-pro", "Self-protective", new Set(), {
+                    dedupe: true,
+                    makeRandomId: rnd,
+                }),
+            ).toEqual({ reject: true, reason: "charset" });
+        });
+
+        it("rejects on charset even for a Foundry duplicate", () => {
+            expect(
+                resolveShortcodeKey(
+                    "B&CFl",
+                    "Ball and Chain Flail",
+                    new Set(),
+                    {
+                        dedupe: false,
+                        isDuplicate: true,
+                    },
+                ),
+            ).toEqual({ reject: true, reason: "charset" });
+        });
+
+        it("checks the trimmed value, so surrounding space is not a violation", () => {
+            expect(
+                resolveShortcodeKey("  arrow  ", "Arrow", new Set(), {
+                    dedupe: false,
+                }),
+            ).toEqual({ shortcode: "arrow" });
+        });
+
+        it("never rejects a name-derived code — the slug is alphanumeric by construction", () => {
+            expect(
+                resolveShortcodeKey("", "Ball & Chain Flail", new Set(), {
+                    dedupe: false,
+                }),
+            ).toEqual({ shortcode: "ballchainflail" });
+            expect(
+                resolveShortcodeKey("", "Self-protective", new Set(), {
+                    dedupe: false,
+                }),
+            ).toEqual({ shortcode: "selfprotective" });
+        });
+
+        it("accepts a deduped suffix, which stays alphanumeric", () => {
+            expect(
+                resolveShortcodeKey("arrow", "Arrow", new Set(["arrow"]), {
+                    dedupe: true,
+                }),
+            ).toEqual({ shortcode: "arrow2" });
         });
     });
 });

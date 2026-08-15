@@ -12,6 +12,7 @@
  */
 
 import { resolveShortcodeKey } from "@src/utils/helpers";
+import type { ShortcodeRejection } from "@src/utils/helpers";
 import { fvttRandomId } from "@src/core/FoundryHelpers";
 
 /**
@@ -108,11 +109,30 @@ export async function collectTakenShortcodes(doc: any): Promise<Set<string>> {
 }
 
 /**
- * Notify the user that a `(type, shortcode)` key already exists in scope.
- * @param doc - The document whose shortcode collided.
- * @param desired - The colliding shortcode value.
+ * Notify the user why a `(type, shortcode)` key was refused.
+ *
+ * A rejection has more than one cause, and they call for different remedies:
+ * a duplicate needs a *different* code, an illegal one needs a *rewritten* code
+ * (#1397). Reporting the wrong cause sends the user looking for a clash that
+ * does not exist.
+ *
+ * @param doc - The document whose shortcode was refused.
+ * @param desired - The offending shortcode value.
+ * @param reason - Why {@link resolveShortcodeKey} refused it.
  */
-function warnDuplicate(doc: any, desired: string): void {
+function warnRejected(
+    doc: any,
+    desired: string,
+    reason: ShortcodeRejection["reason"],
+): void {
+    if (reason === "charset") {
+        (globalThis as any).ui?.notifications?.warn(
+            sohl.i18n.format("SOHL.Shortcode.notAlphanumeric", {
+                shortcode: desired,
+            }),
+        );
+        return;
+    }
     const scope =
         doc?.documentName === "Item" && doc.actor ?
             (doc.actor.name ?? "The actor")
@@ -149,7 +169,7 @@ export async function enforceShortcodeOnCreate(
         makeRandomId: () => fvttRandomId(16),
     });
     if ("reject" in resolved) {
-        warnDuplicate(doc, desired);
+        warnRejected(doc, desired, resolved.reason);
         return false;
     }
     if (resolved.shortcode !== desired) {
@@ -176,13 +196,21 @@ export async function enforceShortcodeOnUpdate(
     const next = changes?.system?.shortcode;
     if (next === undefined) return undefined; // shortcode not being changed
     const desired = String(next ?? "");
+    // A payload that merely restates the stored code changes nothing, so there
+    // is nothing to enforce — and enforcing anyway would be actively harmful.
+    // A migration rewrites the *whole* `system` object (the update is
+    // non-recursive), so its payload restates a shortcode it may not have come
+    // to repair yet; vetoing that would make a document carrying a legacy
+    // malformed key unwritable, and so unrepairable. Uniqueness is unaffected:
+    // `taken` excludes self, so a restated code never collided either.
+    if (desired === String(doc.system?.shortcode ?? "")) return undefined;
     const taken = await collectTakenShortcodes(doc); // excludes self by id
     const resolved = resolveShortcodeKey(desired, doc.name ?? "", taken, {
         dedupe: !!options?.shortcodeDedupe,
         makeRandomId: () => fvttRandomId(16),
     });
     if ("reject" in resolved) {
-        warnDuplicate(doc, desired);
+        warnRejected(doc, desired, resolved.reason);
         return false;
     }
     if (resolved.shortcode !== desired) {
