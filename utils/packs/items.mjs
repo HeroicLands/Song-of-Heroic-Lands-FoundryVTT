@@ -492,6 +492,7 @@ export class Items {
                     docs: this.contentDocs,
                     name: resolveName(fm),
                     pkg: fm.package,
+                    fm,
                 });
                 const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
                     type,

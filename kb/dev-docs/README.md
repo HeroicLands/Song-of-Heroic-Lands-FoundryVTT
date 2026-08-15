@@ -63,7 +63,7 @@ Contracts, catalogs, and specifications.
 
 - [Type Catalog](reference/type-catalog.md)
 - [Linking Between Content Notes](reference/content-links.md) — wikilinks for content authors: the four forms, and why an item and its documentation need two different addresses.
-- [Generated Content Tables](reference/content-tables.md) — the `(@Table …)` directive: tabulate content notes from their frontmatter.
+- [Generated Content Tables](reference/content-tables.md) — Dataview `TABLE` queries that tabulate content notes from their frontmatter.
 - [Modifier Model](reference/modifier-model.md)
 - [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)
 - [Result-description Tables](reference/result-description-tables.md)

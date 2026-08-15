@@ -44,4 +44,11 @@ Because the better of two always applies, a cusp comes out ahead of either neigh
 
 Reading a sign — a stranger's, or a newborn's — is the work of [[doc-astrlgy|Astrology]], which needs the hour and place of birth to cast a natal chart.
 
-(@Table search=[type:mystery, sohl.kbcat=birthsign] columns=[Sign:name.full, Shortcode:shortcode, Influence:description])
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Sign",
+  shortcode AS "Shortcode",
+  description AS "Influence"
+WHERE type = "mystery" and sohl.kbcat = "birthsign"
+SORT name.full ASC
+```

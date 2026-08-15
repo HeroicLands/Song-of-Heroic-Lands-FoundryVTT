@@ -493,7 +493,7 @@ export function convertNoteWikilinks(body, { type, id, index, name }) {
 /* ------------------------------------------------------------------------ */
 
 /**
- * Every note in the content tree, in the shape the `(@Table …)` expander
+ * Every note in the content tree, in the shape the `dataview` table expander
  * searches: its frontmatter plus where it sits in the tree. Ordered by path so
  * a table that leaves rows tied still emits identically on every build.
  *
@@ -532,7 +532,7 @@ const packLinkable = (doc) =>
     Boolean(doc.fm?.shortcode) && Boolean(doc.fm?.type);
 
 /**
- * Expand the `(@Table …)` directives in one note's markdown, before wikilinks
+ * Expand the fenced `dataview` tables in one note's markdown, before wikilinks
  * are resolved — so a generated cell may itself be a wikilink.
  *
  * A table searches only notes of the source note's own `package`, so a SoHL
@@ -543,16 +543,23 @@ const packLinkable = (doc) =>
  * @param {Array<object>} ctx.docs - From {@link collectContentDocs}.
  * @param {string} ctx.name - The note, for the error message.
  * @param {string} [ctx.pkg] - The source note's `package`.
+ * @param {object} [ctx.fm] - The source note's frontmatter, which is what a
+ *   query's `this` reads. Its entry in `docs` supplies the path as well.
  * @returns {string} The body with every table expanded.
- * @throws {Error} When a directive is malformed or matches nothing — the note
- *   fails to compile rather than shipping a table-shaped hole.
+ * @throws {Error} When a query is malformed or unsupported — the note fails to
+ *   compile rather than shipping a table-shaped hole.
  */
-export function expandNoteTables(body, { docs, name, pkg }) {
+export function expandNoteTables(body, { docs, name, pkg, fm }) {
     const scoped = pkg ? docs.filter((d) => d.fm?.package === pkg) : docs;
+    const self =
+        fm ?
+            (docs.find((d) => d.fm?.id && d.fm.id === fm.id) ?? { fm })
+        :   undefined;
     const { markdown, errors } = expandContentTables(body ?? "", {
         docs: scoped,
         linkable: packLinkable,
         source: name,
+        self,
     });
     if (errors.length) {
         throw new Error(

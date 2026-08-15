@@ -8,115 +8,157 @@ Authoring such a table by hand duplicates that data and guarantees drift: the it
 weight changes, the table does not, and nothing in the build notices.
 
 A content body therefore declares **what it wants tabulated** and the build fills in
-the rows:
+the rows. The declaration is an ordinary [Obsidian
+Dataview](https://blacksmithgu.github.io/obsidian-dataview/) `TABLE` query, in a
+fenced `dataview` block:
+
+````text
+```dataview
+TABLE WITHOUT ID
+  link(file.path, name.full) AS "Name",
+  sohl.weight AS "Weight",
+  sohl.protection.blunt AS "B"
+WHERE type = "armorgear" and sohl.material = "Cloth"
+SORT name.full ASC
+```
+````
+
+Content is authored in the **HeroicLands Obsidian vault**, where the Dataview plugin
+renders that block live. The build renders the same query against the same
+frontmatter, so one authored query yields the same table in three places: in the
+vault while writing, in the Foundry compendium packs, and on the knowledgebase. What
+the author sees is what ships.
+
+Both content builds run the same expander (`utils/content-tables.mjs`).
+
+## Supported grammar
+
+Only the subset below is implemented. Anything outside it is a **build error** that
+names the offending clause — never a silently wrong table.
 
 ```text
-(@Table search=[type:armorgear, sohl.material:Cloth]
-        columns=[Name:name.full, Weight:sohl.weight, B:sohl.protection.blunt])
+TABLE [WITHOUT ID] <column> [, <column>]*
+[FROM <source>]
+[WHERE <expression>]
+[SORT <key> [ASC|DESC] [, …]]
+[LIMIT <n>]
 ```
 
-One authored directive produces the table in **both** content builds — the Foundry
-compendium packs and the knowledgebase — because both run the same expander
-(`utils/content-tables.mjs`).
+Keywords are case-insensitive (`table`/`TABLE`, `as`/`AS`, `and`/`AND`). Clauses must
+appear in the order above, once each — which is what lets a **frontmatter field share
+a clause keyword's name**, as the traits table's `SORT sort ASC` does.
 
-## Syntax
+| Clause    | Meaning                                                                    |
+| --------- | -------------------------------------------------------------------------- |
+| `TABLE`   | The columns. `WITHOUT ID` drops Dataview's implicit leading `File` column.  |
+| `FROM`    | Restrict to a folder (`FROM "Creatures"`) or a tag (`FROM #animal`).        |
+| `WHERE`   | Keep the notes the expression holds for.                                    |
+| `SORT`    | Sort keys, each optionally `ASC` (default) or `DESC`.                       |
+| `LIMIT`   | Keep only the first _n_ rows, after sorting.                                |
 
-A directive is `(@Table …)` with `key=value` options; it may span several lines. Its
-text may not contain a closing parenthesis (that is what ends it). Directives inside
-code fences and code spans are left alone, which is how this page shows them.
+`LIST`, `TASK`, and `CALENDAR` queries, and the `GROUP BY` and `FLATTEN` commands,
+are refused by name.
 
-| Option    | Required | Meaning                                                           |
-| --------- | -------- | ----------------------------------------------------------------- |
-| `search`  | yes      | The notes to tabulate. Terms are **AND**-ed.                      |
-| `columns` | yes      | `Header:frontmatter.path`, in the order the columns appear.       |
-| `sort`    | no       | Sort keys; `-path` sorts descending. Defaults to the first column. |
-| `link`    | no       | Which column links to the row's own note. Defaults to the first column; `link=none` turns linking off. |
+## Columns
 
-`:` and `=` are interchangeable as the separator inside `search` and `columns`
-(`path:Creatures/**` and `path=Creatures/**` are the same term).
-
-## Search terms
-
-Each term is `frontmatter.path:value`, and **every** term must hold for a note to
-appear. The path is a dotted frontmatter path (`sohl.protection.blunt`), plus three
-synthetic keys describing where the note is filed:
-
-| Key      | Value                                                                  |
-| -------- | ---------------------------------------------------------------------- |
-| `path`   | The note's location below `assets/content/` — `Creatures/Animal/Aurochs.md` |
-| `tld`    | Its top-level content directory — `Creatures`                          |
-| `folder` | Its immediate folder — `Animal`                                        |
-
-Values match case-insensitively, and a term matches an array-valued field when **any**
-element matches (so `tags:animal` selects every note tagged `animal`). The forms are:
-
-| Form              | Matches                                                    |
-| ----------------- | ---------------------------------------------------------- |
-| `type:armorgear`  | exactly that value                                         |
-| `sohl.material:Cloth\|Mail` | any of the `\|`-separated values                  |
-| `sohl.material:!Cloth` | anything **but** that value (the `!` may precede a list) |
-| `shortcode:*`     | the field is present and non-empty                         |
-| `shortcode:!*`    | the field is absent or empty                               |
-| `path:Creatures/Animal/*.md` | a **glob** (any value containing `*` or `?`)    |
-
-### Globs
-
-Any search value carrying `*` or `?` is a glob, which is how a `path:` term selects a
-part of the content tree:
-
-| Pattern                      | Selects                                                    |
-| ---------------------------- | ---------------------------------------------------------- |
-| `Creatures/Animal/*.md`      | the notes filed **directly** in that directory — `*` does not cross a `/` |
-| `Creatures/**`               | everything below `Creatures/`, at any depth                |
-| `Creatures/Animal/`          | the same, in shorthand — a trailing `/` means `/**`        |
-| `**/Aurochs.md`              | that note wherever it is filed (`**/` also matches zero directories) |
-
-A bare `*` is the presence test above, not a glob, so `shortcode:*` holds for a
-path-shaped value too.
-
-## Columns and cells
-
-A column is `Header:frontmatter.path`. Values render as follows:
+A column is an expression, optionally named with `AS "Header"`; without `AS`, the
+expression's own text is the header. Values render as follows:
 
 - absent or empty → an em dash (`—`);
 - an array → its elements, comma-separated;
 - a boolean → `yes` / `no`;
-- an **object** → a build error. A path resolving to an object is almost always
-  truncated (`sohl.protection` for `sohl.protection.blunt`), and would otherwise ship
-  as `[object Object]`.
+- an **object** → a build error. An expression resolving to an object is almost always
+  a truncated path (`sohl.protection` for `sohl.protection.blunt`), and would otherwise
+  ship as `[object Object]`.
 
 A column whose every shown value is numeric is right-aligned; `|` and newlines in a
 value are escaped so a cell cannot break out of the table.
 
-Rows are sorted by the `sort` keys — numerically where both values are numbers,
-otherwise as text, with empty values last — and ties break on the note id, so a table
-emits identically on every build.
-
 ### Linking a row to its note
 
-The `link` column is emitted as a `[[type/shortcode|Name]]` wikilink to the row's own
-note, which each build then resolves the way it resolves any other wikilink: into a `@UUID` enricher for
-Foundry, and into a site href for the knowledgebase. The same directive therefore
-yields a clickable catalog in both places.
+`link(file.path, name.full)` is emitted as a `[[type/shortcode|Name]]` wikilink to the
+row's own note, which each build then resolves the way it resolves any other wikilink:
+into a `@UUID` enricher for Foundry, and into a site href for the knowledgebase. The
+same query therefore yields a clickable catalog in all three places. The implicit
+`File` column (a `TABLE` written without `WITHOUT ID`) links the same way.
 
 A note the build cannot address that way — one carrying no `type` or no `shortcode` —
 renders as plain text rather than shipping a literal `[[…]]` into a journal.
+
+## Fields
+
+**Any frontmatter property is addressable**, in either the columns or the `WHERE`
+clause, as a dotted path (`sohl.protection.blunt`) or a bracketed key
+(`sohl["subType"]`, needed when a key is not a bare word). A path that names nothing
+is `null`, not an error.
+
+`file.*` names the note's place in the tree instead:
+
+| Field         | Value                                                            |
+| ------------- | ---------------------------------------------------------------- |
+| `file.path`   | Location below `assets/content/` — `Creatures/Animal/Aurochs.md` |
+| `file.folder` | Its directory — `Creatures/Animal`                               |
+| `file.name`   | Its filename without the extension — `Aurochs`                   |
+| `file.link`   | A link to the note itself                                        |
+| `file.tags`   | Its tags, each with a leading `#`, plus every parent of a nested tag |
+| `file.etags`  | Its tags exactly as written, without parent expansion            |
+
+An unknown `file.*` field is a build error — it would otherwise read as a table that
+silently matches nothing.
+
+`this` is the note **containing** the query (not the row), so `this.package` or
+`this["name.full"]` reads the page the table is written on.
+
+## Expressions
+
+| Form                          | Meaning                                                     |
+| ----------------------------- | ----------------------------------------------------------- |
+| `a and b`, `a or b`, `not a`, `!a`, `( … )` | Boolean combination                            |
+| `type = "creature"`           | Equality — **case-sensitive**, as Dataview's is              |
+| `intensity != "attribute"`    | Inequality                                                   |
+| `sohl.value > 90`, `>=`, `<`, `<=` | Ordering; numeric when both sides are numbers           |
+| `shortcode`                   | A bare field is a **presence** test (absent/empty/zero is false) |
+| `!shortcode`                  | Absence                                                      |
+| `"text"`, `12`, `true`, `null`, `[a, b]` | Literals                                          |
+
+Functions: `contains` / `icontains` / `econtains`, `startswith`, `endswith`, `lower`,
+`upper`, `length`, `default`, `number`, `string`, `join`, `regexmatch`, `regextest`,
+and `link`. An unknown function is a build error.
+
+`contains()` recurses into a list and substring-matches a string — which is why
+`contains(file.tags, "cooking")` matches the tag `#cooking`. It is case-sensitive;
+`icontains()` is the forgiving variant and `econtains()` demands an exact element.
+
+## Sorting
+
+Rows are ordered by the `SORT` keys — numerically where both values are numbers,
+otherwise as text and **case-insensitively**, with empty values last. Ties break on
+the note's content path and then its id, so a table emits identically on every build.
+With no `SORT` clause, rows keep content-path order.
+
+Note the asymmetry, which Dataview shares: `=` is case-sensitive, but ordering is not.
+`"Horn, Hunting"` belongs beside `"Horn, fanfare"`, not before it.
 
 ## Scope and failure
 
 A table searches only notes of the **source note's own `package`**, so a SoHL page
 never tabulates setting-package content, and vice versa.
 
-A directive that cannot be honoured — malformed, naming an unknown option, or matching
-no note at all — is a **build error**, and the directive is left in the body verbatim
+A query that cannot be honoured — malformed, naming an unsupported clause, or calling
+an unknown function — is a **build error**, and the block is left in the body verbatim
 so the failure is visible in the output as well as on the console. In the pack build
-the note fails to compile; in the knowledgebase build the run exits non-zero. A table
-never silently ships empty.
+the note fails to compile; in the knowledgebase build the run exits non-zero.
+
+A query that matches **no** note is _not_ an error: it renders as an empty table
+(headers only), which is exactly what the author already sees in Obsidian. A category
+with no content written yet is a normal state of the corpus, not a broken build.
 
 ## Where it runs
 
 Expansion happens **before** wikilink resolution, in all four content compilers:
 `utils/packs/journals.mjs`, `utils/packs/items.mjs`, `utils/packs/actors.mjs`, and
 `utils/build-kb-content.mjs`. That ordering is what lets a generated cell contain a
-wikilink. The expander itself is dependency-free ESM and is unit-tested in
+wikilink. In the knowledgebase build it also runs *outside* that build's code-fence
+protection — a query **is** a fenced block, so protecting it first would hide it from
+the expander. The expander itself is dependency-free ESM and is unit-tested in
 `tests/build/content-tables.test.ts`.
