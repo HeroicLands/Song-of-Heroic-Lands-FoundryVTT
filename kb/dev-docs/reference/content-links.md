@@ -46,6 +46,13 @@ neither; write the qualified form instead. A link that cannot be resolved is
 left as literal text and reported by the build, so a mistake degrades visibly
 rather than silently.
 
+**The `|Text` label is optional, and leaving it off means two different things.**
+On a qualified link the target is an *address*, so both builds show the target
+document's **name**: `[[doc-shock]]` reads as "Shock". On a bare link the target
+is already the prose you wrote, so it stands as written — `worsens the [[Shock
+State]]` keeps saying "Shock State". Write the label whenever the sentence needs
+different words from the document's name.
+
 ## An item and its documentation are two documents
 
 An item note produces **two** documents. Its frontmatter becomes an **Item** in
