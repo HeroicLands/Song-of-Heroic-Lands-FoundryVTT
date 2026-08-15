@@ -5096,6 +5096,7 @@
   "sohl.utils.SUCCESS_TEST_RESULT_MISHAP": "variables/sohl.utils.SUCCESS_TEST_RESULT_MISHAP.html",
   "sohl.utils.SUCCESS_TEST_RESULT_MOVEMENT": "variables/sohl.utils.SUCCESS_TEST_RESULT_MOVEMENT.html",
   "sohl.utils.SYMBOL": "variables/sohl.utils.SYMBOL.html",
+  "sohl.utils.ShortcodeRejectReason": "types/sohl.utils.ShortcodeRejectReason.html",
   "sohl.utils.SkillCode": "types/sohl.utils.SkillCode.html",
   "sohl.utils.SkillCodes": "variables/sohl.utils.SkillCodes.html",
   "sohl.utils.SkillCombatCategories": "variables/sohl.utils.SkillCombatCategories.html",

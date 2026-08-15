@@ -1,13 +1,13 @@
 ---
 aliases:
-    - trauma-self-pro
+    - trauma-selfpro
 tags: []
 name:
     full: Self-protective
     aliases: []
 id: hYanCELEhmAkCpEo
 img: icons/game-icons/lorc/battle-gear.svg
-shortcode: self-pro
+shortcode: selfpro
 type: trauma
 package: sohl
 sohl:

@@ -20,6 +20,7 @@ import {
 import { labelWithFenceSuffix } from "@src/utils/constants";
 import { toFilePath } from "@src/utils/helpers";
 import { DEFAULT_ITEM_ART } from "@src/utils/default-item-art.mjs";
+import { isValidShortcode } from "@src/utils/shortcode-format.mjs";
 import {
     dialog,
     fvttRenderSheet,
@@ -310,10 +311,11 @@ export async function sohlCreateDialog(
                 validateShortcode();
             };
 
-            // Live duplicate-shortcode guard (#766): disable Create while the
+            // Live shortcode guard (#766, #1397): disable Create while the
             // entered shortcode collides with an existing (type, shortcode) in
-            // scope, so the human resolves it before the create is attempted —
-            // the `_preCreate` reject remains the backstop.
+            // scope, or carries a character outside `[A-Za-z0-9]`, so the human
+            // resolves it before the create is attempted — the `_preCreate`
+            // reject remains the backstop for both.
             let warnEl: HTMLElement | null = null;
             const createButton = (): HTMLButtonElement | null =>
                 (
@@ -326,25 +328,31 @@ export async function sohlCreateDialog(
                 if (!shortcodeInput) return;
                 const curType = typeSelect?.value || type;
                 const value = shortcodeInput.value.trim();
+                const isMalformed = !!value && !isValidShortcode(value);
                 const isDup =
                     !!value &&
+                    !isMalformed &&
                     takenShortcodesFor(documentName, parent, curType).has(
                         value,
                     );
                 const btn = createButton();
-                if (btn) btn.disabled = isDup;
+                if (btn) btn.disabled = isDup || isMalformed;
                 if (!warnEl) {
                     warnEl = element.ownerDocument.createElement("p");
                     warnEl.className = "hint shortcode-duplicate-warning";
                     shortcodeInput.insertAdjacentElement("afterend", warnEl);
                 }
                 warnEl.textContent =
-                    isDup ?
+                    isMalformed ?
+                        sohl.i18n.format("SOHL.Shortcode.invalidCharacters", {
+                            shortcode: value,
+                        })
+                    : isDup ?
                         sohl.i18n.localize(
                             "SOHL.CreateDocument.duplicateShortcode",
                         )
                     :   "";
-                warnEl.style.display = isDup ? "" : "none";
+                warnEl.style.display = isDup || isMalformed ? "" : "none";
             };
 
             nameInput?.addEventListener("input", () => {

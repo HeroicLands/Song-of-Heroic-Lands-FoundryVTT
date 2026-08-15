@@ -121,6 +121,143 @@ describe("migrateDocumentSource", () => {
             },
         );
     });
+
+    it("chains whole-object payloads, so two steps touching `system` compose", () => {
+        // Every migrator builds its payload by spreading the system it is handed.
+        // Handing each step the untouched source would let the later payload
+        // silently discard the earlier step's edit; each step's own field must
+        // survive.
+        const source: MigrationSource = {
+            type: "affiliation",
+            system: { shortcode: "gd", society: "Guild" },
+        };
+        const chained: MigrationStep[] = [
+            {
+                version: "0.5.0",
+                description: "a",
+                migrators: {
+                    Item: (src) => ({
+                        system: { ...src.system, subType: "social" },
+                    }),
+                },
+            },
+            {
+                version: "0.6.0",
+                description: "b",
+                migrators: {
+                    Item: (src) => ({ system: { ...src.system, level: 3 } }),
+                },
+            },
+        ];
+        const plan = planMigrations("", "0.6.0", chained);
+        expect(migrateDocumentSource(source, "Item", plan)).toEqual({
+            system: {
+                shortcode: "gd",
+                society: "Guild",
+                subType: "social",
+                level: 3,
+            },
+        });
+    });
+
+    it("lets the later step win on a field both steps write", () => {
+        const chained: MigrationStep[] = [
+            {
+                version: "0.5.0",
+                description: "a",
+                migrators: { Item: () => ({ system: { tier: 1 } }) },
+            },
+            {
+                version: "0.6.0",
+                description: "b",
+                migrators: { Item: () => ({ system: { tier: 2 } }) },
+            },
+        ];
+        const plan = planMigrations("", "0.6.0", chained);
+        expect(migrateDocumentSource({ type: "skill" }, "Item", plan)).toEqual({
+            system: { tier: 2 },
+        });
+    });
+
+    it("does not let a later step reinstate a key an earlier one removed", () => {
+        // The strip-then-restate shape: step a drops a retired key, step b
+        // spreads what it is handed. Chaining means b spreads the *stripped*
+        // system, so the key stays gone.
+        const chained: MigrationStep[] = [
+            {
+                version: "0.5.0",
+                description: "strip retired",
+                migrators: {
+                    Item: (src) => {
+                        const system = { ...src.system };
+                        delete system.retired;
+                        return { system };
+                    },
+                },
+            },
+            {
+                version: "0.6.0",
+                description: "stamp tier",
+                migrators: {
+                    Item: (src) => ({ system: { ...src.system, tier: 2 } }),
+                },
+            },
+        ];
+        const plan = planMigrations("", "0.6.0", chained);
+        expect(
+            migrateDocumentSource(
+                { type: "skill", system: { keep: 1, retired: "x" } },
+                "Item",
+                plan,
+            ),
+        ).toEqual({ system: { keep: 1, tier: 2 } });
+    });
+
+    it("does not feed a dot-path payload forward — it only accumulates", () => {
+        // Expanding `system.bar` into the source would need Foundry; a later
+        // step still sees the original `system` object.
+        const chained: MigrationStep[] = [
+            {
+                version: "0.5.0",
+                description: "dot path",
+                migrators: { Item: () => ({ "system.bar": 42 }) },
+            },
+            {
+                version: "0.6.0",
+                description: "reads system",
+                migrators: {
+                    Item: (src) => ({ system: { ...src.system, seen: true } }),
+                },
+            },
+        ];
+        const plan = planMigrations("", "0.6.0", chained);
+        expect(
+            migrateDocumentSource(
+                { type: "skill", system: { foo: 1 } },
+                "Item",
+                plan,
+            ),
+        ).toEqual({ "system.bar": 42, system: { foo: 1, seen: true } });
+    });
+
+    it("replaces rather than chains when a payload is not an object", () => {
+        const chained: MigrationStep[] = [
+            {
+                version: "0.5.0",
+                description: "a",
+                migrators: { Item: () => ({ system: { tier: 1 } }) },
+            },
+            {
+                version: "0.6.0",
+                description: "b",
+                migrators: { Item: () => ({ system: null }) },
+            },
+        ];
+        const plan = planMigrations("", "0.6.0", chained);
+        expect(migrateDocumentSource({ type: "skill" }, "Item", plan)).toEqual({
+            system: null,
+        });
+    });
 });
 
 describe("resolveFromVersion", () => {
@@ -251,12 +388,12 @@ describe("0.9.0 — strip system.docUrl (#1394)", () => {
         const update = migrateDocumentSource(
             {
                 type: "weapongear",
-                system: { shortcode: "wg-x", docUrl: "https://x.test/" },
+                system: { shortcode: "wgx", docUrl: "https://x.test/" },
             },
             "Item",
             plan,
         );
-        expect(update).toEqual({ system: { shortcode: "wg-x" } });
+        expect(update).toEqual({ system: { shortcode: "wgx" } });
     });
 
     it("does not run for a world already at 0.9.0", () => {
@@ -318,7 +455,7 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
         // The runner updates non-recursively, so a bare `{"system.subType": …}`
         // would replace the whole system object with that one key.
         const system = {
-            shortcode: "aff-x",
+            shortcode: "affx",
             society: "Guild",
             level: 3,
             relation: { peoni: "nemesis" },
@@ -341,20 +478,144 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
     });
 
     it("folds through the runner alongside the docUrl strip", () => {
-        // Both 0.9.0 steps touch an affiliation, and each returns a whole
-        // `system` replacement, so the later one wins outright. That is correct
-        // here because the source a migrator sees has *already* been pruned of
-        // `docUrl` by Foundry (see the 0.9.0 strip above) — so restating the
-        // source cannot reintroduce it, and the single surviving payload carries
-        // both the strip and the stamp.
+        // Every 0.9.0 step that touches an affiliation returns a whole `system`
+        // object; the folder chains them, so each spreads what the previous step
+        // produced and every edit survives into the single payload.
         const plan = planMigrations("0.8.2", "0.9.0");
         const update = migrateDocumentSource(
-            { type: "affiliation", system: { shortcode: "aff-x" } },
+            { type: "affiliation", system: { shortcode: "affx" } },
             "Item",
             plan,
         );
         expect(update).toEqual({
-            system: { shortcode: "aff-x", subType: "social" },
+            system: { shortcode: "affx", subType: "social" },
+        });
+    });
+});
+
+describe("0.9.0 — alphanumeric shortcodes (#1397)", () => {
+    const step = SOHL_MIGRATIONS.find((s) =>
+        s.description.toLowerCase().includes("shortcode"),
+    );
+    const migrateItem = (source: MigrationSource) =>
+        step!.migrators!.Item!(source);
+    const migrateActor = (source: MigrationSource) =>
+        step!.migrators!.Actor!(source);
+
+    it("is registered at 0.9.0 with an Actor and an Item migrator", () => {
+        expect(step).toBeDefined();
+        expect(step!.version).toBe("0.9.0");
+        expect(Object.keys(step!.migrators ?? {}).sort()).toEqual([
+            "Actor",
+            "Item",
+        ]);
+    });
+
+    it("maps the three shipped keys to their replacements", () => {
+        expect(
+            migrateItem({
+                type: "trauma",
+                name: "Self-protective",
+                system: { shortcode: "self-pro" },
+            }),
+        ).toEqual({ system: { shortcode: "selfpro" } });
+        expect(
+            migrateItem({
+                type: "trauma",
+                name: "Self-sufficient",
+                system: { shortcode: "self-suf" },
+            }),
+        ).toEqual({ system: { shortcode: "selfsuf" } });
+        expect(
+            migrateItem({
+                type: "weapongear",
+                name: "Ball & Chain Flail",
+                system: { shortcode: "B&CFl" },
+            }),
+        ).toEqual({ system: { shortcode: "BCFl" } });
+    });
+
+    it("repairs any other non-alphanumeric key, preserving case", () => {
+        expect(
+            migrateItem({ type: "skill", system: { shortcode: "my_code" } }),
+        ).toEqual({ system: { shortcode: "mycode" } });
+        expect(
+            migrateActor({ type: "being", system: { shortcode: "Sir Kay" } }),
+        ).toEqual({ system: { shortcode: "SirKay" } });
+    });
+
+    it("leaves an already-valid shortcode alone, writing nothing", () => {
+        expect(
+            migrateItem({ type: "weapongear", system: { shortcode: "bsw" } }),
+        ).toBeUndefined();
+        expect(
+            migrateActor({ type: "being", system: { shortcode: "BCap2" } }),
+        ).toBeUndefined();
+    });
+
+    it("leaves a blank or absent shortcode to the create/update guard", () => {
+        expect(
+            migrateItem({ type: "skill", system: { shortcode: "" } }),
+        ).toBeUndefined();
+        expect(migrateItem({ type: "skill", system: {} })).toBeUndefined();
+        expect(migrateItem({ type: "skill" })).toBeUndefined();
+    });
+
+    it("falls back to the name slug when nothing alphanumeric survives", () => {
+        expect(
+            migrateItem({
+                type: "skill",
+                name: "Deep Wound",
+                system: { shortcode: "—!—" },
+            }),
+        ).toEqual({ system: { shortcode: "deepwound" } });
+    });
+
+    it("leaves an unrepairable key untouched rather than inventing one", () => {
+        // No alphanumerics in either the shortcode or the name: there is nothing
+        // to derive from, and a random id would sever the identity outright.
+        expect(
+            migrateItem({
+                type: "skill",
+                name: "—",
+                system: { shortcode: "?" },
+            }),
+        ).toBeUndefined();
+    });
+
+    it("preserves every other field verbatim — the payload replaces, it does not merge", () => {
+        const system = {
+            shortcode: "self-pro",
+            subType: "psycond",
+            category: "quirk",
+            levelBase: 2,
+        };
+        expect(
+            migrateItem({ type: "trauma", name: "Self-protective", system }),
+        ).toEqual({ system: { ...system, shortcode: "selfpro" } });
+    });
+
+    it("does not mutate the source it was handed", () => {
+        const system = { shortcode: "self-pro" };
+        migrateItem({ type: "trauma", name: "Self-protective", system });
+        expect(system).toEqual({ shortcode: "self-pro" });
+    });
+
+    it("composes with the other 0.9.0 steps on one document", () => {
+        const plan = planMigrations("0.8.2", "0.9.0");
+        const update = migrateDocumentSource(
+            {
+                type: "affiliation",
+                name: "Guild of Ash",
+                system: { shortcode: "aff-x" },
+            },
+            "Item",
+            plan,
+        );
+        // Both repairs land: the shortcode is alphanumeric *and* the required
+        // subType is stamped.
+        expect(update).toEqual({
+            system: { shortcode: "affx", subType: "social" },
         });
     });
 });
