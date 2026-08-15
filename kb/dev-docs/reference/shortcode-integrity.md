@@ -43,6 +43,28 @@ The uniqueness invariant below exists **to keep this identity well-defined**: if
 different entities within one scope shared a `(type, shortcode)`, "the same thing"
 would be ambiguous and every match above would be unsound.
 
+## The shape rule
+
+A `shortcode` is **strictly alphanumeric** — `^[A-Za-z0-9]+$`. No hyphens, no
+underscores, no spaces, no punctuation, no accented letters. Case is unconstrained
+(hundreds of authored codes are mixed-case, e.g. `armorgear:BCap`).
+
+The rule is not cosmetic. A shortcode is half of the `type-shortcode` address that
+content wikilinks and knowledgebase pages parse, and that parse depends on the
+separating hyphen being the **only** hyphen in the string (see
+[Linking Between Content Notes](content-links.md)); the same key also has to survive
+URLs, YAML frontmatter, and expression source unescaped.
+
+The pattern lives in one place, `src/utils/shortcode-format.mjs` (`isValidShortcode`
+/ `sanitizeShortcode`), which is plain ESM precisely so the runtime, the world
+migration, and the bare-`node` lint script all share it rather than each carrying a
+copy.
+
+Repair, where a violation cannot simply be refused, **strips the offending characters
+and keeps case** — `B&CFl` → `BCFl`, `self-pro` → `selfpro`. That is deliberately not
+`slugifyShortcode`, which also lowercases: that one derives a _new_ key from a display
+name, while a repair keeps an _existing_ identity as recognizable as possible.
+
 ## The invariant
 
 `(type, shortcode)` is unique within each of four **scopes**, and `shortcode` is a
@@ -59,7 +81,7 @@ Cross-scope duplicates are fine: a world item and an embedded copy, or the same 
 in two different packs, do not collide. Two _different_ types may also share a
 shortcode (the key is the pair).
 
-## Where it is enforced
+## Where both rules are enforced
 
 Enforcement is entirely at runtime and build time — the schema field itself stays
 permissive. The base `shortcode` field in `SohlDataModel.ts` is
@@ -82,14 +104,34 @@ Each calls the shared helpers in `shortcode-uniqueness.ts`
 {@link sohl.core.foundry.collectTakenShortcodes}). Historically only _create_ was
 guarded and compendium creates were skipped; both gaps are now closed.
 
+A collision and a malformed key are different mistakes with different fixes, so the
+veto says which: `SOHL.CreateDocument.duplicateShortcode` for the first,
+`SOHL.Shortcode.invalidCharacters` for the second. The Create dialog's live check
+disables **Create** for either, so a human never reaches the `_preCreate` reject.
+
 ### Build time — packs
 
 Authored compendium content is Markdown under `assets/content/`, seeded into packs by
 the compendium CLI, which **bypasses `_preCreate`**. The build-time guard
 `lint:packs` (`utils/check-pack-shortcodes.mjs`, part of `npm run lint`) walks that
-content and fails on any duplicate `(type, shortcode)` within a pack. Because a type
-routes to exactly one pack, a global `(type, shortcode)` collision _is_ a within-pack
-collision.
+content and fails on any shortcode that is not strictly alphanumeric, and on any
+duplicate `(type, shortcode)` within a pack. Because a type routes to exactly one
+pack, a global `(type, shortcode)` collision _is_ a within-pack collision.
+
+Content is authored in the vault and exported here, so a malformed key is fixed in
+the **vault note** and re-exported — an edit to `assets/content/` alone is reverted by
+the next export. A key that has already shipped also needs a world migration, since
+`shortcode` is identity referenced from saved world data.
+
+### Existing worlds — migration
+
+The 0.9.0 migration `alphanumericShortcode` (`MigrationRegistry.ts`) rewrites any
+stored shortcode that fails the shape rule, applying the same strip-and-keep-case
+repair, so a world that imported a legacy key keeps pointing at the same entity as its
+renamed compendium origin. It leaves a blank shortcode alone (filling one in is the
+create/update guard's job, and only the guard knows the scope's taken-set) and leaves
+a key untouched when neither it nor the document name yields anything alphanumeric —
+a random id would sever the identity rather than preserve it.
 
 ## The resolver matrix
 
@@ -99,15 +141,23 @@ unit-tested. It takes the desired shortcode, the document name, the taken set, a
 
 | shortcode in data | name → slug | `shortcodeDedupe` | result |
 | --- | --- | --- | --- |
-| provided | — | `true` | collides → suffix (`arrow` → `arrow2`); else accept |
-| provided | — | `false`/absent | collides → **reject**; else accept |
+| provided, alphanumeric | — | `true` | collides → suffix (`arrow` → `arrow2`); else accept |
+| provided, alphanumeric | — | `false`/absent | collides → **reject** (`collision`); else accept |
+| provided, not alphanumeric | — | `true` | stripped (`B&CFl` → `BCFl`), then as above |
+| provided, not alphanumeric | — | `false`/absent | **reject** (`invalid`) |
 | blank | non-empty | `true` | base = slug; collides → suffix |
 | blank | non-empty | `false`/absent | base = slug; collides → **reject** |
 | blank | blank | `true` | random 16-char id |
-| blank | blank | `false`/absent | **reject** |
+| blank | blank | `false`/absent | **reject** (`missing`) |
+
+A reject carries a `reason` (`collision` / `invalid` / `missing`) so the veto can say
+which mistake was made. Shape is settled before uniqueness: a malformed key cannot be
+made valid by suffixing it. Surrounding whitespace is trimmed, not treated as a
+breach.
 
 A Foundry native duplicate (`_stats.duplicateSource`) suffixes an explicit collision
-even without `shortcodeDedupe`. The random-id branch uses an **injected** generator so
+— and repairs a malformed code — even without `shortcodeDedupe`; it is copying a key
+it did not author. The random-id branch uses an **injected** generator so
 the resolver stays Foundry-free; the Foundry layer passes
 {@link sohl.core.FoundryHelpers.fvttRandomId} (Foundry's id charset). Deduplication
 reuses {@link sohl.utils.uniqueShortcode}; name derivation reuses
@@ -185,8 +235,12 @@ their own `slug` frontmatter, routed by source path.
 
 ## Testing
 
+- **Shape rule** — `tests/utils/shortcode-format.test.ts` covers `isValidShortcode`
+  and `sanitizeShortcode` (no Foundry).
 - **Resolver** — `tests/utils/helpers.test.ts` exercises every matrix cell with an
   injected `makeRandomId` stub (no Foundry).
+- **Migration** — `tests/domain/migration/MigrationRegistry.test.ts` covers the
+  0.9.0 repair, including the three renamed content keys.
 - **URL derivation** — `tests/build/content-slug.test.ts` covers `contentSlug` and
   `findSlugCollisions` (no Foundry).
 - **Redirects** — `tests/build/kb-redirects.test.ts` covers `pageRedirects` and

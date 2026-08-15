@@ -21,6 +21,10 @@ import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 type MasteryLevelData = MysticalAbilityData | SkillData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { getCtorForKind } from "@src/utils/kindRegistry";
+import {
+    isValidShortcode,
+    sanitizeShortcode,
+} from "@src/utils/shortcode-format.mjs";
 
 /**
  * Resolver used by {@link defaultFromJSON} to revive a `ClientDocument`
@@ -330,11 +334,12 @@ export function uniqueShortcode(
  */
 export interface ResolveShortcodeOptions {
     /**
-     * When `true`, the caller opts into automatic deduplication: a colliding
-     * shortcode is suffixed (`arrow` → `arrow2`) until unique, and a create
-     * with neither a shortcode nor a usable name gets a random 16-char id — so
-     * the resolve can never fail. When `false`/absent, a collision (or a
-     * name-less create) is **rejected**.
+     * When `true`, the caller opts into automatic key management: a colliding
+     * shortcode is suffixed (`arrow` → `arrow2`) until unique, a
+     * non-alphanumeric one is stripped to its alphanumerics (`B&CFl` → `BCFl`),
+     * and a create with neither a shortcode nor a usable name gets a random
+     * 16-char id — so the resolve can never fail. When `false`/absent, a
+     * collision, a malformed code, or a name-less create is **rejected**.
      */
     dedupe: boolean;
     /**
@@ -352,42 +357,68 @@ export interface ResolveShortcodeOptions {
     makeRandomId?: () => string;
 }
 
+/** Why {@link resolveShortcodeKey} refused to resolve a key. */
+export type ShortcodeRejectReason =
+    /** The code is already taken by a same-type sibling in scope. */
+    | "collision"
+    /** The code carries a character outside `[A-Za-z0-9]` (#1397). */
+    | "invalid"
+    /** Neither a code nor a name to derive one from. */
+    | "missing";
+
 /**
  * Resolve the `(type, shortcode)` key on create/update.
  *
  * `(type, shortcode)` is a unique key (per owning actor for embedded items; per
  * world for world actors/items; per pack for pack contents). The desired code is
- * `desired` if supplied, else the name slug; the collision/absence behavior is
- * governed by {@link ResolveShortcodeOptions.dedupe}:
+ * `desired` if supplied, else the name slug. Two rules govern the outcome — the
+ * **shape** rule (a shortcode is strictly alphanumeric; the pattern lives in
+ * `src/utils/shortcode-format.mjs`) and the **uniqueness** rule — and
+ * {@link ResolveShortcodeOptions.dedupe} decides whether a breach is repaired or
+ * rejected:
  *
  * | shortcode | name → slug | `dedupe` | result |
  * | --- | --- | --- | --- |
- * | provided | — | true | collides → suffix; else accept |
- * | provided | — | false | collides → reject; else accept |
+ * | provided, alphanumeric | — | true | collides → suffix; else accept |
+ * | provided, alphanumeric | — | false | collides → reject; else accept |
+ * | provided, not alphanumeric | — | true | stripped to its alphanumerics, then as above |
+ * | provided, not alphanumeric | — | false | **reject** |
  * | blank | non-empty | true | base = slug; collides → suffix |
  * | blank | non-empty | false | base = slug; collides → reject |
  * | blank | blank | true | random 16-char id |
  * | blank | blank | false | reject |
  *
- * A Foundry duplicate (`isDuplicate`) suffixes an explicit collision even when
- * `dedupe` is off. `shortcode` is never `null`/blank on a resolved document.
+ * A Foundry duplicate (`isDuplicate`) repairs and suffixes an explicit code even
+ * when `dedupe` is off — it is copying a code it did not author. Surrounding
+ * whitespace is trimmed, not treated as a shape breach. `shortcode` is never
+ * `null`/blank on a resolved document.
  *
  * @param desired - The requested shortcode (blank/whitespace ⇒ "not supplied").
  * @param fallbackName - The document name a blank shortcode is derived from.
  * @param taken - Shortcodes already used by same-scope, same-type siblings,
  *   excluding self.
  * @param opts - Collision/absence behavior; see {@link ResolveShortcodeOptions}.
- * @returns `{ shortcode }` with the code to use, or `{ reject: true }` when the
- *   resolve fails (a collision or name-less create without `dedupe`).
+ * @returns `{ shortcode }` with the code to use, or `{ reject: true, reason }`
+ *   when the resolve fails.
  */
 export function resolveShortcodeKey(
     desired: string,
     fallbackName: string,
     taken: ReadonlySet<string>,
     opts: ResolveShortcodeOptions,
-): { shortcode: string } | { reject: true } {
+): { shortcode: string } | { reject: true; reason: ShortcodeRejectReason } {
     const { dedupe, isDuplicate = false, makeRandomId } = opts;
-    const trimmed = (desired ?? "").trim();
+    let trimmed = (desired ?? "").trim();
+
+    // Shape first: a malformed key cannot be made valid by suffixing it, so it
+    // is either stripped to its alphanumerics (when the caller opted into
+    // automatic key management) or refused outright.
+    if (trimmed && !isValidShortcode(trimmed)) {
+        if (!dedupe && !isDuplicate) return { reject: true, reason: "invalid" };
+        // A code with no alphanumerics at all leaves nothing to keep; it falls
+        // through to the name-derived branch below.
+        trimmed = sanitizeShortcode(trimmed);
+    }
 
     let base: string;
     if (trimmed) {
@@ -398,7 +429,7 @@ export function resolveShortcodeKey(
             base = slug;
         } else {
             // Neither a shortcode nor a usable name.
-            if (!dedupe) return { reject: true };
+            if (!dedupe) return { reject: true, reason: "missing" };
             if (!makeRandomId) {
                 throw new Error(
                     "resolveShortcodeKey: makeRandomId is required to generate a random shortcode",
@@ -414,7 +445,7 @@ export function resolveShortcodeKey(
     if (dedupe || isDuplicate) {
         return { shortcode: uniqueShortcode(base, taken) };
     }
-    return { reject: true };
+    return { reject: true, reason: "collision" };
 }
 
 /** Error thrown when a value fails HTML validation. */

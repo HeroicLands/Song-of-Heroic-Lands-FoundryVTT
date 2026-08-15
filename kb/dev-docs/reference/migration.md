@@ -94,9 +94,9 @@ step does not touch.
 1. Append a frozen `MigrationStep` to `SOHL_MIGRATIONS`, stamped with the system
    `version` it is introduced at.
 2. Give it a `migrators` entry per document kind it changes. Each migrator
-   receives the document's serialized source (`document.toObject()`) and returns
-   an update payload, or `undefined` for a no-op. Later steps win on colliding
-   keys.
+   receives the document's source and returns an update payload, or `undefined`
+   for a no-op. Later steps win on colliding keys, and each step sees the
+   document as the previous steps left it — see [Steps chain](#steps-chain).
 3. **Return whole top-level objects, not dot paths into them** — see
    [Payloads replace, they do not merge](#payloads-replace-they-do-not-merge).
 4. **Write the whole array back** when changing an array field — never an element
@@ -137,6 +137,18 @@ document's current data back (see below), and a diffed update computes an empty
 change from that and never writes at all. The two paths must agree — when the
 embedded path was left on Foundry's defaults, embedded documents were silently
 skipped while the run still counted them as applied (#1402).
+
+### Steps chain
+
+Every migrator hands back a whole root object built by spreading the source, so if
+each step were handed the *original* source, two steps that touch one document would
+be mutually exclusive: the later payload, rebuilt from the original, would drop the
+earlier step's edit and reinstate a key it had removed. `migrateDocumentSource`
+therefore feeds each whole-object replacement forward into the source the next
+migrator receives — which is what a version-ordered chain means, and what makes 0.9.0's
+three steps (strip `docUrl`, stamp `subType`, repair `shortcode`) compose into one
+payload. A dot-path payload does not chain; it only accumulates into the update, since
+expanding it would need Foundry. One more reason to return whole objects.
 
 ### Removing a field
 

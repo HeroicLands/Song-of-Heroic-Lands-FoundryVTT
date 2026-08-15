@@ -75,6 +75,41 @@ describe("shortcode uniqueness (#766)", () => {
         );
     });
 
+    it("rejects a non-alphanumeric shortcode on create (#1397)", () => {
+        cy.createWorldItem("skill", {
+            system: { shortcode: "bad-code" },
+        }).should("not.exist");
+    });
+
+    it("rejects renaming a shortcode into a non-alphanumeric one (#1397)", () => {
+        cy.createWorldItem("skill", { system: { shortcode: "okcode" } }).then(
+            (item) => {
+                const id = item.id;
+                cy.foundry(async (win) => {
+                    await win.game.items
+                        .get(id)
+                        .update(toRealm(win, { "system.shortcode": "B&CFl" }));
+                    return win.game.items.get(id).system.shortcode;
+                }).should("eq", "okcode"); // update vetoed → unchanged
+            },
+        );
+    });
+
+    it("repairs a non-alphanumeric shortcode with shortcodeDedupe (#1397)", () => {
+        // `shortcodeDedupe` is the "manage the key for me" opt-in, so it strips
+        // the offending characters rather than failing the create.
+        cy.foundry((win) =>
+            win.Item.create(
+                toRealm(win, {
+                    name: tagName("Flail"),
+                    type: "weapongear",
+                    system: { shortcode: "B&CFl" },
+                }),
+                { shortcodeDedupe: true },
+            ).then((doc) => doc?.system?.shortcode),
+        ).should("eq", "BCFl");
+    });
+
     it("allows the same shortcode on a different type (key is per type)", () => {
         cy.createWorldItem("skill", { system: { shortcode: "shared" } }).then(
             (skill) => {

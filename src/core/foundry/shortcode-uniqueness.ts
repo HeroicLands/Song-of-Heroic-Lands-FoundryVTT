@@ -11,13 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { resolveShortcodeKey } from "@src/utils/helpers";
+import {
+    resolveShortcodeKey,
+    type ShortcodeRejectReason,
+} from "@src/utils/helpers";
 import { fvttRandomId } from "@src/core/FoundryHelpers";
 
 /**
- * Shared runtime enforcement of the `(type, shortcode)` uniqueness invariant
- * (issue #766). `shortcode` is the system's lookup key; it must be a non-null,
- * non-blank string that is unique within its scope. The pure decision logic lives
+ * Shared runtime enforcement of the `(type, shortcode)` key invariants (issues
+ * #766, #1397). `shortcode` is the system's lookup key; it must be a non-null,
+ * non-blank, strictly alphanumeric string that is unique within its scope —
+ * anything else is refused here. The pure decision logic lives
  * in {@link resolveShortcodeKey}; this module supplies the Foundry-layer scope
  * resolution and applies the result on create/update for any SoHL document.
  *
@@ -123,6 +127,33 @@ function warnDuplicate(doc: any, desired: string): void {
 }
 
 /**
+ * Notify the user why a shortcode was refused, and veto the operation.
+ *
+ * A collision and a malformed key are different mistakes with different fixes
+ * ("pick another code" vs. "drop the punctuation"), so each gets its own
+ * message rather than one that guesses.
+ *
+ * @param doc - The document whose shortcode was refused.
+ * @param desired - The refused shortcode value.
+ * @param reason - Why {@link resolveShortcodeKey} refused it.
+ * @returns `false`, the veto value the `_pre*` hooks return.
+ */
+function warnRejected(
+    doc: any,
+    desired: string,
+    reason: ShortcodeRejectReason,
+): false {
+    if (reason === "invalid") {
+        sohl.log.uiWarn("SOHL.Shortcode.invalidCharacters", {
+            shortcode: desired,
+        });
+    } else {
+        warnDuplicate(doc, desired);
+    }
+    return false;
+}
+
+/**
  * Enforce shortcode uniqueness when a document is created. Resolves the
  * `(type, shortcode)` key (deriving from the name / generating a random id per
  * the {@link resolveShortcodeKey} matrix) and writes it back via `updateSource`,
@@ -148,10 +179,8 @@ export async function enforceShortcodeOnCreate(
         isDuplicate,
         makeRandomId: () => fvttRandomId(16),
     });
-    if ("reject" in resolved) {
-        warnDuplicate(doc, desired);
-        return false;
-    }
+    if ("reject" in resolved)
+        return warnRejected(doc, desired, resolved.reason);
     if (resolved.shortcode !== desired) {
         doc.updateSource({ "system.shortcode": resolved.shortcode });
     }
@@ -181,10 +210,8 @@ export async function enforceShortcodeOnUpdate(
         dedupe: !!options?.shortcodeDedupe,
         makeRandomId: () => fvttRandomId(16),
     });
-    if ("reject" in resolved) {
-        warnDuplicate(doc, desired);
-        return false;
-    }
+    if ("reject" in resolved)
+        return warnRejected(doc, desired, resolved.reason);
     if (resolved.shortcode !== desired) {
         foundry.utils.setProperty(
             changes,

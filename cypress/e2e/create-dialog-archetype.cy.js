@@ -190,7 +190,8 @@ describe("Create dialog: archetype seeding (#604)", () => {
             const data = src.toObject();
             // Import = toObject → create (no strip). Retag so cleanupWorld sweeps it.
             data.name = tagName("Imported Folk");
-            data.system.shortcode = `imp_${Date.now()}`;
+            // Alphanumeric only — the create guard rejects anything else (#1397).
+            data.system.shortcode = `imp${Date.now()}`;
             const created = await win.Actor.create(data);
             return {
                 flag: created.getFlag("sohl", "docArchetype"),
@@ -217,14 +218,14 @@ describe("Create dialog: archetype seeding (#604)", () => {
             const srcFlag = src.getFlag("sohl", "docArchetype");
             const data = src.toObject();
             data.name = tagName("Dup Source");
-            data.system.shortcode = `dup_${Date.now()}`;
+            data.system.shortcode = `dup${Date.now()}`;
             const world = await win.Actor.create(data);
             // A directory Duplicate is a verbatim copy stamped with
             // `_stats.duplicateSource`; replicate that faithfully.
             const dup = world.toObject();
             delete dup._id;
             dup.name = tagName("Dup Copy");
-            dup.system.shortcode = `dupc_${Date.now()}`;
+            dup.system.shortcode = `dupc${Date.now()}`;
             dup._stats = { ...(dup._stats || {}), duplicateSource: world.uuid };
             const copy = await win.Actor.create(dup);
             // Preserved verbatim — equals the source's own priority, not a
