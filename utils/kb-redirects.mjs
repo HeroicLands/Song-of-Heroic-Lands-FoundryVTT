@@ -1,0 +1,126 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/**
+ * The URL redirects a knowledgebase page publishes.
+ *
+ * `aliases` is one word for two unrelated things, and the difference is the
+ * whole point of this module:
+ *
+ * - In **Obsidian**, a note's `aliases` are alternative **names** — what a
+ *   reader might call the thing, and what makes a bare `[[Text]]` wikilink
+ *   resolve to it. They are vault addressing, and they stay in the vault.
+ * - In **Hugo**, a page's `aliases` are **URL redirects** — old addresses that
+ *   must keep resolving to the page's current one.
+ *
+ * A display name is not an old URL, so it is never a redirect (#1399).
+ * Redirects are *generated*, and only from a record of where the page used to
+ * be published: the legacy-slug map (#1278/#1280) and the pre-split section
+ * move. That makes this module the single answer to "what does this page
+ * redirect from" — nothing an author types becomes a public URL.
+ *
+ * Plain ESM with no Foundry and no filesystem access, so it is unit-testable —
+ * see `tests/build/kb-redirects.test.ts`.
+ */
+
+import path from "node:path";
+
+/**
+ * Old (pre-split) section URL a moved page redirects from, so existing links and
+ * bookmarks don't 404: every `type: doc` page used to live under `/guide/`
+ * except the developer docs, which were under `/dev/`.
+ *
+ * @param {{type?: string}} fm - The note's frontmatter.
+ * @param {boolean} isDevDoc - Whether the page is a developer doc.
+ * @returns {string | undefined} The old section segment.
+ */
+export function oldSectionOf(fm, isDevDoc) {
+    if (fm.type !== "doc") return fm.type;
+    return isDevDoc ? "dev" : "guide";
+}
+
+/**
+ * Every URL one page redirects from.
+ *
+ * Two sources, both generated and both a record of a URL this page really did
+ * publish at before:
+ *
+ * - the **legacy slug** for its `type:shortcode` identity, from the committed
+ *   `kb/data/legacy-slugs.json` — the only record of the pre-shortcode URLs;
+ * - the **pre-split section**, when the page has since moved out of `/guide/`
+ *   or `/dev/`.
+ *
+ * The page's own current URL is never among them (a self-redirect is a loop),
+ * and `fm.aliases` — display names — is deliberately not consulted.
+ *
+ * @param {object} entry - One prepared page.
+ * @param {"content" | "dev"} entry.kind - Content note or developer doc.
+ * @param {object} entry.fm - Its frontmatter (`type`, `shortcode`).
+ * @param {string} entry.sec - The section it publishes into.
+ * @param {string} entry.slug - Its URL segment.
+ * @param {string} entry.url - Its current URL (`/sec/slug/`).
+ * @param {string} [entry.rel] - Source path relative to the doc root (dev only).
+ * @param {boolean} [entry.isReadme] - Whether the page is its section landing.
+ * @param {Record<string, string>} [legacySlugs] - `type:shortcode` → old slug.
+ * @returns {string[]} The redirect URLs, in first-claim order; empty when the
+ *   page has never published anywhere else.
+ */
+export function pageRedirects(entry, legacySlugs = {}) {
+    const { kind, fm, sec, slug, url, rel, isReadme } = entry;
+    const redirects = new Set();
+
+    // The pre-shortcode URL (#1278), so existing links and bookmarks still land.
+    const legacy =
+        kind === "content" ?
+            legacySlugs[`${fm.type}:${fm.shortcode}`]
+        :   undefined;
+    if (legacy) redirects.add(`/${sec}/${legacy}/`);
+
+    const oldSec = kind === "dev" ? "dev" : oldSectionOf(fm, false);
+    if (oldSec !== sec) {
+        if (kind === "dev") {
+            const relNoExt = rel.slice(0, -3).toLowerCase();
+            const dir = path.posix.dirname(relNoExt);
+            redirects.add(
+                isReadme ?
+                    dir === "." ?
+                        `/${oldSec}/`
+                    :   `/${oldSec}/${dir}/`
+                :   `/${oldSec}/${relNoExt}/`,
+            );
+        } else {
+            redirects.add(`/${oldSec}/${legacy ?? slug}/`);
+            if (isReadme) redirects.add(`/${oldSec}/`);
+        }
+    }
+    redirects.delete(url);
+    return [...redirects];
+}
+
+/**
+ * Set a page's Hugo `aliases` to exactly its generated redirects.
+ *
+ * The written frontmatter is built by spreading the note's own, so an authored
+ * Obsidian `aliases` would otherwise ride along into the published page and
+ * become a redirect at a display-name URL. Clearing it first makes the emitted
+ * value wholly generated: what {@link pageRedirects} returned, or nothing.
+ *
+ * @param {object} data - The frontmatter about to be written (mutated).
+ * @param {string[]} redirects - The page's redirect URLs.
+ * @returns {object} The same `data`, for chaining.
+ */
+export function applyRedirects(data, redirects) {
+    delete data.aliases;
+    if (redirects.length) data.aliases = redirects;
+    return data;
+}
