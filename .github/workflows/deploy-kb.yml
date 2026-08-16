@@ -45,6 +45,15 @@ jobs:
             - name: Build knowledgebase
               run: npm run build:kb
 
+            # Pages serves the deployment's 404.html — with a real 404 status —
+            # for any unmatched path, and falls back to the site root when the
+            # file is missing. That fallback is a soft-404 (200 + the landing
+            # page), which reads as success to every link check, so assert the
+            # file exists rather than discovering its absence in production
+            # (issue #1416).
+            - name: Verify the 404 page was built
+              run: test -s kb/public/404.html
+
             - name: Deploy to Cloudflare Pages (production)
               uses: cloudflare/wrangler-action@v3
               with:
