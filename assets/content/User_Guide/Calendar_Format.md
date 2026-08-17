@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-clndrjsn
+  - doc-clndrjsn
 id: eFiHzB4DASknXQ2l
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Calendar JSON Format"
+  full: "Calendar JSON Format"
 shortcode: clndrjsn
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -21,57 +21,57 @@ A calendar JSON file must contain a single JSON object with the structure descri
 
 ```json
 {
-    "name": "My Campaign Calendar",
-    "description": "A custom calendar for my campaign world.",
-    "years": {
-        "yearZero": 0,
-        "firstWeekday": 0
-    },
-    "months": {
-        "values": [
-            {
-                "name": "First Month",
-                "abbreviation": "1st",
-                "ordinal": 1,
-                "days": 30
-            },
-            {
-                "name": "Second Month",
-                "abbreviation": "2nd",
-                "ordinal": 2,
-                "days": 30
-            }
-        ]
-    },
-    "days": {
-        "values": [
-            { "name": "Day One", "abbreviation": "D1", "ordinal": 1 },
-            { "name": "Day Two", "abbreviation": "D2", "ordinal": 2 },
-            { "name": "Day Three", "abbreviation": "D3", "ordinal": 3 },
-            { "name": "Day Four", "abbreviation": "D4", "ordinal": 4 },
-            { "name": "Day Five", "abbreviation": "D5", "ordinal": 5 },
-            { "name": "Day Six", "abbreviation": "D6", "ordinal": 6 },
-            { "name": "Day Seven", "abbreviation": "D7", "ordinal": 7 }
-        ],
-        "daysPerYear": 60,
-        "hoursPerDay": 24,
-        "minutesPerHour": 60,
-        "secondsPerMinute": 60
-    },
-    "seasons": {
-        "values": [
-            { "name": "Warm Season", "monthStart": 1, "monthEnd": 1 },
-            { "name": "Cold Season", "monthStart": 2, "monthEnd": 2 }
-        ]
-    },
-    "era": {
-        "hasYearZero": false,
-        "name": "CE",
-        "abbrev": "CE",
-        "beforeName": "Before Common Era",
-        "beforeAbbrev": "BCE",
-        "description": ""
-    }
+  "name": "My Campaign Calendar",
+  "description": "A custom calendar for my campaign world.",
+  "years": {
+    "yearZero": 0,
+    "firstWeekday": 0
+  },
+  "months": {
+    "values": [
+      {
+        "name": "First Month",
+        "abbreviation": "1st",
+        "ordinal": 1,
+        "days": 30
+      },
+      {
+        "name": "Second Month",
+        "abbreviation": "2nd",
+        "ordinal": 2,
+        "days": 30
+      }
+    ]
+  },
+  "days": {
+    "values": [
+      { "name": "Day One", "abbreviation": "D1", "ordinal": 1 },
+      { "name": "Day Two", "abbreviation": "D2", "ordinal": 2 },
+      { "name": "Day Three", "abbreviation": "D3", "ordinal": 3 },
+      { "name": "Day Four", "abbreviation": "D4", "ordinal": 4 },
+      { "name": "Day Five", "abbreviation": "D5", "ordinal": 5 },
+      { "name": "Day Six", "abbreviation": "D6", "ordinal": 6 },
+      { "name": "Day Seven", "abbreviation": "D7", "ordinal": 7 }
+    ],
+    "daysPerYear": 60,
+    "hoursPerDay": 24,
+    "minutesPerHour": 60,
+    "secondsPerMinute": 60
+  },
+  "seasons": {
+    "values": [
+      { "name": "Warm Season", "monthStart": 1, "monthEnd": 1 },
+      { "name": "Cold Season", "monthStart": 2, "monthEnd": 2 }
+    ]
+  },
+  "era": {
+    "hasYearZero": false,
+    "name": "CE",
+    "abbrev": "CE",
+    "beforeName": "Before Common Era",
+    "beforeAbbrev": "BCE",
+    "description": ""
+  }
 }
 ```
 

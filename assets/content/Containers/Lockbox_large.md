@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Lockbox, large"
-    - containergear-lockboxlar
+  - "Lockbox, large"
+  - containergear-lockboxlar
 tags: []
 name:
-    full: "Lockbox, large"
-    aliases: []
+  full: "Lockbox, large"
+  aliases: []
 description: "Iron-banded hardwood chest with wardlock; merchant's vault for valuables."
 id: QBT91J5YNc3zldPN
 img: icons/game-icons/delapouite/chest.svg
@@ -13,15 +13,15 @@ shortcode: lockboxlar
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 20
-    value: 24
-    weight: 5
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 20
+  value: 24
+  weight: 5
 folder: dl8lJ729W1mFlDvt
 ---
 

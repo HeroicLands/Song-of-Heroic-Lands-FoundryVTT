@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-folklr
+  - skill-folklr
 tags: []
 name:
-    full: Folklore
-    aliases: []
+  full: Folklore
+  aliases: []
 description: "Knowledge of homeland culture, history, traditions, myth and social customs."
 id: Na0Kzoqj13YDU3Xt
 img: icons/game-icons/delapouite/unicorn.svg
@@ -12,17 +12,17 @@ shortcode: folklr
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 1
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 1
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: QlkEHXbk2EXlRiMM
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Armor Maintenance Supplies, per 1d"
-    - miscgear-armrsup
+  - "Armor Maintenance Supplies, per 1d"
+  - miscgear-armrsup
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Armor Maintenance Supplies, per 1d"
-    aliases: []
+  full: "Armor Maintenance Supplies, per 1d"
+  aliases: []
 description: "Rings, rivets, straps, buckles, waxed thread, patches, polish; one pence buys one pence of armor upkeep."
 id: CnJ2CmuDagzXRGJ6
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: armrsup
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 1
-    weight: 0.05
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 1
+  weight: 0.05
 folder: FSPVI1eObGEpMVck
 ---
 

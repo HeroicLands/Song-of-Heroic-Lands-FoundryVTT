@@ -1,18 +1,18 @@
 ---
 aliases:
-    - Afflictions
-    - Affliction
-    - Course Test
-    - Incubation Period
-    - Symptomatic Period
-    - doc-afflctns
+  - Afflictions
+  - Affliction
+  - Course Test
+  - Incubation Period
+  - Symptomatic Period
+  - doc-afflctns
 id: Tt1JjQ3kmqtUDIm9
 type: doc
 package: sohl
 category: rules
 name:
-    full: Afflictions
-    aliases: []
+  full: Afflictions
+  aliases: []
 shortcode: afflctns
 folder: edGOkxiCotuMzc1O
 ---

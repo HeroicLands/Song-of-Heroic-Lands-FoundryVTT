@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-jewl
+  - skill-jewl
 tags: []
 name:
-    full: Jewelcraft
-    aliases: []
+  full: Jewelcraft
+  aliases: []
 description: "Gem-cutting, goldsmithing, creating fine ornamental metalwork and jewelry."
 id: 8CHbTSbJ1aOVyqx7
 img: icons/game-icons/lorc/gems.svg
@@ -12,19 +12,19 @@ shortcode: jewl
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.per, attr.dex)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.per, attr.dex)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Healing Base
-    - doc-hlngbs
+  - Healing Base
+  - doc-hlngbs
 id: Sb8dCIBSChIPJpKr
 type: doc
 package: sohl
 category: rules
 name:
-    full: Healing Base
-    aliases: []
+  full: Healing Base
+  aliases: []
 folder: F4NGyU9QQgWwTcHe
 shortcode: hlngbs
 ---

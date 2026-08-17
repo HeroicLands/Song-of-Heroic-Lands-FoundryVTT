@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Afflictions and Injuries
-    - doc-afflandi
+  - Afflictions and Injuries
+  - doc-afflandi
 id: jzsvrPQas8ak9Ti0
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Afflictions and Injuries"
+  full: "Afflictions and Injuries"
 shortcode: afflandi
 folder: IgwaG8rAUUO9vrtz
 ---

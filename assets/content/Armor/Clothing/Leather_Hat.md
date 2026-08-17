@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Leather Hat
-    - armorgear-LtHat
+  - Leather Hat
+  - armorgear-LtHat
 tags: []
 name:
-    full: Leather Hat
-    aliases: []
+  full: Leather Hat
+  aliases: []
 description: "Rugged leather head covering providing basic weather protection with adventurer charm."
 id: gIRZS8B8cDq8hukr
 img: icons/game-icons/lorc/pointy-hat.svg
@@ -13,27 +13,27 @@ shortcode: LtHat
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Hat
-    detailMaterial: Leather
-    material: Leather
-    durability: 9
-    value: 32
-    weight: 0.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Hat
+  detailMaterial: Leather
+  material: Leather
+  durability: 9
+  value: 32
+  weight: 0.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 32
 origWeight: 0.4

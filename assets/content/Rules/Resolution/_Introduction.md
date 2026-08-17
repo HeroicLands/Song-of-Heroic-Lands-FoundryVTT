@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Resolution
-    - Resolution Introduction
-    - doc-resolutionintro
+  - Resolution
+  - Resolution Introduction
+  - doc-resolutionintro
 id: hzGEcwoamHndfE66
 type: doc
 package: sohl
 category: rules
 name:
-    full: Resolution
-    aliases: []
+  full: Resolution
+  aliases: []
 folder: BTGA1PmN0VlBWpCm
 shortcode: resolutionintro
 ---

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Vial, glass, large"
-    - containergear-vialglassl
+  - "Vial, glass, large"
+  - containergear-vialglassl
 tags: []
 name:
-    full: "Vial, glass, large"
-    aliases: []
+  full: "Vial, glass, large"
+  aliases: []
 description: "Narrow-necked glass vial for alchemists storing potent liquids and tinctures."
 id: aRSxctvVHoAaRKKK
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: vialglassl
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 0.5
-    value: 4
-    weight: 1.25
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 0.5
+  value: 4
+  weight: 1.25
 folder: dl8lJ729W1mFlDvt
 ---
 

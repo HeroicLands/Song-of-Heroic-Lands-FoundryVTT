@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Rope, ¼” silk, per ft (225 lb cap.)"
-    - miscgear-rope14silk
+  - "Rope, ¼” silk, per ft (225 lb cap.)"
+  - miscgear-rope14silk
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Rope, ¼” silk, per ft (225 lb cap.)"
-    aliases: []
+  full: "Rope, ¼” silk, per ft (225 lb cap.)"
+  aliases: []
 description: "Light silk rope; strong, rot-resistant, preferred by wealthy climbers."
 id: yZDWt9f5ECdY9AF5
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rope14silk
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 16
-    weight: 0.02
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 16
+  weight: 0.02
 folder: FSPVI1eObGEpMVck
 ---
 

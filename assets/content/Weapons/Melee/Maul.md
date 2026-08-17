@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Maul
-    - weapongear-Maul
+  - Maul
+  - weapongear-Maul
 tags: []
 name:
-    full: Maul
-    aliases: []
+  full: Maul
+  aliases: []
 description: "Two-handed wooden hammer for siege breach; assault engineer's door-crasher."
 id: h7iIfsK8x7lIOP1T
 img: icons/game-icons/lorc/claw-hammer.svg
@@ -13,105 +13,105 @@ shortcode: Maul
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: club
-    archetype: 0
-    durability: 12
-    weight: 7
-    value: 96
-    heft: 18
-    weaponType: Club
-    strikeModes:
-        - shortcode: crush
-          type: melee
-          name: Crush
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 6
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 3
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: true
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 5
-          defense:
-              blockMod: -5
-              counterstrikeMod: -5
-        - shortcode: shaft
-          type: melee
-          name: Shaft
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 1
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 3
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: true
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 5
-          defense:
-              blockMod: -5
-              counterstrikeMod: -5
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: club
+  archetype: 0
+  durability: 12
+  weight: 7
+  value: 96
+  heft: 18
+  weaponType: Club
+  strikeModes:
+    - shortcode: crush
+      type: melee
+      name: Crush
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 6
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 3
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: true
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 5
+      defense:
+        blockMod: -5
+        counterstrikeMod: -5
+    - shortcode: shaft
+      type: melee
+      name: Shaft
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 1
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 3
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: true
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 5
+      defense:
+        blockMod: -5
+        counterstrikeMod: -5
 folder: HXiYHvG6igI3Wlmm
 ---
 

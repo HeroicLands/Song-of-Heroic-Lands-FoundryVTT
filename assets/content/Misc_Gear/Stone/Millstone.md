@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Millstone
-    - miscgear-millstone
+  - Millstone
+  - miscgear-millstone
 tags:
-    - stone
+  - stone
 name:
-    full: Millstone
-    aliases: []
+  full: Millstone
+  aliases: []
 description: "Large granite or basalt disc with dressed furrows; grinds grain for decades."
 id: DH8AbckWaXc27pSf
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: millstone
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: stone
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 250
-    weight: 50
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: stone
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 250
+  weight: 50
 folder: 7HORJHbbizVSds9r
 ---
 

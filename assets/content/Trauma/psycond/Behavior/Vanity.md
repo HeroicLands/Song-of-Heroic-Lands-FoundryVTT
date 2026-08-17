@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-vanity
+  - trauma-vanity
 tags: []
 name:
-    full: Vanity
-    aliases: []
+  full: Vanity
+  aliases: []
 id: 4nXSwX5AzNJAVQbd
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vanity
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

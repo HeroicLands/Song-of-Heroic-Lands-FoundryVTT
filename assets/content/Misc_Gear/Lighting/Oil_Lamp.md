@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Oil, Lamp"
-    - miscgear-oillamp
+  - "Oil, Lamp"
+  - miscgear-oillamp
 tags:
-    - lighting
+  - lighting
 name:
-    full: "Oil, Lamp"
-    aliases: []
+  full: "Oil, Lamp"
+  aliases: []
 description: "Animal fat or oil in clay-bronze reservoir; steady flame with twisted-flax wick."
 id: qhN8gVRfjCsI42a9
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: oillamp
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 12
-    weight: 12
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 12
+  weight: 12
 folder: csqutf8WiTRM8oru
 ---
 

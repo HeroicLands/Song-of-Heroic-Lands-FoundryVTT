@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Dengue Fever
-    - affliction-dngfvr
+  - Dengue Fever
+  - affliction-dngfvr
 tags: []
 name:
-    full: Dengue Fever
-    aliases: []
+  full: Dengue Fever
+  aliases: []
 description: "Mosquito-borne virus; high fever, joint pain, mild bleeding."
 id: xrF7d46zo1QswNPA
 img: icons/game-icons/lorc/virus.svg
@@ -13,13 +13,13 @@ shortcode: dngfvr
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: 3lobflzDt8Hk6VrN
 ---
 

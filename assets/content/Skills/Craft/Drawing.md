@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-draw
+  - skill-draw
 tags: []
 name:
-    full: Drawing
-    aliases: []
+  full: Drawing
+  aliases: []
 description: "Painting, sketching, fresco work; creating artistic and technical designs."
 id: in1KGfGdrkpLzd9N
 img: icons/game-icons/badges/pencil.svg
@@ -12,19 +12,19 @@ shortcode: draw
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

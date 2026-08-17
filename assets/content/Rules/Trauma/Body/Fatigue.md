@@ -1,19 +1,19 @@
 ---
 aliases:
-    - Fatigue
-    - Fatigue Level
-    - Fatigue Penalty
-    - Windedness
-    - Weariness
-    - Weakness
-    - doc-fatigue
+  - Fatigue
+  - Fatigue Level
+  - Fatigue Penalty
+  - Windedness
+  - Weariness
+  - Weakness
+  - doc-fatigue
 id: G1UDnlgH8sI9oNO7
 type: doc
 package: sohl
 category: rules
 name:
-    full: Fatigue
-    aliases: []
+  full: Fatigue
+  aliases: []
 folder: edGOkxiCotuMzc1O
 shortcode: fatigue
 ---

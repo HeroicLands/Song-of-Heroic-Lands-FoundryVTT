@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-dementia
+  - trauma-dementia
 tags: []
 name:
-    full: Dementia
-    aliases: []
+  full: Dementia
+  aliases: []
 id: 0chhkNL2KxIEXxeE
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dementia
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

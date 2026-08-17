@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-dnce
+  - skill-dnce
 tags: []
 name:
-    full: Dancing
-    aliases: []
+  full: Dancing
+  aliases: []
 description: "Performing formal and folk dances; elevating social gatherings with grace."
 id: TF3mC3ZBxSZubKF4
 img: icons/game-icons/delapouite/ballerina-shoes.svg
@@ -12,19 +12,19 @@ shortcode: dnce
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.agl, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.agl, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
 folder: Yt9THlZ0NT8H6aSK
 ---
 

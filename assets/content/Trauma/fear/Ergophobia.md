@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-ergophb
+  - trauma-ergophb
 tags: []
 name:
-    full: Ergophobia
-    aliases: []
+  full: Ergophobia
+  aliases: []
 id: nTU4fbViT5bQP2io
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ergophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

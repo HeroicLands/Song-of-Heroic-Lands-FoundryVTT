@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Rope, ½” hemp, per ft (330 lb cap.)"
-    - miscgear-rope12hemp
+  - "Rope, ½” hemp, per ft (330 lb cap.)"
+  - miscgear-rope12hemp
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Rope, ½” hemp, per ft (330 lb cap.)"
-    aliases: []
+  full: "Rope, ½” hemp, per ft (330 lb cap.)"
+  aliases: []
 description: "Tarred hemp rope for shipboard, hoisting, and tethering pack animals."
 id: RwORU55bA3l73XEW
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rope12hemp
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 1
-    weight: 0.08
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 1
+  weight: 0.08
 folder: FSPVI1eObGEpMVck
 ---
 

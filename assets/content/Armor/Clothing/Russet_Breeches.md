@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Russet Breeches
-    - armorgear-RBrch
+  - Russet Breeches
+  - armorgear-RBrch
 tags: []
 name:
-    full: Russet Breeches
-    aliases: []
+  full: Russet Breeches
+  aliases: []
 description: "Reddish-brown wool breeches; warm and hardy leg-wear."
 id: azl99CUBdZoB3lgj
 img: icons/game-icons/lorc/trousers.svg
@@ -13,30 +13,30 @@ shortcode: RBrch
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Breeches
-    detailMaterial: Russet
-    material: Cloth
-    durability: 7
-    value: 20
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Breeches
+  detailMaterial: Russet
+  material: Cloth
+  durability: 7
+  value: 20
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 17
 origWeight: 0.9

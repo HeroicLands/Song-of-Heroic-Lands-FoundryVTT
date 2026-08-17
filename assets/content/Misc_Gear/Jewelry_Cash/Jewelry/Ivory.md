@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Ivory
-    - miscgear-ivory
+  - Ivory
+  - miscgear-ivory
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Ivory
-    aliases: []
+  full: Ivory
+  aliases: []
 description: "Polished tooth of great beasts; creamy white, carved into combs, buttons, ornaments."
 id: mi84Ze1ptsDMnY4x
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: ivory
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 16
-    weight: 0.0625
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 16
+  weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

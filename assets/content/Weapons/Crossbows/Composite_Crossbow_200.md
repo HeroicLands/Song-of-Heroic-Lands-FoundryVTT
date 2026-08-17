@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Composite Crossbow 200
-    - weapongear-CCxBw200
+  - Composite Crossbow 200
+  - weapongear-CCxBw200
 tags: []
 name:
-    full: Composite Crossbow 200
-    aliases: []
+  full: Composite Crossbow 200
+  aliases: []
 description: "Two-hundred pound horn-and-sinew crossbow; siege crew wall-assault weapon."
 id: EzyO7eulluDQNkta
 img: icons/game-icons/carl-olsen/crossbow.svg
@@ -13,61 +13,61 @@ shortcode: CCxBw200
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, timb]
-    kbcat: crossbow
-    archetype: 0
-    durability: 11
-    weight: 7
-    value: 144
-    heft: 0
-    weaponType: Crossbow
-    strikeModes:
-        - shortcode: ranged
-          type: missile
-          name: Ranged
-          assocSkillCode: archery
-          minParts: 2
-          attack:
-              spread: 0
-              modifier: 0
-          impactBase:
-              numDice: 0
-              die: null
-              modifier: 4
-              aspect: piercing
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 0
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          projectileType: bolt
-          maxVolleyMult: 4
-          baseRangeBase: 270
-          drawBase: 200
+  craft:
+    skill: fltch
+    secondary: [wood, timb]
+  kbcat: crossbow
+  archetype: 0
+  durability: 11
+  weight: 7
+  value: 144
+  heft: 0
+  weaponType: Crossbow
+  strikeModes:
+    - shortcode: ranged
+      type: missile
+      name: Ranged
+      assocSkillCode: archery
+      minParts: 2
+      attack:
+        spread: 0
+        modifier: 0
+      impactBase:
+        numDice: 0
+        die: null
+        modifier: 4
+        aspect: piercing
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 0
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      projectileType: bolt
+      maxVolleyMult: 4
+      baseRangeBase: 270
+      drawBase: 200
 folder: HXiYHvG6igI3Wlmm
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Cap
-    - armorgear-PCap
+  - Padded Cap
+  - armorgear-PCap
 tags: []
 name:
-    full: Padded Cap
-    aliases: []
+  full: Padded Cap
+  aliases: []
 description: "Cushioned head covering providing warmth for wear under helmets."
 id: XClZwCLpLsWvnWbH
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: PCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 8
-    weight: 0.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 8
+  weight: 0.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 8
 origWeight: 0.3

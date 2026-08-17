@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-overconf
+  - trauma-overconf
 tags: []
 name:
-    full: Overconfident
-    aliases: []
+  full: Overconfident
+  aliases: []
 id: fngDLImVxPbStZFh
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: overconf
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-trnc
+  - mysticalability-trnc
 tags: []
 name:
-    full: Trance
-    aliases: []
+  full: Trance
+  aliases: []
 description: "Loosening soul from body in deep meditation to perceive and cross into the spirit world."
 id: W5zBa8cOWNIr58UE
 img: icons/game-icons/lorc/meditation.svg
@@ -12,13 +12,13 @@ shortcode: trnc
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: spiritaction
-    archetype: 0
-    subType: spiritaction
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: spiritaction
+  archetype: 0
+  subType: spiritaction
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 folder: u2uL4fjE2nKMfgbW
 ---
 

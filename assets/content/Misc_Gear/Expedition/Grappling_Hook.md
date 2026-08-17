@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Grappling Hook
-    - miscgear-grphook
+  - Grappling Hook
+  - miscgear-grphook
 tags:
-    - expedition
+  - expedition
 name:
-    full: Grappling Hook
-    aliases:
-        - Grapnel
-        - "Hook, grappling"
+  full: Grappling Hook
+  aliases:
+    - Grapnel
+    - "Hook, grappling"
 description: "Four-pronged iron hook for throwing over walls and ledges. Reusable if the line can be recovered."
 id: L9gPelify7nLTSWc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -16,15 +16,15 @@ shortcode: grphook
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 9
-    value: 20
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 9
+  value: 20
+  weight: 4
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Spirit Power
-    - doc-sprtpwr
+  - Spirit Power
+  - doc-sprtpwr
 id: U2r6cMFiAZaQr4WZ
 type: doc
 package: sohl
 category: rules
 name:
-    full: Spirit Power
-    aliases: []
+  full: Spirit Power
+  aliases: []
 shortcode: sprtpwr
 folder: J8ppkzls4ERyzTpv
 ---

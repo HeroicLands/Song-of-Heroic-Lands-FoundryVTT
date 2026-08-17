@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bread, Wheat, loaf"
-    - miscgear-breadwheat
+  - "Bread, Wheat, loaf"
+  - miscgear-breadwheat
 tags:
-    - food
+  - food
 name:
-    full: "Bread, Wheat, loaf"
-    aliases: []
+  full: "Bread, Wheat, loaf"
+  aliases: []
 description: "Light golden loaf; finer crumb than rye, keeps shorter than peasant bread."
 id: g55417EbKtEMw8S2
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: breadwheat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mill
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1.5
+  craft:
+    skill: mill
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1.5
 folder: cHM58zOI1EcSG3cP
 ---
 

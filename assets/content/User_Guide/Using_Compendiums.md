@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-usngcmpn
+  - doc-usngcmpn
 id: 0VrqqfwFEbVXxb3e
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Using Compendiums"
+  full: "Using Compendiums"
 shortcode: usngcmpn
 folder: IgwaG8rAUUO9vrtz
 ---

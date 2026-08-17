@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Buckram Sleeved Tunic
-    - armorgear-BSTnc
+  - Buckram Sleeved Tunic
+  - armorgear-BSTnc
 tags: []
 name:
-    full: Buckram Sleeved Tunic
-    aliases: []
+  full: Buckram Sleeved Tunic
+  aliases: []
 description: "Stiff, structured buckram tunic offering durable and reliable fit."
 id: E4KaMLWbYLHAdk9i
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,37 +13,37 @@ shortcode: BSTnc
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Sleeved Tunic
-    detailMaterial: Buckram
-    material: Cloth
-    durability: 10
-    value: 50
-    weight: 2.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Sleeved Tunic
+  detailMaterial: Buckram
+  material: Cloth
+  durability: 10
+  value: 50
+  weight: 2.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 50
 origWeight: 2.5

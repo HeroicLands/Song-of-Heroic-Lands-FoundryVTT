@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Prone
-    - doc-prone
+  - Prone
+  - doc-prone
 id: ly7IlkeD7MGlz6wt
 type: doc
 package: sohl
 category: rules
 name:
-    full: Prone
-    aliases: []
+  full: Prone
+  aliases: []
 folder: rotB8uN12YUN0Oba
 shortcode: prone
 ---

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Silk Mantle
-    - armorgear-SlkMntl
+  - Silk Mantle
+  - armorgear-SlkMntl
 tags: []
 name:
-    full: Silk Mantle
-    aliases: []
+  full: Silk Mantle
+  aliases: []
 description: "Luxurious silk mantle; elegant cloak for formal high-status occasions."
 id: Kujou0ZnHCwiOxx7
 img: icons/game-icons/delapouite/cape.svg
@@ -13,31 +13,31 @@ shortcode: SlkMntl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Mantle
-    detailMaterial: Silk
-    material: Cloth
-    durability: 7
-    value: 189
-    weight: 0.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Mantle
+  detailMaterial: Silk
+  material: Cloth
+  durability: 7
+  value: 189
+  weight: 0.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 21
 origWeight: 1.1

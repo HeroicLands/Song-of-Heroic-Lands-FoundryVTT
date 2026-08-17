@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-mtlc
+  - skill-mtlc
 tags: []
 name:
-    full: Metalcraft
-    aliases: []
+  full: Metalcraft
+  aliases: []
 description: "Smelting, forging, and finishing metal into tools, armor, and components."
 id: UqwlRxBPRTT0qnaO
 img: icons/game-icons/lorc/metal-bar.svg
@@ -12,19 +12,19 @@ shortcode: mtlc
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.str)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.str)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

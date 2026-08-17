@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Bag, sm, canvas
-    - containergear-bgsmcvs
+  - Bag, sm, canvas
+  - containergear-bgsmcvs
 tags: []
 name:
-    full: Bag, sm, canvas
-    aliases: []
+  full: Bag, sm, canvas
+  aliases: []
 description: "Small lightweight canvas pouch for grain or spices."
 id: UaIdTSgyfiT8sUIz
 img: icons/game-icons/lorc/knapsack.svg
@@ -13,15 +13,15 @@ shortcode: bgsmcvs
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 10
-    value: 5
-    weight: 0.5
+  craft:
+    skill: txtl
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 10
+  value: 5
+  weight: 0.5
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Wax Tablet
-    - miscgear-waxtablet
+  - Wax Tablet
+  - miscgear-waxtablet
 tags:
-    - scribe
+  - scribe
 name:
-    full: Wax Tablet
-    aliases: []
+  full: Wax Tablet
+  aliases: []
 description: "Beeswax-faced hinged boards; erasable notes for merchants' quick reckoning."
 id: 5ApDrA16iFkQMunn
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: waxtablet
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 6
-    weight: 1
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 6
+  weight: 1
 folder: BYkA5NDQxTXDvsAC
 ---
 

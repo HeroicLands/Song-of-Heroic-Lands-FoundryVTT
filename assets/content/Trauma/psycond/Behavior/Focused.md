@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-focused
+  - trauma-focused
 tags: []
 name:
-    full: Focused
-    aliases: []
+  full: Focused
+  aliases: []
 id: SGu20H9HHfWtESm5
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: focused
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

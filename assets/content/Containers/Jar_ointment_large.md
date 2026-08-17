@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jar, ointment, large"
-    - containergear-jarointmen
+  - "Jar, ointment, large"
+  - containergear-jarointmen
 tags: []
 name:
-    full: "Jar, ointment, large"
-    aliases: []
+  full: "Jar, ointment, large"
+  aliases: []
 description: "Wide-mouthed ceramic vessel for apothecaries storing balms and salves."
 id: yrFZLN1SCC6XclOm
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jarointmen
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 0.25
-    value: 2
-    weight: 1.1
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 0.25
+  value: 2
+  weight: 1.1
 folder: dl8lJ729W1mFlDvt
 ---
 

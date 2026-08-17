@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Horse"
-    - miscgear-hidehorse
+  - "Hide, Horse"
+  - miscgear-hidehorse
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Horse"
-    aliases: []
+  full: "Hide, Horse"
+  aliases: []
 description: "Supple durable horsehide; favored for saddles and armor linings by cavalry outposts."
 id: yYVOEWtjTgoq3M39
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidehorse
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 10
-    weight: 10
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 10
+  weight: 10
 folder: 0JqxkW5hHZ8XVILm
 ---
 

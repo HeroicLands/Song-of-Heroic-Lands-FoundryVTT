@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-runic
+  - skill-runic
 tags: []
 name:
-    full: Runic
-    aliases: []
+  full: Runic
+  aliases: []
 description: "Reading and writing ancient runic scripts carved into stone and wood."
 id: yuDVi9iJPhY2nIZ5
 img: icons/game-icons/lorc/scroll-unfurled.svg
@@ -12,18 +12,18 @@ shortcode: runic
 type: skill
 package: sohl
 sohl:
-    kbcat: script
-    archetype: 0
-    subType: script
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: script
+  archetype: 0
+  subType: script
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: RgFGiT3LqmNP0uRB
 ---
 

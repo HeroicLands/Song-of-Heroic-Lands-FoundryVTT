@@ -1,18 +1,18 @@
 ---
 aliases:
-    - Shock
-    - Shock State
-    - Shock State Index
-    - Shock Re-Test
-    - Extended Shock
-    - doc-shock
+  - Shock
+  - Shock State
+  - Shock State Index
+  - Shock Re-Test
+  - Extended Shock
+  - doc-shock
 id: im1oSbKUZQFCBBI8
 type: doc
 package: sohl
 category: rules
 name:
-    full: Shock
-    aliases: []
+  full: Shock
+  aliases: []
 folder: edGOkxiCotuMzc1O
 shortcode: shock
 ---

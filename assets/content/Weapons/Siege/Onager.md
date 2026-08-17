@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Onager
-    - weapongear-Onagr
+  - Onager
+  - weapongear-Onagr
 tags: []
 name:
-    full: Onager
-    aliases: []
+  full: Onager
+  aliases: []
 description: "Single-arm torsion stone-thrower; kicks like the wild ass it is named for."
 id: OiGsx0AXFt8RW6Yd
 img: icons/game-icons/lorc/falling-boulder.svg
@@ -13,61 +13,61 @@ shortcode: Onagr
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: siege
-    archetype: 0
-    durability: 15
-    weight: 2000
-    value: 2000
-    heft: 0
-    weaponType: Siege
-    strikeModes:
-        - shortcode: shoot
-          type: missile
-          name: Shoot
-          assocSkillCode: slng
-          minParts: 2
-          attack:
-              spread: 0
-              modifier: 0
-          impactBase:
-              numDice: 0
-              die: null
-              modifier: 30
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 0
-              AR: 0
-              noAttack: false
-              noBlock: true
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: true
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: true
-              halfImpact: false
-              lowAim: false
-          projectileType: bullet
-          maxVolleyMult: 4
-          baseRangeBase: 175
-          drawBase: 0
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: siege
+  archetype: 0
+  durability: 15
+  weight: 2000
+  value: 2000
+  heft: 0
+  weaponType: Siege
+  strikeModes:
+    - shortcode: shoot
+      type: missile
+      name: Shoot
+      assocSkillCode: slng
+      minParts: 2
+      attack:
+        spread: 0
+        modifier: 0
+      impactBase:
+        numDice: 0
+        die: null
+        modifier: 30
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 0
+        AR: 0
+        noAttack: false
+        noBlock: true
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: true
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: true
+        halfImpact: false
+        lowAim: false
+      projectileType: bullet
+      maxVolleyMult: 4
+      baseRangeBase: 175
+      drawBase: 0
 folder: HXiYHvG6igI3Wlmm
 ---
 

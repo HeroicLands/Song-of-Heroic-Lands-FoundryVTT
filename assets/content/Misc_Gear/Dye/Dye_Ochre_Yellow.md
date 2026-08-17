@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Ochre Yellow"
-    - miscgear-dyeochr
+  - "Dye, Ochre Yellow"
+  - miscgear-dyeochr
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Ochre Yellow"
-    aliases: []
+  full: "Dye, Ochre Yellow"
+  aliases: []
 description: "Ground ochre with iron mordants; earthy mustard yellow for peasant cloth."
 id: 0Az6d79PEtKbfejf
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyeochr
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 30
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 30
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

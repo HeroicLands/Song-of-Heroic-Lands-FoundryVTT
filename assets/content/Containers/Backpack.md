@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Backpack
-    - containergear-backpk
+  - Backpack
+  - containergear-backpk
 tags: []
 name:
-    full: Backpack
-    aliases: []
+  full: Backpack
+  aliases: []
 description: "Canvas or oiled-linen shoulder pack for travelers and soldiers."
 id: GeZ2eeMHMWQjU9xa
 img: icons/game-icons/lorc/knapsack.svg
@@ -13,15 +13,15 @@ shortcode: backpk
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 30
-    value: 30
-    weight: 2
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 30
+  value: 30
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

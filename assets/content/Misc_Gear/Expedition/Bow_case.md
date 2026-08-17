@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bow case
-    - miscgear-bowcase
+  - Bow case
+  - miscgear-bowcase
 tags:
-    - expedition
+  - expedition
 name:
-    full: Bow case
-    aliases: []
+  full: Bow case
+  aliases: []
 description: "Ash-staved leather case on shoulder strap; protects finished bow during travel."
 id: n3ddTfbaCQMgVZlp
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bowcase
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 18
-    weight: 4.75
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 18
+  weight: 4.75
 folder: FSPVI1eObGEpMVck
 ---
 

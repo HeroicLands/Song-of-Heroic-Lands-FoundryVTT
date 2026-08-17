@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Tent, Conical"
-    - miscgear-tentconica
+  - "Tent, Conical"
+  - miscgear-tentconica
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Tent, Conical"
-    aliases: []
+  full: "Tent, Conical"
+  aliases: []
 description: "Linen cone over single pole; peaked roof sheds rain, allows campfire."
 id: 0sNGQqCqAW9RI87s
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tentconica
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 66
-    weight: 38
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 66
+  weight: 38
 folder: FSPVI1eObGEpMVck
 ---
 

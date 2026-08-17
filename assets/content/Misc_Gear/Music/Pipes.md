@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pipes
-    - miscgear-pipes
+  - Pipes
+  - miscgear-pipes
 tags:
-    - music
+  - music
 name:
-    full: Pipes
-    aliases: []
+  full: Pipes
+  aliases: []
 description: "Bound bone-and-reed tubes; reedy pastoral voice for dances and love songs."
 id: VEfkAkPoc2CNWsgc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pipes
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 60
-    weight: 2
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 60
+  weight: 2
 folder: ncTaRcZt0RFYz0Gq
 ---
 

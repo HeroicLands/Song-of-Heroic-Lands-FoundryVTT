@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Combatant
-    - Combatants
-    - doc-cmbtnt
+  - Combatant
+  - Combatants
+  - doc-cmbtnt
 id: ORi4BIBMecFVaG4I
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Combatant"
+  full: "Combatant"
 shortcode: cmbtnt
 folder: IgwaG8rAUUO9vrtz
 ---

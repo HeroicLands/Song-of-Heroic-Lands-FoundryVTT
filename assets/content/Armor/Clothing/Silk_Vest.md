@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Silk Vest
-    - armorgear-SlkVest
+  - Silk Vest
+  - armorgear-SlkVest
 tags: []
 name:
-    full: Silk Vest
-    aliases: []
+  full: Silk Vest
+  aliases: []
 description: "Elegant silk vest; luxurious, refined garment for formal occasions."
 id: xHIGaTXu6b5zgjc0
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: SlkVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Silk
-    material: Cloth
-    durability: 7
-    value: 216
-    weight: 0.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Silk
+  material: Cloth
+  durability: 7
+  value: 216
+  weight: 0.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 24
 origWeight: 1.2

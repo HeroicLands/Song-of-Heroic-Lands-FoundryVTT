@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Worsted Dress
-    - armorgear-WDress
+  - Worsted Dress
+  - armorgear-WDress
 tags: []
 name:
-    full: Worsted Dress
-    aliases: []
+  full: Worsted Dress
+  aliases: []
 description: "Tightly-spun wool dress; durable, versatile garment for activities."
 id: nit9nJYs2wHJytyJ
 img: icons/game-icons/skoll/dress.svg
@@ -13,43 +13,43 @@ shortcode: WDress
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Dress
-    detailMaterial: Worsted
-    material: Cloth
-    durability: 9
-    value: 190
-    weight: 3.2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Dress
+  detailMaterial: Worsted
+  material: Cloth
+  durability: 9
+  value: 190
+  weight: 3.2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 79
 origWeight: 4

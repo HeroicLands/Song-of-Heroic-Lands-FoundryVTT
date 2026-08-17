@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Spirit Action
-    - doc-sprtactn
+  - Spirit Action
+  - doc-sprtactn
 id: rSZepxNYmUfj2FIs
 type: doc
 package: sohl
 category: rules
 name:
-    full: Spirit Action
-    aliases: []
+  full: Spirit Action
+  aliases: []
 shortcode: sprtactn
 folder: J8ppkzls4ERyzTpv
 ---

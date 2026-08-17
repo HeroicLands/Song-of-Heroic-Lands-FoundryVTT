@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-script
+  - skill-script
 tags: []
 name:
-    full: Script
-    aliases: []
+  full: Script
+  aliases: []
 description: "Reading, writing, and interpreting text in specific writing systems."
 id: gWcGga86UIFpqRsG
 img: icons/game-icons/lorc/scroll-unfurled.svg
@@ -12,18 +12,18 @@ shortcode: script
 type: skill
 package: sohl
 sohl:
-    kbcat: script
-    archetype: 0
-    subType: script
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: script
+  archetype: 0
+  subType: script
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: RgFGiT3LqmNP0uRB
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jar, ointment, small"
-    - containergear-jarointmen3
+  - "Jar, ointment, small"
+  - containergear-jarointmen3
 tags: []
 name:
-    full: "Jar, ointment, small"
-    aliases: []
+  full: "Jar, ointment, small"
+  aliases: []
 description: "Small ceramic ointment jar for salves and medicinal paste samples."
 id: UPnxF7YCA4DZEZPM
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jarointmen3
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 0.0625
-    value: 1
-    weight: 0.4
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 0.0625
+  value: 1
+  weight: 0.4
 folder: dl8lJ729W1mFlDvt
 ---
 

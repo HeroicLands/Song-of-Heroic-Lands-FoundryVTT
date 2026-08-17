@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-common
+  - skill-common
 tags: []
 name:
-    full: Common
-    aliases: []
+  full: Common
+  aliases: []
 description: "The shared trade tongue that carries a traveler across realms — broad in reach, thin in nuance."
 id: dBrBO21uaYdmmk5j
 img: icons/game-icons/lorc/conversation.svg
@@ -12,17 +12,17 @@ shortcode: common
 type: skill
 package: sohl
 sohl:
-    kbcat: languages
-    archetype: 0
-    subType: language
-    skillBaseFormula: "sb(attr.elo, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: languages
+  archetype: 0
+  subType: language
+  skillBaseFormula: "sb(attr.elo, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: sn9NBuZMZOBqxsYv
 ---
 

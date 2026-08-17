@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Paper case, leather"
-    - containergear-papercasel
+  - "Paper case, leather"
+  - containergear-papercasel
 tags: []
 name:
-    full: "Paper case, leather"
-    aliases: []
+  full: "Paper case, leather"
+  aliases: []
 description: "Waxed leather tube for carrying folded documents and parchment safely."
 id: PKqzjZ1O9O86nyQH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: papercasel
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 0.5
-    value: 60
-    weight: 0.9
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 0.5
+  value: 60
+  weight: 0.9
 folder: dl8lJ729W1mFlDvt
 ---
 

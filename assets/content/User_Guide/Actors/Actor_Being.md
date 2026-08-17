@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Being
-    - doc-being
+  - Being
+  - doc-being
 id: yGlzMjLsBc8dCO6J
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Being"
+  full: "Being"
 shortcode: being
 folder: sYK1BozT9xFcinXK
 ---
@@ -151,18 +151,18 @@ Use it when something has just hit the character hard enough that staying consci
 ## What happens on screen
 
 1. **The Shock Test dialog opens**, titled _{character}: Shock Test_, with one field:
-    - **Base Shock State Index (Location Shock + Injury Level, or the cause's value):** — type the index the cause supplies. It starts at **0**.
+   - **Base Shock State Index (Location Shock + Injury Level, or the cause's value):** — type the index the cause supplies. It starts at **0**.
 
-    Press **Roll** to continue, or **Cancel** to abandon the test.
+   Press **Roll** to continue, or **Cancel** to abandon the test.
 
 2. **The Shock roll posts to chat** as an ordinary test result card.
 3. **The result adjusts the index** — Critical Failure **+2**, Marginal Failure **+1**, Marginal Success **0**, Critical Success **−1** — and the final index becomes a state: **6 or less** No Shock, **7** Stunned, **8** Incapacitated, **9** Unconscious, **10 or more** Dead.
 4. **The "Set Shock State?" dialog asks before anything changes**, reading _Set {name}'s shock state to {state}?_ with two buttons:
-    - **Set State** — applies it. The matching condition is turned on and any other shock condition is cleared.
-    - **Leave Unchanged** — records nothing. The roll still stands in chat; you can apply the state by hand from the sheet's status pills.
+   - **Set State** — applies it. The matching condition is turned on and any other shock condition is cleared.
+   - **Leave Unchanged** — records nothing. The roll still stands in chat; you can apply the state by hand from the sheet's status pills.
 
-    Shock only ever **worsens** here: a fresh test never improves a state that is
-    already worse. Improving is the [[#shock-re-test|Shock Re-Test]].
+   Shock only ever **worsens** here: a fresh test never improves a state that is
+   already worse. Improving is the [[#shock-re-test|Shock Re-Test]].
 
 5. **If the character entered ordinary shock**, the _Set a Shock Re-Test Reminder?_ offer follows (the shared offer-schedule dialog described on [[doc-baseitem|Base Item]]). Accepting arms a reminder — at the **end of each of the character's own turns** while Incapacitated, or **ten minutes later** while Unconscious. Declining arms nothing.
 
@@ -189,13 +189,13 @@ You will not find this on the Actions menu. It comes to you: when the reminder a
 1. **The Shock roll posts to chat** at −20, with no pre-roll dialog.
 2. **The result is applied immediately** — the click on **Perform** was the consent:
 
-    | Result                               | What happens                                                                  |
-    | ------------------------------------ | ----------------------------------------------------------------------------- |
-    | **Critical Success**                 | Recovers from all shock                                                       |
-    | **Marginal Success**                 | Improves to **Stunned**                                                       |
-    | **Marginal Failure**                 | Falls into **Extended Shock** — a lasting trauma at Healing Rate 5            |
-    | **Critical Failure** (Incapacitated) | Falls into **Extended Shock** at the worse Healing Rate 4                     |
-    | **Critical Failure** (Unconscious)   | Falls into a **Coma** — a lasting trauma, and the character stays Unconscious |
+   | Result                               | What happens                                                                  |
+   | ------------------------------------ | ----------------------------------------------------------------------------- |
+   | **Critical Success**                 | Recovers from all shock                                                       |
+   | **Marginal Success**                 | Improves to **Stunned**                                                       |
+   | **Marginal Failure**                 | Falls into **Extended Shock** — a lasting trauma at Healing Rate 5            |
+   | **Critical Failure** (Incapacitated) | Falls into **Extended Shock** at the worse Healing Rate 4                     |
+   | **Critical Failure** (Unconscious)   | Falls into a **Coma** — a lasting trauma, and the character stays Unconscious |
 
 3. **A new Extended Shock or Coma offers a Course Test reminder.** Those lasting conditions do not recover through further re-tests; each recovers through its own Course Test.
 4. **The ordinary Re-Test reminder is cleared** either way. A performed re-test ends that cycle — the character is out of ordinary shock, one way or the other — so nothing re-arms itself behind your back.

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Worsted Skirt
-    - armorgear-WSkirt
+  - Worsted Skirt
+  - armorgear-WSkirt
 tags: []
 name:
-    full: Worsted Skirt
-    aliases: []
+  full: Worsted Skirt
+  aliases: []
 description: "Tightly-spun wool skirt; durable, practical versatile garment."
 id: EAzX278XjeWBRveI
 img: icons/game-icons/delapouite/skirt.svg
@@ -13,33 +13,33 @@ shortcode: WSkirt
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Skirt
-    detailMaterial: Worsted
-    material: Cloth
-    durability: 9
-    value: 93.8
-    weight: 1.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Skirt
+  detailMaterial: Worsted
+  material: Cloth
+  durability: 9
+  value: 93.8
+  weight: 1.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 93.8
 origWeight: 1.6

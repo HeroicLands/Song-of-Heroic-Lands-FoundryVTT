@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Buckram Cowl
-    - armorgear-BCowl
+  - Buckram Cowl
+  - armorgear-BCowl
 tags: []
 name:
-    full: Buckram Cowl
-    aliases: []
+  full: Buckram Cowl
+  aliases: []
 description: "Stiff buckram cowl providing durability and rigid head-shoulder coverage."
 id: L1fA0Ad5QhtHRLFm
 img: icons/game-icons/lorc/hood.svg
@@ -13,28 +13,28 @@ shortcode: BCowl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Cowl
-    detailMaterial: Buckram
-    material: Cloth
-    durability: 10
-    value: 6
-    weight: 0.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-        - neckloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Cowl
+  detailMaterial: Buckram
+  material: Cloth
+  durability: 10
+  value: 6
+  weight: 0.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+    - neckloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 6
 origWeight: 0.3

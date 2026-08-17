@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Purse, silk"
-    - containergear-pursesilk
+  - "Purse, silk"
+  - containergear-pursesilk
 tags: []
 name:
-    full: "Purse, silk"
-    aliases: []
+  full: "Purse, silk"
+  aliases: []
 description: "Drawstring silk purse, often embroidered; conspicuously fine."
 id: tto8ivGu4mNZPKKU
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: pursesilk
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 1
-    maxCapacity: 1
-    value: 288
-    weight: 0.2
+  craft:
+    skill: txtl
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 1
+  maxCapacity: 1
+  value: 288
+  weight: 0.2
 folder: dl8lJ729W1mFlDvt
 ---
 

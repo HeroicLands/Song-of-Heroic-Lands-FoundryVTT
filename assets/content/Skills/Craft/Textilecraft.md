@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-txtl
+  - skill-txtl
 tags: []
 name:
-    full: Textilecraft
-    aliases: []
+  full: Textilecraft
+  aliases: []
 description: "Spinning, weaving, dyeing, and sewing fabrics into finished textile goods."
 id: j7taHswPlFhvFIec
 img: icons/game-icons/lorc/sewing-needle.svg
@@ -12,19 +12,19 @@ shortcode: txtl
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

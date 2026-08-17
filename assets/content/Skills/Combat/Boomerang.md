@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-bmrng
+  - skill-bmrng
 tags: []
 name:
-    full: Boomerang
-    aliases: []
+  full: Boomerang
+  aliases: []
 description: "Throwing curved wooden sticks for hunting and warfare, with returning and non-returning variants."
 id: VohGBRfU8WdCUqj3
 img: icons/game-icons/delapouite/sling.svg
@@ -12,19 +12,19 @@ shortcode: bmrng
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: missile
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: missile
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: EphAMAfFhWBrJxyF
 ---
 

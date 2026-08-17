@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Cowl
-    - armorgear-PCwl
+  - Padded Cowl
+  - armorgear-PCwl
 tags: []
 name:
-    full: Padded Cowl
-    aliases: []
+  full: Padded Cowl
+  aliases: []
 description: "Cushioned head and shoulder covering providing warmth and helmet compatibility."
 id: JbXMegC3jizGv0Vu
 img: icons/game-icons/lorc/hood.svg
@@ -13,28 +13,28 @@ shortcode: PCwl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Cowl
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 12
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: -5
-    flexloc:
-        - skullloc
-        - neckloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Cowl
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 12
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: -5
+  flexloc:
+    - skullloc
+    - neckloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 12
 origWeight: 0.5

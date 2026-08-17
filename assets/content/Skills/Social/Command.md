@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-cmd
+  - skill-cmd
 tags: []
 name:
-    full: Command
-    aliases: []
+  full: Command
+  aliases: []
 description: "Compelling obedience through authority, intimidation, and commanding presence."
 id: tKieDfHG5pLS0Pca
 img: icons/game-icons/lorc/conversation.svg
@@ -12,18 +12,18 @@ shortcode: cmd
 type: skill
 package: sohl
 sohl:
-    kbcat: social
-    archetype: 0
-    subType: social
-    skillBaseFormula: "sb(attr.wil, attr.elo)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: social
+  archetype: 0
+  subType: social
+  skillBaseFormula: "sb(attr.wil, attr.elo)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: JBr2U30FsJTs8F3l
 ---
 

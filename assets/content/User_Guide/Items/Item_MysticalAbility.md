@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Mystical Ability
-    - doc-mystclab
+  - Mystical Ability
+  - doc-mystclab
 id: k2BO5PGE97a6YEZe
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Mystical Ability"
+  full: "Mystical Ability"
 shortcode: mystclab
 folder: QtOgPodi8X6gDWL0
 ---
@@ -51,9 +51,9 @@ Along with the [[doc-baseitem|Standard Item Properties]], the following properti
 - **Associated Affiliation:** Which [[doc-affltn|Affiliation]] this ability draws its standing from (optional) — the church, arcane or alchemical school, or ancestor/totem/spirit whose membership the ability belongs to. Recording it lets the ability's behaviour take the character's **rank** in that body into account (its **Level**): a full priest and a layperson of the same faith can differ in what they can invoke. This only _informs_ the ability — the player still deliberately triggers every invocation.
 - **Level:** The difficulty or power tier of the ability. Leave it blank for an ability that has no level, and the sheet shows a ✕. Higher-level incantations are also harder to invoke — see [[#the-incantation-casting-penalty|_The Incantation Casting Penalty_]] below.
 - **Charges:** How many times the ability can still be used, in a **Charges** box of its own:
-    - **Current Charges:** Charges remaining. Leave it blank for an ability whose uses are unlimited (the sheet shows ∞).
-    - **Maximum Charges:** The cap, and the control that decides whether the ability uses charges at all. Leave it blank for one that does not (the sheet shows ✕); enter `0` for one that is counted but uncapped.
-    - Each completed [[#success-test|Success Test]] spends one charge.
+  - **Current Charges:** Charges remaining. Leave it blank for an ability whose uses are unlimited (the sheet shows ∞).
+  - **Maximum Charges:** The cap, and the control that decides whether the ability uses charges at all. Leave it blank for one that does not (the sheet shows ✕); enter `0` for one that is counted but uncapped.
+  - Each completed [[#success-test|Success Test]] spends one charge.
 
 An ability's **sub-type is fixed when it is created** — you choose it with the ＋ Add button of the section you want, and there is no control to change it afterwards. The sub-type is shown under the ability's name at the top of its sheet, and the sub-types are:
 

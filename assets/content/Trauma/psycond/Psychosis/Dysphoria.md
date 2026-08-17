@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-dysphr
+  - trauma-dysphr
 tags: []
 name:
-    full: Dysphoria
-    aliases: []
+  full: Dysphoria
+  aliases: []
 id: v0ROwdXmKi6IguNH
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dysphr
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 

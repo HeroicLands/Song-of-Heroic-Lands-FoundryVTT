@@ -1,19 +1,19 @@
 ---
 aliases:
-    - Strike Modes
-    - Strike Mode
-    - Melee Strike Mode
-    - Missile Strike Mode
-    - Attack Mode
-    - Attack Modes
-    - doc-strkmds
+  - Strike Modes
+  - Strike Mode
+  - Melee Strike Mode
+  - Missile Strike Mode
+  - Attack Mode
+  - Attack Modes
+  - doc-strkmds
 id: ixrwbYUvFCsmEkO9
 type: doc
 package: sohl
 category: rules
 name:
-    full: Strike Modes
-    aliases: []
+  full: Strike Modes
+  aliases: []
 folder: rotB8uN12YUN0Oba
 shortcode: strkmds
 ---
@@ -74,11 +74,11 @@ A **melee** strike mode is a close-combat attack. In addition to the common prop
 
 - **Reach** — the effective engagement range of the attack, seeded from the weapon's length and extended by the wielder's own bodily reach.
 - **Defense** — the defensive options this mode provides:
-    - **Block** — using the weapon to parry an incoming attack.
-    - **Counterstrike** — defending by striking back, a defense that is itself an attack.
+  - **Block** — using the weapon to parry an incoming attack.
+  - **Counterstrike** — defending by striking back, a defense that is itself an attack.
 
-    Either defense can be individually disabled — a weapon that cannot block, or a
-    mode with no counterstrike.
+  Either defense can be individually disabled — a weapon that cannot block, or a
+  mode with no counterstrike.
 
 ### Missile Strike Modes {#missile-strike-modes}
 

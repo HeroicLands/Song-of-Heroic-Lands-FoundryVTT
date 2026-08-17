@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Spanner, lever"
-    - miscgear-spannerlever
+  - "Spanner, lever"
+  - miscgear-spannerlever
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Spanner, lever"
-    aliases: []
+  full: "Spanner, lever"
+  aliases: []
 description: "Hinged iron lever for spanning a heavy crossbow; multiplies draw fivefold."
 id: vYXSMZ2zquTLbW1n
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spannerlever
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 36
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 36
+  weight: 2
 folder: xniLjmZWYQZkSxyv
 ---
 

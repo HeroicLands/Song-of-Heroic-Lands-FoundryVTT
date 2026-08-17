@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-hrptphb
+  - trauma-hrptphb
 tags: []
 name:
-    full: Herpetophobia
-    aliases: []
+  full: Herpetophobia
+  aliases: []
 id: ewJ47b2h2aEwNULS
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: hrptphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

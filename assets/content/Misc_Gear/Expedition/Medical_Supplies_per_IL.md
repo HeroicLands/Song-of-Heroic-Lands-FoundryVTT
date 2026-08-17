@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Medical Supplies, per IL"
-    - miscgear-medsupil
+  - "Medical Supplies, per IL"
+  - miscgear-medsupil
 tags:
-    - medical
+  - medical
 name:
-    full: "Medical Supplies, per IL"
-    aliases: []
+  full: "Medical Supplies, per IL"
+  aliases: []
 description: "Bandages, splints, sutures, poultices, salves; one unit treats one injury level."
 id: uGRDcAoryepBuhCs
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: medsupil
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 3
-    weight: 0.1
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 3
+  weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

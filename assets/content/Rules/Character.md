@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Characters Introduction
-    - Character Introduction
-    - doc-character
+  - Characters Introduction
+  - Character Introduction
+  - doc-character
 id: xl7OIGqVKu52E5Oc
 type: doc
 package: sohl
 category: rules
 name:
-    full: Characters Introduction
-    aliases: []
+  full: Characters Introduction
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: character
 ---

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Belt pouch, leather, lg
-    - containergear-bpchlg
+  - Belt pouch, leather, lg
+  - containergear-bpchlg
 tags: []
 name:
-    full: Belt pouch, leather, lg
-    aliases: []
+  full: Belt pouch, leather, lg
+  aliases: []
 description: "Large leather pouch for coins, rations, or daily essentials."
 id: sPTtZNEA7tXg6ZD8
 img: icons/game-icons/lorc/knapsack.svg
@@ -13,15 +13,15 @@ shortcode: bpchlg
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 5
-    value: 8
-    weight: 1
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 5
+  value: 8
+  weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

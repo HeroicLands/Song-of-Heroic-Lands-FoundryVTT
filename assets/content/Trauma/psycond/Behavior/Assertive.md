@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-assrtv
+  - trauma-assrtv
 tags: []
 name:
-    full: Assertive
-    aliases: []
+  full: Assertive
+  aliases: []
 id: FMQ41zaPzK0pVAjS
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: assrtv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

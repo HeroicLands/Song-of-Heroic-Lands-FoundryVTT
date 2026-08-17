@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Exotic"
-    - miscgear-hideexotic
+  - "Hide, Exotic"
+  - miscgear-hideexotic
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Exotic"
-    aliases: []
+  full: "Hide, Exotic"
+  aliases: []
 description: "Rare distant pelts: crocodile, ostrich, tiger, python; premium prices for noble collectors."
 id: HnjQXdxSNuQdvbxj
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hideexotic
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 120
-    weight: 0
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 120
+  weight: 0
 folder: 0JqxkW5hHZ8XVILm
 ---
 

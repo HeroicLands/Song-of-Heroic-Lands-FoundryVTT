@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-ptrnphb
+  - trauma-ptrnphb
 tags: []
 name:
-    full: Pteronophobia
-    aliases: []
+  full: Pteronophobia
+  aliases: []
 id: tYbkwucE3cD8QITZ
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ptrnphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

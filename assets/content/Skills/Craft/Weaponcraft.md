@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-wpnc
+  - skill-wpnc
 tags: []
 name:
-    full: Weaponcraft
-    aliases: []
+  full: Weaponcraft
+  aliases: []
 description: "Forging swords, axes, and weapons with superior balance and performance."
 id: j33FxOHddwk3WYnE
 img: icons/game-icons/lorc/sword-smithing.svg
@@ -12,19 +12,19 @@ shortcode: wpnc
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.str)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.str)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

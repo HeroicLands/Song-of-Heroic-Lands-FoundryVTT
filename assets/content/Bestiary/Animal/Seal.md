@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Grey Seal
-    - creature-seal
+  - Grey Seal
+  - creature-seal
 tags:
-    - animal
-    - image-needed
+  - animal
+  - image-needed
 name:
-    full: Seal
-    aliases: []
+  full: Seal
+  aliases: []
 description: "A sleek, fish-eating pinniped of northern coasts whose meat, blubber, and hide sustain coastal Normen communities through bitter winters."
 id: TvRddodNaxRqAUmo
 img: icons/game-icons/lorc/paw-print.svg
@@ -16,250 +16,250 @@ shortcode: seal
 type: creature
 package: sohl
 sohl:
-    kbcat: animal
-    archetype: 0
-    attributes:
-        str: 9
-        end: 12
-        dex: 14
-        agl: 13
-        per: 14
-        aur: 7
-        wil: 9
-        rea: 8
-        cre: 6
-    attrRollFormula:
-        str: 1d4+6
-        end: 1d6+8
-        dex: 1d6+10
-        agl: 1d6+9
-        per: 1d6+10
-        aur: 1d4+4
-        wil: 1d4+6
-        rea: 1d4+5
-        cre: 1d4+3
-    body:
-        structure:
-            zones:
-                - name: Head
-                  shortcode: headzone
-                  probWeight: 3
-                - name: Body
-                  shortcode: torsozone
-                  probWeight: 5
-                - name: Tail
-                  shortcode: tailzone
-                  probWeight: 2
-            parts:
-                - name: Head
-                  shortcode: headpart
-                  bodyZoneCode: headzone
-                  roles:
-                      - vital
-                      - manipulator
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Body
-                  shortcode: torsopart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - core
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Left Fin
-                  shortcode: lfinpart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 2
-                - name: Right Fin
-                  shortcode: rfinpart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 2
-                - name: Tail
-                  shortcode: tailpart
-                  bodyZoneCode: tailzone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 10
-            locations:
-                - name: Head
-                  shortcode: headloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 5
-                  probWeight: 6
-                  protectionBase:
-                      blunt: 2
-                      edged: 1
-                      piercing: 0
-                      fire: 2
-                - name: Gills
-                  shortcode: gillloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: high
-                  amputability: low
-                  shockValue: 5
-                  probWeight: 4
-                  protectionBase:
-                      blunt: 2
-                      edged: 1
-                      piercing: 0
-                      fire: 2
-                - name: Body
-                  shortcode: bodyloc
-                  bodyPartCode: torsopart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 6
-                  protectionBase:
-                      blunt: 2
-                      edged: 1
-                      piercing: 0
-                      fire: 2
-                - name: Underbelly
-                  shortcode: underbellyloc
-                  bodyPartCode: torsopart
-                  bleedingSusceptibility: high
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 4
-                  protectionBase:
-                      blunt: 2
-                      edged: 1
-                      piercing: 0
-                      fire: 2
-                - name: Left Fin
-                  shortcode: lfinloc
-                  bodyPartCode: lfinpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 2
-                      edged: 1
-                      piercing: 0
-                      fire: 2
-                - name: Right Fin
-                  shortcode: rfinloc
-                  bodyPartCode: rfinpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 2
-                      edged: 1
-                      piercing: 0
-                      fire: 2
-                - name: Tail
-                  shortcode: tailloc
-                  bodyPartCode: tailpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 2
-                      edged: 1
-                      piercing: 0
-                      fire: 2
-        weight:
-            base: 400
-            calc: "400"
-        reachBase: 0
-        bodyScaleBase: 0.88
-        personalFatigue: enc + 5
-    currentMoveMedium: terrestrial
-    movementProfiles:
-        - medium: terrestrial
-          feetPerRound: 30
-          leaguesPerWatch: 1
-          encumbrance: floor(wt/4)
-          strMod: -5 * floor((str - 10) / 2)
-          factors:
-              - scope: hydrology
-                key: shallow
-                mode: add
-                textValue: "0"
-          disabled: false
-        - medium: aquatic
-          feetPerRound: 80
-          leaguesPerWatch: 8
-          encumbrance: floor(wt/4)
-          strMod: -5 * floor((str - 10) / 2)
-          factors: []
-          disabled: false
-    defaultCombatGroup: null
-    items:
-        - shortcode: awar
-          type: skill
-          system:
-              masteryLevelBase: 60
-        - shortcode: stlth
-          type: skill
-          system:
-              masteryLevelBase: 55
-        - shortcode: sprt
-          type: mysticalability
-          system:
-              masteryLevelBase: 24
-        - shortcode: init
-          type: skill
-          system:
-              masteryLevelBase: 36
-        - shortcode: dge
-          type: skill
-          system:
-              masteryLevelBase: 52
-        - shortcode: shok
-          type: skill
-          system:
-              masteryLevelBase: 28
-        - name: Defensive Bite
-          type: skill
-          system:
-              shortcode: bite
-              subType: combattechnique
-              masteryLevelBase: 61
-              combatCategory: melee
-              impairedByRoles:
-                  - manipulator
-              strikeMode:
-                  type: melee
-                  shortcode: bite
-                  name: Defensive Bite
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 2
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 0
-                      aspect: piercing
-                  lengthBase: 1
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
+  kbcat: animal
+  archetype: 0
+  attributes:
+    str: 9
+    end: 12
+    dex: 14
+    agl: 13
+    per: 14
+    aur: 7
+    wil: 9
+    rea: 8
+    cre: 6
+  attrRollFormula:
+    str: 1d4+6
+    end: 1d6+8
+    dex: 1d6+10
+    agl: 1d6+9
+    per: 1d6+10
+    aur: 1d4+4
+    wil: 1d4+6
+    rea: 1d4+5
+    cre: 1d4+3
+  body:
+    structure:
+      zones:
+        - name: Head
+          shortcode: headzone
+          probWeight: 3
+        - name: Body
+          shortcode: torsozone
+          probWeight: 5
+        - name: Tail
+          shortcode: tailzone
+          probWeight: 2
+      parts:
+        - name: Head
+          shortcode: headpart
+          bodyZoneCode: headzone
+          roles:
+            - vital
+            - manipulator
+          canHoldItem: false
+          probWeight: 10
+        - name: Body
+          shortcode: torsopart
+          bodyZoneCode: torsozone
+          roles:
+            - core
+          canHoldItem: false
+          probWeight: 10
+        - name: Left Fin
+          shortcode: lfinpart
+          bodyZoneCode: torsozone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 2
+        - name: Right Fin
+          shortcode: rfinpart
+          bodyZoneCode: torsozone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 2
+        - name: Tail
+          shortcode: tailpart
+          bodyZoneCode: tailzone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 10
+      locations:
+        - name: Head
+          shortcode: headloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 5
+          probWeight: 6
+          protectionBase:
+            blunt: 2
+            edged: 1
+            piercing: 0
+            fire: 2
+        - name: Gills
+          shortcode: gillloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: high
+          amputability: low
+          shockValue: 5
+          probWeight: 4
+          protectionBase:
+            blunt: 2
+            edged: 1
+            piercing: 0
+            fire: 2
+        - name: Body
+          shortcode: bodyloc
+          bodyPartCode: torsopart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 4
+          probWeight: 6
+          protectionBase:
+            blunt: 2
+            edged: 1
+            piercing: 0
+            fire: 2
+        - name: Underbelly
+          shortcode: underbellyloc
+          bodyPartCode: torsopart
+          bleedingSusceptibility: high
+          amputability: none
+          shockValue: 4
+          probWeight: 4
+          protectionBase:
+            blunt: 2
+            edged: 1
+            piercing: 0
+            fire: 2
+        - name: Left Fin
+          shortcode: lfinloc
+          bodyPartCode: lfinpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 2
+            edged: 1
+            piercing: 0
+            fire: 2
+        - name: Right Fin
+          shortcode: rfinloc
+          bodyPartCode: rfinpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 2
+            edged: 1
+            piercing: 0
+            fire: 2
+        - name: Tail
+          shortcode: tailloc
+          bodyPartCode: tailpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 2
+            edged: 1
+            piercing: 0
+            fire: 2
+    weight:
+      base: 400
+      calc: "400"
+    reachBase: 0
+    bodyScaleBase: 0.88
+    personalFatigue: enc + 5
+  currentMoveMedium: terrestrial
+  movementProfiles:
+    - medium: terrestrial
+      feetPerRound: 30
+      leaguesPerWatch: 1
+      encumbrance: floor(wt/4)
+      strMod: -5 * floor((str - 10) / 2)
+      factors:
+        - scope: hydrology
+          key: shallow
+          mode: add
+          textValue: "0"
+      disabled: false
+    - medium: aquatic
+      feetPerRound: 80
+      leaguesPerWatch: 8
+      encumbrance: floor(wt/4)
+      strMod: -5 * floor((str - 10) / 2)
+      factors: []
+      disabled: false
+  defaultCombatGroup: null
+  items:
+    - shortcode: awar
+      type: skill
+      system:
+        masteryLevelBase: 60
+    - shortcode: stlth
+      type: skill
+      system:
+        masteryLevelBase: 55
+    - shortcode: sprt
+      type: mysticalability
+      system:
+        masteryLevelBase: 24
+    - shortcode: init
+      type: skill
+      system:
+        masteryLevelBase: 36
+    - shortcode: dge
+      type: skill
+      system:
+        masteryLevelBase: 52
+    - shortcode: shok
+      type: skill
+      system:
+        masteryLevelBase: 28
+    - name: Defensive Bite
+      type: skill
+      system:
+        shortcode: bite
+        subType: combattechnique
+        masteryLevelBase: 61
+        combatCategory: melee
+        impairedByRoles:
+          - manipulator
+        strikeMode:
+          type: melee
+          shortcode: bite
+          name: Defensive Bite
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 2
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 6
+            modifier: 0
+            aspect: piercing
+          lengthBase: 1
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
 ---
 
 # Appearance {#appearance}

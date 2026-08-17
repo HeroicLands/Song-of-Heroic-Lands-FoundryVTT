@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-voi
+  - attribute-voi
 tags: []
 name:
-    full: Voice
-    aliases: []
+  full: Voice
+  aliases: []
 description: "The musical quality of speech: timbre, pitch, and natural resonance."
 id: FnaXc1K99zsHxghH
 img: icons/game-icons/lorc/sing.svg
@@ -12,15 +12,15 @@ shortcode: voi
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Jarring:4
-        - Tuneless:8
-        - Average:12
-        - Melodious:16
-        - Dulcet:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Jarring:4
+    - Tuneless:8
+    - Average:12
+    - Melodious:16
+    - Dulcet:999
+  initDiceFormula: 3d6
 sort: 130
 folder: FPitxvL8wCmXynax
 ---

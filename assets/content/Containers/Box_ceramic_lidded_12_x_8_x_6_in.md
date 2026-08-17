@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Box, ceramic, lidded, 12 x 8 x 6 in"
-    - containergear-boxcerlid
+  - "Box, ceramic, lidded, 12 x 8 x 6 in"
+  - containergear-boxcerlid
 tags: []
 name:
-    full: "Box, ceramic, lidded, 12 x 8 x 6 in"
-    aliases: []
+  full: "Box, ceramic, lidded, 12 x 8 x 6 in"
+  aliases: []
 description: "Lidded earthenware box for dry goods kept away from damp and vermin."
 id: DH4yWnj7j0usbiP5
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: boxcerlid
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 10
-    value: 3
-    weight: 2
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 10
+  value: 3
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

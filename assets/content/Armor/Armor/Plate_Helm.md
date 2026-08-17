@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Plate Helm
-    - armorgear-PHlm
+  - Plate Helm
+  - armorgear-PHlm
 tags: []
 name:
-    full: Plate Helm
-    aliases: []
+  full: Plate Helm
+  aliases: []
 description: "Plain steel skullcap helm; covers the crown alone and leaves the face open."
 id: 5ZStXFpMp4A1UkQO
 img: icons/game-icons/lorc/crested-helmet.svg
@@ -13,27 +13,27 @@ shortcode: PHlm
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: plate
-    archetype: 0
-    armorType: Helm
-    detailMaterial: Plate
-    material: Plate
-    durability: 14
-    value: 80
-    weight: 3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - skullloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: plate
+  archetype: 0
+  armorType: Helm
+  detailMaterial: Plate
+  material: Plate
+  durability: 14
+  value: 80
+  weight: 3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - skullloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 80
 origWeight: 3

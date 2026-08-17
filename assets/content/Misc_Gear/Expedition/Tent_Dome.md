@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Tent, Dome"
-    - miscgear-tentdome
+  - "Tent, Dome"
+  - miscgear-tentdome
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Tent, Dome"
-    aliases: []
+  full: "Tent, Dome"
+  aliases: []
 description: "Low hemispherical shelter; resists wind and sheds rain from all angles."
 id: EVNOt3rVL1Bb0arQ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tentdome
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 216
-    weight: 25
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 216
+  weight: 25
 folder: FSPVI1eObGEpMVck
 ---
 

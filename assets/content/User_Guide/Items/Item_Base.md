@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Base Item
-    - doc-baseitem
+  - Base Item
+  - doc-baseitem
 id: DXyazxuH0KLFWj4l
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: Base Item
+  full: Base Item
 shortcode: baseitem
 folder: QtOgPodi8X6gDWL0
 ---

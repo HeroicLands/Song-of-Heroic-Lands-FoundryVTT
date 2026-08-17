@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Actor Types
-    - Actors Introduction
-    - doc-ugactors
+  - Actor Types
+  - Actors Introduction
+  - doc-ugactors
 id: 850gXkDZhbNwwg2D
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: Actors
-    aliases: []
+  full: Actors
+  aliases: []
 shortcode: ugactors
 folder: sYK1BozT9xFcinXK
 ---

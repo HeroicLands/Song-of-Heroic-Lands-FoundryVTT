@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Container
-    - doc-cntnr
+  - Container
+  - doc-cntnr
 id: rF2XSEFWmBoOwkks
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Container"
+  full: "Container"
 shortcode: cntnr
 folder: QtOgPodi8X6gDWL0
 ---

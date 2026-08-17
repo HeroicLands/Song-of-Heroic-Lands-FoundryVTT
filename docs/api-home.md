@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Song of Heroic Lands — API Reference
-    aliases: []
+  full: Song of Heroic Lands — API Reference
+  aliases: []
 id: m5LFacYPCiqTAmjQ
 slug: api-home
 type: doc

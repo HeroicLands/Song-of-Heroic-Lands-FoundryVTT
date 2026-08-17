@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Divination Introduction
-    - doc-divintro
+  - Divination Introduction
+  - doc-divintro
 id: Nao57h8vo7wCINl9
 type: doc
 package: sohl
 category: rules
 name:
-    full: Divination Introduction
-    aliases: []
+  full: Divination Introduction
+  aliases: []
 shortcode: divintro
 folder: k6DghEucd6umnBJx
 ---

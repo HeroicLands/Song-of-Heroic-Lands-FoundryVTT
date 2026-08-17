@@ -1,16 +1,16 @@
 ---
 aliases:
-    - Coma
-    - Coma Course Test
-    - Coma Healing Rate
-    - doc-coma
+  - Coma
+  - Coma Course Test
+  - Coma Healing Rate
+  - doc-coma
 id: bqBGHYIwbqvqaZ5I
 type: doc
 package: sohl
 category: rules
 name:
-    full: Coma
-    aliases: []
+  full: Coma
+  aliases: []
 folder: edGOkxiCotuMzc1O
 shortcode: coma
 ---

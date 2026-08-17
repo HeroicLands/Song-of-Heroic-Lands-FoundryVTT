@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Boar
-    - creature-boar
+  - Boar
+  - creature-boar
 tags:
-    - animal
+  - animal
 name:
-    full: Boar
-    aliases: []
+  full: Boar
+  aliases: []
 description: "A compact, aggressive tusked ungulate of forests and scrublands, quick to charge with muscle and violence when its territory is crossed."
 id: uyxMgEZ2vyfT2W7A
 img: icons/game-icons/caro-asercion/boar.svg
@@ -15,327 +15,327 @@ shortcode: boar
 type: creature
 package: sohl
 sohl:
-    kbcat: animal
-    archetype: 0
-    attributes:
-        str: 14
-        end: 16
-        agl: 9
-        per: 10
-        snt: 4
-        aur: 4
-        wil: 15
-        rea: 6
-        cre: 7
-    attrRollFormula:
-        str: 1d6+11
-        end: 1d6+13
-        agl: 1d4+7
-        per: 1d6+7
-        snt: 1d4+2
-        aur: 1d4+2
-        wil: 1d6+12
-        rea: 1d4+4
-        cre: 1d4+5
-    body:
-        structure:
-            zones:
-                - name: Head
-                  shortcode: headzone
-                  probWeight: 2
-                - name: Forelegs
-                  shortcode: forelegszone
-                  probWeight: 2
-                - name: Torso
-                  shortcode: torsozone
-                  probWeight: 4
-                - name: Hindquarters
-                  shortcode: hindqtrzone
-                  probWeight: 2
-            parts:
-                - name: Head
-                  shortcode: headpart
-                  bodyZoneCode: headzone
-                  roles:
-                      - vital
-                      - manipulator
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Left Foreleg
-                  shortcode: lforelegpart
-                  bodyZoneCode: forelegszone
-                  roles: &a1
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 1
-                - name: Right Foreleg
-                  shortcode: rforelegpart
-                  bodyZoneCode: forelegszone
-                  roles: *a1
-                  canHoldItem: false
-                  probWeight: 1
-                - name: Torso
-                  shortcode: torsopart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - core
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Left Hind Leg
-                  shortcode: lhindlegpart
-                  bodyZoneCode: hindqtrzone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 9
-                - name: Right Hind Leg
-                  shortcode: rhindlegpart
-                  bodyZoneCode: hindqtrzone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 9
-                - name: Tail
-                  shortcode: tailpart
-                  bodyZoneCode: hindqtrzone
-                  roles: []
-                  canHoldItem: false
-                  probWeight: 2
-            locations:
-                - name: Head
-                  shortcode: headloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 5
-                  probWeight: 6
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Neck
-                  shortcode: neckloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: high
-                  amputability: low
-                  shockValue: 5
-                  probWeight: 4
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Left Foreleg
-                  shortcode: lforelegloc
-                  bodyPartCode: lforelegpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Right Foreleg
-                  shortcode: rforelegloc
-                  bodyPartCode: rforelegpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Thorax
-                  shortcode: thoraxloc
-                  bodyPartCode: torsopart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 5
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Abdomen
-                  shortcode: abdloc
-                  bodyPartCode: torsopart
-                  bleedingSusceptibility: high
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 3
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Pelvis
-                  shortcode: plvsloc
-                  bodyPartCode: torsopart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 2
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Left Hind Leg
-                  shortcode: lhindlegloc
-                  bodyPartCode: lhindlegpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Right Hind Leg
-                  shortcode: rhindlegloc
-                  bodyPartCode: rhindlegpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-                - name: Tail
-                  shortcode: tailloc
-                  bodyPartCode: tailpart
-                  bleedingSusceptibility: none
-                  amputability: high
-                  shockValue: 1
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 3
-                      edged: 2
-                      piercing: 1
-                      fire: 3
-        weight:
-            base: 200
-            calc: "200"
-        reachBase: 0
-        bodyScaleBase: 1.17
-        personalFatigue: enc + 5
-    currentMoveMedium: terrestrial
-    movementProfiles:
-        - medium: terrestrial
-          feetPerRound: 110
-          leaguesPerWatch: 4
-          encumbrance: floor(wt/4)
-          strMod: -5 * floor((str - 10) / 2)
-          factors: []
-          disabled: false
-    defaultCombatGroup: null
-    items:
-        - shortcode: awar
-          type: skill
-          system:
-              masteryLevelBase: 60
-        - shortcode: stlth
-          type: skill
-          system:
-              masteryLevelBase: 45
-        - shortcode: sprt
-          type: mysticalability
-          system:
-              masteryLevelBase: 27
-        - shortcode: init
-          type: skill
-          system:
-              masteryLevelBase: 55
-        - shortcode: dge
-          type: skill
-          system:
-              masteryLevelBase: 36
-        - shortcode: shok
-          type: skill
-          system:
-              masteryLevelBase: 75
-        - name: Tusk
-          type: skill
-          system:
-              shortcode: tusk
-              subType: combattechnique
-              masteryLevelBase: 60
-              combatCategory: melee
-              impairedByRoles:
-                  - manipulator
-              strikeMode:
-                  type: melee
-                  shortcode: tusk
-                  name: Tusk
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 4
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 2
-                      aspect: piercing
-                  lengthBase: 0
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
-                      armorReduction: 1
-        - name: Kick
-          type: skill
-          system:
-              shortcode: kick
-              subType: combattechnique
-              masteryLevelBase: 48
-              combatCategory: melee
-              impairedByRoles:
-                  - locomotor
-              strikeMode:
-                  type: melee
-                  shortcode: kick
-                  name: Kick
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 6
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: -1
-                      aspect: blunt
-                  lengthBase: 1
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
+  kbcat: animal
+  archetype: 0
+  attributes:
+    str: 14
+    end: 16
+    agl: 9
+    per: 10
+    snt: 4
+    aur: 4
+    wil: 15
+    rea: 6
+    cre: 7
+  attrRollFormula:
+    str: 1d6+11
+    end: 1d6+13
+    agl: 1d4+7
+    per: 1d6+7
+    snt: 1d4+2
+    aur: 1d4+2
+    wil: 1d6+12
+    rea: 1d4+4
+    cre: 1d4+5
+  body:
+    structure:
+      zones:
+        - name: Head
+          shortcode: headzone
+          probWeight: 2
+        - name: Forelegs
+          shortcode: forelegszone
+          probWeight: 2
+        - name: Torso
+          shortcode: torsozone
+          probWeight: 4
+        - name: Hindquarters
+          shortcode: hindqtrzone
+          probWeight: 2
+      parts:
+        - name: Head
+          shortcode: headpart
+          bodyZoneCode: headzone
+          roles:
+            - vital
+            - manipulator
+          canHoldItem: false
+          probWeight: 10
+        - name: Left Foreleg
+          shortcode: lforelegpart
+          bodyZoneCode: forelegszone
+          roles: &a1
+            - locomotor
+          canHoldItem: false
+          probWeight: 1
+        - name: Right Foreleg
+          shortcode: rforelegpart
+          bodyZoneCode: forelegszone
+          roles: *a1
+          canHoldItem: false
+          probWeight: 1
+        - name: Torso
+          shortcode: torsopart
+          bodyZoneCode: torsozone
+          roles:
+            - core
+          canHoldItem: false
+          probWeight: 10
+        - name: Left Hind Leg
+          shortcode: lhindlegpart
+          bodyZoneCode: hindqtrzone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 9
+        - name: Right Hind Leg
+          shortcode: rhindlegpart
+          bodyZoneCode: hindqtrzone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 9
+        - name: Tail
+          shortcode: tailpart
+          bodyZoneCode: hindqtrzone
+          roles: []
+          canHoldItem: false
+          probWeight: 2
+      locations:
+        - name: Head
+          shortcode: headloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 5
+          probWeight: 6
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Neck
+          shortcode: neckloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: high
+          amputability: low
+          shockValue: 5
+          probWeight: 4
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Left Foreleg
+          shortcode: lforelegloc
+          bodyPartCode: lforelegpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Right Foreleg
+          shortcode: rforelegloc
+          bodyPartCode: rforelegpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Thorax
+          shortcode: thoraxloc
+          bodyPartCode: torsopart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 4
+          probWeight: 5
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Abdomen
+          shortcode: abdloc
+          bodyPartCode: torsopart
+          bleedingSusceptibility: high
+          amputability: none
+          shockValue: 4
+          probWeight: 3
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Pelvis
+          shortcode: plvsloc
+          bodyPartCode: torsopart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 4
+          probWeight: 2
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Left Hind Leg
+          shortcode: lhindlegloc
+          bodyPartCode: lhindlegpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Right Hind Leg
+          shortcode: rhindlegloc
+          bodyPartCode: rhindlegpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+        - name: Tail
+          shortcode: tailloc
+          bodyPartCode: tailpart
+          bleedingSusceptibility: none
+          amputability: high
+          shockValue: 1
+          probWeight: 10
+          protectionBase:
+            blunt: 3
+            edged: 2
+            piercing: 1
+            fire: 3
+    weight:
+      base: 200
+      calc: "200"
+    reachBase: 0
+    bodyScaleBase: 1.17
+    personalFatigue: enc + 5
+  currentMoveMedium: terrestrial
+  movementProfiles:
+    - medium: terrestrial
+      feetPerRound: 110
+      leaguesPerWatch: 4
+      encumbrance: floor(wt/4)
+      strMod: -5 * floor((str - 10) / 2)
+      factors: []
+      disabled: false
+  defaultCombatGroup: null
+  items:
+    - shortcode: awar
+      type: skill
+      system:
+        masteryLevelBase: 60
+    - shortcode: stlth
+      type: skill
+      system:
+        masteryLevelBase: 45
+    - shortcode: sprt
+      type: mysticalability
+      system:
+        masteryLevelBase: 27
+    - shortcode: init
+      type: skill
+      system:
+        masteryLevelBase: 55
+    - shortcode: dge
+      type: skill
+      system:
+        masteryLevelBase: 36
+    - shortcode: shok
+      type: skill
+      system:
+        masteryLevelBase: 75
+    - name: Tusk
+      type: skill
+      system:
+        shortcode: tusk
+        subType: combattechnique
+        masteryLevelBase: 60
+        combatCategory: melee
+        impairedByRoles:
+          - manipulator
+        strikeMode:
+          type: melee
+          shortcode: tusk
+          name: Tusk
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 4
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 6
+            modifier: 2
+            aspect: piercing
+          lengthBase: 0
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
+            armorReduction: 1
+    - name: Kick
+      type: skill
+      system:
+        shortcode: kick
+        subType: combattechnique
+        masteryLevelBase: 48
+        combatCategory: melee
+        impairedByRoles:
+          - locomotor
+        strikeMode:
+          type: melee
+          shortcode: kick
+          name: Kick
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 6
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 6
+            modifier: -1
+            aspect: blunt
+          lengthBase: 1
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
 ---
 
 # Appearance {#appearance}

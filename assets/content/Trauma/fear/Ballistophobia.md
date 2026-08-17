@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-ballphb
+  - trauma-ballphb
 tags: []
 name:
-    full: Ballistophobia
-    aliases: []
+  full: Ballistophobia
+  aliases: []
 id: vhmdWQ1yBcrhPJpN
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ballphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

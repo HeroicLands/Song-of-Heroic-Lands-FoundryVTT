@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ink, Brown"
-    - miscgear-inkbrn
+  - "Ink, Brown"
+  - miscgear-inkbrn
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Ink, Brown"
-    aliases: []
+  full: "Ink, Brown"
+  aliases: []
 description: "Walnut-husk ink; common in ledgers, fades with time, suits working copies."
 id: SfwROmoRdYQjPB0M
 img: icons/game-icons/lorc/ink-swirl.svg
@@ -14,15 +14,15 @@ shortcode: inkbrn
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 8
-    weight: 2
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 8
+  weight: 2
 folder: BYkA5NDQxTXDvsAC
 ---
 

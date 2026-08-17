@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Divine Intervention
-    - doc-divnint
+  - Divine Intervention
+  - doc-divnint
 id: CKWywNBAT5axa27a
 type: doc
 package: sohl
 category: rules
 name:
-    full: Divine Intervention
-    aliases: []
+  full: Divine Intervention
+  aliases: []
 shortcode: divnint
 folder: J8ppkzls4ERyzTpv
 ---

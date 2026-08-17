@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Pot, ceramic, 2 quart"
-    - containergear-potcer2qt
+  - "Pot, ceramic, 2 quart"
+  - containergear-potcer2qt
 tags: []
 name:
-    full: "Pot, ceramic, 2 quart"
-    aliases: []
+  full: "Pot, ceramic, 2 quart"
+  aliases: []
 description: "Round earthenware cooking pot that sits in the embers (2 quarts)."
 id: NlzAXI0csadV7dqY
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: potcer2qt
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 4
-    value: 4
-    weight: 3
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 4
+  value: 4
+  weight: 3
 folder: dl8lJ729W1mFlDvt
 ---
 

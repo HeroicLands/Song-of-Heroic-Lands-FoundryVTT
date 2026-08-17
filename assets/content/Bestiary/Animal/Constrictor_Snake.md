@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Constrictor Snake
-    - creature-cnstrctr
+  - Constrictor Snake
+  - creature-cnstrctr
 tags:
-    - animal
+  - animal
 name:
-    full: Constrictor Snake
-    aliases: []
+  full: Constrictor Snake
+  aliases: []
 description: "A huge non-venomous snake of tropical regions that kills through patient, crushing coils, subduing prey far larger than its own head."
 id: ypPZpDVq1apz4CiH
 img: icons/game-icons/lorc/snake.svg
@@ -15,257 +15,257 @@ shortcode: cnstrctr
 type: creature
 package: sohl
 sohl:
-    kbcat: animal
-    archetype: 0
-    attributes:
-        str: 14
-        end: 12
-        agl: 9
-        per: 13
-        snt: 3
-        aur: 2
-        wil: 8
-        rea: 2
-        cre: 2
-    attrRollFormula:
-        str: 1d6+11
-        end: 1d6+9
-        agl: 1d4+7
-        per: 1d6+10
-        snt: 1d4+1
-        aur: 1d4
-        wil: 1d4+6
-        rea: 1d4
-        cre: 1d4
-    body:
-        structure:
-            zones:
-                - name: Head
-                  shortcode: headzone
-                  probWeight: 3
-                - name: Forebody
-                  shortcode: torsozone
-                  probWeight: 11
-                - name: Hindbody
-                  shortcode: hindbodyzone
-                  probWeight: 6
-            parts:
-                - name: Head
-                  shortcode: headpart
-                  bodyZoneCode: headzone
-                  roles:
-                      - vital
-                      - manipulator
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Forebody
-                  shortcode: forebodypart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - core
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Hindbody
-                  shortcode: hindbodypart
-                  bodyZoneCode: hindbodyzone
-                  roles:
-                      - core
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 6
-                - name: Tail
-                  shortcode: tailpart
-                  bodyZoneCode: hindbodyzone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 4
-            locations:
-                - name: Head
-                  shortcode: headloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 5
-                  probWeight: 4
-                  protectionBase:
-                      blunt: 4
-                      edged: 6
-                      piercing: 5
-                      fire: 4
-                - name: Neck
-                  shortcode: neckloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: high
-                  amputability: low
-                  shockValue: 5
-                  probWeight: 6
-                  protectionBase:
-                      blunt: 4
-                      edged: 6
-                      piercing: 5
-                      fire: 4
-                - name: Thorax
-                  shortcode: thoraxloc
-                  bodyPartCode: forebodypart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 4
-                      edged: 6
-                      piercing: 5
-                      fire: 4
-                - name: Abdomen
-                  shortcode: abdloc
-                  bodyPartCode: hindbodypart
-                  bleedingSusceptibility: high
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 4
-                      edged: 6
-                      piercing: 5
-                      fire: 4
-                - name: Tail
-                  shortcode: tailloc
-                  bodyPartCode: tailpart
-                  bleedingSusceptibility: none
-                  amputability: high
-                  shockValue: 1
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 4
-                      edged: 6
-                      piercing: 5
-                      fire: 4
-        weight:
-            base: 150
-            calc: "150"
-        reachBase: 0
-        bodyScaleBase: 1.17
-        personalFatigue: enc + 5
-    currentMoveMedium: terrestrial
-    movementProfiles:
-        - medium: terrestrial
-          feetPerRound: 30
-          leaguesPerWatch: 2
-          encumbrance: floor(wt/4)
-          strMod: -5 * floor((str - 10) / 2)
-          factors:
-              - scope: surface_cover
-                key: wetlands
-                mode: add
-                textValue: "0"
-              - scope: hydrology
-                key: shallow
-                mode: add
-                textValue: "0"
-          disabled: false
-    defaultCombatGroup: null
-    items:
-        - shortcode: awar
-          type: skill
-          system:
-              masteryLevelBase: 55
-        - shortcode: stlth
-          type: skill
-          system:
-              masteryLevelBase: 44
-        - shortcode: sprt
-          type: mysticalability
-          system:
-              masteryLevelBase: 15
-        - shortcode: init
-          type: skill
-          system:
-              masteryLevelBase: 20
-        - shortcode: dge
-          type: skill
-          system:
-              masteryLevelBase: 48
-        - shortcode: shok
-          type: skill
-          system:
-              masteryLevelBase: 52
-        - name: Bite
-          type: skill
-          system:
-              shortcode: bite
-              subType: combattechnique
-              masteryLevelBase: 53
-              combatCategory: melee
-              impairedByRoles:
-                  - manipulator
-              strikeMode:
-                  type: melee
-                  shortcode: bite
-                  name: Bite
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 2
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 8
-                      modifier: 2
-                      aspect: piercing
-                  lengthBase: 3
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
-                      clench: true
-                      armorReduction: 2
-        - name: Grab
-          type: skill
-          system:
-              shortcode: grab
-              subType: combattechnique
-              masteryLevelBase: 73
-              combatCategory: melee
-              impairedByRoles:
-                  - core
-              strikeMode:
-                  type: melee
-                  shortcode: grab
-                  name: Grab
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 6
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 14
-                      aspect: blunt
-                  lengthBase: 0
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
-                      constrict: true
+  kbcat: animal
+  archetype: 0
+  attributes:
+    str: 14
+    end: 12
+    agl: 9
+    per: 13
+    snt: 3
+    aur: 2
+    wil: 8
+    rea: 2
+    cre: 2
+  attrRollFormula:
+    str: 1d6+11
+    end: 1d6+9
+    agl: 1d4+7
+    per: 1d6+10
+    snt: 1d4+1
+    aur: 1d4
+    wil: 1d4+6
+    rea: 1d4
+    cre: 1d4
+  body:
+    structure:
+      zones:
+        - name: Head
+          shortcode: headzone
+          probWeight: 3
+        - name: Forebody
+          shortcode: torsozone
+          probWeight: 11
+        - name: Hindbody
+          shortcode: hindbodyzone
+          probWeight: 6
+      parts:
+        - name: Head
+          shortcode: headpart
+          bodyZoneCode: headzone
+          roles:
+            - vital
+            - manipulator
+          canHoldItem: false
+          probWeight: 10
+        - name: Forebody
+          shortcode: forebodypart
+          bodyZoneCode: torsozone
+          roles:
+            - core
+            - locomotor
+          canHoldItem: false
+          probWeight: 10
+        - name: Hindbody
+          shortcode: hindbodypart
+          bodyZoneCode: hindbodyzone
+          roles:
+            - core
+            - locomotor
+          canHoldItem: false
+          probWeight: 6
+        - name: Tail
+          shortcode: tailpart
+          bodyZoneCode: hindbodyzone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 4
+      locations:
+        - name: Head
+          shortcode: headloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 5
+          probWeight: 4
+          protectionBase:
+            blunt: 4
+            edged: 6
+            piercing: 5
+            fire: 4
+        - name: Neck
+          shortcode: neckloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: high
+          amputability: low
+          shockValue: 5
+          probWeight: 6
+          protectionBase:
+            blunt: 4
+            edged: 6
+            piercing: 5
+            fire: 4
+        - name: Thorax
+          shortcode: thoraxloc
+          bodyPartCode: forebodypart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 4
+          probWeight: 10
+          protectionBase:
+            blunt: 4
+            edged: 6
+            piercing: 5
+            fire: 4
+        - name: Abdomen
+          shortcode: abdloc
+          bodyPartCode: hindbodypart
+          bleedingSusceptibility: high
+          amputability: none
+          shockValue: 4
+          probWeight: 10
+          protectionBase:
+            blunt: 4
+            edged: 6
+            piercing: 5
+            fire: 4
+        - name: Tail
+          shortcode: tailloc
+          bodyPartCode: tailpart
+          bleedingSusceptibility: none
+          amputability: high
+          shockValue: 1
+          probWeight: 10
+          protectionBase:
+            blunt: 4
+            edged: 6
+            piercing: 5
+            fire: 4
+    weight:
+      base: 150
+      calc: "150"
+    reachBase: 0
+    bodyScaleBase: 1.17
+    personalFatigue: enc + 5
+  currentMoveMedium: terrestrial
+  movementProfiles:
+    - medium: terrestrial
+      feetPerRound: 30
+      leaguesPerWatch: 2
+      encumbrance: floor(wt/4)
+      strMod: -5 * floor((str - 10) / 2)
+      factors:
+        - scope: surface_cover
+          key: wetlands
+          mode: add
+          textValue: "0"
+        - scope: hydrology
+          key: shallow
+          mode: add
+          textValue: "0"
+      disabled: false
+  defaultCombatGroup: null
+  items:
+    - shortcode: awar
+      type: skill
+      system:
+        masteryLevelBase: 55
+    - shortcode: stlth
+      type: skill
+      system:
+        masteryLevelBase: 44
+    - shortcode: sprt
+      type: mysticalability
+      system:
+        masteryLevelBase: 15
+    - shortcode: init
+      type: skill
+      system:
+        masteryLevelBase: 20
+    - shortcode: dge
+      type: skill
+      system:
+        masteryLevelBase: 48
+    - shortcode: shok
+      type: skill
+      system:
+        masteryLevelBase: 52
+    - name: Bite
+      type: skill
+      system:
+        shortcode: bite
+        subType: combattechnique
+        masteryLevelBase: 53
+        combatCategory: melee
+        impairedByRoles:
+          - manipulator
+        strikeMode:
+          type: melee
+          shortcode: bite
+          name: Bite
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 2
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 8
+            modifier: 2
+            aspect: piercing
+          lengthBase: 3
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
+            clench: true
+            armorReduction: 2
+    - name: Grab
+      type: skill
+      system:
+        shortcode: grab
+        subType: combattechnique
+        masteryLevelBase: 73
+        combatCategory: melee
+        impairedByRoles:
+          - core
+        strikeMode:
+          type: melee
+          shortcode: grab
+          name: Grab
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 6
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 6
+            modifier: 14
+            aspect: blunt
+          lengthBase: 0
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
+            constrict: true
 ---
 
 # Appearance {#appearance}

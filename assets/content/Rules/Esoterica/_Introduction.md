@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Esoterica Introduction
-    - doc-estrcint
+  - Esoterica Introduction
+  - doc-estrcint
 id: p9VfAypidUzXgdD0
 type: doc
 package: sohl
 category: rules
 name:
-    full: Esoterica Introduction
-    aliases: []
+  full: Esoterica Introduction
+  aliases: []
 folder: oPWOe5cjsYc1ev2h
 shortcode: estrcint
 ---

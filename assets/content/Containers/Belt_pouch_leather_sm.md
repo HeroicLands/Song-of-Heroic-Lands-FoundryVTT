@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Belt pouch, leather, sm"
-    - containergear-beltpouchl3
+  - "Belt pouch, leather, sm"
+  - containergear-beltpouchl3
 tags: []
 name:
-    full: "Belt pouch, leather, sm"
-    aliases: []
+  full: "Belt pouch, leather, sm"
+  aliases: []
 description: "Small leather belt pouch barely larger than a fist."
 id: 23fY6O8R0VZw82c4
 img: icons/game-icons/lorc/knapsack.svg
@@ -13,15 +13,15 @@ shortcode: beltpouchl3
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 1.5
-    value: 2
-    weight: 0.25
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 1.5
+  value: 2
+  weight: 0.25
 folder: dl8lJ729W1mFlDvt
 ---
 

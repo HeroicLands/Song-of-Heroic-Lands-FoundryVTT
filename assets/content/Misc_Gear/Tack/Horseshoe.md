@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Horseshoe
-    - miscgear-horseshoe
+  - Horseshoe
+  - miscgear-horseshoe
 tags:
-    - tack
+  - tack
 name:
-    full: Horseshoe
-    aliases: []
+  full: Horseshoe
+  aliases: []
 description: "Curved iron plate nailed to hoof; distributes wear, grips stone and mud."
 id: 9Qt3YEbnnMJudDLH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: horseshoe
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 1
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 1
+  weight: 1
 folder: WTIUTjADwAcpyv0H
 ---
 

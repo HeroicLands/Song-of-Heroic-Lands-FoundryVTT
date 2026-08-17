@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Clappers, bone"
-    - miscgear-clappersbo
+  - "Clappers, bone"
+  - miscgear-clappersbo
 tags:
-    - music
+  - music
 name:
-    full: "Clappers, bone"
-    aliases: []
+  full: "Clappers, bone"
+  aliases: []
 description: "Carved bone blades hinged or strung; rhythmic snap for folk dances, processionals."
 id: i7RPzHfwNH74HUeu
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: clappersbo
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 1
-    weight: 1.25
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 1
+  weight: 1.25
 folder: ncTaRcZt0RFYz0Gq
 ---
 

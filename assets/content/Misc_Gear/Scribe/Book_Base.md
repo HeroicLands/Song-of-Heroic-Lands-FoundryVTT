@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Book, Base"
-    - miscgear-bookbase
+  - "Book, Base"
+  - miscgear-bookbase
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Book, Base"
-    aliases: []
+  full: "Book, Base"
+  aliases: []
 description: "Unbound quires with oak boards and bronze clasps; ready for binding."
 id: dVuC9SoU1Vsrja1P
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bookbase
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 10
-    weight: 1
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 10
+  weight: 1
 folder: BYkA5NDQxTXDvsAC
 ---
 

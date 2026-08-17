@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Lamp. glass
-    - containergear-lampglass
+  - Lamp. glass
+  - containergear-lampglass
 tags: []
 name:
-    full: Lamp. glass
-    aliases: []
+  full: Lamp. glass
+  aliases: []
 description: "Hand-blown glass lamp with open reservoir; shows fuel level clearly."
 id: nXskf0nh3UQZ4IRw
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: lampglass
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 0.125
-    value: 24
-    weight: 2
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 0.125
+  value: 24
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Quilted Surcoat
-    - armorgear-QScoat
+  - Quilted Surcoat
+  - armorgear-QScoat
 tags: []
 name:
-    full: Quilted Surcoat
-    aliases: []
+  full: Quilted Surcoat
+  aliases: []
 description: "Stitched outer garment; layered insulation over other dress."
 id: 4aF26GtmSRqOSXuh
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,35 +13,35 @@ shortcode: QScoat
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: quilted
-    archetype: 0
-    armorType: Surcoat
-    detailMaterial: Quilted
-    material: Quilted
-    durability: 11
-    value: 216
-    weight: 9.7
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: quilted
+  archetype: 0
+  armorType: Surcoat
+  detailMaterial: Quilted
+  material: Quilted
+  durability: 11
+  value: 216
+  weight: 9.7
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 216
 origWeight: 9.7

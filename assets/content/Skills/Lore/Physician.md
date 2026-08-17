@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-pysn
+  - skill-pysn
 tags: []
 name:
-    full: Physician
-    aliases: []
+  full: Physician
+  aliases: []
 description: "Diagnosing illness, treating injuries, performing surgery, and healing wounds."
 id: nMPKgtFbCnXMNzuI
 img: icons/game-icons/delapouite/caduceus.svg
@@ -12,19 +12,19 @@ shortcode: pysn
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 1
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 1
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: QlkEHXbk2EXlRiMM
 ---
 

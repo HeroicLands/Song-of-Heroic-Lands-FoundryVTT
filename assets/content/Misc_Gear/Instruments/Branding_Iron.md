@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Branding Iron
-    - miscgear-brandingir
+  - Branding Iron
+  - miscgear-brandingir
 tags:
-    - instruments
+  - instruments
 name:
-    full: Branding Iron
-    aliases: []
+  full: Branding Iron
+  aliases: []
 description: "Forged rod with heraldic stamp, heated and pressed into cattle hide."
 id: 0OWw3K27DsaNlMEk
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: brandingir
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 18
-    weight: 3
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 18
+  weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

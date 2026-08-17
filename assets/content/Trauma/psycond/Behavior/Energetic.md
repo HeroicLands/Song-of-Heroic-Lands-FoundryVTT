@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-enrgtc
+  - trauma-enrgtc
 tags: []
 name:
-    full: Energetic
-    aliases: []
+  full: Energetic
+  aliases: []
 id: CFR6WQPO8axrkPb4
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: enrgtc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

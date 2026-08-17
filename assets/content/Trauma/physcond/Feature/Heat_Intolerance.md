@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Heat Intolerance
-    - trauma-htntlrnc
+  - Heat Intolerance
+  - trauma-htntlrnc
 tags: []
 name:
-    full: Heat Intolerance
-    aliases: []
+  full: Heat Intolerance
+  aliases: []
 id: doe6pBSFOr8KBgTr
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: htntlrnc
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

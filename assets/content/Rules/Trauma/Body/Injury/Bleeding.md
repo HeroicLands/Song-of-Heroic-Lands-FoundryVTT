@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Bleeding
-    - Blood Loss
-    - Blood Loss Advance Test
-    - Blood Stoppage Test
-    - doc-bleeding
+  - Bleeding
+  - Blood Loss
+  - Blood Loss Advance Test
+  - Blood Stoppage Test
+  - doc-bleeding
 id: edDvJKnODEldyaSh
 type: doc
 package: sohl
 category: rules
 name:
-    full: Bleeding
-    aliases: []
+  full: Bleeding
+  aliases: []
 shortcode: bleeding
 folder: F4NGyU9QQgWwTcHe
 ---

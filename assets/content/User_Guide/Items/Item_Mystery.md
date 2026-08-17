@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Mystery
-    - doc-mystery
+  - Mystery
+  - doc-mystery
 id: 6fJTkfpqjc4srAqd
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Mystery"
+  full: "Mystery"
 shortcode: mystery
 folder: QtOgPodi8X6gDWL0
 ---
@@ -27,8 +27,8 @@ Along with the [[doc-baseitem|Standard Item Properties]], the following properti
 - **SubType:**
 - **Level:** Power level of this mystery, if applicable
 - **Charges:** If this mystery can be used up, this represents the number of charges
-    - **Current Charges:** Charges remaining. Leave it blank for a mystery whose uses are unlimited (the sheet shows ∞).
-    - **Maximum Charges:** The cap, and the control that decides whether the mystery uses charges at all. Leave it blank for one that does not (the sheet shows ✕); enter `0` for one that is counted but uncapped.
+  - **Current Charges:** Charges remaining. Leave it blank for a mystery whose uses are unlimited (the sheet shows ∞).
+  - **Maximum Charges:** The cap, and the control that decides whether the mystery uses charges at all. Leave it blank for one that does not (the sheet shows ✕); enter `0` for one that is counted but uncapped.
 
 # Intrinsic Actions
 

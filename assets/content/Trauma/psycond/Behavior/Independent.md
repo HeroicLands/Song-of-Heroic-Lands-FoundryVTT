@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-indpndnt
+  - trauma-indpndnt
 tags: []
 name:
-    full: Independent
-    aliases: []
+  full: Independent
+  aliases: []
 id: DT52JKFZj5MVKqb1
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: indpndnt
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

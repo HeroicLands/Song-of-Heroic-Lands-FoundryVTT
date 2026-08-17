@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-playful
+  - trauma-playful
 tags: []
 name:
-    full: Playful
-    aliases: []
+  full: Playful
+  aliases: []
 id: NM0AUwRLfMP3q2ec
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: playful
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 

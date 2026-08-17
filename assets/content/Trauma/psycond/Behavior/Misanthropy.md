@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-msnthrpy
+  - trauma-msnthrpy
 tags: []
 name:
-    full: Misanthropy
-    aliases: []
+  full: Misanthropy
+  aliases: []
 id: eJl63KsBXvPbCpNK
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: msnthrpy
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

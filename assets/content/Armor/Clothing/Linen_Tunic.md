@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Linen Tunic
-    - armorgear-LTunic
+  - Linen Tunic
+  - armorgear-LTunic
 tags: []
 name:
-    full: Linen Tunic
-    aliases: []
+  full: Linen Tunic
+  aliases: []
 description: "Light breathable torso garment perfect for warm weather casual wear."
 id: DBAojQ8MtwRPa1kj
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,35 +13,35 @@ shortcode: LTunic
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Tunic
-    detailMaterial: Linen
-    material: Cloth
-    durability: 5
-    value: 23
-    weight: 0.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Tunic
+  detailMaterial: Linen
+  material: Cloth
+  durability: 5
+  value: 23
+  weight: 0.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 45
 origWeight: 2.3

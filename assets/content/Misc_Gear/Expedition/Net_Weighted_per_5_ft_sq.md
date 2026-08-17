@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Net, Weighted, per 5 ft sq."
-    - miscgear-netweighte
+  - "Net, Weighted, per 5 ft sq."
+  - miscgear-netweighte
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Net, Weighted, per 5 ft sq."
-    aliases: []
+  full: "Net, Weighted, per 5 ft sq."
+  aliases: []
 description: "Hempen fishing net with lead weights for casting and sinking."
 id: XwQlQpZX3XzLVrpm
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: netweighte
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 48
-    weight: 4.5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 48
+  weight: 4.5
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pilot's Instruments
-    - miscgear-pilotinstr
+  - Pilot's Instruments
+  - miscgear-pilotinstr
 tags:
-    - instruments
+  - instruments
 name:
-    full: Pilot's Instruments
-    aliases: []
+  full: Pilot's Instruments
+  aliases: []
 description: "Brass-bound case with compass, astrolabe, cross-staff, dividers, rule, charts; navigators."
 id: D5h49Papv0HVhcEJ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pilotinstr
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 180
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 180
+  weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

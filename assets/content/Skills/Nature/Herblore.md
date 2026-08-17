@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-herb
+  - skill-herb
 tags: []
 name:
-    full: Herblore
-    aliases: []
+  full: Herblore
+  aliases: []
 description: "Identifying, gathering, preparing plants for medicinal, culinary, mystical use."
 id: KfpVMJF4gXdlvwL4
 img: icons/game-icons/delapouite/herbs-bundle.svg
@@ -12,19 +12,19 @@ shortcode: herb
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

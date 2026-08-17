@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Oil, cinnamon"
-    - miscgear-oilcinnamon
+  - "Oil, cinnamon"
+  - miscgear-oilcinnamon
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Oil, cinnamon"
-    aliases: []
+  full: "Oil, cinnamon"
+  aliases: []
 description: "Distilled cinnamon oil; a costly perfumery base and a medicine."
 id: 8PydDHdaudrYFyNT
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: oilcinnamon
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: pfmy
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 60
-    weight: 0.0625
+  craft:
+    skill: pfmy
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 60
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

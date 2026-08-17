@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Harness, Horse"
-    - miscgear-harnesshor
+  - "Harness, Horse"
+  - miscgear-harnesshor
 tags:
-    - tack
+  - tack
 name:
-    full: "Harness, Horse"
-    aliases: []
+  full: "Harness, Horse"
+  aliases: []
 description: "Leather straps, brass rings, iron buckles; distributes wagon-pull across shoulders, chest."
 id: BFH8N4DwXnIpY2l3
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: harnesshor
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 18
-    weight: 8
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 18
+  weight: 8
 folder: WTIUTjADwAcpyv0H
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Keys
-    - miscgear-keys
+  - Keys
+  - miscgear-keys
 tags:
-    - expedition
+  - expedition
 name:
-    full: Keys
-    aliases: []
+  full: Keys
+  aliases: []
 description: "Iron keys on leather thong or ring; merchants and stewards carry daily."
 id: KXOlFoSlmxtoDVtk
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: keys
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: lock
-        secondary: [mtlc]
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 2
-    weight: 0.1
+  craft:
+    skill: lock
+    secondary: [mtlc]
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 2
+  weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

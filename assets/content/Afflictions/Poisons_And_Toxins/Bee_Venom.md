@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Bee Venom
-    - affliction-beevnm
+  - Bee Venom
+  - affliction-beevnm
 tags: []
 name:
-    full: Bee Venom
-    aliases: []
+  full: Bee Venom
+  aliases: []
 description: "Melittin; localized pain and swelling; systemic anaphylaxis in allergic individuals."
 id: jM1bgGvOxRJjIWZz
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -13,13 +13,13 @@ shortcode: beevnm
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

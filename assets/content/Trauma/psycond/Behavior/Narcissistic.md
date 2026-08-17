@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-nrcssstc
+  - trauma-nrcssstc
 tags: []
 name:
-    full: Narcissistic
-    aliases: []
+  full: Narcissistic
+  aliases: []
 id: odWkFnnjhkldU0XC
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: nrcssstc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

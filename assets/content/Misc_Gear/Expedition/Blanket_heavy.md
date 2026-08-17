@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Blanket, heavy
-    - miscgear-HvyBlkt
+  - Blanket, heavy
+  - miscgear-HvyBlkt
 tags:
-    - expedition
+  - expedition
 name:
-    full: Blanket, heavy
-    aliases: []
+  full: Blanket, heavy
+  aliases: []
 description: "Thick felted wool blanket; provides substantial winter warmth for sleeping."
 id: HWcP6rzzo1I4jLh3
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: HvyBlkt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 20
-    weight: 8
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 20
+  weight: 8
 folder: FSPVI1eObGEpMVck
 ---
 

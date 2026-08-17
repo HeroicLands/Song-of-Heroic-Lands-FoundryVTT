@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cnfrmst
+  - trauma-cnfrmst
 tags: []
 name:
-    full: Conformist
-    aliases: []
+  full: Conformist
+  aliases: []
 id: W2jFes7iMr1QY4kF
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfrmst
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Scale Byrnie
-    - armorgear-SByrn
+  - Scale Byrnie
+  - armorgear-SByrn
 tags: []
 name:
-    full: Scale Byrnie
-    aliases: []
+  full: Scale Byrnie
+  aliases: []
 description: "Fabric-backed overlapping metal scales; flexible torso defense."
 id: jk9kZHYxBW4JR67X
 img: icons/game-icons/lorc/scale-mail.svg
@@ -13,32 +13,32 @@ shortcode: SByrn
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide, mtlc]
-    kbcat: scale
-    archetype: 0
-    armorType: Byrnie
-    detailMaterial: Scale
-    material: Scale
-    durability: 14
-    value: 330
-    weight: 18.2
-    encumbrance: 10
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide, mtlc]
+  kbcat: scale
+  archetype: 0
+  armorType: Byrnie
+  detailMaterial: Scale
+  material: Scale
+  durability: 14
+  value: 330
+  weight: 18.2
+  encumbrance: 10
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+    - abdmnloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 330
 origWeight: 18.2

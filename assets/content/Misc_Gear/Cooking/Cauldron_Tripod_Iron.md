@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cauldron Tripod, Iron"
-    - miscgear-cauldrontr
+  - "Cauldron Tripod, Iron"
+  - miscgear-cauldrontr
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Cauldron Tripod, Iron"
-    aliases: []
+  full: "Cauldron Tripod, Iron"
+  aliases: []
 description: "Wrought-iron tripod frame for hanging cauldron over open fire."
 id: KBLgA14HSoLxxDaQ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cauldrontr
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 10
-    weight: 8
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 10
+  weight: 8
 folder: 7TT0OzoIoEn40zfs
 ---
 

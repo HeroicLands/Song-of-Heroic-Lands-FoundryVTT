@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Velvet Cap
-    - armorgear-VCap
+  - Velvet Cap
+  - armorgear-VCap
 tags: []
 name:
-    full: Velvet Cap
-    aliases: []
+  full: Velvet Cap
+  aliases: []
 description: "Soft plush velvet cap; luxury status symbol for formal settings."
 id: 1SNl6MM84Unpoleo
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: VCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Velvet
-    material: Cloth
-    durability: 10
-    value: 14
-    weight: 0.2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Velvet
+  material: Cloth
+  durability: 10
+  value: 14
+  weight: 0.2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 4
 origWeight: 0.2

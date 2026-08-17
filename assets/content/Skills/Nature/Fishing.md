@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-fish
+  - skill-fish
 tags: []
 name:
-    full: Fishing
-    aliases: []
+  full: Fishing
+  aliases: []
 description: "Catching fish using hooks, nets, spears; adapting to local conditions."
 id: udl3mzMb0IyASIVy
 img: icons/game-icons/delapouite/fishing.svg
@@ -12,19 +12,19 @@ shortcode: fish
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.per, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.per, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

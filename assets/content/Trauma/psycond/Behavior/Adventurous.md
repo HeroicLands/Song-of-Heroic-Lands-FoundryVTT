@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-advs
+  - trauma-advs
 tags: []
 name:
-    full: Adventurous
-    aliases: []
+  full: Adventurous
+  aliases: []
 id: 0TZN0CGGianrV453
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: advs
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

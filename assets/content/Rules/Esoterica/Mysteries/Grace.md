@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Grace
-    - doc-grace
+  - Grace
+  - doc-grace
 id: VQ3MeSUiAE2YxrER
 type: doc
 package: sohl
 category: rules
 name:
-    full: Grace
-    aliases: []
+  full: Grace
+  aliases: []
 folder: gmHoAXi9mq8O9DUn
 shortcode: grace
 ---

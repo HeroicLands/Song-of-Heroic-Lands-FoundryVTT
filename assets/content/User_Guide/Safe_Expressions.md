@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Safe Expressions
-    - SafeExpression
-    - doc-sfexprss
+  - Safe Expressions
+  - SafeExpression
+  - doc-sfexprss
 id: JvKYOVjZcqyqQHgj
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Safe Expressions"
+  full: "Safe Expressions"
 shortcode: sfexprss
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -59,9 +59,9 @@ The names in the expression (`level`, `injured`) are **context variables** — t
 
 - A bare name is looked up in the context you're given: `actorLogic`, `sm`, `itemLogic`. A name that isn't provided is an **error** (not silently empty).
 - Reach into a value with a **dot** or **brackets** — both read the same property:
-    - `itemLogic.name`
-    - `itemLogic.data.shortcode`
-    - `tags["ranged"]` (brackets let the key be text or an expression)
+  - `itemLogic.name`
+  - `itemLogic.data.shortcode`
+  - `tags["ranged"]` (brackets let the key be text or an expression)
 - **Chaining** is fine: `sm.parent.name`, `itemLogic.actorLogic.name`.
 - **Reading past nothing is safe.** If part of the path is missing or `null`, the whole read comes out as "nothing" rather than erroring — so `itemLogic.missing.deeper` is simply empty, not a crash. Pair this with `defined(...)` when a value is optional.
 

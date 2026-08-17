@@ -1,19 +1,19 @@
 ---
 aliases:
-    - Mastery Level
-    - ML
-    - Effective Mastery Level
-    - EML
-    - Skill Base
-    - Index
-    - doc-mstrylvl
+  - Mastery Level
+  - ML
+  - Effective Mastery Level
+  - EML
+  - Skill Base
+  - Index
+  - doc-mstrylvl
 id: uil7KCJxAUM4nXLC
 type: doc
 package: sohl
 category: rules
 name:
-    full: Mastery Level
-    aliases: []
+  full: Mastery Level
+  aliases: []
 folder: BTGA1PmN0VlBWpCm
 shortcode: mstrylvl
 ---

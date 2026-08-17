@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Kip (large calf)"
-    - miscgear-hidekiplar
+  - "Hide, Kip (large calf)"
+  - miscgear-hidekiplar
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Kip (large calf)"
-    aliases: []
+  full: "Hide, Kip (large calf)"
+  aliases: []
 description: "Large calf hide between calf and steer; splits into shoe-sole and vamp."
 id: 1kJVHXuzWJF18aBd
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidekiplar
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 0
-    weight: 5
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 0
+  weight: 5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

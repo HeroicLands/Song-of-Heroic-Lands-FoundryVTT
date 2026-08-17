@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hourglass"
-    - miscgear-hourglass
+  - "Hourglass"
+  - miscgear-hourglass
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Hourglass"
-    aliases: []
+  full: "Hourglass"
+  aliases: []
 description: "Paired glass bulbs and graded sand in a wooden frame; measures a fixed interval."
 id: KVccLSorqPZcNG7f
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hourglass
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 150
-    weight: 0.3
+  craft:
+    skill: glas
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 150
+  weight: 0.3
 folder: xniLjmZWYQZkSxyv
 ---
 

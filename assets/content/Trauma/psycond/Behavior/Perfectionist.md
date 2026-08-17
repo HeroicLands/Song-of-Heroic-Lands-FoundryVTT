@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-prfctnst
+  - trauma-prfctnst
 tags: []
 name:
-    full: Perfectionist
-    aliases: []
+  full: Perfectionist
+  aliases: []
 id: 4xBiroorPi6nLdal
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: prfctnst
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

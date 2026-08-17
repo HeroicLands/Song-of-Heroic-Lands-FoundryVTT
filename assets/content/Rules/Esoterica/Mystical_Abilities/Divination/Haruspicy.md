@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Haruspicy
-    - doc-hrspcy
+  - Haruspicy
+  - doc-hrspcy
 id: jlpNdIs8NF0IB4MP
 type: doc
 package: sohl
 category: rules
 name:
-    full: Haruspicy
-    aliases: []
+  full: Haruspicy
+  aliases: []
 shortcode: hrspcy
 folder: k6DghEucd6umnBJx
 ---

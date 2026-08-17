@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-effcttrg
+  - doc-effcttrg
 id: U0j0CeD2HOvqJ3UX
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Effect Targeting"
+  full: "Effect Targeting"
 shortcode: effcttrg
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -130,9 +130,9 @@ Combine conditions freely — `itemLogic.name === "Broadsword" && sm.name === "T
 # Troubleshooting
 
 - **Nothing changes.**
-    - Confirm the **Target Scope** matches what you meant to hit.
-    - For an item-kind or strike-mode scope, remember an **empty predicate matches everything** — if you typed a predicate, check it evaluates `true` for your target. A predicate that fails to parse matches **nothing** (and logs a warning to the console).
-    - Check the change **key** — a `mod:` key must resolve to a real modifier on the target.
+  - Confirm the **Target Scope** matches what you meant to hit.
+  - For an item-kind or strike-mode scope, remember an **empty predicate matches everything** — if you typed a predicate, check it evaluates `true` for your target. A predicate that fails to parse matches **nothing** (and logs a warning to the console).
+  - Check the change **key** — a `mod:` key must resolve to a real modifier on the target.
 - **Too many things changed.** Your predicate is too broad. Tighten it: compare an exact `itemLogic.data.shortcode`, or use `matches(...)` with anchored `^…$` patterns instead of loose substrings.
 - **The predicate won't save / shows an error.** It uses syntax the language doesn't allow (for example an assignment, a method call, or a loose `a == b` comparison). See [[doc-sfexprss|Safe Expressions]] for what's allowed.
 

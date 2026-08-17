@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-stoic
+  - trauma-stoic
 tags: []
 name:
-    full: Stoic
-    aliases: []
+  full: Stoic
+  aliases: []
 id: 45MGHY670oB7A5ln
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: stoic
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

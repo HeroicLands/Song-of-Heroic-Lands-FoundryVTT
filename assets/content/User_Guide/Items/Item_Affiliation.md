@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Affiliation
-    - doc-affltn
+  - Affiliation
+  - doc-affltn
 id: hJGjCXud883VX96W
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Affiliation"
+  full: "Affiliation"
 shortcode: affltn
 folder: QtOgPodi8X6gDWL0
 ---

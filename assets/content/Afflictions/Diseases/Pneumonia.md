@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-pnmna
+  - affliction-pnmna
 tags: []
 name:
-    full: Pneumonia
-    aliases: []
+  full: Pneumonia
+  aliases: []
 description: "Lung infection; fever, productive cough, chest pain, shortness of breath."
 id: GUSSUcyIBcWvRB1H
 img: icons/game-icons/lorc/virus.svg
@@ -12,13 +12,13 @@ shortcode: pnmna
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: airborne
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: airborne
 folder: 3lobflzDt8Hk6VrN
 ---
 

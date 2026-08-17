@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-pilt
+  - skill-pilt
 tags: []
 name:
-    full: Piloting
-    aliases: []
+  full: Piloting
+  aliases: []
 description: "Navigating watercraft through coastal waters, harbors, and dangerous passages."
 id: wemWW5uteGi8vVts
 img: icons/game-icons/delapouite/ship-wheel.svg
@@ -12,19 +12,19 @@ shortcode: pilt
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

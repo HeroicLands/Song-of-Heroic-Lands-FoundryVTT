@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-dysphn
+  - trauma-dysphn
 tags: []
 name:
-    full: Dysphonia
-    aliases: []
+  full: Dysphonia
+  aliases: []
 id: b50mWkG7YOA2mvOH
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dysphn
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

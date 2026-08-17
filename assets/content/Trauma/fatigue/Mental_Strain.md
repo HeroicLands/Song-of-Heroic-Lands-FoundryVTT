@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Mental Strain
-    - trauma-mentstn
+  - Mental Strain
+  - trauma-mentstn
 tags: []
 name:
-    full: Mental Strain
-    aliases: []
+  full: Mental Strain
+  aliases: []
 description: "Sustained weariness from prolonged mental effort — reading, scribing, calculation, deep focus."
 id: tz9rLDZ0N2vzJBJ8
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: mentstn
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weariness
+  levelBase: 1
+  healingRateBase: 3
 folder: Y22wv8plMCfPXYBT
 ---
 

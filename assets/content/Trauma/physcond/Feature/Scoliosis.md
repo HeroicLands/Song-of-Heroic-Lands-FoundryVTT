@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-sclss
+  - trauma-sclss
 tags: []
 name:
-    full: Scoliosis
-    aliases: []
+  full: Scoliosis
+  aliases: []
 id: H7iZYjKLbxq25bRs
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sclss
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: debility
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: debility
 folder: 4h8qyMcGHlkrfN1g
 ---
 

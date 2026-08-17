@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Serge Trousers
-    - armorgear-SgTrsr
+  - Serge Trousers
+  - armorgear-SgTrsr
 tags: []
 name:
-    full: Serge Trousers
-    aliases: []
+  full: Serge Trousers
+  aliases: []
 description: "Twilled serge trousers; practical, versatile everyday leg wear."
 id: B0ZxXBBPqqOVLi0g
 img: icons/game-icons/lorc/trousers.svg
@@ -13,33 +13,33 @@ shortcode: SgTrsr
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Trousers
-    detailMaterial: Serge
-    material: Cloth
-    durability: 7
-    value: 23
-    weight: 1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Trousers
+  detailMaterial: Serge
+  material: Cloth
+  durability: 7
+  value: 23
+  weight: 1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 39
 origWeight: 2

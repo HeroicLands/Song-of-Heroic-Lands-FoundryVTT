@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Afflictions
-    - doc-aflictions
+  - Afflictions
+  - doc-aflictions
 id: YX8E9Qy0Ysm66VsH
 name:
-    full: Afflictions
-    aliases: []
+  full: Afflictions
+  aliases: []
 type: doc
 category: collection
 package: sohl

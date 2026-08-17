@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Brandy, Dram"
-    - miscgear-brdydrm
+  - "Brandy, Dram"
+  - miscgear-brdydrm
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Brandy, Dram"
-    aliases: []
+  full: "Brandy, Dram"
+  aliases: []
 description: "Clear fiery distilled spirit; warms chest on winter roads, steadies trembling hands."
 id: fD7GLm6IzHncHQvm
 img: icons/game-icons/lorc/brandy-bottle.svg
@@ -14,15 +14,15 @@ shortcode: brdydrm
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 0.1
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 0.1
 folder: jLdeIpOIZokm8obv
 ---
 

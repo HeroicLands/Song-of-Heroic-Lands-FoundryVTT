@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Blanket, horse"
-    - miscgear-blankethorse
+  - "Blanket, horse"
+  - miscgear-blankethorse
 tags:
-    - tack
+  - tack
 name:
-    full: "Blanket, horse"
-    aliases: []
+  full: "Blanket, horse"
+  aliases: []
 description: "Coarse woven blanket for a horse, under saddle or against the cold."
 id: 9DfWDt6Fm8rRnWoz
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: blankethorse
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 144
-    weight: 4
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 144
+  weight: 4
 folder: WTIUTjADwAcpyv0H
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pen, quill"
-    - miscgear-penquill
+  - "Pen, quill"
+  - miscgear-penquill
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Pen, quill"
-    aliases: []
+  full: "Pen, quill"
+  aliases: []
 description: "Goose or swan feather; soft flowing strokes, dulls quickly, needs frequent resharpening."
 id: eFG6UDTsM6qqj4Mi
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: penquill
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 1
-    weight: 0.05
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 1
+  weight: 0.05
 folder: BYkA5NDQxTXDvsAC
 ---
 

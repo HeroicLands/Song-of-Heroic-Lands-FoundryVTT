@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Infection
-    - Infection Healing Test
-    - doc-infctn
+  - Infection
+  - Infection Healing Test
+  - doc-infctn
 id: oG7E0HWgfvWL6uUQ
 type: doc
 package: sohl
 category: rules
 name:
-    full: Infection
-    aliases: []
+  full: Infection
+  aliases: []
 folder: F4NGyU9QQgWwTcHe
 shortcode: infctn
 ---

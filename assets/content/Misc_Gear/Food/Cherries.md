@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Cherries
-    - miscgear-cherries
+  - Cherries
+  - miscgear-cherries
 tags:
-    - food
+  - food
 name:
-    full: Cherries
-    aliases: []
+  full: Cherries
+  aliases: []
 description: "Tart dried cherries from summer harvest; flavor game, sweeten puddings."
 id: gU0QGe745bFn1PGu
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cherries
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

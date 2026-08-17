@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-eng
+  - skill-eng
 tags: []
 name:
-    full: Engineering
-    aliases: []
+  full: Engineering
+  aliases: []
 description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."
 id: jKJI0RAuL2IEBDl3
 img: icons/game-icons/lorc/gears.svg
@@ -12,18 +12,18 @@ shortcode: eng
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: QlkEHXbk2EXlRiMM
 ---
 

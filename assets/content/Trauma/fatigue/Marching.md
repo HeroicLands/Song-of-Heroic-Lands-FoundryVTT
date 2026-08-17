@@ -1,11 +1,11 @@
 ---
 aliases:
-    - trauma-march
+  - trauma-march
 tags: []
 name:
-    full: Marching
-    aliases:
-        - Walking
+  full: Marching
+  aliases:
+    - Walking
 description: "Sustained weariness from long-distance walking at travel pace."
 id: q3cLJY0FJHMDiMaw
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: march
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weariness
+  levelBase: 1
+  healingRateBase: 3
 folder: Y22wv8plMCfPXYBT
 ---
 

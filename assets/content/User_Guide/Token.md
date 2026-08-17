@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Tokens
-    - doc-token
+  - Tokens
+  - doc-token
 id: cuzEYQJCbBO4RFDq
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Token"
+  full: "Token"
 shortcode: token
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -54,7 +54,7 @@ You never pick this action off the token. You pick **Opposed Test** on the skill
 ## What happens on screen
 
 1. **The standard test dialog opens** for your skill or attribute — the same pre-roll dialog every test uses (Target, the modifier breakdown, Situational Modifier, Success Level Modifier, and Roll Visibility). Its fields are described once on [[doc-baseitem|Base Item]]. Cancelling it abandons the whole contest.
-    - A contest adds one field the other tests do not have: a **Break Ties** checkbox, off by default. Leave it off and a tied contest is reported as a tie. Tick it when the situation cannot end in a draw — someone must go first, or one grip must give — and a tie will be settled for you: the higher d100 takes it, failing that the higher Mastery Level, failing that a d10 roll-off. Only the side starting the contest is asked, and the answer carries through to the result.
+   - A contest adds one field the other tests do not have: a **Break Ties** checkbox, off by default. Leave it off and a tied contest is reported as a tie. Tick it when the situation cannot end in a draw — someone must go first, or one grip must give — and a tie will be settled for you: the higher d100 takes it, failing that the higher Mastery Level, failing that a d10 roll-off. Only the side starting the contest is asked, and the answer carries through to the result.
 2. **Your roll posts to chat** as an ordinary test result card, showing the roll, the effective mastery level, and your success level.
 3. **The opposed-request card posts**, inviting the other side to answer.
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Lyre
-    - miscgear-lyre
+  - Lyre
+  - miscgear-lyre
 tags:
-    - music
+  - music
 name:
-    full: Lyre
-    aliases: []
+  full: Lyre
+  aliases: []
 description: "Ancient wooden frame, curved arms and strings; bright voice for hymns."
 id: llZHCs52rsg2ysfu
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lyre
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 120
-    weight: 3
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 120
+  weight: 3
 folder: ncTaRcZt0RFYz0Gq
 ---
 

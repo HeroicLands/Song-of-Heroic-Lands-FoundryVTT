@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Cloth Tunic
-    - armorgear-CTunic
+  - Cloth Tunic
+  - armorgear-CTunic
 tags: []
 name:
-    full: Cloth Tunic
-    aliases: []
+  full: Cloth Tunic
+  aliases: []
 description: "Simple cloth tunic offering comfort and warmth for daily wear."
 id: v0mRcS0ebr2uLmLO
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,35 +13,35 @@ shortcode: CTunic
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Tunic
-    detailMaterial: Cloth
-    material: Cloth
-    durability: 10
-    value: 45
-    weight: 2.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Tunic
+  detailMaterial: Cloth
+  material: Cloth
+  durability: 10
+  value: 45
+  weight: 2.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 45
 origWeight: 2.3

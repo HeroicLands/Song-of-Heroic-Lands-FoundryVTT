@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Healing Test
-    - Healing Tests
-    - doc-hlngtst
+  - Healing Test
+  - Healing Tests
+  - doc-hlngtst
 id: O1G83N1o9pJYVDbA
 type: doc
 package: sohl
 category: rules
 name:
-    full: Healing Test
-    aliases: []
+  full: Healing Test
+  aliases: []
 shortcode: hlngtst
 folder: F4NGyU9QQgWwTcHe
 ---

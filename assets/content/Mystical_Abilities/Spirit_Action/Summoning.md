@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-summ
+  - mysticalability-summ
 tags: []
 name:
-    full: Summoning
-    aliases: []
+  full: Summoning
+  aliases: []
 description: "Calling a spirit or other entity, and binding or bargaining it into service."
 id: oXYa53IldDytbfFq
 img: icons/game-icons/delapouite/enrage.svg
@@ -12,13 +12,13 @@ shortcode: summ
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: spiritaction
-    archetype: 0
-    subType: spiritaction
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: spiritaction
+  archetype: 0
+  subType: spiritaction
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 folder: u2uL4fjE2nKMfgbW
 ---
 

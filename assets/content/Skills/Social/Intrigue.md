@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-intr
+  - skill-intr
 tags: []
 name:
-    full: Intrigue
-    aliases: []
+  full: Intrigue
+  aliases: []
 description: "Detecting hidden motives, deception; unraveling plots and conspiracies."
 id: 2oOsN38lUZHGDinC
 img: icons/game-icons/lorc/cloak-dagger.svg
@@ -12,17 +12,17 @@ shortcode: intr
 type: skill
 package: sohl
 sohl:
-    kbcat: social
-    archetype: 0
-    subType: social
-    skillBaseFormula: "sb(attr.emp, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: social
+  archetype: 0
+  subType: social
+  skillBaseFormula: "sb(attr.emp, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: JBr2U30FsJTs8F3l
 ---
 

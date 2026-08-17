@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Trauma Introduction
-    - doc-traumaintro
+  - Trauma Introduction
+  - doc-traumaintro
 id: Np0h2gEc4EziXNeM
 type: doc
 package: sohl
 category: rules
 name:
-    full: Trauma Introduction
-    aliases: []
+  full: Trauma Introduction
+  aliases: []
 folder: 4SPG9O9H7puwZsve
 shortcode: traumaintro
 ---

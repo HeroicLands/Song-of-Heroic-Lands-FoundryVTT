@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Mithral
-    - miscgear-mithral
+  - Mithral
+  - miscgear-mithral
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Mithral
-    aliases: []
+  full: Mithral
+  aliases: []
 description: "Rare silvery metal harder than steel; prized by weaponcrafters and crown."
 id: ixv7k4H9lU1QAIug
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: mithral
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 7500
-    weight: 0.0625
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 7500
+  weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

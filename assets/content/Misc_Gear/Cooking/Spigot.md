@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Spigot
-    - miscgear-spigot
+  - Spigot
+  - miscgear-spigot
 tags:
-    - cooking
+  - cooking
 name:
-    full: Spigot
-    aliases: []
+  full: Spigot
+  aliases: []
 description: "Wooden or bronze spigot for controlling flow from barrel or large vessel."
 id: lp4u0RbB9AqqnwPU
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spigot
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 9
-    weight: 0
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 9
+  weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

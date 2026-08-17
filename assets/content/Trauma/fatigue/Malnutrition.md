@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-mlntxn
+  - trauma-mlntxn
 tags: []
 name:
-    full: Malnutrition
-    aliases: []
+  full: Malnutrition
+  aliases: []
 description: "Long-term weakness from depleted nutritional reserves."
 id: 64nItxYM9dSeqwTX
 img: icons/game-icons/lorc/sleepy.svg
@@ -12,12 +12,12 @@ shortcode: mlntxn
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weakness
+  levelBase: 1
+  healingRateBase: 1
 folder: Y22wv8plMCfPXYBT
 ---
 

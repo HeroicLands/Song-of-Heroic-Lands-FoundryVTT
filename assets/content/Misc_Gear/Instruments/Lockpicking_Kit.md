@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Lockpicking Kit
-    - miscgear-lkpickkit
+  - Lockpicking Kit
+  - miscgear-lkpickkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Lockpicking Kit
-    aliases: []
+  full: Lockpicking Kit
+  aliases: []
 description: "Concealable wallet of picks, rakes, and tension wrenches; thieves' lock-bypassing kit."
 id: rm5SGD57hKqA6iME
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lkpickkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 45
-    weight: 0.3
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 45
+  weight: 0.3
 folder: xniLjmZWYQZkSxyv
 ---
 

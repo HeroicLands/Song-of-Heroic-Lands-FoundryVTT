@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-selfpro
+  - trauma-selfpro
 tags: []
 name:
-    full: Self-protective
-    aliases: []
+  full: Self-protective
+  aliases: []
 id: hYanCELEhmAkCpEo
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: selfpro
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

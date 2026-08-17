@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Common Shark
-    - creature-cmmnshrk
+  - Common Shark
+  - creature-cmmnshrk
 tags:
-    - animal
+  - animal
 name:
-    full: Common Shark
-    aliases: []
+  full: Common Shark
+  aliases: []
 description: "A sleek oceanic predator honed for efficient killing, cruising warm and temperate seas and tracking prey through acute senses."
 id: Dlb33sZtEOy97jZz
 img: icons/game-icons/lorc/shark-jaws.svg
@@ -15,311 +15,311 @@ shortcode: cmmnshrk
 type: creature
 package: sohl
 sohl:
-    kbcat: animal
-    archetype: 0
-    attributes:
-        str: 15
-        end: 13
-        dex: 11
-        agl: 14
-        per: 15
-        aur: 10
-        wil: 12
-        rea: 6
-        cre: 5
-    attrRollFormula:
-        str: 1d6+11
-        end: 1d6+9
-        dex: 1d6+7
-        agl: 1d6+10
-        per: 1d6+11
-        aur: 1d4+7
-        wil: 1d6+8
-        rea: 1d4+3
-        cre: 1d4+2
-    body:
-        structure:
-            zones:
-                - name: Head
-                  shortcode: headzone
-                  probWeight: 3
-                - name: Body
-                  shortcode: torsozone
-                  probWeight: 5
-                - name: Tail
-                  shortcode: tailzone
-                  probWeight: 2
-            parts:
-                - name: Head
-                  shortcode: headpart
-                  bodyZoneCode: headzone
-                  roles:
-                      - vital
-                      - manipulator
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Body
-                  shortcode: torsopart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - core
-                  canHoldItem: false
-                  probWeight: 10
-                - name: Left Fin
-                  shortcode: lfinpart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 2
-                - name: Right Fin
-                  shortcode: rfinpart
-                  bodyZoneCode: torsozone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 2
-                - name: Tail
-                  shortcode: tailpart
-                  bodyZoneCode: tailzone
-                  roles:
-                      - locomotor
-                  canHoldItem: false
-                  probWeight: 10
-            locations:
-                - name: Head
-                  shortcode: headloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 5
-                  probWeight: 6
-                  protectionBase:
-                      blunt: 5
-                      edged: 4
-                      piercing: 3
-                      fire: 5
-                - name: Gills
-                  shortcode: gillloc
-                  bodyPartCode: headpart
-                  bleedingSusceptibility: high
-                  amputability: low
-                  shockValue: 5
-                  probWeight: 4
-                  protectionBase:
-                      blunt: 5
-                      edged: 4
-                      piercing: 3
-                      fire: 5
-                - name: Body
-                  shortcode: bodyloc
-                  bodyPartCode: torsopart
-                  bleedingSusceptibility: medium
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 6
-                  protectionBase:
-                      blunt: 5
-                      edged: 4
-                      piercing: 3
-                      fire: 5
-                - name: Underbelly
-                  shortcode: underbellyloc
-                  bodyPartCode: torsopart
-                  bleedingSusceptibility: high
-                  amputability: none
-                  shockValue: 4
-                  probWeight: 4
-                  protectionBase:
-                      blunt: 5
-                      edged: 4
-                      piercing: 3
-                      fire: 5
-                - name: Left Fin
-                  shortcode: lfinloc
-                  bodyPartCode: lfinpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 5
-                      edged: 4
-                      piercing: 3
-                      fire: 5
-                - name: Right Fin
-                  shortcode: rfinloc
-                  bodyPartCode: rfinpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 5
-                      edged: 4
-                      piercing: 3
-                      fire: 5
-                - name: Tail
-                  shortcode: tailloc
-                  bodyPartCode: tailpart
-                  bleedingSusceptibility: low
-                  amputability: medium
-                  shockValue: 2
-                  probWeight: 10
-                  protectionBase:
-                      blunt: 5
-                      edged: 4
-                      piercing: 3
-                      fire: 5
-        weight:
-            base: 400
-            calc: "400"
-        reachBase: 0
-        bodyScaleBase: 1.22
-        personalFatigue: enc + 5
-    currentMoveMedium: terrestrial
-    movementProfiles:
-        - medium: aquatic
-          feetPerRound: 80
-          leaguesPerWatch: 8
-          encumbrance: floor(wt/4)
-          strMod: -5 * floor((str - 10) / 2)
-          factors: []
-          disabled: false
-    defaultCombatGroup: null
-    items:
-        - shortcode: awar
-          type: skill
-          system:
-              masteryLevelBase: 70
-        - shortcode: stlth
-          type: skill
-          system:
-              masteryLevelBase: 65
-        - shortcode: sprt
-          type: mysticalability
-          system:
-              masteryLevelBase: 33
-        - shortcode: init
-          type: skill
-          system:
-              masteryLevelBase: 36
-        - shortcode: dge
-          type: skill
-          system:
-              masteryLevelBase: 56
-        - shortcode: shok
-          type: skill
-          system:
-              masteryLevelBase: 35
-        - name: Bite
-          type: skill
-          system:
-              shortcode: bite
-              subType: combattechnique
-              masteryLevelBase: 63
-              combatCategory: melee
-              impairedByRoles:
-                  - manipulator
-              strikeMode:
-                  type: melee
-                  shortcode: bite
-                  name: Bite
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 2
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 3
-                      aspect: piercing
-                  lengthBase: 1
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
-        - name: Tail Strike
-          type: skill
-          system:
-              shortcode: tail
-              subType: combattechnique
-              masteryLevelBase: 53
-              combatCategory: melee
-              impairedByRoles:
-                  - locomotor
-              strikeMode:
-                  type: melee
-                  shortcode: tail
-                  name: Tail Strike
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 4
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 0
-                      aspect: blunt
-                  lengthBase: 2
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
-        - name: Ram
-          type: skill
-          system:
-              shortcode: ram
-              subType: combattechnique
-              masteryLevelBase: 53
-              combatCategory: melee
-              impairedByRoles:
-                  - core
-              strikeMode:
-                  type: melee
-                  shortcode: ram
-                  name: Ram
-                  minParts: 1
-                  assocSkillCode: null
-                  attack:
-                      disabled: false
-                      spread: 4
-                      modifier: 0
-                  impactBase:
-                      numDice: 1
-                      die: 6
-                      modifier: 2
-                      aspect: blunt
-                  lengthBase: 1
-                  defense:
-                      block:
-                          disabled: true
-                          modifier: 0
-                          successLevelMod: 0
-                      counterstrike:
-                          disabled: false
-                          modifier: 0
-                          successLevelMod: 0
-                  traits:
-                      noBlock: true
+  kbcat: animal
+  archetype: 0
+  attributes:
+    str: 15
+    end: 13
+    dex: 11
+    agl: 14
+    per: 15
+    aur: 10
+    wil: 12
+    rea: 6
+    cre: 5
+  attrRollFormula:
+    str: 1d6+11
+    end: 1d6+9
+    dex: 1d6+7
+    agl: 1d6+10
+    per: 1d6+11
+    aur: 1d4+7
+    wil: 1d6+8
+    rea: 1d4+3
+    cre: 1d4+2
+  body:
+    structure:
+      zones:
+        - name: Head
+          shortcode: headzone
+          probWeight: 3
+        - name: Body
+          shortcode: torsozone
+          probWeight: 5
+        - name: Tail
+          shortcode: tailzone
+          probWeight: 2
+      parts:
+        - name: Head
+          shortcode: headpart
+          bodyZoneCode: headzone
+          roles:
+            - vital
+            - manipulator
+          canHoldItem: false
+          probWeight: 10
+        - name: Body
+          shortcode: torsopart
+          bodyZoneCode: torsozone
+          roles:
+            - core
+          canHoldItem: false
+          probWeight: 10
+        - name: Left Fin
+          shortcode: lfinpart
+          bodyZoneCode: torsozone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 2
+        - name: Right Fin
+          shortcode: rfinpart
+          bodyZoneCode: torsozone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 2
+        - name: Tail
+          shortcode: tailpart
+          bodyZoneCode: tailzone
+          roles:
+            - locomotor
+          canHoldItem: false
+          probWeight: 10
+      locations:
+        - name: Head
+          shortcode: headloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 5
+          probWeight: 6
+          protectionBase:
+            blunt: 5
+            edged: 4
+            piercing: 3
+            fire: 5
+        - name: Gills
+          shortcode: gillloc
+          bodyPartCode: headpart
+          bleedingSusceptibility: high
+          amputability: low
+          shockValue: 5
+          probWeight: 4
+          protectionBase:
+            blunt: 5
+            edged: 4
+            piercing: 3
+            fire: 5
+        - name: Body
+          shortcode: bodyloc
+          bodyPartCode: torsopart
+          bleedingSusceptibility: medium
+          amputability: none
+          shockValue: 4
+          probWeight: 6
+          protectionBase:
+            blunt: 5
+            edged: 4
+            piercing: 3
+            fire: 5
+        - name: Underbelly
+          shortcode: underbellyloc
+          bodyPartCode: torsopart
+          bleedingSusceptibility: high
+          amputability: none
+          shockValue: 4
+          probWeight: 4
+          protectionBase:
+            blunt: 5
+            edged: 4
+            piercing: 3
+            fire: 5
+        - name: Left Fin
+          shortcode: lfinloc
+          bodyPartCode: lfinpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 5
+            edged: 4
+            piercing: 3
+            fire: 5
+        - name: Right Fin
+          shortcode: rfinloc
+          bodyPartCode: rfinpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 5
+            edged: 4
+            piercing: 3
+            fire: 5
+        - name: Tail
+          shortcode: tailloc
+          bodyPartCode: tailpart
+          bleedingSusceptibility: low
+          amputability: medium
+          shockValue: 2
+          probWeight: 10
+          protectionBase:
+            blunt: 5
+            edged: 4
+            piercing: 3
+            fire: 5
+    weight:
+      base: 400
+      calc: "400"
+    reachBase: 0
+    bodyScaleBase: 1.22
+    personalFatigue: enc + 5
+  currentMoveMedium: terrestrial
+  movementProfiles:
+    - medium: aquatic
+      feetPerRound: 80
+      leaguesPerWatch: 8
+      encumbrance: floor(wt/4)
+      strMod: -5 * floor((str - 10) / 2)
+      factors: []
+      disabled: false
+  defaultCombatGroup: null
+  items:
+    - shortcode: awar
+      type: skill
+      system:
+        masteryLevelBase: 70
+    - shortcode: stlth
+      type: skill
+      system:
+        masteryLevelBase: 65
+    - shortcode: sprt
+      type: mysticalability
+      system:
+        masteryLevelBase: 33
+    - shortcode: init
+      type: skill
+      system:
+        masteryLevelBase: 36
+    - shortcode: dge
+      type: skill
+      system:
+        masteryLevelBase: 56
+    - shortcode: shok
+      type: skill
+      system:
+        masteryLevelBase: 35
+    - name: Bite
+      type: skill
+      system:
+        shortcode: bite
+        subType: combattechnique
+        masteryLevelBase: 63
+        combatCategory: melee
+        impairedByRoles:
+          - manipulator
+        strikeMode:
+          type: melee
+          shortcode: bite
+          name: Bite
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 2
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 6
+            modifier: 3
+            aspect: piercing
+          lengthBase: 1
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
+    - name: Tail Strike
+      type: skill
+      system:
+        shortcode: tail
+        subType: combattechnique
+        masteryLevelBase: 53
+        combatCategory: melee
+        impairedByRoles:
+          - locomotor
+        strikeMode:
+          type: melee
+          shortcode: tail
+          name: Tail Strike
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 4
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 6
+            modifier: 0
+            aspect: blunt
+          lengthBase: 2
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
+    - name: Ram
+      type: skill
+      system:
+        shortcode: ram
+        subType: combattechnique
+        masteryLevelBase: 53
+        combatCategory: melee
+        impairedByRoles:
+          - core
+        strikeMode:
+          type: melee
+          shortcode: ram
+          name: Ram
+          minParts: 1
+          assocSkillCode: null
+          attack:
+            disabled: false
+            spread: 4
+            modifier: 0
+          impactBase:
+            numDice: 1
+            die: 6
+            modifier: 2
+            aspect: blunt
+          lengthBase: 1
+          defense:
+            block:
+              disabled: true
+              modifier: 0
+              successLevelMod: 0
+            counterstrike:
+              disabled: false
+              modifier: 0
+              successLevelMod: 0
+          traits:
+            noBlock: true
 ---
 
 # Appearance {#appearance}

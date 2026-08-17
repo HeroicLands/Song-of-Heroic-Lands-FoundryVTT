@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-brnchts
+  - affliction-brnchts
 tags: []
 name:
-    full: Bronchitis
-    aliases: []
+  full: Bronchitis
+  aliases: []
 description: "Wet cough, fever, chest pain; inflames airways for weeks."
 id: 4DOGxp07TkUURNZP
 img: icons/game-icons/lorc/virus.svg
@@ -12,13 +12,13 @@ shortcode: brnchts
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: airborne
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: airborne
 folder: 3lobflzDt8Hk6VrN
 ---
 

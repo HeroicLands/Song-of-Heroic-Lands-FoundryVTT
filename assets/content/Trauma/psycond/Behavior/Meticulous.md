@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-mtcls
+  - trauma-mtcls
 tags: []
 name:
-    full: Meticulous
-    aliases: []
+  full: Meticulous
+  aliases: []
 id: 2HTpgtuavYX4qI7C
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mtcls
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

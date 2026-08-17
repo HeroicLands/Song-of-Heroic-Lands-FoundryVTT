@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Armorer's Kit
-    - miscgear-armrkit
+  - Armorer's Kit
+  - miscgear-armrkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Armorer's Kit
-    aliases: []
+  full: Armorer's Kit
+  aliases: []
 description: "Heavy canvas roll with mail pliers, dollies, planishing hammers, rivet set, strap stock; armor fitting and repair."
 id: eS2AB2TfJXWazOFx
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: armrkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 9
-    value: 140
-    weight: 18
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 9
+  value: 140
+  weight: 18
 folder: xniLjmZWYQZkSxyv
 ---
 

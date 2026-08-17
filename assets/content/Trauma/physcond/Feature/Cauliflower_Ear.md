@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Cauliflower Ear
-    - trauma-clflwrr
+  - Cauliflower Ear
+  - trauma-clflwrr
 tags: []
 name:
-    full: Cauliflower Ear
-    aliases: []
+  full: Cauliflower Ear
+  aliases: []
 id: PHTurncaCRTdjyIj
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: clflwrr
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

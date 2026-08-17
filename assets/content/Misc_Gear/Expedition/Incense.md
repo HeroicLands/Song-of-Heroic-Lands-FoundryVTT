@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Incense
-    - miscgear-incense
+  - Incense
+  - miscgear-incense
 tags:
-    - expedition
+  - expedition
 name:
-    full: Incense
-    aliases: []
+  full: Incense
+  aliases: []
 description: "Frankincense, myrrh, or eastern spices; marks holy occasions and scents chambers."
 id: QZ40lP6BlDleOp38
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: incense
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: pfmy
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 12
-    weight: 0.0625
+  craft:
+    skill: pfmy
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 12
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

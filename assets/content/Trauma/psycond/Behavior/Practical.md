@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-prctcl
+  - trauma-prctcl
 tags: []
 name:
-    full: Practical
-    aliases: []
+  full: Practical
+  aliases: []
 id: WyxYc20lGDaMlvyw
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: prctcl
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

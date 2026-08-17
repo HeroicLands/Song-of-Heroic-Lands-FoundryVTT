@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bowl, pewter"
-    - miscgear-bowlpewter
+  - "Bowl, pewter"
+  - miscgear-bowlpewter
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Bowl, pewter"
-    aliases: []
+  full: "Bowl, pewter"
+  aliases: []
 description: "Cast pewter bowl; durable, soft-sheen, and safe for food and drink."
 id: 01swWIzNFp9hP4B3
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bowlpewter
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 4
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 4
+  weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

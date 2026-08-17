@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-leprosy
+  - affliction-leprosy
 tags: []
 name:
-    full: Leprosy
-    aliases: []
+  full: Leprosy
+  aliases: []
 description: "Chronic bacterial infection; skin patches and nerve damage causing permanent disfigurement."
 id: ADyc8j8ugJpFufqk
 img: icons/game-icons/lorc/virus.svg
@@ -12,13 +12,13 @@ shortcode: leprosy
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 1
-    transmission: contact
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 1
+  transmission: contact
 folder: 3lobflzDt8Hk6VrN
 ---
 

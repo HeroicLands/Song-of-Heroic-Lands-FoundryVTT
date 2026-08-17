@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Mason's Kit
-    - miscgear-masonkit
+  - Mason's Kit
+  - miscgear-masonkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Mason's Kit
-    aliases: []
+  full: Mason's Kit
+  aliases: []
 description: "Heavy canvas roll with mallets, pitching tool, chisels, plumb, level; masons shape stone."
 id: 5TgRviAmJ1uhTkrR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: masonkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 9
-    value: 55
-    weight: 15
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 9
+  value: 55
+  weight: 15
 folder: xniLjmZWYQZkSxyv
 ---
 

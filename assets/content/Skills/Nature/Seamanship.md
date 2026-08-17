@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-smsh
+  - skill-smsh
 tags: []
 name:
-    full: Seamanship
-    aliases: []
+  full: Seamanship
+  aliases: []
 description: "Operating sailing vessels on open water through sails, weather, and crew management."
 id: kcc6EipA4khnm9FB
 img: icons/game-icons/lorc/anchor.svg
@@ -12,20 +12,20 @@ shortcode: smsh
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.wil, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.wil, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

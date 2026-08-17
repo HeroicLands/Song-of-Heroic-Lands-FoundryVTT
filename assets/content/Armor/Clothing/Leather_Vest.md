@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Leather Vest
-    - armorgear-LtVest
+  - Leather Vest
+  - armorgear-LtVest
 tags: []
 name:
-    full: Leather Vest
-    aliases: []
+  full: Leather Vest
+  aliases: []
 description: "Lightweight styled leather sleeveless garment offering minimal protection and edge."
 id: ONp5DMPQBkKPVZc5
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: LtVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Leather
-    material: Leather
-    durability: 9
-    value: 192
-    weight: 2.2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Leather
+  material: Leather
+  durability: 9
+  value: 192
+  weight: 2.2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 96
 origWeight: 3.6

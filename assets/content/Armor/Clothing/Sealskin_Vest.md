@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Sealskin Vest
-    - armorgear-SlsVest
+  - Sealskin Vest
+  - armorgear-SlsVest
 tags: []
 name:
-    full: Sealskin Vest
-    aliases: []
+  full: Sealskin Vest
+  aliases: []
 description: "Water-resistant seal-fur sleeveless vest; core protection from wet."
 id: wbOxCZK4RdY680A2
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: SlsVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Sealskin
-    material: Leather
-    durability: 11
-    value: 288
-    weight: 4.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Sealskin
+  material: Leather
+  durability: 11
+  value: 288
+  weight: 4.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 96
 origWeight: 3.6

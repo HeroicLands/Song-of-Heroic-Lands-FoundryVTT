@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Feathers
-    - miscgear-feathers
+  - Feathers
+  - miscgear-feathers
 tags:
-    - food
+  - food
 name:
-    full: Feathers
-    aliases: []
+  full: Feathers
+  aliases: []
 description: "Down and flight feathers; stuff quilts and padding, used for arrow fletching."
 id: hFxDjaThgTDwfZ2X
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: feathers
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 6
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 6
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

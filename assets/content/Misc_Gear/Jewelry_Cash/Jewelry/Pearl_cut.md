@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pearl, cut"
-    - miscgear-pearlcut
+  - "Pearl, cut"
+  - miscgear-pearlcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Pearl, cut"
-    aliases: []
+  full: "Pearl, cut"
+  aliases: []
 description: "Lustrous oyster gem, soft white-cream-pink; favored for delicate bracelets and necklaces."
 id: ZYtGL9b5sDXXTprJ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pearlcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 10
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 10
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

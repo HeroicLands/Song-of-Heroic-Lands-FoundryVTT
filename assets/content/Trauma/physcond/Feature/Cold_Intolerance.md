@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Cold Intolerance
-    - trauma-coldinto
+  - Cold Intolerance
+  - trauma-coldinto
 tags: []
 name:
-    full: Cold Intolerance
-    aliases: []
+  full: Cold Intolerance
+  aliases: []
 id: xDDnjoQmg0Tlv9NG
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: coldinto
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

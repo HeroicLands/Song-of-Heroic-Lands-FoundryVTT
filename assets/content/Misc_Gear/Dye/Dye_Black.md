@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Black"
-    - miscgear-dyeblk
+  - "Dye, Black"
+  - miscgear-dyeblk
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Black"
-    aliases: []
+  full: "Dye, Black"
+  aliases: []
 description: "Logwood or iron-tannate powder for deep, fast-set black cloth dye."
 id: 0a4A0iNff5YQu2ua
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyeblk
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 36
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 36
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

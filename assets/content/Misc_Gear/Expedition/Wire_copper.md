@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Wire, copper"
-    - miscgear-wirecopper
+  - "Wire, copper"
+  - miscgear-wirecopper
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Wire, copper"
-    aliases: []
+  full: "Wire, copper"
+  aliases: []
 description: "Flexible copper wire; does not rust, works for snares and armor binding."
 id: JEdrbS44lCEGYm7Z
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wirecopper
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 2
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 2
+  weight: 0
 folder: FSPVI1eObGEpMVck
 ---
 

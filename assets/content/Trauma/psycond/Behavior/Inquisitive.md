@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-inqstv
+  - trauma-inqstv
 tags: []
 name:
-    full: Inquisitive
-    aliases: []
+  full: Inquisitive
+  aliases: []
 id: CClK27QWUTdf6dM6
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: inqstv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

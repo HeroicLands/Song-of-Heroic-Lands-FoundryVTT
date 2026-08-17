@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Tarpaulin"
-    - miscgear-tarpaulin
+  - "Tarpaulin"
+  - miscgear-tarpaulin
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Tarpaulin"
-    aliases: []
+  full: "Tarpaulin"
+  aliases: []
 description: "Tarred canvas sheet for covering loads and shedding rain."
 id: r0rSw86zs37t7wzC
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tarpaulin
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 504
-    weight: 12
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 504
+  weight: 12
 folder: FSPVI1eObGEpMVck
 ---
 

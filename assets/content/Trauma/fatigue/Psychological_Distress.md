@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Psychological Distress
-    - trauma-psydist
+  - Psychological Distress
+  - trauma-psydist
 tags: []
 name:
-    full: Psychological Distress
-    aliases: []
+  full: Psychological Distress
+  aliases: []
 description: "Long-term weakness from sustained psychological strain."
 id: yd83oCkGuZe9cfxZ
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: psydist
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weakness
+  levelBase: 1
+  healingRateBase: 1
 folder: Y22wv8plMCfPXYBT
 ---
 

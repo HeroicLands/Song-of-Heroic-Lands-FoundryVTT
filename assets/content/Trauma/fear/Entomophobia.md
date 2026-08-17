@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-entmphb
+  - trauma-entmphb
 tags: []
 name:
-    full: Entomophobia
-    aliases: []
+  full: Entomophobia
+  aliases: []
 id: Jd2Lli0rggAbkUEX
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: entmphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

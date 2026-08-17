@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Back bag, med, leather"
-    - containergear-backbagmed
+  - "Back bag, med, leather"
+  - containergear-backbagmed
 tags: []
 name:
-    full: "Back bag, med, leather"
-    aliases: []
+  full: "Back bag, med, leather"
+  aliases: []
 description: "Moderate leather shoulder pouch for daily personal belongings."
 id: 0ff9DMYvUOotdFjO
 img: icons/game-icons/lorc/knapsack.svg
@@ -13,15 +13,15 @@ shortcode: backbagmed
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 30
-    value: 12
-    weight: 2
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 30
+  value: 12
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Tinderbox
-    - miscgear-tndrbx
+  - Tinderbox
+  - miscgear-tndrbx
 tags:
-    - lighting
+  - lighting
 name:
-    full: Tinderbox
-    aliases: []
+  full: Tinderbox
+  aliases: []
 description: "Iron box with charred linen, steel striker, flint; kindles fire anywhere."
 id: sVIqivW8l6eNVdSl
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tndrbx
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 6
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 6
+  weight: 2
 folder: csqutf8WiTRM8oru
 ---
 

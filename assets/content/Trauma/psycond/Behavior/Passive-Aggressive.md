@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-passivea
+  - trauma-passivea
 tags: []
 name:
-    full: Passive-Aggressive
-    aliases: []
+  full: Passive-Aggressive
+  aliases: []
 id: VL5nGA9H8M4d5Uc3
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: passivea
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

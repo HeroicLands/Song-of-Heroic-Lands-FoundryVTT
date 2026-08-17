@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Torch
-    - miscgear-torch2
+  - Torch
+  - miscgear-torch2
 tags:
-    - lighting
+  - lighting
 name:
-    full: Torch
-    aliases: []
+  full: Torch
+  aliases: []
 description: "Pitch-wrapped oakwood torch; bright, hot flame; common guard light, expendable."
 id: eIGrTkCcncTf8pTs
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: torch2
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 9
-    value: 1
-    weight: 1
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 9
+  value: 1
+  weight: 1
 folder: csqutf8WiTRM8oru
 ---
 

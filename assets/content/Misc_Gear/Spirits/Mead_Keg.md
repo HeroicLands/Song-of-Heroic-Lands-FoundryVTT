@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Mead, Keg"
-    - miscgear-mdkeg
+  - "Mead, Keg"
+  - miscgear-mdkeg
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Mead, Keg"
-    aliases: []
+  full: "Mead, Keg"
+  aliases: []
 description: "Honey-fermented mead; poor lord's luxury; warmed in winter, poured at feasts."
 id: 9iseHOtUDEZLNfUs
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: mdkeg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 55
-    weight: 88
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 55
+  weight: 88
 folder: jLdeIpOIZokm8obv
 ---
 

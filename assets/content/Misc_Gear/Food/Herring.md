@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Herring
-    - miscgear-herring
+  - Herring
+  - miscgear-herring
 tags:
-    - food
+  - food
 name:
-    full: Herring
-    aliases: []
+  full: Herring
+  aliases: []
 description: "Small oil-rich fish; smoked or salt-packed, heavily salted lasts indefinitely."
 id: ap7hFpUiRniVsNVG
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: herring
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 0.5
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

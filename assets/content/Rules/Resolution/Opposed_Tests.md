@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Opposed Test
-    - Opposed Success Test
-    - Victory Degrees
-    - Victory Stars
-    - doc-oppsdtst
+  - Opposed Test
+  - Opposed Success Test
+  - Victory Degrees
+  - Victory Stars
+  - doc-oppsdtst
 id: qu9CxTZmDhQa31YN
 type: doc
 package: sohl
 category: rules
 name:
-    full: Opposed Tests
-    aliases: []
+  full: Opposed Tests
+  aliases: []
 shortcode: oppsdtst
 folder: BTGA1PmN0VlBWpCm
 ---

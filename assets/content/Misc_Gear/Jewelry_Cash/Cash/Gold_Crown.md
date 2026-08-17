@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Gold Crown
-    - miscgear-gldcrwn
+  - Gold Crown
+  - miscgear-gldcrwn
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Gold Crown
-    aliases: []
+  full: Gold Crown
+  aliases: []
 description: "Royal-sealed gold coin; preferred exchange of merchants, nobles, realm foundation."
 id: ExbuiNKETmm6MxHv
 img: icons/game-icons/badges/coins.svg
@@ -14,15 +14,15 @@ shortcode: gldcrwn
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cash
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 240
-    weight: 0.0625
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cash
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 240
+  weight: 0.0625
 folder: TV3IMHs8SLZ1L1vv
 ---
 

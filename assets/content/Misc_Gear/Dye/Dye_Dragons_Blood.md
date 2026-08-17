@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Dragon's Blood"
-    - miscgear-dyedrgn
+  - "Dye, Dragon's Blood"
+  - miscgear-dyedrgn
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Dragon's Blood"
-    aliases: []
+  full: "Dye, Dragon's Blood"
+  aliases: []
 description: "Crimson resin powder; rich red dye for fine silk and noble garments."
 id: NVV2aU3wR59DnZRK
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyedrgn
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 170
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 170
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

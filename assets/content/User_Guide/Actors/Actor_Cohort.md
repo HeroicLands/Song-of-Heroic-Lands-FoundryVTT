@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Cohort
-    - doc-cohort
+  - Cohort
+  - doc-cohort
 id: 3uAE5ivwuwl1a1ir
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Cohort"
+  full: "Cohort"
 shortcode: cohort
 folder: sYK1BozT9xFcinXK
 ---

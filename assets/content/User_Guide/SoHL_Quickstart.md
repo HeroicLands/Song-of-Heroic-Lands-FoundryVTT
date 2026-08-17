@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Song of Herioc Lands Quickstart
-    - SoHL Quickstart
-    - doc-quickstart
+  - Song of Herioc Lands Quickstart
+  - SoHL Quickstart
+  - doc-quickstart
 id: nXSQAexjRb8kxrvn
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: Song of Heroic Lands Quickstart
-    alises: []
+  full: Song of Heroic Lands Quickstart
+  alises: []
 shortcode: quickstart
 folder: IgwaG8rAUUO9vrtz
 ---

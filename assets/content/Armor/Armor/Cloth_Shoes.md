@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Cloth Shoes
-    - armorgear-CShoe
+  - Cloth Shoes
+  - armorgear-CShoe
 tags: []
 name:
-    full: Cloth Shoes
-    aliases: []
+  full: Cloth Shoes
+  aliases: []
 description: "Breathable cloth footwear for casual, light-duty wear."
 id: 73wwnx8gaScrhdiA
 img: icons/game-icons/lorc/leather-boot.svg
@@ -13,28 +13,28 @@ shortcode: CShoe
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Shoes
-    detailMaterial: Cloth
-    material: Cloth
-    durability: 10
-    value: 7
-    weight: 0.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Shoes
+  detailMaterial: Cloth
+  material: Cloth
+  durability: 10
+  value: 7
+  weight: 0.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 7
 origWeight: 0.4

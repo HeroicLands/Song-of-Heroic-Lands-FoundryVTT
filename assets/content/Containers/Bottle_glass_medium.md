@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bottle, glass, medium"
-    - containergear-bottleglas2
+  - "Bottle, glass, medium"
+  - containergear-bottleglas2
 tags: []
 name:
-    full: "Bottle, glass, medium"
-    aliases: []
+  full: "Bottle, glass, medium"
+  aliases: []
 description: "Hand-blown glass bottle for apothecary use and merchants."
 id: Dgxqydb5XTDEZRla
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bottleglas2
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 4
-    value: 10
-    weight: 3
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 4
+  value: 10
+  weight: 3
 folder: dl8lJ729W1mFlDvt
 ---
 

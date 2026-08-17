@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Black Death
-    - affliction-blkdth
+  - Black Death
+  - affliction-blkdth
 tags: []
 name:
-    full: Black Death
-    aliases: []
+  full: Black Death
+  aliases: []
 description: "Pestilential fever with black buboes; highly contagious, usually fatal."
 id: 2syFpxzmukGOSUxx
 img: icons/game-icons/lorc/virus.svg
@@ -13,13 +13,13 @@ shortcode: blkdth
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: 3lobflzDt8Hk6VrN
 ---
 

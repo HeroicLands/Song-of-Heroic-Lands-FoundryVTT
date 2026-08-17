@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-hyprcss
+  - trauma-hyprcss
 tags: []
 name:
-    full: Hyperacusis
-    aliases: []
+  full: Hyperacusis
+  aliases: []
 id: up0PMJxnaEFHqBDy
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: hyprcss
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

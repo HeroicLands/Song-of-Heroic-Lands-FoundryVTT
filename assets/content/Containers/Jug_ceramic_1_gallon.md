@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jug, ceramic, 1 gallon"
-    - containergear-jugcer1gal
+  - "Jug, ceramic, 1 gallon"
+  - containergear-jugcer1gal
 tags: []
 name:
-    full: "Jug, ceramic, 1 gallon"
-    aliases: []
+  full: "Jug, ceramic, 1 gallon"
+  aliases: []
 description: "Narrow-necked earthenware jug with a loop handle for pouring (1 gallon)."
 id: sNcVwuK9RS6U02UG
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jugcer1gal
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 8
-    value: 9
-    weight: 5
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 8
+  value: 9
+  weight: 5
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bacon
-    - miscgear-bacon
+  - Bacon
+  - miscgear-bacon
 tags:
-    - food
+  - food
 name:
-    full: Bacon
-    aliases: []
+  full: Bacon
+  aliases: []
 description: "Salt-cured pork belly cold-smoked; keeps through summer, enriches bread or pottage."
 id: tT0TrgOmwLYrVxqR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bacon
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1.25
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1.25
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

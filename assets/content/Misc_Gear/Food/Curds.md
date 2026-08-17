@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Curds
-    - miscgear-curds
+  - Curds
+  - miscgear-curds
 tags:
-    - food
+  - food
 name:
-    full: Curds
-    aliases: []
+  full: Curds
+  aliases: []
 description: "Soft fresh curd drained from whey; eaten warm with salt or honey."
 id: owQxSTkEEyYBk7xe
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: curds
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-cmbtbscs
+  - doc-cmbtbscs
 id: Mi1p8gYEKJ91dxsM
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Combat Basics"
+  full: "Combat Basics"
 shortcode: cmbtbscs
 folder: IgwaG8rAUUO9vrtz
 ---

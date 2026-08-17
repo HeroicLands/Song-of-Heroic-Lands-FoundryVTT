@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-ovrchvr
+  - trauma-ovrchvr
 tags: []
 name:
-    full: Overachiever
-    aliases: []
+  full: Overachiever
+  aliases: []
 id: JBlNG1VriCxwttkR
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ovrchvr
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

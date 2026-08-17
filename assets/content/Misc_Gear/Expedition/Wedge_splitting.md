@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Wedge, splitting"
-    - miscgear-wedgesplit
+  - "Wedge, splitting"
+  - miscgear-wedgesplit
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Wedge, splitting"
-    aliases: []
+  full: "Wedge, splitting"
+  aliases: []
 description: "Steel wedge for cleaving logs; lasts years and saves labor on campaign."
 id: L71iKjCGM000Nhv4
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wedgesplit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 18
-    weight: 3
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 18
+  weight: 3
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Projectiles
-    - doc-projectils
+  - Projectiles
+  - doc-projectils
 id: DuzvuEQp2xMqiZWY
 name:
-    full: Projectiles
-    aliases: []
+  full: Projectiles
+  aliases: []
 type: doc
 category: collection
 package: sohl

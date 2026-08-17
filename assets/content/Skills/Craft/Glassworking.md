@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-glas
+  - skill-glas
 tags: []
 name:
-    full: Glassworking
-    aliases: []
+  full: Glassworking
+  aliases: []
 description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."
 id: Q0KPXtE0ZsH1YION
 img: icons/game-icons/lorc/round-bottom-flask.svg
@@ -12,19 +12,19 @@ shortcode: glas
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.per, attr.dex)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.per, attr.dex)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

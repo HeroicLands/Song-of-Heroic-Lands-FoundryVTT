@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Fine Talc
-    - miscgear-talc
+  - Fine Talc
+  - miscgear-talc
 tags:
-    - expedition
+  - expedition
 name:
-    full: Fine Talc
-    aliases: []
+  full: Fine Talc
+  aliases: []
 description: "Fine mineral powder; dries sweat, prevents chafing, dusts wounds, and gives grip to the climber's or wrestler's hands."
 id: AMiSwMSeSCPtfy0M
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: talc
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 10
-    weight: 0.0625
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 10
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

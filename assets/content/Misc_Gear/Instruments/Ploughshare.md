@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ploughshare"
-    - miscgear-ploughshare
+  - "Ploughshare"
+  - miscgear-ploughshare
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Ploughshare"
-    aliases: []
+  full: "Ploughshare"
+  aliases: []
 description: "Iron cutting share for a plough; the costliest iron on most farms."
 id: Dl9gY8B3QvdEm2Lp
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: ploughshare
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 9
-    value: 90
-    weight: 12
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 9
+  value: 90
+  weight: 12
 folder: xniLjmZWYQZkSxyv
 ---
 

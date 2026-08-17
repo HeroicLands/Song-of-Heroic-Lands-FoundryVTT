@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-ritual
+  - skill-ritual
 tags: []
 name:
-    full: Ritual
-    aliases: []
+  full: Ritual
+  aliases: []
 description: "Conducting ceremonies, rites, and worship services for one's faith."
 id: K7tJynLhxSDiajCo
 img: icons/game-icons/delapouite/circle.svg
@@ -12,19 +12,19 @@ shortcode: ritual
 type: skill
 package: sohl
 sohl:
-    kbcat: mystical
-    archetype: 0
-    subType: ritual
-    skillBaseFormula: "sb(attr.wil, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: mystical
+  archetype: 0
+  subType: ritual
+  skillBaseFormula: "sb(attr.wil, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: IY7snVGTGcpTxofH
 ---
 

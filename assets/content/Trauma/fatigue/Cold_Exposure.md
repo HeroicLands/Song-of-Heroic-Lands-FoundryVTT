@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Cold Exposure
-    - trauma-coldexp
+  - Cold Exposure
+  - trauma-coldexp
 tags: []
 name:
-    full: Cold Exposure
-    aliases: []
+  full: Cold Exposure
+  aliases: []
 description: "Sustained weariness from prolonged cold exposure short of hypothermia."
 id: 3r8IGjIBY9yG26cD
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: coldexp
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weariness
+  levelBase: 1
+  healingRateBase: 3
 folder: Y22wv8plMCfPXYBT
 ---
 

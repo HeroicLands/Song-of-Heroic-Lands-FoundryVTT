@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Goblet, glass"
-    - miscgear-gobletglas
+  - "Goblet, glass"
+  - miscgear-gobletglas
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Goblet, glass"
-    aliases: []
+  full: "Goblet, glass"
+  aliases: []
 description: "Stemmed glass goblet; rare and costly for formal feasts and display."
 id: oqvxrbmO7YWqzAdR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: gobletglas
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 48
-    weight: 0.5
+  craft:
+    skill: glas
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 48
+  weight: 0.5
 folder: 7TT0OzoIoEn40zfs
 ---
 

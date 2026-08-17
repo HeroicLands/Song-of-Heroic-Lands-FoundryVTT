@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pie, Meat"
-    - miscgear-piemeat
+  - "Pie, Meat"
+  - miscgear-piemeat
 tags:
-    - food
+  - food
 name:
-    full: "Pie, Meat"
-    aliases: []
+  full: "Pie, Meat"
+  aliases: []
 description: "Baked dough with minced spiced meat, feeds one hungry traveler daily."
 id: 5KTKyCgbX1JLHa6X
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: piemeat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cook
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 0.5
+  craft:
+    skill: cook
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

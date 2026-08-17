@@ -1,12 +1,12 @@
 ---
 aliases:
-    - String
-    - miscgear-string
+  - String
+  - miscgear-string
 tags:
-    - expedition
+  - expedition
 name:
-    full: String
-    aliases: []
+  full: String
+  aliases: []
 description: "Twisted twine bundled for bundling firewood and lashing bedrolls closed."
 id: SvzA3O5YNkcycWAk
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: string
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 2
-    weight: 0.1
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 2
+  weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

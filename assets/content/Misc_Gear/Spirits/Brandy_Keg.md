@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Brandy, Keg"
-    - miscgear-brdykeg
+  - "Brandy, Keg"
+  - miscgear-brdykeg
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Brandy, Keg"
-    aliases: []
+  full: "Brandy, Keg"
+  aliases: []
 description: "Distilled wine spirit in sealed keg; merchant treasure, used sparingly as medicine."
 id: JRLlJbNluuULHoLV
 img: icons/game-icons/lorc/brandy-bottle.svg
@@ -14,15 +14,15 @@ shortcode: brdykeg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 360
-    weight: 85
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 360
+  weight: 85
 folder: jLdeIpOIZokm8obv
 ---
 

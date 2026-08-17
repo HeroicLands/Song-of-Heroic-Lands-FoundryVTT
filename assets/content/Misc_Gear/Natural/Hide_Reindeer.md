@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Reindeer"
-    - miscgear-hidereinde
+  - "Hide, Reindeer"
+  - miscgear-hidereinde
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Reindeer"
-    aliases: []
+  full: "Hide, Reindeer"
+  aliases: []
 description: "Thick northern hide; salted, dried, water-resistant; arctic cloaks."
 id: 9n4GUpB7HjBkHnCP
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidereinde
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 16
-    weight: 4.5
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 16
+  weight: 4.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

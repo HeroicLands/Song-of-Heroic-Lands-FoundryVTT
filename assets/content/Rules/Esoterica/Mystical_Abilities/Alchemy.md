@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Alchemy
-    - doc-alchemy
+  - Alchemy
+  - doc-alchemy
 id: 1qMLpYvFGBZ6dLgh
 type: doc
 package: sohl
 category: rules
 name:
-    full: Alchemy
-    aliases: []
+  full: Alchemy
+  aliases: []
 shortcode: alchemy
 folder: J8ppkzls4ERyzTpv
 ---

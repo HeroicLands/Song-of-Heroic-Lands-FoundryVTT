@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-monophb
+  - trauma-monophb
 tags: []
 name:
-    full: Monophobia
-    aliases: []
+  full: Monophobia
+  aliases: []
 id: C0mcJriSUJrhOm68
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: monophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

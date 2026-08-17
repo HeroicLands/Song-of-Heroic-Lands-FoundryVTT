@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-ridg
+  - skill-ridg
 tags: []
 name:
-    full: Riding
-    aliases: []
+  full: Riding
+  aliases: []
 description: "Controlling mounted animals through communication and empathic connection."
 id: mARFb83ni5upS4h3
 img: icons/game-icons/delapouite/cavalry.svg
@@ -12,19 +12,19 @@ shortcode: ridg
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.emp, attr.agl)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 1
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.emp, attr.agl)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 1
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: Yt9THlZ0NT8H6aSK
 ---
 

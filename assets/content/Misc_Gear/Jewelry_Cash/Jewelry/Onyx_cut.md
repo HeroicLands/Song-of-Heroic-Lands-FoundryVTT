@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Onyx, cut"
-    - miscgear-onyxcut
+  - "Onyx, cut"
+  - miscgear-onyxcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Onyx, cut"
-    aliases: []
+  full: "Onyx, cut"
+  aliases: []
 description: "Black-and-white banded chalcedony; striking striped pattern, favored for signet rings."
 id: tNBtfRIBwXrvgW3a
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: onyxcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 20
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 20
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

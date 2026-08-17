@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-agri
+  - skill-agri
 tags: []
 name:
-    full: Agriculture
-    aliases: []
+  full: Agriculture
+  aliases: []
 description: "Cultivating crops, tending orchards, assessing land and harvest value."
 id: i0ILSAgGcKWCKFa4
 img: icons/game-icons/lorc/wheat.svg
@@ -12,20 +12,20 @@ shortcode: agri
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.per, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.per, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

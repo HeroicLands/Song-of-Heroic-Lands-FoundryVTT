@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Vest
-    - armorgear-PVest
+  - Padded Vest
+  - armorgear-PVest
 tags: []
 name:
-    full: Padded Vest
-    aliases: []
+  full: Padded Vest
+  aliases: []
 description: "Quilted linen vest; inner padding offers warmth and under-armor cushioning."
 id: NMUYUZPdUl0yzC21
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: PVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 48
-    weight: 1.9
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 48
+  weight: 1.9
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 48
 origWeight: 1.9

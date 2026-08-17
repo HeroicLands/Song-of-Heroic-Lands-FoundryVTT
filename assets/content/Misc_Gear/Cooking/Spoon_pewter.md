@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Spoon, pewter"
-    - miscgear-spoonpewte
+  - "Spoon, pewter"
+  - miscgear-spoonpewte
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Spoon, pewter"
-    aliases: []
+  full: "Spoon, pewter"
+  aliases: []
 description: "Cast pewter spoon with deepened bowl for eating and stirring cooking."
 id: aOdhzoCjhmU8eiOb
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spoonpewte
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 4
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 4
+  weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

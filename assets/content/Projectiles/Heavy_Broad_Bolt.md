@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Heavy Broad Bolt
-    - projectilegear-BltHBrd
+  - Heavy Broad Bolt
+  - projectilegear-BltHBrd
 tags: []
 name:
-    full: Heavy Broad Bolt
-    alias: []
+  full: Heavy Broad Bolt
+  alias: []
 description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted rider."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: BltHBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Broad
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.22
-    weight: 1.25
-    impact:
-        die: 12
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: true
-    subType: bolt
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.22
+  weight: 1.25
+  impact:
+    die: 12
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: true
+  subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

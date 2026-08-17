@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Affiliations
-    - doc-affiliation
+  - Affiliations
+  - doc-affiliation
 id: l6WtRZ8ua1K0wZOK
 type: doc
 package: sohl
 category: rules
 name:
-    full: Affiliations
-    aliases: []
+  full: Affiliations
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: affiliation
 ---

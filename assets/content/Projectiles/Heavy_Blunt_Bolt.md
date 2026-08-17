@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Heavy Blunt Bolt
-    - projectilegear-BltHBlt
+  - Heavy Blunt Bolt
+  - projectilegear-BltHBlt
 tags: []
 name:
-    full: Heavy Blunt Bolt
-    alias: []
+  full: Heavy Blunt Bolt
+  alias: []
 description: "Heavy hardwood quarrel with ball head; breaks ribs, clears crowds bloodlessly."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: BltHBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Blunt
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    subType: bolt
-    quality: 0
-    durability: 10
-    value: 0.22
-    weight: 1.25
-    impact:
-        die: 6
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: true
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  subType: bolt
+  quality: 0
+  durability: 10
+  value: 0.22
+  weight: 1.25
+  impact:
+    die: 6
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: true
 folder: ADQPHjgKsdWsJhyy
 ---
 

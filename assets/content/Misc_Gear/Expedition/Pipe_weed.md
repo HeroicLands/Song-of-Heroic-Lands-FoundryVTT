@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pipe weed
-    - miscgear-pipewd
+  - Pipe weed
+  - miscgear-pipewd
 tags:
-    - expedition
+  - expedition
 name:
-    full: Pipe weed
-    aliases: []
+  full: Pipe weed
+  aliases: []
 description: "Dried tobacco leaf for smoking; eases fatigue and steadies nerves."
 id: lyjo9CSEafzkiqdW
 img: icons/game-icons/delapouite/herbs-bundle.svg
@@ -14,15 +14,15 @@ shortcode: pipewd
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 0.0625
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

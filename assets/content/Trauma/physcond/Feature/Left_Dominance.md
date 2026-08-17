@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Left Dominance
-    - trauma-ldmnc
+  - Left Dominance
+  - trauma-ldmnc
 tags: []
 name:
-    full: Left Dominance
-    aliases: []
+  full: Left Dominance
+  aliases: []
 id: 4Nm0R6l7HXN8tMoP
 img: icons/game-icons/lorc/hand.svg
 shortcode: ldmnc
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

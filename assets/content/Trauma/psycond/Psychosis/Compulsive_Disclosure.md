@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Compulsive Disclosure
-    - trauma-cmpldsr
+  - Compulsive Disclosure
+  - trauma-cmpldsr
 tags: []
 name:
-    full: Compulsive Disclosure
-    aliases: []
+  full: Compulsive Disclosure
+  aliases: []
 id: cdUAhDMigdEaouPr
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cmpldsr
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

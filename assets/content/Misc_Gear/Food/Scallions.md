@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Scallions
-    - miscgear-scallions
+  - Scallions
+  - miscgear-scallions
 tags:
-    - food
+  - food
 name:
-    full: Scallions
-    aliases: []
+  full: Scallions
+  aliases: []
 description: "Young onions with tender greens, fresh or dried, early spring crop."
 id: vy9PHXkco5cAtf75
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: scallions
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

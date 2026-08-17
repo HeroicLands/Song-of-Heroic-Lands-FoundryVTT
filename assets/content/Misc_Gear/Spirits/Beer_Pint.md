@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Beer, Pint"
-    - miscgear-beerpt
+  - "Beer, Pint"
+  - miscgear-beerpt
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Beer, Pint"
-    aliases: []
+  full: "Beer, Pint"
+  aliases: []
 description: "Weak cheap small-beer; laborer's drink; safe, ever-present in garrisons."
 id: k9HWSSECOIT1TaqZ
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: beerpt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

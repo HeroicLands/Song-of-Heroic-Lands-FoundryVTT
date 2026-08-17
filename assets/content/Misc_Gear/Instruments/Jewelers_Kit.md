@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Jeweler's Kit
-    - miscgear-jewelerskt
+  - Jeweler's Kit
+  - miscgear-jewelerskt
 tags:
-    - instruments
+  - instruments
 name:
-    full: Jeweler's Kit
-    aliases: []
+  full: Jeweler's Kit
+  aliases: []
 description: "Fine leather roll with graduated files, pin hammer, pliers, loupe, tweezers, drawplate, burnishers; goldsmiths' precision tools."
 id: E00iP87U4KX47oJl
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: jewelerskt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 55
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 55
+  weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

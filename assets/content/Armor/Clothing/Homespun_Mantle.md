@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Homespun Mantle
-    - armorgear-HsMntl
+  - Homespun Mantle
+  - armorgear-HsMntl
 tags: []
 name:
-    full: Homespun Mantle
-    aliases: []
+  full: Homespun Mantle
+  aliases: []
 description: "Simple homemade mantle providing weather protection for folk."
 id: 3Ya3ZFTchRKrCj3Z
 img: icons/game-icons/delapouite/cape.svg
@@ -13,31 +13,31 @@ shortcode: HsMntl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Mantle
-    detailMaterial: Homespun
-    material: Cloth
-    durability: 5
-    value: 6
-    weight: 0.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Mantle
+  detailMaterial: Homespun
+  material: Cloth
+  durability: 5
+  value: 6
+  weight: 0.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 21
 origWeight: 1.1

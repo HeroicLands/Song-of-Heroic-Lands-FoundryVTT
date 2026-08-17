@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-innvtv
+  - trauma-innvtv
 tags: []
 name:
-    full: Innovative
-    aliases: []
+  full: Innovative
+  aliases: []
 id: vBN4QkHETMR4kl9C
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: innvtv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

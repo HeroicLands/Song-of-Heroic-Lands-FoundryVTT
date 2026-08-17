@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-mill
+  - skill-mill
 tags: []
 name:
-    full: Milling
-    aliases: []
+  full: Milling
+  aliases: []
 description: "Processing grain into flour and meal using mill mechanics and stone-dressing."
 id: ojQ9h4Gv5xdDuCWm
 img: icons/game-icons/caro-asercion/water-mill.svg
@@ -12,19 +12,19 @@ shortcode: mill
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.per, attr.str)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.per, attr.str)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

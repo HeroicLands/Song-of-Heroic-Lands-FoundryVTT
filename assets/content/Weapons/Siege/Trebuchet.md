@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Trebuchet
-    - weapongear-Trebch
+  - Trebuchet
+  - weapongear-Trebch
 tags: []
 name:
-    full: Trebuchet
-    aliases: []
+  full: Trebuchet
+  aliases: []
 description: "Counterweight stone-thrower; the heaviest engine there is, and the only one that breaks a curtain wall."
 id: qrtobJZE7dJMGgII
 img: icons/game-icons/lorc/stone-sphere.svg
@@ -13,61 +13,61 @@ shortcode: Trebch
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: siege
-    archetype: 0
-    durability: 17
-    weight: 12000
-    value: 5000
-    heft: 0
-    weaponType: Siege
-    strikeModes:
-        - shortcode: shoot
-          type: missile
-          name: Shoot
-          assocSkillCode: slng
-          minParts: 2
-          attack:
-              spread: 0
-              modifier: 0
-          impactBase:
-              numDice: 0
-              die: null
-              modifier: 45
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 0
-              AR: 0
-              noAttack: false
-              noBlock: true
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: true
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: true
-              halfImpact: false
-              lowAim: false
-          projectileType: bullet
-          maxVolleyMult: 4
-          baseRangeBase: 250
-          drawBase: 0
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: siege
+  archetype: 0
+  durability: 17
+  weight: 12000
+  value: 5000
+  heft: 0
+  weaponType: Siege
+  strikeModes:
+    - shortcode: shoot
+      type: missile
+      name: Shoot
+      assocSkillCode: slng
+      minParts: 2
+      attack:
+        spread: 0
+        modifier: 0
+      impactBase:
+        numDice: 0
+        die: null
+        modifier: 45
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 0
+        AR: 0
+        noAttack: false
+        noBlock: true
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: true
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: true
+        halfImpact: false
+        lowAim: false
+      projectileType: bullet
+      maxVolleyMult: 4
+      baseRangeBase: 250
+      drawBase: 0
 folder: HXiYHvG6igI3Wlmm
 ---
 

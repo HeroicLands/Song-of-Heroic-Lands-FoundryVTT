@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-numbness
+  - trauma-numbness
 tags: []
 name:
-    full: Numbness
-    aliases: []
+  full: Numbness
+  aliases: []
 id: j0NeWsSf7kLV2nPh
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: numbness
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

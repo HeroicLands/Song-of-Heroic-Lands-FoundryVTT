@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Disguise Kit
-    - miscgear-disgkit
+  - Disguise Kit
+  - miscgear-disgkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Disguise Kit
-    aliases: []
+  full: Disguise Kit
+  aliases: []
 description: "Cloth-wrapped case with pigments, wax, false hair, padding, voice-pipe, mirror; used with the Theatrics skill to alter one's appearance."
 id: X8piX0dZUKOIwPMQ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: disgkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 55
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 55
+  weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

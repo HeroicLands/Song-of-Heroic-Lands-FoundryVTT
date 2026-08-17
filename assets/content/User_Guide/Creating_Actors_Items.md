@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-crtngact
+  - doc-crtngact
 id: t5Fr0y9WRvj8YeGD
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Creating Actors and Items"
+  full: "Creating Actors and Items"
 shortcode: crtngact
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -25,11 +25,11 @@ The **Create Actor** button now starts you from a populated template — an **ar
 
 1. Click the **Create Actor** button at the top of the Actors sidebar tab.
 2. The Create dialog offers these fields:
-    - **Name** — the actor's name.
-    - **Shortcode** — a short code that must be **unique among documents of the same type** (it is how the system looks this document up). It auto-fills from the name (and stays in sync as you type) until you edit it by hand; leave it and the system derives and uniquifies one for you on create. If you type a code that is already taken by another document of the same type, the dialog flags it and **Create stays disabled until you pick a unique one**. (Documents of _different_ types may safely share a code.) See [[doc-shrtcds|Shortcodes]] for why the shortcode is the actor's identity — two actors of the same type that share one are treated as the same thing.
-    - **Type** — the actor type (Being, Cohort, Structure, Vehicle).
-    - **SubType** — shown only for types that have subtypes.
-    - **Archetype** — the starting template. It defaults to the best-matching populated archetype for the chosen type (for a Being, "Basic Folk"), and lists every archetype available for that type plus **(none)**.
+   - **Name** — the actor's name.
+   - **Shortcode** — a short code that must be **unique among documents of the same type** (it is how the system looks this document up). It auto-fills from the name (and stays in sync as you type) until you edit it by hand; leave it and the system derives and uniquifies one for you on create. If you type a code that is already taken by another document of the same type, the dialog flags it and **Create stays disabled until you pick a unique one**. (Documents of _different_ types may safely share a code.) See [[doc-shrtcds|Shortcodes]] for why the shortcode is the actor's identity — two actors of the same type that share one are treated as the same thing.
+   - **Type** — the actor type (Being, Cohort, Structure, Vehicle).
+   - **SubType** — shown only for types that have subtypes.
+   - **Archetype** — the starting template. It defaults to the best-matching populated archetype for the chosen type (for a Being, "Basic Folk"), and lists every archetype available for that type plus **(none)**.
 3. Click "Create." The new actor opens, seeded from the chosen archetype with your Name and Shortcode applied.
 
 Choose **(none)** when you deliberately want a **blank** actor — for example a world designer authoring a wholly new kind of being (elf, dwarf, …) from scratch. Everything then has to be added by hand.

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Mysteries
-    - doc-mysteries
+  - Mysteries
+  - doc-mysteries
 id: PK3S3tmvGF9iEbWW
 name:
-    full: Mysteries
-    aliases: []
+  full: Mysteries
+  aliases: []
 type: doc
 category: collection
 package: sohl

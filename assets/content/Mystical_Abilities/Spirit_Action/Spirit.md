@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-sprt
+  - mysticalability-sprt
 tags: []
 name:
-    full: Spirit
-    aliases: []
+  full: Spirit
+  aliases: []
 description: "A discrete act carried out through an allied spirit, governed by its Spirit Power."
 id: ftsDAUwOXEKBcn0Q
 img: icons/game-icons/lorc/psychic-waves.svg
@@ -12,15 +12,15 @@ shortcode: sprt
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: spiritaction
-    archetype: 0
-    subType: spiritaction
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: spiritaction
+  archetype: 0
+  subType: spiritaction
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 hmk:
-    name: ""
+  name: ""
 folder: u2uL4fjE2nKMfgbW
 ---
 

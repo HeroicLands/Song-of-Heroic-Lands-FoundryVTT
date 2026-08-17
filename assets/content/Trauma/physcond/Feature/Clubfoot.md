@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-clubfoot
+  - trauma-clubfoot
 tags: []
 name:
-    full: Clubfoot
-    aliases: []
+  full: Clubfoot
+  aliases: []
 id: wrdg2XnsqMP1NEwN
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: clubfoot
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

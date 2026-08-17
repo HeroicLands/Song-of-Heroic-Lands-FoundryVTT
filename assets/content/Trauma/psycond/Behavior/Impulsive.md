@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-implsv
+  - trauma-implsv
 tags: []
 name:
-    full: Impulsive
-    aliases: []
+  full: Impulsive
+  aliases: []
 id: k3h61qNB6NvMfFVS
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: implsv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

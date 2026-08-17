@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Belt pouch, leather, med
-    - containergear-bpchmd
+  - Belt pouch, leather, med
+  - containergear-bpchmd
 tags: []
 name:
-    full: Belt pouch, leather, med
-    aliases: []
+  full: Belt pouch, leather, med
+  aliases: []
 description: "Moderate leather belt pouch for coins and small items."
 id: ob1pnMnpnXJ9hAYS
 img: icons/game-icons/lorc/knapsack.svg
@@ -13,15 +13,15 @@ shortcode: bpchmd
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 3
-    value: 4
-    weight: 0.5
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 3
+  value: 4
+  weight: 0.5
 folder: dl8lJ729W1mFlDvt
 ---
 

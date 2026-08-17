@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bagpipes
-    - miscgear-bagpipes
+  - Bagpipes
+  - miscgear-bagpipes
 tags:
-    - music
+  - music
 name:
-    full: Bagpipes
-    aliases: []
+  full: Bagpipes
+  aliases: []
 description: "Sheepskin-covered wooden stock with drones and chanter; penetrating wail for festivals, marches."
 id: eFIzSGLEvBoBFbwn
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bagpipes
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 120
-    weight: 8
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 120
+  weight: 8
 folder: ncTaRcZt0RFYz0Gq
 ---
 

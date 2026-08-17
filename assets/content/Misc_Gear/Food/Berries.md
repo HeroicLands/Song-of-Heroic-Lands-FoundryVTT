@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Berries
-    - miscgear-berries
+  - Berries
+  - miscgear-berries
 tags:
-    - food
+  - food
 name:
-    full: Berries
-    aliases: []
+  full: Berries
+  aliases: []
 description: "Dried summer berries; tart, bright in winter cooking, keeps seasons."
 id: yBraSy6LKZWxvDky
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: berries
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.75
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.75
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

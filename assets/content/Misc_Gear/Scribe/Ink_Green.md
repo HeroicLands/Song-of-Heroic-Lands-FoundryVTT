@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ink, Green"
-    - miscgear-inkgrn
+  - "Ink, Green"
+  - miscgear-inkgrn
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Ink, Green"
-    aliases: []
+  full: "Ink, Green"
+  aliases: []
 description: "Verdigris or woad-iron pigment; marks heraldic and legal ornament, light-sensitive."
 id: oKaLH8ULCR8orm9W
 img: icons/game-icons/lorc/ink-swirl.svg
@@ -14,15 +14,15 @@ shortcode: inkgrn
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 8
-    weight: 2
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 8
+  weight: 2
 folder: BYkA5NDQxTXDvsAC
 ---
 

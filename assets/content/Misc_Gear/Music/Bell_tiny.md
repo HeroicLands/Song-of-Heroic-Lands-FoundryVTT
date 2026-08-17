@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bell, tiny"
-    - miscgear-belltiny
+  - "Bell, tiny"
+  - miscgear-belltiny
 tags:
-    - music
+  - music
 name:
-    full: "Bell, tiny"
-    aliases: []
+  full: "Bell, tiny"
+  aliases: []
 description: "Delicate brass bell; high thin tone; amulet or chamber summons."
 id: fJUhdF7Ltvntt56l
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: belltiny
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 3
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 3
+  weight: 0
 folder: ncTaRcZt0RFYz0Gq
 ---
 

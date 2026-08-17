@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Horn, Hunting"
-    - miscgear-hornhuntin
+  - "Horn, Hunting"
+  - miscgear-hornhuntin
 tags:
-    - music
+  - music
 name:
-    full: "Horn, Hunting"
-    aliases: []
+  full: "Horn, Hunting"
+  aliases: []
 description: "Curved ram-bullock horn; sharp clear signals coordinate huntsmen and call hounds."
 id: WpGX1K3fmfuXFE9Y
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hornhuntin
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 20
-    weight: 1
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 20
+  weight: 1
 folder: ncTaRcZt0RFYz0Gq
 ---
 

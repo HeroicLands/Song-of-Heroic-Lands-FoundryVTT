@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-cast
+  - trauma-cast
 tags: []
 name:
-    full: Spellcasting
-    aliases: []
+  full: Spellcasting
+  aliases: []
 description: "Acute windedness from casting a spell."
 id: mD6TdehNGD0XvWR7
 img: icons/game-icons/lorc/sleepy.svg
@@ -12,12 +12,12 @@ shortcode: cast
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: windedness
+  levelBase: 1
+  healingRateBase: 5
 folder: Y22wv8plMCfPXYBT
 ---
 

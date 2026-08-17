@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Concoctions
-    - doc-concoctins
+  - Concoctions
+  - doc-concoctins
 id: zo3tZIMKCKxVzfZ6
 name:
-    full: Concoctions
-    aliases: []
+  full: Concoctions
+  aliases: []
 type: doc
 category: collection
 package: sohl

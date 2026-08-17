@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Trap, hunting, small"
-    - miscgear-traphuntin2
+  - "Trap, hunting, small"
+  - miscgear-traphuntin2
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Trap, hunting, small"
-    aliases: []
+  full: "Trap, hunting, small"
+  aliases: []
 description: "Compact gin-trap for rabbit and hare; sets a dozen along warren paths."
 id: vX5NsBDIhBnVTHXz
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: traphuntin2
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 30
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 30
+  weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

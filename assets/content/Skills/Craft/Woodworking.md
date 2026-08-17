@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-wood
+  - skill-wood
 tags: []
 name:
-    full: Woodworking
-    aliases: []
+  full: Woodworking
+  aliases: []
 description: "Shaping timber into furniture, tools, carts, and decorative carvings."
 id: IVp2za6i2KFNZxSJ
 img: icons/game-icons/delapouite/hand-saw.svg
@@ -12,19 +12,19 @@ shortcode: wood
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.str)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.str)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

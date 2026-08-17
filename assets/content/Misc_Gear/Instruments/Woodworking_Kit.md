@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Woodworking Kit
-    - miscgear-woodwrkkit
+  - Woodworking Kit
+  - miscgear-woodwrkkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Woodworking Kit
-    aliases: []
+  full: Woodworking Kit
+  aliases: []
 description: "Soft leather roll with whittling blades, gouges, chisels, file, mallet; carvers."
 id: de4DsKw4taBx3V5U
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: woodwrkkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 48
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 48
+  weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Harness, Ox"
-    - miscgear-harnessox
+  - "Harness, Ox"
+  - miscgear-harnessox
 tags:
-    - tack
+  - tack
 name:
-    full: "Harness, Ox"
-    aliases: []
+  full: "Harness, Ox"
+  aliases: []
 description: "Stout leather bands, rope, iron; yoke-fitted; moves stone, timber, heavy laden carts."
 id: 61mrBlgGYdzEzRZZ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: harnessox
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 18
-    weight: 7
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 18
+  weight: 7
 folder: WTIUTjADwAcpyv0H
 ---
 

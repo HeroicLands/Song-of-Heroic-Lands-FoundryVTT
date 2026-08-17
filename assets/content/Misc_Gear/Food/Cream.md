@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Cream
-    - miscgear-cream
+  - Cream
+  - miscgear-cream
 tags:
-    - food
+  - food
 name:
-    full: Cream
-    aliases: []
+  full: Cream
+  aliases: []
 description: "Rich pale cream; enriches sauces and custards, highly perishable, used fresh."
 id: bW8rH6qoPOolYIKd
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cream
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 6
-    weight: 8
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 6
+  weight: 8
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Shortness of Breath
-    - trauma-shrtbrth
+  - Shortness of Breath
+  - trauma-shrtbrth
 tags: []
 name:
-    full: Shortness of Breath
-    aliases: []
+  full: Shortness of Breath
+  aliases: []
 id: OLiKXQQdP54xRsIi
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: shrtbrth
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

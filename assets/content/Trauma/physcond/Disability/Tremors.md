@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-tremors
+  - trauma-tremors
 tags: []
 name:
-    full: Tremors
-    aliases: []
+  full: Tremors
+  aliases: []
 id: 8wsl3ifOv5JxXgpC
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tremors
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cunning
+  - trauma-cunning
 tags: []
 name:
-    full: Cunning
-    aliases: []
+  full: Cunning
+  aliases: []
 id: Zp1K4nII41x8UGPU
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cunning
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

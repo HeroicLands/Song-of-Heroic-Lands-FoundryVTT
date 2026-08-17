@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-dentophb
+  - trauma-dentophb
 tags: []
 name:
-    full: Dentophobia
-    aliases: []
+  full: Dentophobia
+  aliases: []
 id: LBJ80zK1VGngjWUe
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: dentophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

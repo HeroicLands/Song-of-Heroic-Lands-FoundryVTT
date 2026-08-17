@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Icon, ceramic, 4 in"
-    - miscgear-iconcer4
+  - "Icon, ceramic, 4 in"
+  - miscgear-iconcer4
 tags:
-    - religious
+  - religious
 name:
-    full: "Icon, ceramic, 4 in"
-    aliases: []
+  full: "Icon, ceramic, 4 in"
+  aliases: []
 description: "Small fired-clay devotional figure for a household shrine or a traveller's pack."
 id: Yuj99w9BAk5Y5g3q
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: iconcer4
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    kbcat: religious
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 2
-    weight: 1
+  craft:
+    skill: cmcs
+    secondary: []
+  kbcat: religious
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 2
+  weight: 1
 folder: 9JkoGqoUGqV8b5aL
 ---
 

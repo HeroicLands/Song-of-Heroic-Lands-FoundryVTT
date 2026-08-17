@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-obesity
+  - trauma-obesity
 tags: []
 name:
-    full: Obesity
-    aliases: []
+  full: Obesity
+  aliases: []
 id: 33oRAs8m6lIf8yEQ
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: obesity
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

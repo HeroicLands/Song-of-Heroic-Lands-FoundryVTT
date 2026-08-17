@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-guil
+  - skill-guil
 tags: []
 name:
-    full: Guile
-    aliases: []
+  full: Guile
+  aliases: []
 description: "Deliberate deception; distorting facts while appearing truthful oneself."
 id: WZblksWtuxXkT40X
 img: icons/game-icons/lorc/imp.svg
@@ -12,17 +12,17 @@ shortcode: guil
 type: skill
 package: sohl
 sohl:
-    kbcat: social
-    archetype: 0
-    subType: social
-    skillBaseFormula: "sb(attr.emp, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: social
+  archetype: 0
+  subType: social
+  skillBaseFormula: "sb(attr.emp, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: JBr2U30FsJTs8F3l
 ---
 

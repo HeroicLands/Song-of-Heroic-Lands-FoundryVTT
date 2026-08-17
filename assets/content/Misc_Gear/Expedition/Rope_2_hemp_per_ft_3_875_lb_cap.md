@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Rope, 2” hemp, per ft (3,875 lb cap.)"
-    - miscgear-rope2hempp
+  - "Rope, 2” hemp, per ft (3,875 lb cap.)"
+  - miscgear-rope2hempp
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Rope, 2” hemp, per ft (3,875 lb cap.)"
-    aliases: []
+  full: "Rope, 2” hemp, per ft (3,875 lb cap.)"
+  aliases: []
 description: "Heavy three-strand hemp cable for oxen hauling and ship mainmast rigging."
 id: oyrb461V69UflW66
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rope2hempp
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 4
-    weight: 1.08
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 4
+  weight: 1.08
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Carpentry Kit
-    - miscgear-carpentryk
+  - Carpentry Kit
+  - miscgear-carpentryk
 tags:
-    - instruments
+  - instruments
 name:
-    full: Carpentry Kit
-    aliases: []
+  full: Carpentry Kit
+  aliases: []
 description: "Journeyman's leather roll holding chisels, plane, saw, auger, rules."
 id: 7xEE6PVS14HORuNO
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: carpentryk
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 60
-    weight: 8
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 60
+  weight: 8
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-schizop
+  - trauma-schizop
 tags: []
 name:
-    full: Schizophrenia
-    aliases: []
+  full: Schizophrenia
+  aliases: []
 id: b2GfR3llVmETAEbd
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: schizop
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

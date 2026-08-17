@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Mystical Abilities Introduction
-    - doc-mystabilintro
+  - Mystical Abilities Introduction
+  - doc-mystabilintro
 id: Flm6eeiyl4UHZUIq
 type: doc
 package: sohl
 category: rules
 name:
-    full: Mystical Abilities Introduction
-    aliases: []
+  full: Mystical Abilities Introduction
+  aliases: []
 folder:
 shortcode: mystabilintro
 ---

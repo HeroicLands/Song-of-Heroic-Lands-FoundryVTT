@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cage, iron, large"
-    - miscgear-cageironla
+  - "Cage, iron, large"
+  - miscgear-cageironla
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Cage, iron, large"
-    aliases: []
+  full: "Cage, iron, large"
+  aliases: []
 description: "Heavy forged iron cage with riveted bars; confines man or dangerous beasts."
 id: 92Wj8lsopaK0Kzpb
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cageironla
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 1260
-    weight: 160
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 1260
+  weight: 160
 folder: FSPVI1eObGEpMVck
 ---
 

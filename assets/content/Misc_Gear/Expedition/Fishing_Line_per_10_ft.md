@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Fishing Line, per 10 ft."
-    - miscgear-fishinglin
+  - "Fishing Line, per 10 ft."
+  - miscgear-fishinglin
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Fishing Line, per 10 ft."
-    aliases: []
+  full: "Fishing Line, per 10 ft."
+  aliases: []
 description: "Waxed linen or gut-spun cord; fine enough for wary fish and sturdy."
 id: T1cTQTa0EjrkQm03
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: fishinglin
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 2
-    weight: 0.1
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 2
+  weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

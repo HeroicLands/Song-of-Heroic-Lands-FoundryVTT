@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-brew
+  - skill-brew
 tags: []
 name:
-    full: Brewing
-    aliases: []
+  full: Brewing
+  aliases: []
 description: "Producing ales, wines, meads from ingredients; managing fermentation and aging."
 id: K0S3H3kzuwxmlSMj
 img: icons/game-icons/delapouite/barrel.svg
@@ -12,19 +12,19 @@ shortcode: brew
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.per, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.per, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: QlkEHXbk2EXlRiMM
 ---
 

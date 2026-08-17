@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pigeon
-    - miscgear-pigeon
+  - Pigeon
+  - miscgear-pigeon
 tags:
-    - food
+  - food
 name:
-    full: Pigeon
-    aliases: []
+  full: Pigeon
+  aliases: []
 description: "Mild tender meat from trapped cotes, small carcass rich with fat."
 id: vm586aE7NdOdPaQ5
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pigeon
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1.75
-    weight: 1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1.75
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

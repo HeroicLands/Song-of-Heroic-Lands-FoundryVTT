@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Injury Levels
-    - doc-injrylvl
+  - Injury Levels
+  - doc-injrylvl
 id: B1UF3CTHNtQKtIxC
 type: doc
 package: sohl
 category: rules
 name:
-    full: Injury Levels
-    aliases: []
+  full: Injury Levels
+  aliases: []
 folder: F4NGyU9QQgWwTcHe
 shortcode: injrylvl
 ---

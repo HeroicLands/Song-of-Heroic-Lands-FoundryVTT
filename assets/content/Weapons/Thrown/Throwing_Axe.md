@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Throwing Axe
-    - weapongear-Shkn
+  - Throwing Axe
+  - weapongear-Shkn
 tags: []
 name:
-    full: Throwing Axe
-    aliases: []
+  full: Throwing Axe
+  aliases: []
 description: "Balanced head tumbling end-over-end to break skirmish formation."
 id: DeRbT8UBKzngQxJQ
 img: icons/game-icons/lorc/battle-axe.svg
@@ -13,149 +13,149 @@ shortcode: Shkn
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: axe
-    archetype: 0
-    durability: 10
-    weight: 2
-    value: 48
-    heft: 10
-    weaponType: Axe
-    strikeModes:
-        - shortcode: cut
-          type: melee
-          name: Cut
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 8
-              modifier: 4
-              aspect: edged
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 6
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: true
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 5
-          defense:
-              blockMod: -5
-              counterstrikeMod: -5
-        - shortcode: pommel
-          type: melee
-          name: Pommel
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 4
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 0
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 6
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: true
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 5
-          defense:
-              blockMod: -5
-              counterstrikeMod: -5
-        - shortcode: thrown
-          type: missile
-          name: Thrown
-          assocSkillCode: thro
-          minParts: 1
-          attack:
-              spread: 4
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 8
-              modifier: 4
-              aspect: edged
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 6
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          projectileType: ""
-          maxVolleyMult: 2
-          baseRangeBase: 40
-          drawBase: 0
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: axe
+  archetype: 0
+  durability: 10
+  weight: 2
+  value: 48
+  heft: 10
+  weaponType: Axe
+  strikeModes:
+    - shortcode: cut
+      type: melee
+      name: Cut
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 8
+        modifier: 4
+        aspect: edged
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 6
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: true
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 5
+      defense:
+        blockMod: -5
+        counterstrikeMod: -5
+    - shortcode: pommel
+      type: melee
+      name: Pommel
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 4
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 0
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 6
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: true
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 5
+      defense:
+        blockMod: -5
+        counterstrikeMod: -5
+    - shortcode: thrown
+      type: missile
+      name: Thrown
+      assocSkillCode: thro
+      minParts: 1
+      attack:
+        spread: 4
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 8
+        modifier: 4
+        aspect: edged
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 6
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      projectileType: ""
+      maxVolleyMult: 2
+      baseRangeBase: 40
+      drawBase: 0
 folder: HXiYHvG6igI3Wlmm
 ---
 

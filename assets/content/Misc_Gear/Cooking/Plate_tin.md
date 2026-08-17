@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Plate, tin"
-    - miscgear-platetin
+  - "Plate, tin"
+  - miscgear-platetin
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Plate, tin"
-    aliases: []
+  full: "Plate, tin"
+  aliases: []
 description: "Thin stamped tin plate for military camps and common inns; cheap."
 id: 8Ulnkm4sD6cZMpoY
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: platetin
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 2
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 2
+  weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

@@ -1,16 +1,16 @@
 ---
 aliases:
-    - Fate Point
-    - Fate Points
-    - Fate Mastery Level
-    - doc-fatepnts
+  - Fate Point
+  - Fate Points
+  - Fate Mastery Level
+  - doc-fatepnts
 id: QTLdhEpRknXbUTsn
 type: doc
 package: sohl
 category: rules
 name:
-    full: Fate Points
-    aliases: []
+  full: Fate Points
+  aliases: []
 folder: BTGA1PmN0VlBWpCm
 shortcode: fatepnts
 ---

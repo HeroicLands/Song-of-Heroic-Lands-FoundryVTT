@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Barley
-    - miscgear-barley
+  - Barley
+  - miscgear-barley
 tags:
-    - food
+  - food
 name:
-    full: Barley
-    aliases: []
+  full: Barley
+  aliases: []
 description: "Hardy grain, ground into meal or boiled for broth and bread."
 id: ArnXnDM5g0riWbdd
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: barley
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 5
-    weight: 48
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 5
+  weight: 48
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-iatrophb
+  - trauma-iatrophb
 tags: []
 name:
-    full: Iatrophobia
-    aliases: []
+  full: Iatrophobia
+  aliases: []
 id: Xjnim9EdLlw6bPfr
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: iatrophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

@@ -22,3 +22,10 @@ relationship inverts — the tree is source, and this repository owns it.
 - _The export is deleted, not maintained._ `utils/export-vault-content.mjs`,
   `utils/vault-export.mjs`, and the `content:export` / `content:check` scripts are
   removed, along with every error hint telling a contributor to re-export.
+- _Markdown indents at 2._ Prettier's global `tabWidth: 4` reindented the YAML
+  frontmatter of 1441 of 1442 notes away from the form they were authored in —
+  the only difference between the two copies. A `**/*.md` override at 2 makes the
+  tree byte-identical to its source and matches the other repositories holding
+  this content, so a note can move between them unchanged. Prose is untouched
+  either way: `proseWrap` defaults to `preserve`, so Prettier never rewraps a
+  paragraph.

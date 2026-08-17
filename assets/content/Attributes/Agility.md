@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-agl
+  - attribute-agl
 tags: []
 name:
-    full: Agility
-    aliases: []
+  full: Agility
+  aliases: []
 description: "Quickness, balance, and fluidity of whole-body movement."
 id: IQ6sKftvOoHAJOi5
 img: icons/game-icons/lorc/cartwheel.svg
@@ -12,15 +12,15 @@ shortcode: agl
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Blundering:4
-        - Clumsy:8
-        - Average:12
-        - Nimble:16
-        - Graceful:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Blundering:4
+    - Clumsy:8
+    - Average:12
+    - Nimble:16
+    - Graceful:999
+  initDiceFormula: 3d6
 sort: 40
 folder: FPitxvL8wCmXynax
 ---

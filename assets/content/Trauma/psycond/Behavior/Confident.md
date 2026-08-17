@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cnfdnt
+  - trauma-cnfdnt
 tags: []
 name:
-    full: Confident
-    aliases: []
+  full: Confident
+  aliases: []
 id: shNugj93vne76oyF
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfdnt
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

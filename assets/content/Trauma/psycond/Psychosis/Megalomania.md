@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-mglmn
+  - trauma-mglmn
 tags: []
 name:
-    full: Megalomania
-    aliases: []
+  full: Megalomania
+  aliases: []
 id: H2Dbs28M2NU20NlM
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mglmn
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

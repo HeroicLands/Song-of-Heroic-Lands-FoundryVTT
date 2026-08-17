@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Horsemeat
-    - miscgear-horsemeat
+  - Horsemeat
+  - miscgear-horsemeat
 tags:
-    - food
+  - food
 name:
-    full: Horsemeat
-    aliases: []
+  full: Horsemeat
+  aliases: []
 description: "Lean meat from spent beasts; tougher, stewed or smoked for pallability."
 id: sOxLyDWFXDUrSeJd
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: horsemeat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 3
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 3
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

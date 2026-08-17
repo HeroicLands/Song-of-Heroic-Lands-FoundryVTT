@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Carpet, wool"
-    - miscgear-carpetwool
+  - "Carpet, wool"
+  - miscgear-carpetwool
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Carpet, wool"
-    aliases: []
+  full: "Carpet, wool"
+  aliases: []
 description: "Knotted wool carpet, three feet square; wall-hanging as often as floor covering."
 id: CB3mEGhtlxzc9lGP
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: carpetwool
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 216
-    weight: 6
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 216
+  weight: 6
 folder: FSPVI1eObGEpMVck
 ---
 

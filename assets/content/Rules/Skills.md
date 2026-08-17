@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Skills Introduction
-    - doc-skills
+  - Skills Introduction
+  - doc-skills
 id: A38qwbVdPQHhGVgB
 type: doc
 package: sohl
 category: rules
 name:
-    full: Skills Introduction
-    aliases: []
+  full: Skills Introduction
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: skills
 ---

@@ -1,16 +1,16 @@
 ---
 aliases:
-    - Secondary Mastery
-    - Secondary Modifier
-    - Secondary Roll
-    - doc-scndryms
+  - Secondary Mastery
+  - Secondary Modifier
+  - Secondary Roll
+  - doc-scndryms
 id: ZS7AkgrQvXdkku0g
 type: doc
 package: sohl
 category: rules
 name:
-    full: Secondary Mastery
-    aliases: []
+  full: Secondary Mastery
+  aliases: []
 shortcode: scndryms
 folder: BTGA1PmN0VlBWpCm
 ---

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-init
+  - skill-init
 tags: []
 name:
-    full: Initiative
-    aliases: []
+  full: Initiative
+  aliases: []
 description: "Battlefield experience and tactical awareness; acting first in combat."
 id: RFWzRoQovoVqonca
 img: icons/game-icons/lorc/sprint.svg
@@ -12,18 +12,18 @@ shortcode: init
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.wil, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.wil, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: EphAMAfFhWBrJxyF
 ---
 

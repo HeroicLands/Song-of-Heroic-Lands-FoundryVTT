@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-pfmy
+  - skill-pfmy
 tags: []
 name:
-    full: Perfumery
-    aliases: []
+  full: Perfumery
+  aliases: []
 description: "Blending herbs, flowers, and essences into scents and aromatic preparations."
 id: ZySPSvEiE6KdtjPN
 img: icons/game-icons/lorc/perfume-bottle.svg
@@ -12,18 +12,18 @@ shortcode: pfmy
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.per, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.per, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: QlkEHXbk2EXlRiMM
 ---
 

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Impaired Smell
-    - trauma-impaire2
+  - Impaired Smell
+  - trauma-impaire2
 tags: []
 name:
-    full: Impaired Smell
-    aliases: []
+  full: Impaired Smell
+  aliases: []
 id: 4pNGYQxNYDE5gCPX
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaire2
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Velvet Vest
-    - armorgear-VVest
+  - Velvet Vest
+  - armorgear-VVest
 tags: []
 name:
-    full: Velvet Vest
-    aliases: []
+  full: Velvet Vest
+  aliases: []
 description: "Soft plush velvet vest; symbol of opulence for formal occasions."
 id: VGvgfQpTZRDWUmTX
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: VVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Velvet
-    material: Cloth
-    durability: 10
-    value: 84
-    weight: 1.2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Velvet
+  material: Cloth
+  durability: 10
+  value: 84
+  weight: 1.2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 24
 origWeight: 1.2

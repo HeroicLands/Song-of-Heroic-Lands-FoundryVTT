@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-anthpphb
+  - trauma-anthpphb
 tags: []
 name:
-    full: Anthropophobia
-    aliases: []
+  full: Anthropophobia
+  aliases: []
 id: ed3PHy0xOeqEiOV5
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: anthpphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

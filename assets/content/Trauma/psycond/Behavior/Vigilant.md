@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-vigilant
+  - trauma-vigilant
 tags: []
 name:
-    full: Vigilant
-    aliases: []
+  full: Vigilant
+  aliases: []
 id: cS4CuhXNI9lsnDx4
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vigilant
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

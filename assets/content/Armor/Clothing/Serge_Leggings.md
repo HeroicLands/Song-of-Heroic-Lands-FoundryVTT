@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Serge Leggings
-    - armorgear-SgLeg
+  - Serge Leggings
+  - armorgear-SgLeg
 tags: []
 name:
-    full: Serge Leggings
-    aliases: []
+  full: Serge Leggings
+  aliases: []
 description: "Twilled serge leggings; warm, durable leg covering for daily activities."
 id: ssDYeUm9wUDezqlP
 img: icons/game-icons/lorc/trousers.svg
@@ -13,34 +13,34 @@ shortcode: SgLeg
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Leggings
-    detailMaterial: Serge
-    material: Cloth
-    durability: 7
-    value: 22
-    weight: 0.9
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Leggings
+  detailMaterial: Serge
+  material: Cloth
+  durability: 7
+  value: 22
+  weight: 0.9
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 36
 origWeight: 1.8

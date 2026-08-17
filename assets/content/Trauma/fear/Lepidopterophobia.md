@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-lepidopt
+  - trauma-lepidopt
 tags: []
 name:
-    full: Lepidopterophobia
-    aliases: []
+  full: Lepidopterophobia
+  aliases: []
 id: FmFmSEVFuXRwgMcx
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: lepidopt
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

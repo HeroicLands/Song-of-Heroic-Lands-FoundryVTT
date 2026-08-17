@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-obsssv
+  - trauma-obsssv
 tags: []
 name:
-    full: Obsessive
-    aliases: []
+  full: Obsessive
+  aliases: []
 id: T1sdYjCY9Miy4Btx
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: obsssv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

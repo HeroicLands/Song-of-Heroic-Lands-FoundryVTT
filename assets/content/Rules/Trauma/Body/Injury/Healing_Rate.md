@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Healing Rate
-    - doc-hlngrt
+  - Healing Rate
+  - doc-hlngrt
 id: MRqOJqtZ0rvN9AQD
 type: doc
 package: sohl
 category: rules
 name:
-    full: Healing Rate
-    aliases: []
+  full: Healing Rate
+  aliases: []
 shortcode: hlngrt
 folder: F4NGyU9QQgWwTcHe
 ---

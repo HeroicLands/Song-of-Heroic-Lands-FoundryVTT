@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Attributes
-    - doc-attributes
+  - Attributes
+  - doc-attributes
 id: dg1YJe27cn88Q2mi
 type: doc
 package: sohl
 category: rules
 name:
-    full: Attributes
-    aliases: []
+  full: Attributes
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: attributes
 ---

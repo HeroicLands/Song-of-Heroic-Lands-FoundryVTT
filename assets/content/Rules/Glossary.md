@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Glossary
-    - Rules Glossary
-    - doc-glossary
+  - Glossary
+  - Rules Glossary
+  - doc-glossary
 id: GMJ5HjXALiKv03rx
 type: doc
 package: sohl
 category: rules
 name:
-    full: Glossary
-    aliases: []
+  full: Glossary
+  aliases: []
 shortcode: glossary
 folder: RqKUTBUBN2Y3MHYB
 ---

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Olives
-    - miscgear-olives
+  - Olives
+  - miscgear-olives
 tags:
-    - food
+  - food
 name:
-    full: Olives
-    aliases: []
+  full: Olives
+  aliases: []
 description: "Pickled brined relish, luxury trade good, keeps indefinitely under brine."
 id: fzxD5ervi1GdhNce
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: olives
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 8
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 8
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

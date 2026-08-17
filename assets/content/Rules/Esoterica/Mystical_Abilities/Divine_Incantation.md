@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Divine Incantation
-    - doc-dvnincnt
+  - Divine Incantation
+  - doc-dvnincnt
 id: oorZPGmBmLEyzvFe
 type: doc
 package: sohl
 category: rules
 name:
-    full: Divine Incantation
-    aliases: []
+  full: Divine Incantation
+  aliases: []
 shortcode: dvnincnt
 folder: J8ppkzls4ERyzTpv
 ---

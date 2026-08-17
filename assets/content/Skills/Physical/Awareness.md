@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-awar
+  - skill-awar
 tags: []
 name:
-    full: Awareness
-    aliases: []
+  full: Awareness
+  aliases: []
 description: "Detecting movement, glint of metal, scents; opposing Stealth in vigilance."
 id: k81PKEq5iaHjsehi
 img: icons/game-icons/lorc/awareness.svg
@@ -12,17 +12,17 @@ shortcode: awar
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.per, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.per, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: Yt9THlZ0NT8H6aSK
 ---
 

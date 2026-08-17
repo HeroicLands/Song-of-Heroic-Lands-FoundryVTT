@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-scnstpan
+  - doc-scnstpan
 id: WxM4H3SLZKQhLTog
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Scene Setup and Tokens"
+  full: "Scene Setup and Tokens"
 shortcode: scnstpan
 folder: IgwaG8rAUUO9vrtz
 ---

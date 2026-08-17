@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Caltrops, cavalry, pack of 4"
-    - miscgear-caltropsca
+  - "Caltrops, cavalry, pack of 4"
+  - miscgear-caltropsca
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Caltrops, cavalry, pack of 4"
-    aliases: []
+  full: "Caltrops, cavalry, pack of 4"
+  aliases: []
 description: "Four cast-iron implements with four points; slows mounted pursuers and damages hooves."
 id: Pi5pJcdy8rGUJper
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: caltropsca
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 12
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 12
+  weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

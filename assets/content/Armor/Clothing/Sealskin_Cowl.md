@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Sealskin Cowl
-    - armorgear-SlsCowl
+  - Sealskin Cowl
+  - armorgear-SlsCowl
 tags: []
 name:
-    full: Sealskin Cowl
-    aliases: []
+  full: Sealskin Cowl
+  aliases: []
 description: "Water-resistant seal-fur hood; ideal for coastal regions."
 id: cPnsG7hVk006GOHs
 img: icons/game-icons/lorc/hood.svg
@@ -13,28 +13,28 @@ shortcode: SlsCowl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Cowl
-    detailMaterial: Sealskin
-    material: Leather
-    durability: 11
-    value: 72
-    weight: 1.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-        - neckloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Cowl
+  detailMaterial: Sealskin
+  material: Leather
+  durability: 11
+  value: 72
+  weight: 1.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+    - neckloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 72
 origWeight: 1.1

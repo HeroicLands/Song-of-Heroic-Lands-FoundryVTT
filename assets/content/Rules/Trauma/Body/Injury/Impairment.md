@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Impairment
-    - doc-imprmnt
+  - Impairment
+  - doc-imprmnt
 id: Aa8GO0i94Gh9cyGi
 type: doc
 package: sohl
 category: rules
 name:
-    full: Impairment
-    aliases: []
+  full: Impairment
+  aliases: []
 folder: F4NGyU9QQgWwTcHe
 shortcode: imprmnt
 ---

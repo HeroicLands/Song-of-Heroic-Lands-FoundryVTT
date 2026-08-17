@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Plate, ceramic"
-    - miscgear-platecer
+  - "Plate, ceramic"
+  - miscgear-platecer
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Plate, ceramic"
-    aliases: []
+  full: "Plate, ceramic"
+  aliases: []
 description: "Glazed earthenware plate, eight inches across."
 id: pdeDVd6JcJOnYOZJ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: platecer
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 3
-    weight: 2
+  craft:
+    skill: cmcs
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 3
+  weight: 2
 folder: 7TT0OzoIoEn40zfs
 ---
 

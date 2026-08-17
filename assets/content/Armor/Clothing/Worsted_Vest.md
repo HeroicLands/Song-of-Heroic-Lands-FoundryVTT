@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Worsted Vest
-    - armorgear-WVest
+  - Worsted Vest
+  - armorgear-WVest
 tags: []
 name:
-    full: Worsted Vest
-    aliases: []
+  full: Worsted Vest
+  aliases: []
 description: "Tightly-spun wool vest; durable, practical protective garment."
 id: 7mMgwEnV0diVVp0p
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: WVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Worsted
-    material: Cloth
-    durability: 9
-    value: 58
-    weight: 1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Worsted
+  material: Cloth
+  durability: 9
+  value: 58
+  weight: 1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 24
 origWeight: 1.2

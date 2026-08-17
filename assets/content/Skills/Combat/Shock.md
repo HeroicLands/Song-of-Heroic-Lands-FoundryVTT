@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-shok
+  - skill-shok
 tags: []
 name:
-    full: Shock
-    aliases: []
+  full: Shock
+  aliases: []
 description: "Physiological resilience to absorb violent blows without incapacitation."
 id: UufDJlNBkyC6FG7E
 img: icons/game-icons/lorc/lightning-arc.svg
@@ -12,18 +12,18 @@ shortcode: shok
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.str, attr.end)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.str, attr.end)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: EphAMAfFhWBrJxyF
 ---
 

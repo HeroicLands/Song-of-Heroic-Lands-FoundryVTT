@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Blanket, light
-    - miscgear-LiteBlkt
+  - Blanket, light
+  - miscgear-LiteBlkt
 tags:
-    - expedition
+  - expedition
 name:
-    full: Blanket, light
-    aliases: []
+  full: Blanket, light
+  aliases: []
 description: "Thin linen or light wool blanket; pocketable and quick-drying for mild seasons."
 id: SIAES0ePWmZnKFaC
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: LiteBlkt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 10
-    weight: 3
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 10
+  weight: 3
 folder: FSPVI1eObGEpMVck
 ---
 

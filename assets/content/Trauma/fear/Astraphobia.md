@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-astrphb
+  - trauma-astrphb
 tags: []
 name:
-    full: Astraphobia
-    aliases: []
+  full: Astraphobia
+  aliases: []
 id: jLe9OLS9S0QHXDzJ
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: astrphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

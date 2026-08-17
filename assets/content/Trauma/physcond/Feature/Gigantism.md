@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-ggntsm
+  - trauma-ggntsm
 tags: []
 name:
-    full: Gigantism
-    aliases: []
+  full: Gigantism
+  aliases: []
 id: CUrZV9t7UWIBaqpQ
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ggntsm
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-seducer
+  - trauma-seducer
 tags: []
 name:
-    full: Seducer
-    aliases: []
+  full: Seducer
+  aliases: []
 id: wPARDi4HYN0v2dxP
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: seducer
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

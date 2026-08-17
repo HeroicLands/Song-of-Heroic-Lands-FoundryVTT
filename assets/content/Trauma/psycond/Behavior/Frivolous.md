@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-frvls
+  - trauma-frvls
 tags: []
 name:
-    full: Frivolous
-    aliases: []
+  full: Frivolous
+  aliases: []
 id: DS3xePFIQI7OOKZm
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: frvls
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

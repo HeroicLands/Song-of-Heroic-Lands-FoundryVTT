@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bucket, wooden, 3 gallon"
-    - containergear-bucketwood3
+  - "Bucket, wooden, 3 gallon"
+  - containergear-bucketwood3
 tags: []
 name:
-    full: "Bucket, wooden, 3 gallon"
-    aliases: []
+  full: "Bucket, wooden, 3 gallon"
+  aliases: []
 description: "Coopered wooden bucket with an iron bail (3 gallons)."
 id: VZmryHHDq6GnZlCg
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bucketwood3
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 4
-    maxCapacity: 24
-    value: 8
-    weight: 10
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 4
+  maxCapacity: 24
+  value: 8
+  weight: 10
 folder: dl8lJ729W1mFlDvt
 ---
 

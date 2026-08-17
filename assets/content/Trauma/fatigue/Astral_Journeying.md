@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Astral Journeying
-    - trauma-astjourn
+  - Astral Journeying
+  - trauma-astjourn
 tags: []
 name:
-    full: Astral Journeying
-    aliases:
+  full: Astral Journeying
+  aliases:
 description: "Sustained weariness from astral travel, paid on reembodiment."
 id: PEmWjX4fBnNuPIha
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: astjourn
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weariness
+  levelBase: 1
+  healingRateBase: 3
 folder: Y22wv8plMCfPXYBT
 ---
 

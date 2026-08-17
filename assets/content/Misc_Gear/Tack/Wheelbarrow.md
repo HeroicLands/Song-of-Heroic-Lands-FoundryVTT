@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Wheelbarrow"
-    - miscgear-wheelbarrow
+  - "Wheelbarrow"
+  - miscgear-wheelbarrow
 tags:
-    - tack
+  - tack
 name:
-    full: "Wheelbarrow"
-    aliases: []
+  full: "Wheelbarrow"
+  aliases: []
 description: "Single-wheeled barrow for moving earth, stone, or dung by hand."
 id: iByVnCgxI9PYd5GD
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wheelbarrow
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 10
-    weight: 24
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 10
+  weight: 24
 folder: WTIUTjADwAcpyv0H
 ---
 

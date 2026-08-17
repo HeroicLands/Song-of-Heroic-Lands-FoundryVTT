@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Mystical Powers
-    - doc-mystclpw
+  - Mystical Powers
+  - doc-mystclpw
 id: eg6jbFFPRgbKj2a2
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: Mystical Powers
+  full: Mystical Powers
 shortcode: mystclpw
 folder: IgwaG8rAUUO9vrtz
 ---

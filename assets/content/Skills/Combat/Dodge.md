@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-dge
+  - skill-dge
 tags: []
 name:
-    full: Dodge
-    aliases: []
+  full: Dodge
+  aliases: []
 description: "Evading attacks by shifting body; instinctive defense in combat."
 id: E3HpfTHGnCfauHAc
 img: icons/game-icons/felbrigg/dodge.svg
@@ -12,19 +12,19 @@ shortcode: dge
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.agl, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.agl, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
 folder: EphAMAfFhWBrJxyF
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Weapon Maintenance Supplies, per 1d"
-    - miscgear-wpnsup
+  - "Weapon Maintenance Supplies, per 1d"
+  - miscgear-wpnsup
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Weapon Maintenance Supplies, per 1d"
-    aliases: []
+  full: "Weapon Maintenance Supplies, per 1d"
+  aliases: []
 description: "Oil, wax, whetstone chips, cord, rivets, wire; one pence buys one pence of weapon upkeep."
 id: nihK8aG46nMa1dP6
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wpnsup
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 1
-    weight: 0.02
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 1
+  weight: 0.02
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Rope, 3” hemp, per ft (8,000 lb cap.)"
-    - miscgear-rope3hempp
+  - "Rope, 3” hemp, per ft (8,000 lb cap.)"
+  - miscgear-rope3hempp
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Rope, 3” hemp, per ft (8,000 lb cap.)"
-    aliases: []
+  full: "Rope, 3” hemp, per ft (8,000 lb cap.)"
+  aliases: []
 description: "Massive cable for anchoring vessels and hoisting siege equipment."
 id: w29C3rXf0IvhwzcZ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rope3hempp
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 8
-    weight: 2.42
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 8
+  weight: 2.42
 folder: FSPVI1eObGEpMVck
 ---
 

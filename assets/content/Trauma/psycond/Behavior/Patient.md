@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-patient
+  - trauma-patient
 tags: []
 name:
-    full: Patient
-    aliases: []
+  full: Patient
+  aliases: []
 id: eYpPLqWzAVaTcL4N
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: patient
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

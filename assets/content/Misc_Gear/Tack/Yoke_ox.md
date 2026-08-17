@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Yoke, ox"
-    - miscgear-yokeox
+  - "Yoke, ox"
+  - miscgear-yokeox
 tags:
-    - tack
+  - tack
 name:
-    full: "Yoke, ox"
-    aliases: []
+  full: "Yoke, ox"
+  aliases: []
 description: "Shaped wooden beam coupling a pair of oxen to a plough or cart."
 id: loCnwK63bChmTvfz
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: yokeox
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 3
-    weight: 2
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 3
+  weight: 2
 folder: WTIUTjADwAcpyv0H
 ---
 

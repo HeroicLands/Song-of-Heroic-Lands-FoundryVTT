@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Water, 1pt."
-    - miscgear-Wtr1pt
+  - "Water, 1pt."
+  - miscgear-Wtr1pt
 tags:
-    - food
+  - food
 name:
-    full: "Water, 1pt."
-    aliases: []
+  full: "Water, 1pt."
+  aliases: []
 description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
 id: mxGYatEWGjscY4MH
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,17 +14,17 @@ shortcode: Wtr1pt
 type: miscgear
 package: sohl
 hmk:
-    name: "Water, 1pt."
+  name: "Water, 1pt."
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0
-    weight: 1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

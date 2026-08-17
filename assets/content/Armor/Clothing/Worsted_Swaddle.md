@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Worsted Swaddle
-    - armorgear-WSwd
+  - Worsted Swaddle
+  - armorgear-WSwd
 tags: []
 name:
-    full: Worsted Swaddle
-    aliases: []
+  full: Worsted Swaddle
+  aliases: []
 description: "Tightly-spun wool swaddle; warm, durable infant wrapping."
 id: XboDwT4ffMEJaGNr
 img: icons/game-icons/lorc/trousers.svg
@@ -13,30 +13,30 @@ shortcode: WSwd
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Swaddle
-    detailMaterial: Worsted
-    material: Cloth
-    durability: 9
-    value: 46
-    weight: 0.8
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Swaddle
+  detailMaterial: Worsted
+  material: Cloth
+  durability: 9
+  value: 46
+  weight: 0.8
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 19
 origWeight: 1

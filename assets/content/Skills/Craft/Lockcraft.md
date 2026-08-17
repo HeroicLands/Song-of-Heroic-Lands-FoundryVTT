@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-lock
+  - skill-lock
 tags: []
 name:
-    full: Lockcraft
-    aliases: []
+  full: Lockcraft
+  aliases: []
 description: "Designing locks; picking or bypassing mechanical locking mechanisms."
 id: OWe6jR9RXag7ZMZk
 img: icons/game-icons/badges/lock.svg
@@ -12,19 +12,19 @@ shortcode: lock
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

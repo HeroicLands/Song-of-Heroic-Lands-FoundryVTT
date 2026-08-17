@@ -1,16 +1,16 @@
 ---
 aliases:
-    - Psychological Condition
-    - Psyche Stress
-    - Psyche Stress Level
-    - doc-psychlgc
+  - Psychological Condition
+  - Psyche Stress
+  - Psyche Stress Level
+  - doc-psychlgc
 id: R6LpCJeZV0uruifv
 type: doc
 package: sohl
 category: rules
 name:
-    full: Psychological Condition
-    aliases: []
+  full: Psychological Condition
+  aliases: []
 folder: hAloT0Y1xg1vcIIn
 shortcode: psychlgc
 ---

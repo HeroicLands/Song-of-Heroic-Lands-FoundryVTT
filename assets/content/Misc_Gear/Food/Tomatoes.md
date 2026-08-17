@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Tomatoes
-    - miscgear-tomatoes
+  - Tomatoes
+  - miscgear-tomatoes
 tags:
-    - food
+  - food
 name:
-    full: Tomatoes
-    aliases: []
+  full: Tomatoes
+  aliases: []
 description: "Round soft garden fruit, cooked in soups and stews, preserved dried."
 id: 9YQUZGdIvbxQXFwD
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tomatoes
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

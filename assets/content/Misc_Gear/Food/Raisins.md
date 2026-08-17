@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Raisins
-    - miscgear-raisins
+  - Raisins
+  - miscgear-raisins
 tags:
-    - food
+  - food
 name:
-    full: Raisins
-    aliases: []
+  full: Raisins
+  aliases: []
 description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
 id: GwlCKs0inxH9Bh9Y
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: raisins
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1.5
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

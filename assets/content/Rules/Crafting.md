@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Crafting
-    - Craft
-    - Crafting Routine
-    - Masterwork
-    - doc-crafting
+  - Crafting
+  - Craft
+  - Crafting Routine
+  - Masterwork
+  - doc-crafting
 id: 3dQTVykMItQGXYTj
 type: doc
 package: sohl
 category: rules
 name:
-    full: Crafting
-    aliases: []
+  full: Crafting
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: crafting
 ---

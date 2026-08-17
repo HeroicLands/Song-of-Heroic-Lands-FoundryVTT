@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-thro
+  - skill-thro
 tags: []
 name:
-    full: Throwing
-    aliases: []
+  full: Throwing
+  aliases: []
 description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."
 id: CVA6O8CNz68e9wFd
 img: icons/game-icons/delapouite/throwing-ball.svg
@@ -12,19 +12,19 @@ shortcode: thro
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: missile
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: missile
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: EphAMAfFhWBrJxyF
 ---
 

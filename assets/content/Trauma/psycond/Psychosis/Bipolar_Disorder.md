@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Bipolar Disorder
-    - trauma-bipolar
+  - Bipolar Disorder
+  - trauma-bipolar
 tags: []
 name:
-    full: Bipolar Disorder
-    aliases: []
+  full: Bipolar Disorder
+  aliases: []
 id: WrZR6A7q48YgAZxf
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: bipolar
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

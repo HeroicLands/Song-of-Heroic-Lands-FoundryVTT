@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Chime
-    - miscgear-chime
+  - Chime
+  - miscgear-chime
 tags:
-    - music
+  - music
 name:
-    full: Chime
-    aliases: []
+  full: Chime
+  aliases: []
 description: "Bronze tubes on frame, struck with mallet; marks prayer hours in temples."
 id: w73KsFmuEevTnJHP
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chime
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 20
-    weight: 1
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 20
+  weight: 1
 folder: ncTaRcZt0RFYz0Gq
 ---
 

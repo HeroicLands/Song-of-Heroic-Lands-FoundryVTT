@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-wrkngwth
+  - doc-wrkngwth
 id: qB7c6j4tnrijhQ3P
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Working with Gear and Equipment"
+  full: "Working with Gear and Equipment"
 shortcode: wrkngwth
 folder: IgwaG8rAUUO9vrtz
 ---

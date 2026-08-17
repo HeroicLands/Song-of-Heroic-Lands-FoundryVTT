@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Vase, ceramic"
-    - containergear-vasecer
+  - "Vase, ceramic"
+  - containergear-vasecer
 tags: []
 name:
-    full: "Vase, ceramic"
-    aliases: []
+  full: "Vase, ceramic"
+  aliases: []
 description: "Decorative footed earthenware vase for cut flowers or branches."
 id: 4FBUBfxSPNJVYsDA
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: vasecer
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 2
-    value: 4
-    weight: 2
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 2
+  value: 4
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

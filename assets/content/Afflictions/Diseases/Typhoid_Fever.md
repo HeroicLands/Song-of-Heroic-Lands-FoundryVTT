@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Typhoid Fever
-    - affliction-typhfvr
+  - Typhoid Fever
+  - affliction-typhfvr
 tags: []
 name:
-    full: Typhoid Fever
-    aliases: []
+  full: Typhoid Fever
+  aliases: []
 description: "Salmonella via contaminated water; prolonged fever and abdominal pain."
 id: B6PazsO8AH0U8OlS
 img: icons/game-icons/lorc/virus.svg
@@ -13,13 +13,13 @@ shortcode: typhfvr
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: injested
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: injested
 folder: 3lobflzDt8Hk6VrN
 ---
 

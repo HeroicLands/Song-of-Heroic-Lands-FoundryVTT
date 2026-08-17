@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Tasseomancy
-    - doc-tssmncy
+  - Tasseomancy
+  - doc-tssmncy
 id: V37Cp2A3oqdWwCES
 type: doc
 package: sohl
 category: rules
 name:
-    full: Tasseomancy
-    aliases: []
+  full: Tasseomancy
+  aliases: []
 shortcode: tssmncy
 folder: k6DghEucd6umnBJx
 ---

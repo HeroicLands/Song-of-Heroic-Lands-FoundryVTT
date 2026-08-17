@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Serge Swaddle
-    - armorgear-SgSwd
+  - Serge Swaddle
+  - armorgear-SgSwd
 tags: []
 name:
-    full: Serge Swaddle
-    aliases: []
+  full: Serge Swaddle
+  aliases: []
 description: "Durable twilled serge swaddle for infants; warm, secure, reliable."
 id: m0Ka3ucNTuUoxKF9
 img: icons/game-icons/lorc/trousers.svg
@@ -13,30 +13,30 @@ shortcode: SgSwd
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Swaddle
-    detailMaterial: Serge
-    material: Cloth
-    durability: 7
-    value: 11
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Swaddle
+  detailMaterial: Serge
+  material: Cloth
+  durability: 7
+  value: 11
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 19
 origWeight: 1

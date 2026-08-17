@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Buckram Trousers
-    - armorgear-BTrsr
+  - Buckram Trousers
+  - armorgear-BTrsr
 tags: []
 name:
-    full: Buckram Trousers
-    aliases: []
+  full: Buckram Trousers
+  aliases: []
 description: "Stiff buckram trousers providing durability and dependable rigid fit."
 id: dqnPQ1U3w7r9czNl
 img: icons/game-icons/lorc/trousers.svg
@@ -13,33 +13,33 @@ shortcode: BTrsr
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Trousers
-    detailMaterial: Buckram
-    material: Cloth
-    durability: 10
-    value: 39
-    weight: 2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Trousers
+  detailMaterial: Buckram
+  material: Cloth
+  durability: 10
+  value: 39
+  weight: 2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 39
 origWeight: 2

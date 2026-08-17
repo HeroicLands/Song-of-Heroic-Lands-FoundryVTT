@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Amber
-    - miscgear-amber
+  - Amber
+  - miscgear-amber
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Amber
-    aliases: []
+  full: Amber
+  aliases: []
 description: "Fossilized golden resin; craftspeople carve or polish into beads and ornaments."
 id: P8KOgfPK1euQYrku
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: amber
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 50
-    weight: 0.0625
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 50
+  weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

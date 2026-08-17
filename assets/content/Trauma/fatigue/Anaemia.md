@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-anaemia
+  - trauma-anaemia
 tags: []
 name:
-    full: Anaemia
-    aliases: []
+  full: Anaemia
+  aliases: []
 description: "Long-term weakness from depleted blood reserves."
 id: sQsHFwWlXtlIazk3
 img: icons/game-icons/lorc/sleepy.svg
@@ -12,12 +12,12 @@ shortcode: anaemia
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weakness
+  levelBase: 1
+  healingRateBase: 1
 folder: Y22wv8plMCfPXYBT
 ---
 

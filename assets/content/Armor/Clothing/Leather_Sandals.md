@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Leather Sandals
-    - armorgear-LtSndls
+  - Leather Sandals
+  - armorgear-LtSndls
 tags: []
 name:
-    full: Leather Sandals
-    aliases: []
+  full: Leather Sandals
+  aliases: []
 description: "Lightweight leather foot covering combining comfort with rugged charm."
 id: zqLrR90jgECDsRkk
 img: icons/game-icons/delapouite/flip-flops.svg
@@ -13,28 +13,28 @@ shortcode: LtSndls
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Sandals
-    detailMaterial: Leather
-    material: Leather
-    durability: 9
-    value: 56
-    weight: 0.7
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Sandals
+  detailMaterial: Leather
+  material: Leather
+  durability: 9
+  value: 56
+  weight: 0.7
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 56
 origWeight: 0.7

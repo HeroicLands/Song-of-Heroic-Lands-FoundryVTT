@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-thtcs
+  - skill-thtcs
 tags: []
 name:
-    full: Theatrics
-    aliases: []
+  full: Theatrics
+  aliases: []
 description: "Performance and disguise through role assumption and identity transformation."
 id: LPAYj3D7r0QjsnFA
 img: icons/game-icons/lorc/drama-masks.svg
@@ -12,18 +12,18 @@ shortcode: thtcs
 type: skill
 package: sohl
 sohl:
-    kbcat: social
-    archetype: 0
-    subType: social
-    skillBaseFormula: "sb(attr.cre, attr.elo)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 1
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: social
+  archetype: 0
+  subType: social
+  skillBaseFormula: "sb(attr.cre, attr.elo)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 1
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: JBr2U30FsJTs8F3l
 ---
 

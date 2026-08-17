@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Weapon
-    - doc-weapon
+  - Weapon
+  - doc-weapon
 id: kSuLAvR1c8R8tIW6
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Weapon"
+  full: "Weapon"
 shortcode: weapon
 folder: QtOgPodi8X6gDWL0
 ---

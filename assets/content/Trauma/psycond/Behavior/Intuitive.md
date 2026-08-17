@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-inttv
+  - trauma-inttv
 tags: []
 name:
-    full: Intuitive
-    aliases: []
+  full: Intuitive
+  aliases: []
 id: gCqxoueeDJlZuS8u
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: inttv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

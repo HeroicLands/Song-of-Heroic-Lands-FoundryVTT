@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Brazier
-    - miscgear-brazier
+  - Brazier
+  - miscgear-brazier
 tags:
-    - lighting
+  - lighting
 name:
-    full: Brazier
-    aliases: []
+  full: Brazier
+  aliases: []
 description: "Cast-iron or bronze basin on tripod; holds coals for warmth and light."
 id: vcHHFIAw2xs4JN6j
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: brazier
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 100
-    weight: 25
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 100
+  weight: 25
 folder: csqutf8WiTRM8oru
 ---
 

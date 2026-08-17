@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-kmpnphb
+  - trauma-kmpnphb
 tags: []
 name:
-    full: Koumpounophobia
-    aliases: []
+  full: Koumpounophobia
+  aliases: []
 id: g32rVis8q7yT3BFf
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: kmpnphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

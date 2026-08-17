@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-acro
+  - skill-acro
 tags: []
 name:
-    full: Acrobatics
-    aliases: []
+  full: Acrobatics
+  aliases: []
 description: "Vaulting, balance, tumbling; recovers gracefully from perilous falls."
 id: MCxEVjsyUzLvJd4j
 img: icons/game-icons/lorc/cartwheel.svg
@@ -12,20 +12,20 @@ shortcode: acro
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.agl, attr.end)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.agl, attr.end)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: Yt9THlZ0NT8H6aSK
 ---
 

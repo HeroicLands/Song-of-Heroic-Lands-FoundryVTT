@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Nails, pack of 24"
-    - miscgear-nailspacko
+  - "Nails, pack of 24"
+  - miscgear-nailspacko
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Nails, pack of 24"
-    aliases: []
+  full: "Nails, pack of 24"
+  aliases: []
 description: "Mixed iron nails for quick repairs and affixing tent frames."
 id: MWtDunXasiSfpBca
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: nailspacko
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 2
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 2
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

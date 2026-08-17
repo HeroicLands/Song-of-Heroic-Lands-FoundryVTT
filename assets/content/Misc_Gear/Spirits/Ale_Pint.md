@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ale, Pint"
-    - miscgear-alept
+  - "Ale, Pint"
+  - miscgear-alept
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Ale, Pint"
-    aliases: []
+  full: "Ale, Pint"
+  aliases: []
 description: "Pale ale in cup or horn; staple wage for laborers and soldiers."
 id: TBgqSz5G2bjjO2vk
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: alept
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

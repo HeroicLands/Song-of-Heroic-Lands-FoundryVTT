@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Concoction
-    - doc-cncctn
+  - Concoction
+  - doc-cncctn
 id: nV3Nq6xe3fUcJJzd
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Concoction"
+  full: "Concoction"
 shortcode: cncctn
 
 folder: QtOgPodi8X6gDWL0

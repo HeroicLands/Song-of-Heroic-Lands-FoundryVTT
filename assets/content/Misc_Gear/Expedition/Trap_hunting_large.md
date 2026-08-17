@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Trap, hunting, large"
-    - miscgear-traphuntin
+  - "Trap, hunting, large"
+  - miscgear-traphuntin
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Trap, hunting, large"
-    aliases: []
+  full: "Trap, hunting, large"
+  aliases: []
 description: "Heavy iron jaw-trap for deer and boar; set along game trails."
 id: 3K7KYsnxSpVzB074
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: traphuntin
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 40
-    weight: 8
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 40
+  weight: 8
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Grapes
-    - miscgear-grapes
+  - Grapes
+  - miscgear-grapes
 tags:
-    - food
+  - food
 name:
-    full: Grapes
-    aliases: []
+  full: Grapes
+  aliases: []
 description: "Fresh plump in season; dried into raisins for merchant wagons and packs."
 id: VL1Y4nwDrRXTEpYB
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: grapes
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-tbclos
+  - affliction-tbclos
 tags: []
 name:
-    full: Tuberculosis
-    aliases: []
+  full: Tuberculosis
+  aliases: []
 description: "Contagious lung infection; persistent bloody cough, fever, wasting; airborne spread."
 id: YbNp8VymZVnrPf4h
 img: icons/game-icons/lorc/virus.svg
@@ -12,13 +12,13 @@ shortcode: tbclos
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: airborne
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: airborne
 folder: 3lobflzDt8Hk6VrN
 ---
 

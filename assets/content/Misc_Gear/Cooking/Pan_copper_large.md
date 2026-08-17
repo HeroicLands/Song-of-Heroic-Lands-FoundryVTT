@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pan, copper, large"
-    - miscgear-pancopperl
+  - "Pan, copper, large"
+  - miscgear-pancopperl
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Pan, copper, large"
-    aliases: []
+  full: "Pan, copper, large"
+  aliases: []
 description: "Wide tinned copper pan with iron handle; fries and sautés multiple portions."
 id: TRdqyOC32SUeAIik
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pancopperl
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 12
-    weight: 3
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 12
+  weight: 3
 folder: 7TT0OzoIoEn40zfs
 ---
 

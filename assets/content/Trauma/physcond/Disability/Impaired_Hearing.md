@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Impaired Hearing
-    - trauma-impaired
+  - Impaired Hearing
+  - trauma-impaired
 tags: []
 name:
-    full: Impaired Hearing
-    aliases: []
+  full: Impaired Hearing
+  aliases: []
 id: NnySwLpA4EHqC42L
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaired
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

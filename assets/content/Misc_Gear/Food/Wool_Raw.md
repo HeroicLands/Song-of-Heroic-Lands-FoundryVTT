@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Wool, Raw"
-    - miscgear-woolraw
+  - "Wool, Raw"
+  - miscgear-woolraw
 tags:
-    - food
+  - food
 name:
-    full: "Wool, Raw"
-    aliases: []
+  full: "Wool, Raw"
+  aliases: []
 description: "Freshly sheared fleece, carded clean, traded by weight for spinning."
 id: QhXFBXG6OXliukiD
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: woolraw
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 4
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 4
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

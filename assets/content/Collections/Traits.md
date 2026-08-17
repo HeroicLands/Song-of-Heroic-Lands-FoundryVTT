@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Traits
-    - doc-traits
+  - Traits
+  - doc-traits
 id: b6UHh4QRhBkDNf02
 name:
-    full: Traits
-    aliases: []
+  full: Traits
+  aliases: []
 type: doc
 category: collection
 package: sohl

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Limb Weakness
-    - trauma-lmbwknss
+  - Limb Weakness
+  - trauma-lmbwknss
 tags: []
 name:
-    full: Limb Weakness
-    aliases: []
+  full: Limb Weakness
+  aliases: []
 id: LSjtSYUXhPsCUwwL
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: lmbwknss
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-sspcs
+  - trauma-sspcs
 tags: []
 name:
-    full: Suspicious
-    aliases: []
+  full: Suspicious
+  aliases: []
 id: bcmfnzhm5Ky5X5te
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sspcs
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

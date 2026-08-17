@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Rope, 1” hemp, per ft  (1,125 lb cap.)"
-    - miscgear-rope1hempp
+  - "Rope, 1” hemp, per ft  (1,125 lb cap.)"
+  - miscgear-rope1hempp
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Rope, 1” hemp, per ft  (1,125 lb cap.)"
-    aliases: []
+  full: "Rope, 1” hemp, per ft  (1,125 lb cap.)"
+  aliases: []
 description: "Stiff hemp rope for wagons and builders; tarred against weather damage."
 id: BpktBOd5GaPp39BH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rope1hempp
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 2
-    weight: 0.27
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 2
+  weight: 0.27
 folder: FSPVI1eObGEpMVck
 ---
 

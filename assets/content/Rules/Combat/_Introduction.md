@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Combat Introduction
-    - Combat
-    - Combat Round
-    - Initiative Rank
-    - doc-combatintro
+  - Combat Introduction
+  - Combat
+  - Combat Round
+  - Initiative Rank
+  - doc-combatintro
 id: T7DKbPLUwqQyQL08
 type: doc
 package: sohl
 category: rules
 name:
-    full: Combat Introduction
-    aliases: []
+  full: Combat Introduction
+  aliases: []
 folder: rotB8uN12YUN0Oba
 shortcode: combatintro
 ---

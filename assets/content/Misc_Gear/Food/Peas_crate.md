@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Peas, crate"
-    - miscgear-peascrate
+  - "Peas, crate"
+  - miscgear-peascrate
 tags:
-    - food
+  - food
 name:
-    full: "Peas, crate"
-    aliases: []
+  full: "Peas, crate"
+  aliases: []
 description: "Dried legume bushel, stretches meat into thick nourishing pottage for garrisons."
 id: VgTWpcwG1ziJOLdo
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: peascrate
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 6.5
-    weight: 41.25
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 6.5
+  weight: 41.25
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Skills
-    - doc-skills2
+  - Skills
+  - doc-skills2
 id: AVuARfyd5TjmGqUh
 name:
-    full: Skills
-    aliases: []
+  full: Skills
+  aliases: []
 type: doc
 category: collection
 package: sohl

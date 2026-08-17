@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Scale Cowl
-    - armorgear-SCwl
+  - Scale Cowl
+  - armorgear-SCwl
 tags: []
 name:
-    full: Scale Cowl
-    aliases: []
+  full: Scale Cowl
+  aliases: []
 description: "Scale-sewn hood; overlapping metal scales for head protection."
 id: 8qyc91Lhgug9jCe4
 img: icons/game-icons/lorc/hood.svg
@@ -13,28 +13,28 @@ shortcode: SCwl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide, mtlc]
-    kbcat: scale
-    archetype: 0
-    armorType: Cowl
-    detailMaterial: Scale
-    material: Scale
-    durability: 14
-    value: 60
-    weight: 3.3
-    encumbrance: 0
-    perceptionPenaltyBase: -5
-    flexloc: []
-    rigidloc:
-        - skullloc
-        - neckloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide, mtlc]
+  kbcat: scale
+  archetype: 0
+  armorType: Cowl
+  detailMaterial: Scale
+  material: Scale
+  durability: 14
+  value: 60
+  weight: 3.3
+  encumbrance: 0
+  perceptionPenaltyBase: -5
+  flexloc: []
+  rigidloc:
+    - skullloc
+    - neckloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 60
 origWeight: 3.3

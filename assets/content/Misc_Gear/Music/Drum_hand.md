@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Drum, hand"
-    - miscgear-drumhand
+  - "Drum, hand"
+  - miscgear-drumhand
 tags:
-    - music
+  - music
 name:
-    full: "Drum, hand"
-    aliases: []
+  full: "Drum, hand"
+  aliases: []
 description: "Shallow frame drum played with palms; quick bright voice; favored by minstrels."
 id: 0LV72YlMVpb5HGsa
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: drumhand
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 36
-    weight: 4
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 36
+  weight: 4
 folder: ncTaRcZt0RFYz0Gq
 ---
 

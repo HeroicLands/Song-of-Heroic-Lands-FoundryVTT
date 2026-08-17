@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bestiary
-    - doc-bestiary
+  - Bestiary
+  - doc-bestiary
 tags: []
 id: w21JSRk0uXGTaznQ
 name:
-    full: Bestiary
-    aliases: []
+  full: Bestiary
+  aliases: []
 shortcode: bestiary
 type: doc
 category: rules

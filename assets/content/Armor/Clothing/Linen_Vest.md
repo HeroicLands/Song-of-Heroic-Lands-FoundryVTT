@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Linen Vest
-    - armorgear-LVest
+  - Linen Vest
+  - armorgear-LVest
 tags: []
 name:
-    full: Linen Vest
-    aliases: []
+  full: Linen Vest
+  aliases: []
 description: "Light breathable sleeveless garment perfect for warm weather activities."
 id: aeLCQjniXioqN8oH
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: LVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Linen
-    material: Cloth
-    durability: 5
-    value: 12
-    weight: 0.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Linen
+  material: Cloth
+  durability: 5
+  value: 12
+  weight: 0.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 24
 origWeight: 1.2

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Tack & Grooming Kit
-    - miscgear-tackkit
+  - Tack & Grooming Kit
+  - miscgear-tackkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Tack & Grooming Kit
-    aliases: []
+  full: Tack & Grooming Kit
+  aliases: []
 description: "Leather satchel with currycomb, brushes, hoof pick, bridle awl, strap stock, oil; mount care and tack repair."
 id: 1rRMihBm9Rso96gE
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tackkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 20
-    weight: 5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 20
+  weight: 5
 folder: xniLjmZWYQZkSxyv
 ---
 

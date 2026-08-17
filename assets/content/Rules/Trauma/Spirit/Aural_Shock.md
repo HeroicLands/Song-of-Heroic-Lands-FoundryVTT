@@ -1,16 +1,16 @@
 ---
 aliases:
-    - Aural Shock
-    - Aural Shock Level
-    - Aural Shock Recovery Test
-    - doc-arlshck
+  - Aural Shock
+  - Aural Shock Level
+  - Aural Shock Recovery Test
+  - doc-arlshck
 id: A8oMKQjucNVvKnpr
 type: doc
 package: sohl
 category: rules
 name:
-    full: Aural Shock
-    aliases: []
+  full: Aural Shock
+  aliases: []
 folder: TiVEgAyetL6JTjqG
 shortcode: arlshck
 ---

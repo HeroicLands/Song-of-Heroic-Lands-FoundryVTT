@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Light Broad Arrow
-    - projectilegear-ArwLBrd
+  - Light Broad Arrow
+  - projectilegear-ArwLBrd
 tags: []
 name:
-    full: Light Broad Arrow
-    alias: []
+  full: Light Broad Arrow
+  alias: []
 description: "Light hunting shaft, leaf-shaped iron edge; bleeds prey, deer, fox, unarmoured men."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: ArwLBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Broad
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.125
-    weight: 1
-    impact:
-        die: 8
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: true
-    subType: arrow
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.125
+  weight: 1
+  impact:
+    die: 8
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: true
+  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

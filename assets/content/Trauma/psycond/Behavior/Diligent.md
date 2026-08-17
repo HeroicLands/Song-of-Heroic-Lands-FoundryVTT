@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-diligent
+  - trauma-diligent
 tags: []
 name:
-    full: Diligent
-    aliases: []
+  full: Diligent
+  aliases: []
 id: 6ogsEHCl84nLyDTt
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: diligent
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Morale
-    - Morale Test
-    - Rally Test
-    - Reaction Test
-    - doc-morale
+  - Morale
+  - Morale Test
+  - Rally Test
+  - Reaction Test
+  - doc-morale
 id: jBDOZxRV8VpzsfPV
 type: doc
 package: sohl
 category: rules
 name:
-    full: Morale
-    aliases: []
+  full: Morale
+  aliases: []
 folder: hAloT0Y1xg1vcIIn
 shortcode: morale
 ---

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Rations, Standard
-    - miscgear-StdRtns
+  - Rations, Standard
+  - miscgear-StdRtns
 tags:
-    - food
+  - food
 name:
-    full: Rations, Standard
-    aliases: []
+  full: Rations, Standard
+  aliases: []
 description: "Bread, dried meat, cheese, fruit bundle for traveler's day of moderate labor."
 id: o2a755Xc5wOdNXJH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: StdRtns
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cook
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 2
-    weight: 3
+  craft:
+    skill: cook
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 2
+  weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

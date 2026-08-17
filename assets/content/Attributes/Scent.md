@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-snt
+  - attribute-snt
 tags: []
 name:
-    full: Scent
-    aliases: []
+  full: Scent
+  aliases: []
 description: "Smell alone: detecting, distinguishing, and following a trail on the air."
 id: RoMRyFlHJGNDcAF8
 img: icons/game-icons/lorc/snout.svg
@@ -12,17 +12,17 @@ shortcode: snt
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Anosmic:4
-        - Dull:7
-        - Common:10
-        - Keen:13
-        - Acute:17
-        - Preternatural:22
-        - Uncanny:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Anosmic:4
+    - Dull:7
+    - Common:10
+    - Keen:13
+    - Acute:17
+    - Preternatural:22
+    - Uncanny:999
+  initDiceFormula: 3d6
 sort: 55
 folder: FPitxvL8wCmXynax
 ---

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-actions
+  - doc-actions
 id: iQzDh13KVsOrpbqc
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Actions"
+  full: "Actions"
 shortcode: actions
 folder: IgwaG8rAUUO9vrtz
 ---

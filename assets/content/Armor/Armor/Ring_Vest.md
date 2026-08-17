@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Ring Vest
-    - armorgear-RnVest
+  - Ring Vest
+  - armorgear-RnVest
 tags: []
 name:
-    full: Ring Vest
-    aliases: []
+  full: Ring Vest
+  aliases: []
 description: "Sleeveless ring-reinforced leather vest; light-duty torso armor."
 id: z5crqHwZWxytq4YP
 img: icons/game-icons/lorc/leather-vest.svg
@@ -13,28 +13,28 @@ shortcode: RnVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: ring
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Ring
-    material: Ring
-    durability: 13
-    value: 324
-    weight: 13
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - thrxloc
-        - abdmnloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: ring
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Ring
+  material: Ring
+  durability: 13
+  value: 324
+  weight: 13
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - thrxloc
+    - abdmnloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 324
 origWeight: 13

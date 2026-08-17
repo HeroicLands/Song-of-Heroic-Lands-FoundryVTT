@@ -1,18 +1,18 @@
 ---
 aliases:
-    - Missile Attacks
-    - Missile Attack
-    - Missile Sequence
-    - Ranged Attacks
-    - Volley
-    - doc-msslattc
+  - Missile Attacks
+  - Missile Attack
+  - Missile Sequence
+  - Ranged Attacks
+  - Volley
+  - doc-msslattc
 id: rDBP7stlZ05KJIfE
 type: doc
 package: sohl
 category: rules
 name:
-    full: Missile Attacks
-    aliases: []
+  full: Missile Attacks
+  aliases: []
 folder: rotB8uN12YUN0Oba
 shortcode: msslattc
 ---

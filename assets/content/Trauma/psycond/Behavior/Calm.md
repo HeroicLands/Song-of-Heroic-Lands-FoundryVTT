@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-calm
+  - trauma-calm
 tags: []
 name:
-    full: Calm
-    aliases: []
+  full: Calm
+  aliases: []
 id: zDPRCmnsh7n5uxLX
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: calm
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

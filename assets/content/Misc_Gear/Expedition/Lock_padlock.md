@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Lock, padlock"
-    - miscgear-lockpadloc2
+  - "Lock, padlock"
+  - miscgear-lockpadloc2
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Lock, padlock"
-    aliases: []
+  full: "Lock, padlock"
+  aliases: []
 description: "Small iron padlock with U-shackle for securing cargo and tent flaps."
 id: tVbKScBj17e4suBR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lockpadloc2
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: lock
-        secondary: [mtlc]
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 35
-    weight: 0.5
+  craft:
+    skill: lock
+    secondary: [mtlc]
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 35
+  weight: 0.5
 folder: FSPVI1eObGEpMVck
 ---
 

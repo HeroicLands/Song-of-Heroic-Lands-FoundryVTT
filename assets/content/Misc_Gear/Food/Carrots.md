@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Carrots
-    - miscgear-carrots
+  - Carrots
+  - miscgear-carrots
 tags:
-    - food
+  - food
 name:
-    full: Carrots
-    aliases: []
+  full: Carrots
+  aliases: []
 description: "Orange root vegetables; sweet cooked, dried for long-simmering pots."
 id: QMMhI1h4rEq9KjXc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: carrots
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

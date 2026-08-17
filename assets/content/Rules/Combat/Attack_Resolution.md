@@ -1,19 +1,19 @@
 ---
 aliases:
-    - Attack Resolution
-    - Resolving an Attack
-    - The Exchange
-    - Combat Exchange
-    - Tactical Advantage
-    - Tactical Advantages
-    - doc-atkreslv
+  - Attack Resolution
+  - Resolving an Attack
+  - The Exchange
+  - Combat Exchange
+  - Tactical Advantage
+  - Tactical Advantages
+  - doc-atkreslv
 id: OuEx3Wa9RNMHtrgc
 type: doc
 package: sohl
 category: rules
 name:
-    full: Attack Resolution
-    aliases: []
+  full: Attack Resolution
+  aliases: []
 folder: rotB8uN12YUN0Oba
 shortcode: atkreslv
 ---

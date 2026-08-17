@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Garlic bulb
-    - miscgear-garlic
+  - Garlic bulb
+  - miscgear-garlic
 tags:
-    - food
+  - food
 name:
-    full: Garlic bulb
-    aliases: []
+  full: Garlic bulb
+  aliases: []
 description: "Papery-skinned bulb of cloves; sharp pungent seasoning, keeps for months."
 id: P1BWxECTXvblbBfV
 img: icons/game-icons/delapouite/herbs-bundle.svg
@@ -14,15 +14,15 @@ shortcode: garlic
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 9
-    weight: 0.1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 9
+  weight: 0.1
 folder: cHM58zOI1EcSG3cP
 ---
 

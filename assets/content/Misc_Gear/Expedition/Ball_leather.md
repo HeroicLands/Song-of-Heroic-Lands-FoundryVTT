@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ball, leather"
-    - miscgear-ballleathe
+  - "Ball, leather"
+  - miscgear-ballleathe
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Ball, leather"
-    aliases: []
+  full: "Ball, leather"
+  aliases: []
 description: "Cloth-core leather sphere; suits children's games and camp recreation safely."
 id: YBDPZfG9M8Faiiwe
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: ballleathe
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 4
-    weight: 1
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 4
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

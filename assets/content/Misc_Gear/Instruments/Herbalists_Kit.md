@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Herbalist's Kit
-    - miscgear-herbkit
+  - Herbalist's Kit
+  - miscgear-herbkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Herbalist's Kit
-    aliases: []
+  full: Herbalist's Kit
+  aliases: []
 description: "Leather satchel with mortar and pestle, pruning knife, vials, filter cloth, drying frame."
 id: g6OjdIxbReVBO4Gl
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: herbkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 35
-    weight: 3
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 35
+  weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Right Dominance
-    - trauma-rdmnc
+  - Right Dominance
+  - trauma-rdmnc
 tags: []
 name:
-    full: Right Dominance
-    aliases: []
+  full: Right Dominance
+  aliases: []
 id: idSEkL1vtiToutYV
 img: icons/game-icons/lorc/hand.svg
 shortcode: rdmnc
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

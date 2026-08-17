@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-archery
+  - skill-archery
 tags: []
 name:
-    full: Archery
-    aliases: []
+  full: Archery
+  aliases: []
 description: "Striking distant targets with bows and crossbows; reading windage and elevation."
 id: 6fgtfnfNablzp2SI
 img: icons/game-icons/lorc/pocket-bow.svg
@@ -12,19 +12,19 @@ shortcode: archery
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.per, attr.dex)"
-    combatCategory: melee
-    parentSkillCode: ""
-    initSkillMult: 1
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.per, attr.dex)"
+  combatCategory: melee
+  parentSkillCode: ""
+  initSkillMult: 1
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: EphAMAfFhWBrJxyF
 ---
 

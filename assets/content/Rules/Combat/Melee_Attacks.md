@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Melee Attacks
-    - Melee Attack
-    - Melee Combat
-    - Reach
-    - doc-mlattcks
+  - Melee Attacks
+  - Melee Attack
+  - Melee Combat
+  - Reach
+  - doc-mlattcks
 id: OqIctLS39bjX8rbr
 type: doc
 package: sohl
 category: rules
 name:
-    full: Melee Attacks
-    aliases: []
+  full: Melee Attacks
+  aliases: []
 folder: rotB8uN12YUN0Oba
 shortcode: mlattcks
 ---

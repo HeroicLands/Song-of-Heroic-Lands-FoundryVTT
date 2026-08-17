@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cdpndnt
+  - trauma-cdpndnt
 tags: []
 name:
-    full: Codependent
-    aliases: []
+  full: Codependent
+  aliases: []
 id: ViIV4vp6PSpMqlsW
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cdpndnt
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

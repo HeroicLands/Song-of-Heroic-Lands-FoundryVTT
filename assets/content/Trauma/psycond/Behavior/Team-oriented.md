@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-tmrntd
+  - trauma-tmrntd
 tags: []
 name:
-    full: Team-oriented
-    aliases: []
+  full: Team-oriented
+  aliases: []
 id: VPj3MrttXD1Ow5GJ
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tmrntd
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

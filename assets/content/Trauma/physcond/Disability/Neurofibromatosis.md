@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-neurofib
+  - trauma-neurofib
 tags: []
 name:
-    full: Neurofibromatosis
-    aliases: []
+  full: Neurofibromatosis
+  aliases: []
 id: IUR07QqjO12bZ0Tk
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: neurofib
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Box, wooden, 12 x 8 x 6 in"
-    - containergear-boxwood
+  - "Box, wooden, 12 x 8 x 6 in"
+  - containergear-boxwood
 tags: []
 name:
-    full: "Box, wooden, 12 x 8 x 6 in"
-    aliases: []
+  full: "Box, wooden, 12 x 8 x 6 in"
+  aliases: []
 description: "Small carved wooden box with a fitted lid, for oddments and keepsakes."
 id: GEZqCccHJWaVglBq
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: boxwood
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 4
-    maxCapacity: 10
-    value: 2
-    weight: 3
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 4
+  maxCapacity: 10
+  value: 2
+  weight: 3
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bell, small"
-    - miscgear-bellsmall
+  - "Bell, small"
+  - miscgear-bellsmall
 tags:
-    - music
+  - music
 name:
-    full: "Bell, small"
-    aliases: []
+  full: "Bell, small"
+  aliases: []
 description: "Modest bronze-iron bell with handle; lighter, sharper than hand bell; livestock tracking."
 id: QAVGirwmcQMrNjZX
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bellsmall
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 4
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 4
+  weight: 1
 folder: ncTaRcZt0RFYz0Gq
 ---
 

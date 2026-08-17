@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Ballista Bolt
-    - projectilegear-BltSge
+  - Ballista Bolt
+  - projectilegear-BltSge
 tags: []
 name:
-    full: Ballista Bolt
-    alias: []
+  full: Ballista Bolt
+  alias: []
 description: "Iron-headed shaft the length of a leg; loosed by engine, not by arm."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: BltSge
 img: icons/game-icons/lorc/barbed-spear.svg
 easyname: Ballista
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    subType: bolt
-    quality: 0
-    durability: 12
-    value: 2
-    weight: 8
-    impact:
-        die: 6
-        modifier: 6
-        aspect: piercing
-    traits:
-        ARvalue: 6
-        bleed: true
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  subType: bolt
+  quality: 0
+  durability: 12
+  value: 2
+  weight: 8
+  impact:
+    die: 6
+    modifier: 6
+    aspect: piercing
+  traits:
+    ARvalue: 6
+    bleed: true
 folder: ADQPHjgKsdWsJhyy
 ---
 

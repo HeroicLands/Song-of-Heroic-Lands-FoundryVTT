@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-pssmstc
+  - trauma-pssmstc
 tags: []
 name:
-    full: Pessimistic
-    aliases: []
+  full: Pessimistic
+  aliases: []
 id: LlfNyX9IWa1uG00R
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: pssmstc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

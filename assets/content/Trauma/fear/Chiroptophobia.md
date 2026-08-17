@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-chrptphb
+  - trauma-chrptphb
 tags: []
 name:
-    full: Chiroptophobia
-    aliases: []
+  full: Chiroptophobia
+  aliases: []
 id: u8cYYNzMnYNQfmWO
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: chrptphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Flour, Barley"
-    - miscgear-flourbarle
+  - "Flour, Barley"
+  - miscgear-flourbarle
 tags:
-    - food
+  - food
 name:
-    full: "Flour, Barley"
-    aliases: []
+  full: "Flour, Barley"
+  aliases: []
 description: "Earthy pale flour; bakes flatbreads and thickens pottage when wheat scarce."
 id: iXsuE64gdzCiY7d9
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: flourbarle
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mill
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1
+  craft:
+    skill: mill
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

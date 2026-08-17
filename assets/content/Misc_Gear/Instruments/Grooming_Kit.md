@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Grooming Kit
-    - Personal Grooming Kit
-    - Toilet Kit
-    - miscgear-groomkit
+  - Grooming Kit
+  - Personal Grooming Kit
+  - Toilet Kit
+  - miscgear-groomkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Grooming Kit
-    aliases:
-        - Toilet Kit
+  full: Grooming Kit
+  aliases:
+    - Toilet Kit
 description: "Leather roll with comb, brush, folding razor, hand mirror, soap, pomade; daily upkeep of hair, beard, and skin."
 id: WAoCcpTuCJlTBP3O
 img: icons/game-icons/lorc/swap-bag.svg
@@ -17,15 +17,15 @@ shortcode: groomkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 20
-    weight: 1.5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 20
+  weight: 1.5
 folder: xniLjmZWYQZkSxyv
 ---
 

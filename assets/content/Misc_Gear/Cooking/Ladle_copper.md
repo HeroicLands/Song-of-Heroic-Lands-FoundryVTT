@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ladle, copper"
-    - miscgear-ladlecoppe
+  - "Ladle, copper"
+  - miscgear-ladlecoppe
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Ladle, copper"
-    aliases: []
+  full: "Ladle, copper"
+  aliases: []
 description: "Tinned copper ladle with long handle; serves hot liquids from cauldron safely."
 id: dpNtTHN7b9OYEqJe
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: ladlecoppe
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 4
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 4
+  weight: 2
 folder: 7TT0OzoIoEn40zfs
 ---
 

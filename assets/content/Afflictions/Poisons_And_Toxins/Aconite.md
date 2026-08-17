@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-aconite
+  - affliction-aconite
 tags: []
 name:
-    full: Aconite
-    aliases: []
+  full: Aconite
+  aliases: []
 description: "Wolfsbane alkaloid; burning, numbness, cardiac arrest; smeared on arrows."
 id: J6aklskzkfBdEnoo
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: aconite
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

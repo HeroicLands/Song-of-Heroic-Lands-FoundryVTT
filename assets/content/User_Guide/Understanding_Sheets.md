@@ -1,12 +1,12 @@
 ---
 aliases:
-    - doc-undrstnd
+  - doc-undrstnd
 id: DplPGYa4Gv1DkL0H
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Understanding Sheets"
+  full: "Understanding Sheets"
 shortcode: undrstnd
 folder: IgwaG8rAUUO9vrtz
 ---

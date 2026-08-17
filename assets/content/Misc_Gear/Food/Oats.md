@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Oats
-    - miscgear-oats
+  - Oats
+  - miscgear-oats
 tags:
-    - food
+  - food
 name:
-    full: Oats
-    aliases: []
+  full: Oats
+  aliases: []
 description: "Northern staple grain feeding both livestock and humans, years of storage."
 id: X0l995RrWsgFBeUM
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: oats
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 4
-    weight: 32
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 4
+  weight: 32
 folder: cHM58zOI1EcSG3cP
 ---
 

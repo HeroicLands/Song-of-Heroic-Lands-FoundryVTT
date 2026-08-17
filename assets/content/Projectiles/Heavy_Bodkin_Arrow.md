@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Heavy Bodkin Arrow
-    - projectilegear-ArwHBod
+  - Heavy Bodkin Arrow
+  - projectilegear-ArwHBod
 tags: []
 name:
-    full: Heavy Bodkin Arrow
-    alias: []
+  full: Heavy Bodkin Arrow
+  alias: []
 description: "Thick shaft, four-sided iron spike; pierces plate, mail, gambeson up close."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: ArwHBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Bodkin
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    subType: arrow
-    quality: 0
-    durability: 10
-    value: 0.22
-    weight: 1.25
-    impact:
-        die: 12
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: false
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  subType: arrow
+  quality: 0
+  durability: 10
+  value: 0.22
+  weight: 1.25
+  impact:
+    die: 12
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: false
 folder: ADQPHjgKsdWsJhyy
 ---
 

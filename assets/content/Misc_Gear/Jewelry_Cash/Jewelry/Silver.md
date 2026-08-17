@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Silver
-    - miscgear-silver
+  - Silver
+  - miscgear-silver
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Silver
-    aliases: []
+  full: Silver
+  aliases: []
 description: "Precious metal in ingots or coins; does not tarnish; accepts engraving."
 id: iOW0x6fI5TbOP3uE
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: silver
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 60
-    weight: 0.0625
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 60
+  weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-generous
+  - trauma-generous
 tags: []
 name:
-    full: Generous
-    aliases: []
+  full: Generous
+  aliases: []
 id: qdgboSZu0vOQXf4v
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: generous
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

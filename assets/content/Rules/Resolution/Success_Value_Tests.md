@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Success Value Test
-    - SV Test
-    - Success Value
-    - Value Diamonds
-    - doc-sccssvlt
+  - Success Value Test
+  - SV Test
+  - Success Value
+  - Value Diamonds
+  - doc-sccssvlt
 id: PqED2bmjJU5AdEsU
 type: doc
 package: sohl
 category: rules
 name:
-    full: Success Value Tests
-    aliases: []
+  full: Success Value Tests
+  aliases: []
 shortcode: sccssvlt
 folder: BTGA1PmN0VlBWpCm
 ---

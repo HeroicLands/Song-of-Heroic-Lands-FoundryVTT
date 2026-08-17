@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Barrel, 10 gallon"
-    - containergear-barrel10gal
+  - "Barrel, 10 gallon"
+  - containergear-barrel10gal
 tags: []
 name:
-    full: "Barrel, 10 gallon"
-    aliases: []
+  full: "Barrel, 10 gallon"
+  aliases: []
 description: "Coopered oak barrel bound with iron hoops (10 gallons)."
 id: uk7tD4Uh7vGN8Byo
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: barrel10gal
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 5
-    maxCapacity: 80
-    value: 12
-    weight: 30
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 5
+  maxCapacity: 80
+  value: 12
+  weight: 30
 folder: dl8lJ729W1mFlDvt
 ---
 

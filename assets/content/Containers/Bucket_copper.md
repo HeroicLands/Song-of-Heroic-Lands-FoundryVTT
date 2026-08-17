@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bucket, copper"
-    - containergear-bucketcopp
+  - "Bucket, copper"
+  - containergear-bucketcopp
 tags: []
 name:
-    full: "Bucket, copper"
-    aliases: []
+  full: "Bucket, copper"
+  aliases: []
 description: "Tinned-copper bucket for heating and cooking without iron."
 id: NwG06snlkXwaT7vQ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bucketcopp
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 4
-    maxCapacity: 24
-    value: 10
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 4
+  maxCapacity: 24
+  value: 10
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

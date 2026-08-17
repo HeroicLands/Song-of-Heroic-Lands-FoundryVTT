@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Opal, cut"
-    - miscgear-opalcut
+  - "Opal, cut"
+  - miscgear-opalcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Opal, cut"
-    aliases: []
+  full: "Opal, cut"
+  aliases: []
 description: "Luminous pale gem with rainbow-color flashes; iridescent, softer and requires gentle handling."
 id: 1pNrGrhf9iLgQLBZ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: opalcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 80
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 80
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

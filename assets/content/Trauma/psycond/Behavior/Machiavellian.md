@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-mchvlln
+  - trauma-mchvlln
 tags: []
 name:
-    full: Machiavellian
-    aliases: []
+  full: Machiavellian
+  aliases: []
 id: UyGbQku6nZrU9l78
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mchvlln
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

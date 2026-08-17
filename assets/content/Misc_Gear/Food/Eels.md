@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Eels
-    - miscgear-eels
+  - Eels
+  - miscgear-eels
 tags:
-    - food
+  - food
 name:
-    full: Eels
-    aliases: []
+  full: Eels
+  aliases: []
 description: "Fresh freshwater fish; rich fat, distinctive flavor, preserves well smoked."
 id: 8zzT10Vdg8TQ9vYe
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: eels
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 0.75
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 0.75
 folder: cHM58zOI1EcSG3cP
 ---
 

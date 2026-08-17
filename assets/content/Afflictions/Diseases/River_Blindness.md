@@ -1,11 +1,11 @@
 ---
 aliases:
-    - River Blindness
-    - affliction-rivrblnd
+  - River Blindness
+  - affliction-rivrblnd
 tags: []
 name:
-    full: River Blindness
-    aliases: []
+  full: River Blindness
+  aliases: []
 description: "Filarial worm parasite; intense itching and skin rashes; eventual blindness."
 id: stwGy3btoH8gYpxi
 img: icons/game-icons/lorc/virus.svg
@@ -13,13 +13,13 @@ shortcode: rivrblnd
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: 3lobflzDt8Hk6VrN
 ---
 

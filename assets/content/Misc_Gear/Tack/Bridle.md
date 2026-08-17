@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bridle
-    - miscgear-bridle
+  - Bridle
+  - miscgear-bridle
 tags:
-    - tack
+  - tack
 name:
-    full: Bridle
-    aliases: []
+  full: Bridle
+  aliases: []
 description: "Leather straps and iron rings; fits horse's head, steers via reins."
 id: leaMQx2uJtxYoz3p
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bridle
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 12
-    weight: 2
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 12
+  weight: 2
 folder: WTIUTjADwAcpyv0H
 ---
 

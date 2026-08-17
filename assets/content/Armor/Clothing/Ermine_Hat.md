@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Ermine Hat
-    - armorgear-EHat
+  - Ermine Hat
+  - armorgear-EHat
 tags: []
 name:
-    full: Ermine Hat
-    aliases: []
+  full: Ermine Hat
+  aliases: []
 description: "White ermine fur hat signifying high status and elite prestige."
 id: 51lcSTbYQhP0xMFK
 img: icons/game-icons/lorc/pointy-hat.svg
@@ -13,27 +13,27 @@ shortcode: EHat
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Hat
-    detailMaterial: Ermine
-    material: Leather
-    durability: 7
-    value: 96
-    weight: 0.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Hat
+  detailMaterial: Ermine
+  material: Leather
+  durability: 7
+  value: 96
+  weight: 0.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 96
 origWeight: 0.4

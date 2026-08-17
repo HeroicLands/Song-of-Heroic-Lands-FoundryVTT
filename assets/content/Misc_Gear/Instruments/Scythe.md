@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Scythe"
-    - miscgear-scythe
+  - "Scythe"
+  - miscgear-scythe
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Scythe"
-    aliases: []
+  full: "Scythe"
+  aliases: []
 description: "Long curved blade on a bent haft for mowing hay and standing grain."
 id: KVgJ2p4ZpHMX2ndG
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: scythe
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 36
-    weight: 5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 36
+  weight: 5
 folder: xniLjmZWYQZkSxyv
 ---
 

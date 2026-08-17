@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-snstv
+  - trauma-snstv
 tags: []
 name:
-    full: Sensitive
-    aliases: []
+  full: Sensitive
+  aliases: []
 id: 7QSiWr7US4JKHNSg
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: snstv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

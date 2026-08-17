@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Salmon
-    - miscgear-salmon
+  - Salmon
+  - miscgear-salmon
 tags:
-    - food
+  - food
 name:
-    full: Salmon
-    aliases: []
+  full: Salmon
+  aliases: []
 description: "Rich orange-fleshed river fish, firm and oily, smoked or salted."
 id: XAl1HYIyDo1stvAQ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: salmon
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 2
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 2
 folder: cHM58zOI1EcSG3cP
 ---
 

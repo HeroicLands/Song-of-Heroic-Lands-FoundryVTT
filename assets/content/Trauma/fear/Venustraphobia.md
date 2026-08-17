@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-vnstrphb
+  - trauma-vnstrphb
 tags: []
 name:
-    full: Venustraphobia
-    aliases: []
+  full: Venustraphobia
+  aliases: []
 id: kstk9eIcAnEvuVQg
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: vnstrphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

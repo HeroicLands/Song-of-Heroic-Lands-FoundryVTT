@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-phagophb
+  - trauma-phagophb
 tags: []
 name:
-    full: Phagophobia
-    aliases: []
+  full: Phagophobia
+  aliases: []
 id: wIgWz2bCKVCzr3SU
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: phagophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

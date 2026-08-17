@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-sleepdep
+  - trauma-sleepdep
 tags: []
 name:
-    full: Sleep Deprivation
-    aliases: []
+  full: Sleep Deprivation
+  aliases: []
 description: "Extended wakefulness; weariness, slow reflexes, hallucinations, collapse."
 id: s63FgaHbjReLffnl
 img: icons/game-icons/lorc/sleepy.svg
@@ -12,12 +12,12 @@ shortcode: sleepdep
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weariness
-    levelBase: 2
-    healingRateBase: 5
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weariness
+  levelBase: 2
+  healingRateBase: 5
 folder: Y22wv8plMCfPXYBT
 ---
 

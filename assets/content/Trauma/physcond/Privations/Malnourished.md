@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-malnut
+  - trauma-malnut
 tags: []
 name:
-    full: Malnourished
-    aliases: []
+  full: Malnourished
+  aliases: []
 description: "Chronic shortage of nutrients; poor healing, scurvy-like signs."
 id: oKkk7uWZEiRChlmc
 img: icons/game-icons/delapouite/stomach.svg
@@ -12,12 +12,12 @@ shortcode: malnut
 type: trauma
 package: sohl
 sohl:
-    kbcat: physprivations
-    archetype: 0
-    subType: physcond
-    category: impediment
-    levelBase: 2
-    healingRateBase: 2
+  kbcat: physprivations
+  archetype: 0
+  subType: physcond
+  category: impediment
+  levelBase: 2
+  healingRateBase: 2
 folder: wz4hXqKLntkdXNue
 ---
 

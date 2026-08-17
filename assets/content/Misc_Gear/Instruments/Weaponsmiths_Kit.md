@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Weaponsmith's Kit
-    - miscgear-wpnsmkit
+  - Weaponsmith's Kit
+  - miscgear-wpnsmkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Weaponsmith's Kit
-    aliases: []
+  full: Weaponsmith's Kit
+  aliases: []
 description: "Oiled leather roll with files, polishing stones, peening hammer, hilt drifts, grip wrap; weapon finishing and maintenance."
 id: bJtzVkjWE6WmYLhm
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wpnsmkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 120
-    weight: 12
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 120
+  weight: 12
 folder: xniLjmZWYQZkSxyv
 ---
 

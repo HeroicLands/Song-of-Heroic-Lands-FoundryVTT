@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Horn, musical"
-    - miscgear-hornmusica
+  - "Horn, musical"
+  - miscgear-hornmusica
 tags:
-    - music
+  - music
 name:
-    full: "Horn, musical"
-    aliases: []
+  full: "Horn, musical"
+  aliases: []
 description: "Polished ox or ram horn; mellow voice; blends with strings and woodwinds."
 id: IPNYN5Ni1sgfnEhN
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hornmusica
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 72
-    weight: 1
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 72
+  weight: 1
 folder: ncTaRcZt0RFYz0Gq
 ---
 

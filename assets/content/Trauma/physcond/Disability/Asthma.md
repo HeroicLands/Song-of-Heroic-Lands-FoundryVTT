@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-asthma
+  - trauma-asthma
 tags: []
 name:
-    full: Asthma
-    aliases: []
+  full: Asthma
+  aliases: []
 id: QI9bgiYrrQ4g2Tiq
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: asthma
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

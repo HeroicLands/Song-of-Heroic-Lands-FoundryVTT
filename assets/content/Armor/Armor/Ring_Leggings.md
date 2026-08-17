@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Ring Leggings
-    - armorgear-RnLeg
+  - Ring Leggings
+  - armorgear-RnLeg
 tags: []
 name:
-    full: Ring Leggings
-    aliases: []
+  full: Ring Leggings
+  aliases: []
 description: "Leather leggings studded with rings; thigh and shin protection."
 id: OUoL2vBQsFHCkWNg
 img: icons/game-icons/lorc/trousers.svg
@@ -13,34 +13,34 @@ shortcode: RnLeg
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: ring
-    archetype: 0
-    armorType: Leggings
-    detailMaterial: Ring
-    material: Ring
-    durability: 13
-    value: 486
-    weight: 19.4
-    encumbrance: 10
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: ring
+  archetype: 0
+  armorType: Leggings
+  detailMaterial: Ring
+  material: Ring
+  durability: 13
+  value: 486
+  weight: 19.4
+  encumbrance: 10
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 486
 origWeight: 19.4

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Hideworking Kit
-    - miscgear-hdwkkit
+  - Hideworking Kit
+  - miscgear-hdwkkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Hideworking Kit
-    aliases: []
+  full: Hideworking Kit
+  aliases: []
 description: "Leather roll with scrapers, stretching pegs, fleshing knife; tanners treat raw hides."
 id: GSnBMggD5ccGrIOg
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hdwkkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 24
-    weight: 3
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 24
+  weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

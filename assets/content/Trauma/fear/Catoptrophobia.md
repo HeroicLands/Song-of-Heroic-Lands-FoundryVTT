@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-ctptrphb
+  - trauma-ctptrphb
 tags: []
 name:
-    full: Catoptrophobia
-    aliases: []
+  full: Catoptrophobia
+  aliases: []
 id: dKXcUoz8Ha0gBhDX
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ctptrphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

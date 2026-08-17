@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Beads, copper"
-    - miscgear-beadscoppe
+  - "Beads, copper"
+  - miscgear-beadscoppe
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Beads, copper"
-    aliases: []
+  full: "Beads, copper"
+  aliases: []
 description: "Cast copper beads; common trade items and clothing decorations for many cultures."
 id: zMDgT9fxgo7553RX
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: beadscoppe
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 7
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 7
+  weight: 0
 folder: FSPVI1eObGEpMVck
 ---
 

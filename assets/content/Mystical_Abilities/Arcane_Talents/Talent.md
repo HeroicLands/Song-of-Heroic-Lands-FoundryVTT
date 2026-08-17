@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-tlnt
+  - mysticalability-tlnt
 tags: []
 name:
-    full: Talent
-    aliases: []
+  full: Talent
+  aliases: []
 description: "An untaught arcane knack, invoked directly and free of the incantation penalty."
 id: 9IdvC4RAPsx7og3I
 img: icons/psychic-waves.svg
@@ -12,13 +12,13 @@ shortcode: tlnt
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: arcanetalent
-    archetype: 0
-    subType: arcanetalent
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: arcanetalent
+  archetype: 0
+  subType: arcanetalent
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 
 folder: ZEuidNMK3mhkNrL7
 ---

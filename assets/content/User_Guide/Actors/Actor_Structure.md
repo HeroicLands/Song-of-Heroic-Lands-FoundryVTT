@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Structure
-    - doc-structure
+  - Structure
+  - doc-structure
 id: STezcXhJMlmYv9XT
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Structure"
+  full: "Structure"
 shortcode: structure
 folder: sYK1BozT9xFcinXK
 ---

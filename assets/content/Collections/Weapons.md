@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Weapons
-    - doc-weapons
+  - Weapons
+  - doc-weapons
 id: Go1pBv5Wt8EKxaG7
 name:
-    full: Weapons
-    aliases: []
+  full: Weapons
+  aliases: []
 type: doc
 category: collection
 package: sohl

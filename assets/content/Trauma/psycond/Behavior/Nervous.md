@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-nervous
+  - trauma-nervous
 tags: []
 name:
-    full: Nervous
-    aliases: []
+  full: Nervous
+  aliases: []
 id: eAZExp10nrLByqV1
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: nervous
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

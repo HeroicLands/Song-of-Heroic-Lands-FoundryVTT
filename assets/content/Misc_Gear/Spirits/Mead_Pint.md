@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Mead, Pint"
-    - miscgear-mdpt
+  - "Mead, Pint"
+  - miscgear-mdpt
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Mead, Pint"
-    aliases: []
+  full: "Mead, Pint"
+  aliases: []
 description: "Sweet warming honey mead; festival drink at harvest feasts, noble celebrations."
 id: ClpLjRHQSrRjwHuu
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: mdpt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

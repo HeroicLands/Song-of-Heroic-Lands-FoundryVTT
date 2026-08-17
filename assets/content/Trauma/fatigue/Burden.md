@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-burden
+  - trauma-burden
 tags: []
 name:
-    full: Burden
-    aliases: []
+  full: Burden
+  aliases: []
 description: "Sustained weariness from carrying a heavy load."
 id: AuSrW8gPY5nqihqT
 img: icons/game-icons/lorc/sleepy.svg
@@ -12,12 +12,12 @@ shortcode: burden
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weariness
+  levelBase: 1
+  healingRateBase: 3
 folder: Y22wv8plMCfPXYBT
 ---
 

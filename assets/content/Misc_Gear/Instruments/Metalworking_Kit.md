@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Metalworking Kit
-    - miscgear-metalwrktl
+  - Metalworking Kit
+  - miscgear-metalwrktl
 tags:
-    - instruments
+  - instruments
 name:
-    full: Metalworking Kit
-    aliases: []
+  full: Metalworking Kit
+  aliases: []
 description: "Canvas roll with cold chisels, files, hammers, drifts, scribe; smiths finish metalwork."
 id: 3HWA6AtafwGPbUVQ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: metalwrktl
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 100
-    weight: 10
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 100
+  weight: 10
 folder: xniLjmZWYQZkSxyv
 ---
 

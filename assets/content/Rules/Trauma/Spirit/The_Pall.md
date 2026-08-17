@@ -1,18 +1,18 @@
 ---
 aliases:
-    - The Pall
-    - Pall
-    - Pall Strength
-    - Pall Stress
-    - Pall Cloud
-    - doc-thepall
+  - The Pall
+  - Pall
+  - Pall Strength
+  - Pall Stress
+  - Pall Cloud
+  - doc-thepall
 id: RADvlTrsPHDSDYQN
 type: doc
 package: sohl
 category: rules
 name:
-    full: The Pall
-    aliases: []
+  full: The Pall
+  aliases: []
 folder: TiVEgAyetL6JTjqG
 shortcode: thepall
 ---

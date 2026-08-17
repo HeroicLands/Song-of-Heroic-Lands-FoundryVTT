@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-pal
+  - attribute-pal
 tags: []
 name:
-    full: Pall
-    aliases: []
+  full: Pall
+  aliases: []
 description: "The weight of death and chaos an undead thing presses on the living world."
 id: zB8xoPCL2JkAATl8
 img: icons/game-icons/lorc/triple-skulls.svg
@@ -12,15 +12,15 @@ shortcode: pal
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Tainted:2
-        - Shadowed:5
-        - Malign:9
-        - Ravening:14
-        - Abyssal:999
-    initDiceFormula: 0
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Tainted:2
+    - Shadowed:5
+    - Malign:9
+    - Ravening:14
+    - Abyssal:999
+  initDiceFormula: 0
 sort: 150
 folder: FPitxvL8wCmXynax
 ---

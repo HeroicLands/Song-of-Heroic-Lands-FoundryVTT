@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Lock, door, large"
-    - miscgear-lockdoorla
+  - "Lock, door, large"
+  - miscgear-lockdoorla
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Lock, door, large"
-    aliases: []
+  full: "Lock, door, large"
+  aliases: []
 description: "Standard iron deadbolt with careful wards; main doors of halls and townhouses."
 id: WhTLgTrKp7F8Q9gA
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lockdoorla
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: lock
-        secondary: [mtlc]
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 20
-    weight: 1
+  craft:
+    skill: lock
+    secondary: [mtlc]
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 20
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

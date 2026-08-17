@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Homespun Leggings
-    - armorgear-HsLeg
+  - Homespun Leggings
+  - armorgear-HsLeg
 tags: []
 name:
-    full: Homespun Leggings
-    aliases: []
+  full: Homespun Leggings
+  aliases: []
 description: "Simple homemade leggings offering coverage and warmth."
 id: 0WdbuC2tfrBA0VPp
 img: icons/game-icons/lorc/trousers.svg
@@ -13,34 +13,34 @@ shortcode: HsLeg
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Leggings
-    detailMaterial: Homespun
-    material: Cloth
-    durability: 5
-    value: 11
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Leggings
+  detailMaterial: Homespun
+  material: Cloth
+  durability: 5
+  value: 11
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 36
 origWeight: 1.8

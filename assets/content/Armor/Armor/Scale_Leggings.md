@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Scale Leggings
-    - armorgear-SLeg
+  - Scale Leggings
+  - armorgear-SLeg
 tags: []
 name:
-    full: Scale Leggings
-    aliases: []
+  full: Scale Leggings
+  aliases: []
 description: "Leggings with sewn metal scales; leg-and-thigh armor."
 id: uQENsarY2Fo7u0U4
 img: icons/game-icons/lorc/trousers.svg
@@ -13,34 +13,34 @@ shortcode: SLeg
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide, mtlc]
-    kbcat: scale
-    archetype: 0
-    armorType: Leggings
-    detailMaterial: Scale
-    material: Scale
-    durability: 14
-    value: 360
-    weight: 19.8
-    encumbrance: 10
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide, mtlc]
+  kbcat: scale
+  archetype: 0
+  armorType: Leggings
+  detailMaterial: Scale
+  material: Scale
+  durability: 14
+  value: 360
+  weight: 19.8
+  encumbrance: 10
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 360
 origWeight: 19.8

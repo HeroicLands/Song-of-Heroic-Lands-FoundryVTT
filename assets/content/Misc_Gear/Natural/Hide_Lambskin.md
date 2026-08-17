@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Lambskin"
-    - miscgear-hidelambsk
+  - "Hide, Lambskin"
+  - miscgear-hidelambsk
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Lambskin"
-    aliases: []
+  full: "Hide, Lambskin"
+  aliases: []
 description: "Young sheep pelt with wool; light, dyes well; pliant warm leather."
 id: PdZJ54PZzoJaYppd
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidelambsk
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 2
-    weight: 0.75
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 2
+  weight: 0.75
 folder: 0JqxkW5hHZ8XVILm
 ---
 

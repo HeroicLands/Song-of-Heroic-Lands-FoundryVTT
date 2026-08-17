@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-agree
+  - trauma-agree
 tags: []
 name:
-    full: Agreeable
-    aliases: []
+  full: Agreeable
+  aliases: []
 id: NRCshSzJzZWPjJKf
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: agree
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

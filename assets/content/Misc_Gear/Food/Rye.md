@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Rye
-    - miscgear-rye
+  - Rye
+  - miscgear-rye
 tags:
-    - food
+  - food
 name:
-    full: Rye
-    aliases: []
+  full: Rye
+  aliases: []
 description: "Hardy grain thriving in poor soil, grinds to dark bread flour."
 id: TgJ7KAG3VXzrWzS2
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rye
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 6
-    weight: 56
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 6
+  weight: 56
 folder: cHM58zOI1EcSG3cP
 ---
 

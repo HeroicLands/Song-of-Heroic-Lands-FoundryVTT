@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Salt, bag"
-    - miscgear-saltbag
+  - "Salt, bag"
+  - miscgear-saltbag
 tags:
-    - food
+  - food
 name:
-    full: "Salt, bag"
-    aliases: []
+  full: "Salt, bag"
+  aliases: []
 description: "Coarse sea-salt crystals, preserves meat and fish, seasons cooking daily."
 id: ls3eb160aqkhQPSg
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: saltbag
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

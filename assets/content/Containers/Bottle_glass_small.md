@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bottle, glass, small"
-    - containergear-bottleglas3
+  - "Bottle, glass, small"
+  - containergear-bottleglas3
 tags: []
 name:
-    full: "Bottle, glass, small"
-    aliases: []
+  full: "Bottle, glass, small"
+  aliases: []
 description: "Small pale glass bottle for tinctures and oils."
 id: 8kLkJWSXJxw2B2IK
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bottleglas3
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 2
-    value: 6
-    weight: 2
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 2
+  value: 6
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

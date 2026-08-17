@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Ritual Action
-    - doc-rtlactn
+  - Ritual Action
+  - doc-rtlactn
 id: SAPsZAA28wMkaRbl
 type: doc
 package: sohl
 category: rules
 name:
-    full: Ritual Action
-    aliases: []
+  full: Ritual Action
+  aliases: []
 shortcode: rtlactn
 folder: J8ppkzls4ERyzTpv
 ---

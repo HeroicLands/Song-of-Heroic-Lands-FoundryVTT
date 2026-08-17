@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ruby, cut"
-    - miscgear-rubycut
+  - "Ruby, cut"
+  - miscgear-rubycut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Ruby, cut"
-    aliases: []
+  full: "Ruby, cut"
+  aliases: []
 description: "Rarest gem; deep crimson corundum glowing like fire; marks power and wealth."
 id: OAdHcMAcd2aqp2xx
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rubycut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 1000
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 1000
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

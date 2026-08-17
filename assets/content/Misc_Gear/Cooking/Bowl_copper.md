@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bowl, copper"
-    - miscgear-bowlcopper
+  - "Bowl, copper"
+  - miscgear-bowlcopper
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Bowl, copper"
-    aliases: []
+  full: "Bowl, copper"
+  aliases: []
 description: "Tinned copper bowl; conducts heat evenly and suits kitchen and table use."
 id: ZRrFMcmOKEDldztN
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bowlcopper
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 6
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 6
+  weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

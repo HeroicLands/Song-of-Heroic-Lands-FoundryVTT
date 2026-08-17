@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Cauldron, Iron"
-    - containergear-cauldronir
+  - "Cauldron, Iron"
+  - containergear-cauldronir
 tags: []
 name:
-    full: "Cauldron, Iron"
-    aliases: []
+  full: "Cauldron, Iron"
+  aliases: []
 description: "Heavy cast-iron pot for communal cooking or laundry."
 id: 0FvWMn567aCWyqm4
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: cauldronir
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 10
-    maxCapacity: 80
-    value: 30
-    weight: 30
+  craft:
+    skill: mtlc
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 10
+  maxCapacity: 80
+  value: 30
+  weight: 30
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Tackle Block
-    - miscgear-tacklebloc
+  - Tackle Block
+  - miscgear-tacklebloc
 tags:
-    - expedition
+  - expedition
 name:
-    full: Tackle Block
-    aliases: []
+  full: Tackle Block
+  aliases: []
 description: "Single-wheel pulley; multiplies mechanical advantage for hauling cargo safely."
 id: hessefU2I49Y7iZ4
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tacklebloc
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 5
-    weight: 2.5
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 5
+  weight: 2.5
 folder: FSPVI1eObGEpMVck
 ---
 

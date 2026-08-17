@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-cook
+  - skill-cook
 tags: []
 name:
-    full: Cookery
-    aliases: []
+  full: Cookery
+  aliases: []
 description: "Preparing food; transforming ingredients into nourishing, delightful meals."
 id: vOMFCy5llDJ16W5G
 img: icons/game-icons/delapouite/cooking-pot.svg
@@ -12,19 +12,19 @@ shortcode: cook
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.per, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.per, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: QlkEHXbk2EXlRiMM
 ---
 

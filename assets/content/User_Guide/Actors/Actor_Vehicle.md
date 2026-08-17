@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Vehicle
-    - doc-vehicle
+  - Vehicle
+  - doc-vehicle
 id: UzvfN3dVTI3CCC2V
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Vehicle"
+  full: "Vehicle"
 shortcode: vehicle
 folder: sYK1BozT9xFcinXK
 ---

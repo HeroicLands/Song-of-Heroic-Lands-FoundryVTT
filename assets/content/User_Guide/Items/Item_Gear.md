@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Gear
-    - doc-itemgear
+  - Gear
+  - doc-itemgear
 id: p5xXqvicKqdw49rA
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Gear"
+  full: "Gear"
 shortcode: itemgear
 folder: QtOgPodi8X6gDWL0
 ---

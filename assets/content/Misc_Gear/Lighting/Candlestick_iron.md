@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Candlestick, iron"
-    - miscgear-candlestic
+  - "Candlestick, iron"
+  - miscgear-candlestic
 tags:
-    - lighting
+  - lighting
 name:
-    full: "Candlestick, iron"
-    aliases: []
+  full: "Candlestick, iron"
+  aliases: []
 description: "Iron socket with weighted base; holds candle upright for table or shelf."
 id: 3NcRPOVYawSguDXa
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: candlestic
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 7
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 7
+  weight: 1
 folder: csqutf8WiTRM8oru
 ---
 

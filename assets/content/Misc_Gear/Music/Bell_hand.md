@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bell, hand"
-    - miscgear-bellhand
+  - "Bell, hand"
+  - miscgear-bellhand
 tags:
-    - music
+  - music
 name:
-    full: "Bell, hand"
-    aliases: []
+  full: "Bell, hand"
+  aliases: []
 description: "Small bronze-iron bell with handle; bright clear note for summons and announcement."
 id: Woak28XKFFBpgUPV
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bellhand
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 5
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 5
+  weight: 1
 folder: ncTaRcZt0RFYz0Gq
 ---
 

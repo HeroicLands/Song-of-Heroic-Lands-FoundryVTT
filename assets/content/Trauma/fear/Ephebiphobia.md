@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-ephbphb
+  - trauma-ephbphb
 tags: []
 name:
-    full: Ephebiphobia
-    aliases: []
+  full: Ephebiphobia
+  aliases: []
 id: fvJwWCQ9PMJFm5UM
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: ephbphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Cooking pot, copper"
-    - containergear-cookingpot
+  - "Cooking pot, copper"
+  - containergear-cookingpot
 tags: []
 name:
-    full: "Cooking pot, copper"
-    aliases: []
+  full: "Cooking pot, copper"
+  aliases: []
 description: "Tinned-copper pot with lid for simmering without metallic taste."
 id: 0eiiEoznXlZ8Frvu
 img: icons/game-icons/delapouite/cooking-pot.svg
@@ -13,15 +13,15 @@ shortcode: cookingpot
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 4
-    maxCapacity: 16
-    value: 6
-    weight: 3
+  craft:
+    skill: mtlc
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 4
+  maxCapacity: 16
+  value: 6
+  weight: 3
 folder: dl8lJ729W1mFlDvt
 ---
 

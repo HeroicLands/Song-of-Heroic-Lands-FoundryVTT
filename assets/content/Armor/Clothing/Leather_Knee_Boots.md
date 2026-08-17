@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Leather Knee Boots
-    - armorgear-LtKBoot
+  - Leather Knee Boots
+  - armorgear-LtKBoot
 tags: []
 name:
-    full: Leather Knee Boots
-    aliases: []
+  full: Leather Knee Boots
+  aliases: []
 description: "Durable leather foot coverings extending above the knee for flexible footwear."
 id: oP4DZiYZmShsWYOs
 img: icons/game-icons/lorc/leather-boot.svg
@@ -13,32 +13,32 @@ shortcode: LtKBoot
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Knee Boots
-    detailMaterial: Leather
-    material: Leather
-    durability: 9
-    value: 176
-    weight: 2.2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Knee Boots
+  detailMaterial: Leather
+  material: Leather
+  durability: 9
+  value: 176
+  weight: 2.2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 176
 origWeight: 2.2

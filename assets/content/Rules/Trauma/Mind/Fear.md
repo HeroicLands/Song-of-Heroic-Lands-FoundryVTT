@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Fear
-    - Fear Test
-    - doc-fear
+  - Fear
+  - Fear Test
+  - doc-fear
 id: JQ6QycfbFNiwqmoW
 type: doc
 package: sohl
 category: rules
 name:
-    full: Fear
-    aliases: []
+  full: Fear
+  aliases: []
 folder: hAloT0Y1xg1vcIIn
 shortcode: fear
 ---

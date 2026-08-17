@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Cloth Mantle
-    - armorgear-CMntl
+  - Cloth Mantle
+  - armorgear-CMntl
 tags: []
 name:
-    full: Cloth Mantle
-    aliases: []
+  full: Cloth Mantle
+  aliases: []
 description: "Simple cloth mantle offering comfort and warmth for everyday wear."
 id: rd55maq7o4pWapTo
 img: icons/game-icons/delapouite/cape.svg
@@ -13,31 +13,31 @@ shortcode: CMntl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Mantle
-    detailMaterial: Cloth
-    material: Cloth
-    durability: 10
-    value: 21
-    weight: 1.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Mantle
+  detailMaterial: Cloth
+  material: Cloth
+  durability: 10
+  value: 21
+  weight: 1.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 21
 origWeight: 1.1

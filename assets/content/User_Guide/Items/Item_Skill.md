@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Skill
-    - doc-skill
+  - Skill
+  - doc-skill
 id: rbl6nD2s5gxsx9gR
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Skill"
+  full: "Skill"
 shortcode: skill
 folder: QtOgPodi8X6gDWL0
 ---
@@ -45,16 +45,16 @@ Spending Fate is described on [[doc-thftsyst|Fate]].
 Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Category:** Type of this skill. One of:
-    - **Social**
-    - **Nature**
-    - **Craft**
-    - **Lore**
-    - **Language**
-    - **Script**
-    - **Mystical**
-    - **Physical**
-    - **Combat**
-    - **Combat Technique** — a natural or unarmed fighting maneuver; adds a **Strike Modes** tab (see [[#combat-techniques|Combat Techniques]])
+  - **Social**
+  - **Nature**
+  - **Craft**
+  - **Lore**
+  - **Language**
+  - **Script**
+  - **Mystical**
+  - **Physical**
+  - **Combat**
+  - **Combat Technique** — a natural or unarmed fighting maneuver; adds a **Strike Modes** tab (see [[#combat-techniques|Combat Techniques]])
 - **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[doc-sfexprss|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **✎** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a ✗ in the Skills tab's SB column.
 - **Mastery Level:** Base mastery level representing training and experience. Leave it **blank** to have a skill on a character open automatically at _Skill Base × Init Multiplier_; enter a number to set the level explicitly.
 - **Init Multiplier:** Multiplier applied to the skill base to open the skill's mastery level for a new character. When _Mastery Level_ is blank and the skill is on a character, the opening mastery level is _Skill Base × Init Multiplier_.

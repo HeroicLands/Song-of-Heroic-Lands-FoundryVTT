@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Chrysolite, cut"
-    - miscgear-chrysolite
+  - "Chrysolite, cut"
+  - miscgear-chrysolite
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Chrysolite, cut"
-    aliases: []
+  full: "Chrysolite, cut"
+  aliases: []
 description: "Pale yellow-green faceted gem; nobility and clergy set in rings."
 id: KR9GCv683WX64ogr
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chrysolite
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 500
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 500
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

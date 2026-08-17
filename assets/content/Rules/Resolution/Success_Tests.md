@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Success Test
-    - Skill Test
-    - d100 Test
-    - Success Level
-    - doc-sccsstst
+  - Success Test
+  - Skill Test
+  - d100 Test
+  - Success Level
+  - doc-sccsstst
 id: V5ocvTbZq3Vw94oz
 type: doc
 package: sohl
 category: rules
 name:
-    full: Success Tests
-    aliases: []
+  full: Success Tests
+  aliases: []
 shortcode: sccsstst
 folder: BTGA1PmN0VlBWpCm
 ---

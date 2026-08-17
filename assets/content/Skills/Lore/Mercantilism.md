@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-mrcn
+  - skill-mrcn
 tags: []
 name:
-    full: Mercantilism
-    aliases: []
+  full: Mercantilism
+  aliases: []
 description: "Trade, commerce, appraisal, negotiation, and understanding market principles."
 id: 0PErwXxsCUOTgoMV
 img: icons/game-icons/badges/coins.svg
@@ -12,17 +12,17 @@ shortcode: mrcn
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: QlkEHXbk2EXlRiMM
 ---
 

@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Attribute
-    - doc-attrbt
+  - Attribute
+  - doc-attrbt
 id: tFoBD6DazC0n9cxw
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Attribute"
+  full: "Attribute"
 shortcode: attrbt
 folder: QtOgPodi8X6gDWL0
 ---

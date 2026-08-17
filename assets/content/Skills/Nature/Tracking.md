@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-trak
+  - skill-trak
 tags: []
 name:
-    full: Tracking
-    aliases: []
+  full: Tracking
+  aliases: []
 description: "Reading footprints, vegetation, and signs of passage through environments."
 id: rve7MQf46F3L7gkU
 img: icons/game-icons/lorc/footprint.svg
@@ -12,20 +12,20 @@ shortcode: trak
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

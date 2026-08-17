@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Surcoat
-    - armorgear-PScoat
+  - Padded Surcoat
+  - armorgear-PScoat
 tags: []
 name:
-    full: Padded Surcoat
-    aliases: []
+  full: Padded Surcoat
+  aliases: []
 description: "Cushioned outer layer providing warmth for cold weather conditions."
 id: vT3Orrr39P30i8R0
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,35 +13,35 @@ shortcode: PScoat
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Surcoat
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 108
-    weight: 4.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Surcoat
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 108
+  weight: 4.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 108
 origWeight: 4.3

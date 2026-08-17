@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Climber's Kit
-    - miscgear-climbkit
+  - Climber's Kit
+  - miscgear-climbkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Climber's Kit
-    aliases: []
+  full: Climber's Kit
+  aliases: []
 description: "Harness, climbing hammer, chalk, padded gloves, knee & elbow pads; the climber's working gear (pitons and grappling hook bought separately)."
 id: IA4LIaSy3F0QaGEk
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: climbkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 15
-    weight: 5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 15
+  weight: 5
 folder: xniLjmZWYQZkSxyv
 ---
 

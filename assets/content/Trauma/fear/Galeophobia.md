@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-galeophb
+  - trauma-galeophb
 tags: []
 name:
-    full: Galeophobia
-    aliases: []
+  full: Galeophobia
+  aliases: []
 id: 3Ui5Wkcg6iWFKm8L
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: galeophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

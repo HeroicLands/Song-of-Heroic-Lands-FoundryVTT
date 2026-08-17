@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-dehyd
+  - trauma-dehyd
 tags: []
 name:
-    full: Dehydrated
-    aliases: []
+  full: Dehydrated
+  aliases: []
 description: "Insufficient water; thirst, dry mouth, dark urine, dizziness, collapse."
 id: xPisQgs7pKDaYaKs
 img: icons/game-icons/delapouite/stomach.svg
@@ -12,12 +12,12 @@ shortcode: dehyd
 type: trauma
 package: sohl
 sohl:
-    kbcat: physprivations
-    archetype: 0
-    subType: physcond
-    category: impediment
-    levelBase: 2
-    healingRateBase: 5
+  kbcat: physprivations
+  archetype: 0
+  subType: physcond
+  category: impediment
+  levelBase: 2
+  healingRateBase: 5
 folder: wz4hXqKLntkdXNue
 ---
 

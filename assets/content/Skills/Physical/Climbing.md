@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-clmb
+  - skill-clmb
 tags: []
 name:
-    full: Climbing
-    aliases: []
+  full: Climbing
+  aliases: []
 description: "Scaling cliffs, walls, trees using handholds, ropes, body technique."
 id: cJnD2VAKWuxSdo5s
 img: icons/game-icons/caro-asercion/mountain-climbing.svg
@@ -12,20 +12,20 @@ shortcode: clmb
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.agl, attr.dex)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.agl, attr.dex)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: Yt9THlZ0NT8H6aSK
 ---
 

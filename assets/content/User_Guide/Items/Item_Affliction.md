@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Affliction
-    - doc-afflctn
+  - Affliction
+  - doc-afflctn
 id: MoyrkIfKbklVs8Pn
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Affliction"
+  full: "Affliction"
 shortcode: afflctn
 folder: QtOgPodi8X6gDWL0
 ---

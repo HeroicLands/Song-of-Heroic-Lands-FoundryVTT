@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-turophb
+  - trauma-turophb
 tags: []
 name:
-    full: Turophobia
-    aliases: []
+  full: Turophobia
+  aliases: []
 id: wRihTBXBMx1fgFO5
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: turophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

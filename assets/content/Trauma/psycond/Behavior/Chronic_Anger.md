@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Chronic Anger
-    - trauma-angerchr
+  - Chronic Anger
+  - trauma-angerchr
 tags: []
 name:
-    full: Chronic Anger
-    aliases: []
+  full: Chronic Anger
+  aliases: []
 id: RQjTqzkqElEYzwtd
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: angerchr
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 

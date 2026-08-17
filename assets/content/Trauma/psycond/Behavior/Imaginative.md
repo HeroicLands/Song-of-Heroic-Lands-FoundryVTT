@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-imgntv
+  - trauma-imgntv
 tags: []
 name:
-    full: Imaginative
-    aliases: []
+  full: Imaginative
+  aliases: []
 id: iXMXRILiLs4Zbl8t
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: imgntv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

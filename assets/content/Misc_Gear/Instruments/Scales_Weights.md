@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Scales & Weights"
-    - miscgear-scalesweig
+  - "Scales & Weights"
+  - miscgear-scalesweig
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Scales & Weights"
-    aliases: []
+  full: "Scales & Weights"
+  aliases: []
 description: "Brass balance with calibrated weights; merchants weigh goods and settle accounts fairly."
 id: bilPNNYuuQW9jZa9
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: scalesweig
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 144
-    weight: 7.5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 144
+  weight: 7.5
 folder: xniLjmZWYQZkSxyv
 ---
 

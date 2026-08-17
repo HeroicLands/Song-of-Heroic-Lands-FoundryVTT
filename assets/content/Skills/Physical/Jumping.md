@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-jump
+  - skill-jump
 tags: []
 name:
-    full: Jumping
-    aliases: []
+  full: Jumping
+  aliases: []
 description: "Leaping horizontally and vertically; reaching above normal reach."
 id: kmkKoOgeVxj12Pbc
 img: icons/game-icons/delapouite/jump-across.svg
@@ -12,19 +12,19 @@ shortcode: jump
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.agl, attr.str)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.agl, attr.str)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
 folder: Yt9THlZ0NT8H6aSK
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bottle, glass, large"
-    - containergear-bottleglas
+  - "Bottle, glass, large"
+  - containergear-bottleglas
 tags: []
 name:
-    full: "Bottle, glass, large"
-    aliases: []
+  full: "Bottle, glass, large"
+  aliases: []
 description: "Substantial blown glass bottle for liquids and provisions."
 id: Y00juSETjg1pRve7
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bottleglas
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 8
-    value: 25
-    weight: 4
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 8
+  value: 25
+  weight: 4
 folder: dl8lJ729W1mFlDvt
 ---
 

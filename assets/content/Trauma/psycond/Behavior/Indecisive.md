@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-indcsv
+  - trauma-indcsv
 tags: []
 name:
-    full: Indecisive
-    aliases: []
+  full: Indecisive
+  aliases: []
 id: mku8sWHpsU2AbafD
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: indcsv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-engmtc
+  - trauma-engmtc
 tags: []
 name:
-    full: Enigmatic
-    aliases: []
+  full: Enigmatic
+  aliases: []
 id: eiZ5TYf2XaCPtojK
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: engmtc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Standard Arrow
-    - projectilegear-ArwStd
+  - Standard Arrow
+  - projectilegear-ArwStd
 tags: []
 name:
-    full: Standard Arrow
-    alias: []
+  full: Standard Arrow
+  alias: []
 description: "Ash or birch shaft, goose-feather fletching; workaday deer or skirmish arrow."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: ArwStd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Standard
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.22
-    weight: 1.25
-    impact:
-        die: 12
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: false
-    subType: arrow
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.22
+  weight: 1.25
+  impact:
+    die: 12
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: false
+  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

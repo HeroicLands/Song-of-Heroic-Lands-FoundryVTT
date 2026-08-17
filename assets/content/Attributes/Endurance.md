@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-end
+  - attribute-end
 tags: []
 name:
-    full: Endurance
-    aliases: []
+  full: Endurance
+  aliases: []
 description: "Stamina and constitutional health: hardship borne without collapse."
 id: bZCm7bURkPsffnIW
 img: icons/game-icons/caro-asercion/mountain-climbing.svg
@@ -12,15 +12,15 @@ shortcode: end
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Frail:4
-        - Unfit:8
-        - Average:12
-        - Robust:16
-        - Hardy:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Frail:4
+    - Unfit:8
+    - Average:12
+    - Robust:16
+    - Hardy:999
+  initDiceFormula: 3d6
 sort: 20
 folder: FPitxvL8wCmXynax
 ---

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Silk Swaddle
-    - armorgear-SlkSwd
+  - Silk Swaddle
+  - armorgear-SlkSwd
 tags: []
 name:
-    full: Silk Swaddle
-    aliases: []
+  full: Silk Swaddle
+  aliases: []
 description: "Luxurious silk swaddle for infants; soft, elegant formal wear."
 id: xcUkaEksPFJISOcs
 img: icons/game-icons/lorc/trousers.svg
@@ -13,30 +13,30 @@ shortcode: SlkSwd
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Swaddle
-    detailMaterial: Silk
-    material: Cloth
-    durability: 7
-    value: 171
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Swaddle
+  detailMaterial: Silk
+  material: Cloth
+  durability: 7
+  value: 171
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 19
 origWeight: 1

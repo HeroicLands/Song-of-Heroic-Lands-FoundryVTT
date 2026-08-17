@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Map
-    - miscgear-map
+  - Map
+  - miscgear-map
 tags:
-    - scribe
+  - scribe
 name:
-    full: Map
-    aliases: []
+  full: Map
+  aliases: []
 description: "Territory sketch on linen or parchment; guarded treasure for merchants, captains."
 id: VuBYl6ERtDNUgMFF
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: map
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: draw
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 12
-    weight: 0.1
+  craft:
+    skill: draw
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 12
+  weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

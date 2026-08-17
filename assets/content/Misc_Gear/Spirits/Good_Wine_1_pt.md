@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Good Wine, 1 pt."
-    - miscgear-gwinept
+  - "Good Wine, 1 pt."
+  - miscgear-gwinept
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Good Wine, 1 pt."
-    aliases: []
+  full: "Good Wine, 1 pt."
+  aliases: []
 description: "Oak-aged fine wine in bottle; body and sweetness beyond common vintage."
 id: BzK8ME1Dc6FbjGu4
 img: icons/game-icons/delapouite/wine-bottle.svg
@@ -14,15 +14,15 @@ shortcode: gwinept
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 5
-    weight: 1
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 5
+  weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

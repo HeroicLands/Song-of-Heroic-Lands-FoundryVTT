@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Mirror, bronze"
-    - miscgear-mirrorbron
+  - "Mirror, bronze"
+  - miscgear-mirrorbron
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Mirror, bronze"
-    aliases: []
+  full: "Mirror, bronze"
+  aliases: []
 description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
 id: ipjrHJVFn6MUdWG0
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: mirrorbron
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 12
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 12
+  weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

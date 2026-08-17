@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Chain, heavy"
-    - miscgear-chainheavy
+  - "Chain, heavy"
+  - miscgear-chainheavy
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Chain, heavy"
-    aliases: []
+  full: "Chain, heavy"
+  aliases: []
 description: "Forged iron link chain; secures large goods, hobbles beasts, binds prisoners."
 id: e4zX6ZK0uvjGwo5G
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chainheavy
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 5
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 5
+  weight: 4
 folder: FSPVI1eObGEpMVck
 ---
 

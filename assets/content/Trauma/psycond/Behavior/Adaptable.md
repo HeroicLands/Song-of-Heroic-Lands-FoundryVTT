@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-adapt
+  - trauma-adapt
 tags: []
 name:
-    full: Adaptable
-    aliases: []
+  full: Adaptable
+  aliases: []
 id: fYDcn2RjGBLWlTvi
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: adapt
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

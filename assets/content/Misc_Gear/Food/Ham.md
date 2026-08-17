@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Ham
-    - miscgear-ham
+  - Ham
+  - miscgear-ham
 tags:
-    - food
+  - food
 name:
-    full: Ham
-    aliases: []
+  full: Ham
+  aliases: []
 description: "Salt-cured smoked hog hind leg; sliced thin or diced, keeps months."
 id: f5GlVwjxdSWuMWRJ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: ham
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

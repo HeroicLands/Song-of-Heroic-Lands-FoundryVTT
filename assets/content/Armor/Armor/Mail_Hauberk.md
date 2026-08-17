@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Mail Hauberk
-    - armorgear-MHbk
+  - Mail Hauberk
+  - armorgear-MHbk
 tags: []
 name:
-    full: Mail Hauberk
-    aliases: []
+  full: Mail Hauberk
+  aliases: []
 description: "Long metal ring shirt providing substantial protection for mounted and foot soldiers."
 id: qDHgQoGBQumxcuHO
 img: icons/game-icons/willdabeast/chain-mail.svg
@@ -13,39 +13,39 @@ shortcode: MHbk
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: mail
-    archetype: 0
-    armorType: Hauberk
-    detailMaterial: Mail
-    material: Mail
-    durability: 13
-    value: 960
-    weight: 28.8
-    encumbrance: 15
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: mail
+  archetype: 0
+  armorType: Hauberk
+  detailMaterial: Mail
+  material: Mail
+  durability: 13
+  value: 960
+  weight: 28.8
+  encumbrance: 15
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 960
 origWeight: 28.8

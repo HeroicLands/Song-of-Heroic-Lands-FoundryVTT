@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Aural Shock
-    - trauma-auralshk
+  - Aural Shock
+  - trauma-auralshk
 tags: []
 name:
-    full: Aural Shock
-    aliases: []
+  full: Aural Shock
+  aliases: []
 description: "Long-term weakness from spiritual aura damage."
 id: iq1b2rwWQuvhSbGk
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: auralshk
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weakness
+  levelBase: 1
+  healingRateBase: 1
 folder: Y22wv8plMCfPXYBT
 ---
 

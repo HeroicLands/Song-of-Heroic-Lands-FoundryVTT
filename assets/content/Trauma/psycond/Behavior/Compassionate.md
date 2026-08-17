@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cmpssnt
+  - trauma-cmpssnt
 tags: []
 name:
-    full: Compassionate
-    aliases: []
+  full: Compassionate
+  aliases: []
 id: gWEoZBDA8SG5JYW2
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cmpssnt
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Cuisse
-    - armorgear-PCuis
+  - Padded Cuisse
+  - armorgear-PCuis
 tags: []
 name:
-    full: Padded Cuisse
-    aliases: []
+  full: Padded Cuisse
+  aliases: []
 description: "Cushioned thigh protection ideal for wear under heavier armor."
 id: 4OtUWcPTnCERvQsF
 img: icons/game-icons/lorc/trousers.svg
@@ -13,30 +13,30 @@ shortcode: PCuis
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Cuisse
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 34
-    weight: 1.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Cuisse
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 34
+  weight: 1.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 34
 origWeight: 1.4

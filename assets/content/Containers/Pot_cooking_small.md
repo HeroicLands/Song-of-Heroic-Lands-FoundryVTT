@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Pot, cooking, small"
-    - containergear-potcooking2
+  - "Pot, cooking, small"
+  - containergear-potcooking2
 tags: []
 name:
-    full: "Pot, cooking, small"
-    aliases: []
+  full: "Pot, cooking, small"
+  aliases: []
 description: "Compact iron cookpot for travelers or small household portions."
 id: 82FQA0523xSWUY5a
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: potcooking2
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 2
-    value: 2
-    weight: 1.1
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 2
+  value: 2
+  weight: 1.1
 folder: dl8lJ729W1mFlDvt
 ---
 

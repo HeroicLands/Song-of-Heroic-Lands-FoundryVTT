@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Beads, ceramic, 12"
-    - miscgear-beadscer12
+  - "Beads, ceramic, 12"
+  - miscgear-beadscer12
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Beads, ceramic, 12"
-    aliases: []
+  full: "Beads, ceramic, 12"
+  aliases: []
 description: "Dozen fired clay beads, glazed in colour; cheap ornament and small trade goods."
 id: DXzm76bjrVFj91xZ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: beadscer12
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 6
-    weight: 2
+  craft:
+    skill: cmcs
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 6
+  weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

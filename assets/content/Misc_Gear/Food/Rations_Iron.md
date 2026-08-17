@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Rations, Iron
-    - miscgear-FRtns
+  - Rations, Iron
+  - miscgear-FRtns
 tags:
-    - food
+  - food
 name:
-    full: Rations, Iron
-    aliases: []
+  full: Rations, Iron
+  aliases: []
 description: "Compact military bundle of hardtack and salt pork, sustains one day."
 id: Jm1z1t42bg6Oag2b
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: FRtns
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cook
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 3
-    weight: 3
+  craft:
+    skill: cook
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 3
+  weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

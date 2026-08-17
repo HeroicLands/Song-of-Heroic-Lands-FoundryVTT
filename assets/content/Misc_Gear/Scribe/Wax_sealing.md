@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Wax, sealing"
-    - miscgear-waxsealing
+  - "Wax, sealing"
+  - miscgear-waxsealing
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Wax, sealing"
-    aliases: []
+  full: "Wax, sealing"
+  aliases: []
 description: "Beeswax or tallow stick; melted, impressed with seal ring to authenticate letters."
 id: fAUJ8RepRHtX7vAN
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: waxsealing
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 4
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 4
+  weight: 1
 folder: BYkA5NDQxTXDvsAC
 ---
 

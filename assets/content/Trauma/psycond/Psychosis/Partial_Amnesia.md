@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Partial Amnesia
-    - trauma-amnsprtl
+  - Partial Amnesia
+  - trauma-amnsprtl
 tags: []
 name:
-    full: Partial Amnesia
-    aliases: []
+  full: Partial Amnesia
+  aliases: []
 id: ICWyMofRDcMz9QwR
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: amnsprtl
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: disorder
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: disorder
 folder: ECrcBb9CUCMX9JeJ
 ---
 

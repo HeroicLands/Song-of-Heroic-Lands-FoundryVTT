@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Calf"
-    - miscgear-hidecalf
+  - "Hide, Calf"
+  - miscgear-hidecalf
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Calf"
-    aliases: []
+  full: "Hide, Calf"
+  aliases: []
 description: "Young bovine hide, soft and thin; fine leather for gloves, saddle linings."
 id: GOU7wJy8kXSSeiWS
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidecalf
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 16
-    weight: 9.5
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 16
+  weight: 9.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

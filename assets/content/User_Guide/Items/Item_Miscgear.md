@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Miscellaneous Gear
-    - doc-mscllnsg
+  - Miscellaneous Gear
+  - doc-mscllnsg
 id: 3tsCXpR4ep5hnzV1
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Miscellaneous Gear"
+  full: "Miscellaneous Gear"
 shortcode: mscllnsg
 folder: QtOgPodi8X6gDWL0
 ---

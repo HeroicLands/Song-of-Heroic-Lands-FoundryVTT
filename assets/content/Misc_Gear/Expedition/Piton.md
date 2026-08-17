@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Piton
-    - miscgear-piton
+  - Piton
+  - miscgear-piton
 tags:
-    - expedition
+  - expedition
 name:
-    full: Piton
-    aliases:
-        - "Piton, iron"
-        - "Piton, iron, looped"
+  full: Piton
+  aliases:
+    - "Piton, iron"
+    - "Piton, iron, looped"
 description: "Iron spike with looped eye; ~1 per 10 ft of vertical climb. Consumable — usually left in the rock."
 id: JEmyKHG6jffHZwYg
 img: icons/game-icons/lorc/swap-bag.svg
@@ -16,15 +16,15 @@ shortcode: piton
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 1
-    weight: 0.5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 1
+  weight: 0.5
 folder: FSPVI1eObGEpMVck
 ---
 

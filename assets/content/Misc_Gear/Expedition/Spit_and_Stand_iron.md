@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Spit and Stand, iron"
-    - miscgear-spitandsta
+  - "Spit and Stand, iron"
+  - miscgear-spitandsta
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Spit and Stand, iron"
-    aliases: []
+  full: "Spit and Stand, iron"
+  aliases: []
 description: "Iron roasting spit on adjustable stand for campfire or hearth cooking."
 id: OfwJBd3Xmz4B6eMV
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spitandsta
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 15
-    weight: 12
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 15
+  weight: 12
 folder: FSPVI1eObGEpMVck
 ---
 

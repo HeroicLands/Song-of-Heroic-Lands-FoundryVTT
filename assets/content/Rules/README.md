@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Song of Heroic Lands Rules
-    - SoHL Rules
-    - doc-rulesintro
+  - Song of Heroic Lands Rules
+  - SoHL Rules
+  - doc-rulesintro
 id: Q0c9vOqCLix8iHC0
 type: doc
 package: sohl
 category: rules
 name:
-    full: Song of Heroic Lands Rules
-    aliases: []
+  full: Song of Heroic Lands Rules
+  aliases: []
 shortcode: rulesintro
 folder: RqKUTBUBN2Y3MHYB
 ---

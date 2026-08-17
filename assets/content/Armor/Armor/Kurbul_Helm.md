@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Kurbul Helm
-    - Kûrbúl Helm
-    - armorgear-KHlm
+  - Kurbul Helm
+  - Kûrbúl Helm
+  - armorgear-KHlm
 tags: []
 name:
-    full: Kûrbúl Helm
-    aliases: []
+  full: Kûrbúl Helm
+  aliases: []
 description: "Plain treated-leather skullcap helm; covers the crown alone and leaves the face open."
 id: a4ZXeBv2RlRxN14l
 img: icons/game-icons/lorc/crested-helmet.svg
@@ -14,27 +14,27 @@ shortcode: KHlm
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide]
-    kbcat: kurbul
-    archetype: 0
-    armorType: Helm
-    detailMaterial: Kûrbúl
-    material: Kûrbúl
-    durability: 13
-    value: 20
-    weight: 3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - skullloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide]
+  kbcat: kurbul
+  archetype: 0
+  armorType: Helm
+  detailMaterial: Kûrbúl
+  material: Kûrbúl
+  durability: 13
+  value: 20
+  weight: 3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - skullloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 20
 origWeight: 3

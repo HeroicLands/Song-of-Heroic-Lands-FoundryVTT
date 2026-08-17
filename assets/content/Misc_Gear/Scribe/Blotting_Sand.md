@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Blotting Sand
-    - Drying Sand
-    - miscgear-blotsand
+  - Blotting Sand
+  - Drying Sand
+  - miscgear-blotsand
 tags:
-    - scribe
+  - scribe
 name:
-    full: Blotting Sand
-    aliases: []
+  full: Blotting Sand
+  aliases: []
 description: "Fine sand scattered over wet ink; absorbs moisture, prevents smudging."
 id: 1x5UVdeZsWQb0xW2
 img: icons/game-icons/lorc/swap-bag.svg
@@ -15,15 +15,15 @@ shortcode: blotsand
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 5
-    weight: 0.5
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 5
+  weight: 0.5
 folder: BYkA5NDQxTXDvsAC
 ---
 

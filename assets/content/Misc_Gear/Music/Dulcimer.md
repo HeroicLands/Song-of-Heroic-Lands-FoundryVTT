@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Dulcimer
-    - miscgear-dulcimer
+  - Dulcimer
+  - miscgear-dulcimer
 tags:
-    - music
+  - music
 name:
-    full: Dulcimer
-    aliases: []
+  full: Dulcimer
+  aliases: []
 description: "Trapezoidal frame with gut strings struck by hammers; sweet, haunting chiming voice."
 id: QTedGo6TQqefe1s4
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: dulcimer
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 240
-    weight: 15
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 240
+  weight: 15
 folder: ncTaRcZt0RFYz0Gq
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-dex
+  - attribute-dex
 tags: []
 name:
-    full: Dexterity
-    aliases: []
+  full: Dexterity
+  aliases: []
 description: "Hand-and-eye coordination, steadiness of grip, and precision of touch."
 id: CK3tV3RtyxzcM6Sw
 img: icons/game-icons/lorc/juggler.svg
@@ -12,15 +12,15 @@ shortcode: dex
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Uncoordinated:4
-        - Awkward:8
-        - Average:12
-        - Deft:16
-        - Adroit:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Uncoordinated:4
+    - Awkward:8
+    - Average:12
+    - Deft:16
+    - Adroit:999
+  initDiceFormula: 3d6
 sort: 30
 folder: FPitxvL8wCmXynax
 ---

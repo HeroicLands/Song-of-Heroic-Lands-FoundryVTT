@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Mystical Abilities
-    - doc-mystclblts
+  - Mystical Abilities
+  - doc-mystclblts
 id: tQE57KhK7HYcEVDw
 name:
-    full: Mystical Abilities
-    aliases: []
+  full: Mystical Abilities
+  aliases: []
 type: doc
 category: collection
 package: sohl

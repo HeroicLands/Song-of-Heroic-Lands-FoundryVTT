@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Goblet, pewter"
-    - miscgear-gobletpewt
+  - "Goblet, pewter"
+  - miscgear-gobletpewt
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Goblet, pewter"
-    aliases: []
+  full: "Goblet, pewter"
+  aliases: []
 description: "Stemmed pewter goblet for merchants and minor lords' formal tables."
 id: OTvBmA73opLNSKEG
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: gobletpewt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 3
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 3
+  weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

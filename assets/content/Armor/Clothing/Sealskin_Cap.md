@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Sealskin Cap
-    - armorgear-SlsCap
+  - Sealskin Cap
+  - armorgear-SlsCap
 tags: []
 name:
-    full: Sealskin Cap
-    aliases: []
+  full: Sealskin Cap
+  aliases: []
 description: "Water-resistant seal-fur cap; cold and wet climate protection."
 id: BcK14tG91RKBihSs
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: SlsCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Sealskin
-    material: Leather
-    durability: 11
-    value: 48
-    weight: 0.7
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Sealskin
+  material: Leather
+  durability: 11
+  value: 48
+  weight: 0.7
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 16
 origWeight: 0.6

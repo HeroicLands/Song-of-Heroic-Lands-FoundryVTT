@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Seaweed, Dolce"
-    - miscgear-seaweeddol
+  - "Seaweed, Dolce"
+  - miscgear-seaweeddol
 tags:
-    - food
+  - food
 name:
-    full: "Seaweed, Dolce"
-    aliases: []
+  full: "Seaweed, Dolce"
+  aliases: []
 description: "Dried coastal fronds rehydrating in broth, iodine-rich food and umami."
 id: ISEPqfmryqg0TWum
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: seaweeddol
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 6
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 6
 folder: cHM58zOI1EcSG3cP
 ---
 

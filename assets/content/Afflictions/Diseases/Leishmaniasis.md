@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-lshmnss
+  - affliction-lshmnss
 tags: []
 name:
-    full: Leishmaniasis
-    aliases: []
+  full: Leishmaniasis
+  aliases: []
 description: "Leishmania parasite via sandfly bite; skin sores or organ damage."
 id: MKuBflNcGCbCof06
 img: icons/game-icons/lorc/virus.svg
@@ -12,13 +12,13 @@ shortcode: lshmnss
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: 3lobflzDt8Hk6VrN
 ---
 

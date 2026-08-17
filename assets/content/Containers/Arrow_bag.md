@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Arrow bag"
-    - containergear-arrowbag
+  - "Arrow bag"
+  - containergear-arrowbag
 tags: []
 name:
-    full: "Arrow bag"
-    aliases: []
+  full: "Arrow bag"
+  aliases: []
 description: "Stiffened canvas bag holding arrows loose for bulk transport."
 id: gOdM19b7bLkZlHjH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: arrowbag
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 20
-    value: 216
-    weight: 1
+  craft:
+    skill: txtl
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 20
+  value: 216
+  weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

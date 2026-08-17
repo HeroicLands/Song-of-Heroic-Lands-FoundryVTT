@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cup, copper"
-    - miscgear-cupcopper
+  - "Cup, copper"
+  - miscgear-cupcopper
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Cup, copper"
-    aliases: []
+  full: "Cup, copper"
+  aliases: []
 description: "Tinned copper cup; holds warmth well and suits mulled wine or mead."
 id: FE6Vlj0bulyb6h7e
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cupcopper
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 3
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 3
+  weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

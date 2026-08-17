@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Jet, cut"
-    - miscgear-jetcut
+  - "Jet, cut"
+  - miscgear-jetcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Jet, cut"
-    aliases: []
+  full: "Jet, cut"
+  aliases: []
 description: "Black fossilized-wood gem; silver or gold setting; favored for mourning jewelry."
 id: ZgG6E6DMdi1UMCHW
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: jetcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 1
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 1
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

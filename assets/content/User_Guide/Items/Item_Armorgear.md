@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Armor
-    - doc-armor
+  - Armor
+  - doc-armor
 id: yh3LCFXRlhJWMqLW
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Armor"
+  full: "Armor"
 shortcode: armor
 folder: QtOgPodi8X6gDWL0
 ---

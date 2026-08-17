@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bucket, leather"
-    - containergear-bucketleat
+  - "Bucket, leather"
+  - containergear-bucketleat
 tags: []
 name:
-    full: "Bucket, leather"
-    aliases: []
+  full: "Bucket, leather"
+  aliases: []
 description: "Fire-bucket of boiled cowhide with iron rim."
 id: keFukmGhbobvDx7R
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bucketleat
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 40
-    value: 20
-    weight: 4
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 40
+  value: 20
+  weight: 4
 folder: dl8lJ729W1mFlDvt
 ---
 

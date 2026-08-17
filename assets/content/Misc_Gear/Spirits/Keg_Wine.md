@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Keg Wine
-    - miscgear-winekeg
+  - Keg Wine
+  - miscgear-winekeg
 tags:
-    - spirits
+  - spirits
 name:
-    full: Keg Wine
-    aliases: []
+  full: Keg Wine
+  aliases: []
 description: "Common wine keg; cheaper than aged; served at feasts and better tables."
 id: 90UzsaPgIhIdnTJA
 img: icons/game-icons/delapouite/wine-bottle.svg
@@ -14,15 +14,15 @@ shortcode: winekeg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 180
-    weight: 72
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 180
+  weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

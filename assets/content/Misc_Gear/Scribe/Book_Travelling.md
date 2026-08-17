@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Book, Travelling"
-    - miscgear-booktrvl
+  - "Book, Travelling"
+  - miscgear-booktrvl
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Book, Travelling"
-    aliases: []
+  full: "Book, Travelling"
+  aliases: []
 description: "Wooden-bound parchment workbook; scribes, sages, herbalists carry afield."
 id: PNCuUTA2GDVPQEWK
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: booktrvl
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 80
-    weight: 4
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 80
+  weight: 4
 folder: BYkA5NDQxTXDvsAC
 ---
 

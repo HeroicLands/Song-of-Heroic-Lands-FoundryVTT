@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Wasp Venom
-    - affliction-waspvnm
+  - Wasp Venom
+  - affliction-waspvnm
 tags: []
 name:
-    full: Wasp Venom
-    aliases: []
+  full: Wasp Venom
+  aliases: []
 description: "Peptide and enzyme toxins from sting; intense pain and swelling."
 id: I3rFAMgdPx9akg62
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -13,13 +13,13 @@ shortcode: waspvnm
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

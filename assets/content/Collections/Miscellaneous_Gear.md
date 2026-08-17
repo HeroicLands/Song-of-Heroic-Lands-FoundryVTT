@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Miscellaneous Gear
-    - doc-miscelnsgr
+  - Miscellaneous Gear
+  - doc-miscelnsgr
 id: gw0PK5jHBTEdEEQR
 name:
-    full: Miscellaneous Gear
-    aliases: []
+  full: Miscellaneous Gear
+  aliases: []
 type: doc
 category: collection
 package: sohl

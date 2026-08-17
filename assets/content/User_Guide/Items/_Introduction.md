@@ -1,15 +1,15 @@
 ---
 aliases:
-    - Item Types
-    - Items Introduction
-    - doc-ugitems
+  - Item Types
+  - Items Introduction
+  - doc-ugitems
 id: 6AUDdg96HqINKHdv
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: Items
-    aliases: []
+  full: Items
+  aliases: []
 shortcode: ugitems
 folder: QtOgPodi8X6gDWL0
 ---

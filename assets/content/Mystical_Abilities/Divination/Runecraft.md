@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-Rune
+  - mysticalability-Rune
 tags: []
 name:
-    full: Runecraft
-    aliases: []
+  full: Runecraft
+  aliases: []
 description: "Casting inscribed lots and reading a terse answer from how they fall."
 id: 2J0wXp8grPjaA70I
 img: icons/game-icons/lorc/rune-stone.svg
@@ -12,13 +12,13 @@ shortcode: Rune
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: divination
-    archetype: 0
-    subType: divination
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: divination
+  archetype: 0
+  subType: divination
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 folder: 0GxlNn2dYXCW24YF
 ---
 

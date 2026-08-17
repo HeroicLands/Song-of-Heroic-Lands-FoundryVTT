@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Ox"
-    - miscgear-hideox
+  - "Hide, Ox"
+  - miscgear-hideox
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Ox"
-    aliases: []
+  full: "Hide, Ox"
+  aliases: []
 description: "Prime even-grained oxhide; strong stock for saddles, breeches, shoe uppers."
 id: XYwOF5tafvjGEezx
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hideox
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 12
-    weight: 7.5
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 12
+  weight: 7.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

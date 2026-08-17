@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-slng
+  - skill-slng
 tags: []
 name:
-    full: Sling
-    aliases: []
+  full: Sling
+  aliases: []
 description: "Hurling stones and lead bullets from a sling with accuracy and force."
 id: 7BpaZQE9sEtgmAx5
 img: icons/game-icons/delapouite/sling.svg
@@ -12,19 +12,19 @@ shortcode: slng
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: missile
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: missile
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: EphAMAfFhWBrJxyF
 ---
 

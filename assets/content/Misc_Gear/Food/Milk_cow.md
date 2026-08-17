@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Milk, cow"
-    - miscgear-milkcow
+  - "Milk, cow"
+  - miscgear-milkcow
 tags:
-    - food
+  - food
 name:
-    full: "Milk, cow"
-    aliases: []
+  full: "Milk, cow"
+  aliases: []
 description: "Fresh dairy, curdles into cheese and butter by afternoon daily."
 id: 48qm03HEYQ96D8e1
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: milkcow
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 8
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 8
 folder: cHM58zOI1EcSG3cP
 ---
 

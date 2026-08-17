@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Treating Injuries
-    - doc-trtnginj
+  - Treating Injuries
+  - doc-trtnginj
 id: tYs0q2sFoKHGe6vY
 type: doc
 package: sohl
 category: rules
 name:
-    full: Treating Injuries
-    aliases: []
+  full: Treating Injuries
+  aliases: []
 shortcode: trtnginj
 folder: F4NGyU9QQgWwTcHe
 ---

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bedroll, light
-    - miscgear-LiteBdrl
+  - Bedroll, light
+  - miscgear-LiteBdrl
 tags:
-    - expedition
+  - expedition
 name:
-    full: Bedroll, light
-    aliases: []
+  full: Bedroll, light
+  aliases: []
 description: "Compact quilted linen bedroll with fleece; portable for mild seasons."
 id: ODDPodIfVZffiUgI
 img: icons/game-icons/delapouite/sleeping-bag.svg
@@ -14,15 +14,15 @@ shortcode: LiteBdrl
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 30
-    weight: 4
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 30
+  weight: 4
 folder: FSPVI1eObGEpMVck
 ---
 

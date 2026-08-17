@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-mor
+  - attribute-mor
 tags: []
 name:
-    full: Morality
-    aliases: []
+  full: Morality
+  aliases: []
 description: "Ethical conscience, and the willingness to act on it under temptation."
 id: 5eOjes9tQHVozVcl
 img: icons/game-icons/lorc/scales.svg
@@ -12,18 +12,18 @@ shortcode: mor
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Amoral:2
-        - Immoral:4
-        - Hipocritical:7
-        - Unscrupulous:10
-        - Conscientious:13
-        - Principled:16
-        - Virtuous:18
-        - Paragon:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Amoral:2
+    - Immoral:4
+    - Hipocritical:7
+    - Unscrupulous:10
+    - Conscientious:13
+    - Principled:16
+    - Virtuous:18
+    - Paragon:999
+  initDiceFormula: 3d6
 sort: 140
 folder: FPitxvL8wCmXynax
 ---

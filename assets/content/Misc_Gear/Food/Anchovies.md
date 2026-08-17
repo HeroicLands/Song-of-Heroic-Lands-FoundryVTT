@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Anchovies
-    - miscgear-anchovies
+  - Anchovies
+  - miscgear-anchovies
 tags:
-    - food
+  - food
 name:
-    full: Anchovies
-    aliases: []
+  full: Anchovies
+  aliases: []
 description: "Salt-packed small fish; intense savory depth, travels well in sealed jars."
 id: Mb1azilrSPemvtyP
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: anchovies
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 0.25
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 0.25
 folder: cHM58zOI1EcSG3cP
 ---
 

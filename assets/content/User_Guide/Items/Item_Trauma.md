@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Injury
-    - Injuries
-    - doc-itemtrauma
+  - Injury
+  - Injuries
+  - doc-itemtrauma
 id: PV8DkxfbuA1ORJ1U
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Trauma"
+  full: "Trauma"
 shortcode: itemtrauma
 folder: QtOgPodi8X6gDWL0
 ---

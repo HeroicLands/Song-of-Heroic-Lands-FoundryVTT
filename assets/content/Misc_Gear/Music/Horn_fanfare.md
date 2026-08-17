@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Horn, fanfare"
-    - miscgear-hornfanfar
+  - "Horn, fanfare"
+  - miscgear-hornfanfar
 tags:
-    - music
+  - music
 name:
-    full: "Horn, fanfare"
-    aliases: []
+  full: "Horn, fanfare"
+  aliases: []
 description: "Curved brass-bronze flared bell; triumphant blare for court heralds and royal processions."
 id: 3kFjrA3q6RSR78P1
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hornfanfar
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 120
-    weight: 4
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 120
+  weight: 4
 folder: ncTaRcZt0RFYz0Gq
 ---
 

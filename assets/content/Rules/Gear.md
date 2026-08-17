@@ -1,17 +1,17 @@
 ---
 aliases:
-    - Gear
-    - Equipment
-    - Inventory
-    - Encumbrance
-    - doc-gear
+  - Gear
+  - Equipment
+  - Inventory
+  - Encumbrance
+  - doc-gear
 id: wjqsgt0VbETSKE6Y
 type: doc
 package: sohl
 category: rules
 name:
-    full: Gear
-    aliases: []
+  full: Gear
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: gear
 ---
@@ -720,9 +720,9 @@ WHERE type = "armorgear" AND sohl.kbcat = "scale"
 **Concoction gear** covers prepared substances — potions, poisons, medicines, tinctures, and alchemical preparations. Beyond the common gear properties, a concoction has:
 
 - a **sub-type** describing its nature:
-    - **Mundane** — an ordinary, common preparation, usually simple in composition (often a single prepared ingredient).
-    - **Exotic** — a complex and valuable preparation with medicinal or other special properties, but not magical in nature.
-    - **Elixir** — an arcane alchemical concoction of great power.
+  - **Mundane** — an ordinary, common preparation, usually simple in composition (often a single prepared ingredient).
+  - **Exotic** — a complex and valuable preparation with medicinal or other special properties, but not magical in nature.
+  - **Elixir** — an arcane alchemical concoction of great power.
 - a **potency** rating (none, mild, strong, or great), describing how forceful its effect is.
 - a **strength**, a numeric measure used where a concoction's effect is resolved against a value.
 
