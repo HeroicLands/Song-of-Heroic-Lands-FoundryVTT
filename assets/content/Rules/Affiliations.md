@@ -60,6 +60,6 @@ The pattern generalises. When adding a body of your own, decide three things: wh
 
 ## Where the affiliations are
 
-**SoHL ships no affiliations of its own.** Religions, schools, convocations, guilds and syndicates are all setting material: they belong to a particular world, its history and its politics, and none of that is assumed here. The system provides the mechanism — the way standing is recorded, the way it moves, and the way a mystical practice points at the body that credentials it — and leaves the bodies themselves to the setting.
+**SoHL ships no affiliations of its own.** Religions, schools, convocations, guilds and syndicates are all setting material: they belong to a particular world, its history and its politics, and none of that is assumed here. What is defined here is the mechanism — the way standing is recorded, the way it moves, and the way a mystical practice points at the body that credentials it — and the bodies themselves are left to the setting.
 
 Setting modules supply them, as they supply the skills, creatures and mystical practices particular to their worlds. A campaign that wants guilds and temples should install the module for its setting, or author its own affiliations directly in the world.

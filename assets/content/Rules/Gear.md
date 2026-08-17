@@ -16,7 +16,7 @@ folder: RqKUTBUBN2Y3MHYB
 shortcode: gear
 ---
 
-**Gear** is the physical property a character owns and carries — weapons, armor, tools, supplies, coin, and everything in between. Each piece of gear is its own item, so it can be picked up, dropped, traded, stored in a container, or handed to another character. This page describes the properties common to all gear, the way gear burdens the character who carries it, and each of the gear types the system provides.
+**Gear** is the physical property a character owns and carries — weapons, armor, tools, supplies, coin, and everything in between. Each piece of gear is its own item, so it can be picked up, dropped, traded, stored in a container, or handed to another character. This page describes the properties common to all gear, the way gear burdens the character who carries it, and each of the gear types defined here.
 
 # Gear Properties
 
