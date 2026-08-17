@@ -419,6 +419,12 @@ const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 // links CI does.
 const MANIFEST_SRC = path.join(REPO, "assets/manifests");
 const MANIFEST_OUT = path.join(REPO, "build/manifests");
+// Where this build serves a package it publishes itself: the knowledgebase is
+// one package's site, mounted at its root (`/skill/climbing/`). That is what an
+// emitted address is recorded relative to (#1465) — deliberately *not*
+// `PACKAGE_BASE`, which says where this build serves someone *else's* package
+// and is a different question with a different answer for the same name.
+const LOCAL_BASE = "/";
 // Loaded after the parse phase: which packages are *local* is what decides
 // which manifests are foreign, and that is only known once the tree is walked.
 // `KB_PACKAGES` is what this build would accept, not what it actually found —
@@ -775,7 +781,10 @@ for (const e of entries) {
     if (!byPackage.has(e.fm.package)) byPackage.set(e.fm.package, []);
     byPackage.get(e.fm.package).push(e);
 }
-for (const w of writeManifests(byPackage, MANIFEST_OUT)) {
+const localBases = Object.fromEntries(
+    [...byPackage.keys()].map((pkg) => [pkg, LOCAL_BASE]),
+);
+for (const w of writeManifests(byPackage, MANIFEST_OUT, localBases)) {
     console.log(
         `kb-content: manifest ${w.package} — ${w.count} addressable note(s)`,
     );

@@ -180,6 +180,16 @@ const foreign = loadForeignManifests(
     path.join("assets", "manifests"),
     new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
 );
+if (foreign.stale.length) {
+    // An unusable manifest would otherwise surface as a pile of dead addresses
+    // pointing at the notes that cite it, rather than at the file at fault.
+    console.error("\ncheck-content-links: unusable link manifest(s):");
+    for (const s of foreign.stale) console.error(`  ${s.package}: ${s.reason}`);
+    console.error(
+        "\nRefresh the vendored copy from that package's own build (#1465).\n",
+    );
+    process.exit(1);
+}
 const manifests = manifestsComplete(
     new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
     foreign.packages,
