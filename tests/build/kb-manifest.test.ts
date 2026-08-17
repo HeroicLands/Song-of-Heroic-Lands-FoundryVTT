@@ -17,8 +17,11 @@ import {
     writeManifests,
     loadForeignManifests,
     manifestsComplete,
+    packageRelative,
+    resolvePackageUrl,
     MANIFEST_VERSION,
     LINK_PACKAGES,
+    PACKAGE_BASE,
 } from "../../utils/kb-manifest.mjs";
 
 const entry = (type: string, shortcode: string, name: string, url: string) => ({
@@ -39,7 +42,7 @@ const entry = (type: string, shortcode: string, name: string, url: string) => ({
 interface Manifest {
     version: number;
     package: string;
-    entries: Record<string, { url: string; name: string }>;
+    entries: Record<string, { path: string; name: string }>;
 }
 const manifestOf = (doc: unknown) => doc as Manifest;
 
@@ -51,37 +54,122 @@ afterEach(() => {
     fs.rmSync(dir, { recursive: true, force: true });
 });
 
+describe("packageRelative", () => {
+    it("strips the emitting package's own base", () => {
+        expect(
+            packageRelative("/thalorna/creature/grukar-ahk/", "/thalorna/"),
+        ).toBe("creature/grukar-ahk/");
+    });
+
+    it("leaves a root-based package's address untouched but for the slash", () => {
+        expect(packageRelative("/skill/climbing/", "/")).toBe(
+            "skill/climbing/",
+        );
+    });
+
+    it("refuses a URL that does not sit under the declared base", () => {
+        // Emitting it anyway would record an address that resolves nowhere once
+        // a consumer prefixes its own base — the 404 this format exists to end.
+        expect(() =>
+            packageRelative("/sohl/skill/climbing/", "/thalorna/"),
+        ).toThrow(/base/);
+    });
+});
+
+describe("resolvePackageUrl", () => {
+    it("prefixes the consumer's base for that package", () => {
+        expect(resolvePackageUrl("creature/grukar-ahk/", "/thalorna/")).toBe(
+            "/thalorna/creature/grukar-ahk/",
+        );
+    });
+
+    it("produces an absolute URL when the base names another origin", () => {
+        expect(
+            resolvePackageUrl(
+                "creature/grukar-ahk/",
+                "https://thalorna.example.org/",
+            ),
+        ).toBe("https://thalorna.example.org/creature/grukar-ahk/");
+    });
+
+    it("rejects a base that does not end in a slash", () => {
+        expect(() => resolvePackageUrl("creature/x/", "/thalorna")).toThrow(
+            /slash/,
+        );
+    });
+
+    it("rejects a site-absolute address — the shape this format replaced", () => {
+        expect(() =>
+            resolvePackageUrl("/thalorna/creature/x/", "/thalorna/"),
+        ).toThrow(/relative/);
+    });
+});
+
 describe("buildManifest", () => {
-    it("keys entries by type/shortcode and carries url and name", () => {
+    it("keys entries by type/shortcode and records a package-relative path", () => {
         const doc = manifestOf(
-            buildManifest("sohl", [
-                entry("skill", "climb", "Climbing", "/skill/climbing/"),
-            ]),
+            buildManifest(
+                "sohl",
+                [entry("skill", "climb", "Climbing", "/skill/climbing/")],
+                "/",
+            ),
         );
         expect(doc.version).toBe(MANIFEST_VERSION);
         expect(doc.package).toBe("sohl");
         expect(doc.entries["skill/climb"]).toEqual({
-            url: "/skill/climbing/",
+            path: "skill/climbing/",
             name: "Climbing",
         });
     });
 
+    it("records an address relative to the package's own base", () => {
+        const doc = manifestOf(
+            buildManifest(
+                "thalorna",
+                [
+                    entry(
+                        "creature",
+                        "grkrahk",
+                        "Grukar-ahk",
+                        "/thalorna/creature/grukar-ahk/",
+                    ),
+                ],
+                "/thalorna/",
+            ),
+        );
+        expect(doc.entries["creature/grkrahk"].path).toBe(
+            "creature/grukar-ahk/",
+        );
+    });
+
     it("omits a note with no shortcode — it cannot be addressed", () => {
         const doc = manifestOf(
-            buildManifest("sohl", [
-                { fm: { type: "doc" }, name: "Prose", url: "/rules/prose/" },
-                entry("skill", "climb", "Climbing", "/skill/climbing/"),
-            ]),
+            buildManifest(
+                "sohl",
+                [
+                    {
+                        fm: { type: "doc" },
+                        name: "Prose",
+                        url: "/rules/prose/",
+                    },
+                    entry("skill", "climb", "Climbing", "/skill/climbing/"),
+                ],
+                "/",
+            ),
         );
         expect(Object.keys(doc.entries)).toEqual(["skill/climb"]);
     });
 
     it("sorts keys so the committed file diffs only on real change", () => {
         const doc = manifestOf(
-            buildManifest("sohl", [
-                entry("skill", "zeta", "Zeta", "/skill/zeta/"),
-                entry("skill", "alpha", "Alpha", "/skill/alpha/"),
-            ]),
+            buildManifest(
+                "sohl",
+                [
+                    entry("skill", "zeta", "Zeta", "/skill/zeta/"),
+                    entry("skill", "alpha", "Alpha", "/skill/alpha/"),
+                ],
+                "/",
+            ),
         );
         expect(Object.keys(doc.entries)).toEqual(["skill/alpha", "skill/zeta"]);
     });
@@ -100,17 +188,22 @@ describe("loadForeignManifests", () => {
         expect(r.packages.size).toBe(0);
     });
 
-    it("loads a foreign package's addresses", () => {
-        write("thalorna", {
-            version: MANIFEST_VERSION,
-            package: "thalorna",
-            entries: {
+    const thalorna = (entries: object) => ({
+        version: MANIFEST_VERSION,
+        package: "thalorna",
+        entries,
+    });
+
+    it("resolves a foreign address against the consumer's base for that package", () => {
+        write(
+            "thalorna",
+            thalorna({
                 "creature/grkrahk": {
-                    url: "/thalorna/creature/grukar-ahk/",
+                    path: "creature/grukar-ahk/",
                     name: "Grukar-ahk",
                 },
-            },
-        });
+            }),
+        );
         const r = loadForeignManifests(dir, ["sohl"]);
         expect(r.packages.has("thalorna")).toBe(true);
         expect(r.index.get("creature/grkrahk")).toMatchObject({
@@ -119,11 +212,38 @@ describe("loadForeignManifests", () => {
         });
     });
 
+    it("repoints every inbound link when a package moves origin", () => {
+        // The whole point of the format: relocating a package is one string in
+        // the consumer, not 1,445 rewritten manifest entries (#1465).
+        write(
+            "thalorna",
+            thalorna({
+                "creature/grkrahk": {
+                    path: "creature/grukar-ahk/",
+                    name: "Grukar-ahk",
+                },
+                "polity/kldrn": {
+                    path: "polity/kaeldarion/",
+                    name: "Kaeldarion",
+                },
+            }),
+        );
+        const r = loadForeignManifests(dir, ["sohl"], {
+            thalorna: "https://thalorna.example.org/",
+        });
+        expect(r.index.get("creature/grkrahk")).toMatchObject({
+            url: "https://thalorna.example.org/creature/grukar-ahk/",
+        });
+        expect(r.index.get("polity/kldrn")).toMatchObject({
+            url: "https://thalorna.example.org/polity/kaeldarion/",
+        });
+    });
+
     it("skips a package built locally — a live build outranks a vendored copy", () => {
         write("sohl", {
             version: MANIFEST_VERSION,
             package: "sohl",
-            entries: { "skill/climb": { url: "/stale/", name: "Stale" } },
+            entries: { "skill/climb": { path: "stale/", name: "Stale" } },
         });
         const r = loadForeignManifests(dir, ["sohl"]);
         expect(r.packages.has("sohl")).toBe(false);
@@ -141,11 +261,106 @@ describe("loadForeignManifests", () => {
         expect(r.stale[0]).toMatchObject({ package: "thalorna" });
     });
 
+    it("rejects the site-absolute shape rather than mis-resolving it", () => {
+        // A v1 manifest's `url` is already prefixed; prefixing it again would
+        // yield /thalorna/thalorna/… and 404 without erroring anywhere.
+        write("thalorna", {
+            version: 1,
+            package: "thalorna",
+            entries: {
+                "creature/grkrahk": {
+                    url: "/thalorna/creature/grukar-ahk/",
+                    name: "Grukar-ahk",
+                },
+            },
+        });
+        const r = loadForeignManifests(dir, ["sohl"]);
+        expect(r.index.size).toBe(0);
+        expect(r.stale[0]).toMatchObject({ package: "thalorna" });
+    });
+
+    it("rejects a manifest for a package it holds no base for", () => {
+        // Silently dropping it would turn every link into that package back
+        // into an unresolved address, which reads as a typo.
+        write("elsewhere", {
+            version: MANIFEST_VERSION,
+            package: "elsewhere",
+            entries: { "creature/x": { path: "creature/x/", name: "X" } },
+        });
+        const r = loadForeignManifests(dir, ["sohl"]);
+        expect(r.packages.has("elsewhere")).toBe(false);
+        expect(r.stale[0]).toMatchObject({
+            package: "elsewhere",
+            reason: expect.stringContaining("base"),
+        });
+    });
+
+    it("rejects a malformed entry rather than emitting a broken href", () => {
+        write(
+            "thalorna",
+            thalorna({
+                "creature/grkrahk": {
+                    path: "/thalorna/creature/grukar-ahk/",
+                    name: "Grukar-ahk",
+                },
+            }),
+        );
+        const r = loadForeignManifests(dir, ["sohl"]);
+        expect(r.index.size).toBe(0);
+        expect(r.stale).toHaveLength(1);
+    });
+
     it("reports an unreadable manifest rather than throwing", () => {
         fs.writeFileSync(path.join(dir, "thalorna.json"), "{ not json");
         const r = loadForeignManifests(dir, ["sohl"]);
         expect(r.stale).toHaveLength(1);
         expect(r.index.size).toBe(0);
+    });
+});
+
+describe("writeManifests", () => {
+    it("round-trips an emitted manifest back to the URL it was built from", () => {
+        // Emitted by a package served at its own root, consumed by a site that
+        // mounts it under /thalorna/ — the address survives the move because it
+        // never carried the mount point.
+        writeManifests(
+            new Map([
+                [
+                    "thalorna",
+                    [
+                        entry(
+                            "creature",
+                            "grkrahk",
+                            "Grukar-ahk",
+                            "/creature/grukar-ahk/",
+                        ),
+                    ],
+                ],
+            ]),
+            dir,
+            { thalorna: "/" },
+        );
+        const r = loadForeignManifests(dir, ["sohl"], PACKAGE_BASE);
+        expect(r.index.get("creature/grkrahk")).toMatchObject({
+            url: "/thalorna/creature/grukar-ahk/",
+            name: "Grukar-ahk",
+        });
+    });
+});
+
+describe("PACKAGE_BASE", () => {
+    it("holds a base for every package that exchanges manifests", () => {
+        // A missing base is a hard load error, so this is what keeps adding a
+        // package to LINK_PACKAGES from failing every build that vendors it.
+        for (const pkg of LINK_PACKAGES) {
+            expect(PACKAGE_BASE).toHaveProperty(pkg);
+        }
+    });
+
+    it("states every base as a slash-terminated prefix", () => {
+        for (const base of Object.values(PACKAGE_BASE)) {
+            expect(String(base).endsWith("/")).toBe(true);
+        }
     });
 });
 

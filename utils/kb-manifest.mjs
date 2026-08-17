@@ -16,9 +16,9 @@
  *
  * Each package that publishes a web surface emits one file naming every note it
  * publishes, keyed by the canonical `type/shortcode` address and valued
- * `{ url, name }` — the same shape the knowledgebase already uses as its own
- * index value, so a foreign entry and a local one are interchangeable at the
- * point of use.
+ * `{ path, name }`. {@link loadForeignManifests} resolves each `path` into the
+ * `{ url, name }` the knowledgebase already uses as its own index value, so a
+ * foreign entry and a local one are interchangeable at the point of use.
  *
  * The manifest exists to make one question decidable: when a link addresses
  * `creature-grkrahk` and this build has never heard of it, is that a typo or a
@@ -32,6 +32,14 @@
  * no pages, and nothing may depend on it — the module has to stay withdrawable
  * (see that repository's `CLAUDE.md`), which a manifest edge pointing into it
  * would quietly prevent.
+ *
+ * **An entry's address is relative to its own package's base** (#1465), never a
+ * site-absolute path. Where a package is *mounted* is the consumer's knowledge,
+ * held in {@link PACKAGE_BASE} and prefixed at resolve time — so moving a
+ * package to another path or origin is one string per consumer rather than a
+ * regenerated manifest, and an inbound link survives the move. A path recorded
+ * in the manifest would not: it resolves, emits an `href`, and 404s, which is
+ * the silent failure the manifest exists to end.
  */
 
 import fs from "node:fs";
@@ -46,8 +54,96 @@ import path from "node:path";
  */
 export const LINK_PACKAGES = Object.freeze(["sohl", "thalorna"]);
 
-/** Manifest format version, so a stale vendored file is recognisable as such. */
-export const MANIFEST_VERSION = 1;
+/**
+ * Manifest format version.
+ *
+ * Bumped to 2 by #1465: entries changed from a site-absolute `url` to a
+ * package-relative `path`. The two shapes are indistinguishable to a naive
+ * reader — prefixing a v1 `url` yields `/thalorna/thalorna/…`, which resolves,
+ * renders, and 404s — so the version is what makes a stale vendored file an
+ * error rather than a wrong link.
+ */
+export const MANIFEST_VERSION = 2;
+
+/**
+ * Where this build serves each package, keyed by package name.
+ *
+ * One line per package, and the only edit a relocation requires: point a
+ * package at another path (`"/setting/thalorna/"`) or another origin
+ * (`"https://thalorna.example.org/"`) and every inbound link into it follows.
+ * A base is a prefix, so it must end in `/`.
+ *
+ * Only *foreign* packages are consulted — a package this build publishes is
+ * authoritative in its own entries and never resolves through a manifest — but
+ * every linkable package is listed, because which are foreign depends on the
+ * consuming repository and this file is vendored into each of them.
+ */
+export const PACKAGE_BASE = Object.freeze({
+    sohl: "/sohl/",
+    thalorna: "/thalorna/",
+});
+
+/**
+ * Asserts a base is usable as a prefix and returns it.
+ *
+ * @param {string} base - The package base.
+ * @param {string} what - What is being resolved, for the error message.
+ * @returns {string} The base.
+ */
+function checkBase(base, what) {
+    if (typeof base !== "string" || !base.endsWith("/")) {
+        throw new Error(
+            `${what}: package base ${JSON.stringify(base)} must end in a slash`,
+        );
+    }
+    return base;
+}
+
+/**
+ * The package-relative address a site-absolute URL records as.
+ *
+ * Strips the emitting package's own base, so what lands in the manifest says
+ * *where in the package* a page is and nothing about where the package itself
+ * is mounted. A URL outside the base is an error rather than a best effort: it
+ * would record an address that silently resolves to the wrong place once a
+ * consumer prefixes its own base.
+ *
+ * @param {string} url - The site-absolute URL the emitting build publishes at.
+ * @param {string} base - That build's base for the package, e.g. `"/thalorna/"`.
+ * @returns {string} The address relative to `base`, with no leading slash.
+ */
+export function packageRelative(url, base) {
+    checkBase(base, "packageRelative");
+    if (typeof url !== "string" || !url.startsWith(base)) {
+        throw new Error(
+            `packageRelative: ${JSON.stringify(url)} does not sit under base ` +
+                `${JSON.stringify(base)}`,
+        );
+    }
+    return url.slice(base.length);
+}
+
+/**
+ * The URL a package-relative address resolves to in this build.
+ *
+ * Plain concatenation, which is what makes an absolute-origin base work: a base
+ * of `"https://thalorna.example.org/"` yields an absolute link, and one of
+ * `"/thalorna/"` a root-relative one, with no other rule to keep in step.
+ *
+ * @param {string} rel - The package-relative address from a manifest entry.
+ * @param {string} base - This build's base for that package.
+ * @returns {string} The resolved URL.
+ */
+export function resolvePackageUrl(rel, base) {
+    checkBase(base, "resolvePackageUrl");
+    if (typeof rel !== "string" || !rel || rel.startsWith("/")) {
+        throw new Error(
+            `resolvePackageUrl: ${JSON.stringify(rel)} is not a package-` +
+                `relative address`,
+        );
+    }
+    return `${base}${rel}`;
+}
 
 /**
  * Builds one package's manifest from the KB build's own entries.
@@ -58,16 +154,19 @@ export const MANIFEST_VERSION = 1;
  *
  * @param {string} pkg - The package name, e.g. `"sohl"`.
  * @param {Array<object>} entries - KB entries (`{ fm, name, url }`).
+ * @param {string} base - Where *this* build serves `pkg`, stripped from each
+ *   entry's URL so the recorded address is package-relative (#1465).
  * @returns {object} The manifest document.
  */
-export function buildManifest(pkg, entries) {
+export function buildManifest(pkg, entries, base) {
+    checkBase(base, `buildManifest(${pkg})`);
     const out = {};
     for (const e of entries) {
         const type = e.fm?.type;
         const shortcode = e.fm?.shortcode;
         if (!type || typeof shortcode !== "string" || !shortcode) continue;
         out[`${type}/${shortcode}`.toLowerCase()] = {
-            url: e.url,
+            path: packageRelative(e.url, base),
             name: e.name,
         };
     }
@@ -91,13 +190,17 @@ export function buildManifest(pkg, entries) {
  *
  * @param {Map<string, Array<object>>} entriesByPackage - Package → entries.
  * @param {string} dir - Output directory; created if absent.
+ * @param {Record<string, string>} bases - Package → where *this* build serves
+ *   it, which is what each entry's address is recorded relative to. This is the
+ *   emitting build's own layout, not {@link PACKAGE_BASE}: a package's own site
+ *   commonly serves it at `"/"` while a consumer mounts it under a prefix.
  * @returns {Array<{ package: string, file: string, count: number }>} What was written.
  */
-export function writeManifests(entriesByPackage, dir) {
+export function writeManifests(entriesByPackage, dir, bases) {
     fs.mkdirSync(dir, { recursive: true });
     const written = [];
     for (const [pkg, entries] of entriesByPackage) {
-        const doc = buildManifest(pkg, entries);
+        const doc = buildManifest(pkg, entries, bases?.[pkg]);
         const file = path.join(dir, `${pkg}.json`);
         fs.writeFileSync(file, `${JSON.stringify(doc, null, 2)}\n`);
         written.push({
@@ -115,12 +218,18 @@ export function writeManifests(entriesByPackage, dir) {
  * A package built locally is skipped even if a manifest for it is present: the
  * live build is authoritative and a vendored copy of it can only be stale.
  *
+ * Each entry's package-relative address is resolved against this build's base
+ * for that package (#1465), so what the index holds is a usable `url` and every
+ * consumer downstream is unchanged by the format.
+ *
  * @param {string} dir - Directory of vendored `<package>.json` manifests.
  * @param {Iterable<string>} localPackages - Packages this build publishes.
+ * @param {Record<string, string>} [bases] - Package → base to resolve against;
+ *   defaults to {@link PACKAGE_BASE}.
  * @returns {{ index: Map<string, object>, packages: Set<string>, stale: Array<object> }}
  *   `index` maps `type/shortcode` → `{ url, name, package }`.
  */
-export function loadForeignManifests(dir, localPackages) {
+export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
     const local = new Set(localPackages);
     const index = new Map();
     const packages = new Set();
@@ -143,14 +252,41 @@ export function loadForeignManifests(dir, localPackages) {
             continue;
         }
         if (doc.version !== MANIFEST_VERSION) {
+            // A v1 file is the site-absolute shape (#1465). Prefixing one of
+            // its URLs would produce `/thalorna/thalorna/…` — a link that
+            // resolves here and 404s for the reader — so the mismatch has to
+            // stop the load rather than be resolved anyway.
             stale.push({
                 package: pkg,
                 reason: `manifest version ${doc.version}, expected ${MANIFEST_VERSION}`,
             });
             continue;
         }
+        const base = bases?.[pkg];
+        if (typeof base !== "string" || !base) {
+            // Skipping it silently would turn every link into that package back
+            // into an unresolved address — which, once the guard is on, reads as
+            // a typo and fails the build somewhere far from the cause.
+            stale.push({
+                package: pkg,
+                reason: `no package base configured for "${pkg}" (PACKAGE_BASE in utils/kb-manifest.mjs)`,
+            });
+            continue;
+        }
+        const resolved = [];
+        try {
+            for (const [key, v] of Object.entries(doc.entries ?? {})) {
+                resolved.push([
+                    key,
+                    { name: v.name, url: resolvePackageUrl(v.path, base) },
+                ]);
+            }
+        } catch (err) {
+            stale.push({ package: pkg, reason: err.message });
+            continue;
+        }
         packages.add(pkg);
-        for (const [key, v] of Object.entries(doc.entries ?? {})) {
+        for (const [key, v] of resolved) {
             // First writer wins, so two packages claiming one address cannot
             // make the build depend on directory order.
             if (!index.has(key)) index.set(key, { ...v, package: pkg });

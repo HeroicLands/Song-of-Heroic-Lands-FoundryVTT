@@ -186,6 +186,22 @@ build. That check is live only while every package in `LINK_PACKAGES`
 addresses are tolerated and the build says so, because the distinction is not
 decidable without it.
 
+**What a manifest entry records is package-relative** (#1465). An entry is
+`{ path, name }`, and `path` says where the page sits *inside its own package*
+(`creature/grukar-ahk/`) — never where that package is served. The mount point is
+the consuming build's knowledge, held one line per package in `PACKAGE_BASE`
+(`utils/kb-manifest.mjs`) and prefixed when the address is resolved, so
+`creature-grkrahk` renders as `/thalorna/creature/grukar-ahk/` here.
+
+Repointing a package is therefore that one string — to another path
+(`"/setting/thalorna/"`) or another origin (`"https://thalorna.example.org/"`),
+after which every inbound link into it follows. A manifest that recorded the mount
+point instead would break each of those links the day the package moved, and break
+them silently: the address still resolves, an `href` is still emitted, and only the
+reader finds the 404. Because the two shapes are indistinguishable to a reader that
+just prefixes, the format carries a version and a manifest written to an older one
+is rejected rather than read.
+
 This replaced a hand-maintained allowlist of six reviewed addresses (#1414), which
 existed only because no manifest could answer the question.
 
