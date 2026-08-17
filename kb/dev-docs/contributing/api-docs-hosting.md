@@ -76,3 +76,4 @@ The purge uses `purge_everything`, which clears the **entire `heroiclands.org` z
 - **The `gh-pages` branch is disposable.** It holds one build and no history worth keeping; it can be recreated from scratch by dispatching the workflow.
 - **The root is replaced wholesale.** Anything committed to `gh-pages` by hand is removed on the next publish, `CNAME` excepted.
 - **Custom domain / DNS** for `api.heroiclands.org` is configured once (DNS record + Pages custom domain) and is unaffected by ordinary publishes.
+- **The same build is also published to the `dist` branch**, as `api/`, by [`deploy-dist.yml`](../../../.github/workflows/deploy-dist.yml) — the copy `heroiclands-site` mounts at `/sohl/api/` (#1444). The two publishes are independent: neither reads the other's branch, and this hosting is unaffected by that one. See [Build & Deployment §8](../how-to/build-and-deployment.md#8-publishing-build-output--the-dist-branch).

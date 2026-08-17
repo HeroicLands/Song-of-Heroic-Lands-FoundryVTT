@@ -69,6 +69,8 @@ sequence; `run-p` runs them in parallel.
 | `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                       |
 | `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                |
 | `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                     |
+| `build:kb-content`    | Generate the knowledgebase Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/` (`utils/build-kb-content.mjs`). No Hugo needed.           |
+| `build:kb`            | `build:kb-content` then render it with Hugo → `kb/public/`. Needs Hugo and the theme submodule.                                                   |
 | `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`utils/pack-release.mjs`).                                                   |
 | `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                              |
 
@@ -542,7 +544,58 @@ That's the entire release. Two notes:
 | Publish the API docs          | no (CI)  | —          |
 | Deploy to a Foundry instance  | 🔧 yes   | operator   |
 
-## 8. The build utility scripts
+## 8. Publishing build output — the `dist` branch
+
+Two of this repository's surfaces are published to the **web** rather than to a
+Foundry instance: the knowledgebase and the API documentation. Each has its own
+live deployment today (`kb.heroiclands.org` from `deploy-kb.yml`,
+`api.heroiclands.org` from `deploy-docs.yml`), and **both are additionally
+published as build output to a `dist` branch** by
+`.github/workflows/deploy-dist.yml`, which is what `heroiclands-site` consumes
+when it assembles `www.heroiclands.org/sohl/` (#1444).
+
+| Path on `dist` | Contents                                             | Built from             | Refreshed on                                          |
+| -------------- | ---------------------------------------------------- | ---------------------- | ----------------------------------------------------- |
+| `kb-content/`  | Knowledgebase Markdown, as `build:kb-content` emits it | `main`                 | push to `main` touching `kb/`, `assets/content/`, `assets/manifests/`, or `utils/` |
+| `api/`         | TypeDoc HTML, as `docs:html` emits it                | the newest release tag | completion of `Version and Release`                   |
+| `metadata.json`| The source commit behind each half                   | —                      | every publish                                          |
+
+Four properties are worth knowing before you touch that workflow:
+
+- **Markdown, not rendered HTML.** The knowledgebase half publishes the Hugo
+  _content_ tree, so the consuming site owns the layouts and runs Hugo. That is
+  what lets this repository eventually stop needing Hugo and the theme submodule.
+- **The two halves are independent.** Each publish rewrites only the half it
+  built and carries the other forward from the branch's current tip, because
+  they refresh on entirely different cadences.
+- **The branch has no history.** Every publish force-pushes a single orphan
+  commit, so `dist` never accretes a copy of the API documentation per release.
+  Unchanged files still dedupe to the same blobs, so the push stays small. Nothing
+  on `dist` is source and nothing there is reviewed — a pull request against it
+  would be overwritten by the next run. Change the generators on `main`.
+- **It is consumed with an ordinary checkout**
+  (`git clone --depth 1 --branch dist …`) and needs no credentials beyond
+  repository read.
+
+After a successful publish the workflow sends a `repository_dispatch` to
+`heroiclands-site` so the site rebuilds. That needs a `SITE_DISPATCH_TOKEN`
+repository secret (a PAT with `contents: write` on that repository); with the
+secret unset the step is skipped, and the site picks the change up on its next
+build.
+
+**The API half rebuilds only when the release tag changes.** `Version and Release`
+completes on every push to `main`, not only on the ones that release something, so
+that trigger usually fires for a tag already on `dist`. Since the documentation is
+built from the tag's own tree and lockfile, a rebuild would be byte-identical — so
+the workflow compares the newest tag against `metadata.json` and skips the TypeDoc
+build outright.
+
+To republish by hand, run the **Publish dist Branch** workflow from the Actions
+tab; its one input selects which half to rebuild (`both`, `kb-content`, or
+`api`). A manual dispatch bypasses the skip check and always rebuilds — that is
+the escape hatch when a publish went wrong.
+
+## 9. The build utility scripts
 
 The build/deploy/doc/pack tooling lives in **`utils/`** (with the pack tooling
 under `utils/packs/`). Each script carries a header comment describing its purpose
