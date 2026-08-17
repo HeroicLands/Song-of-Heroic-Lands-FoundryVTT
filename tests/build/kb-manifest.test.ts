@@ -27,6 +27,22 @@ const entry = (type: string, shortcode: string, name: string, url: string) => ({
     url,
 });
 
+/**
+ * The manifest document's shape.
+ *
+ * `kb-manifest.mjs` is plain ESM with no declaration file, so its exports widen
+ * to `object` and every property read fails `lint:dts` (tsc with `skipLibCheck`
+ * off) even though the runtime is fine. Naming the shape here keeps the
+ * assertions honest — a field renamed in the helper fails to compile rather
+ * than silently reading `undefined`.
+ */
+interface Manifest {
+    version: number;
+    package: string;
+    entries: Record<string, { url: string; name: string }>;
+}
+const manifestOf = (doc: unknown) => doc as Manifest;
+
 let dir: string;
 beforeEach(() => {
     dir = fs.mkdtempSync(path.join(os.tmpdir(), "sohl-manifest-"));
@@ -37,9 +53,11 @@ afterEach(() => {
 
 describe("buildManifest", () => {
     it("keys entries by type/shortcode and carries url and name", () => {
-        const doc = buildManifest("sohl", [
-            entry("skill", "climb", "Climbing", "/skill/climbing/"),
-        ]);
+        const doc = manifestOf(
+            buildManifest("sohl", [
+                entry("skill", "climb", "Climbing", "/skill/climbing/"),
+            ]),
+        );
         expect(doc.version).toBe(MANIFEST_VERSION);
         expect(doc.package).toBe("sohl");
         expect(doc.entries["skill/climb"]).toEqual({
@@ -49,18 +67,22 @@ describe("buildManifest", () => {
     });
 
     it("omits a note with no shortcode — it cannot be addressed", () => {
-        const doc = buildManifest("sohl", [
-            { fm: { type: "doc" }, name: "Prose", url: "/rules/prose/" },
-            entry("skill", "climb", "Climbing", "/skill/climbing/"),
-        ]);
+        const doc = manifestOf(
+            buildManifest("sohl", [
+                { fm: { type: "doc" }, name: "Prose", url: "/rules/prose/" },
+                entry("skill", "climb", "Climbing", "/skill/climbing/"),
+            ]),
+        );
         expect(Object.keys(doc.entries)).toEqual(["skill/climb"]);
     });
 
     it("sorts keys so the committed file diffs only on real change", () => {
-        const doc = buildManifest("sohl", [
-            entry("skill", "zeta", "Zeta", "/skill/zeta/"),
-            entry("skill", "alpha", "Alpha", "/skill/alpha/"),
-        ]);
+        const doc = manifestOf(
+            buildManifest("sohl", [
+                entry("skill", "zeta", "Zeta", "/skill/zeta/"),
+                entry("skill", "alpha", "Alpha", "/skill/alpha/"),
+            ]),
+        );
         expect(Object.keys(doc.entries)).toEqual(["skill/alpha", "skill/zeta"]);
     });
 });
