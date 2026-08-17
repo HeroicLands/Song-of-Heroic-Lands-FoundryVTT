@@ -95,12 +95,16 @@ function qualifiedKey(target, contentTypes) {
  * An unresolved target fails the build only when it is a genuine intra-KB
  * problem — an ambiguous alias, or a qualified `prefix/key` whose prefix is a
  * real KB section or content directory. Anything else is treated as an external
- * reference (worldbuilding notes kept outside this repository) and rendered as
- * plain text. Failures are collected in `ctx.errors`.
+ * reference and rendered as plain text — until every package's manifest is
+ * present, after which any `type-shortcode` address resolving nowhere fails
+ * too. Failures are collected in `ctx.errors`.
  *
  * @param {string} body - The markdown body.
  * @param {object} ctx - `{ index, typeAlias, collide, typeCollide, sections,
- *   contentTypes, type, errors, src }`.
+ *   contentTypes, foreign, manifestsComplete, type, errors, src }`. `foreign`
+ *   is the cross-package manifest index (#1446); `manifestsComplete` says
+ *   whether every linkable package is accounted for. Together they decide
+ *   whether an unresolved address is a typo or a package merely absent.
  * @returns {string} The body with wikilinks rewritten.
  */
 export function resolveKbWikilinks(body, ctx) {
@@ -130,7 +134,12 @@ export function resolveKbWikilinks(body, ctx) {
         const hit =
             (typeKey ? ctx.typeAlias.get(typeKey) : undefined) ??
             ctx.index.get(key) ??
-            (hyphenKey ? ctx.index.get(hyphenKey) : undefined);
+            (hyphenKey ? ctx.index.get(hyphenKey) : undefined) ??
+            // A manifest entry carries the same `{ url, name }` shape as a
+            // local one (#1446), so a cross-package hit needs no special case
+            // below. Local wins: a live build is authoritative and a vendored
+            // manifest can only be staler.
+            (hyphenKey ? ctx.foreign?.get(hyphenKey) : undefined);
         if (hit) {
             // With no explicit label, a *qualified* target has no prose to show
             // (a shortcode is not display text), so fall back to the document's
@@ -161,9 +170,25 @@ export function resolveKbWikilinks(body, ctx) {
         const badQualified =
             prefix !== null &&
             (ctx.sections.has(prefix) || ctx.contentTypes.has(prefix));
+        // The hyphen form is the canonical address (#1398) and is what the
+        // authored content writes. It could not be guarded while some packages
+        // were invisible here: `Rules/Bestiary.md` addresses `creature-grkrahk`,
+        // a real note in the `thalorna` package, and nothing in the syntax
+        // separated that legitimate cross-package reference from a typo — so
+        // treating the form as definitely-local would have failed the build on
+        // correct content.
+        //
+        // The link manifest settles it (#1446). Once every linkable package is
+        // accounted for — built here or vendored as a manifest — an address
+        // resolving in none of them is a typo and nothing else. Until then
+        // `manifestsComplete` is false and the form stays unguarded, so the
+        // check returns exactly when it becomes decidable rather than on a date
+        // someone has to remember.
+        const badAddress = ctx.manifestsComplete === true && hyphenKey !== null;
+
         if ((typeKey && ctx.typeCollide.has(typeKey)) || ctx.collide.has(key)) {
             ctx.errors.push({ file: ctx.src, target, reason: "ambiguous" });
-        } else if (badQualified) {
+        } else if (badQualified || badAddress) {
             ctx.errors.push({
                 file: ctx.src,
                 target,

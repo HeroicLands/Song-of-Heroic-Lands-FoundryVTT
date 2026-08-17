@@ -251,3 +251,86 @@ describe("resolveKbWikilinks", () => {
         expect(ctx.errors).toEqual([]);
     });
 });
+
+/**
+ * Cross-package resolution through the link manifest (#1446).
+ *
+ * `creature-grkrahk` is the real case: a Bestiary page addresses a note that
+ * lives in the `thalorna` package. Before the manifest nothing in the syntax
+ * separated that from a typo, so the address had to be tolerated and lost its
+ * href; both halves of that trade are exercised here.
+ */
+describe("cross-package addresses (link manifest)", () => {
+    const foreign = new Map<string, object>([
+        [
+            "creature/grkrahk",
+            {
+                url: "/thalorna/creature/grukar-ahk/",
+                name: "Grukar-ahk",
+                package: "thalorna",
+            },
+        ],
+        // The same address a local entry also claims, to prove precedence.
+        ["skill/climb", { url: "/thalorna/skill/stale/", name: "Stale" }],
+    ]);
+
+    it("renders a foreign address as a real link", () => {
+        const ctx = makeCtx({ foreign, manifestsComplete: true });
+        expect(
+            resolveKbWikilinks(
+                "the [[creature-grkrahk|Grukar-ahk]] spawn",
+                ctx,
+            ),
+        ).toBe("the [Grukar-ahk](/thalorna/creature/grukar-ahk/) spawn");
+        expect(ctx.errors).toHaveLength(0);
+    });
+
+    it("uses the foreign document's name when the link carries no label", () => {
+        const ctx = makeCtx({ foreign, manifestsComplete: true });
+        expect(resolveKbWikilinks("[[creature-grkrahk]]", ctx)).toBe(
+            "[Grukar-ahk](/thalorna/creature/grukar-ahk/)",
+        );
+    });
+
+    it("prefers the local index — a live build outranks a vendored manifest", () => {
+        const ctx = makeCtx({ foreign, manifestsComplete: true, type: null });
+        expect(resolveKbWikilinks("[[skill-climb]]", ctx)).toBe(
+            "[Climbing](/skill/climbing/)",
+        );
+    });
+
+    it("fails an address that resolves nowhere, once manifests are complete", () => {
+        const ctx = makeCtx({ foreign, manifestsComplete: true });
+        expect(resolveKbWikilinks("[[creature-notreal|Nope]]", ctx)).toBe(
+            "Nope",
+        );
+        expect(ctx.errors).toEqual([
+            {
+                file: "rules/Bleeding.md",
+                target: "creature-notreal",
+                reason: "broken type/shortcode",
+            },
+        ]);
+    });
+
+    it("tolerates the same address while a package is still missing", () => {
+        // The pre-#1446 behaviour, and why the guard is gated: with `thalorna`
+        // invisible, a correct cross-package link is indistinguishable from
+        // this and failing here would break the build on good content.
+        const ctx = makeCtx({ manifestsComplete: false });
+        expect(resolveKbWikilinks("[[creature-notreal|Nope]]", ctx)).toBe(
+            "Nope",
+        );
+        expect(ctx.errors).toHaveLength(0);
+    });
+
+    it("leaves a bare prose link alone even when manifests are complete", () => {
+        // `[[Grukar-ahk]]` is prose, not an address; only a qualified target is
+        // checked, so a worldbuilding placeholder is still not an error.
+        const ctx = makeCtx({ foreign, manifestsComplete: true });
+        expect(resolveKbWikilinks("[[Some Unwritten Place]]", ctx)).toBe(
+            "Some Unwritten Place",
+        );
+        expect(ctx.errors).toHaveLength(0);
+    });
+});
