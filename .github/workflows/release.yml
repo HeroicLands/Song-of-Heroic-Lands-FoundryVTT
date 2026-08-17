@@ -23,12 +23,6 @@ jobs:
         name: Version and Release
         runs-on: ubuntu-latest
 
-        # Surface the release decision so the downstream docs-publish job can
-        # gate on it and receive the tag.
-        outputs:
-            release: ${{ steps.decide.outputs.release }}
-            tag: ${{ steps.decide.outputs.tag }}
-
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -128,9 +122,8 @@ jobs:
             # time. npm >= 11.5 is required for OIDC, so upgrade the runner's npm.
             # `continue-on-error`: this is a secondary, best-effort deliverable —
             # Foundry installs from the Release's system.zip, not from npm. A
-            # failure here must not fail the job, since that would also skip the
-            # downstream `publish-docs` job below (which gates on this job's
-            # overall success), taking the versioned API docs down with it.
+            # failure here must not fail the job, since deploy-docs.yml gates on
+            # this run succeeding and would otherwise skip the API-docs publish.
             - name: Publish @heroiclands/sohl-types (npm Trusted Publishing)
               if: steps.decide.outputs.release == 'true'
               continue-on-error: true
@@ -144,26 +137,8 @@ jobs:
                       npm publish
                   fi
 
-            # Versioned API docs are published by the `publish-docs` job below,
-            # not a step here — see its comment for why.
-
-    # Publish the freshly-tagged release's API docs under /<tag> and mirror
-    # /latest. The Release above is created with GITHUB_TOKEN, which by design
-    # cannot trigger deploy-docs.yml's `release:` event, so we call it via
-    # `workflow_call` in this same run instead — unaffected by that no-cascade
-    # rule and needing no PAT. Skipped on ordinary pushes to main (no release),
-    # since `release` is then empty.
-    #
-    # Manual fallback if this job is ever removed or fails:
-    #   gh workflow run deploy-docs.yml --ref v<version>   (publishes /<tag> + /latest)
-    publish-docs:
-        name: Publish versioned API docs
-        needs: release
-        if: needs.release.outputs.release == 'true'
-        permissions:
-            contents: write
-        uses: ./.github/workflows/deploy-docs.yml
-        with:
-            target_dir: ${{ needs.release.outputs.tag }}
-            is_release: true
-        secrets: inherit
+            # API docs are not published here. deploy-docs.yml runs on this
+            # workflow's completion and builds from the newest release tag, so it
+            # needs nothing from this job — and a run that released nothing
+            # rebuilds the same tag and finds no diff to push. Republish by hand
+            # with: gh workflow run deploy-docs.yml

@@ -15,65 +15,49 @@ folder: null
 
 See also: [Getting Started](../how-to/getting-started.md), [Testing](../how-to/testing.md)
 
-The TypeDoc API reference is published to **https://api.heroiclands.org** by the [`deploy-docs.yml`](../../../.github/workflows/deploy-docs.yml) workflow. The site hosts **multiple versions side by side**, one per git ref (branch or tag), so you can read the docs for `main`, for any tagged release, or for a feature branch you're previewing — all at once, each under its own path.
+The TypeDoc API reference is published to **https://api.heroiclands.org** by the [`deploy-docs.yml`](../../../.github/workflows/deploy-docs.yml) workflow. **One version is published: the current release, unversioned, at the site root.** Older versions are not mirrored — the git tags are the history, and the documentation for any release is reproducible from its tag with `npm run docs:html`.
 
 ## Site layout
 
-Every published ref gets its own subdirectory. The path segment is the ref name (tags verbatim, branches slugified):
-
 ```
-api.heroiclands.org/            → redirects to /latest/
-api.heroiclands.org/latest/     ← mirror of the most recent published release
-api.heroiclands.org/main/       ← docs built from the main branch
-api.heroiclands.org/v0.7.0/     ← docs for release tag v0.7.0
-api.heroiclands.org/v0.6.0/     ← older releases are kept
-api.heroiclands.org/feat-foo/   ← optional: a feature branch you published
+api.heroiclands.org/    ← the TypeDoc build of the newest release, at the root
 ```
 
-The naming rules:
+There are no per-ref subdirectories, no `/latest`, and no `/main`. A branch is never published; to read the docs for work in progress, build them locally (`npm run docs:html`, then `npm run docs:serve`).
 
-- **Releases** publish under the tag name exactly as it appears on the GitHub Release (for example `v0.7.0`), and additionally overwrite **`/latest`** so the bare domain always lands on the newest release.
-- **`main`** publishes under `/main`.
-- **Feature branches** publish under their branch name with `/` slugified to `-`, so `feat/legacy-counterstrike-cleanup` becomes `/feat-legacy-counterstrike-cleanup/`.
-
-The branch root also carries the `CNAME` (custom domain) and `.nojekyll` (so generated folders aren't filtered by Jekyll); the workflow rewrites both on every publish.
+The branch root also carries `.nojekyll` (so generated folders aren't filtered by Jekyll), rewritten on every publish, and `CNAME`, which is **preserved rather than written** — GitHub Pages maintains that file from the repository's custom-domain setting, and deleting it would unset the domain.
 
 ## How publishing works
 
-The docs are served by GitHub Pages from the **`gh-pages` branch** (Pages source: _Deploy from a branch → `gh-pages` → `/ (root)`_). The workflow builds the HTML (`npm run docs:prepare && npm run docs:html`, output in `build/docs-html`), then commits the result into the appropriate subdirectory of `gh-pages`, **replacing only that subdirectory** and leaving every other version untouched. That selective replacement is what lets versions accumulate.
+The docs are served by GitHub Pages from the **`gh-pages` branch** (Pages source: _Deploy from a branch → `gh-pages` → `/ (root)`_). The workflow:
 
-The workflow runs on four events:
+1. asks the GitHub API for the newest published release and **checks out that tag** — the ref that triggered the run is irrelevant;
+2. builds the HTML from it (`npm run docs:prepare && npm run docs:html`, output in `build/docs-html`);
+3. replaces the entire `gh-pages` tree with that build, preserving only `.git` and `CNAME`;
+4. pushes — or, when the build is byte-identical to what is already published, does nothing.
 
-| Trigger                      | What it publishes                          |
-| ---------------------------- | ------------------------------------------ |
-| Push to `main`               | `/main`                                    |
-| Release published            | `/<tag>` and `/latest`                     |
-| `workflow_dispatch` (manual) | `/<branch-slug>` for the branch you select |
-| Branch deleted               | removes that branch's `/<slug>` directory  |
+It runs on two events:
 
-All runs share the `gh-pages-deploy` concurrency group, so they serialize and never race on the branch (a release, for example, triggers both a `/main` publish from the push and a `/<tag>` + `/latest` publish from the release event — these queue rather than collide).
+| Trigger                          | What it publishes                       |
+| -------------------------------- | --------------------------------------- |
+| "Version and Release" completed  | the newest release, at the root         |
+| `workflow_dispatch` (manual)     | the newest release, at the root         |
 
-## Adding a feature branch
+Both do the same thing, because the tag is resolved from the API rather than from the event.
 
-Feature branches are **not** published automatically — you publish them on demand:
+**Why `workflow_run` and not `release:`.** [`release.yml`](../../../.github/workflows/release.yml) creates its GitHub Release with the Actions `GITHUB_TOKEN`, which by design cannot trigger another workflow — so a `release: [published]` trigger would never fire for an automated release. Keying off the release **run** instead sidesteps that rule without a PAT. Nothing is passed between the two workflows; the docs job resolves the tag itself. A run that released nothing therefore rebuilds the tag already published, finds no diff, and exits without pushing.
 
-1. Make sure your branch contains the current `deploy-docs.yml` (merge `main` into it if needed). Manual dispatch runs the workflow file _from the selected branch_, and the **Run workflow** button only appears once the workflow exists on the default branch — so the workflow must already be on `main`.
-2. In the repository, go to **Actions → Deploy API Docs to GitHub Pages → Run workflow**.
-3. In the branch dropdown, select your feature branch and run it.
-4. After the run completes, the docs are live at `api.heroiclands.org/<branch-slug>/` (with `/` replaced by `-`).
+Runs share the `gh-pages-deploy` concurrency group, so they serialize and never race on the branch.
 
-Re-running the workflow on the same branch rebuilds that subdirectory cleanly — stale files from a previous build are removed, not merged.
+## Republishing by hand
 
-If you want a branch to publish automatically on every push (instead of manual dispatch), add it to the `push.branches` list in `deploy-docs.yml`. Prefer manual dispatch for one-off previews to keep the site uncluttered.
+There is nothing to select — the newest release is always what gets built:
 
-## Removing a feature branch
+```bash
+gh workflow run deploy-docs.yml
+```
 
-Deleting the branch is enough:
-
-1. Delete the branch (locally then `git push origin --delete <branch>`, or via the GitHub UI).
-2. The `delete` event triggers the workflow's cleanup job, which removes the matching `/<slug>` directory from `gh-pages`.
-
-The cleanup job only acts on **branch** deletions, never tags — so released versions persist even if you later delete their tags. It also refuses to remove the reserved `main` and `latest` directories. To remove a published directory by hand, delete it from the `gh-pages` branch directly and push.
+Use this after fixing a documentation build, or if the automatic run failed. The **Run workflow** button in the Actions tab does the same thing.
 
 ## Cloudflare cache purge
 
@@ -84,11 +68,11 @@ This requires two repository secrets (**Settings → Secrets and variables → A
 - `CLOUDFLARE_ZONE_ID` — the Zone ID for `heroiclands.org` (Cloudflare dashboard → the domain → **Overview**, right-hand sidebar).
 - `CLOUDFLARE_PURGE_TOKEN` — an API token scoped to **Zone → Cache Purge → Purge** for that zone (Cloudflare → **My Profile → API Tokens → Create Token**).
 
-The purge uses `purge_everything`, which clears the **entire `heroiclands.org` zone** — including the main site — not just the `api.` host. That is harmless (cache simply rebuilds on the next request) but broader than necessary. Host-scoped purges (`hosts: ["api.heroiclands.org"]`) and prefix purges are Cloudflare **Enterprise**-only; on lower plans, `purge_everything` is the reliable choice. The cleanup job (branch deletion) does not purge — removed branch pages fall out of cache on their own TTL.
+The purge uses `purge_everything`, which clears the **entire `heroiclands.org` zone** — including the main site — not just the `api.` host. That is harmless (cache simply rebuilds on the next request) but broader than necessary. Host-scoped purges (`hosts: ["api.heroiclands.org"]`) and prefix purges are Cloudflare **Enterprise**-only; on lower plans, `purge_everything` is the reliable choice.
 
 ## Operational notes
 
-- **Pages source must stay on the `gh-pages` branch.** The multi-version layout depends on branch-based publishing; do not switch the Pages source to "GitHub Actions" (the artifact method replaces the whole site on each deploy and cannot accumulate paths).
-- **Keep the `gh-pages` branch.** It is the version store, not a throwaway. Its root `CNAME`/`.nojekyll` seed the custom domain and are preserved across publishes.
-- **`/latest` appears after the first release.** Until then the root redirect target does not exist; browse `/main` directly.
+- **Pages source must stay on the `gh-pages` branch.** Do not switch it to "GitHub Actions" — the workflow publishes by pushing to the branch.
+- **The `gh-pages` branch is disposable.** It holds one build and no history worth keeping; it can be recreated from scratch by dispatching the workflow.
+- **The root is replaced wholesale.** Anything committed to `gh-pages` by hand is removed on the next publish, `CNAME` excepted.
 - **Custom domain / DNS** for `api.heroiclands.org` is configured once (DNS record + Pages custom domain) and is unaffected by ordinary publishes.

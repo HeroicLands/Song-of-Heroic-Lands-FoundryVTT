@@ -108,11 +108,10 @@ reads the Markdown directly.
 
 | Script                      | What it does                                                                           |
 | --------------------------- | -------------------------------------------------------------------------------------- |
-| `docs`                      | Full doc build: `docs:prepare → docs:html → docs:md → docs:version`.                   |
+| `docs`                      | Full doc build: `docs:prepare → docs:html → docs:md`.                                  |
 | `docs:prepare`              | `docs:catalog` (generate the type catalog) + `docs:expr-scopes` (generate the expression-scope table). |
 | `docs:expr-scopes`          | Regenerate the bound-variables table in [Expressions and Scripts](../concepts/expressions.md) from the scope catalog. |
 | `docs:html` / `docs:md`     | TypeDoc HTML / Markdown output.                                                        |
-| `docs:version`              | Rewrite `api.heroiclands.org/latest` → `…/v<version>` in the generated output.         |
 | `docs:coverage`             | Report doc-comment coverage.                                                           |
 | `docs:serve` / `docs:watch` | Serve `build/docs-html` / rebuild-and-serve on change.                                |
 
@@ -517,16 +516,12 @@ These accumulate on `main` as PRs merge.
     - attaches `system.zip` + `system.json` (the manifest/download Foundry installs
       and updates from).
 
-4. 🔧 **Publish the versioned API docs.** The Release is created with the Actions
-   `GITHUB_TOKEN`, which by design can't trigger another workflow, so the docs
-   workflow does **not** fire on its own. Run (substituting the version just
-   released — the release job also prints this exact line in its run summary):
-
-    ```bash
-    gh workflow run deploy-docs.yml --ref v<version>   # e.g. v0.7.1
-    ```
-
-    This publishes `api.heroiclands.org/v<version>/` and mirrors it to `/latest/`.
+4. The **API documentation republishes itself.** `deploy-docs.yml` runs when the
+   release workflow completes, builds the newest release tag, and replaces
+   `api.heroiclands.org` with it — one unversioned copy, no archive. Nothing to
+   run; see [API Docs Hosting](../contributing/api-docs-hosting.md). If that run
+   fails, repeat it with `gh workflow run deploy-docs.yml` (it needs no
+   arguments — the newest release is always what it builds).
 
 That's the entire release. Two notes:
 
@@ -538,14 +533,14 @@ That's the entire release. Two notes:
 
 **At a glance — who does what:**
 
-| Step                          | Manual?                                                     | By         |
-| ----------------------------- | ----------------------------------------------------------- | ---------- |
-| Author changesets             | 🔧 yes                                                      | developer  |
-| Open the Version Packages PR  | no (CI)                                                     | —          |
-| Merge the Version Packages PR | 🔧 yes                                                      | maintainer |
-| Tag + GitHub Release + assets | no (CI)                                                     | —          |
-| Publish versioned API docs    | 🔧 yes (`gh workflow run deploy-docs.yml --ref v<version>`) | maintainer |
-| Deploy to a Foundry instance  | 🔧 yes                                                      | operator   |
+| Step                          | Manual?  | By         |
+| ----------------------------- | -------- | ---------- |
+| Author changesets             | 🔧 yes   | developer  |
+| Open the Version Packages PR  | no (CI)  | —          |
+| Merge the Version Packages PR | 🔧 yes   | maintainer |
+| Tag + GitHub Release + assets | no (CI)  | —          |
+| Publish the API docs          | no (CI)  | —          |
+| Deploy to a Foundry instance  | 🔧 yes   | operator   |
 
 ## 8. The build utility scripts
 
@@ -559,7 +554,6 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `copy-assets.mjs`                   | Stage templates, lang, assets, and root files into `build/stage/`.                        |
 | `build-icon-font.mjs`               | Build the icon font from SVGs.                                                            |
 | `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                            |
-| `sync-doc-version.mjs`              | Pin `…/latest` doc links to `…/v<version>` in generated output.                           |
 | `docs-coverage.mjs`                 | Report doc-comment coverage.                                                              |
 | `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                 |
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                   |
