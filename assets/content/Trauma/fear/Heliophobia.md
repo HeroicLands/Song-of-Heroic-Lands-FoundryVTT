@@ -27,8 +27,7 @@ Staying indoors during daylight hours, using heavy curtains, or wearing protecti
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or sight of sunlight.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or sight of sunlight. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

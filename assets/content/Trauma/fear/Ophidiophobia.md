@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Ophidiophobia is an intense, irrational fear of snakes.
-People with ophidiophobia may experience a range of symptoms when they think about, see, or are near snakes.
+Ophidiophobia is an intense, irrational fear of snakes. People with ophidiophobia may experience a range of symptoms when they think about, see, or are near snakes.
 
 ### Impulse
 
@@ -28,8 +27,7 @@ Avoiding areas where snakes might be found, such as forests, deserts, or certain
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of snakes.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of snakes. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

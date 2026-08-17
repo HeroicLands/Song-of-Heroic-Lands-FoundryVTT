@@ -49,6 +49,5 @@ TABLE WITHOUT ID
   link(file.path, name.full) AS "Sign",
   shortcode AS "Shortcode",
   description AS "Influence"
-WHERE type = "mystery" and sohl.kbcat = "birthsign"
-SORT name.full ASC
+WHERE type = "mystery" AND sohl.kbcat = "birthsign"
 ```

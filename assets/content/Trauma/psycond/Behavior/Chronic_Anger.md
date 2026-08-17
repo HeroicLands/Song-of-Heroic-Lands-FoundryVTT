@@ -23,8 +23,7 @@ Chronic Anger is a condition where an individual experiences prolonged, persiste
 
 ### Impulse
 
-The individual feels a persistent undercurrent of anger or irritability, often triggered by minor frustrations. They may snap at others more frequently or hold grudges, but still manage to maintain basic social interactions. However, their patience is thin, and they struggle to find peace in their daily life.
-**Example:** Merchant Harwin feels a constant frustration that simmers beneath the surface. Small irritations—such as a late delivery or a miscount in his stock—set him off, leading to harsh words and tense exchanges with his workers. While he manages to keep his temper from escalating too often, those around him know to tread carefully.
+The individual feels a persistent undercurrent of anger or irritability, often triggered by minor frustrations. They may snap at others more frequently or hold grudges, but still manage to maintain basic social interactions. However, their patience is thin, and they struggle to find peace in their daily life. **Example:** Merchant Harwin feels a constant frustration that simmers beneath the surface. Small irritations—such as a late delivery or a miscount in his stock—set him off, leading to harsh words and tense exchanges with his workers. While he manages to keep his temper from escalating too often, those around him know to tread carefully.
 
 ### Disorder
 

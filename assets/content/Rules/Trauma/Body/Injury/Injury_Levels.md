@@ -13,8 +13,7 @@ folder: F4NGyU9QQgWwTcHe
 shortcode: injrylvl
 ---
 
-The **Injury Level (IL)** is a number from **1 to 5** measuring the severity of a
-wound. Severity bands group the levels:
+The **Injury Level (IL)** is a number from **1 to 5** measuring the severity of a wound. Severity bands group the levels:
 
 | Injury Level | Severity | Label |
 | ------------ | -------- | ----- |

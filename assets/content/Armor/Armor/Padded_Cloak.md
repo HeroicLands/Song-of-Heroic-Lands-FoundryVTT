@@ -68,7 +68,4 @@ origValue: 69
 origWeight: 2.8
 ---
 
-A cloak of quilted and padded cloth, layered and stitched through so that it turns a
-glancing edge as well as the weather. Padding is the cheapest protection there is, which is
-why a levy turns out in it, and it is warm enough that a padded cloak sees far more use on
-the road than on the field.
+A cloak of quilted and padded cloth, layered and stitched through so that it turns a glancing edge as well as the weather. Padding is the cheapest protection there is, which is why a levy turns out in it, and it is warm enough that a padded cloak sees far more use on the road than on the field.

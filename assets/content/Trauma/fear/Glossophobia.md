@@ -23,13 +23,11 @@ Glossophobia is an intense, irrational fear of public speaking or speaking in fr
 
 ### Impulse
 
-Avoiding any form of public speaking, including presentations, speeches, or even classroom participation.
-Abberance (ABE) increases by 1 from the source of fear.
+Avoiding any form of public speaking, including presentations, speeches, or even classroom participation. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought of speaking publicly.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought of speaking publicly. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

@@ -7,7 +7,7 @@ name:
     full: Springald
     aliases: []
 description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
-id: SiegeSpringald1
+id: olW8KZm5vIcIRXGM
 img: icons/game-icons/lorc/spear-hook.svg
 shortcode: Sprngld
 type: weapongear
@@ -72,4 +72,5 @@ folder: HXiYHvG6igI3Wlmm
 ---
 
 A torsion engine of two skeins of twisted sinew driving a pair of stiff arms, spanned by a windlass and loosing a yard-long bolt. Light enough to be carried up a stair and mounted on a wall-top or a tower platform, and worked by two. Against a formation it punches through a file of men; against a gate it does nothing worth the name. Its virtue is that it is aimed rather than lobbed, so a crew that can see a target can hit it.
+
 Two crew work it: one to wind the windlass and lay the stock, one to load. Spanning and loading is the better part of a minute between shots.

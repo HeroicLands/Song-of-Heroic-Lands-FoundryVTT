@@ -27,8 +27,7 @@ Avoiding certain foods or even eating and drinking altogether. Abberance (ABE) i
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or act of swallowing.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or act of swallowing. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

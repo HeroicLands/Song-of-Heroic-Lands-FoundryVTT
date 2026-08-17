@@ -13,9 +13,7 @@ shortcode: trtnginj
 folder: F4NGyU9QQgWwTcHe
 ---
 
-A new injury is **untreated**, and healing cannot begin until it is treated. An
-untreated wound is resolved as though its treatment roll were a **Critical
-Failure**.
+A new injury is **untreated**, and healing cannot begin until it is treated. An untreated wound is resolved as though its treatment roll were a **Critical Failure**.
 
 Each wound has a **required treatment** — the specific action that must be taken:
 
@@ -26,8 +24,7 @@ Each wound has a **required treatment** — the specific action that must be tak
 | **SET** | Splint a simple fracture.                                                         |
 | **SUR** | Complex surgery (requires surgical tools). An MF or CF roll causes a **bleeder**. |
 
-Treatment is a **Physician** test with the treatment's difficulty modifier. Its
-result sets the injury's Healing Rate:
+Treatment is a **Physician** test with the treatment's difficulty modifier. Its result sets the injury's Healing Rate:
 
 **Treatment table** — resulting Healing Rate by roll and severity:
 
@@ -40,8 +37,7 @@ result sets the injury's Healing Rate:
 
 A result of **HEAL** heals the wound immediately.
 
-**Treatment actions** — the required action and its difficulty modifier by aspect
-and severity (_action_ / _modifier_):
+**Treatment actions** — the required action and its difficulty modifier by aspect and severity (_action_ / _modifier_):
 
 | Aspect   | Minor     | Serious   | Grievous  |
 | -------- | --------- | --------- | --------- |
@@ -54,7 +50,5 @@ and severity (_action_ / _modifier_):
 
 Certain wounds carry an additional effect:
 
-- **Possible permanent impairment** — Serious HR 3–4 or Grievous HR 2–4 blunt
-  wounds; Grievous HR 2–4 edged wounds; Serious HR 3 or Grievous HR 2–4 piercing
-  wounds; Grievous HR 1–3 fire wounds.
+- **Possible permanent impairment** — Serious HR 3–4 or Grievous HR 2–4 blunt wounds; Grievous HR 2–4 edged wounds; Serious HR 3 or Grievous HR 2–4 piercing wounds; Grievous HR 1–3 fire wounds.
 - **Bleeder** — Grievous HR 2 or HR 3 blunt, edged, or point wounds.

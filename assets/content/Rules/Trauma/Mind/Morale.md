@@ -16,12 +16,9 @@ folder: hAloT0Y1xg1vcIIn
 shortcode: morale
 ---
 
-**Morale** is a fighter's nerve — their willingness to stay in the fight. Most
-combatants lose heart before their bodies give out, so morale tracks the moment
-resolve cracks rather than the moment flesh fails.
+**Morale** is a fighter's nerve — their willingness to stay in the fight. Most combatants lose heart before their bodies give out, so morale tracks the moment resolve cracks rather than the moment flesh fails.
 
-The **Morale Test** is a test of the **Initiative** skill. (For the `CF0`/`CF5`
-split, see [[Fear]].)
+The **Morale Test** is a test of the **Initiative** skill. (For the `CF0`/`CF5` split, see [[doc-fear|Fear]].)
 
 | Result               | State and effect                                                                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -31,18 +28,14 @@ split, see [[Fear]].)
 | **MS** — Steady      | May take any action.                                                                                                                                                                                                            |
 | **CS** — Brave       | May take any action, and gains **+20** to all Morale and Fear tests for five minutes.                                                                                                                                           |
 
-When several morale-failure sources are present, only the **most severe** state
-affects the victim.
+When several morale-failure sources are present, only the **most severe** state affects the victim.
 
 ## Morale triggers
 
 A morale check is called for when a combatant:
 
-- takes a Serious or Grievous wound, once they have resolved that wound's
-  [[doc-shock|Shock]] test and shaken off any resulting shock state;
-- notices that **half or more** of their allies have been put out of action
-  (judged against the survivors each time, so it can fire repeatedly as a fight
-  wears a group down);
+- takes a Serious or Grievous wound, once they have resolved that wound's [[doc-shock|Shock]] test and shaken off any resulting shock state;
+- notices that **half or more** of their allies have been put out of action (judged against the survivors each time, so it can fire repeatedly as a fight wears a group down);
 - watches a leader fall;
 - is suddenly badly outnumbered;
 - is disarmed while enemies remain armed; or
@@ -50,10 +43,7 @@ A morale check is called for when a combatant:
 
 ## Rally Test {#rally-test}
 
-Once per round, as a free action, any character who is **not vanquished** may
-make a **Rally Test** — a **Command (Initiative)** test — to steady **Routed** and
-**Withdrawing** allies within clear earshot who can understand them (allies of
-doubtful perception test Awareness first).
+Once per round, as a free action, any character who is **not vanquished** may make a **Rally Test** — a **Command (Initiative)** test — to steady **Routed** and **Withdrawing** allies within clear earshot who can understand them (allies of doubtful perception test Awareness first).
 
 | Result  | Effect                                                                                                        |
 | ------- | ------------------------------------------------------------------------------------------------------------- |
@@ -64,15 +54,8 @@ doubtful perception test Awareness first).
 
 ## Reaction Test {#reaction-test}
 
-A **Reaction Test** is an **Initiative** test a character makes to shake off a
-compromised state — being confused, caught unaware, or left helpless — or to
-respond to an ally's [[#rally-test|Rally Test]]. It is rolled at the **end of the
-character's next turn**. Succeeding snaps them back to normal: from then on they
-may choose any defense and act freely on the following turn. Failing means the
-condition persists, and they try the Reaction Test again at the end of the next
-turn.
+A **Reaction Test** is an **Initiative** test a character makes to shake off a compromised state — being confused, caught unaware, or left helpless — or to respond to an ally's [[#rally-test|Rally Test]]. It is rolled at the **end of the character's next turn**. Succeeding snaps them back to normal: from then on they may choose any defense and act freely on the following turn. Failing means the condition persists, and they try the Reaction Test again at the end of the next turn.
 
 ## See also
 
-- [[Fear]], [[doc-shock|Shock]],
-  [[Psychological Condition]], [[doc-traumaintro|Trauma]].
+- [[doc-fear|Fear]], [[doc-shock|Shock]], [[doc-psychlgc|Psychological Condition]], [[doc-traumaintro|Trauma]].

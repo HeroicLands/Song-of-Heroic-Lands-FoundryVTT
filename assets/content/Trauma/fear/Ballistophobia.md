@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Ballistophobia is an intense, irrational fear of projectiles.
-People with ballistophobia may experience a range of symptoms when they think about, see, or are around missile weapons or projectiles.
+Ballistophobia is an intense, irrational fear of projectiles. People with ballistophobia may experience a range of symptoms when they think about, see, or are around missile weapons or projectiles.
 
 ### Impulse
 

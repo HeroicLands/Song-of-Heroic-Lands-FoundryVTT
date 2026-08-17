@@ -19,8 +19,7 @@ When a being stumbles or falls, it becomes **prone**, with the following effects
 - Enemy combatants suffer no penalty to choose which Body Part to attack.
 - It does not contribute to the Outnumbered Penalty for enemy combatants.
 - **−20** to all melee attacks and defenses.
-- Rising requires a Move action and costs **one quarter** of the being's total
-  Move.
+- Rising requires a Move action and costs **one quarter** of the being's total Move.
 
 ## See also
 

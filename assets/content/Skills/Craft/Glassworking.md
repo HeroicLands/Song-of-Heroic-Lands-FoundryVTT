@@ -34,9 +34,7 @@ Glass phials are also the vessel of choice for anything that must be seen withou
 
 # Crafting {#crafting}
 
-Glass is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. What follows is what is
-particular to the glasshouse.
+Glass is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the glasshouse.
 
 **Expense.** Reckon **one day per 6d of the item's sale price**, at a material cost of **2½d per day**.
 
@@ -49,9 +47,7 @@ particular to the glasshouse.
 | Flask, glass, 1 pint  | 1   | 6d    | Lenses              | 0.1  | 120d  |
 | Hourglass             | 0.3 | 150d  | Vial, glass, medium | 0.25 | 4d    |
 
-**Glazing** is sold and worked by the square foot rather than as an article, and
-is the bulk of a town glazier's trade — a cathedral window is reckoned in
-hundreds of feet and years of work.
+**Glazing** is sold and worked by the square foot rather than as an article, and is the bulk of a town glazier's trade — a cathedral window is reckoned in hundreds of feet and years of work.
 
 | Glazing         | lb per ft² | Price per ft² |
 | --------------- | ---------- | ------------- |

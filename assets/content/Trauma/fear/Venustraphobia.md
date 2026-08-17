@@ -23,8 +23,7 @@ Venustraphobia is an intense, irrational fear of beautiful women. People with ve
 
 ### Impulse
 
-Avoiding social situations where beautiful women might be present, including certain social events or public places.
-Abberance (ABE) increases by 1 from the source of fear.
+Avoiding social situations where beautiful women might be present, including certain social events or public places. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

@@ -22,13 +22,11 @@ Irresponsible refers to an individual’s tendency to neglect duties, obligation
 
 ### Quirk
 
-The individual may occasionally overlook minor responsibilities or take a more laid-back approach to obligations. Their tendency to be less detail-oriented may cause small mistakes, but these lapses do not significantly harm their relationships or tasks. They are generally able to course-correct and fulfill important duties.
-**Example:** Lord Henry is known to be relaxed when it comes to managing minor household tasks, sometimes forgetting to attend to less urgent matters. However, when it comes to significant decisions or issues, he steps up and ensures everything is properly handled. His mild irresponsibility is seen as a casual attitude rather than neglect.
+The individual may occasionally overlook minor responsibilities or take a more laid-back approach to obligations. Their tendency to be less detail-oriented may cause small mistakes, but these lapses do not significantly harm their relationships or tasks. They are generally able to course-correct and fulfill important duties. **Example:** Lord Henry is known to be relaxed when it comes to managing minor household tasks, sometimes forgetting to attend to less urgent matters. However, when it comes to significant decisions or issues, he steps up and ensures everything is properly handled. His mild irresponsibility is seen as a casual attitude rather than neglect.
 
 ### Impulse
 
-The individual begins to consistently neglect responsibilities or make decisions that impact others negatively due to a lack of planning or accountability. They may prioritize short-term pleasures over long-term obligations and often leave important tasks unfinished. Their behavior causes frustration for those who rely on them, though they still function and occasionally manage to meet their duties.
-**Example:** Lord Henry increasingly forgets important meetings or estate matters, choosing instead to focus on hunting or social events. His advisors begin to notice a pattern of neglect when it comes to his responsibilities, and while Henry still completes some of his duties, his inconsistent focus causes confusion and delays in estate management.
+The individual begins to consistently neglect responsibilities or make decisions that impact others negatively due to a lack of planning or accountability. They may prioritize short-term pleasures over long-term obligations and often leave important tasks unfinished. Their behavior causes frustration for those who rely on them, though they still function and occasionally manage to meet their duties. **Example:** Lord Henry increasingly forgets important meetings or estate matters, choosing instead to focus on hunting or social events. His advisors begin to notice a pattern of neglect when it comes to his responsibilities, and while Henry still completes some of his duties, his inconsistent focus causes confusion and delays in estate management.
 
 ### Disorder
 

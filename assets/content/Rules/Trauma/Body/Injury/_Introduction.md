@@ -13,11 +13,11 @@ shortcode: injintro
 folder: F4NGyU9QQgWwTcHe
 ---
 
-- [[Healing Base]]
-- [[Healing Rate]]
-- [[Healing Test]]
-- [[Injury Levels]]
-- [[Treating Injuries]]
-- [[Bleeding]]
-- [[Impairment]]
-- [[Infection]]
+- [[doc-hlngbs|Healing Base]]
+- [[doc-hlngrt|Healing Rate]]
+- [[doc-hlngtst|Healing Test]]
+- [[doc-injrylvl|Injury Levels]]
+- [[doc-trtnginj|Treating Injuries]]
+- [[doc-bleeding|Bleeding]]
+- [[doc-imprmnt|Impairment]]
+- [[doc-infctn|Infection]]

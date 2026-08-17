@@ -13,12 +13,9 @@ folder: IgwaG8rAUUO9vrtz
 
 # Calendar JSON Format {#CalendarFormat}
 
-This reference describes the JSON format used for custom calendar files in
-Song of Heroic Lands. For instructions on importing calendars, see
-[[System Settings]].
+This reference describes the JSON format used for custom calendar files in Song of Heroic Lands. For instructions on importing calendars, see [[doc-systmstt|System Settings]].
 
-A calendar JSON file must contain a single JSON object with the structure
-described below. All fields are required unless marked as optional.
+A calendar JSON file must contain a single JSON object with the structure described below. All fields are required unless marked as optional.
 
 # Example: Minimal Calendar {#CalendarExample}
 
@@ -117,8 +114,7 @@ The `days` object configures the structure of a day and the names of weekdays.
 | `minutesPerHour`   | integer | Minutes in an hour (typically 60).                                            |
 | `secondsPerMinute` | integer | Seconds in a minute (typically 60).                                           |
 
-The `days.values` array contains one entry per weekday. The number of entries
-defines the length of a week.
+The `days.values` array contains one entry per weekday. The number of entries defines the length of a week.
 
 | Field          | Type    | Description                                   |
 | -------------- | ------- | --------------------------------------------- |
@@ -138,9 +134,7 @@ The `seasons.values` array contains one entry per season.
 
 ## Era (SoHL Extension)
 
-The `era` object is a SoHL-specific extension that adds era-based dating
-(e.g., "720 CE" or "51 BCE"). This section is optional; if omitted, dates
-display as plain year numbers.
+The `era` object is a SoHL-specific extension that adds era-based dating (e.g., "720 CE" or "51 BCE"). This section is optional; if omitted, dates display as plain year numbers.
 
 | Field          | Type    | Description                                                                                         |
 | -------------- | ------- | --------------------------------------------------------------------------------------------------- |
@@ -153,10 +147,7 @@ display as plain year numbers.
 
 # See also
 
-- [[doc-systmstt|System Settings]] — where a calendar is chosen and the world
-  date is set.
-- [[doc-afflandi|Afflictions and Injuries]] — the healing and course reminders
-  that the passage of game time drives.
-- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the items whose
-  scheduled checks come due on this calendar.
+- [[doc-systmstt|System Settings]] — where a calendar is chosen and the world date is set.
+- [[doc-afflandi|Afflictions and Injuries]] — the healing and course reminders that the passage of game time drives.
+- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the items whose scheduled checks come due on this calendar.
 - [[doc-userguide|User Guide]] — back to the index.

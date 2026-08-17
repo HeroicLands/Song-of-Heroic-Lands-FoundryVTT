@@ -36,9 +36,7 @@ Knowing the craft's history, or recognising an unfamiliar technique or an anomal
 
 # Crafting {#crafting}
 
-Pottery is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. What follows is what is
-particular to the kiln.
+Pottery is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the kiln.
 
 **Expense.** Reckon **one day per 6d of the finished piece's sale price**, at a material cost of **3d per day**.
 
@@ -53,9 +51,7 @@ particular to the kiln.
 | Box, ceramic, lidded, 12 x 8 x 6 in | 2   | 3d    | Urn, ceramic, 5 gallon | 9   | 12d   |
 | Icon, ceramic, 4 in                 | 1   | 2d    | Vase, ceramic          | 2   | 4d    |
 
-**Building materials** are priced by the piece rather than as possessions —
-nobody inventories a brick — and a potter fires them by the cartload alongside
-everything else.
+**Building materials** are priced by the piece rather than as possessions — nobody inventories a brick — and a potter fires them by the cartload alongside everything else.
 
 | Material              | lb  | Price each |
 | --------------------- | --- | ---------- |

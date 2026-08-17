@@ -32,9 +32,7 @@ Jewelcraft is gem-cutting, goldsmithing and silversmithing, and the fine metalwo
 
 # Crafting {#crafting}
 
-A piece is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. What follows is what is
-particular to the jeweller's bench.
+A piece is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the jeweller's bench.
 
 **Expense.** A finished piece usually weighs around **2d6 ounces**, up to triple that for something substantial and half for a ring or a pair of earrings. Time varies enormously with ambition; **3d6 days** is typical.
 

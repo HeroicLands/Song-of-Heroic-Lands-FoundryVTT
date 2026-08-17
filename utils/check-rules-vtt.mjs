@@ -63,8 +63,7 @@ if (!existsSync(ROOT)) {
     // throw a bare ENOENT that reads like a corrupt checkout.
     console.error(
         `check-rules-vtt: no rules tree at ${ROOT}. assets/content/ is ` +
-            `generated — run "npm run content:export" (maintainers) or check out ` +
-            `the tree.`,
+            `this repository's own source — check out the tree.`,
     );
     process.exit(1);
 }

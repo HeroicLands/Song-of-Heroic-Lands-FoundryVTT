@@ -22,13 +22,11 @@ Perfectionist refers to an individual who strives for flawlessness and sets exce
 
 ### Quirk
 
-The individual sets high standards for themselves and works diligently to meet them. They take pride in doing things well and are attentive to detail, but they are still able to accept minor imperfections when necessary and can complete tasks without overburdening themselves. Their perfectionism leads to high-quality outcomes without causing significant stress or delays.
-**Example:** Sir Cedric always ensures that his armor and weapons are in top condition before every battle. He meticulously checks his equipment, but he also understands that minor imperfections will not affect the outcome and is able to prepare efficiently. His focus on doing things well earns him the respect of his fellow knights without causing unnecessary delays.
+The individual sets high standards for themselves and works diligently to meet them. They take pride in doing things well and are attentive to detail, but they are still able to accept minor imperfections when necessary and can complete tasks without overburdening themselves. Their perfectionism leads to high-quality outcomes without causing significant stress or delays. **Example:** Sir Cedric always ensures that his armor and weapons are in top condition before every battle. He meticulously checks his equipment, but he also understands that minor imperfections will not affect the outcome and is able to prepare efficiently. His focus on doing things well earns him the respect of his fellow knights without causing unnecessary delays.
 
 ### Impulse
 
-The individual becomes more focused on achieving perfection, spending excessive time on tasks to ensure that every detail is flawless. While their results are impressive, this heightened attention to perfection can lead to delays, stress, or frustration. They may find it difficult to delegate tasks or feel dissatisfied with their work, even when it is objectively excellent.
-**Example:** Sir Cedric now spends hours perfecting his equipment, refusing to leave for training until everything is perfectly polished and aligned. His fellow knights begin to notice that Cedric often shows up late because he’s obsessing over minor details, and while his work is always flawless, his drive for perfection is slowing him down.
+The individual becomes more focused on achieving perfection, spending excessive time on tasks to ensure that every detail is flawless. While their results are impressive, this heightened attention to perfection can lead to delays, stress, or frustration. They may find it difficult to delegate tasks or feel dissatisfied with their work, even when it is objectively excellent. **Example:** Sir Cedric now spends hours perfecting his equipment, refusing to leave for training until everything is perfectly polished and aligned. His fellow knights begin to notice that Cedric often shows up late because he’s obsessing over minor details, and while his work is always flawless, his drive for perfection is slowing him down.
 
 ### Disorder
 

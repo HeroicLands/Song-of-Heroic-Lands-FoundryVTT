@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Musophobia is an intense, irrational fear of mice or rats.
-People with musophobia may experience a range of symptoms when they think about, see, or are near these rodents.
+Musophobia is an intense, irrational fear of mice or rats. People with musophobia may experience a range of symptoms when they think about, see, or are near these rodents.
 
 ### Impulse
 

@@ -14,14 +14,11 @@ folder: sYK1BozT9xFcinXK
 
 # What Is a Being?
 
-A Being is a single person or creature in the game world. This includes
-player characters, non-player characters (NPCs), monsters, and animals.
-Beings are the most detailed actor type in SoHL, with a full anatomy model,
-skills, gear, traumas, and combat capabilities.
+A Being is a single person or creature in the game world. This includes player characters, non-player characters (NPCs), monsters, and animals. Beings are the most detailed actor type in SoHL, with a full anatomy model, skills, gear, traumas, and combat capabilities.
 
 Most of your interaction with the system will involve Beings.
 
-See also: [[Character Creation]], [[Combat Basics]]
+See also: [[doc-chrctrcr|Character Creation]], [[doc-cmbtbscs|Combat Basics]]
 
 # What a Being Contains
 
@@ -35,8 +32,7 @@ A Being can hold many types of items:
 - **Body Structure** — body zones, body parts, and body locations that define the anatomy
 - **Movement Profiles** — walking, running, swimming speeds
 - **Mystical Abilities** — spells, prayers, and supernatural powers
-- **Actions** — special procedures that can be triggered from the character sheet
-  (see [[#actions-on-a-being|Actions on a Being]])
+- **Actions** — special procedures that can be triggered from the character sheet (see [[#actions-on-a-being|Actions on a Being]])
 
 # The Being Sheet
 
@@ -48,51 +44,30 @@ The Being sheet is organized into several tabs:
 - **Gear** — carried and worn equipment, with encumbrance tracking
 - **Combat** — equipped weapons, armor, and combat-relevant information
 - **Mystical** — mysteries, philosophies, and mystical abilities
-- **Actions** — available actions for this character (see
-  [[#actions-on-a-being|Actions on a Being]])
+- **Actions** — available actions for this character (see [[#actions-on-a-being|Actions on a Being]])
 - **Effects** — active effects modifying this character
 
-**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs —
-the same tabs, working the same way, on a [[Vehicle]] or a
-[[Structure]]. They are documented once, in
-[[Understanding Sheets]] under _Common Actor Tabs_; this
-page covers what is particular to a Being. The rest of the tabs are Being-only.
+**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs — the same tabs, working the same way, on a [[doc-vehicle|Vehicle]] or a [[doc-structure|Structure]]. They are documented once, in [[doc-undrstnd|Understanding Sheets]] under _Common Actor Tabs_; this page covers what is particular to a Being. The rest of the tabs are Being-only.
 
 # The Being Sheet Header
 
-Above the tabs, the header shows the portrait and name, a row of **status
-indicators**, a **health bar**, and a **body-part grid**.
+Above the tabs, the header shows the portrait and name, a row of **status indicators**, a **health bar**, and a **body-part grid**.
 
 ## Status indicators
 
-Six condition pills are click-toggles — **Sleep, Prone, Stun, Incapacitated,
-Unconscious, Dead** — that turn a condition on or off. Two more, **Aural-Shock**
-and **Fatigue**, are read-only: they light up on their own when the Being has an
-active affliction of that kind.
+Six condition pills are click-toggles — **Sleep, Prone, Stun, Incapacitated, Unconscious, Dead** — that turn a condition on or off. Two more, **Aural-Shock** and **Fatigue**, are read-only: they light up on their own when the Being has an active affliction of that kind.
 
 ## Health bar
 
-SoHL has **no hit points** — the health bar is a qualitative **assessment**, the
-way a doctor says "fair," not a pool of points. It reads:
-**Excellent · Good · Fair · Poor · Morbid · Dead**.
+SoHL has **no hit points** — the health bar is a qualitative **assessment**, the way a doctor says "fair," not a pool of points. It reads: **Excellent · Good · Fair · Poor · Morbid · Dead**.
 
-Health is driven by **impaired body parts only** — an injury that doesn't impair
-a part has no effect on health. Each impaired part imposes a **maximum** on
-overall health, based on how badly it's impaired (Minor / Serious / Grievous /
-Unusable), whether it's a **critical** part (one holding the head/torso vital or
-core roles), and how many parts share that state. The overall health is the
-**worst (lowest) maximum** across every impaired part — for example, a single
-serious wound to an arm caps health around Fair, while an unusable critical part
-is fatal. As wounds heal, the parts recover and the assessment climbs back toward
-Excellent. A living Being is never worse than Morbid unless actually slain.
+Health is driven by **impaired body parts only** — an injury that doesn't impair a part has no effect on health. Each impaired part imposes a **maximum** on overall health, based on how badly it's impaired (Minor / Serious / Grievous / Unusable), whether it's a **critical** part (one holding the head/torso vital or core roles), and how many parts share that state. The overall health is the **worst (lowest) maximum** across every impaired part — for example, a single serious wound to an arm caps health around Fair, while an unusable critical part is fatal. As wounds heal, the parts recover and the assessment climbs back toward Excellent. A living Being is never worse than Morbid unless actually slain.
 
-_(Fatigue, fear, and shock will impose their own maximums in a later update; the
-overall health will then be the lowest of all of them.)_
+_(Fatigue, fear, and shock will impose their own maximums in a later update; the overall health will then be the lowest of all of them.)_
 
 ## Body-part grid
 
-Each body part appears as a colored chip showing the worst injury among that
-part's hit locations:
+Each body part appears as a colored chip showing the worst injury among that part's hit locations:
 
 | Color      | Meaning                                               |
 | ---------- | ----------------------------------------------------- |
@@ -101,23 +76,17 @@ part's hit locations:
 | **Blue**   | Major impairment (−10 or worse) — a serious injury    |
 | **Black**  | Unusable — a grievous injury (or a permanent maiming) |
 
-As injuries heal, a part's color climbs back toward white. A part may also carry
-a **permanent impairment** — a lasting maiming that keeps it colored even with no
-fresh injury.
+As injuries heal, a part's color climbs back toward white. A part may also carry a **permanent impairment** — a lasting maiming that keeps it colored even with no fresh injury.
 
 # Creating a Being
 
-Generally, you should not create a Being from scratch using the Create Actor
-dialog. Instead, duplicate an existing Being from the compendium (such as
-"Basic Folk") and customize it.
+Generally, you should not create a Being from scratch using the Create Actor dialog. Instead, duplicate an existing Being from the compendium (such as "Basic Folk") and customize it.
 
-See [[Character Creation]] for step-by-step instructions.
+See [[doc-chrctrcr|Character Creation]] for step-by-step instructions.
 
 # Beings on Scenes
 
-Beings can be placed on scenes as tokens. Each token represents the Being's
-physical presence in the game world. Tokens can be moved, have vision, and
-participate in combat encounters.
+Beings can be placed on scenes as tokens. Each token represents the Being's physical presence in the game world. Tokens can be moved, have vision, and participate in combat encounters.
 
 <!-- TODO: Expand with token configuration details, linked vs unlinked tokens,
      prototype token setup, and vision/light settings -->
@@ -128,16 +97,9 @@ participate in combat encounters.
 
 # Actions on a Being {#actions-on-a-being}
 
-A Being carries a set of built-in **actions** — the procedures the system knows
-how to run for a character. You reach them from the **Actions** tab on the Being
-sheet, or by right-clicking the Being in the Actors sidebar and choosing from the
-**Actions** context menu.
+A Being carries a set of built-in **actions** — the procedures the system knows how to run for a character. You reach them from the **Actions** tab on the Being sheet, or by right-clicking the Being in the Actors sidebar and choosing from the **Actions** context menu.
 
-Nothing here ever fires on its own. Every action runs because a person picked it,
-or clicked a button on a chat card addressed to their own character. Where an
-action would change your character's state, the system asks first. See
-[[Actions]] for how actions work in general, and [[Base Item]] for the
-standard test dialog that most rolls open.
+Nothing here ever fires on its own. Every action runs because a person picked it, or clicked a button on a chat card addressed to their own character. Where an action would change your character's state, the system asks first. See [[doc-actions|Actions]] for how actions work in general, and [[doc-baseitem|Base Item]] for the standard test dialog that most rolls open.
 
 These are the actions a Being defines:
 
@@ -160,15 +122,9 @@ These are the actions a Being defines:
 | [[#perform-treatment-test\|Perform Treatment Test]]             | `performTreatmentTest`       | A physician proposes a Healing Rate for someone's wound                |
 | [[#perform-blood-stoppage\|Perform Blood Stoppage]]             | `performBloodStoppage`       | A physician tries to staunch someone's bleeding                        |
 
-One further action, [[#answer-the-rally|Answer the Rally]], is **hidden**: it
-never appears on the Actions menu and is reached only from the button on a Rally
-card. It is documented with the Rally Test, where that card comes from.
+One further action, [[#answer-the-rally|Answer the Rally]], is **hidden**: it never appears on the Actions menu and is reached only from the button on a Rally card. It is documented with the Rally Test, where that card comes from.
 
-> **Two of these are physician's actions.** _Perform Treatment Test_ and _Perform
-> Blood Stoppage_ are run on the **physician's** own sheet, not the patient's.
-> They roll the physician's Physician skill and post a card that the patient's
-> own player accepts. A character with no Physician skill is told so and nothing
-> is rolled.
+> **Two of these are physician's actions.** _Perform Treatment Test_ and _Perform Blood Stoppage_ are run on the **physician's** own sheet, not the patient's. They roll the physician's Physician skill and post a card that the patient's own player accepts. A character with no Physician skill is told so and nothing is rolled.
 
 # Shock Test {#shock-test}
 
@@ -182,60 +138,35 @@ card. It is documented with the Rally Test, where that card comes from.
 
 ## What it does and when to use it
 
-Shock is the body's collapse under a sudden systemic load. It is **not** only an
-injury matter — blood loss, terror, exhaustion, or a GM-ruled cause can all drive
-a shock test. Whatever the cause supplies a **base Shock State Index (SSI)**, and
-this action rolls the character's **Shock** skill to see how well they hold up.
+Shock is the body's collapse under a sudden systemic load. It is **not** only an injury matter — blood loss, terror, exhaustion, or a GM-ruled cause can all drive a shock test. Whatever the cause supplies a **base Shock State Index (SSI)**, and this action rolls the character's **Shock** skill to see how well they hold up.
 
-Use it when something has just hit the character hard enough that staying
-conscious is in question and no other card has already offered the roll. When a
-wound is the cause, the injury card's own **Shock Roll** button is the usual
-route — it computes the index for you.
+Use it when something has just hit the character hard enough that staying conscious is in question and no other card has already offered the roll. When a wound is the cause, the injury card's own **Shock Roll** button is the usual route — it computes the index for you.
 
 ## Before you start
 
-- **Know the base Shock State Index.** For a wound it is the struck location's
-  Shock Value plus the Injury Level; for any other cause it is whatever value the
-  GM or the rules assign.
-- **An extreme index needs no roll.** Below 5 the result is always _No Shock_ and
-  above 10 it is always _Dead_, so the system skips the roll and goes straight to
-  the outcome. Only an index from 5 to 10 is actually decided by the dice.
-- **Fatigue counts against you.** The character's fatigue penalty is applied to
-  the roll automatically. Injury impairment is _not_ — shock is a whole-body
-  response, not a limb's.
+- **Know the base Shock State Index.** For a wound it is the struck location's Shock Value plus the Injury Level; for any other cause it is whatever value the GM or the rules assign.
+- **An extreme index needs no roll.** Below 5 the result is always _No Shock_ and above 10 it is always _Dead_, so the system skips the roll and goes straight to the outcome. Only an index from 5 to 10 is actually decided by the dice.
+- **Fatigue counts against you.** The character's fatigue penalty is applied to the roll automatically. Injury impairment is _not_ — shock is a whole-body response, not a limb's.
 
 ## What happens on screen
 
-1. **The Shock Test dialog opens**, titled _{character}: Shock Test_, with one
-   field:
-    - **Base Shock State Index (Location Shock + Injury Level, or the cause's
-      value):** — type the index the cause supplies. It starts at **0**.
+1. **The Shock Test dialog opens**, titled _{character}: Shock Test_, with one field:
+    - **Base Shock State Index (Location Shock + Injury Level, or the cause's value):** — type the index the cause supplies. It starts at **0**.
 
     Press **Roll** to continue, or **Cancel** to abandon the test.
 
 2. **The Shock roll posts to chat** as an ordinary test result card.
-3. **The result adjusts the index** — Critical Failure **+2**, Marginal Failure
-   **+1**, Marginal Success **0**, Critical Success **−1** — and the final index
-   becomes a state: **6 or less** No Shock, **7** Stunned, **8** Incapacitated,
-   **9** Unconscious, **10 or more** Dead.
-4. **The "Set Shock State?" dialog asks before anything changes**, reading _Set
-   {name}'s shock state to {state}?_ with two buttons:
-    - **Set State** — applies it. The matching condition is turned on and any
-      other shock condition is cleared.
-    - **Leave Unchanged** — records nothing. The roll still stands in chat; you
-      can apply the state by hand from the sheet's status pills.
+3. **The result adjusts the index** — Critical Failure **+2**, Marginal Failure **+1**, Marginal Success **0**, Critical Success **−1** — and the final index becomes a state: **6 or less** No Shock, **7** Stunned, **8** Incapacitated, **9** Unconscious, **10 or more** Dead.
+4. **The "Set Shock State?" dialog asks before anything changes**, reading _Set {name}'s shock state to {state}?_ with two buttons:
+    - **Set State** — applies it. The matching condition is turned on and any other shock condition is cleared.
+    - **Leave Unchanged** — records nothing. The roll still stands in chat; you can apply the state by hand from the sheet's status pills.
 
     Shock only ever **worsens** here: a fresh test never improves a state that is
     already worse. Improving is the [[#shock-re-test|Shock Re-Test]].
 
-5. **If the character entered ordinary shock**, the _Set a Shock Re-Test
-   Reminder?_ offer follows (the shared offer-schedule dialog described on
-   [[Base Item]]). Accepting arms a reminder — at the **end of each of
-   the character's own turns** while Incapacitated, or **ten minutes later**
-   while Unconscious. Declining arms nothing.
+5. **If the character entered ordinary shock**, the _Set a Shock Re-Test Reminder?_ offer follows (the shared offer-schedule dialog described on [[doc-baseitem|Base Item]]). Accepting arms a reminder — at the **end of each of the character's own turns** while Incapacitated, or **ten minutes later** while Unconscious. Declining arms nothing.
 
-For the full rules — the Shock State Index table and what each state means in
-play — see the [[doc-shock|Shock]] rules.
+For the full rules — the Shock State Index table and what each state means in play — see the [[doc-shock|Shock]] rules.
 
 # Shock Re-Test {#shock-re-test}
 
@@ -249,23 +180,14 @@ play — see the [[doc-shock|Shock]] rules.
 
 ## What it does
 
-This is how a character climbs back **out** of ordinary shock. An Incapacitated
-or Unconscious victim rolls their **Shock** skill at **−20** (plus their fatigue
-penalty) to shake it off. Any other state — already recovered, merely Stunned, or
-already in lasting Extended Shock or a Coma — is told _"A Shock Re-Test applies
-only to an Incapacitated or Unconscious victim."_ and nothing is rolled.
+This is how a character climbs back **out** of ordinary shock. An Incapacitated or Unconscious victim rolls their **Shock** skill at **−20** (plus their fatigue penalty) to shake it off. Any other state — already recovered, merely Stunned, or already in lasting Extended Shock or a Coma — is told _"A Shock Re-Test applies only to an Incapacitated or Unconscious victim."_ and nothing is rolled.
 
-You will not find this on the Actions menu. It comes to you: when the reminder
-armed by a [[#shock-test|Shock Test]] falls due, the system posts an owner-gated
-card in chat with a **Perform** button, and the re-test runs only when the
-victim's own player clicks it. Until then nothing happens — the reminder nags,
-it never acts.
+You will not find this on the Actions menu. It comes to you: when the reminder armed by a [[#shock-test|Shock Test]] falls due, the system posts an owner-gated card in chat with a **Perform** button, and the re-test runs only when the victim's own player clicks it. Until then nothing happens — the reminder nags, it never acts.
 
 ## What happens on screen
 
 1. **The Shock roll posts to chat** at −20, with no pre-roll dialog.
-2. **The result is applied immediately** — the click on **Perform** was the
-   consent:
+2. **The result is applied immediately** — the click on **Perform** was the consent:
 
     | Result                               | What happens                                                                  |
     | ------------------------------------ | ----------------------------------------------------------------------------- |
@@ -275,28 +197,16 @@ it never acts.
     | **Critical Failure** (Incapacitated) | Falls into **Extended Shock** at the worse Healing Rate 4                     |
     | **Critical Failure** (Unconscious)   | Falls into a **Coma** — a lasting trauma, and the character stays Unconscious |
 
-3. **A new Extended Shock or Coma offers a Course Test reminder.** Those lasting
-   conditions do not recover through further re-tests; each recovers through its
-   own Course Test.
-4. **The ordinary Re-Test reminder is cleared** either way. A performed re-test
-   ends that cycle — the character is out of ordinary shock, one way or the
-   other — so nothing re-arms itself behind your back.
+3. **A new Extended Shock or Coma offers a Course Test reminder.** Those lasting conditions do not recover through further re-tests; each recovers through its own Course Test.
+4. **The ordinary Re-Test reminder is cleared** either way. A performed re-test ends that cycle — the character is out of ordinary shock, one way or the other — so nothing re-arms itself behind your back.
 
-A Coma's Healing Rate is derived from the worst active wound (12 minus its
-location's Shock Value minus its Injury Level). See the [[doc-shock|Shock]]
-rules for Extended Shock and Coma recovery, and [[Afflictions Injuries]] for
-living with the resulting trauma.
+A Coma's Healing Rate is derived from the worst active wound (12 minus its location's Shock Value minus its Injury Level). See the [[doc-shock|Shock]] rules for Extended Shock and Coma recovery, and [[doc-afflandi|Afflictions Injuries]] for living with the resulting trauma.
 
 # Stumble Test and Fumble Test {#stumble-test-and-fumble-test}
 
-These two are the same test wearing different clothes: a combat mishap has
-knocked something loose, and the character rolls to keep control of it. Both
-roll the **better of** an attribute and a matching skill — ties go to the skill,
-and either one alone is used when the character lacks the other. A character with
-neither is told so and nothing is rolled.
+These two are the same test wearing different clothes: a combat mishap has knocked something loose, and the character rolls to keep control of it. Both roll the **better of** an attribute and a matching skill — ties go to the skill, and either one alone is used when the character lacks the other. A character with neither is told so and nothing is rolled.
 
-Both are **offered, never imposed**: a mishap on an attack card tells you the
-test applies, and it happens only when you pick the action.
+Both are **offered, never imposed**: a mishap on an attack card tells you the test applies, and it happens only when you pick the action.
 
 ## Stumble Test
 
@@ -308,9 +218,7 @@ test applies, and it happens only when you pick the action.
 | **Invoked**   | The **Actions context menu** on the Being                                                                                  |
 | **API**       | [`BeingLogic.stumbleTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#stumbletest) |
 
-Rolls the better of **Agility** and **Acrobatics** to stay on your feet. The
-standard test dialog opens first (see [[#the-standard-test-dialog|below]]), then
-the result card reads:
+Rolls the better of **Agility** and **Acrobatics** to stay on your feet. The standard test dialog opens first (see [[#the-standard-test-dialog|below]]), then the result card reads:
 
 | Result               | Outcome           | What it means                                             |
 | -------------------- | ----------------- | --------------------------------------------------------- |
@@ -329,8 +237,7 @@ the result card reads:
 | **Invoked**   | The **Actions context menu** on the Being                                                                                |
 | **API**       | [`BeingLogic.fumbleTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#fumbletest) |
 
-Rolls the better of **Dexterity** and **Legerdemain** to keep hold of what you
-are carrying. Same flow; the result card reads:
+Rolls the better of **Dexterity** and **Legerdemain** to keep hold of what you are carrying. Same flow; the result card reads:
 
 | Result               | Outcome         | What it means                                    |
 | -------------------- | --------------- | ------------------------------------------------ |
@@ -339,15 +246,11 @@ are carrying. Same flow; the result card reads:
 | **Marginal Failure** | **Fumbles**     | Loses grip and drops the item                    |
 | **Critical Failure** | **Drops It**    | Loses grip entirely; the item is flung from hand |
 
-Neither test changes anything on the sheet — the card is the record, and what a
-stumble or a dropped weapon costs is played out at the table. Falling prone is
-described in the [[doc-prone|Prone]] rules.
+Neither test changes anything on the sheet — the card is the record, and what a stumble or a dropped weapon costs is played out at the table. Falling prone is described in the [[doc-prone|Prone]] rules.
 
 ## The standard test dialog {#the-standard-test-dialog}
 
-Both tests open the ordinary pre-roll dialog — Target, the modifier breakdown,
-**Situational Modifier**, **Success Level Modifier**, and **Roll Visibility** —
-described once on [[Base Item]]. Cancelling it abandons the test.
+Both tests open the ordinary pre-roll dialog — Target, the modifier breakdown, **Situational Modifier**, **Success Level Modifier**, and **Roll Visibility** — described once on [[doc-baseitem|Base Item]]. Cancelling it abandons the test.
 
 # Fear Test {#fear-test}
 
@@ -361,19 +264,13 @@ described once on [[Base Item]]. Cancelling it abandons the test.
 
 ## What it does and when to use it
 
-A test of **Will** against something frightening — a horror, a sorcery, a sheer
-drop. Use it when the GM calls for one; the roll is made on the frightened
-character's own sheet.
+A test of **Will** against something frightening — a horror, a sorcery, a sheer drop. Use it when the GM calls for one; the roll is made on the frightened character's own sheet.
 
-Fear is tracked **per source**. Each frightening thing the character faces gets
-its own record, so being afraid of the wight in the barrow is separate from being
-afraid of the fire. The character's overall fear state is the worst of them.
+Fear is tracked **per source**. Each frightening thing the character faces gets its own record, so being afraid of the wight in the barrow is separate from being afraid of the fire. The character's overall fear state is the worst of them.
 
 ## What happens on screen
 
-There is no pre-roll dialog — the Will roll goes straight to chat, and a
-**Fear** result card follows. If the character is currently **Brave** (see
-below), **+20** is added to the roll automatically.
+There is no pre-roll dialog — the Will roll goes straight to chat, and a **Fear** result card follows. If the character is currently **Brave** (see below), **+20** is added to the roll automatically.
 
 | Result                                      | State         | What it means                                                            |
 | ------------------------------------------- | ------------- | ------------------------------------------------------------------------ |
@@ -385,22 +282,15 @@ below), **+20** is added to the roll automatically.
 
 ## The Fear card and what changes
 
-The card shows the character's name, the resulting **State** (green on a success,
-red on a failure), any **Psyche Stress** gained, and the effect notes for that
-state. It carries no buttons — it is a record of what happened.
+The card shows the character's name, the resulting **State** (green on a success, red on a failure), any **Psyche Stress** gained, and the effect notes for that state. It carries no buttons — it is a record of what happened.
 
 On the sheet:
 
-- **A frightened result records a trauma** for that source, or worsens the one
-  already there, and adds any new Psyche Stress.
-- **A success clears that source** entirely; a Critical Success leaves a
-  short-lived **Brave** marker good for five minutes.
-- **The `fearful` condition is kept in step** with the character's overall fear
-  state across all sources, so the token shows it exactly while some source still
-  frightens them.
+- **A frightened result records a trauma** for that source, or worsens the one already there, and adds any new Psyche Stress.
+- **A success clears that source** entirely; a Critical Success leaves a short-lived **Brave** marker good for five minutes.
+- **The `fearful` condition is kept in step** with the character's overall fear state across all sources, so the token shows it exactly while some source still frightens them.
 
-See the [[doc-fear|Fear]] rules for what each state permits, and
-[[doc-psychlgc|Psychological Condition]] for Psyche Stress.
+See the [[doc-fear|Fear]] rules for what each state permits, and [[doc-psychlgc|Psychological Condition]] for Psyche Stress.
 
 # Morale Test {#morale-test}
 
@@ -414,17 +304,13 @@ See the [[doc-fear|Fear]] rules for what each state permits, and
 
 ## What it does and when to use it
 
-A test of **Initiative** against a reason to break — the line collapsing, a
-friend cut down, odds that have turned hopeless. Where a Fear Test asks whether
-you are frightened, a Morale Test asks whether you are still willing to fight.
+A test of **Initiative** against a reason to break — the line collapsing, a friend cut down, odds that have turned hopeless. Where a Fear Test asks whether you are frightened, a Morale Test asks whether you are still willing to fight.
 
-Like fear, morale is tracked **per source**, and the character's morale state is
-the worst across them.
+Like fear, morale is tracked **per source**, and the character's morale state is the worst across them.
 
 ## What happens on screen
 
-No pre-roll dialog: the Initiative roll posts to chat, and a **Morale** card
-follows. A currently **Brave** character rolls at **+20**.
+No pre-roll dialog: the Initiative roll posts to chat, and a **Morale** card follows. A currently **Brave** character rolls at **+20**.
 
 | Result                                      | State           | What it means                                                     |
 | ------------------------------------------- | --------------- | ----------------------------------------------------------------- |
@@ -434,17 +320,11 @@ follows. A currently **Brave** character rolls at **+20**.
 | **Critical Failure** (roll not ending in 0) | **Routed**      | Flees the source at full Move, or Passes and surrenders           |
 | **Critical Failure** (roll ending in 0)     | **Catatonic**   | Unaware and unable to move, act, or defend                        |
 
-The card shows the resulting **State**, any **Psyche Stress** gained, and the
-effect note for that state; it carries no buttons.
+The card shows the resulting **State**, any **Psyche Stress** gained, and the effect note for that state; it carries no buttons.
 
-On the sheet, a shaken result records or worsens a morale trauma for that source
-and adds any Psyche Stress; a success clears the source, and a Critical Success
-leaves the five-minute **Brave** marker. **Morale sets no condition on the
-token** — the trauma items are the record.
+On the sheet, a shaken result records or worsens a morale trauma for that source and adds any Psyche Stress; a success clears the source, and a Critical Success leaves the five-minute **Brave** marker. **Morale sets no condition on the token** — the trauma items are the record.
 
-A shaken character can come back two ways: their own
-[[#reaction-test|Reaction Test]], or an ally's [[#rally-test|Rally Test]]. See the
-[[doc-morale|Morale]] rules.
+A shaken character can come back two ways: their own [[#reaction-test|Reaction Test]], or an ally's [[#rally-test|Rally Test]]. See the [[doc-morale|Morale]] rules.
 
 # Reaction Test {#reaction-test}
 
@@ -458,21 +338,15 @@ A shaken character can come back two ways: their own
 
 ## What it does
 
-A shaken combatant's attempt to pull themselves together — an **Initiative** test
-made on their own behalf, or in answer to an ally's rally.
+A shaken combatant's attempt to pull themselves together — an **Initiative** test made on their own behalf, or in answer to an ally's rally.
 
-Only a **shaken** character (Withdrawing, Routed, or Catatonic) can make one.
-Anyone else is told _"Only a shaken (Withdrawing, Routed, or Catatonic) combatant
-makes this test."_ and nothing is rolled.
+Only a **shaken** character (Withdrawing, Routed, or Catatonic) can make one. Anyone else is told _"Only a shaken (Withdrawing, Routed, or Catatonic) combatant makes this test."_ and nothing is rolled.
 
 ## What happens on screen
 
-The Initiative roll posts to chat with no pre-roll dialog, followed by a state
-card showing the result:
+The Initiative roll posts to chat with no pre-roll dialog, followed by a state card showing the result:
 
-- **Success** — a **Catatonic** character improves to **Routed**; anyone else
-  snaps back to **Steady**, and every shaken morale source is cleared from the
-  sheet.
+- **Success** — a **Catatonic** character improves to **Routed**; anyone else snaps back to **Steady**, and every shaken morale source is cleared from the sheet.
 - **Failure** — the state persists; nothing changes.
 
 # Rally Test {#rally-test}
@@ -487,24 +361,17 @@ card showing the result:
 
 ## What it does and when to use it
 
-A leader's attempt to steady shaken allies — once per round, as a free action.
-It rolls the leader's **Command** skill, falling back to **Initiative** when the
-character has no Command.
+A leader's attempt to steady shaken allies — once per round, as a free action. It rolls the leader's **Command** skill, falling back to **Initiative** when the character has no Command.
 
-A rally is **offered, never imposed**. A successful Rally Test does not reach
-into anyone else's character sheet; it posts an open invitation, and each shaken
-ally's own player decides whether to take it.
+A rally is **offered, never imposed**. A successful Rally Test does not reach into anyone else's character sheet; it posts an open invitation, and each shaken ally's own player decides whether to take it.
 
 ## What happens on screen
 
 The Command (or Initiative) roll posts to chat with no pre-roll dialog. Then:
 
-- **Critical Success** — a **Rally!** card posts offering shaken allies an
-  immediate steadying.
-- **Marginal Success** — a **Rally!** card posts offering shaken allies a
-  Reaction Test instead.
-- **Failure** — an informational card posts reading _"Unresponsive — no allies
-  rally; no further Rally Test for now."_
+- **Critical Success** — a **Rally!** card posts offering shaken allies an immediate steadying.
+- **Marginal Success** — a **Rally!** card posts offering shaken allies a Reaction Test instead.
+- **Failure** — an informational card posts reading _"Unresponsive — no allies rally; no further Rally Test for now."_
 
 ## The Rally! card
 
@@ -515,9 +382,7 @@ The Command (or Initiative) roll posts to chat with no pre-roll dialog. Then:
 | Offer line                  | On a Critical Success, _"A Routed or Withdrawing ally may steady themselves."_; on a Marginal Success, _"…may make a Reaction Test to steady."_ |
 | **Answer the Rally** button | Applies the rally to **your own** character — see [[#answer-the-rally\|Answer the Rally]]                                                       |
 
-This card is **open**: anyone may click the button, and it acts on the clicking
-player's own character, not on anybody else's. The card stays in the log, so an
-ally can answer it late — or ignore it entirely.
+This card is **open**: anyone may click the button, and it acts on the clicking player's own character, not on anybody else's. The card stays in the log, so an ally can answer it late — or ignore it entirely.
 
 ## Answer the Rally {#answer-the-rally}
 
@@ -529,16 +394,12 @@ ally can answer it late — or ignore it entirely.
 | **Invoked**   | **Hidden — not on the Actions context menu.** Reached only from the **Answer the Rally** button on a Rally! card.          |
 | **API**       | [`BeingLogic.acceptRally`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#acceptrally) |
 
-Your character's response to an ally's rally. It **self-gates**: only a shaken
-character can answer, and anyone else who clicks is told _"Only a shaken
-(Withdrawing, Routed, or Catatonic) combatant makes this test."_
+Your character's response to an ally's rally. It **self-gates**: only a shaken character can answer, and anyone else who clicks is told _"Only a shaken (Withdrawing, Routed, or Catatonic) combatant makes this test."_
 
 What it does depends on how well the leader rolled:
 
-- **From a Critical Success rally** — your character becomes **Steady** at once,
-  and every shaken morale source is cleared.
-- **From a Marginal Success rally** — your character makes a
-  [[#reaction-test|Reaction Test]], which may or may not steady them.
+- **From a Critical Success rally** — your character becomes **Steady** at once, and every shaken morale source is cleared.
+- **From a Marginal Success rally** — your character makes a [[#reaction-test|Reaction Test]], which may or may not steady them.
 
 # Resist the Pall {#resist-the-pall}
 
@@ -552,13 +413,9 @@ What it does depends on how well the leader rolled:
 
 ## What it does and when to use it
 
-The Pall is a spiritual miasma that clings to certain places. A character
-standing in one tests **Spirit** at the start of their turn to hold it off. The
-test uses a **spirit** skill where the character has one, and falls back to the
-**Aura** attribute otherwise.
+The Pall is a spiritual miasma that clings to certain places. A character standing in one tests **Spirit** at the start of their turn to hold it off. The test uses a **spirit** skill where the character has one, and falls back to the **Aura** attribute otherwise.
 
-The Pall's depth bites: the roll takes a penalty of **5 × the total Pall
-Strength** affecting the character, so a deep Pall is very hard to resist.
+The Pall's depth bites: the roll takes a penalty of **5 × the total Pall Strength** affecting the character, so a deep Pall is very hard to resist.
 
 ## What happens on screen
 
@@ -572,12 +429,9 @@ The Spirit roll posts to chat with no pre-roll dialog, followed by a state card:
 | **Critical Failure** (roll not ending in 0) | **Terrified** | Flees the source at full Move; no Counterstrike — **+2 PSL** |
 | **Critical Failure** (roll ending in 0)     | **Catatonic** | Unaware and unable to move, act, or defend — **+3 PSL**      |
 
-A failure accrues **Pall Stress Levels** on the character's single **Pall Cloud**
-trauma, creating it on the first failure and adding to it thereafter. A success
-changes nothing on the sheet.
+A failure accrues **Pall Stress Levels** on the character's single **Pall Cloud** trauma, creating it on the first failure and adding to it thereafter. A success changes nothing on the sheet.
 
-See the [[doc-thepall|The Pall]] rules for Pall Strength, what the
-accumulated Cloud does to a character, and how it clears.
+See the [[doc-thepall|The Pall]] rules for Pall Strength, what the accumulated Cloud does to a character, and how it clears.
 
 # Calculate Impact {#calculate-impact}
 
@@ -591,14 +445,9 @@ accumulated Cloud does to a character, and how it clears.
 
 ## What it does
 
-The bridge between "the blow landed" and "here is the wound." It rolls (or
-re-uses) the damage for a strike and posts a **damage card** whose button hands
-the result to the target so their side can resolve the injury.
+The bridge between "the blow landed" and "here is the wound." It rolls (or re-uses) the damage for a strike and posts a **damage card** whose button hands the result to the target so their side can resolve the injury.
 
-This is a plumbing step in the combat flow rather than something you would
-normally pick off the menu: the attack cards fire it for you with the impact
-details already filled in. Picking it by hand with nothing to work from will
-report that it needs an impact in its scope and stop.
+This is a plumbing step in the combat flow rather than something you would normally pick off the menu: the attack cards fire it for you with the impact details already filled in. Picking it by hand with nothing to work from will report that it needs an impact in its scope and stop.
 
 ## The damage card
 
@@ -610,9 +459,7 @@ report that it needs an impact in its scope and stop.
 | **Aspect**                             | Blunt, Edged, Piercing, or Fire                                                                                                                                 |
 | **Calculate _{target}_ Injury** button | Runs [[#resolve-injury\|Resolve Injury]] on the target, carrying the impact, the aspect, and — when the blow was aimed — the aimed zone and the strike's spread |
 
-The button acts on the **target's** character, so the target's own player (or the
-GM) settles the wound. See [[Combat Basics]] for where the damage card fits into
-an exchange.
+The button acts on the **target's** character, so the target's own player (or the GM) settles the wound. See [[doc-cmbtbscs|Combat Basics]] for where the damage card fits into an exchange.
 
 # Resolve Injury {#resolve-injury}
 
@@ -626,61 +473,38 @@ an exchange.
 
 ## What it does and when to use it
 
-Turns a blow into an actual wound on this character: where it landed, how much
-armor stopped, how bad the injury is, whether it bleeds, and — for the worst
-edged wounds — whether the limb comes off. It is the single entry point behind
-the combat cards' injury buttons and the sheet's Add Injury, so it behaves the
-same however you get there.
+Turns a blow into an actual wound on this character: where it landed, how much armor stopped, how bad the injury is, whether it bleeds, and — for the worst edged wounds — whether the limb comes off. It is the single entry point behind the combat cards' injury buttons and the sheet's Add Injury, so it behaves the same however you get there.
 
 Use it by hand when a wound arrives outside combat — a fall, a trap, a GM ruling.
 
 ## Before you start
 
-- **The character needs a body.** One with no body structure is told _"…has no
-  body; it cannot take an injury."_
-- **An incorporeal character cannot be wounded** by a physical blow; the system
-  says so and stops.
+- **The character needs a body.** One with no body structure is told _"…has no body; it cannot take an injury."_
+- **An incorporeal character cannot be wounded** by a physical blow; the system says so and stops.
 
 ## The Resolve Injury dialog
 
-Titled _{character}: Resolve Injury_. Every field is pre-filled from whatever
-sent you here, so from a combat card you usually just confirm.
+Titled _{character}: Resolve Injury_. Every field is pre-filled from whatever sent you here, so from a combat card you usually just confirm.
 
-- **Target ZN:** — the body Zone Number the blow was aimed at, from 1 up to the
-  body's highest zone. Used **only** when the Location is left to derive; it is
-  disabled while an explicit Location is chosen.
-- **Zone Die:** — the die rolled to scatter the hit away from the Target ZN. A
-  bigger die means a wilder spread. Also used only while the Location derives.
-- **Location:** — the hit location. Leave it on **(derive from Target ZN + ZD)**
-  to let the aim and the scatter die decide, or pick a location outright to
-  override the roll. An overridden location is flagged on the result card.
-- **Aspect:** — Blunt, Edged, Piercing, or Fire. This drives which injury table
-  applies and how armor behaves.
+- **Target ZN:** — the body Zone Number the blow was aimed at, from 1 up to the body's highest zone. Used **only** when the Location is left to derive; it is disabled while an explicit Location is chosen.
+- **Zone Die:** — the die rolled to scatter the hit away from the Target ZN. A bigger die means a wilder spread. Also used only while the Location derives.
+- **Location:** — the hit location. Leave it on **(derive from Target ZN + ZD)** to let the aim and the scatter die decide, or pick a location outright to override the roll. An overridden location is flagged on the result card.
+- **Aspect:** — Blunt, Edged, Piercing, or Fire. This drives which injury table applies and how armor behaves.
 - **Impact:** — the damage value **before** armor.
-- **Armor Reduction:** — armor negated by the blow. It is applied **only** for a
-  piercing aspect; for any other aspect it is ignored.
-- **Bleed Impact Penalty:** — extra impact counted **only** when deciding whether
-  the wound bleeds, not when computing the wound itself.
-- **Treatment Modifier:** — a modifier recorded on the resulting wound, applied
-  later when a physician treats it.
-- **Add to Character Sheet** — when ticked, a real wound is recorded as a trauma
-  item on the character. Untick it to resolve a blow without writing it down.
-  Its starting state follows the world's **record trauma** setting.
+- **Armor Reduction:** — armor negated by the blow. It is applied **only** for a piercing aspect; for any other aspect it is ignored.
+- **Bleed Impact Penalty:** — extra impact counted **only** when deciding whether the wound bleeds, not when computing the wound itself.
+- **Treatment Modifier:** — a modifier recorded on the resulting wound, applied later when a physician treats it.
+- **Add to Character Sheet** — when ticked, a real wound is recorded as a trauma item on the character. Untick it to resolve a blow without writing it down. Its starting state follows the world's **record trauma** setting.
 
 Dismissing the dialog abandons the whole thing; nothing is rolled or recorded.
 
 ## The Amputation Test dialog
 
-A **grievous edged wound at a severable location** triggers a Strength test
-before the result is posted. The dialog explains that the location may be severed
-and offers one field:
+A **grievous edged wound at a severable location** triggers a Strength test before the result is posted. The dialog explains that the location may be severed and offers one field:
 
-- **Amputation Test Modifier:** — the modifier for the Strength test, pre-filled
-  from how amputable that location is. Adjust it if the GM rules otherwise.
+- **Amputation Test Modifier:** — the modifier for the Strength test, pre-filled from how amputable that location is. Adjust it if the GM rules otherwise.
 
-The Strength roll then posts to chat. A failure may sever the location — which
-**kills the character outright if the location is vital** — and may leave the
-wound bleeding or penalize the following Shock Roll.
+The Strength roll then posts to chat. A failure may sever the location — which **kills the character outright if the location is vital** — and may leave the wound bleeding or penalize the following Shock Roll.
 
 ## The Resolve Injury card
 
@@ -695,14 +519,9 @@ wound bleeding or penalize the following Shock Roll.
 | Notes                 | Glancing blow, bleeder, whether a Stumble or Fumble test applies, the amputation outcome, and the treatment modifier                            |
 | **Shock Roll** button | Appears when the wound calls for one — runs the shock test with the wound's index already computed                                              |
 
-If the scatter die sends the blow off the body entirely, a **miss** card posts
-instead: it shows the aim trace and reports that nothing was hit. No wound, no
-record.
+If the scatter die sends the blow off the body entirely, a **miss** card posts instead: it shows the aim trace and reports that nothing was hit. No wound, no record.
 
-A recorded wound becomes a trauma item on the sheet, shows up in the body-part
-grid, and drives the health bar. See [[Afflictions Injuries]] for living with it,
-the [[doc-injrylvl|Injury]] rules for the tables behind it, and
-[[doc-bleeding|Bleeding]] for what a bleeder costs.
+A recorded wound becomes a trauma item on the sheet, shows up in the body-part grid, and drives the health bar. See [[doc-afflandi|Afflictions Injuries]] for living with it, the [[doc-injrylvl|Injury]] rules for the tables behind it, and [[doc-bleeding|Bleeding]] for what a bleeder costs.
 
 # Contagion Check {#contagion-check}
 
@@ -716,17 +535,11 @@ the [[doc-injrylvl|Injury]] rules for the tables behind it, and
 
 ## What it does
 
-Posts a card telling this character they have been exposed, with a button offering
-them a [[#contagion-test|Contagion Test]]. It rolls nothing and changes nothing.
+Posts a card telling this character they have been exposed, with a button offering them a [[#contagion-test|Contagion Test]]. It rolls nothing and changes nothing.
 
-**Anyone can post a Contagion Check on anyone.** That asymmetry is deliberate:
-exposure is something the world does to a character — the GM opens the plague
-ward, another player's character coughs — but whether they _catch_ it is their own
-roll to make, on their own sheet. The check hands the decision over; it never
-takes it.
+**Anyone can post a Contagion Check on anyone.** That asymmetry is deliberate: exposure is something the world does to a character — the GM opens the plague ward, another player's character coughs — but whether they _catch_ it is their own roll to make, on their own sheet. The check hands the decision over; it never takes it.
 
-There is no such thing as transmitting an affliction _at_ someone. The check is
-always on the receiving side.
+There is no such thing as transmitting an affliction _at_ someone. The check is always on the receiving side.
 
 # Contagion Test {#contagion-test}
 
@@ -740,23 +553,16 @@ always on the receiving side.
 
 ## What it does and when to use it
 
-Rolls whether this character catches something they have been exposed to — bad
-water, a plague ward, a rat bite. The roll is a d100 against the affliction's
-**Contagion Index × the character's Endurance**, and **failing** it means the
-character contracts the affliction.
+Rolls whether this character catches something they have been exposed to — bad water, a plague ward, a rat bite. The roll is a d100 against the affliction's **Contagion Index × the character's Endurance**, and **failing** it means the character contracts the affliction.
 
 A character with **no Endurance attribute** cannot make the test and is told so.
 
 ## The Contagion Test dialog
 
-- **Affliction** — a drop-down of every contagious affliction found in your world
-  and in the installed compendium packs.
+- **Affliction** — a drop-down of every contagious affliction found in your world and in the installed compendium packs.
 - **Situational Modifier** — added to the roll; how bad the exposure was.
 - **Success Level Modifier** — shifts the result a whole level either way.
-- **Add the affliction to the character sheet if contracted** — whether a caught
-  affliction is actually recorded. It starts ticked or cleared according to your
-  world's **Record Trauma** setting, so a table that tracks illness by hand is not
-  nagged into keeping two sets of books.
+- **Add the affliction to the character sheet if contracted** — whether a caught affliction is actually recorded. It starts ticked or cleared according to your world's **Record Trauma** setting, so a table that tracks illness by hand is not nagged into keeping two sets of books.
 
 Dismissing the dialog stops there.
 
@@ -764,21 +570,13 @@ Dismissing the dialog stops there.
 
 The d100 posts to chat as an ordinary test result.
 
-- **Marginal or critical success** — nothing happens; the character shrugged off
-  the exposure.
-- **Marginal failure** — the character **contracts the affliction**, and its onset
-  is the full roll of the affliction's **Onset Formula**, in days.
-- **Critical failure** — the character contracts it and it takes hold **twice as
-  fast**: half the rolled onset, rounded down. An onset of **0 days is
-  immediate**.
+- **Marginal or critical success** — nothing happens; the character shrugged off the exposure.
+- **Marginal failure** — the character **contracts the affliction**, and its onset is the full roll of the affliction's **Onset Formula**, in days.
+- **Critical failure** — the character contracts it and it takes hold **twice as fast**: half the rolled onset, rounded down. An onset of **0 days is immediate**.
 
-If the checkbox was ticked, the affliction is created on the sheet with its
-**Contracted** date stamped as now and its incubation set to the rolled value.
+If the checkbox was ticked, the affliction is created on the sheet with its **Contracted** date stamped as now and its incubation set to the rolled value.
 
-**Nothing offers to schedule another Contagion Test.** Exposure is an event, not a
-condition — if the character walks back into the plague ward, that is a new check.
-What the affliction does from there is its own business; see
-[[Item Affliction]] and the [[doc-afflctns|Afflictions]] rules.
+**Nothing offers to schedule another Contagion Test.** Exposure is an event, not a condition — if the character walks back into the plague ward, that is a new check. What the affliction does from there is its own business; see [[doc-afflctn|Item Affliction]] and the [[doc-afflctns|Afflictions]] rules.
 
 # Perform Affliction Treatment {#perform-affliction-treatment}
 
@@ -792,14 +590,9 @@ What the affliction does from there is its own business; see
 
 ## What it does
 
-The physician's half of treating someone else's affliction. Only a character with
-the **Physician** skill can answer; anyone else is told so and nothing happens.
+The physician's half of treating someone else's affliction. Only a character with the **Physician** skill can answer; anyone else is told so and nothing happens.
 
-It rolls **this** physician's own Physician skill as a Success Value test and posts
-a result card. The **Value Diamonds** earned become a proposed **Course Bonus**,
-which the patient accepts through their affliction's
-[[doc-afflctn|Treat Affliction]] action — nothing is applied to the patient
-until they press that button.
+It rolls **this** physician's own Physician skill as a Success Value test and posts a result card. The **Value Diamonds** earned become a proposed **Course Bonus**, which the patient accepts through their affliction's [[doc-afflctn|Treat Affliction]] action — nothing is applied to the patient until they press that button.
 
 # Perform Treatment Test {#perform-treatment-test}
 
@@ -813,34 +606,21 @@ until they press that button.
 
 ## What it does and when to use it
 
-The physician's half of treating a wound. **Your** character rolls **their own**
-Physician skill against someone's injury and proposes a Healing Rate for it. You
-never touch the patient's sheet — the result goes to chat, and the patient's own
-player accepts it.
+The physician's half of treating a wound. **Your** character rolls **their own** Physician skill against someone's injury and proposes a Healing Rate for it. You never touch the patient's sheet — the result goes to chat, and the patient's own player accepts it.
 
-Run it when a wounded character asks for treatment. If a wound has posted a
-_Treatment Requested_ card, any qualified physician can answer it by clicking its
-button; the wound is filled in for you and no dialog opens.
+Run it when a wounded character asks for treatment. If a wound has posted a _Treatment Requested_ card, any qualified physician can answer it by clicking its button; the wound is filled in for you and no dialog opens.
 
-**You need the Physician skill.** Without it you are told _"Your character has no
-Physician skill; the Treatment Test is not available."_ and nothing is rolled —
-which leaves an open request card live for someone who does.
+**You need the Physician skill.** Without it you are told _"Your character has no Physician skill; the Treatment Test is not available."_ and nothing is rolled — which leaves an open request card live for someone who does.
 
 ## The Perform Treatment Test dialog
 
 Opens only when you run the action by hand. Titled _{physician}: Treatment Test_.
 
-- **Injury UUID (optional)** — paste the wound's UUID here, taken from the
-  injury's sheet header with Foundry's **Copy Document UUID**. Filling this in
-  targets a real wound, and the result card gets an **Accept** button the patient
-  can use. The hint below the field says as much.
-- **Severity:** — 1 to 5. Used only when the UUID is left blank, for a
-  GM-directed test where the wound is described rather than linked.
+- **Injury UUID (optional)** — paste the wound's UUID here, taken from the injury's sheet header with Foundry's **Copy Document UUID**. Filling this in targets a real wound, and the result card gets an **Accept** button the patient can use. The hint below the field says as much.
+- **Severity:** — 1 to 5. Used only when the UUID is left blank, for a GM-directed test where the wound is described rather than linked.
 - **Aspect:** — Blunt, Edged, Piercing, or Fire. Also for the blank-UUID case.
 
-A pasted UUID that is not an injury is rejected with _"Only injuries can be
-treated with a Treatment Test."_, and an already-healed wound with _"This injury
-has already healed; no treatment is needed."_
+A pasted UUID that is not an injury is rejected with _"Only injuries can be treated with a Treatment Test."_, and an already-healed wound with _"This injury has already healed; no treatment is needed."_
 
 The roll follows, at the modifier the wound's aspect and severity require.
 
@@ -856,14 +636,9 @@ The roll follows, at the modifier the wound's aspect and severity require.
 | Risk notes                  | Infection risk, permanent impairment risk, or a new bleeder, when the result carries them |
 | **Accept Treatment** button | Records the proposed Healing Rate on the wound                                            |
 
-**Only the patient's side can press Accept**, and pressing it is what actually
-changes the wound — the physician proposes, the patient records. A GM-directed
-test with no linked wound posts the same card **without** the button; someone
-applies the result by hand.
+**Only the patient's side can press Accept**, and pressing it is what actually changes the wound — the physician proposes, the patient records. A GM-directed test with no linked wound posts the same card **without** the button; someone applies the result by hand.
 
-See [[Afflictions Injuries]] for treating and healing wounds, and the
-[[doc-hlngbs|Healing Base]] and [[doc-infctn|Infection]]
-rules for what a Healing Rate does over time.
+See [[doc-afflandi|Afflictions Injuries]] for treating and healing wounds, and the [[doc-hlngbs|Healing Base]] and [[doc-infctn|Infection]] rules for what a Healing Rate does over time.
 
 # Perform Blood Stoppage {#perform-blood-stoppage}
 
@@ -877,16 +652,11 @@ rules for what a Healing Rate does over time.
 
 ## What it does and when to use it
 
-The urgent cousin of the Treatment Test: your character tries to **staunch
-someone's bleeding** before they lose too much blood. It rolls your own Physician
-skill and posts the outcome for the bleeding character to accept.
+The urgent cousin of the Treatment Test: your character tries to **staunch someone's bleeding** before they lose too much blood. It rolls your own Physician skill and posts the outcome for the bleeding character to accept.
 
-Use it the moment a bleeder appears. A bleeding wound posts a _Request Blood
-Stoppage_ card; any physician can answer it, and the wound is filled in for you.
+Use it the moment a bleeder appears. A bleeding wound posts a _Request Blood Stoppage_ card; any physician can answer it, and the wound is filled in for you.
 
-**You need the Physician skill** here too, with the same message when you do not
-have it. A previous attempt that ended in a Marginal Failure carries **+10** into
-this one automatically.
+**You need the Physician skill** here too, with the same message when you do not have it. A previous attempt that ended in a Marginal Failure carries **+10** into this one automatically.
 
 There is no dialog — the roll happens straight away.
 
@@ -908,19 +678,16 @@ The four outcomes are:
 | **Marginal Failure** | Bleeding continues; **+10** to the next Blood Stoppage Test. |
 | **Critical Failure** | Bleeding continues.                                          |
 
-As with treatment, **only the patient's side presses Accept**, and that press is
-what changes the wound. See the [[doc-bleeding|Bleeding]] rules for Blood
-Loss Advances and what running out of blood means.
+As with treatment, **only the patient's side presses Accept**, and that press is what changes the wound. See the [[doc-bleeding|Bleeding]] rules for Blood Loss Advances and what running out of blood means.
 
 # See also
 
-- [[Actions]] — how actions, the Actions tab, and the context menu work.
-- [[Base Item]] — the standard test dialog and the offer-schedule
-  dialog these actions share.
-- [[Afflictions Injuries]] — wounds, diseases, and conditions on the sheet.
-- [[Combat Basics]] — where the damage and injury cards fit into an exchange.
-- [[Combatant]] — the combat tracker row and its own actions.
-- [[Skill Tests]] — the d100 roll-under test underneath all of these.
-- [[Character Creation]] — building the Being in the first place.
+- [[doc-actions|Actions]] — how actions, the Actions tab, and the context menu work.
+- [[doc-baseitem|Base Item]] — the standard test dialog and the offer-schedule dialog these actions share.
+- [[doc-afflandi|Afflictions Injuries]] — wounds, diseases, and conditions on the sheet.
+- [[doc-cmbtbscs|Combat Basics]] — where the damage and injury cards fit into an exchange.
+- [[doc-cmbtnt|Combatant]] — the combat tracker row and its own actions.
+- [[doc-sklltsts|Skill Tests]] — the d100 roll-under test underneath all of these.
+- [[doc-chrctrcr|Character Creation]] — building the Being in the first place.
 - [[doc-ugactors|Actors]] — the other three actor kinds, and how to choose.
 - [[doc-userguide|User Guide]] — back to the index.

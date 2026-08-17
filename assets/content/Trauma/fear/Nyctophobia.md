@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Nyctophobia is an intense, irrational fear of the dark.
-People with nyctophobia may experience a range of symptoms when they think about, see, or are in dark environments.
+Nyctophobia is an intense, irrational fear of the dark. People with nyctophobia may experience a range of symptoms when they think about, see, or are in dark environments.
 
 ### Impulse
 

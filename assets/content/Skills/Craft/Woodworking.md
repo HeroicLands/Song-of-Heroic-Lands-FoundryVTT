@@ -32,9 +32,7 @@ Woodworking is the joiner's and turner's trade: furniture, containers, vehicles,
 
 # Crafting {#crafting}
 
-Woodwork is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. What follows is what is
-particular to the joiner's shop.
+Woodwork is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the joiner's shop.
 
 **Expense.** Reckon **ten hours per 3d of the item's price**, at a material cost of **1d per 30 lb**.
 
@@ -54,9 +52,7 @@ particular to the joiner's shop.
 | Chair                      | 7   | 12d   | Wheelbarrow    | 24  | 10d   |
 | Chest, wooden              | 24  | 18d   | Yoke, ox       | 2   | 3d    |
 
-**Vehicles.** A wagon or a cart is not a thing anyone carries, and is not tracked
-as a possession the way the articles above are. The wright's figures are given
-here for the cost of building one.
+**Vehicles.** A wagon or a cart is not a thing anyone carries, and is not tracked as a possession the way the articles above are. The wright's figures are given here for the cost of building one.
 
 | Vehicle        | lb  | Price |
 | -------------- | --- | ----- |

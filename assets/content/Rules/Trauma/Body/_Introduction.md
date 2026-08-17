@@ -15,7 +15,7 @@ shortcode: bodytrmaintro
 
 - [[doc-injintro|Injuries]]
 - [[doc-afflctns|Afflictions]]
-- [[Fatigue]]
-- [[Physical Condition]]
+- [[doc-fatigue|Fatigue]]
+- [[doc-physclcn|Physical Condition]]
 - [[doc-shock|Shock]]
-- [[Coma]]
+- [[doc-coma|Coma]]

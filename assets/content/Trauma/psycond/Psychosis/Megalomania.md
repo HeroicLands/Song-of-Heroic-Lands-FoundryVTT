@@ -22,8 +22,7 @@ Megalomania is a condition characterized by an obsession with power, wealth, or 
 
 ### Impulse
 
-The individual exhibits strong feelings of self-importance and entitlement, often believing they are destined for greatness or superior to others. They may make boastful claims and seek admiration and validation for their perceived brilliance. Though their actions may be viewed as arrogant or unreasonable by others, they still function in society and maintain some degree of control over their behavior.
-**Example:** Lord Marcus, the ruler of a small keep, believes he is destined to lead great military campaigns, even though his territory is modest. He often speaks of expanding his lands and expects other lords to seek his counsel, even though his experience in warfare is minimal. While his peers respect his title, they quietly dismiss his grandiose claims.
+The individual exhibits strong feelings of self-importance and entitlement, often believing they are destined for greatness or superior to others. They may make boastful claims and seek admiration and validation for their perceived brilliance. Though their actions may be viewed as arrogant or unreasonable by others, they still function in society and maintain some degree of control over their behavior. **Example:** Lord Marcus, the ruler of a small keep, believes he is destined to lead great military campaigns, even though his territory is modest. He often speaks of expanding his lands and expects other lords to seek his counsel, even though his experience in warfare is minimal. While his peers respect his title, they quietly dismiss his grandiose claims.
 
 ### Disorder
 

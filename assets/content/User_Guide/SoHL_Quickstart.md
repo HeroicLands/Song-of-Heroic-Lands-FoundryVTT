@@ -24,9 +24,7 @@ This quickstart gets a user from install to first roll with Song of Heroic Lands
 
 # Create a First Character
 
-Generally speaking, you should avoid using the Create Actor dialog for Beings. It will require
-setting up a number of items by hand, and is very difficult. The suggested mechanism is to
-duplicate an existing Being, and modify it as needed.
+Generally speaking, you should avoid using the Create Actor dialog for Beings. It will require setting up a number of items by hand, and is very difficult. The suggested mechanism is to duplicate an existing Being, and modify it as needed.
 
 1. Go into the Beings compendium, and import the "Basic Folk" Being.
 2. Double-click on the Being to open the character sheet.
@@ -44,9 +42,9 @@ duplicate an existing Being, and modify it as needed.
 1. In an open character sheet, click on the Skills tab.
 2. Click on the name of a skill. A Success Test Dialog should appear. Simply press OK to perform the roll. The result should show in the chat window.
 
-See [[Combat Basics]] for round flow and common checks.
+See [[doc-cmbtbscs|Combat Basics]] for round flow and common checks.
 
 # See Also
 
 - [[doc-rulesintro|Song of Heroic Lands Rules]]
-- [[Song of Heroic Lands User Guide]]
+- [[doc-userguide|Song of Heroic Lands User Guide]]

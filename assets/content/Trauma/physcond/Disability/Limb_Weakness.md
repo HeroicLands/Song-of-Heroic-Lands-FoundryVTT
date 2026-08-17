@@ -23,8 +23,7 @@ Limb Weakness is a condition characterized by a partial loss of strength or cont
 
 ### Impediment
 
-Noticeable weakness in the affected limb(s), leading to difficulty with tasks that require strength or dexterity, such as lifting objects, walking, or gripping. The individual may experience fatigue in the limb more quickly than usual.
-**Example:** Carpenter Geraint finds that his right arm tires quickly while working with his tools. The once simple task of hammering nails now leaves his arm trembling and weak, forcing him to take frequent breaks to recover.
+Noticeable weakness in the affected limb(s), leading to difficulty with tasks that require strength or dexterity, such as lifting objects, walking, or gripping. The individual may experience fatigue in the limb more quickly than usual. **Example:** Carpenter Geraint finds that his right arm tires quickly while working with his tools. The once simple task of hammering nails now leaves his arm trembling and weak, forcing him to take frequent breaks to recover.
 
 ### Debility
 

@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Dystychiphobia is an intense, irrational fear of accidents.
-People with dystychiphobia may experience a range of symptoms when they think about, see, or are in situations where accidents could occur.
+Dystychiphobia is an intense, irrational fear of accidents. People with dystychiphobia may experience a range of symptoms when they think about, see, or are in situations where accidents could occur.
 
 ### Impulse
 

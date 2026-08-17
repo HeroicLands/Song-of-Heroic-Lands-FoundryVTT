@@ -95,8 +95,8 @@ function main() {
     if (notes.length === 0) {
         console.error(
             `check-content-aliases: ${ROOT}/ holds no typed content, so the ` +
-                `check is vacuous. assets/content/ is generated — run ` +
-                `"npm run content:export" (maintainers) or check out the tree.`,
+                `check is vacuous. assets/content/ is this ` +
+                `repository's own source — check out the tree.`,
         );
         return 1;
     }

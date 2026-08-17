@@ -17,26 +17,15 @@ folder: TiVEgAyetL6JTjqG
 shortcode: thepall
 ---
 
-**The Pall** is the most dangerous [[doc-traumaintro|Trauma]] a character can face. Where
-other trauma assails Will or Initiative, the Pall tests **Spirit** in a struggle
-for the character's soul. It emanates from the forces of death and chaos, corrupts
-mortals into the undead **Helspawn**, can infuse beings and objects alike, and can
-be summoned by death-cult priests.
+**The Pall** is the most dangerous [[doc-traumaintro|Trauma]] a character can face. Where other trauma assails Will or Initiative, the Pall tests **Spirit** in a struggle for the character's soul. It emanates from the forces of death and chaos, corrupts mortals into the undead **Helspawn**, can infuse beings and objects alike, and can be summoned by death-cult priests.
 
 ## Pall Strength
 
-Every entity or object harboring the Pall has a **Pall Strength (PAL)** score.
-Touching or being touched by a Pall entity imparts the full PAL; every 5 feet (or
-fraction) reduces it by 1, and below zero it has no effect. Natural daylight lowers
-PAL by 2 and twilight by 1; indoors or firelight at night has no effect. Multiple
-sources overlap into a single summed rating.
+Every entity or object harboring the Pall has a **Pall Strength (PAL)** score. Touching or being touched by a Pall entity imparts the full PAL; every 5 feet (or fraction) reduces it by 1, and below zero it has no effect. Natural daylight lowers PAL by 2 and twilight by 1; indoors or firelight at night has no effect. Multiple sources overlap into a single summed rating.
 
 ## Resisting the Pall
 
-Anyone in an affected area tests **Spirit** at the start of their turn (entities
-with their own Pall Strength are exempt), applying a **Pall Depth penalty equal to
-5 × the total PAL** affecting them. (For the `CF0`/`CF5` split, see
-[[Fear]].)
+Anyone in an affected area tests **Spirit** at the start of their turn (entities with their own Pall Strength are exempt), applying a **Pall Depth penalty equal to 5 × the total PAL** affecting them. (For the `CF0`/`CF5` split, see [[doc-fear|Fear]].)
 
 | Result              | Effect                                                                                                                                                                                         |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -48,17 +37,11 @@ with their own Pall Strength are exempt), applying a **Pall Depth penalty equal 
 
 ## The Pall Cloud
 
-Accruing **Pall Stress Levels (PSL)** — the **Pall Cloud** — afflicts the
-character in body and mind. It darkens and blurs vision and slows movement: a
-**PSL × 5** penalty to vision-based Perception tests and Agility tests, and
-**PSL × 10** to Dodge, Move, and Stealth. About ten minutes after first taking PSL
-in an encounter, the character gains a **permanent psyche trauma** (or an existing
-one intensifies).
+Accruing **Pall Stress Levels (PSL)** — the **Pall Cloud** — afflicts the character in body and mind. It darkens and blurs vision and slows movement: a **PSL × 5** penalty to vision-based Perception tests and Agility tests, and **PSL × 10** to Dodge, Move, and Stealth. About ten minutes after first taking PSL in an encounter, the character gains a **permanent psyche trauma** (or an existing one intensifies).
 
 ## Pall Recovery
 
-Characters recover automatically but slowly, making **Will** tests every d6 days —
-still suffering the Pall Cloud penalties throughout. Exorcism can grant a bonus.
+Characters recover automatically but slowly, making **Will** tests every d6 days — still suffering the Pall Cloud penalties throughout. Exorcism can grant a bonus.
 
 | Result  | Outcome                                                                                                                                                               |
 | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -67,24 +50,16 @@ still suffering the Pall Cloud penalties throughout. Exorcism can grant a bonus.
 | MS (1)  | **−1 PSL** — at 0 the Pall is expelled and its penalties vanish (the permanent psyche condition remains).                                                             |
 | CS (2)  | **−2 PSL** — at 0 the Pall is expelled; if the condition was newly acquired, it improves from Permanent to Indefinite (gain d3 PSY and begin Psyche Stress Recovery). |
 
-Reaching 0 PSL without ever rolling a CS keeps the condition **permanent**; a single
-CS during recovery makes it **indefinite** instead. Any character who **dies**
-while carrying Pall Stress Levels must immediately **Face the Pall**, as if they
-had rolled a CF.
+Reaching 0 PSL without ever rolling a CS keeps the condition **permanent**; a single CS during recovery makes it **indefinite** instead. Any character who **dies** while carrying Pall Stress Levels must immediately **Face the Pall**, as if they had rolled a CF.
 
 ## Facing the Pall
 
-When the Pall cannot be expelled, it corrupts the body, and the forces of death
-force the soul into one of three choices — always the victim's to make, since not
-even death and chaos can _demand_ undeath:
+When the Pall cannot be expelled, it corrupts the body, and the forces of death force the soul into one of three choices — always the victim's to make, since not even death and chaos can _demand_ undeath:
 
-- **Embrace the Pall** — the soul is imprisoned in the shadow region of the Spirit
-  realm; the body persists as an undead **Nightwight**.
-- **Vacate the Body** — the soul unanchors into an active **Shade**; the empty body
-  can be puppeted as a mindless **Helthraal**.
-- **Accept True Death** — the soul departs to the afterlife; the decaying body
-  allows only a brief moment of control as a Helthraal.
+- **Embrace the Pall** — the soul is imprisoned in the shadow region of the Spirit realm; the body persists as an undead **Nightwight**.
+- **Vacate the Body** — the soul unanchors into an active **Shade**; the empty body can be puppeted as a mindless **Helthraal**.
+- **Accept True Death** — the soul departs to the afterlife; the decaying body allows only a brief moment of control as a Helthraal.
 
 ## See also
 
-- [[Psychological Condition]], [[doc-traumaintro|Trauma]].
+- [[doc-psychlgc|Psychological Condition]], [[doc-traumaintro|Trauma]].

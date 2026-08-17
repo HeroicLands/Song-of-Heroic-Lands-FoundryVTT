@@ -7,7 +7,7 @@ name:
     full: Grab
     aliases: []
 description: "Seize a limb — to take the weapon out of it, or to hold it still."
-id: UnarmedGrab0001
+id: T18G4LaTXd0AQ3qM
 img: icons/game-icons/lorc/grab.svg
 shortcode: bflkgrab
 type: skill

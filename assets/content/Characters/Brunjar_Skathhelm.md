@@ -17,7 +17,7 @@ id: elrlXp3vtP02E0Tr
 folder: Nu7AgLZEmR26u2pk
 shortcode: brunjarskathhel
 img: icons/game-icons/delapouite/person.svg
-portrait: images/brunjarskathhel.webp
+portrait: images/being/brunjarskathhel-portrait.webp
 type: character
 package: sohl
 social:

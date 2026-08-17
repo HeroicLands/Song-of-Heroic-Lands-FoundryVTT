@@ -22,8 +22,7 @@ Decisive refers to an individual's ability to make clear, quick, and confident d
 
 ### Quirk
 
-The individual is able to make timely, confident decisions, weighing options thoughtfully but not dwelling too long on uncertainty. Their decisiveness allows them to take action when needed, often leading to efficient solutions. They balance clarity and confidence with openness to feedback, ensuring their decisions are both effective and considerate of others.
-**Example:** Conrad, a seasoned mercenary, is known for his quick, confident decisions in the heat of battle. When ambushed by a rival band of mercenaries, Conrad swiftly assesses the situation and orders his men to retreat to higher ground, turning the tide of the fight. His calm, assured leadership in dangerous situations earns him the loyalty of his comrades and the respect of his employers.
+The individual is able to make timely, confident decisions, weighing options thoughtfully but not dwelling too long on uncertainty. Their decisiveness allows them to take action when needed, often leading to efficient solutions. They balance clarity and confidence with openness to feedback, ensuring their decisions are both effective and considerate of others. **Example:** Conrad, a seasoned mercenary, is known for his quick, confident decisions in the heat of battle. When ambushed by a rival band of mercenaries, Conrad swiftly assesses the situation and orders his men to retreat to higher ground, turning the tide of the fight. His calm, assured leadership in dangerous situations earns him the loyalty of his comrades and the respect of his employers.
 
 ### Impulse
 

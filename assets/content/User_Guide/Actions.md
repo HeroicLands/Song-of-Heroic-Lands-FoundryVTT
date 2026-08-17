@@ -11,70 +11,41 @@ shortcode: actions
 folder: IgwaG8rAUUO9vrtz
 ---
 
-An Action is an executable procedure attached to an actor or nested within
-another item. Actions represent things a character can actively do — making
-a skill test, performing a special maneuver, activating a unique ability,
-or triggering any other defined procedure. Actions provide buttons on the
-actor sheet that players and GMs can click to initiate the procedure,
-streamlining gameplay by packaging complex rule sequences into a single
-click.
+An Action is an executable procedure attached to an actor or nested within another item. Actions represent things a character can actively do — making a skill test, performing a special maneuver, activating a unique ability, or triggering any other defined procedure. Actions provide buttons on the actor sheet that players and GMs can click to initiate the procedure, streamlining gameplay by packaging complex rule sequences into a single click.
 
-Actions are also SoHL's built-in mechanism for house rules and customization
-at the item level. An advanced GM can attach a Script Action to a specific
-actor or item to change how it behaves, without needing to write a Foundry
-module or modify system files.
+Actions are also SoHL's built-in mechanism for house rules and customization at the item level. An advanced GM can attach a Script Action to a specific actor or item to change how it behaves, without needing to write a Foundry module or modify system files.
 
 # Where Actions Appear
 
-Actions can be attached directly to **Actors** (Beings, Cohorts, Structures,
-Vehicles) or **nested inside any Item**. Both are fully supported:
+Actions can be attached directly to **Actors** (Beings, Cohorts, Structures, Vehicles) or **nested inside any Item**. Both are fully supported:
 
-- **Directly on an Actor** — the Action belongs to the actor and can
-  operate on the actor or any of its items.
-- **Nested inside an Item** — the Action belongs to that item specifically.
-  For example, a Weapon Gear item might contain an Action for a special
-  attack, or a Skill item might include an Action for its standard test.
-  The Action can then target its parent item, the actor that owns it, or
-  the Action itself.
+- **Directly on an Actor** — the Action belongs to the actor and can operate on the actor or any of its items.
+- **Nested inside an Item** — the Action belongs to that item specifically. For example, a Weapon Gear item might contain an Action for a special attack, or a Skill item might include an Action for its standard test. The Action can then target its parent item, the actor that owns it, or the Action itself.
 
 Actions appear in the UI in two places:
 
-- **Actor sheet Actions tab** — all Actions on the actor (both directly
-  attached and nested inside items) are listed here as clickable buttons.
-- **Item sheet Actions section** — when an item has nested Actions, they
-  appear inline within that item's own sheet.
+- **Actor sheet Actions tab** — all Actions on the actor (both directly attached and nested inside items) are listed here as clickable buttons.
+- **Item sheet Actions section** — when an item has nested Actions, they appear inline within that item's own sheet.
 
 # Action Types
 
-Every Action has a **Type** (called `subType` internally) that determines what
-kind of logic it runs.
+Every Action has a **Type** (called `subType` internally) that determines what kind of logic it runs.
 
 ## Built-in Actions (Intrinsic)
 
-Built-in Actions are part of the system itself. They call a named method on the
-owning item or actor's logic. You cannot change what a built-in action does
-by editing it — they are defined in system code. You will encounter these on
-compendium items (skills, weapon strike modes, etc.) as the standard test and
-maneuver buttons.
+Built-in Actions are part of the system itself. They call a named method on the owning item or actor's logic. You cannot change what a built-in action does by editing it — they are defined in system code. You will encounter these on compendium items (skills, weapon strike modes, etc.) as the standard test and maneuver buttons.
 
-You will rarely create intrinsic actions yourself; they are placed by the system
-and compendium packs.
+You will rarely create intrinsic actions yourself; they are placed by the system and compendium packs.
 
 ## Script Actions
 
-A Script Action contains a snippet of JavaScript that runs when the action
-is triggered. This is the mechanism for **per-actor and per-item house rules
-and custom procedures** — no module installation required.
+A Script Action contains a snippet of JavaScript that runs when the action is triggered. This is the mechanism for **per-actor and per-item house rules and custom procedures** — no module installation required.
 
-Script actions are powerful but require basic JavaScript knowledge. The code
-runs with access to the actor or item that owns the action, giving you the
-ability to read and modify data during execution.
+Script actions are powerful but require basic JavaScript knowledge. The code runs with access to the actor or item that owns the action, giving you the ability to read and modify data during execution.
 
 ## Basic Actions
 
-A Basic Action is the simplest type. Like Script Actions, it runs JavaScript,
-but it's intended for straightforward executable expressions rather than
-multi-line scripts. Use this type when your logic fits in a single expression.
+A Basic Action is the simplest type. Like Script Actions, it runs JavaScript, but it's intended for straightforward executable expressions rather than multi-line scripts. Use this type when your logic fits in a single expression.
 
 # Key Fields
 
@@ -94,8 +65,7 @@ multi-line scripts. Use this type when your logic fits in a single expression.
 # Creating an Action
 
 1. Open the Actor or Item sheet where you want to add the Action.
-2. Navigate to the **Actions** tab (on the Actor) or the item's **Actions**
-   section.
+2. Navigate to the **Actions** tab (on the Actor) or the item's **Actions** section.
 3. Click **Create Action** (or use the `+` button).
 4. Fill in the Name, Type, and Executor fields.
 5. Set Scope to `Item` or `Actor` depending on what the action should operate on.
@@ -110,15 +80,11 @@ Actions can fire in two ways:
 
 ## On-Demand
 
-When **Visible** evaluates to `true` and the user meets the **Permission**
-requirement, the action appears as a clickable button on the sheet. Clicking
-it executes the action immediately.
+When **Visible** evaluates to `true` and the user meets the **Permission** requirement, the action appears as a clickable button on the sheet. Clicking it executes the action immediately.
 
 ## Lifecycle-Triggered
 
-SoHL runs a preparation cycle on actors and items whenever data changes. You
-can hook an action into this cycle automatically by giving it a name that
-follows this pattern:
+SoHL runs a preparation cycle on actors and items whenever data changes. You can hook an action into this cycle automatically by giving it a name that follows this pattern:
 
 ```
 {itemType}.{shortcode}.post{Phase}
@@ -138,9 +104,7 @@ Where:
 | `mysticalability.curse.postInitialize` | Runs after the Curse ability finishes its initialize phase |
 | `weapongear.broadsword.postEvaluate`   | Runs after the Broadsword item finishes its evaluate phase |
 
-Lifecycle-triggered actions run automatically during every data-preparation
-cycle. They do **not** need to be visible — set their **Group** to `Hidden`
-to keep them out of context menus.
+Lifecycle-triggered actions run automatically during every data-preparation cycle. They do **not** need to be visible — set their **Group** to `Hidden` to keep them out of context menus.
 
 ### Which phase to use?
 
@@ -150,24 +114,19 @@ to keep them out of context menus.
 | `Evaluate`   | All items have been initialized; first-pass calculations | Computing derived values from multiple items                  |
 | `Finalize`   | All evaluations complete; final cross-item dependencies  | Final adjustments that depend on other items' evaluated state |
 
-When in doubt, use `postFinalize` — it runs last and has access to all other
-items' computed values.
+When in doubt, use `postFinalize` — it runs last and has access to all other items' computed values.
 
 ### Setting up a lifecycle action
 
-1. Find the item you want to modify (e.g., a skill named "Tactics" with
-   shortcode `tactics`).
-2. Create an Action on the **same actor** (either directly on the actor or
-   nested inside the Tactics skill) with name `skill.tactics.postFinalize`.
+1. Find the item you want to modify (e.g., a skill named "Tactics" with shortcode `tactics`).
+2. Create an Action on the **same actor** (either directly on the actor or nested inside the Tactics skill) with name `skill.tactics.postFinalize`.
 3. Set **Type** to `Script Action`.
 4. Set **Scope** to `Item`.
 5. Set **Group** to `Hidden` (it's lifecycle-only, not a button).
-6. Write your executor code. The `this` value is the Tactics skill's logic
-   object when scope is `Item`.
+6. Write your executor code. The `this` value is the Tactics skill's logic object when scope is `Item`.
 7. Save.
 
-The action runs automatically after every data-preparation cycle for the
-Tactics skill on that actor.
+The action runs automatically after every data-preparation cycle for the Tactics skill on that actor.
 
 # Permissions and Visibility {#action-permissions}
 
@@ -186,13 +145,9 @@ Controls who can trigger the action. Values:
 
 ## Visible
 
-A JavaScript expression evaluated at display time. If it returns truthy, the
-action appears in buttons and context menus. If it returns falsy, the action
-is hidden. Set to `"true"` (the string) to always show it.
+A JavaScript expression evaluated at display time. If it returns truthy, the action appears in buttons and context menus. If it returns falsy, the action is hidden. Set to `"true"` (the string) to always show it.
 
-Lifecycle-triggered actions should typically set Visible to `"false"` or
-Group to `Hidden` — they run automatically and do not need to appear as
-buttons.
+Lifecycle-triggered actions should typically set Visible to `"false"` or Group to `Hidden` — they run automatically and do not need to appear as buttons.
 
 ## Group
 
@@ -207,14 +162,10 @@ Controls the context menu section:
 
 # See also
 
-- [[doc-baseitem|Base Item]] — the four actions that belong to _every_ document,
-  and the dialogs nearly every action opens.
-- [[doc-ugactors|Actors]] and [[doc-ugitems|Items]] — the built-in actions of
-  each kind, each documented on its own page.
-- [[doc-sfexprss|Safe Expressions]] — the language the **Visible** condition and
-  a Script Action's own expressions are written in.
-- [[doc-effcttrg|Effect Targeting]] — the other place an author-written
-  expression decides what the system does.
+- [[doc-baseitem|Base Item]] — the four actions that belong to _every_ document, and the dialogs nearly every action opens.
+- [[doc-ugactors|Actors]] and [[doc-ugitems|Items]] — the built-in actions of each kind, each documented on its own page.
+- [[doc-sfexprss|Safe Expressions]] — the language the **Visible** condition and a Script Action's own expressions are written in.
+- [[doc-effcttrg|Effect Targeting]] — the other place an author-written expression decides what the system does.
 - [[doc-undrstnd|Understanding Sheets]] — the Actions tab these appear on.
 - [[doc-iconlgnd|Icon Legend]] — the glyph each built-in action uses.
 - [[doc-userguide|User Guide]] — back to the index.

@@ -23,8 +23,7 @@ Xenophobia is an intense, irrational fear of strangers or foreigners. People wit
 
 ### Impulse
 
-Avoiding interactions with people from different cultures, as well as places where they are likely to be present.
-Abberance (ABE) increases by 1 from the source of fear.
+Avoiding interactions with people from different cultures, as well as places where they are likely to be present. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

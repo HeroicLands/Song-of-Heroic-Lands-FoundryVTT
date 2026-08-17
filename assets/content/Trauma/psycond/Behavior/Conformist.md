@@ -22,8 +22,7 @@ The **Conformist** is characterized by a strong desire to fit in with social nor
 
 ### Impulse
 
-The individual frequently adapts their behavior, opinions, or appearance to align with those around them. They may avoid expressing personal views that differ from the group and may feel uncomfortable standing out or being perceived as different. While they still retain some individuality, their need to fit in often overrides their personal preferences.
-**Example:** Mark tends to agree with his friends' opinions, even when he privately disagrees. He dresses similarly to them and participates in activities he doesn't particularly enjoy, all to ensure he remains part of the group. Though he sometimes feels frustrated by this, he finds comfort in the acceptance and approval of his peers.
+The individual frequently adapts their behavior, opinions, or appearance to align with those around them. They may avoid expressing personal views that differ from the group and may feel uncomfortable standing out or being perceived as different. While they still retain some individuality, their need to fit in often overrides their personal preferences. **Example:** Mark tends to agree with his friends' opinions, even when he privately disagrees. He dresses similarly to them and participates in activities he doesn't particularly enjoy, all to ensure he remains part of the group. Though he sometimes feels frustrated by this, he finds comfort in the acceptance and approval of his peers.
 
 ### Disorder
 

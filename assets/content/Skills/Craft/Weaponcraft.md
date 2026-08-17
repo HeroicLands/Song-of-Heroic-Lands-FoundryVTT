@@ -32,10 +32,7 @@ Weaponcraft is the making and repair of arms and armour. It is the most exacting
 
 # Crafting {#crafting}
 
-Arms and armour are made by the common [[doc-crafting|crafting routine]] —
-workshop, expense, test, result, masterwork rolls, repair. A weaponsmith works
-in a workshop matching the skill tested below. What follows is what is
-particular to this bench.
+Arms and armour are made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. A weaponsmith works in a workshop matching the skill tested below. What follows is what is particular to this bench.
 
 ## Weapons
 
@@ -76,18 +73,13 @@ particular to this bench.
 | [t]       | Textilecraft (Metalcraft)            |
 | [w]       | Woodworking                          |
 
-**A flaw** costs the weapon one Weapon Quality and one impact for every point of
-Success Value below 3.
+**A flaw** costs the weapon one Weapon Quality and one impact for every point of Success Value below 3.
 
-**Masterwork** reads as Weapon Quality and impact — impact being this trade's
-modifier. Applicable successes are capped at the weapon's base Weapon Quality
-minus eight, so a WQ 10 weapon takes at most two.
+**Masterwork** reads as Weapon Quality and impact — impact being this trade's modifier. Applicable successes are capped at the weapon's base Weapon Quality minus eight, so a WQ 10 weapon takes at most two.
 
 ## Armour
 
-Armour follows the same shape, with the test set by the material rather than by
-the article. It carries no separate expense table; the article's catalogue entry
-gives its cost.
+Armour follows the same shape, with the test set by the material rather than by the article. It carries no separate expense table; the article's catalogue entry gives its cost.
 
 | Material                         | Success Value test                    |
 | -------------------------------- | ------------------------------------- |
@@ -97,12 +89,9 @@ gives its cost.
 | Scale                            | Weaponcraft (Hideworking, Metalcraft) |
 | Mail, plate                      | Weaponcraft (Metalcraft, Mineralogy)  |
 
-**A flaw** costs the article one Armour Quality and one Armour Value — two of
-each at SV 0 or less.
+**A flaw** costs the article one Armour Quality and one Armour Value — two of each at SV 0 or less.
 
-**Masterwork** reads as Armour Quality and Armour Value in place of weapon
-quality and impact, and the material itself caps how many successes can actually
-be applied:
+**Masterwork** reads as Armour Quality and Armour Value in place of weapon quality and impact, and the material itself caps how many successes can actually be applied:
 
 | Material | Max MWS | Material | Max MWS |
 | -------- | ------- | -------- | ------- |
@@ -112,5 +101,4 @@ be applied:
 | Quilted  | 1       | Mail     | 5       |
 |          |         | Plate    | 5       |
 
-There is only so much that can be done with a quilted coat, however good the
-tailor.
+There is only so much that can be done with a quilted coat, however good the tailor.

@@ -22,13 +22,11 @@ Intuitive refers to an individual's ability to understand or grasp ideas, situat
 
 ### Quirk
 
-The individual often makes insightful decisions or observations based on their instinctual understanding of people, situations, or concepts. Their intuition helps them navigate social interactions, solve problems, or sense changes in their environment without needing a lot of information. They balance this natural understanding with thoughtful reflection when needed, leading to both effective and accurate judgments.
-**Example:** Lady Catrin often has a natural sense of the mood in the room during court meetings, instinctively knowing when to speak up and when to hold back. Her intuitive understanding of people and their motives allows her to navigate complex social dynamics gracefully and with minimal conflict.
+The individual often makes insightful decisions or observations based on their instinctual understanding of people, situations, or concepts. Their intuition helps them navigate social interactions, solve problems, or sense changes in their environment without needing a lot of information. They balance this natural understanding with thoughtful reflection when needed, leading to both effective and accurate judgments. **Example:** Lady Catrin often has a natural sense of the mood in the room during court meetings, instinctively knowing when to speak up and when to hold back. Her intuitive understanding of people and their motives allows her to navigate complex social dynamics gracefully and with minimal conflict.
 
 ### Impulse
 
-The individual increasingly relies on their intuition to make decisions, sometimes dismissing more concrete data or the advice of others. While their instincts are often correct, they may occasionally overlook important facts or logic in favor of their gut feeling. This can lead to conflict with others who prefer a more evidence-based approach, though the individual still functions effectively overall.
-**Example:** Lady Catrin begins to trust her instincts so much that she starts making decisions for the estate without consulting her advisors or considering all the available information. While her intuition is often right, her advisors grow frustrated when she dismisses their concerns or detailed reports in favor of her "gut feeling."
+The individual increasingly relies on their intuition to make decisions, sometimes dismissing more concrete data or the advice of others. While their instincts are often correct, they may occasionally overlook important facts or logic in favor of their gut feeling. This can lead to conflict with others who prefer a more evidence-based approach, though the individual still functions effectively overall. **Example:** Lady Catrin begins to trust her instincts so much that she starts making decisions for the estate without consulting her advisors or considering all the available information. While her intuition is often right, her advisors grow frustrated when she dismisses their concerns or detailed reports in favor of her "gut feeling."
 
 ### Disorder
 

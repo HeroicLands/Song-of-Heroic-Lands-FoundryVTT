@@ -23,13 +23,11 @@ Ombrophobia is an intense, irrational fear of rain. People with ombrophobia may 
 
 ### Impulse
 
-Avoiding going outside during rain, checking weather forecasts obsessively, or using excessive protective gear.
-Abberance (ABE) increases by 1 from the source of fear.
+Avoiding going outside during rain, checking weather forecasts obsessively, or using excessive protective gear. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or sight of rain.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or sight of rain. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

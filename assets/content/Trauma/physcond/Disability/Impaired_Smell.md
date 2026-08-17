@@ -23,8 +23,7 @@ Impaired Smell is a diminished ability to detect and perceive odors, often belie
 
 ### Impediment
 
-Difficulty distinguishing or detecting faint odors, leading to a reduced awareness of one’s surroundings. Though bothersome, it may be managed by focusing on other senses or avoiding situations where smell is crucial.
-**Example:** Cook Edric notices that the fragrant herbs in his stew no longer carry the same strength. Though he can still taste the food, the experience is less vivid, and he must rely on his memory and judgment more than his nose.
+Difficulty distinguishing or detecting faint odors, leading to a reduced awareness of one’s surroundings. Though bothersome, it may be managed by focusing on other senses or avoiding situations where smell is crucial. **Example:** Cook Edric notices that the fragrant herbs in his stew no longer carry the same strength. Though he can still taste the food, the experience is less vivid, and he must rely on his memory and judgment more than his nose.
 
 ### Debility
 

@@ -22,8 +22,7 @@ Scoliosis is a condition where the spine curves abnormally to the side, often fo
 
 ### Impediment
 
-Mild to moderate curvature of the spine, resulting in a visible asymmetry of the shoulders, hips, or back. The individual may experience occasional discomfort, muscle strain, or stiffness, but can still perform most tasks with minimal difficulty.
-**Example:** Apprentice mason Aldred notices his back aching after long hours of work. His shoulders appear slightly uneven, but the discomfort is manageable with rest and stretching. Though his posture is not perfect, he continues to work efficiently, compensating for the mild curve in his spine.
+Mild to moderate curvature of the spine, resulting in a visible asymmetry of the shoulders, hips, or back. The individual may experience occasional discomfort, muscle strain, or stiffness, but can still perform most tasks with minimal difficulty. **Example:** Apprentice mason Aldred notices his back aching after long hours of work. His shoulders appear slightly uneven, but the discomfort is manageable with rest and stretching. Though his posture is not perfect, he continues to work efficiently, compensating for the mild curve in his spine.
 
 ### Debility
 

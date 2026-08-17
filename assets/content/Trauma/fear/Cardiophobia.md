@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Cardiophobia is an intense, irrational fear of heart-related issues.
-People with cardiophobia may experience a range of symptoms when they think about, hear, or read about heart problems.
+Cardiophobia is an intense, irrational fear of heart-related issues. People with cardiophobia may experience a range of symptoms when they think about, hear, or read about heart problems.
 
 ### Impulse
 

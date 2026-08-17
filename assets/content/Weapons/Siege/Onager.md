@@ -7,7 +7,7 @@ name:
     full: Onager
     aliases: []
 description: "Single-arm torsion stone-thrower; kicks like the wild ass it is named for."
-id: SiegeOnager0001
+id: OiGsx0AXFt8RW6Yd
 img: icons/game-icons/lorc/falling-boulder.svg
 shortcode: Onagr
 type: weapongear
@@ -71,6 +71,8 @@ sohl:
 folder: HXiYHvG6igI3Wlmm
 ---
 
-A single throwing arm driven by one great torsion skein, stopped against a padded beam so hard that the whole frame leaps off the ground at each shot — which is how it came by the name of the wild ass. Six crew winch it down, load the sling, and stand well clear. It lobs its stone rather than aiming it, so it is a weapon against walls, roofs and crowds rather than against any one man, and a crew learns a target by walking shots onto it.
+A single throwing arm driven by one great torsion skein, stopped against a padded beam so hard that the whole frame leaps off the ground at each shot — which is how it came by the name of the wild ass. It lobs its stone rather than aiming it, so it is a weapon against walls, roofs and crowds rather than against any one man, and a crew learns a target by walking shots onto it.
+
 Everything it throws arcs. Inside its Base Range a crew can shoot flat at a wall, but the engine's useful work begins past that, where the shot becomes a Volley against a fifteen-foot area rather than an aimed strike at any one man.
+
 Six crew winch the arm down, load the sling and stand clear, and a well-drilled team gets a stone away every five minutes.

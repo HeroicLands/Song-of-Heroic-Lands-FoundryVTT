@@ -13,6 +13,6 @@ folder: hAloT0Y1xg1vcIIn
 shortcode: mindtraumaintro
 ---
 
-- [[Fear]]
-- [[Morale]]
-- [[Psychological Condition]]
+- [[doc-fear|Fear]]
+- [[doc-morale|Morale]]
+- [[doc-psychlgc|Psychological Condition]]

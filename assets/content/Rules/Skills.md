@@ -13,43 +13,22 @@ folder: RqKUTBUBN2Y3MHYB
 shortcode: skills
 ---
 
-A **skill** represents a character's trained ability at some activity — a
-weapon, a craft, a lore, a social art. Each skill is rated by a
-[[doc-mstrylvl#mastery-level|Mastery Level (ML)]], derived from a
-[[doc-mstrylvl#skill-base|Skill Base]] that the character's attributes decide;
-whenever the outcome of using a skill is uncertain, the character makes a test
-against it.
+A **skill** represents a character's trained ability at some activity — a weapon, a craft, a lore, a social art. Each skill is rated by a [[doc-mstrylvl#mastery-level|Mastery Level (ML)]], derived from a [[doc-mstrylvl#skill-base|Skill Base]] that the character's attributes decide; whenever the outcome of using a skill is uncertain, the character makes a test against it.
 
-Skills are tested exactly as attributes and mystical abilities are, by the
-procedures in the [[doc-resolutionintro|Resolution]] chapter — a
-[[doc-sccsstst#success-test|Success Test]] for a single uncertain act, a
-[[doc-sccssvlt#success-value-test|Success Value test]] for sustained work, an
-[[doc-oppsdtst#opposed-test|Opposed Test]] against another character. Nothing
-about testing a skill is peculiar to skills. What this chapter covers is which
-skills exist, what each of them is for, and how they attach to a character.
+Skills are tested exactly as attributes and mystical abilities are, by the procedures in the [[doc-resolutionintro|Resolution]] chapter — a [[doc-sccsstst#success-test|Success Test]] for a single uncertain act, a [[doc-sccssvlt#success-value-test|Success Value test]] for sustained work, an [[doc-oppsdtst#opposed-test|Opposed Test]] against another character. Nothing about testing a skill is peculiar to skills. What this chapter covers is which skills exist, what each of them is for, and how they attach to a character.
 
 # Skill Body Assignments
 
-[[doc-character#body-part-roles|Body Roles]] specify which of the body roles each body part enables. Every
-skill specifies which body roles it needs. If the given role is impaired or
-disabled, then the associated skills become impaired or unusable. For example,
-Climbing might list both Manipulator and Locomotor, in which case impairment of
-those body parts would impair the skill as well.
+[[doc-character#body-part-roles|Body Roles]] specify which of the body roles each body part enables. Every skill specifies which body roles it needs. If the given role is impaired or disabled, then the associated skills become impaired or unusable. For example, Climbing might list both Manipulator and Locomotor, in which case impairment of those body parts would impair the skill as well.
 
-When you test a skill, every body part holding one of the roles that skill lists
-is consulted:
+When you test a skill, every body part holding one of the roles that skill lists is consulted:
 
-- If any of those parts is **unusable** — a grievous wound, or a limb lost
-  outright — the test **automatically Critically Fails**. No roll is made.
-- Otherwise the test suffers the **worst** impairment penalty among those parts:
-  **−5** or **−10** or worse. Penalties do not stack across parts; the single
-  worst applies.
+- If any of those parts is **unusable** — a grievous wound, or a limb lost outright — the test **automatically Critically Fails**. No roll is made.
+- Otherwise the test suffers the **worst** impairment penalty among those parts: **−5** or **−10** or worse. Penalties do not stack across parts; the single worst applies.
 
-A skill that lists no roles is never impaired by injury, however badly hurt the
-character is.
+A skill that lists no roles is never impaired by injury, however badly hurt the character is.
 
-See [[doc-character#body-structure|Body Structure]] for the roles in full, how parts become impaired or
-unusable, and how a human's parts are tagged.
+See [[doc-character#body-structure|Body Structure]] for the roles in full, how parts become impaired or unusable, and how a human's parts are tagged.
 
 # Skill Descriptions {#skill-descriptions}
 
@@ -66,16 +45,9 @@ unusable, and how a human's parts are tagged.
 
 ## Combat Techniques
 
-These are the **Folk** unarmed techniques: the roster a folk character carries.
-Other creatures do not use them — an animal, mythic, spirit, or construct carries
-bespoke strike modes derived from its own anatomy, and most of what it carries
-(claw, gore, beak, tail, quill) has no folk equivalent at all.
+These are the **Folk** unarmed techniques: the roster a folk character carries. Other creatures do not use them — an animal, mythic, spirit, or construct carries bespoke strike modes derived from its own anatomy, and most of what it carries (claw, gore, beak, tail, quill) has no folk equivalent at all.
 
-Where an entry is marked _Folk_ below, its impact dice describe a folk body part:
-a folk bite is `1d4` piercing where a cave bear's is `1d6+9`. The unmarked ones
-carry no impact dice — they are manoeuvres rather than body parts, and read
-Strength and reach from whoever performs them, so they hold for any creature able
-to perform them at all.
+Where an entry is marked _Folk_ below, its impact dice describe a folk body part: a folk bite is `1d4` piercing where a cave bear's is `1d6+9`. The unmarked ones carry no impact dice — they are manoeuvres rather than body parts, and read Strength and reach from whoever performs them, so they hold for any creature able to perform them at all.
 
 - [[skill-bflkbite|Folk Bite]] - Teeth, at the range where nothing else will reach; small, precise, and it draws blood.
 - [[skill-bflkgrab|Grab]] - Seize a limb — to take the weapon out of it, or to hold it still.
@@ -88,9 +60,7 @@ to perform them at all.
 
 ## Craft
 
-Every trade below that makes an article makes it by the one routine in
-[[doc-crafting|Crafting]] — workshop, expense, test, result, masterwork. Each
-skill's own entry gives only what is particular to that trade.
+Every trade below that makes an article makes it by the one routine in [[doc-crafting|Crafting]] — workshop, expense, test, result, masterwork. Each skill's own entry gives only what is particular to that trade.
 
 - [[skill-cmcs|Ceramics]] - Shaping clay into durable pots, bowls, tiles, bricks, and sculpture.
 - [[skill-draw|Drawing]] - Painting, sketching, fresco work; creating artistic and technical designs.

@@ -22,13 +22,11 @@ Compassionate refers to an individual's deep empathy and genuine concern for the
 
 ### Quirk
 
-The individual is kind-hearted and quick to offer help or comfort to those in need. They listen carefully, show empathy, and take thoughtful actions to support others. Their compassion is balanced, allowing them to care for others without overwhelming themselves.
-**Example:** Sister Margaret, a nun in the village convent, is known for her gentle, caring nature. When villagers come to her seeking counsel or support, she listens patiently and offers heartfelt advice. She visits the sick regularly, providing both spiritual and physical comfort. Her compassion makes her well-loved by the community, as she is always there to lend a hand or a kind word when needed.
+The individual is kind-hearted and quick to offer help or comfort to those in need. They listen carefully, show empathy, and take thoughtful actions to support others. Their compassion is balanced, allowing them to care for others without overwhelming themselves. **Example:** Sister Margaret, a nun in the village convent, is known for her gentle, caring nature. When villagers come to her seeking counsel or support, she listens patiently and offers heartfelt advice. She visits the sick regularly, providing both spiritual and physical comfort. Her compassion makes her well-loved by the community, as she is always there to lend a hand or a kind word when needed.
 
 ### Impulse
 
-The individual becomes more focused on helping others, sometimes prioritizing their well-being over their own needs. They may become emotionally involved in the suffering of others, feeling compelled to offer help even in situations where it is not their responsibility. Their selflessness, while admirable, may start to cause emotional strain as they take on more than they can handle.
-**Example:** Sister Margaret begins spending most of her time caring for the sick and troubled, often skipping meals and rest to attend to the needs of the villagers. She feels deeply for the suffering of others and cannot turn anyone away. While her devotion is appreciated, some of her fellow sisters worry that she is wearing herself thin, as she takes on more and more responsibility, leaving little time for her own spiritual and physical well-being.
+The individual becomes more focused on helping others, sometimes prioritizing their well-being over their own needs. They may become emotionally involved in the suffering of others, feeling compelled to offer help even in situations where it is not their responsibility. Their selflessness, while admirable, may start to cause emotional strain as they take on more than they can handle. **Example:** Sister Margaret begins spending most of her time caring for the sick and troubled, often skipping meals and rest to attend to the needs of the villagers. She feels deeply for the suffering of others and cannot turn anyone away. While her devotion is appreciated, some of her fellow sisters worry that she is wearing herself thin, as she takes on more and more responsibility, leaving little time for her own spiritual and physical well-being.
 
 ### Disorder
 

@@ -16,7 +16,7 @@ id: KSL4vCrnfP7FxZqU
 folder: Nu7AgLZEmR26u2pk
 shortcode: alverriktarvall
 img: icons/game-icons/delapouite/person.svg
-portrait: images/alverriktarvall.webp
+portrait: images/being/alverriktarvall-portrait.webp
 type: character
 package: sohl
 social:

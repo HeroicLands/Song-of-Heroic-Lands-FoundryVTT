@@ -32,10 +32,7 @@ Strictly, a fletcher makes arrows and a bowyer makes bows, but the guilds long a
 
 # Crafting {#crafting}
 
-Bows, crossbows and projectiles are made by the common
-[[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork
-rolls, repair. A fletcher works in a fletching workshop. What follows is what is
-particular to this bench.
+Bows, crossbows and projectiles are made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. A fletcher works in a fletching workshop. What follows is what is particular to this bench.
 
 **Expense.** Materials are paid in pence and the work in hours or months.
 
@@ -53,10 +50,7 @@ particular to this bench.
 | Crossbow, wood, 6 lb | 15d  | 130h | Fletching (Woodworking, Timbercraft) |
 | Crossbow, wood, 7 lb | 18d  | 170h | Fletching (Woodworking, Timbercraft) |
 
-**Projectiles** are made a dozen at a time, and the cost and time below are for
-that dozen rather than for one shaft. Head type is chosen at the bench and does
-not change the reckoning; weight does. Every projectile here is a Fletching
-(Woodworking, Metalcraft) test.
+**Projectiles** are made a dozen at a time, and the cost and time below are for that dozen rather than for one shaft. Head type is chosen at the bench and does not change the reckoning; weight does. Every projectile here is a Fletching (Woodworking, Metalcraft) test.
 
 | Projectile         | Cost | Time | Projectile        | Cost | Time |
 | ------------------ | ---- | ---- | ----------------- | ---- | ---- |
@@ -72,9 +66,7 @@ Composite bows are sinew-backed, which is why they call for Hideworking; the mon
 
 **What the modifier does.** On a **projectile**, each point of modifier adds one to impact; a flawed projectile loses the same d2 from both its quality and its impact. On a **weapon**, each point of modifier adds 30 feet of base range; a flawed weapon loses d2 quality and that same d2 × 30 feet of range. An SV of 0 or less doubles what a flaw takes away.
 
-**Applicable successes** are capped at the item's base Weapon Quality minus
-eight — a WQ 10 bow takes at most two. Projectiles have no Weapon Quality;
-assume two.
+**Applicable successes** are capped at the item's base Weapon Quality minus eight — a WQ 10 bow takes at most two. Projectiles have no Weapon Quality; assume two.
 
 **Arrowheads** may be bought in rather than forged. If they are, the Metalcraft Secondary Modifier derives from the smith's Mastery Level rather than the fletcher's — cost doubles, crafting time halves.
 

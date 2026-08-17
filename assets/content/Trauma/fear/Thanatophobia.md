@@ -27,8 +27,7 @@ Avoiding discussions about death, funerals, or anything that may act as a remind
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought of mortality or dying.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought of mortality or dying. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

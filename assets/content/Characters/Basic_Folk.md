@@ -14,7 +14,7 @@ id: d1cddnpaqRl0a0Q8
 folder: riXU4Q2fRsu2tyub
 shortcode: basicfolk
 img: icons/game-icons/delapouite/person.svg
-portrait: images/basicfolk.webp
+portrait: images/being/basicfolk-portrait.webp
 type: character
 package: sohl
 social:

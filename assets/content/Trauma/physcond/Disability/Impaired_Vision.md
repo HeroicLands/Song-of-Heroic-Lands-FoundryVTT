@@ -23,8 +23,7 @@ Impaired Vision is a condition where one's ability to see clearly is reduced, ca
 
 ### Impediment
 
-Difficulty focusing on distant or near objects, leading to blurred vision, eye strain, and occasional disorientation. These symptoms can be managed by adjusting one’s activities and relying more on other senses.
-**Example:** Scribe Mathias finds it increasingly difficult to read the fine script of ancient manuscripts. He often squints and moves the parchment closer to his face, straining his eyes to make out the words, but manages to complete his work with effort.
+Difficulty focusing on distant or near objects, leading to blurred vision, eye strain, and occasional disorientation. These symptoms can be managed by adjusting one’s activities and relying more on other senses. **Example:** Scribe Mathias finds it increasingly difficult to read the fine script of ancient manuscripts. He often squints and moves the parchment closer to his face, straining his eyes to make out the words, but manages to complete his work with effort.
 
 ### Debility
 

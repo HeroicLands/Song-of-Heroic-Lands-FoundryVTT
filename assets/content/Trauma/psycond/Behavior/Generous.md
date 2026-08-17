@@ -22,13 +22,11 @@ Generous refers to an individual's willingness to give or share resources, time,
 
 ### Quirk
 
-The individual consistently offers help, resources, or emotional support to others. Their generosity is balanced, as they give without expecting something in return but still maintain healthy boundaries. They are often appreciated for their kindness and willingness to support those around them, without overextending themselves.
-**Example:** Lord William is known for his charitable nature. He regularly donates food and supplies to the villagers during difficult harvest seasons and offers his time to help solve disputes among his people. His generosity strengthens the bond between him and the community, who respect him for his kind heart.
+The individual consistently offers help, resources, or emotional support to others. Their generosity is balanced, as they give without expecting something in return but still maintain healthy boundaries. They are often appreciated for their kindness and willingness to support those around them, without overextending themselves. **Example:** Lord William is known for his charitable nature. He regularly donates food and supplies to the villagers during difficult harvest seasons and offers his time to help solve disputes among his people. His generosity strengthens the bond between him and the community, who respect him for his kind heart.
 
 ### Impulse
 
-The individual begins to prioritize others' needs over their own more frequently, sometimes offering resources or help without considering their own well-being. They may find it difficult to say no to requests for help, leading to occasional feelings of being overwhelmed or taken for granted. Their generosity remains well-meaning but begins to stretch their personal limits.
-**Example:** Lord William now finds himself giving more than he can afford, loaning money to other nobles and offering assistance to every villager who comes to him for help. He begins to neglect his own responsibilities, struggling to manage his estate because he cannot say no to those in need. Though he is still admired for his generosity, some worry that he is giving too much of himself.
+The individual begins to prioritize others' needs over their own more frequently, sometimes offering resources or help without considering their own well-being. They may find it difficult to say no to requests for help, leading to occasional feelings of being overwhelmed or taken for granted. Their generosity remains well-meaning but begins to stretch their personal limits. **Example:** Lord William now finds himself giving more than he can afford, loaning money to other nobles and offering assistance to every villager who comes to him for help. He begins to neglect his own responsibilities, struggling to manage his estate because he cannot say no to those in need. Though he is still admired for his generosity, some worry that he is giving too much of himself.
 
 ### Disorder
 

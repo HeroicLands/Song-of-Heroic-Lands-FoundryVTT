@@ -19,13 +19,11 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Ligyrophobia is an intense, irrational fear of loud noises.
-People with ligyrophobia may experience a range of symptoms when they think about, hear, or anticipate loud sounds.
+Ligyrophobia is an intense, irrational fear of loud noises. People with ligyrophobia may experience a range of symptoms when they think about, hear, or anticipate loud sounds.
 
 ### Impulse
 
-Avoiding places where loud noises are common, such as concerts, fireworks displays, or construction sites.
-Abberance (ABE) increases by 1 from the source of fear.
+Avoiding places where loud noises are common, such as concerts, fireworks displays, or construction sites. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

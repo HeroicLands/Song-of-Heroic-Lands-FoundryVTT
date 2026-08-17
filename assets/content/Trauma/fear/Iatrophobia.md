@@ -23,8 +23,7 @@ Iatrophobia is an intense, irrational fear of physicians or medical treatment. P
 
 ### Impulse
 
-Avoiding medical appointments, treatments, or any interaction with physicians. Abberance (ABE) increases by
-1 from the source of fear.
+Avoiding medical appointments, treatments, or any interaction with physicians. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

@@ -22,13 +22,11 @@ Independent refers to an individual's ability to think, act, and make decisions 
 
 ### Quirk
 
-The individual confidently handles tasks and challenges on their own, making decisions without needing constant guidance or reassurance. They are able to work well independently while also understanding the value of collaboration when necessary. Their independence allows them to be resourceful and self-reliant, balancing autonomy with healthy social connections.
-**Example:** Lord Edwin is known for his ability to manage his estate without relying heavily on his advisors. He takes pride in making decisions himself, but he also knows when to seek counsel or delegate tasks to others when needed. His independence is admired by those around him as it allows him to maintain control while still fostering strong relationships.
+The individual confidently handles tasks and challenges on their own, making decisions without needing constant guidance or reassurance. They are able to work well independently while also understanding the value of collaboration when necessary. Their independence allows them to be resourceful and self-reliant, balancing autonomy with healthy social connections. **Example:** Lord Edwin is known for his ability to manage his estate without relying heavily on his advisors. He takes pride in making decisions himself, but he also knows when to seek counsel or delegate tasks to others when needed. His independence is admired by those around him as it allows him to maintain control while still fostering strong relationships.
 
 ### Impulse
 
-The individual becomes more inclined to take on tasks alone, sometimes avoiding collaboration or rejecting offers of help. While they still function well, their increasing need to do everything independently may strain relationships, as others feel excluded or undervalued. They may become reluctant to delegate, even when doing so would benefit them.
-**Example:** Lord Edwin increasingly insists on handling all matters of the estate himself, turning down offers of assistance from his advisors. He begins to feel that relying on others is a sign of weakness, leading him to overextend himself. His staff notices that he is taking on more than he can handle, but Edwin remains determined to manage everything alone.
+The individual becomes more inclined to take on tasks alone, sometimes avoiding collaboration or rejecting offers of help. While they still function well, their increasing need to do everything independently may strain relationships, as others feel excluded or undervalued. They may become reluctant to delegate, even when doing so would benefit them. **Example:** Lord Edwin increasingly insists on handling all matters of the estate himself, turning down offers of assistance from his advisors. He begins to feel that relying on others is a sign of weakness, leading him to overextend himself. His staff notices that he is taking on more than he can handle, but Edwin remains determined to manage everything alone.
 
 ### Disorder
 

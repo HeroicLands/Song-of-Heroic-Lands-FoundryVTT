@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Emetophobia is an intense, irrational fear of vomiting.
-People with emetophobia may experience a range of symptoms when they think about, see, or feel the sensation of nausea.
+Emetophobia is an intense, irrational fear of vomiting. People with emetophobia may experience a range of symptoms when they think about, see, or feel the sensation of nausea.
 
 ### Impulse
 

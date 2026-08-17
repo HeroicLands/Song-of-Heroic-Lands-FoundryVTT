@@ -27,8 +27,7 @@ Avoiding zoos, pet stores, or natural habitats where reptiles might be present. 
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of reptiles.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of reptiles. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

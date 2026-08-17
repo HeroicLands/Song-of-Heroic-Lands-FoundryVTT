@@ -23,8 +23,7 @@ Thaumatophobia is an intense, irrational fear of magic or supernatural occurrenc
 
 ### Impulse
 
-Avoiding literature, activities, or situations involving magic or the supernatural. Abberance (ABE) increases by
-1 from the source of fear.
+Avoiding literature, activities, or situations involving magic or the supernatural. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

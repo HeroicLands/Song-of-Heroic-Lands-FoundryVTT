@@ -23,8 +23,7 @@ Bipolar is a mental health condition characterized by extreme mood swings that i
 
 ### Impulse
 
-In the early stages or during milder episodes, the individual may experience noticeable shifts in mood, energy, and behavior. They might go through periods of heightened energy, creativity, and confidence (hypomania), followed by periods of sadness, fatigue, and hopelessness (mild depression). These mood changes, while significant, may still allow the person to function, though they might struggle with consistency and stability.
-**Example:** Clara finds herself going through periods where she feels unusually energetic and inspired, taking on multiple projects at once and sleeping very little. However, these high-energy phases are often followed by days where she feels unmotivated and down, struggling to find joy in activities she usually enjoys. Though she manages to keep up with her responsibilities, the fluctuations in her mood leave her feeling unsettled.
+In the early stages or during milder episodes, the individual may experience noticeable shifts in mood, energy, and behavior. They might go through periods of heightened energy, creativity, and confidence (hypomania), followed by periods of sadness, fatigue, and hopelessness (mild depression). These mood changes, while significant, may still allow the person to function, though they might struggle with consistency and stability. **Example:** Clara finds herself going through periods where she feels unusually energetic and inspired, taking on multiple projects at once and sleeping very little. However, these high-energy phases are often followed by days where she feels unmotivated and down, struggling to find joy in activities she usually enjoys. Though she manages to keep up with her responsibilities, the fluctuations in her mood leave her feeling unsettled.
 
 ### Disorder
 

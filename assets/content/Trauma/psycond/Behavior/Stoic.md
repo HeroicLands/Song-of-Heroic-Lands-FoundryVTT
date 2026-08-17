@@ -22,13 +22,11 @@ Stoic refers to an individual’s ability to endure pain, hardship, or emotional
 
 ### Quirk
 
-The individual is calm and composed, able to handle challenges and adversity with resilience and grace. They rarely overreact to emotional or stressful situations and are able to maintain a steady demeanor, offering a source of stability for those around them. While they may not always show their emotions openly, they remain empathetic and connected to others, using their stoicism as a tool for personal strength and composure.
-**Example:** Lord Theon remains composed during a tense political negotiation, offering rational solutions while others let their emotions guide them. His calm demeanor helps to de-escalate the situation, and though he keeps his feelings private, he remains compassionate toward his peers.
+The individual is calm and composed, able to handle challenges and adversity with resilience and grace. They rarely overreact to emotional or stressful situations and are able to maintain a steady demeanor, offering a source of stability for those around them. While they may not always show their emotions openly, they remain empathetic and connected to others, using their stoicism as a tool for personal strength and composure. **Example:** Lord Theon remains composed during a tense political negotiation, offering rational solutions while others let their emotions guide them. His calm demeanor helps to de-escalate the situation, and though he keeps his feelings private, he remains compassionate toward his peers.
 
 ### Impulse
 
-The individual becomes more emotionally reserved, suppressing their feelings and reactions in favor of appearing calm and unbothered. While they are still functional, their increasing emotional detachment may cause others to see them as distant or unfeeling. They may begin to struggle with expressing their emotions, fearing vulnerability or weakness, and often avoid discussing their personal struggles or needs.
-**Example:** Lord Theon begins to suppress his emotions more frequently, choosing to avoid sharing his feelings with even close family members. While he remains reliable and strong in public, his friends notice his growing emotional distance. He dismisses their concerns, believing that showing emotions would make him seem weak.
+The individual becomes more emotionally reserved, suppressing their feelings and reactions in favor of appearing calm and unbothered. While they are still functional, their increasing emotional detachment may cause others to see them as distant or unfeeling. They may begin to struggle with expressing their emotions, fearing vulnerability or weakness, and often avoid discussing their personal struggles or needs. **Example:** Lord Theon begins to suppress his emotions more frequently, choosing to avoid sharing his feelings with even close family members. While he remains reliable and strong in public, his friends notice his growing emotional distance. He dismisses their concerns, believing that showing emotions would make him seem weak.
 
 ### Disorder
 

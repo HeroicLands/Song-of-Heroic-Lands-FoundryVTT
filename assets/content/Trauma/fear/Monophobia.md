@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Monophobia is an intense, irrational fear of being alone.
-People with monophobia may experience a range of symptoms when they think about, see, or are in situations where they are alone.
+Monophobia is an intense, irrational fear of being alone. People with monophobia may experience a range of symptoms when they think about, see, or are in situations where they are alone.
 
 ### Impulse
 
@@ -28,8 +27,7 @@ Constantly seeking companionship and avoiding activities or situations where sol
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought of being by oneself.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought of being by oneself. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

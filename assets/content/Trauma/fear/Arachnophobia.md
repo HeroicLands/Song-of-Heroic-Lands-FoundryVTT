@@ -19,8 +19,7 @@ sohl:
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Arachnophobia is an intense, irrational fear of spiders.
-People with arachnophobia may experience a range of symptoms when they think about, see, or are near spiders.
+Arachnophobia is an intense, irrational fear of spiders. People with arachnophobia may experience a range of symptoms when they think about, see, or are near spiders.
 
 ### Impulse
 

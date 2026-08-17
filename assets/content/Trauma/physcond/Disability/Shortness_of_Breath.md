@@ -23,8 +23,7 @@ Shortness of Breath is a condition characterized by difficulty breathing where t
 
 ### Impediment
 
-Occasional shortness of breath, often triggered by physical exertion, stress, or environmental factors like high altitude or cold air. The individual may need to pause and focus on breathing to regain comfort.
-**Example:** Knight Roderic feels winded after a long march in his heavy armor. He must pause frequently to catch his breath, leaning on his sword for support as he waits for the tightness in his chest to ease.
+Occasional shortness of breath, often triggered by physical exertion, stress, or environmental factors like high altitude or cold air. The individual may need to pause and focus on breathing to regain comfort. **Example:** Knight Roderic feels winded after a long march in his heavy armor. He must pause frequently to catch his breath, leaning on his sword for support as he waits for the tightness in his chest to ease.
 
 ### Debility
 

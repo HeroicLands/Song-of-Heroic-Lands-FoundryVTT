@@ -138,8 +138,8 @@ export async function generatePacksJson({ only } = {}) {
     if (noteCount === 0) {
         log.error(
             `Content tree at ${CONTENT_BASE} holds no notes, so every pack would ` +
-                `compile empty. assets/content/ is generated — run ` +
-                `"npm run content:export" (maintainers) or check out the tree.`,
+                `compile empty. assets/content/ is this ` +
+                `repository's own source — check out the tree.`,
         );
         return 1;
     }

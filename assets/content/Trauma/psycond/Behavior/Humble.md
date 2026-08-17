@@ -22,13 +22,11 @@ Humble is the quality of being modest, unassuming, and respectful of others. A h
 
 ### Quirk
 
-The individual possesses a healthy sense of modesty, acknowledging their accomplishments without seeking excessive praise. They are open to learning from others, admitting their mistakes, and giving credit where it is due. Their humility helps them form positive relationships, as they treat others with respect and value their contributions.
-**Example:** Lady Catherine, despite her success in overseeing her estate’s growth, always credits her workers for their efforts. When praised, she graciously accepts compliments but does not boast of her achievements. She is known for treating everyone with kindness and respect, from her servants to visiting nobles.
+The individual possesses a healthy sense of modesty, acknowledging their accomplishments without seeking excessive praise. They are open to learning from others, admitting their mistakes, and giving credit where it is due. Their humility helps them form positive relationships, as they treat others with respect and value their contributions. **Example:** Lady Catherine, despite her success in overseeing her estate’s growth, always credits her workers for their efforts. When praised, she graciously accepts compliments but does not boast of her achievements. She is known for treating everyone with kindness and respect, from her servants to visiting nobles.
 
 ### Impulse
 
-The individual’s humility begins to border on self-effacement, as they downplay their accomplishments and may struggle to accept praise. They may hesitate to take credit for their work, allowing others to overshadow them. While their humility is still seen as a positive trait, it can sometimes limit their opportunities, as they avoid stepping into the spotlight.
-**Example:** Lady Catherine constantly downplays her role in the estate’s success, giving all the credit to others and feeling uncomfortable with any recognition. She begins to defer to others in decision-making, even when her input is vital, and misses opportunities to showcase her leadership abilities.
+The individual’s humility begins to border on self-effacement, as they downplay their accomplishments and may struggle to accept praise. They may hesitate to take credit for their work, allowing others to overshadow them. While their humility is still seen as a positive trait, it can sometimes limit their opportunities, as they avoid stepping into the spotlight. **Example:** Lady Catherine constantly downplays her role in the estate’s success, giving all the credit to others and feeling uncomfortable with any recognition. She begins to defer to others in decision-making, even when her input is vital, and misses opportunities to showcase her leadership abilities.
 
 ### Disorder
 

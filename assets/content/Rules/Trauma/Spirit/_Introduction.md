@@ -13,5 +13,5 @@ folder: TiVEgAyetL6JTjqG
 shortcode: sprttraumaintro
 ---
 
-- [[Aural Shock]]
-- [[The Pall]]
+- [[doc-arlshck|Aural Shock]]
+- [[doc-thepall|The Pall]]

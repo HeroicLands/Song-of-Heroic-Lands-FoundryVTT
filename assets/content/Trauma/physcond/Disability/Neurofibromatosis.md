@@ -22,8 +22,7 @@ Neurofibromatosis is a genetic disorder that causes tumors, known as neurofibrom
 
 ### Impediment
 
-The condition begins with the appearance of café-au-lait spots and small, visible neurofibromas, typically causing no pain but raising concerns about appearance and future health issues. While still in the early stages, the visibility of these spots and lumps can lead to social discomfort, with others noticing and reacting to the unusual markings.
-**Example:** Matthew has developed several café-au-lait spots on his arms and back, as well as small neurofibromas that are starting to become noticeable. Though the condition causes him no physical discomfort yet, the curious and sometimes uneasy glances from others in the village make him feel self-conscious. He begins wearing long sleeves even in warm weather to hide the marks.
+The condition begins with the appearance of café-au-lait spots and small, visible neurofibromas, typically causing no pain but raising concerns about appearance and future health issues. While still in the early stages, the visibility of these spots and lumps can lead to social discomfort, with others noticing and reacting to the unusual markings. **Example:** Matthew has developed several café-au-lait spots on his arms and back, as well as small neurofibromas that are starting to become noticeable. Though the condition causes him no physical discomfort yet, the curious and sometimes uneasy glances from others in the village make him feel self-conscious. He begins wearing long sleeves even in warm weather to hide the marks.
 
 ### Debility
 

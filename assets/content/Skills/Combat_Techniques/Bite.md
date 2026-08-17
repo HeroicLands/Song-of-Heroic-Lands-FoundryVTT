@@ -7,7 +7,7 @@ name:
     full: Folk Bite
     aliases: []
 description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."
-id: UnarmedBite0001
+id: vbgEQjFYO3rVIK1b
 img: icons/game-icons/lorc/fangs.svg
 shortcode: bflkbite
 type: skill

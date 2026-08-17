@@ -13,85 +13,47 @@ folder:
 shortcode: mystabilintro
 ---
 
-Supernatural powers are expressed in _Song of Heroic Lands_ as a
-**Mystical Ability**.
+Supernatural powers are expressed in _Song of Heroic Lands_ as a **Mystical Ability**.
 
-Invoking a Mystical Ability is resolved as a
-[[doc-sccsstst#success-test|Success Test]], exactly like a skill. Where an
-ability's [[doc-mstrylvl#effective-mastery-level|EML]] comes from depends on how
-it is governed:
+Invoking a Mystical Ability is resolved as a [[doc-sccsstst#success-test|Success Test]], exactly like a skill. Where an ability's [[doc-mstrylvl#effective-mastery-level|EML]] comes from depends on how it is governed:
 
-- **Skill-governed abilities** draw their mastery level from an
-  **associated skill** — the discipline or lore the ability rests on. Many
-  abilities can share one governing skill, so they improve together and inherit
-  whatever modifiers apply to that skill.
-- **Spirit-governed abilities** — Spirit Rites and Spirit Actions — draw
-  instead on the **Spirit Power** they are performed through.
-- **Self-rated abilities** carry their own mastery level directly, used when no
-  separate skill governs them.
+- **Skill-governed abilities** draw their mastery level from an **associated skill** — the discipline or lore the ability rests on. Many abilities can share one governing skill, so they improve together and inherit whatever modifiers apply to that skill.
+- **Spirit-governed abilities** — Spirit Rites and Spirit Actions — draw instead on the **Spirit Power** they are performed through.
+- **Self-rated abilities** carry their own mastery level directly, used when no separate skill governs them.
 
-Note that abilities do not themselves carry any skill base. **No mystical ability
-of any kind can be performed while the character carries
-[[doc-arlshck|Aural Shock]]** — not penalized, but unusable, for as long as any
-of it remains.
-An ability's own modifiers always stack on top of whatever mastery level it
-draws upon.
+Note that abilities do not themselves carry any skill base. **No mystical ability of any kind can be performed while the character carries [[doc-arlshck|Aural Shock]]** — not penalized, but unusable, for as long as any of it remains. An ability's own modifiers always stack on top of whatever mastery level it draws upon.
 
 # Arcane Mysteries
 
-The **Arcane** tradition draws its power from the caster's own aura and from
-formally taught lore. Arcane practitioners shape unseen forces directly — where
-a priest asks and a spirit-worker petitions, an arcanist commands.
+The **Arcane** tradition draws its power from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly — where a priest asks and a spirit-worker petitions, an arcanist commands.
 
-- [[Arcane Incantation]]
-- [[Arcane Talent]]
+- [[doc-arcnincn|Arcane Incantation]]
+- [[doc-arcntlnt|Arcane Talent]]
 - [[doc-alchemy|Alchemy]]
 - [[doc-divintro|Divination]]
 
 # Divine Mysteries
 
-The **Divine** tradition ostensibly draws its power from a deity, granted in
-answer to devotion. Divine practitioners do not command power so much as request
-it: the god acts, and the character's standing with that god governs how readily
-and how strongly the request is answered.
+The **Divine** tradition ostensibly draws its power from a deity, granted in answer to devotion. Divine practitioners do not command power so much as request it: the god acts, and the character's standing with that god governs how readily and how strongly the request is answered.
 
-For reasons only known the the gods themselves, dieties seem to not intervene in
-the lives of mortals directly. All actions of the gods are made through either
-mortal or spiritual agents acting on their behalf. In the one situation when
-they may act directly, **divine intervention**, the intervention seems to
-always be couched in a form which leaves the agency in doubt; a fortuitous
-avalanche at just the right time to wipe out swarming enemies, a sudden turn in
-the progression of an illness, a coincidental heart attack in a seemingly hale
-enemy warlord. To an outside observer these could be explained as coincidence,
-but to the faithful they are certain signs of divine intervention.
+For reasons only known the the gods themselves, dieties seem to not intervene in the lives of mortals directly. All actions of the gods are made through either mortal or spiritual agents acting on their behalf. In the one situation when they may act directly, **divine intervention**, the intervention seems to always be couched in a form which leaves the agency in doubt; a fortuitous avalanche at just the right time to wipe out swarming enemies, a sudden turn in the progression of an illness, a coincidental heart attack in a seemingly hale enemy warlord. To an outside observer these could be explained as coincidence, but to the faithful they are certain signs of divine intervention.
 
-Note that there is a clear and important distinction between a **religion** and
-a **diety**. A religion is a folk-tradition and possibly institution, containing
-various practices, beliefs, and lore surrounding the worship of one or more
-dieties. Whether those dieties actually exist is a separate issue. A religion
-may exist and worship a diety that itself doesn't actually exist. It is also
-possible for there to be separate sects and whole religions who worship the
-same diety but with totally different practices and beliefs.
+Note that there is a clear and important distinction between a **religion** and a **diety**. A religion is a folk-tradition and possibly institution, containing various practices, beliefs, and lore surrounding the worship of one or more dieties. Whether those dieties actually exist is a separate issue. A religion may exist and worship a diety that itself doesn't actually exist. It is also possible for there to be separate sects and whole religions who worship the same diety but with totally different practices and beliefs.
 
 Some, none, or all dietys may exist.
 
-- [[Divine Incantation]]
-- [[Ritual Action]]
-- [[Divine Intervention]]
+- [[doc-dvnincnt|Divine Incantation]]
+- [[doc-rtlactn|Ritual Action]]
+- [[doc-divnint|Divine Intervention]]
 
 # Spirit Mysteries
 
-The **Spirit** tradition draws its power from spirits — ancestors, totems, and
-the wild energies of the world. A spirit-worker does not command power directly,
-as an arcanist does, nor petition a distant god, as a priest does; they
-cultivate relationships with spirits, who confer **Spirit Powers** on them.
-Those powers are the standing conduit through which every spirit rite and action
-is performed.
+The **Spirit** tradition draws its power from spirits — ancestors, totems, and the wild energies of the world. A spirit-worker does not command power directly, as an arcanist does, nor petition a distant god, as a priest does; they cultivate relationships with spirits, who confer **Spirit Powers** on them. Those powers are the standing conduit through which every spirit rite and action is performed.
 
-- [[Spirit Power]]
-- [[Spirit Action]]
-- [[Spirit Rite]]
-- [[Spirit Talent]]
+- [[doc-sprtpwr|Spirit Power]]
+- [[doc-sprtactn|Spirit Action]]
+- [[doc-sprtrt|Spirit Rite]]
+- [[doc-sprttlnt|Spirit Talent]]
 
 # Birthsign
 
@@ -101,7 +63,7 @@ A birthsign is a standing **Mystery** the character carries: attach the sign the
 
 # Mysteries
 
-Standing arcane conditions a character carries. (The tradition-agnostic mysteries — Boon, Boost, and Other — are described in the [[Esoterica Introduction]] and may attach to an arcane skill as well.)
+Standing arcane conditions a character carries. (The tradition-agnostic mysteries — Boon, Boost, and Other — are described in the [[doc-estrcint|Esoterica Introduction]] and may attach to an arcane skill as well.)
 
 ## Fate
 
@@ -109,7 +71,7 @@ The measure of a character's power to bend destiny in their favour — the pool 
 
 # Mystical Abilities
 
-Arcane acts a character performs. The two **Incantation** forms are subject to the **Incantation Casting Penalty** described in the [[Esoterica Introduction]]: invoking one costs a penalty to EML of **Level × 2**, so the more powerful the spell, the harder it is to invoke.
+Arcane acts a character performs. The two **Incantation** forms are subject to the **Incantation Casting Penalty** described in the [[doc-estrcint|Esoterica Introduction]]: invoking one costs a penalty to EML of **Level × 2**, so the more powerful the spell, the harder it is to invoke.
 
 ## Arcane Incantation
 

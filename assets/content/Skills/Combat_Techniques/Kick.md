@@ -7,7 +7,7 @@ name:
     full: Folk Kick
     aliases: []
 description: "A boot driven out — the longest reach a person has without a weapon."
-id: UnarmedKick0001
+id: uXdixGMpTKRvslpf
 img: icons/game-icons/lorc/foot-trip.svg
 shortcode: bflkkick
 type: skill

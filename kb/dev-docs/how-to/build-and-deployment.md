@@ -213,45 +213,29 @@ in the system manifest. Each has a committed JSON source tree at
 `assets/packs/<pack>/_source/`, which `build:compiledb` compiles into Foundry's
 LevelDB format under `build/stage/packs/<pack>/`.
 
-### Design decision — generated-and-committed Markdown, build-only JSON
+### Design decision — Markdown in the repository, build-only JSON
 
-The compendium content is authored in the **HeroicLands vault** and exported into
-this repository, where `assets/content/` is a **generated artifact that is
-committed** — the same arrangement as
-[`type-catalog.md`](../reference/type-catalog.md). The build compiles that tree
-directly: `build:compiledb` generates each pack's per-entry JSON into a disposable
-`build/packs-json/<pack>/` intermediate and compiles the LevelDB packs from it, so
-the JSON is **never committed**.
+The compendium content is **authored in this repository**, under `assets/content/`.
+The build compiles that tree directly: `build:compiledb` generates each pack's
+per-entry JSON into a disposable `build/packs-json/<pack>/` intermediate and
+compiles the LevelDB packs from it, so the JSON is **never committed**.
 
-**Building never needs the vault.** The tree is committed precisely so that
-contributors and CI build from the repository alone — `npm run build`, or
-`npm run build:compiledb` for packs only. Only the maintainer running the export
-needs a vault checkout.
+`assets/content/` was formerly a generated mirror of the HeroicLands vault, and an
+edit made here was reverted by the next export without a word. **That is no longer
+true (#1445).** The tree is this repository's source, it is edited here, and the
+export — `utils/export-vault-content.mjs`, `utils/vault-export.mjs`, and the
+`content:export` / `content:check` scripts — has been removed.
 
-> ⚠️ **`assets/content/` is output, not source.** An edit made to it in this
-> repository is reverted by the next export, without a word. Content fixes belong
-> in the vault; pipeline fixes belong in `utils/export-vault-content.mjs`.
+**Building needs nothing but this repository**: `npm run build`, or
+`npm run build:compiledb` for packs only.
 
-#### Exporting from the vault (maintainers)
+One guard remains, because the empty tree is still the dangerous case. The pack
+build and `lint:packs` both fail on an empty content tree rather than compiling
+zero documents and succeeding — which would ship blank compendiums with nothing
+in the log to say so.
 
-Point `HEROICLANDS_VAULT` at a vault checkout in `.env.local`, then:
-
-```bash
-npm run content:check    # report drift between the vault and assets/content/
-npm run content:export   # regenerate assets/content/ — then commit it
-```
-
-The export is an **authoritative mirror** of the vault's `SoHL/` directory: it
-writes what the vault holds and retires what the vault no longer carries, so a
-note deleted in the vault cannot linger here and keep compiling into the packs.
-The vault's `Setting/` tree — campaign and world material — is never exported.
-
-Two guards exist because the destructive mirror and the empty tree are the
-dangerous cases. The export refuses to run when the vault yields **no** files
-(a mistyped path would otherwise retire the whole tree), and the pack build and
-`lint:packs` both fail on an empty content tree rather than compiling zero
-documents and succeeding — which would ship blank compendiums with nothing in the
-log to say so.
+Cross-package references are resolved through published link manifests rather
+than a shared tree; see `utils/kb-manifest.mjs` and `assets/manifests/`.
 
 ### Authoring content notes
 

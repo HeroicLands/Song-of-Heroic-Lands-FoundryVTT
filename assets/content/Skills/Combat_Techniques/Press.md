@@ -7,7 +7,7 @@ name:
     full: Press
     aliases: []
 description: "A shove: putting an opponent where you want them, and sometimes on the ground."
-id: UnarmedPress0001
+id: weH4SaOm6o870mBY
 img: icons/game-icons/lorc/shield-bash.svg
 shortcode: press
 type: skill

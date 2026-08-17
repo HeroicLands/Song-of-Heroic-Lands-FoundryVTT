@@ -22,13 +22,11 @@ Inquisitive refers to an individual's natural curiosity and desire to seek out k
 
 ### Quirk
 
-The individual shows a healthy curiosity, often asking thoughtful questions and seeking out new information. They enjoy learning and are eager to explore different ideas or perspectives, enriching their understanding of the world. Their inquisitiveness fosters creativity, intellectual engagement, and meaningful discussions, all while maintaining respect for others' boundaries.
-**Example:** Lord Alistair has always been fascinated by the natural world. He spends hours asking scholars and explorers about their discoveries, eager to expand his knowledge of geography and science. His questions are thoughtful and respectful, making him a valuable conversationalist at court.
+The individual shows a healthy curiosity, often asking thoughtful questions and seeking out new information. They enjoy learning and are eager to explore different ideas or perspectives, enriching their understanding of the world. Their inquisitiveness fosters creativity, intellectual engagement, and meaningful discussions, all while maintaining respect for others' boundaries. **Example:** Lord Alistair has always been fascinated by the natural world. He spends hours asking scholars and explorers about their discoveries, eager to expand his knowledge of geography and science. His questions are thoughtful and respectful, making him a valuable conversationalist at court.
 
 ### Impulse
 
-The individual's curiosity intensifies, leading them to frequently ask questions or seek out information, even in situations where it may not be appropriate. They may struggle to focus on one topic, constantly jumping from one curiosity to the next, and may overwhelm others with their persistent questioning. Although their inquisitiveness is still largely positive, it can sometimes come across as intrusive or overbearing.
-**Example:** Lord Alistair’s curiosity has grown to the point where he interrupts conversations with endless questions, eager to know every detail about even the smallest matters. His advisors begin to feel frustrated, as they find it hard to complete tasks without being bombarded with inquiries. Alistair often switches between topics quickly, making it difficult for his advisors to keep up.
+The individual's curiosity intensifies, leading them to frequently ask questions or seek out information, even in situations where it may not be appropriate. They may struggle to focus on one topic, constantly jumping from one curiosity to the next, and may overwhelm others with their persistent questioning. Although their inquisitiveness is still largely positive, it can sometimes come across as intrusive or overbearing. **Example:** Lord Alistair’s curiosity has grown to the point where he interrupts conversations with endless questions, eager to know every detail about even the smallest matters. His advisors begin to feel frustrated, as they find it hard to complete tasks without being bombarded with inquiries. Alistair often switches between topics quickly, making it difficult for his advisors to keep up.
 
 ### Disorder
 
