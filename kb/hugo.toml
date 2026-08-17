@@ -20,6 +20,36 @@ theme = "heroiclands-hugo-theme"
     licenseURL = "https://www.heroiclands.org/license/"
     discordURL = "https://discord.gg/EwMfkNd3az"
 
+  # This is a reference catalog: a page's shortcode is the identifier the
+  # system uses for that item, so listings show "Name (shortcode)". A
+  # narrative site leaves this unset and gets plain titles.
+  [params.list]
+    shortcodes = true
+
+  # The "page not found" page. Its template is the theme's, since every
+  # consumer needs one; the wording and the routes back are ours.
+  [params.notfound]
+    heroimage = "images/sohl-banner.webp"
+    tagline   = "This knowledgebase has no page at"
+    sitenoun  = "knowledgebase"
+
+    [[params.notfound.links]]
+      title = "Knowledgebase home"
+      url   = "/"
+      text  = "Every section, with the full content catalog."
+    [[params.notfound.links]]
+      title = "Developer Documentation"
+      url   = "/dev-docs/"
+      text  = "Architecture, extension points, testing, and reference material."
+    [[params.notfound.links]]
+      title = "User Guide"
+      url   = "/user-guide/"
+      text  = "Player- and GM-facing guides to playing with Song of Heroic Lands."
+    [[params.notfound.links]]
+      title = "Rules"
+      url   = "/rules/"
+      text  = "Success and opposed tests, injury, healing, shock, bleeding, and trauma."
+
 # The brand nav. Absolute URLs so this header matches the one every other
 # site renders; defined here rather than in the shared theme, which carries
 # no addresses of its own.
