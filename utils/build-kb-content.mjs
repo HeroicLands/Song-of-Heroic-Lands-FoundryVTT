@@ -32,6 +32,11 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
+import {
+    writeManifests,
+    loadForeignManifests,
+    manifestsComplete,
+} from "./kb-manifest.mjs";
 import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { applyRedirects, pageRedirects } from "./kb-redirects.mjs";
@@ -408,6 +413,16 @@ fs.rmSync(OUT, { recursive: true, force: true });
 // developer docs — into one `entries` list before writing, so wikilinks resolve across
 // the whole KB and the section/slug index is complete first.
 const KB_PACKAGES = new Set(["sohl", "thalorna"]);
+
+// Manifests for packages this build does not publish (#1446). Vendored and
+// committed, so a contributor without every repository still builds the same
+// links CI does.
+const MANIFEST_SRC = path.join(REPO, "assets/manifests");
+const MANIFEST_OUT = path.join(REPO, "build/manifests");
+// Loaded after the parse phase: which packages are *local* is what decides
+// which manifests are foreign, and that is only known once the tree is walked.
+// `KB_PACKAGES` is what this build would accept, not what it actually found —
+// using it here silently discarded the manifest of any package it listed.
 const entries = [];
 const refIndex = new Map();
 const slugErrors = [];
@@ -561,9 +576,28 @@ for (const e of entries) {
 // page and "Shock" the trauma item both exist). Two notes of the *same* type
 // sharing a name poison it: the bare form is then ambiguous and the author must
 // write `[[type/shortcode|Text]]`.
+// Packages this build actually publishes, and therefore is authoritative for.
+const localPackages = new Set(
+    entries.filter((e) => e.kind === "content").map((e) => e.fm.package),
+);
+const foreign = loadForeignManifests(MANIFEST_SRC, localPackages);
+if (foreign.stale.length) {
+    console.error("\n\u2716 unusable link manifest(s):");
+    for (const s of foreign.stale) console.error(`  ${s.package}: ${s.reason}`);
+    process.exit(1);
+}
+const manifests = manifestsComplete(localPackages, foreign.packages);
+
 const typeAlias = new Map(); // `type|alias` → { url, name }
 const typeCollide = new Set();
 const contentTypes = new Set();
+// A foreign package may use a type this build has never seen. Seeding those
+// here is what lets `readQualifier` recognise `polity-xyz` as an address at
+// all — without it the link is read as prose and silently loses its href.
+for (const k of foreign.index.keys()) {
+    const slash = k.indexOf("/");
+    if (slash > 0) contentTypes.add(k.slice(0, slash));
+}
 for (const e of entries) {
     if (e.kind !== "content") continue; // developer docs carry no type/shortcode
     const type = String(e.fm.type).toLowerCase();
@@ -627,6 +661,8 @@ const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
 const wikiErrors = [];
 const wikiCtx = (src, type = null) => ({
     index: wikiIndex,
+    foreign: foreign.index,
+    manifestsComplete: manifests.complete,
     collide: wikiCollide,
     sections: knownSections,
     typeAlias,
@@ -728,6 +764,27 @@ for (const [sec, meta] of Object.entries(SECTION_META)) {
     fs.writeFileSync(
         path.join(dir, "_index.md"),
         matter.stringify("", { title: meta.title, banner: meta.banner }),
+    );
+}
+
+// Emit this build's own manifests, one per package it publishes (#1446), so
+// another package can resolve links into it without reading this repository.
+const byPackage = new Map();
+for (const e of entries) {
+    if (e.kind !== "content") continue;
+    if (!byPackage.has(e.fm.package)) byPackage.set(e.fm.package, []);
+    byPackage.get(e.fm.package).push(e);
+}
+for (const w of writeManifests(byPackage, MANIFEST_OUT)) {
+    console.log(
+        `kb-content: manifest ${w.package} — ${w.count} addressable note(s)`,
+    );
+}
+if (!manifests.complete) {
+    console.warn(
+        `kb-content: cross-package address checking is OFF — no manifest for ` +
+            `${manifests.missing.join(", ")}. Unresolved addresses are ` +
+            `tolerated until every package publishes one (#1446).`,
     );
 }
 

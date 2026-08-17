@@ -44,6 +44,7 @@ import matter from "gray-matter";
 import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { readQualifier } from "./packs/wikilinks.mjs";
+import { loadForeignManifests, manifestsComplete } from "./kb-manifest.mjs";
 
 const CONTENT = path.join("assets", "content");
 /**
@@ -172,6 +173,29 @@ function linksOf(note) {
 /** Every type the tree contains — what makes a hyphen read as a qualifier. */
 const types = new Set(notes.map((n) => n.type));
 
+// Cross-package manifests (#1446). A foreign package may use a type this
+// repository has never seen, so its types join `types` — otherwise
+// `readQualifier` reads the link as prose and it is never checked at all.
+const foreign = loadForeignManifests(
+    path.join("assets", "manifests"),
+    new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
+);
+const manifests = manifestsComplete(
+    new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
+    foreign.packages,
+);
+for (const k of foreign.index.keys()) {
+    const slash = k.indexOf("/");
+    if (slash > 0) types.add(k.slice(0, slash));
+}
+
+/** The manifest entry a qualified address names in another package, or null. */
+const manifestHit = (target) => {
+    const q = readQualifier(target, types);
+    if (!q || q.reason) return null;
+    return foreign.index.get(`${q.type}/${q.shortcode}`.toLowerCase()) ?? null;
+};
+
 /**
  * Resolves a link target the way both content builds do, or `undefined`.
  *
@@ -255,6 +279,7 @@ const FOREIGN_ADDRESS_ALLOWLIST = {
 
 const deadAddresses = [];
 const usedForeign = new Set();
+const usedManifest = new Set();
 for (const note of notes) {
     for (const { target } of linksOf(note)) {
         if (!target) continue; // a same-page `[[#anchor]]`
@@ -264,8 +289,22 @@ for (const note of notes) {
         const qualified = readQualifier(target, types);
         if (!qualified) continue;
         if (resolve(note, target)) continue;
+        // A manifest answers the question the allowlist was standing in for,
+        // and answers it with the target package's own build output rather
+        // than a reviewed guess.
+        if (manifestHit(target)) {
+            usedManifest.add(target.toLowerCase());
+            continue;
+        }
         const key = target.toLowerCase();
-        if (Object.hasOwn(FOREIGN_ADDRESS_ALLOWLIST, key)) {
+        // The allowlist survives only while some package is still invisible.
+        // Once every manifest is present an unresolved address is a typo, and
+        // excusing it by name would reintroduce exactly the blind spot #1446
+        // closes.
+        if (
+            !manifests.complete &&
+            Object.hasOwn(FOREIGN_ADDRESS_ALLOWLIST, key)
+        ) {
             usedForeign.add(key);
             continue;
         }
@@ -276,9 +315,12 @@ for (const note of notes) {
 // An entry that no longer matches anything is a stale tolerance: the link was
 // fixed or removed, and leaving it listed would silently excuse the address if
 // it ever came back. Reported, not fatal — the tree is still correct.
-const staleForeign = Object.keys(FOREIGN_ADDRESS_ALLOWLIST).filter(
-    (k) => !usedForeign.has(k),
-);
+const staleForeign =
+    manifests.complete ?
+        Object.keys(FOREIGN_ADDRESS_ALLOWLIST)
+    :   Object.keys(FOREIGN_ADDRESS_ALLOWLIST).filter(
+            (k) => !usedForeign.has(k),
+        );
 
 // --- Check 2: every document is reachable from its corpus's root ---------
 
@@ -352,8 +394,8 @@ if (deadAddresses.length) {
         "\nA qualified `[[type-shortcode]]` names a document by its identity, so one that\n" +
             "resolves to nothing is a dead address — it degrades to plain text, keeping its\n" +
             "label, so the prose still reads correctly while the link is simply gone.\n" +
-            "Fix the shortcode, or — if it names a note in a package this build does not\n" +
-            "publish — add it to FOREIGN_ADDRESS_ALLOWLIST with the note it means.\n",
+            "Fix the shortcode, or — if it names a note in another package — make sure\n" +
+            "that package's manifest in assets/manifests/ is current (#1446).\n",
     );
 }
 
@@ -382,8 +424,12 @@ for (const { corpus, orphans } of walks) {
 if (failed) process.exit(1);
 console.log(
     `check-content-links: ${notes.length} notes, every anchor link lands and every ` +
-        `qualified address resolves (${usedForeign.size} cross-package reference(s) ` +
-        `allowlisted); ` +
+        `qualified address resolves (${usedManifest.size} cross-package reference(s) ` +
+        `via manifest` +
+        (manifests.complete ? "" : (
+            `, ${usedForeign.size} allowlisted; no manifest for ${manifests.missing.join(", ")}`
+        )) +
+        `); ` +
         walks
             .map((w) => `all ${w.reached.size} ${w.corpus.label} documents`)
             .join(" and ") +
