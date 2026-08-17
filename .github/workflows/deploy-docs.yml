@@ -1,53 +1,59 @@
 name: Deploy API Docs to GitHub Pages
 
+# Publishes ONE unversioned copy of the API documentation — the newest release —
+# to the root of the gh-pages branch. There is no archive: git tags are the
+# history, and any older version is reproducible from its tag.
 on:
-    # Auto-publish the bleeding-edge docs under /main
-    push:
-        branches: [main]
-    # Manually publish ANY branch under /<branch-slug>: pick the branch in the
-    # "Run workflow" dropdown — github.ref_name follows your selection.
+    # Fires after "Version and Release" finishes. That workflow creates its
+    # Release with GITHUB_TOKEN, which by design cannot trigger a `release:`
+    # event, so we key off the run instead. Nothing is passed between the two —
+    # this job resolves the newest release tag itself — so a run that released
+    # nothing simply rebuilds the same tag and finds no diff to push.
+    workflow_run:
+        workflows: ["Version and Release"]
+        types: [completed]
+    # Manual re-publish (e.g. after fixing a docs build). The selected ref is
+    # irrelevant: the newest release tag is always what gets built.
     workflow_dispatch:
-    # Publish a released version under /<tag> and mirror it to /latest.
-    # NOTE: an automated release (release.yml) creates its Release with
-    # GITHUB_TOKEN, which by design cannot trigger this event — that path calls
-    # this workflow via `workflow_call` below instead. This trigger still fires
-    # for a Release published by a human in the GitHub UI (a user token cascades).
-    release:
-        types: [published]
-    # Invoked by release.yml right after it tags a release, to publish the
-    # versioned docs in the same run (the GITHUB_TOKEN no-cascade rule means the
-    # `release:` trigger above never fires for the automated release).
-    workflow_call:
-        inputs:
-            target_dir:
-                description: "Directory to publish the docs under (e.g. v0.7.0)."
-                required: true
-                type: string
-            is_release:
-                description: "When true, also mirror the build into /latest."
-                required: false
-                type: boolean
-                default: false
-    # Remove a branch's docs subdirectory when the branch is deleted
-    delete:
 
-# Need write access to push the built docs onto the gh-pages branch
+# contents: write -> push the built docs onto the gh-pages branch
 permissions:
     contents: write
 
-# Serialize all publishes/cleanups so runs never race on the gh-pages branch
+# Serialize publishes so runs never race on the gh-pages branch
 concurrency:
     group: gh-pages-deploy
     cancel-in-progress: false
 
 jobs:
     deploy:
-        # Everything except branch/tag deletions
-        if: github.event_name != 'delete'
+        # Skip when the release workflow failed or was cancelled
+        if: >-
+            github.event_name == 'workflow_dispatch' ||
+            github.event.workflow_run.conclusion == 'success'
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
+            - name: Resolve the newest release tag
+              id: release
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  # `|| true`: a repository with no release answers 404, and the
+                  # empty-tag branch below reports that far more clearly than gh's
+                  # exit status would under `set -e`.
+                  TAG=$(gh api "repos/${GITHUB_REPOSITORY}/releases/latest" --jq .tag_name 2>/dev/null || true)
+                  if [ -z "${TAG}" ] || [ "${TAG}" = "null" ]; then
+                      echo "No published release found — there is nothing to document."
+                      exit 1
+                  fi
+                  echo "Building API documentation from ${TAG}."
+                  echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+            - name: Checkout the release tag
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ steps.release.outputs.tag }}
 
             - name: Setup Node.js
               uses: actions/setup-node@v4
@@ -62,41 +68,12 @@ jobs:
               run: |
                   npm run docs:prepare
                   npm run docs:html
-                  npm run docs:version
-
-            - name: Determine target directory
-              id: meta
-              run: |
-                  if [ -n "${{ inputs.target_dir }}" ]; then
-                      # Invoked via workflow_call (release.yml): publish the
-                      # caller-supplied directory, mirroring /latest on a release.
-                      echo "dir=${{ inputs.target_dir }}" >> "$GITHUB_OUTPUT"
-                      echo "is_release=${{ inputs.is_release }}" >> "$GITHUB_OUTPUT"
-                  elif [ "${{ github.event_name }}" = "release" ]; then
-                      # Tags are published verbatim (e.g. v0.7.0) and mirrored to /latest
-                      echo "dir=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
-                      echo "is_release=true" >> "$GITHUB_OUTPUT"
-                  elif [ "${{ github.ref_type }}" = "tag" ]; then
-                      # Manually dispatched against a release tag (the reminder
-                      # printed by release.yml): treat it like the release event
-                      # — publish under /<tag> and mirror to /latest. This is the
-                      # supported manual path, since a Release made with
-                      # GITHUB_TOKEN can't auto-trigger this workflow.
-                      echo "dir=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
-                      echo "is_release=true" >> "$GITHUB_OUTPUT"
-                  else
-                      # Branch docs live under the branch name, with "/" slugified to "-"
-                      REF="${{ github.ref_name }}"
-                      echo "dir=${REF//\//-}" >> "$GITHUB_OUTPUT"
-                      echo "is_release=false" >> "$GITHUB_OUTPUT"
-                  fi
 
             - name: Publish to gh-pages
               id: publish
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  TARGET_DIR: ${{ steps.meta.outputs.dir }}
-                  IS_RELEASE: ${{ steps.meta.outputs.is_release }}
+                  TAG: ${{ steps.release.outputs.tag }}
               run: |
                   set -euo pipefail
                   REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
@@ -114,35 +91,13 @@ jobs:
                   git config user.name "github-actions[bot]"
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-                  # Replace just this ref's directory (clean, no stale files)
-                  rm -rf "${TARGET_DIR}"
-                  mkdir -p "${TARGET_DIR}"
-                  cp -R "${GITHUB_WORKSPACE}/build/docs-html/." "${TARGET_DIR}/"
-
-                  # On a release, mirror the same build into /latest
-                  if [ "${IS_RELEASE}" = "true" ]; then
-                      rm -rf latest
-                      mkdir -p latest
-                      cp -R "${GITHUB_WORKSPACE}/build/docs-html/." latest/
-                  fi
-
-                  # Root files: custom domain, Jekyll opt-out, redirect to /latest
-                  echo "api.heroiclands.org" > CNAME
+                  # Replace the whole tree with this build. CNAME is preserved
+                  # rather than written: GitHub Pages maintains it from the
+                  # custom-domain setting, and deleting it would unset the domain.
+                  find . -mindepth 1 -maxdepth 1 \
+                      ! -name .git ! -name CNAME -exec rm -rf {} +
+                  cp -R "${GITHUB_WORKSPACE}/build/docs-html/." .
                   touch .nojekyll
-                  cat > index.html <<'HTML'
-                  <!doctype html>
-                  <html lang="en">
-                    <head>
-                      <meta charset="utf-8">
-                      <meta http-equiv="refresh" content="0; url=./latest/">
-                      <link rel="canonical" href="https://api.heroiclands.org/latest/">
-                      <title>Song of Heroic Lands API</title>
-                    </head>
-                    <body>
-                      <p><a href="./latest/">Redirecting to the latest API documentation…</a></p>
-                    </body>
-                  </html>
-                  HTML
 
                   git add -A
                   if git diff --cached --quiet; then
@@ -150,9 +105,7 @@ jobs:
                       echo "pushed=false" >> "$GITHUB_OUTPUT"
                       exit 0
                   fi
-                  MSG="docs: publish ${TARGET_DIR}"
-                  [ "${IS_RELEASE}" = "true" ] && MSG="${MSG} + latest"
-                  git commit -q -m "${MSG}"
+                  git commit -q -m "docs: publish ${TAG}"
                   git push -q origin gh-pages
                   echo "pushed=true" >> "$GITHUB_OUTPUT"
 
@@ -177,39 +130,3 @@ jobs:
                   echo "${resp}"
                   # Cloudflare returns HTTP 200 with success:false on logical errors
                   echo "${resp}" | grep -q '"success":true' || { echo "Cloudflare purge failed."; exit 1; }
-
-    cleanup:
-        # Remove a deleted branch's docs. Tags are left in place (releases persist).
-        if: github.event_name == 'delete' && github.event.ref_type == 'branch'
-        runs-on: ubuntu-latest
-        steps:
-            - name: Remove branch docs from gh-pages
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  DELETED_REF: ${{ github.event.ref }}
-              run: |
-                  set -euo pipefail
-                  SLUG="${DELETED_REF//\//-}"
-
-                  # Never touch protected/reserved directories
-                  case "${SLUG}" in
-                      main|latest|"") echo "Refusing to remove reserved dir '${SLUG}'."; exit 0 ;;
-                  esac
-
-                  REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-                  if ! git clone --depth 1 --branch gh-pages "${REPO_URL}" gh-pages 2>/dev/null; then
-                      echo "No gh-pages branch; nothing to clean up."
-                      exit 0
-                  fi
-                  cd gh-pages
-
-                  if [ ! -d "${SLUG}" ]; then
-                      echo "No docs directory '${SLUG}' to remove."
-                      exit 0
-                  fi
-
-                  git config user.name "github-actions[bot]"
-                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                  git rm -rq "${SLUG}"
-                  git commit -q -m "docs: remove ${SLUG} (branch deleted)"
-                  git push -q origin gh-pages
