@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bench"
-    - miscgear-bench
+  - "Bench"
+  - miscgear-bench
 tags:
-    - furniture
+  - furniture
 name:
-    full: "Bench"
-    aliases: []
+  full: "Bench"
+  aliases: []
 description: "Long backless wooden seat for a table, hall, or workshop."
 id: 0DOk4QuvfCne1f7T
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bench
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: furniture
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 18
-    weight: 22
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: furniture
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 18
+  weight: 22
 folder: Wq1tmMJTjDoFFtLS
 ---
 

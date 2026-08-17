@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-rea
+  - attribute-rea
 tags: []
 name:
-    full: Reasoning
-    aliases: []
+  full: Reasoning
+  aliases: []
 description: "Logic, memory, and deduction; the foundation of learning and craft."
 id: l2gx8lA2IzZbeKOB
 img: icons/game-icons/lorc/brain.svg
@@ -12,15 +12,15 @@ shortcode: rea
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Dim:4
-        - Dull:8
-        - Average:12
-        - Sharp:16
-        - Brilliant:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Dim:4
+    - Dull:8
+    - Average:12
+    - Sharp:16
+    - Brilliant:999
+  initDiceFormula: 3d6
 sort: 90
 folder: FPitxvL8wCmXynax
 ---

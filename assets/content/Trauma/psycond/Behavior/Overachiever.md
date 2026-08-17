@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-ovrchvr
+  - trauma-ovrchvr
 tags: []
 name:
-    full: Overachiever
-    aliases: []
+  full: Overachiever
+  aliases: []
 id: JBlNG1VriCxwttkR
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ovrchvr
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,13 +22,11 @@ Overachiever refers to an individual who consistently strives to perform at a le
 
 ### Quirk
 
-The individual is highly motivated and driven, consistently aiming to achieve beyond the standard expectations. They set ambitious goals and work diligently to meet them, balancing their drive for success with personal well-being. Their efforts result in meaningful accomplishments, but they also know when to step back and avoid overextending themselves.
-**Example:** Emily, a talented baker, enjoys experimenting with new recipes and perfecting her craft. She often spends extra time refining her pastries to ensure they meet her high standards, but she still makes time for her family and friends. Her ambition to improve her skills is balanced with a healthy social life and self-care.
+The individual is highly motivated and driven, consistently aiming to achieve beyond the standard expectations. They set ambitious goals and work diligently to meet them, balancing their drive for success with personal well-being. Their efforts result in meaningful accomplishments, but they also know when to step back and avoid overextending themselves. **Example:** Emily, a talented baker, enjoys experimenting with new recipes and perfecting her craft. She often spends extra time refining her pastries to ensure they meet her high standards, but she still makes time for her family and friends. Her ambition to improve her skills is balanced with a healthy social life and self-care.
 
 ### Impulse
 
-The individual becomes more focused on achieving success, constantly pushing themselves to meet increasingly high goals. They often take on more responsibilities than necessary, fearing failure or inadequacy if they don’t continue to excel. While they still function well, their ambition starts to cause mild stress or fatigue, and they may struggle to relax or enjoy activities outside of their work or goals.
-**Example:** Emily begins to accept more orders than she can comfortably handle, staying up late to complete elaborate cakes and pastries for her clients. She rarely takes time off, fearing that turning down orders will hurt her reputation. Although her business is thriving, Emily starts to feel fatigued and finds it harder to relax, even during her downtime.
+The individual becomes more focused on achieving success, constantly pushing themselves to meet increasingly high goals. They often take on more responsibilities than necessary, fearing failure or inadequacy if they don’t continue to excel. While they still function well, their ambition starts to cause mild stress or fatigue, and they may struggle to relax or enjoy activities outside of their work or goals. **Example:** Emily begins to accept more orders than she can comfortably handle, staying up late to complete elaborate cakes and pastries for her clients. She rarely takes time off, fearing that turning down orders will hurt her reputation. Although her business is thriving, Emily starts to feel fatigued and finds it harder to relax, even during her downtime.
 
 ### Disorder
 

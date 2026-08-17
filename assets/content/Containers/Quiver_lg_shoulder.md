@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Quiver, lg (shoulder)"
-    - containergear-quiverlgsh
+  - "Quiver, lg (shoulder)"
+  - containergear-quiverlgsh
 tags: []
 name:
-    full: "Quiver, lg (shoulder)"
-    aliases: []
+  full: "Quiver, lg (shoulder)"
+  aliases: []
 description: "Leather-wrapped wooden tube worn across back; keeps arrows accessible for archery."
 id: eCngmVTGMNWOg77z
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: quiverlgsh
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 2.5
-    value: 10
-    weight: 4
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 2.5
+  value: 10
+  weight: 4
 folder: dl8lJ729W1mFlDvt
 ---
 

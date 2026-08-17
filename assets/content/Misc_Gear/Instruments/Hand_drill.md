@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Hand drill
-    - miscgear-handdrill
+  - Hand drill
+  - miscgear-handdrill
 tags:
-    - instruments
+  - instruments
 name:
-    full: Hand drill
-    aliases: []
+  full: Hand drill
+  aliases: []
 description: "Spring-driven iron spindle with rocking crank; carpenters bore clean holes for rivets."
 id: 9Rmq8rou339Jx48e
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: handdrill
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 40
-    weight: 3.5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 40
+  weight: 3.5
 folder: xniLjmZWYQZkSxyv
 ---
 

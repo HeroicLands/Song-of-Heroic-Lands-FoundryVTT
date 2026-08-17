@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Scribe's Kit
-    - miscgear-scribekit
+  - Scribe's Kit
+  - miscgear-scribekit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Scribe's Kit
-    aliases: []
+  full: Scribe's Kit
+  aliases: []
 description: "Hinged wooden case with quills, penknife, inkhorns, sand caster, wax, seals, vellum; scribes and draughtsmen."
 id: 74Njo5FTdcP8JbSw
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: scribekit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 45
-    weight: 1.5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 45
+  weight: 1.5
 folder: xniLjmZWYQZkSxyv
 ---
 

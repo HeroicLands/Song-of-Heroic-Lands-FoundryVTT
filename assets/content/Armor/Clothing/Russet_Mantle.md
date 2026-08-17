@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Russet Mantle
-    - armorgear-RMntl
+  - Russet Mantle
+  - armorgear-RMntl
 tags: []
 name:
-    full: Russet Mantle
-    aliases: []
+  full: Russet Mantle
+  aliases: []
 description: "Reddish-brown wool shoulder-wrap; practical outer layer."
 id: f0XUqgoKqrD6uQOs
 img: icons/game-icons/delapouite/cape.svg
@@ -13,31 +13,31 @@ shortcode: RMntl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Mantle
-    detailMaterial: Russet
-    material: Cloth
-    durability: 7
-    value: 25
-    weight: 0.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Mantle
+  detailMaterial: Russet
+  material: Cloth
+  durability: 7
+  value: 25
+  weight: 0.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 21
 origWeight: 1.1

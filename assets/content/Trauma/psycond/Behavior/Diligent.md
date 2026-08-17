@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-diligent
+  - trauma-diligent
 tags: []
 name:
-    full: Diligent
-    aliases: []
+  full: Diligent
+  aliases: []
 id: 6ogsEHCl84nLyDTt
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: diligent
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -28,8 +28,7 @@ The individual consistently works hard, pays attention to detail, and completes 
 
 ### Impulse
 
-The individual becomes more focused on the details of their work, sometimes prioritizing thoroughness to the point of slowing down progress. While their diligence still results in high-quality work, they may take longer to complete tasks as they strive for perfection. This may cause minor frustrations for others who are waiting for results, as the individual may focus too much on the small details instead of the bigger picture.
-**Example:** Elric’s attention to detail becomes more intense as he tries to perfect every weapon and tool he forges. He spends extra hours polishing each blade and adjusting the smallest imperfections, often working late into the night. His master appreciates the quality but begins to worry that Elric’s obsession with perfection is causing delays in fulfilling larger orders.
+The individual becomes more focused on the details of their work, sometimes prioritizing thoroughness to the point of slowing down progress. While their diligence still results in high-quality work, they may take longer to complete tasks as they strive for perfection. This may cause minor frustrations for others who are waiting for results, as the individual may focus too much on the small details instead of the bigger picture. **Example:** Elric’s attention to detail becomes more intense as he tries to perfect every weapon and tool he forges. He spends extra hours polishing each blade and adjusting the smallest imperfections, often working late into the night. His master appreciates the quality but begins to worry that Elric’s obsession with perfection is causing delays in fulfilling larger orders.
 
 ### Disorder
 

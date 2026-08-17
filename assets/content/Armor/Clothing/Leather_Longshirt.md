@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Leather Longshirt
-    - armorgear-LtLgShrt
+  - Leather Longshirt
+  - armorgear-LtLgShrt
 tags: []
 name:
-    full: Leather Longshirt
-    aliases: []
+  full: Leather Longshirt
+  aliases: []
 description: "Stylish leather long-sleeved garment with modest coverage for light adventuring."
 id: gWRxLn2XfDEZbhIT
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,33 +13,33 @@ shortcode: LtLgShrt
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Longshirt
-    detailMaterial: Leather
-    material: Leather
-    durability: 9
-    value: 344
-    weight: 4.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Longshirt
+  detailMaterial: Leather
+  material: Leather
+  durability: 9
+  value: 344
+  weight: 4.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 344
 origWeight: 4.3

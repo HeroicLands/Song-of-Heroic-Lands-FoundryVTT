@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Sleeved Tunic
-    - armorgear-PSTnc
+  - Padded Sleeved Tunic
+  - armorgear-PSTnc
 tags: []
 name:
-    full: Padded Sleeved Tunic
-    aliases: []
+  full: Padded Sleeved Tunic
+  aliases: []
 description: "Cushioned sleeved garment for cold weather or under-armor protection."
 id: SomxyDzmbxABARDj
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,37 +13,37 @@ shortcode: PSTnc
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Sleeved Tunic
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 100
-    weight: 4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Sleeved Tunic
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 100
+  weight: 4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 100
 origWeight: 4

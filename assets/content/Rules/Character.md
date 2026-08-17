@@ -1,25 +1,22 @@
 ---
 aliases:
-    - Characters Introduction
-    - Character Introduction
-    - doc-character
+  - Characters Introduction
+  - Character Introduction
+  - doc-character
 id: xl7OIGqVKu52E5Oc
 type: doc
 package: sohl
 category: rules
 name:
-    full: Characters Introduction
-    aliases: []
+  full: Characters Introduction
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: character
 ---
 
-A **character** is described by what they are made of and what condition it is
-in: the anatomy that decides where a blow lands and what it costs, the health
-that tracks the toll of injury and privation, and the gear carried into play.
+A **character** is described by what they are made of and what condition it is in: the anatomy that decides where a blow lands and what it costs, the health that tracks the toll of injury and privation, and the gear carried into play.
 
-Skills, attributes and affiliations are covered in their own sections; what
-follows here is the character as a physical body in the world.
+Skills, attributes and affiliations are covered in their own sections; what follows here is the character as a physical body in the world.
 
 # Body Structure {#body-structure}
 
@@ -137,7 +134,7 @@ The outcome turns on that Strength test: a **critical failure** severs the locat
 
 When a blow lands, where it lands is settled by **Zone Number and Zone Die**.
 
-The attacker aims at a **body part**; the part's zone supplies the **target zone number**. The strike mode supplies a **Spread** — how loosely that mode can be placed (see [[Strike Modes]]). Spread is rolled as a die, and the result walks the aim _upward_ from the target zone number:
+The attacker aims at a **body part**; the part's zone supplies the **target zone number**. The strike mode supplies a **Spread** — how loosely that mode can be placed (see [[doc-strkmds|Strike Modes]]). Spread is rolled as a die, and the result walks the aim _upward_ from the target zone number:
 
 > **Hit Zone Number = (Target Zone Number − 1) + Spread roll**
 
@@ -219,7 +216,7 @@ Continuing the example: the skull wound opened at 8, so a Shock test is made. A 
 
 While in **any** shock state a creature cannot concentrate. Ordinary shock is temporary — a stunned, incapacitated, or unconscious victim shakes it off with a re-test — and only a _failed_ re-test drops the victim into lasting Extended Shock or a Coma.
 
-A resulting shock state is always **offered** to the victim's own player, never imposed, and only ever to _worsen_ the current state. Injury is not the only source of shock: fear, heavy [[blood loss]], and other systemic forces raise it by their own measures. See [[doc-shock|Shock]] for the states in full, the re-test, Extended Shock, and Coma.
+A resulting shock state is always **offered** to the victim's own player, never imposed, and only ever to _worsen_ the current state. Injury is not the only source of shock: fear, heavy [[doc-bleeding|Bleeding]], and other systemic forces raise it by their own measures. See [[doc-shock|Shock]] for the states in full, the re-test, Extended Shock, and Coma.
 
 ## Impairment and Unusable Parts
 
@@ -365,53 +362,28 @@ A new kind of creature is described by its anatomy alone — its zones and their
 - [[doc-injrylvl|Injury]] — injury levels, healing, and impairment over time
 - [[doc-shock|Shock]] — the shock states in full, re-tests, Extended Shock, and Coma
 - [[#health|Health]] — how impaired parts set the health ceiling
-- [[Bleeding]] — bleeders, blood loss, and stoppage
-- [[Strike Modes]] — Spread and the other properties of an attack
+- [[doc-bleeding|Bleeding]] — bleeders, blood loss, and stoppage
+- [[doc-strkmds|Strike Modes]] — Spread and the other properties of an attack
 - [[doc-skills|Skills]] — how skills declare the roles that impair them
-- [[Prone]] — the consequence of a failed stumble
+- [[doc-prone|Prone]] — the consequence of a failed stumble
 
 # Health {#health}
 
-**Health** is a single figure — a percentage from 0 to 100, with a plain-language
-band beside it — that answers one question: _how badly is this character hurt?_
-An unharmed character sits at **100%, Excellent**. A character who has been
-wounded reads lower, and the word beside the number says what that means.
+**Health** is a single figure — a percentage from 0 to 100, with a plain-language band beside it — that answers one question: _how badly is this character hurt?_ An unharmed character sits at **100%, Excellent**. A character who has been wounded reads lower, and the word beside the number says what that means.
 
-Health is **not a pool of hit points.** Nothing is subtracted from it when a blow
-lands, and it is not spent, tracked, or restored point by point. It is a
-**ceiling** — the highest level of function a character's current injuries still
-permit. Heal the injuries and the ceiling lifts on its own; there is no separate
-score to repair.
+Health is **not a pool of hit points.** Nothing is subtracted from it when a blow lands, and it is not spent, tracked, or restored point by point. It is a **ceiling** — the highest level of function a character's current injuries still permit. Heal the injuries and the ceiling lifts on its own; there is no separate score to repair.
 
-This matters most in the moment a fight turns. Health does not slide gently
-downward one blow at a time. A character stays at Excellent through minor knocks
-and then drops hard the moment a wound is serious enough — or numerous enough —
-to impose a real ceiling.
+This matters most in the moment a fight turns. Health does not slide gently downward one blow at a time. A character stays at Excellent through minor knocks and then drops hard the moment a wound is serious enough — or numerous enough — to impose a real ceiling.
 
 ## What sets the ceiling
 
-Every wound a character carries impairs some part of the body. Three things about
-those impairments decide the ceiling, and nothing else does:
+Every wound a character carries impairs some part of the body. Three things about those impairments decide the ceiling, and nothing else does:
 
-1. **How badly the part is impaired** — a scale from a **minor** impairment
-   through **serious** and **grievous** to outright **unusable**.
-2. **Which part it is.** A part is either **critical** — it holds something vital
-   or is core to the body, such as the head, the chest, or the abdomen — or it is
-   a **limb**: an arm, a leg, a hand, a foot. Harm to a critical part costs far
-   more than the same harm to a limb. Which of the two a part is follows from its
-   [[doc-character#body-part-roles|body roles]]: a part carrying **Vital** or
-   **Core** is critical, and a part carrying only **Manipulator** or **Locomotor**
-   is a limb.
-3. **How many parts are in that same state.** A second injury of a given severity
-   costs much more than the first, and by the third the ceiling has usually
-   bottomed out.
+1. **How badly the part is impaired** — a scale from a **minor** impairment through **serious** and **grievous** to outright **unusable**.
+2. **Which part it is.** A part is either **critical** — it holds something vital or is core to the body, such as the head, the chest, or the abdomen — or it is a **limb**: an arm, a leg, a hand, a foot. Harm to a critical part costs far more than the same harm to a limb. Which of the two a part is follows from its [[doc-character#body-part-roles|body roles]]: a part carrying **Vital** or **Core** is critical, and a part carrying only **Manipulator** or **Locomotor** is a limb.
+3. **How many parts are in that same state.** A second injury of a given severity costs much more than the first, and by the third the ceiling has usually bottomed out.
 
-A character's Health is then the **worst ceiling any of these impairments
-imposes** — never a running total. Injuries do not add up: five bruises do not
-kill anyone, but one crushed skull does. If a character has a minor limb wound
-(a ceiling of 80) and a serious wound to the chest (a ceiling of 20), their
-Health is **20%** — the chest wound governs, and the bruised arm changes nothing
-while it stands.
+A character's Health is then the **worst ceiling any of these impairments imposes** — never a running total. Injuries do not add up: five bruises do not kill anyone, but one crushed skull does. If a character has a minor limb wound (a ceiling of 80) and a serious wound to the chest (a ceiling of 20), their Health is **20%** — the chest wound governs, and the bruised arm changes nothing while it stands.
 
 ### Limb impairments
 
@@ -431,11 +403,7 @@ while it stands.
 | **Grievous** | 10%      | 10%         |
 | **Unusable** | 0%       | 0%          |
 
-The gap between the two tables is the whole point: a minor wound to an arm barely
-registers, while the _same_ minor wound to the chest halves a character outright.
-A critical part rendered unusable drives the ceiling to nothing at all — a
-mortal state, from which a character who is still breathing reads 1% (see
-[[#the-bands|the floor]] below) until they die in fact.
+The gap between the two tables is the whole point: a minor wound to an arm barely registers, while the _same_ minor wound to the chest halves a character outright. A critical part rendered unusable drives the ceiling to nothing at all — a mortal state, from which a character who is still breathing reads 1% (see [[#the-bands|the floor]] below) until they die in fact.
 
 ## The bands {#the-bands}
 
@@ -450,23 +418,12 @@ The band is the number in words — what a companion would say, looking at them.
 | **Morbid**    | 1–29%   | Grievously hurt and close to death. Needs care now.       |
 | **Dead**      | 0%      | Dead.                                                     |
 
-**A living character never reads 0%.** However ruinous the injuries — even
-injuries whose ceiling is nothing at all — a character who is still alive is held
-at a minimum of 1%, Morbid. **0% means dead**, and nothing else does. So Morbid
-is the floor of the living: a character there may be past saving, but they have
-not died yet, and the figure will not pronounce them dead before they are.
+**A living character never reads 0%.** However ruinous the injuries — even injuries whose ceiling is nothing at all — a character who is still alive is held at a minimum of 1%, Morbid. **0% means dead**, and nothing else does. So Morbid is the floor of the living: a character there may be past saving, but they have not died yet, and the figure will not pronounce them dead before they are.
 
 ## What Health does not cover
 
-Health measures **bodily injury only**. It is deliberately blind to every other
-way a character can be taken out of a fight — being [[doc-fatigue|winded or weary]],
-[[doc-shock|stunned or unconscious]], [[doc-fear|afraid]], or otherwise
-overcome. Those are tracked separately and have their own effects.
+Health measures **bodily injury only**. It is deliberately blind to every other way a character can be taken out of a fight — being [[doc-fatigue|winded or weary]], [[doc-shock|stunned or unconscious]], [[doc-fear|afraid]], or otherwise overcome. Those are tracked separately and have their own effects.
 
-So Health is not a readiness score. A character can read **Excellent** and still
-be unconscious, exhausted, or paralysed with fear. Read Health for _how hurt they
-are_, and read their conditions for _whether they can act_.
+So Health is not a readiness score. A character can read **Excellent** and still be unconscious, exhausted, or paralysed with fear. Read Health for _how hurt they are_, and read their conditions for _whether they can act_.
 
-See also: [[doc-injrylvl|Injury]] for how wounds and their impairments are
-determined, [[doc-traumaintro|Trauma]] for the wider picture of harm, and
-[[Healing Base]] for recovery.
+See also: [[doc-injrylvl|Injury]] for how wounds and their impairments are determined, [[doc-traumaintro|Trauma]] for the wider picture of harm, and [[doc-hlngbs|Healing Base]] for recovery.

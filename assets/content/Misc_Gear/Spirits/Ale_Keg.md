@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ale, Keg"
-    - miscgear-alekeg
+  - "Ale, Keg"
+  - miscgear-alekeg
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Ale, Keg"
-    aliases: []
+  full: "Ale, Keg"
+  aliases: []
 description: "Tarred stave-built keg; pale malty ale for tavern supply, military provisioning."
 id: M2KNdOVeOqikHgTD
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: alekeg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 16
-    weight: 72
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 16
+  weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

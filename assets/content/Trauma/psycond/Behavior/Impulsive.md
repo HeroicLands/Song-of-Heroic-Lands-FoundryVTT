@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-implsv
+  - trauma-implsv
 tags: []
 name:
-    full: Impulsive
-    aliases: []
+  full: Impulsive
+  aliases: []
 id: k3h61qNB6NvMfFVS
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: implsv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,13 +22,11 @@ Impulsive refers to an individual’s tendency to act on immediate urges, desire
 
 ### Quirk
 
-The individual acts spontaneously and is often open to taking risks or trying new things without overthinking. Their impulsivity adds excitement to their life, and they make quick decisions that lead to positive or enjoyable outcomes. While they may occasionally act without thorough consideration, their impulsiveness is balanced, and they generally avoid negative consequences.
-**Example:** Sir Roland enjoys making spur-of-the-moment plans, such as deciding to host a feast on a whim or exploring new territories without extensive planning. His impulsive nature adds excitement to his life, but he is careful enough not to take unnecessary risks that could endanger himself or others.
+The individual acts spontaneously and is often open to taking risks or trying new things without overthinking. Their impulsivity adds excitement to their life, and they make quick decisions that lead to positive or enjoyable outcomes. While they may occasionally act without thorough consideration, their impulsiveness is balanced, and they generally avoid negative consequences. **Example:** Sir Roland enjoys making spur-of-the-moment plans, such as deciding to host a feast on a whim or exploring new territories without extensive planning. His impulsive nature adds excitement to his life, but he is careful enough not to take unnecessary risks that could endanger himself or others.
 
 ### Impulse
 
-The individual becomes more prone to acting without thinking, often making decisions based on emotional impulses or desires. They may occasionally overlook important details or consequences, leading to minor mistakes or regrets. While still functional in their daily life, their impulsive actions can cause frustration or confusion for others, especially when their decisions seem hasty or poorly planned.
-**Example:** Sir Roland increasingly acts on whims, such as buying expensive items without consulting his advisors or making sudden changes to estate plans. His impulsiveness causes his staff to scramble to adjust to his last-minute decisions, and while most of his choices are harmless, they sometimes lead to small setbacks or unexpected challenges.
+The individual becomes more prone to acting without thinking, often making decisions based on emotional impulses or desires. They may occasionally overlook important details or consequences, leading to minor mistakes or regrets. While still functional in their daily life, their impulsive actions can cause frustration or confusion for others, especially when their decisions seem hasty or poorly planned. **Example:** Sir Roland increasingly acts on whims, such as buying expensive items without consulting his advisors or making sudden changes to estate plans. His impulsiveness causes his staff to scramble to adjust to his last-minute decisions, and while most of his choices are harmless, they sometimes lead to small setbacks or unexpected challenges.
 
 ### Disorder
 

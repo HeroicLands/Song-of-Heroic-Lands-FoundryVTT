@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Agate, cut"
-    - miscgear-agatecut
+  - "Agate, cut"
+  - miscgear-agatecut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Agate, cut"
-    aliases: []
+  full: "Agate, cut"
+  aliases: []
 description: "Banded stone faceted by the lapidary; modest gem for rings and pendants."
 id: JZcESEqiNAfH1i1Q
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: agatecut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 10
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 10
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

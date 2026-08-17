@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bedroll, heavy
-    - miscgear-HvyBdrl
+  - Bedroll, heavy
+  - miscgear-HvyBdrl
 tags:
-    - expedition
+  - expedition
 name:
-    full: Bedroll, heavy
-    aliases: []
+  full: Bedroll, heavy
+  aliases: []
 description: "Quilted wool and linen roll with oiled canvas cover; durable field bedding."
 id: DHsXxtx82IVM5gu2
 img: icons/game-icons/delapouite/sleeping-bag.svg
@@ -14,15 +14,15 @@ shortcode: HvyBdrl
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 100
-    weight: 10
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 100
+  weight: 10
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Spirit Conflict
-    - trauma-spiritcnfl
+  - Spirit Conflict
+  - trauma-spiritcnfl
 tags: []
 name:
-    full: Spirit Conflict
-    aliases: []
+  full: Spirit Conflict
+  aliases: []
 description: "Acute windedness from spiritual struggle against a contesting entity."
 id: XuQiB0mzLPGDqqHt
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: spiritcnfl
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: windedness
+  levelBase: 1
+  healingRateBase: 5
 folder: Y22wv8plMCfPXYBT
 ---
 

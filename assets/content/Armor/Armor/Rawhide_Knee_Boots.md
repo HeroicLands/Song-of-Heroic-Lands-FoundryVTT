@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Rawhide Knee Boots
-    - armorgear-RhKBoot
+  - Rawhide Knee Boots
+  - armorgear-RhKBoot
 tags: []
 name:
-    full: Rawhide Knee Boots
-    aliases: []
+  full: Rawhide Knee Boots
+  aliases: []
 description: "Rugged hide boots; leg protection in harsh terrain."
 id: EQ0pP5rQTr5vW5ZH
 img: icons/game-icons/lorc/leather-boot.svg
@@ -13,32 +13,32 @@ shortcode: RhKBoot
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Knee Boots
-    detailMaterial: Rawhide
-    material: Leather
-    durability: 11
-    value: 88
-    weight: 3.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Knee Boots
+  detailMaterial: Rawhide
+  material: Leather
+  durability: 11
+  value: 88
+  weight: 3.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 88
 origWeight: 3.5

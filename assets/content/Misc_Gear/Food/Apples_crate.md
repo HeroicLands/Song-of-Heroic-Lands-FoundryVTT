@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Apples, crate"
-    - miscgear-applescrat
+  - "Apples, crate"
+  - miscgear-applescrat
 tags:
-    - food
+  - food
 name:
-    full: "Apples, crate"
-    aliases: []
+  full: "Apples, crate"
+  aliases: []
 description: "Straw-packed apples in wooden crate; heavy, protects fruit on long journeys."
 id: n6PmXbPx9txmeI2x
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: applescrat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 7.5
-    weight: 51.25
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 7.5
+  weight: 51.25
 folder: cHM58zOI1EcSG3cP
 ---
 

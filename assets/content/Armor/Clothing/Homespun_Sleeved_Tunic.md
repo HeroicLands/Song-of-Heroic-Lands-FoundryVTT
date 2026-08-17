@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Homespun Sleeved Tunic
-    - armorgear-HsSTnc
+  - Homespun Sleeved Tunic
+  - armorgear-HsSTnc
 tags: []
 name:
-    full: Homespun Sleeved Tunic
-    aliases: []
+  full: Homespun Sleeved Tunic
+  aliases: []
 description: "Simple homemade tunic providing comfort and practical warmth."
 id: jJ1imuGfdw2jrjK0
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,37 +13,37 @@ shortcode: HsSTnc
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Sleeved Tunic
-    detailMaterial: Homespun
-    material: Cloth
-    durability: 5
-    value: 15
-    weight: 0.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Sleeved Tunic
+  detailMaterial: Homespun
+  material: Cloth
+  durability: 5
+  value: 15
+  weight: 0.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 50
 origWeight: 2.5

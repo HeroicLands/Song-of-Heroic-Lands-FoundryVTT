@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pan, copper, small"
-    - miscgear-pancoppers
+  - "Pan, copper, small"
+  - miscgear-pancoppers
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Pan, copper, small"
-    aliases: []
+  full: "Pan, copper, small"
+  aliases: []
 description: "Small tinned copper pan for warming sauces or cooking for one."
 id: fLiHazH054PGtXSI
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pancoppers
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 5
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 5
+  weight: 2
 folder: 7TT0OzoIoEn40zfs
 ---
 

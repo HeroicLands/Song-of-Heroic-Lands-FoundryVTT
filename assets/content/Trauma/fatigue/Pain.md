@@ -1,11 +1,11 @@
 ---
 aliases:
-    - trauma-pain
+  - trauma-pain
 tags: []
 name:
-    full: Pain
-    aliases:
-        - Injury
+  full: Pain
+  aliases:
+    - Injury
 description: "Long-term weakness from active wounds and persistent pain."
 id: Z9AqD3575gIg7BmW
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: pain
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weakness
+  levelBase: 1
+  healingRateBase: 1
 folder: Y22wv8plMCfPXYBT
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bag, 15 lb, leather"
-    - containergear-bagleather15
+  - "Bag, 15 lb, leather"
+  - containergear-bagleather15
 tags: []
 name:
-    full: "Bag, 15 lb, leather"
-    aliases: []
+  full: "Bag, 15 lb, leather"
+  aliases: []
 description: "Leather shoulder bag with a buckled flap (15 lb capacity)."
 id: VfWqeVpoCZaE6u53
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bagleather15
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 4
-    maxCapacity: 15
-    value: 48
-    weight: 1.2
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 4
+  maxCapacity: 15
+  value: 48
+  weight: 1.2
 folder: dl8lJ729W1mFlDvt
 ---
 

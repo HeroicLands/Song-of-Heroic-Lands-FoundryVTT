@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Inkwell, copper"
-    - containergear-inkwellcop
+  - "Inkwell, copper"
+  - containergear-inkwellcop
 tags: []
 name:
-    full: "Inkwell, copper"
-    aliases: []
+  full: "Inkwell, copper"
+  aliases: []
 description: "Compact tinned-copper travel inkwell for scribes and clerks."
 id: 5e5WsploAL0WGGKw
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: inkwellcop
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 5
-    maxCapacity: 0.25
-    value: 12
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 5
+  maxCapacity: 0.25
+  value: 12
+  weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

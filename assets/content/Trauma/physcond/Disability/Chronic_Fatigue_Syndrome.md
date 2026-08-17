@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Chronic Fatigue Syndrome
-    - trauma-cfs
+  - Chronic Fatigue Syndrome
+  - trauma-cfs
 tags: []
 name:
-    full: Chronic Fatigue Syndrome
-    aliases: []
+  full: Chronic Fatigue Syndrome
+  aliases: []
 id: 4f1uYKsUZ9dTs3nb
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cfs
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -23,8 +23,7 @@ Chronic Fatigue Syndrome (CFS) is a debilitating condition characterized by pers
 
 ### Impediment
 
-Constant feelings of tiredness and lack of energy, even after a full night’s rest. Individuals may struggle to complete daily tasks and often require frequent breaks to manage their fatigue.
-**Example:** Merchant Alaric finds himself increasingly fatigued after a day in the marketplace. Once lively and energetic, he now struggles to keep up with the demands of his trade, often needing to sit and rest, despite the relatively simple nature of his work.
+Constant feelings of tiredness and lack of energy, even after a full night’s rest. Individuals may struggle to complete daily tasks and often require frequent breaks to manage their fatigue. **Example:** Merchant Alaric finds himself increasingly fatigued after a day in the marketplace. Once lively and energetic, he now struggles to keep up with the demands of his trade, often needing to sit and rest, despite the relatively simple nature of his work.
 
 ### Debility
 

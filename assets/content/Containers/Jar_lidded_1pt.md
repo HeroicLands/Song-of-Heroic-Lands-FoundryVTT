@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jar, lidded, 1 pint"
-    - containergear-jarliddeds
+  - "Jar, lidded, 1 pint"
+  - containergear-jarliddeds
 tags: []
 name:
-    full: "Jar, lidded, 1 pint"
-    aliases: []
+  full: "Jar, lidded, 1 pint"
+  aliases: []
 description: "Compact stoneware jar with tight seal for spices and traveling supplies (1 pint)."
 id: hm5bmi6Cp6klcQwK
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jarliddeds
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 1
-    value: 3
-    weight: 1.7
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 1
+  value: 3
+  weight: 1.7
 folder: dl8lJ729W1mFlDvt
 ---
 

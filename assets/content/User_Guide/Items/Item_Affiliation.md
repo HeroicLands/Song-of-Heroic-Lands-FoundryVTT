@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Affiliation
-    - doc-affltn
+  - Affiliation
+  - doc-affltn
 id: hJGjCXud883VX96W
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Affiliation"
+  full: "Affiliation"
 shortcode: affltn
 folder: QtOgPodi8X6gDWL0
 ---
@@ -40,44 +40,20 @@ Reach for an Affiliation for any organized body the character belongs to. Common
 - **Criminal organizations** — thieves' guilds, smuggling rings, or other outlaw bodies, with **Level** marking the character's place in the pecking order.
 - **Guilds, noble houses, and military units** — a trade guild, a house the character is sworn to, or a rank in a fighting company.
 
-> **Recording religious and arcane rank.** The **Level** field is the home for a character's rank in a religion or grade in an arcane school — it keeps "what the character _is_ within an order" together with the rest of their membership. This standing is a **capability credential**: a [[Mystical Ability]] tied to this affiliation can take the rank into account, so a full priest and a layperson of the same faith can differ in what they can invoke. The affiliation only _informs_ such a derivation — invoking a power is always the player's deliberate act, never something the system does on its own.
+> **Recording religious and arcane rank.** The **Level** field is the home for a character's rank in a religion or grade in an arcane school — it keeps "what the character _is_ within an order" together with the rest of their membership. This standing is a **capability credential**: a [[doc-mystclab|Mystical Ability]] tied to this affiliation can take the rank into account, so a full priest and a layperson of the same faith can differ in what they can invoke. The affiliation only _informs_ such a derivation — invoking a power is always the player's deliberate act, never something the system does on its own.
 
 # Additional Properties
 
 Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
-- **Affiliation Type:** The kind of organization this is — **Arcane** (a school of magic, including an alchemical school), **Divine** (a religion or church), **Spirit** (a shamanic or totemic tradition, an ancestor or spirit cult), or **Social** (everything secular: guilds, banks, criminal syndicates, noble houses, military units). It is chosen when the affiliation is created, and it is what lets the system offer the right affiliations where one must be picked — a divine invocation is not offered a thieves' guild.
 - **Society:** The sub-group, sect, order, or convocation the character belongs to within the larger organization.
 - **Office:** The role or function the character fills within the organization, if any — for example a stewardship, a command, or a ministry.
 - **Title:** The title of the character's rank within the organization — the named form of their standing, sometimes influenced by their Office.
 - **Level:** The character's rank within the organization, as a number, with higher numbers indicating greater rank. Rank 0 is usually a lay member; rank 1 an initiate, acolyte, or apprentice; in most organizations a fully trained and accepted member — such as a guild master or an ordained priest — is around rank 3.
-- **Standing Toward Others:** How _this organization_ regards other affiliations — see below.
-
-# Standing Toward Other Affiliations
-
-An affiliation's rank says where a character stands _inside_ one body. **Standing Toward Others** records how that body stands toward _other_ bodies: a thieves' guild and the reeves who hunt it, two knightly houses in open rivalry, a church and the faith it names heretical.
-
-Each entry names another affiliation and one standing:
-
-| Standing      | Meaning                                    |
-| ------------- | ------------------------------------------ |
-| **Aligned**   | Allied or friendly toward that affiliation |
-| **Unaligned** | Neutral — no particular standing           |
-| **Rival**     | In competition; opposed but not implacable |
-| **Nemesis**   | Actively hostile                           |
-
-Only the relations that are _not_ neutral need recording. Anything left out is **Unaligned**, so an empty list means "neutral toward everyone" — which is the right starting point for most organizations.
-
-Use **+ Add Relation** to record one, and the trash icon to remove it (returning that pair to neutral). On a character's own affiliation the picker offers the other affiliations that character holds; on a world or compendium affiliation you type the other affiliation's shortcode.
-
-> **This is a record, not a rule.** Writing down that two organizations are nemeses tells you — and anything you later consult it with — how they regard one another. Nothing is rolled, applied, or imposed because of it; what a hostile standing _means_ at the table is yours to play.
-
-**Recording a wider grouping.** Where several affiliations sit in a shared frame — the gods of a pantheon, the convocations of one arcane tradition — make the grouping itself an Affiliation with its own shortcode and prose, and let each member name it. A member can then be aligned with the pantheon while remaining the nemesis of another god within it, which is usually exactly the situation.
 
 # Intrinsic Actions
 
-An Affiliation is a credential rather than an activity, so it defines no action
-of its own. It carries only the standard actions every item has:
+An Affiliation is a credential rather than an activity, so it defines no action of its own. It carries only the standard actions every item has:
 
 | Action                     | Shortcode           |
 | -------------------------- | ------------------- |
@@ -85,21 +61,15 @@ of its own. It carries only the standard actions every item has:
 | Delete                     | `deleteDocument`    |
 | Output Description to Chat | `outputDescription` |
 
-All three belong to every item and are described on [[Base Item]],
-which covers what each one does, how it is invoked, and what it produces.
+All three belong to every item and are described on [[doc-baseitem|Base Item]], which covers what each one does, how it is invoked, and what it produces.
 
-Nothing is rolled against an affiliation. A power that takes the character's
-standing into account is invoked from the
-[[Mystical Ability]] that names this affiliation, and it is
-always the player who invokes it.
+Nothing is rolled against an affiliation. A power that takes the character's standing into account is invoked from the [[doc-mystclab|Mystical Ability]] that names this affiliation, and it is always the player who invokes it.
 
 # See also
 
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-baseitem|Base Item]] — the three shared actions named above.
-- [[doc-mystclab|Mystical Ability]] — the item that draws on an affiliation's
-  standing, and the roll that does it.
+- [[doc-mystclab|Mystical Ability]] — the item that draws on an affiliation's standing, and the roll that does it.
 - [[doc-being|Being]] — the Profile tab an affiliation appears on.
-- [[doc-affiliation|Affiliations]] (rules) — what standing is, and what it
-  entitles a character to.
+- [[doc-affiliation|Affiliations]] (rules) — what standing is, and what it entitles a character to.
 - [[doc-userguide|User Guide]] — back to the index.

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-deafness
+  - trauma-deafness
 tags: []
 name:
-    full: Deafness
-    aliases: []
+  full: Deafness
+  aliases: []
 id: j8Zh8nMXAlumoHMU
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: deafness
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: debility
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: debility
 folder: 4h8qyMcGHlkrfN1g
 ---
 

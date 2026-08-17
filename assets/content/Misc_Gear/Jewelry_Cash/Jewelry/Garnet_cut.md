@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Garnet, cut"
-    - miscgear-garnetcut
+  - "Garnet, cut"
+  - miscgear-garnetcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Garnet, cut"
-    aliases: []
+  full: "Garnet, cut"
+  aliases: []
 description: "Deep red-purple gem favored for signet rings by the merchant class."
 id: SDSgdn7LUjIyOkCc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: garnetcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 400
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 400
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

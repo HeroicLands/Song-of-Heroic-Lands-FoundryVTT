@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Wedge, staying"
-    - miscgear-wedgestayi
+  - "Wedge, staying"
+  - miscgear-wedgestayi
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Wedge, staying"
-    aliases: []
+  full: "Wedge, staying"
+  aliases: []
 description: "Small wooden or bone wedge; prevents tent poles and wagon wheels slipping."
 id: mmVSxF9PE02bES9l
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wedgestayi
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 225
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 225
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

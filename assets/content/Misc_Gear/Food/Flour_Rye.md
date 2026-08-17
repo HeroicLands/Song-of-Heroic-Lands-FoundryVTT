@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Flour, Rye"
-    - miscgear-flourrye
+  - "Flour, Rye"
+  - miscgear-flourrye
 tags:
-    - food
+  - food
 name:
-    full: "Flour, Rye"
-    aliases: []
+  full: "Flour, Rye"
+  aliases: []
 description: "Coarse dark flour; staple for peasant bread, cheaper than wheat flour."
 id: SmjoOTQiAhHhS0wn
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: flourrye
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mill
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1
+  craft:
+    skill: mill
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

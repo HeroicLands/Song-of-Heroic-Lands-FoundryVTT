@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-frigophb
+  - trauma-frigophb
 tags: []
 name:
-    full: Frigophobia
-    aliases: []
+  full: Frigophobia
+  aliases: []
 id: EC3nCe58jh7M4w26
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: frigophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

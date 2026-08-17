@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Mittens
-    - armorgear-PMitn
+  - Padded Mittens
+  - armorgear-PMitn
 tags: []
 name:
-    full: Padded Mittens
-    aliases: []
+  full: Padded Mittens
+  aliases: []
 description: "Cushioned hand coverings providing warmth for cold weather conditions."
 id: IBwZA3n6zSzRPXVJ
 img: icons/game-icons/delapouite/gauntlet.svg
@@ -13,28 +13,28 @@ shortcode: PMitn
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Mittens
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 10
-    weight: 0.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lhandloc
-        - rhandloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Mittens
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 10
+  weight: 0.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lhandloc
+    - rhandloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 10
 origWeight: 0.4

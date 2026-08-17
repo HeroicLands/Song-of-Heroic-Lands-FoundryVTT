@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Jeweler's Scales"
-    - miscgear-jewelerssc
+  - "Jeweler's Scales"
+  - miscgear-jewelerssc
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Jeweler's Scales"
-    aliases: []
+  full: "Jeweler's Scales"
+  aliases: []
 description: "Brass balance calibrated for carats and ounces; gem-merchants weigh precious metals."
 id: e2XKT96x3d8Ukskg
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: jewelerssc
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 72
-    weight: 3
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 72
+  weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

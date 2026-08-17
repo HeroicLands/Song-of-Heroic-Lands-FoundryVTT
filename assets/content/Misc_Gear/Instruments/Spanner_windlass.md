@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Spanner, windlass"
-    - miscgear-spannerwindlass
+  - "Spanner, windlass"
+  - miscgear-spannerwindlass
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Spanner, windlass"
-    aliases: []
+  full: "Spanner, windlass"
+  aliases: []
 description: "Cranked cord-and-pulley windlass for the heaviest crossbows; tenfold draw."
 id: XJYw9rsf1HRoKwhx
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spannerwindlass
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 90
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 90
+  weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

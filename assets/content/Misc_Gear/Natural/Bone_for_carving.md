@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bone (for carving)
-    - miscgear-boneforcar
+  - Bone (for carving)
+  - miscgear-boneforcar
 tags:
-    - natural
+  - natural
 name:
-    full: Bone (for carving)
-    aliases: []
+  full: Bone (for carving)
+  aliases: []
 description: "Scraped bone scraps; used by carvers and flute-makers for chess, combs, ornaments."
 id: 1wwhljSwXWTm3eh1
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: boneforcar
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 0.25
-    weight: 1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 0.25
+  weight: 1
 folder: 0JqxkW5hHZ8XVILm
 ---
 

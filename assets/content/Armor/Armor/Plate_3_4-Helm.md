@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Plate 3/4-Helm
-    - Plate ¾-Helm
-    - armorgear-Pl34Hlm
+  - Plate 3/4-Helm
+  - Plate ¾-Helm
+  - armorgear-Pl34Hlm
 tags: []
 name:
-    full: Plate ¾-Helm
-    aliases: []
+  full: Plate ¾-Helm
+  aliases: []
 description: "Steel helm covering crown and face; knight-favored with narrow sight-slit."
 id: ssLbPwGRpgmg3CpB
 img: icons/game-icons/lorc/crested-helmet.svg
@@ -14,34 +14,34 @@ shortcode: Pl34Hlm
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: plate
-    archetype: 0
-    armorType: 3/4-Helm
-    detailMaterial: Plate
-    material: Plate
-    durability: 14
-    value: 140
-    weight: 5.3
-    encumbrance: 0
-    perceptionPenaltyBase: -5
-    flexloc: []
-    rigidloc:
-        - skullloc
-        - jawloc
-        - lcheekloc
-        - rcheekloc
-        - learloc
-        - rearloc
-        - mouthloc
-        - noseloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: plate
+  archetype: 0
+  armorType: 3/4-Helm
+  detailMaterial: Plate
+  material: Plate
+  durability: 14
+  value: 140
+  weight: 5.3
+  encumbrance: 0
+  perceptionPenaltyBase: -5
+  flexloc: []
+  rigidloc:
+    - skullloc
+    - jawloc
+    - lcheekloc
+    - rcheekloc
+    - learloc
+    - rearloc
+    - mouthloc
+    - noseloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 140
 origWeight: 5.3

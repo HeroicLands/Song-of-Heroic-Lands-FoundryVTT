@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Honey, pot"
-    - miscgear-honeypot
+  - "Honey, pot"
+  - miscgear-honeypot
 tags:
-    - food
+  - food
 name:
-    full: "Honey, pot"
-    aliases: []
+  full: "Honey, pot"
+  aliases: []
 description: "Gallon pot of honey; winter household supply or merchant trade good."
 id: u0VzoJNiNQciWYO7
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: honeypot
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 12
-    weight: 12
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 12
+  weight: 12
 folder: cHM58zOI1EcSG3cP
 ---
 

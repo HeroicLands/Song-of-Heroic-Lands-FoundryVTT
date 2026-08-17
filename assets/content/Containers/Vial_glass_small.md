@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Vial, glass, small"
-    - containergear-vialglasss
+  - "Vial, glass, small"
+  - containergear-vialglasss
 tags: []
 name:
-    full: "Vial, glass, small"
-    aliases: []
+  full: "Vial, glass, small"
+  aliases: []
 description: "Thumb-sized vial for single dose of poison, antidote, or rare oil."
 id: t8ob57FIXJjfkbfu
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: vialglasss
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 0.0625
-    value: 4
-    weight: 0.5
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 0.0625
+  value: 4
+  weight: 0.5
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-mandrk
+  - affliction-mandrk
 tags: []
 name:
-    full: Mandrake
-    aliases: []
+  full: Mandrake
+  aliases: []
 description: "Tropane alkaloid; hallucinations and confusion; large doses cause respiratory failure."
 id: 8vvRURzDh1x6l4Nt
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: mandrk
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: injested
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: injested
 folder: ONXsqZAIZr2qzxTb
 ---
 

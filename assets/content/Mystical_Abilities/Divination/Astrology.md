@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-astr
+  - mysticalability-astr
 tags: []
 name:
-    full: Astrology
-    aliases: []
+  full: Astrology
+  aliases: []
 description: "Charting the heavens to read the influences bearing on a life or a venture."
 id: xSuXXuS0hRjrSdzR
 img: icons/game-icons/lorc/star-swirl.svg
@@ -12,13 +12,13 @@ shortcode: astr
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: divination
-    archetype: 0
-    subType: divination
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: divination
+  archetype: 0
+  subType: divination
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 
 folder: 0GxlNn2dYXCW24YF
 ---

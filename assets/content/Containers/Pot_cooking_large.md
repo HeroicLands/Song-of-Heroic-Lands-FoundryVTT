@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Pot, cooking, large"
-    - containergear-potcooking
+  - "Pot, cooking, large"
+  - containergear-potcooking
 tags: []
 name:
-    full: "Pot, cooking, large"
-    aliases: []
+  full: "Pot, cooking, large"
+  aliases: []
 description: "Iron cookpot with wire handle; hangs over fire or sits in embers."
 id: pHqiZiH4kaGdWdjS
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: potcooking
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 4
-    value: 4
-    weight: 2.3
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 4
+  value: 4
+  weight: 2.3
 folder: dl8lJ729W1mFlDvt
 ---
 

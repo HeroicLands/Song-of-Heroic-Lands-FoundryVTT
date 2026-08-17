@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: api-module
-    aliases: []
+  full: api-module
+  aliases: []
 id: FfjTTYJRO3e1S7Gj
 slug: api-module
 type: doc

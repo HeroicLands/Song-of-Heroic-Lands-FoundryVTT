@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Cabbage
-    - miscgear-cabbage
+  - Cabbage
+  - miscgear-cabbage
 tags:
-    - food
+  - food
 name:
-    full: Cabbage
-    aliases: []
+  full: Cabbage
+  aliases: []
 description: "Dense pale head; sweet fresh, soured pickled for winter larder."
 id: WZu7xNLxfHp2tToK
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cabbage
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

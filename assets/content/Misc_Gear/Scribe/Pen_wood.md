@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pen, wood"
-    - miscgear-penwood
+  - "Pen, wood"
+  - miscgear-penwood
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Pen, wood"
-    aliases: []
+  full: "Pen, wood"
+  aliases: []
 description: "Fruitwood or ash charred tip; cheap disposable; suits paper, cloth, tallies."
 id: 3NgXytL5BdmDWQzH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: penwood
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 1
-    weight: 0.1
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 1
+  weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-reticent
+  - trauma-reticent
 tags: []
 name:
-    full: Reticent
-    aliases: []
+  full: Reticent
+  aliases: []
 id: ZweaBF2VSvxThOT1
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: reticent
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

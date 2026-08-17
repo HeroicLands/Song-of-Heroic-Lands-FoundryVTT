@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-hmtphb
+  - trauma-hmtphb
 tags: []
 name:
-    full: Haematophobia
-    aliases: []
+  full: Haematophobia
+  aliases: []
 id: zimua24dvXMSJdBm
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: hmtphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -27,8 +27,7 @@ Avoiding medical procedures, injuries, or anything where blood might be present.
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of blood.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of blood. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

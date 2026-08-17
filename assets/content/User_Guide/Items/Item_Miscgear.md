@@ -1,25 +1,20 @@
 ---
 aliases:
-    - Miscellaneous Gear
-    - doc-mscllnsg
+  - Miscellaneous Gear
+  - doc-mscllnsg
 id: 3tsCXpR4ep5hnzV1
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Miscellaneous Gear"
+  full: "Miscellaneous Gear"
 shortcode: mscllnsg
 folder: QtOgPodi8X6gDWL0
 ---
 
 # What Is Miscellaneous Gear?
 
-Miscellaneous Gear is the catch-all category for general equipment that
-does not fall into the specialized categories of weapons, armor, containers,
-projectiles, or concoctions. This includes tools, clothing, rope, torches,
-food, trade goods, coins, and any other items a character might carry.
-If an item is not a weapon, armor, container, ammo, or consumable potion,
-it is Misc Gear.
+Miscellaneous Gear is the catch-all category for general equipment that does not fall into the specialized categories of weapons, armor, containers, projectiles, or concoctions. This includes tools, clothing, rope, torches, food, trade goods, coins, and any other items a character might carry. If an item is not a weapon, armor, container, ammo, or consumable potion, it is Misc Gear.
 
 # Where It Appears
 
@@ -31,8 +26,7 @@ There are no additional properties beyond the [[doc-itemgear|Standard Gear Prope
 
 # Intrinsic Actions
 
-Miscellaneous Gear defines no actions of its own. Everything you can run against
-a piece of it is a standard action it already inherits:
+Miscellaneous Gear defines no actions of its own. Everything you can run against a piece of it is a standard action it already inherits:
 
 | Action                     | Shortcode           |
 | -------------------------- | ------------------- |
@@ -41,17 +35,12 @@ a piece of it is a standard action it already inherits:
 | Output Description to Chat | `outputDescription` |
 | Toggle Carried             | `toggleCarried`     |
 
-The first three belong to every item and are described on [[Base Item]];
-**Toggle Carried** belongs to every piece of gear and is described on
-[[doc-itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
-what it produces — none of it changes for Miscellaneous Gear.
+The first three belong to every item and are described on [[doc-baseitem|Base Item]]; **Toggle Carried** belongs to every piece of gear and is described on [[doc-itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and what it produces — none of it changes for Miscellaneous Gear.
 
 # See also
 
 - [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-itemgear|Gear]] — the properties and the **Toggle Carried** action every
-  carried thing has.
+- [[doc-itemgear|Gear]] — the properties and the **Toggle Carried** action every carried thing has.
 - [[doc-baseitem|Base Item]] — the three shared actions named above.
-- [[doc-wrkngwth|Working with Gear and Equipment]] — quantities, containers, and
-  handing an item over.
+- [[doc-wrkngwth|Working with Gear and Equipment]] — quantities, containers, and handing an item over.
 - [[doc-userguide|User Guide]] — back to the index.

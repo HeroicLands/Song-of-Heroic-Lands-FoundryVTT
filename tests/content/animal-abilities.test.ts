@@ -16,7 +16,7 @@
  * tables, as an executable specification.
  *
  * The tables below are the authority; the markdown under
- * `assets/content/Creatures/Animal/` is the copy. An animal whose ability
+ * `assets/content/Bestiary/Animal/` is the copy. An animal whose ability
  * scores, weight, body scale, movement, skill values, natural weapons, natural
  * armour or hit-location table drift from the printed row fails here rather
  * than shipping wrong numbers to a GM.
@@ -29,10 +29,7 @@ import { parse as parseYaml } from "yaml";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { bodyOptions } from "@tests/mocks/bodyFixture";
 
-const CONTENT = path.resolve(
-    __dirname,
-    "../../assets/content/Creatures/Animal",
-);
+const CONTENT = path.resolve(__dirname, "../../assets/content/Bestiary/Animal");
 
 /* ------------------------------------------------------------------ */
 /*  The printed tables                                                */
@@ -62,7 +59,7 @@ type Armour = [number, number, number, number];
 type Weapon = [string, string, number, number, number, number, number, string];
 
 interface Row {
-    /** Content file stem under `assets/content/Creatures/Animal/`. */
+    /** Content file stem under `assets/content/Bestiary/Animal/`. */
     file: string;
     /** Hit-location table letter (A–M). */
     table: string;
@@ -695,7 +692,7 @@ describe("animal roster", () => {
 /*  Every creature, printed or derived                                */
 /* ------------------------------------------------------------------ */
 
-const CREATURES = path.resolve(__dirname, "../../assets/content/Creatures");
+const CREATURES = path.resolve(__dirname, "../../assets/content/Bestiary");
 
 /**
  * Creature files that still have no anatomy, and so are exempt from the
@@ -718,7 +715,7 @@ const NO_ANATOMY_YET = new Set([
 /** Creatures with an anatomy but, as yet, no natural weapon of their own. */
 const NO_WEAPON_YET = new Set<string>([]);
 
-/** Every creature file under `assets/content/Creatures/`, as `Folder/Name`. */
+/** Every creature file under `assets/content/Bestiary/`, as `Folder/Name`. */
 function creatureFiles(): string[] {
     const out: string[] = [];
     for (const dir of readdirSync(CREATURES, { withFileTypes: true })) {

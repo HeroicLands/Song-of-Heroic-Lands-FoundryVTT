@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-msnthrpy
+  - trauma-msnthrpy
 tags: []
 name:
-    full: Misanthropy
-    aliases: []
+  full: Misanthropy
+  aliases: []
 id: eJl63KsBXvPbCpNK
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: msnthrpy
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,13 +22,11 @@ Misanthropy refers to a deep-seated distrust or dislike of humanity, where an in
 
 ### Quirk
 
-The individual exhibits mild skepticism or disillusionment with human nature but remains functional in society. They may prefer solitude or small, trusted groups over large social gatherings and have a cynical outlook but without hatred or bitterness. Their detachment allows them to maintain relationships, although they may be selective about their interactions.
-**Example:** Lord Alaric often speaks critically of human nature, expressing frustration with the greed and folly he sees in the world. However, he remains polite and cordial in his dealings with others, choosing to spend time with a few close friends rather than engaging in larger social circles. His misanthropy is more of a quiet preference for solitude than an active dislike of others.
+The individual exhibits mild skepticism or disillusionment with human nature but remains functional in society. They may prefer solitude or small, trusted groups over large social gatherings and have a cynical outlook but without hatred or bitterness. Their detachment allows them to maintain relationships, although they may be selective about their interactions. **Example:** Lord Alaric often speaks critically of human nature, expressing frustration with the greed and folly he sees in the world. However, he remains polite and cordial in his dealings with others, choosing to spend time with a few close friends rather than engaging in larger social circles. His misanthropy is more of a quiet preference for solitude than an active dislike of others.
 
 ### Impulse
 
-The individual begins to show increasing disdain or cynicism toward people, believing that human nature is inherently selfish, corrupt, or foolish. While they may still engage with others, their interactions are marked by a growing sense of distrust or scorn. This leads to strained relationships, as they view most people with suspicion or contempt and withdraw emotionally from social situations.
-**Example:** Lord Alaric, once a respected member of his community, begins to express contempt for the peasants under his rule. He criticizes their actions, seeing them as lazy and greedy, and distances himself from social gatherings, feeling that most people are beneath him. His bitterness is noted by his peers, who sense his growing cynicism but still find him approachable on occasion.
+The individual begins to show increasing disdain or cynicism toward people, believing that human nature is inherently selfish, corrupt, or foolish. While they may still engage with others, their interactions are marked by a growing sense of distrust or scorn. This leads to strained relationships, as they view most people with suspicion or contempt and withdraw emotionally from social situations. **Example:** Lord Alaric, once a respected member of his community, begins to express contempt for the peasants under his rule. He criticizes their actions, seeing them as lazy and greedy, and distances himself from social gatherings, feeling that most people are beneath him. His bitterness is noted by his peers, who sense his growing cynicism but still find him approachable on occasion.
 
 ### Disorder
 

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Total Amnesia
-    - trauma-amnsttl
+  - Total Amnesia
+  - trauma-amnsttl
 tags: []
 name:
-    full: Total Amnesia
-    aliases: []
+  full: Total Amnesia
+  aliases: []
 id: omUTPahZRwHfuUJM
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: amnsttl
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: disorder
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: disorder
 folder: ECrcBb9CUCMX9JeJ
 ---
 

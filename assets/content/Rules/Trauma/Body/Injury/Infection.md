@@ -1,28 +1,24 @@
 ---
 aliases:
-    - Infection
-    - Infection Healing Test
-    - doc-infctn
+  - Infection
+  - Infection Healing Test
+  - doc-infctn
 id: oG7E0HWgfvWL6uUQ
 type: doc
 package: sohl
 category: rules
 name:
-    full: Infection
-    aliases: []
+  full: Infection
+  aliases: []
 folder: F4NGyU9QQgWwTcHe
 shortcode: infctn
 ---
 
-Some injuries can become **infected**. When such an injury's
-[[doc-hlngtst|Injury Healing Test]] comes up a
-[[doc-sccsstst#success-level|Critical Failure]], a new infection takes hold. An infection starts with a **Healing Rate
-one step higher than the injury it came from** (originating injury HR + 1).
+Some injuries can become **infected**. When such an injury's [[doc-hlngtst|Injury Healing Test]] comes up a [[doc-sccsstst#success-level|Critical Failure]], a new infection takes hold. An infection starts with a **Healing Rate one step higher than the injury it came from** (originating injury HR + 1).
 
 ## Weakness
 
-An infection saps the body, inflicting [[doc-fatigue|weakness fatigue]] according to
-its current Healing Rate:
+An infection saps the body, inflicting [[doc-fatigue|weakness fatigue]] according to its current Healing Rate:
 
 | Healing Rate | Weakness Fatigue |
 | ------------ | ---------------- |
@@ -32,21 +28,16 @@ its current Healing Rate:
 
 ## Recording an infection
 
-An infection is treated as a physical injury, recorded **separately** from the
-wound it came from, with:
+An infection is treated as a physical injury, recorded **separately** from the wound it came from, with:
 
 - **Aspect** — "Inf".
 - **Injury Level** — "X" (not applicable).
 
-**An active infection halts injury healing.** While the patient carries any
-active infection, **no** [[doc-hlngtst|Injury Healing Tests]]
-are made for them until every infection has been defeated.
+**An active infection halts injury healing.** While the patient carries any active infection, **no** [[doc-hlngtst|Injury Healing Tests]] are made for them until every infection has been defeated.
 
 ## Infection Healing Test
 
-An infection heals through the **Infection Healing Test** — a test of
-**`Healing Base × Infection Healing Rate`** (see [[Healing Base]]).
-The result changes the infection's Healing Rate:
+An infection heals through the **Infection Healing Test** — a test of **`Healing Base × Infection Healing Rate`** (see [[doc-hlngbs|Healing Base]]). The result changes the infection's Healing Rate:
 
 | Success Level | Change to Infection HR |
 | ------------- | ---------------------- |
@@ -55,10 +46,8 @@ The result changes the infection's Healing Rate:
 | MS (1)        | +1                     |
 | CS (2)        | +2                     |
 
-When the infection's Healing Rate rises to **6 or greater**, the infection is
-**healed**, and normal [[doc-hlngtst|injury healing]] can resume.
+When the infection's Healing Rate rises to **6 or greater**, the infection is **healed**, and normal [[doc-hlngtst|injury healing]] can resume.
 
 ## See also
 
-- [[doc-injrylvl|Injury]], [[Healing Base]], [[Fatigue]],
-  [[doc-afflctns|Afflictions]].
+- [[doc-injrylvl|Injury]], [[doc-hlngbs|Healing Base]], [[doc-fatigue|Fatigue]], [[doc-afflctns|Afflictions]].

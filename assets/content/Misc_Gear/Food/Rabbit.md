@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Rabbit
-    - miscgear-rabbit
+  - Rabbit
+  - miscgear-rabbit
 tags:
-    - food
+  - food
 name:
-    full: Rabbit
-    aliases: []
+  full: Rabbit
+  aliases: []
 description: "Lean pale meat cooks quickly, jerked for campaigns, fur for furriers."
 id: VWvemhIoCuxy1YMv
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: rabbit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2.5
-    weight: 1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

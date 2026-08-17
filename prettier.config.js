@@ -23,5 +23,18 @@ export default {
             files: "**/*.hbs",
             options: { parser: "angular" },
         },
+        {
+            // Markdown indents at 2, not the global 4. `assets/content/` is
+            // authored content whose YAML frontmatter is nested lists; at
+            // tabWidth 4 every note in the tree reindents away from the form it
+            // was written in, and 1441 of 1442 notes differed from their source
+            // on nothing else. Two also matches the other repositories that
+            // hold this content, so a note can move between them unchanged.
+            //
+            // Prose is untouched either way — `proseWrap` defaults to
+            // "preserve", so Prettier never rewraps a paragraph here.
+            files: "**/*.md",
+            options: { tabWidth: 2 },
+        },
     ],
 };

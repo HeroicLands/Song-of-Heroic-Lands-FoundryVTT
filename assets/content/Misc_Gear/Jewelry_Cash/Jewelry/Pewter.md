@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pewter
-    - miscgear-pewter
+  - Pewter
+  - miscgear-pewter
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Pewter
-    aliases: []
+  full: Pewter
+  aliases: []
 description: "Soft tin-lead alloy; cheaper than silver; tavern cups and household goods."
 id: Ja0Ix9LKndf0c5mm
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pewter
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 1
-    weight: 0.0625
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 1
+  weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

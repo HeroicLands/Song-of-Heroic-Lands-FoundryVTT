@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-tarot
+  - mysticalability-tarot
 tags: []
 name:
-    full: Tarotry
-    aliases: []
+  full: Tarotry
+  aliases: []
 description: "Laying cards in a spread and reading the human situation they describe."
 id: fUCUOIumo1t0GIQ1
 img: icons/game-icons/faithtoken/card-random.svg
@@ -12,13 +12,13 @@ shortcode: tarot
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: divination
-    archetype: 0
-    subType: divination
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: divination
+  archetype: 0
+  subType: divination
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 folder: 0GxlNn2dYXCW24YF
 ---
 

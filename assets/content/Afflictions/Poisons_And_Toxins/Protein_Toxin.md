@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Protein Toxin
-    - affliction-prottxn
+  - Protein Toxin
+  - affliction-prottxn
 tags: []
 name:
-    full: Protein Toxin
-    aliases: []
+  full: Protein Toxin
+  aliases: []
 description: "Marine spine venom; intense pain and tissue necrosis; cardiovascular distress."
 id: KwEmcDpeSx9jPnqK
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -13,13 +13,13 @@ shortcode: prottxn
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

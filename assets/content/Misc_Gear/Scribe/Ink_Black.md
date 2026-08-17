@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Ink, Black"
-    - miscgear-inkblk
+  - "Ink, Black"
+  - miscgear-inkblk
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Ink, Black"
-    aliases: []
+  full: "Ink, Black"
+  aliases: []
 description: "Oak-gall ink; indelible black for clerks, scribes, chroniclers' work."
 id: nxjytMpUChcgQfLM
 img: icons/game-icons/lorc/ink-swirl.svg
@@ -14,15 +14,15 @@ shortcode: inkblk
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 9
-    weight: 2
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 9
+  weight: 2
 folder: BYkA5NDQxTXDvsAC
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Perfume, cheap"
-    - miscgear-perfumecheap
+  - "Perfume, cheap"
+  - miscgear-perfumecheap
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Perfume, cheap"
-    aliases: []
+  full: "Perfume, cheap"
+  aliases: []
 description: "Coarse scent of common herbs in weak spirit; fades within the hour."
 id: 1kdbq7wlJr1J68sN
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: perfumecheap
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: pfmy
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 12
-    weight: 0.0625
+  craft:
+    skill: pfmy
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 12
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Pouch, buckram"
-    - containergear-pouchbuckram
+  - "Pouch, buckram"
+  - containergear-pouchbuckram
 tags: []
 name:
-    full: "Pouch, buckram"
-    aliases: []
+  full: "Pouch, buckram"
+  aliases: []
 description: "Stiffened cloth belt pouch; the cheap alternative to leather."
 id: 4cz8wqi4oxWVZ8TY
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: pouchbuckram
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 3
-    value: 30
-    weight: 0.3
+  craft:
+    skill: txtl
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 3
+  value: 30
+  weight: 0.3
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Saddle, Riding"
-    - miscgear-saddleridi
+  - "Saddle, Riding"
+  - miscgear-saddleridi
 tags:
-    - tack
+  - tack
 name:
-    full: "Saddle, Riding"
-    aliases: []
+  full: "Saddle, Riding"
+  aliases: []
 description: "Ash-wood and leather frame, high pommel and cantle; supports rider comfortably."
 id: gnMMGPDKR7revPLL
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: saddleridi
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 80
-    weight: 10
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 80
+  weight: 10
 folder: WTIUTjADwAcpyv0H
 ---
 

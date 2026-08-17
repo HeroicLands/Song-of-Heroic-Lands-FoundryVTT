@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-pssmstc
+  - trauma-pssmstc
 tags: []
 name:
-    full: Pessimistic
-    aliases: []
+  full: Pessimistic
+  aliases: []
 id: LlfNyX9IWa1uG00R
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: pssmstc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Pessimism refers to an individual's tendency to expect negative outcomes or focu
 
 ### Quirk
 
-The individual has a tendency to see things in a negative light, always expecting the worst possible outcome. However, this mindset helps them prepare for setbacks and difficulties, ensuring they are never caught off guard. While they may often expect failure or problems, they use this outlook to stay vigilant and take precautions. Though others may view them as overly cautious or negative, their approach helps them avoid surprises and ensures they are prepared for adversity.
-**Example:** Mathilde, a farmer, always assumes the worst when it comes to her crops. She constantly worries about droughts, pests, and storms, and as a result, she takes extra precautions like building strong storage facilities and planting hardy crops that can withstand difficult conditions. While her neighbors sometimes tease her for being so negative, Mathilde’s pessimism keeps her well-prepared when tough times do come, and her farm is rarely caught off guard by sudden challenges.
+The individual has a tendency to see things in a negative light, always expecting the worst possible outcome. However, this mindset helps them prepare for setbacks and difficulties, ensuring they are never caught off guard. While they may often expect failure or problems, they use this outlook to stay vigilant and take precautions. Though others may view them as overly cautious or negative, their approach helps them avoid surprises and ensures they are prepared for adversity. **Example:** Mathilde, a farmer, always assumes the worst when it comes to her crops. She constantly worries about droughts, pests, and storms, and as a result, she takes extra precautions like building strong storage facilities and planting hardy crops that can withstand difficult conditions. While her neighbors sometimes tease her for being so negative, Mathilde’s pessimism keeps her well-prepared when tough times do come, and her farm is rarely caught off guard by sudden challenges.
 
 ### Impulse
 
-The individual’s pessimism becomes more pronounced, causing them to focus primarily on negative outcomes. They may begin to assume that most efforts will fail or that problems are inevitable, which can dampen their motivation. Their cautious outlook may make them hesitant to take risks, and they might discourage others from pursuing ambitious plans. While their mindset helps them avoid disappointment, it often leads to a lack of enthusiasm or hope for positive change.
-**Example:** Mathilde’s pessimism grows stronger, and she begins to expect failure in every venture. When her neighbors plan to expand their farm, she warns them that the extra work won’t pay off, convinced that poor weather will ruin the crops. Though her caution helps her avoid big losses, her constant focus on what could go wrong starts to sap the energy of those around her. Others begin to notice that Mathilde rarely sees any hope in new endeavors, and her pessimistic outlook makes it hard for her to engage with opportunities.
+The individual’s pessimism becomes more pronounced, causing them to focus primarily on negative outcomes. They may begin to assume that most efforts will fail or that problems are inevitable, which can dampen their motivation. Their cautious outlook may make them hesitant to take risks, and they might discourage others from pursuing ambitious plans. While their mindset helps them avoid disappointment, it often leads to a lack of enthusiasm or hope for positive change. **Example:** Mathilde’s pessimism grows stronger, and she begins to expect failure in every venture. When her neighbors plan to expand their farm, she warns them that the extra work won’t pay off, convinced that poor weather will ruin the crops. Though her caution helps her avoid big losses, her constant focus on what could go wrong starts to sap the energy of those around her. Others begin to notice that Mathilde rarely sees any hope in new endeavors, and her pessimistic outlook makes it hard for her to engage with opportunities.
 
 ### Disorder
 

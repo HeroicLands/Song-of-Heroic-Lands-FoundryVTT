@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Stone, Fine"
-    - miscgear-stonefine
+  - "Stone, Fine"
+  - miscgear-stonefine
 tags:
-    - stone
+  - stone
 name:
-    full: "Stone, Fine"
-    aliases: []
+  full: "Stone, Fine"
+  aliases: []
 description: "Squared dressed stone blocks; smooth facing, precise joints; churches, fortifications."
 id: 4YT7IALRsIulSwsI
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: stonefine
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: stone
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 1
-    weight: 400
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: stone
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 1
+  weight: 400
 folder: 7HORJHbbizVSds9r
 ---
 

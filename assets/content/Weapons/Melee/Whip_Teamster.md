@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Whip, Teamster
-    - weapongear-TWhp
+  - Whip, Teamster
+  - weapongear-TWhp
 tags: []
 name:
-    full: Whip, Teamster
-    aliases: []
+  full: Whip, Teamster
+  aliases: []
 description: "Short cord lash stinging rather than cutting; driver's incidental combat tool."
 id: peZMGgdpM5LQ60a9
 img: icons/game-icons/lorc/whip.svg
@@ -13,105 +13,105 @@ shortcode: TWhp
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: whip
-    archetype: 0
-    durability: 9
-    weight: 1
-    value: 6
-    heft: 9
-    weaponType: Flail
-    strikeModes:
-        - shortcode: lash
-          type: melee
-          name: Lash
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 0
-              aspect: edged
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 2
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: true
-              envelop: false
-              couched: false
-              long: true
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 4
-          defense:
-              blockMod: -20
-              counterstrikeMod: -20
-        - shortcode: pommel
-          type: melee
-          name: Pommel
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 4
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 0
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 2
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: true
-              envelop: false
-              couched: false
-              long: true
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: true
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 4
-          defense:
-              blockMod: -20
-              counterstrikeMod: -20
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: whip
+  archetype: 0
+  durability: 9
+  weight: 1
+  value: 6
+  heft: 9
+  weaponType: Flail
+  strikeModes:
+    - shortcode: lash
+      type: melee
+      name: Lash
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 0
+        aspect: edged
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 2
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: true
+        envelop: false
+        couched: false
+        long: true
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 4
+      defense:
+        blockMod: -20
+        counterstrikeMod: -20
+    - shortcode: pommel
+      type: melee
+      name: Pommel
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 4
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 0
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 2
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: true
+        envelop: false
+        couched: false
+        long: true
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: true
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 4
+      defense:
+        blockMod: -20
+        counterstrikeMod: -20
 folder: HXiYHvG6igI3Wlmm
 ---
 

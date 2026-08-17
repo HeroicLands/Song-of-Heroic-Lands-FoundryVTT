@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Drum, bass"
-    - miscgear-drumbass
+  - "Drum, bass"
+  - miscgear-drumbass
 tags:
-    - music
+  - music
 name:
-    full: "Drum, bass"
-    aliases: []
+  full: "Drum, bass"
+  aliases: []
 description: "Large oak-ash cylinder with ox-hide heads; deep boom signals maneuvers and cadence."
 id: NCkn5appnYlVyyYt
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: drumbass
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 50
-    weight: 8
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 50
+  weight: 8
 folder: ncTaRcZt0RFYz0Gq
 ---
 

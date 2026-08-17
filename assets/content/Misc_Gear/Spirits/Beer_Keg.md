@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Beer, Keg"
-    - miscgear-beerkeg
+  - "Beer, Keg"
+  - miscgear-beerkeg
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Beer, Keg"
-    aliases: []
+  full: "Beer, Keg"
+  aliases: []
 description: "Small-beer in bulk; thin, sour, cheap for troops and workforces."
 id: umFi5o4IsUwaSXay
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: beerkeg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 25
-    weight: 72
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 25
+  weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pheasant
-    - miscgear-pheasant
+  - Pheasant
+  - miscgear-pheasant
 tags:
-    - food
+  - food
 name:
-    full: Pheasant
-    aliases: []
+  full: Pheasant
+  aliases: []
 description: "Prized game bird, delicate meat roasts well, smokes into jerky."
 id: pf47vQyIl9I7d2JC
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pheasant
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

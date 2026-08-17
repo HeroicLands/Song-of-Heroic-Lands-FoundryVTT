@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Spade"
-    - miscgear-spade
+  - "Spade"
+  - miscgear-spade
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Spade"
-    aliases: []
+  full: "Spade"
+  aliases: []
 description: "Iron-shod digging spade for earth, peat, and drainage work."
 id: adk0pntONrseU6tp
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spade
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 18
-    weight: 4
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 18
+  weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-swim
+  - skill-swim
 tags: []
 name:
-    full: Swimming
-    aliases: []
+  full: Swimming
+  aliases: []
 description: "Moving through water across rivers, during shipwrecks, or beneath surfaces."
 id: DlPCHm0GqMcwZyyh
 img: icons/game-icons/delapouite/swimfins.svg
@@ -12,20 +12,20 @@ shortcode: swim
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.agl, attr.end)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 1
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.agl, attr.end)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 1
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: Yt9THlZ0NT8H6aSK
 ---
 

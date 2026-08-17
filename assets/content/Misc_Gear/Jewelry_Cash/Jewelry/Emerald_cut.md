@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Emerald, cut"
-    - miscgear-emeraldcut
+  - "Emerald, cut"
+  - miscgear-emeraldcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Emerald, cut"
-    aliases: []
+  full: "Emerald, cut"
+  aliases: []
 description: "Deep green beryl gem; set into crowns, brooches, and formal rings."
 id: mF4Ubog9ycfXeJYO
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: emeraldcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 700
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 700
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

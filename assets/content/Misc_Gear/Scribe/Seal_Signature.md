@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Seal, Signature"
-    - miscgear-sealsignat
+  - "Seal, Signature"
+  - miscgear-sealsignat
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Seal, Signature"
-    aliases: []
+  full: "Seal, Signature"
+  aliases: []
 description: "Brass or iron seal carved with owner's mark; authenticates charters, contracts, deeds."
 id: 8iW0isQgUMlnQtHw
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: sealsignat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 36
-    weight: 0.25
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 36
+  weight: 0.25
 folder: BYkA5NDQxTXDvsAC
 ---
 

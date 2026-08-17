@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Tent, Ridged, small"
-    - miscgear-tentridged2
+  - "Tent, Ridged, small"
+  - miscgear-tentridged2
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Tent, Ridged, small"
-    aliases: []
+  full: "Tent, Ridged, small"
+  aliases: []
 description: "One-person ridge-pole tent; tight profile resists wind, packs readily."
 id: AatqvN9WOOf49Af1
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tentridged2
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 102
-    weight: 22
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 102
+  weight: 22
 folder: FSPVI1eObGEpMVck
 ---
 

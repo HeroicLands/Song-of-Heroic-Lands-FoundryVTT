@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-dwarfism
+  - trauma-dwarfism
 tags: []
 name:
-    full: Dwarfism
-    aliases: []
+  full: Dwarfism
+  aliases: []
 id: ShfK05q4kdaeCC9s
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dwarfism
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

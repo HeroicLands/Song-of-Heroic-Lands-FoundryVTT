@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Compulsive Disclosure
-    - trauma-cmpldsr
+  - Compulsive Disclosure
+  - trauma-cmpldsr
 tags: []
 name:
-    full: Compulsive Disclosure
-    aliases: []
+  full: Compulsive Disclosure
+  aliases: []
 id: cdUAhDMigdEaouPr
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cmpldsr
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -23,8 +23,7 @@ Compulsive Disclosure is a behavioral condition where an individual feels an unc
 
 ### Impulse
 
-The individual frequently discloses personal details in conversations, even when it might not be appropriate or relevant. They may occasionally realize afterward that they have shared too much and feel embarrassed, but despite this, they find it difficult to stop themselves from oversharing again. This can lead to anxiety and discomfort in social settings.
-**Example:** During a casual lunch with colleagues, Lisa begins sharing intimate details about her recent breakup, even though the conversation was about work. Afterward, she feels embarrassed and worries about how her colleagues now perceive her, but she struggles to avoid oversharing in future interactions.
+The individual frequently discloses personal details in conversations, even when it might not be appropriate or relevant. They may occasionally realize afterward that they have shared too much and feel embarrassed, but despite this, they find it difficult to stop themselves from oversharing again. This can lead to anxiety and discomfort in social settings. **Example:** During a casual lunch with colleagues, Lisa begins sharing intimate details about her recent breakup, even though the conversation was about work. Afterward, she feels embarrassed and worries about how her colleagues now perceive her, but she struggles to avoid oversharing in future interactions.
 
 ### Disorder
 

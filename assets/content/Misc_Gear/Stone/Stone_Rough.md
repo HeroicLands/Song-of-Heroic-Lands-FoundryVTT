@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Stone, Rough"
-    - miscgear-stonerough
+  - "Stone, Rough"
+  - miscgear-stonerough
 tags:
-    - stone
+  - stone
 name:
-    full: "Stone, Rough"
-    aliases: []
+  full: "Stone, Rough"
+  aliases: []
 description: "Unsquared fieldstone blocks; cheap practical; barn walls, boundary fences."
 id: HPVtEP2fGgaFFSNQ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: stonerough
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: stone
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 0.5
-    weight: 400
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: stone
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 0.5
+  weight: 400
 folder: 7HORJHbbizVSds9r
 ---
 

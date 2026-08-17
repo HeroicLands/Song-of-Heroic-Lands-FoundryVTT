@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Salt, sack"
-    - miscgear-saltsack
+  - "Salt, sack"
+  - miscgear-saltsack
 tags:
-    - food
+  - food
 name:
-    full: "Salt, sack"
-    aliases: []
+  full: "Salt, sack"
+  aliases: []
 description: "Bulk coarse crystals, preserves a dozen fish or full ham."
 id: Ai4qwiaLyOnQVUID
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: saltsack
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 10
-    weight: 51
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 10
+  weight: 51
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-draw
+  - skill-draw
 tags: []
 name:
-    full: Drawing
-    aliases: []
+  full: Drawing
+  aliases: []
 description: "Painting, sketching, fresco work; creating artistic and technical designs."
 id: in1KGfGdrkpLzd9N
 img: icons/game-icons/badges/pencil.svg
@@ -12,19 +12,19 @@ shortcode: draw
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -34,9 +34,7 @@ The skill is also the executant hand behind other people's knowledge. Setting ou
 
 # Crafting {#crafting}
 
-A finished picture is made by the common [[doc-crafting|crafting routine]] —
-workshop, expense, test, result, masterwork rolls, repair. What follows is what
-is particular to the drawing board.
+A finished picture is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the drawing board.
 
 **Expense.** **Four hours per square foot** of finished surface.
 

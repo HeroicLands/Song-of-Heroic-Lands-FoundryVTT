@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Hogshead Ale
-    - miscgear-alehgsh
+  - Hogshead Ale
+  - miscgear-alehgsh
 tags:
-    - spirits
+  - spirits
 name:
-    full: Hogshead Ale
-    aliases: []
+  full: Hogshead Ale
+  aliases: []
 description: "Fifty gallons pale ale; garrison staple; drains in weeks of daily supply."
 id: tmXuoiVwgO1b8QhY
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,17 +14,17 @@ shortcode: alehgsh
 type: miscgear
 package: sohl
 hmk:
-    name: Hogshead Ale
+  name: Hogshead Ale
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 95
-    weight: 440
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 95
+  weight: 440
 folder: jLdeIpOIZokm8obv
 ---
 

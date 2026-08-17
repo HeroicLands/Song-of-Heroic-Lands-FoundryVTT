@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Beer, Hogshead"
-    - miscgear-beerhgsh
+  - "Beer, Hogshead"
+  - miscgear-beerhgsh
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Beer, Hogshead"
-    aliases: []
+  full: "Beer, Hogshead"
+  aliases: []
 description: "Weak sour small-beer; cheap garrison drink, prevents tainted water sickness."
 id: UcPGAwFF1kUSIZSw
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: beerhgsh
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 125
-    weight: 440
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 125
+  weight: 440
 folder: jLdeIpOIZokm8obv
 ---
 

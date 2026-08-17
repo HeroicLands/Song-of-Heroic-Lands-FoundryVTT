@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-eczema
+  - trauma-eczema
 tags: []
 name:
-    full: Eczema
-    aliases: []
+  full: Eczema
+  aliases: []
 id: Jio2YGG0lXIm6KFU
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: eczema
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

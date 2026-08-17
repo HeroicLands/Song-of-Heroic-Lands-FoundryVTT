@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Velvet Trousers
-    - armorgear-VTrsr
+  - Velvet Trousers
+  - armorgear-VTrsr
 tags: []
 name:
-    full: Velvet Trousers
-    aliases: []
+  full: Velvet Trousers
+  aliases: []
 description: "Soft plush velvet trousers; luxurious garment for high-status formal events."
 id: Gj8vj0cB8Fu8tbWu
 img: icons/game-icons/lorc/trousers.svg
@@ -13,33 +13,33 @@ shortcode: VTrsr
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Trousers
-    detailMaterial: Velvet
-    material: Cloth
-    durability: 10
-    value: 137
-    weight: 2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Trousers
+  detailMaterial: Velvet
+  material: Cloth
+  durability: 10
+  value: 137
+  weight: 2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 39
 origWeight: 2

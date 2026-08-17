@@ -1,82 +1,82 @@
 ---
 aliases:
-    - Grab
-    - skill-bflkgrab
+  - Grab
+  - skill-bflkgrab
 tags: []
 name:
-    full: Grab
-    aliases: []
+  full: Grab
+  aliases: []
 description: "Seize a limb — to take the weapon out of it, or to hold it still."
-id: UnarmedGrab0001
+id: T18G4LaTXd0AQ3qM
 img: icons/game-icons/lorc/grab.svg
 shortcode: bflkgrab
 type: skill
 package: sohl
 sohl:
-    kbcat: unarmed
-    archetype: 0
-    subType: combattechnique
-    skillBaseFormula: "sb(attr.dex, attr.agl)"
-    combatCategory: melee
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - manipulator
-    strikeMode:
-        type: melee
-        shortcode: grab
-        name: Grab
-        minParts: 1
-        assocSkillCode: melee
-        attack:
-            disabled: false
-            spread: 4
-            modifier: 0
-        impactBase:
-            numDice: 0
-            die: null
-            modifier: 0
-            aspect: blunt
-        lengthBase: 1
-        defense:
-            block:
-                disabled: true
-                modifier: 0
-                successLevelMod: 0
-            counterstrike:
-                disabled: false
-                modifier: 0
-                successLevelMod: 0
-        traits:
-            meleeMod: 0
-            blockSLMod: 0
-            durabilityMod: 0
-            cxSLMod: 0
-            oppDef: 0
-            impTA: 0
-            AR: 0
-            noAttack: false
-            noBlock: true
-            entangle: false
-            envelop: false
-            couched: false
-            long: false
-            onlyInClose: false
-            shieldMod: 0
-            slow: false
-            thrust: false
-            swung: false
-            halfSword: false
-            bleed: false
-            twoHndLen: 0
-            shaft: false
-            pommel: false
-            noStrMod: false
-            halfImpact: false
-            lowAim: false
-            strRoll: true
+  kbcat: unarmed
+  archetype: 0
+  subType: combattechnique
+  skillBaseFormula: "sb(attr.dex, attr.agl)"
+  combatCategory: melee
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - manipulator
+  strikeMode:
+    type: melee
+    shortcode: grab
+    name: Grab
+    minParts: 1
+    assocSkillCode: melee
+    attack:
+      disabled: false
+      spread: 4
+      modifier: 0
+    impactBase:
+      numDice: 0
+      die: null
+      modifier: 0
+      aspect: blunt
+    lengthBase: 1
+    defense:
+      block:
+        disabled: true
+        modifier: 0
+        successLevelMod: 0
+      counterstrike:
+        disabled: false
+        modifier: 0
+        successLevelMod: 0
+    traits:
+      meleeMod: 0
+      blockSLMod: 0
+      durabilityMod: 0
+      cxSLMod: 0
+      oppDef: 0
+      impTA: 0
+      AR: 0
+      noAttack: false
+      noBlock: true
+      entangle: false
+      envelop: false
+      couched: false
+      long: false
+      onlyInClose: false
+      shieldMod: 0
+      slow: false
+      thrust: false
+      swung: false
+      halfSword: false
+      bleed: false
+      twoHndLen: 0
+      shaft: false
+      pommel: false
+      noStrMod: false
+      halfImpact: false
+      lowAim: false
+      strRoll: true
 folder: EphAMAfFhWBrJxyF
 ---
 

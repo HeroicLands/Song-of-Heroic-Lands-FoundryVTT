@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pike
-    - miscgear-pike
+  - Pike
+  - miscgear-pike
 tags:
-    - food
+  - food
 name:
-    full: Pike
-    aliases: []
+  full: Pike
+  aliases: []
 description: "Freshwater predator with firm white flaky flesh, salts and smokes well."
 id: qx4BhJyHa2vRXjjP
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pike
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 1
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

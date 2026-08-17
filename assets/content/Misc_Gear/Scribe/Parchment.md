@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Parchment
-    - miscgear-parchment
+  - Parchment
+  - miscgear-parchment
 tags:
-    - scribe
+  - scribe
 name:
-    full: Parchment
-    aliases: []
+  full: Parchment
+  aliases: []
 description: "Sheepskin stretched, chalked, pumiced; durable centuries, preferred for records."
 id: cnOuK89KZLGZa42S
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: parchment
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 2
-    weight: 0.1
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 2
+  weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

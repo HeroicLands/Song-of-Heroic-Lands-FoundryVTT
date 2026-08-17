@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-selfsuf
+  - trauma-selfsuf
 tags: []
 name:
-    full: Self-sufficient
-    aliases: []
+  full: Self-sufficient
+  aliases: []
 id: bNm2Q0383zIRo2wG
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: selfsuf
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

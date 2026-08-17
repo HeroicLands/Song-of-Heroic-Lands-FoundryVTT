@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Serge Mantle
-    - armorgear-SgMntl
+  - Serge Mantle
+  - armorgear-SgMntl
 tags: []
 name:
-    full: Serge Mantle
-    aliases: []
+  full: Serge Mantle
+  aliases: []
 description: "Durable twilled serge mantle; versatile protective outer garment."
 id: vRrVRyYfchZbycS7
 img: icons/game-icons/delapouite/cape.svg
@@ -13,31 +13,31 @@ shortcode: SgMntl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Mantle
-    detailMaterial: Serge
-    material: Cloth
-    durability: 7
-    value: 13
-    weight: 0.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Mantle
+  detailMaterial: Serge
+  material: Cloth
+  durability: 7
+  value: 13
+  weight: 0.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 21
 origWeight: 1.1

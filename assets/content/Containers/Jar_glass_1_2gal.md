@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jar, glass, 1/2-gallon"
-    - containergear-jarglassla
+  - "Jar, glass, 1/2-gallon"
+  - containergear-jarglassla
 tags: []
 name:
-    full: "Jar, glass, 1/2-gallon"
-    aliases: []
+  full: "Jar, glass, 1/2-gallon"
+  aliases: []
 description: "Capacious blown glass jar for preserves and dried herbs (1/2 gallon)."
 id: ulRTx0rVKIzCMnaF
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jarglassla
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 4
-    value: 18
-    weight: 2
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 4
+  value: 18
+  weight: 2
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-schizop
+  - trauma-schizop
 tags: []
 name:
-    full: Schizophrenia
-    aliases: []
+  full: Schizophrenia
+  aliases: []
 id: b2GfR3llVmETAEbd
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: schizop
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,8 +22,7 @@ Schizophrenic refers to an individual experiencing symptoms associated with schi
 
 ### Impulse
 
-The individual begins to experience mild to moderate symptoms of schizophrenia, such as occasional hallucinations, disorganized thoughts, or paranoid delusions. These symptoms may come and go, but the person can still function in society, although with increasing difficulty. They may begin to withdraw socially, experiencing confusion or fear due to their altered perception of reality. At this stage, they are aware that something feels off but may rationalize or minimize the severity of their experiences.
-**Example:** Lady Isabelle occasionally hears voices that no one else can hear and sees fleeting images that disappear when she tries to focus on them. She becomes more reclusive, avoiding social gatherings because she fears others might notice her strange behavior. While she still maintains some normalcy, her mind is often preoccupied with confusion, and she is becoming more suspicious of those around her, wondering if they are plotting against her.
+The individual begins to experience mild to moderate symptoms of schizophrenia, such as occasional hallucinations, disorganized thoughts, or paranoid delusions. These symptoms may come and go, but the person can still function in society, although with increasing difficulty. They may begin to withdraw socially, experiencing confusion or fear due to their altered perception of reality. At this stage, they are aware that something feels off but may rationalize or minimize the severity of their experiences. **Example:** Lady Isabelle occasionally hears voices that no one else can hear and sees fleeting images that disappear when she tries to focus on them. She becomes more reclusive, avoiding social gatherings because she fears others might notice her strange behavior. While she still maintains some normalcy, her mind is often preoccupied with confusion, and she is becoming more suspicious of those around her, wondering if they are plotting against her.
 
 ### Disorder
 

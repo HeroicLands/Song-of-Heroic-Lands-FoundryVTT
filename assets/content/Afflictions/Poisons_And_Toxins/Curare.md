@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-curare
+  - affliction-curare
 tags: []
 name:
-    full: Curare
-    aliases: []
+  full: Curare
+  aliases: []
 description: "Plant toxin; neuromuscular paralysis progressing from extremities inward; respiratory failure."
 id: PQLxHwunw4q55rDD
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: curare
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Limestone, powdered"
-    - miscgear-limestonep
+  - "Limestone, powdered"
+  - miscgear-limestonep
 tags:
-    - stone
+  - stone
 name:
-    full: "Limestone, powdered"
-    aliases: []
+  full: "Limestone, powdered"
+  aliases: []
 description: "White caustic powder; mortar, whitewash, soil acidity; kept sealed, handled cautiously."
 id: UM1KDcS1GHMr2cPS
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: limestonep
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: stone
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 3
-    weight: 1
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: stone
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 3
+  weight: 1
 folder: 7HORJHbbizVSds9r
 ---
 

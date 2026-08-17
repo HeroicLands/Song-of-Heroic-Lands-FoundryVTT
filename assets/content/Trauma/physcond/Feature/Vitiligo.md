@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-vitiligo
+  - trauma-vitiligo
 tags: []
 name:
-    full: Vitiligo
-    aliases: []
+  full: Vitiligo
+  aliases: []
 id: 59msy73NBMHpaVoR
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vitiligo
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,13 +22,11 @@ Vitiligo is a skin condition characterized by the loss of pigment in patches, re
 
 ### Trait
 
-The individual experiences small, isolated patches of depigmentation on their skin, often in areas exposed to the sun. These patches may not cause physical discomfort, but they can lead to a heightened awareness of their appearance. In mild cases, the depigmentation may be slow to spread or remain limited, and the individual adapts to the condition with little impact on their daily life or self-esteem.
-**Example:** Margery, a young woman living in a small village, notices a few pale spots on her hands and forearms. The patches are small and easy to cover with clothing, and while some of the villagers occasionally ask about her skin, Margery is not overly concerned. She continues with her life, accepting the slight change in her appearance as something she cannot control.
+The individual experiences small, isolated patches of depigmentation on their skin, often in areas exposed to the sun. These patches may not cause physical discomfort, but they can lead to a heightened awareness of their appearance. In mild cases, the depigmentation may be slow to spread or remain limited, and the individual adapts to the condition with little impact on their daily life or self-esteem. **Example:** Margery, a young woman living in a small village, notices a few pale spots on her hands and forearms. The patches are small and easy to cover with clothing, and while some of the villagers occasionally ask about her skin, Margery is not overly concerned. She continues with her life, accepting the slight change in her appearance as something she cannot control.
 
 ### Impediment
 
-The depigmentation begins to spread more noticeably, causing the individual to become more self-conscious about their appearance. The affected areas become larger or more visible, particularly on the face, hands, or other exposed areas. As the changes become more obvious, people in the village begin to whisper and avoid the individual, thinking her condition might be a sign of a curse or illness. Although there are no physical symptoms, the emotional impact increases as the individual feels more ostracized by others and avoids social interactions out of fear of being judged or rejected.
-**Example:** Margery's vitiligo spreads to her face, forming visible patches around her eyes and mouth. As the changes become more apparent, villagers begin to whisper behind her back, calling her "marked" and speculating that her skin might be a sign of bad fortune. Some avoid standing near her at the market, fearing her condition could be contagious. Margery becomes increasingly anxious, feeling the weight of their judgment. She withdraws from village gatherings, covering her skin with scarves and long sleeves, even in the heat of summer. The fear of being gossiped about drives her into isolation.
+The depigmentation begins to spread more noticeably, causing the individual to become more self-conscious about their appearance. The affected areas become larger or more visible, particularly on the face, hands, or other exposed areas. As the changes become more obvious, people in the village begin to whisper and avoid the individual, thinking her condition might be a sign of a curse or illness. Although there are no physical symptoms, the emotional impact increases as the individual feels more ostracized by others and avoids social interactions out of fear of being judged or rejected. **Example:** Margery's vitiligo spreads to her face, forming visible patches around her eyes and mouth. As the changes become more apparent, villagers begin to whisper behind her back, calling her "marked" and speculating that her skin might be a sign of bad fortune. Some avoid standing near her at the market, fearing her condition could be contagious. Margery becomes increasingly anxious, feeling the weight of their judgment. She withdraws from village gatherings, covering her skin with scarves and long sleeves, even in the heat of summer. The fear of being gossiped about drives her into isolation.
 
 ### Debility
 

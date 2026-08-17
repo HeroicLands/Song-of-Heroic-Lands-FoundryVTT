@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Baldric, Shoulder"
-    - miscgear-baldricsho
+  - "Baldric, Shoulder"
+  - miscgear-baldricsho
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Baldric, Shoulder"
-    aliases: []
+  full: "Baldric, Shoulder"
+  aliases: []
 description: "Wide leather strap with brass rings worn diagonally across chest and shoulder."
 id: mXwLJRUI6BvHVrYn
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: baldricsho
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 10
-    weight: 1.75
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 10
+  weight: 1.75
 folder: FSPVI1eObGEpMVck
 ---
 

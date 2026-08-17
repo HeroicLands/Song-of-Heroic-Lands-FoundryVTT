@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Standard Bolt
-    - projectilegear-BltStd
+  - Standard Bolt
+  - projectilegear-BltStd
 tags: []
 name:
-    full: Standard Bolt
-    alias: []
+  full: Standard Bolt
+  alias: []
 description: "Stout hardwood quarrel, simple iron head; cheap volley fire against unarmoured."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: BltStd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Standard
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.22
-    weight: 1.25
-    impact:
-        die: 12
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: false
-    subType: bolt
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.22
+  weight: 1.25
+  impact:
+    die: 12
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: false
+  subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

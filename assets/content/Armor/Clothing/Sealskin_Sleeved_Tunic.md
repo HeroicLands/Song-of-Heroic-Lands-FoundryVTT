@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Sealskin Sleeved Tunic
-    - armorgear-SlsSTnc
+  - Sealskin Sleeved Tunic
+  - armorgear-SlsSTnc
 tags: []
 name:
-    full: Sealskin Sleeved Tunic
-    aliases: []
+  full: Sealskin Sleeved Tunic
+  aliases: []
 description: "Water-resistant seal-fur tunic; full arm-and-torso coverage."
 id: 0CZZJ5FAOjyWGeMi
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,37 +13,37 @@ shortcode: SlsSTnc
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Sleeved Tunic
-    detailMaterial: Sealskin
-    material: Leather
-    durability: 11
-    value: 600
-    weight: 8.9
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Sleeved Tunic
+  detailMaterial: Sealskin
+  material: Leather
+  durability: 11
+  value: 600
+  weight: 8.9
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 600
 origWeight: 8.9

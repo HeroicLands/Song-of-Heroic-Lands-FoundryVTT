@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Sundial, bronze"
-    - miscgear-sundialbro
+  - "Sundial, bronze"
+  - miscgear-sundialbro
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Sundial, bronze"
-    aliases: []
+  full: "Sundial, bronze"
+  aliases: []
 description: "Brass-mounted bronze dial; marks hours on clear days when set true."
 id: xo2SJIqzl9chHdyk
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: sundialbro
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 225
-    weight: 50
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 225
+  weight: 50
 folder: FSPVI1eObGEpMVck
 ---
 

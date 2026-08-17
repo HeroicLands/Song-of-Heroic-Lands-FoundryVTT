@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Impaired Smell
-    - trauma-impaire2
+  - Impaired Smell
+  - trauma-impaire2
 tags: []
 name:
-    full: Impaired Smell
-    aliases: []
+  full: Impaired Smell
+  aliases: []
 id: 4pNGYQxNYDE5gCPX
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaire2
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -23,8 +23,7 @@ Impaired Smell is a diminished ability to detect and perceive odors, often belie
 
 ### Impediment
 
-Difficulty distinguishing or detecting faint odors, leading to a reduced awareness of one’s surroundings. Though bothersome, it may be managed by focusing on other senses or avoiding situations where smell is crucial.
-**Example:** Cook Edric notices that the fragrant herbs in his stew no longer carry the same strength. Though he can still taste the food, the experience is less vivid, and he must rely on his memory and judgment more than his nose.
+Difficulty distinguishing or detecting faint odors, leading to a reduced awareness of one’s surroundings. Though bothersome, it may be managed by focusing on other senses or avoiding situations where smell is crucial. **Example:** Cook Edric notices that the fragrant herbs in his stew no longer carry the same strength. Though he can still taste the food, the experience is less vivid, and he must rely on his memory and judgment more than his nose.
 
 ### Debility
 

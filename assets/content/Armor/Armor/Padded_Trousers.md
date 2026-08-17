@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Padded Trousers
-    - armorgear-PTrsr
+  - Padded Trousers
+  - armorgear-PTrsr
 tags: []
 name:
-    full: Padded Trousers
-    aliases: []
+  full: Padded Trousers
+  aliases: []
 description: "Cushioned leg covering providing warmth and added protection."
 id: DddukiiKCahUANLS
 img: icons/game-icons/lorc/trousers.svg
@@ -13,33 +13,33 @@ shortcode: PTrsr
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: padded
-    archetype: 0
-    armorType: Trousers
-    detailMaterial: Padded
-    material: Padded
-    durability: 10
-    value: 78
-    weight: 3.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: padded
+  archetype: 0
+  armorType: Trousers
+  detailMaterial: Padded
+  material: Padded
+  durability: 10
+  value: 78
+  weight: 3.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 78
 origWeight: 3.1

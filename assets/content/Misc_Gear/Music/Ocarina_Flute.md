@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Ocarina Flute
-    - miscgear-ocarinaflu
+  - Ocarina Flute
+  - miscgear-ocarinaflu
 tags:
-    - music
+  - music
 name:
-    full: Ocarina Flute
-    aliases: []
+  full: Ocarina Flute
+  aliases: []
 description: "Egg-shaped clay-wood vessel with holes; soft mournful voice; shepherd's instrument."
 id: qODVAWzBvpB2iwUs
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: ocarinaflu
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 18
-    weight: 0.75
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 18
+  weight: 0.75
 folder: ncTaRcZt0RFYz0Gq
 ---
 

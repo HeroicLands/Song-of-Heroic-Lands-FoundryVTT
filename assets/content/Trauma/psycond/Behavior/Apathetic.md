@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-apthtc
+  - trauma-apthtc
 tags: []
 name:
-    full: Apathetic
-    aliases: []
+  full: Apathetic
+  aliases: []
 id: 9foIScRpen8Bf7cl
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: apthtc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

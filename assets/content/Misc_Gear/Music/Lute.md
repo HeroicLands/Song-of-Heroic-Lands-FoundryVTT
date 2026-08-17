@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Lute
-    - miscgear-lute
+  - Lute
+  - miscgear-lute
 tags:
-    - music
+  - music
 name:
-    full: Lute
-    aliases: []
+  full: Lute
+  aliases: []
 description: "Pear-shaped body, pegged neck, gut strings; warm voice for intricate music."
 id: RaDwfAf1ScmL8oMd
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lute
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 200
-    weight: 3
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 200
+  weight: 3
 folder: ncTaRcZt0RFYz0Gq
 ---
 

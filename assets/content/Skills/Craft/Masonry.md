@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-masn
+  - skill-masn
 tags: []
 name:
-    full: Masonry
-    aliases: []
+  full: Masonry
+  aliases: []
 description: "Quarrying, cutting, and laying stone for walls, buildings, and fortifications."
 id: F5DfpQA2G8l0BBLo
 img: icons/game-icons/delapouite/brick-wall.svg
@@ -12,19 +12,19 @@ shortcode: masn
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.str)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.str)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -32,10 +32,7 @@ Masonry is quarrying, dressing and laying stone — from a field wall or a carve
 
 # Crafting {#crafting}
 
-Stonework is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. A field wall or a carved plaque
-is a single Masonry Success Value test and no more. What follows is what is
-particular to a building.
+Stonework is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. A field wall or a carved plaque is a single Masonry Success Value test and no more. What follows is what is particular to a building.
 
 **Design.** Anything large or structurally ambitious — a keep, a bridge, a gatehouse — must first be designed: an Engineering Design Roll is made before the first stone is cut, and its Success Value then modifies the Construction Roll below.
 

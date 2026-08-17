@@ -25,9 +25,9 @@ Reference it in your module's `tsconfig.json`:
 
 ```json
 {
-    "compilerOptions": {
-        "types": ["@heroiclands/sohl-types"]
-    }
+  "compilerOptions": {
+    "types": ["@heroiclands/sohl-types"]
+  }
 }
 ```
 

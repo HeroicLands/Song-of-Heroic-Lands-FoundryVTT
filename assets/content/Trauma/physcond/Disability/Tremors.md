@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-tremors
+  - trauma-tremors
 tags: []
 name:
-    full: Tremors
-    aliases: []
+  full: Tremors
+  aliases: []
 id: 8wsl3ifOv5JxXgpC
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tremors
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,8 +22,7 @@ Tremors are involuntary, rhythmic shaking movements of the limbs or extremities,
 
 ### Impediment
 
-Mild, occasional shaking of the hands, arms, or other extremities, particularly during times of stress or fatigue. The tremors may be noticeable but do not significantly interfere with daily tasks.
-**Example:** Apothecary Roland notices his hands shaking slightly when he is tired or anxious, making it difficult to measure out precise doses of herbs. Though he can still perform his work, he must take extra care to steady his hands.
+Mild, occasional shaking of the hands, arms, or other extremities, particularly during times of stress or fatigue. The tremors may be noticeable but do not significantly interfere with daily tasks. **Example:** Apothecary Roland notices his hands shaking slightly when he is tired or anxious, making it difficult to measure out precise doses of herbs. Though he can still perform his work, he must take extra care to steady his hands.
 
 ### Debility
 

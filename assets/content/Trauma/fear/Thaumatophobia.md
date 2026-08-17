@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-thmtphb
+  - trauma-thmtphb
 tags: []
 name:
-    full: Thaumatophobia
-    aliases: []
+  full: Thaumatophobia
+  aliases: []
 id: QDnPROa6EooJldMK
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: thmtphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -23,8 +23,7 @@ Thaumatophobia is an intense, irrational fear of magic or supernatural occurrenc
 
 ### Impulse
 
-Avoiding literature, activities, or situations involving magic or the supernatural. Abberance (ABE) increases by
-1 from the source of fear.
+Avoiding literature, activities, or situations involving magic or the supernatural. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

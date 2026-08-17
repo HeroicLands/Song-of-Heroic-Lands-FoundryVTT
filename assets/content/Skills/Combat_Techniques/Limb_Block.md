@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Limb Block
-    - skill-limbblock
+  - Limb Block
+  - skill-limbblock
 tags: []
 name:
-    full: Limb Block
-    aliases: []
+  full: Limb Block
+  aliases: []
 description: "Warding a blow with a limb — desperate bare-armed, deliberate in a mail sleeve."
 id: UnarmedLimbBlock
 img: icons/game-icons/lorc/arm-bandage.svg
@@ -13,70 +13,70 @@ shortcode: limbblock
 type: skill
 package: sohl
 sohl:
-    kbcat: unarmed
-    archetype: 0
-    subType: combattechnique
-    skillBaseFormula: "sb(attr.dex, attr.agl)"
-    combatCategory: melee
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - manipulator
-    strikeMode:
-        type: melee
-        shortcode: limbblock
-        name: Limb Block
-        minParts: 1
-        assocSkillCode: melee
-        attack:
-            disabled: true
-            spread: 0
-            modifier: 0
-        impactBase:
-            numDice: 0
-            die: null
-            modifier: 0
-            aspect: blunt
-        lengthBase: 1
-        defense:
-            block:
-                disabled: false
-                modifier: 0
-                successLevelMod: 0
-            counterstrike:
-                disabled: true
-                modifier: 0
-                successLevelMod: 0
-        traits:
-            meleeMod: 0
-            blockSLMod: 0
-            durabilityMod: 0
-            cxSLMod: 0
-            oppDef: 0
-            impTA: 0
-            AR: 0
-            noAttack: true
-            noBlock: false
-            entangle: false
-            envelop: false
-            couched: false
-            long: false
-            onlyInClose: false
-            shieldMod: 0
-            slow: false
-            thrust: false
-            swung: false
-            halfSword: false
-            bleed: false
-            twoHndLen: 0
-            shaft: false
-            pommel: false
-            noStrMod: false
-            halfImpact: false
-            lowAim: false
-            strRoll: false
+  kbcat: unarmed
+  archetype: 0
+  subType: combattechnique
+  skillBaseFormula: "sb(attr.dex, attr.agl)"
+  combatCategory: melee
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - manipulator
+  strikeMode:
+    type: melee
+    shortcode: limbblock
+    name: Limb Block
+    minParts: 1
+    assocSkillCode: melee
+    attack:
+      disabled: true
+      spread: 0
+      modifier: 0
+    impactBase:
+      numDice: 0
+      die: null
+      modifier: 0
+      aspect: blunt
+    lengthBase: 1
+    defense:
+      block:
+        disabled: false
+        modifier: 0
+        successLevelMod: 0
+      counterstrike:
+        disabled: true
+        modifier: 0
+        successLevelMod: 0
+    traits:
+      meleeMod: 0
+      blockSLMod: 0
+      durabilityMod: 0
+      cxSLMod: 0
+      oppDef: 0
+      impTA: 0
+      AR: 0
+      noAttack: true
+      noBlock: false
+      entangle: false
+      envelop: false
+      couched: false
+      long: false
+      onlyInClose: false
+      shieldMod: 0
+      slow: false
+      thrust: false
+      swung: false
+      halfSword: false
+      bleed: false
+      twoHndLen: 0
+      shaft: false
+      pommel: false
+      noStrMod: false
+      halfImpact: false
+      lowAim: false
+      strRoll: false
 folder: EphAMAfFhWBrJxyF
 ---
 

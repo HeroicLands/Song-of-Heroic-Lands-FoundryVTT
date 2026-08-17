@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Buckram Swaddle
-    - armorgear-BSwd
+  - Buckram Swaddle
+  - armorgear-BSwd
 tags: []
 name:
-    full: Buckram Swaddle
-    aliases: []
+  full: Buckram Swaddle
+  aliases: []
 description: "Stiff buckram swaddle offering sturdy rigid infant wrapping."
 id: rzKn6HYBdfkVOLsw
 img: icons/game-icons/lorc/trousers.svg
@@ -13,30 +13,30 @@ shortcode: BSwd
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Swaddle
-    detailMaterial: Buckram
-    material: Cloth
-    durability: 10
-    value: 19
-    weight: 1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Swaddle
+  detailMaterial: Buckram
+  material: Cloth
+  durability: 10
+  value: 19
+  weight: 1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 19
 origWeight: 1

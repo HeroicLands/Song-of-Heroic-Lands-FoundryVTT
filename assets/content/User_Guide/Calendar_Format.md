@@ -1,80 +1,77 @@
 ---
 aliases:
-    - doc-clndrjsn
+  - doc-clndrjsn
 id: eFiHzB4DASknXQ2l
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Calendar JSON Format"
+  full: "Calendar JSON Format"
 shortcode: clndrjsn
 folder: IgwaG8rAUUO9vrtz
 ---
 
 # Calendar JSON Format {#CalendarFormat}
 
-This reference describes the JSON format used for custom calendar files in
-Song of Heroic Lands. For instructions on importing calendars, see
-[[System Settings]].
+This reference describes the JSON format used for custom calendar files in Song of Heroic Lands. For instructions on importing calendars, see [[doc-systmstt|System Settings]].
 
-A calendar JSON file must contain a single JSON object with the structure
-described below. All fields are required unless marked as optional.
+A calendar JSON file must contain a single JSON object with the structure described below. All fields are required unless marked as optional.
 
 # Example: Minimal Calendar {#CalendarExample}
 
 ```json
 {
-    "name": "My Campaign Calendar",
-    "description": "A custom calendar for my campaign world.",
-    "years": {
-        "yearZero": 0,
-        "firstWeekday": 0
-    },
-    "months": {
-        "values": [
-            {
-                "name": "First Month",
-                "abbreviation": "1st",
-                "ordinal": 1,
-                "days": 30
-            },
-            {
-                "name": "Second Month",
-                "abbreviation": "2nd",
-                "ordinal": 2,
-                "days": 30
-            }
-        ]
-    },
-    "days": {
-        "values": [
-            { "name": "Day One", "abbreviation": "D1", "ordinal": 1 },
-            { "name": "Day Two", "abbreviation": "D2", "ordinal": 2 },
-            { "name": "Day Three", "abbreviation": "D3", "ordinal": 3 },
-            { "name": "Day Four", "abbreviation": "D4", "ordinal": 4 },
-            { "name": "Day Five", "abbreviation": "D5", "ordinal": 5 },
-            { "name": "Day Six", "abbreviation": "D6", "ordinal": 6 },
-            { "name": "Day Seven", "abbreviation": "D7", "ordinal": 7 }
-        ],
-        "daysPerYear": 60,
-        "hoursPerDay": 24,
-        "minutesPerHour": 60,
-        "secondsPerMinute": 60
-    },
-    "seasons": {
-        "values": [
-            { "name": "Warm Season", "monthStart": 1, "monthEnd": 1 },
-            { "name": "Cold Season", "monthStart": 2, "monthEnd": 2 }
-        ]
-    },
-    "era": {
-        "hasYearZero": false,
-        "name": "CE",
-        "abbrev": "CE",
-        "beforeName": "Before Common Era",
-        "beforeAbbrev": "BCE",
-        "description": ""
-    }
+  "name": "My Campaign Calendar",
+  "description": "A custom calendar for my campaign world.",
+  "years": {
+    "yearZero": 0,
+    "firstWeekday": 0
+  },
+  "months": {
+    "values": [
+      {
+        "name": "First Month",
+        "abbreviation": "1st",
+        "ordinal": 1,
+        "days": 30
+      },
+      {
+        "name": "Second Month",
+        "abbreviation": "2nd",
+        "ordinal": 2,
+        "days": 30
+      }
+    ]
+  },
+  "days": {
+    "values": [
+      { "name": "Day One", "abbreviation": "D1", "ordinal": 1 },
+      { "name": "Day Two", "abbreviation": "D2", "ordinal": 2 },
+      { "name": "Day Three", "abbreviation": "D3", "ordinal": 3 },
+      { "name": "Day Four", "abbreviation": "D4", "ordinal": 4 },
+      { "name": "Day Five", "abbreviation": "D5", "ordinal": 5 },
+      { "name": "Day Six", "abbreviation": "D6", "ordinal": 6 },
+      { "name": "Day Seven", "abbreviation": "D7", "ordinal": 7 }
+    ],
+    "daysPerYear": 60,
+    "hoursPerDay": 24,
+    "minutesPerHour": 60,
+    "secondsPerMinute": 60
+  },
+  "seasons": {
+    "values": [
+      { "name": "Warm Season", "monthStart": 1, "monthEnd": 1 },
+      { "name": "Cold Season", "monthStart": 2, "monthEnd": 2 }
+    ]
+  },
+  "era": {
+    "hasYearZero": false,
+    "name": "CE",
+    "abbrev": "CE",
+    "beforeName": "Before Common Era",
+    "beforeAbbrev": "BCE",
+    "description": ""
+  }
 }
 ```
 
@@ -117,8 +114,7 @@ The `days` object configures the structure of a day and the names of weekdays.
 | `minutesPerHour`   | integer | Minutes in an hour (typically 60).                                            |
 | `secondsPerMinute` | integer | Seconds in a minute (typically 60).                                           |
 
-The `days.values` array contains one entry per weekday. The number of entries
-defines the length of a week.
+The `days.values` array contains one entry per weekday. The number of entries defines the length of a week.
 
 | Field          | Type    | Description                                   |
 | -------------- | ------- | --------------------------------------------- |
@@ -138,9 +134,7 @@ The `seasons.values` array contains one entry per season.
 
 ## Era (SoHL Extension)
 
-The `era` object is a SoHL-specific extension that adds era-based dating
-(e.g., "720 CE" or "51 BCE"). This section is optional; if omitted, dates
-display as plain year numbers.
+The `era` object is a SoHL-specific extension that adds era-based dating (e.g., "720 CE" or "51 BCE"). This section is optional; if omitted, dates display as plain year numbers.
 
 | Field          | Type    | Description                                                                                         |
 | -------------- | ------- | --------------------------------------------------------------------------------------------------- |
@@ -153,10 +147,7 @@ display as plain year numbers.
 
 # See also
 
-- [[doc-systmstt|System Settings]] — where a calendar is chosen and the world
-  date is set.
-- [[doc-afflandi|Afflictions and Injuries]] — the healing and course reminders
-  that the passage of game time drives.
-- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the items whose
-  scheduled checks come due on this calendar.
+- [[doc-systmstt|System Settings]] — where a calendar is chosen and the world date is set.
+- [[doc-afflandi|Afflictions and Injuries]] — the healing and course reminders that the passage of game time drives.
+- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the items whose scheduled checks come due on this calendar.
 - [[doc-userguide|User Guide]] — back to the index.

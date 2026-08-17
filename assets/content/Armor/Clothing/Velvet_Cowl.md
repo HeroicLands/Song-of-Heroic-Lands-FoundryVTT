@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Velvet Cowl
-    - armorgear-VCowl
+  - Velvet Cowl
+  - armorgear-VCowl
 tags: []
 name:
-    full: Velvet Cowl
-    aliases: []
+  full: Velvet Cowl
+  aliases: []
 description: "Soft plush velvet cowl; elegant, luxury garment for formal occasions."
 id: wwjAatJ52Oale7RQ
 img: icons/game-icons/lorc/hood.svg
@@ -13,28 +13,28 @@ shortcode: VCowl
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Cowl
-    detailMaterial: Velvet
-    material: Cloth
-    durability: 10
-    value: 21
-    weight: 0.3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-        - neckloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Cowl
+  detailMaterial: Velvet
+  material: Cloth
+  durability: 10
+  value: 21
+  weight: 0.3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+    - neckloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 6
 origWeight: 0.3

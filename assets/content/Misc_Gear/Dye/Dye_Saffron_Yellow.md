@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Saffron Yellow"
-    - miscgear-dyesfrn
+  - "Dye, Saffron Yellow"
+  - miscgear-dyesfrn
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Saffron Yellow"
-    aliases: []
+  full: "Dye, Saffron Yellow"
+  aliases: []
 description: "Dried crocus stigmas; brilliant golden yellow for noble silk garments."
 id: LSTeW5LSSioSkscy
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyesfrn
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 160
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 160
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

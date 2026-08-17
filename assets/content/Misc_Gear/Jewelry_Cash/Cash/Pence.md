@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pence
-    - miscgear-pence
+  - Pence
+  - miscgear-pence
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Pence
-    aliases: []
+  full: Pence
+  aliases: []
 description: "Silver coin, everyday currency of trade; durable, standard weight ensures acceptance anywhere."
 id: u3ezQ6GIIHgRMhZz
 img: icons/game-icons/badges/coins.svg
@@ -14,15 +14,15 @@ shortcode: pence
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cash
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 1
-    weight: 0.004
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cash
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 1
+  weight: 0.004
 folder: TV3IMHs8SLZ1L1vv
 ---
 

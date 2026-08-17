@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Fetters
-    - miscgear-fetters
+  - Fetters
+  - miscgear-fetters
 tags:
-    - expedition
+  - expedition
 name:
-    full: Fetters
-    aliases: []
+  full: Fetters
+  aliases: []
 description: "Iron leg-shackles joined by short chain with locks; restrains prisoners during transport."
 id: ot5qOMTigtsh36Oy
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: fetters
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 30
-    weight: 5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 30
+  weight: 5
 folder: FSPVI1eObGEpMVck
 ---
 

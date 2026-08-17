@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-photosen
+  - trauma-photosen
 tags: []
 name:
-    full: Photosensitivity
-    aliases: []
+  full: Photosensitivity
+  aliases: []
 id: XjdCLakpybIfqBsi
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: photosen
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,13 +22,11 @@ Photosensitivity refers to an abnormal sensitivity to light, typically sunlight,
 
 ### Trait
 
-The individual experiences mild discomfort or sensitivity when exposed to bright light or sunlight. This sensitivity may cause squinting, mild headaches, or slight irritation in the eyes. They find relief by staying in shaded areas, wearing protective clothing, or limiting their time in the sun. The symptoms are manageable, and the individual can continue with daily life as long as they take precautions.
-**Example:** Beatrice, a herbalist, notices her eyes becoming irritated and sore after spending long hours gathering herbs in the bright sun. She squints and occasionally feels a slight headache. To ease the discomfort, Beatrice begins wearing a wide-brimmed hat when working outdoors and seeks shade whenever possible. Though she is aware of her sensitivity to light, it doesn’t interfere too much with her daily routine.
+The individual experiences mild discomfort or sensitivity when exposed to bright light or sunlight. This sensitivity may cause squinting, mild headaches, or slight irritation in the eyes. They find relief by staying in shaded areas, wearing protective clothing, or limiting their time in the sun. The symptoms are manageable, and the individual can continue with daily life as long as they take precautions. **Example:** Beatrice, a herbalist, notices her eyes becoming irritated and sore after spending long hours gathering herbs in the bright sun. She squints and occasionally feels a slight headache. To ease the discomfort, Beatrice begins wearing a wide-brimmed hat when working outdoors and seeks shade whenever possible. Though she is aware of her sensitivity to light, it doesn’t interfere too much with her daily routine.
 
 ### Impediment
 
-The sensitivity to light becomes more pronounced, causing more frequent and severe symptoms when exposed to sunlight or bright light. The individual may experience painful burning sensations on the skin, redness, and inflammation after only short periods of exposure. Eyes become more sensitive, leading to intense squinting, watery eyes, and migraines. The individual begins to avoid going outside during the day and must rely on herbal remedies or makeshift protective clothing to mitigate the symptoms, which increasingly interfere with daily life.
-**Example:** Beatrice's sensitivity to light worsens, and now even brief exposure to sunlight causes her skin to turn red and inflamed, with painful burning sensations. Her eyes constantly water, and she finds herself retreating indoors before noon to avoid the sun’s intensity. Her work as a herbalist suffers, as she can only gather plants early in the morning or late in the evening. She applies herbal salves to her skin, but the discomfort persists, making it harder for her to maintain her daily routine.
+The sensitivity to light becomes more pronounced, causing more frequent and severe symptoms when exposed to sunlight or bright light. The individual may experience painful burning sensations on the skin, redness, and inflammation after only short periods of exposure. Eyes become more sensitive, leading to intense squinting, watery eyes, and migraines. The individual begins to avoid going outside during the day and must rely on herbal remedies or makeshift protective clothing to mitigate the symptoms, which increasingly interfere with daily life. **Example:** Beatrice's sensitivity to light worsens, and now even brief exposure to sunlight causes her skin to turn red and inflamed, with painful burning sensations. Her eyes constantly water, and she finds herself retreating indoors before noon to avoid the sun’s intensity. Her work as a herbalist suffers, as she can only gather plants early in the morning or late in the evening. She applies herbal salves to her skin, but the discomfort persists, making it harder for her to maintain her daily routine.
 
 ### Debility
 

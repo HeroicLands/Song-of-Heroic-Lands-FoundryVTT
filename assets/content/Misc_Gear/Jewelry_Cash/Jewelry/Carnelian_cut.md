@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Carnelian, cut"
-    - miscgear-carnelianc
+  - "Carnelian, cut"
+  - miscgear-carnelianc
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Carnelian, cut"
-    aliases: []
+  full: "Carnelian, cut"
+  aliases: []
 description: "Translucent warm orange-red gem from iron oxide; durable favorite for rings."
 id: FHQXXrnxUgs2vgbi
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: carnelianc
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 25
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 25
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

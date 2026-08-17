@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Cup Wine
-    - miscgear-winecup
+  - Cup Wine
+  - miscgear-winecup
 tags:
-    - spirits
+  - spirits
 name:
-    full: Cup Wine
-    aliases: []
+  full: Cup Wine
+  aliases: []
 description: "Common wine in cup; less refined than aged vintages; for modest means."
 id: yOeQXM2FjXjqeSAG
 img: icons/game-icons/lorc/jeweled-chalice.svg
@@ -14,15 +14,15 @@ shortcode: winecup
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1.25
-    weight: 0.5
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1.25
+  weight: 0.5
 folder: jLdeIpOIZokm8obv
 ---
 

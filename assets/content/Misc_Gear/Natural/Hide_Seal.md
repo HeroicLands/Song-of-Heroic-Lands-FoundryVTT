@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Seal"
-    - miscgear-hideseal
+  - "Hide, Seal"
+  - miscgear-hideseal
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Seal"
-    aliases: []
+  full: "Hide, Seal"
+  aliases: []
 description: "Coastal oiled hide; waterproof supple leather for sea-boots, deckcloaks."
 id: KSeVw5IkzHIAXYh8
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hideseal
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 24
-    weight: 6
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 24
+  weight: 6
 folder: 0JqxkW5hHZ8XVILm
 ---
 

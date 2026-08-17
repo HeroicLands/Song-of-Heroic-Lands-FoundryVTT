@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cup, wooden"
-    - miscgear-cupwood
+  - "Cup, wooden"
+  - miscgear-cupwood
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Cup, wooden"
-    aliases: []
+  full: "Cup, wooden"
+  aliases: []
 description: "Turned wooden cup; the everyday drinking vessel."
 id: XsGnZoOhFaht07SI
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cupwood
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 3
-    weight: 1
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 3
+  weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cunning
+  - trauma-cunning
 tags: []
 name:
-    full: Cunning
-    aliases: []
+  full: Cunning
+  aliases: []
 id: Zp1K4nII41x8UGPU
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cunning
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Cunning refers to an individual's ability to achieve their goals through clevern
 
 ### Quirk
 
-The individual is strategic and intelligent, using their sharp mind to navigate complex situations. They are resourceful, able to find solutions that others may overlook. While their actions may involve subtle manipulation, they typically work toward beneficial outcomes without harming others.
-**Example:** Alistair, a trusted court advisor, is known for his clever diplomacy. When tensions rise between the king and a rival lord, Alistair carefully crafts a plan to resolve the conflict through negotiation. He subtly influences both parties, ensuring they believe the compromise is in their best interest. Alistair’s cunning ensures peace in the kingdom without causing offense or deception, making him a valuable asset to the king.
+The individual is strategic and intelligent, using their sharp mind to navigate complex situations. They are resourceful, able to find solutions that others may overlook. While their actions may involve subtle manipulation, they typically work toward beneficial outcomes without harming others. **Example:** Alistair, a trusted court advisor, is known for his clever diplomacy. When tensions rise between the king and a rival lord, Alistair carefully crafts a plan to resolve the conflict through negotiation. He subtly influences both parties, ensuring they believe the compromise is in their best interest. Alistair’s cunning ensures peace in the kingdom without causing offense or deception, making him a valuable asset to the king.
 
 ### Impulse
 
-The individual begins to rely more heavily on manipulation and clever tactics, seeing situations as opportunities to outwit others. They may start using their cunning to serve personal interests, sometimes at the expense of others. While their actions remain mostly effective, they can lead to growing suspicion among peers, as their strategies may seem self-serving or overly calculated.
-**Example:** Alistair, noticing a chance to advance his own influence, begins to manipulate court politics more actively. He orchestrates events that subtly discredit rivals, ensuring that he gains favor with the king. Though his plans succeed, some nobles start to grow wary of Alistair, sensing that his advice is not entirely selfless. His cunning, once purely beneficial to the kingdom, is now tinged with personal ambition.
+The individual begins to rely more heavily on manipulation and clever tactics, seeing situations as opportunities to outwit others. They may start using their cunning to serve personal interests, sometimes at the expense of others. While their actions remain mostly effective, they can lead to growing suspicion among peers, as their strategies may seem self-serving or overly calculated. **Example:** Alistair, noticing a chance to advance his own influence, begins to manipulate court politics more actively. He orchestrates events that subtly discredit rivals, ensuring that he gains favor with the king. Though his plans succeed, some nobles start to grow wary of Alistair, sensing that his advice is not entirely selfless. His cunning, once purely beneficial to the kingdom, is now tinged with personal ambition.
 
 ### Disorder
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Candleholder, hand"
-    - miscgear-candlehold
+  - "Candleholder, hand"
+  - miscgear-candlehold
 tags:
-    - lighting
+  - lighting
 name:
-    full: "Candleholder, hand"
-    aliases: []
+  full: "Candleholder, hand"
+  aliases: []
 description: "Iron or brass cup with handle; holds single candle, drip-tray included."
 id: 4fZI1WVjyq4sN02V
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: candlehold
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 4
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 4
+  weight: 1
 folder: csqutf8WiTRM8oru
 ---
 

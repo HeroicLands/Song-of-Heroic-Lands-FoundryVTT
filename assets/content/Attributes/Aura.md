@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-aur
+  - attribute-aur
 tags: []
 name:
-    full: Aura
-    aliases: []
+  full: Aura
+  aliases: []
 description: "Depth of the soul, and the presence every mystical connexion rests on."
 id: LwA1PJKKtH0DyGvg
 img: icons/game-icons/lorc/aura.svg
@@ -12,15 +12,15 @@ shortcode: aur
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Mundane:4
-        - Shallow:8
-        - Average:12
-        - Deep:16
-        - Profound:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Mundane:4
+    - Shallow:8
+    - Average:12
+    - Deep:16
+    - Profound:999
+  initDiceFormula: 3d6
 sort: 70
 folder: FPitxvL8wCmXynax
 ---

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-cytotxn
+  - affliction-cytotxn
 tags: []
 name:
-    full: Cytotoxin
-    aliases: []
+  full: Cytotoxin
+  aliases: []
 description: "Cell-destroying toxin; intense pain and necrosis at injection site."
 id: vGt7VF9Q1Vbh7tf4
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: cytotxn
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

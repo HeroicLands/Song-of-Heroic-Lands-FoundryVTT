@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Lock, door, heavy-duty"
-    - miscgear-lockdoorhe
+  - "Lock, door, heavy-duty"
+  - miscgear-lockdoorhe
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Lock, door, heavy-duty"
-    aliases: []
+  full: "Lock, door, heavy-duty"
+  aliases: []
 description: "Heavy iron triple-warded deadbolt; secures vault doors and fortified manor gates."
 id: LQQ3TNTvZ58LGG5H
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lockdoorhe
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: lock
-        secondary: [mtlc]
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 30
-    weight: 2
+  craft:
+    skill: lock
+    secondary: [mtlc]
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 30
+  weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

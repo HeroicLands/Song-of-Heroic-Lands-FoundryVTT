@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-hyprcss
+  - trauma-hyprcss
 tags: []
 name:
-    full: Hyperacusis
-    aliases: []
+  full: Hyperacusis
+  aliases: []
 id: up0PMJxnaEFHqBDy
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: hyprcss
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,8 +22,7 @@ Hyperacusis is a condition characterized by an increased sensitivity to normal e
 
 ### Impediment
 
-Discomfort or irritation from sounds that others find normal or mild, such as clinking dishes, rustling leaves, or casual conversation. The individual may need to cover their ears or distance themselves from the source of the noise to find relief.
-**Example:** Scholar Aldwyn finds the clatter of quills on parchment and the murmur of voices in the scriptorium unbearably loud. He frequently steps outside to escape the overwhelming noise, needing silence to maintain his focus.
+Discomfort or irritation from sounds that others find normal or mild, such as clinking dishes, rustling leaves, or casual conversation. The individual may need to cover their ears or distance themselves from the source of the noise to find relief. **Example:** Scholar Aldwyn finds the clatter of quills on parchment and the murmur of voices in the scriptorium unbearably loud. He frequently steps outside to escape the overwhelming noise, needing silence to maintain his focus.
 
 ### Debility
 

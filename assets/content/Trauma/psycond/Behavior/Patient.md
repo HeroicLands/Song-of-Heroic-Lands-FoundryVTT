@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-patient
+  - trauma-patient
 tags: []
 name:
-    full: Patient
-    aliases: []
+  full: Patient
+  aliases: []
 id: eYpPLqWzAVaTcL4N
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: patient
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Patient refers to an individual's ability to remain calm and composed in the fac
 
 ### Quirk
 
-The individual approaches tasks and situations with calmness, taking the necessary time to complete things thoroughly without feeling rushed. They remain composed, even when progress is slow or setbacks occur, understanding that persistence leads to better outcomes. Their patience allows them to produce high-quality work and navigate challenges with ease.
-**Example:** Edmund, a woodworker, is known for his patience. He spends hours carefully sanding each piece of furniture, ensuring that every detail is perfect. When carving intricate designs, he does not rush the process, understanding that true craftsmanship takes time. His clients appreciate the quality of his work, knowing that Edmund’s patience ensures a lasting, beautifully made product.
+The individual approaches tasks and situations with calmness, taking the necessary time to complete things thoroughly without feeling rushed. They remain composed, even when progress is slow or setbacks occur, understanding that persistence leads to better outcomes. Their patience allows them to produce high-quality work and navigate challenges with ease. **Example:** Edmund, a woodworker, is known for his patience. He spends hours carefully sanding each piece of furniture, ensuring that every detail is perfect. When carving intricate designs, he does not rush the process, understanding that true craftsmanship takes time. His clients appreciate the quality of his work, knowing that Edmund’s patience ensures a lasting, beautifully made product.
 
 ### Impulse
 
-The individual becomes more focused on waiting for the perfect moment or condition, sometimes to the point of missing opportunities or letting time slip by. They may wait for the most favorable circumstances before taking action, even if doing so slows progress. While their careful approach still produces excellent results, their patience may lead them to accept delays or challenges that harm their interests. Others may notice their reluctance to act quickly, even when it would be beneficial.
-**Example:** Edmund’s patience begins to hold him back slightly as he waits for the perfect piece of wood or the ideal moment to start his projects. He passes up more readily available materials, convinced that the right one will come along soon. While this leads to flawless craftsmanship, it also means Edmund sometimes waits longer than necessary, and opportunities to take on urgent commissions are lost. He accepts these delays, believing they are necessary for the best results, even though it affects his business.
+The individual becomes more focused on waiting for the perfect moment or condition, sometimes to the point of missing opportunities or letting time slip by. They may wait for the most favorable circumstances before taking action, even if doing so slows progress. While their careful approach still produces excellent results, their patience may lead them to accept delays or challenges that harm their interests. Others may notice their reluctance to act quickly, even when it would be beneficial. **Example:** Edmund’s patience begins to hold him back slightly as he waits for the perfect piece of wood or the ideal moment to start his projects. He passes up more readily available materials, convinced that the right one will come along soon. While this leads to flawless craftsmanship, it also means Edmund sometimes waits longer than necessary, and opportunities to take on urgent commissions are lost. He accepts these delays, believing they are necessary for the best results, even though it affects his business.
 
 ### Disorder
 

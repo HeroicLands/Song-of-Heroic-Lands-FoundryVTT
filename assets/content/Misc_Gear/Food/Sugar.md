@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Sugar
-    - miscgear-sugar
+  - Sugar
+  - miscgear-sugar
 tags:
-    - food
+  - food
 name:
-    full: Sugar
-    aliases: []
+  full: Sugar
+  aliases: []
 description: "Luxury cane crystals from distant tropics, sweetens pastries and preserves."
 id: 7xdYHeV3djfjb6O8
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: sugar
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 60
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 60
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

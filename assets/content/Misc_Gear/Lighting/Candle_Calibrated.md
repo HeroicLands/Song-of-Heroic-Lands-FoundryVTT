@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Candle, Calibrated"
-    - miscgear-candlecali
+  - "Candle, Calibrated"
+  - miscgear-candlecali
 tags:
-    - lighting
+  - lighting
 name:
-    full: "Candle, Calibrated"
-    aliases: []
+  full: "Candle, Calibrated"
+  aliases: []
 description: "Marked candle burned to measure hours; favored by scribes, scholars, astrologers."
 id: Tysu8Gs9sCWF4BeS
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: candlecali
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 10
-    weight: 0.5
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 10
+  weight: 0.5
 folder: csqutf8WiTRM8oru
 ---
 

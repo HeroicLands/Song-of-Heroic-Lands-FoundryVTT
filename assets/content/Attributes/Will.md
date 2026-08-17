@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-wil
+  - attribute-wil
 tags: []
 name:
-    full: Will
-    aliases: []
+  full: Will
+  aliases: []
 description: "Determination and self-mastery; holding a course despite hardship or fear."
 id: cSe7fh1LN9mEwwYs
 img: icons/game-icons/lorc/meditation.svg
@@ -12,15 +12,15 @@ shortcode: wil
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Submissive:4
-        - Indecisive:8
-        - Average:12
-        - Resolute:16
-        - Implacable:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Submissive:4
+    - Indecisive:8
+    - Average:12
+    - Resolute:16
+    - Implacable:999
+  initDiceFormula: 3d6
 sort: 80
 folder: FPitxvL8wCmXynax
 ---

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-agorphb
+  - trauma-agorphb
 tags: []
 name:
-    full: Agoraphobia
-    aliases: []
+  full: Agoraphobia
+  aliases: []
 id: BalaG26I7UrG7Q1A
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: agorphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

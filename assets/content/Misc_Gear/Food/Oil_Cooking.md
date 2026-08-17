@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Oil, Cooking"
-    - miscgear-oilcook
+  - "Oil, Cooking"
+  - miscgear-oilcook
 tags:
-    - food
+  - food
 name:
-    full: "Oil, Cooking"
-    aliases: []
+  full: "Oil, Cooking"
+  aliases: []
 description: "Golden neutral vegetable oil for frying and lighting, gallons at markets."
 id: KW0j7IrRWN8uDniz
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: oilcook
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cook
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 3
-    weight: 12
+  craft:
+    skill: cook
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 3
+  weight: 12
 folder: cHM58zOI1EcSG3cP
 ---
 

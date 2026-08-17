@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Cloth Cap
-    - armorgear-CCap
+  - Cloth Cap
+  - armorgear-CCap
 tags: []
 name:
-    full: Cloth Cap
-    aliases: []
+  full: Cloth Cap
+  aliases: []
 description: "Simple cloth cap offering basic comfort and everyday protection."
 id: stFAoZe8ONCQq95c
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: CCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Cloth
-    material: Cloth
-    durability: 10
-    value: 4
-    weight: 0.2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Cloth
+  material: Cloth
+  durability: 10
+  value: 4
+  weight: 0.2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 4
 origWeight: 0.2

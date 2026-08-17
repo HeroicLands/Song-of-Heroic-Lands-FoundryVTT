@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Scale Vest
-    - armorgear-SVest
+  - Scale Vest
+  - armorgear-SVest
 tags: []
 name:
-    full: Scale Vest
-    aliases: []
+  full: Scale Vest
+  aliases: []
 description: "Sleeveless scale-armor; overlapping metal scales cover torso only."
 id: iRQg5PHDSDRPbHxg
 img: icons/game-icons/lorc/scale-mail.svg
@@ -13,28 +13,28 @@ shortcode: SVest
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide, mtlc]
-    kbcat: scale
-    archetype: 0
-    armorType: Vest
-    detailMaterial: Scale
-    material: Scale
-    durability: 14
-    value: 240
-    weight: 13.2
-    encumbrance: 5
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - thrxloc
-        - abdmnloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide, mtlc]
+  kbcat: scale
+  archetype: 0
+  armorType: Vest
+  detailMaterial: Scale
+  material: Scale
+  durability: 14
+  value: 240
+  weight: 13.2
+  encumbrance: 5
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - thrxloc
+    - abdmnloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 240
 origWeight: 13.2

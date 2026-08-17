@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Oil, rose"
-    - miscgear-oilrose
+  - "Oil, rose"
+  - miscgear-oilrose
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Oil, rose"
-    aliases: []
+  full: "Oil, rose"
+  aliases: []
 description: "Rose oil pressed from petals in vast quantity; the standard fine scent."
 id: xtpclSUhLfQ8cfuM
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: oilrose
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: pfmy
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 20
-    weight: 0.0625
+  craft:
+    skill: pfmy
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 20
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

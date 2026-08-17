@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Harp, Jarind (great)"
-    - miscgear-harpjarind
+  - "Harp, Jarind (great)"
+  - miscgear-harpjarind
 tags:
-    - music
+  - music
 name:
-    full: "Harp, Jarind (great)"
-    aliases: []
+  full: "Harp, Jarind (great)"
+  aliases: []
 description: "Master-crafted frame harp; thirty-plus strings; rich sonorous voice spanning three octaves."
 id: paY1FUBrezK0bFU4
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: harpjarind
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 300
-    weight: 25
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 300
+  weight: 25
 folder: ncTaRcZt0RFYz0Gq
 ---
 

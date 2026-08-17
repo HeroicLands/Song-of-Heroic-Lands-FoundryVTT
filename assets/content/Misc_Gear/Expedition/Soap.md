@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Soap"
-    - miscgear-soap
+  - "Soap"
+  - miscgear-soap
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Soap"
-    aliases: []
+  full: "Soap"
+  aliases: []
 description: "Hard milled soap of tallow and ash lye, lightly scented."
 id: 2QVWCDQHcJv7iqvX
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: soap
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: pfmy
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 0.0625
+  craft:
+    skill: pfmy
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

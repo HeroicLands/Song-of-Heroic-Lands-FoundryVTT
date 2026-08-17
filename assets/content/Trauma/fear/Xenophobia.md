@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-xenophb
+  - trauma-xenophb
 tags: []
 name:
-    full: Xenophobia
-    aliases: []
+  full: Xenophobia
+  aliases: []
 id: nqCFqn4OB3WoOu61
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: xenophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -23,8 +23,7 @@ Xenophobia is an intense, irrational fear of strangers or foreigners. People wit
 
 ### Impulse
 
-Avoiding interactions with people from different cultures, as well as places where they are likely to be present.
-Abberance (ABE) increases by 1 from the source of fear.
+Avoiding interactions with people from different cultures, as well as places where they are likely to be present. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

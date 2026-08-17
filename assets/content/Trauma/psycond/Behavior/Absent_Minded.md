@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Absent-Minded
-    - trauma-absntmd
+  - Absent-Minded
+  - trauma-absntmd
 tags: []
 name:
-    full: Absent-Minded
-    aliases: []
+  full: Absent-Minded
+  aliases: []
 id: XMqegcBQDnAe1IIC
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: absntmd
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

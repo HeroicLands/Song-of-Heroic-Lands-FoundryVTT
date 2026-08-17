@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Perfume, fine"
-    - miscgear-perfumefine
+  - "Perfume, fine"
+  - miscgear-perfumefine
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Perfume, fine"
-    aliases: []
+  full: "Perfume, fine"
+  aliases: []
 description: "Perfumer's best work, built on costly imported oils."
 id: Sok0VsTMOa0rR0DP
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: perfumefine
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: pfmy
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 120
-    weight: 0.0625
+  craft:
+    skill: pfmy
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 120
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

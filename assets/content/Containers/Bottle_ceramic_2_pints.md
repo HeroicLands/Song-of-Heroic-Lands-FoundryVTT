@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Bottle, ceramic, 2 pints"
-    - containergear-bottlecer2pt
+  - "Bottle, ceramic, 2 pints"
+  - containergear-bottlecer2pt
 tags: []
 name:
-    full: "Bottle, ceramic, 2 pints"
-    aliases: []
+  full: "Bottle, ceramic, 2 pints"
+  aliases: []
 description: "Stoneware bottle with a corked neck; travels better than glass (2 pints)."
 id: d2sGDmzwNGpNWdD2
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bottlecer2pt
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 2
-    value: 2
-    weight: 1
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 2
+  value: 2
+  weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

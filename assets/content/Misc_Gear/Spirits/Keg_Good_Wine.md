@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Keg Good Wine
-    - miscgear-gwinekeg
+  - Keg Good Wine
+  - miscgear-gwinekeg
 tags:
-    - spirits
+  - spirits
 name:
-    full: Keg Good Wine
-    aliases: []
+  full: Keg Good Wine
+  aliases: []
 description: "Aged fine wine in keg; lord's cellar treasure, craftsman's yearly wage."
 id: hGQxGAwqwXPVIhYf
 img: icons/game-icons/delapouite/wine-bottle.svg
@@ -14,15 +14,15 @@ shortcode: gwinekeg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 360
-    weight: 72
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 360
+  weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

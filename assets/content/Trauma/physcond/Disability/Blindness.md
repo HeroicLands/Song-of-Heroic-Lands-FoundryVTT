@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-blndnss
+  - trauma-blndnss
 tags: []
 name:
-    full: Blindness
-    aliases: []
+  full: Blindness
+  aliases: []
 id: ToWzjyTHRq2a5fCn
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: blndnss
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: debility
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: debility
 folder: 4h8qyMcGHlkrfN1g
 ---
 

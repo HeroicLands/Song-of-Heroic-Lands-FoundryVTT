@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Automated Attack
-    - macro-autoattack
+  - Automated Attack
+  - macro-autoattack
 tags: []
 description: "Adaptable and dominant across Thalorna, the defining lineage of civilization."
 type: macro
 name:
-    full: Automated Attack
-    aliases: []
+  full: Automated Attack
+  aliases: []
 id: HSNwLca3kMYLN3Ag
 shortcode: autoattack
 img: icons/game-icons/lorc/crossed-swords.svg

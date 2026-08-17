@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jar, lidded, 1 gallon"
-    - containergear-jarliddedl
+  - "Jar, lidded, 1 gallon"
+  - containergear-jarliddedl
 tags: []
 name:
-    full: "Jar, lidded, 1 gallon"
-    aliases: []
+  full: "Jar, lidded, 1 gallon"
+  aliases: []
 description: "Stoneware jar with fitted lid for dried goods and seasonal preserves (1 gallon)."
 id: sVue6O4wgrWjU3iR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jarliddedl
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 8
-    value: 8
-    weight: 6
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 8
+  value: 8
+  weight: 6
 folder: dl8lJ729W1mFlDvt
 ---
 

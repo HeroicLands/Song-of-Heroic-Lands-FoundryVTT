@@ -1,82 +1,82 @@
 ---
 aliases:
-    - Bite
-    - skill-bflkbite
+  - Bite
+  - skill-bflkbite
 tags: []
 name:
-    full: Folk Bite
-    aliases: []
+  full: Folk Bite
+  aliases: []
 description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."
-id: UnarmedBite0001
+id: vbgEQjFYO3rVIK1b
 img: icons/game-icons/lorc/fangs.svg
 shortcode: bflkbite
 type: skill
 package: sohl
 sohl:
-    kbcat: unarmed
-    archetype: 0
-    subType: combattechnique
-    skillBaseFormula: "sb(attr.dex, attr.agl)"
-    combatCategory: melee
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
-    strikeMode:
-        type: melee
-        shortcode: bite
-        name: Bite
-        minParts: 1
-        assocSkillCode: melee
-        attack:
-            disabled: false
-            spread: 2
-            modifier: 0
-        impactBase:
-            numDice: 1
-            die: 4
-            modifier: 0
-            aspect: piercing
-        lengthBase: 0
-        defense:
-            block:
-                disabled: true
-                modifier: 0
-                successLevelMod: 0
-            counterstrike:
-                disabled: false
-                modifier: 0
-                successLevelMod: 0
-        traits:
-            meleeMod: 0
-            blockSLMod: 0
-            durabilityMod: 0
-            cxSLMod: 0
-            oppDef: 0
-            impTA: 3
-            AR: 0
-            noAttack: false
-            noBlock: true
-            entangle: false
-            envelop: false
-            couched: false
-            long: false
-            onlyInClose: false
-            shieldMod: 0
-            slow: false
-            thrust: false
-            swung: false
-            halfSword: false
-            bleed: false
-            twoHndLen: 0
-            shaft: false
-            pommel: false
-            noStrMod: false
-            halfImpact: false
-            lowAim: false
-            strRoll: false
+  kbcat: unarmed
+  archetype: 0
+  subType: combattechnique
+  skillBaseFormula: "sb(attr.dex, attr.agl)"
+  combatCategory: melee
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
+  strikeMode:
+    type: melee
+    shortcode: bite
+    name: Bite
+    minParts: 1
+    assocSkillCode: melee
+    attack:
+      disabled: false
+      spread: 2
+      modifier: 0
+    impactBase:
+      numDice: 1
+      die: 4
+      modifier: 0
+      aspect: piercing
+    lengthBase: 0
+    defense:
+      block:
+        disabled: true
+        modifier: 0
+        successLevelMod: 0
+      counterstrike:
+        disabled: false
+        modifier: 0
+        successLevelMod: 0
+    traits:
+      meleeMod: 0
+      blockSLMod: 0
+      durabilityMod: 0
+      cxSLMod: 0
+      oppDef: 0
+      impTA: 3
+      AR: 0
+      noAttack: false
+      noBlock: true
+      entangle: false
+      envelop: false
+      couched: false
+      long: false
+      onlyInClose: false
+      shieldMod: 0
+      slow: false
+      thrust: false
+      swung: false
+      halfSword: false
+      bleed: false
+      twoHndLen: 0
+      shaft: false
+      pommel: false
+      noStrMod: false
+      halfImpact: false
+      lowAim: false
+      strRoll: false
 folder: EphAMAfFhWBrJxyF
 ---
 

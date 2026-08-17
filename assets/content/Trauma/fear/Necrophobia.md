@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-necrophb
+  - trauma-necrophb
 tags: []
 name:
-    full: Necrophobia
-    aliases: []
+  full: Necrophobia
+  aliases: []
 id: t4A2K9avcp5Rf6WE
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: necrophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

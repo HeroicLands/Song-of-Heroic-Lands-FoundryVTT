@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-ponrtxn
+  - affliction-ponrtxn
 tags: []
 name:
-    full: Poneratoxin
-    aliases: []
+  full: Poneratoxin
+  aliases: []
 description: "Ant venom neurotoxin; the most painful insect sting imaginable; lasts 24 hours."
 id: N9tOBTOJI1513kax
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: ponrtxn
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

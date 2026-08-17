@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-antscl
+  - trauma-antscl
 tags: []
 name:
-    full: Antisocial
-    aliases: []
+  full: Antisocial
+  aliases: []
 id: Mq4n9gCaxoUox4hZ
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: antscl
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Apples
-    - miscgear-apples
+  - Apples
+  - miscgear-apples
 tags:
-    - food
+  - food
 name:
-    full: Apples
-    aliases: []
+  full: Apples
+  aliases: []
 description: "Firm orchard fruit; edible into winter when stored cool, sliced dried."
 id: umoGdaZCNH9O2xC6
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: apples
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

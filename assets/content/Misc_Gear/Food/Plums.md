@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Plums
-    - miscgear-plums
+  - Plums
+  - miscgear-plums
 tags:
-    - food
+  - food
 name:
-    full: Plums
-    aliases: []
+  full: Plums
+  aliases: []
 description: "Late-summer dried fruit, chewy nuggets sustaining soldiers through cold winter."
 id: UYXTXCempUnGZCGE
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: plums
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.75
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.75
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Leash
-    - miscgear-leash
+  - Leash
+  - miscgear-leash
 tags:
-    - tack
+  - tack
 name:
-    full: Leash
-    aliases: []
+  full: Leash
+  aliases: []
 description: "Rope or leather cord with snap and loop; leads dogs, goats, beasts."
 id: fCjfFk0jxMwZZD6x
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: leash
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 2
-    weight: 0.5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 2
+  weight: 0.5
 folder: WTIUTjADwAcpyv0H
 ---
 

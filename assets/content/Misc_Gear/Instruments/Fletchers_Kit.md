@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Fletcher's Kit
-    - miscgear-fletchkit
+  - Fletcher's Kit
+  - miscgear-fletchkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Fletcher's Kit
-    aliases: []
+  full: Fletcher's Kit
+  aliases: []
 description: "Wooden case with feather shears, binding silk, glue pot, nocking jig, shaft plane for arrows."
 id: zTtXjPgpLSLCBLEC
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: fletchkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 30
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 30
+  weight: 2
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Veal
-    - miscgear-veal
+  - Veal
+  - miscgear-veal
 tags:
-    - food
+  - food
 name:
-    full: Veal
-    aliases: []
+  full: Veal
+  aliases: []
 description: "Pale tender young calf meat, fine-grained, favored by wealthy households."
 id: WtF9W9cqrBiW7S6y
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: veal
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

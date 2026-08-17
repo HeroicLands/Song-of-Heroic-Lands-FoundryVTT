@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-wood
+  - skill-wood
 tags: []
 name:
-    full: Woodworking
-    aliases: []
+  full: Woodworking
+  aliases: []
 description: "Shaping timber into furniture, tools, carts, and decorative carvings."
 id: IVp2za6i2KFNZxSJ
 img: icons/game-icons/delapouite/hand-saw.svg
@@ -12,19 +12,19 @@ shortcode: wood
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.str)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.str)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -32,9 +32,7 @@ Woodworking is the joiner's and turner's trade: furniture, containers, vehicles,
 
 # Crafting {#crafting}
 
-Woodwork is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. What follows is what is
-particular to the joiner's shop.
+Woodwork is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the joiner's shop.
 
 **Expense.** Reckon **ten hours per 3d of the item's price**, at a material cost of **1d per 30 lb**.
 
@@ -54,9 +52,7 @@ particular to the joiner's shop.
 | Chair                      | 7   | 12d   | Wheelbarrow    | 24  | 10d   |
 | Chest, wooden              | 24  | 18d   | Yoke, ox       | 2   | 3d    |
 
-**Vehicles.** A wagon or a cart is not a thing anyone carries, and is not tracked
-as a possession the way the articles above are. The wright's figures are given
-here for the cost of building one.
+**Vehicles.** A wagon or a cart is not a thing anyone carries, and is not tracked as a possession the way the articles above are. The wright's figures are given here for the cost of building one.
 
 | Vehicle        | lb  | Price |
 | -------------- | --- | ----- |

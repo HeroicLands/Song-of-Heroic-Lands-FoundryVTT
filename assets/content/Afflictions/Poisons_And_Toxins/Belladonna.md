@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-bldna
+  - affliction-bldna
 tags: []
 name:
-    full: Belladonna
-    aliases: []
+  full: Belladonna
+  aliases: []
 description: "Tropane alkaloids; visual disturbances and delirium; often ingested secretly."
 id: 4IS3ubM0teikWEpD
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: bldna
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: injested
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: injested
 folder: ONXsqZAIZr2qzxTb
 ---
 

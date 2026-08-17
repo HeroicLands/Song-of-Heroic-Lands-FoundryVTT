@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Beaver Hat
-    - armorgear-BvHat
+  - Beaver Hat
+  - armorgear-BvHat
 tags: []
 name:
-    full: Beaver Hat
-    aliases: []
+  full: Beaver Hat
+  aliases: []
 description: "Beaver fur hat combining warmth and opulent comfort for winter months."
 id: bVCElFjHP5tFxO4d
 img: icons/game-icons/lorc/pointy-hat.svg
@@ -13,27 +13,27 @@ shortcode: BvHat
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Hat
-    detailMaterial: Beaver
-    material: Leather
-    durability: 9
-    value: 48
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Hat
+  detailMaterial: Beaver
+  material: Leather
+  durability: 9
+  value: 48
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 48
 origWeight: 0.5

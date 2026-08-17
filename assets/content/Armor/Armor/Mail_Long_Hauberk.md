@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Mail Long Hauberk
-    - armorgear-MLHbk
+  - Mail Long Hauberk
+  - armorgear-MLHbk
 tags: []
 name:
-    full: Mail Long Hauberk
-    aliases: []
+  full: Mail Long Hauberk
+  aliases: []
 description: "Lengthy metal ring torso armor for extended leg protection."
 id: uzOwGbLiPpNmcCg7
 img: icons/game-icons/willdabeast/chain-mail.svg
@@ -13,39 +13,39 @@ shortcode: MLHbk
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: mail
-    archetype: 0
-    armorType: Long Hauberk
-    detailMaterial: Mail
-    material: Mail
-    durability: 13
-    value: 960
-    weight: 28.8
-    encumbrance: 20
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: mail
+  archetype: 0
+  armorType: Long Hauberk
+  detailMaterial: Mail
+  material: Mail
+  durability: 13
+  value: 960
+  weight: 28.8
+  encumbrance: 20
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 960
 origWeight: 28.8

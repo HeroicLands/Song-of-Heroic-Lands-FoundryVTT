@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jar, glass, 1 pt."
-    - containergear-jarglass1pt
+  - "Jar, glass, 1 pt."
+  - containergear-jarglass1pt
 tags: []
 name:
-    full: "Jar, glass, 1 pt."
-    aliases: []
+  full: "Jar, glass, 1 pt."
+  aliases: []
 description: "Hand-blown glass vessel with cork stopper; stores oils and inks safely (1 pint)."
 id: l7NNbPQ21C6hy9rZ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jarglass1pt
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 1
-    value: 6
-    weight: 0.5
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 1
+  value: 6
+  weight: 0.5
 folder: dl8lJ729W1mFlDvt
 ---
 

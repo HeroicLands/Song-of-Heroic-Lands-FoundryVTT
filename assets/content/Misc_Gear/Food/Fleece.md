@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Fleece
-    - miscgear-fleece
+  - Fleece
+  - miscgear-fleece
 tags:
-    - food
+  - food
 name:
-    full: Fleece
-    aliases: []
+  full: Fleece
+  aliases: []
 description: "Raw wool sheared or combed; fine yields soft yarn, coarse felts."
 id: WU01IRdAXZkmXAB7
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: fleece
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 12
-    weight: 3
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 12
+  weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

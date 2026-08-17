@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-syndacty
+  - trauma-syndacty
 tags: []
 name:
-    full: Syndactyly
-    aliases: []
+  full: Syndactyly
+  aliases: []
 id: YyQdZWfAYHdCE9Ft
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: syndacty
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

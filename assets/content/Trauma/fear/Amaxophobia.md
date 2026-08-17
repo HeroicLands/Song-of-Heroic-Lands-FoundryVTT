@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-amaxphb
+  - trauma-amaxphb
 tags: []
 name:
-    full: Amaxophobia
-    aliases: []
+  full: Amaxophobia
+  aliases: []
 id: 5VLo7wMDukJmWKWj
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: amaxphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

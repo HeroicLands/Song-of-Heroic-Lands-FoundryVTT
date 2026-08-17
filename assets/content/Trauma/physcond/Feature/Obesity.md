@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-obesity
+  - trauma-obesity
 tags: []
 name:
-    full: Obesity
-    aliases: []
+  full: Obesity
+  aliases: []
 id: 33oRAs8m6lIf8yEQ
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: obesity
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,13 +22,11 @@ Obesity is a medical condition characterized by an excessive accumulation of bod
 
 ### Trait
 
-The individual is noticeably overweight but experiences few immediate health issues. Their body size may be seen as a sign of prosperity or indulgence within their community, with the person taking pride in their ability to afford rich foods. They remain largely functional, though they may notice slight discomfort or fatigue with physical tasks. Their condition is generally accepted by society, and they may even be admired for their appearance.
-**Example:** Aldric, a prosperous merchant, has gained a significant amount of weight due to his luxurious lifestyle. His large size is seen as a reflection of his success, as he can afford to indulge in fine meals daily and avoid the hard labor that others in his village endure. Though he sometimes feels winded after climbing stairs, Aldric is proud of his size, as it sets him apart as someone of wealth and leisure.
+The individual is noticeably overweight but experiences few immediate health issues. Their body size may be seen as a sign of prosperity or indulgence within their community, with the person taking pride in their ability to afford rich foods. They remain largely functional, though they may notice slight discomfort or fatigue with physical tasks. Their condition is generally accepted by society, and they may even be admired for their appearance. **Example:** Aldric, a prosperous merchant, has gained a significant amount of weight due to his luxurious lifestyle. His large size is seen as a reflection of his success, as he can afford to indulge in fine meals daily and avoid the hard labor that others in his village endure. Though he sometimes feels winded after climbing stairs, Aldric is proud of his size, as it sets him apart as someone of wealth and leisure.
 
 ### Impediment
 
-The individual begins to experience more noticeable physical limitations due to their weight. They may struggle with stamina, experience joint pain, or find it increasingly difficult to move about freely. In some cultures, they may still be seen as prosperous, but others might begin to view their obesity as a source of concern, noting the physical challenges and potential long-term health risks. The individual may begin to feel self-conscious about their condition, especially if they face stigma or judgment from others.
-**Example:** Aldric’s weight has become a growing concern for him. His once-admired size now causes difficulty with basic tasks, such as walking across the marketplace or getting in and out of carriages. Some villagers still admire his wealth, but whispers have started about how his indulgent lifestyle might be costing him his health. Aldric notices that fewer people seek him out for social events, and he feels isolated as his mobility issues worsen. Despite this, he finds it hard to change his habits, as the rich meals and comforts of his life have become part of his identity.
+The individual begins to experience more noticeable physical limitations due to their weight. They may struggle with stamina, experience joint pain, or find it increasingly difficult to move about freely. In some cultures, they may still be seen as prosperous, but others might begin to view their obesity as a source of concern, noting the physical challenges and potential long-term health risks. The individual may begin to feel self-conscious about their condition, especially if they face stigma or judgment from others. **Example:** Aldric’s weight has become a growing concern for him. His once-admired size now causes difficulty with basic tasks, such as walking across the marketplace or getting in and out of carriages. Some villagers still admire his wealth, but whispers have started about how his indulgent lifestyle might be costing him his health. Aldric notices that fewer people seek him out for social events, and he feels isolated as his mobility issues worsen. Despite this, he finds it hard to change his habits, as the rich meals and comforts of his life have become part of his identity.
 
 ### Debility
 

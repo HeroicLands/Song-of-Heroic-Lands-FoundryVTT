@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Lamb
-    - miscgear-lamb
+  - Lamb
+  - miscgear-lamb
 tags:
-    - food
+  - food
 name:
-    full: Lamb
-    aliases: []
+  full: Lamb
+  aliases: []
 description: "Tender pale meat; roasted whole or smoked into jerky for caravans."
 id: tWq2iMqjHXSUciNf
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lamb
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 3
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 3
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

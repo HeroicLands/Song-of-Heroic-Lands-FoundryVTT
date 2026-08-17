@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Grimoire
-    - miscgear-grimoire
+  - Grimoire
+  - miscgear-grimoire
 tags:
-    - scribe
+  - scribe
 name:
-    full: Grimoire
-    aliases: []
+  full: Grimoire
+  aliases: []
 description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
 id: 4l2auY8DlPzAVMFN
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: grimoire
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 300
-    weight: 18
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 300
+  weight: 18
 folder: BYkA5NDQxTXDvsAC
 ---
 

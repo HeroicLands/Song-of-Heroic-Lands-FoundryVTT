@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Icon, religions, large"
-    - miscgear-iconreligi
+  - "Icon, religions, large"
+  - miscgear-iconreligi
 tags:
-    - religious
+  - religious
 name:
-    full: "Icon, religions, large"
-    aliases: []
+  full: "Icon, religions, large"
+  aliases: []
 description: "Hand-painted oak or pine panel depicting saint or patron god in tempera."
 id: 6wsqIDXFz4KiAIWd
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: iconreligi
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: religious
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 4
-    weight: 1.8
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: religious
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 4
+  weight: 1.8
 folder: 9JkoGqoUGqV8b5aL
 ---
 

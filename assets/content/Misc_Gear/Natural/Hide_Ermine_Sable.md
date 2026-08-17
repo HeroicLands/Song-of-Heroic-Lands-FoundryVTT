@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Ermine/Sable"
-    - miscgear-hideermine
+  - "Hide, Ermine/Sable"
+  - miscgear-hideermine
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Ermine/Sable"
-    aliases: []
+  full: "Hide, Ermine/Sable"
+  aliases: []
 description: "Small pelt of stoat or marten; snow-white or dark fur for cloak-trim."
 id: 5e4HPnC1RcbhChnn
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hideermine
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 45
-    weight: 0.1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 45
+  weight: 0.1
 folder: 0JqxkW5hHZ8XVILm
 ---
 

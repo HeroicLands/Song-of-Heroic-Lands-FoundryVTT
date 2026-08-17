@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Sling Stone
-    - projectilegear-SSton
+  - Sling Stone
+  - projectilegear-SSton
 tags: []
 name:
-    full: Sling Stone
-    alias: []
+  full: Sling Stone
+  alias: []
 description: "Smooth river pebble or kiln-fired clay; cracks skulls, breaks hound legs."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: SSton
 img: icons/game-icons/delapouite/stone-pile.svg
 easyname: Stone
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.16
-    weight: 1
-    impact:
-        die: 10
-        modifier: -1
-        aspect: blunt
-    traits:
-        ARvalue: 0
-        bleed: false
-    subType: bullet
+  craft:
+    skill: srvl
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.16
+  weight: 1
+  impact:
+    die: 10
+    modifier: -1
+    aspect: blunt
+  traits:
+    ARvalue: 0
+    bleed: false
+  subType: bullet
 folder: ADQPHjgKsdWsJhyy
 ---
 

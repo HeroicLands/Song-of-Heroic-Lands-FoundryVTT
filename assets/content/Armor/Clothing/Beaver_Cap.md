@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Beaver Cap
-    - armorgear-BvCap
+  - Beaver Cap
+  - armorgear-BvCap
 tags: []
 name:
-    full: Beaver Cap
-    aliases: []
+  full: Beaver Cap
+  aliases: []
 description: "Beaver fur cap offering warmth and luxury for high-status individuals."
 id: WJr9xoOqr7eD70In
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: BvCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Beaver
-    material: Leather
-    durability: 9
-    value: 48
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Beaver
+  material: Leather
+  durability: 9
+  value: 48
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 16
 origWeight: 0.6

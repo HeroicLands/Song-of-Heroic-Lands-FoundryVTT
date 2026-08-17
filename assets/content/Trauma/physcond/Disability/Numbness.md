@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-numbness
+  - trauma-numbness
 tags: []
 name:
-    full: Numbness
-    aliases: []
+  full: Numbness
+  aliases: []
 id: j0NeWsSf7kLV2nPh
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: numbness
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,8 +22,7 @@ Numbness is a condition where the sense of touch is partially or completely dimi
 
 ### Impediment
 
-Noticeable reduction in the ability to feel pressure, temperature, or texture, with increased difficulty performing tasks that require fine motor skills. The individual may misjudge the force or sensitivity needed to handle objects, leading to occasional accidents or clumsiness. Though touch is not fully lost, the impairment is significant and begins to interfere with daily life.
-**Example:** Farmer Lydia struggles to feel the tools in her hands as she works, often misjudging her grip or applying too much pressure. Her hands feel distant and dull, and she has accidentally dropped her tools multiple times. Though she can still feel large objects, the fine sensation she once relied on is almost gone.
+Noticeable reduction in the ability to feel pressure, temperature, or texture, with increased difficulty performing tasks that require fine motor skills. The individual may misjudge the force or sensitivity needed to handle objects, leading to occasional accidents or clumsiness. Though touch is not fully lost, the impairment is significant and begins to interfere with daily life. **Example:** Farmer Lydia struggles to feel the tools in her hands as she works, often misjudging her grip or applying too much pressure. Her hands feel distant and dull, and she has accidentally dropped her tools multiple times. Though she can still feel large objects, the fine sensation she once relied on is almost gone.
 
 ### Debility
 

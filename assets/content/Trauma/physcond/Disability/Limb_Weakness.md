@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Limb Weakness
-    - trauma-lmbwknss
+  - Limb Weakness
+  - trauma-lmbwknss
 tags: []
 name:
-    full: Limb Weakness
-    aliases: []
+  full: Limb Weakness
+  aliases: []
 id: LSjtSYUXhPsCUwwL
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: lmbwknss
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -23,8 +23,7 @@ Limb Weakness is a condition characterized by a partial loss of strength or cont
 
 ### Impediment
 
-Noticeable weakness in the affected limb(s), leading to difficulty with tasks that require strength or dexterity, such as lifting objects, walking, or gripping. The individual may experience fatigue in the limb more quickly than usual.
-**Example:** Carpenter Geraint finds that his right arm tires quickly while working with his tools. The once simple task of hammering nails now leaves his arm trembling and weak, forcing him to take frequent breaks to recover.
+Noticeable weakness in the affected limb(s), leading to difficulty with tasks that require strength or dexterity, such as lifting objects, walking, or gripping. The individual may experience fatigue in the limb more quickly than usual. **Example:** Carpenter Geraint finds that his right arm tires quickly while working with his tools. The once simple task of hammering nails now leaves his arm trembling and weak, forcing him to take frequent breaks to recover.
 
 ### Debility
 

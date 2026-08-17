@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Buttons, pack of 4 (matching)"
-    - miscgear-buttonspac
+  - "Buttons, pack of 4 (matching)"
+  - miscgear-buttonspac
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Buttons, pack of 4 (matching)"
-    aliases: []
+  full: "Buttons, pack of 4 (matching)"
+  aliases: []
 description: "Four identical bone, horn, or metal buttons; for garment fastening and repairs."
 id: fdl3VvdhnDrhdTqx
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: buttonspac
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 0.75
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 0.75
+  weight: 0
 folder: FSPVI1eObGEpMVck
 ---
 

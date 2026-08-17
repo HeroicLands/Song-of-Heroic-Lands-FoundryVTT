@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-math
+  - skill-math
 tags: []
 name:
-    full: Mathematics
-    aliases: []
+  full: Mathematics
+  aliases: []
 description: "Numerical calculation, geometry, and reasoning for engineering and commerce."
 id: SOBolhplOfgbMpre
 img: icons/game-icons/delapouite/abacus.svg
@@ -12,17 +12,17 @@ shortcode: math
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: QlkEHXbk2EXlRiMM
 ---
 

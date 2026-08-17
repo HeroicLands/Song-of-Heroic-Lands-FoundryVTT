@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Quilted Cuisse
-    - armorgear-QCui
+  - Quilted Cuisse
+  - armorgear-QCui
 tags: []
 name:
-    full: Quilted Cuisse
-    aliases: []
+  full: Quilted Cuisse
+  aliases: []
 description: "Stitched thigh-guard; adds padding beneath heavier armor."
 id: LsTvYcobeFaVcrWy
 img: icons/game-icons/lorc/trousers.svg
@@ -13,30 +13,30 @@ shortcode: QCui
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: quilted
-    archetype: 0
-    armorType: Cuisse
-    detailMaterial: Quilted
-    material: Quilted
-    durability: 11
-    value: 68
-    weight: 3.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: quilted
+  archetype: 0
+  armorType: Cuisse
+  detailMaterial: Quilted
+  material: Quilted
+  durability: 11
+  value: 68
+  weight: 3.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 68
 origWeight: 3.1

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Russet Shirt
-    - armorgear-RShirt
+  - Russet Shirt
+  - armorgear-RShirt
 tags: []
 name:
-    full: Russet Shirt
-    aliases: []
+  full: Russet Shirt
+  aliases: []
 description: "Reddish-brown wool shirt; basic cold-weather core."
 id: geIUiXJqAQ0J3vrb
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,32 +13,32 @@ shortcode: RShirt
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Shirt
-    detailMaterial: Russet
-    material: Cloth
-    durability: 7
-    value: 40
-    weight: 0.9
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Shirt
+  detailMaterial: Russet
+  material: Cloth
+  durability: 7
+  value: 40
+  weight: 0.9
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 33
 origWeight: 1.7

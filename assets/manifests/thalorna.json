@@ -1,0 +1,5786 @@
+{
+  "version": 1,
+  "package": "thalorna",
+  "entries": {
+    "affiliation/aerarimmpr": {
+      "url": "/thalorna/affiliation/the-aerarium-imperii/",
+      "name": "The Aerarium Imperii"
+    },
+    "affiliation/aetheria": {
+      "url": "/thalorna/affiliation/faith-of-aetheria/",
+      "name": "Faith of Æthería"
+    },
+    "affiliation/agnipantha": {
+      "url": "/thalorna/affiliation/agni-pantha/",
+      "name": "Agnī-panthā"
+    },
+    "affiliation/ahurdaen": {
+      "url": "/thalorna/affiliation/faith-of-ahurdaen/",
+      "name": "Faith of Āhúrdáén"
+    },
+    "affiliation/alndnwrdns": {
+      "url": "/thalorna/affiliation/aelendan-wardens/",
+      "name": "Áelendan Wardens"
+    },
+    "affiliation/angaros": {
+      "url": "/thalorna/affiliation/faith-of-angaros/",
+      "name": "Faith of Ángáróš"
+    },
+    "affiliation/anubis": {
+      "url": "/thalorna/affiliation/faith-of-anubis/",
+      "name": "Faith of Ánubís"
+    },
+    "affiliation/apophis": {
+      "url": "/thalorna/affiliation/faith-of-apophis/",
+      "name": "Faith of Ápōphis"
+    },
+    "affiliation/aravesta": {
+      "url": "/thalorna/affiliation/faith-of-aravesta/",
+      "name": "Faith of Árávēštä"
+    },
+    "affiliation/arldnpnthn": {
+      "url": "/thalorna/affiliation/aureldian-pantheon/",
+      "name": "Aurèldián Pantheon"
+    },
+    "affiliation/asguardian": {
+      "url": "/thalorna/affiliation/asguardian-pantheon/",
+      "name": "Asguardian Pantheon"
+    },
+    "affiliation/ashanpnthn": {
+      "url": "/thalorna/affiliation/ashaian-pantheon/",
+      "name": "Āsháian Pantheon"
+    },
+    "affiliation/ataros": {
+      "url": "/thalorna/affiliation/faith-of-ataros/",
+      "name": "Faith of Ātáröš"
+    },
+    "affiliation/auricompct": {
+      "url": "/thalorna/affiliation/auric-compact/",
+      "name": "Auric Compact"
+    },
+    "affiliation/azravan": {
+      "url": "/thalorna/affiliation/faith-of-azravan/",
+      "name": "Faith of Ázráván"
+    },
+    "affiliation/bahramis": {
+      "url": "/thalorna/affiliation/faith-of-bahramis/",
+      "name": "Faith of Báhrámiš"
+    },
+    "affiliation/baldr": {
+      "url": "/thalorna/affiliation/faith-of-baldr/",
+      "name": "Faith of Baldr"
+    },
+    "affiliation/bardicolgs": {
+      "url": "/thalorna/affiliation/the-bardic-colleges/",
+      "name": "The Bardic Colleges"
+    },
+    "affiliation/bes": {
+      "url": "/thalorna/affiliation/faith-of-bes/",
+      "name": "Faith of Bēs"
+    },
+    "affiliation/blackflame": {
+      "url": "/thalorna/affiliation/the-black-flame/",
+      "name": "The Black Flame"
+    },
+    "affiliation/blackledgr": {
+      "url": "/thalorna/affiliation/the-black-ledger/",
+      "name": "The Black Ledger"
+    },
+    "affiliation/bthntrdhss": {
+      "url": "/thalorna/affiliation/the-bethuan-trade-houses/",
+      "name": "The Bethûan Trade-Houses"
+    },
+    "affiliation/clgmrgntrrm": {
+      "url": "/thalorna/affiliation/the-collegium-argentariorum/",
+      "name": "The Collegium Argentariorum"
+    },
+    "affiliation/corsairleg": {
+      "url": "/thalorna/affiliation/corsair-league/",
+      "name": "Corsair League"
+    },
+    "affiliation/crimsnldgr": {
+      "url": "/thalorna/affiliation/the-crimson-ledger/",
+      "name": "The Crimson Ledger"
+    },
+    "affiliation/crtgrphrsgldbyzrnlg": {
+      "url": "/thalorna/affiliation/the-cartographers-guild-of-the-byzarian-league/",
+      "name": "The Cartographers' Guild of the Byzarian League"
+    },
+    "affiliation/crwntrdskhrs": {
+      "url": "/thalorna/affiliation/the-crown-trades-of-okharis/",
+      "name": "The Crown Trades of Okháris"
+    },
+    "affiliation/curiafscls": {
+      "url": "/thalorna/affiliation/the-curia-fiscalis/",
+      "name": "The Curia Fiscalis"
+    },
+    "affiliation/curiaurbis": {
+      "url": "/thalorna/affiliation/curia-urbis/",
+      "name": "Curia Urbis"
+    },
+    "affiliation/curiavylar": {
+      "url": "/thalorna/affiliation/curia-vylaria/",
+      "name": "Curia Vylaria"
+    },
+    "affiliation/daktrvrtht": {
+      "url": "/thalorna/affiliation/daktur-vorthat/",
+      "name": "Dāktūr Vōrthāt"
+    },
+    "affiliation/dokyok": {
+      "url": "/thalorna/affiliation/dokyok/",
+      "name": "Dōkyök"
+    },
+    "affiliation/firstgods": {
+      "url": "/thalorna/affiliation/the-first-gods/",
+      "name": "The First Gods"
+    },
+    "affiliation/florania": {
+      "url": "/thalorna/affiliation/faith-of-florania/",
+      "name": "Faith of Flórania"
+    },
+    "affiliation/freyja": {
+      "url": "/thalorna/affiliation/faith-of-freyja/",
+      "name": "Faith of Fréyja"
+    },
+    "affiliation/freyr": {
+      "url": "/thalorna/affiliation/faith-of-freyr/",
+      "name": "Faith of Fréyr"
+    },
+    "affiliation/graytide": {
+      "url": "/thalorna/affiliation/the-gray-tide/",
+      "name": "The Gray Tide"
+    },
+    "affiliation/groveconcl": {
+      "url": "/thalorna/affiliation/the-grove-council/",
+      "name": "The Grove Council"
+    },
+    "affiliation/guldsthlrn": {
+      "url": "/thalorna/affiliation/the-guilds-of-thalorna/",
+      "name": "The Guilds of Thalorna"
+    },
+    "affiliation/hapi": {
+      "url": "/thalorna/affiliation/faith-of-hapi/",
+      "name": "Faith of Hâpi"
+    },
+    "affiliation/heklotzhak": {
+      "url": "/thalorna/affiliation/hek-lot-zhak/",
+      "name": "Hëk Lōt Zhāk"
+    },
+    "affiliation/hekzhak": {
+      "url": "/thalorna/affiliation/hek-zhak/",
+      "name": "Hëk Zhāk"
+    },
+    "affiliation/hel": {
+      "url": "/thalorna/affiliation/faith-of-hel/",
+      "name": "Faith of Hél"
+    },
+    "affiliation/horus": {
+      "url": "/thalorna/affiliation/faith-of-horus/",
+      "name": "Faith of Hórús"
+    },
+    "affiliation/hurnzhuk": {
+      "url": "/thalorna/affiliation/hurnzhuk/",
+      "name": "Hürnzhük"
+    },
+    "affiliation/hydalis": {
+      "url": "/thalorna/affiliation/hydalis/",
+      "name": "Hydälis"
+    },
+    "affiliation/imprlscrblgld": {
+      "url": "/thalorna/affiliation/the-imperial-scribal-guild/",
+      "name": "The Imperial Scribal Guild"
+    },
+    "affiliation/ironcinder": {
+      "url": "/thalorna/affiliation/the-iron-cinder/",
+      "name": "The Iron Cinder"
+    },
+    "affiliation/iset": {
+      "url": "/thalorna/affiliation/faith-of-iset/",
+      "name": "Faith of Íšét"
+    },
+    "affiliation/itzanpnthn": {
+      "url": "/thalorna/affiliation/itzani-pantheon/",
+      "name": "Itzáni Pantheon"
+    },
+    "affiliation/janus": {
+      "url": "/thalorna/affiliation/faith-of-janus/",
+      "name": "Faith of Janus"
+    },
+    "affiliation/jcklsthmrchs": {
+      "url": "/thalorna/affiliation/the-jackals-of-the-south-marches/",
+      "name": "The Jackals of the South Marches"
+    },
+    "affiliation/jnanasura": {
+      "url": "/thalorna/affiliation/jnanasura/",
+      "name": "Jñānasūra"
+    },
+    "affiliation/kalavrata": {
+      "url": "/thalorna/affiliation/kalavrata/",
+      "name": "Kālavrata"
+    },
+    "affiliation/kamavrata": {
+      "url": "/thalorna/affiliation/kamavrata/",
+      "name": "Kāmavrata"
+    },
+    "affiliation/karnavos": {
+      "url": "/thalorna/affiliation/faith-of-karnavos/",
+      "name": "Faith of Karnavos"
+    },
+    "affiliation/kemtnpnthn": {
+      "url": "/thalorna/affiliation/kemetian-pantheon/",
+      "name": "Kemetían Pantheon"
+    },
+    "affiliation/kentra": {
+      "url": "/thalorna/affiliation/kentra/",
+      "name": "Kentra"
+    },
+    "affiliation/korsadra": {
+      "url": "/thalorna/affiliation/faith-of-khorsadra/",
+      "name": "Faith of Khóršádrä"
+    },
+    "affiliation/loki": {
+      "url": "/thalorna/affiliation/faith-of-loki/",
+      "name": "Faith of Lôki"
+    },
+    "affiliation/lusinia": {
+      "url": "/thalorna/affiliation/faith-of-lusinia/",
+      "name": "Faith of Lusinia"
+    },
+    "affiliation/maat": {
+      "url": "/thalorna/affiliation/faith-of-maat/",
+      "name": "Faith of Má'át"
+    },
+    "affiliation/magnumclgm": {
+      "url": "/thalorna/affiliation/the-magnum-collegium/",
+      "name": "The Magnum Collegium"
+    },
+    "affiliation/mahajaya": {
+      "url": "/thalorna/affiliation/mahajaya/",
+      "name": "Mahájaya"
+    },
+    "affiliation/malldbndlg": {
+      "url": "/thalorna/affiliation/malalidabandalag/",
+      "name": "Málaliðabandalag"
+    },
+    "affiliation/meghanatha": {
+      "url": "/thalorna/affiliation/meghanatha/",
+      "name": "Meghanātha"
+    },
+    "affiliation/menerva": {
+      "url": "/thalorna/affiliation/faith-of-menerva/",
+      "name": "Faith of Menerva"
+    },
+    "affiliation/mithara": {
+      "url": "/thalorna/affiliation/faith-of-mithara/",
+      "name": "Faith of Míthárä"
+    },
+    "affiliation/morvahna": {
+      "url": "/thalorna/affiliation/faith-of-morvahna/",
+      "name": "Faith of Mórváhñä"
+    },
+    "affiliation/morvana": {
+      "url": "/thalorna/affiliation/faith-of-morvana/",
+      "name": "Faith of Morvana"
+    },
+    "affiliation/mrchntclctvvdyr": {
+      "url": "/thalorna/affiliation/the-merchant-collective-of-vedyara/",
+      "name": "The Merchant Collective of Vedyara"
+    },
+    "affiliation/mrchntryvl": {
+      "url": "/thalorna/affiliation/merchantry-of-the-veil/",
+      "name": "Merchantry of the Veil"
+    },
+    "affiliation/murkir": {
+      "url": "/thalorna/affiliation/faith-of-murkir/",
+      "name": "Faith of Murkir"
+    },
+    "affiliation/nkaruthar": {
+      "url": "/thalorna/affiliation/nkaruthar/",
+      "name": "Nkaru'thar"
+    },
+    "affiliation/nushot": {
+      "url": "/thalorna/affiliation/nushot/",
+      "name": "Nüshöt"
+    },
+    "affiliation/nuszokreit": {
+      "url": "/thalorna/affiliation/nuszok-reit/",
+      "name": "Nüszōk Rëit"
+    },
+    "affiliation/nyalbpnthn": {
+      "url": "/thalorna/affiliation/nyaluba-pantheon/",
+      "name": "Nyáluba Pantheon"
+    },
+    "affiliation/nyalbsprts": {
+      "url": "/thalorna/affiliation/nyaluba-spirits/",
+      "name": "Nyáluba Spirits"
+    },
+    "affiliation/odinn": {
+      "url": "/thalorna/affiliation/faith-of-odinn/",
+      "name": "Faith of Óðinn"
+    },
+    "affiliation/ordershnvw": {
+      "url": "/thalorna/affiliation/the-order-of-the-ashen-vow/",
+      "name": "The Order of the Ashen Vow"
+    },
+    "affiliation/ordoarcanis": {
+      "url": "/thalorna/affiliation/ordo-arcanis/",
+      "name": "Ordo Arcanis"
+    },
+    "affiliation/ordrfryrsgrdns": {
+      "url": "/thalorna/affiliation/the-order-of-freyrs-guardians/",
+      "name": "The Order of Fréyr's Guardians"
+    },
+    "affiliation/ordrsldwrd": {
+      "url": "/thalorna/affiliation/the-order-of-the-sealed-word/",
+      "name": "The Order of the Sealed Word"
+    },
+    "affiliation/ordrstrmspkrs": {
+      "url": "/thalorna/affiliation/the-order-of-the-storm-speakers/",
+      "name": "The Order of the Storm-Speakers"
+    },
+    "affiliation/ordrtyrsjstc": {
+      "url": "/thalorna/affiliation/the-order-of-tyrs-justice/",
+      "name": "The Order of Týr's Justice"
+    },
+    "affiliation/ordrymrschldrn": {
+      "url": "/thalorna/affiliation/the-order-of-ymirs-children/",
+      "name": "The Order of Ymir's Children"
+    },
+    "affiliation/panepistmm": {
+      "url": "/thalorna/affiliation/panepistemium/",
+      "name": "Panepistemium"
+    },
+    "affiliation/pavanajitras": {
+      "url": "/thalorna/affiliation/pavanajitras/",
+      "name": "Pavanajitras"
+    },
+    "affiliation/perhati": {
+      "url": "/thalorna/affiliation/per-hati/",
+      "name": "Pér-Háti"
+    },
+    "affiliation/permesnu": {
+      "url": "/thalorna/affiliation/permesnu/",
+      "name": "Per'Mesnu"
+    },
+    "affiliation/pernuw": {
+      "url": "/thalorna/affiliation/pernuw/",
+      "name": "Per'Nuw"
+    },
+    "affiliation/physera": {
+      "url": "/thalorna/affiliation/physera/",
+      "name": "Physéra"
+    },
+    "affiliation/pneumenos": {
+      "url": "/thalorna/affiliation/pneumenos/",
+      "name": "Pneuménos"
+    },
+    "affiliation/pratrgstrm": {
+      "url": "/thalorna/affiliation/the-praetar-augustarum/",
+      "name": "The Praetar Augustarum"
+    },
+    "affiliation/prvnzthtrclctv": {
+      "url": "/thalorna/affiliation/the-provenzia-theater-collective/",
+      "name": "The Provènzia Theater Collective"
+    },
+    "affiliation/ptah": {
+      "url": "/thalorna/affiliation/faith-of-ptah/",
+      "name": "Faith of Ptā'h"
+    },
+    "affiliation/pyrethos": {
+      "url": "/thalorna/affiliation/pyrethos/",
+      "name": "Pyréthos"
+    },
+    "affiliation/ra": {
+      "url": "/thalorna/affiliation/faith-of-ra/",
+      "name": "Faith of Rā"
+    },
+    "affiliation/rasikara": {
+      "url": "/thalorna/affiliation/rasikara/",
+      "name": "Rásikara"
+    },
+    "affiliation/rekgung": {
+      "url": "/thalorna/affiliation/rekgung/",
+      "name": "Rëkgüng"
+    },
+    "affiliation/rothtdkvng": {
+      "url": "/thalorna/affiliation/rothot-dakveng/",
+      "name": "Röthöt Dākvëng"
+    },
+    "affiliation/sacredforge": {
+      "url": "/thalorna/affiliation/the-sacred-forge/",
+      "name": "The Sacred Forge"
+    },
+    "affiliation/seker": {
+      "url": "/thalorna/affiliation/faith-of-seker/",
+      "name": "Faith of Sēker"
+    },
+    "affiliation/set": {
+      "url": "/thalorna/affiliation/faith-of-set/",
+      "name": "Faith of Sét"
+    },
+    "affiliation/sideros": {
+      "url": "/thalorna/affiliation/sideros/",
+      "name": "Sidéros"
+    },
+    "affiliation/sirvadar": {
+      "url": "/thalorna/affiliation/faith-of-sirvadar/",
+      "name": "Faith of Šírvádár"
+    },
+    "affiliation/skaldscrcl": {
+      "url": "/thalorna/affiliation/the-skalds-circle/",
+      "name": "The Skalds' Circle"
+    },
+    "affiliation/sodnaqirin": {
+      "url": "/thalorna/affiliation/sod-naqirin/",
+      "name": "Sôd-Naqîrîn"
+    },
+    "affiliation/strmcltsbhrms": {
+      "url": "/thalorna/affiliation/the-storm-cults-of-bahramis/",
+      "name": "The Storm Cults of Báhrámiš"
+    },
+    "affiliation/surtr": {
+      "url": "/thalorna/affiliation/faith-of-surtr/",
+      "name": "Faith of Súrtr"
+    },
+    "affiliation/svapnadevas": {
+      "url": "/thalorna/affiliation/svapnadevas/",
+      "name": "Svapnadēvas"
+    },
+    "affiliation/svapnasarisamaja": {
+      "url": "/thalorna/affiliation/svapnasari-samaja/",
+      "name": "Svapnasāri-samāja"
+    },
+    "affiliation/tanlung": {
+      "url": "/thalorna/affiliation/tanlung/",
+      "name": "Tānlüng"
+    },
+    "affiliation/taranon": {
+      "url": "/thalorna/affiliation/faith-of-taranon/",
+      "name": "Faith of Taranon"
+    },
+    "affiliation/thanatos": {
+      "url": "/thalorna/affiliation/faith-of-thanatos/",
+      "name": "Faith of Thanatos"
+    },
+    "affiliation/tharivaan": {
+      "url": "/thalorna/affiliation/tharivaan/",
+      "name": "Thári'vaan"
+    },
+    "affiliation/theashroad": {
+      "url": "/thalorna/affiliation/the-ash-road/",
+      "name": "The Ash Road"
+    },
+    "affiliation/thekindred": {
+      "url": "/thalorna/affiliation/the-kindred/",
+      "name": "The Kindred"
+    },
+    "affiliation/theoldway": {
+      "url": "/thalorna/affiliation/the-old-way/",
+      "name": "The Old Way"
+    },
+    "affiliation/thorr": {
+      "url": "/thalorna/affiliation/faith-of-thorr/",
+      "name": "Faith of Thórr"
+    },
+    "affiliation/thoth": {
+      "url": "/thalorna/affiliation/faith-of-thoth/",
+      "name": "Faith of Thōth"
+    },
+    "affiliation/tngvkvnlei": {
+      "url": "/thalorna/affiliation/tengvok-van-lei/",
+      "name": "Tëngvōk Vān Lëi"
+    },
+    "affiliation/trimurtisampradaya": {
+      "url": "/thalorna/affiliation/trimurti-sampradaya/",
+      "name": "Trimūrti-sampradāya"
+    },
+    "affiliation/twilighths": {
+      "url": "/thalorna/affiliation/the-twilight-house/",
+      "name": "The Twilight House"
+    },
+    "affiliation/twinbldrdr": {
+      "url": "/thalorna/affiliation/the-twinblade-order/",
+      "name": "The Twinblade Order"
+    },
+    "affiliation/tyr": {
+      "url": "/thalorna/affiliation/faith-of-tyr/",
+      "name": "Faith of Týr"
+    },
+    "affiliation/varakpnthn": {
+      "url": "/thalorna/affiliation/varnaka-pantheon/",
+      "name": "Varṇaka Pantheon"
+    },
+    "affiliation/veizhuk": {
+      "url": "/thalorna/affiliation/veizhuk/",
+      "name": "Vëizhük"
+    },
+    "affiliation/vekthor": {
+      "url": "/thalorna/affiliation/vekthor/",
+      "name": "Vëkthōr"
+    },
+    "affiliation/velvethand": {
+      "url": "/thalorna/affiliation/the-velvet-hand/",
+      "name": "The Velvet Hand"
+    },
+    "affiliation/venusia": {
+      "url": "/thalorna/affiliation/faith-of-venusia/",
+      "name": "Faith of Venusia"
+    },
+    "affiliation/vngdkzhtvr": {
+      "url": "/thalorna/affiliation/vengdak-zhutvor/",
+      "name": "Vëngdāk Zhütvōr"
+    },
+    "affiliation/vorjikjek": {
+      "url": "/thalorna/affiliation/vorjik-jek/",
+      "name": "Vōrjīk Jëk"
+    },
+    "affiliation/vyahrati": {
+      "url": "/thalorna/affiliation/vyahrati/",
+      "name": "Vyāhrati"
+    },
+    "affiliation/vyalendra": {
+      "url": "/thalorna/affiliation/vyalendra/",
+      "name": "Vyālendra"
+    },
+    "affiliation/vyalendravada": {
+      "url": "/thalorna/affiliation/vyalendravada/",
+      "name": "Vyālendravāda"
+    },
+    "affiliation/vylrnmltry": {
+      "url": "/thalorna/affiliation/the-vylarian-military/",
+      "name": "The Vylarian Military"
+    },
+    "affiliation/wrrscrcldnhrtrbs": {
+      "url": "/thalorna/affiliation/the-warriors-circle-of-the-dunhara-tribes/",
+      "name": "The Warrior's Circle of the Dunhara Tribes"
+    },
+    "affiliation/ymir": {
+      "url": "/thalorna/affiliation/faith-of-ymir/",
+      "name": "Faith of Ymir"
+    },
+    "affiliation/yokveng": {
+      "url": "/thalorna/affiliation/yokveng/",
+      "name": "Yokveng"
+    },
+    "affiliation/yokzhuk": {
+      "url": "/thalorna/affiliation/yokzhuk/",
+      "name": "Yökzhük"
+    },
+    "affiliation/yutvei": {
+      "url": "/thalorna/affiliation/yutvei/",
+      "name": "Yütvëi"
+    },
+    "affiliation/yvlesrdmns": {
+      "url": "/thalorna/affiliation/yokveng-lesser-demons/",
+      "name": "Yōkvëng Lesser Demons"
+    },
+    "affiliation/zarvanya": {
+      "url": "/thalorna/affiliation/faith-of-zarvanya/",
+      "name": "Faith of Zárványä"
+    },
+    "affiliation/zepharis": {
+      "url": "/thalorna/affiliation/zepharis/",
+      "name": "Zephäris"
+    },
+    "affiliation/zhaksok": {
+      "url": "/thalorna/affiliation/zhaksok/",
+      "name": "Zhāksōk"
+    },
+    "affiliation/zhutshtlng": {
+      "url": "/thalorna/affiliation/zhutshut-lung/",
+      "name": "Zhütshüt Lüng"
+    },
+    "affiliation/zurathra": {
+      "url": "/thalorna/affiliation/faith-of-zurathra/",
+      "name": "Faith of Zúráthrä"
+    },
+    "character/afzndhprnzr": {
+      "url": "/thalorna/character/afzandah-parnazar/",
+      "name": "Afzandah Parnâzar"
+    },
+    "character/agapevrzns": {
+      "url": "/thalorna/character/agapeia-varzanes/",
+      "name": "Agápeia Varzánês"
+    },
+    "character/ailemkrmys": {
+      "url": "/thalorna/character/ailema-keriamyes/",
+      "name": "Ailêmâ Kêrîamyês"
+    },
+    "character/akhremrnfr": {
+      "url": "/thalorna/character/akhrem-reenfre/",
+      "name": "Akhrem Re'en'fré"
+    },
+    "character/akksplytms": {
+      "url": "/thalorna/character/akakios-polytimos/",
+      "name": "Akákios Polytimós"
+    },
+    "character/alykosmpsn": {
+      "url": "/thalorna/character/alykos-sampsion/",
+      "name": "Alýkos Sampsiôn"
+    },
+    "character/alyksthtks": {
+      "url": "/thalorna/character/alykos-theotokis/",
+      "name": "Alýkos Theotókis"
+    },
+    "character/alyrklmrth": {
+      "url": "/thalorna/character/alyra-kalmereth/",
+      "name": "Ályra Kálmereth"
+    },
+    "character/angldskntkzns": {
+      "url": "/thalorna/character/angelides-kantakouzenos/",
+      "name": "Ángelides Kantakouzenós"
+    },
+    "character/angldsptrks": {
+      "url": "/thalorna/character/angelides-patrikios/",
+      "name": "Ángelides Patrikîos"
+    },
+    "character/anrjhrdvmbjkr": {
+      "url": "/thalorna/character/anuraja-harsadevambujakar/",
+      "name": "Anûraja Harṣadēvāmbujakar"
+    },
+    "character/arevynlydr": {
+      "url": "/thalorna/character/arevyn-llydar/",
+      "name": "Arévyn Llýdar"
+    },
+    "character/arkdsphlmds": {
+      "url": "/thalorna/character/arkadios-philomedis/",
+      "name": "Arkádios Philomédis"
+    },
+    "character/arkhekrkss": {
+      "url": "/thalorna/character/arkhea-kourkasios/",
+      "name": "Arkhêa Kourkásios"
+    },
+    "character/atenhershr": {
+      "url": "/thalorna/character/atenheru-sahri/",
+      "name": "Atenheru Sahri"
+    },
+    "character/athlwvthrnd": {
+      "url": "/thalorna/character/athalwa-vithrund/",
+      "name": "Athalwa Vithrúnd"
+    },
+    "character/athngrsktkls": {
+      "url": "/thalorna/character/athenagoras-katakalos/",
+      "name": "Athênagoras Katakálos"
+    },
+    "character/banutjaut": {
+      "url": "/thalorna/character/banut-jaut/",
+      "name": "Bânut Jâut"
+    },
+    "character/bazdrshhrn": {
+      "url": "/thalorna/character/bazudar-shahrun/",
+      "name": "Bazûdar Shahrûn"
+    },
+    "character/bjlfhrfnsvld": {
+      "url": "/thalorna/character/bjalfi-hrafnsvald/",
+      "name": "Bjalfi Hrafnsvald"
+    },
+    "character/bjorgdrknt": {
+      "url": "/thalorna/character/bjorg-drekanott/",
+      "name": "Björg Drekanótt"
+    },
+    "character/bjrnvtrdmr": {
+      "url": "/thalorna/character/bjorn-vetrdomr/",
+      "name": "Bjǫrn Vetrdómr"
+    },
+    "character/branwldrgr": {
+      "url": "/thalorna/character/branwaal-dorgaar/",
+      "name": "Brànwâal Dôrgaar"
+    },
+    "character/brnksksrns": {
+      "url": "/thalorna/character/branakis-kaseranis/",
+      "name": "Bránakis Kâserânis"
+    },
+    "character/brnlnsbrkls": {
+      "url": "/thalorna/character/branalenis-barkalas/",
+      "name": "Brânalenîs Bárkalâs"
+    },
+    "character/bthvrslvrgr": {
+      "url": "/thalorna/character/bothvarr-solvargr/",
+      "name": "Bǫthvarr Sólvargr"
+    },
+    "character/carengrvth": {
+      "url": "/thalorna/character/carenna-graveth/",
+      "name": "Cárenna Gráveth"
+    },
+    "character/casiaveric": {
+      "url": "/thalorna/character/cassia-verric/",
+      "name": "Cassia Verric"
+    },
+    "character/chlbrhydyn": {
+      "url": "/thalorna/character/cheleb-rhyddyn/",
+      "name": "Chéleb Rhýddýn"
+    },
+    "character/chndrkrtsndrjyvl": {
+      "url": "/thalorna/character/chandrakirtisundari-jayavalli/",
+      "name": "Chandrakīrtisundarī Jayavalli"
+    },
+    "character/chrysntskvdrs": {
+      "url": "/thalorna/character/chrysantos-kavadaris/",
+      "name": "Chrysántos Kavadáris"
+    },
+    "character/cibelasrnt": {
+      "url": "/thalorna/character/cibella-serentia/",
+      "name": "Cibella Serentia"
+    },
+    "character/cndrthrchrymkhysvr": {
+      "url": "/thalorna/character/candrathar-acharyamukhyesvara/",
+      "name": "Càndrathar Āchāryamukhyēśvara"
+    },
+    "character/dagmrwndrr": {
+      "url": "/thalorna/character/dagmar-the-wanderer/",
+      "name": "Dagmar the Wanderer"
+    },
+    "character/dagulfvthr": {
+      "url": "/thalorna/character/dagulf-vethar/",
+      "name": "Dágulf Véthar"
+    },
+    "character/damklsmpsn": {
+      "url": "/thalorna/character/damaklios-sampsion/",
+      "name": "Damáklios Sampsiôn"
+    },
+    "character/damsnghlrn": {
+      "url": "/thalorna/character/damasun-gholaron/",
+      "name": "Dámàsûn Ghôlâron"
+    },
+    "character/daryshshvn": {
+      "url": "/thalorna/character/daryash-shavan/",
+      "name": "Daryash Shavân"
+    },
+    "character/dekvetrdmr": {
+      "url": "/thalorna/character/dek-vetrdomr/",
+      "name": "Dek Vetrdómr"
+    },
+    "character/dhrmplvmkt": {
+      "url": "/thalorna/character/dharmapala-vimuktana/",
+      "name": "Dharmàpala Vimuktaṇa"
+    },
+    "character/dmrthsvshrds": {
+      "url": "/thalorna/character/domrithas-vishardas/",
+      "name": "Dómrithâs Vîshârdâs"
+    },
+    "character/domthgrvth": {
+      "url": "/thalorna/character/dometh-graveth/",
+      "name": "Dómeth Gráveth"
+    },
+    "character/dornsyndlr": {
+      "url": "/thalorna/character/doren-syndalr/",
+      "name": "Dôren Sýndalr"
+    },
+    "character/drkaranamn": {
+      "url": "/thalorna/character/drksarana-manrsti/",
+      "name": "Drkṣàrana Manṛṣṭi"
+    },
+    "character/drknsdlsns": {
+      "url": "/thalorna/character/drakonis-dalassenos/",
+      "name": "Drákonis Dalássênos"
+    },
+    "character/eldridfrhr": {
+      "url": "/thalorna/character/eldrid-firehair/",
+      "name": "Eldrid Firehair"
+    },
+    "character/elyseskyrn": {
+      "url": "/thalorna/character/elyse-skyrn/",
+      "name": "Elýsè Skýrn"
+    },
+    "character/ermlndrknt": {
+      "url": "/thalorna/character/ermelina-drekanott/",
+      "name": "Ermelína Drekanótt"
+    },
+    "character/erythnslnds": {
+      "url": "/thalorna/character/erython-uselindas/",
+      "name": "Érython Ûselîndâs"
+    },
+    "character/esharumtrz": {
+      "url": "/thalorna/character/esharum-taruzi/",
+      "name": "Eshârum Tarûzî"
+    },
+    "character/eshewamagr": {
+      "url": "/thalorna/character/eshe-wa-magara/",
+      "name": "Eshe wa Magara"
+    },
+    "character/fakhrdtmrn": {
+      "url": "/thalorna/character/fakhrad-tamaran/",
+      "name": "Fakhrad Tamârân"
+    },
+    "character/faradunfrn": {
+      "url": "/thalorna/character/faradun-afrun/",
+      "name": "Faradûn Afrûn"
+    },
+    "character/fethardhrl": {
+      "url": "/thalorna/character/fethar-dharel/",
+      "name": "Féthar Dhárel"
+    },
+    "character/firavdprsk": {
+      "url": "/thalorna/character/firavad-paresak/",
+      "name": "Firâvâd Pâresak"
+    },
+    "character/frztbnlksr": {
+      "url": "/thalorna/character/father-izteban-alkassar/",
+      "name": "Father Iztéban Alkássar"
+    },
+    "character/gahijwfnjr": {
+      "url": "/thalorna/character/gahiji-wa-fenjara/",
+      "name": "Gahiji wa Fénjara"
+    },
+    "character/garlendhrl": {
+      "url": "/thalorna/character/garlen-dharel/",
+      "name": "Gârlen Dhárel"
+    },
+    "character/gnstnvrnhm": {
+      "url": "/thalorna/character/gunnsteinn-vornheim/",
+      "name": "Gunnsteinn Vǫrnheim"
+    },
+    "character/gnvrhfrngr": {
+      "url": "/thalorna/character/gunnvor-hafringr/",
+      "name": "Gunnvǫr Hafringr"
+    },
+    "character/grgrsphthympls": {
+      "url": "/thalorna/character/gregoras-ephthymiopoulos/",
+      "name": "Grégoras Ephthymiópoulos"
+    },
+    "character/grlfdrthgr": {
+      "url": "/thalorna/character/garulf-druthgar/",
+      "name": "Garulf Druthgar"
+    },
+    "character/grmdnshrndns": {
+      "url": "/thalorna/character/goremadanis-herendanis/",
+      "name": "Goremadânis Hérendânis"
+    },
+    "character/grosdrnrgd": {
+      "url": "/thalorna/character/groa-the-seidr-of-norgaad/",
+      "name": "Gróa the Seiðr of Norgaad"
+    },
+    "character/gthrnslvrgr": {
+      "url": "/thalorna/character/guthrun-solvargr/",
+      "name": "Guthrún Sólvargr"
+    },
+    "character/gulrnhgzvn": {
+      "url": "/thalorna/character/gulranah-gazvan/",
+      "name": "Gulrânah Gazvân"
+    },
+    "character/gvrlsnktrts": {
+      "url": "/thalorna/character/gavrilos-niktariotes/",
+      "name": "Gávrilos Niktariôtês"
+    },
+    "character/hathurasfr": {
+      "url": "/thalorna/character/hathura-isefre/",
+      "name": "Hathura Ise'fré"
+    },
+    "character/helnmystks": {
+      "url": "/thalorna/character/helenaia-mystakes/",
+      "name": "Hélénaia Mystákês"
+    },
+    "character/hersaisant": {
+      "url": "/thalorna/character/hersais-saanut/",
+      "name": "Her'sa'îs Sa'Anut"
+    },
+    "character/hldrstnblt": {
+      "url": "/thalorna/character/hildr-steinblot/",
+      "name": "Hildr Steinblót"
+    },
+    "character/hlrksbrnthr": {
+      "url": "/thalorna/character/halrikos-branthira/",
+      "name": "Hálrikos Bránthira"
+    },
+    "character/hotepanu": {
+      "url": "/thalorna/character/hotep-anu/",
+      "name": "Hotep Anu"
+    },
+    "character/hrfnklhrfnsvld": {
+      "url": "/thalorna/character/hrafnkell-hrafnsvald/",
+      "name": "Hrafnkell Hrafnsvald"
+    },
+    "character/hrjlfvtrdmr": {
+      "url": "/thalorna/character/herjulf-vetrdomr/",
+      "name": "Herjúlf Vetrdómr"
+    },
+    "character/hrkhsbrmyds": {
+      "url": "/thalorna/character/harkhis-baremydes/",
+      "name": "Harkhîs Bàremydês"
+    },
+    "character/hrodrrnthl": {
+      "url": "/thalorna/character/hrodar-arnthul/",
+      "name": "Hródar Arnthúl"
+    },
+    "character/idriskrsvr": {
+      "url": "/thalorna/character/idrise-korisvar/",
+      "name": "Ídrisè Kórisvar"
+    },
+    "character/ingrthrskyrkr": {
+      "url": "/thalorna/character/ingrithr-skyrekkr/",
+      "name": "Íngrithr Skýrekkr"
+    },
+    "character/isarakhldr": {
+      "url": "/thalorna/character/isara-khalidra/",
+      "name": "Isâra Khalîdra"
+    },
+    "character/isaretkskr": {
+      "url": "/thalorna/character/isaret-kaseker/",
+      "name": "Isaret Ka'Seker"
+    },
+    "character/isidrmlsns": {
+      "url": "/thalorna/character/isidora-melissenos/",
+      "name": "Isidôra Melissenós"
+    },
+    "character/juthrjmthn": {
+      "url": "/thalorna/character/juthara-jamithon/",
+      "name": "Júthâra Jâmîthôn"
+    },
+    "character/kalidkrkss": {
+      "url": "/thalorna/character/kalida-kourkasios/",
+      "name": "Kalída Kourkásios"
+    },
+    "character/kamdkhvndr": {
+      "url": "/thalorna/character/kamid-khavandar/",
+      "name": "Kamîd Khâvandar"
+    },
+    "character/karriseldr": {
+      "url": "/thalorna/character/karr-iseldr/",
+      "name": "Kárr Íseldr"
+    },
+    "character/kasndrbsrn": {
+      "url": "/thalorna/character/kassandria-bessarion/",
+      "name": "Kassándria Bessarîon"
+    },
+    "character/kasuradmzr": {
+      "url": "/thalorna/character/kasura-damzaru/",
+      "name": "Kasûra Damzarû"
+    },
+    "character/kayvondzrd": {
+      "url": "/thalorna/character/kayvonad-zarid/",
+      "name": "Kayvonad Zârîd"
+    },
+    "character/kelnstylgn": {
+      "url": "/thalorna/character/kelena-stylgon/",
+      "name": "Kêlena Stýlgon"
+    },
+    "character/kharnhkhfr": {
+      "url": "/thalorna/character/kharanah-khafur/",
+      "name": "Khârânah Khafûr"
+    },
+    "character/khathmykhr": {
+      "url": "/thalorna/character/khatah-meykhari/",
+      "name": "Khatah Mey'khari"
+    },
+    "character/kirobashkm": {
+      "url": "/thalorna/character/kiroba-of-the-shokuma/",
+      "name": "Kiroba of the Shókuma"
+    },
+    "character/kjrvngjrln": {
+      "url": "/thalorna/character/kjorvan-gjarlen/",
+      "name": "Kjôrvan Gjârlen"
+    },
+    "character/klnkszygmls": {
+      "url": "/thalorna/character/kallinikos-zygomalas/",
+      "name": "Kallínikos Zygomálas"
+    },
+    "character/klstrtsxrchds": {
+      "url": "/thalorna/character/kallistratos-exarchides/",
+      "name": "Kallistratos Exarchides"
+    },
+    "character/klxnsprklvs": {
+      "url": "/thalorna/character/kallixenos-paraklavos/",
+      "name": "Kallíxenos Paraklávos"
+    },
+    "character/knstntnsplytms": {
+      "url": "/thalorna/character/konstantinos-polytimos/",
+      "name": "Konstántinos Polytimós"
+    },
+    "character/krmdnsbrkrtys": {
+      "url": "/thalorna/character/koremdanis-barkratys/",
+      "name": "Korêmdânis Bárkrâtys"
+    },
+    "character/kyrksptrks": {
+      "url": "/thalorna/character/kyriakos-patrikios/",
+      "name": "Kyriákos Patrikîos"
+    },
+    "character/laylamarut": {
+      "url": "/thalorna/character/layla-marut/",
+      "name": "Layla Marut"
+    },
+    "character/lnntstrtgpls": {
+      "url": "/thalorna/character/leonantos-strategopoulos/",
+      "name": "Leónantos Stratégopoulos"
+    },
+    "character/lrdmlnvsbr": {
+      "url": "/thalorna/character/lord-aemilon-visbari/",
+      "name": "Lord Aemilon Visbari"
+    },
+    "character/lucernsrnt": {
+      "url": "/thalorna/character/lucerian-serentia/",
+      "name": "Lucerian Serentia"
+    },
+    "character/lysndrschrysnthpls": {
+      "url": "/thalorna/character/lysandros-chrysanthopoulos/",
+      "name": "Lysándros Chrysanthópoulos"
+    },
+    "character/madhurvrdr": {
+      "url": "/thalorna/character/madhurava-rudrata/",
+      "name": "Màdhurava Rudraṭa"
+    },
+    "character/mehradzrdn": {
+      "url": "/thalorna/character/mehrad-azardan/",
+      "name": "Mehrâd Âzardan"
+    },
+    "character/mentshpkhr": {
+      "url": "/thalorna/character/meneti-shapkher/",
+      "name": "Meneti Shap'kher"
+    },
+    "character/minakprkhn": {
+      "url": "/thalorna/character/minaka-parikshana/",
+      "name": "Minàka Parikṣhana"
+    },
+    "character/mithrnmznd": {
+      "url": "/thalorna/character/mithran-mazanid/",
+      "name": "Mithran Mazânid"
+    },
+    "character/mkthsvnrds": {
+      "url": "/thalorna/character/makithos-vanardis/",
+      "name": "Màkîthos Vânardis"
+    },
+    "character/mrtpnkhkhs": {
+      "url": "/thalorna/character/mertep-ankhkhes/",
+      "name": "Mer'tep Ankh'Khes"
+    },
+    "character/mrtsbkhkmn": {
+      "url": "/thalorna/character/meret-sebek-hekaamun/",
+      "name": "Meret-Sebek Heka’amun"
+    },
+    "character/mthrnshrdr": {
+      "url": "/thalorna/character/mithran-shiradar/",
+      "name": "Mithran Shiradar"
+    },
+    "character/muritarikh": {
+      "url": "/thalorna/character/muri-tarikh/",
+      "name": "Muri Târikh"
+    },
+    "character/myrnklypss": {
+      "url": "/thalorna/character/myrine-kalypsos/",
+      "name": "Myrine Kalypsos"
+    },
+    "character/narisahrvn": {
+      "url": "/thalorna/character/nari-sahravan/",
+      "name": "Nari Sahravân"
+    },
+    "character/neferetimr": {
+      "url": "/thalorna/character/neferet-imi-ra/",
+      "name": "Neferet Imi-Ra"
+    },
+    "character/nkhtrmnrsht": {
+      "url": "/thalorna/character/nakhtar-amunrashet/",
+      "name": "Nakhtar Amun'Râshet"
+    },
+    "character/nrvsrytjmhnnd": {
+      "url": "/thalorna/character/narava-suryatejamahananda/",
+      "name": "Nárava Sūryatejamahānanda"
+    },
+    "character/nushirnrsf": {
+      "url": "/thalorna/character/nushir-narsafi/",
+      "name": "Nushir Narsâfî"
+    },
+    "character/oskdrekant": {
+      "url": "/thalorna/character/osk-drekanott/",
+      "name": "Ósk Drekanótt"
+    },
+    "character/osknbjrgskrn": {
+      "url": "/thalorna/character/oskunn-bjargskorn/",
+      "name": "Óskunn Bjargskorn"
+    },
+    "character/palvdrvksh": {
+      "url": "/thalorna/character/pallavi-draviksha/",
+      "name": "Pallàvi Drâviksha"
+    },
+    "character/parirnkhns": {
+      "url": "/thalorna/character/parri-reenkhensu/",
+      "name": "Par'ri Re'en'Khensu"
+    },
+    "character/pashrhtrmt": {
+      "url": "/thalorna/character/pasher-hetremet/",
+      "name": "Pasher Het'remet"
+    },
+    "character/patnfrstmr": {
+      "url": "/thalorna/character/patnefur-setmaar/",
+      "name": "Pat'nefur Set'maâr"
+    },
+    "character/pdmvldhnrvdkrtrj": {
+      "url": "/thalorna/character/padmavali-dhanurvedakirtiraja/",
+      "name": "Padmàvali Dhanurvedakīrtirāja"
+    },
+    "character/phlndrskyrks": {
+      "url": "/thalorna/character/philandros-kyriakos/",
+      "name": "Philándros Kyriákos"
+    },
+    "character/phlnmrksns": {
+      "url": "/thalorna/character/philina-markesianos/",
+      "name": "Philína Markêsianos"
+    },
+    "character/phlthnktrts": {
+      "url": "/thalorna/character/philotheia-niktariotes/",
+      "name": "Philothêia Niktariôtês"
+    },
+    "character/phltsklfts": {
+      "url": "/thalorna/character/philetos-kleftes/",
+      "name": "Philetos Kleftes"
+    },
+    "character/phtnstrtgpls": {
+      "url": "/thalorna/character/photianos-strategopoulos/",
+      "name": "Phótianos Stratégopoulos"
+    },
+    "character/prthmjkydr": {
+      "url": "/thalorna/character/prthimaja-kayadara/",
+      "name": "Prthîmâja Kâyadara"
+    },
+    "character/prthnblthl": {
+      "url": "/thalorna/character/parthun-belthal/",
+      "name": "Párthun Bélthal"
+    },
+    "character/prtrkpdmdksh": {
+      "url": "/thalorna/character/pritarika-padmadiksha/",
+      "name": "Pritàrika Padmadîksha"
+    },
+    "character/prynbrmndn": {
+      "url": "/thalorna/character/paryan-barmandan/",
+      "name": "Paryan Barmandan"
+    },
+    "character/qamiralamr": {
+      "url": "/thalorna/character/qamira-lamari/",
+      "name": "Qâmira Lamari"
+    },
+    "character/raiahsekmt": {
+      "url": "/thalorna/character/raiah-sekmeta/",
+      "name": "Raiah Sekmet'â"
+    },
+    "character/raiyawstnb": {
+      "url": "/thalorna/character/raiya-wasetneb/",
+      "name": "Raiya Waset'neb"
+    },
+    "character/renuternfr": {
+      "url": "/thalorna/character/renute-reenfre/",
+      "name": "Renutê Re'en'fré"
+    },
+    "character/rgnvldrsgrnd": {
+      "url": "/thalorna/character/rognvaldr-asgrind/",
+      "name": "Rǫgnvaldr Ásgrind"
+    },
+    "character/rkrthrsldr": {
+      "url": "/thalorna/character/rikarthr-iseldr/",
+      "name": "Ríkarthr Íseldr"
+    },
+    "character/rngrvtrdmr": {
+      "url": "/thalorna/character/rangr-vetrdomr/",
+      "name": "Rängr Vetrdómr"
+    },
+    "character/rnhrngsdtr": {
+      "url": "/thalorna/character/runa-hringsdottir/",
+      "name": "Rúna Hringsdóttir"
+    },
+    "character/rnthrprdln": {
+      "url": "/thalorna/character/ranthor-pardalen/",
+      "name": "Ránthor Párdalen"
+    },
+    "character/rshrhssfrn": {
+      "url": "/thalorna/character/rashira-of-house-safiron/",
+      "name": "Rashîra of House Safîrôn"
+    },
+    "character/rshrnbrmndn": {
+      "url": "/thalorna/character/rosharan-barmandan/",
+      "name": "Rosharan Barmandan"
+    },
+    "character/rudavahfrd": {
+      "url": "/thalorna/character/rudavah-farrud/",
+      "name": "Rudâvah Farrud"
+    },
+    "character/rznshmrvrn": {
+      "url": "/thalorna/character/razanash-mervaran/",
+      "name": "Razanash Mervaran"
+    },
+    "character/sabirajira": {
+      "url": "/thalorna/character/sabir-ajira/",
+      "name": "Sâbir Âjira"
+    },
+    "character/satiynbkht": {
+      "url": "/thalorna/character/satiya-nebakhet/",
+      "name": "Satîya Neb'akhet"
+    },
+    "character/satrrnkhns": {
+      "url": "/thalorna/character/satara-reenkhensu/",
+      "name": "Satara Re'en'Khensu"
+    },
+    "character/senptvkrmd": {
+      "url": "/thalorna/character/senapati-vikramada/",
+      "name": "Sénapati Vikramâda"
+    },
+    "character/sentatsrkt": {
+      "url": "/thalorna/character/senta-tasereket/",
+      "name": "Sênta Ta'Sereket"
+    },
+    "character/sevnmyrkls": {
+      "url": "/thalorna/character/sevion-myrkelis/",
+      "name": "Sevion Myrkelis"
+    },
+    "character/shadalnadn": {
+      "url": "/thalorna/character/shadal-nadina/",
+      "name": "Shadal Nadina"
+    },
+    "character/shadzrkmrz": {
+      "url": "/thalorna/character/shadezar-kamruz/",
+      "name": "Shâdezar Kamruz"
+    },
+    "character/shdqbnrhmndplmtcblddncr": {
+      "url": "/thalorna/character/shadiq-ibn-rahman-the-diplomatic-blade-dancer/",
+      "name": "Shadiq ibn Rahman, The Diplomatic Blade Dancer"
+    },
+    "character/shebsthtms": {
+      "url": "/thalorna/character/shebas-thutmosa/",
+      "name": "Shebas Thutmosa"
+    },
+    "character/shenurbapt": {
+      "url": "/thalorna/character/shenur-bapata/",
+      "name": "Shenur Ba'pata"
+    },
+    "character/shrmnhthvn": {
+      "url": "/thalorna/character/sharminah-tahvan/",
+      "name": "Sharmînah Tahvân"
+    },
+    "character/sigfstrmrt": {
+      "url": "/thalorna/character/sigfuss-stormrot/",
+      "name": "Sigfúss Stormrót"
+    },
+    "character/siprahipmr": {
+      "url": "/thalorna/character/siprah-ipmaar/",
+      "name": "Sip'rah Ip'maâr"
+    },
+    "character/skfrnstrmrt": {
+      "url": "/thalorna/character/skufrun-stormrot/",
+      "name": "Skúfrún Stormrót"
+    },
+    "character/skhmtkskhn": {
+      "url": "/thalorna/character/sekhemet-kasekhen/",
+      "name": "Sekhemet Ka'sekhen"
+    },
+    "character/skthldfrdbn": {
+      "url": "/thalorna/character/skathilda-frodban/",
+      "name": "Skathilda Fróðbán"
+    },
+    "character/skulvtrdmr": {
+      "url": "/thalorna/character/skuli-vetrdomr/",
+      "name": "Skúli Vetrdómr"
+    },
+    "character/slvrvlskyr": {
+      "url": "/thalorna/character/selvara-valskyr/",
+      "name": "Sélvara Válskyr"
+    },
+    "character/smrnklkyrs": {
+      "url": "/thalorna/character/samarina-kalokyres/",
+      "name": "Samarína Kalokyrês"
+    },
+    "character/snorjrnskl": {
+      "url": "/thalorna/character/snorri-jarnskel/",
+      "name": "Snorri Járnskel"
+    },
+    "character/sntydhyrjvrdhn": {
+      "url": "/thalorna/character/sunati-ayodhyarajavardhan/",
+      "name": "Sunáti Āyodhyārājavardhan"
+    },
+    "character/srdrzhsycnknghtblckflm": {
+      "url": "/thalorna/character/sir-drazha-sycani-knight-of-the-black-flame/",
+      "name": "Sir Drazha Sycâni, Knight of the Black Flame"
+    },
+    "character/srndrslrcknghtwstrnmrchs": {
+      "url": "/thalorna/character/sir-andres-lorca-knight-of-the-western-marches/",
+      "name": "Sir Andrés Lorca, Knight of the Western Marches"
+    },
+    "character/suvrtkrtns": {
+      "url": "/thalorna/character/suvaratika-ratnisena/",
+      "name": "Suvaratika Ratniseṇa"
+    },
+    "character/takorozanethar": {
+      "url": "/thalorna/character/takoro-zanethar/",
+      "name": "Tákoro Zanethar"
+    },
+    "character/tamiyrajat": {
+      "url": "/thalorna/character/tamiyra-jaut/",
+      "name": "Ta'miyra Jâut"
+    },
+    "character/tarelblthl": {
+      "url": "/thalorna/character/tarellia-belthal/",
+      "name": "Tárellia Bélthal"
+    },
+    "character/tefnuthtwr": {
+      "url": "/thalorna/character/tefnuti-hetwera/",
+      "name": "Tefnutî Het'Wera"
+    },
+    "character/theklarhms": {
+      "url": "/thalorna/character/thekla-rhomaios/",
+      "name": "Thêkla Rhomaios"
+    },
+    "character/thjthrhrfnsvld": {
+      "url": "/thalorna/character/thjotharr-hrafnsvald/",
+      "name": "Thjótharr Hrafnsvald"
+    },
+    "character/thlstrvlth": {
+      "url": "/thalorna/character/thalisa-torvaleth/",
+      "name": "Thalísa Torvaleth"
+    },
+    "character/thmdspphnts": {
+      "url": "/thalorna/character/theomides-epiphaniotes/",
+      "name": "Theomídes Epiphaniôtês"
+    },
+    "character/thrlkrvndrkv": {
+      "url": "/thalorna/character/thorlakr-vindrkve/",
+      "name": "Thorlákr Vindrkvé"
+    },
+    "character/thrnkbldtscbr": {
+      "url": "/thalorna/character/thornak-blodtusc-bar/",
+      "name": "Thornak Blodtūsc Bār"
+    },
+    "character/thrstnfrstlf": {
+      "url": "/thalorna/character/thorsteinn-frostulf/",
+      "name": "Thorsteinn Frostulf"
+    },
+    "character/thrstnjrnskl": {
+      "url": "/thalorna/character/thorsteinn-jarnskel/",
+      "name": "Thorsteinn Járnskel"
+    },
+    "character/thrstnslvrgr": {
+      "url": "/thalorna/character/thorsteinn-solvargr/",
+      "name": "Thorsteinn Sólvargr"
+    },
+    "character/thrwldhldskrn": {
+      "url": "/thalorna/character/thrawald-hildskorn/",
+      "name": "Thráwald Hildskorn"
+    },
+    "character/thslnkkthrpls": {
+      "url": "/thalorna/character/thesalonike-katharopoulos/",
+      "name": "Thêsaloníke Katharópoulos"
+    },
+    "character/timthngvls": {
+      "url": "/thalorna/character/timotheon-gavalas/",
+      "name": "Timothéon Gaválas"
+    },
+    "character/tiryedjetm": {
+      "url": "/thalorna/character/tirye-djetame/",
+      "name": "Tirye Djet'amê"
+    },
+    "character/tmrsrytjmhnnd": {
+      "url": "/thalorna/character/tamura-suryatejamahananda/",
+      "name": "Tamûra Sūryatejamahānanda"
+    },
+    "character/torniskbry": {
+      "url": "/thalorna/character/tornis-kubry/",
+      "name": "Tórnis Kúbrý"
+    },
+    "character/totkarhtwr": {
+      "url": "/thalorna/character/totkar-hetwera/",
+      "name": "Tot'kar Het'Wera"
+    },
+    "character/unreldskar": {
+      "url": "/thalorna/character/unnr-eldskari/",
+      "name": "Unnr Eldskari"
+    },
+    "character/vanikartns": {
+      "url": "/thalorna/character/vanika-ratnisena/",
+      "name": "Vànika Ratniseṇa"
+    },
+    "character/veldrblthl": {
+      "url": "/thalorna/character/veldor-belthal/",
+      "name": "Véldor Bélthal"
+    },
+    "character/vgbrndrskyrkr": {
+      "url": "/thalorna/character/vigbrandr-skyrekkr/",
+      "name": "Vígbrandr Skýrekkr"
+    },
+    "character/vishalblry": {
+      "url": "/thalorna/character/vishali-balarnaya/",
+      "name": "Vishali Bâlarṇaya"
+    },
+    "character/visvarmhpr": {
+      "url": "/thalorna/character/visvara-mahapara/",
+      "name": "Viśvàra Mahâpara"
+    },
+    "character/vndrcgrwld": {
+      "url": "/thalorna/character/vandaric-garwald/",
+      "name": "Vandaric Garwald"
+    },
+    "character/vogrblothl": {
+      "url": "/thalorna/character/voggr-blotholl/",
+      "name": "Vǫggr Blóthǫll"
+    },
+    "character/vrgskhrmdkn": {
+      "url": "/thalorna/character/virangasikharam-duksana/",
+      "name": "Vīrāṅgaśikharam Dukṣana"
+    },
+    "character/vshnshvdysgrml": {
+      "url": "/thalorna/character/vishnusha-vidyasagaramandala/",
+      "name": "Vishnusha Vidyāsāgaramaṇḍala"
+    },
+    "character/vsvmbhrkhlrtngdvds": {
+      "url": "/thalorna/character/visvambharakhila-ratnangadevadasa/",
+      "name": "Viśvambhārākhila Ratnāṅgadēvadāsa"
+    },
+    "character/xadrosdmts": {
+      "url": "/thalorna/character/xadros-daemates/",
+      "name": "Xadrôs Dâemâtês"
+    },
+    "character/xrphnklmkns": {
+      "url": "/thalorna/character/xerophon-kalmakanes/",
+      "name": "Xerôphôn Kâlmâkanês"
+    },
+    "character/yasurajckl": {
+      "url": "/thalorna/character/yasura-the-jackal/",
+      "name": "Yâsûra the Jackal"
+    },
+    "character/ylrskrsdtr": {
+      "url": "/thalorna/character/ylira-skorrsdottir/",
+      "name": "Ylíra Skorrsdottir"
+    },
+    "character/yngvrblthl": {
+      "url": "/thalorna/character/yngvarr-blotholl/",
+      "name": "Yngvarr Blóthǫll"
+    },
+    "character/yngvrdrtgr": {
+      "url": "/thalorna/character/yngvarr-drottgar/",
+      "name": "Yngvarr Dróttgar"
+    },
+    "character/zahirmlkht": {
+      "url": "/thalorna/character/zahira-malkhet/",
+      "name": "Zahira Malkhet"
+    },
+    "character/zensphlkls": {
+      "url": "/thalorna/character/zenais-philokalos/",
+      "name": "Zênais Philokálos"
+    },
+    "concoctiongear/elxacid": {
+      "url": "/thalorna/concoctiongear/alkahest-of-sideros/",
+      "name": "Alkahest of Sidéros"
+    },
+    "concoctiongear/elxair": {
+      "url": "/thalorna/concoctiongear/paupers-wind/",
+      "name": "Pauper's Wind"
+    },
+    "concoctiongear/elxaqu": {
+      "url": "/thalorna/concoctiongear/waterheart/",
+      "name": "Waterheart"
+    },
+    "concoctiongear/elxdrk": {
+      "url": "/thalorna/concoctiongear/owls-benediction/",
+      "name": "Owl's Benediction"
+    },
+    "concoctiongear/elxdrm": {
+      "url": "/thalorna/concoctiongear/the-wandering-dream/",
+      "name": "The Wandering Dream"
+    },
+    "concoctiongear/elxego": {
+      "url": "/thalorna/concoctiongear/the-silent-scribe/",
+      "name": "The Silent Scribe"
+    },
+    "concoctiongear/elxeqp": {
+      "url": "/thalorna/concoctiongear/the-quickened-thread/",
+      "name": "The Quickened Thread"
+    },
+    "concoctiongear/elxerd": {
+      "url": "/thalorna/concoctiongear/scholars-lantern/",
+      "name": "Scholar's Lantern"
+    },
+    "concoctiongear/elxerp": {
+      "url": "/thalorna/concoctiongear/pyrethoss-wrath/",
+      "name": "Pyréthos's Wrath"
+    },
+    "concoctiongear/elxexs": {
+      "url": "/thalorna/concoctiongear/deserts-kiss/",
+      "name": "Desert's Kiss"
+    },
+    "concoctiongear/elxfir": {
+      "url": "/thalorna/concoctiongear/flames-indifference/",
+      "name": "Flame's Indifference"
+    },
+    "concoctiongear/elxfmb": {
+      "url": "/thalorna/concoctiongear/the-choking-veil/",
+      "name": "The Choking Veil"
+    },
+    "concoctiongear/elxfrm": {
+      "url": "/thalorna/concoctiongear/the-second-utterance/",
+      "name": "The Second Utterance"
+    },
+    "concoctiongear/elxftp": {
+      "url": "/thalorna/concoctiongear/whispertread/",
+      "name": "Whispertread"
+    },
+    "concoctiongear/elxgst": {
+      "url": "/thalorna/concoctiongear/veil-piercer/",
+      "name": "Veil-Piercer"
+    },
+    "concoctiongear/elxheal": {
+      "url": "/thalorna/concoctiongear/physeran-balm/",
+      "name": "Physéran Balm"
+    },
+    "concoctiongear/elxice": {
+      "url": "/thalorna/concoctiongear/zephariss-mantle/",
+      "name": "Zephäris's Mantle"
+    },
+    "concoctiongear/elxmgt": {
+      "url": "/thalorna/concoctiongear/heart-of-the-oak/",
+      "name": "Heart-of-the-Oak"
+    },
+    "concoctiongear/elxmnd": {
+      "url": "/thalorna/concoctiongear/the-whole-making/",
+      "name": "The Whole-Making"
+    },
+    "concoctiongear/elxmsl": {
+      "url": "/thalorna/concoctiongear/salve-of-the-mind/",
+      "name": "Salve of the Mind"
+    },
+    "concoctiongear/elxoba": {
+      "url": "/thalorna/concoctiongear/keepers-vow/",
+      "name": "Keeper's Vow"
+    },
+    "concoctiongear/elxpas": {
+      "url": "/thalorna/concoctiongear/the-imposed-humor/",
+      "name": "The Imposed Humor"
+    },
+    "concoctiongear/elxphy": {
+      "url": "/thalorna/concoctiongear/the-dispelling-draft/",
+      "name": "The Dispelling Draft"
+    },
+    "concoctiongear/elxpsn": {
+      "url": "/thalorna/concoctiongear/the-reversed-gift/",
+      "name": "The Reversed Gift"
+    },
+    "concoctiongear/elxqsc": {
+      "url": "/thalorna/concoctiongear/the-dormant-draft/",
+      "name": "The Dormant Draft"
+    },
+    "concoctiongear/elxsbf": {
+      "url": "/thalorna/concoctiongear/the-pearl-ward/",
+      "name": "The Pearl Ward"
+    },
+    "concoctiongear/elxscl": {
+      "url": "/thalorna/concoctiongear/cloak-of-the-unseen-soul/",
+      "name": "Cloak of the Unseen Soul"
+    },
+    "concoctiongear/elxshd": {
+      "url": "/thalorna/concoctiongear/nights-exhalation/",
+      "name": "Night's Exhalation"
+    },
+    "concoctiongear/elxsht": {
+      "url": "/thalorna/concoctiongear/the-shattering-cry/",
+      "name": "The Shattering Cry"
+    },
+    "concoctiongear/elxsus": {
+      "url": "/thalorna/concoctiongear/the-liquid-feast/",
+      "name": "The Liquid Feast"
+    },
+    "concoctiongear/elxtrm": {
+      "url": "/thalorna/concoctiongear/the-pain-breaker/",
+      "name": "The Pain-Breaker"
+    },
+    "concoctiongear/elxver": {
+      "url": "/thalorna/concoctiongear/hydaliss-eye/",
+      "name": "Hydälis's Eye"
+    },
+    "concoctiongear/elxvrv": {
+      "url": "/thalorna/concoctiongear/the-wakeful-road/",
+      "name": "The Wakeful Road"
+    },
+    "concoctiongear/elxwkn": {
+      "url": "/thalorna/concoctiongear/the-torpid-cloud/",
+      "name": "The Torpid Cloud"
+    },
+    "concoctiongear/elxwrm": {
+      "url": "/thalorna/concoctiongear/pyrethoss-hearth/",
+      "name": "Pyréthos's Hearth"
+    },
+    "concoctiongear/ptnantvg": {
+      "url": "/thalorna/concoctiongear/asps-atonement/",
+      "name": "Asp's Atonement"
+    },
+    "concoctiongear/ptnantvm": {
+      "url": "/thalorna/concoctiongear/vipers-mercy/",
+      "name": "Viper's Mercy"
+    },
+    "concoctiongear/ptnantvs": {
+      "url": "/thalorna/concoctiongear/serpents-bane/",
+      "name": "Serpent's Bane"
+    },
+    "concoctiongear/ptnaphrg": {
+      "url": "/thalorna/concoctiongear/sirens-tincture/",
+      "name": "Siren's Tincture"
+    },
+    "concoctiongear/ptnaphrm": {
+      "url": "/thalorna/concoctiongear/lovers-flush/",
+      "name": "Lover's Flush"
+    },
+    "concoctiongear/ptnaphrs": {
+      "url": "/thalorna/concoctiongear/cinder-kiss/",
+      "name": "Cinder Kiss"
+    },
+    "concoctiongear/ptnaromg": {
+      "url": "/thalorna/concoctiongear/rose-of-the-empyrean/",
+      "name": "Rose of the Empyrean"
+    },
+    "concoctiongear/ptnaromm": {
+      "url": "/thalorna/concoctiongear/orchard-breath/",
+      "name": "Orchard Breath"
+    },
+    "concoctiongear/ptnaroms": {
+      "url": "/thalorna/concoctiongear/courtiers-allure/",
+      "name": "Courtier's Allure"
+    },
+    "concoctiongear/ptncoagg": {
+      "url": "/thalorna/concoctiongear/deathstaunch/",
+      "name": "Deathstaunch"
+    },
+    "concoctiongear/ptncoagm": {
+      "url": "/thalorna/concoctiongear/bloodstill/",
+      "name": "Bloodstill"
+    },
+    "concoctiongear/ptncoags": {
+      "url": "/thalorna/concoctiongear/thornstaunch/",
+      "name": "Thornstaunch"
+    },
+    "concoctiongear/ptncurg": {
+      "url": "/thalorna/concoctiongear/sovereign-poultice/",
+      "name": "Sovereign Poultice"
+    },
+    "concoctiongear/ptncurm": {
+      "url": "/thalorna/concoctiongear/menders-paste/",
+      "name": "Mender's Paste"
+    },
+    "concoctiongear/ptncurs": {
+      "url": "/thalorna/concoctiongear/physicians-comfort/",
+      "name": "Physician's Comfort"
+    },
+    "concoctiongear/ptnemg": {
+      "url": "/thalorna/concoctiongear/the-black-rebuke/",
+      "name": "The Black Rebuke"
+    },
+    "concoctiongear/ptnemm": {
+      "url": "/thalorna/concoctiongear/the-bitter-purge/",
+      "name": "The Bitter Purge"
+    },
+    "concoctiongear/ptnems": {
+      "url": "/thalorna/concoctiongear/witchs-swill/",
+      "name": "Witch's Swill"
+    },
+    "concoctiongear/ptnhalg": {
+      "url": "/thalorna/concoctiongear/oracles-vapor/",
+      "name": "Oracle's Vapor"
+    },
+    "concoctiongear/ptnhalm": {
+      "url": "/thalorna/concoctiongear/dreamsugar/",
+      "name": "Dreamsugar"
+    },
+    "concoctiongear/ptnhals": {
+      "url": "/thalorna/concoctiongear/veil-smoke/",
+      "name": "Veil-Smoke"
+    },
+    "concoctiongear/ptnnarg": {
+      "url": "/thalorna/concoctiongear/milk-of-sleep/",
+      "name": "Milk of Sleep"
+    },
+    "concoctiongear/ptnnarm": {
+      "url": "/thalorna/concoctiongear/poppytear/",
+      "name": "Poppytear"
+    },
+    "concoctiongear/ptnnars": {
+      "url": "/thalorna/concoctiongear/lotus-ease/",
+      "name": "Lotus Ease"
+    },
+    "concoctiongear/ptnparg": {
+      "url": "/thalorna/concoctiongear/the-frozen-draft/",
+      "name": "The Frozen Draft"
+    },
+    "concoctiongear/ptnparm": {
+      "url": "/thalorna/concoctiongear/stillbind/",
+      "name": "Stillbind"
+    },
+    "concoctiongear/ptnpars": {
+      "url": "/thalorna/concoctiongear/marble-kiss/",
+      "name": "Marble Kiss"
+    },
+    "concoctiongear/ptnpoig": {
+      "url": "/thalorna/concoctiongear/kingsbane/",
+      "name": "Kingsbane"
+    },
+    "concoctiongear/ptnpoim": {
+      "url": "/thalorna/concoctiongear/widows-whisper/",
+      "name": "Widow's Whisper"
+    },
+    "concoctiongear/ptnpois": {
+      "url": "/thalorna/concoctiongear/blackroot-tincture/",
+      "name": "Blackroot Tincture"
+    },
+    "concoctiongear/ptnsopg": {
+      "url": "/thalorna/concoctiongear/the-long-night/",
+      "name": "The Long Night"
+    },
+    "concoctiongear/ptnsopm": {
+      "url": "/thalorna/concoctiongear/evenfall-draft/",
+      "name": "Evenfall Draft"
+    },
+    "concoctiongear/ptnsops": {
+      "url": "/thalorna/concoctiongear/silk-sleep/",
+      "name": "Silk Sleep"
+    },
+    "concoctiongear/ptnstmg": {
+      "url": "/thalorna/concoctiongear/heartflame/",
+      "name": "Heartflame"
+    },
+    "concoctiongear/ptnstmm": {
+      "url": "/thalorna/concoctiongear/ember-draft/",
+      "name": "Ember Draft"
+    },
+    "concoctiongear/ptnstms": {
+      "url": "/thalorna/concoctiongear/livewire/",
+      "name": "Livewire"
+    },
+    "creature/abyssdrk": {
+      "url": "/thalorna/creature/abyssdrake/",
+      "name": "Abyssdrake"
+    },
+    "creature/abysslsl": {
+      "url": "/thalorna/creature/abyssal-silt/",
+      "name": "Abyssal Silt"
+    },
+    "creature/acidtoad": {
+      "url": "/thalorna/creature/acidtoad/",
+      "name": "Acidtoad"
+    },
+    "creature/agrnsntn": {
+      "url": "/thalorna/creature/aegiron-sentinel/",
+      "name": "Aegiron Sentinel"
+    },
+    "creature/bldrbck": {
+      "url": "/thalorna/creature/boulderback/",
+      "name": "Boulderback"
+    },
+    "creature/blinkfox": {
+      "url": "/thalorna/creature/blinkfox/",
+      "name": "Blinkfox"
+    },
+    "creature/bnscrpn": {
+      "url": "/thalorna/creature/bone-scorpion/",
+      "name": "Bone Scorpion"
+    },
+    "creature/brmblfng": {
+      "url": "/thalorna/creature/bramblefang/",
+      "name": "Bramblefang"
+    },
+    "creature/brmblspn": {
+      "url": "/thalorna/creature/bramblespine-dartel/",
+      "name": "Bramblespine Dartel"
+    },
+    "creature/cheeprow": {
+      "url": "/thalorna/creature/cheeprow/",
+      "name": "Cheeprow"
+    },
+    "creature/clffstlk": {
+      "url": "/thalorna/creature/cliff-stalker/",
+      "name": "Cliff Stalker"
+    },
+    "creature/crgclmbr": {
+      "url": "/thalorna/creature/cragclimber/",
+      "name": "Cragclimber"
+    },
+    "creature/crglrkr": {
+      "url": "/thalorna/creature/crag-lurker/",
+      "name": "Crag Lurker"
+    },
+    "creature/crystlcl": {
+      "url": "/thalorna/creature/crystalclaw/",
+      "name": "Crystalclaw"
+    },
+    "creature/cvgbln": {
+      "url": "/thalorna/creature/cave-goblin/",
+      "name": "Cave Goblin"
+    },
+    "creature/cvtrll": {
+      "url": "/thalorna/creature/cave-troll/",
+      "name": "Cave Troll"
+    },
+    "creature/dnstrdr": {
+      "url": "/thalorna/creature/dune-strider/",
+      "name": "Dune Strider"
+    },
+    "creature/drgnflyh": {
+      "url": "/thalorna/creature/dragonfly-hawk/",
+      "name": "Dragonfly Hawk"
+    },
+    "creature/drhnybdg": {
+      "url": "/thalorna/creature/dire-honey-badger/",
+      "name": "Dire Honey Badger"
+    },
+    "creature/drwlvrn": {
+      "url": "/thalorna/creature/dire-wolverine/",
+      "name": "Dire Wolverine"
+    },
+    "creature/duneclaw": {
+      "url": "/thalorna/creature/duneclaw/",
+      "name": "Duneclaw"
+    },
+    "creature/embermaw": {
+      "url": "/thalorna/creature/embermaw/",
+      "name": "Embermaw"
+    },
+    "creature/embrhnd": {
+      "url": "/thalorna/creature/emberhound/",
+      "name": "Emberhound"
+    },
+    "creature/erthchrg": {
+      "url": "/thalorna/creature/earthcharger/",
+      "name": "Earthcharger"
+    },
+    "creature/erthrvr": {
+      "url": "/thalorna/creature/earthreaver/",
+      "name": "Earthreaver"
+    },
+    "creature/feraldew": {
+      "url": "/thalorna/creature/feraldew/",
+      "name": "Feraldew"
+    },
+    "creature/fireflit": {
+      "url": "/thalorna/creature/fireflit/",
+      "name": "Fireflit"
+    },
+    "creature/flmwrth": {
+      "url": "/thalorna/creature/flamewraith/",
+      "name": "Flamewraith"
+    },
+    "creature/frostjaw": {
+      "url": "/thalorna/creature/frostjaw/",
+      "name": "Frostjaw"
+    },
+    "creature/frostmaw": {
+      "url": "/thalorna/creature/frostmaw/",
+      "name": "Frostmaw"
+    },
+    "creature/frstdrk": {
+      "url": "/thalorna/creature/forest-drake/",
+      "name": "Forest Drake"
+    },
+    "creature/frstgbln": {
+      "url": "/thalorna/creature/forest-goblin/",
+      "name": "Forest Goblin"
+    },
+    "creature/frsttrll": {
+      "url": "/thalorna/creature/forest-troll/",
+      "name": "Forest Troll"
+    },
+    "creature/frstwng": {
+      "url": "/thalorna/creature/frostwing/",
+      "name": "Frostwing"
+    },
+    "creature/fthrcrst": {
+      "url": "/thalorna/creature/feathercrest-velon/",
+      "name": "Feathercrest Velon"
+    },
+    "creature/giantant": {
+      "url": "/thalorna/creature/giant-ant/",
+      "name": "Giant Ant"
+    },
+    "creature/giantbee": {
+      "url": "/thalorna/creature/giant-bee/",
+      "name": "Giant Bee"
+    },
+    "creature/giantowl": {
+      "url": "/thalorna/creature/giant-owl/",
+      "name": "Giant Owl"
+    },
+    "creature/giantrat": {
+      "url": "/thalorna/creature/giant-rat/",
+      "name": "Giant Rat"
+    },
+    "creature/glmfng": {
+      "url": "/thalorna/creature/gloomfang/",
+      "name": "Gloomfang"
+    },
+    "creature/glmhnd": {
+      "url": "/thalorna/creature/gloomhound/",
+      "name": "Gloomhound"
+    },
+    "creature/glmsprt": {
+      "url": "/thalorna/creature/gloomsprite/",
+      "name": "Gloomsprite"
+    },
+    "creature/glowvine": {
+      "url": "/thalorna/creature/glowvine/",
+      "name": "Glowvine"
+    },
+    "creature/glssfng": {
+      "url": "/thalorna/creature/glassfang/",
+      "name": "Glassfang"
+    },
+    "creature/gntarmdl": {
+      "url": "/thalorna/creature/giant-armadillo/",
+      "name": "Giant Armadillo"
+    },
+    "creature/gntbr": {
+      "url": "/thalorna/creature/giant-boar/",
+      "name": "Giant Boar"
+    },
+    "creature/gntbvr": {
+      "url": "/thalorna/creature/giant-beaver/",
+      "name": "Giant Beaver"
+    },
+    "creature/gntcmlsp": {
+      "url": "/thalorna/creature/giant-camel-spider/",
+      "name": "Giant Camel Spider"
+    },
+    "creature/gntegl": {
+      "url": "/thalorna/creature/giant-eagle/",
+      "name": "Giant Eagle"
+    },
+    "creature/gnthdghg": {
+      "url": "/thalorna/creature/giant-hedgehog/",
+      "name": "Giant Hedgehog"
+    },
+    "creature/gntjmpng": {
+      "url": "/thalorna/creature/giant-jumping-spider/",
+      "name": "Giant Jumping Spider"
+    },
+    "creature/gntoctps": {
+      "url": "/thalorna/creature/giant-octopus/",
+      "name": "Giant Octopus"
+    },
+    "creature/gntscrpn": {
+      "url": "/thalorna/creature/giant-scorpion/",
+      "name": "Giant Scorpion"
+    },
+    "creature/gntspdr": {
+      "url": "/thalorna/creature/giant-spider/",
+      "name": "Giant Spider"
+    },
+    "creature/gnttrts": {
+      "url": "/thalorna/creature/giant-tortoise/",
+      "name": "Giant Tortoise"
+    },
+    "creature/gntwsp": {
+      "url": "/thalorna/creature/giant-wasp/",
+      "name": "Giant Wasp"
+    },
+    "creature/grkrahk": {
+      "url": "/thalorna/creature/grukar-ahk/",
+      "name": "Grukar-ahk"
+    },
+    "creature/grkrh": {
+      "url": "/thalorna/creature/grukar-hai/",
+      "name": "Grukar-Hai"
+    },
+    "creature/grkrsh": {
+      "url": "/thalorna/creature/grukar-sha/",
+      "name": "Grukar-Sha"
+    },
+    "creature/grmshdw": {
+      "url": "/thalorna/creature/grimshadow/",
+      "name": "Grimshadow"
+    },
+    "creature/grukaruk": {
+      "url": "/thalorna/creature/grukar-uk/",
+      "name": "Grukar-Uk"
+    },
+    "creature/gryphon": {
+      "url": "/thalorna/creature/gryphon/",
+      "name": "Gryphon"
+    },
+    "creature/harpy": {
+      "url": "/thalorna/creature/harpy/",
+      "name": "Harpy"
+    },
+    "creature/hlthrls": {
+      "url": "/thalorna/creature/helthraals/",
+      "name": "Helthraals"
+    },
+    "creature/hppgryph": {
+      "url": "/thalorna/creature/hippogryph/",
+      "name": "Hippogryph"
+    },
+    "creature/ironjaw": {
+      "url": "/thalorna/creature/ironjaw/",
+      "name": "Ironjaw"
+    },
+    "creature/kmdbhmth": {
+      "url": "/thalorna/creature/komodo-behemoth/",
+      "name": "Komodo Behemoth"
+    },
+    "creature/lmnphg": {
+      "url": "/thalorna/creature/luminophage/",
+      "name": "Luminophage"
+    },
+    "creature/lmnshd": {
+      "url": "/thalorna/creature/luminshade/",
+      "name": "Luminshade"
+    },
+    "creature/lrgspdr": {
+      "url": "/thalorna/creature/large-spider/",
+      "name": "Large Spider"
+    },
+    "creature/lthgnt": {
+      "url": "/thalorna/creature/lithogiant/",
+      "name": "Lithogiant"
+    },
+    "creature/margrush": {
+      "url": "/thalorna/creature/margrush/",
+      "name": "Margrush"
+    },
+    "creature/mghyn": {
+      "url": "/thalorna/creature/mega-hyena/",
+      "name": "Mega Hyena"
+    },
+    "creature/mmmthcnt": {
+      "url": "/thalorna/creature/mammoth-centipede/",
+      "name": "Mammoth Centipede"
+    },
+    "creature/mntndrk": {
+      "url": "/thalorna/creature/mountain-drake/",
+      "name": "Mountain Drake"
+    },
+    "creature/mntntrll": {
+      "url": "/thalorna/creature/mountain-troll/",
+      "name": "Mountain Troll"
+    },
+    "creature/mrlrkr": {
+      "url": "/thalorna/creature/mirelurker/",
+      "name": "Mirelurker"
+    },
+    "creature/mrrrlng": {
+      "url": "/thalorna/creature/mirrorling/",
+      "name": "Mirrorling"
+    },
+    "creature/mssbcktr": {
+      "url": "/thalorna/creature/mossback-turtle/",
+      "name": "Mossback Turtle"
+    },
+    "creature/mtrfrdrg": {
+      "url": "/thalorna/creature/mature-fire-dragon/",
+      "name": "Mature Fire Dragon"
+    },
+    "creature/mtricdrg": {
+      "url": "/thalorna/creature/mature-ice-dragon/",
+      "name": "Mature Ice Dragon"
+    },
+    "creature/ncrtcmr": {
+      "url": "/thalorna/creature/necrotic-mire/",
+      "name": "Necrotic Mire"
+    },
+    "creature/nghtshds": {
+      "url": "/thalorna/creature/nightshade-serpent/",
+      "name": "Nightshade Serpent"
+    },
+    "creature/nghtwght": {
+      "url": "/thalorna/creature/nightwights/",
+      "name": "Nightwights"
+    },
+    "creature/nghtwrth": {
+      "url": "/thalorna/creature/nightwraith/",
+      "name": "Nightwraith"
+    },
+    "creature/nmspt": {
+      "url": "/thalorna/creature/nemespite/",
+      "name": "Nemespite"
+    },
+    "creature/nsvrroth": {
+      "url": "/thalorna/creature/nusvorroth/",
+      "name": "Nüsvōrroth"
+    },
+    "creature/octowolf": {
+      "url": "/thalorna/creature/octowolf/",
+      "name": "Octowolf"
+    },
+    "creature/oldfrdrg": {
+      "url": "/thalorna/creature/old-fire-dragon/",
+      "name": "Old Fire Dragon"
+    },
+    "creature/oldicdrg": {
+      "url": "/thalorna/creature/old-ice-dragon/",
+      "name": "Old Ice Dragon"
+    },
+    "creature/phntmwng": {
+      "url": "/thalorna/creature/phantomwing/",
+      "name": "Phantomwing"
+    },
+    "creature/phsphrsc": {
+      "url": "/thalorna/creature/phosphorescent-globule/",
+      "name": "Phosphorescent Globule"
+    },
+    "creature/pyrclsm": {
+      "url": "/thalorna/creature/pyroclasm/",
+      "name": "Pyroclasm"
+    },
+    "creature/qllbr": {
+      "url": "/thalorna/creature/quillbear/",
+      "name": "Quillbear"
+    },
+    "creature/rckbckbr": {
+      "url": "/thalorna/creature/rockback-bear/",
+      "name": "Rockback Bear"
+    },
+    "creature/rckhdglm": {
+      "url": "/thalorna/creature/rockhide-golem/",
+      "name": "Rockhide Golem"
+    },
+    "creature/rcksclan": {
+      "url": "/thalorna/creature/rockscale-anklyte/",
+      "name": "Rockscale Anklyte"
+    },
+    "creature/rdgdskmm": {
+      "url": "/thalorna/creature/ridged-skimmer/",
+      "name": "Ridged Skimmer"
+    },
+    "creature/roc": {
+      "url": "/thalorna/creature/roc/",
+      "name": "Roc"
+    },
+    "creature/rtwrth": {
+      "url": "/thalorna/creature/rootwraith/",
+      "name": "Rootwraith"
+    },
+    "creature/sandwurm": {
+      "url": "/thalorna/creature/sand-wurm/",
+      "name": "Sand Wurm"
+    },
+    "creature/scrchbt": {
+      "url": "/thalorna/creature/screechbat/",
+      "name": "Screechbat"
+    },
+    "creature/shdwclw": {
+      "url": "/thalorna/creature/shadowclaw/",
+      "name": "Shadowclaw"
+    },
+    "creature/shdwlynx": {
+      "url": "/thalorna/creature/shadow-lynx/",
+      "name": "Shadow Lynx"
+    },
+    "creature/shdwspnn": {
+      "url": "/thalorna/creature/shadowspinner/",
+      "name": "Shadowspinner"
+    },
+    "creature/shdwstlk": {
+      "url": "/thalorna/creature/shadowstalker/",
+      "name": "Shadowstalker"
+    },
+    "creature/shrdbk": {
+      "url": "/thalorna/creature/shardbeak/",
+      "name": "Shardbeak"
+    },
+    "creature/skysrpnt": {
+      "url": "/thalorna/creature/sky-serpent/",
+      "name": "Sky Serpent"
+    },
+    "creature/smmtdrk": {
+      "url": "/thalorna/creature/summitdrake/",
+      "name": "Summitdrake"
+    },
+    "creature/sndstlkr": {
+      "url": "/thalorna/creature/sand-stalker/",
+      "name": "Sand Stalker"
+    },
+    "creature/spctrwlf": {
+      "url": "/thalorna/creature/specterwolf/",
+      "name": "Specterwolf"
+    },
+    "creature/spndlfnd": {
+      "url": "/thalorna/creature/spindlefiend/",
+      "name": "Spindlefiend"
+    },
+    "creature/stnbst": {
+      "url": "/thalorna/creature/stonebeast/",
+      "name": "Stonebeast"
+    },
+    "creature/stnclmbr": {
+      "url": "/thalorna/creature/stoneclimber/",
+      "name": "Stoneclimber"
+    },
+    "creature/stoneram": {
+      "url": "/thalorna/creature/stone-ram/",
+      "name": "Stone Ram"
+    },
+    "creature/strcrwlr": {
+      "url": "/thalorna/creature/starcrawler/",
+      "name": "Starcrawler"
+    },
+    "creature/strmsr": {
+      "url": "/thalorna/creature/stormseer/",
+      "name": "Stormseer"
+    },
+    "creature/stygnlvt": {
+      "url": "/thalorna/creature/stygian-leviathan/",
+      "name": "Stygian Leviathan"
+    },
+    "creature/swmpglm": {
+      "url": "/thalorna/creature/swampgolem/",
+      "name": "Swampgolem"
+    },
+    "creature/swmpstrd": {
+      "url": "/thalorna/creature/swampstrider/",
+      "name": "Swampstrider"
+    },
+    "creature/thndrbrd": {
+      "url": "/thalorna/creature/thunderbird/",
+      "name": "Thunderbird"
+    },
+    "creature/thndrhrn": {
+      "url": "/thalorna/creature/thunderhorn/",
+      "name": "Thunderhorn"
+    },
+    "creature/thndrtln": {
+      "url": "/thalorna/creature/thundertalon/",
+      "name": "Thundertalon"
+    },
+    "creature/thornrat": {
+      "url": "/thalorna/creature/thornrat/",
+      "name": "Thornrat"
+    },
+    "creature/thrnbckb": {
+      "url": "/thalorna/creature/thornback-boar/",
+      "name": "Thornback Boar"
+    },
+    "creature/thrnbckr": {
+      "url": "/thalorna/creature/thornback-raptor/",
+      "name": "Thornback Raptor"
+    },
+    "creature/tnvrnelp": {
+      "url": "/thalorna/creature/tanvuran-elephant/",
+      "name": "Tānvüran Elephant"
+    },
+    "creature/trrkthsn": {
+      "url": "/thalorna/creature/terrakith-sentinel/",
+      "name": "Terrakith Sentinel"
+    },
+    "creature/tskcrshr": {
+      "url": "/thalorna/creature/tuskcrasher/",
+      "name": "Tuskcrasher"
+    },
+    "creature/ttnbtl": {
+      "url": "/thalorna/creature/titan-beetle/",
+      "name": "Titan Beetle"
+    },
+    "creature/unicorn": {
+      "url": "/thalorna/creature/unicorn/",
+      "name": "Unicorn"
+    },
+    "creature/vdsrpnt": {
+      "url": "/thalorna/creature/voidserpent/",
+      "name": "Voidserpent"
+    },
+    "creature/vdyrnrhn": {
+      "url": "/thalorna/creature/vedyaran-rhinoceros/",
+      "name": "Vedyaran Rhinoceros"
+    },
+    "creature/vnmspttr": {
+      "url": "/thalorna/creature/venomspitter/",
+      "name": "Venomspitter"
+    },
+    "creature/voidmoth": {
+      "url": "/thalorna/creature/voidmoth/",
+      "name": "Voidmoth"
+    },
+    "creature/vprwsp": {
+      "url": "/thalorna/creature/vaporwisp/",
+      "name": "Vaporwisp"
+    },
+    "creature/vrdntcl": {
+      "url": "/thalorna/creature/verdantcoil/",
+      "name": "Verdantcoil"
+    },
+    "creature/warg": {
+      "url": "/thalorna/creature/warg/",
+      "name": "Warg"
+    },
+    "creature/wbcrwlr": {
+      "url": "/thalorna/creature/webcrawler/",
+      "name": "Webcrawler"
+    },
+    "creature/wrthblm": {
+      "url": "/thalorna/creature/wraithbloom/",
+      "name": "Wraithbloom"
+    },
+    "creature/wyvern": {
+      "url": "/thalorna/creature/wyvern/",
+      "name": "Wyvern"
+    },
+    "creature/xrthnfrs": {
+      "url": "/thalorna/creature/xerathian-forest-elephant/",
+      "name": "Xerathian Forest Elephant"
+    },
+    "creature/xrthnsvn": {
+      "url": "/thalorna/creature/xerathian-savanna-elephant/",
+      "name": "Xerathian Savanna Elephant"
+    },
+    "creature/yngfrdrg": {
+      "url": "/thalorna/creature/young-fire-dragon/",
+      "name": "Young Fire Dragon"
+    },
+    "creature/yngicdrg": {
+      "url": "/thalorna/creature/young-ice-dragon/",
+      "name": "Young Ice Dragon"
+    },
+    "doc/adventures": {
+      "url": "/thalorna/adventure/",
+      "name": "Adventures"
+    },
+    "doc/aelendnppl": {
+      "url": "/thalorna/lore/aelendan-people/",
+      "name": "Áelendan People"
+    },
+    "doc/aelissium": {
+      "url": "/thalorna/settlement/aelissium/",
+      "name": "Aelissium"
+    },
+    "doc/aelndntrbs": {
+      "url": "/thalorna/polity/aelendan-tribes/",
+      "name": "Áelendan Tribes"
+    },
+    "doc/aelwyth": {
+      "url": "/thalorna/region/aelwyth/",
+      "name": "Aelwyth"
+    },
+    "doc/affiliatns": {
+      "url": "/thalorna/affiliation/",
+      "name": "Affiliations"
+    },
+    "doc/alndntrblnds": {
+      "url": "/thalorna/region/aelendan-tribal-lands/",
+      "name": "Áelendan Tribal Lands"
+    },
+    "doc/altinkale": {
+      "url": "/thalorna/polity/altinkale/",
+      "name": "Altinkale"
+    },
+    "doc/altinkale2": {
+      "url": "/thalorna/settlement/altinkale/",
+      "name": "Altinkale"
+    },
+    "doc/alyssar": {
+      "url": "/thalorna/settlement/alyssar/",
+      "name": "Alyssar"
+    },
+    "doc/amradadrgn": {
+      "url": "/thalorna/region/amradad-region/",
+      "name": "Amradad Region"
+    },
+    "doc/ancstrwrshp": {
+      "url": "/thalorna/lore/ancestor-worship/",
+      "name": "Ancestor Worship"
+    },
+    "doc/ankhsetun": {
+      "url": "/thalorna/settlement/ankh-setun/",
+      "name": "Ankh-Setûn"
+    },
+    "doc/ankrscntnnt": {
+      "url": "/thalorna/continent/ankaris-continent/",
+      "name": "Ankaris Continent"
+    },
+    "doc/aravantia": {
+      "url": "/thalorna/settlement/aravantia/",
+      "name": "Aravantia"
+    },
+    "doc/arnscntnnt": {
+      "url": "/thalorna/continent/aurionis-continent/",
+      "name": "Aurionis Continent"
+    },
+    "doc/asgarthul": {
+      "url": "/thalorna/settlement/asgarthul/",
+      "name": "Asgarthul"
+    },
+    "doc/ashenmere": {
+      "url": "/thalorna/settlement/ashenmere/",
+      "name": "Ashenmere"
+    },
+    "doc/ashford": {
+      "url": "/thalorna/settlement/ashford/",
+      "name": "Ashford"
+    },
+    "doc/ashkabel": {
+      "url": "/thalorna/polity/ashkabel/",
+      "name": "Ashkabel"
+    },
+    "doc/ashkabel2": {
+      "url": "/thalorna/settlement/ashkabel/",
+      "name": "Ashkabel"
+    },
+    "doc/ashkarad": {
+      "url": "/thalorna/settlement/ashkarad/",
+      "name": "Ashkarad"
+    },
+    "doc/athenikos": {
+      "url": "/thalorna/polity/athenikos/",
+      "name": "Athenikos"
+    },
+    "doc/aulpnpstmm": {
+      "url": "/thalorna/settlement/aula-panepistemium/",
+      "name": "Aula Panepistemium"
+    },
+    "doc/aureldirgn": {
+      "url": "/thalorna/region/aureldia-region/",
+      "name": "Aurèldía Region"
+    },
+    "doc/aureliane": {
+      "url": "/thalorna/settlement/aureliane/",
+      "name": "Aurèliane"
+    },
+    "doc/azhun": {
+      "url": "/thalorna/polity/azhun/",
+      "name": "Azhûn"
+    },
+    "doc/azhun2": {
+      "url": "/thalorna/settlement/azhun/",
+      "name": "Azhûn"
+    },
+    "doc/bakhu": {
+      "url": "/thalorna/settlement/bakhu/",
+      "name": "Bakhu"
+    },
+    "doc/balamkiahk": {
+      "url": "/thalorna/polity/baalam-kiahk/",
+      "name": "Ba'alam Ki'ahk"
+    },
+    "doc/balamkiahk2": {
+      "url": "/thalorna/settlement/baalam-kiahk/",
+      "name": "Ba'alam Ki'ahk"
+    },
+    "doc/balamkul": {
+      "url": "/thalorna/polity/balamkul/",
+      "name": "Balamkul"
+    },
+    "doc/balamkul2": {
+      "url": "/thalorna/settlement/balamkul/",
+      "name": "Balamkul"
+    },
+    "doc/balamtzaku": {
+      "url": "/thalorna/polity/baalam-tzaku/",
+      "name": "Ba'alam Tza'ku"
+    },
+    "doc/balamtzaku2": {
+      "url": "/thalorna/settlement/baalam-tzaku/",
+      "name": "Ba'alam Tza'ku"
+    },
+    "doc/bartercnmy": {
+      "url": "/thalorna/reference/the-barter-economy/",
+      "name": "The Barter Economy"
+    },
+    "doc/behen": {
+      "url": "/thalorna/settlement/behen/",
+      "name": "Behen"
+    },
+    "doc/beitshofar": {
+      "url": "/thalorna/settlement/beit-shofar/",
+      "name": "Beit-Shōfár"
+    },
+    "doc/belekos": {
+      "url": "/thalorna/settlement/belekos/",
+      "name": "Belekos"
+    },
+    "doc/belporte": {
+      "url": "/thalorna/settlement/belporte/",
+      "name": "Belpòrte"
+    },
+    "doc/beravel": {
+      "url": "/thalorna/settlement/beravel/",
+      "name": "Béravel"
+    },
+    "doc/bethuanflt": {
+      "url": "/thalorna/reference/the-bethuan-fleet/",
+      "name": "The Bethûan Fleet"
+    },
+    "doc/bethuargn": {
+      "url": "/thalorna/region/bethua-region/",
+      "name": "Bethûa Region"
+    },
+    "doc/bethunlngg": {
+      "url": "/thalorna/language/bethuan-language/",
+      "name": "Bethuan Language"
+    },
+    "doc/bjornstad": {
+      "url": "/thalorna/settlement/bjornstad/",
+      "name": "Bjornstad"
+    },
+    "doc/blckpnwlvs": {
+      "url": "/thalorna/company/the-blackpine-wolves/",
+      "name": "The Blackpine Wolves"
+    },
+    "doc/bldshscrvlvl": {
+      "url": "/thalorna/adventure/blood-and-ashes-in-ceravel-vale/",
+      "name": "Blood and Ashes in Céravel Vale"
+    },
+    "doc/bloth": {
+      "url": "/thalorna/settlement/bloth/",
+      "name": "Blóth"
+    },
+    "doc/bndtscrvlvl": {
+      "url": "/thalorna/adventure/the-bandits-of-ceravel-vale/",
+      "name": "The Bandits of Céravel Vale"
+    },
+    "doc/bordernoms": {
+      "url": "/thalorna/polity/the-border-nomes/",
+      "name": "The Border Nomes"
+    },
+    "doc/brennvik": {
+      "url": "/thalorna/settlement/brennvik/",
+      "name": "Brennvik"
+    },
+    "doc/brunvik": {
+      "url": "/thalorna/settlement/brunvik/",
+      "name": "Brúnvík"
+    },
+    "doc/brynhallow": {
+      "url": "/thalorna/settlement/brynhallow/",
+      "name": "Brynhallow"
+    },
+    "doc/bthrhrtzhk": {
+      "url": "/thalorna/lore/bathur-hurtzhuk/",
+      "name": "Bāthür Hürtzhük"
+    },
+    "doc/byzarianlg": {
+      "url": "/thalorna/polity/byzarian-league/",
+      "name": "Byzarian League"
+    },
+    "doc/byzariargn": {
+      "url": "/thalorna/region/byzaria-region/",
+      "name": "Byzaría Region"
+    },
+    "doc/byzaris": {
+      "url": "/thalorna/settlement/byzaris/",
+      "name": "Byzaris"
+    },
+    "doc/byzarnlngg": {
+      "url": "/thalorna/language/byzarian-language/",
+      "name": "Byzarian Language"
+    },
+    "doc/caerwynd": {
+      "url": "/thalorna/settlement/caerwynd/",
+      "name": "Caerwynd"
+    },
+    "doc/calvaris": {
+      "url": "/thalorna/settlement/calvaris/",
+      "name": "Calvaris"
+    },
+    "doc/calypsa": {
+      "url": "/thalorna/polity/calypsa/",
+      "name": "Calypsa"
+    },
+    "doc/calypsa2": {
+      "url": "/thalorna/settlement/calypsa/",
+      "name": "Calypsa"
+    },
+    "doc/capitalnom": {
+      "url": "/thalorna/polity/the-capital-nome/",
+      "name": "The Capital Nome"
+    },
+    "doc/castamar": {
+      "url": "/thalorna/settlement/castamar/",
+      "name": "Castamar"
+    },
+    "doc/castamere": {
+      "url": "/thalorna/settlement/castamere/",
+      "name": "Castamere"
+    },
+    "doc/castelaws": {
+      "url": "/thalorna/lore/caste-laws/",
+      "name": "Caste Laws"
+    },
+    "doc/castraprtr": {
+      "url": "/thalorna/settlement/castra-praetoria/",
+      "name": "Castra Praetoria"
+    },
+    "doc/castrovar": {
+      "url": "/thalorna/settlement/castrovar/",
+      "name": "Castrovar"
+    },
+    "doc/celestlrdr": {
+      "url": "/thalorna/lore/celestial-order/",
+      "name": "Celestial Order"
+    },
+    "doc/cerdwnshlw": {
+      "url": "/thalorna/settlement/ceridwens-hollow/",
+      "name": "Ceridwen's Hollow"
+    },
+    "doc/cervalia": {
+      "url": "/thalorna/settlement/cervalia/",
+      "name": "Cervalia"
+    },
+    "doc/chakultzkl": {
+      "url": "/thalorna/polity/chakul-tzakul/",
+      "name": "Ch'akul Tza'kul"
+    },
+    "doc/chakultzkl2": {
+      "url": "/thalorna/settlement/chakul-tzakul/",
+      "name": "Ch'akul Tza'kul"
+    },
+    "doc/chandrapur": {
+      "url": "/thalorna/polity/chandrapur/",
+      "name": "Chandrapur"
+    },
+    "doc/chandrapur2": {
+      "url": "/thalorna/settlement/chandrapur/",
+      "name": "Chandrapur"
+    },
+    "doc/characters": {
+      "url": "/thalorna/character/",
+      "name": "Characters"
+    },
+    "doc/chastelclr": {
+      "url": "/thalorna/settlement/chastelclair/",
+      "name": "Chastèlclair"
+    },
+    "doc/chrysamar": {
+      "url": "/thalorna/settlement/chrysamar/",
+      "name": "Chrysamar"
+    },
+    "doc/clndrstrlgy": {
+      "url": "/thalorna/lore/calendar-and-astrology/",
+      "name": "Calendar and Astrology"
+    },
+    "doc/clstlpnthn": {
+      "url": "/thalorna/lore/celestial-pantheon/",
+      "name": "Celestial Pantheon"
+    },
+    "doc/cnfdrtnhrdnstts": {
+      "url": "/thalorna/polity/confederation-of-haradian-states/",
+      "name": "Confederation of Haradian States"
+    },
+    "doc/cntrlkchchk": {
+      "url": "/thalorna/region/central-kichchik/",
+      "name": "Central K'ich'chik"
+    },
+    "doc/cntrlrnfrsts": {
+      "url": "/thalorna/region/central-rainforests/",
+      "name": "Central Rainforests"
+    },
+    "doc/companies": {
+      "url": "/thalorna/section/companies/",
+      "name": "Companies"
+    },
+    "doc/continents": {
+      "url": "/thalorna/continent/",
+      "name": "Continents"
+    },
+    "doc/corvinus": {
+      "url": "/thalorna/settlement/corvinus/",
+      "name": "Corvinus"
+    },
+    "doc/creatures2": {
+      "url": "/thalorna/creature/",
+      "name": "Creatures"
+    },
+    "doc/crmsyndctsthlrn": {
+      "url": "/thalorna/lore/crime-syndicates-of-thalorna/",
+      "name": "Crime Syndicates of Thalorna"
+    },
+    "doc/crsmnthydrvn": {
+      "url": "/thalorna/adventure/the-curse-of-mount-hydraven/",
+      "name": "The Curse of Mount Hydraven"
+    },
+    "doc/crsyhrvlnhng": {
+      "url": "/thalorna/adventure/the-curse-of-yharvalen-henge/",
+      "name": "The Curse of Yharvalen Henge"
+    },
+    "doc/ctysttshlns": {
+      "url": "/thalorna/polity/city-states-of-helionis/",
+      "name": "City-States of Heliónis"
+    },
+    "doc/deltanomes": {
+      "url": "/thalorna/polity/the-delta-nomes/",
+      "name": "The Delta Nomes"
+    },
+    "doc/denizara": {
+      "url": "/thalorna/polity/denizara/",
+      "name": "Denizara"
+    },
+    "doc/denizara2": {
+      "url": "/thalorna/settlement/denizara/",
+      "name": "Denizara"
+    },
+    "doc/dhanurkota": {
+      "url": "/thalorna/settlement/dhanurkota/",
+      "name": "Dhanurkota"
+    },
+    "doc/dhnrktjnpd": {
+      "url": "/thalorna/polity/dhanurkota-janapada/",
+      "name": "Dhanurkota Janapada"
+    },
+    "doc/divineactn": {
+      "url": "/thalorna/lore/divine-action/",
+      "name": "Divine_Action"
+    },
+    "doc/dreadspawn": {
+      "url": "/thalorna/lore/dreadspawn/",
+      "name": "Dreadspawn"
+    },
+    "doc/drekavik": {
+      "url": "/thalorna/settlement/drekavik/",
+      "name": "Drekavík"
+    },
+    "doc/drenavrspn": {
+      "url": "/thalorna/location/the-drenavar-spine/",
+      "name": "The Drenavar Spine"
+    },
+    "doc/dunashir": {
+      "url": "/thalorna/settlement/dun-ashir/",
+      "name": "Dûn Ashir"
+    },
+    "doc/dunharargn": {
+      "url": "/thalorna/region/dunhara-region/",
+      "name": "Dunhara Region"
+    },
+    "doc/dunhardsrtrgn": {
+      "url": "/thalorna/region/dunhara-desert-region/",
+      "name": "Dunhara Desert Region"
+    },
+    "doc/dunharlngg": {
+      "url": "/thalorna/language/dunhari-language/",
+      "name": "Dunhari Language"
+    },
+    "doc/dunhartrbs": {
+      "url": "/thalorna/polity/dunhara-tribes/",
+      "name": "Dunhara Tribes"
+    },
+    "doc/dunkelwald": {
+      "url": "/thalorna/settlement/dunkelwald/",
+      "name": "Dunkelwald"
+    },
+    "doc/dunmere": {
+      "url": "/thalorna/settlement/dunmere/",
+      "name": "Dunmere"
+    },
+    "doc/eichengrnd": {
+      "url": "/thalorna/settlement/eichengrund/",
+      "name": "Eichengrund"
+    },
+    "doc/elanmere": {
+      "url": "/thalorna/settlement/elanmere/",
+      "name": "Elanmere"
+    },
+    "doc/elavendre": {
+      "url": "/thalorna/region/elavendre/",
+      "name": "Élavendre"
+    },
+    "doc/elderraces": {
+      "url": "/thalorna/lore/elder-races/",
+      "name": "Elder Races"
+    },
+    "doc/elvndrlngg": {
+      "url": "/thalorna/language/elavendri-language/",
+      "name": "Élavendri Language"
+    },
+    "doc/embsydnvrtnvr": {
+      "url": "/thalorna/adventure/embassy-from-dunavarre-to-tanvur/",
+      "name": "Embassy from Dunavarre to Tānvür"
+    },
+    "doc/empiretnvr": {
+      "url": "/thalorna/region/empire-of-tanvur/",
+      "name": "Empire of Tānvür"
+    },
+    "doc/empirtkhpr": {
+      "url": "/thalorna/polity/the-empire-of-takheperu/",
+      "name": "The Empire of Ta'Kheperu"
+    },
+    "doc/engmlhnvrn": {
+      "url": "/thalorna/adventure/the-enigma-of-lhenavren/",
+      "name": "The Enigma of Lhénavren"
+    },
+    "doc/eshalshldg": {
+      "url": "/thalorna/settlement/eshalosha-lodge/",
+      "name": "Eshálosha Lodge"
+    },
+    "doc/extrnlthrts": {
+      "url": "/thalorna/lore/external-threats/",
+      "name": "External Threats"
+    },
+    "doc/faecourts": {
+      "url": "/thalorna/lore/the-fae-courts/",
+      "name": "The Fae Courts"
+    },
+    "doc/falkensten": {
+      "url": "/thalorna/settlement/falkenstein/",
+      "name": "Falkenstein"
+    },
+    "doc/ferrovan": {
+      "url": "/thalorna/settlement/ferrovan/",
+      "name": "Ferrovan"
+    },
+    "doc/fiordaure": {
+      "url": "/thalorna/settlement/fiordaure/",
+      "name": "Fiòrdaure"
+    },
+    "doc/firsbldhls": {
+      "url": "/thalorna/adventure/the-fires-of-the-blood-hills/",
+      "name": "The Fires of the Blood Hills"
+    },
+    "doc/flkkhazar": {
+      "url": "/thalorna/lore/khazar-folk/",
+      "name": "Khazár Folk"
+    },
+    "doc/flksinale": {
+      "url": "/thalorna/lore/sinale-folk/",
+      "name": "Sinalë Folk"
+    },
+    "doc/frctyvlthr": {
+      "url": "/thalorna/polity/free-city-of-valthari/",
+      "name": "Free City of Valthári"
+    },
+    "doc/frgtnshrnthrvlhls": {
+      "url": "/thalorna/adventure/the-forgotten-shrine-of-the-thuravel-hills/",
+      "name": "The Forgotten Shrine of the Thuravel Hills"
+    },
+    "doc/frostmark": {
+      "url": "/thalorna/settlement/frostmark/",
+      "name": "Frostmark"
+    },
+    "doc/frtrtryskrth": {
+      "url": "/thalorna/polity/free-territory-of-eskarath/",
+      "name": "Free Territory of Eskárath"
+    },
+    "doc/fvlmntlrds": {
+      "url": "/thalorna/lore/five-elemental-lords/",
+      "name": "Five Elemental Lords"
+    },
+    "doc/ghstshpsglfbtrn": {
+      "url": "/thalorna/adventure/the-ghost-ships-of-the-gulf-of-bataren/",
+      "name": "The Ghost Ships of the Gulf of Batáren"
+    },
+    "doc/ghststrvln": {
+      "url": "/thalorna/adventure/the-ghosts-of-tiravlen/",
+      "name": "The Ghosts of Tîravlen"
+    },
+    "doc/goddreams": {
+      "url": "/thalorna/lore/the-god-of-dreams/",
+      "name": "The God of Dreams"
+    },
+    "doc/godsrelign": {
+      "url": "/thalorna/lore/gods-and-religion/",
+      "name": "Gods_and_Religion"
+    },
+    "doc/golshahr": {
+      "url": "/thalorna/settlement/golshahr/",
+      "name": "Golshahr"
+    },
+    "doc/granaria": {
+      "url": "/thalorna/settlement/granaria/",
+      "name": "Granaria"
+    },
+    "doc/graznmntns": {
+      "url": "/thalorna/location/the-grazian-mountains/",
+      "name": "The Grazian Mountains"
+    },
+    "doc/greyfjord": {
+      "url": "/thalorna/settlement/greyfjord/",
+      "name": "Greyfjord"
+    },
+    "doc/greywater": {
+      "url": "/thalorna/settlement/greywater/",
+      "name": "Greywater"
+    },
+    "doc/grimholt": {
+      "url": "/thalorna/settlement/grimholt/",
+      "name": "Grimholt"
+    },
+    "doc/grkrhlmrgn": {
+      "url": "/thalorna/region/grukarholm-region/",
+      "name": "Grukarholm Region"
+    },
+    "doc/groascmpgn": {
+      "url": "/thalorna/adventure/groas-campaign/",
+      "name": "Gróa's Campaign"
+    },
+    "doc/grukarholm": {
+      "url": "/thalorna/polity/grukarholm/",
+      "name": "Grukarhölm"
+    },
+    "doc/grukarholm2": {
+      "url": "/thalorna/settlement/grukarholm/",
+      "name": "Grukarholm"
+    },
+    "doc/grukarlngg": {
+      "url": "/thalorna/language/grukar-language/",
+      "name": "Grukar Language"
+    },
+    "doc/gumushisar": {
+      "url": "/thalorna/polity/gumushisar/",
+      "name": "Gümüşhisar"
+    },
+    "doc/gumushisar2": {
+      "url": "/thalorna/settlement/gumushisar/",
+      "name": "Gümüşhisar"
+    },
+    "doc/gvrnmntbth": {
+      "url": "/thalorna/reference/government-of-bethua/",
+      "name": "Government of Bethûa"
+    },
+    "doc/hakiahkul": {
+      "url": "/thalorna/settlement/ha-kiahkul/",
+      "name": "Ha’ Ki’ahkul"
+    },
+    "doc/hakukul": {
+      "url": "/thalorna/settlement/ha-kukul/",
+      "name": "Ha’ K’ukul"
+    },
+    "doc/haldrvik": {
+      "url": "/thalorna/settlement/haldrvik/",
+      "name": "Haldrvík"
+    },
+    "doc/hanalxilan": {
+      "url": "/thalorna/polity/hanal-xilan/",
+      "name": "Ha'nal Xi'lan"
+    },
+    "doc/hanalxilan2": {
+      "url": "/thalorna/settlement/hanal-xilan/",
+      "name": "Ha'nal Xi'lan"
+    },
+    "doc/haradilngg": {
+      "url": "/thalorna/language/haradi-language/",
+      "name": "Haradi Language"
+    },
+    "doc/haradregin": {
+      "url": "/thalorna/region/harad-region/",
+      "name": "Harad Region"
+    },
+    "doc/hardncrncy": {
+      "url": "/thalorna/reference/haradian-currency/",
+      "name": "Haradian Currency"
+    },
+    "doc/haukstad": {
+      "url": "/thalorna/settlement/haukstad/",
+      "name": "Haukstad"
+    },
+    "doc/havamal": {
+      "url": "/thalorna/settlement/havamal/",
+      "name": "Hávamál"
+    },
+    "doc/haxaman": {
+      "url": "/thalorna/polity/ha-xaman/",
+      "name": "Ha' Xaman"
+    },
+    "doc/haxaman2": {
+      "url": "/thalorna/settlement/ha-xaman/",
+      "name": "Ha' Xaman"
+    },
+    "doc/heladregin": {
+      "url": "/thalorna/region/hellad-region/",
+      "name": "Hellád Region"
+    },
+    "doc/helionis": {
+      "url": "/thalorna/region/helionis/",
+      "name": "Heliónis"
+    },
+    "doc/helonclngg": {
+      "url": "/thalorna/language/helonic-language/",
+      "name": "Helonic Language"
+    },
+    "doc/heroesknvs": {
+      "url": "/thalorna/lore/heroes-and-knaves/",
+      "name": "Heroes_and_Knaves"
+    },
+    "doc/heroessgrd": {
+      "url": "/thalorna/lore/heroes-of-asguard/",
+      "name": "Heroes_of_Asguard"
+    },
+    "doc/hexhodai": {
+      "url": "/thalorna/lore/hex-hodai/",
+      "name": "Héx Hodäi"
+    },
+    "doc/hlykngdmnrtm": {
+      "url": "/thalorna/polity/holy-kingdom-of-nartum/",
+      "name": "Holy Kingdom of Nartûm"
+    },
+    "doc/hrafnfjord": {
+      "url": "/thalorna/settlement/hrafnfjord/",
+      "name": "Hrafnfjord"
+    },
+    "doc/hxhdncnttns": {
+      "url": "/thalorna/lore/hex-hodai-incantations/",
+      "name": "Héx Hodäi Incantations"
+    },
+    "doc/iattepy": {
+      "url": "/thalorna/settlement/iat-tepy/",
+      "name": "Iat-Tepy"
+    },
+    "doc/infrnlrlms": {
+      "url": "/thalorna/lore/infernal-realms/",
+      "name": "Infernal Realms"
+    },
+    "doc/intrnlsbvrsvthrts": {
+      "url": "/thalorna/lore/internal-subversive-threats/",
+      "name": "Internal Subversive Threats"
+    },
+    "doc/irnwlvscmpny": {
+      "url": "/thalorna/company/the-iron-wolves-company/",
+      "name": "The Iron Wolves Company"
+    },
+    "doc/isrncntnnt": {
+      "url": "/thalorna/continent/iseron-continent/",
+      "name": "Iseron Continent"
+    },
+    "doc/ithrakor": {
+      "url": "/thalorna/settlement/ithrakor/",
+      "name": "Ithrákor"
+    },
+    "doc/ixkulkul": {
+      "url": "/thalorna/settlement/ixkul-kul/",
+      "name": "Ixkul K’ul"
+    },
+    "doc/janpdsvdyr": {
+      "url": "/thalorna/polity/janapadas-of-vedyara/",
+      "name": "Janapadas of Vedyara"
+    },
+    "doc/jarnhavn": {
+      "url": "/thalorna/settlement/jarnhavn/",
+      "name": "Járnhavn"
+    },
+    "doc/jarnvik": {
+      "url": "/thalorna/settlement/jarnvik/",
+      "name": "Járnvík"
+    },
+    "doc/jrldmstrmvld": {
+      "url": "/thalorna/polity/jarldom-of-stormveld/",
+      "name": "Járldom of Stormveld"
+    },
+    "doc/jurthat": {
+      "url": "/thalorna/region/jurthat/",
+      "name": "Jürthāt"
+    },
+    "doc/jurthatrgn": {
+      "url": "/thalorna/region/jurthat-region/",
+      "name": "Jürthāt Region"
+    },
+    "doc/kalihara": {
+      "url": "/thalorna/polity/kalihara/",
+      "name": "Kalihara"
+    },
+    "doc/kaliharargn": {
+      "url": "/thalorna/region/kalihara-region/",
+      "name": "Kalihara Region"
+    },
+    "doc/kalihrlngg": {
+      "url": "/thalorna/language/kalihari-language/",
+      "name": "Kalihári Language"
+    },
+    "doc/kaljekor": {
+      "url": "/thalorna/settlement/kaljekor/",
+      "name": "Kaljékor"
+    },
+    "doc/kalydria": {
+      "url": "/thalorna/polity/kalydria/",
+      "name": "Kalydria"
+    },
+    "doc/kalydria2": {
+      "url": "/thalorna/settlement/kalydria/",
+      "name": "Kalydria"
+    },
+    "doc/kankul": {
+      "url": "/thalorna/polity/kankul/",
+      "name": "K'ankul"
+    },
+    "doc/kankul2": {
+      "url": "/thalorna/settlement/kankul/",
+      "name": "K'ankul"
+    },
+    "doc/karatas": {
+      "url": "/thalorna/polity/karatas/",
+      "name": "Karataş"
+    },
+    "doc/karatas2": {
+      "url": "/thalorna/settlement/karatas/",
+      "name": "Karataş"
+    },
+    "doc/kashmuret": {
+      "url": "/thalorna/settlement/kashmuret/",
+      "name": "Kashmuret"
+    },
+    "doc/kavrenath": {
+      "url": "/thalorna/settlement/kavrenath/",
+      "name": "Kávrenath"
+    },
+    "doc/kawiltzakl": {
+      "url": "/thalorna/polity/kawiil-tzakul/",
+      "name": "K'awiil Tza'kul"
+    },
+    "doc/kawiltzakl2": {
+      "url": "/thalorna/settlement/kawiil-tzakul/",
+      "name": "K'awiil Tza'kul"
+    },
+    "doc/kawilulkik": {
+      "url": "/thalorna/settlement/kawiilul-kiik/",
+      "name": "K’awi’il’ul Ki’ik"
+    },
+    "doc/kchchkcntnnt": {
+      "url": "/thalorna/continent/kichchik-continent/",
+      "name": "K'ich'chik Continent"
+    },
+    "doc/kchchklngglxcnmngd": {
+      "url": "/thalorna/lore/kichchik-language-lexicon-and-naming-guide/",
+      "name": "K’ich'chik Language Lexicon and Naming Guide"
+    },
+    "doc/kethara": {
+      "url": "/thalorna/polity/kethara/",
+      "name": "Kethara"
+    },
+    "doc/kethara2": {
+      "url": "/thalorna/settlement/kethara/",
+      "name": "Kethara"
+    },
+    "doc/kethramir": {
+      "url": "/thalorna/settlement/kethramir/",
+      "name": "Kethramír"
+    },
+    "doc/kharalsulr": {
+      "url": "/thalorna/settlement/khar-al-sular/",
+      "name": "Khar al-Sular"
+    },
+    "doc/khautimnet": {
+      "url": "/thalorna/settlement/khaut-imnet/",
+      "name": "Khaut-Imnet"
+    },
+    "doc/khazarlngg": {
+      "url": "/thalorna/language/khazari-language/",
+      "name": "Khazári Language"
+    },
+    "doc/khemenu": {
+      "url": "/thalorna/settlement/khemenu/",
+      "name": "Khemenu"
+    },
+    "doc/khensuret": {
+      "url": "/thalorna/settlement/khensuret/",
+      "name": "Khensuret"
+    },
+    "doc/kheperlngg": {
+      "url": "/thalorna/language/kheperi-language/",
+      "name": "Kheperi Language"
+    },
+    "doc/khzrncnfdrtn": {
+      "url": "/thalorna/polity/khazran-confederation/",
+      "name": "Khazran Confederation"
+    },
+    "doc/khzryndsrtrgn": {
+      "url": "/thalorna/region/khazryn-desert-region/",
+      "name": "Khazryn Desert Region"
+    },
+    "doc/kicheklngg": {
+      "url": "/thalorna/language/kiichek-language/",
+      "name": "Ki'ichek Language"
+    },
+    "doc/kiikbaate": {
+      "url": "/thalorna/polity/kiik-baate/",
+      "name": "Ki'ik Ba'ate"
+    },
+    "doc/kiikbaate2": {
+      "url": "/thalorna/settlement/kiik-baate/",
+      "name": "Ki'ik Ba'ate"
+    },
+    "doc/kingdmdnvr": {
+      "url": "/thalorna/polity/kingdom-of-dunavarre/",
+      "name": "Kingdom of Dúnavarre"
+    },
+    "doc/kingdmlnrk": {
+      "url": "/thalorna/polity/kingdom-of-leonrik/",
+      "name": "Kingdom of Léonrik"
+    },
+    "doc/kingdmnrgd": {
+      "url": "/thalorna/polity/kingdom-of-norgaad/",
+      "name": "Kingdom of Norgaad"
+    },
+    "doc/kingdmtrgd": {
+      "url": "/thalorna/polity/kingdom-of-targud/",
+      "name": "Kingdom of Targud"
+    },
+    "doc/kingdmtrvn": {
+      "url": "/thalorna/polity/kingdom-of-tarvenia/",
+      "name": "Kingdom of Tarvénia"
+    },
+    "doc/kingdomlgn": {
+      "url": "/thalorna/polity/kingdom-of-malagna/",
+      "name": "Kingdom of Malagna"
+    },
+    "doc/kingsholow": {
+      "url": "/thalorna/settlement/kingshollow/",
+      "name": "Kingshollow"
+    },
+    "doc/kinhalcrdt": {
+      "url": "/thalorna/reference/kin-and-hall-credit/",
+      "name": "Kin and Hall Credit"
+    },
+    "doc/kiximtzul": {
+      "url": "/thalorna/polity/kixim-tzul/",
+      "name": "K'ixim Tzul"
+    },
+    "doc/kiximtzul2": {
+      "url": "/thalorna/settlement/kixim-tzul/",
+      "name": "K'ixim Tzul"
+    },
+    "doc/klhrcntnnt": {
+      "url": "/thalorna/continent/kalihara-continent/",
+      "name": "Kalihara Continent"
+    },
+    "doc/klhrdvntrs": {
+      "url": "/thalorna/adventure/kalihara-adventures/",
+      "name": "Kalihara Adventures"
+    },
+    "doc/kngdmglvrn": {
+      "url": "/thalorna/polity/kingdom-of-galvaren/",
+      "name": "Kingdom of Galváren"
+    },
+    "doc/kngdmldrth": {
+      "url": "/thalorna/polity/kingdom-of-aldorath/",
+      "name": "Kingdom of Aldorath"
+    },
+    "doc/kngdmlvndr": {
+      "url": "/thalorna/polity/kingdom-of-elavendre/",
+      "name": "Kingdom of Élavendre"
+    },
+    "doc/kngdmnrdhm": {
+      "url": "/thalorna/polity/kingdom-of-nordheim/",
+      "name": "Kingdom of Nordheim"
+    },
+    "doc/kngdmprvnz": {
+      "url": "/thalorna/polity/kingdom-of-provenzia/",
+      "name": "Kingdom of Provènzia"
+    },
+    "doc/kngdmstrth": {
+      "url": "/thalorna/polity/kingdom-of-asturath/",
+      "name": "Kingdom of Astúrath"
+    },
+    "doc/kngdmvthgrd": {
+      "url": "/thalorna/polity/kingdom-of-vithgard/",
+      "name": "Kingdom of Vithgard"
+    },
+    "doc/korinthea": {
+      "url": "/thalorna/polity/korinthea/",
+      "name": "Korinthea"
+    },
+    "doc/korinthel": {
+      "url": "/thalorna/settlement/korinthel/",
+      "name": "Korinthel"
+    },
+    "doc/korrast": {
+      "url": "/thalorna/settlement/korrast/",
+      "name": "Korrast"
+    },
+    "doc/korsvik": {
+      "url": "/thalorna/settlement/korsvik/",
+      "name": "Korsvik"
+    },
+    "doc/kostaros": {
+      "url": "/thalorna/settlement/kostaros/",
+      "name": "Kostaros"
+    },
+    "doc/kostaros2": {
+      "url": "/thalorna/polity/kostaros/",
+      "name": "Kostaros"
+    },
+    "doc/kuxibalam": {
+      "url": "/thalorna/polity/kuxi-balam/",
+      "name": "K'uxi Balam"
+    },
+    "doc/kuxibalam2": {
+      "url": "/thalorna/settlement/kuxi-balam/",
+      "name": "K'uxi Balam"
+    },
+    "doc/kvenndal": {
+      "url": "/thalorna/settlement/kvenndal/",
+      "name": "Kvenndal"
+    },
+    "doc/languages": {
+      "url": "/thalorna/language/",
+      "name": "Languages"
+    },
+    "doc/laurelosse": {
+      "url": "/thalorna/location/laurelosse/",
+      "name": "Laurelossë"
+    },
+    "doc/lawhonor": {
+      "url": "/thalorna/lore/law-and-honor/",
+      "name": "Law and Honor"
+    },
+    "doc/lentora": {
+      "url": "/thalorna/settlement/lentora/",
+      "name": "Lentora"
+    },
+    "doc/liranel": {
+      "url": "/thalorna/settlement/liranel/",
+      "name": "Liranel"
+    },
+    "doc/lnggsthlrn": {
+      "url": "/thalorna/lore/languages-of-thalorna/",
+      "name": "Languages of Thalorna"
+    },
+    "doc/locations": {
+      "url": "/thalorna/location/",
+      "name": "Locations"
+    },
+    "doc/lore": {
+      "url": "/thalorna/lore/",
+      "name": "Lore"
+    },
+    "doc/lstrlcmnvrby": {
+      "url": "/thalorna/adventure/the-lost-relic-of-menavar-abbey/",
+      "name": "The Lost Relic of Menavar Abbey"
+    },
+    "doc/lunacorte": {
+      "url": "/thalorna/settlement/lunacorte/",
+      "name": "Lunacòrte"
+    },
+    "doc/magictruth": {
+      "url": "/thalorna/lore/magic-truth/",
+      "name": "Magic_Truth"
+    },
+    "doc/magnapolis": {
+      "url": "/thalorna/settlement/magnapolis/",
+      "name": "Magnápolis"
+    },
+    "doc/mandatehvn": {
+      "url": "/thalorna/lore/mandate-of-heaven/",
+      "name": "Mandate of Heaven"
+    },
+    "doc/marendal": {
+      "url": "/thalorna/settlement/marendal/",
+      "name": "Maréndal"
+    },
+    "doc/marriage": {
+      "url": "/thalorna/lore/marriage/",
+      "name": "Marriage"
+    },
+    "doc/medicine": {
+      "url": "/thalorna/lore/medicine/",
+      "name": "Medicine"
+    },
+    "doc/mehitper": {
+      "url": "/thalorna/settlement/mehit-per/",
+      "name": "Mehit-Per"
+    },
+    "doc/mercavia": {
+      "url": "/thalorna/settlement/mercavia/",
+      "name": "Mercavia"
+    },
+    "doc/meruhotep": {
+      "url": "/thalorna/settlement/meru-hotep/",
+      "name": "Meru-Hotep"
+    },
+    "doc/messora": {
+      "url": "/thalorna/settlement/messora/",
+      "name": "Messora"
+    },
+    "doc/midhalnrgn": {
+      "url": "/thalorna/region/midhalion-region/",
+      "name": "Mídhalión Region"
+    },
+    "doc/mihrabad": {
+      "url": "/thalorna/settlement/mihrabad/",
+      "name": "Mihrabad"
+    },
+    "doc/miravel": {
+      "url": "/thalorna/settlement/miravel/",
+      "name": "Míravel"
+    },
+    "doc/montana": {
+      "url": "/thalorna/settlement/montana/",
+      "name": "Montaña"
+    },
+    "doc/monverdre": {
+      "url": "/thalorna/settlement/monverdre/",
+      "name": "Monvèrdre"
+    },
+    "doc/mtrrchybth": {
+      "url": "/thalorna/polity/matriarchy-of-bethua/",
+      "name": "Matriarchy of Bethûa"
+    },
+    "doc/myrtillos": {
+      "url": "/thalorna/settlement/myrtillos/",
+      "name": "Myrtillos"
+    },
+    "doc/mystclblts2": {
+      "url": "/thalorna/mysticalability/",
+      "name": "Mystical Abilities"
+    },
+    "doc/nartum": {
+      "url": "/thalorna/settlement/nartum/",
+      "name": "Nartûm"
+    },
+    "doc/nekropolis": {
+      "url": "/thalorna/location/nekropolis/",
+      "name": "Nékropolis"
+    },
+    "doc/nokvur": {
+      "url": "/thalorna/lore/nokvur/",
+      "name": "Nōkvür"
+    },
+    "doc/nomekhnsrt": {
+      "url": "/thalorna/polity/the-nome-of-khensuret/",
+      "name": "The Nome of Khensuret"
+    },
+    "doc/nomenkhstn": {
+      "url": "/thalorna/polity/the-nome-of-ankh-setun/",
+      "name": "The Nome of Ankh-Setûn"
+    },
+    "doc/nomeprnkht": {
+      "url": "/thalorna/polity/the-nome-of-per-ankhet/",
+      "name": "The Nome of Per-Ankhet"
+    },
+    "doc/nomeprthth": {
+      "url": "/thalorna/polity/the-nome-of-per-thoth/",
+      "name": "The Nome of Per-Thōth"
+    },
+    "doc/nomesaunfr": {
+      "url": "/thalorna/polity/the-nome-of-sau-neferu/",
+      "name": "The Nome of Sau-Neferu"
+    },
+    "doc/nometarshk": {
+      "url": "/thalorna/polity/the-nome-of-ta-resu-heka/",
+      "name": "The Nome of Ta-Resu-Heka"
+    },
+    "doc/nometstbtt": {
+      "url": "/thalorna/polity/the-nome-of-ta-set-iabtet/",
+      "name": "The Nome of Ta-Set-Iabtet"
+    },
+    "doc/nordmalngg": {
+      "url": "/thalorna/language/nordmal-language/",
+      "name": "Nordmal Language"
+    },
+    "doc/nrdlndsrgn": {
+      "url": "/thalorna/region/nordlands-region/",
+      "name": "Nordlands Region"
+    },
+    "doc/nrthrnfrtlrgn": {
+      "url": "/thalorna/region/northern-fertile-region/",
+      "name": "Northern Fertile Region"
+    },
+    "doc/nrthrnkchchk": {
+      "url": "/thalorna/region/northern-kichchik/",
+      "name": "Northern K'ich'chik"
+    },
+    "doc/numerology": {
+      "url": "/thalorna/lore/numerology/",
+      "name": "Numerology"
+    },
+    "doc/nutzok": {
+      "url": "/thalorna/lore/nutzok/",
+      "name": "Nützōk"
+    },
+    "doc/nyalbnlngg": {
+      "url": "/thalorna/language/nyaluban-language/",
+      "name": "Nyáluban Language"
+    },
+    "doc/nylbtrblntn": {
+      "url": "/thalorna/polity/nyaluba-tribal-nation/",
+      "name": "Nyáluba Tribal Nation"
+    },
+    "doc/oasishirvn": {
+      "url": "/thalorna/settlement/oasis-of-shirvan/",
+      "name": "Oasis of Shirvan"
+    },
+    "doc/oasisteyrn": {
+      "url": "/thalorna/settlement/oasis-of-teyran/",
+      "name": "Oasis of Teyran"
+    },
+    "doc/okharclngg": {
+      "url": "/thalorna/language/okharic-language/",
+      "name": "Okháric Language"
+    },
+    "doc/okharis": {
+      "url": "/thalorna/polity/okharis/",
+      "name": "Okháris"
+    },
+    "doc/okharisrgn": {
+      "url": "/thalorna/region/okharis-region/",
+      "name": "Okháris Region"
+    },
+    "doc/olivenna": {
+      "url": "/thalorna/settlement/olivenna/",
+      "name": "Olivenna"
+    },
+    "doc/ormstead": {
+      "url": "/thalorna/settlement/ormstead/",
+      "name": "Ormstead"
+    },
+    "doc/ostenna": {
+      "url": "/thalorna/settlement/ostenna/",
+      "name": "Ostenna"
+    },
+    "doc/ostvar": {
+      "url": "/thalorna/settlement/ostvar/",
+      "name": "Ostvar"
+    },
+    "doc/palatimgnm": {
+      "url": "/thalorna/settlement/palatium-magnum/",
+      "name": "Palatium Magnum"
+    },
+    "doc/pechszrvln": {
+      "url": "/thalorna/adventure/the-peaches-of-zuravlen/",
+      "name": "The Peaches of Zûravlen"
+    },
+    "doc/pelagora": {
+      "url": "/thalorna/polity/pelagora/",
+      "name": "Pelagora"
+    },
+    "doc/pelagora2": {
+      "url": "/thalorna/settlement/pelagora/",
+      "name": "Pelagora"
+    },
+    "doc/pelwarpepl": {
+      "url": "/thalorna/lore/pelwar-people/",
+      "name": "Pelwar People"
+    },
+    "doc/peoples": {
+      "url": "/thalorna/people/",
+      "name": "Peoples"
+    },
+    "doc/perankhet": {
+      "url": "/thalorna/settlement/per-ankhet/",
+      "name": "Per-Ankhet"
+    },
+    "doc/perheka": {
+      "url": "/thalorna/settlement/per-heka/",
+      "name": "Per-Heka"
+    },
+    "doc/personlnms": {
+      "url": "/thalorna/lore/personal-names/",
+      "name": "Personal Names"
+    },
+    "doc/phlsphylvr": {
+      "url": "/thalorna/lore/philosophy-of-leivor/",
+      "name": "Philosophy of Lëivōr"
+    },
+    "doc/pinnhald": {
+      "url": "/thalorna/settlement/pinnhald/",
+      "name": "Pinnhald"
+    },
+    "doc/pnthnrgnlmp": {
+      "url": "/thalorna/lore/pantheon-regional-map/",
+      "name": "Pantheon Regional Map"
+    },
+    "doc/pnthnrldnm": {
+      "url": "/thalorna/settlement/pantheon-aureldianum/",
+      "name": "Pantheon Aurèldiānum"
+    },
+    "doc/polities": {
+      "url": "/thalorna/polity/",
+      "name": "Polities"
+    },
+    "doc/portaelion": {
+      "url": "/thalorna/settlement/port-aelion/",
+      "name": "Port Aelion"
+    },
+    "doc/provenzrgn": {
+      "url": "/thalorna/region/provenzia-region/",
+      "name": "Provènzia Region"
+    },
+    "doc/provinclys": {
+      "url": "/thalorna/polity/province-of-alyssa/",
+      "name": "Province of Alyssa"
+    },
+    "doc/provincvld": {
+      "url": "/thalorna/polity/province-of-vald/",
+      "name": "Province of Vald"
+    },
+    "doc/provnchyln": {
+      "url": "/thalorna/polity/province-of-hylen/",
+      "name": "Province of Hylen"
+    },
+    "doc/provncmktr": {
+      "url": "/thalorna/polity/province-of-moktur/",
+      "name": "Province of Moktur"
+    },
+    "doc/provnzlngg": {
+      "url": "/thalorna/language/provenzal-language/",
+      "name": "Provenzal Language"
+    },
+    "doc/prvnzngrndgms": {
+      "url": "/thalorna/adventure/the-provenzian-grand-games/",
+      "name": "The Provenzian Grand Games"
+    },
+    "doc/pshtrwldrns": {
+      "url": "/thalorna/region/peshtar-wilderness/",
+      "name": "Peshtar Wilderness"
+    },
+    "doc/qadhirun": {
+      "url": "/thalorna/settlement/qadhirun/",
+      "name": "Qadhirun"
+    },
+    "doc/qasirah": {
+      "url": "/thalorna/settlement/qasirah/",
+      "name": "Qasirah"
+    },
+    "doc/rajaprjnpd": {
+      "url": "/thalorna/polity/rajapur-janapada/",
+      "name": "Rājapur Janapada"
+    },
+    "doc/rajapur": {
+      "url": "/thalorna/settlement/rajapur/",
+      "name": "Rājapur"
+    },
+    "doc/ravenmoor": {
+      "url": "/thalorna/settlement/ravenmoor/",
+      "name": "Ravenmoor"
+    },
+    "doc/ravensholm": {
+      "url": "/thalorna/settlement/ravensholm/",
+      "name": "Ravensholm"
+    },
+    "doc/references": {
+      "url": "/thalorna/reference/",
+      "name": "References"
+    },
+    "doc/regions": {
+      "url": "/thalorna/region/",
+      "name": "Regions"
+    },
+    "doc/repblctrvn": {
+      "url": "/thalorna/polity/republic-of-tarvenne/",
+      "name": "Republic of Tarvenne"
+    },
+    "doc/saltholm": {
+      "url": "/thalorna/settlement/saltholm/",
+      "name": "Saltholm"
+    },
+    "doc/sanctara": {
+      "url": "/thalorna/settlement/sanctara/",
+      "name": "Sanctara"
+    },
+    "doc/sau": {
+      "url": "/thalorna/settlement/sau/",
+      "name": "Sau"
+    },
+    "doc/sekhetneru": {
+      "url": "/thalorna/company/sekhetneru/",
+      "name": "Sekhet'Neru"
+    },
+    "doc/selimara": {
+      "url": "/thalorna/settlement/selimara/",
+      "name": "Selímara"
+    },
+    "doc/setlements": {
+      "url": "/thalorna/settlement/",
+      "name": "Settlements"
+    },
+    "doc/setmaat": {
+      "url": "/thalorna/settlement/set-maat/",
+      "name": "Set-Maat"
+    },
+    "doc/shamsun": {
+      "url": "/thalorna/settlement/shamsun/",
+      "name": "Shamsûn"
+    },
+    "doc/shukren": {
+      "url": "/thalorna/lore/shukren/",
+      "name": "Shükrën"
+    },
+    "doc/siegevalrn": {
+      "url": "/thalorna/adventure/the-siege-of-valaren/",
+      "name": "The Siege of Válaren"
+    },
+    "doc/silvain": {
+      "url": "/thalorna/settlement/silvain/",
+      "name": "Silvain"
+    },
+    "doc/silvrfrsts": {
+      "url": "/thalorna/location/the-silver-forests/",
+      "name": "The Silver Forests"
+    },
+    "doc/sinalelngg": {
+      "url": "/thalorna/language/sinale-language/",
+      "name": "Sinalë Language"
+    },
+    "doc/skarholme": {
+      "url": "/thalorna/settlement/skarholme/",
+      "name": "Skarholme"
+    },
+    "doc/skorrborg": {
+      "url": "/thalorna/settlement/skorrborg/",
+      "name": "Skorrborg"
+    },
+    "doc/slntlncmpny": {
+      "url": "/thalorna/company/the-silent-talon-company/",
+      "name": "The Silent Talon Company"
+    },
+    "doc/slntwrbtrn": {
+      "url": "/thalorna/adventure/the-silent-war-in-bataren/",
+      "name": "The Silent War in Batáren"
+    },
+    "doc/solarden": {
+      "url": "/thalorna/settlement/solarden/",
+      "name": "Solárden"
+    },
+    "doc/solheim": {
+      "url": "/thalorna/settlement/solheim/",
+      "name": "Solheim"
+    },
+    "doc/soulspirts": {
+      "url": "/thalorna/lore/souls-and-spirits/",
+      "name": "Souls_and_Spirits"
+    },
+    "doc/stalbrekka": {
+      "url": "/thalorna/settlement/stalbrekka/",
+      "name": "Stálbrekka"
+    },
+    "doc/steinmark": {
+      "url": "/thalorna/settlement/steinmark/",
+      "name": "Steinmark"
+    },
+    "doc/stennvold": {
+      "url": "/thalorna/settlement/stennvold/",
+      "name": "Stennvold"
+    },
+    "doc/sthrnkchchk": {
+      "url": "/thalorna/region/southern-kichchik/",
+      "name": "Southern K'ich'chik"
+    },
+    "doc/sthrnsvnhs": {
+      "url": "/thalorna/region/southern-savannahs/",
+      "name": "Southern Savannahs"
+    },
+    "doc/stormveil": {
+      "url": "/thalorna/settlement/stormveil/",
+      "name": "Stormveil"
+    },
+    "doc/sultntmrdd": {
+      "url": "/thalorna/polity/sultanate-of-amradad/",
+      "name": "Sultanate of Amradad"
+    },
+    "doc/sulun": {
+      "url": "/thalorna/settlement/sulun/",
+      "name": "Sulûn"
+    },
+    "doc/suryagarha": {
+      "url": "/thalorna/settlement/suryagarha/",
+      "name": "Sūryāgarha"
+    },
+    "doc/suvaragiri": {
+      "url": "/thalorna/settlement/suvarnagiri/",
+      "name": "Suvarṇagiri"
+    },
+    "doc/suvrgrjnpd": {
+      "url": "/thalorna/polity/suvarnagiri-janapada/",
+      "name": "Suvarṇagiri Janapada"
+    },
+    "doc/tadjeser": {
+      "url": "/thalorna/settlement/ta-djeser/",
+      "name": "Ta-Djeser"
+    },
+    "doc/tahrodan": {
+      "url": "/thalorna/settlement/tahrodan/",
+      "name": "Tahrodan"
+    },
+    "doc/takheperurgn": {
+      "url": "/thalorna/region/takheperu-region/",
+      "name": "Ta'Kheperu Region"
+    },
+    "doc/tamavar": {
+      "url": "/thalorna/polity/tamavar/",
+      "name": "Tamavar"
+    },
+    "doc/tanthei": {
+      "url": "/thalorna/lore/tanthei/",
+      "name": "Tānthëi"
+    },
+    "doc/tanvrcrncy": {
+      "url": "/thalorna/reference/tanvur-currency/",
+      "name": "Tánvür Currency"
+    },
+    "doc/tanvuregin": {
+      "url": "/thalorna/region/tanvur-region/",
+      "name": "Tānvür Region"
+    },
+    "doc/tarvenirgn": {
+      "url": "/thalorna/region/tarvenia-region/",
+      "name": "Tarvénia Region"
+    },
+    "doc/tarvenlngg": {
+      "url": "/thalorna/language/tarveni-language/",
+      "name": "Tarvéni Language"
+    },
+    "doc/telvari": {
+      "url": "/thalorna/settlement/telvari/",
+      "name": "Telvári"
+    },
+    "doc/terravia": {
+      "url": "/thalorna/settlement/terravia/",
+      "name": "Terravia"
+    },
+    "doc/tghsvrnzrnsh": {
+      "url": "/thalorna/company/tighsavaran-of-the-zarnush/",
+      "name": "Tîgh'Savâran of the Zarnûsh"
+    },
+    "doc/thalassos": {
+      "url": "/thalorna/settlement/thalassos/",
+      "name": "Thálassos"
+    },
+    "doc/thatlung": {
+      "url": "/thalorna/lore/thatlung/",
+      "name": "Thātlüng"
+    },
+    "doc/theradon": {
+      "url": "/thalorna/polity/theradon/",
+      "name": "Therádon"
+    },
+    "doc/theradon2": {
+      "url": "/thalorna/settlement/theradon/",
+      "name": "Therádon"
+    },
+    "doc/thetamzir": {
+      "url": "/thalorna/company/the-tamzir/",
+      "name": "The Tamzîr"
+    },
+    "doc/thlbestiary": {
+      "url": "/thalorna/rules/thalorna-bestiary/",
+      "name": "Thalorna Bestiary"
+    },
+    "doc/thornbury": {
+      "url": "/thalorna/settlement/thornbury/",
+      "name": "Thornbury"
+    },
+    "doc/thornhaven": {
+      "url": "/thalorna/settlement/thornhaven/",
+      "name": "Thornhaven"
+    },
+    "doc/thorrborg": {
+      "url": "/thalorna/settlement/thorrborg/",
+      "name": "Thorrborg"
+    },
+    "doc/threats": {
+      "url": "/thalorna/lore/threats/",
+      "name": "Threats"
+    },
+    "doc/thrymstead": {
+      "url": "/thalorna/settlement/thrymstead/",
+      "name": "Thrymstead"
+    },
+    "doc/thyrenae": {
+      "url": "/thalorna/polity/thyrenae/",
+      "name": "Thyrenae"
+    },
+    "doc/thyrenae2": {
+      "url": "/thalorna/settlement/thyrenae/",
+      "name": "Thyrenae"
+    },
+    "doc/tibur": {
+      "url": "/thalorna/settlement/tibur/",
+      "name": "Tibur"
+    },
+    "doc/tjebu": {
+      "url": "/thalorna/settlement/tjebu/",
+      "name": "Tjebu"
+    },
+    "doc/tkhprcrncy": {
+      "url": "/thalorna/reference/takheperu-currency/",
+      "name": "Ta'Kheperu Currency"
+    },
+    "doc/tnvrlnggrfrnc": {
+      "url": "/thalorna/lore/tanvuri-language-reference/",
+      "name": "Tānvüri Language Reference"
+    },
+    "doc/torreviga": {
+      "url": "/thalorna/settlement/torreviga/",
+      "name": "Torreviga"
+    },
+    "doc/tribestrzd": {
+      "url": "/thalorna/polity/tribes-of-atarzad/",
+      "name": "Tribes of Ātárzád"
+    },
+    "doc/ttjkvngyrt": {
+      "url": "/thalorna/lore/teitjek-vengyurt/",
+      "name": "Tëitjëk Vëngyürt"
+    },
+    "doc/tyrellan": {
+      "url": "/thalorna/settlement/tyrellan/",
+      "name": "Tyrellan"
+    },
+    "doc/tzalamha": {
+      "url": "/thalorna/settlement/tzalam-ha/",
+      "name": "Tz’alam Ha’"
+    },
+    "doc/tzalamwitz": {
+      "url": "/thalorna/settlement/tzalam-witz/",
+      "name": "Tz’alam Witz"
+    },
+    "doc/tzikin": {
+      "url": "/thalorna/polity/tzikin/",
+      "name": "Tz'ikin"
+    },
+    "doc/tzikin2": {
+      "url": "/thalorna/settlement/tzikin/",
+      "name": "Tz'ikin"
+    },
+    "doc/tzikinbalm": {
+      "url": "/thalorna/polity/tzikin-baalam/",
+      "name": "Tz'ikin Ba'alam"
+    },
+    "doc/tzikinbalm2": {
+      "url": "/thalorna/settlement/tzikin-baalam/",
+      "name": "Tz'ikin Ba'alam"
+    },
+    "doc/tzikinkul": {
+      "url": "/thalorna/settlement/tzikin-kul/",
+      "name": "Tz’ikin K’ul"
+    },
+    "doc/tzumanotun": {
+      "url": "/thalorna/polity/tzuma-notun/",
+      "name": "Tz'uma No'tun"
+    },
+    "doc/tzumanotun2": {
+      "url": "/thalorna/settlement/tzuma-notun/",
+      "name": "Tz'uma No'tun"
+    },
+    "doc/ulfheim": {
+      "url": "/thalorna/settlement/ulfheim/",
+      "name": "Ulfheim"
+    },
+    "doc/uperivrnms": {
+      "url": "/thalorna/polity/the-upper-river-nomes/",
+      "name": "The Upper River Nomes"
+    },
+    "doc/urbsaquiln": {
+      "url": "/thalorna/settlement/urbs-aquilion/",
+      "name": "Urbs Aquilion"
+    },
+    "doc/valcerise": {
+      "url": "/thalorna/settlement/valcerise/",
+      "name": "Valcèrise"
+    },
+    "doc/valdarheim": {
+      "url": "/thalorna/settlement/valdarheim/",
+      "name": "Valdarheim"
+    },
+    "doc/valdes": {
+      "url": "/thalorna/settlement/valdes/",
+      "name": "Valdés"
+    },
+    "doc/valdosta": {
+      "url": "/thalorna/settlement/valdosta/",
+      "name": "Valdosta"
+    },
+    "doc/valdun": {
+      "url": "/thalorna/settlement/valdun/",
+      "name": "Valdûn"
+    },
+    "doc/valgard": {
+      "url": "/thalorna/settlement/valgard/",
+      "name": "Valgard"
+    },
+    "doc/valtarlngg": {
+      "url": "/thalorna/language/valtari-language/",
+      "name": "Valtári Language"
+    },
+    "doc/valthari": {
+      "url": "/thalorna/settlement/valthari/",
+      "name": "Valthari"
+    },
+    "doc/varokhlngg": {
+      "url": "/thalorna/language/varokhi-language/",
+      "name": "Varokhi Language"
+    },
+    "doc/varoshan": {
+      "url": "/thalorna/polity/varoshan/",
+      "name": "Varoshan"
+    },
+    "doc/vashuran": {
+      "url": "/thalorna/settlement/vashuran/",
+      "name": "Vashurán"
+    },
+    "doc/vdyrnbnkng": {
+      "url": "/thalorna/reference/vedyaran-banking/",
+      "name": "Vedyaran Banking"
+    },
+    "doc/vedyarargn": {
+      "url": "/thalorna/region/vedyara-region/",
+      "name": "Vedyara Region"
+    },
+    "doc/vedyarlngg": {
+      "url": "/thalorna/language/vedyari-language/",
+      "name": "Vedyari Language"
+    },
+    "doc/veizhatret": {
+      "url": "/thalorna/lore/vei-zhat-reit/",
+      "name": "Vëi Zhāt Rëit"
+    },
+    "doc/velanthrgn": {
+      "url": "/thalorna/region/velanthia-region/",
+      "name": "Velanthia Region"
+    },
+    "doc/velysara": {
+      "url": "/thalorna/settlement/velysara/",
+      "name": "Velysâra"
+    },
+    "doc/venduk": {
+      "url": "/thalorna/lore/venduk/",
+      "name": "Vëndük"
+    },
+    "doc/vennara": {
+      "url": "/thalorna/settlement/vennara/",
+      "name": "Vennara"
+    },
+    "doc/vindara": {
+      "url": "/thalorna/settlement/vindara/",
+      "name": "Vindara"
+    },
+    "doc/vindborg": {
+      "url": "/thalorna/settlement/vindborg/",
+      "name": "Vindborg"
+    },
+    "doc/vindhyalay": {
+      "url": "/thalorna/polity/vindhyalaya/",
+      "name": "Vindhyālaya"
+    },
+    "doc/vrystwald": {
+      "url": "/thalorna/region/vrystwald/",
+      "name": "Vrystwald"
+    },
+    "doc/vrystwldtrbs": {
+      "url": "/thalorna/polity/vrystwald-tribes/",
+      "name": "Vrystwald Tribes"
+    },
+    "doc/vushok": {
+      "url": "/thalorna/lore/vushok/",
+      "name": "Vüshōk"
+    },
+    "doc/vuthrakor": {
+      "url": "/thalorna/settlement/vuthrakor/",
+      "name": "Vuthrákor"
+    },
+    "doc/vyalendra2": {
+      "url": "/thalorna/polity/vyalendra/",
+      "name": "Vyālendra"
+    },
+    "doc/vyalendra3": {
+      "url": "/thalorna/settlement/vyalendra/",
+      "name": "Vyālendra"
+    },
+    "doc/vylarianse": {
+      "url": "/thalorna/region/vylarian-sea/",
+      "name": "Vylarian Sea"
+    },
+    "doc/vylariargn": {
+      "url": "/thalorna/region/vylaria-region/",
+      "name": "Vylaria Region"
+    },
+    "doc/vylarilngg": {
+      "url": "/thalorna/language/vylari-language/",
+      "name": "Vylari Language"
+    },
+    "doc/vylarinmpr": {
+      "url": "/thalorna/polity/vylarian-empire/",
+      "name": "Vylarian Empire"
+    },
+    "doc/vylrncrncy": {
+      "url": "/thalorna/reference/vylarian-currency/",
+      "name": "Vylarian Currency"
+    },
+    "doc/vylrnctznshp": {
+      "url": "/thalorna/reference/vylarian-citizenship/",
+      "name": "Vylarian Citizenship"
+    },
+    "doc/waldburg": {
+      "url": "/thalorna/settlement/waldburg/",
+      "name": "Waldburg"
+    },
+    "doc/wasetkara": {
+      "url": "/thalorna/settlement/wasetkara/",
+      "name": "Wasetkara"
+    },
+    "doc/webdeceit": {
+      "url": "/thalorna/adventure/the-web-of-deceit/",
+      "name": "The Web of Deceit"
+    },
+    "doc/wldjgrrndgrskld": {
+      "url": "/thalorna/company/wuldjagar-erund-garskald/",
+      "name": "Wuldjagâr erund Gárskald"
+    },
+    "doc/worlds": {
+      "url": "/thalorna/world/",
+      "name": "Worlds"
+    },
+    "doc/worldthlrn": {
+      "url": "/thalorna/world/the-world-of-thalorna/",
+      "name": "The World of Thalorna"
+    },
+    "doc/wrldppltnthlrn": {
+      "url": "/thalorna/reference/world-population-of-thalorna/",
+      "name": "World Population of Thalorna"
+    },
+    "doc/xerathia": {
+      "url": "/thalorna/continent/xerathia/",
+      "name": "Xerathia"
+    },
+    "doc/xikulchakl": {
+      "url": "/thalorna/polity/xikul-chakal/",
+      "name": "Xik'ul Ch'akal"
+    },
+    "doc/xikulchakl2": {
+      "url": "/thalorna/settlement/xikul-chakal/",
+      "name": "Xik'ul Ch'akal"
+    },
+    "doc/yesilhan": {
+      "url": "/thalorna/polity/yesilhan/",
+      "name": "Yeşilhan"
+    },
+    "doc/yesilhan2": {
+      "url": "/thalorna/settlement/yesilhan/",
+      "name": "Yeşilhan"
+    },
+    "doc/yurthatzhk": {
+      "url": "/thalorna/lore/yurtthat-zhak/",
+      "name": "Yürtthāt Zhāk"
+    },
+    "doc/zargandur": {
+      "url": "/thalorna/settlement/zargandur/",
+      "name": "Zargandûr"
+    },
+    "doc/zarhanor": {
+      "url": "/thalorna/settlement/zarhanor/",
+      "name": "Zarhánor"
+    },
+    "doc/zaristan": {
+      "url": "/thalorna/settlement/zaristan/",
+      "name": "Zaristan"
+    },
+    "doc/zathuk": {
+      "url": "/thalorna/lore/zathuk/",
+      "name": "Zāthük"
+    },
+    "doc/zheklung": {
+      "url": "/thalorna/lore/zheklung/",
+      "name": "Zhëklüng"
+    },
+    "mystery/arnos": {
+      "url": "/thalorna/mystery/arnos/",
+      "name": "Arnos"
+    },
+    "mystery/badger": {
+      "url": "/thalorna/mystery/badger/",
+      "name": "Badger"
+    },
+    "mystery/bear": {
+      "url": "/thalorna/mystery/bear/",
+      "name": "Bear"
+    },
+    "mystery/belos": {
+      "url": "/thalorna/mystery/belos/",
+      "name": "Belos"
+    },
+    "mystery/bison": {
+      "url": "/thalorna/mystery/bison/",
+      "name": "Bison"
+    },
+    "mystery/boar": {
+      "url": "/thalorna/mystery/boar/",
+      "name": "Boar"
+    },
+    "mystery/bobcat": {
+      "url": "/thalorna/mystery/bobcat/",
+      "name": "Bobcat"
+    },
+    "mystery/bourax": {
+      "url": "/thalorna/mystery/bourax/",
+      "name": "Bourax"
+    },
+    "mystery/bull": {
+      "url": "/thalorna/mystery/bull/",
+      "name": "Bull"
+    },
+    "mystery/catfish": {
+      "url": "/thalorna/mystery/catfish/",
+      "name": "Catfish"
+    },
+    "mystery/chelyx": {
+      "url": "/thalorna/mystery/chelyx/",
+      "name": "Chelyx"
+    },
+    "mystery/chicken": {
+      "url": "/thalorna/mystery/chicken/",
+      "name": "Chicken"
+    },
+    "mystery/cow": {
+      "url": "/thalorna/mystery/cow/",
+      "name": "Cow"
+    },
+    "mystery/crow": {
+      "url": "/thalorna/mystery/crow/",
+      "name": "Crow"
+    },
+    "mystery/deer": {
+      "url": "/thalorna/mystery/deer/",
+      "name": "Deer"
+    },
+    "mystery/diplos": {
+      "url": "/thalorna/mystery/diplos/",
+      "name": "Diplos"
+    },
+    "mystery/donkey": {
+      "url": "/thalorna/mystery/donkey/",
+      "name": "Donkey"
+    },
+    "mystery/dove": {
+      "url": "/thalorna/mystery/dove/",
+      "name": "Dove"
+    },
+    "mystery/duck": {
+      "url": "/thalorna/mystery/duck/",
+      "name": "Duck"
+    },
+    "mystery/eagle": {
+      "url": "/thalorna/mystery/eagle/",
+      "name": "Eagle"
+    },
+    "mystery/falcon": {
+      "url": "/thalorna/mystery/falcon/",
+      "name": "Falcon"
+    },
+    "mystery/fox": {
+      "url": "/thalorna/mystery/fox/",
+      "name": "Fox"
+    },
+    "mystery/goat": {
+      "url": "/thalorna/mystery/goat/",
+      "name": "Goat"
+    },
+    "mystery/goose": {
+      "url": "/thalorna/mystery/goose/",
+      "name": "Goose"
+    },
+    "mystery/hamster": {
+      "url": "/thalorna/mystery/hamster/",
+      "name": "Hamster"
+    },
+    "mystery/hawk": {
+      "url": "/thalorna/mystery/hawk/",
+      "name": "Hawk"
+    },
+    "mystery/hedgehog": {
+      "url": "/thalorna/mystery/hedgehog/",
+      "name": "Hedgehog"
+    },
+    "mystery/horse": {
+      "url": "/thalorna/mystery/horse/",
+      "name": "Horse"
+    },
+    "mystery/jaguar": {
+      "url": "/thalorna/mystery/jaguar/",
+      "name": "Jaguar"
+    },
+    "mystery/kentros": {
+      "url": "/thalorna/mystery/kentros/",
+      "name": "Kentros"
+    },
+    "mystery/korith": {
+      "url": "/thalorna/mystery/korith/",
+      "name": "Korith"
+    },
+    "mystery/leopard": {
+      "url": "/thalorna/mystery/leopard/",
+      "name": "Leopard"
+    },
+    "mystery/lion": {
+      "url": "/thalorna/mystery/lion/",
+      "name": "Lion"
+    },
+    "mystery/lynx": {
+      "url": "/thalorna/mystery/lynx/",
+      "name": "Lynx"
+    },
+    "mystery/nalos": {
+      "url": "/thalorna/mystery/nalos/",
+      "name": "Nalos"
+    },
+    "mystery/opsar": {
+      "url": "/thalorna/mystery/opsar/",
+      "name": "Opsar"
+    },
+    "mystery/otter": {
+      "url": "/thalorna/mystery/otter/",
+      "name": "Otter"
+    },
+    "mystery/owl": {
+      "url": "/thalorna/mystery/owl/",
+      "name": "Owl"
+    },
+    "mystery/ox": {
+      "url": "/thalorna/mystery/ox/",
+      "name": "Ox"
+    },
+    "mystery/parrot": {
+      "url": "/thalorna/mystery/parrot/",
+      "name": "Parrot"
+    },
+    "mystery/pigeon": {
+      "url": "/thalorna/mystery/pigeon/",
+      "name": "Pigeon"
+    },
+    "mystery/rabbit": {
+      "url": "/thalorna/mystery/rabbit/",
+      "name": "Rabbit"
+    },
+    "mystery/seabass": {
+      "url": "/thalorna/mystery/sea-bass/",
+      "name": "Sea Bass"
+    },
+    "mystery/shark": {
+      "url": "/thalorna/mystery/shark/",
+      "name": "Shark"
+    },
+    "mystery/sheep": {
+      "url": "/thalorna/mystery/sheep/",
+      "name": "Sheep"
+    },
+    "mystery/snake": {
+      "url": "/thalorna/mystery/snake/",
+      "name": "Snake"
+    },
+    "mystery/stag": {
+      "url": "/thalorna/mystery/stag/",
+      "name": "Stag"
+    },
+    "mystery/stathmos": {
+      "url": "/thalorna/mystery/stathmos/",
+      "name": "Stathmos"
+    },
+    "mystery/sturgeon": {
+      "url": "/thalorna/mystery/sturgeon/",
+      "name": "Sturgeon"
+    },
+    "mystery/thyron": {
+      "url": "/thalorna/mystery/thyron/",
+      "name": "Thyron"
+    },
+    "mystery/tragyx": {
+      "url": "/thalorna/mystery/tragyx/",
+      "name": "Tragyx"
+    },
+    "mystery/trout": {
+      "url": "/thalorna/mystery/trout/",
+      "name": "Trout"
+    },
+    "mystery/tuna": {
+      "url": "/thalorna/mystery/tuna/",
+      "name": "Tuna"
+    },
+    "mystery/turkey": {
+      "url": "/thalorna/mystery/turkey/",
+      "name": "Turkey"
+    },
+    "mystery/whale": {
+      "url": "/thalorna/mystery/whale/",
+      "name": "Whale"
+    },
+    "mystery/wolf": {
+      "url": "/thalorna/mystery/wolf/",
+      "name": "Wolf"
+    },
+    "mysticalability/absrbt": {
+      "url": "/thalorna/mysticalability/absorbent/",
+      "name": "Absorbent"
+    },
+    "mysticalability/activate": {
+      "url": "/thalorna/mysticalability/activate/",
+      "name": "Activate"
+    },
+    "mysticalability/alert": {
+      "url": "/thalorna/mysticalability/alert/",
+      "name": "Alert"
+    },
+    "mysticalability/ampl": {
+      "url": "/thalorna/mysticalability/amplification/",
+      "name": "Amplification"
+    },
+    "mysticalability/arcasmbl": {
+      "url": "/thalorna/mysticalability/assembly/",
+      "name": "Assembly"
+    },
+    "mysticalability/arcshld": {
+      "url": "/thalorna/mysticalability/arcane-shield/",
+      "name": "Arcane Shield"
+    },
+    "mysticalability/arcsph": {
+      "url": "/thalorna/mysticalability/arcane-sphere/",
+      "name": "Arcane Sphere"
+    },
+    "mysticalability/audible": {
+      "url": "/thalorna/mysticalability/audible/",
+      "name": "Audible"
+    },
+    "mysticalability/aware": {
+      "url": "/thalorna/mysticalability/aware/",
+      "name": "Aware"
+    },
+    "mysticalability/bane": {
+      "url": "/thalorna/mysticalability/bane/",
+      "name": "Bane"
+    },
+    "mysticalability/barrier": {
+      "url": "/thalorna/mysticalability/barrier/",
+      "name": "Barrier"
+    },
+    "mysticalability/bldbn": {
+      "url": "/thalorna/mysticalability/bladebane/",
+      "name": "Bladebane"
+    },
+    "mysticalability/blight": {
+      "url": "/thalorna/mysticalability/blight/",
+      "name": "Blight"
+    },
+    "mysticalability/blndspt": {
+      "url": "/thalorna/mysticalability/blindspot/",
+      "name": "Blindspot"
+    },
+    "mysticalability/blzgmntl": {
+      "url": "/thalorna/mysticalability/blazing-mantle/",
+      "name": "Blazing Mantle"
+    },
+    "mysticalability/blzgthrl": {
+      "url": "/thalorna/mysticalability/blazing-thraal/",
+      "name": "Blazing Thraal"
+    },
+    "mysticalability/bond": {
+      "url": "/thalorna/mysticalability/bond/",
+      "name": "Bond"
+    },
+    "mysticalability/brllnc": {
+      "url": "/thalorna/mysticalability/brilliance/",
+      "name": "Brilliance"
+    },
+    "mysticalability/call": {
+      "url": "/thalorna/mysticalability/call/",
+      "name": "Call"
+    },
+    "mysticalability/channel": {
+      "url": "/thalorna/mysticalability/channel/",
+      "name": "Channel"
+    },
+    "mysticalability/chill": {
+      "url": "/thalorna/mysticalability/chill/",
+      "name": "Chill"
+    },
+    "mysticalability/chlltch": {
+      "url": "/thalorna/mysticalability/chilltouch/",
+      "name": "Chilltouch"
+    },
+    "mysticalability/clarity": {
+      "url": "/thalorna/mysticalability/clarity/",
+      "name": "Clarity"
+    },
+    "mysticalability/cloak": {
+      "url": "/thalorna/mysticalability/cloak/",
+      "name": "Cloak"
+    },
+    "mysticalability/clrv": {
+      "url": "/thalorna/mysticalability/clairvoyance/",
+      "name": "Clairvoyance"
+    },
+    "mysticalability/cmmnn": {
+      "url": "/thalorna/mysticalability/communion/",
+      "name": "Communion"
+    },
+    "mysticalability/cnstrct": {
+      "url": "/thalorna/mysticalability/construct/",
+      "name": "Construct"
+    },
+    "mysticalability/cntnmnt": {
+      "url": "/thalorna/mysticalability/containment/",
+      "name": "Containment"
+    },
+    "mysticalability/conduit": {
+      "url": "/thalorna/mysticalability/conduit/",
+      "name": "Conduit"
+    },
+    "mysticalability/contain": {
+      "url": "/thalorna/mysticalability/contain/",
+      "name": "Contain"
+    },
+    "mysticalability/craft": {
+      "url": "/thalorna/mysticalability/craft/",
+      "name": "Craft"
+    },
+    "mysticalability/crush": {
+      "url": "/thalorna/mysticalability/crush/",
+      "name": "Crush"
+    },
+    "mysticalability/dcytch": {
+      "url": "/thalorna/mysticalability/decay-touch/",
+      "name": "Decay Touch"
+    },
+    "mysticalability/dewcraft": {
+      "url": "/thalorna/mysticalability/dewcraft/",
+      "name": "Dewcraft"
+    },
+    "mysticalability/disarray": {
+      "url": "/thalorna/mysticalability/disarray/",
+      "name": "Disarray"
+    },
+    "mysticalability/disrupt": {
+      "url": "/thalorna/mysticalability/disrupt/",
+      "name": "Disrupt"
+    },
+    "mysticalability/drain": {
+      "url": "/thalorna/mysticalability/drain/",
+      "name": "Drain"
+    },
+    "mysticalability/drift": {
+      "url": "/thalorna/mysticalability/drift/",
+      "name": "Drift"
+    },
+    "mysticalability/dsbd": {
+      "url": "/thalorna/mysticalability/disembodiment/",
+      "name": "Disembodiment"
+    },
+    "mysticalability/dskcrft": {
+      "url": "/thalorna/mysticalability/duskcraft/",
+      "name": "Duskcraft"
+    },
+    "mysticalability/dstrctn": {
+      "url": "/thalorna/mysticalability/distraction/",
+      "name": "Distraction"
+    },
+    "mysticalability/eblt": {
+      "url": "/thalorna/mysticalability/elemental-bolt/",
+      "name": "Elemental Bolt"
+    },
+    "mysticalability/embrmrk": {
+      "url": "/thalorna/mysticalability/embermark/",
+      "name": "Embermark"
+    },
+    "mysticalability/enchant": {
+      "url": "/thalorna/mysticalability/enchant/",
+      "name": "Enchant"
+    },
+    "mysticalability/enth": {
+      "url": "/thalorna/mysticalability/enthral/",
+      "name": "Enthral"
+    },
+    "mysticalability/eqlbrm": {
+      "url": "/thalorna/mysticalability/equilibrium/",
+      "name": "Equilibrium"
+    },
+    "mysticalability/expose": {
+      "url": "/thalorna/mysticalability/expose/",
+      "name": "Expose"
+    },
+    "mysticalability/extngsh": {
+      "url": "/thalorna/mysticalability/extinguish/",
+      "name": "Extinguish"
+    },
+    "mysticalability/firewall": {
+      "url": "/thalorna/mysticalability/firewall/",
+      "name": "Firewall"
+    },
+    "mysticalability/flame": {
+      "url": "/thalorna/mysticalability/flame/",
+      "name": "Flame"
+    },
+    "mysticalability/flmgrd": {
+      "url": "/thalorna/mysticalability/flameguard/",
+      "name": "Flameguard"
+    },
+    "mysticalability/flow": {
+      "url": "/thalorna/mysticalability/flow/",
+      "name": "Flow"
+    },
+    "mysticalability/focus": {
+      "url": "/thalorna/mysticalability/focus/",
+      "name": "Focus"
+    },
+    "mysticalability/fortress": {
+      "url": "/thalorna/mysticalability/fortress/",
+      "name": "Fortress"
+    },
+    "mysticalability/foster": {
+      "url": "/thalorna/mysticalability/foster/",
+      "name": "Foster"
+    },
+    "mysticalability/foulness": {
+      "url": "/thalorna/mysticalability/foulness/",
+      "name": "Foulness"
+    },
+    "mysticalability/fount": {
+      "url": "/thalorna/mysticalability/fount/",
+      "name": "Fount"
+    },
+    "mysticalability/frgfr": {
+      "url": "/thalorna/mysticalability/forgefire/",
+      "name": "Forgefire"
+    },
+    "mysticalability/fright": {
+      "url": "/thalorna/mysticalability/fright/",
+      "name": "Fright"
+    },
+    "mysticalability/frmcrft": {
+      "url": "/thalorna/mysticalability/formcraft/",
+      "name": "Formcraft"
+    },
+    "mysticalability/frmshft": {
+      "url": "/thalorna/mysticalability/formshift/",
+      "name": "Formshift"
+    },
+    "mysticalability/frstrm": {
+      "url": "/thalorna/mysticalability/firestorm/",
+      "name": "Firestorm"
+    },
+    "mysticalability/gatepath": {
+      "url": "/thalorna/mysticalability/gatepath/",
+      "name": "Gatepath"
+    },
+    "mysticalability/gauntlet": {
+      "url": "/thalorna/mysticalability/gauntlet/",
+      "name": "Gauntlet"
+    },
+    "mysticalability/glide": {
+      "url": "/thalorna/mysticalability/glide/",
+      "name": "Glide"
+    },
+    "mysticalability/glow": {
+      "url": "/thalorna/mysticalability/glow/",
+      "name": "Glow"
+    },
+    "mysticalability/grasp": {
+      "url": "/thalorna/mysticalability/grasp/",
+      "name": "Grasp"
+    },
+    "mysticalability/gust": {
+      "url": "/thalorna/mysticalability/gust/",
+      "name": "Gust"
+    },
+    "mysticalability/halt": {
+      "url": "/thalorna/mysticalability/halt/",
+      "name": "Halt"
+    },
+    "mysticalability/haven": {
+      "url": "/thalorna/mysticalability/haven/",
+      "name": "Haven"
+    },
+    "mysticalability/heal": {
+      "url": "/thalorna/mysticalability/healing/",
+      "name": "Healing"
+    },
+    "mysticalability/healtch": {
+      "url": "/thalorna/mysticalability/healing-touch/",
+      "name": "Healing Touch"
+    },
+    "mysticalability/heat": {
+      "url": "/thalorna/mysticalability/heat/",
+      "name": "Heat"
+    },
+    "mysticalability/hellfire": {
+      "url": "/thalorna/mysticalability/hellfire/",
+      "name": "Hellfire"
+    },
+    "mysticalability/hex": {
+      "url": "/thalorna/mysticalability/hex/",
+      "name": "Hex"
+    },
+    "mysticalability/hndflr": {
+      "url": "/thalorna/mysticalability/handflare/",
+      "name": "Handflare"
+    },
+    "mysticalability/hrmnbld": {
+      "url": "/thalorna/mysticalability/harmonblade/",
+      "name": "Harmonblade"
+    },
+    "mysticalability/hrmnz": {
+      "url": "/thalorna/mysticalability/harmonize/",
+      "name": "Harmonize"
+    },
+    "mysticalability/hrrrscp": {
+      "url": "/thalorna/mysticalability/horrorscape/",
+      "name": "Horrorscape"
+    },
+    "mysticalability/hstnng": {
+      "url": "/thalorna/mysticalability/hastening/",
+      "name": "Hastening"
+    },
+    "mysticalability/htstrk": {
+      "url": "/thalorna/mysticalability/heatstroke/",
+      "name": "Heatstroke"
+    },
+    "mysticalability/icbrdg": {
+      "url": "/thalorna/mysticalability/icebridge/",
+      "name": "Icebridge"
+    },
+    "mysticalability/iceblast": {
+      "url": "/thalorna/mysticalability/iceblast/",
+      "name": "Iceblast"
+    },
+    "mysticalability/iceforge": {
+      "url": "/thalorna/mysticalability/iceforge/",
+      "name": "Iceforge"
+    },
+    "mysticalability/illfrm": {
+      "url": "/thalorna/mysticalability/illusory-form/",
+      "name": "Illusory Form"
+    },
+    "mysticalability/illusion": {
+      "url": "/thalorna/mysticalability/illusion/",
+      "name": "Illusion"
+    },
+    "mysticalability/impact": {
+      "url": "/thalorna/mysticalability/impact/",
+      "name": "Impact"
+    },
+    "mysticalability/inferno": {
+      "url": "/thalorna/mysticalability/inferno/",
+      "name": "Inferno"
+    },
+    "mysticalability/infuse": {
+      "url": "/thalorna/mysticalability/infuse/",
+      "name": "Infuse"
+    },
+    "mysticalability/insight": {
+      "url": "/thalorna/mysticalability/insight/",
+      "name": "Insight"
+    },
+    "mysticalability/inspire": {
+      "url": "/thalorna/mysticalability/inspire/",
+      "name": "Inspire"
+    },
+    "mysticalability/intrrpt": {
+      "url": "/thalorna/mysticalability/interrupt/",
+      "name": "Interrupt"
+    },
+    "mysticalability/invctn": {
+      "url": "/thalorna/mysticalability/invocation/",
+      "name": "Invocation"
+    },
+    "mysticalability/invstmnt": {
+      "url": "/thalorna/mysticalability/investment/",
+      "name": "Investment"
+    },
+    "mysticalability/ironbind": {
+      "url": "/thalorna/mysticalability/ironbind/",
+      "name": "Ironbind"
+    },
+    "mysticalability/lfsprk": {
+      "url": "/thalorna/mysticalability/lifespark/",
+      "name": "Lifespark"
+    },
+    "mysticalability/lghtbnd": {
+      "url": "/thalorna/mysticalability/lightbend/",
+      "name": "Lightbend"
+    },
+    "mysticalability/lghtspr": {
+      "url": "/thalorna/mysticalability/lightspire/",
+      "name": "Lightspire"
+    },
+    "mysticalability/lghtstrk": {
+      "url": "/thalorna/mysticalability/lightstrike/",
+      "name": "Lightstrike"
+    },
+    "mysticalability/linkbind": {
+      "url": "/thalorna/mysticalability/linkbind/",
+      "name": "Linkbind"
+    },
+    "mysticalability/loyalty": {
+      "url": "/thalorna/mysticalability/loyalty/",
+      "name": "Loyalty"
+    },
+    "mysticalability/manifest": {
+      "url": "/thalorna/mysticalability/manifest/",
+      "name": "Manifest"
+    },
+    "mysticalability/mask": {
+      "url": "/thalorna/mysticalability/mask/",
+      "name": "Mask"
+    },
+    "mysticalability/medm": {
+      "url": "/thalorna/mysticalability/medium/",
+      "name": "Medium"
+    },
+    "mysticalability/mend": {
+      "url": "/thalorna/mysticalability/mend/",
+      "name": "Mend"
+    },
+    "mysticalability/message": {
+      "url": "/thalorna/mysticalability/message/",
+      "name": "Message"
+    },
+    "mysticalability/might": {
+      "url": "/thalorna/mysticalability/might/",
+      "name": "Might"
+    },
+    "mysticalability/mistveil": {
+      "url": "/thalorna/mysticalability/mistveil/",
+      "name": "Mistveil"
+    },
+    "mysticalability/mmrybnd": {
+      "url": "/thalorna/mysticalability/memorybind/",
+      "name": "Memorybind"
+    },
+    "mysticalability/mndflr": {
+      "url": "/thalorna/mysticalability/mindflare/",
+      "name": "Mindflare"
+    },
+    "mysticalability/monitor": {
+      "url": "/thalorna/mysticalability/monitor/",
+      "name": "Monitor"
+    },
+    "mysticalability/morph": {
+      "url": "/thalorna/mysticalability/morph/",
+      "name": "Morph"
+    },
+    "mysticalability/mstclk": {
+      "url": "/thalorna/mysticalability/mistcloak/",
+      "name": "Mistcloak"
+    },
+    "mysticalability/mstrpll": {
+      "url": "/thalorna/mysticalability/moisturepull/",
+      "name": "Moisturepull"
+    },
+    "mysticalability/murmur": {
+      "url": "/thalorna/mysticalability/murmur/",
+      "name": "Murmur"
+    },
+    "mysticalability/mystclk": {
+      "url": "/thalorna/mysticalability/mystic-cloak/",
+      "name": "Mystic Cloak"
+    },
+    "mysticalability/mystery": {
+      "url": "/thalorna/mysticalability/mystery/",
+      "name": "Mystery"
+    },
+    "mysticalability/natn": {
+      "url": "/thalorna/mysticalability/natural-attunement/",
+      "name": "Natural Attunement"
+    },
+    "mysticalability/negx": {
+      "url": "/thalorna/mysticalability/negation/",
+      "name": "Negation"
+    },
+    "mysticalability/nourish": {
+      "url": "/thalorna/mysticalability/nourish/",
+      "name": "Nourish"
+    },
+    "mysticalability/nullify": {
+      "url": "/thalorna/mysticalability/nullify/",
+      "name": "Nullify"
+    },
+    "mysticalability/nxfum": {
+      "url": "/thalorna/mysticalability/noxious-fume/",
+      "name": "Noxious Fume"
+    },
+    "mysticalability/orb": {
+      "url": "/thalorna/mysticalability/orb/",
+      "name": "Orb"
+    },
+    "mysticalability/overview": {
+      "url": "/thalorna/mysticalability/overview/",
+      "name": "Overview"
+    },
+    "mysticalability/parch": {
+      "url": "/thalorna/mysticalability/parch/",
+      "name": "Parch"
+    },
+    "mysticalability/passion": {
+      "url": "/thalorna/mysticalability/passion/",
+      "name": "Passion"
+    },
+    "mysticalability/pchsoul": {
+      "url": "/thalorna/mysticalability/parched-soul/",
+      "name": "Parched Soul"
+    },
+    "mysticalability/peace": {
+      "url": "/thalorna/mysticalability/peace/",
+      "name": "Peace"
+    },
+    "mysticalability/phyc": {
+      "url": "/thalorna/mysticalability/psychometry/",
+      "name": "Psychometry"
+    },
+    "mysticalability/pierce": {
+      "url": "/thalorna/mysticalability/pierce/",
+      "name": "Pierce"
+    },
+    "mysticalability/pltskn": {
+      "url": "/thalorna/mysticalability/plateskin/",
+      "name": "Plateskin"
+    },
+    "mysticalability/pool": {
+      "url": "/thalorna/mysticalability/pool/",
+      "name": "Pool"
+    },
+    "mysticalability/portal": {
+      "url": "/thalorna/mysticalability/portal/",
+      "name": "Portal"
+    },
+    "mysticalability/prcptn": {
+      "url": "/thalorna/mysticalability/perception/",
+      "name": "Perception"
+    },
+    "mysticalability/probe": {
+      "url": "/thalorna/mysticalability/probe/",
+      "name": "Probe"
+    },
+    "mysticalability/prtctr": {
+      "url": "/thalorna/mysticalability/protector/",
+      "name": "Protector"
+    },
+    "mysticalability/psnc": {
+      "url": "/thalorna/mysticalability/prescience/",
+      "name": "Prescience"
+    },
+    "mysticalability/pthfrg": {
+      "url": "/thalorna/mysticalability/pathforge/",
+      "name": "Pathforge"
+    },
+    "mysticalability/ptncrft": {
+      "url": "/thalorna/mysticalability/potioncraft/",
+      "name": "Potioncraft"
+    },
+    "mysticalability/pull": {
+      "url": "/thalorna/mysticalability/pull/",
+      "name": "Pull"
+    },
+    "mysticalability/purity": {
+      "url": "/thalorna/mysticalability/purity/",
+      "name": "Purity"
+    },
+    "mysticalability/pushback": {
+      "url": "/thalorna/mysticalability/pushback/",
+      "name": "Pushback"
+    },
+    "mysticalability/pwrfnt": {
+      "url": "/thalorna/mysticalability/powerfont/",
+      "name": "Powerfont"
+    },
+    "mysticalability/quake": {
+      "url": "/thalorna/mysticalability/quake/",
+      "name": "Quake"
+    },
+    "mysticalability/ravenous": {
+      "url": "/thalorna/mysticalability/ravenous/",
+      "name": "Ravenous"
+    },
+    "mysticalability/relief": {
+      "url": "/thalorna/mysticalability/relief/",
+      "name": "Relief"
+    },
+    "mysticalability/renew": {
+      "url": "/thalorna/mysticalability/renew/",
+      "name": "Renew"
+    },
+    "mysticalability/renewal": {
+      "url": "/thalorna/mysticalability/renewal/",
+      "name": "Renewal"
+    },
+    "mysticalability/repair": {
+      "url": "/thalorna/mysticalability/repair/",
+      "name": "Repair"
+    },
+    "mysticalability/rest": {
+      "url": "/thalorna/mysticalability/rest/",
+      "name": "Rest"
+    },
+    "mysticalability/resurge": {
+      "url": "/thalorna/mysticalability/resurge/",
+      "name": "Resurge"
+    },
+    "mysticalability/reveal": {
+      "url": "/thalorna/mysticalability/reveal/",
+      "name": "Reveal"
+    },
+    "mysticalability/rflctr": {
+      "url": "/thalorna/mysticalability/reflector/",
+      "name": "Reflector"
+    },
+    "mysticalability/rsngcrnt": {
+      "url": "/thalorna/mysticalability/rising-current/",
+      "name": "Rising Current"
+    },
+    "mysticalability/rsnnc": {
+      "url": "/thalorna/mysticalability/resonance/",
+      "name": "Resonance"
+    },
+    "mysticalability/rvltch": {
+      "url": "/thalorna/mysticalability/revealing-touch/",
+      "name": "Revealing Touch"
+    },
+    "mysticalability/sage": {
+      "url": "/thalorna/mysticalability/sage/",
+      "name": "Sage"
+    },
+    "mysticalability/sanctum": {
+      "url": "/thalorna/mysticalability/sanctum/",
+      "name": "Sanctum"
+    },
+    "mysticalability/sapmind": {
+      "url": "/thalorna/mysticalability/sapmind/",
+      "name": "Sapmind"
+    },
+    "mysticalability/scan": {
+      "url": "/thalorna/mysticalability/scan/",
+      "name": "Scan"
+    },
+    "mysticalability/scribe": {
+      "url": "/thalorna/mysticalability/scribe/",
+      "name": "Scribe"
+    },
+    "mysticalability/seek": {
+      "url": "/thalorna/mysticalability/seek/",
+      "name": "Seek"
+    },
+    "mysticalability/seeker": {
+      "url": "/thalorna/mysticalability/seeker/",
+      "name": "Seeker"
+    },
+    "mysticalability/sense": {
+      "url": "/thalorna/mysticalability/sense/",
+      "name": "Sense"
+    },
+    "mysticalability/sentinel": {
+      "url": "/thalorna/mysticalability/sentinel/",
+      "name": "Sentinel"
+    },
+    "mysticalability/shaper": {
+      "url": "/thalorna/mysticalability/shaper/",
+      "name": "Shaper"
+    },
+    "mysticalability/sharpen": {
+      "url": "/thalorna/mysticalability/sharpen/",
+      "name": "Sharpen"
+    },
+    "mysticalability/shdwbnd": {
+      "url": "/thalorna/mysticalability/shadowbind/",
+      "name": "Shadowbind"
+    },
+    "mysticalability/shdwscrn": {
+      "url": "/thalorna/mysticalability/shadowscreen/",
+      "name": "Shadowscreen"
+    },
+    "mysticalability/shdwvl": {
+      "url": "/thalorna/mysticalability/shadowveil/",
+      "name": "Shadowveil"
+    },
+    "mysticalability/shftfrm": {
+      "url": "/thalorna/mysticalability/shiftform/",
+      "name": "Shiftform"
+    },
+    "mysticalability/shift": {
+      "url": "/thalorna/mysticalability/shift/",
+      "name": "Shift"
+    },
+    "mysticalability/shldskn": {
+      "url": "/thalorna/mysticalability/shieldskin/",
+      "name": "Shieldskin"
+    },
+    "mysticalability/shttrmnd": {
+      "url": "/thalorna/mysticalability/shattermind/",
+      "name": "Shattermind"
+    },
+    "mysticalability/silence": {
+      "url": "/thalorna/mysticalability/silence/",
+      "name": "Silence"
+    },
+    "mysticalability/slncbnd": {
+      "url": "/thalorna/mysticalability/silencebind/",
+      "name": "Silencebind"
+    },
+    "mysticalability/smash": {
+      "url": "/thalorna/mysticalability/smash/",
+      "name": "Smash"
+    },
+    "mysticalability/smlcrm": {
+      "url": "/thalorna/mysticalability/simulacrum/",
+      "name": "Simulacrum"
+    },
+    "mysticalability/smthflam": {
+      "url": "/thalorna/mysticalability/smiths-flame/",
+      "name": "Smith’s Flame"
+    },
+    "mysticalability/sndwv": {
+      "url": "/thalorna/mysticalability/soundwave/",
+      "name": "Soundwave"
+    },
+    "mysticalability/snst": {
+      "url": "/thalorna/mysticalability/sensitivity/",
+      "name": "Sensitivity"
+    },
+    "mysticalability/sntnc": {
+      "url": "/thalorna/mysticalability/sentience/",
+      "name": "Sentience"
+    },
+    "mysticalability/sparkle": {
+      "url": "/thalorna/mysticalability/sparkle/",
+      "name": "Sparkle"
+    },
+    "mysticalability/sprkshw": {
+      "url": "/thalorna/mysticalability/sparkshow/",
+      "name": "Sparkshow"
+    },
+    "mysticalability/sprtgrd": {
+      "url": "/thalorna/mysticalability/spiritguard/",
+      "name": "Spiritguard"
+    },
+    "mysticalability/srfcgld": {
+      "url": "/thalorna/mysticalability/surfaceglide/",
+      "name": "Surfaceglide"
+    },
+    "mysticalability/srgblz": {
+      "url": "/thalorna/mysticalability/searing-blaze/",
+      "name": "Searing Blaze"
+    },
+    "mysticalability/stlfrg": {
+      "url": "/thalorna/mysticalability/steelforge/",
+      "name": "Steelforge"
+    },
+    "mysticalability/stllnss": {
+      "url": "/thalorna/mysticalability/stillness/",
+      "name": "Stillness"
+    },
+    "mysticalability/stnbnd": {
+      "url": "/thalorna/mysticalability/stonebind/",
+      "name": "Stonebind"
+    },
+    "mysticalability/strike": {
+      "url": "/thalorna/mysticalability/strike/",
+      "name": "Strike"
+    },
+    "mysticalability/strkfr": {
+      "url": "/thalorna/mysticalability/streakfire/",
+      "name": "Streakfire"
+    },
+    "mysticalability/strmflw": {
+      "url": "/thalorna/mysticalability/streamflow/",
+      "name": "Streamflow"
+    },
+    "mysticalability/surge": {
+      "url": "/thalorna/mysticalability/surge/",
+      "name": "Surge"
+    },
+    "mysticalability/sustain": {
+      "url": "/thalorna/mysticalability/sustain/",
+      "name": "Sustain"
+    },
+    "mysticalability/tangle": {
+      "url": "/thalorna/mysticalability/tangle/",
+      "name": "Tangle"
+    },
+    "mysticalability/tap": {
+      "url": "/thalorna/mysticalability/tap/",
+      "name": "Tap"
+    },
+    "mysticalability/telek": {
+      "url": "/thalorna/mysticalability/telekinesis/",
+      "name": "Telekinesis"
+    },
+    "mysticalability/telp": {
+      "url": "/thalorna/mysticalability/telepathy/",
+      "name": "Telepathy"
+    },
+    "mysticalability/thrall": {
+      "url": "/thalorna/mysticalability/thrall/",
+      "name": "Thrall"
+    },
+    "mysticalability/thrive": {
+      "url": "/thalorna/mysticalability/thrive/",
+      "name": "Thrive"
+    },
+    "mysticalability/thrmcptn": {
+      "url": "/thalorna/mysticalability/thermoception/",
+      "name": "Thermoception"
+    },
+    "mysticalability/touch": {
+      "url": "/thalorna/mysticalability/touch/",
+      "name": "Touch"
+    },
+    "mysticalability/trnqlty": {
+      "url": "/thalorna/mysticalability/tranquility/",
+      "name": "Tranquility"
+    },
+    "mysticalability/trnsf": {
+      "url": "/thalorna/mysticalability/transference/",
+      "name": "Transference"
+    },
+    "mysticalability/trthflr": {
+      "url": "/thalorna/mysticalability/truthflare/",
+      "name": "Truthflare"
+    },
+    "mysticalability/undo": {
+      "url": "/thalorna/mysticalability/undo/",
+      "name": "Undo"
+    },
+    "mysticalability/unite": {
+      "url": "/thalorna/mysticalability/unite/",
+      "name": "Unite"
+    },
+    "mysticalability/unlock": {
+      "url": "/thalorna/mysticalability/unlock/",
+      "name": "Unlock"
+    },
+    "mysticalability/veil": {
+      "url": "/thalorna/mysticalability/veil/",
+      "name": "Veil"
+    },
+    "mysticalability/vision": {
+      "url": "/thalorna/mysticalability/vision/",
+      "name": "Vision"
+    },
+    "mysticalability/vsnm": {
+      "url": "/thalorna/mysticalability/visnomy/",
+      "name": "Visnomy"
+    },
+    "mysticalability/whrlpl": {
+      "url": "/thalorna/mysticalability/whirlpool/",
+      "name": "Whirlpool"
+    },
+    "mysticalability/whsprwll": {
+      "url": "/thalorna/mysticalability/whisperwill/",
+      "name": "Whisperwill"
+    },
+    "mysticalability/willbind": {
+      "url": "/thalorna/mysticalability/willbind/",
+      "name": "Willbind"
+    },
+    "mysticalability/wither": {
+      "url": "/thalorna/mysticalability/wither/",
+      "name": "Wither"
+    },
+    "mysticalability/wllfflm": {
+      "url": "/thalorna/mysticalability/wall-of-flame/",
+      "name": "Wall of Flame"
+    },
+    "mysticalability/wtrbrth": {
+      "url": "/thalorna/mysticalability/waterbreath/",
+      "name": "Waterbreath"
+    },
+    "mysticalability/wtrsrch": {
+      "url": "/thalorna/mysticalability/watersearch/",
+      "name": "Watersearch"
+    },
+    "mysticalability/xmut": {
+      "url": "/thalorna/mysticalability/transmutation/",
+      "name": "Transmutation"
+    },
+    "mysticalability/xtratemp": {
+      "url": "/thalorna/mysticalability/extratemporality/",
+      "name": "Extratemporality"
+    },
+    "skill/aelendlngg": {
+      "url": "/thalorna/skill/aelendi-language/",
+      "name": "Áelendi Language"
+    },
+    "skill/aetheria": {
+      "url": "/thalorna/skill/ritual-aetheria/",
+      "name": "Ritual: Æthería"
+    },
+    "skill/agnipantha": {
+      "url": "/thalorna/skill/ritual-agni-pantha/",
+      "name": "Ritual: Agnī-panthā"
+    },
+    "skill/ahurdaen": {
+      "url": "/thalorna/skill/ritual-ahurdaen/",
+      "name": "Ritual: Āhúrdáén"
+    },
+    "skill/angaros": {
+      "url": "/thalorna/skill/ritual-angaros/",
+      "name": "Ritual: Ángáróš"
+    },
+    "skill/anubis": {
+      "url": "/thalorna/skill/ritual-anubis/",
+      "name": "Ritual: Ánubís"
+    },
+    "skill/apophis": {
+      "url": "/thalorna/skill/ritual-apophis/",
+      "name": "Ritual: Ápōphis"
+    },
+    "skill/aravesta": {
+      "url": "/thalorna/skill/ritual-aravesta/",
+      "name": "Ritual: Árávēštä"
+    },
+    "skill/ataros": {
+      "url": "/thalorna/skill/ritual-ataros/",
+      "name": "Ritual: Ātáröš"
+    },
+    "skill/azravan": {
+      "url": "/thalorna/skill/ritual-azravan/",
+      "name": "Ritual: Ázráván"
+    },
+    "skill/bahramis": {
+      "url": "/thalorna/skill/ritual-bahramis/",
+      "name": "Ritual: Báhrámiš"
+    },
+    "skill/baldr": {
+      "url": "/thalorna/skill/ritual-baldr/",
+      "name": "Ritual: Baldr"
+    },
+    "skill/bes": {
+      "url": "/thalorna/skill/ritual-bes/",
+      "name": "Ritual: Bēs"
+    },
+    "skill/blackflame": {
+      "url": "/thalorna/skill/ritual-the-black-flame/",
+      "name": "Ritual: The Black Flame"
+    },
+    "skill/daktrvrtht": {
+      "url": "/thalorna/skill/ritual-daktur-vorthat/",
+      "name": "Ritual: Dāktūr Vōrthāt"
+    },
+    "skill/dokyok": {
+      "url": "/thalorna/skill/ritual-dokyok/",
+      "name": "Ritual: Dōkyök"
+    },
+    "skill/florania": {
+      "url": "/thalorna/skill/ritual-florania/",
+      "name": "Ritual: Flórania"
+    },
+    "skill/freyja": {
+      "url": "/thalorna/skill/ritual-freyja/",
+      "name": "Ritual: Fréyja"
+    },
+    "skill/freyr": {
+      "url": "/thalorna/skill/ritual-freyr/",
+      "name": "Ritual: Fréyr"
+    },
+    "skill/hapi": {
+      "url": "/thalorna/skill/ritual-hapi/",
+      "name": "Ritual: Hâpi"
+    },
+    "skill/hel": {
+      "url": "/thalorna/skill/ritual-hel/",
+      "name": "Ritual: Hél"
+    },
+    "skill/horus": {
+      "url": "/thalorna/skill/ritual-horus/",
+      "name": "Ritual: Hórús"
+    },
+    "skill/hurnzhuk": {
+      "url": "/thalorna/skill/ritual-hurnzhuk/",
+      "name": "Ritual: Hürnzhük"
+    },
+    "skill/hydalis": {
+      "url": "/thalorna/skill/incantus-hydalis/",
+      "name": "Incantus Hydälis"
+    },
+    "skill/iset": {
+      "url": "/thalorna/skill/ritual-iset/",
+      "name": "Ritual: Íšét"
+    },
+    "skill/janus": {
+      "url": "/thalorna/skill/ritual-janus/",
+      "name": "Ritual: Janus"
+    },
+    "skill/jnanasura": {
+      "url": "/thalorna/skill/ritual-jnanasura/",
+      "name": "Ritual: Jñānasūra"
+    },
+    "skill/kalavrata": {
+      "url": "/thalorna/skill/ritual-kalavrata/",
+      "name": "Ritual: Kālavrata"
+    },
+    "skill/kamavrata": {
+      "url": "/thalorna/skill/ritual-kamavrata/",
+      "name": "Ritual: Kāmavrata"
+    },
+    "skill/karnavos": {
+      "url": "/thalorna/skill/ritual-karnavos/",
+      "name": "Ritual: Karnavos"
+    },
+    "skill/kentra": {
+      "url": "/thalorna/skill/incantus-kentra/",
+      "name": "Incantus Kentra"
+    },
+    "skill/korsadra": {
+      "url": "/thalorna/skill/ritual-khorsadra/",
+      "name": "Ritual: Khóršádrä"
+    },
+    "skill/langael": {
+      "url": "/thalorna/skill/aelendi/",
+      "name": "Áelendi"
+    },
+    "skill/langbet": {
+      "url": "/thalorna/skill/bethuan/",
+      "name": "Bethuan"
+    },
+    "skill/langbyz": {
+      "url": "/thalorna/skill/byzarian/",
+      "name": "Byzarian"
+    },
+    "skill/langdun": {
+      "url": "/thalorna/skill/dunhari/",
+      "name": "Dunhari"
+    },
+    "skill/langela": {
+      "url": "/thalorna/skill/elavendri/",
+      "name": "Élavendri"
+    },
+    "skill/langgru": {
+      "url": "/thalorna/skill/grukar/",
+      "name": "Grukar"
+    },
+    "skill/langhar": {
+      "url": "/thalorna/skill/haradi/",
+      "name": "Haradi"
+    },
+    "skill/langhel": {
+      "url": "/thalorna/skill/helonic/",
+      "name": "Helonic"
+    },
+    "skill/langkal": {
+      "url": "/thalorna/skill/kalihari/",
+      "name": "Kalihári"
+    },
+    "skill/langkha": {
+      "url": "/thalorna/skill/khazari/",
+      "name": "Khazári"
+    },
+    "skill/langkhe": {
+      "url": "/thalorna/skill/kheperi/",
+      "name": "Kheperi"
+    },
+    "skill/langkii": {
+      "url": "/thalorna/skill/kiichek/",
+      "name": "Ki'ichek"
+    },
+    "skill/langnor": {
+      "url": "/thalorna/skill/nordmal/",
+      "name": "Nordmal"
+    },
+    "skill/langnya": {
+      "url": "/thalorna/skill/nyaluban/",
+      "name": "Nyáluban"
+    },
+    "skill/langokh": {
+      "url": "/thalorna/skill/okharic/",
+      "name": "Okháric"
+    },
+    "skill/langpro": {
+      "url": "/thalorna/skill/provenzal/",
+      "name": "Provenzal"
+    },
+    "skill/langsin": {
+      "url": "/thalorna/skill/sinale/",
+      "name": "Sinalë"
+    },
+    "skill/langtan": {
+      "url": "/thalorna/skill/tanvuri/",
+      "name": "Tānvüri"
+    },
+    "skill/langtar": {
+      "url": "/thalorna/skill/tarveni/",
+      "name": "Tarvéni"
+    },
+    "skill/langval": {
+      "url": "/thalorna/skill/valtari/",
+      "name": "Valtári"
+    },
+    "skill/langvar": {
+      "url": "/thalorna/skill/varokhi/",
+      "name": "Varokhi"
+    },
+    "skill/langved": {
+      "url": "/thalorna/skill/vedyari/",
+      "name": "Vedyari"
+    },
+    "skill/langvyl": {
+      "url": "/thalorna/skill/vylari/",
+      "name": "Vylari"
+    },
+    "skill/loki": {
+      "url": "/thalorna/skill/ritual-loki/",
+      "name": "Ritual: Lôki"
+    },
+    "skill/lusinia": {
+      "url": "/thalorna/skill/ritual-lusinia/",
+      "name": "Ritual: Lusinia"
+    },
+    "skill/maat": {
+      "url": "/thalorna/skill/ritual-maat/",
+      "name": "Ritual: Má'át"
+    },
+    "skill/mahajaya": {
+      "url": "/thalorna/skill/ritual-mahajaya/",
+      "name": "Ritual: Mahájaya"
+    },
+    "skill/meghanatha": {
+      "url": "/thalorna/skill/ritual-meghanatha/",
+      "name": "Ritual: Meghanātha"
+    },
+    "skill/menerva": {
+      "url": "/thalorna/skill/ritual-menerva/",
+      "name": "Ritual: Menerva"
+    },
+    "skill/mithara": {
+      "url": "/thalorna/skill/ritual-mithara/",
+      "name": "Ritual: Míthárä"
+    },
+    "skill/morvahna": {
+      "url": "/thalorna/skill/ritual-morvahna/",
+      "name": "Ritual: Mórváhñä"
+    },
+    "skill/morvana": {
+      "url": "/thalorna/skill/ritual-morvana/",
+      "name": "Ritual: Morvana"
+    },
+    "skill/murkir": {
+      "url": "/thalorna/skill/ritual-murkir/",
+      "name": "Ritual: Murkir"
+    },
+    "skill/nkaruthar": {
+      "url": "/thalorna/skill/ritual-nkaruthar/",
+      "name": "Ritual: Nkaru'thar"
+    },
+    "skill/nushot": {
+      "url": "/thalorna/skill/ritual-nushot/",
+      "name": "Ritual: Nüshöt"
+    },
+    "skill/odinn": {
+      "url": "/thalorna/skill/ritual-odinn/",
+      "name": "Ritual: Óðinn"
+    },
+    "skill/pavanajitras": {
+      "url": "/thalorna/skill/ritual-pavanajitras/",
+      "name": "Ritual: Pavanajitras"
+    },
+    "skill/physera": {
+      "url": "/thalorna/skill/incantus-physera/",
+      "name": "Incantus Physéra"
+    },
+    "skill/pneumenos": {
+      "url": "/thalorna/skill/incantus-pneumenos/",
+      "name": "Incantus Pneuménos"
+    },
+    "skill/ptah": {
+      "url": "/thalorna/skill/ritual-ptah/",
+      "name": "Ritual: Ptā'h"
+    },
+    "skill/pyrethos": {
+      "url": "/thalorna/skill/incantus-pyrethos/",
+      "name": "Incantus Pyréthos"
+    },
+    "skill/ra": {
+      "url": "/thalorna/skill/ritual-ra/",
+      "name": "Ritual: Rā"
+    },
+    "skill/rasikara": {
+      "url": "/thalorna/skill/ritual-rasikara/",
+      "name": "Ritual: Rásikara"
+    },
+    "skill/rekgung": {
+      "url": "/thalorna/skill/ritual-rekgung/",
+      "name": "Ritual: Rëkgüng"
+    },
+    "skill/rothtdkvng": {
+      "url": "/thalorna/skill/ritual-rothot-dakveng/",
+      "name": "Ritual: Röthöt Dākvëng"
+    },
+    "skill/sacredforge": {
+      "url": "/thalorna/skill/ritual-the-sacred-forge/",
+      "name": "Ritual: The Sacred Forge"
+    },
+    "skill/seker": {
+      "url": "/thalorna/skill/ritual-seker/",
+      "name": "Ritual: Sēker"
+    },
+    "skill/set": {
+      "url": "/thalorna/skill/ritual-set/",
+      "name": "Ritual: Sét"
+    },
+    "skill/sideros": {
+      "url": "/thalorna/skill/incantus-sideros/",
+      "name": "Incantus Sidéros"
+    },
+    "skill/sirvadar": {
+      "url": "/thalorna/skill/ritual-sirvadar/",
+      "name": "Ritual: Šírvádár"
+    },
+    "skill/surtr": {
+      "url": "/thalorna/skill/ritual-surtr/",
+      "name": "Ritual: Súrtr"
+    },
+    "skill/svapnasarisamaja": {
+      "url": "/thalorna/skill/ritual-svapnasari-samaja/",
+      "name": "Ritual: Svapnasāri-samāja"
+    },
+    "skill/tanlung": {
+      "url": "/thalorna/skill/ritual-tanlung/",
+      "name": "Ritual: Tānlüng"
+    },
+    "skill/taranon": {
+      "url": "/thalorna/skill/ritual-taranon/",
+      "name": "Ritual: Taranon"
+    },
+    "skill/thanatos": {
+      "url": "/thalorna/skill/ritual-thanatos/",
+      "name": "Ritual: Thanatos"
+    },
+    "skill/tharivaan": {
+      "url": "/thalorna/skill/ritual-tharivaan/",
+      "name": "Ritual: Thári'vaan"
+    },
+    "skill/theoldway": {
+      "url": "/thalorna/skill/ritual-the-old-way/",
+      "name": "Ritual: The Old Way"
+    },
+    "skill/thorr": {
+      "url": "/thalorna/skill/ritual-thorr/",
+      "name": "Ritual: Thórr"
+    },
+    "skill/thoth": {
+      "url": "/thalorna/skill/ritual-thoth/",
+      "name": "Ritual: Thōth"
+    },
+    "skill/trimurtisampradaya": {
+      "url": "/thalorna/skill/ritual-trimurti-sampradaya/",
+      "name": "Ritual: Trimūrti-sampradāya"
+    },
+    "skill/tyr": {
+      "url": "/thalorna/skill/ritual-tyr/",
+      "name": "Ritual: Týr"
+    },
+    "skill/veizhuk": {
+      "url": "/thalorna/skill/ritual-veizhuk/",
+      "name": "Ritual: Vëizhük"
+    },
+    "skill/vekthor": {
+      "url": "/thalorna/skill/ritual-vekthor/",
+      "name": "Ritual: Vëkthōr"
+    },
+    "skill/venusia": {
+      "url": "/thalorna/skill/ritual-venusia/",
+      "name": "Ritual: Venusia"
+    },
+    "skill/vngdkzhtvr": {
+      "url": "/thalorna/skill/ritual-vengdak-zhutvor/",
+      "name": "Ritual: Vëngdāk Zhütvōr"
+    },
+    "skill/vorjikjek": {
+      "url": "/thalorna/skill/ritual-vorjik-jek/",
+      "name": "Ritual: Vōrjīk Jëk"
+    },
+    "skill/vyahrati": {
+      "url": "/thalorna/skill/ritual-vyahrati/",
+      "name": "Ritual: Vyāhrati"
+    },
+    "skill/vyalendra": {
+      "url": "/thalorna/skill/ritual-vyalendra/",
+      "name": "Ritual: Vyālendra"
+    },
+    "skill/vyalendravada": {
+      "url": "/thalorna/skill/ritual-vyalendravada/",
+      "name": "Ritual: Vyālendravāda"
+    },
+    "skill/ymir": {
+      "url": "/thalorna/skill/ritual-ymir/",
+      "name": "Ritual: Ymir"
+    },
+    "skill/yokzhuk": {
+      "url": "/thalorna/skill/ritual-yokzhuk/",
+      "name": "Ritual: Yökzhük"
+    },
+    "skill/yutvei": {
+      "url": "/thalorna/skill/ritual-yutvei/",
+      "name": "Ritual: Yütvëi"
+    },
+    "skill/zarvanya": {
+      "url": "/thalorna/skill/ritual-zarvanya/",
+      "name": "Ritual: Zárványä"
+    },
+    "skill/zepharis": {
+      "url": "/thalorna/skill/incantus-zepharis/",
+      "name": "Incantus Zephäris"
+    },
+    "skill/zhaksok": {
+      "url": "/thalorna/skill/ritual-zhaksok/",
+      "name": "Ritual: Zhāksōk"
+    },
+    "skill/zhutshtlng": {
+      "url": "/thalorna/skill/ritual-zhutshut-lung/",
+      "name": "Ritual: Zhütshüt Lüng"
+    },
+    "skill/zurathra": {
+      "url": "/thalorna/skill/ritual-zurathra/",
+      "name": "Ritual: Zúráthrä"
+    },
+    "weapongear/bghnkh": {
+      "url": "/thalorna/weapongear/bagh-nakh/",
+      "name": "Bagh Nakh"
+    },
+    "weapongear/bgun": {
+      "url": "/thalorna/weapongear/blowgun/",
+      "name": "Blowgun"
+    },
+    "weapongear/biao": {
+      "url": "/thalorna/weapongear/meteor-dart/",
+      "name": "Meteor Dart"
+    },
+    "weapongear/bmrg": {
+      "url": "/thalorna/weapongear/boomerang/",
+      "name": "Boomerang"
+    },
+    "weapongear/bola": {
+      "url": "/thalorna/weapongear/bolas/",
+      "name": "Bolas"
+    },
+    "weapongear/chak": {
+      "url": "/thalorna/weapongear/chakram/",
+      "name": "Chakram"
+    },
+    "weapongear/dao": {
+      "url": "/thalorna/weapongear/dao/",
+      "name": "Dao"
+    },
+    "weapongear/dhal": {
+      "url": "/thalorna/weapongear/dhal/",
+      "name": "Dhal"
+    },
+    "weapongear/gada": {
+      "url": "/thalorna/weapongear/gada/",
+      "name": "Gada"
+    },
+    "weapongear/gundao": {
+      "url": "/thalorna/weapongear/green-dragon-crescent-blade/",
+      "name": "Green Dragon Crescent Blade"
+    },
+    "weapongear/jian": {
+      "url": "/thalorna/weapongear/jian/",
+      "name": "Jian"
+    },
+    "weapongear/katr": {
+      "url": "/thalorna/weapongear/katar/",
+      "name": "Katar"
+    },
+    "weapongear/kel": {
+      "url": "/thalorna/weapongear/bodkin/",
+      "name": "Bodkin"
+    },
+    "weapongear/kiliji": {
+      "url": "/thalorna/weapongear/kiliji/",
+      "name": "Kiliji"
+    },
+    "weapongear/kncldstr": {
+      "url": "/thalorna/weapongear/knuckledusters/",
+      "name": "Knuckledusters"
+    },
+    "weapongear/knda": {
+      "url": "/thalorna/weapongear/khanda/",
+      "name": "Khanda"
+    },
+    "weapongear/ktna": {
+      "url": "/thalorna/weapongear/katana/",
+      "name": "Katana"
+    },
+    "weapongear/mtrhmr": {
+      "url": "/thalorna/weapongear/meteor-hammer/",
+      "name": "Meteor Hammer"
+    },
+    "weapongear/pata": {
+      "url": "/thalorna/weapongear/pata/",
+      "name": "Pata"
+    },
+    "weapongear/qing": {
+      "url": "/thalorna/weapongear/qiang/",
+      "name": "Qiang"
+    },
+    "weapongear/shmshr": {
+      "url": "/thalorna/weapongear/shamshir/",
+      "name": "Shamshir"
+    },
+    "weapongear/tlwr": {
+      "url": "/thalorna/weapongear/talwar/",
+      "name": "Talwar"
+    },
+    "weapongear/trsha": {
+      "url": "/thalorna/weapongear/trishula/",
+      "name": "Trishula"
+    },
+    "weapongear/urumi": {
+      "url": "/thalorna/weapongear/urumi/",
+      "name": "Urumi"
+    },
+    "weapongear/waki": {
+      "url": "/thalorna/weapongear/wakizashi/",
+      "name": "Wakizashi"
+    }
+  }
+}

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-jewl
+  - skill-jewl
 tags: []
 name:
-    full: Jewelcraft
-    aliases: []
+  full: Jewelcraft
+  aliases: []
 description: "Gem-cutting, goldsmithing, creating fine ornamental metalwork and jewelry."
 id: 8CHbTSbJ1aOVyqx7
 img: icons/game-icons/lorc/gems.svg
@@ -12,19 +12,19 @@ shortcode: jewl
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.per, attr.dex)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.per, attr.dex)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -32,9 +32,7 @@ Jewelcraft is gem-cutting, goldsmithing and silversmithing, and the fine metalwo
 
 # Crafting {#crafting}
 
-A piece is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. What follows is what is
-particular to the jeweller's bench.
+A piece is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the jeweller's bench.
 
 **Expense.** A finished piece usually weighs around **2d6 ounces**, up to triple that for something substantial and half for a ring or a pair of earrings. Time varies enormously with ambition; **3d6 days** is typical.
 

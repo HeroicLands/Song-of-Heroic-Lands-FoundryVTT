@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Brandy, Pint"
-    - miscgear-brdypt
+  - "Brandy, Pint"
+  - miscgear-brdypt
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Brandy, Pint"
-    aliases: []
+  full: "Brandy, Pint"
+  aliases: []
 description: "Clear fiery bottle; noble digestif or soldier's wound-cleaner; costs a laborer's wages."
 id: cpM7iPolsvGG5BnN
 img: icons/game-icons/lorc/brandy-bottle.svg
@@ -14,15 +14,15 @@ shortcode: brdypt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 5
-    weight: 1
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 5
+  weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

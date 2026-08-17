@@ -1,11 +1,11 @@
 ---
 aliases:
-    - trauma-haul
+  - trauma-haul
 tags: []
 name:
-    full: Hauling
-    aliases:
-        - Digging / Lifting
+  full: Hauling
+  aliases:
+    - Digging / Lifting
 description: "Acute windedness from heavy physical labor — digging, lifting, hauling loads."
 id: naZOIXcKpdq0E7ti
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: haul
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: windedness
+  levelBase: 1
+  healingRateBase: 5
 folder: Y22wv8plMCfPXYBT
 ---
 

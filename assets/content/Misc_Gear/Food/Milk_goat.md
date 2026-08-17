@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Milk, goat"
-    - miscgear-milkgoat
+  - "Milk, goat"
+  - miscgear-milkgoat
 tags:
-    - food
+  - food
 name:
-    full: "Milk, goat"
-    aliases: []
+  full: "Milk, goat"
+  aliases: []
 description: "Tangy dairy curdles quickly into sharp cheese, richer than sheep's."
 id: jlsqjTtntXSF7cBi
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: milkgoat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 8
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 8
 folder: cHM58zOI1EcSG3cP
 ---
 

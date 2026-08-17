@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bread, Rye, loaf"
-    - miscgear-breadryelo
+  - "Bread, Rye, loaf"
+  - miscgear-breadryelo
 tags:
-    - food
+  - food
 name:
-    full: "Bread, Rye, loaf"
-    aliases: []
+  full: "Bread, Rye, loaf"
+  aliases: []
 description: "Dense dark loaf; stays fresh for days, fills belly, peasant staple."
 id: 4xIUw3hLj0ijS5VS
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: breadryelo
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mill
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1.5
+  craft:
+    skill: mill
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1.5
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-sociophb
+  - trauma-sociophb
 tags: []
 name:
-    full: Sociophobia
-    aliases: []
+  full: Sociophobia
+  aliases: []
 id: UOlTBNjJR5hQeYiU
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: sociophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -23,8 +23,7 @@ Sociophobia, also known as social phobia or social anxiety disorder, is an inten
 
 ### Impulse
 
-Avoiding social gatherings, meetings, public speaking, or any interaction that could lead to perceived judgment.
-Abberance (ABE) increases by 1 from the source of fear.
+Avoiding social gatherings, meetings, public speaking, or any interaction that could lead to perceived judgment. Abberance (ABE) increases by 1 from the source of fear.
 
 ### Disorder
 

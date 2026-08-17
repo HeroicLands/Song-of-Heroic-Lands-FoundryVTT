@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Cow"
-    - miscgear-hidecow
+  - "Hide, Cow"
+  - miscgear-hidecow
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Cow"
-    aliases: []
+  full: "Hide, Cow"
+  aliases: []
 description: "Dairy cow hide; tannery workhorse; russet leather for jerkins and breeches."
 id: N5o2pBP8MkCKsQZU
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidecow
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 0
-    weight: 22
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 0
+  weight: 22
 folder: 0JqxkW5hHZ8XVILm
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hammer"
-    - miscgear-hammer
+  - "Hammer"
+  - miscgear-hammer
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Hammer"
-    aliases: []
+  full: "Hammer"
+  aliases: []
 description: "Ordinary iron-headed hammer for nails, joinery, and repair."
 id: Zm4njdqySFmkO40G
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hammer
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 12
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 12
+  weight: 2
 folder: xniLjmZWYQZkSxyv
 ---
 

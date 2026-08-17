@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-dramatic
+  - trauma-dramatic
 tags: []
 name:
-    full: Dramatic
-    aliases: []
+  full: Dramatic
+  aliases: []
 id: 818J8niRG3lvFB9J
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dramatic
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -28,8 +28,7 @@ The individual is expressive and passionate, adding energy and excitement to the
 
 ### Impulse
 
-The individual’s reactions become more exaggerated, often turning small matters into major events. They may seek attention or validation through their emotional responses and tend to blow situations out of proportion. While their dramatic behavior may be entertaining at times, it can also lead to frustration for those around them, especially if they feel that the individual is overreacting.
-**Example:** Lady Isabella now responds to minor setbacks with great displays of emotion, such as loudly lamenting a misplaced item or expressing extreme excitement over trivial news. While her friends enjoy her passion, some find it exhausting when Isabella turns every minor event into a spectacle.
+The individual’s reactions become more exaggerated, often turning small matters into major events. They may seek attention or validation through their emotional responses and tend to blow situations out of proportion. While their dramatic behavior may be entertaining at times, it can also lead to frustration for those around them, especially if they feel that the individual is overreacting. **Example:** Lady Isabella now responds to minor setbacks with great displays of emotion, such as loudly lamenting a misplaced item or expressing extreme excitement over trivial news. While her friends enjoy her passion, some find it exhausting when Isabella turns every minor event into a spectacle.
 
 ### Disorder
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-rsrcfl
+  - trauma-rsrcfl
 tags: []
 name:
-    full: Resourceful
-    aliases: []
+  full: Resourceful
+  aliases: []
 id: PoxDR3ZVBfB9Tbdw
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: rsrcfl
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

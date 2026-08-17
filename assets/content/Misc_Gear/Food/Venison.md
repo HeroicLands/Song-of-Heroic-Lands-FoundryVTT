@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Venison
-    - miscgear-venison
+  - Venison
+  - miscgear-venison
 tags:
-    - food
+  - food
 name:
-    full: Venison
-    aliases: []
+  full: Venison
+  aliases: []
 description: "Lean dark gamey deer meat, roasted fresh or smoked into jerky."
 id: Qc6ocryHI0PgvlNv
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: venison
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

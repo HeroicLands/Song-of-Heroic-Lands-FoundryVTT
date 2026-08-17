@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-lgdm
+  - skill-lgdm
 tags: []
 name:
-    full: Legerdemain
-    aliases: []
+  full: Legerdemain
+  aliases: []
 description: "Sleight of hand, purse-cutting, juggling; intricate manual dexterity."
 id: CJxIqMc6kNXL3dxb
 img: icons/game-icons/lorc/juggler.svg
@@ -12,19 +12,19 @@ shortcode: lgdm
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: Yt9THlZ0NT8H6aSK
 ---
 

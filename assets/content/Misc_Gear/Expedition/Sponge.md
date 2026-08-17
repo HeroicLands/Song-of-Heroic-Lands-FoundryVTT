@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Sponge
-    - miscgear-sponge
+  - Sponge
+  - miscgear-sponge
 tags:
-    - expedition
+  - expedition
 name:
-    full: Sponge
-    aliases: []
+  full: Sponge
+  aliases: []
 description: "Dried sea sponge; light, absorbent, for bathing, cooking, and healing."
 id: 4t3xg7r7lkdsW5ai
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: sponge
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 45
-    weight: 0.1
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 45
+  weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Saddle, War"
-    - miscgear-saddlewar
+  - "Saddle, War"
+  - miscgear-saddlewar
 tags:
-    - tack
+  - tack
 name:
-    full: "Saddle, War"
-    aliases: []
+  full: "Saddle, War"
+  aliases: []
 description: "Steel-reinforced wood, high pommel, cantle; braces rider in lance-work, combat impacts."
 id: U4XENkA69elz3lFS
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: saddlewar
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 240
-    weight: 20
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 240
+  weight: 20
 folder: WTIUTjADwAcpyv0H
 ---
 

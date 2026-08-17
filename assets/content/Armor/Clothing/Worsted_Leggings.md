@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Worsted Leggings
-    - armorgear-WLeg
+  - Worsted Leggings
+  - armorgear-WLeg
 tags: []
 name:
-    full: Worsted Leggings
-    aliases: []
+  full: Worsted Leggings
+  aliases: []
 description: "Tightly-spun wool leggings; warm, durable leg coverage."
 id: t3SFBNKtKc5uTGhw
 img: icons/game-icons/lorc/trousers.svg
@@ -13,34 +13,34 @@ shortcode: WLeg
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Leggings
-    detailMaterial: Worsted
-    material: Cloth
-    durability: 9
-    value: 86.6
-    weight: 1.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Leggings
+  detailMaterial: Worsted
+  material: Cloth
+  durability: 9
+  value: 86.6
+  weight: 1.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 86.6
 origWeight: 1.8

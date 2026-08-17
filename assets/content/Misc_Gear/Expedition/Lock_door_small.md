@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Lock, door, small"
-    - miscgear-lockdoorsm
+  - "Lock, door, small"
+  - miscgear-lockdoorsm
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Lock, door, small"
-    aliases: []
+  full: "Lock, door, small"
+  aliases: []
 description: "Refined iron lock for chamber doors and cabinet shutters; finely warded."
 id: Dr4ZcYbcWAQLjHv8
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lockdoorsm
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: lock
-        secondary: [mtlc]
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 45
-    weight: 0.75
+  craft:
+    skill: lock
+    secondary: [mtlc]
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 45
+  weight: 0.75
 folder: FSPVI1eObGEpMVck
 ---
 

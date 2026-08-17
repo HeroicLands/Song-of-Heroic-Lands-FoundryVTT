@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Light Blunt Arrow
-    - projectilegear-ArwLBlt
+  - Light Blunt Arrow
+  - projectilegear-ArwLBlt
 tags: []
 name:
-    full: Light Blunt Arrow
-    alias: []
+  full: Light Blunt Arrow
+  alias: []
 description: "Light shaft with wooden knob or leather pad; squirrel, hare, bird hunting."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: ArwLBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Blunt
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.125
-    weight: 1
-    impact:
-        die: 4
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: true
-    subType: arrow
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.125
+  weight: 1
+  impact:
+    die: 4
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: true
+  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

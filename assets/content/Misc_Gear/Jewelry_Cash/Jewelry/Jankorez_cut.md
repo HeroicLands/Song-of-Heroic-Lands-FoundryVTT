@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Jankorez, cut"
-    - miscgear-jankorezcu
+  - "Jankorez, cut"
+  - miscgear-jankorezcu
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Jankorez, cut"
-    aliases: []
+  full: "Jankorez, cut"
+  aliases: []
 description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
 id: hQmMPH6YyURDjcCB
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: jankorezcu
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 1200
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 1200
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

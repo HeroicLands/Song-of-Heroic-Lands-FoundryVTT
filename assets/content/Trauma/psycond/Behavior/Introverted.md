@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-intrvrtd
+  - trauma-intrvrtd
 tags: []
 name:
-    full: Introverted
-    aliases: []
+  full: Introverted
+  aliases: []
 id: h1Psv3FRv7zzHHsV
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: intrvrtd
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Introverted refers to an individual's tendency to focus inward and find comfort 
 
 ### Quirk
 
-The individual enjoys spending time alone or in small groups, using this time for reflection, creativity, or relaxation. While they may not seek out large social events, they still engage with others meaningfully and maintain healthy relationships. Their introverted nature allows them to focus on personal growth and introspective thinking without isolating themselves from the world.
-**Example:** Lady Eleanor prefers quiet afternoons in her garden, where she can read and reflect in peace. She attends social events sparingly, choosing intimate gatherings over grand parties. Her friends appreciate her thoughtful nature and enjoy her company in smaller, more personal settings.
+The individual enjoys spending time alone or in small groups, using this time for reflection, creativity, or relaxation. While they may not seek out large social events, they still engage with others meaningfully and maintain healthy relationships. Their introverted nature allows them to focus on personal growth and introspective thinking without isolating themselves from the world. **Example:** Lady Eleanor prefers quiet afternoons in her garden, where she can read and reflect in peace. She attends social events sparingly, choosing intimate gatherings over grand parties. Her friends appreciate her thoughtful nature and enjoy her company in smaller, more personal settings.
 
 ### Impulse
 
-The individual increasingly withdraws from social settings, preferring solitude more often than before. They may decline invitations to social events or avoid interactions that require prolonged engagement with large groups. Although they still maintain relationships, their growing desire for alone time can sometimes cause frustration for those who wish to spend more time with them.
-**Example:** Lady Eleanor starts turning down invitations to even smaller gatherings, preferring to stay in her chambers with her books. Though she still meets with a few close friends, she increasingly avoids social events, leaving some of her acquaintances feeling neglected or concerned about her growing distance.
+The individual increasingly withdraws from social settings, preferring solitude more often than before. They may decline invitations to social events or avoid interactions that require prolonged engagement with large groups. Although they still maintain relationships, their growing desire for alone time can sometimes cause frustration for those who wish to spend more time with them. **Example:** Lady Eleanor starts turning down invitations to even smaller gatherings, preferring to stay in her chambers with her books. Though she still meets with a few close friends, she increasingly avoids social events, leaving some of her acquaintances feeling neglected or concerned about her growing distance.
 
 ### Disorder
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Horn, bone, hunting"
-    - miscgear-hornbonehu
+  - "Horn, bone, hunting"
+  - miscgear-hornbonehu
 tags:
-    - music
+  - music
 name:
-    full: "Horn, bone, hunting"
-    aliases: []
+  full: "Horn, bone, hunting"
+  aliases: []
 description: "Deer-antler or boar-tusk tapered tube; shrill note; low-cost, portable for common huntsmen."
 id: wQeyZhSnCssepVXB
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hornbonehu
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 9
-    weight: 1
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 9
+  weight: 1
 folder: ncTaRcZt0RFYz0Gq
 ---
 

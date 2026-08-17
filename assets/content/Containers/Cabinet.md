@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Cabinet"
-    - containergear-cabinet
+  - "Cabinet"
+  - containergear-cabinet
 tags: []
 name:
-    full: "Cabinet"
-    aliases: []
+  full: "Cabinet"
+  aliases: []
 description: "Standing carved cabinet with doors and shelves; a decorative woodworker's showpiece."
 id: MoHoUsqEwHSxf3Yq
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: cabinet
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 5
-    maxCapacity: 100
-    value: 144
-    weight: 60
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 5
+  maxCapacity: 100
+  value: 144
+  weight: 60
 folder: dl8lJ729W1mFlDvt
 ---
 

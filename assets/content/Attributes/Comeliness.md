@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-cml
+  - attribute-cml
 tags: []
 name:
-    full: Comeliness
-    aliases: []
+  full: Comeliness
+  aliases: []
 description: "How far a person's physical form pleases the eye."
 id: L4Dr0xLDD9EpAxlm
 img: icons/game-icons/lorc/charm.svg
@@ -12,15 +12,15 @@ shortcode: cml
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Ugly:4
-        - Unattractive:8
-        - Plain:12
-        - Attractive:16
-        - Striking:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Ugly:4
+    - Unattractive:8
+    - Plain:12
+    - Attractive:16
+    - Striking:999
+  initDiceFormula: 3d6
 sort: 60
 folder: FPitxvL8wCmXynax
 ---

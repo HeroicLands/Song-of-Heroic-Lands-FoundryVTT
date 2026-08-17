@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Worsted Sleeved Tunic
-    - armorgear-WSTnc
+  - Worsted Sleeved Tunic
+  - armorgear-WSTnc
 tags: []
 name:
-    full: Worsted Sleeved Tunic
-    aliases: []
+  full: Worsted Sleeved Tunic
+  aliases: []
 description: "Tightly-spun wool sleeved tunic; durable, practical garment."
 id: 2IP8bnT1VzXebqUU
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,37 +13,37 @@ shortcode: WSTnc
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Sleeved Tunic
-    detailMaterial: Worsted
-    material: Cloth
-    durability: 9
-    value: 120
-    weight: 2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Sleeved Tunic
+  detailMaterial: Worsted
+  material: Cloth
+  durability: 9
+  value: 120
+  weight: 2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 50
 origWeight: 2.5

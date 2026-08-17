@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Worsted Shirt
-    - armorgear-WShirt
+  - Worsted Shirt
+  - armorgear-WShirt
 tags: []
 name:
-    full: Worsted Shirt
-    aliases: []
+  full: Worsted Shirt
+  aliases: []
 description: "Tightly-spun wool shirt; durable, practical garment for activities."
 id: 5b54D3dEpUwvhHbv
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,32 +13,32 @@ shortcode: WShirt
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Shirt
-    detailMaterial: Worsted
-    material: Cloth
-    durability: 9
-    value: 79
-    weight: 1.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Shirt
+  detailMaterial: Worsted
+  material: Cloth
+  durability: 9
+  value: 79
+  weight: 1.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - thrxloc
+    - abdmnloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 33
 origWeight: 1.7

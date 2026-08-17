@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-musc
+  - skill-musc
 tags: []
 name:
-    full: Musician
-    aliases: []
+  full: Musician
+  aliases: []
 description: "Playing various instruments with technical facility and musical interpretation."
 id: 5DPlnTLCpfyz4Rar
 img: icons/game-icons/delapouite/harp.svg
@@ -12,19 +12,19 @@ shortcode: musc
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.per, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.per, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

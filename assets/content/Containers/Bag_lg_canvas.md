@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Bag, lg, canvas
-    - containergear-bglgcvs
+  - Bag, lg, canvas
+  - containergear-bglgcvs
 tags: []
 name:
-    full: Bag, lg, canvas
-    aliases: []
+  full: Bag, lg, canvas
+  aliases: []
 description: "Plain woven canvas sack for storage of goods or supplies."
 id: CiPXfx9vpJ2xyP7B
 img: icons/game-icons/lorc/knapsack.svg
@@ -13,15 +13,15 @@ shortcode: bglgcvs
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 20
-    value: 8
-    weight: 1
+  craft:
+    skill: txtl
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 20
+  value: 8
+  weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

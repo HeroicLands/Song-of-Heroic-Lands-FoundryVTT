@@ -32,3 +32,9 @@ packages/sohl-types/index.d.ts
 # The knowledgebase is a self-contained Astro sub-project with its own tooling
 # (the root Prettier has no .astro parser); it manages its own formatting.
 kb/
+
+# Vendored link manifests (#1446): another package's build output, copied here
+# verbatim. They are emitted with JSON.stringify's 2-space indent, which every
+# producing repository shares; reformatting them to this repository's tabWidth
+# would make the copy differ from its source and re-diff on every re-vendor.
+assets/manifests/*.json

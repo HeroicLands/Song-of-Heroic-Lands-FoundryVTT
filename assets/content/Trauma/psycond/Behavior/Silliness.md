@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-sllnss
+  - trauma-sllnss
 tags: []
 name:
-    full: Silliness
-    aliases: []
+  full: Silliness
+  aliases: []
 id: uq8CXyXUlwx8eMVH
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sllnss
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 

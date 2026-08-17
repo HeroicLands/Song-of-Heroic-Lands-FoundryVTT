@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-hemotxn
+  - affliction-hemotxn
 tags: []
 name:
-    full: Hemotoxin
-    aliases: []
+  full: Hemotoxin
+  aliases: []
 description: "Venom that destroys red blood cells; severe tissue damage and bleeding."
 id: YYZ9ERUcdCfROEK5
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: hemotxn
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Coin Balance
-    - miscgear-coinbalanc
+  - Coin Balance
+  - miscgear-coinbalanc
 tags:
-    - instruments
+  - instruments
 name:
-    full: Coin Balance
-    aliases: []
+  full: Coin Balance
+  aliases: []
 description: "Bronze hand-scale with shallow pans; merchants detect shaved or debased coins."
 id: CSHSzLMHnwHy9e3t
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: coinbalanc
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 30
-    weight: 0.5
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 30
+  weight: 0.5
 folder: xniLjmZWYQZkSxyv
 ---
 

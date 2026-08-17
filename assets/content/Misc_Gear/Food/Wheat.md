@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Wheat
-    - miscgear-wheat
+  - Wheat
+  - miscgear-wheat
 tags:
-    - food
+  - food
 name:
-    full: Wheat
-    aliases: []
+  full: Wheat
+  aliases: []
 description: "Golden grain for fine bread and pastries, stores years when sealed."
 id: kHcQMwrA7PupCBMA
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wheat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 8
-    weight: 60
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 8
+  weight: 60
 folder: cHM58zOI1EcSG3cP
 ---
 

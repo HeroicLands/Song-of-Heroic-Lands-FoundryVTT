@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Lock, miniature"
-    - miscgear-lockminiat
+  - "Lock, miniature"
+  - miscgear-lockminiat
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Lock, miniature"
-    aliases: []
+  full: "Lock, miniature"
+  aliases: []
 description: "Finger-length iron lock for jewelry boxes and caskets; master locksmith's fine craft."
 id: gSSHi0qijOxfwjz7
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lockminiat
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: lock
-        secondary: [mtlc]
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 90
-    weight: 0.25
+  craft:
+    skill: lock
+    secondary: [mtlc]
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 90
+  weight: 0.25
 folder: FSPVI1eObGEpMVck
 ---
 

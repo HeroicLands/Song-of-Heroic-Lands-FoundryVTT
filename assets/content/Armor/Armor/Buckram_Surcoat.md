@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Buckram Surcoat
-    - armorgear-BScoat
+  - Buckram Surcoat
+  - armorgear-BScoat
 tags: []
 name:
-    full: Buckram Surcoat
-    aliases: []
+  full: Buckram Surcoat
+  aliases: []
 description: "Stiff buckram surcoat providing durability and reliable structured fit."
 id: HthCdVmtbefMdVxD
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,35 +13,35 @@ shortcode: BScoat
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Surcoat
-    detailMaterial: Buckram
-    material: Cloth
-    durability: 10
-    value: 54
-    weight: 2.7
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Surcoat
+  detailMaterial: Buckram
+  material: Cloth
+  durability: 10
+  value: 54
+  weight: 2.7
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 54
 origWeight: 2.7

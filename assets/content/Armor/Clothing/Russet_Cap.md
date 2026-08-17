@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Russet Cap
-    - armorgear-RCap
+  - Russet Cap
+  - armorgear-RCap
 tags: []
 name:
-    full: Russet Cap
-    aliases: []
+  full: Russet Cap
+  aliases: []
 description: "Reddish-brown wool head-cover; practical and warm."
 id: VniQbQf43EWjwvoC
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: RCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Russet
-    material: Cloth
-    durability: 7
-    value: 5
-    weight: 0.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Russet
+  material: Cloth
+  durability: 7
+  value: 5
+  weight: 0.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 4
 origWeight: 0.2

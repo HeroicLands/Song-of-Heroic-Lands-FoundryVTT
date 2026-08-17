@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Belt, Waist"
-    - miscgear-beltwaist
+  - "Belt, Waist"
+  - miscgear-beltwaist
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Belt, Waist"
-    aliases: []
+  full: "Belt, Waist"
+  aliases: []
 description: "Leather waist belt with buckle; universal for suspending pouches, tools, and weapons."
 id: YSy15K56qRuVDUSA
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: beltwaist
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 8
-    weight: 1
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 8
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

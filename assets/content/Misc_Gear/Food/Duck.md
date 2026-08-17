@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Duck
-    - miscgear-duck
+  - Duck
+  - miscgear-duck
 tags:
-    - food
+  - food
 name:
-    full: Duck
-    aliases: []
+  full: Duck
+  aliases: []
 description: "Dark rich meat with fat layer; roasted whole, fat renders for cooking."
 id: BuedzU9Hwrs1mkYy
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: duck
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

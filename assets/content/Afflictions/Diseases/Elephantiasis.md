@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-elph
+  - affliction-elph
 tags: []
 name:
-    full: Elephantiasis
-    aliases: []
+  full: Elephantiasis
+  aliases: []
 description: "Filarial worm parasite; chronic lymphatic damage causes grotesque limb swelling."
 id: mMcMukFxl6C3rfAZ
 img: icons/game-icons/lorc/virus.svg
@@ -12,13 +12,13 @@ shortcode: elph
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: 3lobflzDt8Hk6VrN
 ---
 

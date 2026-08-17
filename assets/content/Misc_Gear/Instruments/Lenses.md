@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Lenses"
-    - miscgear-lenses
+  - "Lenses"
+  - miscgear-lenses
 tags:
-    - instruments
+  - instruments
 name:
-    full: "Lenses"
-    aliases: []
+  full: "Lenses"
+  aliases: []
 description: "Ground and polished glass lenses for magnification; costly and fragile."
 id: lMBWKI4m4wgnnitl
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lenses
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 120
-    weight: 0.1
+  craft:
+    skill: glas
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 120
+  weight: 0.1
 folder: xniLjmZWYQZkSxyv
 ---
 

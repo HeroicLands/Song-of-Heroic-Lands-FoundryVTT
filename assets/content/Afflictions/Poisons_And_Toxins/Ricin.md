@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-ricin
+  - affliction-ricin
 tags: []
 name:
-    full: Ricin
-    aliases: []
+  full: Ricin
+  aliases: []
 description: "Castor bean toxin; organ failure over days; lethal in tiny amounts."
 id: FdrJ7yAj3GXKJtpI
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: ricin
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: injested
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: injested
 folder: ONXsqZAIZr2qzxTb
 ---
 

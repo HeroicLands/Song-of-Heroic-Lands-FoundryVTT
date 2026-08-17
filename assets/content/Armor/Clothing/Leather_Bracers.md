@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Leather Bracers
-    - armorgear-LtBrcr
+  - Leather Bracers
+  - armorgear-LtBrcr
 tags: []
 name:
-    full: Leather Bracers
-    aliases: []
+  full: Leather Bracers
+  aliases: []
 description: "Lightweight leather arm guards allowing full flexibility and movement."
 id: oosTKrn0KRZlPLqH
 img: icons/game-icons/delapouite/bracer.svg
@@ -13,28 +13,28 @@ shortcode: LtBrcr
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Bracers
-    detailMaterial: Leather
-    material: Leather
-    durability: 9
-    value: 40
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lfraloc
-        - rfraloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Bracers
+  detailMaterial: Leather
+  material: Leather
+  durability: 9
+  value: 40
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lfraloc
+    - rfraloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 20
 origWeight: 0.8

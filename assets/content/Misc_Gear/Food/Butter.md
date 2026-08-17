@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Butter
-    - miscgear-butter
+  - Butter
+  - miscgear-butter
 tags:
-    - food
+  - food
 name:
-    full: Butter
-    aliases: []
+  full: Butter
+  aliases: []
 description: "Pale yellow churned cream; enriches vegetables, fries meat, keeps better salted."
 id: yE5edoNgm7mC9vmH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: butter
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

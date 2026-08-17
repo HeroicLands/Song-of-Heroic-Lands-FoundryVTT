@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Talc, Rough"
-    - miscgear-talcrough
+  - "Talc, Rough"
+  - miscgear-talcrough
 tags:
-    - stone
+  - stone
 name:
-    full: "Talc, Rough"
-    aliases: []
+  full: "Talc, Rough"
+  aliases: []
 description: "Soft slippery stone chunks; reduces friction, absorbs moisture; fullers, tanners, metalworkers."
 id: hxeEhl3KNAvCN6GW
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: talcrough
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: stone
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 1
-    weight: 0.06
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: stone
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 1
+  weight: 0.06
 folder: 7HORJHbbizVSds9r
 ---
 

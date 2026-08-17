@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-playful
+  - trauma-playful
 tags: []
 name:
-    full: Playful
-    aliases: []
+  full: Playful
+  aliases: []
 id: NM0AUwRLfMP3q2ec
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: playful
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Playful refers to an individual's lighthearted, fun-loving nature, often marked 
 
 ### Quirk
 
-The individual brings joy and levity to social situations, using humor and playful behavior to keep things light and enjoyable. Their playful nature helps ease tension and fosters a positive, relaxed environment. They know when to shift gears and take things seriously when needed, balancing their lightheartedness with an understanding of context.
-**Example:** Jago, the court jester, is known for his quick wit and playful antics. He delights the royal court with his jokes, acrobatics, and funny impressions of the nobility. Jago’s playful nature lifts the spirits of even the most serious courtiers, making tense situations more bearable. While he’s always ready with a joke, he knows when to ease back and show respect when the situation calls for it.
+The individual brings joy and levity to social situations, using humor and playful behavior to keep things light and enjoyable. Their playful nature helps ease tension and fosters a positive, relaxed environment. They know when to shift gears and take things seriously when needed, balancing their lightheartedness with an understanding of context. **Example:** Jago, the court jester, is known for his quick wit and playful antics. He delights the royal court with his jokes, acrobatics, and funny impressions of the nobility. Jago’s playful nature lifts the spirits of even the most serious courtiers, making tense situations more bearable. While he’s always ready with a joke, he knows when to ease back and show respect when the situation calls for it.
 
 ### Impulse
 
-The individual becomes more focused on keeping things fun and lighthearted, sometimes struggling to know when to be serious. Their constant playfulness, while still endearing, may begin to grate on others in situations where more focus or gravity is needed. They may use humor to avoid dealing with difficult emotions or topics, which can make it harder for others to connect with them on a deeper level.
-**Example:** Jago begins to push his playful nature further, making jokes even during solemn court meetings or serious discussions. While the court still finds him amusing, some of the nobility start to feel that Jago doesn’t know when to stop, especially when his jokes interrupt important matters. Jago uses humor to deflect from serious conversations, sometimes avoiding more uncomfortable topics by turning them into a joke, which makes others wish he would take things more seriously at times.
+The individual becomes more focused on keeping things fun and lighthearted, sometimes struggling to know when to be serious. Their constant playfulness, while still endearing, may begin to grate on others in situations where more focus or gravity is needed. They may use humor to avoid dealing with difficult emotions or topics, which can make it harder for others to connect with them on a deeper level. **Example:** Jago begins to push his playful nature further, making jokes even during solemn court meetings or serious discussions. While the court still finds him amusing, some of the nobility start to feel that Jago doesn’t know when to stop, especially when his jokes interrupt important matters. Jago uses humor to deflect from serious conversations, sometimes avoiding more uncomfortable topics by turning them into a joke, which makes others wish he would take things more seriously at times.
 
 ### Disorder
 

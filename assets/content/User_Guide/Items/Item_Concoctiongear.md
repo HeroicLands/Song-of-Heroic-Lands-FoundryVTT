@@ -1,13 +1,13 @@
 ---
 aliases:
-    - Concoction
-    - doc-cncctn
+  - Concoction
+  - doc-cncctn
 id: nV3Nq6xe3fUcJJzd
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Concoction"
+  full: "Concoction"
 shortcode: cncctn
 
 folder: QtOgPodi8X6gDWL0
@@ -31,10 +31,8 @@ In addition to the [[doc-itemgear|Standard Gear Properties]], the following addi
 
 - **Quantity** — how many doses remain.
 - **Weight** — the weight of the concoction, contributing to encumbrance.
-- **Effect** — what happens when the concoction is used (healing, poison
-  damage, buff, etc.).
-- **Description** — details about the concoction's appearance, ingredients,
-  and usage instructions.
+- **Effect** — what happens when the concoction is used (healing, poison damage, buff, etc.).
+- **Description** — details about the concoction's appearance, ingredients, and usage instructions.
 
 <!-- TODO: Expand with details on crafting concoctions, how concoctions
      interact with the affliction/treatment system, application methods
@@ -46,8 +44,7 @@ In addition to the [[doc-itemgear|Standard Gear Properties]], the following addi
 
 # Intrinsic Actions
 
-A concoction defines no actions of its own. Everything you can run against one
-is a standard action it already inherits:
+A concoction defines no actions of its own. Everything you can run against one is a standard action it already inherits:
 
 | Action                     | Shortcode           |
 | -------------------------- | ------------------- |
@@ -56,20 +53,12 @@ is a standard action it already inherits:
 | Output Description to Chat | `outputDescription` |
 | Toggle Carried             | `toggleCarried`     |
 
-The first three belong to every item and are described on [[Base Item]];
-**Toggle Carried** belongs to every piece of gear and is described on
-[[doc-itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and
-what it produces — none of it changes for a concoction.
-In particular there is no "use" action: drinking, applying, or administering a
-concoction stays a table decision, so you adjust its **Quantity** and apply its
-effect yourself.
+The first three belong to every item and are described on [[doc-baseitem|Base Item]]; **Toggle Carried** belongs to every piece of gear and is described on [[doc-itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and what it produces — none of it changes for a concoction. In particular there is no "use" action: drinking, applying, or administering a concoction stays a table decision, so you adjust its **Quantity** and apply its effect yourself.
 
 # See also
 
 - [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-itemgear|Gear]] — the properties and the **Toggle Carried** action every
-  carried thing has.
+- [[doc-itemgear|Gear]] — the properties and the **Toggle Carried** action every carried thing has.
 - [[doc-baseitem|Base Item]] — the three shared actions named above.
-- [[doc-wrkngwth|Working with Gear and Equipment]] — quantities, containers, and
-  handing an item over.
+- [[doc-wrkngwth|Working with Gear and Equipment]] — quantities, containers, and handing an item over.
 - [[doc-userguide|User Guide]] — back to the index.

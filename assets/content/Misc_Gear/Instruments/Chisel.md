@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Chisel
-    - miscgear-chisel
+  - Chisel
+  - miscgear-chisel
 tags:
-    - instruments
+  - instruments
 name:
-    full: Chisel
-    aliases: []
+  full: Chisel
+  aliases: []
 description: "Steel blade beveled for stone and wood, driven by hammer."
 id: OV9M7ALDI68S9etW
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chisel
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 6
-    weight: 0.75
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 6
+  weight: 0.75
 folder: xniLjmZWYQZkSxyv
 ---
 

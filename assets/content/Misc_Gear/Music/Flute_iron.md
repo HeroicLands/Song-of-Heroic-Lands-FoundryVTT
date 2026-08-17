@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Flute, iron"
-    - miscgear-fluteiron
+  - "Flute, iron"
+  - miscgear-fluteiron
 tags:
-    - music
+  - music
 name:
-    full: "Flute, iron"
-    aliases: []
+  full: "Flute, iron"
+  aliases: []
 description: "Iron pipe with fipple and finger holes; bright piercing voice; durable, weather-resistant."
 id: muvrcEpY2PCkQkQk
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: fluteiron
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 18
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 18
+  weight: 1
 folder: ncTaRcZt0RFYz0Gq
 ---
 

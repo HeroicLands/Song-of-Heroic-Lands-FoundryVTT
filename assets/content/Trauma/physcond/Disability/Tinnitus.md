@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-tinnitus
+  - trauma-tinnitus
 tags: []
 name:
-    full: Tinnitus
-    aliases: []
+  full: Tinnitus
+  aliases: []
 id: muA1zmYgl8R4y2Yf
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tinnitus
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,13 +22,11 @@ Tinnitus is the perception of sound, such as ringing, buzzing, or whistling, in 
 
 ### Trait
 
-The individual experiences occasional, mild ringing or buzzing in the ears. These episodes are infrequent and short-lived, causing little to no distress. The person may notice the sound more in quiet environments or at night but can usually ignore it and carry on with daily activities. Basic herbal remedies or rest may help, though no significant treatment is necessary at this stage.
-**Example:** Edgar, a village carpenter, occasionally hears a faint ringing in his ears after long days of hammering and sawing. The sound is most noticeable when he lies down to sleep at night, but it quickly fades and doesn’t disrupt his life. He mentions it to the healer, who advises him to rest and avoid loud noises for a few days. The sound lingers occasionally, but Edgar pays it little mind.
+The individual experiences occasional, mild ringing or buzzing in the ears. These episodes are infrequent and short-lived, causing little to no distress. The person may notice the sound more in quiet environments or at night but can usually ignore it and carry on with daily activities. Basic herbal remedies or rest may help, though no significant treatment is necessary at this stage. **Example:** Edgar, a village carpenter, occasionally hears a faint ringing in his ears after long days of hammering and sawing. The sound is most noticeable when he lies down to sleep at night, but it quickly fades and doesn’t disrupt his life. He mentions it to the healer, who advises him to rest and avoid loud noises for a few days. The sound lingers occasionally, but Edgar pays it little mind.
 
 ### Impediment
 
-The individual begins experiencing more frequent and persistent ringing or buzzing in the ears, which becomes harder to ignore. The sound may last for hours or even days at a time, interfering with concentration, sleep, and conversations. Herbal remedies and periods of rest provide little to no relief. The constant presence of the noise causes frustration and irritability, as the person struggles to escape the sound. They may also begin to feel socially withdrawn, avoiding loud gatherings or conversations to prevent worsening their condition.
-**Example:** Edgar’s tinnitus grows worse over the months. Now the ringing is nearly constant, and it distracts him from his work at the carpentry shop. He has difficulty focusing on conversations and often misses details because of the overwhelming sound in his ears. The village healer provides herbal infusions, but they do little to quiet the noise. Edgar becomes increasingly irritable, snapping at apprentices and customers alike. He begins avoiding the busy marketplace, where the clamor only seems to amplify the incessant ringing in his ears.
+The individual begins experiencing more frequent and persistent ringing or buzzing in the ears, which becomes harder to ignore. The sound may last for hours or even days at a time, interfering with concentration, sleep, and conversations. Herbal remedies and periods of rest provide little to no relief. The constant presence of the noise causes frustration and irritability, as the person struggles to escape the sound. They may also begin to feel socially withdrawn, avoiding loud gatherings or conversations to prevent worsening their condition. **Example:** Edgar’s tinnitus grows worse over the months. Now the ringing is nearly constant, and it distracts him from his work at the carpentry shop. He has difficulty focusing on conversations and often misses details because of the overwhelming sound in his ears. The village healer provides herbal infusions, but they do little to quiet the noise. Edgar becomes increasingly irritable, snapping at apprentices and customers alike. He begins avoiding the busy marketplace, where the clamor only seems to amplify the incessant ringing in his ears.
 
 ### Debility
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-emp
+  - attribute-emp
 tags: []
 name:
-    full: Empathy
-    aliases: []
+  full: Empathy
+  aliases: []
 description: "Sensing and understanding the feelings and motives of others."
 id: ibMPowNe3RLSw06o
 img: icons/game-icons/zeromancer/heart-plus.svg
@@ -12,15 +12,15 @@ shortcode: emp
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Unfeeling:4
-        - Remote:8
-        - Average:12
-        - Understanding:16
-        - Sensitive:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Unfeeling:4
+    - Remote:8
+    - Average:12
+    - Understanding:16
+    - Sensitive:999
+  initDiceFormula: 3d6
 sort: 110
 folder: FPitxvL8wCmXynax
 ---

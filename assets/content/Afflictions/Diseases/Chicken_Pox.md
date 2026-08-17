@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Chicken Pox
-    - affliction-chknpox
+  - Chicken Pox
+  - affliction-chknpox
 tags: []
 name:
-    full: Chicken Pox
-    aliases: []
+  full: Chicken Pox
+  aliases: []
 description: "Varicella virus; red spots progress to fluid-filled blisters; highly contagious."
 id: HIc9XzMn2fc2GER6
 img: icons/game-icons/lorc/virus.svg
@@ -13,13 +13,13 @@ shortcode: chknpox
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: airborne
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: airborne
 folder: 3lobflzDt8Hk6VrN
 ---
 

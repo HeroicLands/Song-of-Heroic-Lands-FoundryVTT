@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Deer"
-    - miscgear-hidedeer
+  - "Hide, Deer"
+  - miscgear-hidedeer
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Deer"
-    aliases: []
+  full: "Hide, Deer"
+  aliases: []
 description: "Light supple deer hide; used for chamois, fine gloves, soft linings."
 id: L8JbTqte8ut24Ijz
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidedeer
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 6
-    weight: 1.5
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 6
+  weight: 1.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

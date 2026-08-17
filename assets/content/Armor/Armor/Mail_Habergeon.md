@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Mail Habergeon
-    - armorgear-MHbgn
+  - Mail Habergeon
+  - armorgear-MHbgn
 tags: []
 name:
-    full: Mail Habergeon
-    aliases: []
+  full: Mail Habergeon
+  aliases: []
 description: "Mid-length metal ring shirt offering substantial protection against bladed attacks."
 id: zwEb3pZjccDUadjp
 img: icons/game-icons/willdabeast/chain-mail.svg
@@ -13,35 +13,35 @@ shortcode: MHbgn
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: mail
-    archetype: 0
-    armorType: Habergeon
-    detailMaterial: Mail
-    material: Mail
-    durability: 13
-    value: 675
-    weight: 20.3
-    encumbrance: 10
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: mail
+  archetype: 0
+  armorType: Habergeon
+  detailMaterial: Mail
+  material: Mail
+  durability: 13
+  value: 675
+  weight: 20.3
+  encumbrance: 10
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 675
 origWeight: 20.3

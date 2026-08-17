@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-passivea
+  - trauma-passivea
 tags: []
 name:
-    full: Passive-Aggressive
-    aliases: []
+  full: Passive-Aggressive
+  aliases: []
 id: VL5nGA9H8M4d5Uc3
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: passivea
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Passive-aggressive behavior refers to an individual’s tendency to express nega
 
 ### Quirk
 
-The individual occasionally avoids confrontation by subtly delaying tasks or making excuses, using passive resistance to avoid tasks they don’t want to do. Their hidden resistance may stem from a desire to protect their time or avoid conflict, but their behavior is mild and doesn’t cause major issues. While their motives may be unclear, their passive behavior is usually not harmful and may go unnoticed by others.
-**Example:** Thomas, a mill worker, agrees to repair the mill’s waterwheel but takes longer than expected, citing “unexpected issues” with the equipment. His hidden agenda is to avoid the extra workload for as long as possible, but he does eventually complete the task. His passive resistance causes minor delays, but no lasting problems.
+The individual occasionally avoids confrontation by subtly delaying tasks or making excuses, using passive resistance to avoid tasks they don’t want to do. Their hidden resistance may stem from a desire to protect their time or avoid conflict, but their behavior is mild and doesn’t cause major issues. While their motives may be unclear, their passive behavior is usually not harmful and may go unnoticed by others. **Example:** Thomas, a mill worker, agrees to repair the mill’s waterwheel but takes longer than expected, citing “unexpected issues” with the equipment. His hidden agenda is to avoid the extra workload for as long as possible, but he does eventually complete the task. His passive resistance causes minor delays, but no lasting problems.
 
 ### Impulse
 
-The individual begins to regularly engage in passive-aggressive behavior, agreeing to tasks while harboring hidden agendas, such as delaying work to avoid responsibility or making others look bad. They consistently drag their feet, procrastinate, or offer excuses to avoid fulfilling their duties. Their actions are driven by a desire to subtly undermine others or assert control without openly confronting the situation. This behavior creates frustration and confusion, as those around them may sense their hidden motives but are unable to address them directly.
-**Example:** Thomas frequently agrees to tasks at the mill but intentionally delays completing them, always finding reasons why the work cannot be finished on time. His hidden agenda is to make his fellow workers seem incompetent, hoping to position himself as indispensable to the mill’s operations. While he never openly opposes his duties, his constant delays and minor sabotage begin to frustrate his peers and supervisors.
+The individual begins to regularly engage in passive-aggressive behavior, agreeing to tasks while harboring hidden agendas, such as delaying work to avoid responsibility or making others look bad. They consistently drag their feet, procrastinate, or offer excuses to avoid fulfilling their duties. Their actions are driven by a desire to subtly undermine others or assert control without openly confronting the situation. This behavior creates frustration and confusion, as those around them may sense their hidden motives but are unable to address them directly. **Example:** Thomas frequently agrees to tasks at the mill but intentionally delays completing them, always finding reasons why the work cannot be finished on time. His hidden agenda is to make his fellow workers seem incompetent, hoping to position himself as indispensable to the mill’s operations. While he never openly opposes his duties, his constant delays and minor sabotage begin to frustrate his peers and supervisors.
 
 ### Disorder
 

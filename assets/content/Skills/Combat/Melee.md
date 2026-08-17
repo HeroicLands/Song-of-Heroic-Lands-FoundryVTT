@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-melee
+  - skill-melee
 tags: []
 name:
-    full: Melee
-    aliases: []
+  full: Melee
+  aliases: []
 description: "Close combat with hand-held weapons; positioning, technique, and tactical awareness."
 id: m72JRqtTaHuyCsJy
 img: icons/game-icons/lorc/crossed-swords.svg
@@ -12,20 +12,20 @@ shortcode: melee
 type: skill
 package: sohl
 sohl:
-    kbcat: combat
-    archetype: 0
-    subType: combat
-    skillBaseFormula: "sb(attr.dex, attr.agl)"
-    combatCategory: melee
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
-        - locomotor
+  kbcat: combat
+  archetype: 0
+  subType: combat
+  skillBaseFormula: "sb(attr.dex, attr.agl)"
+  combatCategory: melee
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
+    - locomotor
 folder: EphAMAfFhWBrJxyF
 ---
 

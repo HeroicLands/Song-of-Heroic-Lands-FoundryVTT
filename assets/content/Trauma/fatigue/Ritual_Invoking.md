@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Ritual Invoking
-    - trauma-invk
+  - Ritual Invoking
+  - trauma-invk
 tags: []
 name:
-    full: Ritual Invoking
-    aliases: []
+  full: Ritual Invoking
+  aliases: []
 description: "Acute windedness from channeling power through ritual invocation."
 id: tFRbY5UycgJqeDxR
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: invk
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: windedness
+  levelBase: 1
+  healingRateBase: 5
 folder: Y22wv8plMCfPXYBT
 ---
 

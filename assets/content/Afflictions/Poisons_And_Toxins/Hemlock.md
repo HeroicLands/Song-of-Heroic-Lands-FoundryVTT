@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-hemlock
+  - affliction-hemlock
 tags: []
 name:
-    full: Hemlock
-    aliases: []
+  full: Hemlock
+  aliases: []
 description: "Toxic alkaloid plant; muscle paralysis progressing from extremities; respiratory failure."
 id: yjo0GvEQHJBaLzpY
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: hemlock
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: injested
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: injested
 folder: ONXsqZAIZr2qzxTb
 ---
 

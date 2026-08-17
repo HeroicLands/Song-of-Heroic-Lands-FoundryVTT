@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Axle, wagon"
-    - miscgear-axlewagon
+  - "Axle, wagon"
+  - miscgear-axlewagon
 tags:
-    - tack
+  - tack
 name:
-    full: "Axle, wagon"
-    aliases: []
+  full: "Axle, wagon"
+  aliases: []
 description: "Iron-shod wagon axle; the part that fails first and strands the load."
 id: 6Gf1bs2wn6faxhl8
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: axlewagon
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 36
-    weight: 15
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 36
+  weight: 15
 folder: WTIUTjADwAcpyv0H
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Lentils
-    - miscgear-lentils
+  - Lentils
+  - miscgear-lentils
 tags:
-    - food
+  - food
 name:
-    full: Lentils
-    aliases: []
+  full: Lentils
+  aliases: []
 description: "Dried legume staple, poor man's protein, survives long travel and damp."
 id: dYyfpCR9RNlOrwaR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lentils
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

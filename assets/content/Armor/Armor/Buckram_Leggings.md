@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Buckram Leggings
-    - armorgear-BLeg
+  - Buckram Leggings
+  - armorgear-BLeg
 tags: []
 name:
-    full: Buckram Leggings
-    aliases: []
+  full: Buckram Leggings
+  aliases: []
 description: "Stiff, structured buckram leg-wear offering durability and reliability."
 id: ofewF2PkbEdsRh24
 img: icons/game-icons/lorc/trousers.svg
@@ -13,34 +13,34 @@ shortcode: BLeg
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Leggings
-    detailMaterial: Buckram
-    material: Cloth
-    durability: 10
-    value: 36
-    weight: 1.8
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Leggings
+  detailMaterial: Buckram
+  material: Cloth
+  durability: 10
+  value: 36
+  weight: 1.8
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 36
 origWeight: 1.8

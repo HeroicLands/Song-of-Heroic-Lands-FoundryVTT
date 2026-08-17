@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Jar, ointment, tiny"
-    - containergear-jarointmen4
+  - "Jar, ointment, tiny"
+  - containergear-jarointmen4
 tags: []
 name:
-    full: "Jar, ointment, tiny"
-    aliases: []
+  full: "Jar, ointment, tiny"
+  aliases: []
 description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
 id: 9LjGgpnbnS2pg1Nv
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: jarointmen4
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 0.03125
-    value: 0.5
-    weight: 0.9
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 0.03125
+  value: 0.5
+  weight: 0.9
 folder: dl8lJ729W1mFlDvt
 ---
 

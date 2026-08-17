@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Plate Rerebraces
-    - armorgear-PlRebr
+  - Plate Rerebraces
+  - armorgear-PlRebr
 tags: []
 name:
-    full: Plate Rerebraces
-    aliases: []
+  full: Plate Rerebraces
+  aliases: []
 description: "Steel upper-arm guards; covers triceps and rear shoulder."
 id: L1bySaFFCl29KsZJ
 img: icons/game-icons/lorc/dorsal-scales.svg
@@ -13,31 +13,31 @@ shortcode: PlRebr
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: plate
-    archetype: 0
-    armorType: Rerebraces
-    detailMaterial: Plate
-    material: Plate
-    durability: 14
-    value: 160
-    weight: 3
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    encumbranceGroup: arm
-    flexloc: []
-    rigidloc:
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: plate
+  archetype: 0
+  armorType: Rerebraces
+  detailMaterial: Plate
+  material: Plate
+  durability: 14
+  value: 160
+  weight: 3
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  encumbranceGroup: arm
+  flexloc: []
+  rigidloc:
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 160
 origWeight: 3

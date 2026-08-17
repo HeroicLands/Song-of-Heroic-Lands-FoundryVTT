@@ -1,11 +1,11 @@
 ---
 aliases:
-    - trauma-swltr
+  - trauma-swltr
 tags: []
 name:
-    full: Sweltering
-    aliases:
-        - Heat Exposure
+  full: Sweltering
+  aliases:
+    - Heat Exposure
 description: "Sustained weariness from prolonged heat exposure short of heat injury."
 id: Md5Txip6KMAelFK2
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: swltr
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weariness
+  levelBase: 1
+  healingRateBase: 3
 folder: Y22wv8plMCfPXYBT
 ---
 

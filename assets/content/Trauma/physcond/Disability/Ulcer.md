@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-ulcer
+  - trauma-ulcer
 tags: []
 name:
-    full: Ulcer
-    aliases: []
+  full: Ulcer
+  aliases: []
 id: d2LF42meCO17Khog
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ulcer
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,13 +22,11 @@ Ulcer refers to an open sore or lesion that develops on the skin or the lining o
 
 ### Trait
 
-The individual experiences mild discomfort or pain in the affected area, often noticing symptoms such as a burning sensation, indigestion, or minor irritation. The ulcer is small and manageable, and while it causes noticeable symptoms, it doesn't significantly interfere with daily life. Treatment may be simple, with the individual taking care to avoid irritants or stress that could worsen the condition.
-**Example:** Elias, a miller in the village, has started feeling a burning sensation in his stomach after meals. While the discomfort is noticeable, it comes and goes, and he finds that eating smaller portions and drinking herbal tea helps ease the symptoms. He continues his work at the mill without much disruption, simply being mindful of his diet and taking time to rest when the discomfort flares up.
+The individual experiences mild discomfort or pain in the affected area, often noticing symptoms such as a burning sensation, indigestion, or minor irritation. The ulcer is small and manageable, and while it causes noticeable symptoms, it doesn't significantly interfere with daily life. Treatment may be simple, with the individual taking care to avoid irritants or stress that could worsen the condition. **Example:** Elias, a miller in the village, has started feeling a burning sensation in his stomach after meals. While the discomfort is noticeable, it comes and goes, and he finds that eating smaller portions and drinking herbal tea helps ease the symptoms. He continues his work at the mill without much disruption, simply being mindful of his diet and taking time to rest when the discomfort flares up.
 
 ### Impediment
 
-The ulcer begins to cause more severe pain and becomes a more persistent problem, disrupting the individual's daily life. The burning or gnawing pain may become constant, especially after eating or during the night. The individual may begin avoiding certain foods, activities, or situations that aggravate the symptoms. Despite efforts to manage the condition, the ulcer continues to cause frequent discomfort and requires more focused treatment, possibly including medications to reduce stomach acid or more restrictive lifestyle changes.
-**Example:** Elias’s ulcer has worsened, and now the pain strikes him after every meal. He avoids eating rich or spicy foods, knowing they will make the burning in his stomach unbearable. The discomfort often wakes him at night, leaving him fatigued during the day as he struggles to keep up with his work at the mill. He tries remedies from the village healer, but the relief is temporary. Elias becomes increasingly frustrated, feeling as though the ulcer is dictating his daily routine.
+The ulcer begins to cause more severe pain and becomes a more persistent problem, disrupting the individual's daily life. The burning or gnawing pain may become constant, especially after eating or during the night. The individual may begin avoiding certain foods, activities, or situations that aggravate the symptoms. Despite efforts to manage the condition, the ulcer continues to cause frequent discomfort and requires more focused treatment, possibly including medications to reduce stomach acid or more restrictive lifestyle changes. **Example:** Elias’s ulcer has worsened, and now the pain strikes him after every meal. He avoids eating rich or spicy foods, knowing they will make the burning in his stomach unbearable. The discomfort often wakes him at night, leaving him fatigued during the day as he struggles to keep up with his work at the mill. He tries remedies from the village healer, but the relief is temporary. Elias becomes increasingly frustrated, feeling as though the ulcer is dictating his daily routine.
 
 ### Debility
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Forest Green"
-    - miscgear-dyefst
+  - "Dye, Forest Green"
+  - miscgear-dyefst
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Forest Green"
-    aliases: []
+  full: "Dye, Forest Green"
+  aliases: []
 description: "Woad and madder blend; dark sage green favored by hunters and foresters."
 id: XpaDgSpzOeo8tNUx
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyefst
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 24
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 24
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

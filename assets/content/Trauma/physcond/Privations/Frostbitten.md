@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-frost
+  - trauma-frost
 tags: []
 name:
-    full: Frostbitten
-    aliases: []
+  full: Frostbitten
+  aliases: []
 description: "Tissue freezes in extremities; numbness, waxy skin, blackened flesh."
 id: XYxcQfNRWE3iLnfr
 img: icons/game-icons/delapouite/stomach.svg
@@ -12,12 +12,12 @@ shortcode: frost
 type: trauma
 package: sohl
 sohl:
-    kbcat: physprivations
-    archetype: 0
-    subType: physcond
-    category: impediment
-    levelBase: 2
-    healingRateBase: 2
+  kbcat: physprivations
+  archetype: 0
+  subType: physcond
+  category: impediment
+  levelBase: 2
+  healingRateBase: 2
 folder: wz4hXqKLntkdXNue
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Cooking Kit
-    - miscgear-cookkit
+  - Cooking Kit
+  - miscgear-cookkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Cooking Kit
-    aliases: []
+  full: Cooking Kit
+  aliases: []
 description: "Oiled-leather satchel holding iron pans, spoons, knife, grater, ladle for field cooking."
 id: MBs9o3d3sVAw83kk
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cookkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 40
-    weight: 6
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 40
+  weight: 6
 folder: xniLjmZWYQZkSxyv
 ---
 

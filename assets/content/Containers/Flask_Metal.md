@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Flask, Metal"
-    - containergear-flaskmetal
+  - "Flask, Metal"
+  - containergear-flaskmetal
 tags: []
 name:
-    full: "Flask, Metal"
-    aliases: []
+  full: "Flask, Metal"
+  aliases: []
 description: "Hammered tinned copper flask for carrying liquids at belt."
 id: X1pr6PpdWzHx6dVa
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: flaskmetal
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 7
-    maxCapacity: 1
-    value: 5
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 7
+  maxCapacity: 1
+  value: 5
+  weight: 0
 folder: dl8lJ729W1mFlDvt
 ---
 

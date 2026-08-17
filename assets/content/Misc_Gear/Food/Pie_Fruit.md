@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pie, Fruit"
-    - miscgear-piefruit
+  - "Pie, Fruit"
+  - miscgear-piefruit
 tags:
-    - food
+  - food
 name:
-    full: "Pie, Fruit"
-    aliases: []
+  full: "Pie, Fruit"
+  aliases: []
 description: "Hand-sized pastry with sweet apple or berry filling from baker."
 id: mb7G3sRyF4YwFVUs
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: piefruit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cook
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.75
-    weight: 0.5
+  craft:
+    skill: cook
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.75
+  weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

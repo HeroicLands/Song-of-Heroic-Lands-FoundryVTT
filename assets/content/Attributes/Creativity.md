@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-cre
+  - attribute-cre
 tags: []
 name:
-    full: Creativity
-    aliases: []
+  full: Creativity
+  aliases: []
 description: "Imagination: seeing new connections and forging original solutions."
 id: R61ev5j1ZVltQ42m
 img: icons/game-icons/lorc/light-bulb.svg
@@ -12,15 +12,15 @@ shortcode: cre
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Banal:4
-        - Predictable:8
-        - Average:12
-        - Innovative:16
-        - Visionary:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Banal:4
+    - Predictable:8
+    - Average:12
+    - Innovative:16
+    - Visionary:999
+  initDiceFormula: 3d6
 sort: 100
 folder: FPitxvL8wCmXynax
 ---

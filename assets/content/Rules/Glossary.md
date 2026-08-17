@@ -1,30 +1,24 @@
 ---
 aliases:
-    - Glossary
-    - Rules Glossary
-    - doc-glossary
+  - Glossary
+  - Rules Glossary
+  - doc-glossary
 id: GMJ5HjXALiKv03rx
 type: doc
 package: sohl
 category: rules
 name:
-    full: Glossary
-    aliases: []
+  full: Glossary
+  aliases: []
 shortcode: glossary
 folder: RqKUTBUBN2Y3MHYB
 ---
 
 # Glossary
 
-Every term these rules define, and where it is defined. This is an index, not a
-second set of definitions: each entry points at the one place the term is
-settled, so that a chapter using a word as though you already know it has
-somewhere to send you.
+Every term these rules define, and where it is defined. This is an index, not a second set of definitions: each entry points at the one place the term is settled, so that a chapter using a word as though you already know it has somewhere to send you.
 
-Terms are listed under the name the rules use for them. Where a term is a kind
-of something else — a defence, a body role, a success level — the entry points
-at the passage that lists the whole set, because the set is what makes the
-member intelligible.
+Terms are listed under the name the rules use for them. Where a term is a kind of something else — a defence, a body role, a success level — the entry points at the passage that lists the whole set, because the set is what makes the member intelligible.
 
 ## A
 

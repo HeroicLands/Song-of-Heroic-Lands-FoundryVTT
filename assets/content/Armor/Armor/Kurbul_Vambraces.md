@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Kurbul Vambraces
-    - Kûrbúl Vambraces
-    - armorgear-KVamb
+  - Kurbul Vambraces
+  - Kûrbúl Vambraces
+  - armorgear-KVamb
 tags: []
 name:
-    full: Kûrbúl Vambraces
-    aliases: []
+  full: Kûrbúl Vambraces
+  aliases: []
 description: "Leather forearm guards with intricate designs providing function and style."
 id: WQUI5MnoU4jf4t8v
 img: icons/game-icons/delapouite/bracer.svg
@@ -14,29 +14,29 @@ shortcode: KVamb
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide]
-    kbcat: kurbul
-    archetype: 0
-    armorType: Vambraces
-    detailMaterial: Kûrbúl
-    material: Kûrbúl
-    durability: 13
-    value: 25
-    weight: 1.9
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    encumbranceGroup: arm
-    flexloc: []
-    rigidloc:
-        - lfraloc
-        - rfraloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide]
+  kbcat: kurbul
+  archetype: 0
+  armorType: Vambraces
+  detailMaterial: Kûrbúl
+  material: Kûrbúl
+  durability: 13
+  value: 25
+  weight: 1.9
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  encumbranceGroup: arm
+  flexloc: []
+  rigidloc:
+    - lfraloc
+    - rfraloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 25
 origWeight: 1.9

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Beans, crate"
-    - miscgear-beanscrate
+  - "Beans, crate"
+  - miscgear-beanscrate
 tags:
-    - food
+  - food
 name:
-    full: "Beans, crate"
-    aliases: []
+  full: "Beans, crate"
+  aliases: []
 description: "Dried beans in bushel crate; reliable protein, keep for years dry."
 id: mzUTS4jU4i1SjI31
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: beanscrate
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 6.5
-    weight: 41.25
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 6.5
+  weight: 41.25
 folder: cHM58zOI1EcSG3cP
 ---
 

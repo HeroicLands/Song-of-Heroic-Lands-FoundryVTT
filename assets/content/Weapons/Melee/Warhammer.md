@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Warhammer
-    - weapongear-Whmr
+  - Warhammer
+  - weapongear-Whmr
 tags: []
 name:
-    full: Warhammer
-    aliases: []
+  full: Warhammer
+  aliases: []
 description: "Flat-faced hammer with spike; one-handed armor-breaker for knights."
 id: 1cnmkDSTXFmmkX19
 img: icons/game-icons/delapouite/warhammer.svg
@@ -13,149 +13,149 @@ shortcode: Whmr
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: axe
-    archetype: 0
-    durability: 11
-    weight: 4
-    value: 84
-    heft: 13
-    weaponType: Axe
-    strikeModes:
-        - shortcode: crush
-          type: melee
-          name: Crush
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 4
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 3
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: true
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 5
-          defense:
-              blockMod: -10
-              counterstrikeMod: -10
-        - shortcode: impale
-          type: melee
-          name: Impale
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 8
-              modifier: 3
-              aspect: piercing
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 4
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: true
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 5
-          defense:
-              blockMod: -10
-              counterstrikeMod: -10
-        - shortcode: shaft
-          type: melee
-          name: Shaft
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 1
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 3
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 0
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: true
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 5
-          defense:
-              blockMod: -10
-              counterstrikeMod: -10
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: axe
+  archetype: 0
+  durability: 11
+  weight: 4
+  value: 84
+  heft: 13
+  weaponType: Axe
+  strikeModes:
+    - shortcode: crush
+      type: melee
+      name: Crush
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 4
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 3
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: true
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 5
+      defense:
+        blockMod: -10
+        counterstrikeMod: -10
+    - shortcode: impale
+      type: melee
+      name: Impale
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 8
+        modifier: 3
+        aspect: piercing
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 4
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: true
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 5
+      defense:
+        blockMod: -10
+        counterstrikeMod: -10
+    - shortcode: shaft
+      type: melee
+      name: Shaft
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 1
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 3
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 0
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: true
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 5
+      defense:
+        blockMod: -10
+        counterstrikeMod: -10
 folder: HXiYHvG6igI3Wlmm
 ---
 

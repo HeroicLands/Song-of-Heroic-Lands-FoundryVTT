@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Nut Brown"
-    - miscgear-dyenut
+  - "Dye, Nut Brown"
+  - miscgear-dyenut
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Nut Brown"
-    aliases: []
+  full: "Dye, Nut Brown"
+  aliases: []
 description: "Walnut hulls and iron salts; warm earthy brown for everyday working garments."
 id: wDh2U8SPT6dqKtQV
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyenut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 18
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 18
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

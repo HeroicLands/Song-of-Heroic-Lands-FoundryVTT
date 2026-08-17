@@ -1,27 +1,22 @@
 ---
 aliases:
-    - Gear
-    - Equipment
-    - Inventory
-    - Encumbrance
-    - doc-gear
+  - Gear
+  - Equipment
+  - Inventory
+  - Encumbrance
+  - doc-gear
 id: wjqsgt0VbETSKE6Y
 type: doc
 package: sohl
 category: rules
 name:
-    full: Gear
-    aliases: []
+  full: Gear
+  aliases: []
 folder: RqKUTBUBN2Y3MHYB
 shortcode: gear
 ---
 
-**Gear** is the physical property a character owns and carries — weapons, armor,
-tools, supplies, coin, and everything in between. Each piece of gear is its own
-item, so it can be picked up, dropped, traded, stored in a container, or handed
-to another character. This page describes the properties common to all gear, the
-way gear burdens the character who carries it, and each of the gear types the
-system provides.
+**Gear** is the physical property a character owns and carries — weapons, armor, tools, supplies, coin, and everything in between. Each piece of gear is its own item, so it can be picked up, dropped, traded, stored in a container, or handed to another character. This page describes the properties common to all gear, the way gear burdens the character who carries it, and each of the gear types defined here.
 
 # Gear Properties
 
@@ -39,31 +34,18 @@ Every gear item, whatever its type, shares a common set of properties.
 
 ## Carrying & Encumbrance
 
-Only gear a character is actually **carrying** weighs them down. Gear that has
-been set aside, stored in a shelter, or left behind still belongs to the
-character and appears in their inventory, but it does not burden them.
+Only gear a character is actually **carrying** weighs them down. Gear that has been set aside, stored in a shelter, or left behind still belongs to the character and appears in their inventory, but it does not burden them.
 
-The total weight of everything a character carries determines their
-**encumbrance** — the drag that heavy loads place on movement and action. The
-heavier the load, the greater the encumbrance.
+The total weight of everything a character carries determines their **encumbrance** — the drag that heavy loads place on movement and action. The heavier the load, the greater the encumbrance.
 
-Two rules refine how worn equipment interacts with this total; they are covered
-in detail on the **Armor** and **Weapons** pages, but in summary:
+Two rules refine how worn equipment interacts with this total; they are covered in detail on the **Armor** and **Weapons** pages, but in summary:
 
-- **Worn armor does not weigh you down the way loose cargo does.** The weight of
-  armor that is _being worn_ is not counted against encumbrance — a well-fitted
-  harness rides the body rather than hanging off it. Armor that is carried but
-  **not** worn (bundled in a pack, slung over a shoulder) counts its full weight
-  like any other cargo.
-- **Some armor and weapons carry an explicit encumbrance value.** This optional
-  value represents the awkwardness of the item beyond its raw weight. When such
-  an item is worn or wielded, its encumbrance value is added to the character's
-  encumbrance.
+- **Worn armor does not weigh you down the way loose cargo does.** The weight of armor that is _being worn_ is not counted against encumbrance — a well-fitted harness rides the body rather than hanging off it. Armor that is carried but **not** worn (bundled in a pack, slung over a shoulder) counts its full weight like any other cargo.
+- **Some armor and weapons carry an explicit encumbrance value.** This optional value represents the awkwardness of the item beyond its raw weight. When such an item is worn or wielded, its encumbrance value is added to the character's encumbrance.
 
 ## Gear Types
 
-Gear comes in several kinds, each with its own properties and behavior,
-described on the pages that follow:
+Gear comes in several kinds, each with its own properties and behavior, described on the pages that follow:
 
 - **Miscellaneous Gear** — ordinary goods with no special mechanics.
 - **Container Gear** — gear that holds other gear.
@@ -74,13 +56,7 @@ described on the pages that follow:
 
 # Miscellaneous Gear
 
-**Miscellaneous gear** covers everything that has no specialized mechanics of its
-own: tools, rations, rope, torches, trade goods, jewelry, coin, personal effects,
-and the countless ordinary items a character accumulates. Miscellaneous gear uses
-only the common gear properties — quantity, weight, value, quality, and
-durability — and burdens its carrier by weight like anything else. When a piece
-of equipment does not fit one of the specialized types below, it is
-miscellaneous gear.
+**Miscellaneous gear** covers everything that has no specialized mechanics of its own: tools, rations, rope, torches, trade goods, jewelry, coin, personal effects, and the countless ordinary items a character accumulates. Miscellaneous gear uses only the common gear properties — quantity, weight, value, quality, and durability — and burdens its carrier by weight like anything else. When a piece of equipment does not fit one of the specialized types below, it is miscellaneous gear.
 
 ## Cash
 
@@ -92,8 +68,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "cash"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "cash"
 ```
 
 ## Cooking
@@ -106,8 +81,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "cooking"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "cooking"
 ```
 
 ## Dye
@@ -120,8 +94,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "dye"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "dye"
 ```
 
 ## Expedition
@@ -134,8 +107,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "expedition"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "expedition"
 ```
 
 ## Food
@@ -148,8 +120,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "food"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "food"
 ```
 
 ## Instruments
@@ -162,8 +133,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "instruments"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "instruments"
 ```
 
 ## Jewelry
@@ -176,8 +146,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "jewelry"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "jewelry"
 ```
 
 ## Lighting
@@ -190,8 +159,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "lighting"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "lighting"
 ```
 
 ## Music
@@ -204,8 +172,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "music"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "music"
 ```
 
 ## Natural Items
@@ -218,8 +185,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "natural"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "natural"
 ```
 
 ## Religious
@@ -232,8 +198,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "religious"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "religious"
 ```
 
 ## Scribe Materials
@@ -246,8 +211,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "scribe"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "scribe"
 ```
 
 ## Spirits and Brews
@@ -260,8 +224,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "spirits"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "spirits"
 ```
 
 ## Stone
@@ -274,8 +237,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "stone"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "stone"
 ```
 
 ## Tack
@@ -288,23 +250,14 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "miscgear" and sohl.kbcat = "tack"
-SORT name.full ASC
+WHERE type = "miscgear" AND sohl.kbcat = "tack"
 ```
 
 # Container Gear
 
-**Container gear** is gear whose purpose is to hold other gear — a backpack, a
-sack, a chest, a saddlebag, a quiver. In addition to the common gear properties,
-a container has a **maximum capacity**: the greatest weight of contents it can
-hold.
+**Container gear** is gear whose purpose is to hold other gear — a backpack, a sack, a chest, a saddlebag, a quiver. In addition to the common gear properties, a container has a **maximum capacity**: the greatest weight of contents it can hold.
 
-Any gear item can be placed **inside** a container; while stored there, the item
-travels with the container. Containers may themselves be placed inside other
-containers (a pouch inside a pack), so a character's belongings form a nested
-hierarchy. The weight of a container's contents still counts toward the
-character's carried weight while the container is carried — a full pack is no
-lighter than the sum of what is in it.
+Any gear item can be placed **inside** a container; while stored there, the item travels with the container. Containers may themselves be placed inside other containers (a pouch inside a pack), so a character's belongings form a nested hierarchy. The weight of a container's contents still counts toward the character's carried weight while the container is carried — a full pack is no lighter than the sum of what is in it.
 
 ```dataview
 TABLE WITHOUT ID
@@ -316,44 +269,27 @@ TABLE WITHOUT ID
   sohl.maxCapacity AS "Capacity",
   description AS "Description"
 WHERE type = "containergear"
-SORT name.full ASC
 ```
 
 # Weapons {#weapons}
 
-A **weapon** is a piece of gear made for attacking — a sword, a spear, a bow, a
-mace, a dagger. Along with the common gear properties, a weapon has:
+A **weapon** is a piece of gear made for attacking — a sword, a spear, a bow, a mace, a dagger. Along with the common gear properties, a weapon has:
 
-- **Heft** — a measure of the weapon's weight and balance in the hand, affecting
-  how demanding it is to wield.
+- **Heft** — a measure of the weapon's weight and balance in the hand, affecting how demanding it is to wield.
 - an optional **encumbrance value** — see below.
-- one or more **[[Strike Modes]]**.
+- one or more **[[doc-strkmds|Strike Modes]]**.
 
 ## One Weapon, Many Strike Modes
 
-A single weapon is rarely limited to a single kind of attack. A broadsword can
-**cut**, **thrust**, or strike with its **pommel**; a spear can be **thrust** in
-melee or **thrown**; a war-axe can **chop** in the hand or be **hurled** across
-the field. Each of these distinct ways of attacking is a **strike mode**, and a
-weapon carries **one or more** of them.
+A single weapon is rarely limited to a single kind of attack. A broadsword can **cut**, **thrust**, or strike with its **pommel**; a spear can be **thrust** in melee or **thrown**; a war-axe can **chop** in the hand or be **hurled** across the field. Each of these distinct ways of attacking is a **strike mode**, and a weapon carries **one or more** of them.
 
-Every strike mode records its own attack and impact characteristics, and (for
-melee) its own defensive options. Because strike modes are a self-contained
-concept shared with unarmed and natural attacks, they are documented separately —
-see **[[Strike Modes]]**.
+Every strike mode records its own attack and impact characteristics, and (for melee) its own defensive options. Because strike modes are a self-contained concept shared with unarmed and natural attacks, they are documented separately — see **[[doc-strkmds|Strike Modes]]**.
 
-A weapon is **held by body parts that can grip items** (for a human, the hands).
-A strike mode can only be used while the weapon is held, and a mode that needs
-more than one body part requires the **same weapon** to be held by each — a bow
-drawn for a shot occupies both hands. See **[[Strike Modes]]** for
-the body-part requirement in full.
+A weapon is **held by body parts that can grip items** (for a human, the hands). A strike mode can only be used while the weapon is held, and a mode that needs more than one body part requires the **same weapon** to be held by each — a bow drawn for a shot occupies both hands. See **[[doc-strkmds|Strike Modes]]** for the body-part requirement in full.
 
 ## Weapon Encumbrance
 
-A weapon **optionally** has an **encumbrance value**. If it does, that value is
-added to the character's encumbrance while the weapon is worn or carried ready for
-use — a long weapon slung at the hip hampers movement more than its weight alone
-would suggest. A weapon with no encumbrance value contributes only its weight.
+A weapon **optionally** has an **encumbrance value**. If it does, that value is added to the character's encumbrance while the weapon is worn or carried ready for use — a long weapon slung at the hip hampers movement more than its weight alone would suggest. A weapon with no encumbrance value contributes only its weight.
 
 ## Bows
 
@@ -365,8 +301,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "bow"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "bow"
 ```
 
 ## Crossbows
@@ -379,8 +314,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "crossbow"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "crossbow"
 ```
 
 ## Slings
@@ -393,8 +327,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "sling"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "sling"
 ```
 
 ## Thrown
@@ -407,8 +340,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "thrown"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "thrown"
 ```
 
 ## Flails
@@ -421,8 +353,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "flail"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "flail"
 ```
 
 ## Swords
@@ -435,8 +366,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "sword"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "sword"
 ```
 
 ## Axes
@@ -449,8 +379,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "axe"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "axe"
 ```
 
 ## Clubs
@@ -463,8 +392,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "club"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "club"
 ```
 
 ## Knives
@@ -477,8 +405,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "knife"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "knife"
 ```
 
 ## Polearms
@@ -491,8 +418,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "polearm"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "polearm"
 ```
 
 ## Nets
@@ -505,8 +431,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "net"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "net"
 ```
 
 ## Whips
@@ -519,8 +444,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "whip"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "whip"
 ```
 
 ## Shields
@@ -533,8 +457,7 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "shield"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "shield"
 ```
 
 # Siege Weapons
@@ -547,26 +470,16 @@ TABLE WITHOUT ID
   sohl.value AS "Value",
   sohl.durability AS "Durability",
   description AS "Description"
-WHERE type = "weapongear" and sohl.kbcat = "siege"
-SORT name.full ASC
+WHERE type = "weapongear" AND sohl.kbcat = "siege"
 ```
 
 # Projectiles
 
-**Projectile gear** is the ammunition that missile weapons consume — arrows for
-bows, bolts for crossbows, bullets for slings, darts for the hand. Each projectile
-declares a **type** (arrow, bolt, bullet, dart, or other) so that a missile weapon
-draws only the ammunition it can actually use.
+**Projectile gear** is the ammunition that missile weapons consume — arrows for bows, bolts for crossbows, bullets for slings, darts for the hand. Each projectile declares a **type** (arrow, bolt, bullet, dart, or other) so that a missile weapon draws only the ammunition it can actually use.
 
-A projectile carries its own **impact** — the damage it delivers on a hit,
-expressed as a number of dice, a die size, a flat modifier, and an
-**aspect** (blunt, edged, piercing, or fire). When a missile weapon looses a
-projectile, the projectile's impact combines with the weapon's missile strike
-mode to determine the blow. Projectiles may also carry traits that change how they
-behave — for example, a **broadhead** arrow.
+A projectile carries its own **impact** — the damage it delivers on a hit, expressed as a number of dice, a die size, a flat modifier, and an **aspect** (blunt, edged, piercing, or fire). When a missile weapon looses a projectile, the projectile's impact combines with the weapon's missile strike mode to determine the blow. Projectiles may also carry traits that change how they behave — for example, a **broadhead** arrow.
 
-Projectiles are ordinarily tracked in quantity (a bundle of arrows) and are
-expended as they are used.
+Projectiles are ordinarily tracked in quantity (a bundle of arrows) and are expended as they are used.
 
 ```dataview
 TABLE WITHOUT ID
@@ -577,51 +490,30 @@ TABLE WITHOUT ID
   sohl.durability AS "Durability",
   description AS "Description"
 WHERE type = "projectilegear"
-SORT name.full ASC
 ```
 
 # Armor
 
-**Armor** is protective equipment — mail, plate, leather, padding, shields, a
-helmet. Beyond the common gear properties, armor has three defining aspects: how
-it is protective, where it covers the body, and how it burdens the wearer.
+**Armor** is protective equipment — mail, plate, leather, padding, shields, a helmet. Beyond the common gear properties, armor has three defining aspects: how it is protective, where it covers the body, and how it burdens the wearer.
 
 ## Worn or Carried
 
-Armor may be either **worn** or merely **carried**. This distinction matters both
-to protection and to encumbrance:
+Armor may be either **worn** or merely **carried**. This distinction matters both to protection and to encumbrance:
 
-- Only **worn** armor protects. Armor that is carried but not worn (in a pack, on
-  a packhorse) offers no protection until it is donned.
-- **Worn armor weight does not count against encumbrance.** A suit of armor that
-  is being worn rides the body and is not tallied as carried load. The same armor
-  **carried but not worn** counts its full weight against encumbrance like any
-  other cargo.
+- Only **worn** armor protects. Armor that is carried but not worn (in a pack, on a packhorse) offers no protection until it is donned.
+- **Worn armor weight does not count against encumbrance.** A suit of armor that is being worn rides the body and is not tallied as carried load. The same armor **carried but not worn** counts its full weight against encumbrance like any other cargo.
 
 ## Armor Encumbrance
 
-Armor **optionally** has an **encumbrance value**, separate from its weight. If it
-does, that value is added to the character's encumbrance **while the armor is
-worn** — representing the stiffness and restriction the armor imposes beyond its
-mass. Armor with no encumbrance value burdens the wearer only through the general
-weight rules (and, since worn, that weight is excluded from encumbrance).
+Armor **optionally** has an **encumbrance value**, separate from its weight. If it does, that value is added to the character's encumbrance **while the armor is worn** — representing the stiffness and restriction the armor imposes beyond its mass. Armor with no encumbrance value burdens the wearer only through the general weight rules (and, since worn, that weight is excluded from encumbrance).
 
-Because worn armor's weight is excluded, an encumbrance value is the **whole** of
-what a worn piece costs. A piece with none is free to wear.
+Because worn armor's weight is excluded, an encumbrance value is the **whole** of what a worn piece costs. A piece with none is free to wear.
 
 ### Arm Harness
 
-The small rigid arm pieces — spaulders, rerebraces, coudes, vambraces, gauntlets
-and mittens — are the exception. **No such piece encumbers on its own**, however
-finely made; a single vambrace is not what slows an arm down. But wearing **three
-or more of them together** costs **5 encumbrance between them**, and 5 no matter
-how many beyond three are worn. It is the harness getting in the way of the arms,
-not the pieces adding up.
+The small rigid arm pieces — spaulders, rerebraces, coudes, vambraces, gauntlets and mittens — are the exception. **No such piece encumbers on its own**, however finely made; a single vambrace is not what slows an arm down. But wearing **three or more of them together** costs **5 encumbrance between them**, and 5 no matter how many beyond three are worn. It is the harness getting in the way of the arms, not the pieces adding up.
 
-Such a piece therefore carries no encumbrance value of its own. It belongs to the
-**arm harness** instead, and the cost is charged once to the set. The pieces need
-not match: a plate spaulder, a mail mitten and a scale gauntlet make three as
-surely as a matched set does.
+Such a piece therefore carries no encumbrance value of its own. It belongs to the **arm harness** instead, and the cost is charged once to the set. The pieces need not match: a plate spaulder, a mail mitten and a scale gauntlet make three as surely as a matched set does.
 
 ## Protection
 
@@ -632,46 +524,25 @@ Armor is graded by its resistance to each **aspect** of an attack:
 - **Piercing**
 - **Fire**
 
-For each aspect, the armor has a number representing the amount of impact it can
-**absorb**. When a blow lands, the armor absorbs up to that amount of the incoming
-impact for the blow's aspect; any **remaining impact passes through** the armor to
-harm the wearer. A piece that is proof against edged blows may be far weaker
-against a blunt one, so the same armor protects unevenly depending on how it is
-struck.
+For each aspect, the armor has a number representing the amount of impact it can **absorb**. When a blow lands, the armor absorbs up to that amount of the incoming impact for the blow's aspect; any **remaining impact passes through** the armor to harm the wearer. A piece that is proof against edged blows may be far weaker against a blunt one, so the same armor protects unevenly depending on how it is struck.
 
 ### Layering
 
-Armor can be **layered** — a gambeson beneath a mail hauberk beneath a surcoat.
-Where two or more worn pieces cover the same location, **each layer contributes
-its absorption** to the total for that location, so stacked armor protects better
-than any single piece alone.
+Armor can be **layered** — a gambeson beneath a mail hauberk beneath a surcoat. Where two or more worn pieces cover the same location, **each layer contributes its absorption** to the total for that location, so stacked armor protects better than any single piece alone.
 
 ## Coverage
 
-A piece of armor **covers one or more body locations** — a helm protects the
-head, greaves the legs, a hauberk the torso and arms, and so on. Only the
-locations a piece covers receive its protection.
+A piece of armor **covers one or more body locations** — a helm protects the head, greaves the legs, a hauberk the torso and arms, and so on. Only the locations a piece covers receive its protection.
 
-At each covered location the armor is either **flexible** or **rigid**, and the
-two behave differently in play. Rigid armor (plate, a steel cap) turns and
-deflects blows in ways supple armor cannot — for example, causing a glancing blow
-where flexible armor (mail, leather, padding) would simply absorb what it can. The
-same piece may be flexible at some locations and rigid at others.
+At each covered location the armor is either **flexible** or **rigid**, and the two behave differently in play. Rigid armor (plate, a steel cap) turns and deflects blows in ways supple armor cannot — for example, causing a glancing blow where flexible armor (mail, leather, padding) would simply absorb what it can. The same piece may be flexible at some locations and rigid at others.
 
 ## Sensory Penalties
 
-Certain armor — **particularly helmets** — imposes a **perception penalty** on the
-wearer. A closed helm narrows vision and muffles hearing, so while it protects the
-head it also hampers the wearer's ability to perceive their surroundings. Such
-penalties are a deliberate trade-off against the protection the piece provides.
+Certain armor — **particularly helmets** — imposes a **perception penalty** on the wearer. A closed helm narrows vision and muffles hearing, so while it protects the head it also hampers the wearer's ability to perceive their surroundings. Such penalties are a deliberate trade-off against the protection the piece provides.
 
-The penalty applies to any test **built on Perception** — the attribute itself, and
-every skill whose Skill Base is derived from it. A skill that merely takes
-Perception into account some other way is unaffected.
+The penalty applies to any test **built on Perception** — the attribute itself, and every skill whose Skill Base is derived from it. A skill that merely takes Perception into account some other way is unaffected.
 
-**The worst penalty applies, never the sum.** A wearer in a mail cowl beneath a
-great helm suffers the great helm's penalty alone: the helm already subsumes what
-the cowl does to sight and hearing, and a wearer cannot be blinded twice over.
+**The worst penalty applies, never the sum.** A wearer in a mail cowl beneath a great helm suffers the great helm's penalty alone: the helm already subsumes what the cowl does to sight and hearing, and a wearer cannot be blinded twice over.
 
 ## Cloth
 
@@ -689,8 +560,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "cloth"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "cloth"
 ```
 
 ## Gambeson
@@ -709,8 +579,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "gambeson"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "gambeson"
 ```
 
 ## Kurbul
@@ -729,8 +598,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "kurbul"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "kurbul"
 ```
 
 ## Leather
@@ -749,8 +617,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "leather"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "leather"
 ```
 
 ## Mail
@@ -769,8 +636,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "mail"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "mail"
 ```
 
 ## Padded
@@ -789,8 +655,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "padded"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "padded"
 ```
 
 ## Plate
@@ -809,8 +674,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "plate"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "plate"
 ```
 
 ## Quilted
@@ -829,8 +693,7 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "quilted"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "quilted"
 ```
 
 ## Scale
@@ -849,25 +712,18 @@ TABLE WITHOUT ID
   sohl.protection.edged AS "E",
   sohl.protection.piercing AS "P",
   sohl.protection.fire AS "F"
-WHERE type = "armorgear" and sohl.kbcat = "scale"
-SORT name.full ASC
+WHERE type = "armorgear" AND sohl.kbcat = "scale"
 ```
 
 # Concoctions
 
-**Concoction gear** covers prepared substances — potions, poisons, medicines,
-tinctures, and alchemical preparations. Beyond the common gear properties, a
-concoction has:
+**Concoction gear** covers prepared substances — potions, poisons, medicines, tinctures, and alchemical preparations. Beyond the common gear properties, a concoction has:
 
 - a **sub-type** describing its nature:
-    - **Mundane** — an ordinary, common preparation, usually simple in
-      composition (often a single prepared ingredient).
-    - **Exotic** — a complex and valuable preparation with medicinal or other
-      special properties, but not magical in nature.
-    - **Elixir** — an arcane alchemical concoction of great power.
-- a **potency** rating (none, mild, strong, or great), describing how forceful its
-  effect is.
-- a **strength**, a numeric measure used where a concoction's effect is resolved
-  against a value.
+  - **Mundane** — an ordinary, common preparation, usually simple in composition (often a single prepared ingredient).
+  - **Exotic** — a complex and valuable preparation with medicinal or other special properties, but not magical in nature.
+  - **Elixir** — an arcane alchemical concoction of great power.
+- a **potency** rating (none, mild, strong, or great), describing how forceful its effect is.
+- a **strength**, a numeric measure used where a concoction's effect is resolved against a value.
 
 Concoctions are typically tracked in quantity and expended when used.

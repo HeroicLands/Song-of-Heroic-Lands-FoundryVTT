@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Chicken
-    - miscgear-chicken
+  - Chicken
+  - miscgear-chicken
 tags:
-    - food
+  - food
 name:
-    full: Chicken
-    aliases: []
+  full: Chicken
+  aliases: []
 description: "Dressed poultry; delicate white meat, spoils quickly unless preserved promptly."
 id: Igv0hOwiUIVcXWdi
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chicken
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1.25
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1.25
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

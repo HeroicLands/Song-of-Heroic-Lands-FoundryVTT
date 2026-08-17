@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dice, pack of 6"
-    - miscgear-dicepackof
+  - "Dice, pack of 6"
+  - miscgear-dicepackof
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Dice, pack of 6"
-    aliases: []
+  full: "Dice, pack of 6"
+  aliases: []
 description: "Six bone or wooden dice; used in taverns and camps for gaming."
 id: MfCpEdDwrJovwGCc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: dicepackof
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 5
-    weight: 0.25
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 5
+  weight: 0.25
 folder: FSPVI1eObGEpMVck
 ---
 

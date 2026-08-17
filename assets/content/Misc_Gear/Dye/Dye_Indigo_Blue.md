@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Indigo Blue"
-    - miscgear-dyeindg
+  - "Dye, Indigo Blue"
+  - miscgear-dyeindg
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Indigo Blue"
-    aliases: []
+  full: "Dye, Indigo Blue"
+  aliases: []
 description: "Precious indigo powder; rich permanent blue for wealthy merchants and court dyers."
 id: LDFL0zBRTWryq45c
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyeindg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 54
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 54
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

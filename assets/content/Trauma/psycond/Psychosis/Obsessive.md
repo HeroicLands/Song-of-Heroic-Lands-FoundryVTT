@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-obsssv
+  - trauma-obsssv
 tags: []
 name:
-    full: Obsessive
-    aliases: []
+  full: Obsessive
+  aliases: []
 id: T1sdYjCY9Miy4Btx
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: obsssv
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,13 +22,11 @@ Obsessive refers to an individual’s tendency to fixate intensely on specific t
 
 ### Quirk
 
-The individual is highly focused and detail-oriented, showing dedication to their tasks or interests. They may be particularly thorough and meticulous in their work, always striving for perfection. While their focus can sometimes come across as overzealous or excessive, they maintain a healthy balance, knowing when to step back or shift their attention to other areas.
-**Example:** Rowan, a scribe, is known for his meticulous copying of manuscripts. He takes great pride in ensuring that each letter is perfectly aligned, reviewing his work multiple times to catch even the smallest errors. Though some find his attention to detail excessive, Rowan’s dedication ensures that his manuscripts are flawless, and his clients appreciate the quality of his work.
+The individual is highly focused and detail-oriented, showing dedication to their tasks or interests. They may be particularly thorough and meticulous in their work, always striving for perfection. While their focus can sometimes come across as overzealous or excessive, they maintain a healthy balance, knowing when to step back or shift their attention to other areas. **Example:** Rowan, a scribe, is known for his meticulous copying of manuscripts. He takes great pride in ensuring that each letter is perfectly aligned, reviewing his work multiple times to catch even the smallest errors. Though some find his attention to detail excessive, Rowan’s dedication ensures that his manuscripts are flawless, and his clients appreciate the quality of his work.
 
 ### Impulse
 
-The individual’s fixation on certain tasks or thoughts becomes more intense, accompanied by bursts of energy and excitement that fuel their obsession. They may feel an urgent need to complete tasks perfectly, often losing track of time and neglecting other responsibilities. This fixation begins to dominate their daily life, as they become hyper-focused on small details or specific issues, often working for hours on end without rest. Their heightened energy and sense of urgency can make them more irritable or impatient when things don’t go as planned, and their relationships begin to suffer as they prioritize their obsessive tasks over other aspects of their life.
-**Example:** Rowan’s fixation becomes more consuming, as he feels a growing urgency to finish every manuscript with absolute perfection. He often works late into the night, driven by a restless energy that won’t let him stop until every letter is flawless. His thoughts race as he works, jumping from one minute detail to the next. Rowan’s colleagues notice that he has become more irritable, snapping at anyone who interrupts him or questions his need for perfection. His obsessive focus leads to delays, and his constant drive to improve his work strains his relationships with clients and friends, who begin to feel neglected or pushed aside.
+The individual’s fixation on certain tasks or thoughts becomes more intense, accompanied by bursts of energy and excitement that fuel their obsession. They may feel an urgent need to complete tasks perfectly, often losing track of time and neglecting other responsibilities. This fixation begins to dominate their daily life, as they become hyper-focused on small details or specific issues, often working for hours on end without rest. Their heightened energy and sense of urgency can make them more irritable or impatient when things don’t go as planned, and their relationships begin to suffer as they prioritize their obsessive tasks over other aspects of their life. **Example:** Rowan’s fixation becomes more consuming, as he feels a growing urgency to finish every manuscript with absolute perfection. He often works late into the night, driven by a restless energy that won’t let him stop until every letter is flawless. His thoughts race as he works, jumping from one minute detail to the next. Rowan’s colleagues notice that he has become more irritable, snapping at anyone who interrupts him or questions his need for perfection. His obsessive focus leads to delays, and his constant drive to improve his work strains his relationships with clients and friends, who begin to feel neglected or pushed aside.
 
 ### Disorder
 

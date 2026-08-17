@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Candles, Beeswax"
-    - miscgear-candlesbee
+  - "Candles, Beeswax"
+  - miscgear-candlesbee
 tags:
-    - lighting
+  - lighting
 name:
-    full: "Candles, Beeswax"
-    aliases: []
+  full: "Candles, Beeswax"
+  aliases: []
 description: "Pure beeswax candles; bright, sweet-scented; favored by churches and gentry."
 id: Ko1iSbLYwxPgHPCr
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: candlesbee
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 24
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 24
+  weight: 1
 folder: csqutf8WiTRM8oru
 ---
 

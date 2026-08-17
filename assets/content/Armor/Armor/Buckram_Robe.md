@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Buckram Robe
-    - armorgear-BRobe
+  - Buckram Robe
+  - armorgear-BRobe
 tags: []
 name:
-    full: Buckram Robe
-    aliases: []
+  full: Buckram Robe
+  aliases: []
 description: "Stiff buckram robe offering durability and reliable rigid coverage."
 id: XV5pPcNxzlPhUuCo
 img: icons/game-icons/lorc/robe.svg
@@ -13,43 +13,43 @@ shortcode: BRobe
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Robe
-    detailMaterial: Buckram
-    material: Cloth
-    durability: 10
-    value: 79
-    weight: 4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Robe
+  detailMaterial: Buckram
+  material: Cloth
+  durability: 10
+  value: 79
+  weight: 4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 79
 origWeight: 4

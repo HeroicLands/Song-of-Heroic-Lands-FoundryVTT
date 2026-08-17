@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Velvet Apron
-    - armorgear-VApn
+  - Velvet Apron
+  - armorgear-VApn
 tags: []
 name:
-    full: Velvet Apron
-    aliases: []
+  full: Velvet Apron
+  aliases: []
 description: "Plush velvet apron; opulent status symbol for formal settings."
 id: 6sMhJOZtw58Ax8GJ
 img: icons/game-icons/delapouite/cook.svg
@@ -13,31 +13,31 @@ shortcode: VApn
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Apron
-    detailMaterial: Velvet
-    material: Cloth
-    durability: 10
-    value: 168.3
-    weight: 2.4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Apron
+  detailMaterial: Velvet
+  material: Cloth
+  durability: 10
+  value: 168.3
+  weight: 2.4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 168.3
 origWeight: 2.4

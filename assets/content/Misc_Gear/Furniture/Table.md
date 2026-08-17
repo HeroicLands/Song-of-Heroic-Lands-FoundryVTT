@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Table"
-    - miscgear-table
+  - "Table"
+  - miscgear-table
 tags:
-    - furniture
+  - furniture
 name:
-    full: "Table"
-    aliases: []
+  full: "Table"
+  aliases: []
 description: "Trestle-mounted board seating several (roughly 4 x 6 feet)."
 id: tBK4sJeLBXaGIbdU
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: table
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: furniture
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 36
-    weight: 47
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: furniture
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 36
+  weight: 47
 folder: Wq1tmMJTjDoFFtLS
 ---
 

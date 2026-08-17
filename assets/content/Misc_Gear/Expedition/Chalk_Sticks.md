@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Chalk Sticks
-    - miscgear-chalkstick
+  - Chalk Sticks
+  - miscgear-chalkstick
 tags:
-    - expedition
+  - expedition
 name:
-    full: Chalk Sticks
-    aliases: []
+  full: Chalk Sticks
+  aliases: []
 description: "Soft mineral sticks; marks stone, parchment, and leather for masons and merchants."
 id: w9A0Ud5fPNT6QAAr
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chalkstick
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 10
-    weight: 1
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 10
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

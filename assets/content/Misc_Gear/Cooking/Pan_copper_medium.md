@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pan, copper, medium"
-    - miscgear-pancopperm
+  - "Pan, copper, medium"
+  - miscgear-pancopperm
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Pan, copper, medium"
-    aliases: []
+  full: "Pan, copper, medium"
+  aliases: []
 description: "Medium copper pan; even heat distribution for sauces and sautéing vegetables."
 id: clMS8trgKKuBtxWH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pancopperm
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 8
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 8
+  weight: 2
 folder: 7TT0OzoIoEn40zfs
 ---
 

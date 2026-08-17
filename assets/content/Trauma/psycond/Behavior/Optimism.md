@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-optimism
+  - trauma-optimism
 tags: []
 name:
-    full: Optimism
-    aliases: []
+  full: Optimism
+  aliases: []
 id: Wn0xXFSWaEqLYo7j
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: optimism
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,13 +22,11 @@ Optimism is a positive outlook on life, characterized by the expectation that go
 
 ### Quirk
 
-The individual maintains a positive and hopeful attitude, believing that things will generally turn out well. They tend to focus on the bright side of situations, which helps them cope with stress and setbacks. This trait typically enhances well-being and social relationships.
-**Example:** Emma tends to see the silver lining in every situation. Even when things don't go as planned, she remains confident that everything will work out in the end. Her positive attitude lifts the spirits of those around her, making her a source of encouragement for her friends and family.
+The individual maintains a positive and hopeful attitude, believing that things will generally turn out well. They tend to focus on the bright side of situations, which helps them cope with stress and setbacks. This trait typically enhances well-being and social relationships. **Example:** Emma tends to see the silver lining in every situation. Even when things don't go as planned, she remains confident that everything will work out in the end. Her positive attitude lifts the spirits of those around her, making her a source of encouragement for her friends and family.
 
 ### Impulse
 
-The individual’s optimism becomes more pronounced, leading them to consistently overlook potential risks or downsides. They may dismiss warnings or concerns from others, believing that everything will work out regardless of the circumstances. This level of optimism can lead to impulsive decisions and unpreparedness for challenges.
-**Example:** Emma decides to invest her savings into a new business venture, convinced that it will be an instant success despite the obvious risks. When her friends express concern, she brushes them off, insisting that her positive outlook will ensure everything goes smoothly. She moves forward with the plan, without fully considering the potential pitfalls.
+The individual’s optimism becomes more pronounced, leading them to consistently overlook potential risks or downsides. They may dismiss warnings or concerns from others, believing that everything will work out regardless of the circumstances. This level of optimism can lead to impulsive decisions and unpreparedness for challenges. **Example:** Emma decides to invest her savings into a new business venture, convinced that it will be an instant success despite the obvious risks. When her friends express concern, she brushes them off, insisting that her positive outlook will ensure everything goes smoothly. She moves forward with the plan, without fully considering the potential pitfalls.
 
 ### Disorder
 

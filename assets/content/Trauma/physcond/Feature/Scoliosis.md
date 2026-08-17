@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-sclss
+  - trauma-sclss
 tags: []
 name:
-    full: Scoliosis
-    aliases: []
+  full: Scoliosis
+  aliases: []
 id: H7iZYjKLbxq25bRs
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sclss
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: debility
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: debility
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -22,8 +22,7 @@ Scoliosis is a condition where the spine curves abnormally to the side, often fo
 
 ### Impediment
 
-Mild to moderate curvature of the spine, resulting in a visible asymmetry of the shoulders, hips, or back. The individual may experience occasional discomfort, muscle strain, or stiffness, but can still perform most tasks with minimal difficulty.
-**Example:** Apprentice mason Aldred notices his back aching after long hours of work. His shoulders appear slightly uneven, but the discomfort is manageable with rest and stretching. Though his posture is not perfect, he continues to work efficiently, compensating for the mild curve in his spine.
+Mild to moderate curvature of the spine, resulting in a visible asymmetry of the shoulders, hips, or back. The individual may experience occasional discomfort, muscle strain, or stiffness, but can still perform most tasks with minimal difficulty. **Example:** Apprentice mason Aldred notices his back aching after long hours of work. His shoulders appear slightly uneven, but the discomfort is manageable with rest and stretching. Though his posture is not perfect, he continues to work efficiently, compensating for the mild curve in his spine.
 
 ### Debility
 

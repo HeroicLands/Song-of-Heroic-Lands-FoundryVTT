@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Spinel, cut"
-    - miscgear-spinelcut
+  - "Spinel, cut"
+  - miscgear-spinelcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Spinel, cut"
-    aliases: []
+  full: "Spinel, cut"
+  aliases: []
 description: "Hard gemstone in red-pink-purple; brilliant and durable; often confused with ruby."
 id: T5e6N6ftn0YD5dQx
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spinelcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 40
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 40
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

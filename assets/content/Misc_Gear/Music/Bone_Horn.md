@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Bone/Horn
-    - miscgear-bonehorn
+  - Bone/Horn
+  - miscgear-bonehorn
 tags:
-    - music
+  - music
 name:
-    full: Bone/Horn
-    aliases: []
+  full: Bone/Horn
+  aliases: []
 description: "Hollow bone-horn pipe stoppered with cork; reedy piercing voice carries across moorland."
 id: ouFBUlaNt8q0AK9r
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bonehorn
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 1
-    weight: 0.0625
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 1
+  weight: 0.0625
 folder: ncTaRcZt0RFYz0Gq
 ---
 

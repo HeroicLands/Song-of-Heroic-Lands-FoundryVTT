@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-elo
+  - attribute-elo
 tags: []
 name:
-    full: Eloquence
-    aliases: []
+  full: Eloquence
+  aliases: []
 description: "The power of chosen words to convince, inspire, teach, or deceive."
 id: fqNqvvCDHQx44iCe
 img: icons/game-icons/delapouite/megaphone.svg
@@ -12,15 +12,15 @@ shortcode: elo
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Incoherent:4
-        - Muddled:8
-        - Average:12
-        - Articulate:16
-        - Expressive:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Incoherent:4
+    - Muddled:8
+    - Average:12
+    - Articulate:16
+    - Expressive:999
+  initDiceFormula: 3d6
 sort: 120
 folder: FPitxvL8wCmXynax
 ---

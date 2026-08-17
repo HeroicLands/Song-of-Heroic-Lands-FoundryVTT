@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-glrntd
+  - trauma-glrntd
 tags: []
 name:
-    full: Goal-oriented
-    aliases: []
+  full: Goal-oriented
+  aliases: []
 id: rqm9dILZX6cvw1Og
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: glrntd
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Goal-Oriented refers to an individual's focus on achieving specific objectives a
 
 ### Quirk
 
-The individual sets clear goals and works steadily towards achieving them. They are organized and motivated, balancing their ambition with other aspects of life, such as relationships and personal interests. They are able to adjust their approach if needed and are open to feedback, all while maintaining a strong sense of purpose.
-**Example:** Lady Helena has a clear vision for expanding her estate’s trade routes. She creates a detailed plan and steadily works toward her goal, collaborating with merchants and ensuring her workers are cared for. Helena’s focused approach allows her to succeed without sacrificing her relationships or health.
+The individual sets clear goals and works steadily towards achieving them. They are organized and motivated, balancing their ambition with other aspects of life, such as relationships and personal interests. They are able to adjust their approach if needed and are open to feedback, all while maintaining a strong sense of purpose. **Example:** Lady Helena has a clear vision for expanding her estate’s trade routes. She creates a detailed plan and steadily works toward her goal, collaborating with merchants and ensuring her workers are cared for. Helena’s focused approach allows her to succeed without sacrificing her relationships or health.
 
 ### Impulse
 
-The individual becomes more intensely focused on their goals, sometimes prioritizing them over other important aspects of life. While they remain effective and driven, they may begin to neglect social interactions, relaxation, or self-care in their pursuit of achievement. Others may see them as overly focused, but they still maintain a functional balance.
-**Example:** Lady Helena becomes increasingly focused on her trade expansion, spending late nights reviewing reports and meeting with merchants. She starts to cancel social events and neglects her personal hobbies, telling herself that these sacrifices are necessary to achieve her ambitions. Though still effective in her role, Helena’s friends and family begin to notice her growing distance.
+The individual becomes more intensely focused on their goals, sometimes prioritizing them over other important aspects of life. While they remain effective and driven, they may begin to neglect social interactions, relaxation, or self-care in their pursuit of achievement. Others may see them as overly focused, but they still maintain a functional balance. **Example:** Lady Helena becomes increasingly focused on her trade expansion, spending late nights reviewing reports and meeting with merchants. She starts to cancel social events and neglects her personal hobbies, telling herself that these sacrifices are necessary to achieve her ambitions. Though still effective in her role, Helena’s friends and family begin to notice her growing distance.
 
 ### Disorder
 

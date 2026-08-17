@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Mutton
-    - miscgear-mutton
+  - Mutton
+  - miscgear-mutton
 tags:
-    - food
+  - food
 name:
-    full: Mutton
-    aliases: []
+  full: Mutton
+  aliases: []
 description: "Dark meat of aging sheep, stronger than lamb, suits hearty dishes."
 id: GXG1GyUYLgGBKg2s
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: mutton
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

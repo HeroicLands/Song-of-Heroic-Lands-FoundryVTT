@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-sing
+  - skill-sing
 tags: []
 name:
-    full: Singing
-    aliases: []
+  full: Singing
+  aliases: []
 description: "Vocal performance with control of pitch, tone, and emotional expression."
 id: lH0RVKjTxtHEUacl
 img: icons/game-icons/lorc/sing.svg
@@ -12,19 +12,19 @@ shortcode: sing
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: social
-    skillBaseFormula: "sb(attr.voi, attr.cre)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: social
+  skillBaseFormula: "sb(attr.voi, attr.cre)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Waterskin, 2qt.
-    - containergear-wtrskin
+  - Waterskin, 2qt.
+  - containergear-wtrskin
 tags: []
 name:
-    full: Waterskin, 2qt.
-    aliases: []
+  full: Waterskin, 2qt.
+  aliases: []
 description: "Pitch-lined hide waterskin with horn plug; essential traveling gear."
 id: XybyEdF3GrJWBhh2
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: wtrskin
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 7
-    maxCapacity: 4
-    value: 24
-    weight: 1
+  craft:
+    skill: hide
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 7
+  maxCapacity: 4
+  value: 24
+  weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

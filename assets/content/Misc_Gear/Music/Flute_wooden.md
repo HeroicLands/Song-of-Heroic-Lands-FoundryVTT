@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Flute, wooden"
-    - miscgear-flutewoode
+  - "Flute, wooden"
+  - miscgear-flutewoode
 tags:
-    - music
+  - music
 name:
-    full: "Flute, wooden"
-    aliases: []
+  full: "Flute, wooden"
+  aliases: []
 description: "Turned fruitwood pipe with fipple; warm sweet voice, apt for folk melody."
 id: mLkL0dprHe0L8pxW
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: flutewoode
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 3
-    weight: 0.5
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 3
+  weight: 0.5
 folder: ncTaRcZt0RFYz0Gq
 ---
 

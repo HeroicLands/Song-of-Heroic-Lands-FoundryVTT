@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Arcane Talent
-    - doc-arcntlnt
+  - Arcane Talent
+  - doc-arcntlnt
 id: qOiNFIASYJVIfgHC
 type: doc
 package: sohl
 category: rules
 name:
-    full: Arcane Talent
-    aliases: []
+  full: Arcane Talent
+  aliases: []
 shortcode: arcntlnt
 folder: J8ppkzls4ERyzTpv
 ---

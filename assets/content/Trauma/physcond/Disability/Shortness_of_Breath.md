@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Shortness of Breath
-    - trauma-shrtbrth
+  - Shortness of Breath
+  - trauma-shrtbrth
 tags: []
 name:
-    full: Shortness of Breath
-    aliases: []
+  full: Shortness of Breath
+  aliases: []
 id: OLiKXQQdP54xRsIi
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: shrtbrth
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -23,8 +23,7 @@ Shortness of Breath is a condition characterized by difficulty breathing where t
 
 ### Impediment
 
-Occasional shortness of breath, often triggered by physical exertion, stress, or environmental factors like high altitude or cold air. The individual may need to pause and focus on breathing to regain comfort.
-**Example:** Knight Roderic feels winded after a long march in his heavy armor. He must pause frequently to catch his breath, leaning on his sword for support as he waits for the tightness in his chest to ease.
+Occasional shortness of breath, often triggered by physical exertion, stress, or environmental factors like high altitude or cold air. The individual may need to pause and focus on breathing to regain comfort. **Example:** Knight Roderic feels winded after a long march in his heavy armor. He must pause frequently to catch his breath, leaning on his sword for support as he waits for the tightness in his chest to ease.
 
 ### Debility
 

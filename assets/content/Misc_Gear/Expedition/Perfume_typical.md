@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Perfume, typical"
-    - miscgear-perfumetypical
+  - "Perfume, typical"
+  - miscgear-perfumetypical
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Perfume, typical"
-    aliases: []
+  full: "Perfume, typical"
+  aliases: []
 description: "Competently blended scent that lasts an evening."
 id: 9OgdP7FSR8jDIzA7
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: perfumetypical
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: pfmy
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 48
-    weight: 0.0625
+  craft:
+    skill: pfmy
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 48
+  weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

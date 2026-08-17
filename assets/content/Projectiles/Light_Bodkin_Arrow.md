@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Light Bodkin Arrow
-    - projectilegear-ArwLBod
+  - Light Bodkin Arrow
+  - projectilegear-ArwLBod
 tags: []
 name:
-    full: Light Bodkin Arrow
-    alias: []
+  full: Light Bodkin Arrow
+  alias: []
 description: "Slender shaft, square-sectioned spike; splits light mail at distance; militia, skirmish use."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: ArwLBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.125
-    weight: 1
-    impact:
-        die: 8
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: false
-    subType: arrow
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.125
+  weight: 1
+  impact:
+    die: 8
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: false
+  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

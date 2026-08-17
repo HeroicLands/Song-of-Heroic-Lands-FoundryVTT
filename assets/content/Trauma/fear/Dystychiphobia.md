@@ -1,26 +1,25 @@
 ---
 aliases:
-    - trauma-dystychi
+  - trauma-dystychi
 tags: []
 name:
-    full: Dystychiphobia
-    aliases: []
+  full: Dystychiphobia
+  aliases: []
 id: CTfLicg6fn1Uh6eO
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: dystychi
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Dystychiphobia is an intense, irrational fear of accidents.
-People with dystychiphobia may experience a range of symptoms when they think about, see, or are in situations where accidents could occur.
+Dystychiphobia is an intense, irrational fear of accidents. People with dystychiphobia may experience a range of symptoms when they think about, see, or are in situations where accidents could occur.
 
 ### Impulse
 

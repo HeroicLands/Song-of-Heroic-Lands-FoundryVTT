@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Plate Coudes
-    - armorgear-PlCou
+  - Plate Coudes
+  - armorgear-PlCou
 tags: []
 name:
-    full: Plate Coudes
-    aliases: []
+  full: Plate Coudes
+  aliases: []
 description: "Steel elbow-caps; joint-guard for armed combat or labor."
 id: 2ryS8kQlPEAX3raG
 img: icons/game-icons/delapouite/elbow-pad.svg
@@ -13,29 +13,29 @@ shortcode: PlCou
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: plate
-    archetype: 0
-    armorType: Coudes
-    detailMaterial: Plate
-    material: Plate
-    durability: 14
-    value: 40
-    weight: 0.8
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    encumbranceGroup: arm
-    flexloc: []
-    rigidloc:
-        - lelbloc
-        - relbloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: plate
+  archetype: 0
+  armorType: Coudes
+  detailMaterial: Plate
+  material: Plate
+  durability: 14
+  value: 40
+  weight: 0.8
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  encumbranceGroup: arm
+  flexloc: []
+  rigidloc:
+    - lelbloc
+    - relbloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 40
 origWeight: 0.8

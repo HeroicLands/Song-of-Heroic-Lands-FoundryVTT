@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Urn, ceramic, 5 gallon"
-    - containergear-urncer5gal
+  - "Urn, ceramic, 5 gallon"
+  - containergear-urncer5gal
 tags: []
 name:
-    full: "Urn, ceramic, 5 gallon"
-    aliases: []
+  full: "Urn, ceramic, 5 gallon"
+  aliases: []
 description: "Wide-mouthed storage urn for grain, flour, or salt (5 gallons)."
 id: 81loUXRbTVhEh1me
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: urncer5gal
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 40
-    value: 12
-    weight: 9
+  craft:
+    skill: cmcs
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 40
+  value: 12
+  weight: 9
 folder: dl8lJ729W1mFlDvt
 ---
 

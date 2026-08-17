@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-embl
+  - skill-embl
 tags: []
 name:
-    full: Embalming
-    aliases: []
+  full: Embalming
+  aliases: []
 description: "Preparing corpses for burial; delaying decomposition through preservation techniques."
 id: fBvSknN5B0nsvuLm
 img: icons/game-icons/delapouite/mummy-head.svg
@@ -12,19 +12,19 @@ shortcode: embl
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: QlkEHXbk2EXlRiMM
 ---
 

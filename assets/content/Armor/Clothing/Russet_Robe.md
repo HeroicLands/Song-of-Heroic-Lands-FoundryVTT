@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Russet Robe
-    - armorgear-RRobe
+  - Russet Robe
+  - armorgear-RRobe
 tags: []
 name:
-    full: Russet Robe
-    aliases: []
+  full: Russet Robe
+  aliases: []
 description: "Reddish-brown wool robe; everyday garment for cooler weather."
 id: l88Lo8FeVrLXaJUK
 img: icons/game-icons/lorc/robe.svg
@@ -13,43 +13,43 @@ shortcode: RRobe
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Robe
-    detailMaterial: Russet
-    material: Cloth
-    durability: 7
-    value: 95
-    weight: 2
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Robe
+  detailMaterial: Russet
+  material: Cloth
+  durability: 7
+  value: 95
+  weight: 2
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 79
 origWeight: 4

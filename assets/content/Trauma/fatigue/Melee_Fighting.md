@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Melee Fighting
-    - trauma-fight
+  - Melee Fighting
+  - trauma-fight
 tags: []
 name:
-    full: Melee Fighting
-    aliases: []
+  full: Melee Fighting
+  aliases: []
 description: "Acute windedness from armed close combat."
 id: 4xM2HdylF5p2fWJJ
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: fight
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: windedness
+  levelBase: 1
+  healingRateBase: 5
 folder: Y22wv8plMCfPXYBT
 ---
 

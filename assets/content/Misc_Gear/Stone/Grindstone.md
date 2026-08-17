@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Grindstone
-    - miscgear-grindstone
+  - Grindstone
+  - miscgear-grindstone
 tags:
-    - stone
+  - stone
 name:
-    full: Grindstone
-    aliases: []
+  full: Grindstone
+  aliases: []
 description: "Sandstone or granite disc; horizontal axle; grinds grain, ore, pigment by hand-turn."
 id: nQT6C02fyJ2zGIXN
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: grindstone
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: masn
-        secondary: []
-    kbcat: stone
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 12
-    weight: 17
+  craft:
+    skill: masn
+    secondary: []
+  kbcat: stone
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 12
+  weight: 17
 folder: 7HORJHbbizVSds9r
 ---
 

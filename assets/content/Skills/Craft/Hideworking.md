@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-hide
+  - skill-hide
 tags: []
 name:
-    full: Hideworking
-    aliases: []
+  full: Hideworking
+  aliases: []
 description: "Tanning furs and hides into leather goods; producing armor and equipment."
 id: 2pMnvbwN1cHUKVkJ
 img: icons/game-icons/delapouite/animal-hide.svg
@@ -12,19 +12,19 @@ shortcode: hide
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -32,9 +32,7 @@ Hideworking is the whole passage from a raw skin to a finished article: fleshing
 
 # Crafting {#crafting}
 
-Leather goods are made by the common [[doc-crafting|crafting routine]] —
-workshop, expense, test, result, masterwork rolls, repair. What follows is what
-is particular to the tannery.
+Leather goods are made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the tannery.
 
 **Test.** A Hideworking Success Value test, read on the standard ladder, fixes the quality of what comes off the bench.
 

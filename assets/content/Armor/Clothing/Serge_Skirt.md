@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Serge Skirt
-    - armorgear-SgSkirt
+  - Serge Skirt
+  - armorgear-SgSkirt
 tags: []
 name:
-    full: Serge Skirt
-    aliases: []
+  full: Serge Skirt
+  aliases: []
 description: "Twilled serge skirt; practical, durable garment for various activities."
 id: pN92nh46jHDIzV20
 img: icons/game-icons/delapouite/skirt.svg
@@ -13,33 +13,33 @@ shortcode: SgSkirt
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Skirt
-    detailMaterial: Serge
-    material: Cloth
-    durability: 7
-    value: 23.3
-    weight: 1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Skirt
+  detailMaterial: Serge
+  material: Cloth
+  durability: 7
+  value: 23.3
+  weight: 1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 23.3
 origWeight: 1

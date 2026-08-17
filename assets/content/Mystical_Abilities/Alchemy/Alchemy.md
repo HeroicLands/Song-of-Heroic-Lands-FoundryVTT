@@ -1,10 +1,10 @@
 ---
 aliases:
-    - mysticalability-alch
+  - mysticalability-alch
 tags: []
 name:
-    full: Alchemy
-    aliases: []
+  full: Alchemy
+  aliases: []
 description: "Preparing elixirs and worked substances that carry mystical potency."
 id: uCTDMG4EGHB6dI5u
 img: icons/game-icons/lorc/bubbling-flask.svg
@@ -12,13 +12,13 @@ shortcode: alch
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: alchemy
-    archetype: 0
-    subType: alchemy
-    assocSkillCode: ""
-    assocMysteryCode: ""
-    levelBase: 0
-    masteryLevelBase: 0
+  kbcat: alchemy
+  archetype: 0
+  subType: alchemy
+  assocSkillCode: ""
+  assocMysteryCode: ""
+  levelBase: 0
+  masteryLevelBase: 0
 folder: m0nRzDsS8uGisvDU
 ---
 

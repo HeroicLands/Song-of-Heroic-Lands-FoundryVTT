@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-str
+  - attribute-str
 tags: []
 name:
-    full: Strength
-    aliases: []
+  full: Strength
+  aliases: []
 description: "The power of muscle and bone brought to bear by physical exertion."
 id: LDCPcITBQjtXB87S
 img: icons/game-icons/delapouite/biceps.svg
@@ -12,15 +12,15 @@ shortcode: str
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Feeble:4
-        - Weak:8
-        - Average:12
-        - Forceful:16
-        - Mighty:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Feeble:4
+    - Weak:8
+    - Average:12
+    - Forceful:16
+    - Mighty:999
+  initDiceFormula: 3d6
 sort: 10
 folder: FPitxvL8wCmXynax
 ---

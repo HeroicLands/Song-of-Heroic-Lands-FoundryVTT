@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Plate, pewter"
-    - miscgear-platepewte
+  - "Plate, pewter"
+  - miscgear-platepewte
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Plate, pewter"
-    aliases: []
+  full: "Plate, pewter"
+  aliases: []
 description: "Flat pewter plate for daily household or tavern meals and service."
 id: Xx2L2NR7aemZJW84
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: platepewte
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 5
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 5
+  weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

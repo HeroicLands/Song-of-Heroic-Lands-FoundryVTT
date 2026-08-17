@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Serge Cap
-    - armorgear-SgCap
+  - Serge Cap
+  - armorgear-SgCap
 tags: []
 name:
-    full: Serge Cap
-    aliases: []
+  full: Serge Cap
+  aliases: []
 description: "Twilled serge cap; comfortable, durable head covering for daily use."
 id: w8A7ol7mEuYgXQ8D
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: SgCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Serge
-    material: Cloth
-    durability: 7
-    value: 2
-    weight: 0.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Serge
+  material: Cloth
+  durability: 7
+  value: 2
+  weight: 0.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 4
 origWeight: 0.2

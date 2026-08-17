@@ -1,11 +1,11 @@
 ---
 aliases:
-    - trauma-poison
+  - trauma-poison
 tags: []
 name:
-    full: Poisoned
-    aliases:
-        - Poison
+  full: Poisoned
+  aliases:
+    - Poison
 description: "Long-term weakness from active poison or toxin in the body."
 id: U5hPImsuxbuJVzJ4
 img: icons/game-icons/lorc/sleepy.svg
@@ -13,12 +13,12 @@ shortcode: poison
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weakness
+  levelBase: 1
+  healingRateBase: 1
 folder: Y22wv8plMCfPXYBT
 ---
 

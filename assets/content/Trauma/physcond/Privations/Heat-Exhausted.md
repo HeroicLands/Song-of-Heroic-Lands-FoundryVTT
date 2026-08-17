@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-htexh
+  - trauma-htexh
 tags: []
 name:
-    full: Heat-Exhausted
-    aliases: []
+  full: Heat-Exhausted
+  aliases: []
 description: "Moderate heat injury; pale, clammy skin, weak pulse, nausea, faintness."
 id: us65TjFmPUDBVg5s
 img: icons/game-icons/delapouite/stomach.svg
@@ -12,12 +12,12 @@ shortcode: htexh
 type: trauma
 package: sohl
 sohl:
-    kbcat: physprivations
-    archetype: 0
-    subType: physcond
-    category: impediment
-    levelBase: 2
-    healingRateBase: 3
+  kbcat: physprivations
+  archetype: 0
+  subType: physcond
+  category: impediment
+  levelBase: 2
+  healingRateBase: 3
 folder: wz4hXqKLntkdXNue
 ---
 

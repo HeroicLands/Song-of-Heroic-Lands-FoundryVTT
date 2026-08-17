@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Brass
-    - miscgear-brass
+  - Brass
+  - miscgear-brass
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Brass
-    aliases: []
+  full: Brass
+  aliases: []
 description: "Copper-and-tin alloy resistant to corrosion; merchants trade ingots by weight."
 id: p0tv5i6QrzL1Agtc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: brass
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 1
-    weight: 0.0625
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 1
+  weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

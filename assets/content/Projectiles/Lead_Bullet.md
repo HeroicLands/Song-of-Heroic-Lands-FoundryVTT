@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Lead Bullet
-    - projectilegear-LBul
+  - Lead Bullet
+  - projectilegear-LBul
 tags: []
 name:
-    full: Lead Bullet
-    alias: []
+  full: Lead Bullet
+  alias: []
 description: "Cast lead almond-shaped ball; farther-flying, harder-striking than stone; pierces gambesons."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: LBul
 img: icons/game-icons/delapouite/stone-pile.svg
 easyname: Lead Bullet
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 1
-    weight: 0.17
-    impact:
-        die: 10
-        modifier: -1
-        aspect: blunt
-    traits:
-        ARvalue: 0
-        bleed: false
-    subType: bullet
+  craft:
+    skill: mtlc
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 1
+  weight: 0.17
+  impact:
+    die: 10
+    modifier: -1
+    aspect: blunt
+  traits:
+    ARvalue: 0
+    bleed: false
+  subType: bullet
 folder: ADQPHjgKsdWsJhyy
 ---
 

@@ -94,8 +94,8 @@ function main() {
     if (byKey.size === 0) {
         console.error(
             `check-pack-shortcodes: ${ROOT}/ holds no keyed content, so ` +
-                `uniqueness is vacuous. assets/content/ is generated — run ` +
-                `"npm run content:export" (maintainers) or check out the tree.`,
+                `uniqueness is vacuous. assets/content/ is this ` +
+                `repository's own source — check out the tree.`,
         );
         return 1;
     }
@@ -118,7 +118,7 @@ function main() {
             `\n${malformed.length} malformed shortcode(s). A shortcode must match ` +
                 `/^[A-Za-z0-9]+$/ — it is the system's identity key and half of the ` +
                 `"type-shortcode" address, whose parse needs the separator to be the ` +
-                `only hyphen. Rename it in the vault note and re-export; a shortcode ` +
+                `only hyphen. Rename it in the note; a shortcode ` +
                 `already shipped also needs a world migration.\n`,
         );
     }

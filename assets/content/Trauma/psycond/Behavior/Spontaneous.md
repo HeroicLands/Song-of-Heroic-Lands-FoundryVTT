@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-spntns
+  - trauma-spntns
 tags: []
 name:
-    full: Spontaneous
-    aliases: []
+  full: Spontaneous
+  aliases: []
 id: vROxy4RTxxgFPXbd
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: spntns
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

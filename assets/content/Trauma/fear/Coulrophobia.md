@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-clrphb
+  - trauma-clrphb
 tags: []
 name:
-    full: Coulrophobia
-    aliases: []
+  full: Coulrophobia
+  aliases: []
 id: vue9iUYrPF8WrpdN
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: clrphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-law
+  - skill-law
 tags: []
 name:
-    full: Law
-    aliases: []
+  full: Law
+  aliases: []
 description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."
 id: fudqfR2nnjqpo5O7
 img: icons/game-icons/lorc/scales.svg
@@ -12,17 +12,17 @@ shortcode: law
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: QlkEHXbk2EXlRiMM
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Flax
-    - miscgear-flax
+  - Flax
+  - miscgear-flax
 tags:
-    - food
+  - food
 name:
-    full: Flax
-    aliases: []
+  full: Flax
+  aliases: []
 description: "Dried stalks; raw material of linen, seeds press for oil and meal."
 id: 9nG57yrVhtg7YMkH
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: flax
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 3
-    weight: 60
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 3
+  weight: 60
 folder: cHM58zOI1EcSG3cP
 ---
 

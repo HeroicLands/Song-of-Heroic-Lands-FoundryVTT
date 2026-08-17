@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Buns
-    - miscgear-buns
+  - Buns
+  - miscgear-buns
 tags:
-    - food
+  - food
 name:
-    full: Buns
-    aliases: []
+  full: Buns
+  aliases: []
 description: "Soft, round dough loaves; market fare studded with dried fruit or herbs."
 id: uiYzUklfvVcldC7G
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: buns
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mill
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 3
+  craft:
+    skill: mill
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-nrcssstc
+  - trauma-nrcssstc
 tags: []
 name:
-    full: Narcissistic
-    aliases: []
+  full: Narcissistic
+  aliases: []
 id: odWkFnnjhkldU0XC
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: nrcssstc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,13 +22,11 @@ Narcissistic refers to an individual’s excessive sense of self-importance, ent
 
 ### Quirk
 
-The individual exhibits strong self-confidence and enjoys recognition for their achievements. They believe they are skilled and deserving of admiration, often taking pride in their accomplishments. Though their self-assurance can sometimes come across as boastful or arrogant, they generally maintain healthy relationships, as they do not intend to harm others. However, they may struggle with criticism and be sensitive to any challenges to their self-image.
-**Example:** Edwin, a successful merchant, often talks about his business success, relishing in the praise and admiration of his peers. He enjoys being the center of attention at the marketplace, boasting about his profits and connections. While some find his arrogance off-putting, Edwin is still generous with his wealth and maintains amicable relationships, though he is quick to dismiss any criticism of his methods or decisions.
+The individual exhibits strong self-confidence and enjoys recognition for their achievements. They believe they are skilled and deserving of admiration, often taking pride in their accomplishments. Though their self-assurance can sometimes come across as boastful or arrogant, they generally maintain healthy relationships, as they do not intend to harm others. However, they may struggle with criticism and be sensitive to any challenges to their self-image. **Example:** Edwin, a successful merchant, often talks about his business success, relishing in the praise and admiration of his peers. He enjoys being the center of attention at the marketplace, boasting about his profits and connections. While some find his arrogance off-putting, Edwin is still generous with his wealth and maintains amicable relationships, though he is quick to dismiss any criticism of his methods or decisions.
 
 ### Impulse
 
-The individual’s self-centered behavior becomes more pronounced, as they seek constant admiration and validation from others. They may become more preoccupied with their image, expecting praise and attention at all times. Criticism or even perceived slights cause them significant distress, and they begin to view others as tools for boosting their own ego. Their relationships begin to suffer as they prioritize their need for attention over others’ feelings, often failing to show empathy or concern for anyone but themselves.
-**Example:** Edwin’s desire for recognition grows stronger. He constantly demands admiration from his peers, interrupting conversations to brag about his latest successes. When someone else is praised, Edwin becomes jealous, downplaying their achievements and steering the focus back to himself. He dismisses friends who don’t give him enough attention, leaving those close to him feeling neglected and used, as Edwin’s need for validation consumes his interactions.
+The individual’s self-centered behavior becomes more pronounced, as they seek constant admiration and validation from others. They may become more preoccupied with their image, expecting praise and attention at all times. Criticism or even perceived slights cause them significant distress, and they begin to view others as tools for boosting their own ego. Their relationships begin to suffer as they prioritize their need for attention over others’ feelings, often failing to show empathy or concern for anyone but themselves. **Example:** Edwin’s desire for recognition grows stronger. He constantly demands admiration from his peers, interrupting conversations to brag about his latest successes. When someone else is praised, Edwin becomes jealous, downplaying their achievements and steering the focus back to himself. He dismisses friends who don’t give him enough attention, leaving those close to him feeling neglected and used, as Edwin’s need for validation consumes his interactions.
 
 ### Disorder
 

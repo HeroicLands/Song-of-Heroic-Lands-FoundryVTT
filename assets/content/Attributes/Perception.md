@@ -1,10 +1,10 @@
 ---
 aliases:
-    - attribute-per
+  - attribute-per
 tags: []
 name:
-    full: Perception
-    aliases: []
+  full: Perception
+  aliases: []
 description: "Acuity of the senses taken together: eye, ear, and nose."
 id: qI1YEU3drmyEAiEl
 img: icons/game-icons/lorc/awareness.svg
@@ -12,15 +12,15 @@ shortcode: per
 type: attribute
 package: sohl
 sohl:
-    archetype: 0
-    scoreBase: 0
-    valueDesc:
-        - Impaired:4
-        - Dulled:8
-        - Average:12
-        - Sharp:16
-        - Acute:999
-    initDiceFormula: 3d6
+  archetype: 0
+  scoreBase: 0
+  valueDesc:
+    - Impaired:4
+    - Dulled:8
+    - Average:12
+    - Sharp:16
+    - Acute:999
+  initDiceFormula: 3d6
 sort: 50
 folder: FPitxvL8wCmXynax
 ---

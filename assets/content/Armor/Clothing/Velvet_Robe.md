@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Velvet Robe
-    - armorgear-VRobe
+  - Velvet Robe
+  - armorgear-VRobe
 tags: []
 name:
-    full: Velvet Robe
-    aliases: []
+  full: Velvet Robe
+  aliases: []
 description: "Soft plush velvet robe; opulent garment for formal settings and grandeur."
 id: yJjv9W4XzPsEJj5E
 img: icons/game-icons/lorc/robe.svg
@@ -13,43 +13,43 @@ shortcode: VRobe
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Robe
-    detailMaterial: Velvet
-    material: Cloth
-    durability: 10
-    value: 277
-    weight: 4
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Robe
+  detailMaterial: Velvet
+  material: Cloth
+  durability: 10
+  value: 277
+  weight: 4
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 79
 origWeight: 4

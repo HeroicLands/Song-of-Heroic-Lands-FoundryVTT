@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-lang
+  - skill-lang
 tags: []
 name:
-    full: Language
-    aliases: []
+  full: Language
+  aliases: []
 description: "Proficiency in some particular tongue — the generic skill used wherever a named-language entry would overspecify."
 id: WRboU6egxMwB6fnx
 img: icons/game-icons/lorc/conversation.svg
@@ -12,17 +12,17 @@ shortcode: lang
 type: skill
 package: sohl
 sohl:
-    kbcat: languages
-    archetype: 0
-    subType: language
-    skillBaseFormula: "sb(attr.elo, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: languages
+  archetype: 0
+  subType: language
+  skillBaseFormula: "sb(attr.elo, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: sn9NBuZMZOBqxsYv
 ---
 

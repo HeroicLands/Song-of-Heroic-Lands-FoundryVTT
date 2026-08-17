@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Impaired Vision
-    - trauma-imprdvsn
+  - Impaired Vision
+  - trauma-imprdvsn
 tags: []
 name:
-    full: Impaired Vision
-    aliases: []
+  full: Impaired Vision
+  aliases: []
 id: w3H7Bagx4ta4SPTV
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: imprdvsn
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -23,8 +23,7 @@ Impaired Vision is a condition where one's ability to see clearly is reduced, ca
 
 ### Impediment
 
-Difficulty focusing on distant or near objects, leading to blurred vision, eye strain, and occasional disorientation. These symptoms can be managed by adjusting one’s activities and relying more on other senses.
-**Example:** Scribe Mathias finds it increasingly difficult to read the fine script of ancient manuscripts. He often squints and moves the parchment closer to his face, straining his eyes to make out the words, but manages to complete his work with effort.
+Difficulty focusing on distant or near objects, leading to blurred vision, eye strain, and occasional disorientation. These symptoms can be managed by adjusting one’s activities and relying more on other senses. **Example:** Scribe Mathias finds it increasingly difficult to read the fine script of ancient manuscripts. He often squints and moves the parchment closer to his face, straining his eyes to make out the words, but manages to complete his work with effort.
 
 ### Debility
 

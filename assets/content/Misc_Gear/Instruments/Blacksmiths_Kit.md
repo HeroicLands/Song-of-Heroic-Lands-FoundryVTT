@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Blacksmith's Kit
-    - miscgear-blacksmkit
+  - Blacksmith's Kit
+  - miscgear-blacksmkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Blacksmith's Kit
-    aliases: []
+  full: Blacksmith's Kit
+  aliases: []
 description: "Heavy canvas roll with forging hammers, tongs, hardies, fullers, swages, punches, hot chisels; smiths forge iron at the anvil."
 id: s4eC8D2AX9xSX7s6
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: blacksmkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 80
-    weight: 20
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 80
+  weight: 20
 folder: xniLjmZWYQZkSxyv
 ---
 

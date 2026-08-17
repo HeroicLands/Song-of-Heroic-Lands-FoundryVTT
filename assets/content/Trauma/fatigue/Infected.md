@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-infect
+  - trauma-infect
 tags: []
 name:
-    full: Infected
-    aliases: []
+  full: Infected
+  aliases: []
 description: "Long-term weakness from septic injury or contaminated wound."
 id: 3yd91D3xc5ygiWLQ
 img: icons/game-icons/lorc/sleepy.svg
@@ -12,12 +12,12 @@ shortcode: infect
 type: trauma
 package: sohl
 sohl:
-    kbcat: fatigue
-    archetype: 0
-    subType: fatigue
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+  kbcat: fatigue
+  archetype: 0
+  subType: fatigue
+  category: weakness
+  levelBase: 1
+  healingRateBase: 1
 folder: Y22wv8plMCfPXYBT
 ---
 

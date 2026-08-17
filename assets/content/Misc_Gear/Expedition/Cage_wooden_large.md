@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cage, wooden, large"
-    - miscgear-cagewoodlg
+  - "Cage, wooden, large"
+  - miscgear-cagewoodlg
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Cage, wooden, large"
-    aliases: []
+  full: "Cage, wooden, large"
+  aliases: []
 description: "Large slatted wooden cage for livestock or hounds (roughly 27 cubic feet)."
 id: 0eiMuSA61moh9U7n
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cagewoodlg
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 15
-    weight: 40
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 15
+  weight: 40
 folder: FSPVI1eObGEpMVck
 ---
 

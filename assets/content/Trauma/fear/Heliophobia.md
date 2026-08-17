@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-heliophb
+  - trauma-heliophb
 tags: []
 name:
-    full: Heliophobia
-    aliases: []
+  full: Heliophobia
+  aliases: []
 id: CnSrfzCfNcWtmrYO
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: heliophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -27,8 +27,7 @@ Staying indoors during daylight hours, using heavy curtains, or wearing protecti
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or sight of sunlight.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or sight of sunlight. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

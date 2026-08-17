@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Boon
-    - doc-boon
+  - Boon
+  - doc-boon
 id: IUE1zCOsO7IyrAbo
 type: doc
 package: sohl
 category: rules
 name:
-    full: Boon
-    aliases: []
+  full: Boon
+  aliases: []
 folder: gmHoAXi9mq8O9DUn
 shortcode: boon
 ---

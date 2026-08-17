@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Tent, Military"
-    - miscgear-tentmilita
+  - "Tent, Military"
+  - miscgear-tentmilita
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Tent, Military"
-    aliases: []
+  full: "Tent, Military"
+  aliases: []
 description: "Rectangular pavilion for squads or command posts; requires wagon to haul."
 id: bicMXZpGW11RQ850
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tentmilita
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 312
-    weight: 90
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 312
+  weight: 90
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bed, single"
-    - miscgear-bedsingle
+  - "Bed, single"
+  - miscgear-bedsingle
 tags:
-    - furniture
+  - furniture
 name:
-    full: "Bed, single"
-    aliases: []
+  full: "Bed, single"
+  aliases: []
 description: "Wooden bedstead with a roped frame to carry a mattress."
 id: UDfu6x8sxRAyL0Gt
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bedsingle
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: furniture
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 48
-    weight: 85
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: furniture
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 48
+  weight: 85
 folder: Wq1tmMJTjDoFFtLS
 ---
 

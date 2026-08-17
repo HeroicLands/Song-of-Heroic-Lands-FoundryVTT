@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Copper/Bronze
-    - miscgear-copperbron
+  - Copper/Bronze
+  - miscgear-copperbron
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: Copper/Bronze
-    aliases: []
+  full: Copper/Bronze
+  aliases: []
 description: "Melted, cast ingots or sheets; resists weathering, worked into vessels and ornaments."
 id: N4Qx4O6buCoIOQgP
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: copperbron
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 1
-    weight: 0.0625
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 1
+  weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

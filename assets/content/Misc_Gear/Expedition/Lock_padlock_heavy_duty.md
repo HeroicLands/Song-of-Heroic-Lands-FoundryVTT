@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Lock, padlock, heavy-duty"
-    - miscgear-lockpadloc
+  - "Lock, padlock, heavy-duty"
+  - miscgear-lockpadloc
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Lock, padlock, heavy-duty"
-    aliases: []
+  full: "Lock, padlock, heavy-duty"
+  aliases: []
 description: "Heavy reinforced padlock with triple-warded body for valuable cargo."
 id: LXtgI4chHqOsZTQN
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: lockpadloc
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: lock
-        secondary: [mtlc]
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 9
-    value: 50
-    weight: 1.5
+  craft:
+    skill: lock
+    secondary: [mtlc]
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 9
+  value: 50
+  weight: 1.5
 folder: FSPVI1eObGEpMVck
 ---
 

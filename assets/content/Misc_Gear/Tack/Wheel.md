@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Wheel"
-    - miscgear-wheel
+  - "Wheel"
+  - miscgear-wheel
 tags:
-    - tack
+  - tack
 name:
-    full: "Wheel"
-    aliases: []
+  full: "Wheel"
+  aliases: []
 description: "Spoked and iron-tyred cart wheel; a specialist's work."
 id: zVbWfjc6nsUjZdly
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: wheel
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 18
-    weight: 20
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 18
+  weight: 20
 folder: WTIUTjADwAcpyv0H
 ---
 

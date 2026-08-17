@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Surgical Kit
-    - miscgear-surgkit
+  - Surgical Kit
+  - miscgear-surgkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Surgical Kit
-    aliases: []
+  full: Surgical Kit
+  aliases: []
 description: "Oiled-leather case with lancets, bone saw, forceps, scalpels, probes; physicians for grave wounds."
 id: H5pSahVX1t1huVsy
 img: icons/game-icons/lorc/scalpel.svg
@@ -14,15 +14,15 @@ shortcode: surgkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 120
-    weight: 6
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 120
+  weight: 6
 folder: xniLjmZWYQZkSxyv
 ---
 

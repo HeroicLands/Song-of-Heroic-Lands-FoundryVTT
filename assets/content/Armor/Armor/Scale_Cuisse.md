@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Scale Cuisse
-    - armorgear-SCui
+  - Scale Cuisse
+  - armorgear-SCui
 tags: []
 name:
-    full: Scale Cuisse
-    aliases: []
+  full: Scale Cuisse
+  aliases: []
 description: "Fabric-backed metal scales covering thighs; flexible leg armor."
 id: 2uzBVe3SfEQjD6TG
 img: icons/game-icons/lorc/scale-mail.svg
@@ -13,30 +13,30 @@ shortcode: SCui
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide, mtlc]
-    kbcat: scale
-    archetype: 0
-    armorType: Cuisse
-    detailMaterial: Scale
-    material: Scale
-    durability: 14
-    value: 170
-    weight: 9.4
-    encumbrance: 5
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide, mtlc]
+  kbcat: scale
+  archetype: 0
+  armorType: Cuisse
+  detailMaterial: Scale
+  material: Scale
+  durability: 14
+  value: 170
+  weight: 9.4
+  encumbrance: 5
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 170
 origWeight: 9.4

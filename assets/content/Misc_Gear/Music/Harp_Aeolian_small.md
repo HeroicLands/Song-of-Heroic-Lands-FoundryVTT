@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Harp, Aeolian (small)"
-    - miscgear-harpaeolia
+  - "Harp, Aeolian (small)"
+  - miscgear-harpaeolia
 tags:
-    - music
+  - music
 name:
-    full: "Harp, Aeolian (small)"
-    aliases: []
+  full: "Harp, Aeolian (small)"
+  aliases: []
 description: "Compact stringed frame harp; gut-silk strings in diatonic scale; bright ringing voice."
 id: VaH2WAzCFKVJy6Lc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: harpaeolia
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 42
-    weight: 6
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 42
+  weight: 6
 folder: ncTaRcZt0RFYz0Gq
 ---
 

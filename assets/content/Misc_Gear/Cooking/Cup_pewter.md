@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cup, pewter"
-    - miscgear-cuppewter
+  - "Cup, pewter"
+  - miscgear-cuppewter
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Cup, pewter"
-    aliases: []
+  full: "Cup, pewter"
+  aliases: []
 description: "Cast pewter cup for ale-houses and tavern daily use and casual damage."
 id: TWn1UCP0vIWjYfyw
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cuppewter
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 2
-    weight: 0
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 2
+  weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

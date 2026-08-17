@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cider, Pint"
-    - miscgear-cdrpt
+  - "Cider, Pint"
+  - miscgear-cdrpt
 tags:
-    - spirits
+  - spirits
 name:
-    full: "Cider, Pint"
-    aliases: []
+  full: "Cider, Pint"
+  aliases: []
 description: "Fermented apple cider; mellow lightly sour; autumn harvest-market drink."
 id: 6EeWOWH2ZYEV3211
 img: icons/game-icons/lorc/beer-stein.svg
@@ -14,15 +14,15 @@ shortcode: cdrpt
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.25
-    weight: 1
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.25
+  weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

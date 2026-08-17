@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Sapphire, cut"
-    - miscgear-sapphirecu
+  - "Sapphire, cut"
+  - miscgear-sapphirecu
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Sapphire, cut"
-    aliases: []
+  full: "Sapphire, cut"
+  aliases: []
 description: "Brilliant deep-blue corundum; reserved for the highest nobility and clergy."
 id: m91U82SryxhSlh7O
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: sapphirecu
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 900
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 900
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

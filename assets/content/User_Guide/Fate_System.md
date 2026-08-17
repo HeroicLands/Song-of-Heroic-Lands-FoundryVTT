@@ -1,29 +1,25 @@
 ---
 aliases:
-    - doc-thftsyst
+  - doc-thftsyst
 id: kRs6ef5NELRdB2Ui
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "The Fate System"
+  full: "The Fate System"
 shortcode: thftsyst
 folder: IgwaG8rAUUO9vrtz
 ---
 
 # Overview {#fate-overview}
 
-Fate represents a character's luck, destiny, or divine favor. Characters
-can spend Fate points to influence dice rolls, avoid death, or gain other
-benefits. Fate is a limited resource that refreshes under specific
-circumstances.
+Fate represents a character's luck, destiny, or divine favor. Characters can spend Fate points to influence dice rolls, avoid death, or gain other benefits. Fate is a limited resource that refreshes under specific circumstances.
 
-See also: [[Skill Tests]]
+See also: [[doc-sklltsts|Skill Tests]]
 
 # Fate Points {#fate-points}
 
-Each character has a number of Fate points determined by their attributes.
-Fate points can be:
+Each character has a number of Fate points determined by their attributes. Fate points can be:
 
 - **Spent** to improve a test result or avoid a catastrophic outcome
 - **Earned** through gameplay milestones or GM awards
@@ -37,9 +33,7 @@ Fate points can be:
 
 ## Fate Tests
 
-A **Fate test** is a special roll that determines whether fate intervenes
-on the character's behalf. Fate tests are typically triggered automatically
-when a character faces a life-threatening situation.
+A **Fate test** is a special roll that determines whether fate intervenes on the character's behalf. Fate tests are typically triggered automatically when a character faces a life-threatening situation.
 
 <!-- TODO: Document when Fate tests are triggered, how they're resolved,
      and what happens on success vs. failure -->
@@ -56,17 +50,14 @@ Characters can voluntarily spend Fate points to:
 
 # Settings {#fate-settings}
 
-The **Fate** option in the system settings controls whether Fate is
-tracked automatically.
+The **Fate** option in the system settings controls whether Fate is tracked automatically.
 
-See [[Settings]] for more configuration options.
+See [[doc-systmstt|System Settings]] for more configuration options.
 
 # See also
 
-- [[doc-sklltsts|Skill Tests and Opposed Tests]] — the settled result that Fate
-  is spent to improve.
-- [[doc-baseitem|Base Item]] — the test-result card the Fate button appears on,
-  and the GM's counterpart result edit.
+- [[doc-sklltsts|Skill Tests and Opposed Tests]] — the settled result that Fate is spent to improve.
+- [[doc-baseitem|Base Item]] — the test-result card the Fate button appears on, and the GM's counterpart result edit.
 - [[doc-being|Being]] — where a character's Fate Points are held.
 - [[doc-systmstt|System Settings]] — the **Fate** world setting.
 - [[doc-fatepnts|Fate]] (rules) — what Fate is and what spending it may buy.

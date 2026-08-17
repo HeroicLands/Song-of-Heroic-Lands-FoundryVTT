@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-plyphg
+  - trauma-plyphg
 tags: []
 name:
-    full: Polyphagia
-    aliases: []
+  full: Polyphagia
+  aliases: []
 id: ZGQY1bfFMJFuEdtp
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: plyphg
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: trait
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-lock
+  - skill-lock
 tags: []
 name:
-    full: Lockcraft
-    aliases: []
+  full: Lockcraft
+  aliases: []
 description: "Designing locks; picking or bypassing mechanical locking mechanisms."
 id: OWe6jR9RXag7ZMZk
 img: icons/game-icons/badges/lock.svg
@@ -12,19 +12,19 @@ shortcode: lock
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -43,10 +43,7 @@ Warded and tumbler locks exist on chests and doors, but the padlock is far and a
 
 # Crafting {#crafting}
 
-A lock or comparable mechanism is made by the common
-[[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork
-rolls, repair — in a lockcraft workshop. What follows is what is particular to
-the lockmaker's bench.
+A lock or comparable mechanism is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair — in a lockcraft workshop. What follows is what is particular to the lockmaker's bench.
 
 **Test.** A Lockcraft (Metalcraft) Success Value test.
 

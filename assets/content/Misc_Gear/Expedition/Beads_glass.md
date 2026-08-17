@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Beads, glass"
-    - miscgear-beadsglass
+  - "Beads, glass"
+  - miscgear-beadsglass
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Beads, glass"
-    aliases: []
+  full: "Beads, glass"
+  aliases: []
 description: "Colored glass beads with swirls; prized for beadwork and fine clothing ornament."
 id: kAh4kAClSazimdKm
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: beadsglass
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 10
-    weight: 0.1
+  craft:
+    skill: glas
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 10
+  weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

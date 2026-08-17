@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Heavy Broad Arrow
-    - projectilegear-ArwHBrd
+  - Heavy Broad Arrow
+  - projectilegear-ArwHBrd
 tags: []
 name:
-    full: Heavy Broad Arrow
-    alias: []
+  full: Heavy Broad Arrow
+  alias: []
 description: "War-arrow with wide flanged barbs; mortal wounds, hooks bone in skirmish."
 type: projectilegear
 package: sohl
@@ -14,22 +14,22 @@ shortcode: ArwHBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Broad
 sohl:
-    craft:
-        skill: fltch
-        secondary: [wood, mtlc]
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 0.22
-    weight: 1.25
-    impact:
-        die: 12
-        modifier: -1
-        aspect: piercing
-    traits:
-        ARvalue: 4
-        bleed: true
-    subType: arrow
+  craft:
+    skill: fltch
+    secondary: [wood, mtlc]
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 0.22
+  weight: 1.25
+  impact:
+    die: 12
+    modifier: -1
+    aspect: piercing
+  traits:
+    ARvalue: 4
+    bleed: true
+  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

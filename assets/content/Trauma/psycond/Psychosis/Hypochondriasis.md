@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-hypochon
+  - trauma-hypochon
 tags: []
 name:
-    full: Hypochondriasis
-    aliases: []
+  full: Hypochondriasis
+  aliases: []
 id: arinP2yON8CuTUIV
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: hypochon
 type: trauma
 package: sohl
 sohl:
-    kbcat: psypsychosis
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psypsychosis
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,8 +22,7 @@ Hypochondriasis, also known as health anxiety or illness anxiety disorder, is a 
 
 ### Impulse
 
-The individual frequently worries about their health, often interpreting mild or common physical sensations (such as headaches, muscle twitches, or stomach aches) as signs of a serious condition. They may seek reassurance from doctors or loved ones but still experience persistent doubt about their health, though their anxiety remains manageable and they can continue functioning in daily life.
-**Example:** Sir Edmund has begun to worry about every ache and pain, convinced that each one signals the onset of a serious illness. He visits his physician frequently for reassurance, but even after receiving a clean bill of health, he continues to fixate on the possibility that something might be wrong. Despite his concerns, he continues his duties as lord of his estate, though with lingering anxiety.
+The individual frequently worries about their health, often interpreting mild or common physical sensations (such as headaches, muscle twitches, or stomach aches) as signs of a serious condition. They may seek reassurance from doctors or loved ones but still experience persistent doubt about their health, though their anxiety remains manageable and they can continue functioning in daily life. **Example:** Sir Edmund has begun to worry about every ache and pain, convinced that each one signals the onset of a serious illness. He visits his physician frequently for reassurance, but even after receiving a clean bill of health, he continues to fixate on the possibility that something might be wrong. Despite his concerns, he continues his duties as lord of his estate, though with lingering anxiety.
 
 ### Disorder
 

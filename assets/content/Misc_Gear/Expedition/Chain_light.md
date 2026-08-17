@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Chain, light"
-    - miscgear-chainlight
+  - "Chain, light"
+  - miscgear-chainlight
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Chain, light"
-    aliases: []
+  full: "Chain, light"
+  aliases: []
 description: "Thinner pliable iron link chain; secures smaller items and restrains prisoners' wrists."
 id: xJS2uE0JJHnhz7c0
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chainlight
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 2
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 2
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

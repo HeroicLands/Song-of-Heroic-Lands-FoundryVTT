@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Diamond, cut"
-    - miscgear-diamondcut
+  - "Diamond, cut"
+  - miscgear-diamondcut
 tags:
-    - jewelry_cash
+  - jewelry_cash
 name:
-    full: "Diamond, cut"
-    aliases: []
+  full: "Diamond, cut"
+  aliases: []
 description: "Hardest stone, brilliant-cut gem refracting light into rainbow fire; marks extraordinary wealth."
 id: GrZTXstLE78HD7t5
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: diamondcut
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: jewl
-        secondary: []
-    kbcat: jewelry
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 800
-    weight: 0.0004
+  craft:
+    skill: jewl
+    secondary: []
+  kbcat: jewelry
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 800
+  weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

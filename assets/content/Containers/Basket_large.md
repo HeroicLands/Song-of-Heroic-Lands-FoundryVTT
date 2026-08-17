@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Basket, large
-    - containergear-bktlrg
+  - Basket, large
+  - containergear-bktlrg
 tags: []
 name:
-    full: Basket, large
-    aliases: []
+  full: Basket, large
+  aliases: []
 description: "Woven wicker or willow basket for produce or storage."
 id: sgnSAOZzot3QW3k5
 img: icons/game-icons/delapouite/basket.svg
@@ -13,15 +13,15 @@ shortcode: bktlrg
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 25
-    value: 5
-    weight: 3.5
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 25
+  value: 5
+  weight: 3.5
 folder: dl8lJ729W1mFlDvt
 ---
 

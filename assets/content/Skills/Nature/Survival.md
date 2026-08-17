@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-srvl
+  - skill-srvl
 tags: []
 name:
-    full: Survival
-    aliases: []
+  full: Survival
+  aliases: []
 description: "Enduring wilderness through shelter, water, foraging, and hazard navigation."
 id: 8SCHvY0B1oHUgWnM
 img: icons/game-icons/lorc/campfire.svg
@@ -12,20 +12,20 @@ shortcode: srvl
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.wil, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 1
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.wil, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 1
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

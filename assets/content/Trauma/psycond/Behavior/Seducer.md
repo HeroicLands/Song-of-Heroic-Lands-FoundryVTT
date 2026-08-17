@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-seducer
+  - trauma-seducer
 tags: []
 name:
-    full: Seducer
-    aliases: []
+  full: Seducer
+  aliases: []
 id: wPARDi4HYN0v2dxP
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: seducer
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Seducer refers to an individual who uses charm, flirtation, and seduction as a m
 
 ### Quirk
 
-The individual is naturally charming and charismatic, often able to easily attract others' attention. They enjoy being admired and may flirt playfully, but they do not intentionally harm others or manipulate emotions. Their seductiveness is seen more as a social skill or talent that makes them popular in their circles.
-**Example:** Isabella, a local merchant, has a magnetic personality and enjoys the attention she receives from her customers. She flirts lightheartedly to keep people engaged, but her intentions are not harmful. Her charm helps her sell goods, and she enjoys being admired, but she does not actively try to manipulate others.
+The individual is naturally charming and charismatic, often able to easily attract others' attention. They enjoy being admired and may flirt playfully, but they do not intentionally harm others or manipulate emotions. Their seductiveness is seen more as a social skill or talent that makes them popular in their circles. **Example:** Isabella, a local merchant, has a magnetic personality and enjoys the attention she receives from her customers. She flirts lightheartedly to keep people engaged, but her intentions are not harmful. Her charm helps her sell goods, and she enjoys being admired, but she does not actively try to manipulate others.
 
 ### Impulse
 
-The individual begins to focus more on the thrill of seduction, seeking admiration and validation through romantic or sexual conquest. They may use their allure to gain favors or influence, enjoying the sense of power that comes from being desired. At this stage, their actions may lead to hurt feelings or misunderstandings, as they prioritize their need for attention over the emotional well-being of others.
-**Example:** Isabella starts to enjoy the power she feels when others are drawn to her. She flirts more intensely, knowing she can influence people's decisions, and begins to seduce clients to secure better deals. Though she doesn’t intend to cause harm, her growing need for admiration starts to affect her relationships, as some people feel used when they realize her attention is more about manipulation than genuine interest.
+The individual begins to focus more on the thrill of seduction, seeking admiration and validation through romantic or sexual conquest. They may use their allure to gain favors or influence, enjoying the sense of power that comes from being desired. At this stage, their actions may lead to hurt feelings or misunderstandings, as they prioritize their need for attention over the emotional well-being of others. **Example:** Isabella starts to enjoy the power she feels when others are drawn to her. She flirts more intensely, knowing she can influence people's decisions, and begins to seduce clients to secure better deals. Though she doesn’t intend to cause harm, her growing need for admiration starts to affect her relationships, as some people feel used when they realize her attention is more about manipulation than genuine interest.
 
 ### Disorder
 

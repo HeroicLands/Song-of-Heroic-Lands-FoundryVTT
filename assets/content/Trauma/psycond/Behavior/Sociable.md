@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-sociable
+  - trauma-sociable
 tags: []
 name:
-    full: Sociable
-    aliases: []
+  full: Sociable
+  aliases: []
 id: V7SgIzOsc1osFt9Q
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sociable
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Candles, Tallow"
-    - miscgear-candlestal
+  - "Candles, Tallow"
+  - miscgear-candlestal
 tags:
-    - lighting
+  - lighting
 name:
-    full: "Candles, Tallow"
-    aliases: []
+  full: "Candles, Tallow"
+  aliases: []
 description: "Rendered mutton-beef fat candles; smoky, acrid, cheap; light of soldiers and poor."
 id: 5Ab7lgDc6uRDZYHi
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: candlestal
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: lighting
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 8
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: lighting
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 8
+  weight: 1
 folder: csqutf8WiTRM8oru
 ---
 

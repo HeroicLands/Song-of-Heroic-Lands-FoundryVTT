@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Pen, metal"
-    - miscgear-penmetal
+  - "Pen, metal"
+  - miscgear-penmetal
 tags:
-    - scribe
+  - scribe
 name:
-    full: "Pen, metal"
-    aliases: []
+  full: "Pen, metal"
+  aliases: []
 description: "Steel nib in bone or wood handle; steady line, favored by professionals."
 id: LjmDkpkUPBqzXWjM
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: penmetal
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: scribe
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 4
-    weight: 0.1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: scribe
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 4
+  weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

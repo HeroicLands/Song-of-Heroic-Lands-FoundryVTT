@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cnfdnt
+  - trauma-cnfdnt
 tags: []
 name:
-    full: Confident
-    aliases: []
+  full: Confident
+  aliases: []
 id: shNugj93vne76oyF
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfdnt
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Confidence refers to an individual's belief in their abilities, decisions, and j
 
 ### Quirk
 
-The individual believes in their abilities and approaches challenges with poise and certainty. They are self-assured without being boastful, and their confidence inspires others. They remain humble, balancing their sense of competence with an understanding of their limitations.
-**Example:** Sir Roland, a knight in the king’s service, confidently leads his troops into battle. He has trained extensively and trusts in his skills with both sword and strategy. His calm, assured demeanor reassures his soldiers, who look to him for guidance in the heat of battle. Sir Roland’s confidence is well-placed, as he knows his strengths but also recognizes when to seek counsel from more experienced commanders.
+The individual believes in their abilities and approaches challenges with poise and certainty. They are self-assured without being boastful, and their confidence inspires others. They remain humble, balancing their sense of competence with an understanding of their limitations. **Example:** Sir Roland, a knight in the king’s service, confidently leads his troops into battle. He has trained extensively and trusts in his skills with both sword and strategy. His calm, assured demeanor reassures his soldiers, who look to him for guidance in the heat of battle. Sir Roland’s confidence is well-placed, as he knows his strengths but also recognizes when to seek counsel from more experienced commanders.
 
 ### Impulse
 
-The individual’s confidence begins to grow, sometimes bordering on overconfidence. While they still perform well, they may take on greater risks, trusting too much in their own abilities. They start to overlook advice from others, believing they know best in most situations. This behavior may lead to minor mistakes or friction with others who feel their opinions are being dismissed.
-**Example:** Sir Roland, emboldened by his recent victories, begins to take more daring approaches in battle, often disregarding the advice of his fellow knights. His growing confidence leads him to believe he can handle any situation alone. Though he continues to perform admirably, some of his comrades begin to worry that his boldness may lead to unnecessary risks in future engagements.
+The individual’s confidence begins to grow, sometimes bordering on overconfidence. While they still perform well, they may take on greater risks, trusting too much in their own abilities. They start to overlook advice from others, believing they know best in most situations. This behavior may lead to minor mistakes or friction with others who feel their opinions are being dismissed. **Example:** Sir Roland, emboldened by his recent victories, begins to take more daring approaches in battle, often disregarding the advice of his fellow knights. His growing confidence leads him to believe he can handle any situation alone. Though he continues to perform admirably, some of his comrades begin to worry that his boldness may lead to unnecessary risks in future engagements.
 
 ### Disorder
 

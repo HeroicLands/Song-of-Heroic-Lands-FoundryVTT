@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-nrotxn
+  - affliction-nrotxn
 tags: []
 name:
-    full: Neurotoxin
-    aliases: []
+  full: Neurotoxin
+  aliases: []
 description: "Nerve toxin; paralysis and convulsions; disrupts neurotransmission leading to respiratory failure."
 id: a2NK83QB7I2KVn1B
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -12,13 +12,13 @@ shortcode: nrotxn
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

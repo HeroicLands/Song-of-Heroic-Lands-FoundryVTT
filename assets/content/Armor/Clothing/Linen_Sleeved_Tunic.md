@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Linen Sleeved Tunic
-    - armorgear-LSTnc
+  - Linen Sleeved Tunic
+  - armorgear-LSTnc
 tags: []
 name:
-    full: Linen Sleeved Tunic
-    aliases: []
+  full: Linen Sleeved Tunic
+  aliases: []
 description: "Light breathable sleeved garment perfect for warm weather activities."
 id: qL942fGv15e2TYX0
 img: icons/game-icons/lucasms/shirt.svg
@@ -13,37 +13,37 @@ shortcode: LSTnc
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Sleeved Tunic
-    detailMaterial: Linen
-    material: Cloth
-    durability: 5
-    value: 25
-    weight: 0.6
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Sleeved Tunic
+  detailMaterial: Linen
+  material: Cloth
+  durability: 5
+  value: 25
+  weight: 0.6
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 50
 origWeight: 2.5

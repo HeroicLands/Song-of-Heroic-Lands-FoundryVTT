@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Salt, rock"
-    - miscgear-saltrock
+  - "Salt, rock"
+  - miscgear-saltrock
 tags:
-    - food
+  - food
 name:
-    full: "Salt, rock"
-    aliases: []
+  full: "Salt, rock"
+  aliases: []
 description: "Mined rock salt, pure and dense, grinds fine, stores indefinitely."
 id: 9jNyZzQIuDmE7KZz
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: saltrock
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-watchful
+  - trauma-watchful
 tags: []
 name:
-    full: Watchful
-    aliases: []
+  full: Watchful
+  aliases: []
 id: 0E85eT5vUuk0Xu6f
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: watchful
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Spikes
-    - miscgear-spikes
+  - Spikes
+  - miscgear-spikes
 tags:
-    - expedition
+  - expedition
 name:
-    full: Spikes
-    aliases: []
+  full: Spikes
+  aliases: []
 description: "Foot-long iron spikes for climbing, breaking charges, and lashing boards."
 id: 6h9UedIBm0jR4IBT
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: spikes
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 1.25
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 1.25
+  weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

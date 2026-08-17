@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Icon, religious, small"
-    - miscgear-iconreligi2
+  - "Icon, religious, small"
+  - miscgear-iconreligi2
 tags:
-    - religious
+  - religious
 name:
-    full: "Icon, religious, small"
-    aliases: []
+  full: "Icon, religious, small"
+  aliases: []
 description: "Portable palm-sized icon for pilgrims and soldiers; kept at chest or shelf."
 id: I4tzGdJLGklE8lsc
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: iconreligi2
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: religious
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 2
-    weight: 0.9
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: religious
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 2
+  weight: 0.9
 folder: 9JkoGqoUGqV8b5aL
 ---
 

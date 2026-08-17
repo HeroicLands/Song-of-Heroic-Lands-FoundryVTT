@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-cdpndnt
+  - trauma-cdpndnt
 tags: []
 name:
-    full: Codependent
-    aliases: []
+  full: Codependent
+  aliases: []
 id: ViIV4vp6PSpMqlsW
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cdpndnt
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,8 +22,7 @@ Codependency is a behavioral condition where an individual has an excessive emot
 
 ### Impulse
 
-The individual feels a strong need to help or care for someone, often going out of their way to support that person at the expense of their own needs. They may begin to derive their sense of self-worth from the act of caregiving, becoming overly involved in the other person's life and problems. This level of codependency can lead to an imbalanced relationship, where the individual struggles to maintain boundaries and neglects their own well-being.
-**Example:** Sarah spends most of her time worrying about her partner's problems and doing whatever she can to fix them. She cancels her own plans and neglects her hobbies to be available for him at all times, believing that her value comes from being indispensable to him. She feels guilty when she takes time for herself, fearing that she is being selfish.
+The individual feels a strong need to help or care for someone, often going out of their way to support that person at the expense of their own needs. They may begin to derive their sense of self-worth from the act of caregiving, becoming overly involved in the other person's life and problems. This level of codependency can lead to an imbalanced relationship, where the individual struggles to maintain boundaries and neglects their own well-being. **Example:** Sarah spends most of her time worrying about her partner's problems and doing whatever she can to fix them. She cancels her own plans and neglects her hobbies to be available for him at all times, believing that her value comes from being indispensable to him. She feels guilty when she takes time for herself, fearing that she is being selfish.
 
 ### Disorder
 

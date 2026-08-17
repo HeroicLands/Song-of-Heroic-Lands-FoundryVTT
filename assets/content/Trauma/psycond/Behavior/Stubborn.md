@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-stubborn
+  - trauma-stubborn
 tags: []
 name:
-    full: Stubborn
-    aliases: []
+  full: Stubborn
+  aliases: []
 id: LxWK9FMZRwSxLh9G
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: stubborn
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,13 +22,11 @@ Stubborn refers to an individual's tendency to resist change, cling to their opi
 
 ### Quirk
 
-The individual is firm in their beliefs and decisions, demonstrating strong conviction and perseverance. They are not easily swayed by external pressure, which can be a strength in maintaining integrity and consistency. While they are confident in their ideas, they are still willing to listen to others and adjust their views when necessary, maintaining a healthy balance between conviction and openness.
-**Example:** Professor Elena is dedicated to her research in ancient history and has long held firm beliefs about a particular historical event. When a colleague presents new evidence that challenges her views, Elena is initially skeptical but takes the time to review the data. After careful consideration, she adjusts her interpretation, appreciating the value of new findings while maintaining her core research values.
+The individual is firm in their beliefs and decisions, demonstrating strong conviction and perseverance. They are not easily swayed by external pressure, which can be a strength in maintaining integrity and consistency. While they are confident in their ideas, they are still willing to listen to others and adjust their views when necessary, maintaining a healthy balance between conviction and openness. **Example:** Professor Elena is dedicated to her research in ancient history and has long held firm beliefs about a particular historical event. When a colleague presents new evidence that challenges her views, Elena is initially skeptical but takes the time to review the data. After careful consideration, she adjusts her interpretation, appreciating the value of new findings while maintaining her core research values.
 
 ### Impulse
 
-The individual becomes more resistant to change and increasingly unwilling to reconsider their theories or ideas. They may ignore new information or alternative perspectives, insisting that their views are correct even when there are signs that an updated approach would be more accurate. Their rigidity causes frustration among colleagues or students, as they seem unwilling to adapt to new developments in their field.
-**Example:** Professor Elena dismisses recent studies that offer new interpretations of historical events she has researched for decades. She insists that her original conclusions are correct and refuses to consider alternative perspectives, even as her colleagues and apprentices raise valid points. Her unwillingness to engage with new ideas causes other scholars to question her objectivity, and apprentices begin to feel stifled in her lectures.
+The individual becomes more resistant to change and increasingly unwilling to reconsider their theories or ideas. They may ignore new information or alternative perspectives, insisting that their views are correct even when there are signs that an updated approach would be more accurate. Their rigidity causes frustration among colleagues or students, as they seem unwilling to adapt to new developments in their field. **Example:** Professor Elena dismisses recent studies that offer new interpretations of historical events she has researched for decades. She insists that her original conclusions are correct and refuses to consider alternative perspectives, even as her colleagues and apprentices raise valid points. Her unwillingness to engage with new ideas causes other scholars to question her objectivity, and apprentices begin to feel stifled in her lectures.
 
 ### Disorder
 

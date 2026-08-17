@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-htstrk
+  - trauma-htstrk
 tags: []
 name:
-    full: Heatstruck
-    aliases: []
+  full: Heatstruck
+  aliases: []
 description: "Catastrophic heat injury; dry hot skin, confusion, seizure, death."
 id: RLBiZ0UJrNwUN64O
 img: icons/game-icons/delapouite/stomach.svg
@@ -12,12 +12,12 @@ shortcode: htstrk
 type: trauma
 package: sohl
 sohl:
-    kbcat: physprivations
-    archetype: 0
-    subType: physcond
-    category: debility
-    levelBase: 4
-    healingRateBase: 1
+  kbcat: physprivations
+  archetype: 0
+  subType: physcond
+  category: debility
+  levelBase: 4
+  healingRateBase: 1
 folder: wz4hXqKLntkdXNue
 ---
 

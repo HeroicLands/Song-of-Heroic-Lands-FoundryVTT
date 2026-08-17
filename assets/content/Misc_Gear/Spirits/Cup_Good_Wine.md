@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Cup Good Wine
-    - miscgear-gwinecup
+  - Cup Good Wine
+  - miscgear-gwinecup
 tags:
-    - spirits
+  - spirits
 name:
-    full: Cup Good Wine
-    aliases: []
+  full: Cup Good Wine
+  aliases: []
 description: "Oak-aged fine wine; fuller-bodied, less sour; marks deals and occasions."
 id: nfC5GsbTrQENrWtg
 img: icons/game-icons/lorc/jeweled-chalice.svg
@@ -14,15 +14,15 @@ shortcode: gwinecup
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: brew
-        secondary: []
-    kbcat: spirits
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2.5
-    weight: 0.5
+  craft:
+    skill: brew
+    secondary: []
+  kbcat: spirits
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2.5
+  weight: 0.5
 folder: jLdeIpOIZokm8obv
 ---
 

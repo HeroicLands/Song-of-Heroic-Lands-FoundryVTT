@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-reliable
+  - trauma-reliable
 tags: []
 name:
-    full: Reliable
-    aliases: []
+  full: Reliable
+  aliases: []
 id: HaH5IBQkedazZpYF
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: reliable
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Reliable refers to an individual's consistent ability to fulfill their duties, k
 
 ### Quirk
 
-The individual consistently fulfills their duties, proving themselves dependable in any situation. They are trustworthy and often the first person others turn to when something important needs to be done. Their reliability fosters strong relationships, as people know they can always be counted on to follow through with their commitments.
-**Example:** Aldwin, a retainer in the service of a noble family, is known for his unwavering reliability. Whether he’s tasked with delivering an urgent message, overseeing the household’s finances, or organizing supplies for a long journey, Aldwin always completes his tasks on time and with great care. The noble family trusts him implicitly, knowing that he will never let them down. His consistent dedication ensures that the household runs smoothly and that their needs are always met.
+The individual consistently fulfills their duties, proving themselves dependable in any situation. They are trustworthy and often the first person others turn to when something important needs to be done. Their reliability fosters strong relationships, as people know they can always be counted on to follow through with their commitments. **Example:** Aldwin, a retainer in the service of a noble family, is known for his unwavering reliability. Whether he’s tasked with delivering an urgent message, overseeing the household’s finances, or organizing supplies for a long journey, Aldwin always completes his tasks on time and with great care. The noble family trusts him implicitly, knowing that he will never let them down. His consistent dedication ensures that the household runs smoothly and that their needs are always met.
 
 ### Impulse
 
-The individual’s reliability becomes more pronounced, and they start taking on more tasks and responsibilities to ensure everything runs smoothly. While they remain dependable, their increasing workload can lead to occasional stress or delays, as they try to juggle too many commitments at once. Though they still fulfill their obligations, others may begin to worry that the individual is stretching themselves too thin, trying to meet everyone’s expectations without resting.
-**Example:** Aldwin’s reliability grows as he takes on more duties to keep the household functioning smoothly. He becomes the go-to person for every problem, from managing disputes among the servants to making sure the horses are well-fed for a long journey. While he still manages to get everything done, Aldwin begins to feel the pressure of constantly being relied upon, and some tasks take longer to complete. The noble family appreciates his dedication, but they start to worry that Aldwin might be overburdening himself.
+The individual’s reliability becomes more pronounced, and they start taking on more tasks and responsibilities to ensure everything runs smoothly. While they remain dependable, their increasing workload can lead to occasional stress or delays, as they try to juggle too many commitments at once. Though they still fulfill their obligations, others may begin to worry that the individual is stretching themselves too thin, trying to meet everyone’s expectations without resting. **Example:** Aldwin’s reliability grows as he takes on more duties to keep the household functioning smoothly. He becomes the go-to person for every problem, from managing disputes among the servants to making sure the horses are well-fed for a long journey. While he still manages to get everything done, Aldwin begins to feel the pressure of constantly being relied upon, and some tasks take longer to complete. The noble family appreciates his dedication, but they start to worry that Aldwin might be overburdening himself.
 
 ### Disorder
 

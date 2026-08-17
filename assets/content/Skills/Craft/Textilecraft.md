@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-txtl
+  - skill-txtl
 tags: []
 name:
-    full: Textilecraft
-    aliases: []
+  full: Textilecraft
+  aliases: []
 description: "Spinning, weaving, dyeing, and sewing fabrics into finished textile goods."
 id: j7taHswPlFhvFIec
 img: icons/game-icons/lorc/sewing-needle.svg
@@ -12,19 +12,19 @@ shortcode: txtl
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.dex, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.dex, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -34,9 +34,7 @@ What a character wears announces their class, or the class they wish to be taken
 
 # Crafting {#crafting}
 
-Cloth and clothing are made by the common [[doc-crafting|crafting routine]] —
-workshop, expense, test, result, masterwork rolls, repair. What follows is what
-is particular to the loom and the needle.
+Cloth and clothing are made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the loom and the needle.
 
 **Expense.** Costs and times below are for plain work; **double the time** for heavily decorated pieces, a figured tapestry against a plain carpet.
 

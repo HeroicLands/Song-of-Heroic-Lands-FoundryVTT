@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Homespun Robe
-    - armorgear-HsRobe
+  - Homespun Robe
+  - armorgear-HsRobe
 tags: []
 name:
-    full: Homespun Robe
-    aliases: []
+  full: Homespun Robe
+  aliases: []
 description: "Simple homemade robe providing comfort and warmth for everyday."
 id: mvpXPzqOD4LgF7NV
 img: icons/game-icons/lorc/robe.svg
@@ -13,43 +13,43 @@ shortcode: HsRobe
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Robe
-    detailMaterial: Homespun
-    material: Cloth
-    durability: 5
-    value: 24
-    weight: 1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - lfraloc
-        - rfraloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Robe
+  detailMaterial: Homespun
+  material: Cloth
+  durability: 5
+  value: 24
+  weight: 1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lshldloc
+    - rshldloc
+    - lupaloc
+    - rupaloc
+    - lelbloc
+    - relbloc
+    - lfraloc
+    - rfraloc
+    - thrxloc
+    - abdmnloc
+    - plvisloc
+    - lthghloc
+    - rthghloc
+    - lkneeloc
+    - rkneeloc
+    - lcalfloc
+    - rcalfloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 79
 origWeight: 4

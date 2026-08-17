@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-prctcl
+  - trauma-prctcl
 tags: []
 name:
-    full: Practical
-    aliases: []
+  full: Practical
+  aliases: []
 id: WyxYc20lGDaMlvyw
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: prctcl
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Practical refers to an individual's focus on realistic, efficient, and functiona
 
 ### Quirk
 
-The individual takes a grounded, no-nonsense approach to tasks, focusing on the most effective and straightforward solutions. They are efficient and reliable, using their practical mindset to solve problems with minimal fuss or complexity. Their approach often makes them dependable in situations where clear action is needed, and they are valued for their ability to get things done efficiently.
-**Example:** Rowan, a carpenter in the village, is known for his practical approach to building. He focuses on using durable materials and straightforward designs that are easy to construct and maintain. When a house in the village needs repair, Rowan quickly assesses what needs to be done and implements the simplest and most effective solution, ensuring the job is done well without overcomplicating the process.
+The individual takes a grounded, no-nonsense approach to tasks, focusing on the most effective and straightforward solutions. They are efficient and reliable, using their practical mindset to solve problems with minimal fuss or complexity. Their approach often makes them dependable in situations where clear action is needed, and they are valued for their ability to get things done efficiently. **Example:** Rowan, a carpenter in the village, is known for his practical approach to building. He focuses on using durable materials and straightforward designs that are easy to construct and maintain. When a house in the village needs repair, Rowan quickly assesses what needs to be done and implements the simplest and most effective solution, ensuring the job is done well without overcomplicating the process.
 
 ### Impulse
 
-The individual becomes more focused on practicality, occasionally overlooking more creative or nuanced solutions in favor of what's easiest or most efficient. While their practical mindset continues to produce results, it may lead them to dismiss emotional or aesthetic considerations that others might find important. Their strong preference for efficiency can make them seem inflexible or overly pragmatic, causing tension with those who value more creative or emotional approaches.
-**Example:** Rowan's practicality becomes more pronounced as he starts to disregard anything he considers unnecessary. When a villager asks for decorative touches on a piece of furniture, Rowan refuses, insisting that only the functional aspects matter. While his work remains sturdy and dependable, some villagers feel that Rowan’s focus on efficiency comes at the expense of artistry, and they wish he would put more care into making things aesthetically pleasing as well.
+The individual becomes more focused on practicality, occasionally overlooking more creative or nuanced solutions in favor of what's easiest or most efficient. While their practical mindset continues to produce results, it may lead them to dismiss emotional or aesthetic considerations that others might find important. Their strong preference for efficiency can make them seem inflexible or overly pragmatic, causing tension with those who value more creative or emotional approaches. **Example:** Rowan's practicality becomes more pronounced as he starts to disregard anything he considers unnecessary. When a villager asks for decorative touches on a piece of furniture, Rowan refuses, insisting that only the functional aspects matter. While his work remains sturdy and dependable, some villagers feel that Rowan’s focus on efficiency comes at the expense of artistry, and they wish he would put more care into making things aesthetically pleasing as well.
 
 ### Disorder
 

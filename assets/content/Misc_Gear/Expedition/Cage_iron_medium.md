@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Cage, iron, medium"
-    - miscgear-cageironme
+  - "Cage, iron, medium"
+  - miscgear-cageironme
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Cage, iron, medium"
-    aliases: []
+  full: "Cage, iron, medium"
+  aliases: []
 description: "Forged iron cage; holds child, large dog, or wounded beast securely."
 id: Y3FdfwnueaoSghMe
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cageironme
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 342
-    weight: 22
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 342
+  weight: 22
 folder: FSPVI1eObGEpMVck
 ---
 

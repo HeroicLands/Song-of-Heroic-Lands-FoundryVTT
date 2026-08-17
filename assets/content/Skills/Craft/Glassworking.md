@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-glas
+  - skill-glas
 tags: []
 name:
-    full: Glassworking
-    aliases: []
+  full: Glassworking
+  aliases: []
 description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."
 id: Q0KPXtE0ZsH1YION
 img: icons/game-icons/lorc/round-bottom-flask.svg
@@ -12,19 +12,19 @@ shortcode: glas
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: craft
-    skillBaseFormula: "sb(attr.per, attr.dex)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
+  kbcat: craft
+  archetype: 0
+  subType: craft
+  skillBaseFormula: "sb(attr.per, attr.dex)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
 folder: gqRvjlrWbuCwGy3N
 ---
 
@@ -34,9 +34,7 @@ Glass phials are also the vessel of choice for anything that must be seen withou
 
 # Crafting {#crafting}
 
-Glass is made by the common [[doc-crafting|crafting routine]] — workshop,
-expense, test, result, masterwork rolls, repair. What follows is what is
-particular to the glasshouse.
+Glass is made by the common [[doc-crafting|crafting routine]] — workshop, expense, test, result, masterwork rolls, repair. What follows is what is particular to the glasshouse.
 
 **Expense.** Reckon **one day per 6d of the item's sale price**, at a material cost of **2½d per day**.
 
@@ -49,9 +47,7 @@ particular to the glasshouse.
 | Flask, glass, 1 pint  | 1   | 6d    | Lenses              | 0.1  | 120d  |
 | Hourglass             | 0.3 | 150d  | Vial, glass, medium | 0.25 | 4d    |
 
-**Glazing** is sold and worked by the square foot rather than as an article, and
-is the bulk of a town glazier's trade — a cathedral window is reckoned in
-hundreds of feet and years of work.
+**Glazing** is sold and worked by the square foot rather than as an article, and is the bulk of a town glazier's trade — a cathedral window is reckoned in hundreds of feet and years of work.
 
 | Glazing         | lb per ft² | Price per ft² |
 | --------------- | ---------- | ------------- |

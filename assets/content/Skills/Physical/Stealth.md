@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-stlth
+  - skill-stlth
 tags: []
 name:
-    full: Stealth
-    aliases: []
+  full: Stealth
+  aliases: []
 description: "Moving unseen through shadows, cover, and ambient noise for avoidance."
 id: Gnyh1TB0R1my8Dfa
 img: icons/game-icons/lorc/hidden.svg
@@ -12,19 +12,19 @@ shortcode: stlth
 type: skill
 package: sohl
 sohl:
-    kbcat: physical
-    archetype: 0
-    subType: physical
-    skillBaseFormula: "sb(attr.agl, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
+  kbcat: physical
+  archetype: 0
+  subType: physical
+  skillBaseFormula: "sb(attr.agl, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
 folder: Yt9THlZ0NT8H6aSK
 ---
 

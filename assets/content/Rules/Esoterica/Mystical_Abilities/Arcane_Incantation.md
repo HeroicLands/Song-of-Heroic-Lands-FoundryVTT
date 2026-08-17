@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Arcane Incantation
-    - doc-arcnincn
+  - Arcane Incantation
+  - doc-arcnincn
 id: YKeuv5F1K814MSfx
 type: doc
 package: sohl
 category: rules
 name:
-    full: Arcane Incantation
-    aliases: []
+  full: Arcane Incantation
+  aliases: []
 shortcode: arcnincn
 folder: J8ppkzls4ERyzTpv
 ---

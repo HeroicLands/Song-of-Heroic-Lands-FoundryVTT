@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Goose
-    - miscgear-goose
+  - Goose
+  - miscgear-goose
 tags:
-    - food
+  - food
 name:
-    full: Goose
-    aliases: []
+  full: Goose
+  aliases: []
 description: "Plucked rich waterfowl; dark robust meat, rendered fat serves kitchen and lamp."
 id: hTaeFJPOKwh8alau
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: goose
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

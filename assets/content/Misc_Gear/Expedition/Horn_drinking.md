@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Horn, drinking"
-    - miscgear-horndrinki
+  - "Horn, drinking"
+  - miscgear-horndrinki
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Horn, drinking"
-    aliases: []
+  full: "Horn, drinking"
+  aliases: []
 description: "Polished steer horn with wooden or horn base; durable for soldiers."
 id: V6lkqEGEZdTLe3TL
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: horndrinki
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 24
-    weight: 12
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 24
+  weight: 12
 folder: FSPVI1eObGEpMVck
 ---
 

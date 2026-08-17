@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-anmcft
+  - skill-anmcft
 tags: []
 name:
-    full: Animalcraft
-    aliases: []
+  full: Animalcraft
+  aliases: []
 description: "Domesticating, breeding, caring for animals; training and veterinary expertise."
 id: DTPuFzFuaWPySSGj
 img: icons/game-icons/badges/paw.svg
@@ -12,20 +12,20 @@ shortcode: anmcft
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.emp, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - locomotor
-        - manipulator
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.emp, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - locomotor
+    - manipulator
 folder: N5ozne3RRF0qSEdF
 ---
 

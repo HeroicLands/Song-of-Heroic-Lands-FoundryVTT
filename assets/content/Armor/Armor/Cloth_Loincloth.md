@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Cloth Loincloth
-    - armorgear-CLoin
+  - Cloth Loincloth
+  - armorgear-CLoin
 tags: []
 name:
-    full: Cloth Loincloth
-    aliases: []
+  full: Cloth Loincloth
+  aliases: []
 description: "Soft cloth loincloth offering basic coverage and casual comfort."
 id: P4bLyiIsy0KUYAk0
 img: icons/game-icons/delapouite/loincloth.svg
@@ -13,27 +13,27 @@ shortcode: CLoin
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Loincloth
-    detailMaterial: Cloth
-    material: Cloth
-    durability: 10
-    value: 10
-    weight: 0.5
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - plvisloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Loincloth
+  detailMaterial: Cloth
+  material: Cloth
+  durability: 10
+  value: 10
+  weight: 0.5
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - plvisloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 10
 origWeight: 0.5

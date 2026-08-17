@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Fishing Kit
-    - miscgear-fishgkit
+  - Fishing Kit
+  - miscgear-fishgkit
 tags:
-    - instruments
+  - instruments
 name:
-    full: Fishing Kit
-    aliases: []
+  full: Fishing Kit
+  aliases: []
 description: "Cloth pouch with hooks, sinker, horsehair line, bone needle for riverside hunting."
 id: 7ffbQSomSyacZCe2
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: fishgkit
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 7
-    value: 6
-    weight: 0.2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 7
+  value: 6
+  weight: 0.2
 folder: xniLjmZWYQZkSxyv
 ---
 

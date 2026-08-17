@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Dye, Tazach Purple"
-    - miscgear-dyetzch
+  - "Dye, Tazach Purple"
+  - miscgear-dyetzch
 tags:
-    - clothing
+  - clothing
 name:
-    full: "Dye, Tazach Purple"
-    aliases: []
+  full: "Dye, Tazach Purple"
+  aliases: []
 description: "Murex shellfish or Tazach lichen; rare purple marking rank and authority."
 id: khVQnTo9xc2rh8nV
 img: icons/game-icons/caro-asercion/round-potion.svg
@@ -14,15 +14,15 @@ shortcode: dyetzch
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: herb
-        secondary: []
-    kbcat: dye
-    archetype: 0
-    quality: 0
-    durability: 1
-    value: 200
-    weight: 0.0625
+  craft:
+    skill: herb
+    secondary: []
+  kbcat: dye
+  archetype: 0
+  quality: 0
+  durability: 1
+  value: 200
+  weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

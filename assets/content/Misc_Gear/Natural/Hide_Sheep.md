@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Sheep"
-    - miscgear-hidesheep
+  - "Hide, Sheep"
+  - miscgear-hidesheep
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Sheep"
-    aliases: []
+  full: "Hide, Sheep"
+  aliases: []
 description: "Sturdy dried hide; yields suede for jerkins or tanned leather bookbindings."
 id: Utci3PodxcF5ZJo3
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hidesheep
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 4
-    weight: 1.5
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 4
+  weight: 1.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

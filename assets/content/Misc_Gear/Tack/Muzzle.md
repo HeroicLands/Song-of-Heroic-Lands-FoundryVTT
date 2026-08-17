@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Muzzle
-    - miscgear-muzzle
+  - Muzzle
+  - miscgear-muzzle
 tags:
-    - tack
+  - tack
 name:
-    full: Muzzle
-    aliases: []
+  full: Muzzle
+  aliases: []
 description: "Leather or iron cage over snout; prevents biting; kennel and hunt use."
 id: HwNlR1xeu8MatDnT
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: muzzle
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: tack
-    archetype: 0
-    quality: 0
-    durability: 6
-    value: 6
-    weight: 1.5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: tack
+  archetype: 0
+  quality: 0
+  durability: 6
+  value: 6
+  weight: 1.5
 folder: WTIUTjADwAcpyv0H
 ---
 

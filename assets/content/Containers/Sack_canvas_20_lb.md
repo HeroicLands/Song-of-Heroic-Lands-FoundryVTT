@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Sack, canvas, 20 lb"
-    - containergear-sackcanvas20
+  - "Sack, canvas, 20 lb"
+  - containergear-sackcanvas20
 tags: []
 name:
-    full: "Sack, canvas, 20 lb"
-    aliases: []
+  full: "Sack, canvas, 20 lb"
+  aliases: []
 description: "Plain canvas sack for grain, flour, or produce (20 lb)."
 id: Fjpn7JM3j4x2M62C
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: sackcanvas20
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 3
-    maxCapacity: 20
-    value: 60
-    weight: 0.6
+  craft:
+    skill: txtl
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 3
+  maxCapacity: 20
+  value: 60
+  weight: 0.6
 folder: dl8lJ729W1mFlDvt
 ---
 

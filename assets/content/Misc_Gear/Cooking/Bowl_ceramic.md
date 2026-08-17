@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bowl, ceramic"
-    - miscgear-bowlcer
+  - "Bowl, ceramic"
+  - miscgear-bowlcer
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Bowl, ceramic"
-    aliases: []
+  full: "Bowl, ceramic"
+  aliases: []
 description: "Glazed earthenware bowl for pottage, milk, or dough."
 id: plaiQQm2T5zVK5mO
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: bowlcer
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: cmcs
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 6
-    weight: 3
+  craft:
+    skill: cmcs
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 6
+  weight: 3
 folder: 7TT0OzoIoEn40zfs
 ---
 

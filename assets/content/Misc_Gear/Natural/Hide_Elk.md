@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Hide, Elk"
-    - miscgear-hideelk
+  - "Hide, Elk"
+  - miscgear-hideelk
 tags:
-    - natural
+  - natural
 name:
-    full: "Hide, Elk"
-    aliases: []
+  full: "Hide, Elk"
+  aliases: []
 description: "Thick durable elk hide; heavy leather for armor backing and saddles."
 id: xxp9kNeJ5fXzxJqb
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: hideelk
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 3
-    value: 0
-    weight: 5
+  craft:
+    skill: srvl
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 3
+  value: 0
+  weight: 5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

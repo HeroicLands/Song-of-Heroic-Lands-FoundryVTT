@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Scones
-    - miscgear-scones
+  - Scones
+  - miscgear-scones
 tags:
-    - food
+  - food
 name:
-    full: Scones
-    aliases: []
+  full: Scones
+  aliases: []
 description: "Wheat flour rounds lightly sweetened, bakery luxury keeping several days."
 id: zTO7w8pEronA9pry
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: scones
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mill
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: mill
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

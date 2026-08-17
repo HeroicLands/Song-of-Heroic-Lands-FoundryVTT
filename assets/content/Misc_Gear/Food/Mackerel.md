@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Mackerel
-    - miscgear-mackerel
+  - Mackerel
+  - miscgear-mackerel
 tags:
-    - food
+  - food
 name:
-    full: Mackerel
-    aliases: []
+  full: Mackerel
+  aliases: []
 description: "Oily fish gutted fresh or salt-packed; substantial meal, keeps indefinitely."
 id: R1RwlZcpeVN2at47
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: mackerel
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 0.25
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 0.25
 folder: cHM58zOI1EcSG3cP
 ---
 

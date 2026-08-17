@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Linen Cap
-    - armorgear-LCap
+  - Linen Cap
+  - armorgear-LCap
 tags: []
 name:
-    full: Linen Cap
-    aliases: []
+  full: Linen Cap
+  aliases: []
 description: "Light breathable head covering protecting from sun in warmer weather."
 id: CTA43p2rjr8SyGk0
 img: icons/game-icons/delapouite/billed-cap.svg
@@ -13,27 +13,27 @@ shortcode: LCap
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Cap
-    detailMaterial: Linen
-    material: Cloth
-    durability: 5
-    value: 2
-    weight: 0.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Cap
+  detailMaterial: Linen
+  material: Cloth
+  durability: 5
+  value: 2
+  weight: 0.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 4
 origWeight: 0.2

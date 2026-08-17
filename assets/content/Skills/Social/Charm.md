@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-chrm
+  - skill-chrm
 tags: []
 name:
-    full: Charm
-    aliases: []
+  full: Charm
+  aliases: []
 description: "Winning trust and favor through warmth, wit, and emotional persuasion."
 id: 1XbsPwLnfTNbmBld
 img: icons/game-icons/lorc/charm.svg
@@ -12,18 +12,18 @@ shortcode: chrm
 type: skill
 package: sohl
 sohl:
-    kbcat: social
-    archetype: 0
-    subType: social
-    skillBaseFormula: "sb(attr.cml, attr.emp)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 3
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: social
+  archetype: 0
+  subType: social
+  skillBaseFormula: "sb(attr.cml, attr.emp)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 3
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: JBr2U30FsJTs8F3l
 ---
 

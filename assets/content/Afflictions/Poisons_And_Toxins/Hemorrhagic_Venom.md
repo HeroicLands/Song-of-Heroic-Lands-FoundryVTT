@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Hemorrhagic Venom
-    - affliction-hmgfvr
+  - Hemorrhagic Venom
+  - affliction-hmgfvr
 tags: []
 name:
-    full: Hemorrhagic Venom
-    aliases: []
+  full: Hemorrhagic Venom
+  aliases: []
 description: "Snake venom disrupts blood clotting; extensive internal and external bleeding."
 id: szGAt5jeXrQFKezN
 img: icons/game-icons/lorc/poison-bottle.svg
@@ -13,13 +13,13 @@ shortcode: hmgfvr
 type: affliction
 package: sohl
 sohl:
-    kbcat: poisontoxin
-    archetype: 0
-    subType: poisontoxin
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: vector
+  kbcat: poisontoxin
+  archetype: 0
+  subType: poisontoxin
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 

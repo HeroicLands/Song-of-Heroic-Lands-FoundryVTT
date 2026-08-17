@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Linen Hat
-    - armorgear-LHat
+  - Linen Hat
+  - armorgear-LHat
 tags: []
 name:
-    full: Linen Hat
-    aliases: []
+  full: Linen Hat
+  aliases: []
 description: "Light breathable head covering for warm climates with sun protection."
 id: N0S9Wl0RwsLg81Y2
 img: icons/game-icons/lorc/pointy-hat.svg
@@ -13,27 +13,27 @@ shortcode: LHat
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: cloth
-    archetype: 0
-    armorType: Hat
-    detailMaterial: Linen
-    material: Cloth
-    durability: 5
-    value: 2
-    weight: 0.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - skullloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: cloth
+  archetype: 0
+  armorType: Hat
+  detailMaterial: Linen
+  material: Cloth
+  durability: 5
+  value: 2
+  weight: 0.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - skullloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 2
 origWeight: 0.1

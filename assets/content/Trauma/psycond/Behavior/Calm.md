@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-calm
+  - trauma-calm
 tags: []
 name:
-    full: Calm
-    aliases: []
+  full: Calm
+  aliases: []
 id: zDPRCmnsh7n5uxLX
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: calm
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 
@@ -22,13 +22,11 @@ Calm refers to an individual's ability to remain composed, steady, and peaceful 
 
 ### Quirk
 
-The individual remains composed in stressful or challenging situations, providing stability and reassurance to those around them. They can handle conflicts and difficulties without becoming overwhelmed or reactive, making thoughtful and measured decisions. Their calm demeanor fosters a peaceful environment and helps others feel more secure.
-**Example:** Miriam, a village healer, maintains a steady composure even when treating seriously injured patients. During a sudden outbreak of illness, she calmly assesses each case, prioritizing her patients and administering remedies without rushing or panicking. Her calmness reassures the sick and their families, allowing them to trust her judgment even in a crisis.
+The individual remains composed in stressful or challenging situations, providing stability and reassurance to those around them. They can handle conflicts and difficulties without becoming overwhelmed or reactive, making thoughtful and measured decisions. Their calm demeanor fosters a peaceful environment and helps others feel more secure. **Example:** Miriam, a village healer, maintains a steady composure even when treating seriously injured patients. During a sudden outbreak of illness, she calmly assesses each case, prioritizing her patients and administering remedies without rushing or panicking. Her calmness reassures the sick and their families, allowing them to trust her judgment even in a crisis.
 
 ### Impulse
 
-The individual becomes more focused on staying calm, sometimes to the point where they may seem indifferent or lacking concern for urgent situations. While their calmness helps them stay composed, others may perceive it as an inappropriate lack of urgency or empathy. This behavior can cause frustration, as patients and their families may feel that the healer isn’t fully recognizing the severity of the situation or showing enough emotional support.
-**Example:** Miriam’s calm demeanor persists even in moments that require swift action. When a young boy with a high fever is brought to her, Miriam remains steady but shows no change in pace or tone. The child’s parents grow anxious, perceiving Miriam’s calm as a lack of concern for their son’s condition. Although she administers the treatment effectively, her measured response causes the family to worry that she isn’t taking the situation seriously enough.
+The individual becomes more focused on staying calm, sometimes to the point where they may seem indifferent or lacking concern for urgent situations. While their calmness helps them stay composed, others may perceive it as an inappropriate lack of urgency or empathy. This behavior can cause frustration, as patients and their families may feel that the healer isn’t fully recognizing the severity of the situation or showing enough emotional support. **Example:** Miriam’s calm demeanor persists even in moments that require swift action. When a young boy with a high fever is brought to her, Miriam remains steady but shows no change in pace or tone. The child’s parents grow anxious, perceiving Miriam’s calm as a lack of concern for their son’s condition. Although she administers the treatment effectively, her measured response causes the family to worry that she isn’t taking the situation seriously enough.
 
 ### Disorder
 

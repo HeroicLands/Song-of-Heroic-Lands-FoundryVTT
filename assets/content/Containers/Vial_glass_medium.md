@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Vial, glass, medium"
-    - containergear-vialglassm
+  - "Vial, glass, medium"
+  - containergear-vialglassm
 tags: []
 name:
-    full: "Vial, glass, medium"
-    aliases: []
+  full: "Vial, glass, medium"
+  aliases: []
 description: "Glass vial with stopper for traveling medicine kits and apothecary supplies."
 id: 73TbQJto0EJO7f2c
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: vialglassm
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 0.25
-    value: 4
-    weight: 0.75
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 0.25
+  value: 4
+  weight: 0.75
 folder: dl8lJ729W1mFlDvt
 ---
 

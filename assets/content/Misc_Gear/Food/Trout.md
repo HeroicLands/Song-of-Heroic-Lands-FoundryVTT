@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Trout
-    - miscgear-trout
+  - Trout
+  - miscgear-trout
 tags:
-    - food
+  - food
 name:
-    full: Trout
-    aliases: []
+  full: Trout
+  aliases: []
 description: "Swift stream fish, delicate pink flesh, best cooked whole or smoked."
 id: KrbJcH3gpb9OKlra
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: trout
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 1
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

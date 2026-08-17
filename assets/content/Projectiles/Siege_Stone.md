@@ -1,35 +1,35 @@
 ---
 aliases:
-    - Siege Stone
-    - projectilegear-StnSge
+  - Siege Stone
+  - projectilegear-StnSge
 tags: []
 name:
-    full: Siege Stone
-    alias: []
+  full: Siege Stone
+  alias: []
 description: "Dressed round shot for an engine; a stone the weight of a man."
 type: projectilegear
 package: sohl
-id: ProjSiegeStone1
+id: Iwb9HCPzqn4nEsPF
 shortcode: StnSge
 img: icons/game-icons/lorc/stone-block.svg
 easyname: Siege Stone
 sohl:
-    craft:
-        skill: srvl
-        secondary: []
-    archetype: 0
-    subType: bullet
-    quality: 0
-    durability: 15
-    value: 0.5
-    weight: 60
-    impact:
-        die: 6
-        modifier: 10
-        aspect: blunt
-    traits:
-        ARvalue: 0
-        bleed: false
+  craft:
+    skill: srvl
+    secondary: []
+  archetype: 0
+  subType: bullet
+  quality: 0
+  durability: 15
+  value: 0.5
+  weight: 60
+  impact:
+    die: 6
+    modifier: 10
+    aspect: blunt
+  traits:
+    ARvalue: 0
+    bleed: false
 folder: ADQPHjgKsdWsJhyy
 ---
 

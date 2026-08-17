@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-muteness
+  - trauma-muteness
 tags: []
 name:
-    full: Muteness
-    aliases: []
+  full: Muteness
+  aliases: []
 id: RhLLOxWjOCztbWRY
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: muteness
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: debility
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: debility
 folder: 4h8qyMcGHlkrfN1g
 ---
 

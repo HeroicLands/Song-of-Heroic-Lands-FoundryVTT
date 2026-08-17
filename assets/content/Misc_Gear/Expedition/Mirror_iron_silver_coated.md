@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Mirror, iron, silver-coated"
-    - miscgear-mirroriron
+  - "Mirror, iron, silver-coated"
+  - miscgear-mirroriron
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Mirror, iron, silver-coated"
-    aliases: []
+  full: "Mirror, iron, silver-coated"
+  aliases: []
 description: "Iron mirror backed with silver; superior reflection for noble and field use."
 id: 2eiULGcTo1vq9Yqz
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: mirroriron
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 20
-    weight: 2
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 20
+  weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

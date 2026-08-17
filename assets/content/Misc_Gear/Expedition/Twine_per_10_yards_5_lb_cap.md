@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Twine, per 10 yards (5 lb. cap.)"
-    - miscgear-twineper10
+  - "Twine, per 10 yards (5 lb. cap.)"
+  - miscgear-twineper10
 tags:
-    - expedition
+  - expedition
 name:
-    full: "Twine, per 10 yards (5 lb. cap.)"
-    aliases: []
+  full: "Twine, per 10 yards (5 lb. cap.)"
+  aliases: []
 description: "Jute or hemp twine for bundling firewood and securing pack animals."
 id: w2vPZlNJAkMnZTnS
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: twineper10
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: txtl
-        secondary: []
-    kbcat: expedition
-    archetype: 0
-    quality: 0
-    durability: 2
-    value: 4
-    weight: 0.2
+  craft:
+    skill: txtl
+    secondary: []
+  kbcat: expedition
+  archetype: 0
+  quality: 0
+  durability: 2
+  value: 4
+  weight: 0.2
 folder: FSPVI1eObGEpMVck
 ---
 

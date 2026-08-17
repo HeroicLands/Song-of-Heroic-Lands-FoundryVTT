@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Rawhide Shoes
-    - armorgear-RhShoe
+  - Rawhide Shoes
+  - armorgear-RhShoe
 tags: []
 name:
-    full: Rawhide Shoes
-    aliases: []
+  full: Rawhide Shoes
+  aliases: []
 description: "Stout hide footwear; durable and protective."
 id: LYfhICyBxISMNHmc
 img: icons/game-icons/lorc/leather-boot.svg
@@ -13,28 +13,28 @@ shortcode: RhShoe
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: hide
-        secondary: []
-    kbcat: leather
-    archetype: 0
-    armorType: Shoes
-    detailMaterial: Rawhide
-    material: Leather
-    durability: 11
-    value: 28
-    weight: 1.1
-    encumbrance: 0
-    perceptionPenaltyBase: 0
-    flexloc:
-        - lfootloc
-        - rfootloc
-    rigidloc: []
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: hide
+    secondary: []
+  kbcat: leather
+  archetype: 0
+  armorType: Shoes
+  detailMaterial: Rawhide
+  material: Leather
+  durability: 11
+  value: 28
+  weight: 1.1
+  encumbrance: 0
+  perceptionPenaltyBase: 0
+  flexloc:
+    - lfootloc
+    - rfootloc
+  rigidloc: []
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 35
 origWeight: 1.5

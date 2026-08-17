@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-phagophb
+  - trauma-phagophb
 tags: []
 name:
-    full: Phagophobia
-    aliases: []
+  full: Phagophobia
+  aliases: []
 id: wIgWz2bCKVCzr3SU
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: phagophb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -27,8 +27,7 @@ Avoiding certain foods or even eating and drinking altogether. Abberance (ABE) i
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or act of swallowing.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic at the thought or act of swallowing. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - affliction-smlpox
+  - affliction-smlpox
 tags: []
 name:
-    full: Smallpox
-    aliases: []
+  full: Smallpox
+  aliases: []
 description: "Viral infection; high fever followed by characteristic pustular rash; often fatal."
 id: 21CL9R9frSWX73Z9
 img: icons/game-icons/lorc/virus.svg
@@ -12,13 +12,13 @@ shortcode: smlpox
 type: affliction
 package: sohl
 sohl:
-    kbcat: diseases
-    archetype: 0
-    subType: disease
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndex: 3
-    transmission: airborne
+  kbcat: diseases
+  archetype: 0
+  subType: disease
+  levelBase: 1
+  healingRateBase: 3
+  contagionIndex: 3
+  transmission: airborne
 folder: 3lobflzDt8Hk6VrN
 ---
 

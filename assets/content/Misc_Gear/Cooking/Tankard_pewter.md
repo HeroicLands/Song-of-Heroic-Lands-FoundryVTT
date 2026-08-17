@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Tankard, pewter"
-    - miscgear-tankardpew
+  - "Tankard, pewter"
+  - miscgear-tankardpew
 tags:
-    - cooking
+  - cooking
 name:
-    full: "Tankard, pewter"
-    aliases: []
+  full: "Tankard, pewter"
+  aliases: []
 description: "Straight-sided pewter tankard for taverns and barracks serving ale by pint."
 id: FOXdpFfY3XYtD3rT
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: tankardpew
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: cooking
-    archetype: 0
-    quality: 0
-    durability: 4
-    value: 4
-    weight: 1
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: cooking
+  archetype: 0
+  quality: 0
+  durability: 4
+  value: 4
+  weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

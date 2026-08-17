@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-mnrl
+  - skill-mnrl
 tags: []
 name:
-    full: Mineralogy
-    aliases: []
+  full: Mineralogy
+  aliases: []
 description: "Identifying minerals, ores, and deposits for mining and building projects."
 id: 5eS0upGrJ75ayN5k
 img: icons/game-icons/delapouite/miner.svg
@@ -12,18 +12,18 @@ shortcode: mnrl
 type: skill
 package: sohl
 sohl:
-    kbcat: nature
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.rea, attr.per)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
+  kbcat: nature
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.rea, attr.per)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
 folder: N5ozne3RRF0qSEdF
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Inkwell, glass"
-    - containergear-inkwellgla
+  - "Inkwell, glass"
+  - containergear-inkwellgla
 tags: []
 name:
-    full: "Inkwell, glass"
-    aliases: []
+  full: "Inkwell, glass"
+  aliases: []
 description: "Fine blown glass inkwell for wealthy scholar or scribe."
 id: IL6RDwBDRTgCdZ1o
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: inkwellgla
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: glas
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 2
-    maxCapacity: 0.25
-    value: 30
-    weight: 1
+  craft:
+    skill: glas
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 2
+  maxCapacity: 0.25
+  value: 30
+  weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

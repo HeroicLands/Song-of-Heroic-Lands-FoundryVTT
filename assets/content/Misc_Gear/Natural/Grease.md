@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Grease
-    - miscgear-grease
+  - Grease
+  - miscgear-grease
 tags:
-    - natural
+  - natural
 name:
-    full: Grease
-    aliases: []
+  full: Grease
+  aliases: []
 description: "Rendered mutton-beef-hog fat; cooking, waterproofing leather, axle lubrication."
 id: tnQLJqOSADXL6gMh
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: grease
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: natural
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 1
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: natural
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 1
 folder: 0JqxkW5hHZ8XVILm
 ---
 

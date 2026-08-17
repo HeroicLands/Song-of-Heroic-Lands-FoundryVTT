@@ -1,21 +1,19 @@
 ---
 aliases:
-    - doc-scnstpan
+  - doc-scnstpan
 id: WxM4H3SLZKQhLTog
 type: doc
 package: sohl
 category: user-guide
 name:
-    full: "Scene Setup and Tokens"
+  full: "Scene Setup and Tokens"
 shortcode: scnstpan
 folder: IgwaG8rAUUO9vrtz
 ---
 
 # Overview {#scene-overview}
 
-Scenes in SoHL work like standard Foundry VTT scenes, with some additional
-features specific to SoHL. This guide covers placing tokens on scenes,
-Theatre of the Mind mode, and the Cohort expand feature.
+Scenes in SoHL work like standard Foundry VTT scenes, with some additional features specific to SoHL. This guide covers placing tokens on scenes, Theatre of the Mind mode, and the Cohort expand feature.
 
 See also: [[doc-being|Beings]], [[doc-cohort|Cohorts]]
 
@@ -31,39 +29,29 @@ You can also drag actors directly from compendiums onto the canvas.
 
 ## Beings
 
-When you drag a Being onto the scene, a single token appears. The token
-uses the Being's prototype token settings (image, size, vision).
+When you drag a Being onto the scene, a single token appears. The token uses the Being's prototype token settings (image, size, vision).
 
 ## Cohorts
 
-When you drag a Cohort onto the scene, SoHL asks whether you want to place
-the cohort as a **single token** (representing the group) or **expand it**
-into individual member tokens placed around the drop point.
+When you drag a Cohort onto the scene, SoHL asks whether you want to place the cohort as a **single token** (representing the group) or **expand it** into individual member tokens placed around the drop point.
 
 # The Cohort Expand Feature {#scene-cohort-expand}
 
-Cohorts have a special TokenHUD button that lets you expand a group token
-into individual member tokens.
+Cohorts have a special TokenHUD button that lets you expand a group token into individual member tokens.
 
 ## Expanding a Cohort
 
 1. Select a Cohort token on the canvas.
-2. In the TokenHUD (the controls that appear around the token), click the
-   **expand** button (the people icon).
-3. The cohort token is replaced by individual tokens for each member,
-   placed in a cluster around the original position.
+2. In the TokenHUD (the controls that appear around the token), click the **expand** button (the people icon).
+3. The cohort token is replaced by individual tokens for each member, placed in a cluster around the original position.
 
-This is useful when a group encounter transitions into individual combat —
-start with one cohort token for the approaching band of bandits, then expand
-them when initiative is rolled.
+This is useful when a group encounter transitions into individual combat — start with one cohort token for the approaching band of bandits, then expand them when initiative is rolled.
 
 # See also
 
-- [[doc-token|Token]] — what you can do from a placed token, including starting
-  and answering an opposed test.
+- [[doc-token|Token]] — what you can do from a placed token, including starting and answering an opposed test.
 - [[doc-cmbtbscs|Combat Basics]] — running the fight the scene is set up for.
-- [[doc-cmbtnt|Combatant]] — the combat tracker, its groups, and the combatant
-  row.
+- [[doc-cmbtnt|Combatant]] — the combat tracker, its groups, and the combatant row.
 - [[doc-cohort|Cohort]] — the group a scene can expand into its members.
 - [[doc-being|Being]] — the actor most tokens stand for.
 - [[doc-userguide|User Guide]] — back to the index.
@@ -74,8 +62,7 @@ them when initiative is rolled.
 
 # Theatre of the Mind {#scene-totm}
 
-Theatre of the Mind (TotM) mode is a per-scene toggle that changes how the
-scene behaves for narrative, non-tactical play.
+Theatre of the Mind (TotM) mode is a per-scene toggle that changes how the scene behaves for narrative, non-tactical play.
 
 ## Enabling Theatre of the Mind
 
@@ -83,19 +70,13 @@ scene behaves for narrative, non-tactical play.
 2. Open the **Sohl** tab and find the **Theatre of the Mind** checkbox.
 3. Check it and save.
 
-The setting is per-scene, so a campaign can mix narrative scenes with tactical
-ones.
+The setting is per-scene, so a campaign can mix narrative scenes with tactical ones.
 
 ## What It Changes
 
-When Theatre of the Mind is enabled, SoHL stops measuring tactical distance on
-that scene: the distance between any two tokens resolves to zero. In practice
-that means range and reach never rule an action out — a missile shot or a melee
-attack is always considered close enough, and the GM narrates whether the
-distance is plausible.
+When Theatre of the Mind is enabled, SoHL stops measuring tactical distance on that scene: the distance between any two tokens resolves to zero. In practice that means range and reach never rule an action out — a missile shot or a melee attack is always considered close enough, and the GM narrates whether the distance is plausible.
 
-Nothing else changes: the grid, token movement, vision, and the combat sequence
-all behave exactly as they do on a tactical scene.
+Nothing else changes: the grid, token movement, vision, and the combat sequence all behave exactly as they do on a tactical scene.
 
 # Token Configuration {#scene-tokens}
 
@@ -105,11 +86,9 @@ all behave exactly as they do on a tactical scene.
 
 # Combat on Scenes {#scene-combat}
 
-When combat begins on a scene, SoHL uses its own initiative and combat
-tracking system.
+When combat begins on a scene, SoHL uses its own initiative and combat tracking system.
 
-See [[Combat Basics]] for details on how combat
-encounters work.
+See [[doc-cmbtbscs|Combat Basics]] for details on how combat encounters work.
 
 <!-- TODO: Document how to start combat, add combatants, and the relationship
      between tokens and combatants in SoHL's combat system. -->

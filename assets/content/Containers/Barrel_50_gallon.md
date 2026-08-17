@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Barrel, 50 gallon"
-    - containergear-barrel50gal
+  - "Barrel, 50 gallon"
+  - containergear-barrel50gal
 tags: []
 name:
-    full: "Barrel, 50 gallon"
-    aliases: []
+  full: "Barrel, 50 gallon"
+  aliases: []
 description: "Large coopered tun for brewing, salting, or shipping in bulk (50 gallons)."
 id: htxJOZxIWbbCcnbR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: barrel50gal
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 5
-    maxCapacity: 400
-    value: 36
-    weight: 90
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 5
+  maxCapacity: 400
+  value: 36
+  weight: 90
 folder: dl8lJ729W1mFlDvt
 ---
 

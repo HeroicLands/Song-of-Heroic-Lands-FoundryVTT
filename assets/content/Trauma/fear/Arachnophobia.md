@@ -1,26 +1,25 @@
 ---
 aliases:
-    - trauma-aracphb
+  - trauma-aracphb
 tags: []
 name:
-    full: Arachnophobia
-    aliases: []
+  full: Arachnophobia
+  aliases: []
 id: NrP2jApnrRDINrUm
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: aracphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
-Arachnophobia is an intense, irrational fear of spiders.
-People with arachnophobia may experience a range of symptoms when they think about, see, or are near spiders.
+Arachnophobia is an intense, irrational fear of spiders. People with arachnophobia may experience a range of symptoms when they think about, see, or are near spiders.
 
 ### Impulse
 

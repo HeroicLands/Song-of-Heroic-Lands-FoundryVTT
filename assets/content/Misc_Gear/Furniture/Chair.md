@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Chair"
-    - miscgear-chair
+  - "Chair"
+  - miscgear-chair
 tags:
-    - furniture
+  - furniture
 name:
-    full: "Chair"
-    aliases: []
+  full: "Chair"
+  aliases: []
 description: "Single wooden seat with a back; a mark of standing in the household."
 id: IBPGjsFxsIwZeR6t
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: chair
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    kbcat: furniture
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 12
-    weight: 7
+  craft:
+    skill: wood
+    secondary: []
+  kbcat: furniture
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 12
+  weight: 7
 folder: Wq1tmMJTjDoFFtLS
 ---
 

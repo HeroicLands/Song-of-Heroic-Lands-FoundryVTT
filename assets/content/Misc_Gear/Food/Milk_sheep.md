@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Milk, sheep"
-    - miscgear-milksheep
+  - "Milk, sheep"
+  - miscgear-milksheep
 tags:
-    - food
+  - food
 name:
-    full: "Milk, sheep"
-    aliases: []
+  full: "Milk, sheep"
+  aliases: []
 description: "Silky dairy yielding fine cheese treasured in southern markets and temples."
 id: 0Zp6RfWRMfMV0OV4
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: milksheep
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: anmcft
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 2
-    weight: 8
+  craft:
+    skill: anmcft
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 2
+  weight: 8
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-dscr
+  - skill-dscr
 tags: []
 name:
-    full: Discourse
-    aliases: []
+  full: Discourse
+  aliases: []
 description: "Convincing through reasoned argument, evidence, and rhetorical skill."
 id: L3Glc3p57exL0wQK
 img: icons/game-icons/delapouite/face-to-face.svg
@@ -12,17 +12,17 @@ shortcode: dscr
 type: skill
 package: sohl
 sohl:
-    kbcat: social
-    archetype: 0
-    subType: social
-    skillBaseFormula: "sb(attr.rea, attr.elo)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 2
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: social
+  archetype: 0
+  subType: social
+  skillBaseFormula: "sb(attr.rea, attr.elo)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 2
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: JBr2U30FsJTs8F3l
 ---
 

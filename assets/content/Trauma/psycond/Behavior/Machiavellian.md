@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-mchvlln
+  - trauma-mchvlln
 tags: []
 name:
-    full: Machiavellian
-    aliases: []
+  full: Machiavellian
+  aliases: []
 id: UyGbQku6nZrU9l78
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mchvlln
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: impulse
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 
@@ -22,8 +22,7 @@ Machiavellian refers to an individual’s tendency to manipulate, deceive, or ex
 
 ### Impulse
 
-The individual begins to increasingly manipulate situations or people to gain an advantage. They may use subtle deception, half-truths, or exploit others' weaknesses to achieve their objectives. While still maintaining a semblance of fairness or ethical boundaries, they prioritize self-interest over honesty, resulting in strained relationships as those around them begin to sense their manipulative behavior.
-**Example:** Lord Marcus starts to use covert manipulation to keep his rivals in check. He subtly undermines them by withholding information or spreading rumors, carefully maintaining plausible deniability. While his tactics give him an edge in politics, his allies begin to distrust him, sensing that his loyalty is conditional and his methods are underhanded.
+The individual begins to increasingly manipulate situations or people to gain an advantage. They may use subtle deception, half-truths, or exploit others' weaknesses to achieve their objectives. While still maintaining a semblance of fairness or ethical boundaries, they prioritize self-interest over honesty, resulting in strained relationships as those around them begin to sense their manipulative behavior. **Example:** Lord Marcus starts to use covert manipulation to keep his rivals in check. He subtly undermines them by withholding information or spreading rumors, carefully maintaining plausible deniability. While his tactics give him an edge in politics, his allies begin to distrust him, sensing that his loyalty is conditional and his methods are underhanded.
 
 ### Disorder
 

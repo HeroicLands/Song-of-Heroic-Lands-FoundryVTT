@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-timb
+  - skill-timb
 tags: []
 name:
-    full: Timbercraft
-    aliases: []
+  full: Timbercraft
+  aliases: []
 description: "Forest knowledge for selecting timber and managing woodland for sustainable yield."
 id: VoZDMnV29TjcrO4T
 img: icons/game-icons/delapouite/wood-pile.svg
@@ -12,20 +12,20 @@ shortcode: timb
 type: skill
 package: sohl
 sohl:
-    kbcat: craft
-    archetype: 0
-    subType: nature
-    skillBaseFormula: "sb(attr.per, attr.rea)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - core
-        - vital
-        - manipulator
-        - locomotor
+  kbcat: craft
+  archetype: 0
+  subType: nature
+  skillBaseFormula: "sb(attr.per, attr.rea)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - core
+    - vital
+    - manipulator
+    - locomotor
 folder: gqRvjlrWbuCwGy3N
 ---
 

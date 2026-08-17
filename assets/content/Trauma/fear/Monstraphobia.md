@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-mnstrphb
+  - trauma-mnstrphb
 tags: []
 name:
-    full: Monstraphobia
-    aliases: []
+  full: Monstraphobia
+  aliases: []
 id: osjRQrub3oiIVMlb
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: mnstrphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -23,8 +23,7 @@ Monstraphobia is an intense, irrational fear of unknown or fantastical creatures
 
 ### Impulse
 
-The individual avoids environments or situations where they might encounter unfamiliar or monstrous creatures. Their anxiety intensifies in unfamiliar regions, during travel, or when hearing tales of unknown beasts. The fear becomes disruptive to their life, causing them to avoid certain places, people, or conversations. When encountering such creatures, **Abberance (ABE)** increases by 1 from the source of fear.
-**Example:** A merchant who used to travel widely now refuses to enter regions known for strange fauna or rumored mythical creatures. Even the sight of exotic animals in a distant marketplace unnerves him, and he avoids caravans that might carry unknown beasts. His fear causes him to abandon potentially profitable routes, and he becomes overly cautious of every journey, even avoiding maps depicting regions with dangerous creatures.
+The individual avoids environments or situations where they might encounter unfamiliar or monstrous creatures. Their anxiety intensifies in unfamiliar regions, during travel, or when hearing tales of unknown beasts. The fear becomes disruptive to their life, causing them to avoid certain places, people, or conversations. When encountering such creatures, **Abberance (ABE)** increases by 1 from the source of fear. **Example:** A merchant who used to travel widely now refuses to enter regions known for strange fauna or rumored mythical creatures. Even the sight of exotic animals in a distant marketplace unnerves him, and he avoids caravans that might carry unknown beasts. His fear causes him to abandon potentially profitable routes, and he becomes overly cautious of every journey, even avoiding maps depicting regions with dangerous creatures.
 
 ### Disorder
 

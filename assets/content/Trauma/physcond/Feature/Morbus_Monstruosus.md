@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Morbus Monstruosus
-    - trauma-morbusmo
+  - Morbus Monstruosus
+  - trauma-morbusmo
 tags: []
 name:
-    full: Morbus Monstruosus
-    aliases: []
+  full: Morbus Monstruosus
+  aliases: []
 id: mVwbl8ul2TZvwGd6
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: morbusmo
 type: trauma
 package: sohl
 sohl:
-    kbcat: physfeature
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physfeature
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -23,8 +23,7 @@ Morbus Monstruosus is a condition marked by the presence of numerous or large ne
 
 ### Impediment
 
-The early stages of Morbus Monstruosus are characterized by the appearance of a few small neurofibromas, which may cause mild discomfort or irritation but do not severely impact the individual’s appearance. Though noticeable, the condition may not yet lead to significant social or psychological consequences.
-**Example:** Villager Tomas notices several small, soft lumps forming on his arms and neck. Though they are painless, they attract occasional stares from others in the village. Tomas begins to feel self-conscious, but he continues his work and interactions, hoping the condition won’t worsen.
+The early stages of Morbus Monstruosus are characterized by the appearance of a few small neurofibromas, which may cause mild discomfort or irritation but do not severely impact the individual’s appearance. Though noticeable, the condition may not yet lead to significant social or psychological consequences. **Example:** Villager Tomas notices several small, soft lumps forming on his arms and neck. Though they are painless, they attract occasional stares from others in the village. Tomas begins to feel self-conscious, but he continues his work and interactions, hoping the condition won’t worsen.
 
 ### Debility
 

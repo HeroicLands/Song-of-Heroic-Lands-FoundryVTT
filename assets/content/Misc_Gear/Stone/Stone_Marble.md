@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Stone, Marble"
-    - miscgear-stonemarbl
+  - "Stone, Marble"
+  - miscgear-stonemarbl
 tags:
-    - stone
+  - stone
 name:
-    full: "Stone, Marble"
-    aliases: []
+  full: "Stone, Marble"
+  aliases: []
 description: "Banded metamorphic stone; costly beautiful durable; altars, memorials, noble halls."
 id: cp3Sy3MceFAqdBaR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: stonemarbl
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mnrl
-        secondary: []
-    kbcat: stone
-    archetype: 0
-    quality: 0
-    durability: 5
-    value: 3
-    weight: 400
+  craft:
+    skill: mnrl
+    secondary: []
+  kbcat: stone
+  archetype: 0
+  quality: 0
+  durability: 5
+  value: 3
+  weight: 400
 folder: 7HORJHbbizVSds9r
 ---
 

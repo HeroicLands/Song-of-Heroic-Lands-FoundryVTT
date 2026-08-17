@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Cod
-    - miscgear-cod
+  - Cod
+  - miscgear-cod
 tags:
-    - food
+  - food
 name:
-    full: Cod
-    aliases: []
+  full: Cod
+  aliases: []
 description: "Salt-cured white fish; dried or salted for long trade voyages."
 id: PoTftOCpRY4tsKfJ
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: cod
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: fish
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 1
-    weight: 1
+  craft:
+    skill: fish
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 1
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -9,14 +9,14 @@ and copied here. It maps a note's canonical `type/shortcode` address to the
 
 ```json
 {
-    "version": 1,
-    "package": "thalorna",
-    "entries": {
-        "creature/grkrahk": {
-            "url": "/thalorna/creature/grukar-ahk/",
-            "name": "Grukar-ahk"
-        }
+  "version": 1,
+  "package": "thalorna",
+  "entries": {
+    "creature/grkrahk": {
+      "url": "/thalorna/creature/grukar-ahk/",
+      "name": "Grukar-ahk"
     }
+  }
 }
 ```
 

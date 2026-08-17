@@ -1,10 +1,10 @@
 ---
 aliases:
-    - trauma-hypth
+  - trauma-hypth
 tags: []
 name:
-    full: Hypothermic
-    aliases: []
+  full: Hypothermic
+  aliases: []
 description: "Core body temperature drops; shivering, slurred speech, stupor, death."
 id: gFddcXrtVs0xQQ2v
 img: icons/game-icons/delapouite/stomach.svg
@@ -12,12 +12,12 @@ shortcode: hypth
 type: trauma
 package: sohl
 sohl:
-    kbcat: physprivations
-    archetype: 0
-    subType: physcond
-    category: debility
-    levelBase: 3
-    healingRateBase: 2
+  kbcat: physprivations
+  archetype: 0
+  subType: physcond
+  category: debility
+  levelBase: 3
+  healingRateBase: 2
 folder: wz4hXqKLntkdXNue
 ---
 

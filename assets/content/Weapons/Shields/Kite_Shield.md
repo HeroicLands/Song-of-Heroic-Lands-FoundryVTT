@@ -1,11 +1,11 @@
 ---
 aliases:
-    - Kite Shield
-    - weapongear-KiSh
+  - Kite Shield
+  - weapongear-KiSh
 tags: []
 name:
-    full: Kite Shield
-    aliases: []
+  full: Kite Shield
+  aliases: []
 description: "Tall teardrop shield protects mounted leg; cavalry skirmisher's deep coverage."
 id: TkX3GNORKY6L0J6Y
 img: icons/game-icons/badges/shield.svg
@@ -13,61 +13,61 @@ shortcode: KiSh
 type: weapongear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [mtlc, mnrl]
-    kbcat: shield
-    archetype: 0
-    durability: 11
-    weight: 7
-    value: 72
-    heft: 11
-    weaponType: Shield
-    strikeModes:
-        - shortcode: bash
-          type: melee
-          name: Bash
-          assocSkillCode: melee
-          minParts: 1
-          attack:
-              spread: 8
-              modifier: 0
-          impactBase:
-              numDice: 1
-              die: 6
-              modifier: 1
-              aspect: blunt
-          traits:
-              meleeMod: 0
-              blockSLMod: 0
-              durabilityMod: 0
-              cxSLMod: 0
-              oppDef: 0
-              impTA: 3
-              AR: 0
-              noAttack: false
-              noBlock: false
-              entangle: false
-              envelop: false
-              couched: false
-              long: false
-              onlyInClose: false
-              shieldMod: 15
-              slow: false
-              thrust: false
-              swung: false
-              halfSword: false
-              bleed: false
-              twoHndLen: 0
-              shaft: false
-              pommel: false
-              noStrMod: false
-              halfImpact: false
-              lowAim: false
-          lengthBase: 1
-          defense:
-              blockMod: 0
-              counterstrikeMod: 0
+  craft:
+    skill: wpnc
+    secondary: [mtlc, mnrl]
+  kbcat: shield
+  archetype: 0
+  durability: 11
+  weight: 7
+  value: 72
+  heft: 11
+  weaponType: Shield
+  strikeModes:
+    - shortcode: bash
+      type: melee
+      name: Bash
+      assocSkillCode: melee
+      minParts: 1
+      attack:
+        spread: 8
+        modifier: 0
+      impactBase:
+        numDice: 1
+        die: 6
+        modifier: 1
+        aspect: blunt
+      traits:
+        meleeMod: 0
+        blockSLMod: 0
+        durabilityMod: 0
+        cxSLMod: 0
+        oppDef: 0
+        impTA: 3
+        AR: 0
+        noAttack: false
+        noBlock: false
+        entangle: false
+        envelop: false
+        couched: false
+        long: false
+        onlyInClose: false
+        shieldMod: 15
+        slow: false
+        thrust: false
+        swung: false
+        halfSword: false
+        bleed: false
+        twoHndLen: 0
+        shaft: false
+        pommel: false
+        noStrMod: false
+        halfImpact: false
+        lowAim: false
+      lengthBase: 1
+      defense:
+        blockMod: 0
+        counterstrikeMod: 0
 folder: HXiYHvG6igI3Wlmm
 ---
 

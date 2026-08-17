@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Pears
-    - miscgear-pears
+  - Pears
+  - miscgear-pears
 tags:
-    - food
+  - food
 name:
-    full: Pears
-    aliases: []
+  full: Pears
+  aliases: []
 description: "Dried autumn fruit, hardened sweet traveler's treat and childhood prize."
 id: 6mM62JZVn3FEZRaR
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: pears
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: agri
-        secondary: []
-    kbcat: food
-    archetype: 0
-    quality: 0
-    durability: 0
-    value: 0.5
-    weight: 1
+  craft:
+    skill: agri
+    secondary: []
+  kbcat: food
+  archetype: 0
+  quality: 0
+  durability: 0
+  value: 0.5
+  weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

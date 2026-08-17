@@ -1,11 +1,11 @@
 ---
 aliases:
-    - "Book case, travelling"
-    - containergear-bkcasetrv
+  - "Book case, travelling"
+  - containergear-bkcasetrv
 tags: []
 name:
-    full: "Book case, travelling"
-    aliases: []
+  full: "Book case, travelling"
+  aliases: []
 description: "Waxed leather shoulder case; shields travelling book and scribe's kit from weather."
 id: kAnS4ey4C89JF1z5
 img: icons/game-icons/lorc/swap-bag.svg
@@ -13,15 +13,15 @@ shortcode: bkcasetrv
 type: containergear
 package: sohl
 sohl:
-    craft:
-        skill: wood
-        secondary: []
-    archetype: 0
-    quality: 0
-    durability: 8
-    maxCapacity: 8
-    value: 180
-    weight: 2.5
+  craft:
+    skill: wood
+    secondary: []
+  archetype: 0
+  quality: 0
+  durability: 8
+  maxCapacity: 8
+  value: 180
+  weight: 2.5
 folder: dl8lJ729W1mFlDvt
 ---
 

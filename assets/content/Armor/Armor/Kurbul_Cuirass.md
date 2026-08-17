@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Kurbul Cuirass
-    - Kûrbúl Cuirass
-    - armorgear-KCui
+  - Kurbul Cuirass
+  - Kûrbúl Cuirass
+  - armorgear-KCui
 tags: []
 name:
-    full: Kûrbúl Cuirass
-    aliases: []
+  full: Kûrbúl Cuirass
+  aliases: []
 description: "Specially treated leather torso armor for those prioritizing agility."
 id: r8scgPfdh76nam6M
 img: icons/game-icons/lorc/breastplate.svg
@@ -14,28 +14,28 @@ shortcode: KCui
 type: armorgear
 package: sohl
 sohl:
-    craft:
-        skill: wpnc
-        secondary: [hide]
-    kbcat: kurbul
-    archetype: 0
-    armorType: Cuirass
-    detailMaterial: Kûrbúl
-    material: Kûrbúl
-    durability: 13
-    value: 120
-    weight: 9.1
-    encumbrance: 5
-    perceptionPenaltyBase: 0
-    flexloc: []
-    rigidloc:
-        - thrxloc
-        - abdmnloc
-    protection:
-        blunt: 4
-        edged: 8
-        piercing: 5
-        fire: 5
+  craft:
+    skill: wpnc
+    secondary: [hide]
+  kbcat: kurbul
+  archetype: 0
+  armorType: Cuirass
+  detailMaterial: Kûrbúl
+  material: Kûrbúl
+  durability: 13
+  value: 120
+  weight: 9.1
+  encumbrance: 5
+  perceptionPenaltyBase: 0
+  flexloc: []
+  rigidloc:
+    - thrxloc
+    - abdmnloc
+  protection:
+    blunt: 4
+    edged: 8
+    piercing: 5
+    fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 120
 origWeight: 9.1

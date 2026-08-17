@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "File, metal"
-    - miscgear-filemetal
+  - "File, metal"
+  - miscgear-filemetal
 tags:
-    - instruments
+  - instruments
 name:
-    full: "File, metal"
-    aliases: []
+  full: "File, metal"
+  aliases: []
 description: "Broad coarse-toothed steel file hafted in wood; blacksmiths use to true edges."
 id: fhN5diCWOhahHxWK
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: filemetal
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: instruments
-    archetype: 0
-    quality: 0
-    durability: 8
-    value: 15
-    weight: 0.75
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: instruments
+  archetype: 0
+  quality: 0
+  durability: 8
+  value: 15
+  weight: 0.75
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,20 +1,20 @@
 ---
 aliases:
-    - trauma-enthsstc
+  - trauma-enthsstc
 tags: []
 name:
-    full: Enthusiastic
-    aliases: []
+  full: Enthusiastic
+  aliases: []
 id: ZF80NMxf2tVWteeJ
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: enthsstc
 type: trauma
 package: sohl
 sohl:
-    kbcat: psybehavior
-    archetype: 0
-    subType: psycond
-    category: quirk
+  kbcat: psybehavior
+  archetype: 0
+  subType: psycond
+  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

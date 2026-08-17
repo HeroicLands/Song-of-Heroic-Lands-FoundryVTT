@@ -1,21 +1,21 @@
 ---
 aliases:
-    - trauma-clstrphb
+  - trauma-clstrphb
 tags: []
 name:
-    full: Claustrophobia
-    aliases: []
+  full: Claustrophobia
+  aliases: []
 id: z5upL9KjhkxKmyOd
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: clstrphb
 type: trauma
 package: sohl
 sohl:
-    kbcat: phobias
-    archetype: 0
-    levelBase: 0
-    subType: fear
-    category: none
+  kbcat: phobias
+  archetype: 0
+  levelBase: 0
+  subType: fear
+  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 
@@ -27,8 +27,7 @@ Avoiding elevators, tunnels, small rooms, or crowded places. Abberance (ABE) inc
 
 ### Disorder
 
-In addition to trait intensity behaviors: Overwhelming fear or panic when in tight or crowded spaces.
-Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
+In addition to trait intensity behaviors: Overwhelming fear or panic when in tight or crowded spaces. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.
 
 ### Physical Symptoms
 

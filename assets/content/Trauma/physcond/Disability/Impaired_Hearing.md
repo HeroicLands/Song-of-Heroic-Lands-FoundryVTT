@@ -1,21 +1,21 @@
 ---
 aliases:
-    - Impaired Hearing
-    - trauma-impaired
+  - Impaired Hearing
+  - trauma-impaired
 tags: []
 name:
-    full: Impaired Hearing
-    aliases: []
+  full: Impaired Hearing
+  aliases: []
 id: NnySwLpA4EHqC42L
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaired
 type: trauma
 package: sohl
 sohl:
-    kbcat: physdisability
-    archetype: 0
-    subType: physcond
-    category: impediment
+  kbcat: physdisability
+  archetype: 0
+  subType: physcond
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 
@@ -23,8 +23,7 @@ Impaired Hearing is a condition where one’s ability to hear sounds is diminish
 
 ### Impediment
 
-Difficulty hearing soft or distant sounds, leading to frequent misunderstandings and the need to ask others to repeat themselves. This can cause frustration and strain in communication.
-**Example:** Farmer Eadric often misses the sounds of approaching footsteps or distant calls while working in the fields. He frequently asks his family to speak louder, struggling to catch every word in conversation.
+Difficulty hearing soft or distant sounds, leading to frequent misunderstandings and the need to ask others to repeat themselves. This can cause frustration and strain in communication. **Example:** Farmer Eadric often misses the sounds of approaching footsteps or distant calls while working in the fields. He frequently asks his family to speak louder, struggling to catch every word in conversation.
 
 ### Debility
 

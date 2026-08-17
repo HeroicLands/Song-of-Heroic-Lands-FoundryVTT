@@ -1,12 +1,12 @@
 ---
 aliases:
-    - "Bell, temple"
-    - miscgear-belltemple
+  - "Bell, temple"
+  - miscgear-belltemple
 tags:
-    - music
+  - music
 name:
-    full: "Bell, temple"
-    aliases: []
+  full: "Bell, temple"
+  aliases: []
 description: "Substantial bronze bell on frame; deep tone carries far beyond sanctuary."
 id: 58zPXzLGkb5cDkvI
 img: icons/game-icons/lorc/swap-bag.svg
@@ -14,15 +14,15 @@ shortcode: belltemple
 type: miscgear
 package: sohl
 sohl:
-    craft:
-        skill: mtlc
-        secondary: []
-    kbcat: music
-    archetype: 0
-    quality: 0
-    durability: 10
-    value: 200
-    weight: 50
+  craft:
+    skill: mtlc
+    secondary: []
+  kbcat: music
+  archetype: 0
+  quality: 0
+  durability: 10
+  value: 200
+  weight: 50
 folder: ncTaRcZt0RFYz0Gq
 ---
 

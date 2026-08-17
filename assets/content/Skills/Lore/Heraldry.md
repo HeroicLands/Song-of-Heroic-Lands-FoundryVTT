@@ -1,10 +1,10 @@
 ---
 aliases:
-    - skill-hrld
+  - skill-hrld
 tags: []
 name:
-    full: Heraldry
-    aliases: []
+  full: Heraldry
+  aliases: []
 description: "Interpreting coats of arms, crests, badges; revealing lineage and history."
 id: A6dgxBXv4Tu6rua4
 img: icons/game-icons/badges/shield.svg
@@ -12,17 +12,17 @@ shortcode: hrld
 type: skill
 package: sohl
 sohl:
-    kbcat: lore
-    archetype: 0
-    subType: lore
-    skillBaseFormula: "sb(attr.rea, attr.wil)"
-    combatCategory: none
-    parentSkillCode: ""
-    initSkillMult: 0
-    masteryLevelBase: null
-    improveFlag: false
-    impairedByRoles:
-        - vital
+  kbcat: lore
+  archetype: 0
+  subType: lore
+  skillBaseFormula: "sb(attr.rea, attr.wil)"
+  combatCategory: none
+  parentSkillCode: ""
+  initSkillMult: 0
+  masteryLevelBase: null
+  improveFlag: false
+  impairedByRoles:
+    - vital
 folder: QlkEHXbk2EXlRiMM
 ---
 
