@@ -10,6 +10,56 @@ theme = "heroiclands-hugo-theme"
   description = "Song of Heroic Lands — developer knowledgebase and content reference."
   author = "Tom Rodriguez"
 
+  # The theme carries layout, not addresses, so every site-specific URL it
+  # renders is supplied here. See the theme's README for the full contract.
+  # The knowledgebase renders its own home page, so it needs no params.home.
+  cdnBaseURL = "https://cdn.heroiclands.org"
+
+  [params.brand]
+    logo       = "images/brand/sohl-icon-white.webp"
+    licenseURL = "https://www.heroiclands.org/license/"
+    discordURL = "https://discord.gg/EwMfkNd3az"
+
+# The brand nav. Absolute URLs so this header matches the one every other
+# site renders; defined here rather than in the shared theme, which carries
+# no addresses of its own.
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "https://www.heroiclands.org/"
+    weight = 1
+  [[menu.main]]
+    name = "Song of Heroic Lands"
+    url = "https://www.heroiclands.org/projects/sohl/"
+    weight = 2
+    identifier = "sohl"
+  [[menu.main]]
+    name = "Knowledgebase"
+    url = "https://kb.heroiclands.org/"
+    weight = 1
+    parent = "sohl"
+  [[menu.main]]
+    name = "API Documentation"
+    url = "https://api.heroiclands.org/"
+    weight = 2
+    parent = "sohl"
+  [[menu.main]]
+    name = "Thalorna"
+    url = "https://www.heroiclands.org/thalorna/world/thalorna/"
+    weight = 3
+  [[menu.main]]
+    name = "HârnMaster 3"
+    url = "https://www.heroiclands.org/projects/hm3/"
+    weight = 4
+  [[menu.main]]
+    name = "Modules"
+    url = "https://www.heroiclands.org/projects/modules/"
+    weight = 5
+  [[menu.main]]
+    name = "License"
+    url = "https://www.heroiclands.org/license/"
+    weight = 6
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
