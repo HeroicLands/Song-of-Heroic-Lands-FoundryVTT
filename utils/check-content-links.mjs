@@ -247,38 +247,7 @@ for (const note of notes) {
 
 // --- Check 3: every qualified target resolves to a note -------------------
 
-/**
- * Addresses that name a real note in a package this repository does **not**
- * publish, and so cannot resolve here (#1414).
- *
- * `assets/content/` is the vault's `sohl` package only; its `setting` package —
- * campaign and world material — is never exported. A `Rules/` page may still
- * legitimately address that material, and does: the Bestiary links the Grukar
- * subspecies and two Helspawn, each a real note carrying exactly this alias in
- * the vault. Those links resolve in Obsidian and on heroiclands.org.
- *
- * Nothing in the syntax separates such a reference from a typo — both are
- * `<known type>-<shortcode that is not here>` — so the ones that are deliberate
- * are listed, and everything else fails. Keeping the list explicit is the point:
- * it is a handful of reviewed entries rather than a blanket tolerance, and each
- * says which note it means.
- *
- * When the tree gains a single source (#1385) every package becomes visible, the
- * distinction becomes decidable, and this list goes away.
- *
- * @type {Record<string, string>} address → the vault note it names
- */
-const FOREIGN_ADDRESS_ALLOWLIST = {
-    "creature-grkrahk": "Setting/Actors/Bestiary/Folk/Grukar-ahk.md",
-    "creature-grukaruk": "Setting/Actors/Bestiary/Folk/Grukar-Uk.md",
-    "creature-grkrsh": "Setting/Actors/Bestiary/Folk/Grukar-Sha.md",
-    "creature-grkrh": "Setting/Actors/Bestiary/Folk/Grukar-Hai.md",
-    "creature-nghtwght": "Setting/Actors/Bestiary/Helspawn/Nightwights.md",
-    "creature-hlthrls": "Setting/Actors/Bestiary/Helspawn/Helthraals.md",
-};
-
 const deadAddresses = [];
-const usedForeign = new Set();
 const usedManifest = new Set();
 for (const note of notes) {
     for (const { target } of linksOf(note)) {
@@ -296,31 +265,9 @@ for (const note of notes) {
             usedManifest.add(target.toLowerCase());
             continue;
         }
-        const key = target.toLowerCase();
-        // The allowlist survives only while some package is still invisible.
-        // Once every manifest is present an unresolved address is a typo, and
-        // excusing it by name would reintroduce exactly the blind spot #1446
-        // closes.
-        if (
-            !manifests.complete &&
-            Object.hasOwn(FOREIGN_ADDRESS_ALLOWLIST, key)
-        ) {
-            usedForeign.add(key);
-            continue;
-        }
         deadAddresses.push({ file: note.file, target });
     }
 }
-
-// An entry that no longer matches anything is a stale tolerance: the link was
-// fixed or removed, and leaving it listed would silently excuse the address if
-// it ever came back. Reported, not fatal — the tree is still correct.
-const staleForeign =
-    manifests.complete ?
-        Object.keys(FOREIGN_ADDRESS_ALLOWLIST)
-    :   Object.keys(FOREIGN_ADDRESS_ALLOWLIST).filter(
-            (k) => !usedForeign.has(k),
-        );
 
 // --- Check 2: every document is reachable from its corpus's root ---------
 
@@ -399,15 +346,6 @@ if (deadAddresses.length) {
     );
 }
 
-if (staleForeign.length) {
-    console.warn(
-        `\ncheck-content-links: ${staleForeign.length} unused FOREIGN_ADDRESS_ALLOWLIST ` +
-            `entr${staleForeign.length === 1 ? "y" : "ies"} — nothing links ` +
-            `${staleForeign.map((k) => `[[${k}]]`).join(", ")} any more. Remove ` +
-            `${staleForeign.length === 1 ? "it" : "them"} so the list keeps meaning what it says.\n`,
-    );
-}
-
 for (const { corpus, orphans } of walks) {
     if (!orphans.length) continue;
     failed = true;
@@ -427,7 +365,7 @@ console.log(
         `qualified address resolves (${usedManifest.size} cross-package reference(s) ` +
         `via manifest` +
         (manifests.complete ? "" : (
-            `, ${usedForeign.size} allowlisted; no manifest for ${manifests.missing.join(", ")}`
+            `; no manifest for ${manifests.missing.join(", ")}`
         )) +
         `); ` +
         walks

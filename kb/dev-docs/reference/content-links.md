@@ -172,14 +172,22 @@ are the long-standing placeholder for worldbuilding notes kept outside this
 repository, and a hyphenated *name* (`[[Grukar-ahk]]`) stays a name, since a hyphen
 only qualifies on a known type.
 
-**Addressing a package this build does not publish.** `assets/content/` is the
-vault's `sohl` package alone; its `setting` tree is never exported. A page may still
-legitimately address that material — `Rules/Bestiary.md` links six setting creatures
-— and nothing in the syntax separates such a reference from a typo. Those six are
-listed in `FOREIGN_ADDRESS_ALLOWLIST` in `utils/check-content-links.mjs`, each naming
-the vault note it means; anything else fails. Add an entry when you knowingly link
-across packages, and the check warns when an entry stops being used. The list
-disappears once the tree has a single source (#1385) and every package is visible.
+**Addressing another package.** `assets/content/` holds the `sohl` package alone,
+but a page may legitimately address material in another — `Rules/Bestiary.md` links
+Thalorna creatures, and Bestiary pages cite Thalorna geography. Such an address
+resolves through that package's **link manifest**, vendored under
+`assets/manifests/<package>.json` and produced by its own build (#1446). Nothing
+special is needed to write one: address the note as `type-shortcode` exactly as you
+would a local one, and it resolves if the target package publishes it.
+
+An address that resolves in no package — local or vendored — is a typo and fails the
+build. That check is live only while every package in `LINK_PACKAGES`
+(`utils/kb-manifest.mjs`) is accounted for; if a manifest is missing, unresolved
+addresses are tolerated and the build says so, because the distinction is not
+decidable without it.
+
+This replaced a hand-maintained allowlist of six reviewed addresses (#1414), which
+existed only because no manifest could answer the question.
 
 ## Developer docs are the exception: they link by path
 
