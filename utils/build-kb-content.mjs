@@ -353,6 +353,9 @@ const README_META = {
     },
     "user-guide": { title: "User Guide", banner: "banners/user-guide.webp" },
     rules: { title: "Rules", banner: "banners/rules.webp" },
+    // No banner: the hero images are CDN assets, and there is none for
+    // credits. The landing renders without one.
+    credits: { title: "Credits & Attributions" },
 };
 
 /** Gear item `type` → the `sohl.gear` group key the equipment sidebar renders. */
@@ -820,8 +823,13 @@ for (const e of entries) {
         }
         if (isReadme) {
             const meta = README_META[sec];
-            if (meta)
-                Object.assign(data, { title: meta.title, banner: meta.banner });
+            if (meta) {
+                data.title = meta.title;
+                // Guarded, as the dev-doc branch below already is: a title-only
+                // entry would otherwise emit `banner: undefined`, which the YAML
+                // serializer rejects.
+                if (meta.banner) data.banner = meta.banner;
+            }
         }
         applyRedirects(data, redirects, SOHL_BASE);
         const dest =

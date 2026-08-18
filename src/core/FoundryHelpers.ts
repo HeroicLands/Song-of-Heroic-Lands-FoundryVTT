@@ -338,8 +338,28 @@ export function fvttSystemLinks(): SohlSystemInfo {
             apiDocsUrl: links.apiDocsUrl ?? "",
             issuesUrl: links.issuesUrl ?? "",
             discordInviteUrl: links.discordInviteUrl ?? "",
+            creditsUuid: links.creditsUuid ?? "",
         },
     };
+}
+
+/**
+ * Read a package's credits JournalEntry UUID from its manifest.
+ *
+ * Every package that ships a credits entry declares it the same way — a
+ * `flags.sohl.creditsUuid` key in its `system.json` / `module.json` — so one
+ * read serves the system and every module. The system's value is stamped at
+ * build time from the content tree (`utils/build-system-json.mjs`); a module
+ * hand-writes its own.
+ *
+ * @param packageId - The system or module id that ships the entry.
+ * @returns The compendium UUID, or `undefined` when the package declares none.
+ */
+export function fvttPackageCreditsUuid(packageId: string): string | undefined {
+    const g = game as any;
+    const pkg =
+        g.system?.id === packageId ? g.system : g.modules?.get?.(packageId);
+    return pkg?.flags?.sohl?.creditsUuid || undefined;
 }
 
 /**

@@ -306,6 +306,73 @@ See [Extension Points → Create-dialog archetypes](../how-to/extension-points.m
 for the full contract, the Foundry-free discovery helper, and the
 instantiation-strips / copy-preserves boundary.
 
+### Credits & attributions
+
+Every SoHL package — the system and each module — surfaces its credits the same
+way: a **Credits** button at the top of its own tab in Game Settings, which opens
+a JournalEntry the package ships in its own compendium. This exists so third-party
+attribution reaches the people running the game, rather than sitting in a file on
+disk that nobody opens. If your module bundles artwork, fonts, or audio under a
+license that requires attribution (Game-Icons' CC BY 3.0, most Noun Project
+icons), this is how you satisfy it in the medium.
+
+There are three steps, and the system provides the hard part.
+
+1. **Ship a credits JournalEntry** in your module's own compendium. It is an
+   ordinary journal — nothing about it is special to SoHL.
+2. **Declare its UUID** in your `module.json`, under the shared flag key:
+
+    ```json
+    {
+        "id": "my-module",
+        "flags": {
+            "sohl": {
+                "creditsUuid": "Compendium.my-module.journals.JournalEntry.abcdef0123456789"
+            }
+        }
+    }
+    ```
+
+3. **Register the menu during `init`**, passing your module id:
+
+    ```js
+    Hooks.once("init", () => {
+        sohl.apps.foundry.registerCreditsMenu("my-module");
+    });
+    ```
+
+    Every display string may be overridden with your own `lang` keys:
+
+    ```js
+    sohl.apps.foundry.registerCreditsMenu("my-module", {
+        name: "MYMODULE.Credits.name",
+        label: "MYMODULE.Credits.label",
+        hint: "MYMODULE.Credits.hint",
+        icon: "fa-solid fa-heart",
+    });
+    ```
+
+**Register it first.** Foundry renders a package's settings menus in
+`game.settings.menus` insertion order, ahead of its plain settings — so call
+`registerCreditsMenu` **before** your module's other `registerMenu` calls, or the
+button will not be at the top of your tab.
+
+**It is not GM-only.** The menu registers with `restricted: false` by default,
+because credits exist to be read. Pass `restricted: true` only if you have a
+specific reason to hide them from players.
+
+If the manifest flag is missing, registration no-ops with a console warning
+rather than adding a button that silently does nothing — so a forgotten flag
+fails visibly.
+
+Why a factory rather than a class you subclass: Foundry constructs a settings
+menu's `type` with **no arguments** and then calls `render(true)` on it, so your
+UUID cannot be passed in at construction. `registerCreditsMenu` builds a menu app
+that closes over the UUID and opens the journal instead of rendering a window of
+its own. {@link sohl.apps.foundry.makeCreditsMenuApp} and
+{@link sohl.apps.foundry.openCreditsJournal} are exported if you need the pieces
+separately.
+
 ### Re-skins and theming
 
 A module can restyle the system purely through CSS by overriding the `--sohl-*`

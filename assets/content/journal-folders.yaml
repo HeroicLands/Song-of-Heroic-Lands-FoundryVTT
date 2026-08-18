@@ -336,3 +336,14 @@
   id: u2uL4fjE2nKMfgbW
   parentFolderId: gpLM4ElXNiI1rN7l
   color: "#8E44AD"
+
+# --- Credits ---------------------------------------------------------------
+# Deep teal, distinct from its siblings — the other two top-level folders:
+# OKLab dE 0.271 from Rules (#d35400) and 0.320 from User Guide (#0000ff), at
+# 5.69:1 contrast against white label text. Colors need only be distinct among
+# siblings; folders under different parents never render side by side and may
+# share a color.
+- name: Credits
+  id: RTlSAixTq3eix7BD
+  parentFolderId: ""
+  color: "#007466"
