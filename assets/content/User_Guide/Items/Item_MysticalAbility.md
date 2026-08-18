@@ -115,13 +115,13 @@ Besides the two hidden half-toggles described under [[#toggle-improve-flag|Toggl
 
 # Success Test {#success-test}
 
-|               |                                                                                                                                               |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Success Test                                                                                                                                  |
-| **Shortcode** | `successTest`                                                                                                                                 |
-| **Icon**      | `fa-bullseye` (a target)                                                                                                                      |
-| **Invoked**   | The **Actions** context menu, or by clicking the ability's **EML** cell on the Mysteries tab                                                  |
-| **API**       | [`MysticalAbilityLogic.successTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.MysticalAbilityLogic.html#successtest) |
+|               |                                                                                                                                              |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Success Test                                                                                                                                 |
+| **Shortcode** | `successTest`                                                                                                                                |
+| **Icon**      | `fa-bullseye` (a target)                                                                                                                     |
+| **Invoked**   | The **Actions** context menu, or by clicking the ability's **EML** cell on the Mysteries tab                                                 |
+| **API**       | [`MysticalAbilityLogic.successTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.MysticalAbilityLogic#successtest) |
 
 ## What it does and when to use it
 
@@ -161,13 +161,13 @@ The GM's pencil is described on [[doc-baseitem|Base Item]], under _Editing a Pos
 
 # Toggle Improve Flag {#toggle-improve-flag}
 
-|               |                                                                                                                                                           |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Toggle Improve Flag                                                                                                                                       |
-| **Shortcode** | `toggleImproveFlag`                                                                                                                                       |
-| **Icon**      | `fa-star-half-stroke` (a half-filled star)                                                                                                                |
-| **Invoked**   | The **Actions** context menu, or the **☆ star** on the ability's Mysteries-tab row                                                                        |
-| **API**       | [`MysticalAbilityLogic.toggleImproveFlag`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.MysticalAbilityLogic.html#toggleimproveflag) |
+|               |                                                                                                                                                          |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Toggle Improve Flag                                                                                                                                      |
+| **Shortcode** | `toggleImproveFlag`                                                                                                                                      |
+| **Icon**      | `fa-star-half-stroke` (a half-filled star)                                                                                                               |
+| **Invoked**   | The **Actions** context menu, or the **☆ star** on the ability's Mysteries-tab row                                                                       |
+| **API**       | [`MysticalAbilityLogic.toggleImproveFlag`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.MysticalAbilityLogic#toggleimproveflag) |
 
 ## What it does and when to use it
 
@@ -181,13 +181,13 @@ This is the same action, with the same behaviour, that a [[doc-skill|Skill]] car
 
 # Improve with SDR {#improve-with-sdr}
 
-|               |                                                                                                                                                     |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Improve with SDR                                                                                                                                    |
-| **Shortcode** | `improveWithSDR`                                                                                                                                    |
-| **Icon**      | `fa-arrow-trend-up` (a rising arrow)                                                                                                                |
-| **Invoked**   | The **Actions** context menu                                                                                                                        |
-| **API**       | [`MysticalAbilityLogic.improveWithSDR`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.MysticalAbilityLogic.html#improvewithsdr) |
+|               |                                                                                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Improve with SDR                                                                                                                                   |
+| **Shortcode** | `improveWithSDR`                                                                                                                                   |
+| **Icon**      | `fa-arrow-trend-up` (a rising arrow)                                                                                                               |
+| **Invoked**   | The **Actions** context menu                                                                                                                       |
+| **API**       | [`MysticalAbilityLogic.improveWithSDR`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.MysticalAbilityLogic#improvewithsdr) |
 
 ## What it does and when to use it
 

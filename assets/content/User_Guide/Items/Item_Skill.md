@@ -131,13 +131,13 @@ To reach any of them, right-click the skill's row on the Skills tab, click its *
 
 # Success Test {#success-test}
 
-|               |                                                                                                                           |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Success Test                                                                                                              |
-| **Shortcode** | `successTest`                                                                                                             |
-| **Icon**      | `fa-bullseye` (a target)                                                                                                  |
-| **Invoked**   | The **Actions** context menu, or by clicking the skill's **EML** cell on the Skills tab                                   |
-| **API**       | [`SkillLogic.successTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#successtest) |
+|               |                                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Success Test                                                                                                             |
+| **Shortcode** | `successTest`                                                                                                            |
+| **Icon**      | `fa-bullseye` (a target)                                                                                                 |
+| **Invoked**   | The **Actions** context menu, or by clicking the skill's **EML** cell on the Skills tab                                  |
+| **API**       | [`SkillLogic.successTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#successtest) |
 
 ## What it does and when to use it
 
@@ -172,13 +172,13 @@ The GM's pencil is described on [[doc-baseitem|Base Item]], under _Editing a Pos
 
 # Success Value Test {#success-value-test}
 
-|               |                                                                                                                                     |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Success Value Test                                                                                                                  |
-| **Shortcode** | `successValueTest`                                                                                                                  |
-| **Icon**      | `fa-ranking-star` (a star above a podium)                                                                                           |
-| **Invoked**   | The **Actions** context menu                                                                                                        |
-| **API**       | [`SkillLogic.successValueTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#successvaluetest) |
+|               |                                                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Success Value Test                                                                                                                 |
+| **Shortcode** | `successValueTest`                                                                                                                 |
+| **Icon**      | `fa-ranking-star` (a star above a podium)                                                                                          |
+| **Invoked**   | The **Actions** context menu                                                                                                       |
+| **API**       | [`SkillLogic.successValueTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#successvaluetest) |
 
 ## What it does and when to use it
 
@@ -208,13 +208,13 @@ What a Success Value _buys_ is a matter for the rules of the work being done —
 
 # Toggle Improve Flag {#toggle-improve-flag}
 
-|               |                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Toggle Improve Flag                                                                                                                   |
-| **Shortcode** | `toggleImproveFlag`                                                                                                                   |
-| **Icon**      | `fa-star-half-stroke` (a half-filled star)                                                                                            |
-| **Invoked**   | The **Actions** context menu, or the **☆ star** on the skill's Skills-tab row                                                         |
-| **API**       | [`SkillLogic.toggleImproveFlag`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#toggleimproveflag) |
+|               |                                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Toggle Improve Flag                                                                                                                  |
+| **Shortcode** | `toggleImproveFlag`                                                                                                                  |
+| **Icon**      | `fa-star-half-stroke` (a half-filled star)                                                                                           |
+| **Invoked**   | The **Actions** context menu, or the **☆ star** on the skill's Skills-tab row                                                        |
+| **API**       | [`SkillLogic.toggleImproveFlag`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#toggleimproveflag) |
 
 ## What it does and when to use it
 
@@ -232,13 +232,13 @@ Two further actions exist — **Flag for Improvement** (`setImproveFlag`) and **
 
 # Improve with SDR {#improve-with-sdr}
 
-|               |                                                                                                                                 |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Improve with SDR                                                                                                                |
-| **Shortcode** | `improveWithSDR`                                                                                                                |
-| **Icon**      | `fa-star` (a filled star)                                                                                                       |
-| **Invoked**   | The **Actions** context menu                                                                                                    |
-| **API**       | [`SkillLogic.improveWithSDR`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#improvewithsdr) |
+|               |                                                                                                                                |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Improve with SDR                                                                                                               |
+| **Shortcode** | `improveWithSDR`                                                                                                               |
+| **Icon**      | `fa-star` (a filled star)                                                                                                      |
+| **Invoked**   | The **Actions** context menu                                                                                                   |
+| **API**       | [`SkillLogic.improveWithSDR`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#improvewithsdr) |
 
 ## What it does and when to use it
 
@@ -262,13 +262,13 @@ There is **no dialog** — the action rolls straight away.
 
 # Opposed Test {#opposed-test}
 
-|               |                                                                                                                                     |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Opposed Test                                                                                                                        |
-| **Shortcode** | `opposedTestStart`                                                                                                                  |
-| **Icon**      | `fa-arrows-to-dot` (two arrows converging)                                                                                          |
-| **Invoked**   | The **Actions** context menu                                                                                                        |
-| **API**       | [`SkillLogic.opposedTestStart`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#opposedteststart) |
+|               |                                                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Opposed Test                                                                                                                       |
+| **Shortcode** | `opposedTestStart`                                                                                                                 |
+| **Icon**      | `fa-arrows-to-dot` (two arrows converging)                                                                                         |
+| **Invoked**   | The **Actions** context menu                                                                                                       |
+| **API**       | [`SkillLogic.opposedTestStart`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#opposedteststart) |
 
 ## What it does and when to use it
 
@@ -294,12 +294,12 @@ The whole flow — the targeting rules, both cards, the responder's dialog, and 
 
 These three actions belong to a **Combat Technique** skill only. On any other skill category they are not present at all.
 
-|               | Attack                                                                                                                  | Block                                                                                                                 | Counterstrike                                                                                                                         |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Shortcode** | `attackTest`                                                                                                            | `blockTest`                                                                                                           | `counterstrikeTest`                                                                                                                   |
-| **Icon**      | `ginf-broadsword` (a broadsword)                                                                                        | `fa-shield` (a shield)                                                                                                | `fa-circle-half-stroke` (a half-filled circle)                                                                                        |
-| **Invoked**   | Actions menu; the **Atk** cell                                                                                          | Actions menu; the **Blk** cell                                                                                        | Actions menu; the **CX** cell                                                                                                         |
-| **API**       | [`SkillLogic.attackTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#attacktest) | [`SkillLogic.blockTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#blocktest) | [`SkillLogic.counterstrikeTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#counterstriketest) |
+|               | Attack                                                                                                                 | Block                                                                                                                | Counterstrike                                                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Shortcode** | `attackTest`                                                                                                           | `blockTest`                                                                                                          | `counterstrikeTest`                                                                                                                  |
+| **Icon**      | `ginf-broadsword` (a broadsword)                                                                                       | `fa-shield` (a shield)                                                                                               | `fa-circle-half-stroke` (a half-filled circle)                                                                                       |
+| **Invoked**   | Actions menu; the **Atk** cell                                                                                         | Actions menu; the **Blk** cell                                                                                       | Actions menu; the **CX** cell                                                                                                        |
+| **API**       | [`SkillLogic.attackTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#attacktest) | [`SkillLogic.blockTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#blocktest) | [`SkillLogic.counterstrikeTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SkillLogic#counterstriketest) |
 
 ## What they do
 

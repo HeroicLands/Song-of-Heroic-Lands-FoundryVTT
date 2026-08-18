@@ -64,13 +64,13 @@ An attribute defines **no hidden actions of its own** — everything it can do i
 
 # Success Test {#success-test}
 
-|               |                                                                                                                                   |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Success Test                                                                                                                      |
-| **Shortcode** | `successTest`                                                                                                                     |
-| **Icon**      | `fa-bullseye` (a target)                                                                                                          |
-| **Invoked**   | The **Actions** context menu — the **⋮** on the attribute's Profile card, or the attribute's own Actions tab                      |
-| **API**       | [`AttributeLogic.successTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AttributeLogic.html#successtest) |
+|               |                                                                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Success Test                                                                                                                     |
+| **Shortcode** | `successTest`                                                                                                                    |
+| **Icon**      | `fa-bullseye` (a target)                                                                                                         |
+| **Invoked**   | The **Actions** context menu — the **⋮** on the attribute's Profile card, or the attribute's own Actions tab                     |
+| **API**       | [`AttributeLogic.successTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AttributeLogic#successtest) |
 
 ## What it does and when to use it
 
@@ -107,13 +107,13 @@ If the attribute names **Impaired By Roles** and the character has an unhealed i
 
 # Opposed Test {#opposed-test}
 
-|               |                                                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Opposed Test                                                                                                                                |
-| **Shortcode** | `opposedTestStart`                                                                                                                          |
-| **Icon**      | `fa-arrows-to-dot` (arrows converging on a point)                                                                                           |
-| **Invoked**   | The **Actions** context menu                                                                                                                |
-| **API**       | [`AttributeLogic.opposedTestStart`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AttributeLogic.html#opposedteststart) |
+|               |                                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Opposed Test                                                                                                                               |
+| **Shortcode** | `opposedTestStart`                                                                                                                         |
+| **Icon**      | `fa-arrows-to-dot` (arrows converging on a point)                                                                                          |
+| **Invoked**   | The **Actions** context menu                                                                                                               |
+| **API**       | [`AttributeLogic.opposedTestStart`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AttributeLogic#opposedteststart) |
 
 ## What it does and when to use it
 
