@@ -45,13 +45,40 @@ import { isItemDocType } from "./packs/item-docs.mjs";
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");
 // Developer-doc source. Authored under the KB tree (`kb/dev-docs/`) and
-// generated into `kb/content/dev-docs/` (the `/dev-docs/` route) by this script.
+// generated into `kb/content/kb/dev-docs/` (the `<KB_BASE>dev-docs/` route) by
+// this script.
 const DOCS_REL = "kb/dev-docs";
 const DOCS_SRC = path.join(REPO, DOCS_REL);
-const OUT = path.join(REPO, "kb/content");
 
-/** Base URL of the generated API site; the KB tracks `main`, so link to `/main`. */
-const API_BASE = "https://api.heroiclands.org/main/";
+/**
+ * Where this repository publishes the `sohl` package (#1470).
+ *
+ * The whole package is one Hugo site rooted here, and every surface it ships
+ * is a path beneath it: the knowledgebase at {@link KB_BASE}, the generated API
+ * documentation at {@link API_BASE}. Hugo prefixes what *it* emits from the
+ * `baseURL` in `kb/hugo.toml`, but the links written into the generated
+ * Markdown are ordinary site paths that nothing rewrites afterwards — so they
+ * carry the prefix from here, and these three constants are the one place a
+ * relocation is edited.
+ */
+const SOHL_BASE = "/sohl/";
+
+/** Where the knowledgebase itself is mounted inside {@link SOHL_BASE}. */
+const KB_BASE = `${SOHL_BASE}kb/`;
+
+/**
+ * The Hugo content tree, which mirrors that mount: a page written to
+ * `kb/content/kb/<section>/` publishes at `<KB_BASE><section>/`.
+ */
+const CONTENT_ROOT = path.join(REPO, "kb/content");
+const OUT = path.join(CONTENT_ROOT, "kb");
+
+/**
+ * Base URL of the generated API documentation. One unversioned tree, built
+ * from the newest release and published alongside the knowledgebase (#1452,
+ * #1470) — no `/main`, no per-version archive.
+ */
+const API_BASE = `${SOHL_BASE}api/`;
 
 /** GitHub blob base for repo files the KB does not render (source, config, …). */
 const GH_BLOB =
@@ -153,7 +180,7 @@ function resolveLinks(body) {
  * link against the doc's own location under `kb/dev-docs/`:
  *
  * - a `*.md` link that lands under `kb/dev-docs/` → the KB dev route
- *   (`/dev-docs/<path>/`), preserving any `#anchor`.
+ *   (`<KB_BASE>dev-docs/<path>/`), preserving any `#anchor`.
  * - anything else (source under `src/`, `lang/`, `templates/`, `package.json`, or
  *   repo-root `*.md` like `CONTRIBUTING.md`) → its GitHub blob URL.
  *
@@ -187,7 +214,9 @@ function rewriteRepoLinks(body, docRel) {
                 path.basename(rel2) === "readme" ?
                     path.posix.dirname(rel2)
                 :   rel2;
-            href2 = `/dev-docs/${devPath === "." ? "" : `${devPath}/`}${anchor}`;
+            href2 = `${KB_BASE}dev-docs/${
+                devPath === "." ? "" : `${devPath}/`
+            }${anchor}`;
         } else {
             href2 = `${GH_BLOB}${repoRel}${anchor}`;
         }
@@ -226,6 +255,37 @@ function walk(dir) {
         else if (e.isFile() && e.name.endsWith(".md")) out.push(full);
     }
     return out;
+}
+
+/** The immediate subdirectories of `dir`. */
+function subdirs(dir) {
+    return fs
+        .readdirSync(dir, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => path.join(dir, e.name));
+}
+
+/**
+ * A section landing's title, from its directory name — "macro" → "Macros".
+ *
+ * Hugo derives exactly this for a section page it generates itself, but not for
+ * one backed by an `_index.md`: an explicit file with no `title` renders a blank
+ * heading. So a backfilled landing (see {@link subdirs}, below) states its own,
+ * and the rule is plain English pluralisation rather than Hugo's inflector,
+ * which spells the same section "Macroes".
+ *
+ * @param {string} name - The directory name.
+ * @returns {string} The display title.
+ */
+function sectionTitle(name) {
+    const plural =
+        /(?:s|x|z|ch|sh)$/.test(name) ? `${name}es`
+        : /[^aeiou]y$/.test(name) ? `${name.slice(0, -1)}ies`
+        : `${name}s`;
+    return plural
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
 }
 
 /**
@@ -406,7 +466,7 @@ function deriveBeingSohl(sohl, index) {
 
 let items = 0;
 let docs = 0;
-fs.rmSync(OUT, { recursive: true, force: true });
+fs.rmSync(CONTENT_ROOT, { recursive: true, force: true });
 
 // --- Parse phase ---------------------------------------------------------
 // Gather every KB page — assets/content reference pages AND kb/dev-docs/
@@ -419,12 +479,15 @@ const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 // links CI does.
 const MANIFEST_SRC = path.join(REPO, "assets/manifests");
 const MANIFEST_OUT = path.join(REPO, "build/manifests");
-// Where this build serves a package it publishes itself: the knowledgebase is
-// one package's site, mounted at its root (`/skill/climbing/`). That is what an
-// emitted address is recorded relative to (#1465) — deliberately *not*
-// `PACKAGE_BASE`, which says where this build serves someone *else's* package
-// and is a different question with a different answer for the same name.
-const LOCAL_BASE = "/";
+// Where this build serves a package it publishes itself: this repository is the
+// `sohl` package's site, and publishes it at `SOHL_BASE` (#1470). That is what
+// an emitted address is recorded relative to (#1465) — so a note publishing at
+// `/sohl/kb/skill/climbing/` records as `kb/skill/climbing/`, and a consumer
+// prefixing its own base for `sohl` gets back the address it started from.
+// Deliberately *not* `PACKAGE_BASE`, which says where this build serves someone
+// *else's* package: a different question with a different answer for the same
+// name (they happen to agree for `sohl`, and must not be conflated).
+const LOCAL_BASE = SOHL_BASE;
 // Loaded after the parse phase: which packages are *local* is what decides
 // which manifests are foreign, and that is only known once the tree is walked.
 // `KB_PACKAGES` is what this build would accept, not what it actually found —
@@ -459,7 +522,7 @@ for (const file of walk(CONTENT_SRC)) {
     const base = path.basename(file);
     const isReadme = base.toLowerCase() === "readme.md";
     const sec = sectionOf(fm);
-    const url = isReadme ? `/${sec}/` : `/${sec}/${slug}/`;
+    const url = isReadme ? `${KB_BASE}${sec}/` : `${KB_BASE}${sec}/${slug}/`;
     entries.push({
         kind: "content",
         fm,
@@ -510,9 +573,9 @@ for (const file of walk(DOCS_SRC)) {
     const url =
         isReadme ?
             dir === "." ?
-                `/${sec}/`
-            :   `/${sec}/${dir}/`
-        :   `/${sec}/${relNoExt}/`;
+                `${KB_BASE}${sec}/`
+            :   `${KB_BASE}${sec}/${dir}/`
+        :   `${KB_BASE}${sec}/${relNoExt}/`;
     entries.push({
         kind: "dev",
         fm,
@@ -690,7 +753,7 @@ for (const e of entries) {
     // live under /guide/ (assets/content) or /dev/ (developer docs), and content
     // notes at a pre-shortcode slug. Wholly generated — an authored (Obsidian)
     // `aliases` is a list of *names*, never a URL, so it never lands here.
-    const redirects = pageRedirects(e, legacySlugs);
+    const redirects = pageRedirects(e, legacySlugs, KB_BASE);
 
     if (e.kind === "content") {
         const data = {
@@ -707,7 +770,7 @@ for (const e of entries) {
             if (meta)
                 Object.assign(data, { title: meta.title, banner: meta.banner });
         }
-        applyRedirects(data, redirects);
+        applyRedirects(data, redirects, SOHL_BASE);
         const dest =
             isReadme ?
                 path.join(OUT, sec, "_index.md")
@@ -742,7 +805,7 @@ for (const e of entries) {
         const meta = isReadme ? README_META[sec] : null;
         const data = { ...fm, title: meta?.title ?? fm.title ?? name };
         if (meta?.banner) data.banner = meta.banner;
-        applyRedirects(data, redirects);
+        applyRedirects(data, redirects, SOHL_BASE);
         const relOut =
             isReadme ?
                 path.posix.join(path.posix.dirname(e.rel), "_index.md")
@@ -771,6 +834,46 @@ for (const [sec, meta] of Object.entries(SECTION_META)) {
         path.join(dir, "_index.md"),
         matter.stringify("", { title: meta.title, banner: meta.banner }),
     );
+}
+
+// Each section directly under the mount needs an `_index.md`, or its own
+// address publishes nothing. Hugo creates a section page automatically only for
+// a *top-level* content directory; below that, a directory without an
+// `_index.md` is not a section, so its URL 404s while its children publish
+// normally. The knowledgebase moved under `content/kb/` for the `/sohl/kb/`
+// mount (#1470), which demoted every one of its sections a level — and the two
+// with no landing of their own, `macro` and `collection`, quietly stopped
+// existing while every page inside them kept working. (`macro` also loses the
+// "Macroes" heading Hugo's inflector used to give it; see
+// {@link sectionTitle}.)
+//
+// Scoped to this one level on purpose: it restores exactly the section pages
+// Hugo used to generate, and nothing deeper. A directory further down (say
+// `dev-docs/concepts/`) was not a section before the move either, and giving it
+// one here would silently re-scope the prev/next navigation of every page
+// inside it. The file is empty so Hugo derives the title just as it did when it
+// generated the page itself, save for the title, which an explicit `_index.md`
+// suppresses.
+//
+// The mount's own landing is written first, and carries a `type` of its own.
+// Hugo's template lookup walks up the page's path, so a landing template at
+// `layouts/kb/list.html` would also serve every section below it that has no
+// template of its own — `collection` and `macro` would each render the
+// knowledgebase's front page. Typing the landing moves its template to
+// `layouts/knowledgebase/`, out of the path where it could be inherited, and
+// nothing below `/kb/` finds a list template but its own or the default.
+fs.writeFileSync(
+    path.join(OUT, "_index.md"),
+    matter.stringify("", { title: "Knowledgebase", type: "knowledgebase" }),
+);
+for (const dir of subdirs(OUT)) {
+    const index = path.join(dir, "_index.md");
+    if (!fs.existsSync(index)) {
+        fs.writeFileSync(
+            index,
+            matter.stringify("", { title: sectionTitle(path.basename(dir)) }),
+        );
+    }
 }
 
 // Emit this build's own manifests, one per package it publishes (#1446), so

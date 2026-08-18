@@ -14,7 +14,7 @@
     {{- /* order empty + extras: render every non-empty kbcat, then sort the
            whole set alphabetically by display title (empty categories such as
            "dart" never appear). */ -}}
-    {{- $groups := partial "kbcat-groups.html" (dict "section" "weapongear" "titles" $titles "extras" true) -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "type" "weapongear" "titles" $titles "extras" true) -}}
     {{- range sort $groups "title" }}
     <section class="kbcat-group">
       <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>

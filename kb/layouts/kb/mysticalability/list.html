@@ -9,7 +9,7 @@
     {{- /* Grouped by `sohl.kbcat`; "Name (shortcode) + description" rows. */ -}}
     {{- $titles := dict "alchemy" "Alchemy" "divination" "Divination" "spiritaction" "Spirit Actions" -}}
     {{- $order := slice "alchemy" "divination" "spiritaction" -}}
-    {{- $groups := partial "kbcat-groups.html" (dict "section" "mysticalability" "titles" $titles "order" $order "extras" true) -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "type" "mysticalability" "titles" $titles "order" $order "extras" true) -}}
     {{- range $groups }}
     <section class="kbcat-group">
       <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>

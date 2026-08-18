@@ -11,7 +11,7 @@
         "plate" "Plate" "kurbul" "Kûrbúl" "quilted" "Quilted" "scale" "Scale"
         "gambeson" "Gambeson" "ring" "Ring" -}}
     {{- $order := slice "cloth" "leather" "padded" "mail" "plate" "kurbul" "quilted" "scale" "gambeson" "ring" -}}
-    {{- $groups := partial "kbcat-groups.html" (dict "section" "armorgear" "titles" $titles "order" $order "extras" true) -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "type" "armorgear" "titles" $titles "order" $order "extras" true) -}}
     {{- range $groups }}
     <section class="kbcat-group">
       <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>

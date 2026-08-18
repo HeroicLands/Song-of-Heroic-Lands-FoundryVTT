@@ -1,0 +1,126 @@
+{{- /*
+  SPDX-License-Identifier: GPL-3.0-or-later
+  Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
+
+  Knowledgebase landing page — the `kb` section, published at /sohl/kb/.
+
+  Renders three large primary cards (developer docs, user guide, rules) and the
+  game-content reference catalogs, each a boxy card with a hero banner
+  (1792×768) — Actors and Gear set off as their own groups.
+
+  This was the site home until #1470 mounted the knowledgebase under /sohl/kb/,
+  where /sohl/ is the package landing (layouts/index.html) and this is the entry
+  point to the reference itself. Every link below is built from `.RelPermalink`
+  — this page's own address — so the whole catalog follows the mount rather than
+  restating it a card at a time.
+*/ -}}
+{{ define "main" }}
+{{- $kb := .RelPermalink -}}
+{{- partial "landing-cards.html" . -}}
+
+<section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/brand/sohl-banner.webp');">
+  <div class="hero-inner">
+    <h1>SoHL Knowledgebase</h1>
+    <p class="hero-tagline">Developer documentation, player guides, and the full game-content reference for Song of Heroic Lands — HârnMaster on Foundry VTT.</p>
+  </div>
+</section>
+
+<section class="home-sections">
+  <div class="top-cards">
+
+    <div class="top-card">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/dev-docs.webp" alt="Developer Documentation" loading="lazy">
+      <div class="top-card-body">
+        <h2><a href="{{ $kb }}dev-docs/">Developer Documentation</a></h2>
+        <p>Architecture, extension points, lifecycle hooks, testing, and reference material for building on — or contributing to — the SoHL system.</p>
+        <a href="{{ $kb }}dev-docs/" class="card-button">Read the docs →</a>
+      </div>
+    </div>
+
+    <div class="top-card">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/user-guide.webp" alt="User Guide" loading="lazy">
+      <div class="top-card-body">
+        <h2><a href="{{ $kb }}user-guide/">User Guide</a></h2>
+        <p>Player- and GM-facing guides to running HârnMaster with Song of Heroic Lands: character creation, combat, and everyday play on Foundry VTT.</p>
+        <a href="{{ $kb }}user-guide/" class="card-button">Open the guide →</a>
+      </div>
+    </div>
+
+    <div class="top-card">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/rules.webp" alt="Rules" loading="lazy">
+      <div class="top-card-body">
+        <h2><a href="{{ $kb }}rules/">Rules</a></h2>
+        <p>The Song of Heroic Lands rules reference: success and opposed tests, injury, healing, shock, bleeding, and the trauma system.</p>
+        <a href="{{ $kb }}rules/" class="card-button">Read the rules →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="home-sections">
+  <h2 style="text-align: center;">Content reference</h2>
+  <p class="hero-tagline">Browse the catalog of every actor, item, skill, and condition shipped with the system.</p>
+
+  <div class="catalog-groups">
+    <fieldset class="catalog-group">
+      <legend>Actors</legend>
+      <div class="catalog-cards">
+        <a class="catalog-card" href="{{ $kb }}character/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/character.webp" alt="Characters" loading="lazy">
+          <span class="catalog-card-label">Characters</span>
+        </a>
+        <a class="catalog-card" href="{{ $kb }}creature/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/creature.webp" alt="Creatures" loading="lazy">
+          <span class="catalog-card-label">Creatures</span>
+        </a>
+      </div>
+    </fieldset>
+
+    <fieldset class="catalog-group">
+      <legend>Gear</legend>
+      <div class="catalog-cards">
+        <a class="catalog-card" href="{{ $kb }}armorgear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/armor-clothing.webp" alt="Armor and Clothing" loading="lazy">
+          <span class="catalog-card-label">Armor/Clothing</span>
+        </a>
+        <a class="catalog-card" href="{{ $kb }}containergear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/containers.webp" alt="Containers" loading="lazy">
+          <span class="catalog-card-label">Containers</span>
+        </a>
+        <a class="catalog-card" href="{{ $kb }}miscgear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/misc-gear.webp" alt="Misc Gear" loading="lazy">
+          <span class="catalog-card-label">Misc Gear</span>
+        </a>
+        <a class="catalog-card" href="{{ $kb }}projectilegear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/projectiles.webp" alt="Projectiles" loading="lazy">
+          <span class="catalog-card-label">Projectiles</span>
+        </a>
+        <a class="catalog-card" href="{{ $kb }}weapongear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/weapons.webp" alt="Weapons" loading="lazy">
+          <span class="catalog-card-label">Weapons</span>
+        </a>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="catalog-cards catalog-standalone">
+    <a class="catalog-card" href="{{ $kb }}affliction/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/affliction.webp" alt="Afflictions" loading="lazy">
+      <span class="catalog-card-label">Afflictions</span>
+    </a>
+    <a class="catalog-card" href="{{ $kb }}mysticalability/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/mystical-abilities.webp" alt="Mystical Abilities" loading="lazy">
+      <span class="catalog-card-label">Mystical Abilities</span>
+    </a>
+    <a class="catalog-card" href="{{ $kb }}skill/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/skills-attributes.webp" alt="Skills and Attributes" loading="lazy">
+      <span class="catalog-card-label">Skills/Attributes</span>
+    </a>
+    <a class="catalog-card" href="{{ $kb }}trauma/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/trauma.webp" alt="Trauma" loading="lazy">
+      <span class="catalog-card-label">Trauma</span>
+    </a>
+  </div>
+</section>
+{{ end }}

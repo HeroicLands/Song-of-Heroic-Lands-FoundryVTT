@@ -6,15 +6,16 @@
   <div class="single-content">
     {{ if .Content }}<div class="single-body">{{ .Content }}</div>{{ end }}
 
-    {{- /* Single table of all projectiles, sorted by name. */ -}}
+    {{- /* Single table of all containers, sorted by name; Capacity is the
+           container-specific column (sohl.maxCapacity). */ -}}
     <div class="kbcat-table-wrap" style="overflow-x: auto;">
       <table class="kbcat-table">
         <thead>
-          <tr><th>Name</th><th>Shortcode</th><th>Package</th><th>Dur</th><th>Weight</th><th>Value</th></tr>
+          <tr><th>Name</th><th>Shortcode</th><th>Package</th><th>Dur</th><th>Weight</th><th>Value</th><th>Capacity</th></tr>
         </thead>
         <tbody>
-          {{- range (sort (where site.RegularPages "Section" "projectilegear") "Title") }}
-          <tr>{{ partial "gear-row-cells.html" . }}</tr>
+          {{- range (sort (where site.RegularPages "Type" "containergear") "Title") }}
+          <tr>{{ partial "gear-row-cells.html" . }}<td>{{ .Params.sohl.maxCapacity }}</td></tr>
           {{- end }}
         </tbody>
       </table>

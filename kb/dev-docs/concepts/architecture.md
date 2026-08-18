@@ -52,7 +52,7 @@ This map stays at the **directory level** on purpose. Directories are stable; th
 
 ## How the API reference is organized
 
-The generated [API reference](https://api.heroiclands.org/latest) mirrors this directory layout. Its sidebar groups every public symbol the same way the source is grouped — **Core**, **Documents** (`Actor`, `Item`, `Combat`, `Combatant`, `Chat`, `Effect`, `Scene`, `Token`), **Domain** (`Action`, `Body`, `Modifier`, `Movement`, `Result`, `StrikeMode`, `SkillBase`), **Utility** (`AI`, `Collection`, `Constants`, `Helpers`), and **Applications** — so a folder here maps directly to a navigation group there. Start from the group that matches the area you're working in.
+The generated [API reference](/sohl/api/) mirrors this directory layout. Its sidebar groups every public symbol the same way the source is grouped — **Core**, **Documents** (`Actor`, `Item`, `Combat`, `Combatant`, `Chat`, `Effect`, `Scene`, `Token`), **Domain** (`Action`, `Body`, `Modifier`, `Movement`, `Result`, `StrikeMode`, `SkillBase`), **Utility** (`AI`, `Collection`, `Constants`, `Helpers`), and **Applications** — so a folder here maps directly to a navigation group there. Start from the group that matches the area you're working in.
 
 ## Three-layer architecture
 

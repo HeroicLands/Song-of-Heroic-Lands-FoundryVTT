@@ -1,0 +1,117 @@
+{{- /*
+  SPDX-License-Identifier: GPL-3.0-or-later
+  Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
+
+  Card styling for this repository's two landing pages — the package landing at
+  /sohl/ and the knowledgebase landing at /sohl/kb/.
+
+  It lives here rather than in the shared theme because it styles *these* two
+  pages and nothing a second consumer would want (the theme's own home layout is
+  a different, data-driven grid). It lives in one partial rather than in each
+  page because two copies of a card rule drift, and the two landings are meant
+  to read as one place.
+*/ -}}
+<style>
+  /* Shared hero banner slot (1792×768). */
+  .card-hero {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1792 / 768;
+    object-fit: cover;
+    background: var(--bg-deeper);
+  }
+
+  /* Primary cards: developer docs, user guide, rules — large boxes. */
+  .top-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  .top-card {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+  .top-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding: 1.5rem 1.75rem 1.75rem;
+    text-align: center;
+  }
+  .top-card-body h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .top-card-body h2 a { color: var(--text); }
+  .top-card-body h2 a:hover { color: var(--accent); }
+  .top-card-body p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+  .top-card-body .card-button { margin-top: auto; }
+
+  /* Content-reference groups + cards. */
+  .catalog-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    justify-content: center;
+    margin: 1.5rem auto 0;
+  }
+  .catalog-group {
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-card);
+    padding: 0.5rem 1.5rem 1.5rem;
+    margin: 0;
+  }
+  .catalog-group > legend {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold);
+    padding: 0 0.6rem;
+    letter-spacing: 0.02em;
+  }
+  .catalog-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .catalog-standalone {
+    max-width: 1040px;
+    margin: 2rem auto 0;
+  }
+  .catalog-card {
+    display: block;
+    width: 240px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .catalog-card:hover { border-color: var(--accent); }
+  .catalog-card-label {
+    display: block;
+    padding: 0.65rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+  .catalog-card:hover .catalog-card-label { color: var(--accent); }
+</style>
