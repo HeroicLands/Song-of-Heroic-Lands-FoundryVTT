@@ -55,6 +55,50 @@ import path from "node:path";
 export const LINK_PACKAGES = Object.freeze(["sohl", "thalorna"]);
 
 /**
+ * The **canonical** address of a note: fully qualified, one spelling per
+ * document, and globally unique.
+ *
+ * The written form of a link may omit the package (`[[skill-lang]]`), which
+ * defaults it to the citing note's own. Everything internal — index keys,
+ * manifest keys, every lookup — uses this instead, so no consumer has to know
+ * what a short form defaulted to.
+ *
+ * Global uniqueness is what lets a foreign manifest merge straight into a local
+ * index: the keys cannot collide by accident, so a key already present on merge
+ * is a real conflict rather than an artefact of two packages sharing a
+ * namespace. `(type, shortcode)` alone is unique only *within* a package, and
+ * two independently authored packages reaching for the same short string is a
+ * matter of time (#1499).
+ *
+ * @param {string} pkg - The owning **content** package (`sohl`, `thalorna`) —
+ *   not the Foundry package, which varies per compilation target.
+ * @param {string} type - The note's `type`.
+ * @param {string} shortcode - The note's `shortcode`.
+ * @returns {string} `package/type/shortcode`, lowercased.
+ */
+export function canonicalKey(pkg, type, shortcode) {
+    return `${pkg}-${type}-${shortcode}`.toLowerCase();
+}
+
+/**
+ * Reads a canonical key back into its parts.
+ *
+ * Unambiguous because no package, type or shortcode contains a hyphen — types
+ * are bare words and shortcodes are `^[A-Za-z0-9]+$` (#1397).
+ *
+ * @param {string} key - A canonical key.
+ * @returns {{package: string, type: string, shortcode: string}|null} The parts,
+ *   or `null` when the key is not in canonical form.
+ */
+export function readCanonicalKey(key) {
+    const parts = String(key).split("-");
+    if (parts.length !== 3) return null;
+    const [pkg, type, shortcode] = parts;
+    if (!pkg || !type || !shortcode) return null;
+    return { package: pkg, type, shortcode };
+}
+
+/**
  * Manifest format version.
  *
  * Bumped to 2 by #1465: entries changed from a site-absolute `url` to a
@@ -62,8 +106,20 @@ export const LINK_PACKAGES = Object.freeze(["sohl", "thalorna"]);
  * reader — prefixing a v1 `url` yields `/thalorna/thalorna/…`, which resolves,
  * renders, and 404s — so the version is what makes a stale vendored file an
  * error rather than a wrong link.
+ *
+ * Bumped to 4 by #1499: keys use the authored hyphen separator
+ * (`sohl-affliction-aconite`) so a key *is* the address an author writes; an
+ * item's documentation became an entry in its own right
+ * (`sohl-docaffliction-aconite`) rather than a second field; and entries gained
+ * `anchors`, mapping a note's named sections to the full UUID each compiled to.
+ *
+ * Bumped to 3 by #1499: keys became **canonical** — fully qualified
+ * `package/type/shortcode` rather than `type/shortcode` — and entries gained the
+ * Foundry `uuid` / `docUuid` beside the web `path`. A v2 key read as a v3 one
+ * addresses a package named after a type, so again the version is what turns a
+ * stale vendored file into an error.
  */
-export const MANIFEST_VERSION = 2;
+export const MANIFEST_VERSION = 4;
 
 /**
  * Where this build serves each package, keyed by package name.
@@ -156,23 +212,46 @@ export function resolvePackageUrl(rel, base) {
  * @param {Array<object>} entries - KB entries (`{ fm, name, url }`).
  * @param {string} base - Where *this* build serves `pkg`, stripped from each
  *   entry's URL so the recorded address is package-relative (#1465).
+ * @param {string} [foundryPackage] - The Foundry package this build ships the
+ *   compiled documents in. Given, each entry also carries the `uuid` /
+ *   `docUuid` a pack build resolves against; omitted, the manifest describes
+ *   the web surface only.
  * @returns {object} The manifest document.
  */
-export function buildManifest(pkg, entries, base) {
+export function buildManifest(pkg, entries, base, foundryPackage) {
     checkBase(base, `buildManifest(${pkg})`);
     const out = {};
     for (const e of entries) {
         const type = e.fm?.type;
         const shortcode = e.fm?.shortcode;
         if (!type || typeof shortcode !== "string" || !shortcode) continue;
-        out[`${type}/${shortcode}`.toLowerCase()] = {
+        const entry = {
             path: packageRelative(e.url, base),
             name: e.name,
         };
+        // The Foundry address, for consumers compiling packs rather than pages.
+        // Supplied by the caller rather than derived here: only the build that
+        // splits a note into pages knows its anchors, and a note that compiles
+        // into no document has no UUID to state. Inventing one would assert a
+        // target that does not exist, so an entry without one is normal and a
+        // consumer must tolerate it.
+        if (foundryPackage && e.uuid) entry.uuid = e.uuid;
+        // The address of this item's documentation — a pointer to the entry
+        // that owns that UUID, not a second copy of it.
+        if (e.doc) entry.doc = e.doc;
+        // A note's named sections, each mapped to the *whole* UUID it compiled
+        // to. Whole, not a fragment appended to `uuid`: nothing owns a page
+        // address, so there is no fact being restated, and an anchor is not
+        // required to live inside its own entry. Publishing the complete link
+        // also keeps the page-id hash out of the published contract entirely.
+        if (e.anchors && Object.keys(e.anchors).length)
+            entry.anchors = e.anchors;
+        out[e.key ?? canonicalKey(pkg, type, shortcode)] = entry;
     }
     return {
         version: MANIFEST_VERSION,
         package: pkg,
+        ...(foundryPackage ? { foundryPackage } : {}),
         // Sorted so the file is stable across builds and a diff shows only real
         // change — it is committed by whoever vendors it.
         entries: Object.fromEntries(
@@ -194,13 +273,21 @@ export function buildManifest(pkg, entries, base) {
  *   it, which is what each entry's address is recorded relative to. This is the
  *   emitting build's own layout, not {@link PACKAGE_BASE}: a package's own site
  *   commonly serves it at `"/"` while a consumer mounts it under a prefix.
+ * @param {Record<string, string>} [foundryPackages] - Package → the Foundry
+ *   package shipping its documents. Only a package this build publishes can
+ *   have one, since the UUID names where *this* repository ships them.
  * @returns {Array<{ package: string, file: string, count: number }>} What was written.
  */
-export function writeManifests(entriesByPackage, dir, bases) {
+export function writeManifests(entriesByPackage, dir, bases, foundryPackages) {
     fs.mkdirSync(dir, { recursive: true });
     const written = [];
     for (const [pkg, entries] of entriesByPackage) {
-        const doc = buildManifest(pkg, entries, bases?.[pkg]);
+        const doc = buildManifest(
+            pkg,
+            entries,
+            bases?.[pkg],
+            foundryPackages?.[pkg],
+        );
         const file = path.join(dir, `${pkg}.json`);
         fs.writeFileSync(file, `${JSON.stringify(doc, null, 2)}\n`);
         written.push({
@@ -227,7 +314,9 @@ export function writeManifests(entriesByPackage, dir, bases) {
  * @param {Record<string, string>} [bases] - Package → base to resolve against;
  *   defaults to {@link PACKAGE_BASE}.
  * @returns {{ index: Map<string, object>, packages: Set<string>, stale: Array<object> }}
- *   `index` maps `type/shortcode` → `{ url, name, package }`.
+ *   `index` maps the canonical `package-type-shortcode` → `{ url, name, uuid,
+ *   doc, anchors, type, package }`. Keys are globally unique, so this merges
+ *   directly into a local index with no prefixing and no separate lookup path.
  */
 export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
     const local = new Set(localPackages);
@@ -276,9 +365,19 @@ export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
         const resolved = [];
         try {
             for (const [key, v] of Object.entries(doc.entries ?? {})) {
+                // The type is read back out of the canonical key so a consumer
+                // can recognise a foreign package's types as addresses at all.
+                const type = readCanonicalKey(key)?.type;
                 resolved.push([
                     key,
-                    { name: v.name, url: resolvePackageUrl(v.path, base) },
+                    {
+                        name: v.name,
+                        url: resolvePackageUrl(v.path, base),
+                        uuid: v.uuid,
+                        doc: v.doc,
+                        anchors: v.anchors,
+                        type,
+                    },
                 ]);
             }
         } catch (err) {

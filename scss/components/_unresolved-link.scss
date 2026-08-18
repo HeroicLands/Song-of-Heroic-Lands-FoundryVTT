@@ -1,0 +1,28 @@
+// Unresolved link — a wikilink whose target no package publishes.
+//
+// The pack build leaves such a link as the author's text rather than dropping
+// it, so the sentence still reads. This marks it, so a reader can tell that
+// something was *meant* to be a link and a maintainer can find it.
+//
+// Deliberately unscoped: this renders inside compiled journal and item-doc
+// prose, which appears in journal sheets, chat cards and tooltips — not only
+// under a `.sohl` frame.
+//
+// `light-dark()` rather than a media query, because Foundry drives its themes
+// through `color-scheme` (`color-scheme: var(--color-scheme)`), so the two stay
+// in step with the user's chosen theme rather than with the OS. Both values are
+// contrast-checked at 4.5:1 or better against the plausible sheet backgrounds
+// of their own mode — #B3261E reaches 5.5–6.5:1 on light, #FF8A80 6.8–8.3:1 on
+// dark — so neither is merely "a red that looked fine".
+.sohl-unresolved-link {
+    font-weight: 700;
+    color: var(
+        --sohl-unresolved-link-color,
+        light-dark(#b3261e, #ff8a80)
+    );
+    // Faint underline so the marking survives for a reader who cannot separate
+    // the hue from body text.
+    text-decoration: underline dotted currentcolor;
+    text-underline-offset: 0.15em;
+    cursor: help;
+}

@@ -42,6 +42,10 @@
  *   `@UUID[Compendium.sohl.items.Item.<id>]{Text}`
  *   `@UUID[Compendium.sohl.journals.JournalEntry.<id>.JournalEntryPage.<anchorId>]{Text}`
  *
+ * **Every address is computed once, when the target is indexed** — see
+ * {@link buildWikilinkIndex} — and a link is resolved by looking that value up.
+ * Nothing here concatenates a prefix at the point of use (#1498).
+ *
  * Section links address a **JournalEntryPage**, because Foundry UUIDs cannot
  * target a position inside a page. A heading carrying `{#slug}` therefore starts
  * its own page, whose id is {@link anchorPageId} — derived from the note id and
@@ -75,7 +79,16 @@
 
 import crypto from "crypto";
 
+import {
+    compendiumUuid,
+    ITEM_PACK,
+    packForType,
+    pageUuid,
+    PACK_BY_TYPE,
+} from "./ids.mjs";
 import { itemDocEntryId } from "./item-docs.mjs";
+
+export { ITEM_PACK, PACK_BY_TYPE, packForType };
 
 /**
  * The qualifier prefix that addresses an item's **documentation** rather than
@@ -83,37 +96,6 @@ import { itemDocEntryId } from "./item-docs.mjs";
  * compiled into. See {@link resolveItemDocType}.
  */
 const ITEM_DOC_PREFIX = "doc";
-
-/**
- * Content type → the compendium UUID prefix its documents compile into, for the
- * types that are **not** items.
- *
- * @type {Readonly<Record<string, string>>}
- */
-export const PACK_BY_TYPE = Object.freeze({
-    doc: "Compendium.sohl.journals.JournalEntry",
-    macro: "Compendium.sohl.macros.Macro",
-    character: "Compendium.sohl.actors.Actor",
-    creature: "Compendium.sohl.actors.Actor",
-});
-
-/** Where every other content type compiles: the items pack. */
-export const ITEM_PACK = "Compendium.sohl.items.Item";
-
-/**
- * The compendium a type's documents live in.
- *
- * Item types are the open set — a new one is added whenever the system grows a
- * document type — so they are the **default** rather than an enumerated list. A
- * hand-maintained list is what made an entire content directory silently
- * unlinkable once (#1276); nothing to maintain, nothing to forget.
- *
- * @param {string} type - The target note's `type`.
- * @returns {string} The compendium UUID prefix.
- */
-export function packForType(type) {
-    return PACK_BY_TYPE[type] ?? ITEM_PACK;
-}
 
 const norm = (s) => String(s).toLowerCase().trim();
 
@@ -140,7 +122,7 @@ export function resolveItemDocType(qualifier, types) {
     if (!qualifier.startsWith(ITEM_DOC_PREFIX)) return null;
     const base = qualifier.slice(ITEM_DOC_PREFIX.length);
     if (!base || !types.has(base)) return null;
-    return packForType(base) === ITEM_PACK ? base : null;
+    return packForType(base).pack === ITEM_PACK.pack ? base : null;
 }
 
 /**
@@ -163,14 +145,38 @@ export function resolveItemDocType(qualifier, types) {
  *   before it is an error rather than an invitation to try the alias index. The
  *   split is at the **last** slash, as it always was.
  *
+ * A leading **package** segment is optional and outermost: `sohl-skill-lang` is
+ * `skill-lang` in the `sohl` package. It is read only when `packages` is given
+ * and names the segment, and only when the remainder is itself a valid address,
+ * so a note called "Grukar-ahk" stays an alias (#1499).
+ *
  * @param {string} target - The link target, anchor already removed.
  * @param {Set<string>} types - Every type the content tree contains.
+ * @param {Set<string>} [packages] - Every package an address may name. Omitted
+ *   by callers that resolve within one package, where the form cannot occur.
  * @returns {{type: string, shortcode: string, itemDoc: boolean,
- *   reason?: undefined} | {reason: "unknown-type"} | null}
+ *   package?: string, reason?: undefined} | {reason: "unknown-type"} | null}
  *   The resolved qualifier; a `reason` when the target is definitely qualified
  *   but names no known type; or `null` when it is a bare alias.
  */
-export function readQualifier(target, types) {
+export function readQualifier(target, types, packages) {
+    // A leading **package** segment is the optional outermost qualifier:
+    // `sohl-skill-lang` is `skill-lang` in the `sohl` package. It is stripped
+    // here so everything below reads the same `type`/`shortcode` it always did,
+    // and it is recognised only when what precedes the hyphen is a package this
+    // build knows *and* the remainder is itself a valid address — so a note
+    // named "Sohl-something" is still an alias (#1499).
+    if (packages?.size) {
+        const hyphen = target.indexOf("-");
+        if (hyphen > 0) {
+            const pkg = norm(target.slice(0, hyphen));
+            if (packages.has(pkg)) {
+                const rest = readQualifier(target.slice(hyphen + 1), types);
+                if (rest && !rest.reason) return { ...rest, package: pkg };
+            }
+        }
+    }
+
     const slash = target.lastIndexOf("/");
     if (slash > 0) {
         const read = readTypeAndCode(
@@ -242,19 +248,48 @@ export function anchorPageId(noteId, anchorSlug) {
  *
  * @param {Array<{type: string, id: string, shortcode?: string|null,
  *   aliases?: string[], name?: string}>} docs - One entry per content note.
+ * @param {string} packageId - The Foundry package shipping the packs; the first
+ *   segment of every emitted UUID.
+ * @param {Map<string, object>} [foreign] - Canonically keyed entries from
+ *   vendored manifests of packages this build links into but does not publish.
+ * @param {string} [contentPackage] - This build's *content* package, which an
+ *   authored address may name explicitly. Defaults to `packageId`.
  * @returns {{byShortcode: Map<string, object>, byAlias: Map<string, object|null>,
  *   types: Set<string>}} `byAlias` holds `null` where a type-scoped alias is
  *   claimed by more than one document, which makes the bare `[[Text]]` form
  *   unusable for it. `types` is every type the tree actually contains, so a
  *   qualifier naming no real type can be told apart from a missing target.
  */
-export function buildWikilinkIndex(docs) {
+export function buildWikilinkIndex(docs, packageId, foreign, contentPackage) {
+    if (!packageId) {
+        throw new Error(
+            "buildWikilinkIndex: packageId is required — it is the first " +
+                "segment of every emitted UUID, and defaulting it is how links " +
+                "came to address the wrong package (#1498).",
+        );
+    }
+
     const byShortcode = new Map();
     const byAlias = new Map();
     const types = new Set();
+
+    // Each note's address is computed once, here, and every reference to it is
+    // that stored value. Nothing downstream assembles a UUID from parts, so a
+    // link and its target cannot disagree about where the document lives.
+    const uuidByDoc = new Map();
+
     for (const d of docs) {
         if (!d.id || !d.type) continue;
         types.add(norm(d.type));
+
+        uuidByDoc.set(d, {
+            uuid: compendiumUuid(packageId, d.type, d.id),
+            // An item's prose compiles into a separate JournalEntry, addressed
+            // by the virtual `doc<type>` qualifier. Its id is derived from the
+            // item's, so its address is knowable here too.
+            docUuid: compendiumUuid(packageId, "doc", itemDocEntryId(d.id)),
+        });
+
         if (d.shortcode) byShortcode.set(`${norm(d.type)}/${norm(d.shortcode)}`, d);
         for (const a of d.aliases ?? []) {
             const key = `${norm(d.type)}|${norm(a)}`;
@@ -262,7 +297,104 @@ export function buildWikilinkIndex(docs) {
             byAlias.set(key, byAlias.has(key) && byAlias.get(key) !== d ? null : d);
         }
     }
-    return { byShortcode, byAlias, types };
+    // Entries published by *other* packages, keyed canonically. Merged as one
+    // map rather than consulted separately: the keys are globally unique, so a
+    // foreign address resolves exactly like a local one and there is no
+    // precedence rule to get wrong. A foreign package's types are added to
+    // `types` too — without that, its addresses read as prose and silently lose
+    // their link (#1499).
+    const foreignByKey = new Map(foreign ?? []);
+    for (const v of foreignByKey.values()) {
+        if (!v.type) continue;
+        const t = norm(v.type);
+        // A manifest publishes `doc<type>` addresses, but `doc<type>` is a
+        // *virtual* qualifier formed by prefix — never a real type. Admitting
+        // it here would make it one, and a real type owns its own name, so the
+        // virtual reading would stop firing and every `[[docskill-wpnc]]`
+        // would resolve nowhere. The virtual form still reaches a foreign item
+        // doc: it reads as `skill` + `itemDoc`, which the manifest lookup then
+        // asks for as `docskill`.
+        if (t.startsWith(ITEM_DOC_PREFIX) && types.has(t.slice(ITEM_DOC_PREFIX.length))) {
+            continue;
+        }
+        types.add(t);
+    }
+
+    // Every package an address may name: this one, plus every package a
+    // vendored manifest speaks for. What lets `thalorna-creature-grkrahk` be
+    // read as an address at all.
+    const packages = new Set([contentPackage ?? packageId]);
+    for (const v of foreignByKey.values()) {
+        if (v.package) packages.add(v.package);
+    }
+
+    return {
+        byShortcode,
+        byAlias,
+        types,
+        uuidByDoc,
+        packageId,
+        packages,
+        foreign: foreignByKey,
+    };
+}
+
+/**
+ * The foreign manifest entry an address names, or `null`.
+ *
+ * A package-qualified address is one lookup. A bare one names no package, so it
+ * resolves against whichever foreign package publishes it — and only when
+ * exactly one does. Claimed by two, it is genuinely ambiguous and the author
+ * writes the qualified form; guessing would make the build depend on which
+ * manifest happened to load first.
+ *
+ * @param {object} index - From {@link buildWikilinkIndex}.
+ * @param {object|null} read - The parsed qualifier, or `null` for a bare alias.
+ * @returns {object|null} The manifest entry.
+ */
+function findForeign(index, read) {
+    if (!read || read.reason || !index.foreign?.size) return null;
+    const wanted = norm(read.itemDoc ? `doc${read.type}` : read.type);
+    const shortcode = norm(read.shortcode);
+    if (read.package) {
+        return (
+            index.foreign.get(
+                `${read.package}-${wanted}-${shortcode}`.toLowerCase(),
+            ) ?? null
+        );
+    }
+    const hits = [];
+    for (const [key, v] of index.foreign) {
+        const parts = key.split("-");
+        if (parts.length !== 3) continue;
+        if (parts[1] === wanted && parts[2] === shortcode) hits.push(v);
+    }
+    return hits.length === 1 ? hits[0] : null;
+}
+
+/**
+ * How an **unresolved** link renders.
+ *
+ * The author's text is kept, so the sentence still reads — dropping it would
+ * silently rewrite the prose. It is marked so a reader can tell that something
+ * was meant to be a link, and a maintainer can find it: the appearance lives in
+ * `scss/components/_unresolved-link.scss`, not here.
+ *
+ * @param {string} text - The text to show, from the link's label or target.
+ * @param {string} target - The address that resolved nowhere, for the tooltip.
+ * @returns {string} An HTML span. The markdown renderer passes raw HTML through.
+ */
+function unresolvedLink(text, target) {
+    const esc = (v) =>
+        String(v)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    return (
+        `<span class="sohl-unresolved-link" title="Unresolved link: ` +
+        `${esc(target)}">${esc(text)}</span>`
+    );
 }
 
 /** Matches a whole wikilink, capturing its inner text. */
@@ -314,13 +446,20 @@ export function convertWikilinks(markdown, { type, id, index }) {
         // Set when the target was read as `type-shortcode` — an address rather
         // than prose, which decides what an unlabelled link shows (#1409).
         let addressed = false;
+        // Kept for the foreign fallback below, which needs the parsed address.
+        let qualifiedRead = null;
         if (target === "" && slug) {
             doc = { type, id };
         } else {
-            const qualified = readQualifier(target, index.types);
+            const qualified = readQualifier(
+                target,
+                index.types,
+                index.packages,
+            );
+            qualifiedRead = qualified;
             if (qualified?.reason) {
                 unresolved.push({ link: all, target, reason: qualified.reason });
-                return all;
+                return unresolvedLink(text || target, target);
             }
             if (qualified) {
                 addressed = true;
@@ -332,14 +471,41 @@ export function convertWikilinks(markdown, { type, id, index }) {
                 const hit = index.byAlias.get(`${norm(type)}|${norm(target)}`);
                 if (hit === null) {
                     unresolved.push({ link: all, target, reason: "ambiguous" });
-                    return all;
+                    return unresolvedLink(text || target, target);
                 }
                 doc = hit;
             }
         }
         if (!doc) {
-            unresolved.push({ link: all, target, reason: "unknown" });
-            return all;
+            // Nothing local answers. A foreign package may publish this
+            // address, in which case the manifest hands back a complete UUID —
+            // including, for a section link, the anchor's own — so nothing is
+            // derived here.
+            const hit = findForeign(index, qualifiedRead);
+            if (hit) {
+                const uuid = slug ? hit.anchors?.[slug] : hit.uuid;
+                if (uuid) {
+                    return `@UUID[${uuid}]{${text || hit.name || target}}`;
+                }
+                unresolved.push({
+                    link: all,
+                    target,
+                    reason: "unknown-anchor",
+                    addressed: true,
+                });
+                return unresolvedLink(text || target, target);
+            }
+            unresolved.push({
+                link: all,
+                target,
+                reason: "unknown",
+                // A *qualified* address that resolves nowhere is a typo: every
+                // package it could name is either built here or vendored, so
+                // there is no third possibility left. A bare alias is not — it
+                // may simply be prose.
+                addressed: !!qualifiedRead && !qualifiedRead.reason,
+            });
+            return unresolvedLink(text || target, target);
         }
 
         // With no explicit label, a *qualified* target has no prose to show — a
@@ -350,10 +516,24 @@ export function convertWikilinks(markdown, { type, id, index }) {
         // The knowledgebase build reads the same authored link the same way.
         if (!text || (!labelled && addressed)) text = doc.name ?? target;
 
-        // An item doc lives in the journals pack under its own derived entry id,
-        // and its pages hash against *that* id — not the item's.
-        const pack = itemDoc ? PACK_BY_TYPE.doc : packForType(doc.type);
+        // Both addresses were computed when the target was indexed. An item
+        // doc lives in the journals pack under its own derived entry id, and
+        // its pages hash against *that* id — not the item's.
+        //
+        // The one target with no index entry is the note itself: a `[[#slug]]`
+        // self-link is resolved from the source's own type and id, which the
+        // caller supplied, so it is addressed the same way here.
+        const addresses = index.uuidByDoc.get(doc) ?? {
+            uuid: compendiumUuid(index.packageId, doc.type, doc.id),
+            docUuid: compendiumUuid(
+                index.packageId,
+                "doc",
+                itemDocEntryId(doc.id),
+            ),
+        };
+        const entryUuid = itemDoc ? addresses.docUuid : addresses.uuid;
         const entryId = itemDoc ? itemDocEntryId(doc.id) : doc.id;
+        const isJournal = itemDoc || packForType(doc.type).pack === "journals";
         // A JournalEntry link opens a journal — at its first page, or at the
         // page an anchor names. An Item or Actor link opens that document's
         // *sheet*, which has no sections, so the anchor has nothing to address
@@ -361,9 +541,9 @@ export function convertWikilinks(markdown, { type, id, index }) {
         // can never hold one is what made such links dead-end (#1362); an
         // item's pages are addressed through its `doc<type>` counterpart.
         const uuid =
-            slug && pack === PACK_BY_TYPE.doc
-                ? `${pack}.${entryId}.JournalEntryPage.${anchorPageId(entryId, slug)}`
-                : `${pack}.${entryId}`;
+            slug && isJournal
+                ? pageUuid(entryUuid, anchorPageId(entryId, slug))
+                : entryUuid;
         return `@UUID[${uuid}]{${text}}`;
     });
 

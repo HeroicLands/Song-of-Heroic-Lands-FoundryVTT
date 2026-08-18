@@ -33,6 +33,14 @@ import unidecode from "unidecode";
 import markdownit from "markdown-it";
 import log from "loglevel";
 
+import {
+    CONTENT_PACKAGE,
+    FOUNDRY_PACKAGE_ID,
+} from "./content-package.mjs";
+import { loadForeignManifests, PACKAGE_BASE } from "../kb-manifest.mjs";
+
+/** Vendored manifests of packages this repository links into (#1446). */
+const MANIFEST_SRC = path.resolve("./assets/manifests");
 import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
 import { expandContentTables } from "../content-tables.mjs";
 
@@ -467,8 +475,33 @@ export function buildContentLinkIndex(contentBase) {
             ].filter(Boolean),
         });
     }
-    log.debug(`Wikilink index: ${docs.length} linkable document(s)`);
-    return buildWikilinkIndex(docs);
+    // Packages this build links *into* but does not publish. Their manifests
+    // are vendored and committed, so a contributor without every repository
+    // checked out resolves the same links CI does (#1446, #1499).
+    const { index: foreign, stale } = loadForeignManifests(
+        MANIFEST_SRC,
+        [CONTENT_PACKAGE],
+        PACKAGE_BASE,
+    );
+    if (stale.length) {
+        for (const st of stale) {
+            log.error(`Unusable link manifest for "${st.package}": ${st.reason}`);
+        }
+        throw new Error(
+            "Cross-package links cannot be resolved from a stale manifest; " +
+                "re-vendor it from that package's build.",
+        );
+    }
+    log.debug(
+        `Wikilink index: ${docs.length} local document(s), ` +
+            `${foreign.size} foreign address(es)`,
+    );
+    return buildWikilinkIndex(
+        docs,
+        FOUNDRY_PACKAGE_ID,
+        foreign,
+        CONTENT_PACKAGE,
+    );
 }
 
 /**
@@ -483,6 +516,17 @@ export function buildContentLinkIndex(contentBase) {
 export function convertNoteWikilinks(body, { type, id, index, name }) {
     const result = convertWikilinks(body ?? "", { type, id, index });
     for (const u of result.unresolved) {
+        // A qualified address resolving nowhere is a typo, now that every
+        // linkable package is either built here or vendored (#1499) — so it
+        // fails the note rather than degrading to text. A bare alias stays a
+        // warning: it may be ordinary prose that merely looks like a link.
+        if (u.addressed) {
+            throw new Error(
+                `Unresolved address in "${name}": ${u.link} — no package ` +
+                    `publishes it. Fix the shortcode, or re-vendor that ` +
+                    `package's manifest into assets/manifests/.`,
+            );
+        }
         log.warn(`Unresolved wikilink in "${name}" (${u.reason}): ${u.link}`);
     }
     return result;

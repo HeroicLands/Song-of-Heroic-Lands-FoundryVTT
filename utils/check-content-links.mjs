@@ -49,7 +49,13 @@ import matter from "gray-matter";
 import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { readQualifier } from "./packs/wikilinks.mjs";
-import { loadForeignManifests, manifestsComplete } from "./kb-manifest.mjs";
+import { isItemDocType } from "./packs/item-docs.mjs";
+import {
+    canonicalKey,
+    readCanonicalKey,
+    loadForeignManifests,
+    manifestsComplete,
+} from "./kb-manifest.mjs";
 import { RETIRED_HOSTS, findRetiredLinks } from "./retired-hosts.mjs";
 
 const CONTENT = path.join("assets", "content");
@@ -115,6 +121,25 @@ for (const note of notes) {
     const { fm, type } = note;
     if (typeof fm.shortcode === "string" && fm.shortcode) {
         byKey.set(`${type}/${fm.shortcode}`.toLowerCase(), note);
+        // The canonical, fully qualified address alongside the short one, so a
+        // package-qualified link checks the same way a bare one does (#1499).
+        if (fm.package) {
+            byKey.set(canonicalKey(fm.package, type, fm.shortcode), note);
+        }
+        // An item's documentation is a document — and an address — in its own
+        // right, so it is indexed as one. It has to be: once a manifest
+        // publishes `doc<type>` entries, `doc<type>` is a *known type*, and the
+        // virtual reading that used to answer for it no longer fires (a real
+        // type owns its own name).
+        if (isItemDocType(type)) {
+            byKey.set(`doc${type}/${fm.shortcode}`.toLowerCase(), note);
+            if (fm.package) {
+                byKey.set(
+                    canonicalKey(fm.package, `doc${type}`, fm.shortcode),
+                    note,
+                );
+            }
+        }
     }
     const aliases = [
         ...(Array.isArray(fm.aliases) ? fm.aliases : []),
@@ -207,16 +232,40 @@ const manifests = manifestsComplete(
     new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
     foreign.packages,
 );
-for (const k of foreign.index.keys()) {
+for (const v of foreign.index.values()) {
+    if (v.type) types.add(v.type);
+}
+// Every package an address may name: the ones this tree publishes, plus every
+// one a vendored manifest speaks for.
+const packages = new Set([
+    ...[...byKey.values()].map((n) => n.fm?.package).filter(Boolean),
+    ...foreign.packages,
+]);
+for (const k of []) {
     const slash = k.indexOf("/");
     if (slash > 0) types.add(k.slice(0, slash));
 }
 
 /** The manifest entry a qualified address names in another package, or null. */
 const manifestHit = (target) => {
-    const q = readQualifier(target, types);
+    const q = readQualifier(target, types, packages);
     if (!q || q.reason) return null;
-    return foreign.index.get(`${q.type}/${q.shortcode}`.toLowerCase()) ?? null;
+    if (q.package) {
+        return (
+            foreign.index.get(canonicalKey(q.package, q.type, q.shortcode)) ??
+            null
+        );
+    }
+    // A bare address names no package, so it resolves against any foreign one
+    // that publishes it. Claimed by two, it is ambiguous and the author must
+    // write the qualified form.
+    const type = String(q.type).toLowerCase();
+    const shortcode = String(q.shortcode).toLowerCase();
+    const hits = [...foreign.index].filter(([k]) => {
+        const parts = readCanonicalKey(k);
+        return parts?.type === type && parts.shortcode === shortcode;
+    });
+    return hits.length === 1 ? hits[0][1] : null;
 };
 
 /**
@@ -243,9 +292,13 @@ const resolve = (note, target) => {
         byAlias.get(`${note.type}|${target}`.toLowerCase()) ??
         byKey.get(target.toLowerCase());
     if (direct) return direct;
-    const qualified = readQualifier(target, types);
+    const qualified = readQualifier(target, types, packages);
     if (!qualified || qualified.reason) return undefined;
-    return byKey.get(`${qualified.type}/${qualified.shortcode}`.toLowerCase());
+    return byKey.get(
+        qualified.package ?
+            canonicalKey(qualified.package, qualified.type, qualified.shortcode)
+        :   `${qualified.type}/${qualified.shortcode}`.toLowerCase(),
+    );
 };
 
 // --- Check 1: every `#anchor` link points at a heading that declares it ---
@@ -278,7 +331,7 @@ for (const note of notes) {
         // Only a *qualified* target is an address. A bare `[[Name]]` that finds
         // nothing is a worldbuilding placeholder by long-standing convention,
         // and is deliberately left alone.
-        const qualified = readQualifier(target, types);
+        const qualified = readQualifier(target, types, packages);
         if (!qualified) continue;
         if (resolve(note, target)) continue;
         // A manifest answers the question the allowlist was standing in for,

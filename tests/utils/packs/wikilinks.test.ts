@@ -14,6 +14,7 @@ import {
     anchorPageId,
     buildWikilinkIndex,
     convertWikilinks,
+    readQualifier,
 } from "../../../utils/packs/wikilinks.mjs";
 import { itemDocEntryId } from "../../../utils/packs/item-docs.mjs";
 
@@ -30,18 +31,33 @@ const DOCS = [
     { type: "containergear", id: "eeeeeeeeeeeeeee1", shortcode: "backpack", name: "Backpack", aliases: ["Backpack"] },
 ];
 
-const index = buildWikilinkIndex(DOCS);
+const index = buildWikilinkIndex(DOCS, "sohl");
 const from = { type: "doc", id: "aaaaaaaaaaaaaaa2" }; // "Bleeding"
 
 const convert = (src: string, ctx = from) =>
     convertWikilinks(src, { ...ctx, index });
 
-describe("packForType (content type → compendium UUID prefix)", () => {
+describe("packForType (content type → the pack it compiles into)", () => {
     it("routes the non-item types to their own packs", () => {
-        expect(packForType("doc")).toBe("Compendium.sohl.journals.JournalEntry");
-        expect(packForType("macro")).toBe("Compendium.sohl.macros.Macro");
-        expect(packForType("character")).toBe("Compendium.sohl.actors.Actor");
-        expect(packForType("creature")).toBe("Compendium.sohl.actors.Actor");
+        // Pack *names*, not addresses: the package that owns them is supplied
+        // by the caller, because it belongs to the repository doing the
+        // building and not to the content (#1498).
+        expect(packForType("doc")).toEqual({
+            pack: "journals",
+            docType: "JournalEntry",
+        });
+        expect(packForType("macro")).toEqual({
+            pack: "macros",
+            docType: "Macro",
+        });
+        expect(packForType("character")).toEqual({
+            pack: "actors",
+            docType: "Actor",
+        });
+        expect(packForType("creature")).toEqual({
+            pack: "actors",
+            docType: "Actor",
+        });
         expect(Object.keys(PACK_BY_TYPE).sort()).toEqual([
             "character",
             "creature",
@@ -55,11 +71,11 @@ describe("packForType (content type → compendium UUID prefix)", () => {
             "armorgear", "weapongear", "containergear", "miscgear", "skill",
             "attribute", "affliction", "trauma", "mystery", "mysticalability",
         ]) {
-            expect(packForType(type)).toBe("Compendium.sohl.items.Item");
+            expect(packForType(type)).toEqual({ pack: "items", docType: "Item" });
         }
         // Item types are the open set, so a type added tomorrow is linkable the
         // day it is authored — no table to forget (#1276).
-        expect(packForType("somenewgear")).toBe("Compendium.sohl.items.Item");
+        expect(packForType("somenewgear")).toEqual({ pack: "items", docType: "Item" });
     });
 });
 
@@ -156,26 +172,26 @@ describe("convertWikilinks", () => {
     it("cannot resolve a bare alias that belongs to another type", () => {
         const { markdown } = convert("[[Coma]]", { type: "skill", id: "bbbbbbbbbbbbbbb1" });
         // "Coma" is not an alias of any skill — unresolvable from there.
-        expect(markdown).toBe("[[Coma]]");
+        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>');
     });
 
     it("leaves an ambiguous bare alias untouched and reports it", () => {
         const { markdown, unresolved } = convert("a [[Coma]] state");
-        expect(markdown).toBe("a [[Coma]] state");
+        expect(markdown).toBe(`a ${'<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>'} state`);
         expect(unresolved).toHaveLength(1);
         expect(unresolved[0]).toMatchObject({ target: "Coma", reason: "ambiguous" });
     });
 
     it("leaves an unknown shortcode untouched and reports it", () => {
         const { markdown, unresolved } = convert("the [[doc/nosuchcode|Injury]] rules");
-        expect(markdown).toBe("the [[doc/nosuchcode|Injury]] rules");
+        expect(markdown).toBe(`the ${'<span class="sohl-unresolved-link" title="Unresolved link: doc/nosuchcode">Injury</span>'} rules`);
         expect(unresolved).toHaveLength(1);
         expect(unresolved[0].reason).toBe("unknown");
     });
 
     it("rejects a qualifier that is not a content type — including the retired directory form", () => {
         const { markdown, unresolved } = convert("the [[Rules/shock|Shock]] rules");
-        expect(markdown).toBe("the [[Rules/shock|Shock]] rules");
+        expect(markdown).toBe(`the ${'<span class="sohl-unresolved-link" title="Unresolved link: Rules/shock">Shock</span>'} rules`);
         expect(unresolved[0]).toMatchObject({ reason: "unknown-type" });
     });
 
@@ -247,16 +263,23 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
     it("rejects `doc` applied to a type that has no item doc", () => {
         // `doc` and `creature` compile to the journals and actors packs
         // respectively; neither has an item doc to address.
-        for (const link of ["[[docdoc/shock|Shock]]", "[[doccreature/condor|Condor]]"]) {
+        for (const [link, text, target] of [
+            ["[[docdoc/shock|Shock]]", "Shock", "docdoc/shock"],
+            ["[[doccreature/condor|Condor]]", "Condor", "doccreature/condor"],
+        ]) {
             const { markdown, unresolved } = convert(link);
-            expect(markdown).toBe(link);
+            // The author's text survives, marked so the reader can tell a link
+            // was meant. Dropping it would silently rewrite the sentence.
+            expect(markdown).toBe(
+                `<span class="sohl-unresolved-link" title="Unresolved link: ${target}">${text}</span>`,
+            );
             expect(unresolved[0]).toMatchObject({ reason: "unknown-type" });
         }
     });
 
     it("reports an unknown shortcode under a valid virtual qualifier", () => {
         const { markdown, unresolved } = convert("[[docskill/nosuchcode|Nope]]");
-        expect(markdown).toBe("[[docskill/nosuchcode|Nope]]");
+        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: docskill/nosuchcode">Nope</span>');
         expect(unresolved[0]).toMatchObject({ reason: "unknown" });
     });
 
@@ -297,7 +320,7 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
         const withReal = buildWikilinkIndex([
             ...DOCS,
             { type: "docskill", id: "fffffffffffffff1", shortcode: "climb", aliases: [] },
-        ]);
+        ], "sohl");
         const { markdown } = convertWikilinks("[[docskill/climb|X]]", {
             ...from,
             index: withReal,
@@ -368,7 +391,7 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
                 shortcode: "self-pro",
                 aliases: [],
             },
-        ]);
+        ], "sohl");
         const { markdown, unresolved } = convertWikilinks(
             "[[trauma-self-pro|Self-Protective]]",
             { ...from, index: withHyphenCode },
@@ -392,7 +415,7 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
                 shortcode: "grukarahk",
                 aliases: ["Grukar-ahk"],
             },
-        ]);
+        ], "sohl");
         const { markdown, unresolved } = convertWikilinks("[[Grukar-ahk]]", {
             ...from,
             index: withDash,
@@ -405,7 +428,7 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
 
     it("reports an unknown shortcode under a valid type", () => {
         const { markdown, unresolved } = convert("[[doc-nosuchcode|Nope]]");
-        expect(markdown).toBe("[[doc-nosuchcode|Nope]]");
+        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: doc-nosuchcode">Nope</span>');
         expect(unresolved[0]).toMatchObject({ reason: "unknown" });
     });
 
@@ -464,7 +487,7 @@ describe("convertWikilinks — an unlabelled link (#1409)", () => {
     it("falls back to the target when the document has no name", () => {
         const nameless = buildWikilinkIndex([
             { type: "doc", id: "88888888888888a1", shortcode: "nameless", aliases: [] },
-        ]);
+        ], "sohl");
         const { markdown } = convertWikilinks("[[doc-nameless]]", {
             ...from,
             index: nameless,
@@ -472,5 +495,83 @@ describe("convertWikilinks — an unlabelled link (#1409)", () => {
         expect(markdown).toBe(
             "@UUID[Compendium.sohl.journals.JournalEntry.88888888888888a1]{doc-nameless}",
         );
+    });
+});
+
+describe("readQualifier — the optional package segment (#1499)", () => {
+    const TYPES = new Set(["skill", "doc", "creature"]);
+    const PACKAGES = new Set(["sohl", "thalorna"]);
+
+    it("reads a package-qualified address and reports the package", () => {
+        expect(readQualifier("sohl-skill-lang", TYPES, PACKAGES)).toEqual({
+            type: "skill",
+            shortcode: "lang",
+            itemDoc: false,
+            package: "sohl",
+        });
+    });
+
+    it("leaves the package undefined on a bare address, which defaults to local", () => {
+        const read = readQualifier("skill-lang", TYPES, PACKAGES);
+        expect(read).toMatchObject({ type: "skill", shortcode: "lang" });
+        expect(read).not.toHaveProperty("package");
+    });
+
+    it("ignores the package reading when no packages are supplied", () => {
+        // The pack build passes none, so behaviour there is exactly as before.
+        expect(readQualifier("sohl-skill-lang", TYPES)).toBeNull();
+    });
+
+    it("does not treat a note name as a package just because it has hyphens", () => {
+        // "Grukar-ahk" is an alias, not an address — the segment before the
+        // hyphen has to be a package this build knows, and the remainder has to
+        // parse as an address in its own right.
+        expect(readQualifier("Grukar-ahk", TYPES, PACKAGES)).toBeNull();
+        expect(readQualifier("sohl-notatype-x", TYPES, PACKAGES)).toBeNull();
+    });
+
+    it("still reads the virtual doc<type> form under a package", () => {
+        expect(readQualifier("thalorna-docskill-wpnc", TYPES, PACKAGES)).toEqual(
+            {
+                type: "skill",
+                shortcode: "wpnc",
+                itemDoc: true,
+                package: "thalorna",
+            },
+        );
+    });
+});
+
+describe("an unresolved link keeps its text and is marked (#1499)", () => {
+    const index = buildWikilinkIndex(DOCS, "sohl");
+    const from = { type: "doc", id: "1111111111111111", index };
+
+    it("keeps the label, so the sentence still reads", () => {
+        const { markdown } = convertWikilinks(
+            "the [[skill-nosuchcode|climbing]] check",
+            from,
+        );
+        expect(markdown).toContain(">climbing</span>");
+        expect(markdown).toContain("the ");
+        expect(markdown).toContain(" check");
+    });
+
+    it("carries the class the stylesheet marks it with", () => {
+        const { markdown } = convertWikilinks("[[skill-nosuchcode]]", from);
+        expect(markdown).toContain('class="sohl-unresolved-link"');
+    });
+
+    it("names the failed address in the tooltip", () => {
+        const { markdown } = convertWikilinks("[[skill-nosuchcode]]", from);
+        expect(markdown).toContain('title="Unresolved link: skill-nosuchcode"');
+    });
+
+    it("escapes the text and the address, so content cannot inject markup", () => {
+        const { markdown } = convertWikilinks(
+            '[[skill-nosuchcode|<img src=x onerror="alert(1)">]]',
+            from,
+        );
+        expect(markdown).not.toContain("<img");
+        expect(markdown).toContain("&lt;img");
     });
 });

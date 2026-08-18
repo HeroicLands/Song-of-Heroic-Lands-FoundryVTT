@@ -35,10 +35,7 @@
  * Plain ESM with no Foundry and no filesystem access, so it is unit-testable.
  */
 
-import { makeId } from "./ids.mjs";
-
-/** The compendium item docs compile into. */
-const JOURNAL_PACK = "Compendium.sohl.journals.JournalEntry";
+import { compendiumUuid, makeId, pageUuid } from "./ids.mjs";
 
 /**
  * Every content type that compiles into an item — and therefore into an item
@@ -100,6 +97,8 @@ export function itemDocEntryId(itemId) {
  * is a pointer, and anything alongside it would make it ordinary prose that
  * happens to contain a link, which the runtime would then show verbatim.
  *
+ * @param {string} packageId - The Foundry package shipping the journals pack.
+ *   Supplied rather than assumed (#1498).
  * @param {string} itemId - The item note's `id` frontmatter.
  * @param {string} name - The item's name, used as the link's label. It shows
  *   only if the target ever fails to resolve, where a broken link naming the
@@ -108,7 +107,7 @@ export function itemDocEntryId(itemId) {
  *   {@link journalPageId}.
  * @returns {string} The pointer to store in `system.docHtml`.
  */
-export function itemDocPointer(itemId, name, firstPageId) {
-    const entryId = itemDocEntryId(itemId);
-    return `@UUID[${JOURNAL_PACK}.${entryId}.JournalEntryPage.${firstPageId}]{${name}}`;
+export function itemDocPointer(packageId, itemId, name, firstPageId) {
+    const entryUuid = compendiumUuid(packageId, "doc", itemDocEntryId(itemId));
+    return `@UUID[${pageUuid(entryUuid, firstPageId)}]{${name}}`;
 }
