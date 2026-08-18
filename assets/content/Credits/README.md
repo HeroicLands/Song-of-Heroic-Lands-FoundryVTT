@@ -316,21 +316,12 @@ The [SIL Open Font License 1.1](https://openfontlicense.org) permits use,
 modification, and redistribution, including commercially, provided the fonts are
 not sold on their own and any derivative retains the license.
 
-| Family              | Notice                                                                                      |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| Cinzel              | Copyright 2020 The [Cinzel Project](https://github.com/NDISCOVER/Cinzel) Authors            |
-| Cormorant Garamond  | Copyright 2015 The [Cormorant Project](https://github.com/CatharsisFonts/Cormorant) Authors |
-| IBM Plex Mono       | Copyright 2017 IBM Corp.                                                                    |
-| Signika             | Copyright 2018 The [Signika Project](https://github.com/googlefonts/Signika) Authors        |
-| Lankorian Blackhand | Mitchell Gore                                                                               |
-
-## Hârn scripts
-
-**Harn Lakise** and **Harn Runic** are the work of **Amir El Habashy**, 1995 —
-"The Lakise Script by Amir El Habashy 1995" and "Harn Runic Script by Amir El
-Habashy 1995". They are redistributed under the
-[CC BY-NC-SA 3.0 AU](https://creativecommons.org/licenses/by-nc-sa/3.0/au/legalcode)
-license.
+| Family             | Notice                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| Cinzel             | Copyright 2020 The [Cinzel Project](https://github.com/NDISCOVER/Cinzel) Authors            |
+| Cormorant Garamond | Copyright 2015 The [Cormorant Project](https://github.com/CatharsisFonts/Cormorant) Authors |
+| IBM Plex Mono      | Copyright 2017 IBM Corp.                                                                    |
+| Signika            | Copyright 2018 The [Signika Project](https://github.com/googlefonts/Signika) Authors        |
 
 ## Icon font
 

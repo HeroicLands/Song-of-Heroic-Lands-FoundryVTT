@@ -19,21 +19,30 @@ They were the only record of who made those icons, so this is a move, not a
 deletion; the README would otherwise have pointed at a page that pointed back at
 the README.
 
-**Fonts are attributed for the first time.** Four bundled families — Cinzel,
-Cormorant Garamond, IBM Plex Mono and Signika — shipped with **no attribution
-anywhere**, despite the SIL Open Font License requiring the notice be retained.
-Every notice is now taken from the `name` table embedded in the shipped `.woff2`
-itself, rather than from memory or a secondary source.
+**Fonts are attributed for the first time.** The four families the system renders
+with — Cinzel, Cormorant Garamond, IBM Plex Mono and Signika — shipped with **no
+attribution anywhere**, despite the SIL Open Font License requiring the notice be
+retained. Every notice is taken from the `name` table embedded in the shipped
+`.woff2` itself, rather than from memory or a secondary source.
 
-**Two published facts were wrong, and are corrected to match the files:**
+**The three Hârnic-script fonts are removed** — Harn Lakise, Harn Runic, and
+Lankorian Blackhand — along with every claim made about them.
 
-- _Lankorian Blackhand_ was recorded as CC BY-NC-SA 3.0 AU; the font file states
-  the **SIL Open Font License**. The two differ materially — OFL permits
-  commercial use, the NC licence does not.
-- _Harn Lakise_ and _Harn Runic_ were credited to N. Robin Crossby alone; the font
-  files carry "by Amir El Habashy 1995". Both are now named — El Habashy for the
-  fonts, Crossby for the scripts they render — and the CC BY-NC-SA 3.0 AU licence
-  the README stated is preserved.
+Checking each notice against the `name` table embedded in the shipped `.woff2`
+showed the recorded attribution could not be relied on. The README credited the
+Lakise and Runic fonts to N. Robin Crossby, but neither file mentions him — both
+carry "by Amir El Habashy 1995" — which left the CC BY-NC-SA 3.0 AU licence the
+README also stated resting on the same disproved line. Lankorian Blackhand was
+likewise recorded as CC BY-NC-SA 3.0 AU while its file states the SIL Open Font
+License, a materially different grant.
+
+Rather than publish attribution whose provenance could not be established, the
+fonts go: three `.woff2` files and the three `@font-face` declarations that
+defined them. All three were **never applied** — no token, component, template,
+or manifest referenced any of the families — so nothing renders differently.
+
+The four typefaces the system actually uses are unaffected and now attributed for
+the first time.
 
 **`ATTRIBUTION.md` keeps its table.** It ships inside `assets/icons/`, so it
 travels beside the artwork it describes and remains the record that satisfies
