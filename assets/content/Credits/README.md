@@ -326,14 +326,14 @@ not sold on their own and any derivative retains the license.
 
 ## Hârn scripts
 
-**Harn Lakise** and **Harn Runic** render the scripts of Hârn, and are
-redistributed under the
+**Harn Lakise** and **Harn Runic** are the work of **Amir El Habashy**, 1995 —
+"The Lakise Script by Amir El Habashy 1995" and "Harn Runic Script by Amir El
+Habashy 1995". They are redistributed under the
 [CC BY-NC-SA 3.0 AU](https://creativecommons.org/licenses/by-nc-sa/3.0/au/legalcode)
 license.
 
-The font files carry the notices "The Lakise Script by Amir El Habashy 1995" and
-"Harn Runic Script by Amir El Habashy 1995"; the scripts they render are the work
-of N. Robin Crossby.
+The writing systems the fonts render belong to Hârn, the creation of
+**N. Robin Crossby**.
 
 ## Icon font
 
