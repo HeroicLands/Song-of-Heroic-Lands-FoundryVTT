@@ -628,6 +628,29 @@ are all present — a missing surface would publish a 404 at an address the
 navigation already points at, and a missing `404.html` would make Cloudflare
 Pages answer unmatched paths with a soft-404 (#1416).
 
+**And nothing ships pointing at a hostname that no longer resolves.** Before it
+finishes, the assembler reads every rendered page and fails the build on any
+`href` or `src` addressing one of the withdrawn hosts in `RETIRED_HOSTS`
+(`utils/retired-hosts.mjs`). Such a link fails at DNS with no redirect to
+follow, so it is a hard dead end, and nothing else in the pipeline notices — an
+absolute URL is opaque to the wikilink checks. Prose that merely *names* a
+withdrawn host is not reported; these docs explain the move, and saying so is
+not a dead end.
+
+The API documentation gets one step first, because the gate alone could never
+clear it. It is rebuilt from the newest **release tag**, so a tag cut before a
+hostname was withdrawn reproduces the dead links on every deploy however clean
+`main` is — which is exactly what `/sohl/api/` was doing (#1487). The assembler
+therefore repoints those links, taking a replacement **only when the page it
+names is present in the tree it has just assembled**: a repair is verified, never
+guessed, because a wrong one would trade a dead end a reader can see for a quiet
+404. Candidates come from `rewriteCandidates`, which knows both that the API
+site dropped its version segment and that the developer docs now live under
+`/dev-docs/`. Anything it cannot rescue falls through to the gate and fails the
+build. Every repair is printed: for a current tag the count should be zero, so a
+non-zero one means new `src/` JSDoc — or the chrome plugin — has reintroduced a
+retired address, and the fix belongs there.
+
 **No layout in this repository names an address.** Every asset resolves through
 the theme's `cdn-url.html` against `params.cdnBaseURL`, and every internal link
 is built from the page's own `.RelPermalink`, so moving the package or its
@@ -664,7 +687,8 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
 | `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
 | `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.  |
-| `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, and refuse a partial build.   |
+| `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname. |
+| `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate. |
 | `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                     |
 | `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress. |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |
