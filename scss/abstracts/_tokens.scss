@@ -222,7 +222,7 @@ $fonts: (
 // enclosing chrome (`#interface.themed.theme-dark`, in `configureUI()`). But
 // SoHL's surface themes from the OS, so without this the icon fill follows
 // Foundry's theme while the vellum ground follows the OS, and the icons vanish on
-// a mismatched surface (kb.heroiclands.org / issue #917).
+// a mismatched surface (the knowledgebase / issue #917).
 //
 // Scoped to `.sohl` — NEVER `:root` — so Foundry's own windows and the compendium
 // keep inheriting Foundry's `color-scheme`; there the icons SHOULD track the

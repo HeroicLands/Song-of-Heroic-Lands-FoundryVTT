@@ -156,7 +156,7 @@ export class TraumaDataModel<
 
     /**
      * Seed the contract anchor, interval formulas, and the initial
-     * {@link https://kb.heroiclands.org/dev/reference/event-queue/ | scheduled
+     * {@link https://www.heroiclands.org/sohl/kb/dev-docs/reference/event-queue/ | scheduled
      * actions} when a Trauma is created. `contractDate` is set to the current
      * world time; the interval formulas are taken from the corresponding world
      * settings and their duration bases from a numeric read of the formula (the

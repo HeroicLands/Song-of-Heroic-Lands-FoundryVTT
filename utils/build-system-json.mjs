@@ -55,17 +55,16 @@ template.manifest = `https://github.com/HeroicLands/Song-of-Heroic-Lands-Foundry
 template.download = `https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/download/v${pkg.version}/system.zip`;
 
 // External links for the settings-sidebar "Game System" section, single-sourced
-// from package.json. The API URL targets THIS version's docs — releases publish
-// to `/v<version>` and `/latest` only ever tracks the newest release, so a
-// running system should point at its own version. Preserve any existing
-// `flags.sohl` keys the template may carry.
-const apiBase = pkg.heroicLands.apiDocsBaseUrl.replace(/\/+$/, "");
+// from package.json. Each is used as given: one unversioned tree of API
+// documentation is published, for the newest release (#1452), so there is no
+// per-version address for a running system to point at and nothing to compose.
+// Preserve any existing `flags.sohl` keys the template may carry.
 template.flags = template.flags ?? {};
 template.flags.sohl = {
     ...(template.flags.sohl ?? {}),
     mainSiteUrl: pkg.homepage,
     knowledgeBaseUrl: pkg.heroicLands.knowledgeBaseUrl,
-    apiDocsUrl: `${apiBase}/v${pkg.version}`,
+    apiDocsUrl: pkg.heroicLands.apiDocsUrl,
     issuesUrl: template.bugs,
     discordInviteUrl: pkg.heroicLands.discordInviteUrl,
 };

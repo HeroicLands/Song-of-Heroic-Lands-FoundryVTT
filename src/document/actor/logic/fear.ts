@@ -18,7 +18,7 @@
  * A traumatic fear source demands a Fear Test; the result maps to a
  * {@link sohl.utils.FEAR_CATEGORY} state — **Brave** / **Steady** / **Afraid** /
  * **Terrified** / **Catatonic** — that drives combat and movement effects and any
- * Psyche Stress ([Psychological Condition](https://kb.heroiclands.org/dev/reference/randomness/))
+ * Psyche Stress ([Psychological Condition](https://www.heroiclands.org/sohl/kb/dev-docs/reference/randomness/))
  * gain. Each fear source is recorded as its own **`fear`-subtype trauma** (its
  * `category` is the {@link sohl.utils.FEAR_CATEGORY}); when several are present,
  * only the **most severe (most-failed)** state affects the victim. See the Fear

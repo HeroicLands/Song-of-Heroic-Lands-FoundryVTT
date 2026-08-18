@@ -8,7 +8,7 @@ The project spans three repositories — the system, the Obsidian vault, and
 heroiclands.org — but the issue standard described only the first, so a growing share
 of tracked work had no documented home, label, or completion rule.
 
-- _One tracker._ A new [Issue Reporting §9](https://kb.heroiclands.org/dev/how-to/issue-reporting/)
+- _One tracker._ A new [Issue Reporting §9](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/issue-reporting/)
   states that this repository tracks all three, and why: the four-axis standard is
   per-repository machinery that would have to be triplicated, the work forms one
   dependency chain, and the vault is private.

@@ -20,7 +20,7 @@
  * the resulting updates lives in `src/core/foundry/migration.ts`; everything here
  * is pure and unit-tested so the *decision* logic never depends on a running
  * Foundry. See the migration reference at
- * https://kb.heroiclands.org/dev/reference/runtime-contracts/ for the update
+ * https://www.heroiclands.org/sohl/kb/dev-docs/reference/runtime-contracts/ for the update
  * contract.
  *
  * @module
@@ -91,7 +91,7 @@ export interface MigrationSource {
  * A key that has already left the schema **cannot be deleted** by a `-=` payload:
  * Foundry prunes undeclared keys out of the change set. Omit it from a
  * replacement payload instead — see the migration reference at
- * https://kb.heroiclands.org/dev/reference/migration/.
+ * https://www.heroiclands.org/sohl/kb/dev-docs/reference/migration/.
  */
 export type DocMigrator = (
     source: MigrationSource,

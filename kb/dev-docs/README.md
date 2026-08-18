@@ -91,8 +91,8 @@ How to contribute: standards, the development workflow, and maintainer/project-m
 
 Rules and play guides are maintained on the project site, not in this repo:
 
-- [SoHL on heroiclands.org](https://heroiclands.org/projects/sohl/)
-- [User Guide](https://heroiclands.org/sohl/user-guide/sohl-user-guide/)
-- [Rules](https://heroiclands.org/sohl/user-guide/sohl-rules/)
-- [Quickstart](https://heroiclands.org/sohl/user-guide/sohl-quickstart/)
-- [Character Creation](https://heroiclands.org/sohl/user-guide/sohl-character-creation/)
+- [SoHL on heroiclands.org](https://www.heroiclands.org/projects/song-of-heroic-lands/)
+- [User Guide](https://www.heroiclands.org/sohl/kb/user-guide/)
+- [Rules](https://www.heroiclands.org/sohl/kb/rules/)
+- [Quickstart](https://www.heroiclands.org/sohl/kb/user-guide/song-of-heroic-lands-quickstart/)
+- [Character Creation](https://www.heroiclands.org/sohl/kb/user-guide/character-creation/)

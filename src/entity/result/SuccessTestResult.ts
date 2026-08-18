@@ -1202,7 +1202,7 @@ export namespace SuccessTestResult {
      * carries the outcome mapping and `targetValueFunc` the grading value; follow-up
      * consent buttons are passed separately to
      * {@link SuccessTestResult.toChat}. See the
-     * [pass-data pattern](https://kb.heroiclands.org/dev/how-to/extension-points/).
+     * [pass-data pattern](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/extension-points/).
      */
     export interface ContextScope {
         /**
@@ -1276,7 +1276,7 @@ export namespace SuccessTestResult {
      * literal or a {@link sohl.entity.expr.SafeExpression} computed from the test
      * bindings (`successLevel`, `targetValue`, `lastDigit`) — data, so the whole
      * table serializes across clients. See the
-     * [Result-description Tables](https://kb.heroiclands.org/dev/reference/result-description-tables/)
+     * [Result-description Tables](https://www.heroiclands.org/sohl/kb/dev-docs/reference/result-description-tables/)
      * guide.
      */
     export interface LimitedDescription {

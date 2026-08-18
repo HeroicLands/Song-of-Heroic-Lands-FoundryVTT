@@ -616,7 +616,7 @@ There are two ways to answer, and the choice should model intent:
    `scope` (e.g. `{ skipDialog: true, scope: { schedule: false } }`), or inline the
    answer in a chat-card button's `data-scope` (`{ …req, schedule: false }`).
    Reserve `skipDialog` for exactly this certain/scripted case (see the
-   [prefer-dialog rule](https://kb.heroiclands.org/dev/concepts/action-cards/)) —
+   [prefer-dialog rule](https://www.heroiclands.org/sohl/kb/dev-docs/concepts/action-cards/)) —
    don't reach for it just to skip a click.
 
 Rule of thumb: a spec **about** a consent flow presses the button (so the test

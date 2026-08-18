@@ -13,7 +13,7 @@
 
 /**
  * Psyche Stress (PSY) — the shared inflictor for **Psyche Stress Levels**
- * ([Psychological Condition](https://kb.heroiclands.org/dev/reference/randomness/)).
+ * ([Psychological Condition](https://www.heroiclands.org/sohl/kb/dev-docs/reference/randomness/)).
  *
  * Psyche Stress rarely arises on its own — it spins off another trauma (a Fear or
  * Morale critical, an Aural Shock recovery failure). Each occurrence is recorded

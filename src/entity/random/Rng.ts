@@ -35,7 +35,7 @@
  * matters.
  *
  * **Not cryptographic.** These are for gameplay reproducibility and tests only;
- * never use them for security. See {@link https://kb.heroiclands.org/dev/reference/randomness/}.
+ * never use them for security. See {@link https://www.heroiclands.org/sohl/kb/dev-docs/reference/randomness/}.
  */
 
 /**

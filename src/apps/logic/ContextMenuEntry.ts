@@ -124,7 +124,7 @@ export function makeLogicMethodCallback(
  * deprecated `ContextMenuEntry#condition` in favor of `#visible` (removed in
  * v16), and emitting the legacy key makes Foundry's `ContextMenu` log a
  * compatibility warning on every render. See
- * https://kb.heroiclands.org/dev/concepts/architecture/.
+ * https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/.
  */
 export interface CompiledMenuEntry {
     /** Unique identifier for the entry. */

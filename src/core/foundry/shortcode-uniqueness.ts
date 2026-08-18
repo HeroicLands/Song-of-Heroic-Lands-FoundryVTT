@@ -29,7 +29,7 @@ import { fvttRandomId } from "@src/core/FoundryHelpers";
  * to the create/update operation; otherwise a collision (or a name-less create)
  * is rejected.
  *
- * @see https://kb.heroiclands.org/dev/concepts/architecture/
+ * @see https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/
  */
 
 /** The four uniqueness scopes a `(type, shortcode)` key is unique within. */

@@ -75,7 +75,7 @@ export class WeaponGearLogic<
     /**
      * Build an `update()` payload that appends a strike mode to this weapon's
      * `strikeModes` array. The whole array is written back (never an element by
-     * index — see {@link https://kb.heroiclands.org/dev/reference/runtime-contracts/ | Runtime Contracts}).
+     * index — see {@link https://www.heroiclands.org/sohl/kb/dev-docs/reference/runtime-contracts/ | Runtime Contracts}).
      *
      * @param strikeMode - The strike mode data to add (carries its own `shortcode`).
      * @returns An `update()` payload writing the new `system.strikeModes` array.

@@ -87,9 +87,9 @@ import { toHTMLString } from "@src/utils/helpers";
  * methods on items — use these lifecycle methods instead.
  *
  * See also the
- * [Phase-batched lifecycle](https://kb.heroiclands.org/dev/concepts/architecture/#phase-batched-lifecycle)
+ * [Phase-batched lifecycle](https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/#phase-batched-lifecycle)
  * concept overview and the
- * [Lifecycle Hooks](https://kb.heroiclands.org/dev/how-to/lifecycle-hooks/)
+ * [Lifecycle Hooks](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/lifecycle-hooks/)
  * extension guide.
  *
  * @typeParam TData - The data interface this logic operates on, extending
@@ -655,7 +655,7 @@ export interface SohlLogicData<
      * `finalize()` re-arms these into the event queue on every preparation. Only
      * documents whose data model extends the base `SohlDataModel` (actors, items,
      * combatants) carry it — hence optional here. See
-     * https://kb.heroiclands.org/dev/reference/event-queue/.
+     * https://www.heroiclands.org/sohl/kb/dev-docs/reference/event-queue/.
      */
     scheduledActions?: ScheduledAction[];
     /**

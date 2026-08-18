@@ -31,8 +31,8 @@ const SYSTEM: SohlSystemInfo = {
     version: "0.7.0",
     links: {
         mainSiteUrl: "https://www.heroiclands.org/",
-        knowledgeBaseUrl: "https://kb.heroiclands.org/",
-        apiDocsUrl: "https://api.heroiclands.org/v0.7.0",
+        knowledgeBaseUrl: "https://www.heroiclands.org/sohl/kb/",
+        apiDocsUrl: "https://www.heroiclands.org/sohl/api/",
         issuesUrl:
             "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues",
         discordInviteUrl: "https://discord.gg/EwMfkNd3az/",
@@ -91,13 +91,16 @@ describe("settings sidebar — context builder", () => {
         ]);
     });
 
-    it("surfaces the exact-version API docs URL, not /latest", () => {
+    it("surfaces the API docs URL as given, composing nothing", () => {
+        // One unversioned tree is published, for the newest release (#1452), so
+        // there is no per-version address to build — the manifest's value is
+        // the link. The assertion is that nothing is appended to it.
         const ctx = buildSettingsLinksContext(SYSTEM, idLocalize);
         const api = ctx.links.find(
             (l) => l.label === "SOHL.Settings.HeroicLands.apiDocs",
         );
-        expect(api?.url).toBe("https://api.heroiclands.org/v0.7.0");
-        expect(api?.url).not.toContain("/latest");
+        expect(api?.url).toBe("https://www.heroiclands.org/sohl/api/");
+        expect(api?.url).not.toMatch(/\/(latest|main|v\d)/);
     });
 
     it("omits a link whose URL is absent rather than rendering an empty href", () => {
