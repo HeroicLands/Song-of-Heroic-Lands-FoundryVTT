@@ -14,6 +14,7 @@ import {
     anchorPageId,
     buildWikilinkIndex,
     convertWikilinks,
+    readQualifier,
 } from "../../../utils/packs/wikilinks.mjs";
 import { itemDocEntryId } from "../../../utils/packs/item-docs.mjs";
 
@@ -30,18 +31,33 @@ const DOCS = [
     { type: "containergear", id: "eeeeeeeeeeeeeee1", shortcode: "backpack", name: "Backpack", aliases: ["Backpack"] },
 ];
 
-const index = buildWikilinkIndex(DOCS);
+const index = buildWikilinkIndex(DOCS, "sohl");
 const from = { type: "doc", id: "aaaaaaaaaaaaaaa2" }; // "Bleeding"
 
 const convert = (src: string, ctx = from) =>
     convertWikilinks(src, { ...ctx, index });
 
-describe("packForType (content type → compendium UUID prefix)", () => {
+describe("packForType (content type → the pack it compiles into)", () => {
     it("routes the non-item types to their own packs", () => {
-        expect(packForType("doc")).toBe("Compendium.sohl.journals.JournalEntry");
-        expect(packForType("macro")).toBe("Compendium.sohl.macros.Macro");
-        expect(packForType("character")).toBe("Compendium.sohl.actors.Actor");
-        expect(packForType("creature")).toBe("Compendium.sohl.actors.Actor");
+        // Pack *names*, not addresses: the package that owns them is supplied
+        // by the caller, because it belongs to the repository doing the
+        // building and not to the content (#1498).
+        expect(packForType("doc")).toEqual({
+            pack: "journals",
+            docType: "JournalEntry",
+        });
+        expect(packForType("macro")).toEqual({
+            pack: "macros",
+            docType: "Macro",
+        });
+        expect(packForType("character")).toEqual({
+            pack: "actors",
+            docType: "Actor",
+        });
+        expect(packForType("creature")).toEqual({
+            pack: "actors",
+            docType: "Actor",
+        });
         expect(Object.keys(PACK_BY_TYPE).sort()).toEqual([
             "character",
             "creature",
@@ -55,11 +71,11 @@ describe("packForType (content type → compendium UUID prefix)", () => {
             "armorgear", "weapongear", "containergear", "miscgear", "skill",
             "attribute", "affliction", "trauma", "mystery", "mysticalability",
         ]) {
-            expect(packForType(type)).toBe("Compendium.sohl.items.Item");
+            expect(packForType(type)).toEqual({ pack: "items", docType: "Item" });
         }
         // Item types are the open set, so a type added tomorrow is linkable the
         // day it is authored — no table to forget (#1276).
-        expect(packForType("somenewgear")).toBe("Compendium.sohl.items.Item");
+        expect(packForType("somenewgear")).toEqual({ pack: "items", docType: "Item" });
     });
 });
 
@@ -297,7 +313,7 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
         const withReal = buildWikilinkIndex([
             ...DOCS,
             { type: "docskill", id: "fffffffffffffff1", shortcode: "climb", aliases: [] },
-        ]);
+        ], "sohl");
         const { markdown } = convertWikilinks("[[docskill/climb|X]]", {
             ...from,
             index: withReal,
@@ -368,7 +384,7 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
                 shortcode: "self-pro",
                 aliases: [],
             },
-        ]);
+        ], "sohl");
         const { markdown, unresolved } = convertWikilinks(
             "[[trauma-self-pro|Self-Protective]]",
             { ...from, index: withHyphenCode },
@@ -392,7 +408,7 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
                 shortcode: "grukarahk",
                 aliases: ["Grukar-ahk"],
             },
-        ]);
+        ], "sohl");
         const { markdown, unresolved } = convertWikilinks("[[Grukar-ahk]]", {
             ...from,
             index: withDash,
@@ -464,13 +480,57 @@ describe("convertWikilinks — an unlabelled link (#1409)", () => {
     it("falls back to the target when the document has no name", () => {
         const nameless = buildWikilinkIndex([
             { type: "doc", id: "88888888888888a1", shortcode: "nameless", aliases: [] },
-        ]);
+        ], "sohl");
         const { markdown } = convertWikilinks("[[doc-nameless]]", {
             ...from,
             index: nameless,
         });
         expect(markdown).toBe(
             "@UUID[Compendium.sohl.journals.JournalEntry.88888888888888a1]{doc-nameless}",
+        );
+    });
+});
+
+describe("readQualifier — the optional package segment (#1499)", () => {
+    const TYPES = new Set(["skill", "doc", "creature"]);
+    const PACKAGES = new Set(["sohl", "thalorna"]);
+
+    it("reads a package-qualified address and reports the package", () => {
+        expect(readQualifier("sohl-skill-lang", TYPES, PACKAGES)).toEqual({
+            type: "skill",
+            shortcode: "lang",
+            itemDoc: false,
+            package: "sohl",
+        });
+    });
+
+    it("leaves the package undefined on a bare address, which defaults to local", () => {
+        const read = readQualifier("skill-lang", TYPES, PACKAGES);
+        expect(read).toMatchObject({ type: "skill", shortcode: "lang" });
+        expect(read).not.toHaveProperty("package");
+    });
+
+    it("ignores the package reading when no packages are supplied", () => {
+        // The pack build passes none, so behaviour there is exactly as before.
+        expect(readQualifier("sohl-skill-lang", TYPES)).toBeNull();
+    });
+
+    it("does not treat a note name as a package just because it has hyphens", () => {
+        // "Grukar-ahk" is an alias, not an address — the segment before the
+        // hyphen has to be a package this build knows, and the remainder has to
+        // parse as an address in its own right.
+        expect(readQualifier("Grukar-ahk", TYPES, PACKAGES)).toBeNull();
+        expect(readQualifier("sohl-notatype-x", TYPES, PACKAGES)).toBeNull();
+    });
+
+    it("still reads the virtual doc<type> form under a package", () => {
+        expect(readQualifier("thalorna-docskill-wpnc", TYPES, PACKAGES)).toEqual(
+            {
+                type: "skill",
+                shortcode: "wpnc",
+                itemDoc: true,
+                package: "thalorna",
+            },
         );
     });
 });

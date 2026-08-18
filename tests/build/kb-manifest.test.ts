@@ -42,7 +42,11 @@ const entry = (type: string, shortcode: string, name: string, url: string) => ({
 interface Manifest {
     version: number;
     package: string;
-    entries: Record<string, { path: string; name: string }>;
+    foundryPackage?: string;
+    entries: Record<
+        string,
+        { path: string; name: string; uuid?: string; docUuid?: string }
+    >;
 }
 const manifestOf = (doc: unknown) => doc as Manifest;
 
@@ -106,7 +110,7 @@ describe("resolvePackageUrl", () => {
 });
 
 describe("buildManifest", () => {
-    it("keys entries by type/shortcode and records a package-relative path", () => {
+    it("keys entries canonically and records a package-relative path", () => {
         const doc = manifestOf(
             buildManifest(
                 "sohl",
@@ -116,7 +120,9 @@ describe("buildManifest", () => {
         );
         expect(doc.version).toBe(MANIFEST_VERSION);
         expect(doc.package).toBe("sohl");
-        expect(doc.entries["skill/climb"]).toEqual({
+        // Canonical: fully qualified, so the key is globally unique and a
+        // foreign manifest merges straight into a local index (#1499).
+        expect(doc.entries["sohl/skill/climb"]).toEqual({
             path: "skill/climbing/",
             name: "Climbing",
         });
@@ -137,7 +143,7 @@ describe("buildManifest", () => {
                 "/thalorna/",
             ),
         );
-        expect(doc.entries["creature/grkrahk"].path).toBe(
+        expect(doc.entries["thalorna/creature/grkrahk"].path).toBe(
             "creature/grukar-ahk/",
         );
     });
@@ -157,7 +163,7 @@ describe("buildManifest", () => {
                 "/",
             ),
         );
-        expect(Object.keys(doc.entries)).toEqual(["skill/climb"]);
+        expect(Object.keys(doc.entries)).toEqual(["sohl/skill/climb"]);
     });
 
     it("sorts keys so the committed file diffs only on real change", () => {
@@ -171,7 +177,10 @@ describe("buildManifest", () => {
                 "/",
             ),
         );
-        expect(Object.keys(doc.entries)).toEqual(["skill/alpha", "skill/zeta"]);
+        expect(Object.keys(doc.entries)).toEqual([
+            "sohl/skill/alpha",
+            "sohl/skill/zeta",
+        ]);
     });
 });
 
@@ -341,10 +350,52 @@ describe("writeManifests", () => {
             { thalorna: "/" },
         );
         const r = loadForeignManifests(dir, ["sohl"], PACKAGE_BASE);
-        expect(r.index.get("creature/grkrahk")).toMatchObject({
+        expect(r.index.get("thalorna/creature/grkrahk")).toMatchObject({
             url: "/thalorna/creature/grukar-ahk/",
             name: "Grukar-ahk",
+            // Read back off the canonical key, so a consumer can recognise a
+            // foreign package's types as addresses at all.
+            type: "creature",
         });
+    });
+
+    it("carries the Foundry address when a foundry package is given", () => {
+        const doc = manifestOf(
+            buildManifest(
+                "thalorna",
+                [
+                    {
+                        fm: {
+                            type: "creature",
+                            shortcode: "grkrahk",
+                            id: "abcdefabcdef0123",
+                        },
+                        name: "Grukar-ahk",
+                        url: "/creature/grukar-ahk/",
+                    },
+                ],
+                "/",
+                "sohl-thalorna",
+            ),
+        );
+        expect(doc.foundryPackage).toBe("sohl-thalorna");
+        expect(doc.entries["thalorna/creature/grkrahk"].uuid).toBe(
+            "Compendium.sohl-thalorna.actors.Actor.abcdefabcdef0123",
+        );
+    });
+
+    it("omits the Foundry address for a note that compiles into no document", () => {
+        // No `id`, so it becomes no Foundry document. Inventing a UUID would
+        // assert a target that does not exist.
+        const doc = manifestOf(
+            buildManifest(
+                "sohl",
+                [entry("skill", "climb", "Climbing", "/skill/climbing/")],
+                "/",
+                "sohl",
+            ),
+        );
+        expect(doc.entries["sohl/skill/climb"].uuid).toBeUndefined();
     });
 });
 

@@ -42,3 +42,71 @@ export function makeId(namespace, value) {
         .digest("hex")
         .slice(0, 16);
 }
+
+/**
+ * Content type → the pack its documents compile into, and the document type
+ * that pack holds.
+ *
+ * These are pack **names**, not addresses. The package that owns the pack is
+ * supplied by the caller, because it is a property of the repository doing the
+ * building and not of the content: the same notes compiled by a different
+ * repository belong to a different package. Baking the package into these
+ * values is what made every link emitted by `sohl-thalorna` address the `sohl`
+ * system (#1498) — correct here only by coincidence.
+ *
+ * @type {Readonly<Record<string, {pack: string, docType: string}>>}
+ */
+export const PACK_BY_TYPE = Object.freeze({
+    doc: { pack: "journals", docType: "JournalEntry" },
+    macro: { pack: "macros", docType: "Macro" },
+    character: { pack: "actors", docType: "Actor" },
+    creature: { pack: "actors", docType: "Actor" },
+});
+
+/** Where every other content type compiles: the items pack. */
+export const ITEM_PACK = Object.freeze({ pack: "items", docType: "Item" });
+
+/**
+ * The pack a type's documents live in.
+ *
+ * Item types are the open set — a new one is added whenever the system grows a
+ * document type — so they are the **default** rather than an enumerated list. A
+ * hand-maintained list is what made an entire content directory silently
+ * unlinkable once (#1276); nothing to maintain, nothing to forget.
+ *
+ * @param {string} type - The target note's `type`.
+ * @returns {{pack: string, docType: string}} The pack and document type.
+ */
+export function packForType(type) {
+    return PACK_BY_TYPE[type] ?? ITEM_PACK;
+}
+
+/**
+ * A document's full compendium UUID.
+ *
+ * This is the one place a UUID is spelled. Every link is resolved by looking up
+ * an address computed here — never by concatenating a prefix at the point of
+ * use, which is how the package came to be hard-coded in two separate files.
+ *
+ * @param {string} packageId - The Foundry package that ships the pack, e.g.
+ *   `sohl`. A system id or a module id; Foundry addresses both the same way.
+ * @param {string} type - The note's content `type`.
+ * @param {string} id - The document's id.
+ * @returns {string} `Compendium.<packageId>.<pack>.<DocumentType>.<id>`
+ */
+export function compendiumUuid(packageId, type, id) {
+    const { pack, docType } = packForType(type);
+    return `Compendium.${packageId}.${pack}.${docType}.${id}`;
+}
+
+/**
+ * The UUID of a JournalEntry page.
+ *
+ * @param {string} entryUuid - The owning entry's UUID, from
+ *   {@link compendiumUuid}.
+ * @param {string} pageId - The page's id.
+ * @returns {string} The page's UUID.
+ */
+export function pageUuid(entryUuid, pageId) {
+    return `${entryUuid}.JournalEntryPage.${pageId}`;
+}

@@ -59,6 +59,7 @@ import {
 // outside the `@src` alias tree.
 import { defaultItemArt } from "../../src/utils/default-item-art.mjs";
 import { journalPageId, splitPages } from "./journals.mjs";
+import { FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { ITEM_TYPES, itemDocEntryId, itemDocPointer } from "./item-docs.mjs";
 
 const STATS = buildStats("0.6.0");
@@ -87,7 +88,7 @@ function itemDescription(markdown, fm, name) {
     if (!String(markdown).trim()) return "";
     const [leadPage] = splitPages(markdown, name);
     const pageId = journalPageId(itemDocEntryId(fm.id), leadPage, 0);
-    return itemDocPointer(fm.id, name, pageId);
+    return itemDocPointer(FOUNDRY_PACKAGE_ID, fm.id, name, pageId);
 }
 
 /**

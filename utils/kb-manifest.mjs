@@ -45,6 +45,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { compendiumUuid } from "./packs/ids.mjs";
+import { itemDocEntryId } from "./packs/item-docs.mjs";
+
 /**
  * Packages that publish a web surface and therefore exchange manifests.
  *
@@ -55,6 +58,32 @@ import path from "node:path";
 export const LINK_PACKAGES = Object.freeze(["sohl", "thalorna"]);
 
 /**
+ * The **canonical** address of a note: fully qualified, one spelling per
+ * document, and globally unique.
+ *
+ * The written form of a link may omit the package (`[[skill-lang]]`), which
+ * defaults it to the citing note's own. Everything internal — index keys,
+ * manifest keys, every lookup — uses this instead, so no consumer has to know
+ * what a short form defaulted to.
+ *
+ * Global uniqueness is what lets a foreign manifest merge straight into a local
+ * index: the keys cannot collide by accident, so a key already present on merge
+ * is a real conflict rather than an artefact of two packages sharing a
+ * namespace. `(type, shortcode)` alone is unique only *within* a package, and
+ * two independently authored packages reaching for the same short string is a
+ * matter of time (#1499).
+ *
+ * @param {string} pkg - The owning **content** package (`sohl`, `thalorna`) —
+ *   not the Foundry package, which varies per compilation target.
+ * @param {string} type - The note's `type`.
+ * @param {string} shortcode - The note's `shortcode`.
+ * @returns {string} `package/type/shortcode`, lowercased.
+ */
+export function canonicalKey(pkg, type, shortcode) {
+    return `${pkg}/${type}/${shortcode}`.toLowerCase();
+}
+
+/**
  * Manifest format version.
  *
  * Bumped to 2 by #1465: entries changed from a site-absolute `url` to a
@@ -62,8 +91,14 @@ export const LINK_PACKAGES = Object.freeze(["sohl", "thalorna"]);
  * reader — prefixing a v1 `url` yields `/thalorna/thalorna/…`, which resolves,
  * renders, and 404s — so the version is what makes a stale vendored file an
  * error rather than a wrong link.
+ *
+ * Bumped to 3 by #1499: keys became **canonical** — fully qualified
+ * `package/type/shortcode` rather than `type/shortcode` — and entries gained the
+ * Foundry `uuid` / `docUuid` beside the web `path`. A v2 key read as a v3 one
+ * addresses a package named after a type, so again the version is what turns a
+ * stale vendored file into an error.
  */
-export const MANIFEST_VERSION = 2;
+export const MANIFEST_VERSION = 3;
 
 /**
  * Where this build serves each package, keyed by package name.
@@ -156,23 +191,41 @@ export function resolvePackageUrl(rel, base) {
  * @param {Array<object>} entries - KB entries (`{ fm, name, url }`).
  * @param {string} base - Where *this* build serves `pkg`, stripped from each
  *   entry's URL so the recorded address is package-relative (#1465).
+ * @param {string} [foundryPackage] - The Foundry package this build ships the
+ *   compiled documents in. Given, each entry also carries the `uuid` /
+ *   `docUuid` a pack build resolves against; omitted, the manifest describes
+ *   the web surface only.
  * @returns {object} The manifest document.
  */
-export function buildManifest(pkg, entries, base) {
+export function buildManifest(pkg, entries, base, foundryPackage) {
     checkBase(base, `buildManifest(${pkg})`);
     const out = {};
     for (const e of entries) {
         const type = e.fm?.type;
         const shortcode = e.fm?.shortcode;
         if (!type || typeof shortcode !== "string" || !shortcode) continue;
-        out[`${type}/${shortcode}`.toLowerCase()] = {
+        const entry = {
             path: packageRelative(e.url, base),
             name: e.name,
         };
+        // The Foundry address, for consumers compiling packs rather than pages.
+        // Omitted when the note carries no `id`: it then compiles into no
+        // document, and inventing a UUID for it would assert a target that
+        // does not exist. A consumer must tolerate an entry without one.
+        if (foundryPackage && e.fm?.id) {
+            entry.uuid = compendiumUuid(foundryPackage, type, e.fm.id);
+            entry.docUuid = compendiumUuid(
+                foundryPackage,
+                "doc",
+                itemDocEntryId(e.fm.id),
+            );
+        }
+        out[canonicalKey(pkg, type, shortcode)] = entry;
     }
     return {
         version: MANIFEST_VERSION,
         package: pkg,
+        ...(foundryPackage ? { foundryPackage } : {}),
         // Sorted so the file is stable across builds and a diff shows only real
         // change — it is committed by whoever vendors it.
         entries: Object.fromEntries(
@@ -194,13 +247,21 @@ export function buildManifest(pkg, entries, base) {
  *   it, which is what each entry's address is recorded relative to. This is the
  *   emitting build's own layout, not {@link PACKAGE_BASE}: a package's own site
  *   commonly serves it at `"/"` while a consumer mounts it under a prefix.
+ * @param {Record<string, string>} [foundryPackages] - Package → the Foundry
+ *   package shipping its documents. Only a package this build publishes can
+ *   have one, since the UUID names where *this* repository ships them.
  * @returns {Array<{ package: string, file: string, count: number }>} What was written.
  */
-export function writeManifests(entriesByPackage, dir, bases) {
+export function writeManifests(entriesByPackage, dir, bases, foundryPackages) {
     fs.mkdirSync(dir, { recursive: true });
     const written = [];
     for (const [pkg, entries] of entriesByPackage) {
-        const doc = buildManifest(pkg, entries, bases?.[pkg]);
+        const doc = buildManifest(
+            pkg,
+            entries,
+            bases?.[pkg],
+            foundryPackages?.[pkg],
+        );
         const file = path.join(dir, `${pkg}.json`);
         fs.writeFileSync(file, `${JSON.stringify(doc, null, 2)}\n`);
         written.push({
@@ -227,7 +288,9 @@ export function writeManifests(entriesByPackage, dir, bases) {
  * @param {Record<string, string>} [bases] - Package → base to resolve against;
  *   defaults to {@link PACKAGE_BASE}.
  * @returns {{ index: Map<string, object>, packages: Set<string>, stale: Array<object> }}
- *   `index` maps `type/shortcode` → `{ url, name, package }`.
+ *   `index` maps the canonical `package/type/shortcode` → `{ url, name, uuid,
+ *   docUuid, type, package }`. Keys are globally unique, so this merges
+ *   directly into a local index with no prefixing and no separate lookup path.
  */
 export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
     const local = new Set(localPackages);
@@ -276,9 +339,19 @@ export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
         const resolved = [];
         try {
             for (const [key, v] of Object.entries(doc.entries ?? {})) {
+                // Canonical keys are `package/type/shortcode` (v3). The type is
+                // read back out so a consumer can recognise a foreign package's
+                // types as addresses at all.
+                const [, type] = key.split("/");
                 resolved.push([
                     key,
-                    { name: v.name, url: resolvePackageUrl(v.path, base) },
+                    {
+                        name: v.name,
+                        url: resolvePackageUrl(v.path, base),
+                        uuid: v.uuid,
+                        docUuid: v.docUuid,
+                        type,
+                    },
                 ]);
             }
         } catch (err) {

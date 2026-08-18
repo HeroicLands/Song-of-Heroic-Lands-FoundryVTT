@@ -33,11 +33,16 @@ import matter from "gray-matter";
 
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
 import {
+    canonicalKey,
     writeManifests,
     loadForeignManifests,
     manifestsComplete,
 } from "./kb-manifest.mjs";
 import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
+import {
+    CONTENT_PACKAGE,
+    FOUNDRY_PACKAGE_ID,
+} from "./packs/content-package.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { applyRedirects, pageRedirects } from "./kb-redirects.mjs";
 import { isItemDocType } from "./packs/item-docs.mjs";
@@ -657,15 +662,56 @@ if (foreign.stale.length) {
 }
 const manifests = manifestsComplete(localPackages, foreign.packages);
 
+// Every key is canonical and therefore globally unique, so a foreign manifest
+// merges straight into the local index — one map, one lookup, no precedence
+// rule. A key already present is a genuine conflict: two packages claiming one
+// address, which is the case the canonical form exists to make detectable.
+const linkConflicts = [];
+// A bare `[[doc-xyz]]` carries no package, so it must still find a foreign note
+// when exactly one package publishes that address. Claimed twice, it is genuinely
+// ambiguous and the author has to write the qualified form — the same rule the
+// type-scoped aliases above already use, one level out.
+const foreignShort = new Map();
+const foreignShortAmbiguous = new Set();
+for (const [key, v] of foreign.index) {
+    if (wikiIndex.has(key)) {
+        linkConflicts.push({ key, package: v.package });
+        continue;
+    }
+    wikiIndex.set(key, v);
+
+    const short = key.slice(key.indexOf("/") + 1);
+    if (
+        foreignShort.has(short) &&
+        foreignShort.get(short).package !== v.package
+    ) {
+        foreignShortAmbiguous.add(short);
+    } else {
+        foreignShort.set(short, v);
+    }
+}
+for (const short of foreignShortAmbiguous) foreignShort.delete(short);
+// Local wins: a live build is authoritative and a vendored manifest can only be
+// staler, so a short key the local tree already claims is left alone.
+for (const [short, v] of foreignShort) {
+    if (!wikiIndex.has(short)) wikiIndex.set(short, v);
+}
+if (linkConflicts.length) {
+    console.error("\n\u2716 address claimed by more than one package:");
+    for (const c of linkConflicts) {
+        console.error(`  ${c.key} — also published by ${c.package}`);
+    }
+    process.exit(1);
+}
+
 const typeAlias = new Map(); // `type|alias` → { url, name }
 const typeCollide = new Set();
 const contentTypes = new Set();
 // A foreign package may use a type this build has never seen. Seeding those
 // here is what lets `readQualifier` recognise `polity-xyz` as an address at
 // all — without it the link is read as prose and silently loses its href.
-for (const k of foreign.index.keys()) {
-    const slash = k.indexOf("/");
-    if (slash > 0) contentTypes.add(k.slice(0, slash));
+for (const v of foreign.index.values()) {
+    if (v.type) contentTypes.add(v.type);
 }
 for (const e of entries) {
     if (e.kind !== "content") continue; // developer docs carry no type/shortcode
@@ -674,6 +720,12 @@ for (const e of entries) {
     const v = { url: e.url, name: e.name };
     if (typeof e.fm.shortcode === "string" && e.fm.shortcode) {
         wikiIndex.set(`${type}/${e.fm.shortcode}`.toLowerCase(), v);
+        // The canonical, fully qualified address alongside the short one. The
+        // short form stays because a bare `[[skill-lang]]` defaults to the
+        // citing note's own package and must keep resolving unchanged; the
+        // canonical form is what a cross-package link and every merged foreign
+        // entry use, in one key space (#1499).
+        wikiIndex.set(canonicalKey(e.fm.package, type, e.fm.shortcode), v);
         // In Foundry an item and its documentation are two separate documents,
         // so `skill/wpnc` and `docskill/wpnc` resolve to two different UUIDs
         // (#1362). Here the item note renders as one page which *is* its
@@ -887,7 +939,16 @@ for (const e of entries) {
 const localBases = Object.fromEntries(
     [...byPackage.keys()].map((pkg) => [pkg, LOCAL_BASE]),
 );
-for (const w of writeManifests(byPackage, MANIFEST_OUT, localBases)) {
+// Only a package this build actually publishes gets a Foundry address: the
+// UUID names where *this* repository ships the documents, which it can only
+// speak for on its own package.
+const localFoundryPackages = { [CONTENT_PACKAGE]: FOUNDRY_PACKAGE_ID };
+for (const w of writeManifests(
+    byPackage,
+    MANIFEST_OUT,
+    localBases,
+    localFoundryPackages,
+)) {
     console.log(
         `kb-content: manifest ${w.package} — ${w.count} addressable note(s)`,
     );

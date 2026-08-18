@@ -48,7 +48,12 @@ describe("itemDocEntryId (the JournalEntry an item's prose moves to)", () => {
 /** The pointer the items pass writes for a note, derived exactly as it does. */
 function pointerFor(itemId: string, name: string, markdown: string): string {
     const [lead] = splitPages(markdown, name);
-    return itemDocPointer(itemId, name, journalPageId(itemDocEntryId(itemId), lead, 0));
+    return itemDocPointer(
+        "sohl",
+        itemId,
+        name,
+        journalPageId(itemDocEntryId(itemId), lead, 0),
+    );
 }
 
 describe("itemDocPointer (the description an item carries instead of prose)", () => {

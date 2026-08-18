@@ -33,6 +33,7 @@ import unidecode from "unidecode";
 import markdownit from "markdown-it";
 import log from "loglevel";
 
+import { FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
 import { expandContentTables } from "../content-tables.mjs";
 
@@ -468,7 +469,7 @@ export function buildContentLinkIndex(contentBase) {
         });
     }
     log.debug(`Wikilink index: ${docs.length} linkable document(s)`);
-    return buildWikilinkIndex(docs);
+    return buildWikilinkIndex(docs, FOUNDRY_PACKAGE_ID);
 }
 
 /**
