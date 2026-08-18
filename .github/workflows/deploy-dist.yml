@@ -13,8 +13,8 @@ name: Publish dist Branch
 # Markdown, not rendered HTML: the site owns the layouts and runs Hugo, so
 # nothing here needs Hugo or the shared-theme submodule.
 #
-# This workflow deploys nothing. deploy-kb.yml and deploy-docs.yml still own the
-# live sites; this is purely additive and publishes build output.
+# This workflow deploys nothing. deploy-sohl.yml owns the live site; this is
+# purely additive and publishes build output. Retiring it is #1467.
 
 on:
     # The knowledgebase half tracks main. The path filter mirrors deploy-kb.yml's
@@ -29,7 +29,7 @@ on:
             - "assets/manifests/**"
             - "utils/**"
             - ".github/workflows/deploy-dist.yml"
-    # The API half tracks the newest release. As in deploy-docs.yml, a Release
+    # The API half tracks the newest release. As in deploy-sohl.yml, a Release
     # created with GITHUB_TOKEN cannot fire a `release:` event, so the release
     # workflow's completion is the seam. Nothing is passed between the two — the
     # newest release tag is resolved here — so a run that released nothing
