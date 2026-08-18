@@ -39,6 +39,9 @@ _Song of Heroic Lands_ is dual-licensed.
 | Source code                        | [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html)   |
 | Documentation and creative content | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 
+The authoritative terms, including the exact list of what counts as content, are
+in [LICENSE.md](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/LICENSE.md).
+
 Creative content means the game rules text, narrative and lore, item
 descriptions, world data, images, icons, and other non-code assets — everything
 under `assets/`, everything in the knowledgebase, and every Markdown file in the
@@ -65,7 +68,9 @@ above cover the software and creative content only, and grant no trademark
 rights. This is consistent with CC BY-SA 4.0 §2(b)(2) and GPL-3.0 §7.
 
 You may fork the code. A modified version must be renamed and must not use these
-marks. For permission, contact <toasty@heroiclands.org>.
+marks — see the _Trademarks & Service Marks_ section of
+[LICENSE.md](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/LICENSE.md#trademarks--service-marks) for the full terms. For
+permission, contact <toasty@heroiclands.org>.
 
 # Third-Party Artwork
 
@@ -106,9 +111,10 @@ Starseeker, Catsu, [Irongamer](http://ecesisllc.wix.com/home),
 [Sparker](http://citizenparker.com), [John Colburn](http://ninmunanmu.com),
 SpencerDub, Various Artists, and the badge contributors.
 
-The complete per-author table, with folder names and exact counts, ships with the
-system as `assets/icons/game-icons/ATTRIBUTION.md`, alongside the upstream
-`license.txt`.
+The [complete per-author table](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/assets/icons/game-icons/ATTRIBUTION.md),
+with folder names and exact counts, also ships with the system at
+`assets/icons/game-icons/ATTRIBUTION.md`, alongside the
+[upstream notice](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/assets/icons/game-icons/license.txt).
 
 **Modifications.** CC BY 3.0 §4(a) asks that changes be indicated. SoHL injects a
 theme-aware dark-mode fill rule into each SVG at build time so the solid-black
@@ -118,7 +124,7 @@ artwork adapts to light and dark interfaces. The artwork is otherwise unchanged.
 
 Interface icons not drawn from the Game-Icons set come from
 [The Noun Project](https://thenounproject.com/), with per-icon credit recorded in
-the project's `README.md`.
+[the project's README](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/README.md#credits).
 
 # Compatibility & Independence
 
