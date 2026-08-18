@@ -196,6 +196,7 @@ build/
 ├── docs-html/        the generated API documentation (from docs:html)
 ├── site/             THE DEPLOYABLE WEBSITE — what Cloudflare Pages serves
 │   ├── _redirects    sends the deployment's own root to /sohl/
+│   ├── _headers      noindex on the host-assigned *.pages.dev addresses
 │   ├── 404.html      a real 404 for a path outside /sohl/
 │   └── sohl/         everything published at www.heroiclands.org/sohl/
 │       ├── index.html  the package landing page
@@ -569,7 +570,7 @@ Foundry instance, and all of it is one site: everything under
 
 `npm run build:site` produces the whole thing locally, and
 `.github/workflows/deploy-sohl.yml` produces and deploys it in CI — one build,
-one deploy, one hosting project (#1470). Four things about it are worth knowing
+one deploy, one hosting project (#1470). A few things about it are worth knowing
 before you change any of it.
 
 **The deployment carries the `/sohl/` prefix physically.** `publishDir` in
@@ -579,6 +580,20 @@ deployment exactly as it will against `www`. That is what lets the hosting
 project be checked at its own `*.pages.dev` address before any routing points at
 it, and it leaves the routing layer (#1468) a path-preserving pass-through with
 nothing to rewrite.
+
+**The hosting project's own address is `noindex`, the canonical path is not.**
+A Cloudflare Pages project answers at `<project>.pages.dev` (and at
+`<deployment>.<project>.pages.dev` for every deployment) as well as under
+`www.heroiclands.org/sohl/`. Nothing advertises it, but it serves the same
+pages, so `build/site/_headers` marks those hostnames — and only those —
+`X-Robots-Tag: noindex` (#1469). The rules are host-scoped rather than blanket
+so the tree stays correct anywhere it is deployed: under its own domain it is
+indexable. The hosting cannot tell the routing layer's request apart from a
+reader's, since it is the same URL at the same address, so the header reaches
+`www` too and the router (`heroiclands-site`, `worker/`) drops it there — the
+one place the two addresses are distinguishable. A page that must not be indexed
+at *any* address says so in the document (`<meta name="robots">`), which is
+passed through untouched.
 
 **Both surfaces are rebuilt on every run**, even though they track different
 refs. A Cloudflare Pages deploy replaces the whole tree, so a run that published
