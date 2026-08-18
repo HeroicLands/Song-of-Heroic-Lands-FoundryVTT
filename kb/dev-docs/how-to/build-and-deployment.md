@@ -603,54 +603,6 @@ relocation is edited. One consequence worth remembering: a Hugo `alias` is
 publishDir-relative and does **not** get the baseURL path added, so
 `applyRedirects` strips the site root on the way into the frontmatter.
 
-### The `dist` branch
-
-Superseded by the deploy above, and still running: the knowledgebase content and
-the API documentation are **also** published as build output to a `dist` branch
-by `.github/workflows/deploy-dist.yml`, from when `heroiclands-site` was to
-assemble `/sohl/` itself (#1444, before its amendment). Retiring it is #1467.
-
-| Path on `dist` | Contents                                             | Built from             | Refreshed on                                          |
-| -------------- | ---------------------------------------------------- | ---------------------- | ----------------------------------------------------- |
-| `kb-content/`  | Knowledgebase Markdown, as `build:kb-content` emits it | `main`                 | push to `main` touching `kb/`, `assets/content/`, `assets/manifests/`, or `utils/` |
-| `api/`         | TypeDoc HTML, as `docs:html` emits it                | the newest release tag | completion of `Version and Release`                   |
-| `metadata.json`| The source commit behind each half                   | —                      | every publish                                          |
-
-Four properties are worth knowing before you touch that workflow:
-
-- **Markdown, not rendered HTML.** The knowledgebase half publishes the Hugo
-  _content_ tree, for a consumer that would own the layouts and run Hugo itself.
-  This repository does both, so nothing consumes that any more.
-- **The two halves are independent.** Each publish rewrites only the half it
-  built and carries the other forward from the branch's current tip, because
-  they refresh on entirely different cadences.
-- **The branch has no history.** Every publish force-pushes a single orphan
-  commit, so `dist` never accretes a copy of the API documentation per release.
-  Unchanged files still dedupe to the same blobs, so the push stays small. Nothing
-  on `dist` is source and nothing there is reviewed — a pull request against it
-  would be overwritten by the next run. Change the generators on `main`.
-- **It is consumed with an ordinary checkout**
-  (`git clone --depth 1 --branch dist …`) and needs no credentials beyond
-  repository read.
-
-After a successful publish the workflow sends a `repository_dispatch` to
-`heroiclands-site` so the site rebuilds. That needs a `SITE_DISPATCH_TOKEN`
-repository secret (a PAT with `contents: write` on that repository); with the
-secret unset the step is skipped, and the site picks the change up on its next
-build.
-
-**The API half rebuilds only when the release tag changes.** `Version and Release`
-completes on every push to `main`, not only on the ones that release something, so
-that trigger usually fires for a tag already on `dist`. Since the documentation is
-built from the tag's own tree and lockfile, a rebuild would be byte-identical — so
-the workflow compares the newest tag against `metadata.json` and skips the TypeDoc
-build outright.
-
-To republish by hand, run the **Publish dist Branch** workflow from the Actions
-tab; its one input selects which half to rebuild (`both`, `kb-content`, or
-`api`). A manual dispatch bypasses the skip check and always rebuilds — that is
-the escape hatch when a publish went wrong.
-
 ## 9. The build utility scripts
 
 The build/deploy/doc/pack tooling lives in **`utils/`** (with the pack tooling
