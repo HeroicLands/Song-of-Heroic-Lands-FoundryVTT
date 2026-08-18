@@ -20,7 +20,7 @@ See also: [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.m
 (the result classes and opposed-test math), [Scene, Token, and Combatant
 Systems](../reference/scene-token-combatant.md) (the combatant model),
 [Macros and Actions](./macros-and-actions.md), and the player-facing
-[Combat Basics](https://heroiclands.org/sohl/user-guide/) guide.
+[Combat Basics](https://www.heroiclands.org/sohl/kb/user-guide/combat-basics/) guide.
 
 ## Two modes, one rules engine
 

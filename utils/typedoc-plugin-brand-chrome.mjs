@@ -16,8 +16,10 @@ import { JSX } from "typedoc";
 /**
  * TypeDoc plugin: wrap the API site in the shared Heroic Lands brand chrome.
  *
- * api.heroiclands.org, www.heroiclands.org, and kb.heroiclands.org are meant to
- * read as one property. www and the KB share `HeroicLands/heroiclands-hugo-theme`;
+ * The API documentation, the knowledgebase and the site are one property, and
+ * since #1470 one hostname: everything this repository publishes is a path under
+ * www.heroiclands.org/sohl/. The site and the KB share
+ * `HeroicLands/heroiclands-hugo-theme`;
  * this plugin brings the generated API docs into the same look without a bespoke
  * TypeDoc theme, by injecting the theme's masthead, footer, palette, and fonts
  * through the renderer's page hooks:
@@ -29,8 +31,9 @@ import { JSX } from "typedoc";
  *   generated content recolors through TypeDoc's own cascade in either theme, and
  *   (b) carries only the `.site-header` / `.site-footer` component rules copied
  *   from the theme.
- * - `body.begin` — the static masthead (logo + nav), with **absolute** www URLs so
- *   cross-domain navigation works, mirroring the KB's cross-domain nav.
+ * - `body.begin` — the static masthead (logo + nav), with absolute www URLs, as
+ *   the knowledgebase's nav also uses — the docs are generated to a fixed tree
+ *   and cannot resolve a link against the page's own depth the way Hugo does.
  * - `body.end` — the static footer and the mobile nav-toggle script.
  *
  * The nav mirrors the theme's `menu.main`; keep it in sync when the theme menu
@@ -265,11 +268,11 @@ const HEADER_HTML = `
           <svg class="dropdown-arrow" width="10" height="6" viewBox="0 0 10 6" fill="currentColor"><path d="M1 1l4 4 4-4"/></svg>
         </a>
         <div class="dropdown-menu">
-          <a href="${WWW}/projects/sohl/" class="dropdown-item">Song of Heroic Lands</a>
+          <a href="${WWW}/projects/song-of-heroic-lands/" class="dropdown-item">Song of Heroic Lands</a>
           <a href="${WWW}/projects/hm3/" class="dropdown-item">HârnMaster 3</a>
           <a href="${WWW}/projects/modules/" class="dropdown-item">Modules</a>
-          <a href="https://api.heroiclands.org/" class="dropdown-item">API Documentation</a>
-          <a href="https://kb.heroiclands.org/" class="dropdown-item">KnowledgeBase</a>
+          <a href="https://www.heroiclands.org/sohl/api/" class="dropdown-item">API Documentation</a>
+          <a href="https://www.heroiclands.org/sohl/kb/" class="dropdown-item">KnowledgeBase</a>
         </div>
       </div>
       <a href="${WWW}/license/" class="nav-link">License</a>

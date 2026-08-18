@@ -22,7 +22,7 @@
  * a dialog to gather those same parameters). Nothing is consumed or locked;
  * state lives in the posted cards, so a card can be ignored, answered later, or
  * overridden — see the security/consent model at
- * https://kb.heroiclands.org/dev/concepts/security-model/.
+ * https://www.heroiclands.org/sohl/kb/dev-docs/concepts/security-model/.
  *
  * {@link buildActionCard} is a pure assembler: it renders a caller-authored card
  * **body** (its own template or inline content — buttons are *not* part of it)

@@ -5,7 +5,7 @@
 Make `/rules/` the rules, the way `/user-guide/` is the user guide
 ([#1318](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1318)).
 
-The **Rules** card on [kb.heroiclands.org](https://kb.heroiclands.org/) landed on
+The **Rules** card on [the knowledgebase](https://www.heroiclands.org/sohl/kb/) landed on
 `/rules/` — an automatically generated section listing. A reader who clicked it
 arrived at a flat index of every page filed under the section, with nothing to say
 which of them the rules begin at. The reading order added in #1316 was one click

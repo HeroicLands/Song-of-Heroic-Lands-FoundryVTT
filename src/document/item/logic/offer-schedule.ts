@@ -19,7 +19,7 @@
  * Same mechanism either way — offer, and only a human's yes schedules it — so the
  * Prime Directive (`nothing auto-schedules`) is structural.
  *
- * Following the [self-sufficient action contract](https://kb.heroiclands.org/dev/concepts/action-cards/)
+ * Following the [self-sufficient action contract](https://www.heroiclands.org/sohl/kb/dev-docs/concepts/action-cards/)
  * and the prefer-dialog rule: the decision comes from `context.scope.schedule`
  * when a caller pre-supplied it, else from a private dialog **whose affirmative
  * (Schedule) is the default** — the human is present on this client, so it prompts

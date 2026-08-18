@@ -87,7 +87,7 @@ export interface SohlTourConfig {
      * abort, Escape, navigation, or a mid-step error). Only a driven/railroaded
      * tour (the Automated Combat tour) should use this — never a coach-and-wait
      * tour, and never a play path. See the seeded-RNG lifecycle in the
-     * [authoring guide](https://kb.heroiclands.org/dev/how-to/guided-tours/).
+     * [authoring guide](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/guided-tours/).
      */
     seedRng?: string | number | number[];
 }
@@ -145,7 +145,7 @@ const STATE_HOOKS = [
  *    navigation, mid-step error) via a fire-once {@link sohl.entity.tour.RngLease}
  *    — the tour's one hard teardown obligation.
  *
- * @see https://kb.heroiclands.org/dev/how-to/guided-tours/ for the authoring guide.
+ * @see https://www.heroiclands.org/sohl/kb/dev-docs/how-to/guided-tours/ for the authoring guide.
  */
 export class SohlTour extends TourBase {
     /** The document whose sheet the current/most-recent step navigated to. */

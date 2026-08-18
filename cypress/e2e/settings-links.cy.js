@@ -89,9 +89,15 @@ describe("settings sidebar — branded Game System section", () => {
                 flags.issuesUrl,
                 flags.discordInviteUrl,
             ]);
-            // API link targets this exact version's docs, not /latest.
+            // One unversioned tree of API documentation is published, for
+            // the newest release (#1452), and it is served as part of /sohl/
+            // (#1470) — so the manifest carries a plain address with no
+            // version, no /latest, and nothing composed onto it.
             expect(flags.apiDocsUrl).to.eq(
-                `https://api.heroiclands.org/v${version}`,
+                "https://www.heroiclands.org/sohl/api/",
+            );
+            expect(flags.knowledgeBaseUrl).to.eq(
+                "https://www.heroiclands.org/sohl/kb/",
             );
             s.links.forEach((l) => {
                 expect(l.target).to.eq("_blank");

@@ -322,7 +322,7 @@ against real world data — migrations must never require manual user interventi
   the user guide under `../../assets/packs/journals/_source/` for user workflows.
 - **Documentation links.** In `docs/` markdown, link to code by **symbol**, not
   coordinates. Use `{@link Symbol}` / `{@link Symbol.member}` for API-documented
-  symbols — it resolves to the symbol page on api.heroiclands.org and never drifts.
+  symbols — it resolves to the symbol page on the API site and never drifts.
   For symbols absent from the API (DataModels, Sheets), use a path-only file link
   (no line numbers) and name the symbol in prose. **Never** use line-range fragments
   (`#L120-L140`): they rot silently on any edit and duplicate TypeDoc's automatic,
@@ -335,8 +335,7 @@ against real world data — migrations must never require manual user interventi
   relative `.md` link from JSDoc has no page to resolve to. `{@link}` targets
   code symbols only, not doc pages. Non-rendered `//` or `/* */` comments (which
   TypeDoc does not emit) may instead cite the repo path `kb/dev-docs/…​.md`,
-  which a source reader opens directly. Comments written before #1470 still cite
-  `kb.heroiclands.org`, which serves until #1457; sweeping them is #1455.
+  which a source reader opens directly.
 - **Localization keys.** Every user-visible string is a key in `lang/en.json`, named
   by the standard in [Localization Keys](../reference/localization-keys.md):
   `SOHL.<Namespace>[.<Group>].<leaf>`, where the namespace is a singular PascalCase

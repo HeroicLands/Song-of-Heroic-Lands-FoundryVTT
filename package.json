@@ -11,8 +11,8 @@
     },
     "heroicLands": {
         "discordInviteUrl": "https://discord.gg/EwMfkNd3az/",
-        "knowledgeBaseUrl": "https://kb.heroiclands.org/",
-        "apiDocsBaseUrl": "https://api.heroiclands.org/"
+        "knowledgeBaseUrl": "https://www.heroiclands.org/sohl/kb/",
+        "apiDocsUrl": "https://www.heroiclands.org/sohl/api/"
     },
     "homepage": "https://www.heroiclands.org/",
     "license": "GPL-3.0-or-later AND CC-BY-SA-4.0",

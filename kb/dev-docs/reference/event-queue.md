@@ -60,7 +60,7 @@ Wiring a timed or lifecycle behavior is four steps:
 
 1. **Write the behavior as an action** on the document's logic — a normal
    executor, registered in `defineIntrinsicActions`, that reads what it needs from
-   `context.scope` (see the [self-sufficient action contract](https://kb.heroiclands.org/dev/concepts/action-cards/)).
+   `context.scope` (see the [self-sufficient action contract](https://www.heroiclands.org/sohl/kb/dev-docs/concepts/action-cards/)).
 2. **Pick the moment.** A **world time** (fire at/after a date) or a **lifecycle
    trigger** (`combatStart`, `roundStart`, `turnEnd`, …). See
    [Triggers](#triggers-the-moments-you-can-hook).
@@ -167,7 +167,7 @@ queue and continues seamlessly.
 
 ## Consent: the queue reminds; the human performs
 
-Under the [Prime Directive](https://kb.heroiclands.org/dev/) (issue #579) the queue
+Under the [Prime Directive](https://www.heroiclands.org/sohl/kb/dev-docs/) (issue #579) the queue
 does **not** run a due action directly. It posts an owner-gated `[Perform]`
 reminder card addressed to the document, and the owner's click runs that same
 action. _Reminding is allowed; performing is not._ Everything below is built on

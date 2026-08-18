@@ -30,5 +30,5 @@ part of the text the anchor derives from.
 Wikilinks remain unavailable in the developer tree, deliberately: they resolve by
 `(type, shortcode)` from a note's frontmatter, which these pages do not have, and
 they would not render in the repository or on GitHub. The reference page on
-[linking between content notes](https://kb.heroiclands.org/dev-docs/reference/content-links/)
+[linking between content notes](https://www.heroiclands.org/sohl/kb/dev-docs/reference/content-links/)
 now says so explicitly, and names this check as what keeps a path honest.

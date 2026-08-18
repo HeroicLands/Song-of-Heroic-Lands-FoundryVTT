@@ -21,21 +21,21 @@ and type. It is intended for developers **building against or extending** SoHL
 and contributors working on the system itself.
 
 > Looking for **guides** — architecture, how-tos, concepts, contributing? Those
-> live in the **[Knowledgebase](https://kb.heroiclands.org)**, alongside the
+> live in the **[Knowledgebase](https://www.heroiclands.org/sohl/kb/)**, alongside the
 > player-facing content reference. This site is the generated symbol reference
 > only.
 
 > Looking for how to _play_? Player- and GM-facing rules, the quickstart, and
 > character creation live on the project site:
-> [heroiclands.org](https://heroiclands.org/projects/sohl/).
+> [heroiclands.org](https://www.heroiclands.org/projects/song-of-heroic-lands/).
 
 ## Where to start
 
 - **The sidebar** — every public class, function, and type, grouped to mirror
   the `sohl.*` namespace tree (see below).
-- **[Architecture Overview](https://kb.heroiclands.org/concepts/architecture/)**
+- **[Architecture Overview](https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/)**
   (Knowledgebase) — the mental model and a map of the `src/` tree. Read this first.
-- **[Getting Started](https://kb.heroiclands.org/how-to/getting-started/)**
+- **[Getting Started](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/getting-started/)**
   (Knowledgebase) — environment setup, a codebase tour, and your first change.
 
 ## How this reference is organized

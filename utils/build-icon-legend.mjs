@@ -24,7 +24,7 @@
  * interface does rather than exposing shortcodes.
  *
  * Output: assets/content/User_Guide/Icon_Legend.md — single-sourced to the
- * in-Foundry journal (markdown-it, `html: true`) and to kb.heroiclands.org
+ * in-Foundry journal (markdown-it, `html: true`) and to the knowledgebase
  * (goldmark, `unsafe = true`). Both pass raw HTML through, so each row renders
  * the real glyph via `<i class="…">` rather than naming a CSS class.
  *

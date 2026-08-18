@@ -185,7 +185,7 @@ free. The pieces, all on `SkillLogic`:
   rides on the card's Fate button as a serialized `priorTestResult`, revived on
   click.
 
-Player-facing rule: the **Fate** entry in the [SoHL Rules](https://heroiclands.org/sohl/user-guide/sohl-rules/) (source: `assets/content/Rules/Fate.md`).
+Player-facing rule: the **Fate** entry in the [SoHL Rules](https://www.heroiclands.org/sohl/kb/rules/) (source: `assets/content/Rules/Fate.md`).
 
 ## CombatModifier
 

@@ -131,7 +131,7 @@ recurring "check for bandits" roll, a wound's next healing test, a seasonal
 upkeep prompt. This is the generic scheduler (issue #588). It never _performs_
 the action on its own: when the schedule comes due, SoHL posts a `[Perform]`
 reminder card addressed to the document's owner, and only their click runs it.
-That is the [Prime Directive](https://kb.heroiclands.org/dev/) in mechanism form —
+That is the [Prime Directive](https://www.heroiclands.org/sohl/kb/dev-docs/) in mechanism form —
 _reminding is allowed; performing is not._
 
 **1. Put the action on a document.** The thing you schedule is an ordinary SoHL
