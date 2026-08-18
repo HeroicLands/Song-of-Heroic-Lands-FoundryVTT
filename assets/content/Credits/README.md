@@ -332,9 +332,6 @@ Habashy 1995". They are redistributed under the
 [CC BY-NC-SA 3.0 AU](https://creativecommons.org/licenses/by-nc-sa/3.0/au/legalcode)
 license.
 
-The writing systems the fonts render belong to Hârn, the creation of
-**N. Robin Crossby**.
-
 ## Icon font
 
 **game-icons.net** is an icon font generated from the Game-Icons artwork
