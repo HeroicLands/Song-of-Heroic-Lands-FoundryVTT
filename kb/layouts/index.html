@@ -10,21 +10,98 @@
   #1470 nothing rendered there: a redirect rule sent it to the knowledgebase,
   whose landing stood in for this page by accident.
 
-  So this page is not the knowledgebase's front door (that is
-  layouts/knowledgebase/list.html, one level down at /sohl/kb/) and not the
-  site's front page (that is heroiclands-site). It says what the system is, and
-  routes a reader to the surface they came for.
+  What this page is *not* is as load-bearing as what it is. It is not the site's
+  front page, which already carries Knowledgebase and API cards — repeating those
+  here would make this a second copy of that grid. It is not the project page at
+  /projects/song-of-heroic-lands/, which pitches the system to someone deciding
+  whether to try it. This page serves the reader who has already arrived: it
+  tells them how to install it, and routes them by what they came to do.
 
-  Overrides the shared theme's `layouts/index.html`, which renders www's
-  featured grid from `params.home` — a three-column arrangement keyed to that
-  site's own cards. Every address below is relative to this page, so the whole
-  landing follows the mount rather than restating it link by link.
+  So the shape is deliberate — install first, because it is the one thing no
+  other page gives concretely, then three doors chosen by audience rather than by
+  which surface happens to publish them. A reader at the table should not have to
+  know that the rules live on the knowledgebase and the API reference does not.
+
+  Overrides the shared theme's `layouts/index.html`, which renders www's featured
+  grid from `params.home`. Every address below is relative to this page, so the
+  whole landing follows the mount rather than restating it link by link.
 */ -}}
 {{ define "main" }}
 {{- $sohl := .RelPermalink -}}
-{{- partial "landing-cards.html" . -}}
+{{- $cdn := partial "cdn-url.html" (dict "site" .Site "path" "") -}}
+<style>
+  /* Install block: the manifest URL is the payload, so it is set to be read and
+     copied rather than decorated. */
+  .install {
+    max-width: 780px;
+    margin: 0 auto;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-card);
+    padding: 1.5rem 1.75rem;
+  }
+  .install h2 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+  }
+  .install p { line-height: 1.7; }
+  .install-url {
+    display: block;
+    padding: 0.75rem 1rem;
+    background: var(--bg-deeper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text);
+    word-break: break-all;
+    margin: 0.75rem 0;
+  }
+  .install-note { color: var(--text-muted); font-size: 0.92rem; margin: 0; }
 
-<section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/brand/sohl-banner.webp');">
+  /* "Start where you are": three doors, each a heading, a line of orientation,
+     and the few links that actually answer it. */
+  .doors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .door {
+    width: 340px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-card);
+    padding: 1.5rem;
+  }
+  .door h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .door > p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+  }
+  .door ul { list-style: none; margin: 0; padding: 0; }
+  .door li { margin-bottom: 0.5rem; line-height: 1.5; }
+  .door li a { font-weight: 600; }
+
+  .lead {
+    max-width: 780px;
+    margin: 0 auto 2rem;
+    line-height: 1.75;
+  }
+  .lead-centred { text-align: center; margin-top: 2rem; }
+  .section-heading { text-align: center; }
+</style>
+
+<section class="hero hero-with-image" style="background-image: url('{{ $cdn }}images/brand/sohl-banner.webp');">
   <div class="hero-inner">
     <h1>Song of Heroic Lands</h1>
     <p class="hero-tagline">A classless, skill-based fantasy system for Foundry Virtual Tabletop — HârnMaster-compatible, and built to keep the books while you make the calls.</p>
@@ -32,58 +109,77 @@
 </section>
 
 <section class="home-sections">
-  <p class="hero-tagline">
-    You decide what your character knows, believes, and can do, and the system
-    builds them from that — no classes, no levels, no archetypes to choose
-    between. Fights are fast and genuinely dangerous, wounds stay with you and
-    need treating, and skills improve because you used them. SoHL tracks the
-    wounds, the healing, the calendar, and the modifiers, then asks you what you
-    want to do: nothing happens to a character without their player's say-so,
-    and every number on the sheet shows where it came from.
+  <p class="lead">
+    Everything published for the system lives under this address: the rules and
+    the player guides, the full catalog of content it ships, and the generated
+    reference for building on it. SoHL tracks the wounds, the healing, the
+    calendar and the modifiers, then asks you what you want to do — nothing
+    happens to a character without their player's say-so, and every number on the
+    sheet shows where it came from.
   </p>
 
-  <div class="top-cards">
-
-    <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/rules.webp" alt="Knowledgebase" loading="lazy">
-      <div class="top-card-body">
-        <h2><a href="{{ $sohl }}kb/">Knowledgebase</a></h2>
-        <p>Everything written down: the rules, the player and GM guides, the developer documentation, and a browsable catalog of every skill, creature, weapon, and condition the system ships.</p>
-        <a href="{{ $sohl }}kb/" class="card-button">Open the knowledgebase →</a>
-      </div>
-    </div>
-
-    <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/dev-docs.webp" alt="API Documentation" loading="lazy">
-      <div class="top-card-body">
-        <h2><a href="{{ $sohl }}api/">API Documentation</a></h2>
-        <p>Generated reference for the current release — every class, hook, and data model a module, macro, or Script Action can reach, with the source it was generated from.</p>
-        <a href="{{ $sohl }}api/" class="card-button">Read the API docs →</a>
-      </div>
-    </div>
-
-    <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/user-guide.webp" alt="The system running in Foundry VTT" loading="lazy">
-      <div class="top-card-body">
-        <h2><a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest">Get the system</a></h2>
-        <p>Install it in Foundry from the latest release, read the source, or file an issue. Contributions are welcome — the repository is where the system, its content, and these pages are all built from.</p>
-        <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest" class="card-button">Latest release →</a>
-      </div>
-    </div>
-
+  <div class="install">
+    <h2>Install it in Foundry</h2>
+    <p>
+      In Foundry's setup screen, choose <strong>Game Systems → Install System</strong>
+      and paste this manifest URL:
+    </p>
+    <code class="install-url">https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json</code>
+    <p class="install-note">
+      Requires Foundry VTT v14. The system is in active development, so expect
+      change between releases — see the
+      <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest">latest release</a>
+      for what is in this one, or
+      <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues">open an issue</a>
+      if something is wrong.
+    </p>
   </div>
 </section>
 
 <section class="home-sections">
-  <h2 style="text-align: center;">Where to start</h2>
-  <p class="hero-tagline">
-    New to the system? The <a href="{{ $sohl }}kb/user-guide/">User Guide</a>
-    walks through playing with it in Foundry. The
-    <a href="{{ $sohl }}kb/rules/">Rules</a> are the game itself — tests,
-    injury, healing, and the rest — written to be read at the table. Building
-    something on top of it? Start from the
-    <a href="{{ $sohl }}kb/dev-docs/">Developer Documentation</a>, then the
-    <a href="{{ $sohl }}api/">API reference</a>.
+  <h2 class="section-heading">Start where you are</h2>
+
+  <div class="doors">
+    <div class="door">
+      <h3>At the table</h3>
+      <p>Running or playing in a game: how the system behaves in Foundry, and the rules it implements.</p>
+      <ul>
+        <li><a href="{{ $sohl }}kb/user-guide/">User Guide</a> — playing with it, sheet by sheet</li>
+        <li><a href="{{ $sohl }}kb/rules/">Rules</a> — tests, injury, healing, mysticism</li>
+        <li><a href="{{ $sohl }}kb/user-guide/song-of-heroic-lands-quickstart/">Quickstart</a> — a first session</li>
+        <li><a href="{{ $sohl }}kb/user-guide/character-creation/">Character Creation</a></li>
+      </ul>
+    </div>
+
+    <div class="door">
+      <h3>What it ships with</h3>
+      <p>Hundreds of ready creatures and items to drag onto a sheet, each documented exactly as it is implemented.</p>
+      <ul>
+        <li><a href="{{ $sohl }}kb/creature/">Creatures</a> and <a href="{{ $sohl }}kb/character/">characters</a></li>
+        <li><a href="{{ $sohl }}kb/weapongear/">Weapons</a>, <a href="{{ $sohl }}kb/armorgear/">armour</a>, and gear</li>
+        <li><a href="{{ $sohl }}kb/skill/">Skills and attributes</a></li>
+        <li><a href="{{ $sohl }}kb/affliction/">Afflictions</a> and <a href="{{ $sohl }}kb/trauma/">trauma</a></li>
+      </ul>
+    </div>
+
+    <div class="door">
+      <h3>Building on it</h3>
+      <p>Writing a module, a macro, or a house rule — or changing the system itself.</p>
+      <ul>
+        <li><a href="{{ $sohl }}kb/dev-docs/">Developer documentation</a> — architecture and how-tos</li>
+        <li><a href="{{ $sohl }}api/">API reference</a> — every public symbol</li>
+        <li><a href="{{ $sohl }}kb/dev-docs/how-to/extension-points/">Extension points</a> — extending without forking</li>
+        <li><a href="{{ $sohl }}kb/dev-docs/concepts/macros-and-actions/">Macros and Actions</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="lead lead-centred">
+    The whole reference is browsable from the
+    <a href="{{ $sohl }}kb/">knowledgebase</a>, and the system, its content and
+    these pages are all built from
+    <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT">one repository</a>.
+    Questions are welcome on <a href="https://discord.gg/EwMfkNd3az">Discord</a>.
   </p>
 </section>
 {{ end }}
