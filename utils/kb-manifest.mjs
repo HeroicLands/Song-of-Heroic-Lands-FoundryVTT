@@ -45,9 +45,6 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { compendiumUuid } from "./packs/ids.mjs";
-import { itemDocEntryId } from "./packs/item-docs.mjs";
-
 /**
  * Packages that publish a web surface and therefore exchange manifests.
  *
@@ -80,7 +77,25 @@ export const LINK_PACKAGES = Object.freeze(["sohl", "thalorna"]);
  * @returns {string} `package/type/shortcode`, lowercased.
  */
 export function canonicalKey(pkg, type, shortcode) {
-    return `${pkg}/${type}/${shortcode}`.toLowerCase();
+    return `${pkg}-${type}-${shortcode}`.toLowerCase();
+}
+
+/**
+ * Reads a canonical key back into its parts.
+ *
+ * Unambiguous because no package, type or shortcode contains a hyphen — types
+ * are bare words and shortcodes are `^[A-Za-z0-9]+$` (#1397).
+ *
+ * @param {string} key - A canonical key.
+ * @returns {{package: string, type: string, shortcode: string}|null} The parts,
+ *   or `null` when the key is not in canonical form.
+ */
+export function readCanonicalKey(key) {
+    const parts = String(key).split("-");
+    if (parts.length !== 3) return null;
+    const [pkg, type, shortcode] = parts;
+    if (!pkg || !type || !shortcode) return null;
+    return { package: pkg, type, shortcode };
 }
 
 /**
@@ -92,13 +107,19 @@ export function canonicalKey(pkg, type, shortcode) {
  * renders, and 404s — so the version is what makes a stale vendored file an
  * error rather than a wrong link.
  *
+ * Bumped to 4 by #1499: keys use the authored hyphen separator
+ * (`sohl-affliction-aconite`) so a key *is* the address an author writes; an
+ * item's documentation became an entry in its own right
+ * (`sohl-docaffliction-aconite`) rather than a second field; and entries gained
+ * `anchors`, mapping a note's named sections to the full UUID each compiled to.
+ *
  * Bumped to 3 by #1499: keys became **canonical** — fully qualified
  * `package/type/shortcode` rather than `type/shortcode` — and entries gained the
  * Foundry `uuid` / `docUuid` beside the web `path`. A v2 key read as a v3 one
  * addresses a package named after a type, so again the version is what turns a
  * stale vendored file into an error.
  */
-export const MANIFEST_VERSION = 3;
+export const MANIFEST_VERSION = 4;
 
 /**
  * Where this build serves each package, keyed by package name.
@@ -209,18 +230,23 @@ export function buildManifest(pkg, entries, base, foundryPackage) {
             name: e.name,
         };
         // The Foundry address, for consumers compiling packs rather than pages.
-        // Omitted when the note carries no `id`: it then compiles into no
-        // document, and inventing a UUID for it would assert a target that
-        // does not exist. A consumer must tolerate an entry without one.
-        if (foundryPackage && e.fm?.id) {
-            entry.uuid = compendiumUuid(foundryPackage, type, e.fm.id);
-            entry.docUuid = compendiumUuid(
-                foundryPackage,
-                "doc",
-                itemDocEntryId(e.fm.id),
-            );
-        }
-        out[canonicalKey(pkg, type, shortcode)] = entry;
+        // Supplied by the caller rather than derived here: only the build that
+        // splits a note into pages knows its anchors, and a note that compiles
+        // into no document has no UUID to state. Inventing one would assert a
+        // target that does not exist, so an entry without one is normal and a
+        // consumer must tolerate it.
+        if (foundryPackage && e.uuid) entry.uuid = e.uuid;
+        // The address of this item's documentation — a pointer to the entry
+        // that owns that UUID, not a second copy of it.
+        if (e.doc) entry.doc = e.doc;
+        // A note's named sections, each mapped to the *whole* UUID it compiled
+        // to. Whole, not a fragment appended to `uuid`: nothing owns a page
+        // address, so there is no fact being restated, and an anchor is not
+        // required to live inside its own entry. Publishing the complete link
+        // also keeps the page-id hash out of the published contract entirely.
+        if (e.anchors && Object.keys(e.anchors).length)
+            entry.anchors = e.anchors;
+        out[e.key ?? canonicalKey(pkg, type, shortcode)] = entry;
     }
     return {
         version: MANIFEST_VERSION,
@@ -288,8 +314,8 @@ export function writeManifests(entriesByPackage, dir, bases, foundryPackages) {
  * @param {Record<string, string>} [bases] - Package → base to resolve against;
  *   defaults to {@link PACKAGE_BASE}.
  * @returns {{ index: Map<string, object>, packages: Set<string>, stale: Array<object> }}
- *   `index` maps the canonical `package/type/shortcode` → `{ url, name, uuid,
- *   docUuid, type, package }`. Keys are globally unique, so this merges
+ *   `index` maps the canonical `package-type-shortcode` → `{ url, name, uuid,
+ *   doc, anchors, type, package }`. Keys are globally unique, so this merges
  *   directly into a local index with no prefixing and no separate lookup path.
  */
 export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
@@ -339,17 +365,17 @@ export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
         const resolved = [];
         try {
             for (const [key, v] of Object.entries(doc.entries ?? {})) {
-                // Canonical keys are `package/type/shortcode` (v3). The type is
-                // read back out so a consumer can recognise a foreign package's
-                // types as addresses at all.
-                const [, type] = key.split("/");
+                // The type is read back out of the canonical key so a consumer
+                // can recognise a foreign package's types as addresses at all.
+                const type = readCanonicalKey(key)?.type;
                 resolved.push([
                     key,
                     {
                         name: v.name,
                         url: resolvePackageUrl(v.path, base),
                         uuid: v.uuid,
-                        docUuid: v.docUuid,
+                        doc: v.doc,
+                        anchors: v.anchors,
                         type,
                     },
                 ]);

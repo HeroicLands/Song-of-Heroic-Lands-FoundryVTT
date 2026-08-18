@@ -49,8 +49,10 @@ import matter from "gray-matter";
 import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { readQualifier } from "./packs/wikilinks.mjs";
+import { isItemDocType } from "./packs/item-docs.mjs";
 import {
     canonicalKey,
+    readCanonicalKey,
     loadForeignManifests,
     manifestsComplete,
 } from "./kb-manifest.mjs";
@@ -123,6 +125,20 @@ for (const note of notes) {
         // package-qualified link checks the same way a bare one does (#1499).
         if (fm.package) {
             byKey.set(canonicalKey(fm.package, type, fm.shortcode), note);
+        }
+        // An item's documentation is a document — and an address — in its own
+        // right, so it is indexed as one. It has to be: once a manifest
+        // publishes `doc<type>` entries, `doc<type>` is a *known type*, and the
+        // virtual reading that used to answer for it no longer fires (a real
+        // type owns its own name).
+        if (isItemDocType(type)) {
+            byKey.set(`doc${type}/${fm.shortcode}`.toLowerCase(), note);
+            if (fm.package) {
+                byKey.set(
+                    canonicalKey(fm.package, `doc${type}`, fm.shortcode),
+                    note,
+                );
+            }
         }
     }
     const aliases = [
@@ -243,8 +259,12 @@ const manifestHit = (target) => {
     // A bare address names no package, so it resolves against any foreign one
     // that publishes it. Claimed by two, it is ambiguous and the author must
     // write the qualified form.
-    const short = `${q.type}/${q.shortcode}`.toLowerCase();
-    const hits = [...foreign.index].filter(([k]) => k.endsWith(`/${short}`));
+    const type = String(q.type).toLowerCase();
+    const shortcode = String(q.shortcode).toLowerCase();
+    const hits = [...foreign.index].filter(([k]) => {
+        const parts = readCanonicalKey(k);
+        return parts?.type === type && parts.shortcode === shortcode;
+    });
     return hits.length === 1 ? hits[0][1] : null;
 };
 

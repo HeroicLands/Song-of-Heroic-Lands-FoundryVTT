@@ -34,7 +34,7 @@ import matter from "gray-matter";
 import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
 import {
     canonicalKey,
-    writeManifests,
+    readCanonicalKey,
     loadForeignManifests,
     manifestsComplete,
 } from "./kb-manifest.mjs";
@@ -483,7 +483,6 @@ const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 // committed, so a contributor without every repository still builds the same
 // links CI does.
 const MANIFEST_SRC = path.join(REPO, "assets/manifests");
-const MANIFEST_OUT = path.join(REPO, "build/manifests");
 // Where this build serves a package it publishes itself: this repository is the
 // `sohl` package's site, and publishes it at `SOHL_BASE` (#1470). That is what
 // an emitted address is recorded relative to (#1465) — so a note publishing at
@@ -680,7 +679,9 @@ for (const [key, v] of foreign.index) {
     }
     wikiIndex.set(key, v);
 
-    const short = key.slice(key.indexOf("/") + 1);
+    const parts = readCanonicalKey(key);
+    if (!parts) continue;
+    const short = `${parts.type}/${parts.shortcode}`;
     if (
         foreignShort.has(short) &&
         foreignShort.get(short).package !== v.package
@@ -930,29 +931,6 @@ for (const dir of subdirs(OUT)) {
 
 // Emit this build's own manifests, one per package it publishes (#1446), so
 // another package can resolve links into it without reading this repository.
-const byPackage = new Map();
-for (const e of entries) {
-    if (e.kind !== "content") continue;
-    if (!byPackage.has(e.fm.package)) byPackage.set(e.fm.package, []);
-    byPackage.get(e.fm.package).push(e);
-}
-const localBases = Object.fromEntries(
-    [...byPackage.keys()].map((pkg) => [pkg, LOCAL_BASE]),
-);
-// Only a package this build actually publishes gets a Foundry address: the
-// UUID names where *this* repository ships the documents, which it can only
-// speak for on its own package.
-const localFoundryPackages = { [CONTENT_PACKAGE]: FOUNDRY_PACKAGE_ID };
-for (const w of writeManifests(
-    byPackage,
-    MANIFEST_OUT,
-    localBases,
-    localFoundryPackages,
-)) {
-    console.log(
-        `kb-content: manifest ${w.package} — ${w.count} addressable note(s)`,
-    );
-}
 if (!manifests.complete) {
     console.warn(
         `kb-content: cross-package address checking is OFF — no manifest for ` +
