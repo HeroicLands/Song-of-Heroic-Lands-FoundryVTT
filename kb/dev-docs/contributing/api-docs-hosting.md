@@ -15,6 +15,14 @@ folder: null
 
 See also: [Getting Started](../how-to/getting-started.md), [Testing](../how-to/testing.md)
 
+> **This hosting is being retired.** The API reference is now also published at
+> `www.heroiclands.org/sohl/api/`, as part of the one deploy this repository
+> makes for the whole of `/sohl/` (#1470) — see
+> [Build & Deployment §8](../how-to/build-and-deployment.md#8-publishing-the-sohl-website).
+> Both run for now, on purpose: the new address is proven before the old one is
+> taken down. Deleting `deploy-docs.yml` and the `gh-pages` branch is #1456, and
+> the DNS record #1457. Nothing below has changed in the meantime.
+
 The TypeDoc API reference is published to **https://api.heroiclands.org** by the [`deploy-docs.yml`](../../../.github/workflows/deploy-docs.yml) workflow. **One version is published: the current release, unversioned, at the site root.** Older versions are not mirrored — the git tags are the history, and the documentation for any release is reproducible from its tag with `npm run docs:html`.
 
 ## Site layout
@@ -76,4 +84,4 @@ The purge uses `purge_everything`, which clears the **entire `heroiclands.org` z
 - **The `gh-pages` branch is disposable.** It holds one build and no history worth keeping; it can be recreated from scratch by dispatching the workflow.
 - **The root is replaced wholesale.** Anything committed to `gh-pages` by hand is removed on the next publish, `CNAME` excepted.
 - **Custom domain / DNS** for `api.heroiclands.org` is configured once (DNS record + Pages custom domain) and is unaffected by ordinary publishes.
-- **The same build is also published to the `dist` branch**, as `api/`, by [`deploy-dist.yml`](../../../.github/workflows/deploy-dist.yml) — the copy `heroiclands-site` mounts at `/sohl/api/` (#1444). The two publishes are independent: neither reads the other's branch, and this hosting is unaffected by that one. See [Build & Deployment §8](../how-to/build-and-deployment.md#8-publishing-build-output--the-dist-branch).
+- **The same documentation is built twice more.** [`deploy-sohl.yml`](../../../.github/workflows/deploy-sohl.yml) builds it as part of `/sohl/` (the copy that will survive), and [`deploy-dist.yml`](../../../.github/workflows/deploy-dist.yml) publishes it to the `dist` branch as `api/` (superseded, retired by #1467). All three publishes are independent — none reads another's output, and this hosting is unaffected by either. See [Build & Deployment §8](../how-to/build-and-deployment.md#8-publishing-the-sohl-website).

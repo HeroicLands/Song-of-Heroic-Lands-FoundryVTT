@@ -1,5 +1,5 @@
 {{- /*
-  kbcat-groups — group a section's pages by the nested frontmatter param
+  kbcat-groups — group a content type's pages by the nested frontmatter param
   `sohl.kbcat` and return an ORDERED slice of groups for rendering.
 
   Fully dynamic: it queries `site.RegularPages` at build time, so weapons,
@@ -7,7 +7,11 @@
   the next `hugo` build — nothing here is hardcoded to the current catalog.
 
   Params (dict):
-    section  (string)          Hugo section to scan (e.g. "weapongear").
+    type     (string)          Content type to scan (e.g. "weapongear"). This is
+                               the frontmatter `type`, not the Hugo section: the
+                               knowledgebase publishes every page under the
+                               /kb/ mount (#1470), so Section is "kb" for all
+                               of them and only `type` still tells them apart.
     titles   (dict kbcat->str) Display titles for known kbcat values.
     order    (slice of kbcat)  kbcat values to emit first, in this order;
                                a value with no pages is skipped.
@@ -19,11 +23,11 @@
   Returns a slice of dicts: { cat, title, pages } where pages is sorted by
   title (ascending). Consumers render their own table/list markup.
 */ -}}
-{{- $section := .section -}}
+{{- $type := .type -}}
 {{- $titles := .titles | default dict -}}
 {{- $order := .order | default slice -}}
 {{- $extras := .extras | default false -}}
-{{- $pages := where site.RegularPages "Section" $section -}}
+{{- $pages := where site.RegularPages "Type" $type -}}
 {{- $grouped := $pages.GroupByParam "sohl.kbcat" -}}
 {{- $byCat := dict -}}
 {{- range $grouped -}}

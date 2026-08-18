@@ -11,7 +11,7 @@
         "physprivations" "Physical Privations" "psybehavior" "Behaviors"
         "phobias" "Phobias" "psypsychosis" "Psychoses" "fatigue" "Fatigue" -}}
     {{- $order := slice "physdisability" "physfeature" "physprivations" "psybehavior" "phobias" "psypsychosis" "fatigue" -}}
-    {{- $groups := partial "kbcat-groups.html" (dict "section" "trauma" "titles" $titles "order" $order "extras" true) -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "type" "trauma" "titles" $titles "order" $order "extras" true) -}}
     {{- range $groups }}
     <section class="kbcat-group">
       <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>

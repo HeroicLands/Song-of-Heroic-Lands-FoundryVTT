@@ -1,18 +1,28 @@
-baseURL = "https://kb.heroiclands.org/"
+# This repository builds and deploys the whole of /sohl/ as one standalone
+# site (#1444, #1470): the package landing here at the root, the knowledgebase
+# under kb/, and the generated API documentation under api/ (mounted into the
+# build from `npm run docs:html`, not rendered by Hugo).
+#
+# The output is published *with* this prefix — `build/site/sohl/` — so the
+# deployment is byte-for-byte what www serves and can be checked at the hosting
+# project's own address before any routing points at it.
+baseURL = "https://www.heroiclands.org/sohl/"
 locale = "en-us"
-title = "SoHL Knowledgebase"
+title = "Song of Heroic Lands"
+publishDir = "../build/site/sohl"
 
 # Brand chrome, layouts, palette, and SoHL info-block partials come from the
-# shared theme, so the KB reads as one site with www and the API docs.
+# shared theme, so /sohl/ reads as one site with www and Thalorna.
 theme = "heroiclands-hugo-theme"
 
 [params]
-  description = "Song of Heroic Lands — developer knowledgebase and content reference."
+  description = "Song of Heroic Lands — a classless, skill-based fantasy system for Foundry Virtual Tabletop."
   author = "Tom Rodriguez"
 
   # The theme carries layout, not addresses, so every site-specific URL it
   # renders is supplied here. See the theme's README for the full contract.
-  # The knowledgebase renders its own home page, so it needs no params.home.
+  # This site renders its own home page (layouts/index.html), so it needs no
+  # params.home.
   cdnBaseURL = "https://cdn.heroiclands.org"
 
   [params.brand]
@@ -27,27 +37,40 @@ theme = "heroiclands-hugo-theme"
     shortcodes = true
 
   # The "page not found" page. Its template is the theme's, since every
-  # consumer needs one; the wording and the routes back are ours.
+  # consumer needs one; the wording and the routes back are ours. One page
+  # covers the whole of /sohl/, so it names every surface — a reader who
+  # mistyped an API address is served the same file as one who mistyped a
+  # knowledgebase address. Each url is resolved against this site's own base by
+  # the template, so it is written relative to the site root ("" being the root
+  # itself) and picks up the /sohl/ prefix.
   [params.notfound]
-    heroimage = "images/sohl-banner.webp"
-    tagline   = "This knowledgebase has no page at"
-    sitenoun  = "knowledgebase"
+    heroimage = "images/brand/sohl-banner.webp"
+    tagline   = "Song of Heroic Lands has no page at"
+    sitenoun  = "site"
 
     [[params.notfound.links]]
-      title = "Knowledgebase home"
-      url   = "/"
+      title = "Song of Heroic Lands"
+      url   = ""
+      text  = "What the system is, and where everything about it lives."
+    [[params.notfound.links]]
+      title = "Knowledgebase"
+      url   = "kb/"
       text  = "Every section, with the full content catalog."
     [[params.notfound.links]]
+      title = "API Documentation"
+      url   = "api/"
+      text  = "Generated reference for the current release."
+    [[params.notfound.links]]
       title = "Developer Documentation"
-      url   = "/dev-docs/"
+      url   = "kb/dev-docs/"
       text  = "Architecture, extension points, testing, and reference material."
     [[params.notfound.links]]
       title = "User Guide"
-      url   = "/user-guide/"
+      url   = "kb/user-guide/"
       text  = "Player- and GM-facing guides to playing with Song of Heroic Lands."
     [[params.notfound.links]]
       title = "Rules"
-      url   = "/rules/"
+      url   = "kb/rules/"
       text  = "Success and opposed tests, injury, healing, shock, bleeding, and trauma."
 
 # The brand nav. Absolute URLs so this header matches the one every other
@@ -65,12 +88,12 @@ theme = "heroiclands-hugo-theme"
     identifier = "sohl"
   [[menu.main]]
     name = "Knowledgebase"
-    url = "https://kb.heroiclands.org/"
+    url = "https://www.heroiclands.org/sohl/kb/"
     weight = 1
     parent = "sohl"
   [[menu.main]]
     name = "API Documentation"
-    url = "https://api.heroiclands.org/"
+    url = "https://www.heroiclands.org/sohl/api/"
     weight = 2
     parent = "sohl"
   [[menu.main]]

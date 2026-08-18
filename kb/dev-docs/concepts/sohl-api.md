@@ -99,4 +99,4 @@ acknowledgement flow — see
 - [Macros and Actions](./macros-and-actions.md) — scripting against these surfaces.
 - [Writing Modules](../contributing/module-development.md) — extending the system in a package.
 - [Architecture Overview](./architecture.md) — the three-layer model.
-- [API Reference](https://api.heroiclands.org/latest) — every exported symbol.
+- [API Reference](/sohl/api/) — every exported symbol.

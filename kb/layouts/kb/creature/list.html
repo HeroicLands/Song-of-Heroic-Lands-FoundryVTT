@@ -9,7 +9,7 @@
     {{- /* One table per source subfolder (Animal, Spirit, …), titled with the
            folder basename; groups are alphabetical, rows sorted by name. Fully
            dynamic — new creatures or subfolders appear on the next build. */ -}}
-    {{- $pages := where site.RegularPages "Section" "creature" -}}
+    {{- $pages := where site.RegularPages "Type" "creature" -}}
     {{- range $pages.GroupByParam "kbfolder" }}
     <section class="kbcat-group">
       <h2 id="folder-{{ .Key | urlize }}">{{ .Key }}</h2>

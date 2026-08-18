@@ -7,7 +7,7 @@
 */ -}}
 <section class="kbcat-group">
   <h2 id="attributes">Attributes</h2>
-  {{ partial "catalog-rows.html" (sort (where site.RegularPages "Section" "attribute") "Title") }}
+  {{ partial "catalog-rows.html" (sort (where site.RegularPages "Type" "attribute") "Title") }}
 </section>
 
 {{- $titles := dict
@@ -15,7 +15,7 @@
     "mystical" "Mystical" "nature" "Nature" "physical" "Physical"
     "script" "Script" "social" "Social" -}}
 {{- $order := slice "combat" "craft" "languages" "lore" "mystical" "nature" "physical" "script" "social" -}}
-{{- $groups := partial "kbcat-groups.html" (dict "section" "skill" "titles" $titles "order" $order "extras" true) -}}
+{{- $groups := partial "kbcat-groups.html" (dict "type" "skill" "titles" $titles "order" $order "extras" true) -}}
 {{- range $groups }}
 <section class="kbcat-group">
   <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>

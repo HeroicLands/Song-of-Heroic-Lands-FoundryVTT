@@ -2,156 +2,72 @@
   SPDX-License-Identifier: GPL-3.0-or-later
   Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
 
-  Knowledgebase home page.
+  Package landing page — /sohl/, the entry point to everything this repository
+  publishes (#1466).
 
-  Overrides the shared heroiclands-hugo-theme `layouts/index.html`, which is the
-  www marketing hero ("Explore Heroic Lands" → /thalorna/, /projects/, /blog/) —
-  sections that do not exist on the kb subdomain. Without this override the KB
-  root is indistinguishable from www (see issue #689). This renders a
-  knowledgebase-specific landing: three large primary cards (developer docs,
-  user guide, rules) and the game-content reference catalogs, each a boxy card
-  with a hero banner (1792×768) — Actors and Gear set off as their own groups.
+  It exists because /sohl/ is the address the site's navigation, the shipped
+  system's in-app help, and every external link to the project use, and until
+  #1470 nothing rendered there: a redirect rule sent it to the knowledgebase,
+  whose landing stood in for this page by accident.
+
+  So this page is not the knowledgebase's front door (that is
+  layouts/knowledgebase/list.html, one level down at /sohl/kb/) and not the
+  site's front page (that is heroiclands-site). It says what the system is, and
+  routes a reader to the surface they came for.
+
+  Overrides the shared theme's `layouts/index.html`, which renders www's
+  featured grid from `params.home` — a three-column arrangement keyed to that
+  site's own cards. Every address below is relative to this page, so the whole
+  landing follows the mount rather than restating it link by link.
 */ -}}
 {{ define "main" }}
-<style>
-  /* Shared hero banner slot (1792×768). */
-  .card-hero {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1792 / 768;
-    object-fit: cover;
-    background: var(--bg-deeper);
-  }
+{{- $sohl := .RelPermalink -}}
+{{- partial "landing-cards.html" . -}}
 
-  /* Primary cards: developer docs, user guide, rules — large boxes. */
-  .top-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
-  }
-  .top-card {
-    display: flex;
-    flex-direction: column;
-    width: 380px;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    overflow: hidden;
-    background: var(--bg-card);
-  }
-  .top-card-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    padding: 1.5rem 1.75rem 1.75rem;
-    text-align: center;
-  }
-  .top-card-body h2 {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-  .top-card-body h2 a { color: var(--text); }
-  .top-card-body h2 a:hover { color: var(--accent); }
-  .top-card-body p {
-    color: var(--text-muted);
-    font-size: 0.92rem;
-    line-height: 1.65;
-    margin-bottom: 1.25rem;
-  }
-  .top-card-body .card-button { margin-top: auto; }
-
-  /* Content-reference groups + cards. */
-  .catalog-groups {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.75rem;
-    justify-content: center;
-    margin: 1.5rem auto 0;
-  }
-  .catalog-group {
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    background: var(--bg-card);
-    padding: 0.5rem 1.5rem 1.5rem;
-    margin: 0;
-  }
-  .catalog-group > legend {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--gold);
-    padding: 0 0.6rem;
-    letter-spacing: 0.02em;
-  }
-  .catalog-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-  }
-  .catalog-standalone {
-    max-width: 1040px;
-    margin: 2rem auto 0;
-  }
-  .catalog-card {
-    display: block;
-    width: 240px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    background: var(--surface);
-    text-decoration: none;
-    transition: border-color 0.2s;
-  }
-  .catalog-card:hover { border-color: var(--accent); }
-  .catalog-card-label {
-    display: block;
-    padding: 0.65rem;
-    text-align: center;
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    color: var(--text);
-  }
-  .catalog-card:hover .catalog-card-label { color: var(--accent); }
-</style>
-
-<section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/sohl-banner.webp');">
+<section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/brand/sohl-banner.webp');">
   <div class="hero-inner">
-    <h1>SoHL Knowledgebase</h1>
-    <p class="hero-tagline">Developer documentation, player guides, and the full game-content reference for Song of Heroic Lands — HârnMaster on Foundry VTT.</p>
+    <h1>Song of Heroic Lands</h1>
+    <p class="hero-tagline">A classless, skill-based fantasy system for Foundry Virtual Tabletop — HârnMaster-compatible, and built to keep the books while you make the calls.</p>
   </div>
 </section>
 
 <section class="home-sections">
+  <p class="hero-tagline">
+    You decide what your character knows, believes, and can do, and the system
+    builds them from that — no classes, no levels, no archetypes to choose
+    between. Fights are fast and genuinely dangerous, wounds stay with you and
+    need treating, and skills improve because you used them. SoHL tracks the
+    wounds, the healing, the calendar, and the modifiers, then asks you what you
+    want to do: nothing happens to a character without their player's say-so,
+    and every number on the sheet shows where it came from.
+  </p>
+
   <div class="top-cards">
 
     <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/dev-docs.webp" alt="Developer Documentation" loading="lazy">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/rules.webp" alt="Knowledgebase" loading="lazy">
       <div class="top-card-body">
-        <h2><a href="/dev-docs/">Developer Documentation</a></h2>
-        <p>Architecture, extension points, lifecycle hooks, testing, and reference material for building on — or contributing to — the SoHL system.</p>
-        <a href="/dev-docs/" class="card-button">Read the docs →</a>
+        <h2><a href="{{ $sohl }}kb/">Knowledgebase</a></h2>
+        <p>Everything written down: the rules, the player and GM guides, the developer documentation, and a browsable catalog of every skill, creature, weapon, and condition the system ships.</p>
+        <a href="{{ $sohl }}kb/" class="card-button">Open the knowledgebase →</a>
       </div>
     </div>
 
     <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/user-guide.webp" alt="User Guide" loading="lazy">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/dev-docs.webp" alt="API Documentation" loading="lazy">
       <div class="top-card-body">
-        <h2><a href="/user-guide/">User Guide</a></h2>
-        <p>Player- and GM-facing guides to running HârnMaster with Song of Heroic Lands: character creation, combat, and everyday play on Foundry VTT.</p>
-        <a href="/user-guide/" class="card-button">Open the guide →</a>
+        <h2><a href="{{ $sohl }}api/">API Documentation</a></h2>
+        <p>Generated reference for the current release — every class, hook, and data model a module, macro, or Script Action can reach, with the source it was generated from.</p>
+        <a href="{{ $sohl }}api/" class="card-button">Read the API docs →</a>
       </div>
     </div>
 
     <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/rules.webp" alt="Rules" loading="lazy">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/user-guide.webp" alt="The system running in Foundry VTT" loading="lazy">
       <div class="top-card-body">
-        <h2><a href="/rules/">Rules</a></h2>
-        <p>The Song of Heroic Lands rules reference: success and opposed tests, injury, healing, shock, bleeding, and the trauma system.</p>
-        <a href="/rules/" class="card-button">Read the rules →</a>
+        <h2><a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest">Get the system</a></h2>
+        <p>Install it in Foundry from the latest release, read the source, or file an issue. Contributions are welcome — the repository is where the system, its content, and these pages are all built from.</p>
+        <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest" class="card-button">Latest release →</a>
       </div>
     </div>
 
@@ -159,68 +75,15 @@
 </section>
 
 <section class="home-sections">
-  <h2 style="text-align: center;">Content reference</h2>
-  <p class="hero-tagline">Browse the catalog of every actor, item, skill, and condition shipped with the system.</p>
-
-  <div class="catalog-groups">
-    <fieldset class="catalog-group">
-      <legend>Actors</legend>
-      <div class="catalog-cards">
-        <a class="catalog-card" href="/character/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/character.webp" alt="Characters" loading="lazy">
-          <span class="catalog-card-label">Characters</span>
-        </a>
-        <a class="catalog-card" href="/creature/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/creature.webp" alt="Creatures" loading="lazy">
-          <span class="catalog-card-label">Creatures</span>
-        </a>
-      </div>
-    </fieldset>
-
-    <fieldset class="catalog-group">
-      <legend>Gear</legend>
-      <div class="catalog-cards">
-        <a class="catalog-card" href="/armorgear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/armor-clothing.webp" alt="Armor and Clothing" loading="lazy">
-          <span class="catalog-card-label">Armor/Clothing</span>
-        </a>
-        <a class="catalog-card" href="/containergear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/containers.webp" alt="Containers" loading="lazy">
-          <span class="catalog-card-label">Containers</span>
-        </a>
-        <a class="catalog-card" href="/miscgear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/misc-gear.webp" alt="Misc Gear" loading="lazy">
-          <span class="catalog-card-label">Misc Gear</span>
-        </a>
-        <a class="catalog-card" href="/projectilegear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/projectiles.webp" alt="Projectiles" loading="lazy">
-          <span class="catalog-card-label">Projectiles</span>
-        </a>
-        <a class="catalog-card" href="/weapongear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/weapons.webp" alt="Weapons" loading="lazy">
-          <span class="catalog-card-label">Weapons</span>
-        </a>
-      </div>
-    </fieldset>
-  </div>
-
-  <div class="catalog-cards catalog-standalone">
-    <a class="catalog-card" href="/affliction/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/affliction.webp" alt="Afflictions" loading="lazy">
-      <span class="catalog-card-label">Afflictions</span>
-    </a>
-    <a class="catalog-card" href="/mysticalability/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/mystical-abilities.webp" alt="Mystical Abilities" loading="lazy">
-      <span class="catalog-card-label">Mystical Abilities</span>
-    </a>
-    <a class="catalog-card" href="/skill/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/skills-attributes.webp" alt="Skills and Attributes" loading="lazy">
-      <span class="catalog-card-label">Skills/Attributes</span>
-    </a>
-    <a class="catalog-card" href="/trauma/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/trauma.webp" alt="Trauma" loading="lazy">
-      <span class="catalog-card-label">Trauma</span>
-    </a>
-  </div>
+  <h2 style="text-align: center;">Where to start</h2>
+  <p class="hero-tagline">
+    New to the system? The <a href="{{ $sohl }}kb/user-guide/">User Guide</a>
+    walks through playing with it in Foundry. The
+    <a href="{{ $sohl }}kb/rules/">Rules</a> are the game itself — tests,
+    injury, healing, and the rest — written to be read at the table. Building
+    something on top of it? Start from the
+    <a href="{{ $sohl }}kb/dev-docs/">Developer Documentation</a>, then the
+    <a href="{{ $sohl }}api/">API reference</a>.
+  </p>
 </section>
 {{ end }}

@@ -1,0 +1,149 @@
+name: Deploy /sohl/ to Cloudflare Pages
+
+# Publishes everything this repository serves under /sohl/ as ONE deploy
+# (#1444, #1470): the package landing page, the knowledgebase, and the API
+# documentation.
+#
+# The two surfaces are built from different refs — the knowledgebase from the
+# current `main`, the API documentation from the newest release tag — but a
+# Cloudflare Pages deploy replaces the whole tree, so both are rebuilt on every
+# run and uploaded together. A run that publishes only half would take the other
+# half offline.
+#
+# The uploaded directory's root is the *origin*, not `/sohl/`: the site is
+# assembled at `build/site/sohl/` so the deployment carries the path prefix
+# physically. That is what lets it be checked at the project's own
+# `*.pages.dev` address before any routing points at it, and leaves the routing
+# layer (#1468) a path-preserving pass-through.
+
+on:
+    # Republish whenever the site, the content it renders, the builders, or the
+    # shared theme change.
+    push:
+        branches: [main]
+        paths:
+            - "kb/**"
+            - "assets/content/**"
+            - "assets/manifests/**"
+            - "utils/**"
+            - ".github/workflows/deploy-sohl.yml"
+    # The API half tracks the newest release. A Release created with
+    # GITHUB_TOKEN cannot fire a `release:` event, so the release workflow's
+    # completion is the seam; nothing is passed between the two, since the tag
+    # is resolved here.
+    workflow_run:
+        workflows: ["Version and Release"]
+        types: [completed]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: sohl-deploy
+    cancel-in-progress: false
+
+jobs:
+    deploy:
+        # Skip when the release workflow failed or was cancelled.
+        if: >-
+            github.event_name != 'workflow_run' ||
+            github.event.workflow_run.conclusion == 'success'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout (with the theme submodule)
+              uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Setup Hugo
+              uses: peaceiris/actions-hugo@v3
+              with:
+                  hugo-version: "0.163.3"
+                  extended: true
+
+            # The landing page and the knowledgebase, into build/site/sohl/.
+            - name: Build the site
+              run: npm run build:kb
+
+            # The API documentation is built from the newest *release*, not from
+            # main: it documents what people are running (#1452). Resolved here
+            # rather than inherited from the triggering ref, which is irrelevant
+            # to it.
+            - name: Resolve the newest release tag
+              id: release
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  # `|| true`: a repository with no release answers 404, and the
+                  # empty-tag branch below reports that far more clearly than
+                  # gh's exit status would under `set -e`.
+                  TAG=$(gh api "repos/${GITHUB_REPOSITORY}/releases/latest" --jq .tag_name 2>/dev/null || true)
+                  if [ -z "${TAG}" ] || [ "${TAG}" = "null" ]; then
+                      echo "No published release found — there is nothing to document."
+                      exit 1
+                  fi
+                  echo "Building API documentation from ${TAG}."
+                  echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+            - name: Checkout the release tag
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ steps.release.outputs.tag }}
+                  path: release
+
+            # In the release checkout, and with its own lockfile: the docs are a
+            # pure function of the tag, and main's dependencies are not
+            # necessarily the ones it was built with.
+            - name: Build the API documentation
+              working-directory: release
+              run: |
+                  npm ci
+                  npm run docs:prepare
+                  npm run docs:html
+
+            # Mounts the API tree at build/site/sohl/api/ and refuses to
+            # continue if any surface — landing, knowledgebase, API, or the 404
+            # page — failed to build (#1416).
+            - name: Assemble the deployment
+              run: npm run site:assemble -- --api release/build/docs-html
+
+            - name: Deploy to Cloudflare Pages (production)
+              uses: cloudflare/wrangler-action@v3
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  command: pages deploy build/site --project-name=sohl-site --branch=main
+
+            # After each publish, so new pages appear immediately rather than
+            # behind whatever the edge already cached. Skips cleanly when the
+            # secrets are unset.
+            - name: Purge Cloudflare cache
+              env:
+                  CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+                  CF_API_TOKEN: ${{ secrets.CLOUDFLARE_PURGE_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_API_TOKEN}" ]; then
+                      echo "Cloudflare secrets not configured; skipping cache purge."
+                      exit 0
+                  fi
+                  echo "Purging Cloudflare cache for zone ${CF_ZONE_ID}…"
+                  resp=$(curl -fsS -X POST \
+                      "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+                      -H "Authorization: Bearer ${CF_API_TOKEN}" \
+                      -H "Content-Type: application/json" \
+                      --data '{"purge_everything":true}')
+                  echo "${resp}"
+                  # Cloudflare returns HTTP 200 with success:false on logical errors
+                  echo "${resp}" | grep -q '"success":true' || { echo "Cloudflare purge failed."; exit 1; }

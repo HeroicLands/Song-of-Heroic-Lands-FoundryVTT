@@ -9,7 +9,7 @@
     {{- /* Grouped by `sohl.kbcat` (cooking, food, jewelry, …), one table per
            category titled from the humanized kbcat, alphabetical; rows sorted by
            name with the six common gear columns. Fully dynamic. */ -}}
-    {{- $groups := partial "kbcat-groups.html" (dict "section" "miscgear" "extras" true) -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "type" "miscgear" "extras" true) -}}
     {{- range (sort $groups "title") }}
     <section class="kbcat-group">
       <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>

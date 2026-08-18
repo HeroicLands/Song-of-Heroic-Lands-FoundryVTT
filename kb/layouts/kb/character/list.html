@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          {{- range (sort (where site.RegularPages "Section" "character") "Title") }}
+          {{- range (sort (where site.RegularPages "Type" "character") "Title") }}
           {{- $s := .Params.social -}}
           <tr>
             <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>

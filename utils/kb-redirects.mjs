@@ -72,10 +72,15 @@ export function oldSectionOf(fm, isDevDoc) {
  * @param {string} [entry.rel] - Source path relative to the doc root (dev only).
  * @param {boolean} [entry.isReadme] - Whether the page is its section landing.
  * @param {Record<string, string>} [legacySlugs] - `type:shortcode` → old slug.
+ * @param {string} [base] - Where the knowledgebase is mounted (#1470), e.g.
+ *   `"/sohl/kb/"`. Every redirect is an address inside it, and so is the
+ *   `entry.url` the self-redirect check compares against — the two must be
+ *   spelled the same way, or a page acquires an alias at its own URL and Hugo
+ *   publishes the redirect stub over the page itself.
  * @returns {string[]} The redirect URLs, in first-claim order; empty when the
  *   page has never published anywhere else.
  */
-export function pageRedirects(entry, legacySlugs = {}) {
+export function pageRedirects(entry, legacySlugs = {}, base = "/") {
     const { kind, fm, sec, slug, url, rel, isReadme } = entry;
     const redirects = new Set();
 
@@ -84,7 +89,7 @@ export function pageRedirects(entry, legacySlugs = {}) {
         kind === "content" ?
             legacySlugs[`${fm.type}:${fm.shortcode}`]
         :   undefined;
-    if (legacy) redirects.add(`/${sec}/${legacy}/`);
+    if (legacy) redirects.add(`${base}${sec}/${legacy}/`);
 
     const oldSec = kind === "dev" ? "dev" : oldSectionOf(fm, false);
     if (oldSec !== sec) {
@@ -94,13 +99,13 @@ export function pageRedirects(entry, legacySlugs = {}) {
             redirects.add(
                 isReadme ?
                     dir === "." ?
-                        `/${oldSec}/`
-                    :   `/${oldSec}/${dir}/`
-                :   `/${oldSec}/${relNoExt}/`,
+                        `${base}${oldSec}/`
+                    :   `${base}${oldSec}/${dir}/`
+                :   `${base}${oldSec}/${relNoExt}/`,
             );
         } else {
-            redirects.add(`/${oldSec}/${legacy ?? slug}/`);
-            if (isReadme) redirects.add(`/${oldSec}/`);
+            redirects.add(`${base}${oldSec}/${legacy ?? slug}/`);
+            if (isReadme) redirects.add(`${base}${oldSec}/`);
         }
     }
     redirects.delete(url);
@@ -115,12 +120,33 @@ export function pageRedirects(entry, legacySlugs = {}) {
  * become a redirect at a display-name URL. Clearing it first makes the emitted
  * value wholly generated: what {@link pageRedirects} returned, or nothing.
  *
+ * **An alias is publishDir-relative, not a site URL** (#1470). Hugo writes one
+ * at `publishDir + alias` and never subtracts the path its `baseURL` carries,
+ * so a page under `/sohl/` whose alias reads `/sohl/kb/x/` publishes it at
+ * `/sohl/sohl/kb/x/` — a redirect that builds, deploys, and is unreachable.
+ * The site root is stripped here, at the single point where a real URL becomes
+ * a Hugo field; everything upstream reasons in mounted URLs, which is what
+ * makes the self-redirect check in {@link pageRedirects} comparable.
+ *
  * @param {object} data - The frontmatter about to be written (mutated).
- * @param {string[]} redirects - The page's redirect URLs.
+ * @param {string[]} redirects - The page's redirect URLs, mounted.
+ * @param {string} [siteRoot] - The path this Hugo site is published at, i.e.
+ *   its `baseURL` path (`"/sohl/"`). Stripped from each redirect.
  * @returns {object} The same `data`, for chaining.
+ * @throws {Error} If a redirect does not sit under `siteRoot` — it would
+ *   publish at an address the deploy never serves.
  */
-export function applyRedirects(data, redirects) {
+export function applyRedirects(data, redirects, siteRoot = "/") {
     delete data.aliases;
-    if (redirects.length) data.aliases = redirects;
+    if (!redirects.length) return data;
+    data.aliases = redirects.map((url) => {
+        if (!url.startsWith(siteRoot)) {
+            throw new Error(
+                `applyRedirects: redirect ${JSON.stringify(url)} is not under ` +
+                    `the site root ${JSON.stringify(siteRoot)}`,
+            );
+        }
+        return `/${url.slice(siteRoot.length)}`;
+    });
     return data;
 }

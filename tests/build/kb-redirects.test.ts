@@ -168,6 +168,78 @@ describe("pageRedirects — developer docs", () => {
     });
 });
 
+describe("pageRedirects — the knowledgebase mount (#1470)", () => {
+    // The knowledgebase publishes under /sohl/kb/, so a redirect is an address
+    // inside that mount: an unprefixed one would resolve to a path the deploy
+    // does not serve, which is exactly the silent 404 redirects exist to avoid.
+    const KB = "/sohl/kb/";
+
+    it("emits the legacy-slug redirect inside the mount", () => {
+        expect(
+            pageRedirects(
+                note(
+                    { type: "creature", shortcode: "nwght" },
+                    { url: "/sohl/kb/creature/nightwights/" },
+                ),
+                LEGACY,
+                KB,
+            ),
+        ).toEqual(["/sohl/kb/creature/nightwight/"]);
+    });
+
+    it("emits the section-move redirect inside the mount", () => {
+        expect(
+            pageRedirects(
+                note(
+                    { type: "doc", shortcode: "res" },
+                    {
+                        sec: "rules",
+                        slug: "resolution",
+                        url: "/sohl/kb/rules/resolution/",
+                    },
+                ),
+                {},
+                KB,
+            ),
+        ).toEqual(["/sohl/kb/guide/resolution/"]);
+    });
+
+    it("emits a developer doc's old path inside the mount", () => {
+        expect(
+            pageRedirects(
+                {
+                    kind: "dev" as const,
+                    fm: { type: "doc" },
+                    slug: "body-structure",
+                    rel: "reference/body-structure.md",
+                    sec: "dev-docs",
+                    url: "/sohl/kb/dev-docs/reference/body-structure/",
+                    isReadme: false,
+                },
+                {},
+                KB,
+            ),
+        ).toEqual(["/sohl/kb/dev/reference/body-structure/"]);
+    });
+
+    it("still never redirects a page to itself", () => {
+        // The self-check compares against the page's own mounted URL, so it
+        // only holds while both sides carry the same prefix. An alias equal to
+        // the page's URL would have Hugo overwrite the page with its own
+        // redirect stub.
+        expect(
+            pageRedirects(
+                note(
+                    { type: "creature", shortcode: "nwght" },
+                    { url: "/sohl/kb/creature/nightwights/" },
+                ),
+                { "creature:nwght": "nightwights" },
+                KB,
+            ),
+        ).toEqual([]);
+    });
+});
+
 describe("applyRedirects", () => {
     it("drops the authored aliases the frontmatter spread carried in", () => {
         const fm = {
@@ -192,6 +264,33 @@ describe("applyRedirects", () => {
     it("returns the same object it was given", () => {
         const data = {};
         expect(applyRedirects(data, ["/old/"])).toBe(data);
+    });
+});
+
+describe("applyRedirects — a Hugo alias is publishDir-relative (#1470)", () => {
+    // Hugo writes an alias at `publishDir + alias` and never subtracts the path
+    // its baseURL carries, so an alias spelled as the full site URL publishes at
+    // /sohl/sohl/kb/… — a redirect that exists and resolves to nothing. The site
+    // root is therefore stripped on the way into the frontmatter, and only
+    // there: everything upstream reasons in real, mounted URLs.
+    it("strips the site root the baseURL already carries", () => {
+        const data: Record<string, unknown> = {};
+        applyRedirects(data, ["/sohl/kb/creature/nightwight/"], "/sohl/");
+        expect(data.aliases).toEqual(["/kb/creature/nightwight/"]);
+    });
+
+    it("leaves a redirect untouched when the site is at a bare root", () => {
+        const data: Record<string, unknown> = {};
+        applyRedirects(data, ["/creature/nightwight/"], "/");
+        expect(data.aliases).toEqual(["/creature/nightwight/"]);
+    });
+
+    it("refuses a redirect that does not sit under the site root", () => {
+        // Silently passing it through would publish an alias at a path the
+        // deploy does not serve — the failure this stripping exists to prevent.
+        expect(() =>
+            applyRedirects({}, ["/thalorna/creature/x/"], "/sohl/"),
+        ).toThrow(/site root/);
     });
 });
 

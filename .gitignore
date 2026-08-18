@@ -65,6 +65,10 @@ Session.vim
 /cypress/screenshots/
 /cypress/downloads/
 
+# Wrangler scratch, from serving the assembled site locally
+# (`npx wrangler pages dev build/site`) to check status codes and 404s.
+/.wrangler/
+
 # Hidden files
 /nogit/
 *.wip

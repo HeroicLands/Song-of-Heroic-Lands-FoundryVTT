@@ -21,7 +21,7 @@ This documentation is **developer- and API-facing only**. Player- and GM-facing 
 
 1. [Architecture Overview](concepts/architecture.md) — the system's mental model and a map of the `src/` tree. **Read this first.**
 2. [Getting Started](how-to/getting-started.md) — environment setup, codebase tour, and your first change.
-3. [API Reference](https://api.heroiclands.org/latest) — generated TypeDoc, with a sidebar grouped to mirror the source: Core / Documents / Domain / Utility.
+3. [API Reference](/sohl/api/) — generated TypeDoc, with a sidebar grouped to mirror the source: Core / Documents / Domain / Utility.
 
 > **Security-critical change?** If you are touching serialization, HTML
 > rendering, actions/executors, or chat/cross-client flows, read

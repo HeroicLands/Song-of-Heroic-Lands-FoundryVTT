@@ -69,8 +69,10 @@ sequence; `run-p` runs them in parallel.
 | `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                       |
 | `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                |
 | `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                     |
-| `build:kb-content`    | Generate the knowledgebase Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/` (`utils/build-kb-content.mjs`). No Hugo needed.           |
-| `build:kb`            | `build:kb-content` then render it with Hugo → `kb/public/`. Needs Hugo and the theme submodule.                                                   |
+| `build:kb-content`    | Generate the site's Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/kb/` (`utils/build-kb-content.mjs`). No Hugo needed.               |
+| `build:kb`            | `build:kb-content` then render it with Hugo → `build/site/sohl/`. Needs Hugo and the theme submodule.                                             |
+| `site:assemble`       | Mount the TypeDoc HTML at `build/site/sohl/api/` and finish the deployable tree (`utils/build-site.mjs`).                                         |
+| `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                     |
 | `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`utils/pack-release.mjs`).                                                   |
 | `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                              |
 
@@ -191,6 +193,15 @@ build/
 │   ├── system.zip    the released system archive (a zip of build/stage/)
 │   └── system.json   the released manifest
 ├── docs/             the Markdown documentation tree (from docs:md)
+├── docs-html/        the generated API documentation (from docs:html)
+├── site/             THE DEPLOYABLE WEBSITE — what Cloudflare Pages serves
+│   ├── _redirects    sends the deployment's own root to /sohl/
+│   ├── 404.html      a real 404 for a path outside /sohl/
+│   └── sohl/         everything published at www.heroiclands.org/sohl/
+│       ├── index.html  the package landing page
+│       ├── 404.html    the 404 for every address under /sohl/
+│       ├── kb/         the knowledgebase (Hugo)
+│       └── api/        the API documentation (TypeDoc, mounted here)
 └── tmp/              scratch (e.g. unpacked packs)
 ```
 
@@ -518,12 +529,12 @@ These accumulate on `main` as PRs merge.
     - attaches `system.zip` + `system.json` (the manifest/download Foundry installs
       and updates from).
 
-4. The **API documentation republishes itself.** `deploy-docs.yml` runs when the
-   release workflow completes, builds the newest release tag, and replaces
-   `api.heroiclands.org` with it — one unversioned copy, no archive. Nothing to
-   run; see [API Docs Hosting](../contributing/api-docs-hosting.md). If that run
-   fails, repeat it with `gh workflow run deploy-docs.yml` (it needs no
-   arguments — the newest release is always what it builds).
+4. **`/sohl/` republishes itself.** `deploy-sohl.yml` runs when the release
+   workflow completes, rebuilds the whole subtree — landing page,
+   knowledgebase, and the API documentation from the newest release tag — and
+   deploys it. Nothing to run; see [§8](#8-publishing-the-sohl-website). If
+   that run fails, repeat it with `gh workflow run deploy-sohl.yml` (it needs
+   no arguments — the newest release is always what it documents).
 
 That's the entire release. Two notes:
 
@@ -544,15 +555,60 @@ That's the entire release. Two notes:
 | Publish the API docs          | no (CI)  | —          |
 | Deploy to a Foundry instance  | 🔧 yes   | operator   |
 
-## 8. Publishing build output — the `dist` branch
+## 8. Publishing the `/sohl/` website
 
-Two of this repository's surfaces are published to the **web** rather than to a
-Foundry instance: the knowledgebase and the API documentation. Each has its own
-live deployment today (`kb.heroiclands.org` from `deploy-kb.yml`,
-`api.heroiclands.org` from `deploy-docs.yml`), and **both are additionally
-published as build output to a `dist` branch** by
-`.github/workflows/deploy-dist.yml`, which is what `heroiclands-site` consumes
-when it assembles `www.heroiclands.org/sohl/` (#1444).
+Some of what this repository builds is published to the **web** rather than to a
+Foundry instance, and all of it is one site: everything under
+`www.heroiclands.org/sohl/`.
+
+| Address        | What                                        | Built by                       | Built from             |
+| -------------- | ------------------------------------------- | ------------------------------ | ---------------------- |
+| `/sohl/`       | The package landing page                    | Hugo (`kb/layouts/index.html`) | `main`                 |
+| `/sohl/kb/`    | The knowledgebase                           | Hugo (`build:kb`)              | `main`                 |
+| `/sohl/api/`   | The API documentation                       | TypeDoc (`docs:html`)          | the newest release tag |
+
+`npm run build:site` produces the whole thing locally, and
+`.github/workflows/deploy-sohl.yml` produces and deploys it in CI — one build,
+one deploy, one hosting project (#1470). Four things about it are worth knowing
+before you change any of it.
+
+**The deployment carries the `/sohl/` prefix physically.** `publishDir` in
+`kb/hugo.toml` renders into `build/site/sohl/`, and the directory that is
+uploaded is `build/site/` — so a page's `/sohl/kb/…` link resolves against the
+deployment exactly as it will against `www`. That is what lets the hosting
+project be checked at its own `*.pages.dev` address before any routing points at
+it, and it leaves the routing layer (#1468) a path-preserving pass-through with
+nothing to rewrite.
+
+**Both surfaces are rebuilt on every run**, even though they track different
+refs. A Cloudflare Pages deploy replaces the whole tree, so a run that published
+only the half it had rebuilt would take the other half offline. The workflow
+therefore builds the knowledgebase from `main`, checks the newest release tag out
+into `release/` and builds the API documentation there (with that tag's own
+lockfile — the documentation is a pure function of its tag), and
+`site:assemble` mounts the result at `build/site/sohl/api/`.
+
+**Nothing ships half-built.** `utils/build-site.mjs` refuses to finish unless
+the landing page, the knowledgebase, the API documentation and the `404.html`
+are all present — a missing surface would publish a 404 at an address the
+navigation already points at, and a missing `404.html` would make Cloudflare
+Pages answer unmatched paths with a soft-404 (#1416).
+
+**Links inside the generated Markdown carry the prefix from the builder, not
+from Hugo.** Hugo prefixes what it emits itself (permalinks, assets, aliases),
+but the wikilinks and cross-references written into `kb/content/` are ordinary
+site paths that nothing rewrites afterwards. They come from `SOHL_BASE` /
+`KB_BASE` / `API_BASE` in `utils/build-kb-content.mjs`, which is where a
+relocation is edited. One consequence worth remembering: a Hugo `alias` is
+publishDir-relative and does **not** get the baseURL path added, so
+`applyRedirects` strips the site root on the way into the frontmatter.
+
+### The `dist` branch
+
+Superseded by the deploy above, and still running: the knowledgebase content and
+the API documentation are **also** published as build output to a `dist` branch
+by `.github/workflows/deploy-dist.yml`, from when `heroiclands-site` was to
+assemble `/sohl/` itself (#1444, before its amendment). Retiring it is #1467.
 
 | Path on `dist` | Contents                                             | Built from             | Refreshed on                                          |
 | -------------- | ---------------------------------------------------- | ---------------------- | ----------------------------------------------------- |
@@ -563,8 +619,8 @@ when it assembles `www.heroiclands.org/sohl/` (#1444).
 Four properties are worth knowing before you touch that workflow:
 
 - **Markdown, not rendered HTML.** The knowledgebase half publishes the Hugo
-  _content_ tree, so the consuming site owns the layouts and runs Hugo. That is
-  what lets this repository eventually stop needing Hugo and the theme submodule.
+  _content_ tree, for a consumer that would own the layouts and run Hugo itself.
+  This repository does both, so nothing consumes that any more.
 - **The two halves are independent.** Each publish rewrites only the half it
   built and carries the other forward from the branch's current tip, because
   they refresh on entirely different cadences.
@@ -612,6 +668,8 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                   |
 | `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
 | `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
+| `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.  |
+| `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, and refuse a partial build.   |
 | `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                     |
 | `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress. |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |

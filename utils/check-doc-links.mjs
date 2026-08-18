@@ -36,8 +36,10 @@
  *    against the headings the target declares, using GitHub's slug rules, which
  *    is what both GitHub and Hugo generate for a heading.
  *
- * External links (`http:`, `https:`, `mailto:`), in-page links on a non-markdown
- * target, and anything inside a code fence or code span are left alone.
+ * External links (`http:`, `https:`, `mailto:`), site-root links (`/sohl/api/`
+ * — a published address, not a path in this tree), in-page links on a
+ * non-markdown target, and anything inside a code fence or code span are left
+ * alone.
  *
  * Usage:
  *   npm run lint:doc-links
@@ -150,6 +152,11 @@ export function linksIn(source) {
     for (const m of body.matchAll(/\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
         const raw = m[1];
         if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(raw)) continue; // external
+        // A site-root link is a published address, not a path in this tree:
+        // the knowledgebase renders under /sohl/kb/, so a page reaching a
+        // sibling surface writes `/sohl/api/` (#1470). Resolving it here would
+        // look for that path inside `kb/dev-docs/` and call it dead.
+        if (raw.startsWith("/")) continue;
         const hash = raw.indexOf("#");
         out.push({
             raw,

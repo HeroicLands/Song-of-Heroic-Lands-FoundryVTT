@@ -9,7 +9,7 @@
     {{- /* Grouped by `sohl.kbcat`; "Name (shortcode) + description" rows. */ -}}
     {{- $titles := dict "diseases" "Diseases" "poisontoxin" "Poisons & Toxins" -}}
     {{- $order := slice "diseases" "poisontoxin" -}}
-    {{- $groups := partial "kbcat-groups.html" (dict "section" "affliction" "titles" $titles "order" $order "extras" true) -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "type" "affliction" "titles" $titles "order" $order "extras" true) -}}
     {{- range $groups }}
     <section class="kbcat-group">
       <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>

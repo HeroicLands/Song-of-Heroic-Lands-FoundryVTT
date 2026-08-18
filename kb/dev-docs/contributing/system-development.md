@@ -329,12 +329,14 @@ against real world data — migrations must never require manual user interventi
   commit-pinned source links.
 - **JSDoc → doc-page links.** The reverse direction — a **JSDoc comment pointing
   at a concept/reference doc** — links to the doc's **knowledgebase URL**
-  (`https://kb.heroiclands.org/dev/<path>/`, e.g.
-  `https://kb.heroiclands.org/dev/concepts/security-model/`). The API site is
-  strictly generated symbols; the prose lives on the KB, so a relative `.md` link
-  from JSDoc has no page to resolve to. `{@link}` targets code symbols only, not
-  doc pages. Non-rendered `//` or `/* */` comments (which TypeDoc does not emit)
-  may instead cite the repo path `docs/…​.md`, which a source reader opens directly.
+  (`https://www.heroiclands.org/sohl/kb/dev-docs/<path>/`, e.g.
+  `https://www.heroiclands.org/sohl/kb/dev-docs/concepts/security-model/`). The
+  API site is strictly generated symbols; the prose lives on the KB, so a
+  relative `.md` link from JSDoc has no page to resolve to. `{@link}` targets
+  code symbols only, not doc pages. Non-rendered `//` or `/* */` comments (which
+  TypeDoc does not emit) may instead cite the repo path `kb/dev-docs/…​.md`,
+  which a source reader opens directly. Comments written before #1470 still cite
+  `kb.heroiclands.org`, which serves until #1457; sweeping them is #1455.
 - **Localization keys.** Every user-visible string is a key in `lang/en.json`, named
   by the standard in [Localization Keys](../reference/localization-keys.md):
   `SOHL.<Namespace>[.<Group>].<leaf>`, where the namespace is a singular PascalCase
