@@ -52,3 +52,21 @@ it up. `content-package.mjs` names `CONTENT_PACKAGE` and `FOUNDRY_PACKAGE_ID`
 separately — they are equal here only by coincidence, and conflating them is what
 made every `sohl-thalorna` link address this system (#1498). Emitted pack output
 is byte-identical, verified by hash against the previous build.
+
+**The pack build resolves cross-package links too.** It vendors the other
+package's manifest, merges its canonically keyed entries into the wikilink index
+— one map, one lookup, no precedence rule — and resolves a foreign address to
+the UUID the manifest states, anchors included. 43 links now address
+`Compendium.sohl-thalorna.*`.
+
+With every linkable package either built here or vendored, a _qualified_ address
+that resolves nowhere can only be a typo, so it now fails the note rather than
+degrading silently. A bare alias stays a warning: it may be ordinary prose.
+
+**An unresolved link keeps its text and is marked.** It renders as
+`<span class="sohl-unresolved-link">`, styled in
+`scss/components/_unresolved-link.scss` — bold, dotted underline, and a colour
+chosen per theme with `light-dark()`, since Foundry drives its themes through
+`color-scheme`. Both values are contrast-checked rather than eyeballed:
+`#B3261E` reaches 5.5–6.5:1 on light backgrounds, `#FF8A80` 6.8–8.3:1 on dark.
+The text is escaped, so content cannot inject markup.

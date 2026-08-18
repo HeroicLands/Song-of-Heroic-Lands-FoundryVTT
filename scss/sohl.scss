@@ -65,6 +65,9 @@
     @include meta.load-css("components/chat");
     @include meta.load-css("components/tooltip");
     @include meta.load-css("components/rollable");
+    // Unscoped: compiled prose carrying an unresolved link appears in journal
+    // sheets, chat cards and tooltips, not only under a `.sohl` frame.
+    @include meta.load-css("components/unresolved-link");
     // Unscoped: the picker dialog is a top-level DialogV2 window (no `.sohl`
     // frame); the file scopes its sheet-control rules to `.sohl` internally.
     @include meta.load-css("components/date-picker");

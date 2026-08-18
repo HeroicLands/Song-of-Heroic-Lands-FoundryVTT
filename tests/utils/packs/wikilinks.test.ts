@@ -172,26 +172,26 @@ describe("convertWikilinks", () => {
     it("cannot resolve a bare alias that belongs to another type", () => {
         const { markdown } = convert("[[Coma]]", { type: "skill", id: "bbbbbbbbbbbbbbb1" });
         // "Coma" is not an alias of any skill — unresolvable from there.
-        expect(markdown).toBe("[[Coma]]");
+        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>');
     });
 
     it("leaves an ambiguous bare alias untouched and reports it", () => {
         const { markdown, unresolved } = convert("a [[Coma]] state");
-        expect(markdown).toBe("a [[Coma]] state");
+        expect(markdown).toBe(`a ${'<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>'} state`);
         expect(unresolved).toHaveLength(1);
         expect(unresolved[0]).toMatchObject({ target: "Coma", reason: "ambiguous" });
     });
 
     it("leaves an unknown shortcode untouched and reports it", () => {
         const { markdown, unresolved } = convert("the [[doc/nosuchcode|Injury]] rules");
-        expect(markdown).toBe("the [[doc/nosuchcode|Injury]] rules");
+        expect(markdown).toBe(`the ${'<span class="sohl-unresolved-link" title="Unresolved link: doc/nosuchcode">Injury</span>'} rules`);
         expect(unresolved).toHaveLength(1);
         expect(unresolved[0].reason).toBe("unknown");
     });
 
     it("rejects a qualifier that is not a content type — including the retired directory form", () => {
         const { markdown, unresolved } = convert("the [[Rules/shock|Shock]] rules");
-        expect(markdown).toBe("the [[Rules/shock|Shock]] rules");
+        expect(markdown).toBe(`the ${'<span class="sohl-unresolved-link" title="Unresolved link: Rules/shock">Shock</span>'} rules`);
         expect(unresolved[0]).toMatchObject({ reason: "unknown-type" });
     });
 
@@ -263,16 +263,23 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
     it("rejects `doc` applied to a type that has no item doc", () => {
         // `doc` and `creature` compile to the journals and actors packs
         // respectively; neither has an item doc to address.
-        for (const link of ["[[docdoc/shock|Shock]]", "[[doccreature/condor|Condor]]"]) {
+        for (const [link, text, target] of [
+            ["[[docdoc/shock|Shock]]", "Shock", "docdoc/shock"],
+            ["[[doccreature/condor|Condor]]", "Condor", "doccreature/condor"],
+        ]) {
             const { markdown, unresolved } = convert(link);
-            expect(markdown).toBe(link);
+            // The author's text survives, marked so the reader can tell a link
+            // was meant. Dropping it would silently rewrite the sentence.
+            expect(markdown).toBe(
+                `<span class="sohl-unresolved-link" title="Unresolved link: ${target}">${text}</span>`,
+            );
             expect(unresolved[0]).toMatchObject({ reason: "unknown-type" });
         }
     });
 
     it("reports an unknown shortcode under a valid virtual qualifier", () => {
         const { markdown, unresolved } = convert("[[docskill/nosuchcode|Nope]]");
-        expect(markdown).toBe("[[docskill/nosuchcode|Nope]]");
+        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: docskill/nosuchcode">Nope</span>');
         expect(unresolved[0]).toMatchObject({ reason: "unknown" });
     });
 
@@ -421,7 +428,7 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
 
     it("reports an unknown shortcode under a valid type", () => {
         const { markdown, unresolved } = convert("[[doc-nosuchcode|Nope]]");
-        expect(markdown).toBe("[[doc-nosuchcode|Nope]]");
+        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: doc-nosuchcode">Nope</span>');
         expect(unresolved[0]).toMatchObject({ reason: "unknown" });
     });
 
@@ -532,5 +539,39 @@ describe("readQualifier — the optional package segment (#1499)", () => {
                 package: "thalorna",
             },
         );
+    });
+});
+
+describe("an unresolved link keeps its text and is marked (#1499)", () => {
+    const index = buildWikilinkIndex(DOCS, "sohl");
+    const from = { type: "doc", id: "1111111111111111", index };
+
+    it("keeps the label, so the sentence still reads", () => {
+        const { markdown } = convertWikilinks(
+            "the [[skill-nosuchcode|climbing]] check",
+            from,
+        );
+        expect(markdown).toContain(">climbing</span>");
+        expect(markdown).toContain("the ");
+        expect(markdown).toContain(" check");
+    });
+
+    it("carries the class the stylesheet marks it with", () => {
+        const { markdown } = convertWikilinks("[[skill-nosuchcode]]", from);
+        expect(markdown).toContain('class="sohl-unresolved-link"');
+    });
+
+    it("names the failed address in the tooltip", () => {
+        const { markdown } = convertWikilinks("[[skill-nosuchcode]]", from);
+        expect(markdown).toContain('title="Unresolved link: skill-nosuchcode"');
+    });
+
+    it("escapes the text and the address, so content cannot inject markup", () => {
+        const { markdown } = convertWikilinks(
+            '[[skill-nosuchcode|<img src=x onerror="alert(1)">]]',
+            from,
+        );
+        expect(markdown).not.toContain("<img");
+        expect(markdown).toContain("&lt;img");
     });
 });
