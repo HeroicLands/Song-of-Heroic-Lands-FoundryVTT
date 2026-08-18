@@ -63,6 +63,7 @@ Contracts, catalogs, and specifications.
 
 - [Type Catalog](reference/type-catalog.md)
 - [Linking Between Content Notes](reference/content-links.md) — wikilinks for content authors: the four forms, and why an item and its documentation need two different addresses.
+- [The Link Manifest](reference/link-manifest.md) — the cross-package index: canonical addresses, Foundry UUIDs and anchors, and what a consuming build must do with them.
 - [Generated Content Tables](reference/content-tables.md) — Dataview `TABLE` queries that tabulate content notes from their frontmatter.
 - [Modifier Model](reference/modifier-model.md)
 - [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)

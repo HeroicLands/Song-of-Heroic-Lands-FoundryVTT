@@ -70,3 +70,10 @@ chosen per theme with `light-dark()`, since Foundry drives its themes through
 `color-scheme`. Both values are contrast-checked rather than eyeballed:
 `#B3261E` reaches 5.5–6.5:1 on light backgrounds, `#FF8A80` 6.8–8.3:1 on dark.
 The text is escaped, so content cannot inject markup.
+
+**The contract is documented.** `kb/dev-docs/reference/link-manifest.md` is the
+page another repository codes against: the format field by field, how canonical
+keys parse, why an item and its documentation are two entries, what `$lead` is,
+and the six rules a consuming build must follow — including that an entry
+legitimately has no `uuid`, that `path` is resolved against the consumer's own
+base, and that `doc<type>` must never be admitted as a real type.
