@@ -20,11 +20,20 @@ import { fileURLToPath } from "node:url";
  * landing page, which reads as success to every "does this URL resolve?" check
  * and lets search engines index retired content as live (issue #1416).
  *
- * The shared theme carries no 404 template, so the KB's own
- * `kb/layouts/404.html` is the only thing that makes Hugo emit the file. These
- * assertions pin the two halves of that contract: the layout exists and renders
- * through the theme's `baseof`, and the deploy workflow refuses to ship a build
- * that lacks the artifact.
+ * The **template** now lives in the shared theme, because every consumer needs
+ * one and none should keep its own copy (issue #1454). That splits the contract
+ * in two, and only one half is ours:
+ *
+ * - _The theme_ owns `layouts/404.html`. It is a submodule, and the job that
+ *   runs this suite does not check submodules out, so these assertions cannot
+ *   read it — asserting on an empty directory would fail for the wrong reason.
+ * - _This repository_ owns the wording and the routes back, via
+ *   `params.notfound` in `kb/hugo.toml`, and owns the deploy that publishes the
+ *   artifact.
+ *
+ * So the assertions below pin what this repository can actually regress: the
+ * consumer configuration, and a deploy that both checks out the theme and
+ * refuses to ship a build missing the file.
  */
 const REPO_ROOT = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -35,32 +44,33 @@ const read = (rel: string) =>
     fs.readFileSync(path.join(REPO_ROOT, rel), "utf8");
 
 describe("knowledgebase 404 page (#1416)", () => {
-    const LAYOUT = "kb/layouts/404.html";
+    const CONFIG = "kb/hugo.toml";
+    const DEPLOY = ".github/workflows/deploy-kb.yml";
 
-    it("has a 404 layout, so Hugo writes kb/public/404.html", () => {
-        expect(fs.existsSync(path.join(REPO_ROOT, LAYOUT))).toBe(true);
+    it("supplies the 404 page's wording, which the theme leaves to us", () => {
+        // The theme carries layout, not addresses (#1464): it renders generic
+        // wording when the consumer supplies none, so an empty section here
+        // publishes a page that never names the knowledgebase.
+        const config = read(CONFIG);
+        expect(config).toMatch(/\[params\.notfound\]/);
+        expect(config).toMatch(/tagline\s*=/);
     });
 
-    it("renders through the theme chrome rather than as a bare page", () => {
-        // `baseof.html` supplies the header, footer, and styling; a layout
-        // joins it by filling the `main` block. Without the block the file
-        // would still be written, but empty of everything below <main>.
-        expect(read(LAYOUT)).toMatch(/\{\{\s*define\s+"main"\s*\}\}/);
+    it("offers at least one route back, so a stale link is not a dead end", () => {
+        expect(read(CONFIG)).toMatch(/\[\[params\.notfound\.links\]\]/);
     });
 
-    it("tells the reader the page is missing and offers a way back", () => {
-        const layout = read(LAYOUT);
-        expect(layout).toMatch(/Page not found/);
-        // At minimum, home — a stale link should never be a dead end.
-        expect(layout).toMatch(/href="\/"/);
+    it("checks out the theme, which is where the template lives", () => {
+        // Without the submodule the theme's `layouts/404.html` is absent and
+        // Hugo emits no 404 at all — the exact soft-404 this guards against,
+        // reintroduced by a checkout option rather than by deleting anything.
+        expect(read(DEPLOY)).toMatch(/submodules:\s*recursive/);
     });
 
     it("is verified in the deploy workflow before publishing", () => {
-        // The layout can only regress by deletion, and the vitest suite does
-        // not run Hugo — so the build that actually produces the artifact
-        // asserts it, rather than the absence surfacing in production.
-        expect(read(".github/workflows/deploy-kb.yml")).toMatch(
-            /test -s kb\/public\/404\.html/,
-        );
+        // The vitest suite does not run Hugo, so the build that actually
+        // produces the artifact asserts it, rather than the absence surfacing
+        // in production.
+        expect(read(DEPLOY)).toMatch(/test -s kb\/public\/404\.html/);
     });
 });
