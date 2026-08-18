@@ -17,23 +17,19 @@ name: Deploy /sohl/ to Cloudflare Pages
 # layer (#1468) a path-preserving pass-through.
 
 on:
-    # Republish whenever the site, the content it renders, the builders, or the
-    # shared theme change.
+    # Every push to `main` republishes the whole subtree. No path filter: the
+    # site is cheap to rebuild against how easily a filter goes stale, and a
+    # push that changes nothing it serves merely republishes the same bytes
+    # (#1484).
     push:
         branches: [main]
-        paths:
-            - "kb/**"
-            - "assets/content/**"
-            - "assets/manifests/**"
-            - "utils/**"
-            - ".github/workflows/deploy-sohl.yml"
-    # The API half tracks the newest release. A Release created with
-    # GITHUB_TOKEN cannot fire a `release:` event, so the release workflow's
-    # completion is the seam; nothing is passed between the two, since the tag
-    # is resolved here.
-    workflow_run:
-        workflows: ["Version and Release"]
-        types: [completed]
+    # A newly published release changes the API half, which tracks the newest
+    # release tag rather than `main`. `release.yml` dispatches this workflow
+    # when it actually publishes one; it is NOT watched via `workflow_run`,
+    # because that workflow completes successfully on every push to `main`
+    # whether it released or not, so its completion fired a second deploy on
+    # every push (#1484). Nothing is passed with the dispatch — the tag is
+    # resolved here.
     workflow_dispatch:
 
 permissions:
@@ -45,10 +41,6 @@ concurrency:
 
 jobs:
     deploy:
-        # Skip when the release workflow failed or was cancelled.
-        if: >-
-            github.event_name != 'workflow_run' ||
-            github.event.workflow_run.conclusion == 'success'
         runs-on: ubuntu-latest
         steps:
             - name: Checkout (with the theme submodule)
@@ -118,32 +110,17 @@ jobs:
             - name: Assemble the deployment
               run: npm run site:assemble -- --api release/build/docs-html
 
+            # No cache purge follows. Every `/sohl/` response is served
+            # through the routing Worker straight from this Pages project, with
+            # Pages' own `cache-control: public, max-age=0, must-revalidate` and
+            # no `cf-cache-status` — the zone edge holds nothing under `/sohl/`
+            # to invalidate. The `purge_everything` that used to run here
+            # therefore evicted only *other* surfaces' cached objects (`www`'s
+            # own pages, `cdn`) on every publish (#1484). If a Cache Rule is
+            # ever added over `/sohl/`, purge those URLs — not the zone.
             - name: Deploy to Cloudflare Pages (production)
               uses: cloudflare/wrangler-action@v3
               with:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   command: pages deploy build/site --project-name=sohl-site --branch=main
-
-            # After each publish, so new pages appear immediately rather than
-            # behind whatever the edge already cached. Skips cleanly when the
-            # secrets are unset.
-            - name: Purge Cloudflare cache
-              env:
-                  CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-                  CF_API_TOKEN: ${{ secrets.CLOUDFLARE_PURGE_TOKEN }}
-              run: |
-                  set -euo pipefail
-                  if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_API_TOKEN}" ]; then
-                      echo "Cloudflare secrets not configured; skipping cache purge."
-                      exit 0
-                  fi
-                  echo "Purging Cloudflare cache for zone ${CF_ZONE_ID}…"
-                  resp=$(curl -fsS -X POST \
-                      "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
-                      -H "Authorization: Bearer ${CF_API_TOKEN}" \
-                      -H "Content-Type: application/json" \
-                      --data '{"purge_everything":true}')
-                  echo "${resp}"
-                  # Cloudflare returns HTTP 200 with success:false on logical errors
-                  echo "${resp}" | grep -q '"success":true' || { echo "Cloudflare purge failed."; exit 1; }

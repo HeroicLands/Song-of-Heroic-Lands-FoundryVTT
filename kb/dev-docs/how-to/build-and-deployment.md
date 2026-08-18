@@ -530,8 +530,8 @@ These accumulate on `main` as PRs merge.
     - attaches `system.zip` + `system.json` (the manifest/download Foundry installs
       and updates from).
 
-4. **`/sohl/` republishes itself.** `deploy-sohl.yml` runs when the release
-   workflow completes, rebuilds the whole subtree — landing page,
+4. **`/sohl/` republishes itself.** The release job dispatches
+   `deploy-sohl.yml`, which rebuilds the whole subtree — landing page,
    knowledgebase, and the API documentation from the newest release tag — and
    deploys it. Nothing to run; see [§8](#8-publishing-the-sohl-website). If
    that run fails, repeat it with `gh workflow run deploy-sohl.yml` (it needs
@@ -572,6 +572,25 @@ Foundry instance, and all of it is one site: everything under
 `.github/workflows/deploy-sohl.yml` produces and deploys it in CI — one build,
 one deploy, one hosting project (#1470). A few things about it are worth knowing
 before you change any of it.
+
+**It republishes on every push to `main`, and again when a release is
+published.** The push trigger carries no path filter: a rebuild is cheap next to
+how quietly a path list goes stale, and a push that changes nothing the site
+serves simply republishes the same bytes. The second trigger exists because the
+API half tracks the newest **release tag**, not `main`, so a freshly published
+release changes the site without any push doing so — `release.yml` dispatches
+this workflow from the one step that knows it actually cut a release. It is
+deliberately *not* wired to that workflow's *completion*: `release.yml` runs on
+every push to `main` and succeeds whether or not it released, so watching it
+deployed twice per push (#1484).
+
+**Nothing is purged after a deploy, by design.** `/sohl/` is served through the
+routing Worker straight from the Pages project, with Pages' own
+`cache-control: public, max-age=0, must-revalidate` and no `cf-cache-status` —
+the zone edge holds nothing under `/sohl/` to invalidate. The `purge_everything`
+that used to follow each publish therefore evicted only the surfaces this deploy
+never touched (`www`'s own pages, `cdn`). Should a Cache Rule ever cover
+`/sohl/`, purge those URLs rather than the zone.
 
 **The deployment carries the `/sohl/` prefix physically.** `publishDir` in
 `kb/hugo.toml` renders into `build/site/sohl/`, and the directory that is

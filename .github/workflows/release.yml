@@ -8,10 +8,12 @@ on:
 # contents: write   -> create the release, tag, and version commit
 # pull-requests: write -> open/update the "Version Packages" PR
 # id-token: write    -> OIDC for npm Trusted Publishing (@heroiclands/sohl-types)
+# actions: write     -> dispatch deploy-sohl.yml when a release is published
 permissions:
     contents: write
     pull-requests: write
     id-token: write
+    actions: write
 
 # Never let two pushes to main race on the version PR or the release.
 concurrency:
@@ -111,6 +113,21 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+            # A published release moves the API half of /sohl/, which documents
+            # the newest release tag rather than `main` — so ask the deploy to
+            # run. Dispatched here, from the one step that knows a release was
+            # actually cut, rather than watched from the outside: this workflow
+            # completes successfully on every push to `main` whether it released
+            # or not, and deploy-sohl.yml's `workflow_run` trigger on that
+            # completion fired a second, redundant deploy every time (#1484).
+            # `workflow_dispatch` is one of the two events GITHUB_TOKEN may
+            # still start a workflow run with.
+            - name: Republish /sohl/ from the new release
+              if: steps.decide.outputs.release == 'true'
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: gh workflow run deploy-sohl.yml --ref main
+
             # Publish the types-only npm package via npm Trusted Publishing
             # (OIDC) — no NPM_TOKEN. Requires a Trusted Publisher configured on
             # npm for @heroiclands/sohl-types pointing at this repo + this
@@ -121,9 +138,8 @@ jobs:
             # version); its `prepack` regenerates index.d.ts from source at pack
             # time. npm >= 11.5 is required for OIDC, so upgrade the runner's npm.
             # `continue-on-error`: this is a secondary, best-effort deliverable —
-            # Foundry installs from the Release's system.zip, not from npm. A
-            # failure here must not fail the job, since deploy-sohl.yml gates on
-            # this run succeeding and would otherwise skip the /sohl/ publish.
+            # Foundry installs from the Release's system.zip, not from npm, so a
+            # failure here must not mark the release job failed.
             - name: Publish @heroiclands/sohl-types (npm Trusted Publishing)
               if: steps.decide.outputs.release == 'true'
               continue-on-error: true
@@ -137,8 +153,8 @@ jobs:
                       npm publish
                   fi
 
-            # API docs are not published here. deploy-sohl.yml runs on this
-            # workflow's completion and rebuilds the whole of /sohl/, taking the
-            # API documentation from the newest release tag — so it needs nothing
-            # from this job. Republish by hand with:
+            # API docs are not published here. The dispatch above runs
+            # deploy-sohl.yml, which rebuilds the whole of /sohl/ and takes the
+            # API documentation from the newest release tag — so it needs
+            # nothing from this job. Republish by hand with:
             # gh workflow run deploy-sohl.yml
