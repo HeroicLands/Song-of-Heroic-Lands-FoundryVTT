@@ -13,6 +13,7 @@
 
 import { toFilePath } from "@src/utils/helpers";
 import { toHTMLWithTemplate } from "@src/core/FoundryHelpers";
+import { CREDITS_ACTION, openCreditsJournal } from "./credits";
 
 /**
  * The project's external web destinations, surfaced to the client from
@@ -30,6 +31,13 @@ export interface SystemLinks {
     issuesUrl: string;
     /** The community Discord invite — `heroicLands.discordInviteUrl`. */
     discordInviteUrl: string;
+    /**
+     * The Credits & Attributions JournalEntry — a compendium UUID rather than a
+     * URL, stamped at build time from the content note (see
+     * `utils/build-system-json.mjs`). It shares this block because it is read
+     * from the same `flags.sohl` manifest key.
+     */
+    creditsUuid: string;
 }
 
 /**
@@ -68,12 +76,18 @@ export const SOHL_EMBLEM_PATH =
     "systems/sohl/assets/icons/brand/sohl-dragon.svg";
 
 /**
- * The inline links, in display order, each paired with its `lang/en.json`
- * label key and the {@link SystemLinks} field that supplies its URL.
+ * The inline entries, in display order, each paired with its `lang/en.json`
+ * label key and the {@link SystemLinks} field it depends on.
+ *
+ * An entry with an `action` is an **in-app** command rendered as a button; one
+ * without is an external destination rendered as a new-tab anchor. Either way
+ * the entry is dropped when its `key` resolves to an empty string, so a missing
+ * manifest value never renders a dead control.
  */
 export const SETTINGS_LINK_ORDER: ReadonlyArray<{
     labelKey: string;
     key: keyof SystemLinks;
+    action?: string;
 }> = [
     { labelKey: "SOHL.Settings.HeroicLands.mainSite", key: "mainSiteUrl" },
     {
@@ -83,6 +97,11 @@ export const SETTINGS_LINK_ORDER: ReadonlyArray<{
     { labelKey: "SOHL.Settings.HeroicLands.apiDocs", key: "apiDocsUrl" },
     { labelKey: "SOHL.Settings.HeroicLands.issues", key: "issuesUrl" },
     { labelKey: "SOHL.Settings.HeroicLands.discord", key: "discordInviteUrl" },
+    {
+        labelKey: "SOHL.Settings.HeroicLands.credits",
+        key: "creditsUuid",
+        action: CREDITS_ACTION,
+    },
 ] as const;
 
 /** The render context for {@link SETTINGS_LINKS_TEMPLATE}. */
@@ -93,8 +112,11 @@ export interface SettingsLinksContext {
     version: string;
     /** The emblem image path. */
     emblem: string;
-    /** Each inline link's resolved label and destination URL. */
-    links: Array<{ label: string; url: string }>;
+    /**
+     * Each inline entry's resolved label and either its destination URL (an
+     * external link) or its `data-action` (an in-app command).
+     */
+    links: Array<{ label: string; url?: string; action?: string }>;
 }
 
 /**
@@ -118,10 +140,10 @@ export function buildSettingsLinksContext(
         version: system.version,
         emblem: SOHL_EMBLEM_PATH,
         links: SETTINGS_LINK_ORDER.filter(({ key }) => !!system.links[key]).map(
-            ({ labelKey, key }) => ({
-                label: localize(labelKey),
-                url: system.links[key],
-            }),
+            ({ labelKey, key, action }) =>
+                action ?
+                    { label: localize(labelKey), action }
+                :   { label: localize(labelKey), url: system.links[key] },
         ),
     };
 }
@@ -171,6 +193,18 @@ export async function injectSettingsLinks(
     const info = element.querySelector("section.info");
     if (info) info.after(section);
     else element.appendChild(section);
+
+    // The credits entry is a command, not a navigation, so it needs a handler.
+    // Delegated from the injected section rather than bound per button, and
+    // scoped to that section so it cannot intercept a core sidebar click.
+    section.addEventListener("click", (ev) => {
+        const button = (ev.target as HTMLElement | null)?.closest?.(
+            `[data-action="${CREDITS_ACTION}"]`,
+        );
+        if (!button) return;
+        ev.preventDefault();
+        void openCreditsJournal(system.links.creditsUuid);
+    });
 
     // Our section now shows the title + version, so retire core's redundant
     // system row. Done last, so a failed inject above leaves it in place.

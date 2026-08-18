@@ -22,6 +22,7 @@ export * from "./ExpressionLibraryMenu";
 export * from "./SohlContextMenu";
 export * from "./SohlTour";
 export * from "./StrikeModeConfig";
+export * from "./credits";
 export * from "./date-picker-dialog";
 export * from "./expression-codemirror";
 export * from "./expression-completions";

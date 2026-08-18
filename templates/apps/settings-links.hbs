@@ -22,7 +22,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="sohl-game-system__version">{{version}}</div>
     <nav class="sohl-game-system__links">
         {{#each links}}
+        {{#if this.action}}
+        {{!-- An in-app command (Credits): a button, styled as its anchor
+              siblings by _settings-links.scss. --}}
+        <button type="button" data-action="{{this.action}}">{{this.label}}</button>
+        {{else}}
         <a href="{{this.url}}" rel="noopener nofollow" target="_blank">{{this.label}}</a>
+        {{/if}}
         {{/each}}
     </nav>
 </section>

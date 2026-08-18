@@ -150,8 +150,16 @@ export function fvttSystemLinks(): any {
             apiDocsUrl: links.apiDocsUrl ?? "",
             issuesUrl: links.issuesUrl ?? "",
             discordInviteUrl: links.discordInviteUrl ?? "",
+            creditsUuid: links.creditsUuid ?? "",
         },
     };
+}
+
+export function fvttPackageCreditsUuid(packageId: string): string | undefined {
+    const g = (globalThis as any).game ?? {};
+    const pkg =
+        g.system?.id === packageId ? g.system : g.modules?.get?.(packageId);
+    return pkg?.flags?.sohl?.creditsUuid || undefined;
 }
 
 export function fvttSystemVersion(): string {

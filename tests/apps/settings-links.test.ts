@@ -14,6 +14,7 @@
 
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
+import { CREDITS_ACTION } from "@src/apps/foundry/credits";
 import {
     SETTINGS_LINK_ORDER,
     SETTINGS_LINKS_TEMPLATE,
@@ -36,18 +37,31 @@ const SYSTEM: SohlSystemInfo = {
         issuesUrl:
             "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues",
         discordInviteUrl: "https://discord.gg/EwMfkNd3az/",
+        creditsUuid: "Compendium.sohl.journals.JournalEntry.VCCHelr5qIC5ydop",
     },
 };
 
 describe("settings sidebar — link order", () => {
-    it("lists the five links in display order", () => {
+    it("lists the entries in display order, credits last", () => {
         expect(SETTINGS_LINK_ORDER.map((l) => l.key)).toEqual([
             "mainSiteUrl",
             "knowledgeBaseUrl",
             "apiDocsUrl",
             "issuesUrl",
             "discordInviteUrl",
+            "creditsUuid",
         ]);
+    });
+
+    it("marks credits as an in-app action, and nothing else", () => {
+        // Credits opens a sheet in the client; the other five open a browser
+        // tab. The distinction is what decides button vs anchor in the template.
+        const actions = SETTINGS_LINK_ORDER.filter((l) => l.action);
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toMatchObject({
+            key: "creditsUuid",
+            action: CREDITS_ACTION,
+        });
     });
 
     it("every link carries a HeroicLands label key", () => {
@@ -88,7 +102,30 @@ describe("settings sidebar — context builder", () => {
                 label: "SOHL.Settings.HeroicLands.discord",
                 url: SYSTEM.links.discordInviteUrl,
             },
+            {
+                label: "SOHL.Settings.HeroicLands.credits",
+                action: CREDITS_ACTION,
+            },
         ]);
+    });
+
+    it("gives the credits entry an action and no URL", () => {
+        const ctx = buildSettingsLinksContext(SYSTEM, idLocalize);
+        const credits = ctx.links.at(-1);
+        expect(credits?.action).toBe(CREDITS_ACTION);
+        expect(credits?.url).toBeUndefined();
+    });
+
+    it("omits credits when the manifest carries no UUID", () => {
+        // A build that failed to stamp `flags.sohl.creditsUuid` must render no
+        // entry rather than a button that quietly does nothing.
+        const noCredits: SohlSystemInfo = {
+            ...SYSTEM,
+            links: { ...SYSTEM.links, creditsUuid: "" },
+        };
+        const ctx = buildSettingsLinksContext(noCredits, idLocalize);
+        expect(ctx.links).toHaveLength(5);
+        expect(ctx.links.some((l) => l.action)).toBe(false);
     });
 
     it("surfaces the API docs URL as given, composing nothing", () => {
@@ -109,7 +146,7 @@ describe("settings sidebar — context builder", () => {
             links: { ...SYSTEM.links, discordInviteUrl: "" },
         };
         const ctx = buildSettingsLinksContext(noDiscord, idLocalize);
-        expect(ctx.links).toHaveLength(4);
+        expect(ctx.links).toHaveLength(5);
         expect(
             ctx.links.some(
                 (l) => l.label === "SOHL.Settings.HeroicLands.discord",
@@ -144,7 +181,7 @@ describe("settings sidebar — rendered branded section", () => {
         expect(html).toContain("0.7.0");
     });
 
-    it("renders each link as a new-tab anchor — no full-width buttons", () => {
+    it("renders each external destination as a new-tab anchor", () => {
         for (const url of [
             SYSTEM.links.mainSiteUrl,
             SYSTEM.links.apiDocsUrl,
@@ -157,8 +194,18 @@ describe("settings sidebar — rendered branded section", () => {
         expect(anchors).toHaveLength(5);
         expect(html.match(/target="_blank"/g) ?? []).toHaveLength(5);
         expect(html.match(/rel="noopener/g) ?? []).toHaveLength(5);
-        // The old button treatment is gone.
+        // The old full-width button treatment is still gone — the credits
+        // button below is an inline sibling of these anchors, not a revival
+        // of it.
         expect(html).not.toContain('class="button"');
-        expect(html).not.toContain("<button");
+    });
+
+    it("renders credits as a button, since it opens a sheet rather than a tab", () => {
+        const buttons = html.match(/<button\b/g) ?? [];
+        expect(buttons).toHaveLength(1);
+        expect(html).toContain(`data-action="${CREDITS_ACTION}"`);
+        expect(html).toContain('type="button"');
+        // It carries no href — it is not a navigation.
+        expect(html).not.toMatch(/<button[^>]*href=/);
     });
 });

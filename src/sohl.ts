@@ -35,6 +35,7 @@ import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-
 import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
+import { registerCreditsMenu } from "@src/apps/foundry/credits";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
@@ -96,6 +97,13 @@ function setupSystem(): SohlSystem {
  * Registers all SoHL world and client settings with Foundry's settings API.
  */
 function registerSystemSettings() {
+    // FIRST, deliberately. Core renders a package's settings menus in
+    // `game.settings.menus` insertion order, ahead of its plain settings
+    // (applications/settings/config.mjs), so registration order is the only
+    // thing that puts Credits at the top of the "Song of Heroic Lands" tab.
+    // Moving this below another registerMenu call silently demotes the button.
+    registerCreditsMenu("sohl");
+
     game.settings.register("sohl", "systemMigrationVersion", {
         name: "SOHL.Settings.systemMigrationVersion.label",
         scope: "world",

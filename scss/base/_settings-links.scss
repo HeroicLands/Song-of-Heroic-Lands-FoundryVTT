@@ -75,13 +75,51 @@
         font-size: var(--font-size-14, 0.875rem);
         line-height: 1.6;
 
-        a {
+        // The Credits entry opens a JournalEntry in the client rather than a
+        // browser tab, so it is a <button> for semantics and keyboard/AT
+        // behaviour — but it sits in this row and must be visually
+        // indistinguishable from its anchor siblings. Strip every trace of
+        // Foundry's button chrome (which supplies a background, border, block
+        // width and min-height here) and inherit the anchors' treatment.
+        a,
+        button {
             color: var(--sohl-color-accent);
             text-decoration: none;
             white-space: nowrap;
 
             &:hover {
                 text-decoration: underline;
+            }
+        }
+
+        button {
+            appearance: none;
+            width: auto;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            background: none;
+            box-shadow: none;
+            font: inherit;
+            line-height: inherit;
+            cursor: pointer;
+
+            &:hover,
+            &:focus {
+                // Foundry's button:hover paints a background and a glow; the
+                // row wants neither.
+                background: none;
+                box-shadow: none;
+                color: var(--sohl-color-accent);
+            }
+
+            &:focus-visible {
+                // Keep a visible focus ring, since removing the chrome above
+                // would otherwise leave keyboard users with no indicator.
+                outline: 2px solid var(--sohl-color-accent);
+                outline-offset: 2px;
             }
         }
     }

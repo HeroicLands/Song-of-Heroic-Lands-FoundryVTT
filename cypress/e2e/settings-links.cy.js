@@ -50,6 +50,23 @@ function readGameSystemSection(win) {
             target: a.getAttribute("target"),
             rel: a.getAttribute("rel"),
         })),
+        // The Credits entry is a button, not an anchor — it opens a sheet in
+        // the client rather than a browser tab (#1517).
+        credits: (() => {
+            const b = section.querySelector(
+                'button[data-action="sohlOpenCredits"]',
+            );
+            if (!b) return null;
+            const row = [...section.querySelectorAll("a, button")];
+            return {
+                label: b.textContent.trim(),
+                type: b.getAttribute("type"),
+                href: b.getAttribute("href"),
+                // Position within the whole entry row, anchors included.
+                index: row.indexOf(b),
+                lastInRow: row.indexOf(b) === row.length - 1,
+            };
+        })(),
         // Foundry's native system-info row (title + version) should be gone.
         nativeSystemRow: !!el.querySelector("section.info .system"),
     };
@@ -103,6 +120,45 @@ describe("settings sidebar — branded Game System section", () => {
                 expect(l.target).to.eq("_blank");
                 expect(l.rel).to.contain("noopener");
             });
+        });
+    });
+
+    it("shows Credits as a button after the external links", () => {
+        cy.foundry(readGameSystemSection).should((s) => {
+            expect(s.credits, "credits entry").to.not.be.null;
+            expect(s.credits.label).to.eq("Credits");
+            expect(s.credits.type).to.eq("button");
+            // Not a navigation — it opens a compendium journal in-client.
+            expect(s.credits.href).to.be.null;
+            expect(s.credits.lastInRow, "sits after Discord").to.be.true;
+        });
+    });
+
+    it("opens the Credits journal when the button is clicked", () => {
+        cy.foundry((win) => {
+            const el = win.ui.settings.element;
+            el.querySelector('button[data-action="sohlOpenCredits"]').click();
+            return win.game.system.flags.sohl.creditsUuid;
+        }).as("creditsUuid");
+
+        // The sheet resolves and renders asynchronously — poll, don't assert
+        // once (cy.foundry().should() would not retry).
+        cy.get("@creditsUuid").then((uuid) => {
+            cy.window().should((win) => {
+                const open = [
+                    ...win.foundry.applications.instances.values(),
+                ].filter((a) => a.rendered && a.document?.uuid === uuid);
+                expect(open, "credits journal sheet open").to.have.length(1);
+            });
+        });
+
+        // Leave the client clean for the following tests.
+        cy.foundry((win) => {
+            for (const a of [...win.foundry.applications.instances.values()]) {
+                if (a.rendered && a.document?.documentName === "JournalEntry")
+                    a.close();
+            }
+            return null;
         });
     });
 

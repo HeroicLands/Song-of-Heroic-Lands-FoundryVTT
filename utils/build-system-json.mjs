@@ -29,11 +29,68 @@
 
 import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
+import { collectContentDocs } from "./packs/helpers.mjs";
+import { compendiumUuid } from "./packs/ids.mjs";
+import {
+    CONTENT_PACKAGE,
+    FOUNDRY_PACKAGE_ID,
+} from "./packs/content-package.mjs";
 
 const STAGE_DIR = resolve("build/stage");
 const systemTemplatePath = resolve("assets/templates/system.template.json");
 const systemJsonPath = resolve(STAGE_DIR, "system.json");
 const packageJsonPath = resolve("package.json");
+const contentBase = resolve("assets/content");
+
+/**
+ * The `shortcode` of the note that becomes the Credits & Attributions journal.
+ *
+ * Its Foundry UUID is stamped into `flags.sohl.creditsUuid` below so the runtime
+ * never hardcodes a document id — the note's frontmatter `id` stays the single
+ * source of truth, and the two cannot drift.
+ */
+const CREDITS_SHORTCODE = "credits";
+
+/**
+ * Resolve the credits note's compendium UUID from the content tree.
+ *
+ * Fails the build rather than emitting an empty flag: a silently absent UUID
+ * would ship a system whose Credits link and settings menu both quietly do
+ * nothing.
+ *
+ * @returns {string} `Compendium.sohl.journals.JournalEntry.<id>`
+ * @throws {Error} When no note, or more than one, claims the shortcode.
+ */
+function resolveCreditsUuid() {
+    const matches = collectContentDocs(contentBase).filter(
+        (d) =>
+            d.fm?.package === CONTENT_PACKAGE &&
+            d.fm?.type === "doc" &&
+            d.fm?.shortcode === CREDITS_SHORTCODE,
+    );
+    if (matches.length === 0) {
+        throw new Error(
+            `No content note found with package "${CONTENT_PACKAGE}", type "doc" ` +
+                `and shortcode "${CREDITS_SHORTCODE}" under ${contentBase}. ` +
+                `The Credits journal is required; add the note or update ` +
+                `CREDITS_SHORTCODE.`,
+        );
+    }
+    if (matches.length > 1) {
+        throw new Error(
+            `Multiple notes claim shortcode "${CREDITS_SHORTCODE}": ` +
+                matches.map((m) => m.path).join(", "),
+        );
+    }
+    const [note] = matches;
+    if (!note.fm.id) {
+        throw new Error(
+            `The credits note (${note.path}) has no frontmatter \`id\`, so it ` +
+                `compiles to no JournalEntry and cannot be addressed.`,
+        );
+    }
+    return compendiumUuid(FOUNDRY_PACKAGE_ID, "doc", note.fm.id);
+}
 
 await mkdir(STAGE_DIR, { recursive: true });
 
@@ -67,6 +124,11 @@ template.flags.sohl = {
     apiDocsUrl: pkg.heroicLands.apiDocsUrl,
     issuesUrl: template.bugs,
     discordInviteUrl: pkg.heroicLands.discordInviteUrl,
+    // The Credits & Attributions journal, resolved from the content tree rather
+    // than hardcoded — see resolveCreditsUuid above. A module ships the same key
+    // in its own manifest, which is the whole of what
+    // `sohl.apps.foundry.registerCreditsMenu` needs from it.
+    creditsUuid: resolveCreditsUuid(),
 };
 
 // --- Write final system.json ---
