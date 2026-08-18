@@ -122,8 +122,8 @@ jobs:
             # time. npm >= 11.5 is required for OIDC, so upgrade the runner's npm.
             # `continue-on-error`: this is a secondary, best-effort deliverable —
             # Foundry installs from the Release's system.zip, not from npm. A
-            # failure here must not fail the job, since deploy-docs.yml gates on
-            # this run succeeding and would otherwise skip the API-docs publish.
+            # failure here must not fail the job, since deploy-sohl.yml gates on
+            # this run succeeding and would otherwise skip the /sohl/ publish.
             - name: Publish @heroiclands/sohl-types (npm Trusted Publishing)
               if: steps.decide.outputs.release == 'true'
               continue-on-error: true
@@ -137,8 +137,8 @@ jobs:
                       npm publish
                   fi
 
-            # API docs are not published here. deploy-docs.yml runs on this
-            # workflow's completion and builds from the newest release tag, so it
-            # needs nothing from this job — and a run that released nothing
-            # rebuilds the same tag and finds no diff to push. Republish by hand
-            # with: gh workflow run deploy-docs.yml
+            # API docs are not published here. deploy-sohl.yml runs on this
+            # workflow's completion and rebuilds the whole of /sohl/, taking the
+            # API documentation from the newest release tag — so it needs nothing
+            # from this job. Republish by hand with:
+            # gh workflow run deploy-sohl.yml
