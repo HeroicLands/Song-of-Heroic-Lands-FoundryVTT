@@ -23,11 +23,11 @@ SORT name.full ASC
 ```
 ````
 
-Content is authored in the **HeroicLands Obsidian vault**, where the Dataview plugin
-renders that block live. The build renders the same query against the same
-frontmatter, so one authored query yields the same table in three places: in the
-vault while writing, in the Foundry compendium packs, and on the knowledgebase. What
-the author sees is what ships.
+Content is authored in **`assets/content/`**, which is opened as an Obsidian vault so
+the Dataview plugin renders that block live. The build renders the same query against
+the same frontmatter, so one authored query yields the same table in three places: in
+Obsidian while writing, in the Foundry compendium packs, and on the knowledgebase.
+What the author sees is what ships.
 
 Both content builds run the same expander (`utils/content-tables.mjs`).
 
