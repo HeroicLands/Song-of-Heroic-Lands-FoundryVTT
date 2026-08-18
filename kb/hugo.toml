@@ -60,7 +60,7 @@ theme = "heroiclands-hugo-theme"
     weight = 1
   [[menu.main]]
     name = "Song of Heroic Lands"
-    url = "https://www.heroiclands.org/projects/sohl/"
+    url = "https://www.heroiclands.org/projects/song-of-heroic-lands/"
     weight = 2
     identifier = "sohl"
   [[menu.main]]

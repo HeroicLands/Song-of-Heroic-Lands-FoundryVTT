@@ -20,9 +20,11 @@ banner: banners/mysticalability.webp
 
 ## Arcane Incantation
 
-Arcane incantations are divided by tradition.
-
-- [[doc-hexhodai|Hex Hodai]]
+```dataview
+TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
+WHERE type = "mysticalability" and sohl.subType = "arcaneincantation" and package = "sohl"
+SORT name.full ASC
+```
 
 ## Arcane Talent
 
