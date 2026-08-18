@@ -54,13 +54,13 @@ Armor defines **no hidden actions** — Toggle Worn is the whole of what armor a
 
 # Toggle Worn {#toggle-worn}
 
-|               |                                                                                                                                 |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Toggle Worn                                                                                                                     |
-| **Shortcode** | `toggleWorn`                                                                                                                    |
-| **Icon**      | `fa-shield-halved` (a shield split down the middle)                                                                             |
-| **Invoked**   | The 🛡 button on the armor's Gear tab row, or the ▶ beside _Toggle Worn_ on the armor's own **Actions** tab                     |
-| **API**       | [`ArmorGearLogic.toggleWorn`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.ArmorGearLogic.html#toggleworn) |
+|               |                                                                                                                                |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Toggle Worn                                                                                                                    |
+| **Shortcode** | `toggleWorn`                                                                                                                   |
+| **Icon**      | `fa-shield-halved` (a shield split down the middle)                                                                            |
+| **Invoked**   | The 🛡 button on the armor's Gear tab row, or the ▶ beside _Toggle Worn_ on the armor's own **Actions** tab                    |
+| **API**       | [`ArmorGearLogic.toggleWorn`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.ArmorGearLogic#toggleworn) |
 
 ## What it does and when to use it
 

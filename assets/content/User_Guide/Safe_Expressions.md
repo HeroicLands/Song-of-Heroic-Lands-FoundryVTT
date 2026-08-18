@@ -365,5 +365,5 @@ Authoring a helper library is a GM/world-setup task; as a player you simply have
 
 - [[doc-effcttrg|Effect Targeting]] — Active Effect scopes and predicates.
 - [[doc-actions|Actions]] — action triggers and visibility.
-- API reference: [`SafeExpression`](https://api.heroiclands.org/latest/classes/API_Reference.SafeExpression.html) — the authoritative definition of the grammar and evaluator.
+- API reference: [`SafeExpression`](https://www.heroiclands.org/sohl/api/classes/sohl.entity.expr.SafeExpression-1) — the authoritative definition of the grammar and evaluator.
 - [[doc-userguide|User Guide]] — back to the index.

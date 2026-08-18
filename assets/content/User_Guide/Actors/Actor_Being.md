@@ -128,13 +128,13 @@ One further action, [[#answer-the-rally|Answer the Rally]], is **hidden**: it ne
 
 # Shock Test {#shock-test}
 
-|               |                                                                                                                        |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Shock Test                                                                                                             |
-| **Shortcode** | `shockTest`                                                                                                            |
-| **Icon**      | `ginf-knockout` (a knocked-out figure)                                                                                 |
-| **Invoked**   | The **Actions context menu** on the Being                                                                              |
-| **API**       | [`BeingLogic.shockTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#shocktest) |
+|               |                                                                                                                       |
+| ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Shock Test                                                                                                            |
+| **Shortcode** | `shockTest`                                                                                                           |
+| **Icon**      | `ginf-knockout` (a knocked-out figure)                                                                                |
+| **Invoked**   | The **Actions context menu** on the Being                                                                             |
+| **API**       | [`BeingLogic.shockTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#shocktest) |
 
 ## What it does and when to use it
 
@@ -176,7 +176,7 @@ For the full rules — the Shock State Index table and what each state means in 
 | **Shortcode** | `shockReTest`                                                                                                                   |
 | **Icon**      | `far fa-face-dizzy` (a dizzy face)                                                                                              |
 | **Invoked**   | **Hidden — not on the Actions context menu.** Reached from the **Perform** button on the scheduled Shock Re-Test reminder card. |
-| **API**       | [`BeingLogic.shockReTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#shockretest)      |
+| **API**       | [`BeingLogic.shockReTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#shockretest)       |
 
 ## What it does
 
@@ -210,13 +210,13 @@ Both are **offered, never imposed**: a mishap on an attack card tells you the te
 
 ## Stumble Test
 
-|               |                                                                                                                            |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Stumble Test                                                                                                               |
-| **Shortcode** | `stumbleTest`                                                                                                              |
-| **Icon**      | `fa-solid fa-person-falling` (a falling figure)                                                                            |
-| **Invoked**   | The **Actions context menu** on the Being                                                                                  |
-| **API**       | [`BeingLogic.stumbleTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#stumbletest) |
+|               |                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Stumble Test                                                                                                              |
+| **Shortcode** | `stumbleTest`                                                                                                             |
+| **Icon**      | `fa-solid fa-person-falling` (a falling figure)                                                                           |
+| **Invoked**   | The **Actions context menu** on the Being                                                                                 |
+| **API**       | [`BeingLogic.stumbleTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#stumbletest) |
 
 Rolls the better of **Agility** and **Acrobatics** to stay on your feet. The standard test dialog opens first (see [[#the-standard-test-dialog|below]]), then the result card reads:
 
@@ -229,13 +229,13 @@ Rolls the better of **Agility** and **Acrobatics** to stay on your feet. The sta
 
 ## Fumble Test
 
-|               |                                                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Name**      | Fumble Test                                                                                                              |
-| **Shortcode** | `fumbleTest`                                                                                                             |
-| **Icon**      | `fa-solid fa-arrow-down` (a downward arrow)                                                                              |
-| **Invoked**   | The **Actions context menu** on the Being                                                                                |
-| **API**       | [`BeingLogic.fumbleTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#fumbletest) |
+|               |                                                                                                                         |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Fumble Test                                                                                                             |
+| **Shortcode** | `fumbleTest`                                                                                                            |
+| **Icon**      | `fa-solid fa-arrow-down` (a downward arrow)                                                                             |
+| **Invoked**   | The **Actions context menu** on the Being                                                                               |
+| **API**       | [`BeingLogic.fumbleTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#fumbletest) |
 
 Rolls the better of **Dexterity** and **Legerdemain** to keep hold of what you are carrying. Same flow; the result card reads:
 
@@ -254,13 +254,13 @@ Both tests open the ordinary pre-roll dialog — Target, the modifier breakdown,
 
 # Fear Test {#fear-test}
 
-|               |                                                                                                                      |
-| ------------- | -------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Fear Test                                                                                                            |
-| **Shortcode** | `fearTest`                                                                                                           |
-| **Icon**      | `ginf-screaming` (a screaming face)                                                                                  |
-| **Invoked**   | The **Actions context menu** on the Being                                                                            |
-| **API**       | [`BeingLogic.fearTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#feartest) |
+|               |                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Fear Test                                                                                                           |
+| **Shortcode** | `fearTest`                                                                                                          |
+| **Icon**      | `ginf-screaming` (a screaming face)                                                                                 |
+| **Invoked**   | The **Actions context menu** on the Being                                                                           |
+| **API**       | [`BeingLogic.fearTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#feartest) |
 
 ## What it does and when to use it
 
@@ -294,13 +294,13 @@ See the [[doc-fear|Fear]] rules for what each state permits, and [[doc-psychlgc|
 
 # Morale Test {#morale-test}
 
-|               |                                                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Name**      | Morale Test                                                                                                              |
-| **Shortcode** | `moraleTest`                                                                                                             |
-| **Icon**      | `fa-solid fa-shield-heart` (a heart on a shield)                                                                         |
-| **Invoked**   | The **Actions context menu** on the Being                                                                                |
-| **API**       | [`BeingLogic.moraleTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#moraletest) |
+|               |                                                                                                                         |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Morale Test                                                                                                             |
+| **Shortcode** | `moraleTest`                                                                                                            |
+| **Icon**      | `fa-solid fa-shield-heart` (a heart on a shield)                                                                        |
+| **Invoked**   | The **Actions context menu** on the Being                                                                               |
+| **API**       | [`BeingLogic.moraleTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#moraletest) |
 
 ## What it does and when to use it
 
@@ -328,13 +328,13 @@ A shaken character can come back two ways: their own [[#reaction-test|Reaction T
 
 # Reaction Test {#reaction-test}
 
-|               |                                                                                                                              |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Reaction Test                                                                                                                |
-| **Shortcode** | `reactionTest`                                                                                                               |
-| **Icon**      | `fa-solid fa-person-walking-arrow-loop-left` (a figure turning back)                                                         |
-| **Invoked**   | The **Actions context menu** on the Being                                                                                    |
-| **API**       | [`BeingLogic.reactionTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#reactiontest) |
+|               |                                                                                                                             |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Reaction Test                                                                                                               |
+| **Shortcode** | `reactionTest`                                                                                                              |
+| **Icon**      | `fa-solid fa-person-walking-arrow-loop-left` (a figure turning back)                                                        |
+| **Invoked**   | The **Actions context menu** on the Being                                                                                   |
+| **API**       | [`BeingLogic.reactionTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#reactiontest) |
 
 ## What it does
 
@@ -351,13 +351,13 @@ The Initiative roll posts to chat with no pre-roll dialog, followed by a state c
 
 # Rally Test {#rally-test}
 
-|               |                                                                                                                        |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Rally Test                                                                                                             |
-| **Shortcode** | `rallyTest`                                                                                                            |
-| **Icon**      | `fa-solid fa-flag` (a flag)                                                                                            |
-| **Invoked**   | The **Actions context menu** on the Being                                                                              |
-| **API**       | [`BeingLogic.rallyTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#rallytest) |
+|               |                                                                                                                       |
+| ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Rally Test                                                                                                            |
+| **Shortcode** | `rallyTest`                                                                                                           |
+| **Icon**      | `fa-solid fa-flag` (a flag)                                                                                           |
+| **Invoked**   | The **Actions context menu** on the Being                                                                             |
+| **API**       | [`BeingLogic.rallyTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#rallytest) |
 
 ## What it does and when to use it
 
@@ -386,13 +386,13 @@ This card is **open**: anyone may click the button, and it acts on the clicking 
 
 ## Answer the Rally {#answer-the-rally}
 
-|               |                                                                                                                            |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Answer the Rally                                                                                                           |
-| **Shortcode** | `acceptRally`                                                                                                              |
-| **Icon**      | `fa-solid fa-flag` (a flag)                                                                                                |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Reached only from the **Answer the Rally** button on a Rally! card.          |
-| **API**       | [`BeingLogic.acceptRally`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#acceptrally) |
+|               |                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Answer the Rally                                                                                                          |
+| **Shortcode** | `acceptRally`                                                                                                             |
+| **Icon**      | `fa-solid fa-flag` (a flag)                                                                                               |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Reached only from the **Answer the Rally** button on a Rally! card.         |
+| **API**       | [`BeingLogic.acceptRally`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#acceptrally) |
 
 Your character's response to an ally's rally. It **self-gates**: only a shaken character can answer, and anyone else who clicks is told _"Only a shaken (Withdrawing, Routed, or Catatonic) combatant makes this test."_
 
@@ -403,13 +403,13 @@ What it does depends on how well the leader rolled:
 
 # Resist the Pall {#resist-the-pall}
 
-|               |                                                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Name**      | Resist the Pall                                                                                                          |
-| **Shortcode** | `pallResist`                                                                                                             |
-| **Icon**      | `fa-solid fa-skull` (a skull)                                                                                            |
-| **Invoked**   | The **Actions context menu** on the Being                                                                                |
-| **API**       | [`BeingLogic.pallResist`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#pallresist) |
+|               |                                                                                                                         |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Resist the Pall                                                                                                         |
+| **Shortcode** | `pallResist`                                                                                                            |
+| **Icon**      | `fa-solid fa-skull` (a skull)                                                                                           |
+| **Invoked**   | The **Actions context menu** on the Being                                                                               |
+| **API**       | [`BeingLogic.pallResist`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#pallresist) |
 
 ## What it does and when to use it
 
@@ -435,13 +435,13 @@ See the [[doc-thepall|The Pall]] rules for Pall Strength, what the accumulated C
 
 # Calculate Impact {#calculate-impact}
 
-|               |                                                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Name**      | Calculate Impact                                                                                                         |
-| **Shortcode** | `calcImpact`                                                                                                             |
-| **Icon**      | `fa-solid fa-bullseye` (a target)                                                                                        |
-| **Invoked**   | The **Actions context menu** on the Being — but it is normally reached from a combat card, not picked by hand            |
-| **API**       | [`BeingLogic.calcImpact`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#calcimpact) |
+|               |                                                                                                                         |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Calculate Impact                                                                                                        |
+| **Shortcode** | `calcImpact`                                                                                                            |
+| **Icon**      | `fa-solid fa-bullseye` (a target)                                                                                       |
+| **Invoked**   | The **Actions context menu** on the Being — but it is normally reached from a combat card, not picked by hand           |
+| **API**       | [`BeingLogic.calcImpact`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#calcimpact) |
 
 ## What it does
 
@@ -469,7 +469,7 @@ The button acts on the **target's** character, so the target's own player (or th
 | **Shortcode** | `resolveInjury`                                                                                                                   |
 | **Icon**      | `fa-solid fa-bandage` (a bandage)                                                                                                 |
 | **Invoked**   | The **Actions context menu** on the Being, the **Calculate _{target}_ Injury** button on a damage card, or the sheet's Add Injury |
-| **API**       | [`BeingLogic.resolveInjury`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#resolveinjury)    |
+| **API**       | [`BeingLogic.resolveInjury`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#resolveinjury)     |
 
 ## What it does and when to use it
 
@@ -525,13 +525,13 @@ A recorded wound becomes a trauma item on the sheet, shows up in the body-part g
 
 # Contagion Check {#contagion-check}
 
-|               |                                                                                                                                  |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Contagion Check                                                                                                                  |
-| **Shortcode** | `contagionCheck`                                                                                                                 |
-| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                    |
-| **Invoked**   | The **Actions context menu** on the Being                                                                                        |
-| **API**       | [`BeingLogic.contagionCheck`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#contagioncheck) |
+|               |                                                                                                                                 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Contagion Check                                                                                                                 |
+| **Shortcode** | `contagionCheck`                                                                                                                |
+| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                   |
+| **Invoked**   | The **Actions context menu** on the Being                                                                                       |
+| **API**       | [`BeingLogic.contagionCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#contagioncheck) |
 
 ## What it does
 
@@ -543,13 +543,13 @@ There is no such thing as transmitting an affliction _at_ someone. The check is 
 
 # Contagion Test {#contagion-test}
 
-|               |                                                                                                                                |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**      | Contagion Test                                                                                                                 |
-| **Shortcode** | `contagionTest`                                                                                                                |
-| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                  |
-| **Invoked**   | The **Actions context menu**, or the button on a [[#contagion-check\|Contagion Check]] card                                    |
-| **API**       | [`BeingLogic.contagionTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#contagiontest) |
+|               |                                                                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Contagion Test                                                                                                                |
+| **Shortcode** | `contagionTest`                                                                                                               |
+| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                 |
+| **Invoked**   | The **Actions context menu**, or the button on a [[#contagion-check\|Contagion Check]] card                                   |
+| **API**       | [`BeingLogic.contagionTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#contagiontest) |
 
 ## What it does and when to use it
 
@@ -580,13 +580,13 @@ If the checkbox was ticked, the affliction is created on the sheet with its **Co
 
 # Perform Affliction Treatment {#perform-affliction-treatment}
 
-|               |                                                                                                                                                          |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Perform Affliction Treatment                                                                                                                             |
-| **Shortcode** | `performAfflictionTreatment`                                                                                                                             |
-| **Icon**      | `fa-solid fa-staff-snake` (the rod of Asclepius)                                                                                                         |
-| **Invoked**   | The **Actions context menu**, or the open button on an affliction's _Treatment Requested_ card                                                           |
-| **API**       | [`BeingLogic.performAfflictionTreatment`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#performafflictiontreatment) |
+|               |                                                                                                                                                         |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Perform Affliction Treatment                                                                                                                            |
+| **Shortcode** | `performAfflictionTreatment`                                                                                                                            |
+| **Icon**      | `fa-solid fa-staff-snake` (the rod of Asclepius)                                                                                                        |
+| **Invoked**   | The **Actions context menu**, or the open button on an affliction's _Treatment Requested_ card                                                          |
+| **API**       | [`BeingLogic.performAfflictionTreatment`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#performafflictiontreatment) |
 
 ## What it does
 
@@ -596,13 +596,13 @@ It rolls **this** physician's own Physician skill as a Success Value test and po
 
 # Perform Treatment Test {#perform-treatment-test}
 
-|               |                                                                                                                                              |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Perform Treatment Test                                                                                                                       |
-| **Shortcode** | `performTreatmentTest`                                                                                                                       |
-| **Icon**      | `fa-solid fa-staff-snake` (a physician's staff)                                                                                              |
-| **Invoked**   | The **Actions context menu** on the **physician's** Being, or the open button on a wound's _Treatment Requested_ card                        |
-| **API**       | [`BeingLogic.performTreatmentTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#performtreatmenttest) |
+|               |                                                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Perform Treatment Test                                                                                                                      |
+| **Shortcode** | `performTreatmentTest`                                                                                                                      |
+| **Icon**      | `fa-solid fa-staff-snake` (a physician's staff)                                                                                             |
+| **Invoked**   | The **Actions context menu** on the **physician's** Being, or the open button on a wound's _Treatment Requested_ card                       |
+| **API**       | [`BeingLogic.performTreatmentTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#performtreatmenttest) |
 
 ## What it does and when to use it
 
@@ -642,13 +642,13 @@ See [[doc-afflandi|Afflictions Injuries]] for treating and healing wounds, and t
 
 # Perform Blood Stoppage {#perform-blood-stoppage}
 
-|               |                                                                                                                                              |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Perform Blood Stoppage                                                                                                                       |
-| **Shortcode** | `performBloodStoppage`                                                                                                                       |
-| **Icon**      | `fa-solid fa-droplet-slash` (a crossed-out drop of blood)                                                                                    |
-| **Invoked**   | The **Actions context menu** on the **physician's** Being, or the open button on a _Request Blood Stoppage_ card                             |
-| **API**       | [`BeingLogic.performBloodStoppage`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#performbloodstoppage) |
+|               |                                                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Perform Blood Stoppage                                                                                                                      |
+| **Shortcode** | `performBloodStoppage`                                                                                                                      |
+| **Icon**      | `fa-solid fa-droplet-slash` (a crossed-out drop of blood)                                                                                   |
+| **Invoked**   | The **Actions context menu** on the **physician's** Being, or the open button on a _Request Blood Stoppage_ card                            |
+| **API**       | [`BeingLogic.performBloodStoppage`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.BeingLogic#performbloodstoppage) |
 
 ## What it does and when to use it
 

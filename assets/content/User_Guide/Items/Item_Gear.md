@@ -67,13 +67,13 @@ Individual gear types add further actions of their own: a weapon has its attack 
 
 # Toggle Carried {#toggle-carried}
 
-|               |                                                                                                                             |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Toggle Carried                                                                                                              |
-| **Shortcode** | `toggleCarried`                                                                                                             |
-| **Icon**      | `ginf-knapsack` (a knapsack)                                                                                                |
-| **Invoked**   | The **Actions context menu** on the gear item                                                                               |
-| **API**       | [`GearLogic.toggleCarried`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.GearLogic.html#togglecarried) |
+|               |                                                                                                                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Toggle Carried                                                                                                             |
+| **Shortcode** | `toggleCarried`                                                                                                            |
+| **Icon**      | `ginf-knapsack` (a knapsack)                                                                                               |
+| **Invoked**   | The **Actions context menu** on the gear item                                                                              |
+| **API**       | [`GearLogic.toggleCarried`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.GearLogic#togglecarried) |
 
 ## What it does and when to use it
 

@@ -14,7 +14,7 @@
 /**
  * CI guard: content links land somewhere, and the corpus can be read through.
  *
- * Two link defects survive both content builds silently, so neither the pack
+ * Three link defects survive both content builds silently, so neither the pack
  * compilers nor the knowledgebase build catches them:
  *
  * 1. **Dead `#anchor` links.** `anchorPageId()` derives a Foundry page id by
@@ -26,8 +26,13 @@
  *    impossible to arrive at by reading. The rules are a book and the user
  *    guide is a manual, so every `Rules/**` and `User_Guide/**` document must
  *    be reachable from its own root by following links.
+ * 3. **Links to a retired hostname.** An absolute URL is opaque to the two
+ *    checks above — they read wikilinks — so a link to a host this project has
+ *    withdrawn compiles and publishes looking exactly like a working one, and
+ *    fails at DNS with no redirect to follow. 71 of them shipped that way
+ *    (#1485); {@link RETIRED_HOSTS} is the list that now fails the build.
  *
- * Both checks resolve wikilinks the way the builds do: an alias scoped to the
+ * The wikilink checks resolve links the way the builds do: an alias scoped to the
  * source note's own type, then the qualifier — `type-shortcode`, or the legacy
  * `type/shortcode` — read with the pack compilers' own {@link readQualifier}
  * rather than a second copy of the rule. Fenced `dataview` tables are expanded
@@ -45,6 +50,7 @@ import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { readQualifier } from "./packs/wikilinks.mjs";
 import { loadForeignManifests, manifestsComplete } from "./kb-manifest.mjs";
+import { RETIRED_HOSTS, findRetiredLinks } from "./retired-hosts.mjs";
 
 const CONTENT = path.join("assets", "content");
 /**
@@ -85,12 +91,19 @@ function* walk(dir) {
 
 // --- Load every content note ---------------------------------------------
 
-/** @type {Array<{file: string, fm: object, body: string, type: string}>} */
+/**
+ * Every note, with its raw text kept alongside the parsed body — a retired
+ * hostname can sit in frontmatter (a `url:` field) as readily as in prose, and
+ * the parsed body has already dropped it.
+ *
+ * @type {Array<{file: string, fm: object, body: string, raw: string, type: string}>}
+ */
 const notes = [];
 for (const file of walk(CONTENT)) {
-    const { data: fm, content: body } = matter(readFileSync(file, "utf8"));
+    const raw = readFileSync(file, "utf8");
+    const { data: fm, content: body } = matter(raw);
     if (!fm || typeof fm.type !== "string") continue;
-    notes.push({ file, fm, body, type: fm.type.toLowerCase() });
+    notes.push({ file, fm, body, raw, type: fm.type.toLowerCase() });
 }
 
 // --- Resolution index (mirrors the builds) -------------------------------
@@ -279,6 +292,15 @@ for (const note of notes) {
     }
 }
 
+// --- Check 4: no absolute link points at a hostname we retired -----------
+
+const retiredLinks = [];
+for (const note of notes) {
+    for (const hit of findRetiredLinks(note.raw)) {
+        retiredLinks.push({ file: note.file, ...hit });
+    }
+}
+
 // --- Check 2: every document is reachable from its corpus's root ---------
 
 /**
@@ -356,6 +378,27 @@ if (deadAddresses.length) {
     );
 }
 
+if (retiredLinks.length) {
+    failed = true;
+    console.error(
+        `\ncheck-content-links: ${retiredLinks.length} link(s) to a retired hostname:\n`,
+    );
+    for (const r of retiredLinks) {
+        console.error(`  ${r.file}:${r.line}: ${r.url}`);
+        if (r.hint) console.error(`    → ${r.hint}`);
+    }
+    console.error(
+        "\nThese hostnames have been withdrawn, so the link fails at DNS — there is no\n" +
+            "redirect to follow, and nothing else in the build notices, because an absolute\n" +
+            "URL is opaque to the wikilink checks above. Use the surviving address:\n" +
+            [...RETIRED_HOSTS]
+                .map(([host, base]) => `  ${host} → ${base}`)
+                .join("\n") +
+            "\n\nThe API site publishes one unversioned tree, so drop any /main/ or /latest/\n" +
+            "segment rather than merely rehosting it (#1485).\n",
+    );
+}
+
 for (const { corpus, orphans } of walks) {
     if (!orphans.length) continue;
     failed = true;
@@ -377,7 +420,7 @@ console.log(
         (manifests.complete ? "" : (
             `; no manifest for ${manifests.missing.join(", ")}`
         )) +
-        `); ` +
+        `), no link to a retired hostname; ` +
         walks
             .map((w) => `all ${w.reached.size} ${w.corpus.label} documents`)
             .join(" and ") +

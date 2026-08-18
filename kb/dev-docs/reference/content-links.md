@@ -150,7 +150,7 @@ its own address — see
 It verifies and fails; it never rewrites a note. Notes with no `shortcode` are
 skipped, since they cannot be link targets at all.
 
-`npm run lint:content-links` (part of `npm run lint`) enforces two things the
+`npm run lint:content-links` (part of `npm run lint`) enforces several things the
 compilers cannot:
 
 - **Every `#anchor` link lands on a heading that declares it.** The page id is
@@ -164,8 +164,15 @@ compilers cannot:
   degrades to plain text and keeps its label, so the prose still reads correctly
   while the link is simply gone — the failure mode that hides best.
 
+- **No absolute URL names a hostname the project has retired.** The checks above
+  read wikilinks, so an absolute URL passes through all of them untouched — which
+  is how 71 links to the withdrawn `api.heroiclands.org` shipped (#1485). A
+  retired host fails at DNS, with no redirect to follow. The list lives in
+  `utils/retired-hosts.mjs` and the failure prints the rewritten address for each
+  hit; adding a host there is what retires it.
+
 Fenced `dataview` tables are expanded before the walk, so a link generated into a
-table row counts as a real link on all three counts.
+table row counts as a real link on all the wikilink counts.
 
 **A bare `[[Name]]` is not an address and is never reported.** Unqualified targets
 are the long-standing placeholder for worldbuilding notes kept outside this

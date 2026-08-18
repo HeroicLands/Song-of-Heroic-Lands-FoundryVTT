@@ -84,13 +84,13 @@ None of them roll anything, and none of them touch another character's sheet.
 
 # Edit {#edit}
 
-|               |                                                                                                                  |
-| ------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Edit                                                                                                             |
-| **Shortcode** | `editDocument`                                                                                                   |
-| **Icon**      | `fa-pen-to-square` (a pencil on paper)                                                                           |
-| **Invoked**   | The **Actions** context menu                                                                                     |
-| **API**       | [`SohlLogic.editDocument`](https://api.heroiclands.org/main/classes/sohl.core.logic.SohlLogic.html#editdocument) |
+|               |                                                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Edit                                                                                                            |
+| **Shortcode** | `editDocument`                                                                                                  |
+| **Icon**      | `fa-pen-to-square` (a pencil on paper)                                                                          |
+| **Invoked**   | The **Actions** context menu                                                                                    |
+| **API**       | [`SohlLogic.editDocument`](https://www.heroiclands.org/sohl/api/classes/sohl.core.logic.SohlLogic#editdocument) |
 
 Opens the document's own sheet — the same window you would get by double-clicking its row. Nothing is rolled, nothing is posted to chat, and nothing changes until you edit a field on the sheet itself.
 
@@ -98,13 +98,13 @@ It exists as an action because the context menu is often closer to hand than the
 
 # Delete {#delete}
 
-|               |                                                                                                                      |
-| ------------- | -------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Delete                                                                                                               |
-| **Shortcode** | `deleteDocument`                                                                                                     |
-| **Icon**      | `fa-trash` (a waste basket)                                                                                          |
-| **Invoked**   | The **Actions** context menu                                                                                         |
-| **API**       | [`SohlLogic.deleteDocument`](https://api.heroiclands.org/main/classes/sohl.core.logic.SohlLogic.html#deletedocument) |
+|               |                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Delete                                                                                                              |
+| **Shortcode** | `deleteDocument`                                                                                                    |
+| **Icon**      | `fa-trash` (a waste basket)                                                                                         |
+| **Invoked**   | The **Actions** context menu                                                                                        |
+| **API**       | [`SohlLogic.deleteDocument`](https://www.heroiclands.org/sohl/api/classes/sohl.core.logic.SohlLogic#deletedocument) |
 
 Deletes the document — **after asking**. Deletion cannot be undone from within SoHL, so the action never removes anything on the strength of one click.
 
@@ -129,13 +129,13 @@ If you want to keep the contents, move them out of the container first, then del
 
 # Output Description to Chat {#output-description-to-chat}
 
-|               |                                                                                                                                                     |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Output Description to Chat                                                                                                                          |
-| **Shortcode** | `outputDescription`                                                                                                                                 |
-| **Icon**      | `fa-message` (a speech bubble)                                                                                                                      |
-| **Invoked**   | The **Actions** context menu on any item                                                                                                            |
-| **API**       | [`SohlItemBaseLogic.outputDescription`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SohlItemBaseLogic.html#outputdescription) |
+|               |                                                                                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Output Description to Chat                                                                                                                         |
+| **Shortcode** | `outputDescription`                                                                                                                                |
+| **Icon**      | `fa-message` (a speech bubble)                                                                                                                     |
+| **Invoked**   | The **Actions** context menu on any item                                                                                                           |
+| **API**       | [`SohlItemBaseLogic.outputDescription`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SohlItemBaseLogic#outputdescription) |
 
 Posts the item's own description to the chat log, so the table can read it without anyone opening the sheet. Use it to show the party what a found relic says about itself, to put a spell's text in front of everyone before it is cast, or to answer "what does that skill actually cover?" once, for everybody.
 
@@ -160,13 +160,13 @@ Everyone in the chat log sees the card. If a description would spoil something, 
 
 # Make Default Medium {#make-default-medium}
 
-|               |                                                                                                                                                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**      | Make Default Medium                                                                                                                                    |
-| **Shortcode** | `makeDefaultMedium`                                                                                                                                    |
-| **Icon**      | `fa-person-swimming` (a swimmer)                                                                                                                       |
-| **Invoked**   | The **☆ star** on a movement row of the actor sheet's Profile tab, tooltipped _"Make this the current move medium"_                                    |
-| **API**       | [`SohlActorBaseLogic.makeDefaultMedium`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.SohlActorBaseLogic.html#makedefaultmedium) |
+|               |                                                                                                                                                       |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Make Default Medium                                                                                                                                   |
+| **Shortcode** | `makeDefaultMedium`                                                                                                                                   |
+| **Icon**      | `fa-person-swimming` (a swimmer)                                                                                                                      |
+| **Invoked**   | The **☆ star** on a movement row of the actor sheet's Profile tab, tooltipped _"Make this the current move medium"_                                   |
+| **API**       | [`SohlActorBaseLogic.makeDefaultMedium`](https://www.heroiclands.org/sohl/api/classes/sohl.document.actor.logic.SohlActorBaseLogic#makedefaultmedium) |
 
 Chooses **which way the character is currently moving**. An actor may have several movement profiles — one for each medium it can travel through — and only one of them is active at a time. This action makes the one you clicked the active profile.
 
@@ -262,13 +262,13 @@ Accepting does not hand anything over either. When the time comes, a **reminder 
 
 # Editing a Posted Test Result (GM) {#editing-a-posted-test-result-gm}
 
-|               |                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Edit Test Result                                                                                                                      |
-| **Shortcode** | `resultEdit`                                                                                                                          |
-| **Icon**      | `fa-pen-to-square` (a pencil, in the card's title bar)                                                                                |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The pencil on a posted test-result card. **GMs only**                                   |
-| **API**       | [`SohlItemBaseLogic.resultEdit`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SohlItemBaseLogic.html#resultedit) |
+|               |                                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Edit Test Result                                                                                                                     |
+| **Shortcode** | `resultEdit`                                                                                                                         |
+| **Icon**      | `fa-pen-to-square` (a pencil, in the card's title bar)                                                                               |
+| **Invoked**   | **Hidden — not on the Actions context menu.** The pencil on a posted test-result card. **GMs only**                                  |
+| **API**       | [`SohlItemBaseLogic.resultEdit`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.SohlItemBaseLogic#resultedit) |
 
 Every standard test-result card carries a small pencil beside its title — but only on a GM's screen. Pressing it re-opens [[#the-standard-test-dialog|the standard test dialog]] for a roll that has already been made, pre-filled with the modifiers that roll actually used.
 

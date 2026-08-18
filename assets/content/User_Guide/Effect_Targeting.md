@@ -140,5 +140,5 @@ Combine conditions freely — `itemLogic.name === "Broadsword" && sm.name === "T
 
 - [[doc-sfexprss|Safe Expressions]] — the predicate language and every built-in helper.
 - [[doc-actions|Actions]] — actions use the same Safe Expression language for their trigger and visibility conditions.
-- API reference: [`SafeExpression`](https://api.heroiclands.org/latest/classes/API_Reference.SafeExpression.html).
+- API reference: [`SafeExpression`](https://www.heroiclands.org/sohl/api/classes/sohl.entity.expr.SafeExpression-1).
 - [[doc-userguide|User Guide]] — back to the index.

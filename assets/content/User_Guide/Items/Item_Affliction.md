@@ -151,13 +151,13 @@ That is not the same as losing the time. Because each test schedules the next on
 
 # Onset Check {#onset-check}
 
-|               |                                                                                                                                   |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Arm Onset                                                                                                                         |
-| **Shortcode** | `onsetCheck`                                                                                                                      |
-| **Icon**      | `fa-hourglass` (an hourglass)                                                                                                     |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the incubation period runs out                                |
-| **API**       | [`AfflictionLogic.onsetCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#onsetcheck) |
+|               |                                                                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Arm Onset                                                                                                                        |
+| **Shortcode** | `onsetCheck`                                                                                                                     |
+| **Icon**      | `fa-hourglass` (an hourglass)                                                                                                    |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the incubation period runs out                               |
+| **API**       | [`AfflictionLogic.onsetCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#onsetcheck) |
 
 ## What it does
 
@@ -171,13 +171,13 @@ The one hook for a specific affliction to do something concrete at onset is the 
 
 # Request Treatment {#request-treatment}
 
-|               |                                                                                                                                               |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Request Treatment                                                                                                                             |
-| **Shortcode** | `requestTreatment`                                                                                                                            |
-| **Icon**      | `fa-hand` (an open hand)                                                                                                                      |
-| **Invoked**   | Actions context menu                                                                                                                          |
-| **API**       | [`AfflictionLogic.requestTreatment`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#requesttreatment) |
+|               |                                                                                                                                              |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Request Treatment                                                                                                                            |
+| **Shortcode** | `requestTreatment`                                                                                                                           |
+| **Icon**      | `fa-hand` (an open hand)                                                                                                                     |
+| **Invoked**   | Actions context menu                                                                                                                         |
+| **API**       | [`AfflictionLogic.requestTreatment`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#requesttreatment) |
 
 ## What it does
 
@@ -187,13 +187,13 @@ Be clear-eyed about what treatment buys you. Unlike a wound, an affliction is mo
 
 # Treat Affliction {#treat-affliction}
 
-|               |                                                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Treat Affliction                                                                                                                            |
-| **Shortcode** | `treatAffliction`                                                                                                                           |
-| **Icon**      | `fa-staff-snake` (the rod of Asclepius)                                                                                                     |
-| **Invoked**   | Actions context menu, or the **Accept Treatment** button on a treatment result card                                                         |
-| **API**       | [`AfflictionLogic.treatAffliction`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#treataffliction) |
+|               |                                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Treat Affliction                                                                                                                           |
+| **Shortcode** | `treatAffliction`                                                                                                                          |
+| **Icon**      | `fa-staff-snake` (the rod of Asclepius)                                                                                                    |
+| **Invoked**   | Actions context menu, or the **Accept Treatment** button on a treatment result card                                                        |
+| **API**       | [`AfflictionLogic.treatAffliction`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#treataffliction) |
 
 ## What it does
 
@@ -203,13 +203,13 @@ A Course Bonus above zero is written as an **Active Effect** on the affliction r
 
 # Set Onset {#set-onset}
 
-|               |                                                                                                                               |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Set Onset                                                                                                                     |
-| **Shortcode** | `setOnset`                                                                                                                    |
-| **Icon**      | `fa-hourglass-start` (an hourglass beginning to run)                                                                          |
-| **Invoked**   | Actions context menu, or the **Set Onset** button on an [[#onset-check\|Onset Check]] card                                    |
-| **API**       | [`AfflictionLogic.setOnset`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#setonset) |
+|               |                                                                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Set Onset                                                                                                                    |
+| **Shortcode** | `setOnset`                                                                                                                   |
+| **Icon**      | `fa-hourglass-start` (an hourglass beginning to run)                                                                         |
+| **Invoked**   | Actions context menu, or the **Set Onset** button on an [[#onset-check\|Onset Check]] card                                   |
+| **API**       | [`AfflictionLogic.setOnset`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#setonset) |
 
 ## What it does
 
@@ -221,13 +221,13 @@ They are offered, not armed. Pressing **Set Onset** says the affliction is now s
 
 # Set Resolution {#set-resolution}
 
-|               |                                                                                                                                         |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Set Resolution                                                                                                                          |
-| **Shortcode** | `setResolution`                                                                                                                         |
-| **Icon**      | `fa-skull` (a skull)                                                                                                                    |
-| **Invoked**   | Actions context menu, or the **Set Resolution** button on a [[#resolution-check\|Resolution Check]] card                                |
-| **API**       | [`AfflictionLogic.setResolution`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#setresolution) |
+|               |                                                                                                                                        |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Set Resolution                                                                                                                         |
+| **Shortcode** | `setResolution`                                                                                                                        |
+| **Icon**      | `fa-skull` (a skull)                                                                                                                   |
+| **Invoked**   | Actions context menu, or the **Set Resolution** button on a [[#resolution-check\|Resolution Check]] card                               |
+| **API**       | [`AfflictionLogic.setResolution`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#setresolution) |
 
 ## What it does
 
@@ -239,13 +239,13 @@ An affliction that has already been **defeated** (Healing Rate 6 or better) beat
 
 # Course Check {#course-check}
 
-|               |                                                                                                                                     |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Arm Course Check                                                                                                                    |
-| **Shortcode** | `courseCheck`                                                                                                                       |
-| **Icon**      | `ginf-heart-beats` (a beating heart)                                                                                                |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the course interval comes due                                   |
-| **API**       | [`AfflictionLogic.courseCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#coursecheck) |
+|               |                                                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Arm Course Check                                                                                                                   |
+| **Shortcode** | `courseCheck`                                                                                                                      |
+| **Icon**      | `ginf-heart-beats` (a beating heart)                                                                                               |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the course interval comes due                                  |
+| **API**       | [`AfflictionLogic.courseCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#coursecheck) |
 
 ## What it does
 
@@ -253,13 +253,13 @@ An affliction that has already been **defeated** (Healing Rate 6 or better) beat
 
 # Course Test {#course-test}
 
-|               |                                                                                                                                   |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Course Test                                                                                                                       |
-| **Shortcode** | `courseTest`                                                                                                                      |
-| **Icon**      | `ginf-heart-beats` (a beating heart)                                                                                              |
-| **Invoked**   | Actions context menu, or the button on a [[#course-check\|Course Check]] card                                                     |
-| **API**       | [`AfflictionLogic.courseTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#coursetest) |
+|               |                                                                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Course Test                                                                                                                      |
+| **Shortcode** | `courseTest`                                                                                                                     |
+| **Icon**      | `ginf-heart-beats` (a beating heart)                                                                                             |
+| **Invoked**   | Actions context menu, or the button on a [[#course-check\|Course Check]] card                                                    |
+| **API**       | [`AfflictionLogic.courseTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#coursetest) |
 
 ## What it does
 
@@ -316,13 +316,13 @@ This is worth knowing before you conclude a check is broken: a poison written to
 
 # Healing Check {#healing-check}
 
-|               |                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Arm Healing Check                                                                                                                     |
-| **Shortcode** | `healingCheck`                                                                                                                        |
-| **Icon**      | `fa-bed-pulse` (a bed with a pulse line)                                                                                              |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the healing interval comes due                                    |
-| **API**       | [`AfflictionLogic.healingCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#healingcheck) |
+|               |                                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Arm Healing Check                                                                                                                    |
+| **Shortcode** | `healingCheck`                                                                                                                       |
+| **Icon**      | `fa-bed-pulse` (a bed with a pulse line)                                                                                             |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the healing interval comes due                                   |
+| **API**       | [`AfflictionLogic.healingCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#healingcheck) |
 
 ## What it does
 
@@ -330,13 +330,13 @@ This is worth knowing before you conclude a check is broken: a poison written to
 
 # Healing Test {#healing-test}
 
-|               |                                                                                                                                     |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Healing Test                                                                                                                        |
-| **Shortcode** | `healingTest`                                                                                                                       |
-| **Icon**      | `fa-heart-pulse` (a heart with a pulse line)                                                                                        |
-| **Invoked**   | Actions context menu, or the button on a [[#healing-check\|Healing Check]] card                                                     |
-| **API**       | [`AfflictionLogic.healingTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#healingtest) |
+|               |                                                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Healing Test                                                                                                                       |
+| **Shortcode** | `healingTest`                                                                                                                      |
+| **Icon**      | `fa-heart-pulse` (a heart with a pulse line)                                                                                       |
+| **Invoked**   | Actions context menu, or the button on a [[#healing-check\|Healing Check]] card                                                    |
+| **API**       | [`AfflictionLogic.healingTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#healingtest) |
 
 ## What it does
 
@@ -352,13 +352,13 @@ Where the [[#course-test|Course Test]] asks whether the affliction is winning, t
 
 # Resolution Check {#resolution-check}
 
-|               |                                                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Arm Resolution                                                                                                                              |
-| **Shortcode** | `resolutionCheck`                                                                                                                           |
-| **Icon**      | `fa-skull` (a skull)                                                                                                                        |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the Symptomatic Period runs out                                         |
-| **API**       | [`AfflictionLogic.resolutionCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AfflictionLogic.html#resolutioncheck) |
+|               |                                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Arm Resolution                                                                                                                             |
+| **Shortcode** | `resolutionCheck`                                                                                                                          |
+| **Icon**      | `fa-skull` (a skull)                                                                                                                       |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the Symptomatic Period runs out                                        |
+| **API**       | [`AfflictionLogic.resolutionCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AfflictionLogic#resolutioncheck) |
 
 ## What it does
 

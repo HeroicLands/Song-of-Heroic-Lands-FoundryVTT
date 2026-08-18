@@ -31,13 +31,13 @@ For the rules behind a contest — Victory Stars, ties, and tiebreaks — see th
 
 # Starting an Opposed Test {#starting-an-opposed-test}
 
-|               |                                                                                                                                                              |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**      | Opposed Test                                                                                                                                                 |
-| **Shortcode** | `opposedTestStart`                                                                                                                                           |
-| **Icon**      | `fa-arrows-to-dot` (two arrows converging)                                                                                                                   |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Triggered by the **Opposed Test** action on a skill or attribute (which _is_ on that item's menu).             |
-| **API**       | [`SohlTokenDocumentLogic.opposedTestStart`](https://api.heroiclands.org/main/classes/sohl.document.token.logic.SohlTokenDocumentLogic.html#opposedteststart) |
+|               |                                                                                                                                                             |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Opposed Test                                                                                                                                                |
+| **Shortcode** | `opposedTestStart`                                                                                                                                          |
+| **Icon**      | `fa-arrows-to-dot` (two arrows converging)                                                                                                                  |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Triggered by the **Opposed Test** action on a skill or attribute (which _is_ on that item's menu).            |
+| **API**       | [`SohlTokenDocumentLogic.opposedTestStart`](https://www.heroiclands.org/sohl/api/classes/sohl.document.token.logic.SohlTokenDocumentLogic#opposedteststart) |
 
 ## What it does and when to use it
 
@@ -74,13 +74,13 @@ The card sits in the chat log until someone answers it. Nothing is applied and n
 
 # Responding to an Opposed Test {#responding-to-an-opposed-test}
 
-|               |                                                                                                                                                                |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Resume Opposed Test                                                                                                                                            |
-| **Shortcode** | `opposedTestResume`                                                                                                                                            |
-| **Icon**      | `fa-people-arrows` (two figures facing off)                                                                                                                    |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Triggered by the **Respond** button on the Opposed Action Request card.                                          |
-| **API**       | [`SohlTokenDocumentLogic.opposedTestResume`](https://api.heroiclands.org/main/classes/sohl.document.token.logic.SohlTokenDocumentLogic.html#opposedtestresume) |
+|               |                                                                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Resume Opposed Test                                                                                                                                           |
+| **Shortcode** | `opposedTestResume`                                                                                                                                           |
+| **Icon**      | `fa-people-arrows` (two figures facing off)                                                                                                                   |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Triggered by the **Respond** button on the Opposed Action Request card.                                         |
+| **API**       | [`SohlTokenDocumentLogic.opposedTestResume`](https://www.heroiclands.org/sohl/api/classes/sohl.document.token.logic.SohlTokenDocumentLogic#opposedtestresume) |
 
 ## What it does
 

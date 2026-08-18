@@ -133,13 +133,13 @@ That is not the same as losing the time. Because each test schedules the next on
 
 # Request Treatment {#request-treatment}
 
-|               |                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Request Treatment                                                                                                                     |
-| **Shortcode** | `requestTreatment`                                                                                                                    |
-| **Icon**      | `fa-hand` (an open hand)                                                                                                              |
-| **Invoked**   | The **Actions** context menu on the wound                                                                                             |
-| **API**       | [`TraumaLogic.requestTreatment`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#requesttreatment) |
+|               |                                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Request Treatment                                                                                                                    |
+| **Shortcode** | `requestTreatment`                                                                                                                   |
+| **Icon**      | `fa-hand` (an open hand)                                                                                                             |
+| **Invoked**   | The **Actions** context menu on the wound                                                                                            |
+| **API**       | [`TraumaLogic.requestTreatment`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#requesttreatment) |
 
 ## What it does and when to use it
 
@@ -168,13 +168,13 @@ That is the point of the card: the patient does not have to know who the physici
 
 # Treat Injury {#treat-injury}
 
-|               |                                                                                                                             |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Treat Injury                                                                                                                |
-| **Shortcode** | `treatInjury`                                                                                                               |
-| **Icon**      | `fa-staff-snake` (the rod of Asclepius)                                                                                     |
-| **Invoked**   | The **Actions** context menu on the wound, **or** the **Accept Treatment** button on a Treatment Result card                |
-| **API**       | [`TraumaLogic.treatInjury`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#treatinjury) |
+|               |                                                                                                                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Treat Injury                                                                                                               |
+| **Shortcode** | `treatInjury`                                                                                                              |
+| **Icon**      | `fa-staff-snake` (the rod of Asclepius)                                                                                    |
+| **Invoked**   | The **Actions** context menu on the wound, **or** the **Accept Treatment** button on a Treatment Result card               |
+| **API**       | [`TraumaLogic.treatInjury`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#treatinjury) |
 
 ## What it does
 
@@ -202,13 +202,13 @@ Confirming records the rate and sets the treatment date. Cancelling — or confi
 
 # Treatment Test {#treatment-test}
 
-|               |                                                                                                                                 |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Treatment Test                                                                                                                  |
-| **Shortcode** | `treatmenttest`                                                                                                                 |
-| **Icon**      | `fa-staff-snake` (the rod of Asclepius)                                                                                         |
-| **Invoked**   | The **Actions** context menu on the wound                                                                                       |
-| **API**       | [`TraumaLogic.treatmentTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#treatmenttest) |
+|               |                                                                                                                                |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Treatment Test                                                                                                                 |
+| **Shortcode** | `treatmenttest`                                                                                                                |
+| **Icon**      | `fa-staff-snake` (the rod of Asclepius)                                                                                        |
+| **Invoked**   | The **Actions** context menu on the wound                                                                                      |
+| **API**       | [`TraumaLogic.treatmentTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#treatmenttest) |
 
 ## What it does
 
@@ -234,13 +234,13 @@ Whatever the roll produces is written to the wound at once:
 
 # Request Blood Stoppage {#request-blood-stoppage}
 
-|               |                                                                                                                                               |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Request Blood Stoppage                                                                                                                        |
-| **Shortcode** | `requestBloodStoppage`                                                                                                                        |
-| **Icon**      | `fa-droplet-slash` (a struck-through droplet)                                                                                                 |
-| **Invoked**   | The **Actions** context menu on a bleeding wound                                                                                              |
-| **API**       | [`TraumaLogic.requestBloodStoppage`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#requestbloodstoppage) |
+|               |                                                                                                                                              |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Request Blood Stoppage                                                                                                                       |
+| **Shortcode** | `requestBloodStoppage`                                                                                                                       |
+| **Icon**      | `fa-droplet-slash` (a struck-through droplet)                                                                                                |
+| **Invoked**   | The **Actions** context menu on a bleeding wound                                                                                             |
+| **API**       | [`TraumaLogic.requestBloodStoppage`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#requestbloodstoppage) |
 
 ## What it does and when to use it
 
@@ -266,13 +266,13 @@ The physician's side — the roll and the Blood Stoppage Result card — is docu
 
 # Accept Blood Stoppage {#accept-blood-stoppage}
 
-|               |                                                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Accept Blood Stoppage                                                                                                                       |
-| **Shortcode** | `acceptBloodStoppage`                                                                                                                       |
-| **Icon**      | `fa-check` (a check mark)                                                                                                                   |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Accept** button on a Blood Stoppage Result card                                         |
-| **API**       | [`TraumaLogic.acceptBloodStoppage`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#acceptbloodstoppage) |
+|               |                                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**      | Accept Blood Stoppage                                                                                                                      |
+| **Shortcode** | `acceptBloodStoppage`                                                                                                                      |
+| **Icon**      | `fa-check` (a check mark)                                                                                                                  |
+| **Invoked**   | **Hidden — not on the Actions context menu.** The **Accept** button on a Blood Stoppage Result card                                        |
+| **API**       | [`TraumaLogic.acceptBloodStoppage`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#acceptbloodstoppage) |
 
 ## What it does
 
@@ -293,13 +293,13 @@ Nothing is applied until the button is pressed, so a card can be left unanswered
 
 # Healing Check {#healing-check}
 
-|               |                                                                                                                               |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Arm Healing Check                                                                                                             |
-| **Shortcode** | `healingCheck`                                                                                                                |
-| **Icon**      | `fa-bed-pulse` (a bed with a pulse line)                                                                                      |
-| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the healing interval comes due                            |
-| **API**       | [`TraumaLogic.healingCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#healingcheck) |
+|               |                                                                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Arm Healing Check                                                                                                            |
+| **Shortcode** | `healingCheck`                                                                                                               |
+| **Icon**      | `fa-bed-pulse` (a bed with a pulse line)                                                                                     |
+| **Invoked**   | **Hidden — not on the Actions context menu.** Posted as a card when the healing interval comes due                           |
+| **API**       | [`TraumaLogic.healingCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#healingcheck) |
 
 ## What it does
 
@@ -332,13 +332,13 @@ A wound flagged **permanent-impairment eligible** that finally closes may leave 
 
 # Blood-Loss Advance Check {#blood-loss-advance-check}
 
-|               |                                                                                                                                                 |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Arm Blood-Loss Advance                                                                                                                          |
-| **Shortcode** | `bloodLossAdvanceCheck`                                                                                                                         |
-| **Icon**      | `fa-droplet` (a droplet)                                                                                                                        |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the blood-loss reminder in chat                                         |
-| **API**       | [`TraumaLogic.bloodLossAdvanceCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#bloodlossadvancecheck) |
+|               |                                                                                                                                                |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Arm Blood-Loss Advance                                                                                                                         |
+| **Shortcode** | `bloodLossAdvanceCheck`                                                                                                                        |
+| **Icon**      | `fa-droplet` (a droplet)                                                                                                                       |
+| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the blood-loss reminder in chat                                        |
+| **API**       | [`TraumaLogic.bloodLossAdvanceCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#bloodlossadvancecheck) |
 
 ## What it does
 
@@ -365,13 +365,13 @@ A physician whose stoppage "stops the bleeding after the next advance" is honore
 
 # Course Check {#course-check}
 
-|               |                                                                                                                             |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Shock/Coma Course Test                                                                                                      |
-| **Shortcode** | `courseCheck`                                                                                                               |
-| **Icon**      | `ginf-heart-beats` (a pulse trace)                                                                                          |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the course reminder in chat                         |
-| **API**       | [`TraumaLogic.courseCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#coursecheck) |
+|               |                                                                                                                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Shock/Coma Course Test                                                                                                     |
+| **Shortcode** | `courseCheck`                                                                                                              |
+| **Icon**      | `ginf-heart-beats` (a pulse trace)                                                                                         |
+| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the course reminder in chat                        |
+| **API**       | [`TraumaLogic.courseCheck`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#coursecheck) |
 
 ## What it does
 
@@ -401,13 +401,13 @@ The cadences differ by type: Extended Shock runs every four hours, a Coma every 
 
 # Psyche Stress Recovery {#psyche-stress-recovery}
 
-|               |                                                                                                                                   |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Psyche Stress Recovery Test                                                                                                       |
-| **Shortcode** | `psycheRecovery`                                                                                                                  |
-| **Icon**      | `fa-brain` (a brain)                                                                                                              |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the recovery reminder in chat                             |
-| **API**       | [`TraumaLogic.psycheRecovery`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#psycherecovery) |
+|               |                                                                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Psyche Stress Recovery Test                                                                                                      |
+| **Shortcode** | `psycheRecovery`                                                                                                                 |
+| **Icon**      | `fa-brain` (a brain)                                                                                                             |
+| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the recovery reminder in chat                            |
+| **API**       | [`TraumaLogic.psycheRecovery`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#psycherecovery) |
 
 ## What it does
 
@@ -424,13 +424,13 @@ See [[doc-psychlgc|the Psychological Condition rules]].
 
 # Aural Shock Recovery {#aural-shock-recovery}
 
-|               |                                                                                                                                           |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Aural Shock Recovery Test                                                                                                                 |
-| **Shortcode** | `auralShockRecovery`                                                                                                                      |
-| **Icon**      | `fa-wand-sparkles` (a wand)                                                                                                               |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the recovery reminder in chat                                     |
-| **API**       | [`TraumaLogic.auralShockRecovery`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#auralshockrecovery) |
+|               |                                                                                                                                          |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Aural Shock Recovery Test                                                                                                                |
+| **Shortcode** | `auralShockRecovery`                                                                                                                     |
+| **Icon**      | `fa-wand-sparkles` (a wand)                                                                                                              |
+| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the recovery reminder in chat                                    |
+| **API**       | [`TraumaLogic.auralShockRecovery`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#auralshockrecovery) |
 
 ## What it does
 
@@ -445,13 +445,13 @@ The character recovers, and the Trauma is removed, when Aural Shock reaches 0. A
 
 # Pall Recovery {#pall-recovery}
 
-|               |                                                                                                                               |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Name**      | Pall Recovery Test                                                                                                            |
-| **Shortcode** | `pallRecovery`                                                                                                                |
-| **Icon**      | `fa-skull` (a skull)                                                                                                          |
-| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the recovery reminder in chat                         |
-| **API**       | [`TraumaLogic.pallRecovery`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#pallrecovery) |
+|               |                                                                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Name**      | Pall Recovery Test                                                                                                           |
+| **Shortcode** | `pallRecovery`                                                                                                               |
+| **Icon**      | `fa-skull` (a skull)                                                                                                         |
+| **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the recovery reminder in chat                        |
+| **API**       | [`TraumaLogic.pallRecovery`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.TraumaLogic#pallrecovery) |
 
 ## What it does
 
