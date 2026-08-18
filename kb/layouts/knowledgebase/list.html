@@ -16,9 +16,10 @@
 */ -}}
 {{ define "main" }}
 {{- $kb := .RelPermalink -}}
+{{- $cdn := partial "cdn-url.html" (dict "site" .Site "path" "") -}}
 {{- partial "landing-cards.html" . -}}
 
-<section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/brand/sohl-banner.webp');">
+<section class="hero hero-with-image" style="background-image: url('{{ $cdn }}images/brand/sohl-banner.webp');">
   <div class="hero-inner">
     <h1>SoHL Knowledgebase</h1>
     <p class="hero-tagline">Developer documentation, player guides, and the full game-content reference for Song of Heroic Lands — HârnMaster on Foundry VTT.</p>
@@ -29,7 +30,7 @@
   <div class="top-cards">
 
     <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/dev-docs.webp" alt="Developer Documentation" loading="lazy">
+      <img class="card-hero" src="{{ $cdn }}images/banners/dev-docs.webp" alt="Developer Documentation" loading="lazy">
       <div class="top-card-body">
         <h2><a href="{{ $kb }}dev-docs/">Developer Documentation</a></h2>
         <p>Architecture, extension points, lifecycle hooks, testing, and reference material for building on — or contributing to — the SoHL system.</p>
@@ -38,7 +39,7 @@
     </div>
 
     <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/user-guide.webp" alt="User Guide" loading="lazy">
+      <img class="card-hero" src="{{ $cdn }}images/banners/user-guide.webp" alt="User Guide" loading="lazy">
       <div class="top-card-body">
         <h2><a href="{{ $kb }}user-guide/">User Guide</a></h2>
         <p>Player- and GM-facing guides to running HârnMaster with Song of Heroic Lands: character creation, combat, and everyday play on Foundry VTT.</p>
@@ -47,7 +48,7 @@
     </div>
 
     <div class="top-card">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/rules.webp" alt="Rules" loading="lazy">
+      <img class="card-hero" src="{{ $cdn }}images/banners/rules.webp" alt="Rules" loading="lazy">
       <div class="top-card-body">
         <h2><a href="{{ $kb }}rules/">Rules</a></h2>
         <p>The Song of Heroic Lands rules reference: success and opposed tests, injury, healing, shock, bleeding, and the trauma system.</p>
@@ -67,11 +68,11 @@
       <legend>Actors</legend>
       <div class="catalog-cards">
         <a class="catalog-card" href="{{ $kb }}character/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/character.webp" alt="Characters" loading="lazy">
+          <img class="card-hero" src="{{ $cdn }}images/banners/character.webp" alt="Characters" loading="lazy">
           <span class="catalog-card-label">Characters</span>
         </a>
         <a class="catalog-card" href="{{ $kb }}creature/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/creature.webp" alt="Creatures" loading="lazy">
+          <img class="card-hero" src="{{ $cdn }}images/banners/creature.webp" alt="Creatures" loading="lazy">
           <span class="catalog-card-label">Creatures</span>
         </a>
       </div>
@@ -81,23 +82,23 @@
       <legend>Gear</legend>
       <div class="catalog-cards">
         <a class="catalog-card" href="{{ $kb }}armorgear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/armor-clothing.webp" alt="Armor and Clothing" loading="lazy">
+          <img class="card-hero" src="{{ $cdn }}images/banners/armor-clothing.webp" alt="Armor and Clothing" loading="lazy">
           <span class="catalog-card-label">Armor/Clothing</span>
         </a>
         <a class="catalog-card" href="{{ $kb }}containergear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/containers.webp" alt="Containers" loading="lazy">
+          <img class="card-hero" src="{{ $cdn }}images/banners/containers.webp" alt="Containers" loading="lazy">
           <span class="catalog-card-label">Containers</span>
         </a>
         <a class="catalog-card" href="{{ $kb }}miscgear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/misc-gear.webp" alt="Misc Gear" loading="lazy">
+          <img class="card-hero" src="{{ $cdn }}images/banners/misc-gear.webp" alt="Misc Gear" loading="lazy">
           <span class="catalog-card-label">Misc Gear</span>
         </a>
         <a class="catalog-card" href="{{ $kb }}projectilegear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/projectiles.webp" alt="Projectiles" loading="lazy">
+          <img class="card-hero" src="{{ $cdn }}images/banners/projectiles.webp" alt="Projectiles" loading="lazy">
           <span class="catalog-card-label">Projectiles</span>
         </a>
         <a class="catalog-card" href="{{ $kb }}weapongear/">
-          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/weapons.webp" alt="Weapons" loading="lazy">
+          <img class="card-hero" src="{{ $cdn }}images/banners/weapons.webp" alt="Weapons" loading="lazy">
           <span class="catalog-card-label">Weapons</span>
         </a>
       </div>
@@ -106,19 +107,19 @@
 
   <div class="catalog-cards catalog-standalone">
     <a class="catalog-card" href="{{ $kb }}affliction/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/affliction.webp" alt="Afflictions" loading="lazy">
+      <img class="card-hero" src="{{ $cdn }}images/banners/affliction.webp" alt="Afflictions" loading="lazy">
       <span class="catalog-card-label">Afflictions</span>
     </a>
     <a class="catalog-card" href="{{ $kb }}mysticalability/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/mystical-abilities.webp" alt="Mystical Abilities" loading="lazy">
+      <img class="card-hero" src="{{ $cdn }}images/banners/mystical-abilities.webp" alt="Mystical Abilities" loading="lazy">
       <span class="catalog-card-label">Mystical Abilities</span>
     </a>
     <a class="catalog-card" href="{{ $kb }}skill/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/skills-attributes.webp" alt="Skills and Attributes" loading="lazy">
+      <img class="card-hero" src="{{ $cdn }}images/banners/skills-attributes.webp" alt="Skills and Attributes" loading="lazy">
       <span class="catalog-card-label">Skills/Attributes</span>
     </a>
     <a class="catalog-card" href="{{ $kb }}trauma/">
-      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/trauma.webp" alt="Trauma" loading="lazy">
+      <img class="card-hero" src="{{ $cdn }}images/banners/trauma.webp" alt="Trauma" loading="lazy">
       <span class="catalog-card-label">Trauma</span>
     </a>
   </div>

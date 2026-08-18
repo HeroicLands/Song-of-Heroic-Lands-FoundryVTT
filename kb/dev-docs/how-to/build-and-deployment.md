@@ -594,6 +594,15 @@ are all present — a missing surface would publish a 404 at an address the
 navigation already points at, and a missing `404.html` would make Cloudflare
 Pages answer unmatched paths with a soft-404 (#1416).
 
+**No layout in this repository names an address.** Every asset resolves through
+the theme's `cdn-url.html` against `params.cdnBaseURL`, and every internal link
+is built from the page's own `.RelPermalink`, so moving the package or its
+artwork is a config edit rather than a sweep through the templates (#1464).
+Worth knowing when you add one: with `cdnBaseURL` unset the partial falls back
+to `relURL`, so a missing param yields `/sohl/images/…` — a 404 against this
+deploy, not a build failure. `kb/hugo.toml` declaring the param is the guard,
+not the template.
+
 **Links inside the generated Markdown carry the prefix from the builder, not
 from Hugo.** Hugo prefixes what it emits itself (permalinks, assets, aliases),
 but the wikilinks and cross-references written into `kb/content/` are ordinary
