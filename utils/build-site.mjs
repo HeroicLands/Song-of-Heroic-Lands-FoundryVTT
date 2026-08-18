@@ -88,6 +88,36 @@ export function missingRequired(root, exists = fs.existsSync) {
 export const REDIRECTS = `/ /${PACKAGE_DIR}/ 302\n`;
 
 /**
+ * The deployment root's `_headers`, marking the hosting project's own
+ * addresses `noindex` (#1469).
+ *
+ * A Cloudflare Pages project is reachable at a host-assigned address —
+ * `<project>.pages.dev`, and `<deployment>.<project>.pages.dev` for every
+ * deployment — as well as at the path it serves on `www.heroiclands.org`. That
+ * address is not advertised, but it answers with the same pages, and left alone
+ * it can be indexed and compete with the canonical URL in search results.
+ *
+ * The rules are **scoped to those hostnames**, which is what keeps this file
+ * correct for anyone who takes the repository elsewhere: deployed under its own
+ * domain the site is indexable, and only the host-assigned addresses are not.
+ *
+ * The hosting cannot tell the routing layer's request apart from a reader's —
+ * it is the same URL at the same address — so this header reaches
+ * `www.heroiclands.org` too, and the router (`heroiclands-site`, `worker/`)
+ * removes it there. That is the only place the two addresses are
+ * distinguishable. A page that needs `noindex` at *every* address must say so
+ * in the document (`<meta name="robots">`), which is passed through untouched.
+ */
+export const HEADERS = [
+    "https://:project.pages.dev/*",
+    "  X-Robots-Tag: noindex",
+    "",
+    "https://:version.:project.pages.dev/*",
+    "  X-Robots-Tag: noindex",
+    "",
+].join("\n");
+
+/**
  * Recursively copy `src` onto `dest`.
  *
  * @param {string} src - Source directory.
@@ -136,6 +166,7 @@ function main(argv) {
     // answers with a real 404 rather than the host's default page.
     fs.copyFileSync(path.join(pkg, "404.html"), path.join(root, "404.html"));
     fs.writeFileSync(path.join(root, "_redirects"), REDIRECTS);
+    fs.writeFileSync(path.join(root, "_headers"), HEADERS);
 
     const missing = missingRequired(root);
     if (missing.length) {
