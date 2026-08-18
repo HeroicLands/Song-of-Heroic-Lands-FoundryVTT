@@ -117,7 +117,7 @@ content will be removed immediately.
 ### Definition of Done
 
 A fix **in this repository** is done when **all** of these hold. Work tracked here
-but delivered in the Obsidian vault or on heroiclands.org cannot meet the
+but delivered in another package repository or on heroiclands.org cannot meet the
 repository-specific gates — see [Work delivered in another
 repository](#work-delivered-in-another-repository) below.
 
@@ -145,19 +145,19 @@ repository](#work-delivered-in-another-repository) below.
 
 ### Work delivered in another repository
 
-The project spans three repositories, and **this one is the single issue tracker for
+The project spans several repositories, and **this one is the single issue tracker for
 all of them** — see [Issue Reporting §9](../how-to/issue-reporting.md#9-cross-repository-work).
-An issue labelled `vault` or `site` is delivered in `HeroicLands` or
-`heroiclands-site`, where several gates above simply do not exist: there is no
-`.changeset/`, no `npm run build`, no `npm run docs`, and no `npm run format:check`.
-Do not invent equivalents, and do not treat their absence as work left undone.
+An issue labelled `site` is delivered in `heroiclands-site`, where several gates above
+simply do not exist: there is no `.changeset/`, no `npm run build`, no `npm run docs`,
+and no `npm run format:check`. Do not invent equivalents, and do not treat their
+absence as work left undone.
 
 What still holds for any tracked work, wherever it lands:
 
 - [ ] A tracking issue here, labelled with its delivery target.
 - [ ] A correctly named branch in the repository the change is made in.
 - [ ] Verification appropriate to that repository — a site build that succeeds, a
-      vault check that passes, a page that renders.
+      pack build that compiles, a page that renders.
 - [ ] Documentation updated for the changed behaviour.
 - [ ] A commit or PR description saying what changed and why.
 - [ ] The issue **closed by hand**, with a comment linking the delivering commit or
