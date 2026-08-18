@@ -34,6 +34,9 @@ Session.vim
 \#*\#
 .\#*
 
+# Obsidian (assets/content is opened as a vault; local UI state only)
+assets/content/.obsidian/
+
 # GitHub
 .github/copilot-instructions.md
 
