@@ -324,6 +324,39 @@ describe("cross-package addresses (link manifest)", () => {
         expect(ctx.errors).toHaveLength(0);
     });
 
+    it("renders an address with no page as its name, not a dead href", () => {
+        // A pack-only package publishes Foundry addresses and no web pages
+        // (#1516), so its entries carry no `path`. The address is real — this
+        // is not a typo — but there is nothing to link to, so the reader gets
+        // the document's name as prose and the build does not fail.
+        const packOnly = new Map<string, object>([
+            [
+                "creature/wolf",
+                {
+                    name: "Dire Wolf",
+                    uuid: "Compendium.sohl-adventure.items.Item.abc",
+                    package: "adventure",
+                },
+            ],
+        ]);
+        const ctx = makeCtx({ foreign: packOnly, manifestsComplete: true });
+        expect(resolveKbWikilinks("a [[creature-wolf]] howls", ctx)).toBe(
+            "a Dire Wolf howls",
+        );
+        expect(ctx.errors).toHaveLength(0);
+    });
+
+    it("keeps the author's label for an address with no page", () => {
+        const packOnly = new Map<string, object>([
+            ["creature/wolf", { name: "Dire Wolf", package: "adventure" }],
+        ]);
+        const ctx = makeCtx({ foreign: packOnly, manifestsComplete: true });
+        expect(resolveKbWikilinks("a [[creature-wolf|grey wolf]]", ctx)).toBe(
+            "a grey wolf",
+        );
+        expect(ctx.errors).toHaveLength(0);
+    });
+
     it("leaves a bare prose link alone even when manifests are complete", () => {
         // `[[Grukar-ahk]]` is prose, not an address; only a qualified target is
         // checked, so a worldbuilding placeholder is still not an error.
