@@ -44,6 +44,7 @@ import log from "loglevel";
 import path from "path";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 import { generatePacksJson, packJsonDir } from "./generate.mjs";
+import { verifyPackSceneLevels } from "./scene-levels.mjs";
 import { packConfig } from "./config.mjs";
 
 /* ----------------------------------------- */
@@ -69,6 +70,11 @@ import { packConfig } from "./config.mjs";
  *     omission is invisible until a player looks for content that is not there
  *     (#1502) — so this is fatal, not a warning, and the caller is expected to
  *     turn it into a failing exit code.
+ * @throws {Error} If a compiled pack ships a Scene that has lost its embedded
+ *     Level (#1538). Fatal for the same reason: Foundry reads a missing Level
+ *     record as "no levels" and persists that on the next world launch, so the
+ *     map image is gone before anyone notices it was ever at risk. See
+ *     {@link verifyPackSceneLevels}.
  */
 export async function compilePacks({
     config = packConfig,
@@ -105,6 +111,22 @@ export async function compilePacks({
             log: false,
             transformEntry: cleanPackEntry,
         });
+
+        // A Scene's map image lives on an embedded Level, stored under its own
+        // LevelDB key. Nothing in Foundry ties the two together on read: a
+        // missing Level record only warns, and the next world launch persists
+        // the emptied `levels` array — so the map is lost for good and the
+        // only symptom is a blank battlemap (#1538). Assert it on the bytes
+        // just written, which is the one place the compendium CLI's write path
+        // is observable.
+        const problems = await verifyPackSceneLevels(stage);
+        if (problems.length) {
+            throw new Error(
+                `Pack ${name}: ${problems.length} Scene/Level integrity ` +
+                    `problem(s) in the compiled pack:\n  ` +
+                    problems.join("\n  "),
+            );
+        }
     }
     log.info("Pack compilation complete.");
 }
