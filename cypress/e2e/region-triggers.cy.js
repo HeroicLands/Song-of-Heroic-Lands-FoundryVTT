@@ -114,8 +114,12 @@ describe("Scene-region & environment triggers (#593)", () => {
                     const before = win.game.messages.size;
                     // …and moved in. Containment resolves canvas-free, so this
                     // is the real seam a player crosses, not a simulated one.
+                    // `animate: false` keeps the movement animation off the
+                    // PIXI ticker, which headless reaches into a viewport that
+                    // never finishes initializing (see map-notes.cy.js).
                     await token.update(
                         win.structuredClone({ x: 1100, y: 1100 }),
+                        { animate: false },
                     );
                     await new Promise((res) => win.setTimeout(res, 200));
 

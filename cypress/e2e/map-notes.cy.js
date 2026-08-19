@@ -241,7 +241,17 @@ describe("Map notes → Scenes (#1525)", () => {
                 const before = win.game.messages.size;
                 // Region containment is geometry, not rendering: it resolves
                 // with no canvas, so a plain update delivers `tokenEnter`.
-                await token.update(win.structuredClone({ x: 192, y: 192 }));
+                //
+                // `animate: false` is load-bearing headless. An animated move
+                // drives Foundry's movement animation from the PIXI ticker,
+                // and that ticker callback reaches into `game.users` and the
+                // canvas on a viewport that never finishes initializing —
+                // throwing `reading 'id'` / `reading 'OBJECTS'` out of
+                // application code, which fails the test for reasons that have
+                // nothing to do with regions. Nothing here is about animation.
+                await token.update(win.structuredClone({ x: 192, y: 192 }), {
+                    animate: false,
+                });
                 await new Promise((res) => win.setTimeout(res, 200));
 
                 const div = win.document.createElement("div");

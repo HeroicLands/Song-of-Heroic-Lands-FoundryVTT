@@ -34,16 +34,35 @@ import "./commands/dialogs.js";
  *   'INTERFACE')" — creating a scene Region makes the canvas RegionLayer draw
  *   shape controls, which reads a canvas group that is absent headless (#593
  *   region-trigger spec). Canvas rendering, not region-trigger logic.
+ * - Scene#updateRegionShapeConstraints: "Cannot read properties of null
+ *   (reading 'id')" — a **restricted** Region schedules a PIXI ticker callback
+ *   that reads `canvas.scene.id`, and headless no scene is ever viewed, so
+ *   `canvas.scene` is null (#1535). Core dereferences it without a guard. Only
+ *   fires for `restriction.enabled` regions, which is why the map-note fixture
+ *   is the first thing here to meet it. Qualified by its stack, because the
+ *   message alone is far too generic to allowlist.
+ *
+ * An entry is `{message}` alone, or `{message, stack}` when the message is not
+ * distinctive enough to be safe on its own — both must match.
  */
 const IGNORED_APP_ERRORS = [
-    /Cannot use 'in' operator to search for 'turn' in undefined/,
-    /Cannot read properties of undefined \(reading 'INTERFACE'\)/,
+    { message: /Cannot use 'in' operator to search for 'turn' in undefined/ },
+    { message: /Cannot read properties of undefined \(reading 'INTERFACE'\)/ },
+    {
+        message: /Cannot read properties of null \(reading 'id'\)/,
+        stack: /getDesignatedUser/,
+    },
 ];
 
 Cypress.on("uncaught:exception", (err) => {
-    if (IGNORED_APP_ERRORS.some((re) => re.test(err?.message ?? ""))) {
-        return false; // do not fail the test
-    }
+    const message = err?.message ?? "";
+    const stack = err?.stack ?? "";
+    const ignored = IGNORED_APP_ERRORS.some(
+        (entry) =>
+            entry.message.test(message) &&
+            (!entry.stack || entry.stack.test(stack)),
+    );
+    if (ignored) return false; // do not fail the test
     return true;
 });
 
