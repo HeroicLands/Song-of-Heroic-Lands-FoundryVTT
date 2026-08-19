@@ -301,6 +301,25 @@ compilers (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): each walks
 pack's `*-folders.yaml`, and writes per-entry JSON — from which the LevelDB is then
 compiled.
 
+#### Adding or removing an item type
+
+Which `type:` values compile into an Item is declared **once**, in the registry
+`utils/packs/item-builders.mjs`: `ITEM_BUILDERS` pairs each type with the builder
+that produces its `system` block, and `ITEM_TYPES` (exported from
+`utils/packs/item-docs.mjs`, which assembles `DOC_ENTRY_TYPES` from it) is
+derived from that registry's keys. So the whitelist of compilable types and the
+table of builders are the same list and cannot drift; a type with no builder is
+not a type the compiler will accept a note for.
+
+Adding a type is therefore one entry in `ITEM_BUILDERS`, its subtype declaration
+in `documentTypes.Item` (`assets/templates/system.template.json`), and its
+default artwork in `src/utils/default-item-art.mjs` — the last of which the unit
+suite holds in exact step with the registry. Removing a type is the same three
+deletions. The registry is a **leaf module**: it imports only the frontmatter
+readers in `utils/packs/frontmatter.mjs`, never `helpers.mjs`, because
+`helpers.mjs` reaches wikilinks and through them back to `item-docs.mjs` — the
+module deriving `ITEM_TYPES` from the registry.
+
 ### An item's prose compiles to a journal, not into the item
 
 An item note's **body** does not become the item's description. It compiles into

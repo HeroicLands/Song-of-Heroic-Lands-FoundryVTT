@@ -43,33 +43,25 @@
  */
 
 import { compendiumUuid, makeId, MAP_TYPES, pageUuid } from "./ids.mjs";
+import { ITEM_BUILDERS } from "./item-builders.mjs";
 
 /**
  * Every content type that compiles into an item — and therefore into an item
- * doc. Declared here rather than in the items compiler because both passes need
- * it: the items pass to know what to compile, the journals pass to know whose
- * prose it is holding.
+ * doc. Exposed here rather than from the items compiler because both passes
+ * need it: the items pass to know what to compile, the journals pass to know
+ * whose prose it is holding.
+ *
+ * **Derived, never authored.** These are the keys of
+ * {@link sohl.utils.packs.ITEM_BUILDERS} — the registry that pairs each type
+ * with the builder producing its `system` block — so the whitelist and the
+ * builder table are the same list and cannot drift apart. They already had:
+ * `trait` was whitelisted here long after the item type was retired (#651),
+ * with no builder behind it, so every `type: trait` note passed this gate and
+ * then failed to compile (#1504).
  *
  * @type {ReadonlySet<string>}
  */
-export const ITEM_TYPES = Object.freeze(
-    new Set([
-        "affiliation",
-        "affliction",
-        "armorgear",
-        "attribute",
-        "concoctiongear",
-        "containergear",
-        "miscgear",
-        "mystery",
-        "mysticalability",
-        "projectilegear",
-        "skill",
-        "trait",
-        "trauma",
-        "weapongear",
-    ]),
-);
+export const ITEM_TYPES = Object.freeze(new Set(Object.keys(ITEM_BUILDERS)));
 
 /**
  * Every content type whose **prose compiles into a JournalEntry of its own**,
