@@ -25,7 +25,9 @@
  *
  * **This module has no import-time side effects.** It creates no directories,
  * reads no manifest, configures no logger, and parses no argv — every path and
- * pack list arrives as an argument. Those side effects belong to the command
+ * pack list is a parameter, defaulted from the resolved build configuration
+ * (#1508), which a caller may replace wholesale to compile another package's
+ * tree. Those side effects belong to the command
  * line that drives it (`bin/build-compendiums.mjs`), so the library can be
  * imported by another repository's build, or by a test, without a stray
  * `build/` tree appearing or the shared `loglevel` singleton being
@@ -53,25 +55,35 @@ import { packConfig } from "./config.mjs";
  * `build/packs-json/<name>/`, then builds the LevelDB output from it. No
  * committed JSON and no vault access. Destination: `<stageDest>/<name>/`.
  *
- * @param {object} config
- * @param {string[]} config.sourcePacks  Every pack compiled from the content
- *     tree, in compile order.
- * @param {string} config.stageDest      Directory the LevelDB packs are built
- *     into, one subdirectory per pack.
- * @param {string} [config.packName]     Restrict the run to a single pack.
+ * @param {object} opts
+ * @param {object} [opts.config]         The resolved build configuration, which
+ *     the two path arguments below default from. Supplying one is how a caller
+ *     compiles a package other than this repository's (#1508).
+ * @param {string[]} [opts.sourcePacks]  Every pack compiled from the content
+ *     tree, in compile order. Defaults to the configured pack directories.
+ * @param {string} [opts.stageDest]      Directory the LevelDB packs are built
+ *     into, one subdirectory per pack. Defaults to the configured stage.
+ * @param {string} [opts.packName]       Restrict the run to a single pack.
  * @throws {Error} If pack JSON generation reported any error. Packs compiled
  *     from incomplete or empty JSON ship blank or short compendiums, and the
  *     omission is invisible until a player looks for content that is not there
  *     (#1502) — so this is fatal, not a warning, and the caller is expected to
  *     turn it into a failing exit code.
  */
-export async function compilePacks({ sourcePacks, stageDest, packName }) {
+export async function compilePacks({
+    config = packConfig,
+    sourcePacks = config.packDirectories,
+    stageDest = config.paths.stage,
+    packName,
+} = {}) {
     const packNames = sourcePacks.filter(
         (name) => !packName || name === packName,
     );
 
-    // Generate the per-entry JSON from assets/content/ into build/packs-json/.
-    const errors = await generatePacksJson({ only: packName });
+    // Generate the per-entry JSON from the content tree into the build-only
+    // JSON intermediate. The package-id guard runs first, inside this call,
+    // before any pack is written.
+    const errors = await generatePacksJson({ only: packName, config });
     if (errors > 0) {
         throw new Error(
             `Pack JSON generation reported ${errors} error(s); refusing to ` +
@@ -80,7 +92,7 @@ export async function compilePacks({ sourcePacks, stageDest, packName }) {
     }
 
     for (const name of packNames) {
-        const source = packJsonDir(name);
+        const source = packJsonDir(name, config);
         if (!fs.existsSync(source)) {
             log.error(`Pack ${name}: generated JSON not found at ${source}.`);
             continue;
@@ -168,17 +180,24 @@ function cleanString(str) {
 
 /**
  * Cleans and formats source JSON files, removing unnecessary permissions and flags and adding the proper spacing.
- * @param {object} config
- * @param {string} config.packDest     Directory holding the extracted per-entry
+ * @param {object} opts
+ * @param {object} [opts.config]       The resolved build configuration, which
+ *                                     `packDest` defaults from.
+ * @param {string} [opts.packDest]     Directory holding the extracted per-entry
  *                                     JSON, one subdirectory per pack.
- * @param {string} [config.packName]   Name of pack to clean. If none provided, all packs will be cleaned.
- * @param {string} [config.entryName]  Name of a specific entry to clean.
+ * @param {string} [opts.packName]     Name of pack to clean. If none provided, all packs will be cleaned.
+ * @param {string} [opts.entryName]    Name of a specific entry to clean.
  *
  * - `npm run build:clean` - Clean all source JSON files.
  * - `npm run build:clean -- classes` - Only clean the source files for the specified compendium.
  * - `npm run build:clean -- classes Barbarian` - Only clean a single item from the specified compendium.
  */
-export async function cleanPacks({ packDest, packName, entryName }) {
+export async function cleanPacks({
+    config = packConfig,
+    packDest = config.paths.unpack,
+    packName,
+    entryName,
+} = {}) {
     entryName = entryName?.toLowerCase();
 
     const folders = fs
@@ -229,20 +248,23 @@ export async function cleanPacks({ packDest, packName, entryName }) {
  * Extracts compiled LevelDB packs back to per-entry JSON, rebuilding the folder
  * hierarchy as directories.
  *
- * @param {object} config
- * @param {Array<{name: string}>} config.packs  The packs the shipped Foundry
+ * @param {object} opts
+ * @param {Array<{name: string}>} opts.packs  The packs the shipped Foundry
  *     package declares — the manifest's `packs` array.
- * @param {string} config.stageDest    Directory holding the compiled LevelDB
+ * @param {object} [opts.config]       The resolved build configuration, which
+ *                                     the two directories below default from.
+ * @param {string} [opts.stageDest]    Directory holding the compiled LevelDB
  *                                     packs, one subdirectory per pack.
- * @param {string} config.packDest     Directory the extracted JSON is written
+ * @param {string} [opts.packDest]     Directory the extracted JSON is written
  *                                     to, one subdirectory per pack.
- * @param {string} [config.packName]   Restrict the run to a single pack.
- * @param {string} [config.entryName]  Restrict the run to a single entry.
+ * @param {string} [opts.packName]     Restrict the run to a single pack.
+ * @param {string} [opts.entryName]    Restrict the run to a single entry.
  */
 export async function unpackPacks({
     packs,
-    stageDest,
-    packDest,
+    config = packConfig,
+    stageDest = config.paths.stage,
+    packDest = config.paths.unpack,
     packName,
     entryName,
 }) {

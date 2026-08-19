@@ -25,6 +25,15 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, "../../..");
 const LIBRARY = path.join(REPO_ROOT, "utils/packs/compendiums.mjs");
 const LIBRARY_URL = pathToFileURL(LIBRARY).href;
+// The configuration contract and the manifest reader, for the guard-order test
+// below: it induces package-id drift through configuration (#1508), since the
+// manifest is no longer located by the working directory.
+const CONFIG_URL = pathToFileURL(
+    path.join(REPO_ROOT, "packages/content-build/config.mjs"),
+).href;
+const MANIFEST_URL = pathToFileURL(
+    path.join(REPO_ROOT, "utils/packs/package-manifest.mjs"),
+).href;
 // Resolved here, not in the child: the child runs from an empty temp
 // directory, where a bare `loglevel` specifier has no `node_modules` to find.
 const LOGLEVEL_URL = pathToFileURL(
@@ -138,11 +147,33 @@ describe("compilePacks runs the package-id guard before it generates anything", 
         // folds in after. Reversed, the build still exits non-zero — but only
         // after emitting a whole tree of documents addressing a package that
         // does not ship them.
+        //
+        // The drift is induced through the **configuration** the library reads,
+        // not through the child's working directory. Since #1508 the manifest is
+        // located by `paths.packageManifest`, so a sandbox manifest that merely
+        // sat in the cwd would be ignored — correctly, since that is the whole
+        // point of resolving it by configuration rather than by accident of
+        // launch directory. Handing `compilePacks` a config rooted at the
+        // sandbox is the seam a consuming repository uses, and it is the seam
+        // this asserts against.
         const repo = fs.mkdtempSync(path.join(os.tmpdir(), "sohl-drift-"));
         fs.mkdirSync(path.join(repo, "assets/templates"), { recursive: true });
         fs.writeFileSync(
             path.join(repo, "assets/templates/system.template.json"),
-            `${JSON.stringify({ id: "not-sohl", packs: [] }, null, 2)}\n`,
+            `${JSON.stringify(
+                {
+                    id: "not-sohl",
+                    packs: [],
+                    // Valid in every respect *except* the id, so a reversed
+                    // guard order fails on the "nothing was written" assertion
+                    // below rather than tripping over an incomplete manifest
+                    // first. The floor is this sandbox package's own; the
+                    // `_stats` stamp is not what is under test here.
+                    compatibility: { minimum: "14.0" },
+                },
+                null,
+                2,
+            )}\n`,
             "utf8",
         );
         // A real content tree, so a guard that ran after generation would
@@ -153,15 +184,31 @@ describe("compilePacks runs the package-id guard before it generates anything", 
             path.join(repo, "assets/content"),
         );
 
-        const stageDest = path.join(repo, "stage");
+        // Every output path is inside the sandbox, so a late guard writes
+        // *there* — visible to the assertions, and never into the real build.
+        const stageDest = path.join(repo, "build/stage/packs");
         const { stdout, stderr } = importInCwd(
             repo,
-            `try {
-                 await lib.compilePacks({
-                     sourcePacks: ["macros"],
-                     stageDest: ${JSON.stringify(stageDest)},
-                     packName: "macros",
-                 });
+            `const { defineConfig } = await import(${JSON.stringify(CONFIG_URL)});
+             const config = defineConfig({
+                 rootDir: ${JSON.stringify(repo)},
+                 contentPackage: "sohl",
+                 // Agrees with nothing the sandbox manifest declares — the drift.
+                 foundryPackage: "sohl",
+                 packageKind: "systems",
+                 stats: {
+                     systemId: "sohl",
+                     systemVersion: "0.0.0",
+                     lastModifiedBy: "sohlbuilder00000",
+                 },
+                 skipDirectories: ["Templates"],
+                 packs: [
+                     { name: "items", type: "Item", folders: "item-folders.yaml" },
+                     { name: "macros", type: "Macro", folders: "macro-folders.yaml" },
+                 ],
+             });
+             try {
+                 await lib.compilePacks({ config, packName: "macros" });
                  process.stdout.write("resolved without throwing");
              } catch (err) {
                  process.stdout.write(err.message);
@@ -170,8 +217,38 @@ describe("compilePacks runs the package-id guard before it generates anything", 
 
         expect(stderr).toBe("");
         expect(stdout).toMatch(/Foundry package id drift/);
+        // It read the *configured* manifest, not this repository's.
+        expect(stdout).toMatch(/not-sohl/);
         // Nothing generated, nothing compiled: the guard fired first.
         expect(fs.existsSync(path.join(repo, "build/packs-json"))).toBe(false);
         expect(fs.existsSync(stageDest)).toBe(false);
+    });
+
+    it("reads the manifest from configuration, not from the working directory", () => {
+        // The companion half of the rewrite above, stated as its own fact so a
+        // reader is not left wondering why the sandbox manifest stopped being
+        // consulted: a drifted manifest sitting in the cwd is *ignored*, because
+        // `paths.packageManifest` is what locates it. Without this, the test
+        // above could be misread as a weakened version of the original.
+        const repo = fs.mkdtempSync(path.join(os.tmpdir(), "sohl-cwd-"));
+        fs.mkdirSync(path.join(repo, "assets/templates"), { recursive: true });
+        fs.writeFileSync(
+            path.join(repo, "assets/templates/system.template.json"),
+            `${JSON.stringify({ id: "not-sohl", packs: [] }, null, 2)}\n`,
+            "utf8",
+        );
+
+        const { stdout, stderr } = importInCwd(
+            repo,
+            `const { readManifestPackageId } = await import(
+                 ${JSON.stringify(MANIFEST_URL)}
+             );
+             process.stdout.write(readManifestPackageId().packageId);`,
+        );
+
+        expect(stderr).toBe("");
+        // This repository's own manifest, reached from a cwd holding a different
+        // one — cwd cannot decide which package a build addresses.
+        expect(stdout).toBe("sohl");
     });
 });

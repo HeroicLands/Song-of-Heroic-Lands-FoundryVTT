@@ -106,26 +106,20 @@ function packageCommand() {
             // failing exit code, so a build guard reads as a build failure.
             try {
                 switch (action) {
+                    // Every path and pack list the library needs is defaulted
+                    // from the resolved configuration, so nothing is restated
+                    // here (#1508). Only `packs` is passed: it comes from the
+                    // shipped manifest, not from configuration.
                     case "compile":
-                        return await compilePacks({
-                            // Derived from the one configured pack list, so the
-                            // directories compiled to LevelDB and the passes
-                            // that wrote them cannot disagree (#1508).
-                            sourcePacks: packConfig.packDirectories,
-                            stageDest: packConfig.paths.stage,
-                            packName: pack,
-                        });
+                        return await compilePacks({ packName: pack });
                     case "clean":
                         return await cleanPacks({
-                            packDest: packConfig.paths.unpack,
                             packName: pack,
                             entryName: entry,
                         });
                     case "unpack":
                         return await unpackPacks({
                             packs: manifestPacks(),
-                            stageDest: packConfig.paths.stage,
-                            packDest: packConfig.paths.unpack,
                             packName: pack,
                             entryName: entry,
                         });

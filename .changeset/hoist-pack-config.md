@@ -38,6 +38,15 @@ evidence, and a captured copy would silently stop following it — the shape of
 defect #1533 was. Moving the floor in the manifest still moves the stamp in
 every compiled pack with no config change.
 
+`compilePacks` / `unpackPacks` / `cleanPacks` and `generatePacksJson` also take
+an optional `config`, defaulting to this repository's, so a caller can compile
+another package's tree without the working directory deciding anything. #1547's
+guard-order test is re-expressed against that seam: it induces package-id drift
+by handing the library a config rooted at its sandbox, because a drifted
+manifest merely sitting in the working directory is now — correctly — ignored.
+Its assertions are unchanged, and it was re-confirmed to fail on the
+"nothing was written" check when the guard is moved to the end.
+
 Pack output is byte-identical to the pre-change build. `_stats.systemVersion`
 keeps its stale `0.6.0` on purpose; correcting it rewrites every document and is
 tracked separately in #1548.

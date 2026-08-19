@@ -68,19 +68,28 @@ const COMPILERS = {
     Scene: Scenes,
 };
 
-/** Root of the build-only JSON tree for one pack. */
-export const packJsonDir = (name) =>
-    path.join(packConfig.paths.packJson, name);
+/**
+ * Root of the build-only JSON tree for one pack.
+ *
+ * @param {string} name - The pack name.
+ * @param {object} [config] - The resolved build configuration. Defaults to this
+ *   repository's.
+ * @returns {string} The pack's JSON directory.
+ */
+export const packJsonDir = (name, config = packConfig) =>
+    path.join(config.paths.packJson, name);
 
 /**
  * The generated JSON of the configured Item pack — what the actors pass reads
  * its predefined items from.
  *
+ * @param {object} [config] - The resolved build configuration. Defaults to this
+ *   repository's.
  * @returns {string} The pack's JSON directory.
  * @throws {Error} When no pack holds Items, which the actors pass requires.
  */
-export function itemPackJsonDir() {
-    const itemPack = packConfig.packs.find((pack) => pack.type === "Item");
+export function itemPackJsonDir(config = packConfig) {
+    const itemPack = config.packs.find((pack) => pack.type === "Item");
     if (!itemPack) {
         throw new Error(
             "No pack of type \"Item\" is configured, so an actor's embedded " +
@@ -88,19 +97,20 @@ export function itemPackJsonDir() {
                 "content-build.config.mjs.",
         );
     }
-    return packJsonDir(itemPack.name);
+    return packJsonDir(itemPack.name, config);
 }
 
 /**
  * Generate the per-entry JSON for one pack into `build/packs-json/<name>/`.
  *
  * @param {object} pack - One entry of the configured pack list.
+ * @param {object} config - The resolved build configuration.
  * @returns {Promise<{errors: number, compiled: number}>} The compiler's error
  *     count (0 on success) and the number of entries it wrote.
  */
-async function generatePack({ name, type, folders, companions }) {
-    const contentBase = packConfig.paths.content;
-    const dest = packJsonDir(name);
+async function generatePack({ name, type, folders, companions }, config) {
+    const contentBase = config.paths.content;
+    const dest = packJsonDir(name, config);
 
     const packClass = COMPILERS[type];
     if (!packClass) {
@@ -133,13 +143,13 @@ async function generatePack({ name, type, folders, companions }) {
     // the adventures that bundle them — so it is wiped on the same schedule.
     const companionDests = {};
     for (const companion of companions) {
-        const companionDest = packJsonDir(companion.name);
+        const companionDest = packJsonDir(companion.name, config);
         fs.rmSync(companionDest, { recursive: true, force: true });
         fs.mkdirSync(companionDest, { recursive: true });
         companionDests[companion.name] = companionDest;
     }
 
-    writeFolderDocs(folderList, buildStats(), dest, type);
+    writeFolderDocs(folderList, buildStats(undefined, config), dest, type);
 
     const pack = new packClass({
         contentBase,
@@ -149,7 +159,7 @@ async function generatePack({ name, type, folders, companions }) {
         // pass's output. That used to be an unwritten sibling-directory contract
         // (`path.resolve(dest, "..", "items")`); the configured pack list names
         // the Item pack, so the dependency is stated rather than assumed (#1508).
-        itemsSourceDir: itemPackJsonDir(),
+        itemsSourceDir: itemPackJsonDir(config),
         folderResolver: resolver,
     });
     await pack.compile();
@@ -188,11 +198,16 @@ export function emptyPassErrors(passes) {
  *
  * @param {object} [opts]
  * @param {string} [opts.only] - Restrict to a single pack name.
+ * @param {object} [opts.config] - The resolved build configuration. Defaults to
+ *   this repository's. Supplying one is how a caller compiles a *different*
+ *   package's tree — and how the guard-order test below induces id drift, now
+ *   that the manifest is located by configuration rather than by the working
+ *   directory.
  * @returns {Promise<number>} Total error count across the generated packs.
  * @throws {Error} If the configured Foundry package id has drifted from the
  *   shipped manifest's `id` (see `package-manifest.mjs`).
  */
-export async function generatePacksJson({ only } = {}) {
+export async function generatePacksJson({ only, config = packConfig } = {}) {
     // Before anything is generated: every UUID written below is addressed to
     // FOUNDRY_PACKAGE_ID, so a value that has drifted from the shipped
     // manifest's `id` produces a whole pack of links that resolve nowhere.
@@ -202,9 +217,12 @@ export async function generatePacksJson({ only } = {}) {
     // LAST, folded into the same error total. Reversed, the build would still
     // exit non-zero, but only after emitting a whole tree of documents
     // addressing a package that does not ship them.
-    assertPackageIdMatchesManifestFile();
+    assertPackageIdMatchesManifestFile(
+        config.foundryPackage,
+        config.paths.packageManifest,
+    );
 
-    const contentBase = packConfig.paths.content;
+    const contentBase = config.paths.content;
     if (!fs.existsSync(contentBase)) {
         log.error(`Content tree not found at ${contentBase}.`);
         return 1;
@@ -223,11 +241,11 @@ export async function generatePacksJson({ only } = {}) {
         return 1;
     }
     log.info(`Content tree: ${noteCount} note(s) at ${contentBase}`);
-    fs.mkdirSync(packConfig.paths.packJson, { recursive: true });
+    fs.mkdirSync(config.paths.packJson, { recursive: true });
 
     // A companion pack has no pass of its own — naming it selects the pass that
     // writes it, so `compile adventures` is not a silent no-op.
-    const packs = packConfig.packs.filter(
+    const packs = config.packs.filter(
         (pack) =>
             !only ||
             pack.name === only ||
@@ -236,7 +254,7 @@ export async function generatePacksJson({ only } = {}) {
     let totalErrors = 0;
     const passes = [];
     for (const pack of packs) {
-        const { errors, compiled } = await generatePack(pack);
+        const { errors, compiled } = await generatePack(pack, config);
         totalErrors += errors;
         passes.push({
             name: pack.name,
