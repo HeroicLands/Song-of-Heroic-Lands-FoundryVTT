@@ -29,10 +29,17 @@ and are untouched. Only the 8 leaking headings moved. Which headings take the
 Manuscript serif remains a design decision for the sheet redesign (§2.2: serif for
 wordmark, section legends and attribute names; sans for chrome and body).
 
-**The bundled Signika is kept, and now says why.** Core loads the same five
-weights, so our copy is redundant at runtime — but `.sohl` now names
-`--sohl-font-sans` explicitly, and a token the system names should be one it can
-honour rather than one satisfied by another package's assets. The failure mode of
-relying on core is silent: a release that dropped Signika or narrowed its weights
-would re-render text at a nearby weight with nothing logged. `_typography.scss`
-records that reasoning so the next audit does not re-open it.
+**The bundled Signika is dropped** — 5 `.woff2` files and 5 `@font-face`
+declarations, ~188 KB. Foundry bundles Signika as its default UI font and loads
+all five weights (300/400/500/600/700) through `CONFIG.fontDefinitions`, so the
+family resolves without our copy. Relying on core is a deliberate judgement rather
+than an oversight: dropping Signika would break every system that names it, so it
+could only land in a major release, loudly announced, leaving time to adapt or
+reintroduce it. `_typography.scss` records that where `$font-sans` is defined.
+
+Verified rather than assumed: with our copy removed, the same 172 headings still
+report **0** in a non-SoHL font and the identical distribution (149 Signika,
+19 Cormorant Garamond, 4 Cinzel). Every weight resolves from core's copy —
+`document.fonts.load("700 12px Signika")` matches two faces and both load, and a
+700 sample measures 171.0px against 167.6px at 400 and 186.8px in the generic
+bold fallback, so real Signika bold renders rather than a synthesized substitute.
