@@ -12,6 +12,7 @@
  */
 
 import { describe, it, expect } from "vitest";
+import path from "node:path";
 // The shared content-build toolchain is a workspace package consumed by path;
 // imported relatively here for the same reason `tests/utils/packs/*` import the
 // pack scripts by path — build tooling lives outside the `@src` alias tree.
@@ -24,9 +25,15 @@ import type {
 /** The smallest configuration `defineConfig` accepts. */
 function minimal(): ContentBuildConfigInput {
     return {
+        rootDir: "/repo",
         contentPackage: "sohl",
         foundryPackage: "sohl",
         packageKind: "systems",
+        stats: {
+            systemId: "sohl",
+            systemVersion: "0.6.0",
+            lastModifiedBy: "sohlbuilder00000",
+        },
         packs: [{ name: "items", type: "Item" }],
     };
 }
@@ -45,9 +52,18 @@ describe("defineConfig", () => {
         expect(config.contentPackage).toBe("sohl");
         expect(config.foundryPackage).toBe("sohl");
         expect(config.packageKind).toBe("systems");
-        // `label` defaults to the pack name and `private` to false.
+        // `label` defaults to the pack name and `private` to false; a pack
+        // declares no folder file and no companion unless it has one.
         expect(config.packs).toEqual([
-            { name: "items", type: "Item", label: "items", private: false },
+            {
+                name: "items",
+                type: "Item",
+                label: "items",
+                private: false,
+                folders: null,
+                companions: [],
+                mayBeEmpty: false,
+            },
         ]);
         expect(config.assets).toEqual([
             { from: "assets/icons", to: "assets/icons" },
@@ -123,6 +139,53 @@ describe("defineConfig", () => {
                 ],
             },
         ],
+        ["a missing rootDir", { ...minimal(), rootDir: undefined }],
+        ["a relative rootDir", { ...minimal(), rootDir: "packages/x" }],
+        ["a missing stats block", { ...minimal(), stats: undefined }],
+        [
+            "a stats block with no systemId",
+            {
+                ...minimal(),
+                stats: { systemVersion: "1", lastModifiedBy: "a" },
+            },
+        ],
+        ["a non-object paths block", { ...minimal(), paths: "build" }],
+        ["an unknown path key", { ...minimal(), paths: { nope: "build" } }],
+        [
+            "an absolute configured path",
+            { ...minimal(), paths: { content: "/etc/content" } },
+        ],
+        [
+            "a non-array skipDirectories",
+            { ...minimal(), skipDirectories: "Templates" },
+        ],
+        [
+            "a companion with no document type",
+            {
+                ...minimal(),
+                packs: [
+                    {
+                        name: "scenes",
+                        type: "Scene",
+                        companions: [{ name: "adventures" }],
+                    },
+                ],
+            },
+        ],
+        [
+            "a companion colliding with a pack name",
+            {
+                ...minimal(),
+                packs: [
+                    { name: "items", type: "Item" },
+                    {
+                        name: "scenes",
+                        type: "Scene",
+                        companions: [{ name: "items", type: "Adventure" }],
+                    },
+                ],
+            },
+        ],
         ["a non-array asset list", { ...minimal(), assets: {} }],
         [
             "an asset with no destination",
@@ -146,6 +209,109 @@ describe("defineConfig", () => {
                 packageKind: "worlds",
             } as unknown as ContentBuildConfigInput),
         ).toThrow(/packageKind/);
+    });
+});
+
+describe("defineConfig — the layout a consumer supplies (#1508)", () => {
+    it("defaults every path to the conventional repository layout", () => {
+        const config = defineConfig(minimal());
+
+        expect(config.paths).toEqual({
+            content: path.join("/repo", "assets/content"),
+            packageManifest: path.join("/repo", "assets/templates"),
+            manifests: path.join("/repo", "assets/manifests"),
+            packJson: path.join("/repo", "build/packs-json"),
+            stage: path.join("/repo", "build/stage/packs"),
+            unpack: path.join("/repo", "build/tmp/packs"),
+        });
+    });
+
+    it("resolves a consumer's overrides against its own root", () => {
+        // The point of the hoist: a consuming repository supplies its layout
+        // instead of inheriting this one's.
+        const config = defineConfig({
+            ...minimal(),
+            rootDir: "/elsewhere",
+            paths: { content: "content", stage: "dist/packs" },
+        });
+
+        expect(config.paths.content).toBe(path.join("/elsewhere", "content"));
+        expect(config.paths.stage).toBe(path.join("/elsewhere", "dist/packs"));
+        // Unnamed paths keep the convention, anchored at the same root.
+        expect(config.paths.packJson).toBe(
+            path.join("/elsewhere", "build/packs-json"),
+        );
+    });
+
+    it("derives the served asset root from the package kind and id", () => {
+        expect(defineConfig(minimal()).assetRoot).toBe("systems/sohl/assets");
+        expect(
+            defineConfig({
+                ...minimal(),
+                foundryPackage: "sohl-thalorna",
+                packageKind: "modules",
+            }).assetRoot,
+        ).toBe("modules/sohl-thalorna/assets");
+    });
+
+    it("derives one pack-directory list from the one pack list", () => {
+        // `SOURCE_PACKS` and `PACK_CONFIGS` were two lists that had to agree;
+        // the compile order is now derived from the single declaration.
+        const config = defineConfig({
+            ...minimal(),
+            packs: [
+                { name: "items", type: "Item", folders: "item-folders.yaml" },
+                {
+                    name: "scenes",
+                    type: "Scene",
+                    companions: [{ name: "adventures", type: "Adventure" }],
+                },
+            ],
+        });
+
+        expect(config.packDirectories).toEqual([
+            "items",
+            "scenes",
+            "adventures",
+        ]);
+        expect(config.packs[0].folders).toBe("item-folders.yaml");
+        expect(config.packs[1].companions).toEqual([
+            {
+                name: "adventures",
+                type: "Adventure",
+                label: "adventures",
+                private: false,
+                folders: null,
+                companions: [],
+                mayBeEmpty: false,
+            },
+        ]);
+    });
+
+    it("defaults the skipped-directory list to empty", () => {
+        // `Templates/` is an Obsidian convention, not a property of the
+        // toolchain — a consumer that uses it says so.
+        expect(defineConfig(minimal()).skipDirectories).toEqual([]);
+        expect(
+            defineConfig({ ...minimal(), skipDirectories: ["Templates"] })
+                .skipDirectories,
+        ).toEqual(["Templates"]);
+    });
+
+    it("carries no Foundry core version — only where to read it from", () => {
+        // The manifest's `compatibility.minimum` moves with test evidence; a
+        // captured copy would silently stop following it.
+        expect(JSON.stringify(defineConfig(minimal()))).not.toMatch(
+            /compatibility|coreVersion/,
+        );
+    });
+
+    it("freezes the added blocks too", () => {
+        const config = defineConfig(minimal());
+        expect(Object.isFrozen(config.paths)).toBe(true);
+        expect(Object.isFrozen(config.stats)).toBe(true);
+        expect(Object.isFrozen(config.skipDirectories)).toBe(true);
+        expect(Object.isFrozen(config.packDirectories)).toBe(true);
     });
 });
 

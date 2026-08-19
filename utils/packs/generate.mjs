@@ -14,17 +14,19 @@
 /**
  * Pack JSON generation — in-repo Markdown → per-entry JSON (build-only).
  *
- * Reads the authoritative content tree at `assets/content/` and compiles each
- * pack's entries to per-entry JSON under `build/packs-json/<pack>/`. The JSON is
+ * Reads the authoritative content tree at the configured content root and
+ * compiles each pack's entries to per-entry JSON under its build directory
+ * (`build/packs-json/<pack>/` in this repository). The JSON is
  * a disposable build intermediate consumed by `build:compiledb` (which turns it
  * into the shipped LevelDB packs) — it is never committed.
  *
  * Each `*` compiler walks the whole content tree and selects its own entries by
- * frontmatter (a `package:` matching `CONTENT_PACKAGE` + `type`), so routing is
- * directory-agnostic: a file lands in a pack because of its `type`, not its
- * location. Folder
- * hierarchies are declared per pack in `assets/content/<singular>-folders.yaml`
- * and referenced from entry frontmatter via `sohl.folder: <id>`.
+ * frontmatter (a `package:` matching the configured `contentPackage` + `type`),
+ * so routing is directory-agnostic: a file lands in a pack because of its
+ * `type`, not its location. Which packs exist, in what order, and which folder
+ * hierarchy each one loads are all declared in `content-build.config.mjs`;
+ * folder files live under the content root and are referenced from entry
+ * frontmatter via `sohl.folder: <id>`.
  *
  * This replaces the retired `packs:export` (vault → committed `_source/`); the
  * HeroicLands vault is no longer a build input for SoHL content.
@@ -47,89 +49,86 @@ import {
 } from "./helpers.mjs";
 import { countContentNotes } from "./content-tree.mjs";
 import { assertPackageIdMatchesManifestFile } from "./package-manifest.mjs";
-
-/** Authoritative in-repo content tree — the single source for shipped content. */
-const CONTENT_BASE = path.resolve("./assets/content");
-
-/** Build-only JSON intermediate root (gitignored; consumed by build:compiledb). */
-const BUILD_JSON_ROOT = path.resolve("./build/packs-json");
-
-const STATS_VERSION = "0.6.0";
+import { packConfig } from "./config.mjs";
 
 /**
- * One entry per compiled pack. `folders` names the pack's folder-hierarchy file
- * under {@link CONTENT_BASE}; `packClass` selects its own entries from the tree
- * by frontmatter.
+ * The compiler class for each Foundry document type a pack may hold.
  *
- * A pass is expected to compile at least one entry: every pack listed here has
- * notes in this repository's tree, so zero output means the selection went
- * wrong, not that there was nothing to select. A package whose tree genuinely
- * holds no notes of a pack's kind says so with `mayBeEmpty: true` — an explicit
- * declaration, so the guard stays meaningful for every other pack.
+ * The pack list is data (`content-build.config.mjs`), so the one thing it
+ * cannot carry is the code that compiles it — a document type maps to its
+ * compiler here. Unknown types fail the build rather than defaulting, so a pack
+ * declaring a type nothing can compile is loud at the first pass instead of
+ * shipping empty.
  */
-const PACK_CONFIGS = [
-    {
-        name: "items",
-        packClass: Items,
-        documentType: "Item",
-        folders: "item-folders.yaml",
-    },
-    {
-        name: "journals",
-        packClass: Journals,
-        documentType: "JournalEntry",
-        folders: "journal-folders.yaml",
-    },
-    {
-        name: "actors",
-        packClass: Actors,
-        documentType: "Actor",
-        folders: "actor-folders.yaml",
-    },
-    {
-        name: "macros",
-        packClass: Macros,
-        documentType: "Macro",
-        folders: "macro-folders.yaml",
-    },
-    // One pass, two packs: every map note's Scene, and the Adventure bundling
-    // the pinned ones with their journals so `keepId: true` import makes the
-    // pins resolve (#1525).
-    {
-        name: "scenes",
-        packClass: Scenes,
-        documentType: "Scene",
-        folders: "scene-folders.yaml",
-        companions: ["adventures"],
-    },
-];
+const COMPILERS = {
+    Item: Items,
+    JournalEntry: Journals,
+    Actor: Actors,
+    Macro: Macros,
+    Scene: Scenes,
+};
 
-/** Root of the build-only JSON tree for one pack. */
-export const packJsonDir = (name) => path.join(BUILD_JSON_ROOT, name);
+/**
+ * Root of the build-only JSON tree for one pack.
+ *
+ * @param {string} name - The pack name.
+ * @param {object} [config] - The resolved build configuration. Defaults to this
+ *   repository's.
+ * @returns {string} The pack's JSON directory.
+ */
+export const packJsonDir = (name, config = packConfig) =>
+    path.join(config.paths.packJson, name);
+
+/**
+ * The generated JSON of the configured Item pack — what the actors pass reads
+ * its predefined items from.
+ *
+ * @param {object} [config] - The resolved build configuration. Defaults to this
+ *   repository's.
+ * @returns {string} The pack's JSON directory.
+ * @throws {Error} When no pack holds Items, which the actors pass requires.
+ */
+export function itemPackJsonDir(config = packConfig) {
+    const itemPack = config.packs.find((pack) => pack.type === "Item");
+    if (!itemPack) {
+        throw new Error(
+            "No pack of type \"Item\" is configured, so an actor's embedded " +
+                "items cannot be resolved. Declare one in " +
+                "content-build.config.mjs.",
+        );
+    }
+    return packJsonDir(itemPack.name, config);
+}
 
 /**
  * Generate the per-entry JSON for one pack into `build/packs-json/<name>/`.
  *
- * @param {object} config - A {@link PACK_CONFIGS} entry.
+ * @param {object} pack - One entry of the configured pack list.
+ * @param {object} config - The resolved build configuration.
  * @returns {Promise<{errors: number, compiled: number}>} The compiler's error
  *     count (0 on success) and the number of entries it wrote.
  */
-async function generatePack({
-    name,
-    packClass,
-    documentType,
-    folders,
-    companions = [],
-}) {
-    const dest = packJsonDir(name);
-    const foldersFile = path.join(CONTENT_BASE, folders);
+async function generatePack({ name, type, folders, companions }, config) {
+    const contentBase = config.paths.content;
+    const dest = packJsonDir(name, config);
 
-    log.info(`Pack ${name}: ${CONTENT_BASE} → ${dest}`);
+    const packClass = COMPILERS[type];
+    if (!packClass) {
+        log.error(
+            `Pack ${name}: no compiler for document type "${type}" — the ` +
+                `configured pack list names a type this toolchain cannot compile.`,
+        );
+        return { errors: 1, compiled: 0 };
+    }
+
+    log.info(`Pack ${name}: ${contentBase} → ${dest}`);
 
     let folderList;
     let resolver;
     try {
-        folderList = loadFolders(foldersFile);
+        folderList = folders ?
+            loadFolders(path.join(contentBase, folders))
+        :   [];
         ({ resolver } = buildFolderResolver(folderList));
     } catch (err) {
         log.error(`${name} ${folders} validation failed: ${err.message}`);
@@ -144,18 +143,23 @@ async function generatePack({
     // the adventures that bundle them — so it is wiped on the same schedule.
     const companionDests = {};
     for (const companion of companions) {
-        const companionDest = packJsonDir(companion);
+        const companionDest = packJsonDir(companion.name, config);
         fs.rmSync(companionDest, { recursive: true, force: true });
         fs.mkdirSync(companionDest, { recursive: true });
-        companionDests[companion] = companionDest;
+        companionDests[companion.name] = companionDest;
     }
 
-    writeFolderDocs(folderList, buildStats(STATS_VERSION), dest, documentType);
+    writeFolderDocs(folderList, buildStats(undefined, config), dest, type);
 
     const pack = new packClass({
-        contentBase: CONTENT_BASE,
+        contentBase,
         dest,
         companionDests,
+        // The actors pass resolves each being's embedded items against the items
+        // pass's output. That used to be an unwritten sibling-directory contract
+        // (`path.resolve(dest, "..", "items")`); the configured pack list names
+        // the Item pack, so the dependency is stated rather than assumed (#1508).
+        itemsSourceDir: itemPackJsonDir(config),
         folderResolver: resolver,
     });
     await pack.compile();
@@ -183,8 +187,8 @@ export function emptyPassErrors(passes) {
             (pass) =>
                 `Pack "${pass.name}" compiled 0 entries from a non-empty ` +
                 `content tree. Every note was rejected — check that the notes ` +
-                `declare the package this build compiles (CONTENT_PACKAGE in ` +
-                `utils/packs/content-package.mjs), or declare the pack ` +
+                `declare the package this build compiles (\`contentPackage\` in ` +
+                `content-build.config.mjs), or declare the pack ` +
                 `\`mayBeEmpty\` if it genuinely ships nothing.`,
         );
 }
@@ -194,51 +198,68 @@ export function emptyPassErrors(passes) {
  *
  * @param {object} [opts]
  * @param {string} [opts.only] - Restrict to a single pack name.
+ * @param {object} [opts.config] - The resolved build configuration. Defaults to
+ *   this repository's. Supplying one is how a caller compiles a *different*
+ *   package's tree — and how the guard-order test below induces id drift, now
+ *   that the manifest is located by configuration rather than by the working
+ *   directory.
  * @returns {Promise<number>} Total error count across the generated packs.
  * @throws {Error} If the configured Foundry package id has drifted from the
  *   shipped manifest's `id` (see `package-manifest.mjs`).
  */
-export async function generatePacksJson({ only } = {}) {
+export async function generatePacksJson({ only, config = packConfig } = {}) {
     // Before anything is generated: every UUID written below is addressed to
     // FOUNDRY_PACKAGE_ID, so a value that has drifted from the shipped
     // manifest's `id` produces a whole pack of links that resolve nowhere.
     // Throws rather than counting an error — there is nothing worth compiling.
-    assertPackageIdMatchesManifestFile();
+    //
+    // This guard runs FIRST, before any pass; the empty-output guard below runs
+    // LAST, folded into the same error total. Reversed, the build would still
+    // exit non-zero, but only after emitting a whole tree of documents
+    // addressing a package that does not ship them.
+    assertPackageIdMatchesManifestFile(
+        config.foundryPackage,
+        config.paths.packageManifest,
+    );
 
-    if (!fs.existsSync(CONTENT_BASE)) {
-        log.error(`Content tree not found at ${CONTENT_BASE}.`);
+    const contentBase = config.paths.content;
+    if (!fs.existsSync(contentBase)) {
+        log.error(`Content tree not found at ${contentBase}.`);
         return 1;
     }
     // A tree that is present but empty compiles zero documents *without an
     // error*, and ships blank compendiums. Refuse instead: this only happens
     // when the generated tree was never exported, or exported from the wrong
     // place, and neither is something to build on.
-    const noteCount = countContentNotes(CONTENT_BASE);
+    const noteCount = countContentNotes(contentBase);
     if (noteCount === 0) {
         log.error(
-            `Content tree at ${CONTENT_BASE} holds no notes, so every pack would ` +
-                `compile empty. assets/content/ is this ` +
-                `repository's own source — check out the tree.`,
+            `Content tree at ${contentBase} holds no notes, so every pack would ` +
+                `compile empty. The configured content root is ` +
+                `this repository's own source — check out the tree.`,
         );
         return 1;
     }
-    log.info(`Content tree: ${noteCount} note(s) at ${CONTENT_BASE}`);
-    fs.mkdirSync(BUILD_JSON_ROOT, { recursive: true });
+    log.info(`Content tree: ${noteCount} note(s) at ${contentBase}`);
+    fs.mkdirSync(config.paths.packJson, { recursive: true });
 
-    // A companion pack has no config of its own — naming it selects the pass
-    // that writes it, so `compile adventures` is not a silent no-op.
-    const configs = PACK_CONFIGS.filter(
-        (c) => !only || c.name === only || (c.companions ?? []).includes(only),
+    // A companion pack has no pass of its own — naming it selects the pass that
+    // writes it, so `compile adventures` is not a silent no-op.
+    const packs = config.packs.filter(
+        (pack) =>
+            !only ||
+            pack.name === only ||
+            pack.companions.some((companion) => companion.name === only),
     );
     let totalErrors = 0;
     const passes = [];
-    for (const config of configs) {
-        const { errors, compiled } = await generatePack(config);
+    for (const pack of packs) {
+        const { errors, compiled } = await generatePack(pack, config);
         totalErrors += errors;
         passes.push({
-            name: config.name,
+            name: pack.name,
             compiled,
-            mayBeEmpty: config.mayBeEmpty === true,
+            mayBeEmpty: pack.mayBeEmpty,
         });
     }
 

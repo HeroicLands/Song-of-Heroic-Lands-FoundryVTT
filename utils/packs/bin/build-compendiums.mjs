@@ -21,6 +21,10 @@
  * process exit code. The library itself is import-safe, so another repository's
  * build — or a test — can call it without any of this happening (#1507).
  *
+ * Every path and pack name it hands the library comes from the repository's
+ * `content-build.config.mjs` (#1508); nothing about this repository's layout is
+ * written here.
+ *
  * Usage:
  *   npm run build:compiledb                // → … package compile (all packs)
  *   npm run build:unpackdb                 // → … package unpack
@@ -32,37 +36,16 @@
 import fs from "fs";
 import log from "loglevel";
 import prefix from "loglevel-plugin-prefix";
-import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { compilePacks, cleanPacks, unpackPacks } from "../compendiums.mjs";
-
-/**
- * Packs compiled from the authoritative `assets/content/` Markdown. Each pack's
- * per-entry JSON is generated into a build-only intermediate
- * (`build/packs-json/<name>/`) and compiled to LevelDB from there — no committed
- * JSON and no vault access.
- */
-const SOURCE_PACKS = [
-    "items",
-    "journals",
-    "actors",
-    "macros",
-    "scenes",
-    "adventures",
-];
-
-/** Where `unpack` writes extracted JSON, and where `clean` operates. */
-const PACK_DEST = path.resolve("./build/tmp/packs");
-const STAGE_DEST = path.resolve("./build/stage/packs");
-
-/** The shipped Foundry package manifest, read only where it is needed. */
-const SYSTEM_TEMPLATE = "./assets/templates/system.template.json";
+import { packConfig } from "../config.mjs";
+import { readPackageManifest } from "../package-manifest.mjs";
 
 /**
  * The packs the shipped Foundry package declares — what `unpack` extracts.
  *
- * Read on demand rather than at load: a repository that has no system manifest
+ * Read on demand rather than at load: a repository that has no package manifest
  * still has a working `compile`, whose own package-id guard
  * (`assertPackageIdMatchesManifestFile`) resolves either manifest kind. A
  * missing manifest is still loud — it throws, and the handler below turns that
@@ -71,11 +54,10 @@ const SYSTEM_TEMPLATE = "./assets/templates/system.template.json";
  * @returns {Array<{name: string}>}
  */
 function manifestPacks() {
-    return JSON.parse(fs.readFileSync(SYSTEM_TEMPLATE, { encoding: "utf8" }))
-        .packs;
+    return readPackageManifest().manifest.packs;
 }
 
-fs.mkdirSync(PACK_DEST, { recursive: true });
+fs.mkdirSync(packConfig.paths.unpack, { recursive: true });
 
 // Configure loglevel
 log.setLevel("info"); // Set desired logging level
@@ -124,23 +106,20 @@ function packageCommand() {
             // failing exit code, so a build guard reads as a build failure.
             try {
                 switch (action) {
+                    // Every path and pack list the library needs is defaulted
+                    // from the resolved configuration, so nothing is restated
+                    // here (#1508). Only `packs` is passed: it comes from the
+                    // shipped manifest, not from configuration.
                     case "compile":
-                        return await compilePacks({
-                            sourcePacks: SOURCE_PACKS,
-                            stageDest: STAGE_DEST,
-                            packName: pack,
-                        });
+                        return await compilePacks({ packName: pack });
                     case "clean":
                         return await cleanPacks({
-                            packDest: PACK_DEST,
                             packName: pack,
                             entryName: entry,
                         });
                     case "unpack":
                         return await unpackPacks({
                             packs: manifestPacks(),
-                            stageDest: STAGE_DEST,
-                            packDest: PACK_DEST,
                             packName: pack,
                             entryName: entry,
                         });

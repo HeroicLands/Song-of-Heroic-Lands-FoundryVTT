@@ -28,20 +28,18 @@
 import fs from "fs";
 import crypto from "crypto";
 import path from "path";
-import url from "url";
 import yaml from "yaml";
 import unidecode from "unidecode";
 import markdownit from "markdown-it";
 import log from "loglevel";
 
+import { packConfig } from "./config.mjs";
 import {
     CONTENT_PACKAGE,
     FOUNDRY_PACKAGE_ID,
 } from "./content-package.mjs";
+import { readPackageManifest } from "./package-manifest.mjs";
 import { loadForeignManifests, PACKAGE_BASE } from "../kb-manifest.mjs";
-
-/** Vendored manifests of packages this repository links into (#1446). */
-const MANIFEST_SRC = path.resolve("./assets/manifests");
 import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
 import { expandContentTables } from "../content-tables.mjs";
 // The pure `sohl:` frontmatter readers live in a leaf module so the item-type
@@ -88,10 +86,22 @@ export function parseMarkdownFile(filePath) {
 /**
  * Recursively yields every `.md` file under `rootDir`, parsed.
  * Yields { frontmatter, description, file, absPath } for each match.
- * Silently skips directories that don't exist. Skips any directory named
- * `Templates` (Obsidian templater scaffolding; never compendium content).
+ * Silently skips directories that don't exist.
+ *
+ * Directory names in `skipDirectories` are ignored wherever they appear. The
+ * walk itself knows nothing about what they mean: `Templates/` is an Obsidian
+ * templater convention this repository's vault happens to use, not a property
+ * of a content tree, so it is configured rather than hard-coded (#1508).
+ *
+ * @param {string} rootDir - Root of the tree to walk.
+ * @param {object} [opts]
+ * @param {readonly string[]} [opts.skipDirectories] - Directory names to ignore.
+ *   Defaults to the configured list.
  */
-export function* walkMarkdownTree(rootDir) {
+export function* walkMarkdownTree(
+    rootDir,
+    { skipDirectories = packConfig.skipDirectories } = {},
+) {
     if (!fs.existsSync(rootDir)) return;
     const stack = [rootDir];
     while (stack.length > 0) {
@@ -106,7 +116,7 @@ export function* walkMarkdownTree(rootDir) {
         for (const entry of entries) {
             const absPath = path.join(dir, entry.name);
             if (entry.isDirectory()) {
-                if (entry.name === "Templates") continue;
+                if (skipDirectories.includes(entry.name)) continue;
                 stack.push(absPath);
             } else if (entry.isFile() && entry.name.endsWith(".md")) {
                 yield {
@@ -209,10 +219,11 @@ export function slugify(name) {
  *
  * Content frontmatter (`img` / `portrait`) authors a single path that has to
  * work for Foundry, the knowledgebase, and the website. For Foundry the bundled
- * asset roots — `icons/...` and `images/...` — are served from the system
- * directory, so they are rewritten to `systems/sohl/assets/<path>`. Any other
- * path (already `systems/...`-rooted, a `modules/...` path, an absolute URL) is
- * returned unchanged, and an empty path yields `""`.
+ * asset roots — `icons/...` and `images/...` — are served from the package
+ * directory, so they are rewritten to `<assetRoot>/<path>` — `systems/sohl/assets`
+ * for this repository, `modules/<id>/assets` for a module (#1508). Any other
+ * path (already package-rooted, an absolute URL) is returned unchanged, and an
+ * empty path yields `""`.
  *
  * This is translation only: the per-type default for an empty result is
  * domain-specific (actors default differently from items, and gear differently
@@ -220,13 +231,15 @@ export function slugify(name) {
  * result — `resolveImg(fm.img) || DEFAULT_IMG[type]`.
  *
  * @param {string | null | undefined} raw - content-relative path from frontmatter.
+ * @param {{assetRoot: string}} [config] - The resolved build configuration.
+ *   Defaults to this repository's.
  * @returns {string} the Foundry-relative path, or `""` when `raw` is empty.
  */
-export function resolveImg(raw) {
+export function resolveImg(raw, config = packConfig) {
     if (!raw) return "";
     const s = String(raw);
     if (s.startsWith("icons/") || s.startsWith("images/")) {
-        return `systems/sohl/assets/${s}`;
+        return `${config.assetRoot}/${s}`;
     }
     return s;
 }
@@ -242,18 +255,8 @@ export function resolveName(fm, defaultValue = "Unnamed") {
     return defaultValue;
 }
 
-/**
- * The manifest template, read once. Resolved against this module rather than
- * the working directory so the pack scripts, the unit suite and any other
- * caller all read the same file whatever they were launched from.
- */
-const SYSTEM_TEMPLATE = path.join(
-    path.dirname(url.fileURLToPath(import.meta.url)),
-    "../../assets/templates/system.template.json",
-);
-
-/** Memoised {@link supportedCoreVersion}. */
-let cachedCoreVersion;
+/** Memoised {@link supportedCoreVersion}, keyed by manifest directory. */
+const cachedCoreVersion = new Map();
 
 /**
  * The Foundry core version compiled documents declare, taken from the
@@ -270,52 +273,67 @@ let cachedCoreVersion;
  * Stamping the supported floor is honest — the manifest refuses to load on an
  * older core, so no client can legitimately need those migrations — and it is
  * only *safe* because of that refusal, which is why the two must be one value.
- * A second literal here would rot apart from the manifest the moment the floor
- * moved, and the failure would again be silent.
+ * A literal here, or in configuration, would rot apart from the manifest the
+ * moment the floor moved, and the failure would again be silent. Configuration
+ * therefore supplies only *where the manifest is* (#1508).
  *
+ * The manifest is located through {@link resolvePackageManifestPath}, the same
+ * resolution the package-id guard uses — one hoisted location, not two — which
+ * also replaces the module-relative path this used to resolve. That path was
+ * correct while the toolchain was vendored and would have pointed inside
+ * `node_modules/@heroiclands/content-build/` once it is installed.
+ *
+ * @param {string} [templateDir] - Directory holding the manifest template.
+ *   Defaults to the configured location.
  * @returns {string} The manifest's declared minimum core version.
  * @throws {Error} When the manifest cannot be read or declares no minimum —
  *   a silent fallback is how the original defect shipped.
  */
-export function supportedCoreVersion() {
-    if (cachedCoreVersion) return cachedCoreVersion;
-    let manifest;
-    try {
-        manifest = JSON.parse(fs.readFileSync(SYSTEM_TEMPLATE, "utf8"));
-    } catch (err) {
-        throw new Error(
-            `Cannot read the system manifest at ${SYSTEM_TEMPLATE} to derive ` +
-                `the pack _stats.coreVersion: ${err.message}`,
-        );
-    }
+export function supportedCoreVersion(
+    templateDir = packConfig.paths.packageManifest,
+) {
+    const cached = cachedCoreVersion.get(templateDir);
+    if (cached) return cached;
+
+    const { manifestPath, manifest } = readPackageManifest(templateDir);
     const minimum = manifest?.compatibility?.minimum;
     if (!minimum) {
         throw new Error(
-            `${SYSTEM_TEMPLATE} declares no compatibility.minimum, so compiled ` +
+            `${manifestPath} declares no compatibility.minimum, so compiled ` +
                 `documents have no honest core version to stamp`,
         );
     }
-    return (cachedCoreVersion = String(minimum));
+    cachedCoreVersion.set(templateDir, String(minimum));
+    return String(minimum);
 }
 
 /**
  * Default `_stats` block for compiled compendium entries.
  *
- * `coreVersion` comes from {@link supportedCoreVersion} — the manifest's own
- * supported floor — so a document never claims to predate the migrations that
- * would rewrite it.
+ * Every stamped identity is configuration (#1508): four compilers used to pass
+ * the same frozen `"0.6.0"` literal, and `systemId` / `lastModifiedBy` were
+ * written into this function. `coreVersion` alone is *not* configuration — it
+ * comes from {@link supportedCoreVersion}, the manifest's own supported floor,
+ * so a document never claims to predate the migrations that would rewrite it.
  *
- * @param {string} [systemVersion] - The system version to stamp.
+ * @param {string} [systemVersion] - The system version to stamp. Defaults to the
+ *   configured one.
+ * @param {{stats: {systemId: string, systemVersion: string,
+ *   lastModifiedBy: string}, paths: {packageManifest: string}}} [config] -
+ *   The resolved build configuration. Defaults to this repository's.
  * @returns {object} The `_stats` block.
  */
-export function buildStats(systemVersion = "0.6.0") {
+export function buildStats(
+    systemVersion = undefined,
+    config = packConfig,
+) {
     return {
-        systemId: "sohl",
-        systemVersion,
-        coreVersion: supportedCoreVersion(),
+        systemId: config.stats.systemId,
+        systemVersion: systemVersion ?? config.stats.systemVersion,
+        coreVersion: supportedCoreVersion(config.paths.packageManifest),
         createdTime: 0,
         modifiedTime: 0,
-        lastModifiedBy: "sohlbuilder00000",
+        lastModifiedBy: config.stats.lastModifiedBy,
     };
 }
 
@@ -362,8 +380,10 @@ export function buildContentLinkIndex(contentBase) {
     // Packages this build links *into* but does not publish. Their manifests
     // are vendored and committed, so a contributor without every repository
     // checked out resolves the same links CI does (#1446, #1499).
+    // Packages this repository links into but does not publish; their vendored
+    // manifests live at the configured location (#1446, #1499).
     const { index: foreign, stale } = loadForeignManifests(
-        MANIFEST_SRC,
+        packConfig.paths.manifests,
         [CONTENT_PACKAGE],
         PACKAGE_BASE,
     );

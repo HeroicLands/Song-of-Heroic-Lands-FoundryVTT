@@ -60,7 +60,7 @@ import { journalPageId, splitPages } from "./journals.mjs";
 import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { ITEM_TYPES, itemDocEntryId, itemDocPointer } from "./item-docs.mjs";
 
-const STATS = buildStats("0.6.0");
+const STATS = buildStats();
 
 /**
  * The description an item carries: a pointer to its **item doc**, the

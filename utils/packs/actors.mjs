@@ -19,7 +19,8 @@
  * no other distinction propagates to the output.
  *
  * Each actor's embedded items are resolved by looking up `<type>:<shortcode>`
- * against the items pack's generated JSON tree (built in a prior items pass).
+ * against the items pack's generated JSON tree (built in a prior items pass and
+ * named by the caller as `itemsSourceDir`).
  * Attributes (`sohl.attributes` map) become embedded attribute items with
  * `scoreBase` set from the map value. Each entry in `sohl.items` is similarly
  * resolved by `(type, shortcode)` and deep-merged with the entry's other
@@ -52,7 +53,7 @@ import {
 } from "./helpers.mjs";
 import { CONTENT_PACKAGE } from "./content-package.mjs";
 
-const STATS = buildStats("0.6.0");
+const STATS = buildStats();
 
 const ACTOR_VAULT_TYPES = new Set(["character", "creature"]);
 
@@ -248,15 +249,28 @@ export class Actors {
      */
     compiledCount = 0;
 
-    constructor({ contentBase, dest, folderResolver = () => null }) {
+    constructor({
+        contentBase,
+        dest,
+        itemsSourceDir,
+        folderResolver = () => null,
+    }) {
         if (!contentBase) {
             throw new Error("Actors compiler requires `contentBase`");
         }
         if (!fs.existsSync(contentBase)) {
             throw new Error(`Content tree not found at ${contentBase}`);
         }
-        // The items pack's JSON is generated as a sibling under build/packs-json/.
-        const itemsSourceDir = path.resolve(dest, "..", "items");
+        // Where the items pass wrote its JSON. Stated by the caller rather than
+        // assumed to be this pack's sibling: the two packs' locations are
+        // configuration, and a consumer may put them anywhere (#1508).
+        if (!itemsSourceDir) {
+            throw new Error(
+                "Actors compiler requires `itemsSourceDir` — the generated JSON " +
+                    "of the Item pack, which each being's embedded items are " +
+                    "resolved against",
+            );
+        }
         Object.defineProperty(this, "contentBase", {
             value: contentBase,
             writable: false,
