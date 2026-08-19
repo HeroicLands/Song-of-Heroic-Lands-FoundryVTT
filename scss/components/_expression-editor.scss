@@ -65,7 +65,12 @@
         flex: 0 0 auto;
         width: auto;
         padding: 1px 6px;
-        font-family: var(--font-mono, monospace);
+        // SoHL's mono, not Foundry's `--font-mono` (#1523). Referenced as the
+        // token directly rather than through the `.sohl` remap in
+        // `base/_foundry-vars.scss`, because this dialog is a top-level
+        // DialogV2 with no `.sohl` frame — that remap cannot reach it. Tokens
+        // are emitted to `:root`, so the variable resolves here regardless.
+        font-family: var(--sohl-font-mono);
         font-size: var(--font-size-12, 12px);
         cursor: pointer;
     }
