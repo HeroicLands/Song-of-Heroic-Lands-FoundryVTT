@@ -28,7 +28,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </a>
             </span>
         </div>
-        <div class="ledger" style="--ledger-cols:1.2rem 1.8rem minmax(120px,1fr) 2.4rem 2.4rem 2.6rem 2.6rem 2.4rem 1.2fr 3rem">
+        {{!-- `data-group-index` is the render position of this group, which is
+             what a drag clamps against: a skill dropped on a later group sorts
+             to the bottom of its own, on an earlier group to the top (#1528). --}}
+        <div class="ledger skills-ledger" data-group-index="{{@index}}" data-sub-type="{{group.subType}}" style="--ledger-cols:1.2rem 1.8rem minmax(120px,1fr) 2.4rem 2.4rem 2.6rem 2.6rem 2.4rem 1.2fr 3rem">
             <div class="ledger__head">
                 <div></div>
                 <div></div>
@@ -42,7 +45,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div></div>
             </div>
             {{#each group.skills as |skill|}}
-            <div class="ledger__row" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-uuid="{{skill.uuid}}" data-item-name="{{skill.name}}">
+            <div class="ledger__row" draggable="true" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-uuid="{{skill.uuid}}" data-item-name="{{skill.name}}">
                 <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
                 <div class="ledger__icon"><img src="{{skill.img}}" alt="{{skill.name}}" /></div>
                 <div class="ledger__name">{{skill.name}}</div>

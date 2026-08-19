@@ -17,3 +17,4 @@
 export * from "./ContextMenuEntry";
 export * from "./calendar-settings-view";
 export * from "./expression-library-view";
+export * from "./skill-reorder";
