@@ -19,8 +19,8 @@
         "compatibleMigrationVersion": "0.3.0"
     },
     "compatibility": {
-        "minimum": "14.356",
-        "verified": "14.356"
+        "minimum": "14.359",
+        "verified": "14.367"
     },
     "esmodules": ["sohl.js"],
     "styles": ["css/sohl.css"],

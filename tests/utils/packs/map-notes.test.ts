@@ -255,16 +255,13 @@ describe("buildScene — the whole document", () => {
         expect(scene._key).toBe(`!scenes!${SCENE_ID}`);
     });
 
-    it("stamps a core version new enough to keep its own Level", () => {
-        // `migrateLevels` runs on any Scene record older than 14.353 and
-        // replaces `levels` outright with a default synthesised from the
-        // pre-v14 flat fields — taking the map image with it, silently.
-        const scene = buildSceneDoc(
-            makeNote(),
-            makeCtx({ stats: { systemId: "sohl", coreVersion: "14" } }),
-        );
-        expect(scene._stats.coreVersion).toBe("14.353");
-        expect(scene._stats.systemId).toBe("sohl");
+    it("carries the stats it is given, with no scene-only special case", () => {
+        // The core-version stamp is the packs' business, not a map note's: it
+        // is derived once from the manifest's supported floor (#1533), so a
+        // scene has nothing to correct here.
+        const stats = { systemId: "sohl", coreVersion: "14.359" };
+        const scene = buildSceneDoc(makeNote(), makeCtx({ stats }));
+        expect(scene._stats).toEqual(stats);
     });
 
     it("emits the per-type canvas defaults explicitly", () => {

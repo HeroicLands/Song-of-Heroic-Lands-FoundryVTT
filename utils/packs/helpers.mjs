@@ -28,6 +28,7 @@
 import fs from "fs";
 import crypto from "crypto";
 import path from "path";
+import url from "url";
 import yaml from "yaml";
 import unidecode from "unidecode";
 import markdownit from "markdown-it";
@@ -420,15 +421,76 @@ export function resolveName(fm, defaultValue = "Unnamed") {
 }
 
 /**
- * Default `_stats` block for compiled compendium entries. Reads the
- * current system version from `assets/templates/system.template.json`
- * if available, otherwise falls back to the supplied default.
+ * The manifest template, read once. Resolved against this module rather than
+ * the working directory so the pack scripts, the unit suite and any other
+ * caller all read the same file whatever they were launched from.
+ */
+const SYSTEM_TEMPLATE = path.join(
+    path.dirname(url.fileURLToPath(import.meta.url)),
+    "../../assets/templates/system.template.json",
+);
+
+/** Memoised {@link supportedCoreVersion}. */
+let cachedCoreVersion;
+
+/**
+ * The Foundry core version compiled documents declare, taken from the
+ * manifest's own `compatibility.minimum`.
+ *
+ * **Derived, never written twice.** `_stats.coreVersion` is what Foundry gates
+ * its migration shims on: a record stamped older than a shim is rewritten by it
+ * on load. Every pack shipped `coreVersion: "14"`, which sorts *below* every
+ * v14 build and so left all shipped content permanently eligible for every v14
+ * migration — including `Scene`'s `migrateLevels`, an unconditional
+ * `levels = [synthesised]` that discarded an authored Level and its map image
+ * without a word (#1533).
+ *
+ * Stamping the supported floor is honest — the manifest refuses to load on an
+ * older core, so no client can legitimately need those migrations — and it is
+ * only *safe* because of that refusal, which is why the two must be one value.
+ * A second literal here would rot apart from the manifest the moment the floor
+ * moved, and the failure would again be silent.
+ *
+ * @returns {string} The manifest's declared minimum core version.
+ * @throws {Error} When the manifest cannot be read or declares no minimum —
+ *   a silent fallback is how the original defect shipped.
+ */
+export function supportedCoreVersion() {
+    if (cachedCoreVersion) return cachedCoreVersion;
+    let manifest;
+    try {
+        manifest = JSON.parse(fs.readFileSync(SYSTEM_TEMPLATE, "utf8"));
+    } catch (err) {
+        throw new Error(
+            `Cannot read the system manifest at ${SYSTEM_TEMPLATE} to derive ` +
+                `the pack _stats.coreVersion: ${err.message}`,
+        );
+    }
+    const minimum = manifest?.compatibility?.minimum;
+    if (!minimum) {
+        throw new Error(
+            `${SYSTEM_TEMPLATE} declares no compatibility.minimum, so compiled ` +
+                `documents have no honest core version to stamp`,
+        );
+    }
+    return (cachedCoreVersion = String(minimum));
+}
+
+/**
+ * Default `_stats` block for compiled compendium entries.
+ *
+ * `coreVersion` comes from {@link supportedCoreVersion} — the manifest's own
+ * supported floor — so a document never claims to predate the migrations that
+ * would rewrite it.
+ *
+ * @param {string} [systemVersion] - The system version to stamp.
+ * @returns {object} The `_stats` block.
  */
 export function buildStats(systemVersion = "0.6.0") {
     return {
         systemId: "sohl",
         systemVersion,
-        coreVersion: "14",
+        coreVersion: supportedCoreVersion(),
         createdTime: 0,
         modifiedTime: 0,
         lastModifiedBy: "sohlbuilder00000",

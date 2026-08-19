@@ -50,15 +50,6 @@ has no LIMITED value.
 intact. It cannot be left out: the client-side `_preCreate` net that would create
 one does not run for offline pack compilation.
 
-Nor can it be stamped like the other packs. Foundry's server-side `migrateLevels`
-shim runs on any Scene record older than core **14.353** and replaces `levels`
-outright with a default synthesised from the pre-v14 flat fields — it never
-checks whether the record already has one. A scene stamped with the packs'
-ordinary `coreVersion: "14"` loads with its authored Level gone and its map image
-with it, in silence. Scenes therefore declare `"14.353"`: the exact version at
-which Levels became the storage, so the claim is true and any later Scene
-migration still runs.
-
 **Regions carry their behaviours, including the SoHL `trigger` bridge.** The
 curated event list is shared verbatim with the runtime, so an event this build
 accepts is exactly one the bridge forwards. `color` is hashed from the region
@@ -92,6 +83,29 @@ curated set (naming the excluded ones, since `tokenMoveWithin` is the plausible
 mistake), a behaviour type or field off the allow-list, a region with no shapes,
 a two-point "polygon" that passes the schema's floor of four numbers, and
 `restrict:` without a level. Each error names the authored key.
+
+**The supported Foundry floor rises to 14.359** (verified against 14.367), and
+compiled pack documents now stamp that floor instead of a literal `"14"`.
+
+This is the fix for a defect map notes merely exposed (#1533). `_stats.coreVersion`
+is what Foundry gates its migration shims on, and `"14"` sorts _below_ every v14
+build — so every document this system has ever shipped was permanently eligible
+for every v14 migration. `Scene`'s `migrateLevels` is an unconditional
+`levels = [synthesised from the pre-v14 flat fields]` that never checks whether
+the record already has a Level, so an authored map loaded out of its pack with
+the Level replaced and the map image gone. Silently: the pack on disk was
+correct, the extract round-tripped, and every build check passed. Items, actors
+and journals were equally eligible; scenes are simply where a shim destroyed
+something visible.
+
+The stamp is now derived from the manifest's own `compatibility.minimum`, in one
+place, because it is only _honest_ — and only safe — while the manifest refuses
+to load on a core old enough to need those shims. Two literals would rot apart,
+and the failure mode is invisible.
+
+**The e2e container's Foundry build is pinned by the repository too**, at 14.367,
+so `compatibility.verified` names a build the suite actually ran on and a fresh
+checkout reproduces it without local configuration.
 
 Ships with a worked fixture — two floors of one shelter, plus a regional map —
 and `kb/dev-docs/reference/map-notes.md` documenting the schema. The Cypress

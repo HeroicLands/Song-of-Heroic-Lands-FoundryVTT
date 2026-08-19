@@ -393,6 +393,17 @@ pins a stable one (`sohl-foundry-<stage>`); the signed `license.json` then
 persists across recreates (the seed wipes only the world, not `Config`). Without
 that pin Foundry would revert to "requires signature" on every run.
 
+🔧 **The test container's Foundry build is pinned by the repository.**
+`DEFAULT_STAGE_VERSIONS` in `utils/foundry-container.mjs` pins the `test` stage
+(currently **14.367**), and the container script passes it to felddy as
+`FOUNDRY_VERSION`, so a fresh checkout runs the suite on that exact build with no
+local configuration. This is deliberate: the suite is evidence, and left to the
+floating `:14` tag it would silently drift to whatever the registry served that
+week — so "the suite passes" would name no particular Foundry, and
+`system.json`'s `compatibility.verified` would be a claim nobody could re-run.
+`FOUNDRYVTT_TEST_VERSION` overrides it locally. Moving the pin means re-running
+the suite and moving `verified` with it.
+
 `FOUNDRYVTT_TEST_DATA` must be a **separate, empty** dir — not your dev/qa root.
 If it points at a dir with an existing `Config/license.json`, felddy reuses that
 file and ignores the key (the seed also errors out on this to prevent

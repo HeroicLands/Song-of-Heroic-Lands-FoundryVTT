@@ -151,16 +151,22 @@ This is not optional. The client-side `_preCreate` net that would create a
 default Level does not run for offline pack compilation, so a scene without one
 ships with no map at all.
 
-**A scene declares `_stats.coreVersion: "14.353"`**, not the `"14"` the other
-packs use. Foundry's server-side `migrateLevels` shim runs on any Scene record
-stamped older than 14.353 and **replaces `levels` outright** with a single
-default level synthesised from the pre-v14 flat fields — it never checks whether
-the record already has one. A scene compiled with the ordinary stamp therefore
-loads from its pack with the authored Level gone, replaced by an empty one named
-after the scene, and no image. Nothing in the build can see that happen, which is
-why `map-notes.cy.js` asserts the Level's *name* as well as its background.
-Stamping the exact version at which Levels became the storage says what is true
-and leaves any later Scene migration free to run.
+**It also depends on the pack `_stats.coreVersion` stamp.** Foundry's
+server-side `migrateLevels` shim runs on any Scene record stamped older than
+**14.353** and **replaces `levels` outright** with a single default level
+synthesised from the pre-v14 flat fields — it never checks whether the record
+already has one. Packs used to stamp `coreVersion: "14"`, which sorts *below*
+every v14 build, so a compiled scene loaded from its pack with the authored Level
+gone, replaced by an empty one named after the scene, and no image. Nothing in
+the build could see it (#1533).
+
+Every compiled document now stamps the manifest's own `compatibility.minimum`
+— `supportedCoreVersion` in
+[`utils/packs/helpers.mjs`](../../../utils/packs/helpers.mjs) — which the
+manifest itself enforces, so no supported client can legitimately need those
+shims. Map notes
+carry no special case for it — but `map-notes.cy.js` asserts the Level's *name*
+as well as its background, because that is the only place the failure is visible.
 
 Multi-level scenes are out of scope for v1: one scene per floor, with stair
 regions teleporting between them.

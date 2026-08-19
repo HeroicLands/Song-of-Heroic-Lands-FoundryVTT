@@ -141,23 +141,6 @@ export function mapProfile(type) {
 export const DEFAULT_LEVEL_ID = "defaultLevel0000";
 
 /**
- * The core version a scene must declare for its authored `Level` to survive
- * being read out of a pack.
- *
- * Foundry's server-side `migrateLevels` shim runs on any Scene record stamped
- * older than **14.353** and **unconditionally replaces** `levels` with a single
- * default level synthesised from the pre-v14 flat fields — it does not check
- * whether the record already has one. A scene compiled with the packs' ordinary
- * `coreVersion: "14"` therefore loads with its map image gone and a level named
- * after the scene, silently, and nothing in the build can see it.
- *
- * Stamping the exact version at which Levels became the storage says what is
- * true — this data is already in the Levels shape — while leaving any *later*
- * Scene migration free to run.
- */
-export const LEVELS_CORE_VERSION = "14.353";
-
-/**
  * The id of the JournalEntry a map note's prose compiles into.
  *
  * Derived from the map's own id so the journals pass and the scenes pass agree
@@ -996,9 +979,7 @@ export function buildScene(fm, ctx) {
         _key: `!scenes!${sceneId}`,
     };
     if (sohl.navName) scene.navName = sohl.navName;
-    if (ctx.stats) {
-        scene._stats = { ...ctx.stats, coreVersion: LEVELS_CORE_VERSION };
-    }
+    if (ctx.stats) scene._stats = ctx.stats;
 
     if (ctx.journalEntryId) {
         if (!ctx.packageId) {
