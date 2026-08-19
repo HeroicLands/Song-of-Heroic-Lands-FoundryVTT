@@ -339,6 +339,11 @@ const SECTION_META = {
         title: "Skills/Attributes",
         banner: "banners/skills-attributes.webp",
     },
+    // Map notes (#1525). No banner: the hero images are CDN assets and there is
+    // none for maps yet, so these landings render without one.
+    battlemap: { title: "Battlemaps" },
+    localmap: { title: "Local Maps" },
+    regionalmap: { title: "Regional Maps" },
 };
 
 /**
@@ -891,9 +896,15 @@ for (const e of entries) {
 for (const [sec, meta] of Object.entries(SECTION_META)) {
     const dir = path.join(OUT, sec);
     fs.mkdirSync(dir, { recursive: true });
+    // A section may have no hero image — the banners are CDN assets and not
+    // every section has one. An explicit `banner: undefined` is not a value
+    // YAML can carry, so the key is left off entirely.
     fs.writeFileSync(
         path.join(dir, "_index.md"),
-        matter.stringify("", { title: meta.title, banner: meta.banner }),
+        matter.stringify("", {
+            title: meta.title,
+            ...(meta.banner ? { banner: meta.banner } : {}),
+        }),
     );
 }
 

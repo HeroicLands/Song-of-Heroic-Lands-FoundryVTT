@@ -36,6 +36,7 @@ import log from "loglevel";
 import { Items } from "./items.mjs";
 import { Journals } from "./journals.mjs";
 import { Actors } from "./actors.mjs";
+import { Scenes } from "./scenes.mjs";
 import {
     buildStats,
     loadFolders,
@@ -76,6 +77,16 @@ const PACK_CONFIGS = [
         documentType: "Actor",
         folders: "actor-folders.yaml",
     },
+    // One pass, two packs: every map note's Scene, and the Adventure bundling
+    // the pinned ones with their journals so `keepId: true` import makes the
+    // pins resolve (#1525).
+    {
+        name: "scenes",
+        packClass: Scenes,
+        documentType: "Scene",
+        folders: "scene-folders.yaml",
+        companions: ["adventures"],
+    },
 ];
 
 /** Root of the build-only JSON tree for one pack. */
@@ -87,7 +98,13 @@ export const packJsonDir = (name) => path.join(BUILD_JSON_ROOT, name);
  * @param {object} config - A {@link PACK_CONFIGS} entry.
  * @returns {Promise<number>} The compiler's error count (0 on success).
  */
-async function generatePack({ name, packClass, documentType, folders }) {
+async function generatePack({
+    name,
+    packClass,
+    documentType,
+    folders,
+    companions = [],
+}) {
     const dest = packJsonDir(name);
     const foldersFile = path.join(CONTENT_BASE, folders);
 
@@ -107,11 +124,22 @@ async function generatePack({ name, packClass, documentType, folders }) {
     fs.rmSync(dest, { recursive: true, force: true });
     fs.mkdirSync(dest, { recursive: true });
 
+    // A companion pack is written by the same pass — the scenes pass also emits
+    // the adventures that bundle them — so it is wiped on the same schedule.
+    const companionDests = {};
+    for (const companion of companions) {
+        const companionDest = packJsonDir(companion);
+        fs.rmSync(companionDest, { recursive: true, force: true });
+        fs.mkdirSync(companionDest, { recursive: true });
+        companionDests[companion] = companionDest;
+    }
+
     writeFolderDocs(folderList, buildStats(STATS_VERSION), dest, documentType);
 
     const pack = new packClass({
         contentBase: CONTENT_BASE,
         dest,
+        companionDests,
         folderResolver: resolver,
     });
     await pack.compile();
@@ -146,7 +174,11 @@ export async function generatePacksJson({ only } = {}) {
     log.info(`Content tree: ${noteCount} note(s) at ${CONTENT_BASE}`);
     fs.mkdirSync(BUILD_JSON_ROOT, { recursive: true });
 
-    const configs = PACK_CONFIGS.filter((c) => !only || c.name === only);
+    // A companion pack has no config of its own — naming it selects the pass
+    // that writes it, so `compile adventures` is not a silent no-op.
+    const configs = PACK_CONFIGS.filter(
+        (c) => !only || c.name === only || (c.companions ?? []).includes(only),
+    );
     let totalErrors = 0;
     for (const config of configs) {
         totalErrors += await generatePack(config);

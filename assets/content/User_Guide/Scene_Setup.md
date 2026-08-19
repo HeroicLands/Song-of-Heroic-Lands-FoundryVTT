@@ -17,6 +17,27 @@ Scenes in SoHL work like standard Foundry VTT scenes, with some additional featu
 
 See also: [[doc-being|Beings]], [[doc-cohort|Cohorts]]
 
+# Shipped Maps and Adventures {#scene-shipped-maps}
+
+SoHL ships maps in two compendiums, and which one you import from decides whether the map arrives whole.
+
+- **Maps** holds one Scene per map. Drag one onto the Scenes sidebar and you get the canvas, its walls, doors, lights, ambient sounds and regions.
+- **Adventures** holds one entry per _place_ — the manor and its floors, the shelter and its loft — bundling those scenes with the journal that describes them.
+
+**Import the Adventure, not the Scene, whenever the map has pins on it.** A map pin points at a page of a journal by its identity, and so does a stairway region that moves a token to the floor above. Importing an Adventure brings every one of those documents in together and keeps their identities, so the pins open the right page and the stairs land in the right place. Dragging the Scene on its own brings the canvas but not the journal, and its pins have nothing to open.
+
+To import: open the **Adventures** compendium, click the entry, review the list of what it contains, and confirm.
+
+Importing the same Adventure again **updates** what is already in your world rather than making a second copy — which is how a corrected map reaches you, and also means your own edits to those scenes and journals are overwritten. If you have changed a shipped map and want to keep the changes, duplicate it first and work on the copy.
+
+A map you import is an ordinary Foundry scene afterwards. Nothing about it is locked: move a wall, add a light, repaint the regions.
+
+## Regions on a shipped map
+
+Some maps carry **regions** — a marked area of the canvas that reacts when a token enters or leaves it. Where a region has a **SoHL Event Trigger** on it, entering can _offer_ the token's owner an action: a chat card with a **Perform** button, exactly like every other offer the system makes. Nothing is rolled and nothing happens to the character until that button is clicked, and only its owner can click it.
+
+You can see and edit these from the Regions layer, and remove one you do not want.
+
 # Placing Actors on Scenes {#scene-placing}
 
 To place an actor on a scene:

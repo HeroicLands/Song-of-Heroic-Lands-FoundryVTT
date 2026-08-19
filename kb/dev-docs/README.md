@@ -62,6 +62,7 @@ Task-oriented guides for getting something done.
 Contracts, catalogs, and specifications.
 
 - [Type Catalog](reference/type-catalog.md)
+- [Map Notes](reference/map-notes.md) — authoring a Foundry Scene as a markdown note: the `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions, regions and their behaviours, and how a map is packaged.
 - [Linking Between Content Notes](reference/content-links.md) — wikilinks for content authors: the four forms, and why an item and its documentation need two different addresses.
 - [The Link Manifest](reference/link-manifest.md) — the cross-package index: canonical addresses, Foundry UUIDs and anchors, and what a consuming build must do with them.
 - [Generated Content Tables](reference/content-tables.md) — Dataview `TABLE` queries that tabulate content notes from their frontmatter.

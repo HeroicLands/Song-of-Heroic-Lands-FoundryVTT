@@ -99,7 +99,7 @@
             "name": "Song of Heroic Lands",
             "sorting": "m",
             "color": "#094fcb",
-            "packs": ["items", "journals", "actors"]
+            "packs": ["items", "journals", "actors", "scenes", "adventures"]
         }
     ],
     "packs": [
@@ -125,6 +125,22 @@
             "name": "actors",
             "system": "sohl",
             "path": "packs/actors",
+            "private": false
+        },
+        {
+            "label": "Maps",
+            "type": "Scene",
+            "name": "scenes",
+            "system": "sohl",
+            "path": "packs/scenes",
+            "private": false
+        },
+        {
+            "label": "Adventures",
+            "type": "Adventure",
+            "name": "adventures",
+            "system": "sohl",
+            "path": "packs/adventures",
             "private": false
         }
     ],

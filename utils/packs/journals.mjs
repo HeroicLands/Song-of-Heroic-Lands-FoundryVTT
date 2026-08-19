@@ -55,6 +55,7 @@ import {
 } from "./helpers.mjs";
 import { anchorPageId } from "./wikilinks.mjs";
 import { isItemDocType, itemDocEntryId } from "./item-docs.mjs";
+import { isMapType, mapDocEntryId } from "./map-notes.mjs";
 
 const STATS = buildStats("0.6.0");
 
@@ -215,6 +216,48 @@ export function buildPages(rawPages, entryId, noteName) {
     });
 }
 
+/**
+ * Assemble one JournalEntry document from a note's converted markdown.
+ *
+ * Shared with the scenes pass, which needs the *same* entry a map note's prose
+ * compiles into so it can bundle it into an Adventure alongside the Scene. Two
+ * passes deriving the same document from the same body is what keeps a map
+ * pin's `pageId` pointing at a page that actually exists.
+ *
+ * @param {object} params
+ * @param {string} params.id - The entry's `_id`.
+ * @param {string} params.name - The entry's name.
+ * @param {string} params.markdown - The body, tables expanded and wikilinks
+ *   resolved.
+ * @param {string} [params.leadName] - Name for the page before the first
+ *   heading; see {@link splitPages}.
+ * @param {string|null} [params.folder] - The folder id, or `null`.
+ * @param {object} [params.flags] - Document flags.
+ * @returns {object} The JournalEntry document, keyed for the pack.
+ */
+export function buildJournalEntry({
+    id,
+    name,
+    markdown,
+    leadName,
+    folder = null,
+    flags,
+}) {
+    const rawPages = splitPages(markdown, leadName);
+    const pages = buildPages(rawPages, id, name);
+    return {
+        name,
+        pages,
+        folder,
+        sort: 0,
+        ownership: { default: 0 },
+        flags: flags || {},
+        _id: id,
+        _stats: STATS,
+        _key: `!journal!${id}`,
+    };
+}
+
 export class Journals {
     static id = "journals";
 
@@ -273,7 +316,11 @@ export class Journals {
     buildEntry(fm, body) {
         const name = resolveName(fm);
         const isItemDoc = isItemDocType(fm.type);
-        const id = isItemDoc ? itemDocEntryId(fm.id) : fm.id;
+        const isMap = isMapType(fm.type);
+        const id =
+            isItemDoc ? itemDocEntryId(fm.id)
+            : isMap ? mapDocEntryId(fm.id)
+            : fm.id;
         // Generated tables expand first: their cells may carry wikilinks, which
         // the conversion below then resolves along with the authored ones.
         const tabulated = expandNoteTables(body, {
@@ -291,30 +338,27 @@ export class Journals {
             name,
         });
         this.unresolvedLinks += unresolved.length;
-        // An item doc's lead page is the item, not an "Introduction" — see
-        // {@link splitPages}.
-        const rawPages = splitPages(markdown, isItemDoc ? name : undefined);
-        const pages = buildPages(rawPages, id, name);
 
         // An item doc is filed exactly where its item is, so the journals pack
         // mirrors the items pack and a doc sits under the same heading a reader
         // found the item under. The id is taken verbatim rather than through
         // `folderResolver`, which validates against this pack's own
-        // folders.yaml — an item folder is declared in the items one.
+        // folders.yaml — an item folder is declared in the items one, and a
+        // map's in the scenes one.
         const folderId = sohlField(fm, "folder", null);
-        const folder = isItemDoc ? folderId : this.folderResolver(folderId);
+        const folder =
+            isItemDoc || isMap ? folderId : this.folderResolver(folderId);
 
-        return {
+        return buildJournalEntry({
+            id,
             name,
-            pages,
+            markdown,
+            // An item doc's or a map's lead page is the thing itself, not an
+            // "Introduction" — see {@link splitPages}.
+            leadName: isItemDoc || isMap ? name : undefined,
             folder,
-            sort: 0,
-            ownership: { default: 0 },
-            flags: fm.flags || {},
-            _id: id,
-            _stats: STATS,
-            _key: `!journal!${id}`,
-        };
+            flags: fm.flags,
+        });
     }
 
     async compile() {
@@ -333,12 +377,14 @@ export class Journals {
         )) {
             // Journal notes, plus every item note — an item's prose is its
             // documentation, so it compiles here and the item keeps a pointer
-            // to it (#1348).
+            // to it (#1348) — plus every map note, whose prose is the place
+            // description its pins point at (#1525).
             const isItemDoc = isItemDocType(fm?.type);
+            const isMap = isMapType(fm?.type);
             if (
                 !fm ||
                 fm.package !== "sohl" ||
-                (fm.type !== "doc" && !isItemDoc)
+                (fm.type !== "doc" && !isItemDoc && !isMap)
             ) {
                 skippedOther++;
                 continue;
@@ -354,9 +400,11 @@ export class Journals {
                 continue;
             }
             // An item with no prose gets no doc, and the items pass leaves its
-            // description empty rather than pointing at nothing. The two passes
-            // apply the same rule to the same body, so they agree.
-            if (isItemDoc && !String(body).trim()) {
+            // description empty rather than pointing at nothing. A map with no
+            // prose likewise gets no entry, and the scenes pass leaves the
+            // pointer off. The passes apply the same rule to the same body, so
+            // they agree.
+            if ((isItemDoc || isMap) && !String(body).trim()) {
                 skippedOther++;
                 continue;
             }

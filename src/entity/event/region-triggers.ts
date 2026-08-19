@@ -35,6 +35,12 @@
  * @module RegionTriggers
  */
 
+import {
+    CURATED_REGION_EVENTS as CURATED_EVENTS_DATA,
+    EXCLUDED_REGION_EVENTS as EXCLUDED_EVENTS_DATA,
+    REGION_EVENT_TO_TRIGGER as EVENT_TO_TRIGGER_DATA,
+} from "./region-events.mjs";
+
 /** Names of the curated scene-region SoHL triggers. */
 export type SohlRegionTriggerName =
     | "regionTokenEnter"
@@ -48,22 +54,17 @@ export type SohlRegionTriggerName =
  * The curated Foundry region-event → SoHL trigger-name map. The keys are the
  * `CONST.REGION_EVENTS` string values SoHL forwards; every other region event
  * is {@link EXCLUDED_REGION_EVENTS | excluded}.
+ *
+ * The data itself lives in the framework-free `region-events.mjs`, so the
+ * map-note pack compiler — which runs under bare `node` and must reject an
+ * authored event the runtime would silently drop — reads the same list.
  */
 export const REGION_EVENT_TO_TRIGGER: Readonly<
     Record<string, SohlRegionTriggerName>
-> = {
-    tokenEnter: "regionTokenEnter",
-    tokenExit: "regionTokenExit",
-    tokenTurnStart: "regionTokenTurnStart",
-    tokenTurnEnd: "regionTokenTurnEnd",
-    tokenRoundStart: "regionTokenRoundStart",
-    tokenRoundEnd: "regionTokenRoundEnd",
-} as const;
+> = EVENT_TO_TRIGGER_DATA as Readonly<Record<string, SohlRegionTriggerName>>;
 
 /** The Foundry region-event names SoHL forwards (the keys of the map). */
-export const CURATED_REGION_EVENTS: readonly string[] = Object.keys(
-    REGION_EVENT_TO_TRIGGER,
-);
+export const CURATED_REGION_EVENTS: readonly string[] = CURATED_EVENTS_DATA;
 
 /**
  * Region events SoHL deliberately does **not** forward, and why:
@@ -77,18 +78,7 @@ export const CURATED_REGION_EVENTS: readonly string[] = Object.keys(
  * - `behaviorActivated` / `behaviorDeactivated` / `behaviorViewed` /
  *   `behaviorUnviewed` — RegionBehavior lifecycle plumbing, not gameplay.
  */
-export const EXCLUDED_REGION_EVENTS: readonly string[] = [
-    "tokenMoveIn",
-    "tokenMoveOut",
-    "tokenMoveWithin",
-    "tokenAnimateIn",
-    "tokenAnimateOut",
-    "regionBoundary",
-    "behaviorActivated",
-    "behaviorDeactivated",
-    "behaviorViewed",
-    "behaviorUnviewed",
-];
+export const EXCLUDED_REGION_EVENTS: readonly string[] = EXCLUDED_EVENTS_DATA;
 
 /**
  * The SoHL trigger name for a Foundry region event, or `undefined` when the

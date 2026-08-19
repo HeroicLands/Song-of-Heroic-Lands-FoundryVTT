@@ -61,6 +61,9 @@ export const PACK_BY_TYPE = Object.freeze({
     macro: { pack: "macros", docType: "Macro" },
     character: { pack: "actors", docType: "Actor" },
     creature: { pack: "actors", docType: "Actor" },
+    battlemap: { pack: "scenes", docType: "Scene" },
+    localmap: { pack: "scenes", docType: "Scene" },
+    regionalmap: { pack: "scenes", docType: "Scene" },
 });
 
 /** Where every other content type compiles: the items pack. */

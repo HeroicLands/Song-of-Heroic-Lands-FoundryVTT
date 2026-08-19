@@ -23,10 +23,11 @@
  * - A `sceneDarknessChange` trigger fires from `SohlHookBridge` on a real
  *   `scene.update({ environment.darknessLevel })`, offering a subscribed action.
  *
- * Region geometry detection needs the canvas (unavailable headless), so the region
- * event is driven through the behavior's own `_handleRegionEvent` — the exact seam
- * Foundry calls — rather than by moving a token. That exercises everything SoHL
- * owns (registration, the schema, the GM-gated forward, the consent offer).
+ * Region **containment** is geometry, not rendering, so it resolves with no
+ * canvas: a plain `token.update({x, y})` moves a linked token into an authored
+ * polygon and Foundry delivers `tokenEnter` to the behavior. Only *drawing* the
+ * region needs the viewport. So the region event is driven the way a player
+ * causes it — by moving a token — rather than by calling `_handleRegionEvent`.
  */
 
 describe("Scene-region & environment triggers (#593)", () => {
@@ -57,12 +58,6 @@ describe("Scene-region & environment triggers (#593)", () => {
                 cy.foundry(async (win) => {
                     const s = win.game.scenes.get(scene.id);
                     const a = win.game.actors.get(actor.id);
-                    // A synthetic entering token carrying the real actor — the
-                    // bridge reads only `token.uuid` and `token.actor.uuid`, so
-                    // no canvas-placed token is needed (avoids headless canvas
-                    // draw errors; region geometry is Foundry's concern, not the
-                    // bridge's).
-                    const tok = { uuid: `${s.uuid}.Token.synthetic`, actor: a };
 
                     // A GM drops a SoHL Event Trigger on a region — proving the
                     // `trigger` subtype is a real, createable RegionBehavior…
@@ -97,14 +92,32 @@ describe("Scene-region & environment triggers (#593)", () => {
                         ]),
                     );
 
+                    // A linked token placed well outside the region…
+                    const td = await a.getTokenDocument(
+                        win.structuredClone({
+                            x: 100,
+                            y: 100,
+                            actorLink: true,
+                        }),
+                        { parent: s },
+                    );
+                    const obj = td.toObject();
+                    obj.actorLink = true;
+                    const [token] = await td.constructor.createDocuments(
+                        [obj],
+                        {
+                            parent: s,
+                        },
+                    );
+
+                    const outside = region.tokens.size;
                     const before = win.game.messages.size;
-                    // Drive the exact seam Foundry calls on a token entering.
-                    await behavior.system._handleRegionEvent({
-                        name: "tokenEnter",
-                        data: { token: tok },
-                        region,
-                        user: win.game.user,
-                    });
+                    // …and moved in. Containment resolves canvas-free, so this
+                    // is the real seam a player crosses, not a simulated one.
+                    await token.update(
+                        win.structuredClone({ x: 1100, y: 1100 }),
+                    );
+                    await new Promise((res) => win.setTimeout(res, 200));
 
                     const msg = win.game.messages.contents.at(-1);
                     const div = win.document.createElement("div");
@@ -112,20 +125,26 @@ describe("Scene-region & environment triggers (#593)", () => {
                     const btn = div.querySelector(
                         'button.action-card-button[data-action="fearCheck"]',
                     );
-                    return {
+                    const result = {
                         behaviorType: behavior?.type,
                         behaviorEvents: [...(behavior?.system.events ?? [])],
+                        outside,
+                        inside: region.tokens.size,
                         cardsPosted: win.game.messages.size - before,
                         hasPerformButton: !!btn,
                         handlerUuid: btn?.dataset.handlerUuid,
-                        actorUuid: tok.actor?.uuid,
+                        actorUuid: a.uuid,
                     };
+                    await token.delete();
+                    return result;
                 }).should((r) => {
                     expect(
                         r.behaviorType,
                         "the trigger subtype created (not dropped to base)",
                     ).to.eq("trigger");
                     expect(r.behaviorEvents).to.include("tokenEnter");
+                    expect(r.outside, "started outside the region").to.eq(0);
+                    expect(r.inside, "and ended inside it").to.eq(1);
                     expect(
                         r.cardsPosted,
                         "a [Perform] reminder was offered",
