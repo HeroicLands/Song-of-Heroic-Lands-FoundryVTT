@@ -123,8 +123,210 @@ artwork adapts to light and dark interfaces. The artwork is otherwise unchanged.
 ## The Noun Project
 
 Interface icons not drawn from the Game-Icons set come from
-[The Noun Project](https://thenounproject.com/), with per-icon credit recorded in
-[the project's README](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/README.md#credits).
+[The Noun Project](https://thenounproject.com/). Each is credited to its creator
+below, by the icon's name.
+
+- acting by Flatart
+- advice by Adrien Coquet
+- Agriculture by Made
+- alchemy by Matthias Hartmann
+- Anvil by Nico Ilk
+- armor by Postcat Studio
+- Arrow by Kitty_Keks
+- arrows shield by Lorc
+- astrology by abderraouf omara
+- aura by Lorc
+- Awareness by Max Hancock
+- Axe by Deemak Daksina
+- ball pyramid by delapouite
+- blade drag by Lorc
+- blood by skoll
+- blowgun by Peter Selinger
+- body height by Delapouite
+- Bowman by Lorc
+- boxes by Sarah
+- break by ibrandify
+- brewery by Made x Made
+- Bull by Laymik
+- bullseye by Creative Stall
+- Bullseye by Skoll
+- caduceus by Minh Do
+- Calendar by Delapouite
+- Candle by Martin
+- Catfish by ajat sudrajat
+- cattle by Gleb Khorunzhiy
+- ceramics by Made
+- check by Siti Masriatun
+- chest by Toli
+- Chicken by cuputo
+- Circle by Prime Icons
+- Club by Natalia
+- Coins by Vectors Market
+- confrontation by delapouite
+- confrontation by Delapouite
+- Continue by Alice Design
+- Cow by Lewen Design
+- Create File by IconSrc
+- Cross by Aman
+- Crossbow by Creaticca Creative Agency
+- crossed swords by Lorc
+- Crow by VectorVibe Designs
+- dagger by iconcheese
+- dance by Adrien Coquet
+- Deer by Caro Asercion
+- Delete by Alice Design
+- dispair by Lorc
+- divination by Made x Made
+- dodge by Rflor
+- Donkey by Skoll
+- Download File by IconSrc
+- Drama by Cuputo
+- drawing by Nibras@design
+- Drop by Lorc
+- drop weapon by Skoll
+- drowning by Lorc
+- Duck by delapouite
+- Duplicate Files by IconSrc
+- Eagle head by delapouite
+- Edit File by IconSrc
+- Ellipsis by Flowerpower
+- Engineering by ProSymbols
+- Export File by IconSrc
+- Falcon by manda
+- Fire by Nabilauzwa
+- Fishing by Vectors Point
+- Flail by Simon Henrotte
+- Flamer by sbed
+- Flameworking by Jasmine Rae Friedrich
+- Fluffy cloud by Lorc
+- Fox by Caro Asercion
+- Goat by Skoll
+- Harp by Marina Pugacheva
+- Hazard Sign by Lorc
+- healing by delapouite
+- Heart plus by Zeromancer
+- heraldry by Joel McKinney
+- herb by ProSymbols
+- hit by Guilherme Furtado
+- Holy oak by Cathelineau
+- Horse Riding by Adrien Coquet
+- Hunting by Gregor Cresnar
+- Import File by IconSrc
+- initiative by Maxim Basinski
+- Injury by HAMEL KHALED
+- Ink by Justicon
+- Internal injury by Lorc
+- jewel by pejyt
+- juggler by Orin zuu
+- jump by Adrien Coquet
+- knocked out stars by Delapouite
+- lance by parkjisun
+- Law by Denis Shumaylov
+- leather by Amy Schwartz
+- longbow by Hamish
+- Love by Adrien Coquet
+- magic swirl by Lorc
+- Man Fainted by Gan Khoon Lay
+- Map by insdesign86
+- Masonry by IconMark
+- mathematics by annes curnio
+- mental by Ragesh PP
+- Mining by art shop
+- minus by Angelo Troiano
+- Mummy by Eucalyp
+- Muscle by Kieu Thi Kim Cuong
+- musician by corpus delicti
+- net by Made by Made
+- ninja by Adrien Coquet
+- old wagon by Delapouite
+- oppression by Lorc
+- padlock by thirddesign
+- Peace dove by delapouite
+- Pegasus by IconMark
+- Pentacle by Kyle Tezak
+- Perfume by Binpodo
+- person by ARISO
+- person by karjoyudhi
+- Plus by Nicole Portantiere
+- Plus or minus by Muneer A.Safiah
+- Polearm by Hamish
+- pot boiling by Weltenraser
+- punch by Phạm Thanh Lộc
+- Rally the troops by Lorc
+- rear aura by Lorc
+- Riposte by Andy Meneely
+- Round Shield by Hea Poh Lin
+- round star by delapouite
+- rune by Miroslava
+- sack by Andrejs Kirma
+- Save by Adrien Coquet
+- Scroll by stefano corradetti
+- Shield by Jamison Wieser
+- shield reflect by Lorc
+- Ship by jenya
+- singing by Andrejs Kirma
+- Ski by Brad Avison
+- sparkles by Delapouite
+- speaking by Azam Ishaq
+- Spear by sam maulidna
+- spiral bottle by Lorc
+- Splashy stream by Lorc
+- staff by ATOM
+- stars stack by Delapouite
+- steering by Edit Pongrácz
+- stethoscope by delapouite
+- Stones by Mayur Bhat
+- survival knife by Ben Davis
+- swap bag for Lorc
+- Swimming by Atif Arshad
+- sword break by Lorc
+- Sword by Kamal
+- sword clash by Lorc
+- tarot by monkik
+- Telepathy by Adrien Coquet
+- Terror by Lorc
+- textiles by ArmOkay
+- Throw by Jakob Vogel
+- Throw by Jakob Vogel
+- timber by jauhari
+- Torch by Pixelicatom
+- tracking by Adrien Coquet
+- Tree by kareemov1000
+- Trident by Yohann
+- Unicorn by corpus delicti
+- Upload File by IconSrc
+- Viking Ship by Ben Davis
+- Vision (head with eye) by IconMark
+- War Hammer by Kaylen Yul Lee
+- Water by Bhuvan
+- Water mill by Ben Davis
+- weather by Creative Mania
+- whip by lastspark
+- Wind by Andi Nur Abdillah
+- woodworker by Pham Duy Phuong Hung
+
+# Fonts
+
+_Song of Heroic Lands_ ships the following typefaces. Each notice below is the
+one embedded in the font file itself, which its license requires be retained.
+
+## Under the SIL Open Font License
+
+The [SIL Open Font License 1.1](https://openfontlicense.org) permits use,
+modification, and redistribution, including commercially, provided the fonts are
+not sold on their own and any derivative retains the license.
+
+| Family             | Notice                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| Cinzel             | Copyright 2020 The [Cinzel Project](https://github.com/NDISCOVER/Cinzel) Authors            |
+| Cormorant Garamond | Copyright 2015 The [Cormorant Project](https://github.com/CatharsisFonts/Cormorant) Authors |
+| IBM Plex Mono      | Copyright 2017 IBM Corp.                                                                    |
+| Signika            | Copyright 2018 The [Signika Project](https://github.com/googlefonts/Signika) Authors        |
+
+## Icon font
+
+**game-icons.net** is an icon font generated from the Game-Icons artwork
+described above, and carries that artwork's attribution.
 
 # Compatibility & Independence
 

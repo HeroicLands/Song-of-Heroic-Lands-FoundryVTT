@@ -270,34 +270,6 @@
         format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* lankorian-blackhand-regular - lakise */
-@font-face {
-    font-display: swap;
-    font-family: "Lankorian Blackhand";
-    font-style: normal;
-    font-weight: 400;
-    src: url("../assets/fonts/lankorian-blackhand-v1-lakise-400.woff2")
-        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* harn-normal-regular - lakise */
-@font-face {
-    font-display: swap;
-    font-family: "Harn Normal";
-    font-style: normal;
-    font-weight: 400;
-    src: url("../assets/fonts/harn-normal-v1-lakise-400.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* harn-runic - runic */
-@font-face {
-    font-display: swap;
-    font-family: "Harn Runic";
-    font-style: normal;
-    font-weight: 400;
-    src: url("../assets/fonts/harn-runic-v1-runic-400.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
 $font-mono: "IBM Plex Mono", "Courier", monospace;
 $font-sans: "Signika", "Palatino Linotype", sans-serif;
 $font-body: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;

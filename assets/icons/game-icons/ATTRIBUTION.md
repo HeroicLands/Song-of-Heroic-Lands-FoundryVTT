@@ -30,6 +30,17 @@ them rather than a requirement.
 
 More info: <https://game-icons.net>
 
+## Where else this appears
+
+This file is authoritative for the bundled Game-Icons set and ships beside the
+icons it describes, so anyone who receives the artwork receives the notice.
+
+The same credits — together with the Noun Project creators, the bundled
+typefaces, and the project's license terms — are also published for the people
+playing the game, at
+<https://www.heroiclands.org/sohl/kb/credits/>, and in Foundry as the
+**Credits** link in the Game Settings sidebar.
+
 ## Contributors
 
 | Folder             | Author                                                 | License   |    Icons |
