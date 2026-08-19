@@ -35,6 +35,7 @@
 // once over the unlabelled hyphen form, which the packs showed as a raw
 // shortcode and the knowledgebase as a name (#1409).
 import { readQualifier } from "./packs/wikilinks.mjs";
+import { replaceOutsideCode } from "./code-fences.mjs";
 
 /** KB heading/anchor slug: lowercase, non-alphanumerics to single hyphens. */
 export const slugify = (s) =>
@@ -108,7 +109,9 @@ function qualifiedKey(target, contentTypes) {
  * @returns {string} The body with wikilinks rewritten.
  */
 export function resolveKbWikilinks(body, ctx) {
-    return body.replace(/\[\[([^\]]+)\]\]/g, (_m, rawInner) => {
+    // Code is verbatim: a `[[…]]` inside a code fence, an indented block or an
+    // inline span is source text, not a link (#1505).
+    return replaceOutsideCode(body, /\[\[([^\]]+)\]\]/g, (_m, rawInner) => {
         // A pipe inside a markdown table is escaped as `\|`; undo that first.
         const inner = rawInner.replace(/\\\|/g, "|");
         const bar = inner.indexOf("|");

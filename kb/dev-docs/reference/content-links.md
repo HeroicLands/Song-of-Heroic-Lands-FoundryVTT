@@ -135,6 +135,28 @@ or at the page an anchor names.
 This is the mistake worth knowing about: the first form looks right, resolves
 without complaint, and quietly takes the reader somewhere else.
 
+## Code is verbatim, so a link inside it is not a link
+
+Wikilink conversion skips **code**: a `[[…]]` inside a fenced block (backtick or
+tilde fences, of any length, with or without an info string), inside a
+four-space indented block, or inside an inline `` `code span` `` is shown to the
+reader exactly as written. That is how a note can document the link syntax itself, and it is how a
+macro's script survives compilation — `const first = grid[[0]];` is a nested
+array literal, not an address, and it used to be rewritten in the macro's
+*documentation* copy while its executable copy stayed correct.
+
+````markdown
+```js
+const first = grid[[0]];   <!-- left alone: source, not a link -->
+```
+
+Write `[[skill-wpnc]]` to link the skill.   <!-- shown, not resolved -->
+````
+
+Only code is exempt. A wikilink inside a table cell, a blockquote or a list is an
+ordinary link, and a `dataview` table is expanded *before* links resolve — so a
+generated cell may itself carry one.
+
 ## The knowledgebase reads the same link differently
 
 Deliberately. On the KB an item note renders as a **single page which is its
