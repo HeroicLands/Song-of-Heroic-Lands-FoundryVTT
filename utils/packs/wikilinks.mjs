@@ -90,6 +90,7 @@ import {
     PACK_BY_TYPE,
 } from "./ids.mjs";
 import { hasDocEntry, itemDocEntryId } from "./item-docs.mjs";
+import { replaceOutsideCode } from "../code-fences.mjs";
 
 export { ITEM_PACK, PACK_BY_TYPE, packForType };
 
@@ -428,6 +429,14 @@ const WIKILINK = /\[\[([^\]\n]+)\]\]/g;
  * `unresolved`, so a content gap degrades to visible literal text rather than
  * a broken link or a failed build.
  *
+ * **Code is verbatim.** A `[[…]]` inside a fenced or indented code block, or
+ * inside an inline code span, is source text an author wrote to be read as
+ * written, so it is left alone and not reported (#1505). Without that, a
+ * script sample containing `grid[[0]]` became a link — and only for some
+ * array shapes, `[[1,2],[3,4]]` having an inner `]` the pattern cannot cross,
+ * so the corruption looked arbitrary. It reaches the reader through the
+ * *documented* copy of a macro while the executable copy stays correct.
+ *
  * @param {string} markdown - The note body (frontmatter already stripped).
  * @param {object} ctx
  * @param {string} ctx.type - The source note's `type`, which scopes a bare `[[Text]]`.
@@ -440,7 +449,7 @@ const WIKILINK = /\[\[([^\]\n]+)\]\]/g;
 export function convertWikilinks(markdown, { type, id, index }) {
     const unresolved = [];
 
-    const out = String(markdown).replace(WIKILINK, (all, rawInner) => {
+    const out = replaceOutsideCode(markdown, WIKILINK, (all, rawInner) => {
         // A pipe inside a table cell is escaped as `\|`; undo that first.
         const inner = rawInner.replace(/\\\|/g, "|");
         const bar = inner.indexOf("|");

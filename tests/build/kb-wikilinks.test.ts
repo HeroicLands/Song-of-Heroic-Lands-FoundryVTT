@@ -367,3 +367,27 @@ describe("cross-package addresses (link manifest)", () => {
         expect(ctx.errors).toHaveLength(0);
     });
 });
+
+describe("a code fence is verbatim (#1505)", () => {
+    it("leaves a nested array literal in a fence alone", () => {
+        const ctx = makeCtx();
+        const src = [
+            "See [[doc/shock|the rules]].",
+            "",
+            "```js",
+            "const first = grid[[0]];",
+            "```",
+        ].join("\n");
+        const out = resolveKbWikilinks(src, ctx);
+        expect(out).toContain("const first = grid[[0]];");
+        expect(out).toContain("[the rules](/rules/sohl-shock/)");
+        expect(ctx.errors).toEqual([]);
+    });
+
+    it("leaves an inline code span alone", () => {
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("write `grid[[0]]` here", ctx)).toBe(
+            "write `grid[[0]]` here",
+        );
+    });
+});

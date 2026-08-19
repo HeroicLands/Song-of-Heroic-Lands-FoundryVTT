@@ -48,6 +48,7 @@ import matter from "gray-matter";
 
 import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
+import { matchAllOutsideCode } from "./code-fences.mjs";
 import { readQualifier } from "./packs/wikilinks.mjs";
 import { hasDocEntry } from "./packs/item-docs.mjs";
 import {
@@ -195,7 +196,10 @@ function linksOf(note) {
         }).markdown;
     }
     const out = [];
-    for (const [, rawInner] of body.matchAll(/\[\[([^\]]+)\]\]/g)) {
+    // Code is verbatim, so a `[[…]]` inside a fence, an indented block or an
+    // inline span is not a link to check — the compilers do not make one of
+    // it either (#1505).
+    for (const [, rawInner] of matchAllOutsideCode(body, /\[\[([^\]]+)\]\]/g)) {
         const inner = rawInner.replace(/\\\|/g, "|");
         const bar = inner.indexOf("|");
         const linkPart = (bar === -1 ? inner : inner.slice(0, bar)).trim();

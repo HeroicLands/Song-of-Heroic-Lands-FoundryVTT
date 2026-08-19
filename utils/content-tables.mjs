@@ -57,6 +57,11 @@
  * @typedef {{fm: Record<string, any>, path?: string}} ContentTableDoc
  */
 
+// The fence syntax is stated once, in `code-fences.mjs`, so the scanner that
+// *skips* code and the one that expands a `dataview` block cannot disagree
+// about where a block begins and ends (#1505).
+import { FENCE_LINE } from "./code-fences.mjs";
+
 /** What a cell shows when its expression resolves to nothing. */
 const EMPTY_CELL = "—";
 
@@ -1103,9 +1108,6 @@ export function renderContentTable(spec, rows, linkable, self) {
 /*  Expansion                                                               */
 /* ------------------------------------------------------------------------ */
 
-/** A fence line, capturing its indent, its marker, and its info string. */
-const FENCE = /^([ \t]*)(`{3,}|~{3,})[ \t]*([^\r\n]*)$/;
-
 /**
  * Expand every fenced `dataview` block in a markdown body.
  *
@@ -1139,7 +1141,7 @@ export function expandContentTables(
     const lines = String(markdown ?? "").split("\n");
     const out = [];
     for (let i = 0; i < lines.length; i++) {
-        const opening = FENCE.exec(lines[i]);
+        const opening = FENCE_LINE.exec(lines[i]);
         if (!opening) {
             out.push(lines[i]);
             continue;

@@ -586,3 +586,52 @@ describe("an unresolved link keeps its text and is marked (#1499)", () => {
         expect(markdown).toContain("&lt;img");
     });
 });
+
+describe("a code fence is verbatim (#1505)", () => {
+    it("leaves a nested array literal in a fence alone", () => {
+        // `[[0]]` is not a link, and whether the old regex bit on it depended
+        // on the array's shape — `[[1,2],[3,4]]` survived — so the corruption
+        // looked arbitrary.
+        const src = [
+            "See [[doc-shock]] for the rules.",
+            "",
+            "```js",
+            "const first = grid[[0]];",
+            "```",
+            "",
+            "And [[skill-climb]] after.",
+        ].join("\n");
+        const { markdown, unresolved } = convert(src);
+        expect(markdown).toContain("const first = grid[[0]];");
+        expect(unresolved).toEqual([]);
+        // The prose around it is still converted.
+        expect(markdown).toContain(
+            "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock}",
+        );
+        expect(markdown).toContain(
+            "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing}",
+        );
+    });
+
+    it("does not report a would-be link inside a fence as unresolved", () => {
+        const { markdown, unresolved } = convert(
+            "```\n[[skill-nosuchcode]]\n```",
+        );
+        expect(markdown).toBe("```\n[[skill-nosuchcode]]\n```");
+        expect(unresolved).toEqual([]);
+    });
+
+    it("leaves an indented code block and an inline span alone", () => {
+        const src = [
+            "Example:",
+            "",
+            "    grid[[0]]",
+            "",
+            "Write `grid[[0]]` inline, and link [[doc-shock]].",
+        ].join("\n");
+        const { markdown } = convert(src);
+        expect(markdown).toContain("    grid[[0]]");
+        expect(markdown).toContain("`grid[[0]]`");
+        expect(markdown).toContain("@UUID[");
+    });
+});
