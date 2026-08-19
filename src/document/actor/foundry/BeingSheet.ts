@@ -47,6 +47,10 @@ import {
     BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
+import {
+    resolveSkillReorder,
+    type SkillOrderGroup,
+} from "@src/apps/logic/skill-reorder";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
@@ -441,6 +445,18 @@ export class BeingSheet extends SohlActorSheetBase {
     protected _onDragStart(event: DragEvent): void {
         const li = event.currentTarget as HTMLElement;
         if (
+            li?.classList?.contains("ledger__row") &&
+            li.closest(".skills-ledger")
+        ) {
+            event.dataTransfer?.setData(
+                "text/plain",
+                JSON.stringify({
+                    sohlSkillDrag: { skillId: li.dataset.itemId ?? "" },
+                }),
+            );
+            return;
+        }
+        if (
             li?.dataset?.partShortcode != null ||
             li?.dataset?.zoneShortcode != null
         ) {
@@ -470,6 +486,78 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
+     * Spacing between consecutive `sort` values when a skill group is
+     * renumbered. Matches Foundry's own integer-sort density, leaving room for
+     * a later insert without rewriting the group.
+     */
+    static readonly SKILL_SORT_DENSITY = 100000;
+
+    /**
+     * Reorder a skill within its own group after a drag (#1528).
+     *
+     * **A drag never re-parents.** A skill's group is its `subType`, so dropping
+     * it on another group clamps it to the near edge of its own — bottom when
+     * dropped lower, top when dropped higher. Every drop therefore resolves to a
+     * defined position and the interaction cannot fail, which is why the drop
+     * selector is the whole tab rather than one group's ledger.
+     *
+     * The group order is read back from the **rendered** ledgers rather than
+     * re-derived from the documents: what the user was looking at is the
+     * authority on what they meant to move, and it cannot drift from the render.
+     *
+     * The whole source group is renumbered rather than one row nudged, so the
+     * resulting `sort` values stay evenly spaced instead of converging.
+     *
+     * @param event - The originating drop event.
+     * @param sourceId - The id of the dragged skill.
+     */
+    private async _onDropSkill(
+        event: DragEvent,
+        sourceId: string,
+    ): Promise<void> {
+        const root = this.element as HTMLElement | null | undefined;
+        if (!root) return;
+
+        const groups: SkillOrderGroup[] = Array.from(
+            root.querySelectorAll(".skills-ledger"),
+        ).map((el) => ({
+            subType: (el as HTMLElement).dataset.subType ?? "",
+            ids: Array.from(el.querySelectorAll(".ledger__row"))
+                .map((row) => (row as HTMLElement).dataset.itemId ?? "")
+                .filter(Boolean),
+        }));
+        if (!groups.length) return;
+
+        const targetEl = event.target as HTMLElement | null;
+        const ledgerEl = targetEl?.closest?.(
+            ".skills-ledger",
+        ) as HTMLElement | null;
+        const rowEl = targetEl?.closest?.(".ledger__row") as HTMLElement | null;
+
+        // A drop that missed every ledger — the tab's empty space below the last
+        // group — reads as "past the end", which the clamp resolves to the
+        // bottom of whichever group the skill belongs to.
+        const groupIndex =
+            ledgerEl?.dataset.groupIndex != null ?
+                Number(ledgerEl.dataset.groupIndex)
+            :   groups.length - 1;
+
+        const next = resolveSkillReorder(groups, sourceId, {
+            groupIndex,
+            beforeId: rowEl?.dataset.itemId,
+        });
+        if (!next) return;
+
+        await this.document.updateEmbeddedDocuments(
+            "Item",
+            next.map((id, index) => ({
+                _id: id,
+                sort: (index + 1) * BeingSheet.SKILL_SORT_DENSITY,
+            })),
+        );
+    }
+
+    /**
      * Conclude a drop. A `sohlBodyDrag` payload reorders a body part or moves a
      * hit location (dropping a location onto a part header appends it to that
      * part); anything else defers to the base handler. Source and destination are
@@ -487,6 +575,12 @@ export class BeingSheet extends SohlActorSheetBase {
         } catch {
             data = {};
         }
+        const skillDrag = data?.sohlSkillDrag;
+        if (skillDrag?.skillId) {
+            await this._onDropSkill(event, String(skillDrag.skillId));
+            return;
+        }
+
         const drag = data?.sohlBodyDrag;
         if (!drag) {
             // Defer to the base drop handler (item/effect/actor/folder), reached
@@ -877,6 +971,14 @@ export class BeingSheet extends SohlActorSheetBase {
                 // (#720; the tree lives on Profile now — Combat is read-only).
                 dragSelector: ".body-structure [draggable]",
                 dropSelector: ".body-structure",
+            },
+            {
+                // Skills tab: reorder a skill within its own group (#1528). The
+                // drop target is the whole tab rather than one group's ledger,
+                // because a drop onto another group is legal — it clamps to the
+                // near edge of the skill's own group rather than being refused.
+                dragSelector: ".skills-ledger .ledger__row",
+                dropSelector: "section.tab.skills",
             },
         ],
         actions: {
@@ -1975,7 +2077,17 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // localized subtype legends. Reading each skill's `logic` here is fine —
         // the sheet is a Foundry-boundary class (the Attributes section reads
         // `attr.logic` the same way); the grouping stays in the pure helper.
-        const skills = this.document.itemTypes[ITEM_KIND.SKILL] ?? [];
+        // Sorted stably by the Foundry `sort` field, falling back to name —
+        // the same treatment the attribute boxes above get. Without this the
+        // groups render in raw collection order, so the `sort` values a drag
+        // writes would have no visible effect (#1528).
+        const skills = [
+            ...(this.document.itemTypes[ITEM_KIND.SKILL] ?? []),
+        ].sort(
+            (a, b) =>
+                ((a as any).sort ?? 0) - ((b as any).sort ?? 0) ||
+                (a.name ?? "").localeCompare(b.name ?? ""),
+        );
         const skillGroups = buildSkillGroups(
             skills.map((skill) => {
                 const sys = skill.system as any;
