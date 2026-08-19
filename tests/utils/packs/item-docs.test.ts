@@ -15,7 +15,7 @@ import { describe, it, expect } from "vitest";
 // Imported by relative path, not the `@src` alias, because the pack-build
 // scripts live outside that tree.
 import {
-    isItemDocType,
+    hasDocEntry,
     itemDocEntryId,
     itemDocPointer,
     ITEM_TYPES,
@@ -109,14 +109,18 @@ describe("splitPages lead-page naming", () => {
     });
 });
 
-describe("isItemDocType (whose prose becomes an item doc)", () => {
+describe("hasDocEntry (whose prose becomes a JournalEntry of its own)", () => {
     it("accepts every item type", () => {
-        for (const type of ITEM_TYPES) expect(isItemDocType(type)).toBe(true);
+        for (const type of ITEM_TYPES) expect(hasDocEntry(type)).toBe(true);
     });
 
-    it("rejects the types that compile elsewhere", () => {
-        for (const type of ["doc", "character", "creature", "macro"]) {
-            expect(isItemDocType(type), type).toBe(false);
+    it("accepts a macro — its body documents the script it also compiles", () => {
+        expect(hasDocEntry("macro")).toBe(true);
+    });
+
+    it("rejects the types that are one document each", () => {
+        for (const type of ["doc", "character", "creature"]) {
+            expect(hasDocEntry(type), type).toBe(false);
         }
     });
 });

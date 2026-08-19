@@ -15,7 +15,7 @@
  * Compendium pack CLI — compile / unpack / clean LevelDB packs.
  *
  * Wraps `@foundryvtt/foundryvtt-cli` behind a yargs `package <action>`
- * command over the `items`, `journals`, and `actors` packs:
+ * command over the `items`, `journals`, `actors`, and `macros` packs:
  *   - compile: generates each pack's per-entry JSON from the `assets/content/`
  *     Markdown into `build/packs-json/<name>/` (via generate.mjs), then builds
  *     LevelDB at `build/stage/packs/<name>/` from it; no committed JSON, no vault.
@@ -48,7 +48,7 @@ import { generatePacksJson, packJsonDir } from "./generate.mjs";
  * (`build/packs-json/<name>/`) and compiled to LevelDB from there — no committed
  * JSON and no vault access.
  */
-const SOURCE_PACKS = ["items", "journals", "actors"];
+const SOURCE_PACKS = ["items", "journals", "actors", "macros"];
 
 /** Where `unpack` writes extracted JSON, and where `clean` operates. */
 const PACK_DEST = path.resolve("./build/tmp/packs");
