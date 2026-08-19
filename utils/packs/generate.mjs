@@ -45,6 +45,7 @@ import {
     writeFolderDocs,
 } from "./helpers.mjs";
 import { countContentNotes } from "./content-tree.mjs";
+import { assertPackageIdMatchesManifestFile } from "./package-manifest.mjs";
 
 /** Authoritative in-repo content tree — the single source for shipped content. */
 const CONTENT_BASE = path.resolve("./assets/content");
@@ -159,8 +160,16 @@ async function generatePack({
  * @param {object} [opts]
  * @param {string} [opts.only] - Restrict to a single pack name.
  * @returns {Promise<number>} Total error count across the generated packs.
+ * @throws {Error} If the configured Foundry package id has drifted from the
+ *   shipped manifest's `id` (see `package-manifest.mjs`).
  */
 export async function generatePacksJson({ only } = {}) {
+    // Before anything is generated: every UUID written below is addressed to
+    // FOUNDRY_PACKAGE_ID, so a value that has drifted from the shipped
+    // manifest's `id` produces a whole pack of links that resolve nowhere.
+    // Throws rather than counting an error — there is nothing worth compiling.
+    assertPackageIdMatchesManifestFile();
+
     if (!fs.existsSync(CONTENT_BASE)) {
         log.error(`Content tree not found at ${CONTENT_BASE}.`);
         return 1;

@@ -42,7 +42,8 @@ export const CONTENT_PACKAGE = "sohl";
  * than one — treating them as interchangeable is what #1498 was.
  *
  * Declared here rather than read from the manifest so the link resolver stays
- * filesystem-free and unit-testable. `assertPackageIdMatchesManifest` in
- * `build-compendiums.mjs` fails the build if the two ever drift.
+ * filesystem-free and unit-testable. `assertPackageIdMatchesManifestFile` in
+ * `package-manifest.mjs` — called from `generatePacksJson`, before any entry is
+ * written — fails the build if this value and the manifest's `id` ever drift.
  */
 export const FOUNDRY_PACKAGE_ID = "sohl";
