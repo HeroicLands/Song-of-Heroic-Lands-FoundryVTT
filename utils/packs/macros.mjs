@@ -57,6 +57,7 @@ import {
     resolveImg,
     buildStats,
 } from "./helpers.mjs";
+import { CONTENT_PACKAGE } from "./content-package.mjs";
 import { splitPages } from "./journals.mjs";
 
 const STATS = buildStats("0.6.0");
@@ -299,6 +300,14 @@ export class Macros {
     /** @type {number} */
     errorCount = 0;
 
+    /**
+     * Entries this pass wrote to its own pack. Zero from a non-empty content
+     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     *
+     * @type {number}
+     */
+    compiledCount = 0;
+
     constructor({ contentBase, dest, folderResolver = () => null }) {
         if (!contentBase) {
             throw new Error("Macros compiler requires `contentBase`");
@@ -352,7 +361,11 @@ export class Macros {
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
             this.contentBase,
         )) {
-            if (!fm || fm.package !== "sohl" || fm.type !== "macro") {
+            if (
+                !fm ||
+                fm.package !== CONTENT_PACKAGE ||
+                fm.type !== "macro"
+            ) {
                 skippedOther++;
                 continue;
             }
@@ -381,6 +394,7 @@ export class Macros {
             }
         }
 
+        this.compiledCount = compiled;
         log.info(`Compiled ${compiled} macro${compiled === 1 ? "" : "s"}`);
         if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
         log.debug(`Skipped ${skippedOther} non-macro file(s)`);

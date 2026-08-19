@@ -50,6 +50,7 @@ import {
     collectContentDocs,
     expandNoteTables,
 } from "./helpers.mjs";
+import { CONTENT_PACKAGE } from "./content-package.mjs";
 
 const STATS = buildStats("0.6.0");
 
@@ -238,6 +239,14 @@ export class Actors {
     folderResolver;
     /** @type {number} */
     errorCount = 0;
+
+    /**
+     * Entries this pass wrote to its own pack. Zero from a non-empty content
+     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     *
+     * @type {number}
+     */
+    compiledCount = 0;
 
     constructor({ contentBase, dest, folderResolver = () => null }) {
         if (!contentBase) {
@@ -466,7 +475,7 @@ export class Actors {
         for (const { frontmatter: fm, body: rawBody, absPath } of walkMarkdownTree(
             this.contentBase,
         )) {
-            if (!fm || fm.package !== "sohl") {
+            if (!fm || fm.package !== CONTENT_PACKAGE) {
                 skippedOther++;
                 continue;
             }
@@ -516,10 +525,12 @@ export class Actors {
             }
         }
 
+        this.compiledCount = compiled;
         log.info(`Compiled ${compiled} actor${compiled === 1 ? "" : "s"}`);
         if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
         log.debug(
-            `Skipped ${skippedOther} non-actor file(s) (not character/creature, package:sohl)`,
+            `Skipped ${skippedOther} non-actor file(s) ` +
+                `(not character/creature, package:${CONTENT_PACKAGE})`,
         );
     }
 }

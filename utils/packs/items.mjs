@@ -59,7 +59,7 @@ import {
 // outside the `@src` alias tree.
 import { defaultItemArt } from "../../src/utils/default-item-art.mjs";
 import { journalPageId, splitPages } from "./journals.mjs";
-import { FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
+import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { ITEM_TYPES, itemDocEntryId, itemDocPointer } from "./item-docs.mjs";
 
 const STATS = buildStats("0.6.0");
@@ -382,6 +382,14 @@ export class Items {
     /** @type {number} */
     errorCount = 0;
 
+    /**
+     * Entries this pass wrote to its own pack. Zero from a non-empty content
+     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     *
+     * @type {number}
+     */
+    compiledCount = 0;
+
     constructor({ contentBase, dest, folderResolver = () => null }) {
         if (!contentBase) {
             throw new Error("Items compiler requires `contentBase`");
@@ -461,7 +469,7 @@ export class Items {
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
             this.contentBase,
         )) {
-            if (!fm || fm.package !== "sohl") {
+            if (!fm || fm.package !== CONTENT_PACKAGE) {
                 skippedOtherType++;
                 continue;
             }
@@ -518,6 +526,7 @@ export class Items {
         }
 
         const total = Object.values(counts).reduce((a, b) => a + b, 0);
+        this.compiledCount = total;
         log.info(`Compiled ${total} items:`);
         for (const [t, n] of Object.entries(counts)) {
             if (n > 0) log.info(`  ${t}: ${n}`);

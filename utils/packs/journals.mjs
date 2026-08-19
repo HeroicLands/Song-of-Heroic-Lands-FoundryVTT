@@ -56,6 +56,7 @@ import {
     collectContentDocs,
     expandNoteTables,
 } from "./helpers.mjs";
+import { CONTENT_PACKAGE } from "./content-package.mjs";
 import { anchorPageId } from "./wikilinks.mjs";
 import { hasDocEntry, itemDocEntryId } from "./item-docs.mjs";
 
@@ -272,6 +273,14 @@ export class Journals {
     /** @type {number} */
     errorCount = 0;
 
+    /**
+     * Entries this pass wrote to its own pack. Zero from a non-empty content
+     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     *
+     * @type {number}
+     */
+    compiledCount = 0;
+
     constructor({ contentBase, dest, folderResolver = () => null }) {
         if (!contentBase) {
             throw new Error("Journals compiler requires `contentBase`");
@@ -384,7 +393,7 @@ export class Journals {
             const ownsDoc = hasDocEntry(fm?.type);
             if (
                 !fm ||
-                fm.package !== "sohl" ||
+                fm.package !== CONTENT_PACKAGE ||
                 (fm.type !== "doc" && !ownsDoc)
             ) {
                 skippedOther++;
@@ -423,6 +432,7 @@ export class Journals {
             }
         }
 
+        this.compiledCount = compiled;
         log.info(
             `Compiled ${compiled} journal entr${compiled === 1 ? "y" : "ies"} (${docEntries} documentation entr${docEntries === 1 ? "y" : "ies"})`,
         );
@@ -434,7 +444,8 @@ export class Journals {
         if (skippedNoId) log.info(`Skipped ${skippedNoId} note(s) missing id`);
         if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
         log.debug(
-            `Skipped ${skippedOther} non-doc file(s) (not type:doc package:sohl)`,
+            `Skipped ${skippedOther} non-doc file(s) ` +
+                `(not type:doc package:${CONTENT_PACKAGE})`,
         );
     }
 }

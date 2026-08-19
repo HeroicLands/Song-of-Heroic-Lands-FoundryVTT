@@ -147,9 +147,15 @@ async function compilePacks(packName) {
     // Generate the per-entry JSON from assets/content/ into build/packs-json/.
     const errors = await generatePacksJson({ only: packName });
     if (errors > 0) {
+        // Fatal, not a warning: packs compiled from incomplete or empty JSON
+        // ship blank or short compendiums, and the omission is invisible until
+        // a player looks for content that is not there (#1502).
         log.error(
-            `Pack JSON generation reported ${errors} error(s); compiled packs may be incomplete.`,
+            `Pack JSON generation reported ${errors} error(s); refusing to ` +
+                `compile packs from incomplete output.`,
         );
+        process.exitCode = 1;
+        return;
     }
 
     for (const name of packNames) {

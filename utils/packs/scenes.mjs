@@ -150,6 +150,14 @@ export class Scenes {
     /** @type {number} */
     errorCount = 0;
 
+    /**
+     * Entries this pass wrote to its own pack. Zero from a non-empty content
+     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     *
+     * @type {number}
+     */
+    compiledCount = 0;
+
     constructor({
         contentBase,
         dest,
@@ -479,6 +487,7 @@ export class Scenes {
             adventures++;
         }
 
+        this.compiledCount = compiled;
         log.info(
             `Compiled ${compiled} scene(s) and ${adventures} adventure(s)`,
         );

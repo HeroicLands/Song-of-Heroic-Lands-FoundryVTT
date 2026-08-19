@@ -20,8 +20,9 @@
  * into the shipped LevelDB packs) — it is never committed.
  *
  * Each `*` compiler walks the whole content tree and selects its own entries by
- * frontmatter (`package: sohl` + `type`), so routing is directory-agnostic: a
- * file lands in a pack because of its `type`, not its location. Folder
+ * frontmatter (a `package:` matching `CONTENT_PACKAGE` + `type`), so routing is
+ * directory-agnostic: a file lands in a pack because of its `type`, not its
+ * location. Folder
  * hierarchies are declared per pack in `assets/content/<singular>-folders.yaml`
  * and referenced from entry frontmatter via `sohl.folder: <id>`.
  *
@@ -59,6 +60,12 @@ const STATS_VERSION = "0.6.0";
  * One entry per compiled pack. `folders` names the pack's folder-hierarchy file
  * under {@link CONTENT_BASE}; `packClass` selects its own entries from the tree
  * by frontmatter.
+ *
+ * A pass is expected to compile at least one entry: every pack listed here has
+ * notes in this repository's tree, so zero output means the selection went
+ * wrong, not that there was nothing to select. A package whose tree genuinely
+ * holds no notes of a pack's kind says so with `mayBeEmpty: true` — an explicit
+ * declaration, so the guard stays meaningful for every other pack.
  */
 const PACK_CONFIGS = [
     {
@@ -104,7 +111,8 @@ export const packJsonDir = (name) => path.join(BUILD_JSON_ROOT, name);
  * Generate the per-entry JSON for one pack into `build/packs-json/<name>/`.
  *
  * @param {object} config - A {@link PACK_CONFIGS} entry.
- * @returns {Promise<number>} The compiler's error count (0 on success).
+ * @returns {Promise<{errors: number, compiled: number}>} The compiler's error
+ *     count (0 on success) and the number of entries it wrote.
  */
 async function generatePack({
     name,
@@ -125,7 +133,7 @@ async function generatePack({
         ({ resolver } = buildFolderResolver(folderList));
     } catch (err) {
         log.error(`${name} ${folders} validation failed: ${err.message}`);
-        return 1;
+        return { errors: 1, compiled: 0 };
     }
 
     // Wipe and recreate so removed content notes leave no stale JSON.
@@ -151,7 +159,34 @@ async function generatePack({
         folderResolver: resolver,
     });
     await pack.compile();
-    return pack.errorCount;
+    return { errors: pack.errorCount, compiled: pack.compiledCount };
+}
+
+/**
+ * The passes that compiled nothing when they were expected to compile
+ * something — a build failure, not a quiet no-op.
+ *
+ * A pack compiler selects its entries by the configured content package, so a
+ * single wrong package id rejects every note in a perfectly good tree and every
+ * pack ships blank while the build exits 0 (#1502). The empty-tree guard in
+ * {@link generatePacksJson} cannot see that: the tree is full, it is the
+ * *output* that is empty.
+ *
+ * @param {Array<{name: string, compiled: number, mayBeEmpty?: boolean}>} passes -
+ *     One entry per generated pack.
+ * @returns {string[]} One message per pass that must not have been empty.
+ */
+export function emptyPassErrors(passes) {
+    return passes
+        .filter((pass) => !pass.mayBeEmpty && pass.compiled === 0)
+        .map(
+            (pass) =>
+                `Pack "${pass.name}" compiled 0 entries from a non-empty ` +
+                `content tree. Every note was rejected — check that the notes ` +
+                `declare the package this build compiles (CONTENT_PACKAGE in ` +
+                `utils/packs/content-package.mjs), or declare the pack ` +
+                `\`mayBeEmpty\` if it genuinely ships nothing.`,
+        );
 }
 
 /**
@@ -196,8 +231,20 @@ export async function generatePacksJson({ only } = {}) {
         (c) => !only || c.name === only || (c.companions ?? []).includes(only),
     );
     let totalErrors = 0;
+    const passes = [];
     for (const config of configs) {
-        totalErrors += await generatePack(config);
+        const { errors, compiled } = await generatePack(config);
+        totalErrors += errors;
+        passes.push({
+            name: config.name,
+            compiled,
+            mayBeEmpty: config.mayBeEmpty === true,
+        });
+    }
+
+    for (const message of emptyPassErrors(passes)) {
+        log.error(message);
+        totalErrors++;
     }
     return totalErrors;
 }
