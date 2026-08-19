@@ -16,11 +16,11 @@
  * The `content-build` command line.
  *
  * The toolchain's commands (`compile`, `unpack`, `clean`) arrive with the
- * compiler itself, which is still `utils/packs/build-compendiums.mjs` in the
- * SoHL repository; splitting it into a library and this CLI is #1507. Until
- * then this entry point implements exactly what it can implement completely —
- * `--help` and `--version` — and refuses anything else with a non-zero exit
- * rather than pretending to have built something.
+ * compiler itself, which is still `utils/packs/compendiums.mjs` in the SoHL
+ * repository — importable now that #1507 split it from its own CLI, but moved
+ * here only by #1510/#1512. Until then this entry point implements exactly what
+ * it can implement completely — `--help` and `--version` — and refuses anything
+ * else with a non-zero exit rather than pretending to have built something.
  */
 
 import { readFileSync } from "node:fs";

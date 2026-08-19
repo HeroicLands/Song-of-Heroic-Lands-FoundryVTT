@@ -32,7 +32,7 @@
  *
  * - heading **anchor** slugs (`[[#some-heading]]`, `{#slug}`) — position within
  *   a page, in `utils/kb-wikilinks.mjs` and `utils/packs/journals.mjs`;
- * - pack **filename** slugs, in `utils/packs/build-compendiums.mjs`;
+ * - pack **filename** slugs, in `utils/packs/compendiums.mjs`;
  * - `slugifyShortcode` in `src/utils/helpers.ts`, which runs the other way —
  *   suggesting a shortcode _from_ a name when an item is created.
  *

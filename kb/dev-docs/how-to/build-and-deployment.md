@@ -303,7 +303,15 @@ both content builds silently, so `npm run lint:content-links` (also part of
   an index links to nearly everything, and following it would make the check
   vacuous.
 
-`build:compiledb` runs `utils/packs/generate.mjs`, which drives three per-pack
+`build:compiledb` runs the pack CLI, `utils/packs/bin/build-compendiums.mjs`. The
+CLI owns every side effect — argv parsing, `loglevel` configuration, creating
+`build/tmp/packs/`, and the process exit code — and calls the import-safe library
+`utils/packs/compendiums.mjs`, whose `compilePacks` / `unpackPacks` / `cleanPacks`
+take every path and pack list as an argument. That split is what lets another
+repository's build import the compiler without inheriting a `build/` tree or a
+reconfigured logger.
+
+`compilePacks` in turn runs `utils/packs/generate.mjs`, which drives three per-pack
 compilers (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): each walks
 `assets/content/`, selects files by frontmatter, validates folders against the
 pack's `*-folders.yaml`, and writes per-entry JSON — from which the LevelDB is then
@@ -788,7 +796,8 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                     |
 | `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress. |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |
-| `packs/build-compendiums.mjs`       | Compile/unpack `_source/` ↔ LevelDB packs (Foundry CLI).                                  |
+| `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects. |
+| `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.    |
 | `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                   |
 | `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                                 |
 | `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                       |
