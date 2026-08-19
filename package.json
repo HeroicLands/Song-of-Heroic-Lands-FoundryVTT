@@ -24,6 +24,10 @@
     "engines": {
         "node": ">=24.0.0"
     },
+    "workspaces": [
+        "packages/*",
+        "."
+    ],
     "type": "module",
     "browser": "./sohl.js",
     "exports": {
@@ -43,6 +47,7 @@
         "build:css": "sass --load-path=scss scss/sohl.scss build/stage/css/sohl.css",
         "build:code": "vite build --mode release",
         "build:sohl-types": "tsc -p tsconfig.sohl-types.json && rollup -c packages/sohl-types/rollup.config.mjs",
+        "build:content-build-types": "tsc -p packages/content-build/tsconfig.dts.json",
         "check:sohl-types": "npm run build:sohl-types && tsc -p packages/sohl-types/test/tsconfig.json",
         "build:assets": "node utils/copy-assets.mjs",
         "build:icons": "node utils/build-icon-font.mjs",

@@ -29,6 +29,10 @@ scss/abstracts/_icons.scss
 
 packages/sohl-types/index.d.ts
 
+# Generated from the package's JSDoc by `npm run build:content-build-types`;
+# regenerated at pack time and never hand-edited.
+packages/content-build/types/
+
 # The knowledgebase is a self-contained Astro sub-project with its own tooling
 # (the root Prettier has no .astro parser); it manages its own formatting.
 kb/
