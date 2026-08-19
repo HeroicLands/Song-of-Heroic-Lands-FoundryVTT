@@ -250,8 +250,9 @@ and `lint:packs` fail on an empty content **tree**; the pack build also fails on
 empty **output**, when a pass compiles zero entries from a tree that is not
 empty. That second case is what a wrong package id looks like: every note is
 rejected because it declares a package this build does not compile. A pack that
-genuinely ships nothing in some consuming package declares `mayBeEmpty: true` in
-`PACK_CONFIGS`, rather than the guard being relaxed for everyone.
+genuinely ships nothing in some consuming package declares `mayBeEmpty: true` on
+its entry in `content-build.config.mjs`, rather than the guard being relaxed for
+everyone.
 
 Cross-package references are resolved through published link manifests rather
 than a shared tree; see `utils/kb-manifest.mjs` and `assets/manifests/`.
@@ -260,7 +261,7 @@ than a shared tree; see `utils/kb-manifest.mjs` and `assets/manifests/`.
 
 Items, actors, and journal entries are Markdown files with YAML frontmatter
 (a `package:` naming the content package this repository compiles — `sohl` here,
-declared once as `CONTENT_PACKAGE` in `utils/packs/content-package.mjs` — a
+declared once as `contentPackage` in `content-build.config.mjs` — a
 `type:`, a stable `id:`, and folder/embedding metadata),
 authored in the vault and exported anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
@@ -311,11 +312,51 @@ take every path and pack list as an argument. That split is what lets another
 repository's build import the compiler without inheriting a `build/` tree or a
 reconfigured logger.
 
-`compilePacks` in turn runs `utils/packs/generate.mjs`, which drives three per-pack
-compilers (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): each walks
-`assets/content/`, selects files by frontmatter, validates folders against the
-pack's `*-folders.yaml`, and writes per-entry JSON — from which the LevelDB is then
-compiled.
+`compilePacks` in turn runs `utils/packs/generate.mjs`, which drives one compiler
+per configured pack (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`,
+`macros.mjs`, `scenes.mjs`): each walks the content tree, selects files by
+frontmatter, validates folders against the pack's `*-folders.yaml`, and writes
+per-entry JSON — from which the LevelDB is then compiled.
+
+#### The pack pipeline is configured, not hard-coded
+
+Everything about the pipeline that is *this repository's* rather than any
+consumer's lives in one file at the repository root,
+**`content-build.config.mjs`**, validated by `defineConfig` from the shared
+`@heroiclands/content-build` package. Nothing under `utils/packs/` spells a path,
+a package name, or a pack list of its own; each module reads the resolved
+configuration through `utils/packs/config.mjs` (#1508). A consuming repository —
+`sohl-thalorna`, `sohl-kethira-basic`, an adventure module — ships the same
+toolchain with its own copy of that file and nothing else.
+
+What it declares:
+
+| Key | What it settles |
+| --- | --- |
+| `rootDir` | The repository the paths below are resolved against. Absolute (`import.meta.dirname`), so the build reads the same files whatever directory it was launched from. |
+| `contentPackage` / `foundryPackage` / `packageKind` | Which notes are compiled, which Foundry package ships them, and whether that package is a `systems/` or a `modules/` install. |
+| `stats` | The identity stamped into every compiled document's `_stats` — `systemId`, `systemVersion`, `lastModifiedBy`. |
+| `skipDirectories` | Directory names the content walk ignores (`Templates/`, Obsidian's templater scaffolding — a convention of this vault, not of a content tree). |
+| `paths` | The content root, the manifest-template directory, the vendored link manifests, and the three build outputs. Each defaults to the conventional layout and is relative to `rootDir`. |
+| `packs` | The one pack list: name, Foundry document type, folder-hierarchy file, `companions`, `mayBeEmpty`. |
+
+Two properties of that shape are load-bearing:
+
+- **One pack list.** The directories compiled to LevelDB are *derived* from the
+  pack list as `packDirectories` (each pack, then its companions), so the
+  compile order and the compiler list cannot drift apart — they used to be two
+  separately-maintained arrays that had to agree.
+- **Configuration supplies a path, never a captured value.** `paths.packageManifest`
+  says where `system.template.json` (or a module repository's
+  `module.template.json`) lives; both the package-id drift guard and the compiled
+  packs' `_stats.coreVersion` read it from there. The core version itself is
+  deliberately absent from the config: it is the manifest's
+  `compatibility.minimum`, which moves with test evidence, and a copy would
+  silently stop following it — the shape of defect #1533 was.
+
+The `assets/` root a content note's `img:` resolves to is derived, not written:
+`<packageKind>/<foundryPackage>/assets`, so the same note yields
+`systems/sohl/assets/…` here and `modules/<id>/assets/…` in a module.
 
 #### Adding or removing an item type
 

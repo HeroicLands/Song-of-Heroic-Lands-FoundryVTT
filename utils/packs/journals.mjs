@@ -60,7 +60,7 @@ import { CONTENT_PACKAGE } from "./content-package.mjs";
 import { anchorPageId } from "./wikilinks.mjs";
 import { hasDocEntry, itemDocEntryId } from "./item-docs.mjs";
 
-const STATS = buildStats("0.6.0");
+const STATS = buildStats();
 
 /**
  * Splits a markdown body into pages by top-level H1 headings. Fenced

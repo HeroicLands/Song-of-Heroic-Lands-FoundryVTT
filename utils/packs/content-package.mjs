@@ -13,12 +13,16 @@
 
 /**
  * Which package's notes this repository compiles, and which Foundry package
- * ships them.
+ * ships them — read from the repository's `content-build.config.mjs`.
  *
- * The counterpart of `sohl-thalorna`'s file of the same name. Naming both values
- * here, once, is what keeps the rest of `utils/packs/` a straight copy that can
- * be diffed between the two repositories.
+ * Both values are **derived**, not declared: `config.mjs` is the single place
+ * the configuration is resolved (#1508). This module survives as the import
+ * path the link resolver and the compilers have always used, so that the values
+ * can still be mocked in one place and so no consumer has to learn a new
+ * spelling for them.
  */
+
+import { packConfig } from "./config.mjs";
 
 /**
  * The **content** package: the distribution unit a note declares in its
@@ -28,7 +32,7 @@
  * second game system, its notes would still declare `package: sohl` — only the
  * Foundry package below would differ.
  */
-export const CONTENT_PACKAGE = "sohl";
+export const CONTENT_PACKAGE = packConfig.contentPackage;
 
 /**
  * The **Foundry package** this repository's packs are shipped in — the `id` in
@@ -41,9 +45,9 @@ export const CONTENT_PACKAGE = "sohl";
  * (`thalorna` vs `sohl-thalorna`), which is why they are separate values rather
  * than one — treating them as interchangeable is what #1498 was.
  *
- * Declared here rather than read from the manifest so the link resolver stays
+ * Configured rather than read from the manifest so the link resolver stays
  * filesystem-free and unit-testable. `assertPackageIdMatchesManifestFile` in
  * `package-manifest.mjs` — called from `generatePacksJson`, before any entry is
  * written — fails the build if this value and the manifest's `id` ever drift.
  */
-export const FOUNDRY_PACKAGE_ID = "sohl";
+export const FOUNDRY_PACKAGE_ID = packConfig.foundryPackage;

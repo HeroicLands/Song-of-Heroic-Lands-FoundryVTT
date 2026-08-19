@@ -21,11 +21,18 @@
  * import { defineConfig } from "@heroiclands/content-build";
  *
  * export default defineConfig({
+ *     rootDir: import.meta.dirname,
  *     contentPackage: "sohl",
  *     foundryPackage: "sohl",
  *     packageKind: "systems",
+ *     stats: {
+ *         systemId: "sohl",
+ *         systemVersion: "0.6.0",
+ *         lastModifiedBy: "sohlbuilder00000",
+ *     },
+ *     skipDirectories: ["Templates"],
  *     packs: [
- *         { name: "items", type: "Item", label: "Items" },
+ *         { name: "items", type: "Item", folders: "item-folders.yaml" },
  *         { name: "journals", type: "JournalEntry", label: "Journals" },
  *     ],
  *     assets: [{ from: "assets/icons", to: "assets/icons" }],
@@ -38,8 +45,18 @@
  * It performs no I/O and knows nothing about any particular package's content —
  * a consumer's config is data, and the compilers read it.
  *
+ * **Configuration supplies paths, never captured values (#1508).** `rootDir`
+ * anchors every path so the build reads the same files whatever directory it
+ * was launched from, and `paths.packageManifest` is the *one* place the shipped
+ * Foundry manifest is located — the package-id guard and the compiled packs'
+ * `_stats.coreVersion` stamp both read it from there. The core version itself is
+ * deliberately absent: it lives in the manifest's `compatibility.minimum`, which
+ * moves with test evidence, and a copy here would silently stop following it.
+ *
  * @module
  */
+
+import path from "node:path";
 
 /**
  * The two kinds of Foundry package a content module can be built into. The
@@ -49,6 +66,24 @@
  * @satisfies {readonly PackageKind[]}
  */
 export const PACKAGE_KINDS = /** @type {const} */ (["systems", "modules"]);
+
+/**
+ * The directories the build reads from and writes to, relative to `rootDir`,
+ * with the layout a HeroicLands content repository conventionally uses. A
+ * consumer overrides only the ones it moves.
+ *
+ * `packageManifest` is the directory holding `system.template.json` or
+ * `module.template.json` — hoisted once, and read by both the package-id drift
+ * guard and the `_stats.coreVersion` stamp (#1508).
+ */
+export const DEFAULT_PATHS = /** @type {const} */ ({
+    content: "assets/content",
+    packageManifest: "assets/templates",
+    manifests: "assets/manifests",
+    packJson: "build/packs-json",
+    stage: "build/stage/packs",
+    unpack: "build/tmp/packs",
+});
 
 /**
  * The Foundry document types a compendium pack may hold. This is the set the
@@ -85,6 +120,68 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  * @property {PackDocumentType} type    Foundry document type the pack holds.
  * @property {string} [label]           Human-readable label. Defaults to `name`.
  * @property {boolean} [private]        Whether the pack is GM-only. Default `false`.
+ * @property {string|null} [folders]    The pack's folder-hierarchy file, relative
+ *                                      to `paths.content`. Default `null` — no
+ *                                      folder documents are emitted.
+ * @property {PackSpec[]} [companions]  Packs written by this pack's own compiler
+ *                                      pass rather than a pass of their own (the
+ *                                      scenes pass also emits the adventures
+ *                                      bundling them). Default `[]`.
+ * @property {boolean} [mayBeEmpty]     Whether a pass compiling zero entries is
+ *                                      legitimate rather than a build failure.
+ *                                      Default `false`.
+ */
+
+/**
+ * The normalized form of a {@link PackSpec}: every optional half filled in.
+ *
+ * @typedef {object} ResolvedPackSpec
+ * @property {string} name
+ * @property {PackDocumentType} type
+ * @property {string} label
+ * @property {boolean} private
+ * @property {string|null} folders
+ * @property {readonly Readonly<ResolvedPackSpec>[]} companions
+ * @property {boolean} mayBeEmpty
+ */
+
+/**
+ * The directories a consumer may relocate, each relative to `rootDir`.
+ *
+ * @typedef {object} PathsInput
+ * @property {string} [content]          Content tree root.
+ * @property {string} [packageManifest]  Directory holding the Foundry manifest template.
+ * @property {string} [manifests]        Vendored cross-package link manifests.
+ * @property {string} [packJson]         Build-only per-entry JSON intermediate.
+ * @property {string} [stage]            Compiled LevelDB packs.
+ * @property {string} [unpack]           Where `unpack` extracts JSON back to.
+ */
+
+/**
+ * {@link PathsInput}, resolved to absolute paths against `rootDir`.
+ *
+ * @typedef {object} ResolvedPaths
+ * @property {string} content
+ * @property {string} packageManifest
+ * @property {string} manifests
+ * @property {string} packJson
+ * @property {string} stage
+ * @property {string} unpack
+ */
+
+/**
+ * The identity every compiled document's `_stats` block carries.
+ *
+ * `coreVersion` is **not** here: it is read from the manifest at
+ * `paths.packageManifest`, so it always follows the floor the package actually
+ * declares (#1508).
+ *
+ * @typedef {object} StatsSpec
+ * @property {string} systemId          The game system the documents are for —
+ *                                      `"sohl"` even for a module, which ships
+ *                                      content *for* the system rather than being it.
+ * @property {string} systemVersion     The system version the packs were built against.
+ * @property {string} lastModifiedBy    The 16-character id stamped as the author.
  */
 
 /**
@@ -128,13 +225,22 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  * The configuration a consumer writes.
  *
  * @typedef {object} ContentBuildConfigInput
+ * @property {string} rootDir               Absolute path of the consuming
+ *                                          repository — every configured path is
+ *                                          resolved against it, so the build never
+ *                                          depends on the working directory.
  * @property {string} contentPackage        Content package name — the value each
  *                                          content note carries in its `package:`
  *                                          frontmatter.
  * @property {string} foundryPackage        Foundry package id, as it appears in
  *                                          `system.json` / `module.json`.
  * @property {PackageKind} packageKind      Whether the package is a system or a module.
+ * @property {StatsSpec} stats              Identity stamped into every document's `_stats`.
  * @property {PackSpec[]} packs             Packs to compile.
+ * @property {PathsInput} [paths]           Layout overrides. See {@link DEFAULT_PATHS}.
+ * @property {string[]} [skipDirectories]   Directory names the content walk ignores
+ *                                          wherever they appear (e.g. Obsidian's
+ *                                          `Templates`). Default `[]`.
  * @property {AssetSpec[]} [assets]         Assets to stage. Default `[]`.
  * @property {PublishSwitchesInput} [publish]  Publishing switches. Each defaults to off.
  */
@@ -143,23 +249,46 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  * The normalized, frozen configuration the toolchain reads.
  *
  * @typedef {object} ContentBuildConfig
+ * @property {string} rootDir
  * @property {string} contentPackage
  * @property {string} foundryPackage
  * @property {PackageKind} packageKind
- * @property {readonly Readonly<PackSpec>[]} packs
+ * @property {string} assetRoot        Derived: the served Foundry asset root,
+ *                                     `<packageKind>/<foundryPackage>/assets`.
+ * @property {Readonly<ResolvedPaths>} paths
+ * @property {Readonly<StatsSpec>} stats
+ * @property {readonly string[]} skipDirectories
+ * @property {readonly Readonly<ResolvedPackSpec>[]} packs
+ * @property {readonly string[]} packDirectories  Derived: every pack directory
+ *                                     the build produces, in compile order —
+ *                                     each pack followed by its companions.
  * @property {readonly Readonly<AssetSpec>[]} assets
  * @property {Readonly<PublishSwitches>} publish
  */
 
 const CONFIG_KEYS = [
+    "rootDir",
     "contentPackage",
     "foundryPackage",
     "packageKind",
+    "stats",
+    "paths",
+    "skipDirectories",
     "packs",
     "assets",
     "publish",
 ];
-const PACK_KEYS = ["name", "type", "label", "private"];
+const PACK_KEYS = [
+    "name",
+    "type",
+    "label",
+    "private",
+    "folders",
+    "companions",
+    "mayBeEmpty",
+];
+const PATH_KEYS = Object.keys(DEFAULT_PATHS);
+const STATS_KEYS = ["systemId", "systemVersion", "lastModifiedBy"];
 const ASSET_KEYS = ["from", "to"];
 const PUBLISH_KEYS = ["site", "manifests"];
 const MANIFEST_KEYS = ["publish", "consume"];
@@ -220,11 +349,12 @@ function optionalBoolean(value, field, fallback) {
 
 /**
  * @param {unknown} value
- * @param {number} index
- * @returns {Readonly<PackSpec>}
+ * @param {string} where       Field path used in error messages.
+ * @param {boolean} [nested]   Whether this is a companion, which may not nest
+ *                             companions of its own.
+ * @returns {Readonly<ResolvedPackSpec>}
  */
-function normalizePack(value, index) {
-    const where = `packs[${index}]`;
+function normalizePack(value, where, nested = false) {
     if (!isPlainObject(value)) fail(where, "must be an object");
     const pack = /** @type {Record<string, unknown>} */ (value);
     rejectUnknownKeys(pack, PACK_KEYS, `${where}.`);
@@ -241,7 +371,26 @@ function normalizePack(value, index) {
         );
     }
 
-    /** @type {PackSpec} */
+    if (pack.folders !== undefined && pack.folders !== null) {
+        requireNonEmptyString(pack.folders, `${where}.folders`);
+    }
+
+    const companionsInput = pack.companions;
+    if (companionsInput !== undefined && !Array.isArray(companionsInput)) {
+        fail(`${where}.companions`, "must be an array");
+    }
+    if (nested && Array.isArray(companionsInput) && companionsInput.length) {
+        fail(
+            `${where}.companions`,
+            "may not nest: a companion is written by another pack's pass, and " +
+                "that pass is the only level of indirection the build has",
+        );
+    }
+    const companions = (companionsInput ?? []).map((companion, index) =>
+        normalizePack(companion, `${where}.companions[${index}]`, true),
+    );
+
+    /** @type {ResolvedPackSpec} */
     const normalized = {
         name,
         type: /** @type {PackDocumentType} */ (type),
@@ -250,8 +399,78 @@ function normalizePack(value, index) {
                 name
             :   requireNonEmptyString(pack.label, `${where}.label`),
         private: optionalBoolean(pack.private, `${where}.private`, false),
+        folders:
+            pack.folders === undefined || pack.folders === null ?
+                null
+            :   /** @type {string} */ (pack.folders),
+        companions: Object.freeze(companions),
+        mayBeEmpty: optionalBoolean(
+            pack.mayBeEmpty,
+            `${where}.mayBeEmpty`,
+            false,
+        ),
     };
     return Object.freeze(normalized);
+}
+
+/**
+ * Resolve the layout a consumer supplies against its `rootDir`, filling every
+ * unnamed directory from {@link DEFAULT_PATHS}.
+ *
+ * Configured paths are **relative by contract**: an absolute one would escape
+ * the repository the config anchors, which is never what a consumer means and
+ * is what made these paths working-directory-dependent in the first place.
+ *
+ * @param {unknown} value
+ * @param {string} rootDir
+ * @returns {Readonly<ResolvedPaths>}
+ */
+function normalizePaths(value, rootDir) {
+    if (value !== undefined && !isPlainObject(value)) {
+        fail("paths", "must be an object");
+    }
+    const input = /** @type {Record<string, unknown>} */ (value ?? {});
+    rejectUnknownKeys(input, PATH_KEYS, "paths.");
+
+    /** @type {Record<string, string>} */
+    const resolved = {};
+    for (const key of PATH_KEYS) {
+        const raw =
+            input[key] === undefined ?
+                /** @type {Record<string, string>} */ (DEFAULT_PATHS)[key]
+            :   requireNonEmptyString(input[key], `paths.${key}`);
+        if (path.isAbsolute(raw)) {
+            fail(
+                `paths.${key}`,
+                "must be relative to rootDir, so a consumer's layout travels " +
+                    "with its repository",
+            );
+        }
+        resolved[key] = path.resolve(rootDir, raw);
+    }
+    return Object.freeze(/** @type {ResolvedPaths} */ (resolved));
+}
+
+/**
+ * @param {unknown} value
+ * @returns {Readonly<StatsSpec>}
+ */
+function normalizeStats(value) {
+    if (!isPlainObject(value)) fail("stats", "must be an object");
+    const input = /** @type {Record<string, unknown>} */ (value);
+    rejectUnknownKeys(input, STATS_KEYS, "stats.");
+
+    return Object.freeze({
+        systemId: requireNonEmptyString(input.systemId, "stats.systemId"),
+        systemVersion: requireNonEmptyString(
+            input.systemVersion,
+            "stats.systemVersion",
+        ),
+        lastModifiedBy: requireNonEmptyString(
+            input.lastModifiedBy,
+            "stats.lastModifiedBy",
+        ),
+    });
 }
 
 /**
@@ -336,6 +555,15 @@ export function defineConfig(config) {
     );
     rejectUnknownKeys(input, CONFIG_KEYS, "");
 
+    const rootDir = requireNonEmptyString(input.rootDir, "rootDir");
+    if (!path.isAbsolute(rootDir)) {
+        fail(
+            "rootDir",
+            "must be an absolute path — it is what makes the build independent " +
+                "of the directory it was launched from (pass `import.meta.dirname`)",
+        );
+    }
+
     const packageKind = input.packageKind;
     if (
         typeof packageKind !== "string" ||
@@ -351,32 +579,60 @@ export function defineConfig(config) {
     if (!Array.isArray(input.packs)) fail("packs", "must be an array");
     if (input.packs.length === 0)
         fail("packs", "must declare at least one pack");
-    const packs = input.packs.map(normalizePack);
+    const packs = input.packs.map((pack, index) =>
+        normalizePack(pack, `packs[${index}]`),
+    );
 
+    // One list, so the compile order and the directory list cannot disagree —
+    // they used to be `PACK_CONFIGS` and `SOURCE_PACKS`, maintained apart (#1508).
+    const packDirectories = packs.flatMap((pack) => [
+        pack.name,
+        ...pack.companions.map((companion) => companion.name),
+    ]);
     const seen = new Set();
-    for (const pack of packs) {
-        if (seen.has(pack.name)) {
-            fail("packs", `declares the pack \`${pack.name}\` more than once`);
+    for (const name of packDirectories) {
+        if (seen.has(name)) {
+            fail("packs", `declares the pack \`${name}\` more than once`);
         }
-        seen.add(pack.name);
+        seen.add(name);
     }
+
+    if (
+        input.skipDirectories !== undefined &&
+        !Array.isArray(input.skipDirectories)
+    ) {
+        fail("skipDirectories", "must be an array");
+    }
+    const skipDirectories = (input.skipDirectories ?? []).map((name, index) =>
+        requireNonEmptyString(name, `skipDirectories[${index}]`),
+    );
 
     if (input.assets !== undefined && !Array.isArray(input.assets)) {
         fail("assets", "must be an array");
     }
     const assets = (input.assets ?? []).map(normalizeAsset);
 
+    const foundryPackage = requireNonEmptyString(
+        input.foundryPackage,
+        "foundryPackage",
+    );
+
     return Object.freeze({
+        rootDir,
         contentPackage: requireNonEmptyString(
             input.contentPackage,
             "contentPackage",
         ),
-        foundryPackage: requireNonEmptyString(
-            input.foundryPackage,
-            "foundryPackage",
-        ),
+        foundryPackage,
         packageKind: /** @type {PackageKind} */ (packageKind),
+        // Foundry serves a package's files from `<kind>/<id>/`, so this is the
+        // one place `systems/sohl` (or `modules/sohl-thalorna`) is spelled.
+        assetRoot: `${packageKind}/${foundryPackage}/assets`,
+        paths: normalizePaths(input.paths, rootDir),
+        stats: normalizeStats(input.stats),
+        skipDirectories: Object.freeze(skipDirectories),
         packs: Object.freeze(packs),
+        packDirectories: Object.freeze(packDirectories),
         assets: Object.freeze(assets),
         publish: normalizePublish(input.publish),
     });

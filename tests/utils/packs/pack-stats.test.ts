@@ -12,10 +12,12 @@ import path from "node:path";
 // Build-time pack helper (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
 import { buildStats as buildStatsRaw } from "../../../utils/packs/helpers.mjs";
+import { packConfig } from "../../../utils/packs/config.mjs";
+import { defineConfig } from "../../../packages/content-build/index.mjs";
 
 // The pack helpers are plain ESM whose JSDoc types the return as `object`.
-const buildStats = (systemVersion?: string): any =>
-    buildStatsRaw(systemVersion as any);
+const buildStats = (systemVersion?: string, config?: unknown): any =>
+    buildStatsRaw(systemVersion as any, config as any);
 
 const MANIFEST = JSON.parse(
     fs.readFileSync(
@@ -88,5 +90,37 @@ describe("the compiled-pack `_stats` stamp", () => {
     it("still carries the system version it is given", () => {
         expect(buildStats("1.2.3").systemVersion).toBe("1.2.3");
         expect(buildStats().systemId).toBe("sohl");
+    });
+});
+
+describe("the `_stats` stamp is configuration, not a literal (#1508)", () => {
+    it("takes every stamped identity from the resolved configuration", () => {
+        // Four call sites used to pass the same frozen "0.6.0" literal; the
+        // version now has one home, and so do the other two stamped fields.
+        const stats = buildStats();
+        expect(stats.systemId).toBe(packConfig.stats.systemId);
+        expect(stats.systemVersion).toBe(packConfig.stats.systemVersion);
+        expect(stats.lastModifiedBy).toBe(packConfig.stats.lastModifiedBy);
+    });
+
+    it("stamps a non-`sohl` consumer's own identity", () => {
+        const moduleConfig = defineConfig({
+            rootDir: path.resolve("."),
+            contentPackage: "thalorna",
+            foundryPackage: "sohl-thalorna",
+            packageKind: "modules",
+            stats: {
+                systemId: "sohl",
+                systemVersion: "0.1.0",
+                lastModifiedBy: "thalornabuild000",
+            },
+            packs: [{ name: "items", type: "Item" }],
+        });
+        const stats = buildStats(undefined, moduleConfig);
+        expect(stats.systemVersion).toBe("0.1.0");
+        expect(stats.lastModifiedBy).toBe("thalornabuild000");
+        // Derived from that config's own manifest directory — this repository's,
+        // since the module config points its root here.
+        expect(stats.coreVersion).toBe(MANIFEST.compatibility.minimum);
     });
 });

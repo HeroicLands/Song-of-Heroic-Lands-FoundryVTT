@@ -70,7 +70,7 @@ import {
     regionDocId,
 } from "./map-notes.mjs";
 
-const STATS = buildStats("0.6.0");
+const STATS = buildStats();
 
 /**
  * Every SoHL action name this build knows about, for the `action:` warning on a

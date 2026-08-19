@@ -42,6 +42,7 @@ import log from "loglevel";
 import path from "path";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 import { generatePacksJson, packJsonDir } from "./generate.mjs";
+import { packConfig } from "./config.mjs";
 
 /* ----------------------------------------- */
 /*  Compile Packs                            */
@@ -106,8 +107,18 @@ export async function compilePacks({ sourcePacks, stageDest, packName }) {
  * @param {object} [options={}]
  * @param {boolean} [options.clearSourceId=true]  Should the core sourceId flag be deleted.
  * @param {number} [options.ownership=0]          Value to reset default ownership to.
+ * @param {string} [options.lastModifiedBy]       The stamped author id. Defaults to
+ *     the configured one — the same value `buildStats` stamps, so a compiled
+ *     entry and a re-cleaned one never disagree (#1508).
  */
-function cleanPackEntry(data, { clearSourceId = true, ownership = 0 } = {}) {
+function cleanPackEntry(
+    data,
+    {
+        clearSourceId = true,
+        ownership = 0,
+        lastModifiedBy = packConfig.stats.lastModifiedBy,
+    } = {},
+) {
     if (data.ownership) data.ownership = { default: ownership };
     if (clearSourceId) {
         delete data._stats?.compendiumSource;
@@ -116,7 +127,7 @@ function cleanPackEntry(data, { clearSourceId = true, ownership = 0 } = {}) {
     delete data.flags?.importSource;
     delete data.flags?.exportSource;
     if (data._stats?.lastModifiedBy)
-        data._stats.lastModifiedBy = "sohlbuilder00000";
+        data._stats.lastModifiedBy = lastModifiedBy;
 
     // Remove empty entries in flags
     if (!data.flags) data.flags = {};

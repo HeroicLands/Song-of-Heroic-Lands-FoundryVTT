@@ -60,7 +60,7 @@ import {
 import { CONTENT_PACKAGE } from "./content-package.mjs";
 import { splitPages } from "./journals.mjs";
 
-const STATS = buildStats("0.6.0");
+const STATS = buildStats();
 
 /**
  * The anchor the executable script lives under: `# Script {#script}`.
