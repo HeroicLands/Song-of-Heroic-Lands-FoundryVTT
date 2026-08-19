@@ -31,7 +31,15 @@ Cypress.Commands.add("login", (opts = {}) => {
     cy.request({
         method: "POST",
         url: "/join",
-        body: { action: "join", userid: userId, password },
+        // Foundry renamed this body field from `userid` to `userId` in 14.367
+        // (`sessions.authenticateUser` destructures one or the other, depending
+        // on build). Send both: the handler destructures the name it wants and
+        // ignores the other, so one request spans the whole supported range —
+        // 14.359 (the pinned floor) through the newest release the sweep runs.
+        // Sending only `userid` makes 14.367 read `undefined`, look up no user,
+        // and answer 401 `JOIN.ErrorUserDoesNotExist` with the misleading log
+        // line `no user with ID of undefined` — which blocked every spec (#1537).
+        body: { action: "join", userid: userId, userId, password },
     }).then((res) => {
         // A successful join returns JSON `{status:"success", …}`. When the world
         // is not active Foundry answers 200 with an HTML error page instead, so

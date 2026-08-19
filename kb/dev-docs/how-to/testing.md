@@ -394,15 +394,13 @@ persists across recreates (the seed wipes only the world, not `Config`). Without
 that pin Foundry would revert to "requires signature" on every run.
 
 🔧 **The test container's Foundry build is pinned by the repository.**
-`DEFAULT_STAGE_VERSIONS` in `utils/foundry-container.mjs` pins the `test` stage
-(currently **14.367**), and the container script passes it to felddy as
-`FOUNDRY_VERSION`, so a fresh checkout runs the suite on that exact build with no
-local configuration. This is deliberate: the suite is evidence, and left to the
-floating `:14` tag it would silently drift to whatever the registry served that
-week — so "the suite passes" would name no particular Foundry, and
-`system.json`'s `compatibility.verified` would be a claim nobody could re-run.
-`FOUNDRYVTT_TEST_VERSION` overrides it locally. Moving the pin means re-running
-the suite and moving `verified` with it.
+`DEFAULT_STAGE_VERSIONS` in `utils/foundry-container.mjs` pins the `test` stage,
+and the container script passes it to felddy as `FOUNDRY_VERSION`, so a fresh
+checkout runs the suite on that exact build with no local configuration. This is
+deliberate: the suite is evidence, and left to the floating `:14` tag it would
+silently drift to whatever the registry served that week — so "the suite passes"
+would name no particular Foundry, and `system.json`'s `compatibility.verified`
+would be a claim nobody could re-run.
 
 `FOUNDRYVTT_TEST_DATA` must be a **separate, empty** dir — not your dev/qa root.
 If it points at a dir with an existing `Config/license.json`, felddy reuses that
@@ -414,6 +412,64 @@ run (single-seat); the harness warns when another `sohl-foundry-*` container is
 up. See
 [Build & Deployment §6 — running a build in a container](build-and-deployment.md#6-deploying-to-a-foundry-instance)
 for the container details and download cache.
+
+### Which build the suite runs on — the two tracks
+
+Foundry is a moving target in both directions, so the suite is run on two, and
+they answer different questions.
+
+| Track | Build | When | Question it answers |
+| --- | --- | --- | --- |
+| **Default** | `compatibility.minimum` — currently **14.359** | Every routine run; the committed default | Does the system still work on the oldest Foundry we *claim* to support? |
+| **Sweep** | The newest Foundry release | Roughly weekly, and always before shipping | Has a new Foundry release broken us? |
+
+**The default is the floor, and that is the whole point.** `compatibility.minimum`
+is a promise made to every user reading the manifest, and a promise is only
+defended if something exercises it. Testing above the floor tests a configuration
+no user is promised while leaving the promised one unverified — a regression that
+breaks 14.359 but works on the newer build would pass the suite in silence. So
+the committed pin tracks the floor, and the newest release is swept instead of
+being the default.
+
+**Raising the pin is a decision to raise the supported floor**, not a test-config
+tweak. If the floor genuinely cannot be made to work, bump `compatibility.minimum`
+in `assets/templates/system.template.json` and move the pin with it, so the claim
+and the evidence stay the same number. Do not quietly test on something newer than
+the manifest claims.
+
+**Running the sweep:**
+
+```bash
+npm run e2e:sweep -- 14.367     # full suite against the newest release
+```
+
+That is `FOUNDRYVTT_TEST_VERSION=<build> npm run e2e:full` with the traps removed.
+It must be `e2e:full`, not `e2e:fast`: the seeded world is stamped with the build
+that created it, and Foundry refuses to auto-launch a world stamped by a different
+one (`The requested World … is not available to auto-launch`), so changing build
+requires the reseed only the from-scratch path does. The sweep takes the build as
+an argument and has **no default** — "the newest release" is not a constant this
+repository can hold without rotting, and the product of a sweep is a citable
+result ("the full suite passed on 14.367"), which requires naming the build.
+
+A green sweep is what licenses moving `compatibility.verified` to that build. A
+red one is the early warning the sweep exists to produce: file it, don't silence
+it, and leave `verified` where it was.
+
+**`.env.local` wins over the committed default.** Setting
+`FOUNDRYVTT_TEST_VERSION` there overrides the pin for every run, which is how you
+sit on a build you are trialling without touching committed configuration.
+`resolveVersion()` resolves environment → committed default → `null` (float on
+the major tag).
+
+The full precedence is **`e2e:sweep`'s argument → `.env.local` → the committed
+default**: the sweep exports `FOUNDRYVTT_TEST_VERSION` into the child process, and
+`dotenv` does not overwrite a variable already set, so a sweep still runs on the
+build you named even when `.env.local` pins a different one.
+
+**`compatibility.verified` names the newest build the full suite has actually
+passed** — never an aspiration, and never a build a run has not completed. It is a
+statement of evidence, so it moves only after a green run on that build.
 
 Every spec builds on `cy.login()` (in `cypress/support/commands.js`), which logs
 in as the GM and waits for `game.ready`. From there, see [Writing
