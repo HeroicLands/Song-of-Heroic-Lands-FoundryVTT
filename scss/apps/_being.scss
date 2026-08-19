@@ -138,8 +138,18 @@ img.sheet-header__portrait {
 
 // --- Combat tab --------------------------------------------------------------
 // Held-item dropdowns — wide enough to show full weapon names ("Broadsword").
+//
+// A `<select>` does NOT inherit font-family or font-size from its context;
+// browsers apply a UA default (~13.3px system font). That left the weapon name
+// noticeably smaller than the "Right Arm" label in the same row (#1526), so the
+// control read as secondary to its own label. Match the row explicitly.
+//
+// Width goes to 100% of the ledger's 14rem column rather than a fixed 150px:
+// the larger text needs more room, and filling the column cannot truncate.
 .held-item-select {
-    width: 150px;
+    width: 100%;
+    font-family: var(--sohl-font-sans);
+    font-size: 1rem;
 }
 
 // "Default Combat Group" — label + input on one row rather than stacked.
