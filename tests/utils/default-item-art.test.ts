@@ -15,6 +15,10 @@ import {
     DEFAULT_ITEM_ART,
     defaultItemArt,
 } from "@src/utils/default-item-art.mjs";
+// The item-type registry — the one place a type is declared (#1504). Deriving
+// the expectation from it is what stops this map becoming a third list that
+// disagrees with the whitelist and the builder table.
+import { ITEM_TYPES } from "../../utils/packs/item-docs.mjs";
 
 // The `.mjs` map has a precise inferred type (no index signature); view it as a
 // loose record for the string-keyed lookups the tests exercise.
@@ -22,22 +26,7 @@ const ART = DEFAULT_ITEM_ART as Record<string, string | undefined>;
 
 // Every item type the system can create ad-hoc must have a default so it never
 // falls through to Foundry's white `icons/svg/item-bag.svg` (#932).
-const EXPECTED_TYPES = [
-    "affiliation",
-    "affliction",
-    "armorgear",
-    "attribute",
-    "concoctiongear",
-    "containergear",
-    "miscgear",
-    "mystery",
-    "mysticalability",
-    "projectilegear",
-    "skill",
-    "trait",
-    "trauma",
-    "weapongear",
-];
+const EXPECTED_TYPES = [...ITEM_TYPES];
 
 describe("default-item-art (single source of truth, #932)", () => {
     it("maps every known item type to a themed SoHL asset", () => {
@@ -76,6 +65,11 @@ describe("default-item-art (single source of truth, #932)", () => {
         expect(() => defaultItemArt("somegear")).toThrow(/default art/i);
         expect(() => defaultItemArt("being")).toThrow(/default art/i);
         expect(() => defaultItemArt("")).toThrow(/default art/i);
+    });
+
+    it("does not carry the retired `trait` type (#651, #1504)", () => {
+        expect(ART["trait"]).toBeUndefined();
+        expect(() => defaultItemArt("trait")).toThrow(/default art/i);
     });
 
     it("exposes a plain map so runtime callers can guard without throwing", () => {

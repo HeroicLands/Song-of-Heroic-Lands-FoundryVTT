@@ -37,13 +37,7 @@ import log from "loglevel";
 import {
     walkMarkdownTree,
     sohlField,
-    resolveSkillAptitudes,
-    requireSubType,
-    resolveRelation,
-    resolveCharges,
     makeFilename,
-    slugify,
-    parseValueDesc,
     resolveName,
     resolveImg,
     buildStats,
@@ -53,6 +47,10 @@ import {
     collectContentDocs,
     expandNoteTables,
 } from "./helpers.mjs";
+// Per-type `system` builders live in the item-type registry — the one list
+// `ITEM_TYPES` is derived from, so the whitelist and the builder table cannot
+// disagree (#1504).
+import { itemBuilder } from "./item-builders.mjs";
 // Per-type default art lives in one framework-free module shared with the
 // runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
 // Imported by relative path because the pack scripts run under bare `node`,
@@ -103,264 +101,6 @@ function commonSystem(fm, description) {
         docHtml: description || "",
     };
 }
-
-/**
- * Gear common fields (quantity, carried flags, weight/value/quality/
- * durability). Layered onto every `*gear` system block.
- */
-function gearCommon(fm) {
-    return {
-        quantity: 1,
-        weightBase: sohlField(fm, "weight", 0),
-        valueBase: sohlField(fm, "value", 0),
-        qualityBase: sohlField(fm, "quality", 0),
-        durabilityBase: sohlField(fm, "durability", 0),
-        sharedWithCohortIds: [],
-        containerId: null,
-        isCarried: true,
-        isEquipped: false,
-    };
-}
-
-/* -------------------------------------------------------------------- */
-/*  Per-type system builders                                            */
-/* -------------------------------------------------------------------- */
-
-function buildSkill(fm) {
-    const subType = requireSubType(fm);
-    // `masteryLevelBase` is nullable: an unset / blank value ships as `null`
-    // ("not yet opened"), so an embedded skill opens on its actor at
-    // Skill Base × initSkillMult. A numeric value is a deliberate opened level.
-    const rawMlb = sohlField(fm, "masteryLevelBase", null);
-    const out = {
-        subType,
-        skillBaseFormula: sohlField(fm, "skillBaseFormula", ""),
-        masteryLevelBase: rawMlb == null || rawMlb === "" ? null : Number(rawMlb),
-        improveFlag: Boolean(sohlField(fm, "improveFlag", false)),
-        combatCategory: sohlField(fm, "combatCategory", "none"),
-        parentSkillCode: sohlField(fm, "parentSkillCode", ""),
-        initSkillMult: Number(sohlField(fm, "initSkillMult", 0)) || 0,
-        impairedByRoles: sohlField(fm, "impairedByRoles", []),
-    };
-    // A combat technique is authored as a `skill` of subtype `combattechnique`
-    // (the standalone item type was merged into Skill): it carries an embedded,
-    // discriminated strike mode. Require it for that subtype; other skills have
-    // none.
-    if (subType === "combattechnique") {
-        const strikeMode = sohlField(fm, "strikeMode", null);
-        if (
-            !strikeMode ||
-            typeof strikeMode !== "object" ||
-            !strikeMode.type
-        ) {
-            throw new Error(
-                `combattechnique skill requires sohl.strikeMode with a 'type' discriminator ("melee" or "missile")`,
-            );
-        }
-        out.strikeMode = strikeMode;
-    }
-    return out;
-}
-
-function buildAttribute(fm) {
-    return {
-        scoreBase: Number(sohlField(fm, "scoreBase", 0)) || 0,
-        valueDesc: parseValueDesc(sohlField(fm, "valueDesc", [])),
-        initDiceFormula: sohlField(fm, "initDiceFormula", ""),
-        impairedByRoles: sohlField(fm, "impairedByRoles", []),
-    };
-}
-
-function buildAffliction(fm) {
-    return {
-        subType: requireSubType(fm),
-        category: sohlField(fm, "category", ""),
-        isDormant: false,
-        isTreated: false,
-        levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
-        healingRateBase: Number(sohlField(fm, "healingRateBase", 0)) || 0,
-        contagionIndexBase: Number(sohlField(fm, "contagionIndex", 0)) || 0,
-        transmission: sohlField(fm, "transmission", "none"),
-        // Days from contracting to onset, rolled by the receiving actor's
-        // Contagion Test (#1183). Unset means no incubation.
-        onsetFormula: sohlField(fm, "onsetFormula", null) || null,
-        // What running the course to the end does to the host (#1128): "death"
-        // or the benign default "cured".
-        outcome: sohlField(fm, "outcome", "cured") || "cured",
-    };
-}
-
-function buildAffiliation(fm) {
-    return {
-        subType: requireSubType(fm),
-        society: String(sohlField(fm, "society", "")),
-        office: String(sohlField(fm, "office", "")),
-        title: String(sohlField(fm, "title", "")),
-        level: Number(sohlField(fm, "level", 0)) || 0,
-        relation: resolveRelation(
-            fm,
-            `affiliation "${fm?.name?.full ?? fm?.shortcode ?? "?"}"`,
-        ),
-    };
-}
-
-function buildTrauma(fm) {
-    // Injury-only fields (level, aspect, body location) are nullable: a
-    // descriptive condition (psycond/physcond) omits them, so they compile to
-    // `null` (their schema initial) rather than a misleading 0/"blunt"/"".
-    const rawLevel = sohlField(fm, "levelBase", null);
-    return {
-        subType: requireSubType(fm),
-        category: sohlField(fm, "category", null),
-        levelBase: rawLevel == null ? null : Number(rawLevel) || 0,
-        healingRateBase: Number(sohlField(fm, "healingRateBase", 0)) || 0,
-        aspect: sohlField(fm, "aspect", null),
-        isTreated: Boolean(sohlField(fm, "isTreated", false)),
-        isBleeding: Boolean(sohlField(fm, "isBleeding", false)),
-        bodyLocationCode: sohlField(fm, "bodyLocationCode", null),
-    };
-}
-
-function buildMystery(fm) {
-    return {
-        subType: requireSubType(fm),
-        levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
-        skillAptitudes: resolveSkillAptitudes(fm, `mystery "${fm?.name?.full ?? fm?.shortcode ?? "?"}"`),
-        charges: resolveCharges(fm),
-    };
-}
-
-function buildMysticalAbility(fm) {
-    return {
-        subType: requireSubType(fm),
-        assocSkillCode: sohlField(fm, "assocSkillCode", ""),
-        assocMysteryCode: sohlField(fm, "assocMysteryCode", ""),
-        masteryLevelBase: Number(sohlField(fm, "masteryLevelBase", 0)) || 0,
-        improveFlag: Boolean(sohlField(fm, "improveFlag", false)),
-        levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
-        charges: resolveCharges(fm),
-    };
-}
-
-
-/**
- * Normalize the authored strike-mode list for the persisted array field.
- *
- * Strike modes are authored — and now persisted — as an array whose elements
- * each carry a `shortcode`. Every element must have a non-blank shortcode, and
- * no two on one weapon may share it (the shortcode is the mode's identity). The
- * array is returned verbatim (shortcode retained on each element).
- */
-function normalizeStrikeModes(strikeModes) {
-    if (!Array.isArray(strikeModes)) return [];
-    const seen = new Set();
-    for (const { shortcode } of strikeModes) {
-        if (!shortcode) {
-            throw new Error(
-                "weapongear strikeModes array element requires a 'shortcode'",
-            );
-        }
-        if (seen.has(shortcode)) {
-            throw new Error(
-                `weapongear has duplicate strike-mode shortcode "${shortcode}"`,
-            );
-        }
-        seen.add(shortcode);
-    }
-    return strikeModes;
-}
-
-function buildWeaponGear(fm) {
-    return {
-        ...gearCommon(fm),
-        encumbranceBase: Number(sohlField(fm, "encumbrance", 0)) || 0,
-        heftBase: Number(sohlField(fm, "heft", 0)) || 0,
-        strikeModes: normalizeStrikeModes(sohlField(fm, "strikeModes", [])),
-    };
-}
-
-function buildArmorGear(fm) {
-    const protection = sohlField(fm, "protection", {}) || {};
-    return {
-        ...gearCommon(fm),
-        material: sohlField(fm, "material", ""),
-        locations: {
-            flexible: sohlField(fm, "flexloc", []) || [],
-            rigid: sohlField(fm, "rigidloc", []) || [],
-            // Only the one-sided articles carry entries; everything else
-            // protects from any direction and ships an empty list.
-            facing: (sohlField(fm, "facing", []) || []).map((f) => ({
-                location: String(f.location ?? ""),
-                side: String(f.side ?? "all"),
-            })),
-        },
-        protectionBase: {
-            blunt: Number(protection.blunt) || 0,
-            edged: Number(protection.edged) || 0,
-            piercing: Number(protection.piercing) || 0,
-            fire: Number(protection.fire) || 0,
-        },
-        encumbrance: Number(sohlField(fm, "encumbrance", 0)) || 0,
-        // An article belongs to an encumbrance group instead of carrying a
-        // value when its cost is charged to a set — the arm harness.
-        encumbranceGroup: sohlField(fm, "encumbranceGroup", null) || null,
-        perceptionPenaltyBase:
-            Number(sohlField(fm, "perceptionPenaltyBase", 0)) || 0,
-    };
-}
-
-function buildProjectileGear(fm) {
-    const impact = sohlField(fm, "impact", {}) || {};
-    const die = Number(impact.die) || 0;
-    return {
-        ...gearCommon(fm),
-        subType: requireSubType(fm),
-        impactBase: {
-            overrideDice: Boolean(impact.overrideDice ?? (die > 0)),
-            overrideModifier: Boolean(impact.overrideModifier ?? false),
-            numDice: die > 0 ? 1 : 0,
-            die,
-            modifier: Number(impact.modifier) || 0,
-            aspect: impact.aspect || "piercing",
-        },
-    };
-}
-
-function buildContainerGear(fm) {
-    return {
-        ...gearCommon(fm),
-        maxCapacityBase: Number(sohlField(fm, "maxCapacity", 0)) || 0,
-    };
-}
-
-function buildMiscGear(fm) {
-    return gearCommon(fm);
-}
-
-function buildConcoctionGear(fm) {
-    return {
-        ...gearCommon(fm),
-        subType: requireSubType(fm),
-        potency: sohlField(fm, "potency", "notApplicable"),
-        strength: Number(sohlField(fm, "strength", 0)) || 0,
-    };
-}
-
-const BUILDERS = {
-    affiliation: buildAffiliation,
-    affliction: buildAffliction,
-    armorgear: buildArmorGear,
-    attribute: buildAttribute,
-    concoctiongear: buildConcoctionGear,
-    containergear: buildContainerGear,
-    miscgear: buildMiscGear,
-    mystery: buildMystery,
-    mysticalability: buildMysticalAbility,
-    projectilegear: buildProjectileGear,
-    skill: buildSkill,
-    trauma: buildTrauma,
-    weapongear: buildWeaponGear,
-};
 
 /* -------------------------------------------------------------------- */
 /*  Synthesized Active Effects                                          */
@@ -430,7 +170,7 @@ export class Items {
         const id = fm.id;
         const system = {
             ...commonSystem(fm, description),
-            ...BUILDERS[type](fm),
+            ...itemBuilder(type)(fm),
         };
 
         const effects = Array.isArray(fm.effects) ? [...fm.effects] : [];

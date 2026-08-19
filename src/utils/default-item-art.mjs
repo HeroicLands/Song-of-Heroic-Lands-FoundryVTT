@@ -45,7 +45,6 @@ export const DEFAULT_ITEM_ART = {
     mysticalability: "systems/sohl/assets/icons/other/hand-sparkles.svg",
     projectilegear: "systems/sohl/assets/icons/noun/arrow.svg",
     skill: "systems/sohl/assets/icons/other/head-gear.svg",
-    trait: "systems/sohl/assets/icons/other/user-gear.svg",
     trauma: "systems/sohl/assets/icons/other/injury.svg",
     weapongear: "systems/sohl/assets/icons/other/sword.svg",
 };
