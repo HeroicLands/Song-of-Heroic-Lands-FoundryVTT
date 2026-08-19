@@ -34,13 +34,15 @@
  *
  * **The shape generalises.** A `macro` note is the same arrangement: it
  * compiles into a Macro, and its prose into a JournalEntry addressed
- * `docmacro/<shortcode>` (#1514). {@link DOC_ENTRY_TYPES} is the one set both
- * the compilers and the link manifest read to know which types work this way.
+ * `docmacro/<shortcode>` (#1514). So is a **map note**, which compiles into a
+ * Scene and whose prose becomes the place description its map pins point at
+ * (#1525). {@link DOC_ENTRY_TYPES} is the one set both the compilers and the
+ * link manifest read to know which types work this way.
  *
  * Plain ESM with no Foundry and no filesystem access, so it is unit-testable.
  */
 
-import { compendiumUuid, makeId, pageUuid } from "./ids.mjs";
+import { compendiumUuid, makeId, MAP_TYPES, pageUuid } from "./ids.mjs";
 
 /**
  * Every content type that compiles into an item — and therefore into an item
@@ -90,7 +92,7 @@ export const ITEM_TYPES = Object.freeze(
  * @type {ReadonlySet<string>}
  */
 export const DOC_ENTRY_TYPES = Object.freeze(
-    new Set([...ITEM_TYPES, "macro"]),
+    new Set([...ITEM_TYPES, "macro", ...MAP_TYPES]),
 );
 
 /**
@@ -98,8 +100,8 @@ export const DOC_ENTRY_TYPES = Object.freeze(
  * its own.
  *
  * @param {string} type - The note's `type` frontmatter.
- * @returns {boolean} True for an item type and for `macro`; false for `doc`
- *   and for actors.
+ * @returns {boolean} True for an item type, for `macro` and for a map type;
+ *   false for `doc` and for actors.
  */
 export function hasDocEntry(type) {
     return DOC_ENTRY_TYPES.has(String(type));

@@ -461,9 +461,20 @@ Configuration lives in `.env.local` (all optional):
 | Variable                     | Default                | Purpose                                                             |
 | ---------------------------- | ---------------------- | ------------------------------------------------------------------- |
 | `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (`:14` matches `system.json` `minimum`).           |
+| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.367`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).      |
 | `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).  |
 | `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).  |
 | `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below). |
+
+🔧 **The `test` stage's Foundry build is pinned by the repository**, in
+`DEFAULT_STAGE_VERSIONS` (`utils/foundry-container.mjs`), and passed to felddy as
+`FOUNDRY_VERSION` so it downloads that exact build rather than the newest of the
+`:14` tag. That pin is what makes the e2e suite reproducible and what
+`system.json`'s `compatibility.verified` refers to: without it the test container
+drifts to whatever the floating tag serves, and "the suite passes" names no
+particular Foundry. `FOUNDRYVTT_<STAGE>_VERSION` overrides it, and no other stage
+is pinned here — `dev`/`qa`/`prod` are the maintainer's own instances. Changing
+the pin means re-running the suite and moving `verified` with it.
 
 🔧 **First-run licensing.** felddy needs to fetch Foundry once. Supply your
 Foundry credentials (`FOUNDRY_USERNAME` / `FOUNDRY_PASSWORD` [+ `FOUNDRY_LICENSE_KEY`]),

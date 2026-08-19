@@ -48,7 +48,14 @@ import { generatePacksJson, packJsonDir } from "./generate.mjs";
  * (`build/packs-json/<name>/`) and compiled to LevelDB from there — no committed
  * JSON and no vault access.
  */
-const SOURCE_PACKS = ["items", "journals", "actors", "macros"];
+const SOURCE_PACKS = [
+    "items",
+    "journals",
+    "actors",
+    "macros",
+    "scenes",
+    "adventures",
+];
 
 /** Where `unpack` writes extracted JSON, and where `clean` operates. */
 const PACK_DEST = path.resolve("./build/tmp/packs");

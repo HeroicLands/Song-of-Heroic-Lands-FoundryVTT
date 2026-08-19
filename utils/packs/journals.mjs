@@ -218,6 +218,48 @@ export function buildPages(rawPages, entryId, noteName) {
     });
 }
 
+/**
+ * Assemble one JournalEntry document from a note's converted markdown.
+ *
+ * Shared with the scenes pass, which needs the *same* entry a map note's prose
+ * compiles into so it can bundle it into an Adventure alongside the Scene. Two
+ * passes deriving the same document from the same body is what keeps a map
+ * pin's `pageId` pointing at a page that actually exists.
+ *
+ * @param {object} params
+ * @param {string} params.id - The entry's `_id`.
+ * @param {string} params.name - The entry's name.
+ * @param {string} params.markdown - The body, tables expanded and wikilinks
+ *   resolved.
+ * @param {string} [params.leadName] - Name for the page before the first
+ *   heading; see {@link splitPages}.
+ * @param {string|null} [params.folder] - The folder id, or `null`.
+ * @param {object} [params.flags] - Document flags.
+ * @returns {object} The JournalEntry document, keyed for the pack.
+ */
+export function buildJournalEntry({
+    id,
+    name,
+    markdown,
+    leadName,
+    folder = null,
+    flags,
+}) {
+    const rawPages = splitPages(markdown, leadName);
+    const pages = buildPages(rawPages, id, name);
+    return {
+        name,
+        pages,
+        folder,
+        sort: 0,
+        ownership: { default: 0 },
+        flags: flags || {},
+        _id: id,
+        _stats: STATS,
+        _key: `!journal!${id}`,
+    };
+}
+
 export class Journals {
     static id = "journals";
 
@@ -297,31 +339,27 @@ export class Journals {
             name,
         });
         this.unresolvedLinks += unresolved.length;
-        // A doc-carrying note's lead page is the document itself, not an
-        // "Introduction" — see {@link splitPages}.
-        const rawPages = splitPages(markdown, ownsDoc ? name : undefined);
-        const pages = buildPages(rawPages, id, name);
 
         // A documentation entry is filed exactly where the document it
         // describes is, so the journals pack mirrors the items pack and a doc
         // sits under the same heading a reader found the item under. The id is
         // taken verbatim rather than through `folderResolver`, which validates
         // against this pack's own folders.yaml — an item folder is declared in
-        // the items one, and a macro folder in the macros one.
+        // the items one, a macro folder in the macros one, and a map's in the
+        // scenes one.
         const folderId = sohlField(fm, "folder", null);
         const folder = ownsDoc ? folderId : this.folderResolver(folderId);
 
-        return {
+        return buildJournalEntry({
+            id,
             name,
-            pages,
+            markdown,
+            // A doc-carrying note's lead page is the document itself, not an
+            // "Introduction" — see {@link splitPages}.
+            leadName: ownsDoc ? name : undefined,
             folder,
-            sort: 0,
-            ownership: { default: 0 },
-            flags: fm.flags || {},
-            _id: id,
-            _stats: STATS,
-            _key: `!journal!${id}`,
-        };
+            flags: fm.flags,
+        });
     }
 
     async compile() {
@@ -340,7 +378,9 @@ export class Journals {
         )) {
             // Journal notes, plus every doc-carrying note — an item's prose is
             // its documentation, so it compiles here and the item keeps a
-            // pointer to it (#1348); a macro's is the same arrangement (#1514).
+            // pointer to it (#1348); a macro's is the same arrangement (#1514),
+            // and so is a map's, whose prose is the place description its pins
+            // point at (#1525).
             const ownsDoc = hasDocEntry(fm?.type);
             if (
                 !fm ||
@@ -361,8 +401,9 @@ export class Journals {
                 continue;
             }
             // An item with no prose gets no doc, and the items pass leaves its
-            // description empty rather than pointing at nothing. The two passes
-            // apply the same rule to the same body, so they agree.
+            // description empty rather than pointing at nothing, and a map with
+            // no prose gets no entry and no pin target. The two passes apply
+            // the same rule to the same body, so they agree.
             if (ownsDoc && !String(body).trim()) {
                 skippedOther++;
                 continue;

@@ -53,11 +53,12 @@ Cypress.Commands.add("login", (opts = {}) => {
  * real viewport. Core's render chain then reaches for canvas infrastructure that
  * is absent and throws unhandled promise rejections at several points:
  * `TokenRuler.draw` → `GridLayer.addHighlightLayer` (`reading 'addChild'`) from
- * `_draw`, and `_refreshState` → `RenderFlags.set` (`reading 'OBJECTS'`) from the
- * ticker refresh. These land on whatever spec is running, failing token-placing
- * specs nondeterministically (#611). Gating on `canvas.ready` is not enough — it
- * can read `true` while the token layer is still incomplete, so the refresh throws
- * anyway.
+ * `_draw`, `_refreshState` → `RenderFlags.set` (`reading 'OBJECTS'`) from the
+ * ticker refresh, and `_onAnimationUpdate` → `RenderFlags.set` (the same
+ * `'OBJECTS'`) from any token **movement**. These land on whatever spec is
+ * running, failing token-placing and token-moving specs nondeterministically
+ * (#611). Gating on `canvas.ready` is not enough — it can read `true` while the
+ * token layer is still incomplete, so the refresh throws anyway.
  *
  * This suite never asserts on rendered token pixels — specs read the TokenDocument
  * and each combatant's Foundry-free `.logic` (and sheets via the DOM), never a
@@ -74,6 +75,45 @@ Cypress.Commands.add("login", (opts = {}) => {
  * @param {Window} win - the game client window.
  */
 function guardHeadlessTokenDraw(win) {
+    // Give `RenderFlags.set` the queue it appends to. Its last line is
+    // `canvas.pendingRenderFlags[this.priority].add(this.object)`, and headless
+    // the canvas never initializes that map — so *flagging* a refresh throws
+    // `reading 'OBJECTS'` before anything is even rendered. Any token
+    // **movement** reaches it (`_onUpdate` → `renderFlags.set`), which no
+    // amount of no-oping `draw` can prevent. Supplying the empty sets makes
+    // flagging harmless rather than fatal: nothing flushes them, because
+    // `applyRenderFlags` below is a no-op and the ticker is not drawing.
+    if (win.canvas && !win.canvas.pendingRenderFlags) {
+        // A Proxy rather than a fixed `{OBJECTS, PERCEPTION}` map, so every
+        // ticker priority core asks for resolves to a real Set — the queue is
+        // meant to be opaque, and enumerating its keys here would be one more
+        // core detail to keep in step.
+        const queues = new win.Map();
+        const stub = new win.Proxy(
+            {},
+            {
+                get(_target, key) {
+                    if (!queues.has(key)) queues.set(key, new win.Set());
+                    return queues.get(key);
+                },
+            },
+        );
+        // `defineProperty`, not assignment: on a Canvas that has begun
+        // initializing, `pendingRenderFlags` is read-only, and a plain
+        // assignment throws — inside `cy.login()`, which would fail every
+        // spec's `before` hook rather than the one test it was meant to help.
+        // If the property refuses redefinition, leave it: a canvas that far
+        // along supplies its own queue anyway.
+        try {
+            Object.defineProperty(win.canvas, "pendingRenderFlags", {
+                configurable: true,
+                get: () => stub,
+            });
+        } catch {
+            /* core owns it — nothing to guard */
+        }
+    }
+
     const proto = win.CONFIG?.Token?.objectClass?.prototype;
     if (!proto || proto.__sohlHeadlessGuarded) return;
     // `draw()` is the render entry point the token layer awaits; no-op it so

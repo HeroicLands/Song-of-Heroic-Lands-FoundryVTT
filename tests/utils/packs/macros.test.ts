@@ -34,6 +34,7 @@ import {
     buildWikilinkIndex,
     convertWikilinks,
 } from "../../../utils/packs/wikilinks.mjs";
+import { MAP_TYPES } from "../../../utils/packs/ids.mjs";
 
 const NOTE_ID = "HSNwLca3kMYLN3Ag";
 
@@ -288,7 +289,11 @@ describe("a macro note carries documentation like an item does", () => {
 
     it("keeps every item type doc-carrying", () => {
         for (const t of ITEM_TYPES) expect(hasDocEntry(t)).toBe(true);
-        expect(DOC_ENTRY_TYPES.size).toBe(ITEM_TYPES.size + 1);
+        // Every item type, plus `macro`, plus the three map types — a map
+        // note's prose is a JournalEntry of its own too (#1525).
+        expect(DOC_ENTRY_TYPES.size).toBe(
+            ITEM_TYPES.size + 1 + MAP_TYPES.size,
+        );
     });
 
     it("leaves `doc` notes and actors alone — they are one document each", () => {

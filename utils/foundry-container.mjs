@@ -43,10 +43,12 @@
  * Configuration (all optional, resolved from the environment / `.env.local`):
  *   - image:      `FOUNDRYVTT_CONTAINER_IMAGE` (default `felddy/foundryvtt:14`)
  *   - version:    `FOUNDRYVTT_<STAGE>_VERSION` pins the exact Foundry build
- *                 (e.g. `FOUNDRYVTT_TEST_VERSION=14.364`,
+ *                 (e.g. `FOUNDRYVTT_TEST_VERSION=14.367`,
  *                 `FOUNDRYVTT_LEG_VERSION=12.331`) — passed to felddy as
  *                 `FOUNDRY_VERSION` and used to pick the matching major image tag
- *                 when `FOUNDRYVTT_CONTAINER_IMAGE` is not set.
+ *                 when `FOUNDRYVTT_CONTAINER_IMAGE` is not set. The `test` stage
+ *                 is pinned by this repository (see DEFAULT_STAGE_VERSIONS) so
+ *                 the e2e suite runs on a known build without local config.
  *   - host port:  `FOUNDRYVTT_<STAGE>_PORT` (defaults dev 30000, qa 30001,
  *                 prod 30002, test 30003, leg 30000 — distinct except leg/dev)
  *   - world:      `FOUNDRYVTT_<STAGE>_WORLD` selects the auto-launched world
@@ -122,15 +124,44 @@ const DEFAULT_IMAGE = "felddy/foundryvtt:14";
 const CONTAINER_PORT = 30000;
 
 /**
- * The exact Foundry version pinned for a stage, from
- * `FOUNDRYVTT_<STAGE>_VERSION` (e.g. `FOUNDRYVTT_TEST_VERSION=14.364`,
- * `FOUNDRYVTT_LEG_VERSION=12.331`). Returns `null` when unset.
+ * Foundry builds this repository pins itself, per stage.
+ *
+ * Only `test` is pinned here, and deliberately: the e2e suite is evidence, and
+ * evidence has to be reproducible. Left to the floating major tag, the test
+ * container silently drifts to whatever build the registry serves that week, so
+ * "the suite passes" names no particular Foundry and the system manifest's
+ * `compatibility.verified` is a claim nobody can re-run. A committed pin makes a
+ * fresh checkout reproduce the run with no local configuration at all.
+ *
+ * The other stages are the maintainer's own instances — `dev`, `qa` and `prod`
+ * track whatever Foundry they are meant to, and `leg` is pinned to its v12 build
+ * from the environment — so this repository does not presume to choose for them.
+ *
+ * `FOUNDRYVTT_<STAGE>_VERSION` still wins, so a contributor can test against
+ * another build without touching committed configuration.
+ *
+ * @type {Readonly<Record<string, string>>}
+ */
+const DEFAULT_STAGE_VERSIONS = Object.freeze({
+    test: "14.367",
+});
+
+/**
+ * The exact Foundry version pinned for a stage.
+ *
+ * `FOUNDRYVTT_<STAGE>_VERSION` first (e.g. `FOUNDRYVTT_TEST_VERSION=14.367`,
+ * `FOUNDRYVTT_LEG_VERSION=12.331`), then this repository's own
+ * {@link DEFAULT_STAGE_VERSIONS}. Returns `null` when neither pins the stage,
+ * which leaves felddy on the latest build of the major tag.
+ *
  * @param {string} stage
  * @returns {string|null}
  */
 function resolveVersion(stage) {
     return (
-        process.env[`FOUNDRYVTT_${stage.toUpperCase()}_VERSION`]?.trim() || null
+        process.env[`FOUNDRYVTT_${stage.toUpperCase()}_VERSION`]?.trim() ||
+        DEFAULT_STAGE_VERSIONS[stage] ||
+        null
     );
 }
 
