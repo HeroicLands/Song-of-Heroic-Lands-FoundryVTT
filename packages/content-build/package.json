@@ -1,0 +1,63 @@
+{
+    "name": "@heroiclands/content-build",
+    "version": "0.1.0",
+    "description": "Shared toolchain that compiles a HeroicLands content tree into Foundry VTT compendium packs.",
+    "license": "GPL-3.0-or-later",
+    "type": "module",
+    "main": "./index.mjs",
+    "types": "./types/index.d.mts",
+    "exports": {
+        ".": {
+            "types": "./types/index.d.mts",
+            "import": "./index.mjs"
+        },
+        "./engine": {
+            "types": "./types/engine/index.d.mts",
+            "import": "./engine/index.mjs"
+        },
+        "./sohl": {
+            "types": "./types/sohl/index.d.mts",
+            "import": "./sohl/index.mjs"
+        },
+        "./package.json": "./package.json"
+    },
+    "bin": {
+        "content-build": "./bin/content-build.mjs"
+    },
+    "files": [
+        "bin",
+        "engine",
+        "sohl",
+        "types",
+        "config.mjs",
+        "index.mjs",
+        "README.md"
+    ],
+    "scripts": {
+        "prepack": "cd ../.. && npm run build:content-build-types"
+    },
+    "engines": {
+        "node": ">=24.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "keywords": [
+        "foundry-vtt",
+        "foundryvtt",
+        "heroiclands",
+        "sohl",
+        "song-of-heroic-lands",
+        "compendium",
+        "build"
+    ],
+    "homepage": "https://heroiclands.org",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT.git",
+        "directory": "packages/content-build"
+    },
+    "bugs": {
+        "url": "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues"
+    }
+}

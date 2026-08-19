@@ -7,7 +7,7 @@ on:
 
 # contents: write   -> create the release, tag, and version commit
 # pull-requests: write -> open/update the "Version Packages" PR
-# id-token: write    -> OIDC for npm Trusted Publishing (@heroiclands/sohl-types)
+# id-token: write    -> OIDC for npm Trusted Publishing (the @heroiclands/* packages)
 # actions: write     -> dispatch deploy-sohl.yml when a release is published
 permissions:
     contents: write
@@ -149,6 +149,29 @@ jobs:
                   VERSION=$(node -p "require('./package.json').version")
                   if npm view "@heroiclands/sohl-types@$VERSION" version >/dev/null 2>&1; then
                       echo "@heroiclands/sohl-types@$VERSION already published — skipping."
+                  else
+                      npm publish
+                  fi
+
+            # The shared content-build toolchain, published the same way and for
+            # the same reason — external repositories (sohl-thalorna,
+            # sohl-kethira-basic, the adventure modules) consume it from npm.
+            # THIS repository consumes it by path through the root
+            # `workspaces` key, so a compiler change is usable here without a
+            # release; only the external consumers wait on a version.
+            # Hand-versioned in packages/content-build/package.json, independent
+            # of the system version; its `prepack` regenerates the .d.mts
+            # declarations from the package's JSDoc at pack time. Idempotent and
+            # `continue-on-error` for the same reasons as the step above.
+            - name: Publish @heroiclands/content-build (npm Trusted Publishing)
+              if: steps.decide.outputs.release == 'true'
+              continue-on-error: true
+              run: |
+                  npm install -g npm@latest
+                  cd packages/content-build
+                  VERSION=$(node -p "require('./package.json').version")
+                  if npm view "@heroiclands/content-build@$VERSION" version >/dev/null 2>&1; then
+                      echo "@heroiclands/content-build@$VERSION already published — skipping."
                   else
                       npm publish
                   fi
