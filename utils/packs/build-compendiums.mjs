@@ -110,13 +110,21 @@ function packageCommand() {
         },
         handler: async (argv) => {
             const { action, pack, entry } = argv;
-            switch (action) {
-                case "compile":
-                    return await compilePacks(pack);
-                case "clean":
-                    return await cleanPacks(pack, entry);
-                case "unpack":
-                    return await extractPacks(pack, entry);
+            // yargs does not await this handler, so a rejection would surface as
+            // an unhandled-rejection stack trace. Report the message and set a
+            // failing exit code, so a build guard reads as a build failure.
+            try {
+                switch (action) {
+                    case "compile":
+                        return await compilePacks(pack);
+                    case "clean":
+                        return await cleanPacks(pack, entry);
+                    case "unpack":
+                        return await extractPacks(pack, entry);
+                }
+            } catch (err) {
+                log.error(err.message);
+                process.exitCode = 1;
             }
         },
     };
