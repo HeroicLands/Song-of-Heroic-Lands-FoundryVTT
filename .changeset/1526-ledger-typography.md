@@ -34,6 +34,15 @@ default of roughly 13.3px — so the weapon name read visibly smaller than the
 fills its 14rem ledger column rather than a fixed 150px, since the larger text
 needs the room and a full-width control cannot truncate.
 
+**The heading annotation was mono for no reason.** `section-legend__meta` — the
+"7 skill(s)" beside a group name — was mono with `tabular-nums`, on the assumption
+it held numbers. Four of its six uses are pure prose ("read-only", a movement
+unit, a shared-gear note), and the two that do carry a figure are inline counts.
+Mono earns its place in this system by aligning digits into columns; a count
+inside a heading aligns with nothing, so the face change bought no legibility and
+simply read as a different kind of text mid-line. It is now sans at 0.8rem,
+keeping the muted colour that marks it as subordinate.
+
 Not addressed here: IBM Plex Mono's dotted zero reads oddly beside Signika. The
 shipped subset exposes only `ccmp, dnom, frac, numr` and a single `zero` glyph —
 no stylistic sets, no plain-zero alternate — so `font-feature-settings` has

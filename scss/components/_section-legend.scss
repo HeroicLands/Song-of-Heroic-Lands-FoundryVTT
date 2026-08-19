@@ -37,11 +37,21 @@
         color: var(--sohl-color-text-primary);
     }
 
-    // Optional mono meta beside the name (counts, units, "read-only" notes).
+    // Optional annotation beside the name (counts, units, "read-only" notes).
+    //
+    // Sans, not mono (#1526). This slot was originally mono on the assumption it
+    // held numbers, but four of its six uses are pure prose ("read-only", a
+    // movement unit, a shared-gear note) and the two that do carry a figure are
+    // inline counts — "7 skill(s)", "N zone(s)". Mono earns its place in this
+    // system by aligning digits into columns; a count inside a heading aligns
+    // with nothing, so the face change bought no legibility and simply read as a
+    // different kind of text mid-line. `tabular-nums` went with it, being
+    // meaningless for a single inline value.
+    //
+    // The muted color still marks it as subordinate to the name.
     &__meta {
-        font-family: var(--sohl-font-mono);
-        font-size: 0.72rem;
-        font-variant-numeric: tabular-nums;
+        font-family: var(--sohl-font-sans);
+        font-size: 0.8rem;
         color: var(--sohl-color-text-muted);
     }
 
