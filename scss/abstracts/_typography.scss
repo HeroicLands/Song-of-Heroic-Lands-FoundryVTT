@@ -40,56 +40,6 @@
         format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* signika-300 - latin_latin-ext */
-@font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: "Signika";
-    font-style: normal;
-    font-weight: 300;
-    src: url("../assets/fonts/signika-v29-latin_latin-ext-300.woff2")
-        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* signika-regular - latin_latin-ext */
-@font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: "Signika";
-    font-style: normal;
-    font-weight: 400;
-    src: url("../assets/fonts/signika-v29-latin_latin-ext-regular.woff2")
-        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* signika-500 - latin_latin-ext */
-@font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: "Signika";
-    font-style: normal;
-    font-weight: 500;
-    src: url("../assets/fonts/signika-v29-latin_latin-ext-500.woff2")
-        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* signika-600 - latin_latin-ext */
-@font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: "Signika";
-    font-style: normal;
-    font-weight: 600;
-    src: url("../assets/fonts/signika-v29-latin_latin-ext-600.woff2")
-        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* signika-700 - latin_latin-ext */
-@font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: "Signika";
-    font-style: normal;
-    font-weight: 700;
-    src: url("../assets/fonts/signika-v29-latin_latin-ext-700.woff2")
-        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
 /* cormorant-garamond-regular - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -271,6 +221,12 @@
 }
 
 $font-mono: "IBM Plex Mono", "Courier", monospace;
+// Signika is NOT shipped by SoHL — Foundry bundles it as its default UI font
+// and loads all five weights (300/400/500/600/700) via
+// `CONFIG.fontDefinitions`, so the family resolves without our own copy
+// (#1522). Relying on core here is deliberate: dropping Signika would
+// break every system that names it, so it could only happen in a major
+// release, loudly announced, with time to adapt or reintroduce it.
 $font-sans: "Signika", "Palatino Linotype", sans-serif;
 $font-body: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
 $font-title: "Cinzel", "Trajan Pro", serif;

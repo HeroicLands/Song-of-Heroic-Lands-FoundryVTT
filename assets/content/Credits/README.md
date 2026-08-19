@@ -321,12 +321,18 @@ not sold on their own and any derivative retains the license.
 | Cinzel             | Copyright 2020 The [Cinzel Project](https://github.com/NDISCOVER/Cinzel) Authors            |
 | Cormorant Garamond | Copyright 2015 The [Cormorant Project](https://github.com/CatharsisFonts/Cormorant) Authors |
 | IBM Plex Mono      | Copyright 2017 IBM Corp.                                                                    |
-| Signika            | Copyright 2018 The [Signika Project](https://github.com/googlefonts/Signika) Authors        |
 
 ## Icon font
 
 **game-icons.net** is an icon font generated from the Game-Icons artwork
 described above, and carries that artwork's attribution.
+
+## Supplied by Foundry
+
+Two more typefaces appear throughout the interface but are provided by Foundry
+Virtual Tabletop rather than shipped here, so they are Foundry's to license:
+**Signika**, its default interface font, which _Song of Heroic Lands_ names in
+its own sans stack; and **Font Awesome**, which draws every icon glyph.
 
 # Compatibility & Independence
 
