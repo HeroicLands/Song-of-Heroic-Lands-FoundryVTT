@@ -27,7 +27,7 @@ depends on a sibling checkout being present or current.
 
 ```jsonc
 {
-  "version": 4,
+  "version": 5,
   "package": "sohl",           // the CONTENT package these notes declare
   "foundryPackage": "sohl",    // the FOUNDRY package shipping the documents
   "entries": {
@@ -67,11 +67,49 @@ compilation targets, which is why addresses are namespaced on it.
 
 | Field | Required | Meaning |
 | --- | --- | --- |
-| `path` | yes | The note's address **below the package's own base**, no leading slash. |
 | `name` | yes | The document's display name, used as a link's fallback label. |
+| `path` | no | The note's address **below the package's own base**, no leading slash. |
 | `uuid` | no | The Foundry UUID of the document this note compiles into. |
 | `doc` | no | For an item, the **address** of its documentation entry. |
 | `anchors` | no | Named sections → the whole UUID each compiled to. |
+
+`name` is the only required field, because it is the only one that is not an
+address. A note may have a web address, a Foundry address, or both, and the
+entry states the ones it has.
+
+## A package need not publish pages
+
+`path` and `uuid` are optional **independently** (#1516). Two publishing
+profiles follow from that, and the format has to carry both:
+
+| Publishes | `path` | `uuid` |
+| --- | --- | --- |
+| Pages and packs | yes | yes |
+| Pages only — a note compiling into no document | yes | no |
+| Packs only — a module with no site | no | yes |
+
+The pack-only case is the mirror of the one the format already handled, and it
+is real: a module can ship compendiums and no website while its documents stay
+perfectly citable, because a Foundry `@UUID` link resolves inside Foundry and
+owes the web nothing. Requiring `path` would have made "publishes a manifest"
+mean "publishes a website", so such a module could not be cited from anywhere —
+not for any property of its documents, but because the index had no way to
+describe it.
+
+**Whether a package publishes pages is a package-level fact, not a per-note
+one.** The emitter states it once, by whether it passes a base to
+`buildManifest`; with none, no entry carries a `path`. That is deliberate: if
+`path` could go missing per note, a web-publishing package could half-emit, and
+the notes that quietly lost theirs would degrade to unlinked prose in every
+consumer with nothing erroring anywhere. A **consumer** must still tolerate a
+mixed file rather than reject it — the guarantee is on the emitting side, and a
+consumer that hard-failed on the mix would freeze a rule that a future profile
+may need relaxed.
+
+**A pack-only package needs no `PACKAGE_BASE` entry.** A base exists to resolve
+a `path`; with no paths there is nothing to resolve. A base *is* still demanded
+the moment any entry carries a `path`, since silently dropping such a package
+would turn every link into it back into an address that reads as a typo.
 
 ## Keys are canonical addresses
 
@@ -141,21 +179,31 @@ it is written in.
 
 ## What a consumer must do
 
-1. **Check `version` and refuse a mismatch.** Do not attempt to read an older
-   shape. See [Versioning](#versioning).
+1. **Check `version` against the set you can read, and refuse anything else.**
+   Do not attempt to read a shape whose values mean something different. See
+   [Versioning](#versioning).
 2. **Tolerate an entry with no `uuid`.** A note that publishes a page but
    compiles into no Foundry document has none, and inventing one would assert a
    target that does not exist. This is normal, not an error.
-3. **Tolerate an entry with no `anchors` and no `doc`.** Both are optional.
-4. **Resolve `path` against your own base for that package.** A manifest records
+3. **Tolerate an entry with no `path`, and degrade instead of guessing.** A
+   pack-only package publishes no pages, so a web build that wants an `href`
+   has none to emit. Render the author's text — the entry's `name` for an
+   unlabelled address — with no link, and **do not fail the build**: the
+   address resolved, so this is not a typo, and it is not the author's error
+   that the target has no web presence. Never derive a URL from the key, and
+   never emit `[Name](undefined)`, which renders as a link and goes nowhere —
+   exactly the silent dead link this format exists to prevent. A pack build is
+   unaffected: it resolves through `uuid` and never reads `path`.
+4. **Tolerate an entry with no `anchors` and no `doc`.** Both are optional.
+5. **Resolve `path` against your own base for that package.** A manifest records
    where a note sits *within* its package and says nothing about where the
    package is mounted — so the consumer prefixes its own base. Never store or
    assume the emitter's mount point.
-5. **Resolve a bare address only when exactly one package publishes it.** An
+6. **Resolve a bare address only when exactly one package publishes it.** An
    address with no package segment names no package; if two publish it, it is
    ambiguous and the author must qualify it. Picking one would make the build
    depend on which manifest happened to load first.
-6. **Do not treat `doc<type>` as a real type.** It is a virtual qualifier formed
+7. **Do not treat `doc<type>` as a real type.** It is a virtual qualifier formed
    by prefix. Admitting it to a known-type set makes it real, and a real type owns
    its own name — which stops the virtual reading from firing and breaks every
    `[[docskill-wpnc]]`. Read such an address as its underlying type plus an
@@ -171,12 +219,25 @@ it is written in.
 | 2 | Site-absolute `url` became package-relative `path` (#1465). |
 | 3 | Keys became fully qualified; entries gained Foundry addresses (#1499). |
 | 4 | Keys took the authored hyphen separator; item docs became entries in their own right; entries gained `anchors` (#1499). |
+| 5 | `path` became optional, so a pack-only package can publish Foundry addresses (#1516). |
 
-Each bump changes how a key or value *reads*, not merely what it contains — a v2
-key read as a v4 one addresses a package named after a type, and a v1 `url`
-prefixed with a base yields `/thalorna/thalorna/…`, which resolves, renders, and
-404s for the reader. A version mismatch therefore **fails the build** rather than
-being resolved anyway.
+A version is what stops a file whose values *read differently* from being
+resolved anyway — a v2 key read as a v4 one addresses a package named after a
+type, and a v1 `url` prefixed with a base yields `/thalorna/thalorna/…`, which
+resolves, renders, and 404s for the reader. That is the only thing it gates.
+
+**A consumer therefore declares the set of versions it can read, not one
+version.** Versions 1–4 each changed a reading, so each dropped its
+predecessors. **v5 did not:** it only permits an absent `path`, so every v4
+value still means exactly what it meant, and a v4 file is read as-is. Refusing
+it would make a purely relaxing change a flag day — every package re-emitting on
+the same afternoon or every build breaking — which is a large recurring cost for
+no safety, and precisely the cost that made this decision urgent (#1516).
+
+The unsafe direction is unchanged and still **fails the build**: a consumer
+meeting a version *above* its set rejects the file, because it cannot know what
+the newer shape permits. So widening the format is always safe to publish first
+and adopt elsewhere later, and a stale consumer never silently misreads.
 
 **It cannot detect stale content.** A note added in another package is simply
 unlinkable here until the manifest is re-vendored. Re-vendor after that package
@@ -191,6 +252,13 @@ compendium packs, generates no web pages, and nothing in the other packages may
 depend on it — it is licensed separately and must stay withdrawable without
 affecting them. If it needs to cite another package it consumes manifests without
 publishing one; the dependency must never run the other way.
+
+That exclusion is a **licensing** decision, not a format one, and the two should
+not be confused. Since #1516 a pack-only package *can* publish a manifest, so
+another module in the same shape — packs only, no site — may publish one and be
+cited in Foundry. `kethira` still does not, because what makes it unciteable is
+that nothing may depend on it, and a manifest edge pointing into it is exactly
+such a dependency.
 
 ## Unresolved addresses
 

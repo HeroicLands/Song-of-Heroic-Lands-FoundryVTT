@@ -3,18 +3,20 @@
 One `<package>.json` per package this repository links **into** but does not
 publish — the cross-package link manifest described in #1446.
 
-Each file is produced by that package's own knowledgebase build (`build/manifests/`)
-and copied here. It maps a note's canonical `type/shortcode` address to the
-`{ path, name }` needed to render a link to it:
+Each file is produced by that package's own build (`build/manifests/`) and copied
+here. It maps a note's canonical address to every address that note has — a
+`path` on the web, a `uuid` in Foundry:
 
 ```json
 {
-  "version": 2,
+  "version": 5,
   "package": "thalorna",
+  "foundryPackage": "sohl-thalorna",
   "entries": {
-    "creature/grkrahk": {
+    "thalorna-creature-grkrahk": {
       "path": "creature/grukar-ahk/",
-      "name": "Grukar-ahk"
+      "name": "Grukar-ahk",
+      "uuid": "Compendium.sohl-thalorna.items.Item.WPulW6UO0nVXOVWt"
     }
   }
 }
@@ -23,6 +25,12 @@ and copied here. It maps a note's canonical `type/shortcode` address to the
 **Do not hand-author these.** A manifest asserts that a page exists at the address
 it gives; inventing one produces a link that resolves at build time and 404s for
 the reader.
+
+**Both addresses are optional.** A note that compiles into no document has no
+`uuid`; a pack-only package — compendiums, no site — has no `path` on any entry
+(#1516). An address it does not carry is degraded to unlinked text, never
+guessed. The full contract is
+[The Link Manifest](../../kb/dev-docs/reference/link-manifest.md).
 
 ## `path` is relative to the package, not to the site
 
@@ -38,7 +46,10 @@ export const PACKAGE_BASE = Object.freeze({
 });
 ```
 
-So `creature/grkrahk` above renders as `/thalorna/creature/grukar-ahk/`. Point the
+A pack-only package needs no entry here: a base exists to resolve a `path`, and
+it has none.
+
+So `thalorna-creature-grkrahk` above renders as `/thalorna/creature/grukar-ahk/`. Point the
 base at another path (`"/setting/thalorna/"`) or another origin
 (`"https://thalorna.example.org/"`) and every inbound link into that package
 follows — one string, not 1,473 rewritten entries (#1465).
@@ -48,10 +59,12 @@ That split exists because the alternative fails silently. A manifest that record
 already agree with; the day the package moved, every link into it resolved, emitted
 an `href`, and 404s for the reader — with nothing erroring anywhere.
 
-**A manifest written to an older format version is rejected, not read.** Version 1
+**A manifest whose values would read differently is rejected, not read.** Version 1
 carried a site-absolute `url`, which this build would prefix into
 `/thalorna/thalorna/…`. Refresh the vendored copy from the package's own build
-rather than editing it in place.
+rather than editing it in place. `READABLE_VERSIONS` in `utils/kb-manifest.mjs`
+lists what this build accepts — v5 only _relaxed_ v4, so a v4 file is still read
+as-is and no package has to re-emit on a schedule.
 
 ## What arriving here changes
 

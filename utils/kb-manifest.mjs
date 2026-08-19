@@ -14,11 +14,19 @@
 /**
  * The cross-package link manifest (#1446).
  *
- * Each package that publishes a web surface emits one file naming every note it
- * publishes, keyed by the canonical `type/shortcode` address and valued
- * `{ path, name }`. {@link loadForeignManifests} resolves each `path` into the
- * `{ url, name }` the knowledgebase already uses as its own index value, so a
- * foreign entry and a local one are interchangeable at the point of use.
+ * Each publishing package emits one file naming every note it publishes, keyed
+ * by the canonical `type/shortcode` address and valued with every address that
+ * note has: a `path` on the web, a `uuid` in Foundry.
+ * {@link loadForeignManifests} resolves each `path` into the `{ url, name }`
+ * the knowledgebase already uses as its own index value, so a foreign entry and
+ * a local one are interchangeable at the point of use.
+ *
+ * **Both addresses are optional, independently** (#1516). A note that publishes
+ * a page and compiles into no document has no `uuid`; a package that ships
+ * compendiums and publishes no site has no `path` on any entry. Neither is an
+ * error, and a consumer that cannot use the address it wanted must degrade —
+ * inventing the missing one asserts a target that does not exist, which is the
+ * silent dead link this whole format exists to prevent.
  *
  * The manifest exists to make one question decidable: when a link addresses
  * `creature-grkrahk` and this build has never heard of it, is that a typo or a
@@ -28,10 +36,11 @@
  * package's manifest vendored, an address that resolves in none of them is a
  * typo, and the guard can be restored.
  *
- * `kethira` is deliberately absent. It ships only compendium packs, publishes
- * no pages, and nothing may depend on it — the module has to stay withdrawable
- * (see that repository's `CLAUDE.md`), which a manifest edge pointing into it
- * would quietly prevent.
+ * `kethira` is deliberately absent, on a **licensing** ground rather than a
+ * technical one: nothing may depend on it, because the module has to stay
+ * withdrawable (see that repository's `CLAUDE.md`), and a manifest edge
+ * pointing into it is exactly such a dependency. That it ships only packs is
+ * not the reason — since #1516 a pack-only package can publish a manifest.
  *
  * **An entry's address is relative to its own package's base** (#1465), never a
  * site-absolute path. Where a package is *mounted* is the consumer's knowledge,
@@ -46,7 +55,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * Packages that publish a web surface and therefore exchange manifests.
+ * Packages that publish a manifest and therefore exchange addresses.
  *
  * The guard in {@link manifestsComplete} stays off until every one of these is
  * accounted for, so adding a package here without also publishing its manifest
@@ -118,8 +127,31 @@ export function readCanonicalKey(key) {
  * Foundry `uuid` / `docUuid` beside the web `path`. A v2 key read as a v3 one
  * addresses a package named after a type, so again the version is what turns a
  * stale vendored file into an error.
+ *
+ * Bumped to 5 by #1516: `path` became optional, so a package that ships
+ * compendiums and publishes no site can still publish the Foundry addresses of
+ * its documents — the mirror of an entry that has a `path` and no `uuid`.
  */
-export const MANIFEST_VERSION = 4;
+export const MANIFEST_VERSION = 5;
+
+/**
+ * Every version this build can read, newest last.
+ *
+ * A version exists to stop a file whose values *read differently* from being
+ * resolved anyway, and that is the only thing it is allowed to gate. Every bump
+ * so far did change a reading — a v2 key read as a v4 one addresses a package
+ * named after a type — so each dropped its predecessors. **v5 did not**: it
+ * only permits an absent `path`, so every v4 value still means exactly what it
+ * meant, and refusing v4 would make a purely relaxing change a flag day in
+ * which every package must re-emit on the same afternoon or every build breaks
+ * (#1516).
+ *
+ * The unsafe direction is unchanged and still hard-fails: an older consumer
+ * meeting a newer file rejects it, because it cannot know what the new shape
+ * permits. Widening is therefore always safe to do here first and adopt
+ * elsewhere later.
+ */
+export const READABLE_VERSIONS = Object.freeze([4, MANIFEST_VERSION]);
 
 /**
  * Where this build serves each package, keyed by package name.
@@ -210,8 +242,10 @@ export function resolvePackageUrl(rel, base) {
  *
  * @param {string} pkg - The package name, e.g. `"sohl"`.
  * @param {Array<object>} entries - KB entries (`{ fm, name, url }`).
- * @param {string} base - Where *this* build serves `pkg`, stripped from each
- *   entry's URL so the recorded address is package-relative (#1465).
+ * @param {string} [base] - Where *this* build serves `pkg`, stripped from each
+ *   entry's URL so the recorded address is package-relative (#1465). Omitted,
+ *   this build publishes no web surface for the package and no entry carries a
+ *   `path` — see below.
  * @param {string} [foundryPackage] - The Foundry package this build ships the
  *   compiled documents in. Given, each entry also carries the `uuid` /
  *   `docUuid` a pack build resolves against; omitted, the manifest describes
@@ -219,14 +253,25 @@ export function resolvePackageUrl(rel, base) {
  * @returns {object} The manifest document.
  */
 export function buildManifest(pkg, entries, base, foundryPackage) {
-    checkBase(base, `buildManifest(${pkg})`);
+    // A base is what a `path` is recorded relative to, so having none is
+    // exactly the statement "this build publishes no pages for this package"
+    // (#1516). Making it a package-level decision the caller states once — not
+    // a per-note condition — is what stops a web-publishing package from
+    // half-emitting, where the notes that quietly lost a `path` would degrade
+    // to unlinked prose in every consumer with nothing erroring anywhere.
+    const web = base != null;
+    if (web) checkBase(base, `buildManifest(${pkg})`);
     const out = {};
     for (const e of entries) {
         const type = e.fm?.type;
         const shortcode = e.fm?.shortcode;
         if (!type || typeof shortcode !== "string" || !shortcode) continue;
         const entry = {
-            path: packageRelative(e.url, base),
+            // The web address, for consumers rendering pages. Absent for a
+            // pack-only package, which has no page to point at — the mirror of
+            // the `uuid` case below, and stating a `path` anyway would assert a
+            // page that does not exist.
+            ...(web ? { path: packageRelative(e.url, base) } : {}),
             name: e.name,
         };
         // The Foundry address, for consumers compiling packs rather than pages.
@@ -317,6 +362,9 @@ export function writeManifests(entriesByPackage, dir, bases, foundryPackages) {
  *   `index` maps the canonical `package-type-shortcode` → `{ url, name, uuid,
  *   doc, anchors, type, package }`. Keys are globally unique, so this merges
  *   directly into a local index with no prefixing and no separate lookup path.
+ *   `url` is `undefined` for an entry with no page (#1516) and `uuid` for one
+ *   that compiles into no document, so a caller must check the address it
+ *   intends to use rather than assume a hit carries it.
  */
 export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
     const local = new Set(localPackages);
@@ -340,22 +388,29 @@ export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
             stale.push({ package: pkg, reason: `unreadable: ${err.message}` });
             continue;
         }
-        if (doc.version !== MANIFEST_VERSION) {
+        if (!READABLE_VERSIONS.includes(doc.version)) {
             // A v1 file is the site-absolute shape (#1465). Prefixing one of
             // its URLs would produce `/thalorna/thalorna/…` — a link that
             // resolves here and 404s for the reader — so the mismatch has to
             // stop the load rather than be resolved anyway.
             stale.push({
                 package: pkg,
-                reason: `manifest version ${doc.version}, expected ${MANIFEST_VERSION}`,
+                reason:
+                    `manifest version ${doc.version}, expected one of ` +
+                    `${READABLE_VERSIONS.join(", ")}`,
             });
             continue;
         }
+        const entriesIn = Object.entries(doc.entries ?? {});
+        // A base is only needed to resolve a `path`, so a pack-only manifest —
+        // Foundry addresses and no pages (#1516) — needs none, and demanding
+        // one would make its documents uncitable from anywhere. Any entry that
+        // does carry a `path` brings the requirement straight back: dropping
+        // the package silently would turn every link into it back into an
+        // unresolved address, which reads as a typo far from the cause.
         const base = bases?.[pkg];
-        if (typeof base !== "string" || !base) {
-            // Skipping it silently would turn every link into that package back
-            // into an unresolved address — which, once the guard is on, reads as
-            // a typo and fails the build somewhere far from the cause.
+        const needsBase = entriesIn.some(([, v]) => v?.path != null);
+        if (needsBase && (typeof base !== "string" || !base)) {
             stale.push({
                 package: pkg,
                 reason: `no package base configured for "${pkg}" (PACKAGE_BASE in utils/kb-manifest.mjs)`,
@@ -364,7 +419,7 @@ export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
         }
         const resolved = [];
         try {
-            for (const [key, v] of Object.entries(doc.entries ?? {})) {
+            for (const [key, v] of entriesIn) {
                 // The type is read back out of the canonical key so a consumer
                 // can recognise a foreign package's types as addresses at all.
                 const type = readCanonicalKey(key)?.type;
@@ -372,7 +427,13 @@ export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
                     key,
                     {
                         name: v.name,
-                        url: resolvePackageUrl(v.path, base),
+                        // Absent for an entry with no page. A consumer must
+                        // tolerate that rather than invent an href, exactly as
+                        // it already tolerates an entry with no `uuid`.
+                        url:
+                            v.path == null ?
+                                undefined
+                            :   resolvePackageUrl(v.path, base),
                         uuid: v.uuid,
                         doc: v.doc,
                         anchors: v.anchors,

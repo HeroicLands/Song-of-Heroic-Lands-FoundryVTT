@@ -152,6 +152,14 @@ export function resolveKbWikilinks(body, ctx) {
             const text =
                 display ??
                 (isAddress(target, ctx.contentTypes) ? hit.name : target);
+            // A pack-only package publishes Foundry addresses and no pages
+            // (#1516), so its entries carry no `path` and resolve to no URL.
+            // The address is real — this is not a typo and must not fail the
+            // build — but there is nothing on the web to point at, so the
+            // reader gets the text and no href. Emitting the href anyway is
+            // what the manifest exists to prevent: `[Name](undefined)` renders
+            // as a link and goes nowhere.
+            if (!hit.url) return text;
             return `[${text}](${anchor ? `${hit.url}#${slugify(anchor)}` : hit.url})`;
         }
 

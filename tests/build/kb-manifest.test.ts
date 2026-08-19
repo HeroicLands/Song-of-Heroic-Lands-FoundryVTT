@@ -20,6 +20,7 @@ import {
     packageRelative,
     resolvePackageUrl,
     MANIFEST_VERSION,
+    READABLE_VERSIONS,
     LINK_PACKAGES,
     PACKAGE_BASE,
 } from "../../utils/kb-manifest.mjs";
@@ -46,7 +47,7 @@ interface Manifest {
     entries: Record<
         string,
         {
-            path: string;
+            path?: string;
             name: string;
             uuid?: string;
             doc?: string;
@@ -170,6 +171,57 @@ describe("buildManifest", () => {
             ),
         );
         expect(Object.keys(doc.entries)).toEqual(["sohl-skill-climb"]);
+    });
+
+    it("omits `path` for a package that publishes no web pages", () => {
+        // A pack-only package ships compendiums and no site (#1516). It has a
+        // Foundry address for every note and a web address for none, so the
+        // entry states the one it has rather than inventing a page that does
+        // not exist — the mirror of an entry with no `uuid`.
+        const doc = manifestOf(
+            buildManifest(
+                "adventure",
+                [
+                    {
+                        fm: { type: "creature", shortcode: "wolf" },
+                        name: "Wolf",
+                        uuid: "Compendium.sohl-adventure.items.Item.abc",
+                    },
+                ],
+                undefined,
+                "sohl-adventure",
+            ),
+        );
+        const e = doc.entries["adventure-creature-wolf"];
+        expect(e).toEqual({
+            name: "Wolf",
+            uuid: "Compendium.sohl-adventure.items.Item.abc",
+        });
+        expect(e.path).toBeUndefined();
+    });
+
+    it("still records a path for every entry when a base is given", () => {
+        // The relaxation is opt-in: omitting `path` is a package-level
+        // decision the caller makes by passing no base, never a per-note
+        // accident, so a web-publishing package cannot half-emit.
+        const doc = manifestOf(
+            buildManifest(
+                "sohl",
+                [
+                    entry(
+                        "skill",
+                        "climb",
+                        "Climbing",
+                        "/sohl/kb/skill/climbing/",
+                    ),
+                    entry("doc", "shock", "Shock", "/sohl/kb/doc/shock/"),
+                ],
+                "/sohl/",
+            ),
+        );
+        for (const e of Object.values(doc.entries)) {
+            expect(typeof e.path).toBe("string");
+        }
     });
 
     it("sorts keys so the committed file diffs only on real change", () => {
@@ -323,6 +375,80 @@ describe("loadForeignManifests", () => {
         const r = loadForeignManifests(dir, ["sohl"]);
         expect(r.index.size).toBe(0);
         expect(r.stale).toHaveLength(1);
+    });
+
+    it("loads a pack-only manifest, which needs no base at all", () => {
+        // The mirror case of an entry with no `uuid` (#1516): a package that
+        // ships compendiums and publishes no site. Its addresses are citable
+        // in Foundry, so refusing the file would make its documents
+        // unreachable from anywhere.
+        write("adventure", {
+            version: MANIFEST_VERSION,
+            package: "adventure",
+            foundryPackage: "sohl-adventure",
+            entries: {
+                "adventure-creature-wolf": {
+                    name: "Wolf",
+                    uuid: "Compendium.sohl-adventure.items.Item.abc",
+                },
+            },
+        });
+        const r = loadForeignManifests(dir, ["sohl"]);
+        expect(r.stale).toHaveLength(0);
+        expect(r.packages.has("adventure")).toBe(true);
+        expect(r.index.get("adventure-creature-wolf")).toMatchObject({
+            name: "Wolf",
+            uuid: "Compendium.sohl-adventure.items.Item.abc",
+            package: "adventure",
+        });
+        // No page exists, so no URL is asserted — a consumer must tolerate it
+        // rather than emit an href it invented.
+        const hit = r.index.get("adventure-creature-wolf") as {
+            url?: string;
+        };
+        expect(hit.url).toBeUndefined();
+    });
+
+    it("still demands a base once any entry carries a path", () => {
+        // Relaxing `path` must not relax the base check for a package that
+        // does publish pages: dropping it silently would turn every link into
+        // that package back into an address that reads as a typo.
+        write("elsewhere", {
+            version: MANIFEST_VERSION,
+            package: "elsewhere",
+            entries: {
+                "elsewhere-creature-x": { name: "X" },
+                "elsewhere-creature-y": { path: "creature/y/", name: "Y" },
+            },
+        });
+        const r = loadForeignManifests(dir, ["sohl"]);
+        expect(r.packages.has("elsewhere")).toBe(false);
+        expect(r.stale[0]).toMatchObject({
+            package: "elsewhere",
+            reason: expect.stringContaining("base"),
+        });
+    });
+
+    it("reads an older version whose shape it can still honour", () => {
+        // v5 only *permits* an absent `path`; every v4 value still reads the
+        // same way. Refusing v4 would force every package to re-emit on the
+        // same day for no gain (#1516).
+        expect(READABLE_VERSIONS).toContain(4);
+        write("thalorna", {
+            version: 4,
+            package: "thalorna",
+            entries: {
+                "thalorna-creature-grkrahk": {
+                    path: "creature/grukar-ahk/",
+                    name: "Grukar-ahk",
+                },
+            },
+        });
+        const r = loadForeignManifests(dir, ["sohl"]);
+        expect(r.stale).toHaveLength(0);
+        expect(r.index.get("thalorna-creature-grkrahk")).toMatchObject({
+            url: "/thalorna/creature/grukar-ahk/",
+        });
     });
 
     it("reports an unreadable manifest rather than throwing", () => {
