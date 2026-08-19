@@ -57,14 +57,17 @@
  * journal, at its first page or at the page an anchor names. An item's pages are
  * reached through its `doc<type>` counterpart, below.
  *
- * **Items and their documentation are two documents.** An item note compiles
- * into an item — and, separately, its prose compiles into a JournalEntry in the
- * journals pack (see {@link sohl.utils.packs.itemDocEntryId}). `skill/wpnc`
- * addresses the skill; the **virtual qualifier** `docskill/wpnc` addresses that
- * skill's documentation, and `docskill/wpnc#crafting` a page within it. Every
- * item type has a `doc<type>` counterpart, formed by prefix and never
- * enumerated; see {@link resolveItemDocType}. Without it a section link to an
- * item note produced a UUID against the *items* pack, which cannot hold a
+ * **A document and its documentation are two documents.** An item note
+ * compiles into an item — and, separately, its prose compiles into a
+ * JournalEntry in the journals pack (see
+ * {@link sohl.utils.packs.itemDocEntryId}); a macro note works the same way
+ * (#1514). `skill/wpnc` addresses the skill; the **virtual qualifier**
+ * `docskill/wpnc` addresses that skill's documentation, and
+ * `docskill/wpnc#crafting` a page within it. `docmacro/autoattack#script`
+ * reaches a macro's source. Every doc-carrying type has a `doc<type>`
+ * counterpart, formed by prefix and never enumerated; see
+ * {@link resolveItemDocType}. Without it a section link to an item note
+ * produced a UUID against the *items* pack, which cannot hold a
  * JournalEntryPage, and dead-ended (#1362).
  *
  * **The two builds read the qualifier differently, by design.** In Foundry the
@@ -86,7 +89,7 @@ import {
     pageUuid,
     PACK_BY_TYPE,
 } from "./ids.mjs";
-import { itemDocEntryId } from "./item-docs.mjs";
+import { hasDocEntry, itemDocEntryId } from "./item-docs.mjs";
 
 export { ITEM_PACK, PACK_BY_TYPE, packForType };
 
@@ -103,25 +106,33 @@ const norm = (s) => String(s).toLowerCase().trim();
  * Reads a qualifier as the **virtual `doc<type>`** form, or reports that it is
  * not one.
  *
- * An item and its documentation are two documents in two packs, so they need
- * two addresses (#1362). `skill/wpnc` is the item; `docskill/wpnc` is the
- * JournalEntry its prose compiled into. The virtual form exists only for types
- * that actually produce an item doc — which is exactly the types that compile
- * into the items pack, so there is no second list to keep in step (#1276).
+ * A document and its documentation are two documents in two packs, so they
+ * need two addresses (#1362). `skill/wpnc` is the item; `docskill/wpnc` is the
+ * JournalEntry its prose compiled into, and `docmacro/autoattack` is the same
+ * arrangement for a macro (#1514).
+ *
+ * The virtual form exists for a type that carries separate documentation
+ * ({@link sohl.utils.packs.DOC_ENTRY_TYPES} — the set the journals compiler and
+ * the link manifest read too), **or** for one that routes to the items pack.
+ * The second clause is the older rule and stays: types that compile into items
+ * are the open, unenumerated set (#1276), and a foreign package may publish an
+ * item type this build has never heard of. Dropping it would silently unlink
+ * every `doc<type>` address into such a package.
  *
  * A **real** type of the same name always wins: the virtual reading is only
  * consulted for a qualifier no authored note claims.
  *
  * @param {string} qualifier - The already-normalised text before the `/`.
  * @param {Set<string>} types - Every type the content tree contains.
- * @returns {string|null} The underlying item type, or `null` when the qualifier
- *   is not a virtual one.
+ * @returns {string|null} The underlying document type, or `null` when the
+ *   qualifier is not a virtual one.
  */
 export function resolveItemDocType(qualifier, types) {
     if (types.has(qualifier)) return null; // a real type owns its own name
     if (!qualifier.startsWith(ITEM_DOC_PREFIX)) return null;
     const base = qualifier.slice(ITEM_DOC_PREFIX.length);
     if (!base || !types.has(base)) return null;
+    if (hasDocEntry(base)) return base;
     return packForType(base).pack === ITEM_PACK.pack ? base : null;
 }
 
@@ -304,19 +315,29 @@ export function buildWikilinkIndex(docs, packageId, foreign, contentPackage) {
     // `types` too — without that, its addresses read as prose and silently lose
     // their link (#1499).
     const foreignByKey = new Map(foreign ?? []);
+    const foreignTypes = [];
     for (const v of foreignByKey.values()) {
-        if (!v.type) continue;
-        const t = norm(v.type);
-        // A manifest publishes `doc<type>` addresses, but `doc<type>` is a
-        // *virtual* qualifier formed by prefix — never a real type. Admitting
-        // it here would make it one, and a real type owns its own name, so the
-        // virtual reading would stop firing and every `[[docskill-wpnc]]`
-        // would resolve nowhere. The virtual form still reaches a foreign item
-        // doc: it reads as `skill` + `itemDoc`, which the manifest lookup then
-        // asks for as `docskill`.
-        if (t.startsWith(ITEM_DOC_PREFIX) && types.has(t.slice(ITEM_DOC_PREFIX.length))) {
-            continue;
-        }
+        if (v.type) foreignTypes.push(norm(v.type));
+    }
+    // A manifest publishes `doc<type>` addresses, but `doc<type>` is a
+    // *virtual* qualifier formed by prefix — never a real type. Admitting it
+    // here would make it one, and a real type owns its own name, so the
+    // virtual reading would stop firing and every `[[docskill-wpnc]]` would
+    // resolve nowhere. The virtual form still reaches a foreign documentation
+    // entry: it reads as `skill` + `itemDoc`, which the manifest lookup then
+    // asks for as `docskill`.
+    //
+    // Real types are admitted **first**, in a pass of their own, so the test
+    // below sees the complete set. Done in one pass it would depend on
+    // manifest iteration order wherever the base type is published only by a
+    // foreign package — `docmacro` admitted or not according to whether
+    // `macro` happened to come first.
+    for (const t of foreignTypes) {
+        if (!t.startsWith(ITEM_DOC_PREFIX)) types.add(t);
+    }
+    for (const t of foreignTypes) {
+        if (!t.startsWith(ITEM_DOC_PREFIX)) continue;
+        if (types.has(t.slice(ITEM_DOC_PREFIX.length))) continue;
         types.add(t);
     }
 

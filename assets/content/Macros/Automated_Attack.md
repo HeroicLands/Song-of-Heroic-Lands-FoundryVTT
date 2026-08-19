@@ -3,7 +3,7 @@ aliases:
   - Automated Attack
   - macro-autoattack
 tags: []
-description: "Adaptable and dominant across Thalorna, the defining lineage of civilization."
+description: "Runs the combat attack workflow for the combatant whose turn it is."
 type: macro
 name:
   full: Automated Attack
@@ -14,6 +14,11 @@ img: icons/game-icons/lorc/crossed-swords.svg
 package: sohl
 folder: null
 ---
+
+Runs the combat attack workflow for the combatant whose turn it is, so a GM can
+start an exchange from the macro bar rather than from the combatant's sheet.
+
+# Script {#script}
 
 ```js
 await CONFIG.SOHL.class.Utility.currentCombatantAttack();

@@ -49,7 +49,7 @@ import matter from "gray-matter";
 import { slugify } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { readQualifier } from "./packs/wikilinks.mjs";
-import { isItemDocType } from "./packs/item-docs.mjs";
+import { hasDocEntry } from "./packs/item-docs.mjs";
 import {
     canonicalKey,
     readCanonicalKey,
@@ -131,7 +131,7 @@ for (const note of notes) {
         // publishes `doc<type>` entries, `doc<type>` is a *known type*, and the
         // virtual reading that used to answer for it no longer fires (a real
         // type owns its own name).
-        if (isItemDocType(type)) {
+        if (hasDocEntry(type)) {
             byKey.set(`doc${type}/${fm.shortcode}`.toLowerCase(), note);
             if (fm.package) {
                 byKey.set(

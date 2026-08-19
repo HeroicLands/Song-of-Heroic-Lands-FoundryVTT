@@ -36,6 +36,7 @@ import log from "loglevel";
 import { Items } from "./items.mjs";
 import { Journals } from "./journals.mjs";
 import { Actors } from "./actors.mjs";
+import { Macros } from "./macros.mjs";
 import {
     buildStats,
     loadFolders,
@@ -75,6 +76,12 @@ const PACK_CONFIGS = [
         packClass: Actors,
         documentType: "Actor",
         folders: "actor-folders.yaml",
+    },
+    {
+        name: "macros",
+        packClass: Macros,
+        documentType: "Macro",
+        folders: "macro-folders.yaml",
     },
 ];
 

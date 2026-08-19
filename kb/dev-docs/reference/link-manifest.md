@@ -131,7 +131,7 @@ precedence rule. That is the property the format exists to provide, and a key
 already present on merge is therefore a real conflict rather than an artefact of
 two packages sharing a namespace.
 
-## An item and its documentation are two entries
+## A document and its documentation are two entries
 
 An item note compiles into an item **and**, separately, its prose compiles into a
 JournalEntry. Two documents with two UUIDs, so two addresses:
@@ -141,10 +141,16 @@ sohl-affliction-aconite      → the Item
 sohl-docaffliction-aconite   → the JournalEntry holding its prose
 ```
 
+A **macro** note is the same arrangement — `sohl-macro-autoattack` is the Macro,
+`sohl-docmacro-autoattack` its write-up (see
+[Authoring a Macro Content Note](./macro-notes.md)). Which types work this way is
+one set, `DOC_ENTRY_TYPES`, read by the compilers and by this emitter alike:
+held apart, they drift into a manifest asserting documentation nothing compiled.
+
 The `doc<type>` form is the [virtual qualifier](./content-links.md) an author
-already writes. The item's entry names it with `doc`, as an **address rather than
-a UUID** — the documentation entry owns that UUID, and stating it twice would let
-the two disagree.
+already writes. The document's own entry names it with `doc`, as an **address
+rather than a UUID** — the documentation entry owns that UUID, and stating it
+twice would let the two disagree.
 
 On the web both addresses resolve to the same `path`: the item note renders as
 one page which *is* its documentation.
