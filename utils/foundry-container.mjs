@@ -140,10 +140,25 @@ const CONTAINER_PORT = 30000;
  * `FOUNDRYVTT_<STAGE>_VERSION` still wins, so a contributor can test against
  * another build without touching committed configuration.
  *
+ * **The pinned build is the system manifest's `compatibility.minimum`** — the
+ * oldest Foundry the system claims to run on. That claim is the one thing the
+ * suite exists to defend, and it is only defended if something exercises it: a
+ * regression that breaks the floor while working on a newer build would
+ * otherwise pass silently. Testing above the floor tests a configuration no
+ * user is promised and leaves the promised one unverified. So the default track
+ * is the floor, and the newest release is swept periodically instead — see
+ * `npm run e2e:sweep` and
+ * {@link https://www.heroiclands.org/sohl/kb/dev-docs/how-to/testing/ Testing}.
+ *
+ * Raising this value is therefore not a test-configuration change but a decision
+ * to **raise the supported floor**: move `compatibility.minimum` in
+ * `assets/templates/system.template.json` with it, so the claim and the evidence
+ * stay the same number.
+ *
  * @type {Readonly<Record<string, string>>}
  */
 const DEFAULT_STAGE_VERSIONS = Object.freeze({
-    test: "14.367",
+    test: "14.359",
 });
 
 /**

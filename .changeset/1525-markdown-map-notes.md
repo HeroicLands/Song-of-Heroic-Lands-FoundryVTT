@@ -84,9 +84,8 @@ mistake), a behaviour type or field off the allow-list, a region with no shapes,
 a two-point "polygon" that passes the schema's floor of four numbers, and
 `restrict:` without a level. Each error names the authored key.
 
-**The supported Foundry floor rises to 14.359**, `compatibility.verified` to
-14.367, and compiled pack documents now stamp that floor instead of a literal
-`"14"`.
+**The supported Foundry floor rises to 14.359**, and compiled pack documents now
+stamp that floor instead of a literal `"14"`.
 
 This is the fix for a defect map notes merely exposed (#1533). `_stats.coreVersion`
 is what Foundry gates its migration shims on, and `"14"` sorts _below_ every v14
@@ -104,9 +103,9 @@ place, because it is only _honest_ — and only safe — while the manifest refu
 to load on a core old enough to need those shims. Two literals would rot apart,
 and the failure mode is invisible.
 
-**The e2e container's Foundry build is pinned by the repository too**, at 14.367,
-so `compatibility.verified` names a build the suite actually ran on and a fresh
-checkout reproduces it without local configuration.
+**The e2e container's Foundry build is pinned by the repository too**, so a fresh
+checkout reproduces the suite without local configuration. (#1539 settles _which_
+build that is: the floor, with a periodic sweep against the newest release.)
 
 Ships with a worked fixture — two floors of one shelter, plus a regional map —
 and `kb/dev-docs/reference/map-notes.md` documenting the schema. The Cypress

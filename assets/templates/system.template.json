@@ -20,7 +20,7 @@
     },
     "compatibility": {
         "minimum": "14.359",
-        "verified": "14.367"
+        "verified": "14.364"
     },
     "esmodules": ["sohl.js"],
     "styles": ["css/sohl.css"],

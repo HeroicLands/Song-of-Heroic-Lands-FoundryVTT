@@ -93,6 +93,7 @@
         "e2e:full": "run-s push:test e2e:full:seed e2e:full:run",
         "e2e:full:open": "run-s push:test e2e:full:seed e2e:full:openrun",
         "e2e:fast": "node utils/e2e-redeploy.mjs",
+        "e2e:sweep": "node utils/e2e-sweep.mjs",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "run-s lint:todos lint:lang lint:lang-coverage lint:lang-hardcoded lint:docs-index lint:doc-links lint:ns-barrels lint:type-catalog lint:expr-scopes lint:labels lint:packs lint:content-aliases lint:rules-vtt lint:content-links lint:e2e-red lint:eslint lint:dts",
