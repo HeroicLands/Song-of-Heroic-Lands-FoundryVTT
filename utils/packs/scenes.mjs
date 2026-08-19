@@ -62,11 +62,11 @@ import {
 import { buildJournalEntry, splitPages, journalPageId } from "./journals.mjs";
 import { compendiumUuid, makeId } from "./ids.mjs";
 import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
+import { itemDocEntryId } from "./item-docs.mjs";
 import {
     behaviorDocId,
     buildScene,
     isMapType,
-    mapDocEntryId,
     regionDocId,
 } from "./map-notes.mjs";
 
@@ -406,7 +406,10 @@ export class Scenes {
                 this.unresolvedLinks += unresolved.length;
 
                 const hasBody = Boolean(String(markdown).trim());
-                const entryId = hasBody ? mapDocEntryId(fm.id) : undefined;
+                // The same doc-entry id the journals pass derives, from the
+                // shared `DOC_ENTRY_TYPES` arrangement (#1514) — so neither
+                // pass has to read the other's output.
+                const entryId = hasBody ? itemDocEntryId(fm.id) : undefined;
                 const folder = this.folderResolver(sohlField(fm, "folder", null));
                 const warnings = [];
                 const scene = buildScene(fm, {

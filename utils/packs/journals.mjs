@@ -16,21 +16,24 @@
  * Foundry compendium from markdown notes in the `assets/content/` tree.
  *
  * The content root (`contentBase`) is walked recursively; any `.md` file
- * whose frontmatter declares `package: sohl` and either `type: doc` or an
- * **item type** is compiled into one JournalEntry document. Each note's body is
- * split on top-level H1 headings; the optional content before the first H1
- * becomes a lead page, and each subsequent H1 starts a new page named
+ * whose frontmatter declares `package: sohl` and either `type: doc` or a
+ * **doc-carrying type** ({@link sohl.utils.packs.DOC_ENTRY_TYPES} — every item
+ * type, plus `macro`) is compiled into one JournalEntry document. Each note's
+ * body is split on top-level H1 headings; the optional content before the
+ * first H1 becomes a lead page, and each subsequent H1 starts a new page named
  * after its heading text. All page bodies are rendered to HTML.
  *
- * An item note compiles into that item's **item doc** — the same prose and
- * pages, filed in the same folder as the item itself, which keeps only a
- * pointer to it. See `item-docs.mjs` for why, and for the ids the two passes
- * agree on.
+ * A doc-carrying note compiles into that document's **documentation** — the
+ * same prose and pages, filed in the same folder as the document itself, which
+ * keeps only a pointer to it. See `item-docs.mjs` for why, and for the ids the
+ * two passes agree on. A macro note's `{#script}` page is compiled here like
+ * any other: the macro pass reads the same page independently, and withholds
+ * nothing from the journal (#1514).
  *
  * Folder placement is identical to the items pack: `sohl.folder` in
  * frontmatter is the target folder's id (from folders.yaml), resolved
- * against a folders.yaml list via the constructor's `folderResolver`. An item
- * doc reuses its item's folder id verbatim.
+ * against a folders.yaml list via the constructor's `folderResolver`. A
+ * documentation entry reuses its document's folder id verbatim.
  *
  * Not a standalone script — exports the `Journals` compiler class, imported
  * and driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
@@ -54,8 +57,7 @@ import {
     expandNoteTables,
 } from "./helpers.mjs";
 import { anchorPageId } from "./wikilinks.mjs";
-import { isItemDocType, itemDocEntryId } from "./item-docs.mjs";
-import { isMapType, mapDocEntryId } from "./map-notes.mjs";
+import { hasDocEntry, itemDocEntryId } from "./item-docs.mjs";
 
 const STATS = buildStats("0.6.0");
 
@@ -303,11 +305,14 @@ export class Journals {
     /**
      * Compile one note into a JournalEntry.
      *
-     * A `doc` note becomes the entry its frontmatter describes. An **item note**
-     * becomes that item's doc: the same prose, the same pages, in the same
-     * folder, under an id derived from the item's, so
-     * the pointer the items pass wrote resolves to it (see
-     * {@link sohl.utils.packs.itemDocPointer}).
+     * A `doc` note becomes the entry its frontmatter describes. A
+     * **doc-carrying note** — every item note, and every macro note — becomes
+     * that document's documentation instead: the same prose, the same pages,
+     * in the same folder, under an id derived from the note's, so the pointer
+     * the items pass wrote resolves to it (see
+     * {@link sohl.utils.packs.itemDocPointer}). A macro's `{#script}` page is
+     * compiled here like any other; nothing is withheld from the journal
+     * because the macro pass also reads it (#1514).
      *
      * @param {object} fm - The note's frontmatter.
      * @param {string} body - The note body, frontmatter stripped.
@@ -315,12 +320,8 @@ export class Journals {
      */
     buildEntry(fm, body) {
         const name = resolveName(fm);
-        const isItemDoc = isItemDocType(fm.type);
-        const isMap = isMapType(fm.type);
-        const id =
-            isItemDoc ? itemDocEntryId(fm.id)
-            : isMap ? mapDocEntryId(fm.id)
-            : fm.id;
+        const ownsDoc = hasDocEntry(fm.type);
+        const id = ownsDoc ? itemDocEntryId(fm.id) : fm.id;
         // Generated tables expand first: their cells may carry wikilinks, which
         // the conversion below then resolves along with the authored ones.
         const tabulated = expandNoteTables(body, {
@@ -339,23 +340,23 @@ export class Journals {
         });
         this.unresolvedLinks += unresolved.length;
 
-        // An item doc is filed exactly where its item is, so the journals pack
-        // mirrors the items pack and a doc sits under the same heading a reader
-        // found the item under. The id is taken verbatim rather than through
-        // `folderResolver`, which validates against this pack's own
-        // folders.yaml — an item folder is declared in the items one, and a
-        // map's in the scenes one.
+        // A documentation entry is filed exactly where the document it
+        // describes is, so the journals pack mirrors the items pack and a doc
+        // sits under the same heading a reader found the item under. The id is
+        // taken verbatim rather than through `folderResolver`, which validates
+        // against this pack's own folders.yaml — an item folder is declared in
+        // the items one, a macro folder in the macros one, and a map's in the
+        // scenes one.
         const folderId = sohlField(fm, "folder", null);
-        const folder =
-            isItemDoc || isMap ? folderId : this.folderResolver(folderId);
+        const folder = ownsDoc ? folderId : this.folderResolver(folderId);
 
         return buildJournalEntry({
             id,
             name,
             markdown,
-            // An item doc's or a map's lead page is the thing itself, not an
+            // A doc-carrying note's lead page is the document itself, not an
             // "Introduction" — see {@link splitPages}.
-            leadName: isItemDoc || isMap ? name : undefined,
+            leadName: ownsDoc ? name : undefined,
             folder,
             flags: fm.flags,
         });
@@ -363,7 +364,7 @@ export class Journals {
 
     async compile() {
         let compiled = 0;
-        let itemDocs = 0;
+        let docEntries = 0;
         let skippedNoId = 0;
         let skippedDraft = 0;
         let skippedOther = 0;
@@ -375,16 +376,16 @@ export class Journals {
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
             this.contentBase,
         )) {
-            // Journal notes, plus every item note — an item's prose is its
-            // documentation, so it compiles here and the item keeps a pointer
-            // to it (#1348) — plus every map note, whose prose is the place
-            // description its pins point at (#1525).
-            const isItemDoc = isItemDocType(fm?.type);
-            const isMap = isMapType(fm?.type);
+            // Journal notes, plus every doc-carrying note — an item's prose is
+            // its documentation, so it compiles here and the item keeps a
+            // pointer to it (#1348); a macro's is the same arrangement (#1514),
+            // and so is a map's, whose prose is the place description its pins
+            // point at (#1525).
+            const ownsDoc = hasDocEntry(fm?.type);
             if (
                 !fm ||
                 fm.package !== "sohl" ||
-                (fm.type !== "doc" && !isItemDoc && !isMap)
+                (fm.type !== "doc" && !ownsDoc)
             ) {
                 skippedOther++;
                 continue;
@@ -400,11 +401,10 @@ export class Journals {
                 continue;
             }
             // An item with no prose gets no doc, and the items pass leaves its
-            // description empty rather than pointing at nothing. A map with no
-            // prose likewise gets no entry, and the scenes pass leaves the
-            // pointer off. The passes apply the same rule to the same body, so
-            // they agree.
-            if ((isItemDoc || isMap) && !String(body).trim()) {
+            // description empty rather than pointing at nothing, and a map with
+            // no prose gets no entry and no pin target. The two passes apply
+            // the same rule to the same body, so they agree.
+            if (ownsDoc && !String(body).trim()) {
                 skippedOther++;
                 continue;
             }
@@ -414,7 +414,7 @@ export class Journals {
                 const doc = this.buildEntry(fm, body);
                 this.writeEntry(doc);
                 compiled++;
-                if (isItemDoc) itemDocs++;
+                if (ownsDoc) docEntries++;
             } catch (err) {
                 this.errorCount++;
                 log.error(
@@ -424,7 +424,7 @@ export class Journals {
         }
 
         log.info(
-            `Compiled ${compiled} journal entr${compiled === 1 ? "y" : "ies"} (${itemDocs} item doc${itemDocs === 1 ? "" : "s"})`,
+            `Compiled ${compiled} journal entr${compiled === 1 ? "y" : "ies"} (${docEntries} documentation entr${docEntries === 1 ? "y" : "ies"})`,
         );
         if (this.unresolvedLinks) {
             log.info(

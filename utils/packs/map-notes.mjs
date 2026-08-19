@@ -51,7 +51,7 @@
 
 import crypto from "crypto";
 
-import { compendiumUuid, makeId } from "./ids.mjs";
+import { compendiumUuid, makeId, MAP_TYPES } from "./ids.mjs";
 // The curated region-event vocabulary is shared verbatim with the runtime
 // bridge (`SohlRegionTriggerBehavior`), so an event this build accepts is
 // exactly one the bridge forwards.
@@ -64,14 +64,9 @@ import {
 /*  Note types and their canvas profiles                                */
 /* -------------------------------------------------------------------- */
 
-/**
- * Every content type that compiles into a Scene.
- *
- * @type {ReadonlySet<string>}
- */
-export const MAP_TYPES = Object.freeze(
-    new Set(["battlemap", "localmap", "regionalmap"]),
-);
+// The set itself lives in `ids.mjs`, a leaf both this module and the
+// doc-carrying type set in `item-docs.mjs` can depend on without a cycle.
+export { MAP_TYPES };
 
 /**
  * Whether a content note's type compiles into a Scene.
@@ -139,21 +134,6 @@ export function mapProfile(type) {
  * synthesised level derivable, and matches what Foundry would have produced.
  */
 export const DEFAULT_LEVEL_ID = "defaultLevel0000";
-
-/**
- * The id of the JournalEntry a map note's prose compiles into.
- *
- * Derived from the map's own id so the journals pass and the scenes pass agree
- * on it without either reading the other's output — the same two-passes,
- * no-shared-state technique {@link sohl.utils.packs.itemDocEntryId} uses. It is
- * deliberately not the map id itself: the Scene already owns that.
- *
- * @param {string} mapId - The map note's `id` frontmatter.
- * @returns {string} A 16-character Foundry id.
- */
-export function mapDocEntryId(mapId) {
-    return makeId("map-doc", mapId);
-}
 
 /* -------------------------------------------------------------------- */
 /*  Derived ids and colours                                             */

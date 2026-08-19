@@ -27,12 +27,16 @@
  * {@link contentAddress}, which the knowledgebase build uses too, so the two
  * cannot drift.
  *
- * **An item and its documentation are two entries.** An item note compiles into
- * an item, and separately its prose compiles into a JournalEntry. Those are two
- * documents with two UUIDs, so they get two addresses — `affliction-aconite`
- * and `docaffliction-aconite` — each stating its own `uuid`. The item entry
- * carries a `doc` pointer naming the other address rather than repeating its
- * UUID: the doc entry owns that fact.
+ * **A document and its documentation are two entries.** An item note compiles
+ * into an item, and separately its prose compiles into a JournalEntry. Those
+ * are two documents with two UUIDs, so they get two addresses —
+ * `affliction-aconite` and `docaffliction-aconite` — each stating its own
+ * `uuid`. The item entry carries a `doc` pointer naming the other address
+ * rather than repeating its UUID: the doc entry owns that fact. A `macro` note
+ * is the same arrangement (#1514), which is why the type set is
+ * {@link sohl.utils.packs.DOC_ENTRY_TYPES} — read by this emitter and by the
+ * journals compiler alike, so a manifest cannot claim documentation nothing
+ * compiled.
  *
  * **Anchors carry whole UUIDs.** Nothing owns a *page* address — there is no
  * per-page entry — so a complete link restates nothing, leaves an anchor free
@@ -54,7 +58,7 @@ import {
     FOUNDRY_PACKAGE_ID,
 } from "./packs/content-package.mjs";
 import { compendiumUuid, pageUuid } from "./packs/ids.mjs";
-import { isItemDocType, itemDocEntryId } from "./packs/item-docs.mjs";
+import { hasDocEntry, itemDocEntryId } from "./packs/item-docs.mjs";
 import { journalPageId, splitPages } from "./packs/journals.mjs";
 
 const CONTENT_BASE = path.resolve("./assets/content");
@@ -138,8 +142,9 @@ export function collectEntries(contentBase) {
         const url = `${LOCAL_BASE}${KB_PREFIX}${address}`;
         const key = canonicalKey(CONTENT_PACKAGE, fm.type, fm.shortcode);
 
-        if (isItemDocType(fm.type)) {
-            // The item, and separately the JournalEntry its prose compiles into.
+        if (hasDocEntry(fm.type)) {
+            // The document — an item, or a macro — and separately the
+            // JournalEntry its prose compiles into.
             const docKey = canonicalKey(
                 CONTENT_PACKAGE,
                 `doc${fm.type}`,

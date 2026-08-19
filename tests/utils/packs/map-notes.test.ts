@@ -17,12 +17,15 @@ import {
     buildScene,
     buildShape,
     isMapType,
-    mapDocEntryId,
     mapProfile,
     regionColor,
     regionDocId,
     wallRestrictions,
 } from "../../../utils/packs/map-notes.mjs";
+import {
+    DOC_ENTRY_TYPES,
+    hasDocEntry,
+} from "../../../utils/packs/item-docs.mjs";
 
 const SCENE_ID = "AAAAAAAAAAAAAAAA";
 
@@ -101,10 +104,14 @@ describe("map note types", () => {
         expect(() => profileOf("dungeonmap")).toThrow(/unknown map type/i);
     });
 
-    it("derives a map's journal entry id from the note id", () => {
-        expect(mapDocEntryId(SCENE_ID)).toMatch(/^[0-9a-f]{16}$/);
-        expect(mapDocEntryId(SCENE_ID)).not.toBe(SCENE_ID);
-        expect(mapDocEntryId(SCENE_ID)).toBe(mapDocEntryId(SCENE_ID));
+    it("is one of the doc-carrying types, so its prose gets a JournalEntry", () => {
+        // A map note is the same one-note-two-documents shape as an item or a
+        // macro (#1514), so it goes through the shared set rather than a
+        // parallel mechanism of its own.
+        for (const type of MAP_TYPES) {
+            expect(hasDocEntry(type), type).toBe(true);
+            expect(DOC_ENTRY_TYPES.has(type), type).toBe(true);
+        }
     });
 });
 

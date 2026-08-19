@@ -44,6 +44,22 @@ export function makeId(namespace, value) {
 }
 
 /**
+ * Every content type that compiles into a Foundry `Scene` — a **map note**
+ * (#1525). The three differ only in derived canvas defaults, which is the map
+ * compiler's business; everything else treats them alike.
+ *
+ * Declared in this leaf module because several passes that must not depend on
+ * the map compiler need it: the pack router below, and the doc-carrying type
+ * set in `item-docs.mjs` (a map note's prose becomes a JournalEntry, exactly as
+ * an item's or a macro's does).
+ *
+ * @type {ReadonlySet<string>}
+ */
+export const MAP_TYPES = Object.freeze(
+    new Set(["battlemap", "localmap", "regionalmap"]),
+);
+
+/**
  * Content type → the pack its documents compile into, and the document type
  * that pack holds.
  *
@@ -61,9 +77,12 @@ export const PACK_BY_TYPE = Object.freeze({
     macro: { pack: "macros", docType: "Macro" },
     character: { pack: "actors", docType: "Actor" },
     creature: { pack: "actors", docType: "Actor" },
-    battlemap: { pack: "scenes", docType: "Scene" },
-    localmap: { pack: "scenes", docType: "Scene" },
-    regionalmap: { pack: "scenes", docType: "Scene" },
+    ...Object.fromEntries(
+        [...MAP_TYPES].map((type) => [
+            type,
+            { pack: "scenes", docType: "Scene" },
+        ]),
+    ),
 });
 
 /** Where every other content type compiles: the items pack. */

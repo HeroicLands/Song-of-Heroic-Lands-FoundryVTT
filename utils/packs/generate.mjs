@@ -36,6 +36,7 @@ import log from "loglevel";
 import { Items } from "./items.mjs";
 import { Journals } from "./journals.mjs";
 import { Actors } from "./actors.mjs";
+import { Macros } from "./macros.mjs";
 import { Scenes } from "./scenes.mjs";
 import {
     buildStats,
@@ -76,6 +77,12 @@ const PACK_CONFIGS = [
         packClass: Actors,
         documentType: "Actor",
         folders: "actor-folders.yaml",
+    },
+    {
+        name: "macros",
+        packClass: Macros,
+        documentType: "Macro",
+        folders: "macro-folders.yaml",
     },
     // One pass, two packs: every map note's Scene, and the Adventure bundling
     // the pinned ones with their journals so `keepId: true` import makes the

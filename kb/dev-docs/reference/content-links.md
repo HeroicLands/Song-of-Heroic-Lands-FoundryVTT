@@ -99,8 +99,13 @@ Two documents need two addresses. Every item type therefore has a **virtual
 | `[[docskill-wpnc#crafting]]` | the **`{#crafting}` page** of that write-up |
 
 The prefix works for every item type — `docweapongear-…`, `docmystery-…`,
-`doctrauma-…` — and is formed by prefix rather than kept in a list, so a type
-added tomorrow is addressable the day it is authored.
+`doctrauma-…` — and is formed by prefix rather than spelled out at each address,
+so a type added tomorrow is addressable the day it is authored.
+
+**A macro note is the same shape.** `[[macro-autoattack]]` opens the Macro;
+`[[docmacro-autoattack]]` opens its write-up, and `[[docmacro-autoattack#script]]`
+the page holding its source. See
+[Authoring a Macro Content Note](./macro-notes.md).
 
 **Choose by what you want the reader to see.** Sending someone to
 `[[skill-wpnc]]` when you meant "read about weaponsmithing" opens a sheet of

@@ -45,7 +45,7 @@ import {
 } from "./packs/content-package.mjs";
 import { expandContentTables } from "./content-tables.mjs";
 import { applyRedirects, pageRedirects } from "./kb-redirects.mjs";
-import { isItemDocType } from "./packs/item-docs.mjs";
+import { hasDocEntry } from "./packs/item-docs.mjs";
 
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");
@@ -743,7 +743,7 @@ for (const e of entries) {
         // link, correct in both builds. Restricted to the types that actually
         // have an item doc, so a qualifier the packs would reject is reported
         // broken here too.
-        if (isItemDocType(type)) {
+        if (hasDocEntry(type)) {
             contentTypes.add(`doc${type}`);
             wikiIndex.set(`doc${type}/${e.fm.shortcode}`.toLowerCase(), v);
         }

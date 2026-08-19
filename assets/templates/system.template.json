@@ -99,7 +99,14 @@
             "name": "Song of Heroic Lands",
             "sorting": "m",
             "color": "#094fcb",
-            "packs": ["items", "journals", "actors", "scenes", "adventures"]
+            "packs": [
+                "items",
+                "journals",
+                "actors",
+                "macros",
+                "scenes",
+                "adventures"
+            ]
         }
     ],
     "packs": [
@@ -125,6 +132,14 @@
             "name": "actors",
             "system": "sohl",
             "path": "packs/actors",
+            "private": false
+        },
+        {
+            "label": "Macros",
+            "type": "Macro",
+            "name": "macros",
+            "system": "sohl",
+            "path": "packs/macros",
             "private": false
         },
         {

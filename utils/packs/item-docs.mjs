@@ -32,10 +32,17 @@
  * output, so both derive the same ids from the item note's own id — the same
  * technique {@link anchorPageId} uses to let a section link and its page agree.
  *
+ * **The shape generalises.** A `macro` note is the same arrangement: it
+ * compiles into a Macro, and its prose into a JournalEntry addressed
+ * `docmacro/<shortcode>` (#1514). So is a **map note**, which compiles into a
+ * Scene and whose prose becomes the place description its map pins point at
+ * (#1525). {@link DOC_ENTRY_TYPES} is the one set both the compilers and the
+ * link manifest read to know which types work this way.
+ *
  * Plain ESM with no Foundry and no filesystem access, so it is unit-testable.
  */
 
-import { compendiumUuid, makeId, pageUuid } from "./ids.mjs";
+import { compendiumUuid, makeId, MAP_TYPES, pageUuid } from "./ids.mjs";
 
 /**
  * Every content type that compiles into an item — and therefore into an item
@@ -65,24 +72,56 @@ export const ITEM_TYPES = Object.freeze(
 );
 
 /**
- * Whether a content note's type is one whose prose becomes an item doc.
+ * Every content type whose **prose compiles into a JournalEntry of its own**,
+ * addressed by the virtual `doc<type>` qualifier.
+ *
+ * Every item type, plus `macro` — a macro note's body documents the script the
+ * note also compiles into a Macro (#1514), which is the same shape as an item
+ * and its description: one note, two documents, the prose living in the
+ * journals pack.
+ *
+ * **One set, read by the compiler and the emitter alike.** The journals pass
+ * decides what to compile from it, and the link manifest decides what to
+ * publish a `doc<type>` entry for. Held apart, the two drift into a manifest
+ * that asserts documentation nothing compiled — or a compiled entry no
+ * consumer can address.
+ *
+ * `doc` notes and actors are absent: each is a single document, so it has no
+ * separate documentation to address.
+ *
+ * @type {ReadonlySet<string>}
+ */
+export const DOC_ENTRY_TYPES = Object.freeze(
+    new Set([...ITEM_TYPES, "macro", ...MAP_TYPES]),
+);
+
+/**
+ * Whether a content note's type is one whose prose becomes a JournalEntry of
+ * its own.
  *
  * @param {string} type - The note's `type` frontmatter.
- * @returns {boolean} True for an item type; false for `doc`, actors, and macros.
+ * @returns {boolean} True for an item type, for `macro` and for a map type;
+ *   false for `doc` and for actors.
  */
-export function isItemDocType(type) {
-    return ITEM_TYPES.has(String(type));
+export function hasDocEntry(type) {
+    return DOC_ENTRY_TYPES.has(String(type));
 }
 
 /**
- * The id of the JournalEntry an item's prose compiles into.
+ * The id of the JournalEntry a note's prose compiles into — an item's, or a
+ * macro's.
  *
- * Derived from the item's own id so that the items pass and the journals pass
- * agree on it without either reading the other's output. It is deliberately not
- * the item id itself: the two documents are distinct, live in different packs,
- * and sharing an id would make either one's UUID ambiguous to read.
+ * Derived from the note's own id so that the pass writing the document and the
+ * pass writing its documentation agree without either reading the other's
+ * output. It is deliberately not the note's id itself: the two documents are
+ * distinct, live in different packs, and sharing an id would make either one's
+ * UUID ambiguous to read.
  *
- * @param {string} itemId - The item note's `id` frontmatter.
+ * The `"item-doc"` hash namespace is **frozen**: it is baked into every entry
+ * id already shipped, and every `@UUID` pointing at one. It names where the
+ * derivation started, not what may use it.
+ *
+ * @param {string} itemId - The note's `id` frontmatter.
  * @returns {string} A 16-character Foundry id.
  */
 export function itemDocEntryId(itemId) {
