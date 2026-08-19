@@ -87,6 +87,30 @@ The authoritative content is the in-repo Markdown under `assets/content/`; the
 JSON is a disposable `build/` intermediate. There is no vault step — `build:compiledb`
 reads the Markdown directly.
 
+#### Scene ↔ Level integrity
+
+`build:compiledb` reads each pack **back off disk** after writing it and fails the
+build if a Scene has lost its embedded `Level`.
+
+A v14 Scene keeps its map image on a `Level`, and a compiled pack stores the two
+under separate LevelDB keys — the Scene at `!scenes!<id>` holding `levels` as an
+array of ids, each Level at `!scenes.levels!<sceneId>.<levelId>`. Nothing in
+Foundry ties them together on read. A missing Level record only produces a
+warning (`N embedded levels records in Level <id> were undefined and not
+retrieved from the scenes.levels sublevel`), after which the collection reads as
+empty; the next world launch migrates that Scene and **persists `levels: []`**,
+leaving `initialLevel` dangling. The map image is then gone for good, and the
+only symptom is a blank battlemap. That is measured behaviour on both 14.359 and
+14.367 — the core is not at fault, but the condition is unobservable until it is
+permanent.
+
+The check therefore runs against the compiled bytes rather than the JSON they
+came from, because the gap it closes is the *write* path: the emitter is already
+unit-tested, whereas the compendium CLI has previously mishandled Scene Levels.
+An `Adventure` carries its scenes inline, levels and all, so that second shape is
+checked too. The rule itself is a pure function (`utils/packs/scene-levels.mjs`)
+and is unit-tested directly.
+
 ### Tests, lint, format
 
 | Script                    | What it does                                                                                                                  |
