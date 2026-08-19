@@ -40,6 +40,26 @@
         format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
+/* Signika — DELIBERATELY duplicated with Foundry core (#1522).
+ *
+ * Core bundles Signika as its default UI font and loads the same five weights
+ * we ship (300/400/500/600/700) via `CONFIG.fontDefinitions`, so at runtime the
+ * family resolves whether or not these five files exist. Shipping them anyway
+ * is a ~188 KB self-sufficiency cost, taken on purpose:
+ *
+ *   • `.sohl` names `--sohl-font-sans` explicitly for its base and heading slots
+ *     (see `base/_foundry-vars.scss`, #1523). A token we name should be a token
+ *     we can honour, rather than one satisfied by another package's assets.
+ *   • The failure mode of relying on core is SILENT — if a future release drops
+ *     Signika or narrows its weights, text re-renders at a nearby weight with
+ *     nothing logged and no build error.
+ *   • Core's own stylesheet declares only 400 and 700; 300/500/600 arrive later,
+ *     from `FontConfig._loadFonts()` during world load. Our declarations are
+ *     available with the stylesheet, so the weights land without that race.
+ *
+ * Do not remove these to save space without re-reading #1522.
+ */
+
 /* signika-300 - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */

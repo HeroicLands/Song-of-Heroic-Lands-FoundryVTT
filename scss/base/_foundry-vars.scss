@@ -18,4 +18,37 @@
     --color-border-dark: var(--sohl-color-border-strong);
 
     --color-border-highlight: var(--sohl-color-border-strong);
+
+    /* Fonts.
+     *
+     * Foundry assigns fonts to variables and then applies them with UNSCOPED
+     * element selectors — `body { --font-h1: "Modesto Condensed" }` plus a bare
+     * `h1 { font-family: var(--font-h1) }`. `body` is the scope, so those values
+     * inherit into every application window, ours included, and a heading SoHL
+     * does not explicitly style renders in a face SoHL neither ships nor chose.
+     * Measured before this block existed: of 172 headings across a Being sheet
+     * and four Item sheets, 8 (the skill sheet's technique names) rendered in
+     * Modesto Condensed, and the rest only happened to look right because core's
+     * default is Signika — the same family our sans token names.
+     *
+     * Remapping the slots here makes the result deliberate instead of
+     * coincidental, and keeps a core release retuning its own typography from
+     * silently retyping our sheets.
+     *
+     * These are mapped to the SANS token on purpose, matching what they already
+     * resolve to, so this owns the stack without restyling it. Which headings
+     * take the Manuscript serif is a design decision that belongs to the sheet
+     * redesign (§2.2 of the epic: serif for wordmark, section legends and
+     * attribute names; sans for chrome and body) — the SoHL rules that already
+     * make that choice win here on specificity and are untouched. */
+    --font-primary: var(--sohl-font-sans);
+    --font-h1: var(--sohl-font-sans);
+    --font-h2: var(--sohl-font-sans);
+    --font-h3: var(--sohl-font-sans);
+    --font-h4: var(--sohl-font-sans);
+    --font-h5: var(--sohl-font-sans);
+    --font-h6: var(--sohl-font-sans);
+
+    /* Core's `--font-serif` is Amiri; ours is the Manuscript body face. */
+    --font-serif: var(--sohl-font-body);
 }
