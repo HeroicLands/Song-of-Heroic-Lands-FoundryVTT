@@ -32,18 +32,19 @@ const LOGLEVEL_URL = pathToFileURL(
 ).href;
 
 /**
- * Import the library in a child process whose cwd is a throwaway empty
- * directory — the only honest way to observe module-scope side effects, since
- * they happen once per process and vitest has already imported the module.
+ * Import the library in a child process rooted at `cwd` — the only honest way
+ * to observe module-scope side effects, since they happen once per process and
+ * vitest has already imported the module.
  *
+ * @param cwd     Working directory the child runs in.
  * @param script  Module source appended after the import, printing its findings.
  * @param argv    Arguments handed to the child, to catch stray argv parsing.
  */
-function importInEmptyCwd(
+function importInCwd(
+    cwd: string,
     script: string,
     argv: string[] = [],
-): { cwd: string; status: number | null; stdout: string; stderr: string } {
-    const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "sohl-compendiums-"));
+): { status: number | null; stdout: string; stderr: string } {
     const source = `const lib = await import(${JSON.stringify(LIBRARY_URL)});\n${script}`;
     const result = spawnSync(
         process.execPath,
@@ -51,11 +52,19 @@ function importInEmptyCwd(
         { cwd, encoding: "utf8" },
     );
     return {
-        cwd,
         status: result.status,
         stdout: result.stdout,
         stderr: result.stderr,
     };
+}
+
+/** {@link importInCwd} in a throwaway empty directory, returned for inspection. */
+function importInEmptyCwd(
+    script: string,
+    argv: string[] = [],
+): { cwd: string; status: number | null; stdout: string; stderr: string } {
+    const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "sohl-compendiums-"));
+    return { cwd, ...importInCwd(cwd, script, argv) };
 }
 
 describe("the compendium library is importable", () => {
@@ -117,5 +126,52 @@ describe("the compendium library is importable", () => {
         // yargs would have printed usage and (for `compile`) started a build.
         expect(stdout).toBe("imported");
         expect(fs.readdirSync(cwd)).toEqual([]);
+    });
+});
+
+describe("compilePacks runs the package-id guard before it generates anything", () => {
+    it("writes no pack output at all when the configured id has drifted", () => {
+        // The order of the two build-failure guards in `generatePacksJson` is
+        // load-bearing and arrived at by two independent changes merging, so
+        // nothing in the code announces it: the package-id check (#1503) runs
+        // *before* any pack is generated, and the empty-pass check (#1502)
+        // folds in after. Reversed, the build still exits non-zero — but only
+        // after emitting a whole tree of documents addressing a package that
+        // does not ship them.
+        const repo = fs.mkdtempSync(path.join(os.tmpdir(), "sohl-drift-"));
+        fs.mkdirSync(path.join(repo, "assets/templates"), { recursive: true });
+        fs.writeFileSync(
+            path.join(repo, "assets/templates/system.template.json"),
+            `${JSON.stringify({ id: "not-sohl", packs: [] }, null, 2)}\n`,
+            "utf8",
+        );
+        // A real content tree, so a guard that ran after generation would
+        // genuinely have written packs by the time it threw — which is what
+        // makes the "nothing was written" assertion below mean something.
+        fs.symlinkSync(
+            path.join(REPO_ROOT, "assets/content"),
+            path.join(repo, "assets/content"),
+        );
+
+        const stageDest = path.join(repo, "stage");
+        const { stdout, stderr } = importInCwd(
+            repo,
+            `try {
+                 await lib.compilePacks({
+                     sourcePacks: ["macros"],
+                     stageDest: ${JSON.stringify(stageDest)},
+                     packName: "macros",
+                 });
+                 process.stdout.write("resolved without throwing");
+             } catch (err) {
+                 process.stdout.write(err.message);
+             }`,
+        );
+
+        expect(stderr).toBe("");
+        expect(stdout).toMatch(/Foundry package id drift/);
+        // Nothing generated, nothing compiled: the guard fired first.
+        expect(fs.existsSync(path.join(repo, "build/packs-json"))).toBe(false);
+        expect(fs.existsSync(stageDest)).toBe(false);
     });
 });
