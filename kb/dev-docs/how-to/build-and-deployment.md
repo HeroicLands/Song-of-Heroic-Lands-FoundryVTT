@@ -242,10 +242,14 @@ export — `utils/export-vault-content.mjs`, `utils/vault-export.mjs`, and the
 **Building needs nothing but this repository**: `npm run build`, or
 `npm run build:compiledb` for packs only.
 
-One guard remains, because the empty tree is still the dangerous case. The pack
-build and `lint:packs` both fail on an empty content tree rather than compiling
-zero documents and succeeding — which would ship blank compendiums with nothing
-in the log to say so.
+Two guards remain, because compiling nothing is still the dangerous case — it
+would ship blank compendiums with nothing in the log to say so. The pack build
+and `lint:packs` fail on an empty content **tree**; the pack build also fails on
+empty **output**, when a pass compiles zero entries from a tree that is not
+empty. That second case is what a wrong package id looks like: every note is
+rejected because it declares a package this build does not compile. A pack that
+genuinely ships nothing in some consuming package declares `mayBeEmpty: true` in
+`PACK_CONFIGS`, rather than the guard being relaxed for everyone.
 
 Cross-package references are resolved through published link manifests rather
 than a shared tree; see `utils/kb-manifest.mjs` and `assets/manifests/`.
@@ -253,7 +257,9 @@ than a shared tree; see `utils/kb-manifest.mjs` and `assets/manifests/`.
 ### Authoring content notes
 
 Items, actors, and journal entries are Markdown files with YAML frontmatter
-(`package: sohl`, a `type:`, a stable `id:`, and folder/embedding metadata),
+(a `package:` naming the content package this repository compiles — `sohl` here,
+declared once as `CONTENT_PACKAGE` in `utils/packs/content-package.mjs` — a
+`type:`, a stable `id:`, and folder/embedding metadata),
 authored in the vault and exported anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
 pack because of its `type` (item kinds →
