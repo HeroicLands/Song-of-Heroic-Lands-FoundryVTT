@@ -12,123 +12,36 @@
  */
 
 /**
- * Compendium pack CLI — compile / unpack / clean LevelDB packs.
+ * Compendium pack library — compile / unpack / clean LevelDB packs.
  *
- * Wraps `@foundryvtt/foundryvtt-cli` behind a yargs `package <action>`
- * command over the `items`, `journals`, `actors`, and `macros` packs:
- *   - compile: generates each pack's per-entry JSON from the `assets/content/`
- *     Markdown into `build/packs-json/<name>/` (via generate.mjs), then builds
- *     LevelDB at `build/stage/packs/<name>/` from it; no committed JSON, no vault.
- *   - unpack: extracts `build/stage/packs/<name>/` back to per-entry JSON
- *     under `build/tmp/packs/<name>/`, rebuilding folder paths.
- *   - clean: normalizes/strips committed JSON under `build/tmp/packs/`.
- * Reads the system version from `assets/templates/system.template.json`.
+ * Wraps `@foundryvtt/foundryvtt-cli` over the packs a consuming repository
+ * declares:
+ *   - {@link compilePacks}: generates each pack's per-entry JSON from the
+ *     `assets/content/` Markdown into `build/packs-json/<name>/` (via
+ *     generate.mjs), then builds LevelDB from it; no committed JSON, no vault.
+ *   - {@link unpackPacks}: extracts a compiled pack back to per-entry JSON,
+ *     rebuilding folder paths.
+ *   - {@link cleanPacks}: normalizes/strips extracted JSON.
  *
- * Usage:
- *   npm run build:compiledb                // → … package compile (all packs)
- *   npm run build:unpackdb                 // → … package unpack
- *   node ./utils/packs/build-compendiums.mjs package compile [pack]
- *   node ./utils/packs/build-compendiums.mjs package unpack [pack] [entry]
- *   node ./utils/packs/build-compendiums.mjs package clean [pack] [entry]
+ * **This module has no import-time side effects.** It creates no directories,
+ * reads no manifest, configures no logger, and parses no argv — every path and
+ * pack list arrives as an argument. Those side effects belong to the command
+ * line that drives it (`bin/build-compendiums.mjs`), so the library can be
+ * imported by another repository's build, or by a test, without a stray
+ * `build/` tree appearing or the shared `loglevel` singleton being
+ * reconfigured (#1507). In particular, a *module* repository ships
+ * `module.json` rather than `system.template.json`, so importing must not
+ * depend on the latter existing.
+ *
+ * @module
  */
 
 import fs from "fs";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import log from "loglevel";
-import prefix from "loglevel-plugin-prefix";
 import path from "path";
-import yargs from "yargs";
-import { hideBin } from "yargs/helpers";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 import { generatePacksJson, packJsonDir } from "./generate.mjs";
-
-/**
- * Packs compiled from the authoritative `assets/content/` Markdown. Each pack's
- * per-entry JSON is generated into a build-only intermediate
- * (`build/packs-json/<name>/`) and compiled to LevelDB from there — no committed
- * JSON and no vault access.
- */
-const SOURCE_PACKS = [
-    "items",
-    "journals",
-    "actors",
-    "macros",
-    "scenes",
-    "adventures",
-];
-
-/** Where `unpack` writes extracted JSON, and where `clean` operates. */
-const PACK_DEST = path.resolve("./build/tmp/packs");
-const STAGE_DEST = path.resolve("./build/stage/packs");
-
-fs.mkdirSync(PACK_DEST, { recursive: true });
-
-// Load system.json.
-const system = JSON.parse(
-    fs.readFileSync("./assets/templates/system.template.json", { encoding: "utf8" }),
-);
-
-// Configure loglevel
-log.setLevel("info"); // Set desired logging level
-
-// Configure prefix
-prefix.reg(log);
-prefix.apply(log, {
-    format(level, _name, timestamp) {
-        return `[${timestamp}] [${level.toUpperCase()}]:`;
-    },
-    timestampFormatter(date) {
-        return date.toISOString();
-    },
-});
-
-const argv = yargs(hideBin(process.argv))
-    .command(packageCommand())
-    .help()
-    .alias("help", "h").argv;
-
-// eslint-disable-next-line
-function packageCommand() {
-    return {
-        command: "package [action] [pack] [entry]",
-        describe: "Manage packages",
-        builder: (yargs) => {
-            yargs.positional("action", {
-                describe: "The action to perform.",
-                type: "string",
-                choices: ["compile", "unpack", "clean"],
-            });
-            yargs.positional("pack", {
-                describe: "Name of the pack upon which to work.",
-                type: "string",
-            });
-            yargs.positional("entry", {
-                describe:
-                    "Name of any entry within a pack upon which to work. Only applicable to extract & clean commands.",
-                type: "string",
-            });
-        },
-        handler: async (argv) => {
-            const { action, pack, entry } = argv;
-            // yargs does not await this handler, so a rejection would surface as
-            // an unhandled-rejection stack trace. Report the message and set a
-            // failing exit code, so a build guard reads as a build failure.
-            try {
-                switch (action) {
-                    case "compile":
-                        return await compilePacks(pack);
-                    case "clean":
-                        return await cleanPacks(pack, entry);
-                    case "unpack":
-                        return await extractPacks(pack, entry);
-                }
-            } catch (err) {
-                log.error(err.message);
-                process.exitCode = 1;
-            }
-        },
-    };
-}
 
 /* ----------------------------------------- */
 /*  Compile Packs                            */
@@ -137,25 +50,32 @@ function packageCommand() {
 /**
  * Generates each pack's per-entry JSON from `assets/content/` into
  * `build/packs-json/<name>/`, then builds the LevelDB output from it. No
- * committed JSON and no vault access. Destination: `build/stage/packs/<name>/`.
+ * committed JSON and no vault access. Destination: `<stageDest>/<name>/`.
+ *
+ * @param {object} config
+ * @param {string[]} config.sourcePacks  Every pack compiled from the content
+ *     tree, in compile order.
+ * @param {string} config.stageDest      Directory the LevelDB packs are built
+ *     into, one subdirectory per pack.
+ * @param {string} [config.packName]     Restrict the run to a single pack.
+ * @throws {Error} If pack JSON generation reported any error. Packs compiled
+ *     from incomplete or empty JSON ship blank or short compendiums, and the
+ *     omission is invisible until a player looks for content that is not there
+ *     (#1502) — so this is fatal, not a warning, and the caller is expected to
+ *     turn it into a failing exit code.
  */
-async function compilePacks(packName) {
-    const packNames = SOURCE_PACKS.filter(
+export async function compilePacks({ sourcePacks, stageDest, packName }) {
+    const packNames = sourcePacks.filter(
         (name) => !packName || name === packName,
     );
 
     // Generate the per-entry JSON from assets/content/ into build/packs-json/.
     const errors = await generatePacksJson({ only: packName });
     if (errors > 0) {
-        // Fatal, not a warning: packs compiled from incomplete or empty JSON
-        // ship blank or short compendiums, and the omission is invisible until
-        // a player looks for content that is not there (#1502).
-        log.error(
+        throw new Error(
             `Pack JSON generation reported ${errors} error(s); refusing to ` +
                 `compile packs from incomplete output.`,
         );
-        process.exitCode = 1;
-        return;
     }
 
     for (const name of packNames) {
@@ -165,7 +85,7 @@ async function compilePacks(packName) {
             continue;
         }
 
-        const stage = path.join(STAGE_DEST, name);
+        const stage = path.join(stageDest, name);
         log.info(`Pack ${name}: compiling to LevelDB at ${stage}`);
         await compilePack(source, stage, {
             recursive: true,
@@ -237,18 +157,21 @@ function cleanString(str) {
 
 /**
  * Cleans and formats source JSON files, removing unnecessary permissions and flags and adding the proper spacing.
- * @param {string} [packName]   Name of pack to clean. If none provided, all packs will be cleaned.
- * @param {string} [entryName]  Name of a specific entry to clean.
+ * @param {object} config
+ * @param {string} config.packDest     Directory holding the extracted per-entry
+ *                                     JSON, one subdirectory per pack.
+ * @param {string} [config.packName]   Name of pack to clean. If none provided, all packs will be cleaned.
+ * @param {string} [config.entryName]  Name of a specific entry to clean.
  *
  * - `npm run build:clean` - Clean all source JSON files.
  * - `npm run build:clean -- classes` - Only clean the source files for the specified compendium.
  * - `npm run build:clean -- classes Barbarian` - Only clean a single item from the specified compendium.
  */
-async function cleanPacks(packName, entryName) {
+export async function cleanPacks({ packDest, packName, entryName }) {
     entryName = entryName?.toLowerCase();
 
     const folders = fs
-        .readdirSync(PACK_DEST, { withFileTypes: true })
+        .readdirSync(packDest, { withFileTypes: true })
         .filter(
             (file) =>
                 file.isDirectory() && (!packName || packName === file.name),
@@ -269,7 +192,7 @@ async function cleanPacks(packName, entryName) {
 
     for (const folder of folders) {
         log.info(`Cleaning pack ${folder.name}`);
-        for await (const src of _walkDir(path.join(PACK_DEST, folder.name))) {
+        for await (const src of _walkDir(path.join(packDest, folder.name))) {
             const json = JSON.parse(await readFile(src, { encoding: "utf8" }));
             if (entryName && entryName !== json.name.toLowerCase()) continue;
             if (!json._id || !json._key) {
@@ -287,15 +210,39 @@ async function cleanPacks(packName, entryName) {
     }
 }
 
-async function extractPacks(packName, entryName) {
+/* ----------------------------------------- */
+/*  Unpack Packs                             */
+/* ----------------------------------------- */
+
+/**
+ * Extracts compiled LevelDB packs back to per-entry JSON, rebuilding the folder
+ * hierarchy as directories.
+ *
+ * @param {object} config
+ * @param {Array<{name: string}>} config.packs  The packs the shipped Foundry
+ *     package declares — the manifest's `packs` array.
+ * @param {string} config.stageDest    Directory holding the compiled LevelDB
+ *                                     packs, one subdirectory per pack.
+ * @param {string} config.packDest     Directory the extracted JSON is written
+ *                                     to, one subdirectory per pack.
+ * @param {string} [config.packName]   Restrict the run to a single pack.
+ * @param {string} [config.entryName]  Restrict the run to a single entry.
+ */
+export async function unpackPacks({
+    packs,
+    stageDest,
+    packDest,
+    packName,
+    entryName,
+}) {
     entryName = entryName?.toLowerCase();
 
     // Determine which source packs to process.
-    const packs = system.packs.filter((p) => !packName || p.name === packName);
+    const selected = packs.filter((p) => !packName || p.name === packName);
 
-    for (const packInfo of packs) {
-        const src = path.join(STAGE_DEST, packInfo.name);
-        const dest = path.join(PACK_DEST, packInfo.name);
+    for (const packInfo of selected) {
+        const src = path.join(stageDest, packInfo.name);
+        const dest = path.join(packDest, packInfo.name);
         log.info(`Extracting pack ${packInfo.name}`);
 
         const folders = {};
