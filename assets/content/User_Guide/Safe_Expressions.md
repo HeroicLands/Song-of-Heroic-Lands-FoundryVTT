@@ -25,13 +25,13 @@ This page is the complete reference: [[#where-you-use-them|where you use them]],
 
 # Where you use them {#where-you-use-them}
 
-| Where                              | What the expression decides                    | Result | Page           |
-| ---------------------------------- | ---------------------------------------------- | ------ | -------------- | ------------------ |
-| Active Effect **Target Predicate** | Which candidates an effect applies to          | yes/no | [[doc-effcttrg | Effect Targeting]] |
-| Action **Trigger**                 | Whether an action is currently available       | yes/no | [[doc-actions  | Actions]]          |
-| Action **Visibility**              | Whether an action's button/menu entry is shown | yes/no | [[doc-actions  | Actions]]          |
-| **Context-menu condition**         | Whether a right-click menu entry is shown      | yes/no | [[doc-actions  | Actions]]          |
-| **Computed fields** (e.g. weight)  | A number the system feeds into a calculation   | number | this page      |
+| Where                              | What the expression decides                    | Result | Page                               |
+| ---------------------------------- | ---------------------------------------------- | ------ | ---------------------------------- |
+| Active Effect **Target Predicate** | Which candidates an effect applies to          | yes/no | [[doc-effcttrg\|Effect Targeting]] |
+| Action **Trigger**                 | Whether an action is currently available       | yes/no | [[doc-actions\|Actions]]           |
+| Action **Visibility**              | Whether an action's button/menu entry is shown | yes/no | [[doc-actions\|Actions]]           |
+| **Context-menu condition**         | Whether a right-click menu entry is shown      | yes/no | [[doc-actions\|Actions]]           |
+| **Computed fields** (e.g. weight)  | A number the system feeds into a calculation   | number | this page                          |
 
 Most call sites want a **predicate** — an expression that comes out `true` or `false`. A few (like a movement profile's weight calculation) want a **number**. An empty predicate is treated as "always true".
 
