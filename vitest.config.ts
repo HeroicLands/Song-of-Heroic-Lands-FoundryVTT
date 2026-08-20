@@ -46,10 +46,24 @@ export default defineConfig({
         ],
     },
     test: {
-        globals: true,
-        environment: "node",
-        setupFiles: ["./tests/setup.ts"],
-        include: ["tests/**/*.test.ts"],
+        // Two projects, so a single `npm run test` still runs everything CI
+        // gates on while `@heroiclands/content-build` stays verifiable on its
+        // own (#1511). The package's project is its own config file — the same
+        // one `npm test -w @heroiclands/content-build` loads — so the two entry
+        // points can never run different suites.
+        projects: [
+            {
+                extends: true,
+                test: {
+                    name: "system",
+                    globals: true,
+                    environment: "node",
+                    setupFiles: ["./tests/setup.ts"],
+                    include: ["tests/**/*.test.ts"],
+                },
+            },
+            "./packages/content-build/vitest.config.ts",
+        ],
         coverage: {
             reporter: ["text", "html"],
             include: ["src/**/*.ts"],

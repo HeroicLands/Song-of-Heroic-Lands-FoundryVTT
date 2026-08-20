@@ -25,7 +25,6 @@ import {
     buildPages,
     journalPageId,
 } from "../../../utils/packs/journals.mjs";
-import { descriptionLinkTarget } from "@src/utils/description-link";
 
 const ITEM_ID = "xPisQgs7pKDaYaKs";
 const FOUNDRY_ID = /^[A-Za-z0-9]{16}$/;
@@ -40,7 +39,9 @@ describe("itemDocEntryId (the JournalEntry an item's prose moves to)", () => {
     });
 
     it("differs per item, and from the item's own id", () => {
-        expect(itemDocEntryId(ITEM_ID)).not.toBe(itemDocEntryId("aaaaaaaaaaaaaaa1"));
+        expect(itemDocEntryId(ITEM_ID)).not.toBe(
+            itemDocEntryId("aaaaaaaaaaaaaaa1"),
+        );
         expect(itemDocEntryId(ITEM_ID)).not.toBe(ITEM_ID);
     });
 });
@@ -69,15 +70,6 @@ describe("itemDocPointer (the description an item carries instead of prose)", ()
         );
     });
 
-    it("is a pointer by the system's own rule", () => {
-        // The round-trip that matters: what the pack writes is what
-        // `descriptionLinkTarget` recognises at runtime (#1356).
-        const pointer = pointerFor(ITEM_ID, "Dehydrated", "body");
-        expect(descriptionLinkTarget(pointer)).toBe(
-            pointer.slice("@UUID[".length, pointer.indexOf("]")),
-        );
-    });
-
     it("points at the first page when the note splits into several", () => {
         const markdown = "# One\n\nfirst\n\n# Two\n\nsecond";
         const entryId = itemDocEntryId(ITEM_ID);
@@ -93,7 +85,9 @@ describe("itemDocPointer (the description an item carries instead of prose)", ()
     });
 
     it("names the link after the item, so a broken pointer still says what it is", () => {
-        expect(pointerFor(ITEM_ID, "Dehydrated", "body")).toMatch(/\{Dehydrated\}$/);
+        expect(pointerFor(ITEM_ID, "Dehydrated", "body")).toMatch(
+            /\{Dehydrated\}$/,
+        );
     });
 });
 

@@ -28,9 +28,7 @@ const LIBRARY_URL = pathToFileURL(LIBRARY).href;
 // The configuration contract and the manifest reader, for the guard-order test
 // below: it induces package-id drift through configuration (#1508), since the
 // manifest is no longer located by the working directory.
-const CONFIG_URL = pathToFileURL(
-    path.join(REPO_ROOT, "packages/content-build/config.mjs"),
-).href;
+const CONFIG_URL = pathToFileURL(path.resolve(HERE, "../config.mjs")).href;
 const MANIFEST_URL = pathToFileURL(
     path.join(REPO_ROOT, "utils/packs/package-manifest.mjs"),
 ).href;

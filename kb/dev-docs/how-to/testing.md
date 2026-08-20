@@ -73,6 +73,35 @@ tests/
 > holds the pure `src/entity/*` object tests, `tests/item/` and `tests/actor/`
 > hold Logic-class tests, and `tests/core/` holds the Foundry-free core tests.
 
+### Two vitest projects
+
+`vitest.config.ts` declares two [projects](https://vitest.dev/guide/projects),
+and `npm run test` runs both:
+
+| Project         | Suite                            | Harness                                             |
+| --------------- | -------------------------------- | --------------------------------------------------- |
+| `system`        | `tests/**/*.test.ts`             | `tests/setup.ts`, the `@src`/`@tests` aliases       |
+| `content-build` | `packages/content-build/tests/**` | `packages/content-build/vitest.config.ts` — neither |
+
+The pack-pipeline tests live **with the toolchain they exercise**, so
+`@heroiclands/content-build` is verifiable on its own: `npm test -w
+@heroiclands/content-build` loads that same project config and runs that suite
+alone. The root command references the file rather than duplicating its
+settings, so the two entry points can never drift into running different suites.
+
+The package's harness is deliberately austere — no `tests/setup.ts`, no Foundry
+globals, no `@src` alias. The pack pipeline is Foundry-free and severed from the
+system source, and a harness offering either would let that severance rot;
+`packages/content-build/tests/suite-is-self-contained.test.ts` fails the build if
+a test in that suite reaches for one. A test that genuinely needs the runtime is
+a **repository** test: it belongs in `tests/build/`, where
+`src-import-severance.test.ts` keeps the build package and the runtime agreeing
+on the values they share.
+
+> The package's tests still import the compilers from the repository's
+> `utils/packs/`, which is where they live until #1512 moves them into the
+> package. Those specifiers shorten to package-relative paths when it does.
+
 ## TDD workflow
 
 1. **Write the test first.** Define what the code should do via test cases before writing any implementation.

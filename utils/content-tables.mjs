@@ -46,7 +46,7 @@
  * see `kb/dev-docs/reference/content-tables.md` for the supported grammar.
  *
  * Plain ESM with no Foundry, no filesystem, and no dependencies, so it is
- * unit-testable — see `tests/build/content-tables.test.ts`.
+ * unit-testable — see `packages/content-build/tests/content-tables.test.ts`.
  */
 
 /**

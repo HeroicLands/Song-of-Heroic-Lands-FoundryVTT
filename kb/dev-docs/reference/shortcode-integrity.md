@@ -241,8 +241,8 @@ their own `slug` frontmatter, routed by source path.
   injected `makeRandomId` stub (no Foundry).
 - **Migration** — `tests/domain/migration/MigrationRegistry.test.ts` covers the
   0.9.0 repair, including the three renamed content keys.
-- **URL derivation** — `tests/build/content-slug.test.ts` covers `contentSlug` and
-  `findSlugCollisions` (no Foundry).
+- **URL derivation** — `packages/content-build/tests/content-slug.test.ts` covers
+  `contentSlug` and `findSlugCollisions` (no Foundry).
 - **Redirects** — `tests/build/kb-redirects.test.ts` covers `pageRedirects` and
   `applyRedirects`: the legacy-slug and section-move redirects still emit, a display-name
   alias never does, and no page redirects to itself.

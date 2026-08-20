@@ -160,7 +160,9 @@ describe("the scenes pass", () => {
     it("resolves a cross-map teleport address to the other scene's region", () => {
         const scenes = read(sceneDir);
         const loft = scenes["Test Loft"];
-        const stairHead = loft.regions.find((r: any) => r.name === "Stair Head");
+        const stairHead = loft.regions.find(
+            (r: any) => r.name === "Stair Head",
+        );
         const teleport = scenes["Test Ground Floor"].regions
             .find((r: any) => r.name === "Stair Foot")
             .behaviors.find((b: any) => b.type === "teleportToken");
@@ -192,8 +194,8 @@ describe("the scenes pass", () => {
         const pageIds = entry.pages.map((p: any) => p._id);
         expect(ground.notes).toHaveLength(1);
         expect(pageIds).toContain(ground.notes[0].pageId);
-        expect(entry.pages.find((p: any) => p._id === ground.notes[0].pageId).name).toBe(
-            "Common Room",
-        );
+        expect(
+            entry.pages.find((p: any) => p._id === ground.notes[0].pageId).name,
+        ).toBe("Common Room");
     });
 });

@@ -50,6 +50,8 @@
         "README.md"
     ],
     "scripts": {
+        "test": "vitest run",
+        "test:watch": "vitest",
         "prepack": "cd ../.. && npm run build:content-build-types"
     },
     "engines": {

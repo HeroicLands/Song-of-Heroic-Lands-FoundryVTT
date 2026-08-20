@@ -291,9 +291,7 @@ describe("a macro note carries documentation like an item does", () => {
         for (const t of ITEM_TYPES) expect(hasDocEntry(t)).toBe(true);
         // Every item type, plus `macro`, plus the three map types — a map
         // note's prose is a JournalEntry of its own too (#1525).
-        expect(DOC_ENTRY_TYPES.size).toBe(
-            ITEM_TYPES.size + 1 + MAP_TYPES.size,
-        );
+        expect(DOC_ENTRY_TYPES.size).toBe(ITEM_TYPES.size + 1 + MAP_TYPES.size);
     });
 
     it("leaves `doc` notes and actors alone — they are one document each", () => {
