@@ -1,7 +1,7 @@
 ---
 aliases:
   - Crow
-  - creature-crow
+  - being-crow
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: 12aoq5wWUTMD33Jm
 img: icons/game-icons/lorc/crow-dive.svg
 portrait: images/being/crow-portrait.webp
 shortcode: crow
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

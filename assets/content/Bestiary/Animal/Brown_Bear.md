@@ -1,7 +1,7 @@
 ---
 aliases:
   - Brown Bear
-  - creature-brwnbr
+  - being-brwnbr
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: a9JXetcPtDFkcvRj
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: images/being/brwnbr-portrait.webp
 shortcode: brwnbr
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

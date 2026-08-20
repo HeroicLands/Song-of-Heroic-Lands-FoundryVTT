@@ -1,7 +1,7 @@
 ---
 aliases:
   - Tapir
-  - creature-tapir
+  - being-tapir
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: uL25TIgj48GJ02pY
 img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/tapir-portrait.webp
 shortcode: tapir
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

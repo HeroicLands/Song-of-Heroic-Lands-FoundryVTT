@@ -1,7 +1,7 @@
 ---
 aliases:
   - Leopard
-  - creature-leopard
+  - being-leopard
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: lJN45xvUq16hhJYG
 img: icons/game-icons/delapouite/feline.svg
 portrait: images/being/leopard-portrait.webp
 shortcode: leopard
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

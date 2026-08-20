@@ -1,7 +1,7 @@
 ---
 aliases:
   - Stag
-  - creature-stag
+  - being-stag
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: N9K2ohKoe0Iv7iJ7
 img: icons/game-icons/lorc/stag-head.svg
 portrait: images/being/stag-portrait.webp
 shortcode: stag
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

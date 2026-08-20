@@ -144,7 +144,7 @@ sohl-docaffliction-aconite   → the JournalEntry holding its prose
 A **macro** note is the same arrangement — `sohl-macro-autoattack` is the Macro,
 `sohl-docmacro-autoattack` its write-up (see
 [Authoring a Macro Content Note](./macro-notes.md)). Which types work this way is
-one set, `DOC_ENTRY_TYPES`, read by the compilers and by this emitter alike:
+one set, `docEntryTypes()`, read by the compilers and by this emitter alike:
 held apart, they drift into a manifest asserting documentation nothing compiled.
 
 The `doc<type>` form is the [virtual qualifier](./content-links.md) an author

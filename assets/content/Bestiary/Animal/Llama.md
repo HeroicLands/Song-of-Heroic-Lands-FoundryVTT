@@ -1,7 +1,7 @@
 ---
 aliases:
   - Llama
-  - creature-llama
+  - being-llama
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: ZVyZDoJ0iDiQn5J9
 img: icons/game-icons/delapouite/camel-head.svg
 portrait: images/being/llama-portrait.webp
 shortcode: llama
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

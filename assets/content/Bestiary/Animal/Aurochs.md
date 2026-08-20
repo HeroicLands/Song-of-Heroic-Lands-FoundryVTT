@@ -1,7 +1,7 @@
 ---
 aliases:
   - Aurochs
-  - creature-aurochs
+  - being-aurochs
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: nFUslZMExtT6iJVp
 img: icons/game-icons/lorc/bull.svg
 portrait: images/being/aurochs-portrait.webp
 shortcode: aurochs
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

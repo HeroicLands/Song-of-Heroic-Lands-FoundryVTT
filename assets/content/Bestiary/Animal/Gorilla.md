@@ -1,7 +1,7 @@
 ---
 aliases:
   - Gorilla
-  - creature-gorilla
+  - being-gorilla
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: bDs9MTm1QajerNwp
 img: icons/game-icons/delapouite/gorilla.svg
 portrait: images/being/gorilla-portrait.webp
 shortcode: gorilla
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

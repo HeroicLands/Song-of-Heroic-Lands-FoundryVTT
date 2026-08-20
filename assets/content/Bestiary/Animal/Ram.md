@@ -1,7 +1,7 @@
 ---
 aliases:
   - Ram
-  - creature-ramanml
+  - being-ramanml
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: ZwHwXKqpOkh0QMOt
 img: icons/game-icons/delapouite/sheep.svg
 portrait: images/being/ramanml-portrait.webp
 shortcode: ramanml
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

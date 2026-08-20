@@ -1,7 +1,7 @@
 ---
 aliases:
   - Ibex
-  - creature-ibex
+  - being-ibex
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: Mbqn2UmueYKKnynf
 img: icons/game-icons/skoll/goat.svg
 portrait: images/being/ibex-portrait.webp
 shortcode: ibex
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

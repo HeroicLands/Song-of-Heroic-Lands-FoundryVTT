@@ -15,7 +15,7 @@ import {
 } from "../../utils/kb-redirects.mjs";
 
 /** The legacy-URL map as committed: `type:shortcode` → its pre-shortcode slug. */
-const LEGACY = { "creature:nwght": "nightwight" };
+const LEGACY = { "being:nwght": "nightwight" };
 
 /** A content note, in the shape the write phase hands to `pageRedirects`. */
 const note = (fm: object, over: object = {}) => ({
@@ -23,8 +23,8 @@ const note = (fm: object, over: object = {}) => ({
     fm,
     name: "Nightwights",
     slug: "nightwights",
-    sec: "creature",
-    url: "/creature/nightwights/",
+    sec: "being",
+    url: "/being/nightwights/",
     isReadme: false,
     ...over,
 });
@@ -33,20 +33,20 @@ describe("pageRedirects — display names are never URLs (#1399)", () => {
     it("does not publish a note's Obsidian aliases as redirects", () => {
         const redirects = pageRedirects(
             note({
-                type: "creature",
+                type: "being",
                 shortcode: "nwght",
                 aliases: ["Nightwights", "Night Wight"],
             }),
             LEGACY,
         );
         // The generated redirect, and only it — no display name in sight.
-        expect(redirects).toEqual(["/creature/nightwight/"]);
+        expect(redirects).toEqual(["/being/nightwight/"]);
     });
 
     it("publishes nothing for a note whose only aliases are display names", () => {
         const redirects = pageRedirects(
             note({
-                type: "creature",
+                type: "being",
                 shortcode: "grsh",
                 aliases: ["Black Death", "Chicken Pox"],
             }),
@@ -57,10 +57,10 @@ describe("pageRedirects — display names are never URLs (#1399)", () => {
 
     it("still emits the legacy-slug redirect (#1280)", () => {
         const redirects = pageRedirects(
-            note({ type: "creature", shortcode: "nwght" }),
+            note({ type: "being", shortcode: "nwght" }),
             LEGACY,
         );
-        expect(redirects).toEqual(["/creature/nightwight/"]);
+        expect(redirects).toEqual(["/being/nightwight/"]);
     });
 
     it("still emits the /guide/ section-move redirect", () => {
@@ -106,15 +106,15 @@ describe("pageRedirects — display names are never URLs (#1399)", () => {
 
     it("never redirects a page to itself", () => {
         const redirects = pageRedirects(
-            note({ type: "creature", shortcode: "nwght" }),
-            { "creature:nwght": "nightwights" }, // already the current slug
+            note({ type: "being", shortcode: "nwght" }),
+            { "being:nwght": "nightwights" }, // already the current slug
         );
         expect(redirects).toEqual([]);
     });
 
     it("tolerates a note with no legacy map at all", () => {
         expect(
-            pageRedirects(note({ type: "creature", shortcode: "nwght" })),
+            pageRedirects(note({ type: "being", shortcode: "nwght" })),
         ).toEqual([]);
     });
 });
@@ -178,13 +178,13 @@ describe("pageRedirects — the knowledgebase mount (#1470)", () => {
         expect(
             pageRedirects(
                 note(
-                    { type: "creature", shortcode: "nwght" },
-                    { url: "/sohl/kb/creature/nightwights/" },
+                    { type: "being", shortcode: "nwght" },
+                    { url: "/sohl/kb/being/nightwights/" },
                 ),
                 LEGACY,
                 KB,
             ),
-        ).toEqual(["/sohl/kb/creature/nightwight/"]);
+        ).toEqual(["/sohl/kb/being/nightwight/"]);
     });
 
     it("emits the section-move redirect inside the mount", () => {
@@ -230,10 +230,10 @@ describe("pageRedirects — the knowledgebase mount (#1470)", () => {
         expect(
             pageRedirects(
                 note(
-                    { type: "creature", shortcode: "nwght" },
-                    { url: "/sohl/kb/creature/nightwights/" },
+                    { type: "being", shortcode: "nwght" },
+                    { url: "/sohl/kb/being/nightwights/" },
                 ),
-                { "creature:nwght": "nightwights" },
+                { "being:nwght": "nightwights" },
                 KB,
             ),
         ).toEqual([]);
@@ -243,7 +243,7 @@ describe("pageRedirects — the knowledgebase mount (#1470)", () => {
 describe("applyRedirects", () => {
     it("drops the authored aliases the frontmatter spread carried in", () => {
         const fm = {
-            type: "creature",
+            type: "being",
             shortcode: "nwght",
             aliases: ["Nightwights"],
         };
@@ -251,11 +251,11 @@ describe("applyRedirects", () => {
         // spread, then the generated redirects applied over it.
         const data: Record<string, unknown> = { ...fm, slug: "nightwights" };
         applyRedirects(data, pageRedirects(note(fm), LEGACY));
-        expect(data.aliases).toEqual(["/creature/nightwight/"]);
+        expect(data.aliases).toEqual(["/being/nightwight/"]);
     });
 
     it("emits no aliases key at all when there is nothing to redirect", () => {
-        const fm = { type: "creature", shortcode: "grsh", aliases: ["Ghost"] };
+        const fm = { type: "being", shortcode: "grsh", aliases: ["Ghost"] };
         const data: Record<string, unknown> = { ...fm };
         applyRedirects(data, pageRedirects(note(fm), LEGACY));
         expect("aliases" in data).toBe(false);
@@ -275,21 +275,21 @@ describe("applyRedirects — a Hugo alias is publishDir-relative (#1470)", () =>
     // there: everything upstream reasons in real, mounted URLs.
     it("strips the site root the baseURL already carries", () => {
         const data: Record<string, unknown> = {};
-        applyRedirects(data, ["/sohl/kb/creature/nightwight/"], "/sohl/");
-        expect(data.aliases).toEqual(["/kb/creature/nightwight/"]);
+        applyRedirects(data, ["/sohl/kb/being/nightwight/"], "/sohl/");
+        expect(data.aliases).toEqual(["/kb/being/nightwight/"]);
     });
 
     it("leaves a redirect untouched when the site is at a bare root", () => {
         const data: Record<string, unknown> = {};
-        applyRedirects(data, ["/creature/nightwight/"], "/");
-        expect(data.aliases).toEqual(["/creature/nightwight/"]);
+        applyRedirects(data, ["/being/nightwight/"], "/");
+        expect(data.aliases).toEqual(["/being/nightwight/"]);
     });
 
     it("refuses a redirect that does not sit under the site root", () => {
         // Silently passing it through would publish an alias at a path the
         // deploy does not serve — the failure this stripping exists to prevent.
         expect(() =>
-            applyRedirects({}, ["/thalorna/creature/x/"], "/sohl/"),
+            applyRedirects({}, ["/thalorna/being/x/"], "/sohl/"),
         ).toThrow(/site root/);
     });
 });
@@ -301,6 +301,88 @@ describe("oldSectionOf", () => {
     });
 
     it("leaves a typed content note in its own section", () => {
-        expect(oldSectionOf({ type: "creature" }, false)).toBe("creature");
+        expect(oldSectionOf({ type: "skill" }, false)).toBe("skill");
+    });
+});
+
+/**
+ * The `character` / `creature` merge (#1580). Both compiled to the same
+ * `being`, so the two content types became one — and with them, two published
+ * knowledgebase sections became one. The section a page used to sit in is the
+ * one thing the retype erases from the note, and `sohl.kbcat` is what carries
+ * it now.
+ */
+describe("oldSectionOf — the sections `being` absorbed", () => {
+    it("sends a bestiary being back to /creature/", () => {
+        expect(
+            oldSectionOf({ type: "being", sohl: { kbcat: "animal" } }, false),
+        ).toBe("creature");
+    });
+
+    it("sends a person back to /character/", () => {
+        for (const kbcat of ["npc", "archetype"]) {
+            expect(
+                oldSectionOf({ type: "being", sohl: { kbcat } }, false),
+            ).toBe("character");
+        }
+    });
+
+    it("reports no move for a being added after the merge", () => {
+        // Absence is the right answer, not a gap: a being with a kbcat this
+        // map has never heard of is new content, and new content has no old
+        // URL to preserve. Returning its own section is how the caller reads
+        // "did not move" — anything else would publish a redirect from a URL
+        // that never existed.
+        expect(
+            oldSectionOf(
+                { type: "being", sohl: { kbcat: "dreadspawn" } },
+                false,
+            ),
+        ).toBe("being");
+        expect(oldSectionOf({ type: "being", sohl: {} }, false)).toBe("being");
+        expect(oldSectionOf({ type: "being" }, false)).toBe("being");
+    });
+});
+
+describe("pageRedirects — a merged section's pages keep their old URL", () => {
+    const being = (kbcat: string, over: object = {}) => ({
+        kind: "content" as const,
+        fm: { type: "being", shortcode: "aurochs", sohl: { kbcat } },
+        name: "Aurochs",
+        slug: "aurochs",
+        sec: "being",
+        url: "/sohl/kb/being/aurochs/",
+        isReadme: false,
+        ...over,
+    });
+
+    it("redirects from the section the page actually published under", () => {
+        expect(pageRedirects(being("animal"), {}, "/sohl/kb/")).toEqual([
+            "/sohl/kb/creature/aurochs/",
+        ]);
+        expect(pageRedirects(being("npc"), {}, "/sohl/kb/")).toEqual([
+            "/sohl/kb/character/aurochs/",
+        ]);
+    });
+
+    it("combines the section move with a pre-shortcode slug", () => {
+        // The address the page really had is the old section *and* the old
+        // slug together, and that is the second entry. The first is the
+        // module's long-standing behaviour of also claiming the legacy slug in
+        // the page's current section: a spare address that resolves rather
+        // than 404s, which costs nothing. Asserted so the interaction is a
+        // decision on record and not a surprise — no note in this repository
+        // currently carries both records at once.
+        expect(
+            pageRedirects(
+                being("animal"),
+                { "being:aurochs": "wild-ox" },
+                "/sohl/kb/",
+            ),
+        ).toEqual(["/sohl/kb/being/wild-ox/", "/sohl/kb/creature/wild-ox/"]);
+    });
+
+    it("emits nothing for a being that never lived elsewhere", () => {
+        expect(pageRedirects(being("dreadspawn"), {}, "/sohl/kb/")).toEqual([]);
     });
 });

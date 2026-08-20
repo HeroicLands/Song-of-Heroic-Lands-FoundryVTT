@@ -1,7 +1,7 @@
 ---
 aliases:
   - Donkey
-  - creature-donkey
+  - being-donkey
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: Z0cG8fAIzSARDUaH
 img: icons/game-icons/skoll/donkey.svg
 portrait: images/being/donkey-portrait.webp
 shortcode: donkey
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

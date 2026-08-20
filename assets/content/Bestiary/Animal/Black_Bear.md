@@ -1,7 +1,7 @@
 ---
 aliases:
   - Black Bear
-  - creature-blckbr
+  - being-blckbr
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: 8ZGl0AAQhCMIrz8h
 img: icons/game-icons/delapouite/bear-head.svg
 portrait: images/being/blckbr-portrait.webp
 shortcode: blckbr
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

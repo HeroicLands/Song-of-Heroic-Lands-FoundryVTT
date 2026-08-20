@@ -1,7 +1,7 @@
 ---
 aliases:
   - Great Elk
-  - creature-greatelk
+  - being-greatelk
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: MMuW0ZSPSzJPFbmM
 img: icons/game-icons/lorc/stag-head.svg
 portrait: images/being/greatelk-portrait.webp
 shortcode: greatelk
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

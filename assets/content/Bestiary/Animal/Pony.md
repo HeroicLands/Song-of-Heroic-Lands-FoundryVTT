@@ -1,7 +1,7 @@
 ---
 aliases:
   - Pony
-  - creature-pony
+  - being-pony
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: dAk8STANJlO4S4YW
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: images/being/pony-portrait.webp
 shortcode: pony
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

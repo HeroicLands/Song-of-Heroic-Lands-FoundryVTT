@@ -1,7 +1,7 @@
 ---
 aliases:
   - Howler Monkey
-  - creature-hwlrmnky
+  - being-hwlrmnky
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: hakoBzpOt5uPwWkv
 img: icons/game-icons/lorc/monkey.svg
 portrait: images/being/hwlrmnky-portrait.webp
 shortcode: hwlrmnky
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

@@ -1,7 +1,7 @@
 ---
 aliases:
   - Onager
-  - creature-onager
+  - being-onager
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: GS7W7FIX26LUrAl2
 img: icons/game-icons/skoll/donkey.svg
 portrait: images/being/onager-portrait.webp
 shortcode: onager
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

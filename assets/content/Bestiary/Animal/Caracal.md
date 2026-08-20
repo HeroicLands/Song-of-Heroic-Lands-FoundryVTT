@@ -1,7 +1,7 @@
 ---
 aliases:
   - Caracal
-  - creature-caracal
+  - being-caracal
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: IDVdbQRzboB9CFFT
 img: icons/game-icons/delapouite/lynx-head.svg
 portrait: images/being/caracal-portrait.webp
 shortcode: caracal
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

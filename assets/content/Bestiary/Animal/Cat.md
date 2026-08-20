@@ -1,7 +1,7 @@
 ---
 aliases:
   - Cat
-  - creature-cat
+  - being-cat
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: HssiDLDnWMtX8Yp4
 img: icons/game-icons/lorc/cat.svg
 portrait: images/being/cat-portrait.webp
 shortcode: cat
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

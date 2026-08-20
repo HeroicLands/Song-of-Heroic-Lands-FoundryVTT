@@ -171,8 +171,8 @@ export function resolveKbWikilinks(body, ctx) {
             slash === -1 ? null : target.slice(0, slash).toLowerCase();
         // Deliberately *not* extended to the hyphen form, which is also how a
         // note addresses content in a package this build does not publish
-        // (`Rules/Bestiary.md` → `creature-grkrahk`, a real note in the vault's
-        // `setting` package). Nothing in the syntax separates that from a typo,
+        // (`Rules/Bestiary.md` → `being-grkrahk`, a real note in the `thalorna`
+        // package). Nothing in the syntax separates that from a typo,
         // so failing here would break the build on correct content.
         //
         // A dead address is caught instead by `lint:content-links` (#1414),
@@ -183,7 +183,7 @@ export function resolveKbWikilinks(body, ctx) {
             (ctx.sections.has(prefix) || ctx.contentTypes.has(prefix));
         // The hyphen form is the canonical address (#1398) and is what the
         // authored content writes. It could not be guarded while some packages
-        // were invisible here: `Rules/Bestiary.md` addresses `creature-grkrahk`,
+        // were invisible here: `Rules/Bestiary.md` addresses `being-grkrahk`,
         // a real note in the `thalorna` package, and nothing in the syntax
         // separated that legitimate cross-package reference from a typo — so
         // treating the form as definitely-local would have failed the build on

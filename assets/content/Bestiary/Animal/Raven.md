@@ -1,7 +1,7 @@
 ---
 aliases:
   - Raven
-  - creature-raven
+  - being-raven
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: anLTCI9lpmxYgalD
 img: icons/game-icons/lorc/raven.svg
 portrait: images/being/raven-portrait.webp
 shortcode: raven
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

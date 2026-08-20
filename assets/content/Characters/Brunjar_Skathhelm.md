@@ -2,7 +2,7 @@
 aliases:
   - Brunjár Skathhelm
   - Brunjar Skathhelm
-  - character-brunjarskathhel
+  - being-brunjarskathhel
 tags:
   - blackpine-wolves
   - brigand
@@ -18,7 +18,7 @@ folder: Nu7AgLZEmR26u2pk
 shortcode: brunjarskathhel
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/brunjarskathhel-portrait.webp
-type: character
+type: being
 package: sohl
 social:
   occupation: Brigand
@@ -46,6 +46,7 @@ traits:
       - boyish face that makes him look younger than his years
       - fidgets constantly
 sohl:
+  kbcat: npc
   archetype: null
   attributes:
     str: 10

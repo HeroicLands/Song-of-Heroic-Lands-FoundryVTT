@@ -1,7 +1,7 @@
 ---
 aliases:
   - Basic Folk
-  - character-basicfolk
+  - being-basicfolk
 tags: []
 name:
   full: Basic Folk
@@ -15,7 +15,7 @@ folder: riXU4Q2fRsu2tyub
 shortcode: basicfolk
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/basicfolk-portrait.webp
-type: character
+type: being
 package: sohl
 social:
   occupation: ""
@@ -39,6 +39,7 @@ traits:
     complexion: fair
     extra_features: []
 sohl:
+  kbcat: archetype
   archetype: 1
   attributes:
     str: 11

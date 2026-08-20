@@ -1,7 +1,7 @@
 ---
 aliases:
   - Fox
-  - creature-fox
+  - being-fox
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: Z7axZ4NaELTtdReY
 img: icons/game-icons/caro-asercion/fox.svg
 portrait: images/being/fox-portrait.webp
 shortcode: fox
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

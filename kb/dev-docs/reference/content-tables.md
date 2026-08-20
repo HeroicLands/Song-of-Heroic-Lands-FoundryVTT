@@ -114,7 +114,7 @@ silently matches nothing.
 | Form                                        | Meaning                                                          |
 | ------------------------------------------- | ---------------------------------------------------------------- |
 | `a and b`, `a or b`, `not a`, `!a`, `( … )` | Boolean combination                                              |
-| `type = "creature"`                         | Equality — **case-sensitive**, as Dataview's is                  |
+| `type = "being"`                            | Equality — **case-sensitive**, as Dataview's is                  |
 | `intensity != "attribute"`                  | Inequality                                                       |
 | `sohl.value > 90`, `>=`, `<`, `<=`          | Ordering; numeric when both sides are numbers                    |
 | `shortcode`                                 | A bare field is a **presence** test (absent/empty/zero is false) |

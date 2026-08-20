@@ -1,7 +1,7 @@
 ---
 aliases:
   - Condor
-  - creature-condor
+  - being-condor
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: IlgMSpMhh6Hel8gD
 img: icons/game-icons/lorc/vulture.svg
 portrait: images/being/condor-portrait.webp
 shortcode: condor
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

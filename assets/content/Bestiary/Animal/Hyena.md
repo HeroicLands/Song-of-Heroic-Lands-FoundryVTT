@@ -1,7 +1,7 @@
 ---
 aliases:
   - Hyena
-  - creature-hyena
+  - being-hyena
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: qWLJoGsN56qVG65C
 img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/hyena-portrait.webp
 shortcode: hyena
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

@@ -1,7 +1,7 @@
 ---
 aliases:
   - Tiger
-  - creature-tiger
+  - being-tiger
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: j5rGiDYFcb0LAlmN
 img: icons/game-icons/delapouite/tiger.svg
 portrait: images/being/tiger-portrait.webp
 shortcode: tiger
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

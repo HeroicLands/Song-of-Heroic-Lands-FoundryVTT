@@ -1,7 +1,7 @@
 ---
 aliases:
   - Grey Seal
-  - creature-seal
+  - being-seal
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: TvRddodNaxRqAUmo
 img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/seal-portrait.webp
 shortcode: seal
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

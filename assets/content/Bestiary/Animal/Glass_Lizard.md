@@ -1,7 +1,7 @@
 ---
 aliases:
   - Glass Lizard
-  - creature-glsslzrd
+  - being-glsslzrd
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: UvyV0EEhmSwlCuSW
 img: icons/game-icons/lorc/gecko.svg
 portrait: images/being/glsslzrd-portrait.webp
 shortcode: glsslzrd
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal
