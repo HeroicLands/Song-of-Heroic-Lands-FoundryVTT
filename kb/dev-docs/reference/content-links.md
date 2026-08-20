@@ -67,6 +67,16 @@ code is reused and the old links land somewhere else entirely.
 
 Nothing writes these for you. The check reports; you edit the note.
 
+**A generated note is the exception, and it bit once (#1620).** Where a page is
+written by a build script rather than by hand, the alias has to come from the
+generator — `utils/build-icon-legend.mjs` derives it from the same `type` and
+`shortcode` constants it writes into the frontmatter, so the three cannot drift
+apart. It previously emitted neither, and the alias was added to the page by hand
+instead: `lint:content-aliases` passed, and the next run of the generator would
+have silently deleted the address again. If you add a generator that emits a
+content note, emit its address alias too, and gate the output the way
+`lint:icon-legend` does.
+
 The bare `[[Text]]` form resolves only against aliases of the **source's own
 type** — a `doc` reaches another `doc` by name, but not a `skill`. Where two
 notes of one type share a name the bare form is ambiguous and resolves to
