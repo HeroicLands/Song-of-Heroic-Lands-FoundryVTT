@@ -36,7 +36,7 @@
  * documentation entry reuses its document's folder id verbatim.
  *
  * Not a standalone script — exports the `Journals` compiler class, imported
- * and driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ * and driven by `packages/content-build/engine/generate.mjs` (via `npm run build:compiledb`).
  *
  * The walk itself — filtering by package and type, skipping drafts,
  * expanding tables, converting wikilinks, writing the JSON and counting
@@ -46,13 +46,7 @@
 
 import log from "loglevel";
 
-import {
-    sohlField,
-    makeId,
-    resolveName,
-    buildStats,
-    md,
-} from "./helpers.mjs";
+import { sohlField, makeId, resolveName, buildStats, md } from "./helpers.mjs";
 import { BasePackCompiler } from "./base-compiler.mjs";
 import { CONTENT_PACKAGE } from "./content-package.mjs";
 import { anchorPageId } from "./wikilinks.mjs";

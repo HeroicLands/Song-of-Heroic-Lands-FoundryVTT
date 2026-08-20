@@ -406,11 +406,7 @@ export class BasePackCompiler {
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
             this.contentBase,
         )) {
-            if (
-                !fm ||
-                fm.package !== CONTENT_PACKAGE ||
-                !this.selects(fm)
-            ) {
+            if (!fm || fm.package !== CONTENT_PACKAGE || !this.selects(fm)) {
                 stats.skippedOther++;
                 continue;
             }

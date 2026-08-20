@@ -36,7 +36,7 @@ guessed. The full contract is
 
 An entry says where a page sits **inside its own package** and nothing about where
 that package is served. Where it is served is this build's knowledge, one line per
-package in `PACKAGE_BASE` (`utils/kb-manifest.mjs`), prefixed when the address is
+package in `PACKAGE_BASE` (`packages/content-build/engine/kb-manifest.mjs`), prefixed when the address is
 resolved:
 
 ```js
@@ -62,13 +62,13 @@ an `href`, and 404s for the reader — with nothing erroring anywhere.
 **A manifest whose values would read differently is rejected, not read.** Version 1
 carried a site-absolute `url`, which this build would prefix into
 `/thalorna/thalorna/…`. Refresh the vendored copy from the package's own build
-rather than editing it in place. `READABLE_VERSIONS` in `utils/kb-manifest.mjs`
+rather than editing it in place. `READABLE_VERSIONS` in `packages/content-build/engine/kb-manifest.mjs`
 lists what this build accepts — v5 only _relaxed_ v4, so a v4 file is still read
 as-is and no package has to re-emit on a schedule.
 
 ## What arriving here changes
 
-`utils/kb-manifest.mjs` lists the packages that exchange manifests
+`packages/content-build/engine/kb-manifest.mjs` lists the packages that exchange manifests
 (`LINK_PACKAGES`). While any of them is neither built here nor present as a file
 in this directory, cross-package address checking stays **off** and an
 unresolved `type-shortcode` address is tolerated — the state before #1446, where

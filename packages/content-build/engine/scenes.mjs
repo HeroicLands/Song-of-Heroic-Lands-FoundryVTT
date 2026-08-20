@@ -40,7 +40,7 @@
  * rather than stored. It is the same vocabulary the link manifest uses.
  *
  * Not a standalone script — exports the `Scenes` compiler class, imported and
- * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ * driven by `packages/content-build/engine/generate.mjs` (via `npm run build:compiledb`).
  *
  * The walk itself — filtering by package and type, skipping drafts,
  * expanding tables, converting wikilinks, writing the JSON and counting
@@ -168,7 +168,10 @@ export class Scenes extends BasePackCompiler {
             value: companionDests.adventures,
             writable: false,
         });
-        Object.defineProperty(this, "repoRoot", { value: repoRoot, writable: false });
+        Object.defineProperty(this, "repoRoot", {
+            value: repoRoot,
+            writable: false,
+        });
     }
 
     /**
@@ -191,7 +194,11 @@ export class Scenes extends BasePackCompiler {
             this.contentBase,
         )) {
             if (!fm || fm.package !== CONTENT_PACKAGE || !fm.id) continue;
-            if (fm.shortcode && Array.isArray(fm.effects) && fm.effects.length) {
+            if (
+                fm.shortcode &&
+                Array.isArray(fm.effects) &&
+                fm.effects.length
+            ) {
                 effectsByAddress.set(`${fm.type}-${fm.shortcode}`, {
                     id: fm.id,
                     type: fm.type,
@@ -231,9 +238,7 @@ export class Scenes extends BasePackCompiler {
                 );
             }
             const regions = new Map();
-            for (const [key, spec] of Object.entries(
-                fm.sohl?.regions ?? {},
-            )) {
+            for (const [key, spec] of Object.entries(fm.sohl?.regions ?? {})) {
                 const id = regionDocId(fm.id, key, spec?._id);
                 const behaviors = new Map();
                 for (const [bKey, bSpec] of Object.entries(
@@ -406,9 +411,7 @@ export class Scenes extends BasePackCompiler {
             stats: STATS,
             journalEntryId: entryId,
             pageIds:
-                hasBody ?
-                    this.#pageIds(markdown, entryId, name)
-                :   new Map(),
+                hasBody ? this.#pageIds(markdown, entryId, name) : new Map(),
             knownActions: this.knownActions,
             warnings,
             ...this.#resolvers(this.index, this.effectsByAddress, fm.shortcode),

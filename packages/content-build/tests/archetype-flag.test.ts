@@ -12,7 +12,7 @@ import {
     resolveArchetype,
     withArchetypeFlag,
     // eslint-disable-next-line
-} from "../../../utils/packs/helpers.mjs";
+} from "../engine/helpers.mjs";
 
 describe("resolveArchetype (build:compiledb archetype contract, #640)", () => {
     it("returns the number when sohl.archetype is a number", () => {

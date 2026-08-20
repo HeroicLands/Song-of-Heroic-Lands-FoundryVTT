@@ -43,7 +43,7 @@
  * `[[…]]` and have resolved as `type-shortcode` rather than as a name.
  *
  * The test is the resolver's own (see `readQualifier` in
- * `utils/packs/wikilinks.mjs`): split at the **first** hyphen, and treat it as a
+ * `packages/content-build/engine/wikilinks.mjs`): split at the **first** hyphen, and treat it as a
  * qualifier **only when what precedes it is a known type**. Note names are
  * hyphenated too — `Grukar-ahk` is an alias, not an address — which is exactly
  * why the mere presence of a hyphen cannot be the rule.

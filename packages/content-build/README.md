@@ -7,6 +7,14 @@ Every HeroicLands content module (`sohl`, `thalorna`, `kethira`, and the
 adventure modules) builds its packs from this one implementation, rather than
 from a copied `utils/packs/` tree.
 
+It ships a command line as well as a library:
+
+```
+npx content-build package compile [pack]
+npx content-build package unpack [pack] [entry]
+npx content-build package clean [pack] [entry]
+```
+
 ## Install
 
 ```
@@ -20,7 +28,10 @@ A consuming repository declares one `content-build.config.mjs` at its root:
 ```js
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { defineConfig } from "@heroiclands/content-build";
+// The *leaf* contract module, never the package root barrel — see the note
+// below.
+import { defineConfig } from "@heroiclands/content-build/config";
+import { ITEM_BUILDERS } from "@heroiclands/content-build/sohl/item-builders";
 
 export default defineConfig({
   // Anchors every configured path, so the build reads the same files whatever
@@ -40,6 +51,11 @@ export default defineConfig({
     systemVersion: "0.1.0",
     lastModifiedBy: "thalornabuild000",
   },
+  // Which content types compile into Items, and what builds each one's
+  // `system` block. The keys are the accepted item types, so a type cannot be
+  // whitelisted without a builder behind it. A module that ships no items
+  // declares none.
+  itemBuilders: ITEM_BUILDERS,
   // Directory names the content walk ignores wherever they appear.
   skipDirectories: ["Templates"],
   // Optional; each path is relative to `rootDir` and defaults to the
@@ -80,10 +96,28 @@ export default defineConfig({
 
 `defineConfig` validates the object, resolves every path against `rootDir`,
 fills the optional halves with their defaults (`assets: []`, `skipDirectories:
-[]`, the conventional `paths`, every publishing switch off), derives `assetRoot`
-and `packDirectories`, and returns a deeply frozen copy. A malformed
-configuration throws a `TypeError` naming the offending field, so it fails at
-load rather than as an empty pack much later.
+[]`, the conventional `paths`, every publishing switch off), derives `assetRoot`,
+`packDirectories`, `itemTypes` and `docEntryTypes`, and returns a deeply frozen
+copy. A malformed configuration throws a `TypeError` naming the offending field,
+so it fails at load rather than as an empty pack much later.
+
+**Import `defineConfig` from `@heroiclands/content-build/config`, never from the
+package root.** `engine/pack-config.mjs` finds this file by walking up from
+itself — so it works from `packages/` and from `node_modules/` alike, and does
+not depend on the directory the build was launched from — and then loads it. The
+root barrel pulls in the compilers, and the compilers read that resolved
+configuration, so a config file that imports the barrel closes a cycle around its
+own evaluation. The `/config` entry point imports nothing but `node:path` and the
+id helpers, so it cannot. `ITEM_BUILDERS` is imported from its own leaf entry
+point for the same reason. Set `CONTENT_BUILD_CONFIG` to point at the file
+explicitly if a consumer keeps it somewhere else.
+
+**`itemBuilders` is how the engine learns a consumer's item types without
+holding its data model.** `itemTypes` is its key set, and `docEntryTypes` — every
+type whose prose compiles into a JournalEntry of its own — is composed from it
+exactly once, here, and read from `packConfig` everywhere. There is one resolved
+set at runtime; the compilers and the link-manifest emitter cannot come to
+disagree about which notes carry documentation.
 
 **Configuration supplies paths, never captured values.** `paths.packageManifest`
 says _where_ the shipped `system.template.json` / `module.template.json` lives;
@@ -103,8 +137,13 @@ copy would silently stop following it.
   art. Isolated behind its own entry point so an adventure module never receives
   `buildWeaponGear`.
 
-Both namespaces are barrels that fill as the extraction proceeds; the compilers
-still live in the SoHL repository's `utils/packs/` today.
+Each module is also reachable as its own entry point —
+`@heroiclands/content-build/engine/journals`,
+`@heroiclands/content-build/sohl/items` — so a build that needs one thing does
+not load the whole pipeline. The barrels re-export each module as a namespace
+rather than flattening it, because several modules deliberately re-export a
+neighbour's symbol and a flattened star export would drop every such name
+silently.
 
 A few plain-ESM leaves are shared **with the Foundry runtime**, not just with the
 build: the item default-art map, the curated region-event vocabulary, and the
@@ -137,10 +176,6 @@ The harness is deliberately austere: no global setup, no Foundry stubs, and no
 alias onto a consuming repository's source. `tests/suite-is-self-contained.test.ts`
 enforces that — a test in this suite that reached for `globalThis.game` or `@src`
 would pass in situ and fail the moment the package was installed from npm.
-
-While the extraction is in progress the suite still imports the compilers from
-the SoHL repository's `utils/packs/`; those specifiers become package-relative
-when the modules land here.
 
 ## License
 

@@ -8,10 +8,7 @@
 import { describe, it, expect } from "vitest";
 // Build-time pack helper (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
-import {
-    splitPages,
-    assertUniqueAnchors,
-} from "../../../utils/packs/journals.mjs";
+import { splitPages, assertUniqueAnchors } from "../engine/journals.mjs";
 
 describe("splitPages (a page per H1, and per anchored heading)", () => {
     it("splits on an H1 and keeps its heading depth", () => {

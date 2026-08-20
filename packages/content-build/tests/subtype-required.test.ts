@@ -11,7 +11,7 @@ import { describe, it, expect } from "vitest";
 import {
     requireSubType,
     // eslint-disable-next-line
-} from "../../../utils/packs/helpers.mjs";
+} from "../engine/helpers.mjs";
 
 describe("requireSubType (pack builder — subType is mandatory, never defaulted)", () => {
     it("returns the declared subType from the sohl block", () => {

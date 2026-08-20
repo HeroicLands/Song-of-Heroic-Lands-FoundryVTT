@@ -29,7 +29,7 @@ the same frontmatter, so one authored query yields the same table in three place
 Obsidian while writing, in the Foundry compendium packs, and on the knowledgebase.
 What the author sees is what ships.
 
-Both content builds run the same expander (`utils/content-tables.mjs`).
+Both content builds run the same expander (`packages/content-build/engine/content-tables.mjs`).
 
 ## Supported grammar
 
@@ -156,7 +156,7 @@ with no content written yet is a normal state of the corpus, not a broken build.
 ## Where it runs
 
 Expansion happens **before** wikilink resolution, in all four content compilers:
-`utils/packs/journals.mjs`, `utils/packs/items.mjs`, `utils/packs/actors.mjs`, and
+`packages/content-build/engine/journals.mjs`, `packages/content-build/sohl/items.mjs`, `packages/content-build/sohl/actors.mjs`, and
 `utils/build-kb-content.mjs`. That ordering is what lets a generated cell contain a
 wikilink. In the knowledgebase build it also runs *outside* that build's code-fence
 protection — a query **is** a fenced block, so protecting it first would hide it from

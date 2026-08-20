@@ -13,17 +13,17 @@ import { fileURLToPath } from "node:url";
 
 // Build-time pack configuration (plain ESM, no Foundry). Imported by relative
 // path because the pack-build scripts live outside the `@src` alias tree.
-import { packConfig } from "../../../utils/packs/config.mjs";
+import { packConfig } from "../engine/pack-config.mjs";
 import {
     CONTENT_PACKAGE,
     FOUNDRY_PACKAGE_ID,
-} from "../../../utils/packs/content-package.mjs";
+} from "../engine/content-package.mjs";
 import {
     resolvePackageManifestPath,
     readPackageManifest,
     readManifestPackageId,
-} from "../../../utils/packs/package-manifest.mjs";
-import { supportedCoreVersion } from "../../../utils/packs/helpers.mjs";
+} from "../engine/package-manifest.mjs";
+import { supportedCoreVersion } from "../engine/helpers.mjs";
 
 // Anchored on this file, not the working directory: the package's own test
 // script runs from `packages/content-build/`, and the repository build runs

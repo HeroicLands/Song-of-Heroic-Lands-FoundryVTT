@@ -45,7 +45,7 @@ import path from "path";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 import { generatePacksJson, packJsonDir } from "./generate.mjs";
 import { verifyPackSceneLevels } from "./scene-levels.mjs";
-import { packConfig } from "./config.mjs";
+import { packConfig } from "./pack-config.mjs";
 
 /* ----------------------------------------- */
 /*  Compile Packs                            */

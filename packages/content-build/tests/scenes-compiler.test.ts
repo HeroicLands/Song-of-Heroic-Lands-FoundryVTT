@@ -12,7 +12,7 @@ import path from "node:path";
 
 // Build-time pack compiler (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
-import { Scenes } from "../../../utils/packs/scenes.mjs";
+import { Scenes } from "../engine/scenes.mjs";
 
 /**
  * Two map notes of one place, so the pass has something to cross-reference: a

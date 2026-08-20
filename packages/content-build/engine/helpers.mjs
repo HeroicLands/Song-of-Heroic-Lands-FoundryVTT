@@ -12,7 +12,7 @@
  */
 
 /**
- * Shared helpers for pack compilers (utils/packs/*.mjs).
+ * Shared helpers for the pack compilers in `packages/content-build/`.
  *
  * The HeroicLands vault is authoritative for compendium item data. Pack
  * compilers walk the vault, read markdown files with YAML frontmatter, and
@@ -33,15 +33,12 @@ import unidecode from "unidecode";
 import markdownit from "markdown-it";
 import log from "loglevel";
 
-import { packConfig } from "./config.mjs";
-import {
-    CONTENT_PACKAGE,
-    FOUNDRY_PACKAGE_ID,
-} from "./content-package.mjs";
+import { packConfig } from "./pack-config.mjs";
+import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { readPackageManifest } from "./package-manifest.mjs";
-import { loadForeignManifests, PACKAGE_BASE } from "../kb-manifest.mjs";
+import { loadForeignManifests, PACKAGE_BASE } from "./kb-manifest.mjs";
 import { buildWikilinkIndex, convertWikilinks } from "./wikilinks.mjs";
-import { expandContentTables } from "../content-tables.mjs";
+import { expandContentTables } from "./content-tables.mjs";
 // The pure `sohl:` frontmatter readers live in a leaf module so the item-type
 // registry can import them without reaching back through this one (#1504).
 // Re-exported here so every existing importer keeps its single import path.
@@ -197,9 +194,7 @@ export function withArchetypeFlag(fm, flags, label) {
  * alphanumeric runs replaced by underscores.
  */
 export function makeFilename(name, id) {
-    return (
-        `${unidecode(name)}_${id}`.replace(/[^0-9a-zA-Z]+/g, "_") + ".json"
-    );
+    return `${unidecode(name)}_${id}`.replace(/[^0-9a-zA-Z]+/g, "_") + ".json";
 }
 
 /**
@@ -323,10 +318,7 @@ export function supportedCoreVersion(
  *   The resolved build configuration. Defaults to this repository's.
  * @returns {object} The `_stats` block.
  */
-export function buildStats(
-    systemVersion = undefined,
-    config = packConfig,
-) {
+export function buildStats(systemVersion = undefined, config = packConfig) {
     return {
         systemId: config.stats.systemId,
         systemVersion: systemVersion ?? config.stats.systemVersion,
@@ -389,7 +381,9 @@ export function buildContentLinkIndex(contentBase) {
     );
     if (stale.length) {
         for (const st of stale) {
-            log.error(`Unusable link manifest for "${st.package}": ${st.reason}`);
+            log.error(
+                `Unusable link manifest for "${st.package}": ${st.reason}`,
+            );
         }
         throw new Error(
             "Cross-package links cannot be resolved from a stale manifest; " +
@@ -464,7 +458,11 @@ export function collectContentDocs(contentBase) {
             absPath,
         });
     }
-    docs.sort((a, b) => (a.absPath < b.absPath ? -1 : a.absPath > b.absPath ? 1 : 0));
+    docs.sort((a, b) =>
+        a.absPath < b.absPath ? -1
+        : a.absPath > b.absPath ? 1
+        : 0,
+    );
     log.debug(`Content table index: ${docs.length} searchable note(s)`);
     return docs;
 }
@@ -636,7 +634,10 @@ export function writeFolderDocs(folders, stats, destDir, documentType) {
             _stats: stats,
             _key: `!folders!${folder.id}`,
         };
-        const outPath = path.join(destDir, folderFilename(folder.name, folder.id));
+        const outPath = path.join(
+            destDir,
+            folderFilename(folder.name, folder.id),
+        );
         fs.writeFileSync(outPath, JSON.stringify(doc, null, 2), "utf8");
     }
     log.info(`Emitted ${folders.length} folder document(s) to ${destDir}`);

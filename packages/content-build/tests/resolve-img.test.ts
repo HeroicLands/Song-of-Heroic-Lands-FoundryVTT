@@ -8,7 +8,7 @@
 import { describe, it, expect } from "vitest";
 // Build-time pack helper (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
-import { resolveImg } from "../../../utils/packs/helpers.mjs";
+import { resolveImg } from "../engine/helpers.mjs";
 import { defineConfig } from "../index.mjs";
 
 describe("resolveImg (content → Foundry img path translation, #890)", () => {

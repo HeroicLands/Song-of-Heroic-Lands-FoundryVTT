@@ -15,8 +15,8 @@ import {
     buildWikilinkIndex,
     convertWikilinks,
     readQualifier,
-} from "../../../utils/packs/wikilinks.mjs";
-import { itemDocEntryId } from "../../../utils/packs/item-docs.mjs";
+} from "../engine/wikilinks.mjs";
+import { itemDocEntryId } from "../engine/item-docs.mjs";
 
 /** A small stand-in content tree spanning three packs. */
 const DOCS = [

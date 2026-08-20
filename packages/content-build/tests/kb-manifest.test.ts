@@ -10,8 +10,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-// Build-time helper (plain ESM, no Foundry), imported by relative path because
-// the KB build scripts live outside the `@src` alias tree.
+// The link manifest — the cross-package index — is engine machinery: every
+// HeroicLands content package reads and writes it (#1512).
 import {
     buildManifest,
     writeManifests,
@@ -23,7 +23,7 @@ import {
     READABLE_VERSIONS,
     LINK_PACKAGES,
     PACKAGE_BASE,
-} from "../../utils/kb-manifest.mjs";
+} from "../engine/kb-manifest.mjs";
 
 const entry = (type: string, shortcode: string, name: string, url: string) => ({
     fm: { type, shortcode },

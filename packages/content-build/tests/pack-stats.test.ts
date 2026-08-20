@@ -12,8 +12,8 @@ import { fileURLToPath } from "node:url";
 
 // Build-time pack helper (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
-import { buildStats as buildStatsRaw } from "../../../utils/packs/helpers.mjs";
-import { packConfig } from "../../../utils/packs/config.mjs";
+import { buildStats as buildStatsRaw } from "../engine/helpers.mjs";
+import { packConfig } from "../engine/pack-config.mjs";
 import { defineConfig } from "../index.mjs";
 
 // The pack helpers are plain ESM whose JSDoc types the return as `object`.

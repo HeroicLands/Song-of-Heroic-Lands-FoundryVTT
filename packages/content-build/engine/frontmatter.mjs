@@ -30,7 +30,7 @@
 // build package rather than restated here, so the pipeline and the runtime
 // enum cannot drift apart (#1510) — a value absent from the list is a build
 // error, never a silent ship.
-import { AFFILIATION_STANDINGS } from "@heroiclands/content-build/sohl/affiliation-standings";
+import { AFFILIATION_STANDINGS } from "../sohl/affiliation-standings.mjs";
 
 /**
  * Resolves a dotted frontmatter key (e.g., "name.full") into the nested
@@ -89,7 +89,11 @@ export function resolveCharges(fm) {
     const max = toCount(sohlField(fm, "charges.max", null));
     // A blank maximum means "does not use charges" — a stray current count
     // cannot outlive it, since the logic layer disables both modifiers.
-    return { value: max === null ? null : toCount(sohlField(fm, "charges.value", null)), max };
+    return {
+        value:
+            max === null ? null : toCount(sohlField(fm, "charges.value", null)),
+        max,
+    };
 }
 
 /**
@@ -113,7 +117,9 @@ export function resolveSkillAptitudes(fm, ctx = "item") {
     const raw = sohlField(fm, "skillAptitudes", undefined);
     if (raw == null) return {};
     if (typeof raw !== "object" || Array.isArray(raw)) {
-        throw new Error(`${ctx}: skillAptitudes must be a map of selector → number`);
+        throw new Error(
+            `${ctx}: skillAptitudes must be a map of selector → number`,
+        );
     }
     const out = {};
     for (const [selector, value] of Object.entries(raw)) {
@@ -146,7 +152,9 @@ export function resolveRelation(fm, ctx = "item") {
     const raw = sohlField(fm, "relation", undefined);
     if (raw == null) return {};
     if (typeof raw !== "object" || Array.isArray(raw)) {
-        throw new Error(`${ctx}: relation must be a map of shortcode → standing`);
+        throw new Error(
+            `${ctx}: relation must be a map of shortcode → standing`,
+        );
     }
     const out = {};
     for (const [code, value] of Object.entries(raw)) {

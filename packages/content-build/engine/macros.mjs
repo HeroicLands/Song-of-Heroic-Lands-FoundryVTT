@@ -42,7 +42,7 @@
  * Nothing here evaluates, compiles, or revives anything.
  *
  * Not a standalone script — exports the `Macros` compiler class, imported and
- * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ * driven by `packages/content-build/engine/generate.mjs` (via `npm run build:compiledb`).
  *
  * The walk itself — filtering by package and type, skipping drafts,
  * expanding tables, converting wikilinks, writing the JSON and counting
@@ -52,12 +52,7 @@
 
 import log from "loglevel";
 
-import {
-    sohlField,
-    resolveName,
-    resolveImg,
-    buildStats,
-} from "./helpers.mjs";
+import { sohlField, resolveName, resolveImg, buildStats } from "./helpers.mjs";
 import { BasePackCompiler } from "./base-compiler.mjs";
 import { splitPages } from "./journals.mjs";
 

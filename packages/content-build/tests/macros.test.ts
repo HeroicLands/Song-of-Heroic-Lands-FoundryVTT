@@ -22,19 +22,16 @@ import {
     MACRO_SCRIPT_ANCHOR,
     resolveMacroScope,
     resolveMacroType,
-} from "../../../utils/packs/macros.mjs";
+} from "../engine/macros.mjs";
 import {
     DOC_ENTRY_TYPES,
     hasDocEntry,
     ITEM_TYPES,
     itemDocEntryId,
-} from "../../../utils/packs/item-docs.mjs";
-import { splitPages, buildPages } from "../../../utils/packs/journals.mjs";
-import {
-    buildWikilinkIndex,
-    convertWikilinks,
-} from "../../../utils/packs/wikilinks.mjs";
-import { MAP_TYPES } from "../../../utils/packs/ids.mjs";
+} from "../engine/item-docs.mjs";
+import { splitPages, buildPages } from "../engine/journals.mjs";
+import { buildWikilinkIndex, convertWikilinks } from "../engine/wikilinks.mjs";
+import { MAP_TYPES } from "../engine/ids.mjs";
 
 const NOTE_ID = "HSNwLca3kMYLN3Ag";
 

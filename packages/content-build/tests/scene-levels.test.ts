@@ -9,7 +9,7 @@ import { describe, it, expect } from "vitest";
 
 // Build-time pack integrity check (plain ESM, no Foundry). Imported by relative
 // path because the pack-build scripts live outside the `@src` alias tree.
-import { checkSceneLevels } from "../../../utils/packs/scene-levels.mjs";
+import { checkSceneLevels } from "../engine/scene-levels.mjs";
 
 /** A well-formed scene record and the sublevel record its `levels` names. */
 function goodPack(): Array<[string, Record<string, unknown>]> {

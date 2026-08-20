@@ -36,8 +36,25 @@ import { fileURLToPath } from "node:url";
 
 // The shared toolchain is a workspace package, consumed by path from within
 // this repository. A downstream consumer writes
-// `import { defineConfig } from "@heroiclands/content-build";` instead.
-import { defineConfig } from "./packages/content-build/index.mjs";
+// `import { defineConfig } from "@heroiclands/content-build/config";` instead.
+//
+// Both specifiers name the *leaf* contract module, never the package root
+// barrel: the barrel pulls in the compilers, the compilers read the resolved
+// configuration, and resolving it loads this file — so importing the barrel here
+// would close a cycle around this file's own evaluation. The leaf imports
+// nothing but `node:path` and the id helpers, so it cannot.
+import { defineConfig } from "./packages/content-build/config.mjs";
+
+// The item-type registry: every content `type` that compiles into an Item,
+// paired with the builder producing its `system` block. It is SoHL data-model
+// knowledge, so it lives in the toolchain's `sohl` half and is handed to the
+// engine as configuration — which is how the engine composes the one
+// doc-carrying-type set without holding any package's data model (#1512).
+//
+// Imported from its own entry point rather than the `sohl` barrel, for the same
+// cycle reason: the barrel carries the item and actor compilers, which read the
+// resolved configuration.
+import { ITEM_BUILDERS } from "./packages/content-build/sohl/item-builders.mjs";
 
 export default defineConfig({
     // Anchors every configured path, so the build reads the same files whatever
@@ -72,6 +89,12 @@ export default defineConfig({
         systemVersion: "0.6.0",
         lastModifiedBy: "sohlbuilder00000",
     },
+
+    // Which content types compile into Items, and what builds each one's
+    // `system` block. `itemTypes` and the doc-carrying-type set are derived from
+    // these keys, so a type cannot be accepted without a builder behind it
+    // (#1504).
+    itemBuilders: ITEM_BUILDERS,
 
     // `assets/content/` is opened as an Obsidian vault, whose templater
     // scaffolding lives in `Templates/` and is never compendium content.

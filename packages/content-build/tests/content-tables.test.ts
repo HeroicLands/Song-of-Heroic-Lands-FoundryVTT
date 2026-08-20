@@ -11,7 +11,7 @@ import { describe, it, expect } from "vitest";
 import {
     parseDataviewQuery,
     expandContentTables,
-} from "../../../utils/content-tables.mjs";
+} from "../engine/content-tables.mjs";
 
 /**
  * A content note as the build hands it to the expander. `path` is the note's

@@ -19,18 +19,18 @@ import {
     compilePacks,
     unpackPacks,
     cleanPacks,
-} from "../../../utils/packs/compendiums.mjs";
+} from "../engine/compendiums.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, "../../..");
-const LIBRARY = path.join(REPO_ROOT, "utils/packs/compendiums.mjs");
+const LIBRARY = path.resolve(HERE, "../engine/compendiums.mjs");
 const LIBRARY_URL = pathToFileURL(LIBRARY).href;
 // The configuration contract and the manifest reader, for the guard-order test
 // below: it induces package-id drift through configuration (#1508), since the
 // manifest is no longer located by the working directory.
 const CONFIG_URL = pathToFileURL(path.resolve(HERE, "../config.mjs")).href;
 const MANIFEST_URL = pathToFileURL(
-    path.join(REPO_ROOT, "utils/packs/package-manifest.mjs"),
+    path.resolve(HERE, "../engine/package-manifest.mjs"),
 ).href;
 // Resolved here, not in the child: the child runs from an empty temp
 // directory, where a bare `loglevel` specifier has no `node_modules` to find.

@@ -41,7 +41,7 @@ import {
     resolveRelation,
     resolveSkillAptitudes,
     sohlField,
-} from "./frontmatter.mjs";
+} from "../engine/frontmatter.mjs";
 
 /**
  * Gear common fields (quantity, carried flags, weight/value/quality/
@@ -74,7 +74,8 @@ function buildSkill(fm) {
     const out = {
         subType,
         skillBaseFormula: sohlField(fm, "skillBaseFormula", ""),
-        masteryLevelBase: rawMlb == null || rawMlb === "" ? null : Number(rawMlb),
+        masteryLevelBase:
+            rawMlb == null || rawMlb === "" ? null : Number(rawMlb),
         improveFlag: Boolean(sohlField(fm, "improveFlag", false)),
         combatCategory: sohlField(fm, "combatCategory", "none"),
         parentSkillCode: sohlField(fm, "parentSkillCode", ""),
@@ -87,11 +88,7 @@ function buildSkill(fm) {
     // none.
     if (subType === "combattechnique") {
         const strikeMode = sohlField(fm, "strikeMode", null);
-        if (
-            !strikeMode ||
-            typeof strikeMode !== "object" ||
-            !strikeMode.type
-        ) {
+        if (!strikeMode || typeof strikeMode !== "object" || !strikeMode.type) {
             throw new Error(
                 `combattechnique skill requires sohl.strikeMode with a 'type' discriminator ("melee" or "missile")`,
             );
@@ -164,7 +161,10 @@ function buildMystery(fm) {
     return {
         subType: requireSubType(fm),
         levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
-        skillAptitudes: resolveSkillAptitudes(fm, `mystery "${fm?.name?.full ?? fm?.shortcode ?? "?"}"`),
+        skillAptitudes: resolveSkillAptitudes(
+            fm,
+            `mystery "${fm?.name?.full ?? fm?.shortcode ?? "?"}"`,
+        ),
         charges: resolveCharges(fm),
     };
 }
@@ -254,7 +254,7 @@ function buildProjectileGear(fm) {
         ...gearCommon(fm),
         subType: requireSubType(fm),
         impactBase: {
-            overrideDice: Boolean(impact.overrideDice ?? (die > 0)),
+            overrideDice: Boolean(impact.overrideDice ?? die > 0),
             overrideModifier: Boolean(impact.overrideModifier ?? false),
             numDice: die > 0 ? 1 : 0,
             die,
@@ -322,7 +322,7 @@ export function itemBuilder(type) {
     if (typeof builder !== "function") {
         throw new Error(
             `No builder registered for item type "${type}" — add one to ` +
-                `utils/packs/item-builders.mjs, or stop declaring the type.`,
+                `packages/content-build/sohl/item-builders.mjs, or stop declaring the type.`,
         );
     }
     return builder;

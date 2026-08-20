@@ -29,12 +29,12 @@
 
 import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { collectContentDocs } from "./packs/helpers.mjs";
-import { compendiumUuid } from "./packs/ids.mjs";
+import { collectContentDocs } from "@heroiclands/content-build/engine/helpers";
+import { compendiumUuid } from "@heroiclands/content-build/engine/ids";
 import {
     CONTENT_PACKAGE,
     FOUNDRY_PACKAGE_ID,
-} from "./packs/content-package.mjs";
+} from "@heroiclands/content-build/engine/content-package";
 
 const STAGE_DIR = resolve("build/stage");
 const systemTemplatePath = resolve("assets/templates/system.template.json");

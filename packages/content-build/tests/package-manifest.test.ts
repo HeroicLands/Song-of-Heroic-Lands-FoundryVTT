@@ -18,8 +18,8 @@ import {
     assertPackageIdMatchesManifest,
     assertPackageIdMatchesManifestFile,
     readManifestPackageId,
-} from "../../../utils/packs/package-manifest.mjs";
-import { FOUNDRY_PACKAGE_ID } from "../../../utils/packs/content-package.mjs";
+} from "../engine/package-manifest.mjs";
+import { FOUNDRY_PACKAGE_ID } from "../engine/content-package.mjs";
 
 // Anchored on this file, not the working directory (see pack-config.test.ts).
 const REPO_ROOT = path.resolve(

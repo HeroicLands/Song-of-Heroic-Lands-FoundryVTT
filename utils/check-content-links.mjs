@@ -47,16 +47,16 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import { slugify } from "./kb-wikilinks.mjs";
-import { expandContentTables } from "./content-tables.mjs";
-import { matchAllOutsideCode } from "./code-fences.mjs";
-import { readQualifier } from "./packs/wikilinks.mjs";
-import { hasDocEntry } from "./packs/item-docs.mjs";
+import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
+import { matchAllOutsideCode } from "@heroiclands/content-build/engine/code-fences";
+import { readQualifier } from "@heroiclands/content-build/engine/wikilinks";
+import { hasDocEntry } from "@heroiclands/content-build/engine/item-docs";
 import {
     canonicalKey,
     readCanonicalKey,
     loadForeignManifests,
     manifestsComplete,
-} from "./kb-manifest.mjs";
+} from "@heroiclands/content-build/engine/kb-manifest";
 import { RETIRED_HOSTS, findRetiredLinks } from "./retired-hosts.mjs";
 
 const CONTENT = path.join("assets", "content");

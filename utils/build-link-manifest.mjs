@@ -50,16 +50,32 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { contentAddress, KB_PREFIX, sectionOf } from "./content-address.mjs";
-import { canonicalKey, writeManifests } from "./kb-manifest.mjs";
-import { walkMarkdownTree } from "./packs/helpers.mjs";
+import {
+    contentAddress,
+    KB_PREFIX,
+    sectionOf,
+} from "@heroiclands/content-build/engine/content-address";
+import {
+    canonicalKey,
+    writeManifests,
+} from "@heroiclands/content-build/engine/kb-manifest";
+import { walkMarkdownTree } from "@heroiclands/content-build/engine/helpers";
 import {
     CONTENT_PACKAGE,
     FOUNDRY_PACKAGE_ID,
-} from "./packs/content-package.mjs";
-import { compendiumUuid, pageUuid } from "./packs/ids.mjs";
-import { hasDocEntry, itemDocEntryId } from "./packs/item-docs.mjs";
-import { journalPageId, splitPages } from "./packs/journals.mjs";
+} from "@heroiclands/content-build/engine/content-package";
+import {
+    compendiumUuid,
+    pageUuid,
+} from "@heroiclands/content-build/engine/ids";
+import {
+    hasDocEntry,
+    itemDocEntryId,
+} from "@heroiclands/content-build/engine/item-docs";
+import {
+    journalPageId,
+    splitPages,
+} from "@heroiclands/content-build/engine/journals";
 
 const CONTENT_BASE = path.resolve("./assets/content");
 const MANIFEST_OUT = path.resolve("./build/manifests");
