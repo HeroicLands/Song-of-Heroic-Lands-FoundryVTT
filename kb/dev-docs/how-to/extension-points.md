@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Extension Points (Developer Guide)
-    aliases: []
+  full: Extension Points (Developer Guide)
+  aliases: []
 id: scDyKKrrUFPyaMYF
 slug: extension-points
 type: doc
@@ -92,10 +92,10 @@ that kind is built:
 
 ```js
 Hooks.once("setup", () => {
-    class MyBeing extends sohl.actorLogicClasses.being {
-        // override rules here
-    }
-    sohl.registerActorLogic("being", MyBeing);
+  class MyBeing extends sohl.actorLogicClasses.being {
+    // override rules here
+  }
+  sohl.registerActorLogic("being", MyBeing);
 });
 ```
 
@@ -156,21 +156,21 @@ it `buttons` — one {@link sohl.document.chat.ActionCardButton} or an array:
 ```ts
 // Roll the generic test but don't auto-post (`noChat`), then post with a button.
 const result = await mlMod.successTest(
-    new SohlActionContext({
-        speaker,
-        scope: { resultDescTable: keepControlTable(winner), noChat: true },
-    }),
+  new SohlActionContext({
+    speaker,
+    scope: { resultDescTable: keepControlTable(winner), noChat: true },
+  }),
 );
 if (result) {
-    await result.toChat({
-        buttons: {
-            action: "applyStumble",
-            handlerUuid: this.uuid,
-            scope: { priorTestResult: result },
-            label: sohl.i18n.localize("SOHL.Being.Stumble.apply"),
-            iconFAClass: "fa-solid fa-person-falling",
-        },
-    });
+  await result.toChat({
+    buttons: {
+      action: "applyStumble",
+      handlerUuid: this.uuid,
+      scope: { priorTestResult: result },
+      label: sohl.i18n.localize("SOHL.Being.Stumble.apply"),
+      iconFAClass: "fa-solid fa-person-falling",
+    },
+  });
 }
 ```
 

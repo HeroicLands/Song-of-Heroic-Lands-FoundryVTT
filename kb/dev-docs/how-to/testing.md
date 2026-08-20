@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Testing
-    aliases: []
+  full: Testing
+  aliases: []
 id: N9XBbIadREP4tBDs
 slug: testing
 type: doc
@@ -21,13 +21,13 @@ SoHL uses **test-driven development (TDD)**. Tests are written before the code t
 
 SoHL has two complementary test suites with very different scope and cadence:
 
-|                  | **Unit tests (vitest)**                                                                                           | **Integration tests (Cypress)**                                                                                   |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| **Scope**        | The Foundry-free **logic layer** — Logic classes and domain objects, in Node                                      | The **running system** in a real Foundry instance — sheets, hooks, documents, the full client                     |
-| **Needs**        | Just `npm` (no Foundry, no browser)                                                                               | Foundry (Docker/felddy container) **+ a Foundry license**                                                         |
+|                  | **Unit tests (vitest)**                                                                                           | **Integration tests (Cypress)**                                                                                                              |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Scope**        | The Foundry-free **logic layer** — Logic classes and domain objects, in Node                                      | The **running system** in a real Foundry instance — sheets, hooks, documents, the full client                                                |
+| **Needs**        | Just `npm` (no Foundry, no browser)                                                                               | Foundry (Docker/felddy container) **+ a Foundry license**                                                                                    |
 | **When it runs** | **Every CI build** — unit tests (plus the purity smoke test) are part of the build pipeline and gate every change | **On demand only** — `npm run e2e:full` from scratch, `npm run e2e:fast` to iterate; not part of standard CI (it needs a licensed container) |
-| **Speed**        | Seconds                                                                                                           | Minutes (seeds a world, serves it, drives a browser)                                                              |
-| **Guide**        | [Running tests](#running-tests) and below                                                                         | [Browser end-to-end tests (Cypress)](#browser-end-to-end-tests-cypress) (near the end)                            |
+| **Speed**        | Seconds                                                                                                           | Minutes (seeds a world, serves it, drives a browser)                                                                                         |
+| **Guide**        | [Running tests](#running-tests) and below                                                                         | [Browser end-to-end tests (Cypress)](#browser-end-to-end-tests-cypress) (near the end)                                                       |
 
 The rule of thumb: **push as much logic as possible into the Foundry-free layer so it can be unit-tested**, and reserve the integration suite for what only a live client can prove (sheet and canvas rendering, persistence, cross-document flows). Card and dialog **HTML** is an exception — it renders in Node and is asserted in the unit suite (see [Asserting rendered HTML in unit tests](#asserting-rendered-html-in-unit-tests)). Both suites are written test-first; the Cypress suite doubles as an executable specification (see below).
 
@@ -83,14 +83,14 @@ repository, against fixtures it owns.
 
 `vitest.config.ts` therefore declares one project:
 
-| Project  | Suite                | Harness                                 |
-| -------- | -------------------- | --------------------------------------- |
+| Project  | Suite                | Harness                                   |
+| -------- | -------------------- | ----------------------------------------- |
 | `system` | `tests/**/*.test.ts` | `tests/setup.ts`, `@src`/`@tests` aliases |
 
 What stays here is `tests/build/`, which asserts the **agreements between this
 repository and that package** — the facts neither side can check alone:
 
-- `src-import-severance.test.ts` walks the *installed* package under
+- `src-import-severance.test.ts` walks the _installed_ package under
   `node_modules/` and fails if any module imports out of `src/`. Checking what
   npm actually delivered is stronger than checking a working copy: it is the
   only form a consumer ever sees, so a module that is clean in its own
@@ -140,19 +140,19 @@ Logic classes operate on Data **interfaces** (`SohlItemData` / `SohlActorData`) 
 
 ```typescript
 import {
-    makeItemLogic,
-    makeMockActor,
-    makeAttributeStub,
+  makeItemLogic,
+  makeMockActor,
+  makeAttributeStub,
 } from "@tests/mocks/logicHarness";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 
 const actor = makeMockActor();
 actor.items.set("str1", makeAttributeStub("str", 12));
 const logic = makeItemLogic(
-    SkillLogic,
-    "skill",
-    { skillBaseFormula: "sb(attr.str)", masteryLevelBase: 30 },
-    { actor },
+  SkillLogic,
+  "skill",
+  { skillBaseFormula: "sb(attr.str)", masteryLevelBase: 30 },
+  { actor },
 );
 logic.initialize(); // lifecycle is NOT auto-run
 expect(logic.masteryLevel.base).toBe(30);
@@ -210,29 +210,29 @@ import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
 const mockParent = { id: "test", name: "Test" } as any;
 
 function createVM(data: Partial<ValueModifier.Data> = {}): ValueModifier {
-    return new ValueModifier(data, { parent: mockParent });
+  return new ValueModifier(data, { parent: mockParent });
 }
 
 describe("ValueModifier", () => {
-    it("effective equals base when no deltas", () => {
-        const vm = createVM();
-        vm.setBase(50);
-        expect(vm.effective).toBe(50);
-    });
+  it("effective equals base when no deltas", () => {
+    const vm = createVM();
+    vm.setBase(50);
+    expect(vm.effective).toBe(50);
+  });
 
-    it("add deltas increase effective", () => {
-        const vm = createVM();
-        vm.setBase(50);
-        // Push a delta manually (the add() method has naming requirements)
-        vm.deltas.push({
-            name: "SOHL.MOD.test",
-            abbrev: "TST",
-            op: VALUE_DELTA_OPERATOR.ADD,
-            value: "10",
-            numValue: 10,
-        } as any);
-        expect(vm.effective).toBe(60);
-    });
+  it("add deltas increase effective", () => {
+    const vm = createVM();
+    vm.setBase(50);
+    // Push a delta manually (the add() method has naming requirements)
+    vm.deltas.push({
+      name: "SOHL.MOD.test",
+      abbrev: "TST",
+      op: VALUE_DELTA_OPERATOR.ADD,
+      value: "10",
+      numValue: 10,
+    } as any);
+    expect(vm.effective).toBe(60);
+  });
 });
 ```
 
@@ -248,8 +248,8 @@ npm run test -- tests/domain/modifier/ValueModifier.test.ts
 
 ```typescript
 const MOCK_BEING_LOGIC = {
-    actor: null,
-    data: { structure: SAMPLE_DATA },
+  actor: null,
+  data: { structure: SAMPLE_DATA },
 } as any;
 
 const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
@@ -268,8 +268,8 @@ const vm = new ValueModifier({}, { parent: mockParent });
 // Statistical approach: run many iterations, check distribution
 const counts: Record<string, number> = {};
 for (let i = 0; i < 1000; i++) {
-    const result = body.getRandomPart();
-    counts[result.shortcode] = (counts[result.shortcode] ?? 0) + 1;
+  const result = body.getRandomPart();
+  counts[result.shortcode] = (counts[result.shortcode] ?? 0) + 1;
 }
 expect(counts["thorax"]).toBeGreaterThan(counts["head"]); // thorax has higher weight
 ```
@@ -328,16 +328,16 @@ import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 // (a) Render a template directly and assert its HTML.
 const html = renderTemplateReal(
-    "systems/sohl/templates/chat/treatment-request-card.hbs",
-    { patientName: "Aldric", woundName: "gash", aspect: "edged", severity: 4 },
+  "systems/sohl/templates/chat/treatment-request-card.hbs",
+  { patientName: "Aldric", woundName: "gash", aspect: "edged", severity: 4 },
 );
 expect(html).toContain("Aldric");
 
 // (b) Drive an action and let its render go through the harness — spy the shim.
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
-    tpl: any,
-    d: any,
+  tpl: any,
+  d: any,
 ) => Promise.resolve(renderTemplateReal(String(tpl), d))) as any);
 const cardHtml = await buildActionCard(spec); // the action's real output
 expect(cardHtml).toContain('data-action="performTreatmentTest"');
@@ -448,10 +448,10 @@ for the container details and download cache.
 Foundry is a moving target in both directions, so the suite is run on two, and
 they answer different questions.
 
-| Track | Build | When | Question it answers |
-| --- | --- | --- | --- |
-| **Default** | `compatibility.minimum` — currently **14.359** | Every routine run; the committed default | Does the system still work on the oldest Foundry we *claim* to support? |
-| **Sweep** | The newest Foundry release | Roughly weekly, and always before shipping | Has a new Foundry release broken us? |
+| Track       | Build                                          | When                                       | Question it answers                                                     |
+| ----------- | ---------------------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------- |
+| **Default** | `compatibility.minimum` — currently **14.359** | Every routine run; the committed default   | Does the system still work on the oldest Foundry we _claim_ to support? |
+| **Sweep**   | The newest Foundry release                     | Roughly weekly, and always before shipping | Has a new Foundry release broken us?                                    |
 
 **The default is the floor, and that is the whole point.** `compatibility.minimum`
 is a promise made to every user reading the manifest, and a promise is only
@@ -557,15 +557,15 @@ run on the first failure instead of continuing with a half-built stage.
 The loop exists because each step has a quiet failure mode, and hand-rolling it
 means meeting them one at a time:
 
-| Step | What goes wrong by hand |
-| ---- | ----------------------- |
-| Build | The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not `src/`. Templates need `build:assets`, TypeScript `build:code`, content `build:db`. |
-| Order | `vite` (`build:code`) **empties `build/stage`**, so building it after the asset/pack passes silently discards them, and `push:test` — a destructive mirror — then deletes them from the target. |
-| `system.json` | Read only at world launch, so it needs a container **recreate**, not a restart. Naming `system` in `--build` implies `--recreate`. |
-| Restart | A running Foundry holds the old packs open, so a content change is invisible until the world reopens them. |
-| Stale lock | A container that died holding the data-root lock (`docker kill`, a crash, an OOM) leaves `Config/options.json.lock` behind, and Foundry then refuses to boot with "already locked by another process" — naming no owner, so it reads like corruption. Every boot path in `utils/foundry-container.mjs` (`start`, `restart`, `recreate`) now sweeps it, which is safe precisely because each does so while the container is down. |
-| Readiness | `docker start` returns long before Foundry serves; Cypress opens on a dead port and every spec fails for no visible reason. The loop polls `/join` until it answers. |
-| `ELECTRON_RUN_AS_NODE` | VS Code's integrated terminal and most agent/CI shells export it. With it set, Cypress's bundled Electron launches as plain Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic `MODULE_NOT_FOUND`. The loop strips it, as `npm run e2e:full` already does. |
+| Step                   | What goes wrong by hand                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Build                  | The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not `src/`. Templates need `build:assets`, TypeScript `build:code`, content `build:db`.                                                                                                                                                                                                                                                                   |
+| Order                  | `vite` (`build:code`) **empties `build/stage`**, so building it after the asset/pack passes silently discards them, and `push:test` — a destructive mirror — then deletes them from the target.                                                                                                                                                                                                                                  |
+| `system.json`          | Read only at world launch, so it needs a container **recreate**, not a restart. Naming `system` in `--build` implies `--recreate`.                                                                                                                                                                                                                                                                                               |
+| Restart                | A running Foundry holds the old packs open, so a content change is invisible until the world reopens them.                                                                                                                                                                                                                                                                                                                       |
+| Stale lock             | A container that died holding the data-root lock (`docker kill`, a crash, an OOM) leaves `Config/options.json.lock` behind, and Foundry then refuses to boot with "already locked by another process" — naming no owner, so it reads like corruption. Every boot path in `utils/foundry-container.mjs` (`start`, `restart`, `recreate`) now sweeps it, which is safe precisely because each does so while the container is down. |
+| Readiness              | `docker start` returns long before Foundry serves; Cypress opens on a dead port and every spec fails for no visible reason. The loop polls `/join` until it answers.                                                                                                                                                                                                                                                             |
+| `ELECTRON_RUN_AS_NODE` | VS Code's integrated terminal and most agent/CI shells export it. With it set, Cypress's bundled Electron launches as plain Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic `MODULE_NOT_FOUND`. The loop strips it, as `npm run e2e:full` already does.                                                                                                                                        |
 
 A direct `npx cypress run` still works when the environment is already current —
 just remember the `env -u ELECTRON_RUN_AS_NODE` prefix that the loop applies for
@@ -619,18 +619,18 @@ seams:
 
 ```js
 describe("gear on a being", () => {
-    before(() => cy.login().then(() => cy.cleanupWorld()));
-    afterEach(() => cy.cleanupWorld());
+  before(() => cy.login().then(() => cy.cleanupWorld()));
+  afterEach(() => cy.cleanupWorld());
 
-    it("adds a weapon and shows it on the combat tab", () => {
-        cy.importActor().as("actor"); // Basic Folk, fully populated
-        cy.then(function () {
-            cy.createItemOn(this.actor, "weapongear", { name: "Dagger" });
-            cy.openSheet(this.actor);
-            cy.switchTab("combat", "primary");
-            cy.get('section.tab[data-tab="combat"]').contains("Dagger");
-        });
+  it("adds a weapon and shows it on the combat tab", () => {
+    cy.importActor().as("actor"); // Basic Folk, fully populated
+    cy.then(function () {
+      cy.createItemOn(this.actor, "weapongear", { name: "Dagger" });
+      cy.openSheet(this.actor);
+      cy.switchTab("combat", "primary");
+      cy.get('section.tab[data-tab="combat"]').contains("Dagger");
     });
+  });
 });
 ```
 
@@ -681,31 +681,31 @@ There are two ways to answer, and the choice should model intent:
    this is the unambiguous, UI-faithful way to answer, and it exercises the real
    consent flow exactly as a player would.
 
-    Fire the action **without** `skipDialog` so the dialog opens, stash its
-    promise, press the button, then **await that promise** before asserting — and
-    assert on the **persisted store entry**, not a bare post-create `isScheduled`
-    (see the async-armed-queue gotcha below):
+   Fire the action **without** `skipDialog` so the dialog opens, stash its
+   promise, press the button, then **await that promise** before asserting — and
+   assert on the **persisted store entry**, not a bare post-create `isScheduled`
+   (see the async-armed-queue gotcha below):
 
-    ```js
-    cy.foundry((win) => {
-        // Perform without skipDialog → the offer dialog opens; stash the promise.
-        // Note it is the `*Test` that offers the next occurrence — the `*Check`
-        // only posts the card inviting it (see the Check/Test split, #1181).
-        win.__perf = wound.logic.executeAction("healingtest", {});
-        return null;
-    });
-    cy.submitDialog("yes"); // model the user: press button[data-action="yes"]
-    cy.foundry((win) =>
-        win.__perf.then(() => {
-            const sys = win.game.actors.get(actorId).items.get(woundId).system;
-            // The persisted entry is the reliable fact; isScheduled is safe here
-            // too, because executeAction (and its finalize) has now resolved.
-            return (sys.scheduledActions || []).filter(
-                (e) => e.actionName === "healingCheck",
-            ).length;
-        }),
-    ).should("eq", 1);
-    ```
+   ```js
+   cy.foundry((win) => {
+     // Perform without skipDialog → the offer dialog opens; stash the promise.
+     // Note it is the `*Test` that offers the next occurrence — the `*Check`
+     // only posts the card inviting it (see the Check/Test split, #1181).
+     win.__perf = wound.logic.executeAction("healingtest", {});
+     return null;
+   });
+   cy.submitDialog("yes"); // model the user: press button[data-action="yes"]
+   cy.foundry((win) =>
+     win.__perf.then(() => {
+       const sys = win.game.actors.get(actorId).items.get(woundId).system;
+       // The persisted entry is the reliable fact; isScheduled is safe here
+       // too, because executeAction (and its finalize) has now resolved.
+       return (sys.scheduledActions || []).filter(
+         (e) => e.actionName === "healingCheck",
+       ).length;
+     }),
+   ).should("eq", 1);
+   ```
 
 2. **Pre-answer / suppress — for setup, when the dialog is _incidental_.** When you
    just need the effect to exist (a fixture wound), hand the action a context that

@@ -17,12 +17,13 @@ export default {
     endOfLine: "lf",
     // Opt into the newer, flatter ternary formatting.
     experimentalTernaries: true,
+    // No `**/*.hbs` override here. One used to claim the templates "parse
+    // cleanly with the Angular HTML parser"; they do not — that parser fails on
+    // `{{!-- … --}}`, the comment form of every template's mandated licence
+    // header. The claim went unnoticed because .prettierignore excludes the
+    // templates, so the override never ran. See that file for what it would
+    // take to format them.
     overrides: [
-        {
-            // Handlebars templates parse cleanly with the Angular HTML parser.
-            files: "**/*.hbs",
-            options: { parser: "angular" },
-        },
         {
             // Markdown indents at 2, not the global 4. `assets/content/` is
             // authored content whose YAML frontmatter is nested lists; at

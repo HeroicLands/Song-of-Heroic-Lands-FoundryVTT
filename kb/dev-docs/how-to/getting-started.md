@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Getting Started (New Developer Guide)
-    aliases: []
+  full: Getting Started (New Developer Guide)
+  aliases: []
 id: zbZL9MPvAYWgZMD3
 slug: getting-started
 type: doc
@@ -55,9 +55,9 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 2. **{@link sohl.core.logic.SohlLogic}** — the abstract base for all Logic classes. The
    class-level JSDoc explains the phase-batched lifecycle.
 3. **Pick one item type** and trace through its three classes:
-    - Logic: `src/document/item/logic/SkillLogic.ts` (business rules) —
-    - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
-    - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
+   - Logic: `src/document/item/logic/SkillLogic.ts` (business rules) —
+   - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
+   - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
 
 > **See the Being sheet end to end, in-app.** Launch a world and run the
 > **Create a Character** guided tour (offered on first load, or any time from

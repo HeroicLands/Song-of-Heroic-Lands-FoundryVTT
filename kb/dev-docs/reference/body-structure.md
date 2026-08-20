@@ -1,14 +1,14 @@
 ---
 aliases:
-    - Body Structure
-    - Body Parts
-    - Body Locations
-    - Hit Location
-    - Anatomy
-    - Strike Spread
+  - Body Structure
+  - Body Parts
+  - Body Locations
+  - Hit Location
+  - Anatomy
+  - Strike Spread
 name:
-    full: Body Structure
-    aliases: []
+  full: Body Structure
+  aliases: []
 id: PrmiTB7yTz9BJodj
 slug: body-structure
 type: doc
@@ -16,10 +16,10 @@ package: sohl
 category: dev-docs
 folder: null
 tags:
-    - rules
-    - core-system
-    - combat
-    - injury
+  - rules
+  - core-system
+  - combat
+  - injury
 audience: Developers and content authors defining creature anatomy.
 ---
 
@@ -51,7 +51,7 @@ At runtime, the data is rebuilt into domain objects in `src/entity/body/`:
 - `BodyPart` — one anatomical division
 - `BodyLocation` — one hit location within a part
 
-**Every entity's `index` is its slot in the flat array**, so `structure.parts[i].index === i` and each `updatePath` is a plain two-segment path (`system.body.structure.parts.4`). A child's *position within its parent* — {@link sohl.entity.body.BodyPart.position} / {@link sohl.entity.body.BodyLocation.position} — is its relative order among the array elements sharing that parent, and is what drag-to-sort addresses.
+**Every entity's `index` is its slot in the flat array**, so `structure.parts[i].index === i` and each `updatePath` is a plain two-segment path (`system.body.structure.parts.4`). A child's _position within its parent_ — {@link sohl.entity.body.BodyPart.position} / {@link sohl.entity.body.BodyLocation.position} — is its relative order among the array elements sharing that parent, and is what drag-to-sort addresses.
 
 A child whose parent code matches nothing is preserved in storage but left out of the hierarchy; read them from `structure.orphanedParts` / `structure.orphanedLocations`.
 
@@ -59,15 +59,15 @@ The `BodyStructure` and its zones/parts/locations are parented to the being's {@
 
 To persist, use the `*Update()` helpers on `BodyStructure`. They are symmetric across the three tiers, and each returns a **complete-array** payload:
 
-| Tier      | Add                 | Remove                                   | Reorder / re-parent  | Field edit                |
-| --------- | ------------------- | ---------------------------------------- | -------------------- | ------------------------- |
-| Zone      | `addZoneUpdate`     | `removeZoneUpdate` (cascades)            | `moveZoneUpdate`     | `setZoneFieldsUpdate`     |
-| Part      | `addPartUpdate`     | `removePartUpdate` (cascades)            | `movePartUpdate`     | `setPartFieldsUpdate`     |
-| Location  | `addLocationUpdate` | `removeLocationUpdate`                   | `moveLocationUpdate` | `setLocationFieldsUpdate` |
+| Tier     | Add                 | Remove                        | Reorder / re-parent  | Field edit                |
+| -------- | ------------------- | ----------------------------- | -------------------- | ------------------------- |
+| Zone     | `addZoneUpdate`     | `removeZoneUpdate` (cascades) | `moveZoneUpdate`     | `setZoneFieldsUpdate`     |
+| Part     | `addPartUpdate`     | `removePartUpdate` (cascades) | `movePartUpdate`     | `setPartFieldsUpdate`     |
+| Location | `addLocationUpdate` | `removeLocationUpdate`        | `moveLocationUpdate` | `setLocationFieldsUpdate` |
 
 **Deletes cascade down the tree.** Removing a zone also removes its parts and their locations; removing a part removes its locations. A child is never orphaned by a delete.
 
-**Renames re-point children.** Because a child links to its parent by *shortcode*, changing a zone's or part's shortcode must be paired with `repointPartsUpdate(old, new)` / `repointLocationsUpdate(old, new)`. The two payloads touch different arrays, so they merge by spread — see `BodyZoneConfig` / `BodyPartConfig` for the pattern.
+**Renames re-point children.** Because a child links to its parent by _shortcode_, changing a zone's or part's shortcode must be paired with `repointPartsUpdate(old, new)` / `repointLocationsUpdate(old, new)`. The two payloads touch different arrays, so they merge by spread — see `BodyZoneConfig` / `BodyPartConfig` for the pattern.
 
 Convenience wrappers stamp the parent code for you: {@link sohl.entity.body.BodyZone.addPartUpdate} and {@link sohl.entity.body.BodyPart.addLocationUpdate}.
 
@@ -75,18 +75,18 @@ Convenience wrappers stamp the parent code for you: {@link sohl.entity.body.Body
 
 A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [BeingDataModel.ts](../../../src/document/actor/foundry/BeingDataModel.ts):
 
-| Field                 | Type                  | Purpose                                                                                                              |
-| --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `shortcode`           | string                | Stable identifier (e.g., `headpart`), unique body-wide. Named by its locations' `bodyPartCode`.                      |
-| `name`                | string                | Display name (e.g., `"Head"`). Stored literally; not a localization key.                                             |
-| `roles`               | `BodyRole[]`          | Functional tags the part fulfills — see [Body Roles](#body-roles).                                                   |
-| `probWeight`          | number                | Selection weight **within its zone**: once the zone is rolled, its parts are drawn in proportion to this. Also the area an aimed strike spends its `spread` against. |
-| `canHoldItem`         | boolean               | Whether this part can grip an item **at all** — anatomy, not current state. The entity exposes it raw as {@link sohl.entity.body.BodyPart.canHoldItemBase}; the same-named getter is [derived](#immobilized-unusable-and-the-ability-to-hold). Arms typically `true`; others `false`. |
-| `heldItemId`          | string \| null        | The ID of the item currently held, if any.                                                                           |
-| `favoredFlag`         | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                                        |
-| `permanentImpairment` | integer ≤ 0           | Manually-set permanent impairment for the part (`0` = none). See [Body-part impairment](#body-part-impairment).      |
-| `permanentlyUnusable` | boolean               | Manually-set flag marking the part permanently unusable (withered / fully amputated), regardless of impairment tier. Implies {@link sohl.entity.body.BodyPart.isUnusable} — see [below](#immobilized-unusable-and-the-ability-to-hold). |
-| `bodyZoneCode`        | string                | Shortcode of the owning {@link sohl.entity.body.BodyZone}.                                                           |
+| Field                 | Type           | Purpose                                                                                                                                                                                                                                                                               |
+| --------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `shortcode`           | string         | Stable identifier (e.g., `headpart`), unique body-wide. Named by its locations' `bodyPartCode`.                                                                                                                                                                                       |
+| `name`                | string         | Display name (e.g., `"Head"`). Stored literally; not a localization key.                                                                                                                                                                                                              |
+| `roles`               | `BodyRole[]`   | Functional tags the part fulfills — see [Body Roles](#body-roles).                                                                                                                                                                                                                    |
+| `probWeight`          | number         | Selection weight **within its zone**: once the zone is rolled, its parts are drawn in proportion to this. Also the area an aimed strike spends its `spread` against.                                                                                                                  |
+| `canHoldItem`         | boolean        | Whether this part can grip an item **at all** — anatomy, not current state. The entity exposes it raw as {@link sohl.entity.body.BodyPart.canHoldItemBase}; the same-named getter is [derived](#immobilized-unusable-and-the-ability-to-hold). Arms typically `true`; others `false`. |
+| `heldItemId`          | string \| null | The ID of the item currently held, if any.                                                                                                                                                                                                                                            |
+| `favoredFlag`         | boolean        | Marks the part as favored (off-hand vs. main-hand semantics).                                                                                                                                                                                                                         |
+| `permanentImpairment` | integer ≤ 0    | Manually-set permanent impairment for the part (`0` = none). See [Body-part impairment](#body-part-impairment).                                                                                                                                                                       |
+| `permanentlyUnusable` | boolean        | Manually-set flag marking the part permanently unusable (withered / fully amputated), regardless of impairment tier. Implies {@link sohl.entity.body.BodyPart.isUnusable} — see [below](#immobilized-unusable-and-the-ability-to-hold).                                               |
+| `bodyZoneCode`        | string         | Shortcode of the owning {@link sohl.entity.body.BodyZone}.                                                                                                                                                                                                                            |
 
 A convenience getter {@link sohl.entity.body.BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
 
@@ -98,14 +98,14 @@ Requiring the mirror twin is what makes the prefix safe. A bare "starts with `l`
 
 A **being's** dominant side is a different question, and comes from its characteristics rather than from anything on a limb — {@link sohl.document.actor.logic.BeingLogic.dominantSide} reads the `ldmnc` / `rdmnc` Trauma items:
 
-| Left Dominance | Right Dominance | Dominant side              |
-| -------------- | --------------- | -------------------------- |
-| yes            | no              | left                       |
-| no             | yes             | right                      |
-| yes            | yes             | none — ambidextrous        |
-| no             | no              | none — no side is favored  |
+| Left Dominance | Right Dominance | Dominant side             |
+| -------------- | --------------- | ------------------------- |
+| yes            | no              | left                      |
+| no             | yes             | right                     |
+| yes            | yes             | none — ambidextrous       |
+| no             | no              | none — no side is favored |
 
-This is the single home for the dominance question wherever a favored side matters; the off-hand impact reduction ({@link sohl.entity.body.isOffHandGrip}) is only its first caller. A grip is off-hand only when *every* limb holding the item is on the non-dominant side, so a two-handed grip never is, and a being with no dominant side never grips off-hand at all.
+This is the single home for the dominance question wherever a favored side matters; the off-hand impact reduction ({@link sohl.entity.body.isOffHandGrip}) is only its first caller. A grip is off-hand only when _every_ limb holding the item is on the non-dominant side, so a two-handed grip never is, and a being with no dominant side never grips off-hand at all.
 
 > The persisted `favoredFlag` on a body part is not this mechanism and is read nowhere — dominance is a property of the being, not of a limb.
 
@@ -122,7 +122,7 @@ A body location is a specific hit point within a part — Skull, Thorax, Right E
 | `shockValue`             | integer                          | Inherent shock inflicted by an injury at this location, regardless of severity.                                                                                                               |
 | `bleedingSusceptibility` | tier                             | `none` / `low` / `medium` / `high`. Combined with injury severity and weapon aspect by `BleedingDefaults` to decide whether a wound bleeds.                                                   |
 | `amputability`           | tier                             | `none` / `low` / `medium` / `high`. Drives the Strength-test modifier when a G5 Edge injury would amputate; see `AmputationDefaults`. `none` means amputation is disallowed at this location. |
-| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../../src/utils/constants.ts). **May be negative** — see below.                                                                                     |
+| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../../src/utils/constants.ts). **May be negative** — see below.                                                                                  |
 
 Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleeding; same for amputability).
 
@@ -130,14 +130,14 @@ Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleed
 
 `protectionBase` is **unbounded below**. A hide softer than bare human skin — a
 crow's is `−6` blunt / `−8` piercing, a cat's `−3`/`−5` — carries a negative
-value, and `resolveInjury` lets it *raise* the effective impact
+value, and `resolveInjury` lets it _raise_ the effective impact
 (`impact − protection`, so a 3-impact blow lands as 9 on the crow) rather than
 clamping it away. Armor reduction still bottoms out at the location's own
 floor, `min(armorValue, 0)`: it can strip a hauberk to nothing, but it cannot
 make an already-vulnerable hide worse.
 
 This is a separate axis from [body scale](#body-scale-per-creature-injury-scaling),
-which rescales the *thresholds* an impact is judged against. Scale answers "how
+which rescales the _thresholds_ an impact is judged against. Scale answers "how
 much damage does this body absorb before a wound is Serious"; negative armor
 answers "how little does its hide stop." A small creature typically carries
 both.
@@ -160,10 +160,10 @@ A part may carry multiple roles. A wolf's foreleg might be `[locomotor, manipula
 1. **Skill / attribute impairment.** Skills and attributes carry an `impairedByRoles: BodyRole[]` field. When a body part takes an injury, every skill and attribute whose `impairedByRoles` intersects the part's `roles` is impaired. Mental attributes leave the list empty; physical ones list the relevant roles. See [src/document/item/foundry/SkillDataModel.ts](../../../src/document/item/foundry/SkillDataModel.ts) and [AttributeDataModel.ts](../../../src/document/item/foundry/AttributeDataModel.ts).
 2. **Mobility impairment.** `BodyPart.affectsMobility` returns `true` when the part has any of `vital`, `core`, or `locomotor`.
 3. **Mishap checks** (fumble / stumble) on injury severity:
-    - `vital` Serious → fumble + stumble check; Grievous → both auto
-    - `core` Serious → fumble + stumble check; Grievous → both auto
-    - `manipulator` Serious → fumble check; Grievous → auto fumble
-    - `locomotor` Serious → stumble check; Grievous → auto stumble
+   - `vital` Serious → fumble + stumble check; Grievous → both auto
+   - `core` Serious → fumble + stumble check; Grievous → both auto
+   - `manipulator` Serious → fumble check; Grievous → auto fumble
+   - `locomotor` Serious → stumble check; Grievous → auto stumble
 
 ### Resolving a flagged mishap — the keep-control test
 
@@ -217,11 +217,11 @@ victim. {@link sohl.entity.body.BodyPart} models them as one settable switch plu
 two derivations, all **Logic-only**: nothing here is persisted, and every value is
 rebuilt from the persisted schema on each preparation cycle.
 
-| Source                         | Sets          | Follows by derivation                        |
-| ------------------------------ | ------------- | -------------------------------------------- |
-| **Immobilized** trauma         | `immobilized` | nothing — **the grip is retained**           |
-| Grievous injury                | `isUnusable`  | `immobilized`, and the loss of `canHoldItem` |
-| `permanentlyUnusable` (persisted) | `isUnusable` | the same, permanently                        |
+| Source                            | Sets          | Follows by derivation                        |
+| --------------------------------- | ------------- | -------------------------------------------- |
+| **Immobilized** trauma            | `immobilized` | nothing — **the grip is retained**           |
+| Grievous injury                   | `isUnusable`  | `immobilized`, and the loss of `canHoldItem` |
+| `permanentlyUnusable` (persisted) | `isUnusable`  | the same, permanently                        |
 
 ```
 isUnusable  = permanentlyUnusable || <set during the lifecycle>
@@ -234,7 +234,7 @@ limb is out of action", and {@link sohl.entity.body.BodyPart.immobilized} is the
 weaker state a hold produces on its own. Because both are settable Logic
 properties rather than schema fields, an Active Effect keyed
 `mod:logic.<property>` can drive them (SoHL effect keys target Logic properties,
-not schema paths) — though addressing them on the *actor* would need a Being/body
+not schema paths) — though addressing them on the _actor_ would need a Being/body
 effect-key namespace that does not exist yet.
 
 Who sets what, and when:
@@ -244,7 +244,7 @@ Who sets what, and when:
   `bodyLocationCode`, during the trauma's own `initialize()` — which the actor's
   `initialize()`, where the body is built, precedes. The flag lives only on the
   rebuilt part, so **deleting the trauma releases the limb** with no lifecycle to
-  unwind. A grappling hold and a binding spell impart the *same* condition; this
+  unwind. A grappling hold and a binding spell impart the _same_ condition; this
   is why a per-limb magical effect needs no part-addressable Active Effect.
 - **A grievous injury** sets `isUnusable` in `BeingLogic.finalize`
   (`deriveBodyPartUsability`), once the trauma items have settled their levels.
@@ -258,7 +258,7 @@ Who sets what, and when:
 
 Readers of {@link sohl.entity.body.BodyPart.canHoldItem} — the held-item
 dropdowns on the Being sheet, `BodyStructure.limbsHolding` behind strike-mode
-gating — therefore see the *effective* answer. Anything that writes the capability
+gating — therefore see the _effective_ answer. Anything that writes the capability
 back must read the persisted value instead, or the flag would be clobbered while
 the limb is disabled: the body-part editor
 ([BodyPartConfig.ts](../../../src/apps/foundry/BodyPartConfig.ts)) edits the raw
@@ -361,11 +361,11 @@ inert — the creature is already at the ceiling.
 
 A body zone is the broadest anatomical division and the **first stage of hit determination**. Persisted fields:
 
-| Field        | Type    | Purpose                                                                                              |
-| ------------ | ------- | ---------------------------------------------------------------------------------------------------- |
-| `shortcode`  | string  | Stable identifier (e.g., `armszone`), unique body-wide. Named by its parts' `bodyZoneCode`.          |
-| `name`       | string  | Display name (e.g., `"Arms"`). Stored literally; not a localization key.                             |
-| `probWeight` | integer | How many **zone numbers** this zone claims. `0` makes it unrollable.                                 |
+| Field        | Type    | Purpose                                                                                     |
+| ------------ | ------- | ------------------------------------------------------------------------------------------- |
+| `shortcode`  | string  | Stable identifier (e.g., `armszone`), unique body-wide. Named by its parts' `bodyZoneCode`. |
+| `name`       | string  | Display name (e.g., `"Arms"`). Stored literally; not a localization key.                    |
+| `probWeight` | integer | How many **zone numbers** this zone claims. `0` makes it unrollable.                        |
 
 **Zone numbers** are allocated in persisted zone order, each zone taking a contiguous run sized by its weight. A body whose zones weigh 1 / 4 / 3 / 4 hands out `1`, `2–5`, `6–8`, `9–12`.
 
@@ -464,12 +464,12 @@ Locations:
 
 Zones (in order, with the numbers each claims):
 
-| Zone shortcode | Name  | `probWeight` | Zone numbers | Parts                    |
-| -------------- | ----- | -----------: | ------------ | ------------------------ |
-| `headzone`     | Head  |            1 | 1            | `headpart`               |
-| `armszone`     | Arms  |            4 | 2–5          | `rarmpart`, `larmpart`   |
-| `torsozone`    | Torso |            4 | 6–9          | `torsopart`              |
-| `legszone`     | Legs  |            6 | 10–15        | `rlegpart`, `llegpart`   |
+| Zone shortcode | Name  | `probWeight` | Zone numbers | Parts                  |
+| -------------- | ----- | -----------: | ------------ | ---------------------- |
+| `headzone`     | Head  |            1 | 1            | `headpart`             |
+| `armszone`     | Arms  |            4 | 2–5          | `rarmpart`, `larmpart` |
+| `torsozone`    | Torso |            4 | 6–9          | `torsopart`            |
+| `legszone`     | Legs  |            6 | 10–15        | `rlegpart`, `llegpart` |
 
 ## Body plans shipped in the animals pack
 
@@ -477,23 +477,23 @@ Suffix every zone shortcode with `zone`, every part shortcode with `part`, and e
 
 Fifteen body plans are authored across the `sohl.actors` pack. Each mirrors the shape of a printed hit-location table where one exists and extrapolates the same construction where none does; zone weights scale with the creature's size band, while part and location weights are the plan's own.
 
-| Plan             | Zones                                            | Example creatures            |
-| ---------------- | ------------------------------------------------ | ---------------------------- |
-| `ungulate`       | Head · Forelegs · Torso · Hindquarters           | bovine, horse, stag, rhino   |
-| `carnivore`      | Head · Forelegs · Torso · Hindquarters           | bear, lion, wolf, crocodile  |
-| `smallQuadruped` | Forequarters · Torso · Hindquarters              | cat, dog, badger, lizard     |
-| `anthropoid`     | Head · Arms · Torso · Legs                       | ape, monkey (and every Being)|
-| `smallAvian`     | Head · Body · Hindquarters                       | crow, raven, bat             |
-| `largeAvian`     | Head · Wing · Body · Wing · Hindquarters         | eagle, condor, roc           |
-| `biped`          | Head · Body · Hindquarters                       | ostrich, raptor-lizards      |
-| `drake`          | Head · Wings · Forelegs · Torso · Hindquarters   | forest and mountain drakes   |
-| `serpentine`     | Head · Forebody · Hindbody                       | snake, centipede, wurm       |
-| `proboscidean`   | Head · Trunk · Forelegs · Torso · Hindquarters   | elephant                     |
-| `arachnid`       | Cephalothorax · Abdomen · Legs                   | spider, scorpion             |
-| `insect`         | Head · Thorax · Abdomen                          | ant, wasp, beetle            |
-| `aquatic`        | Head · Body · Tail                               | shark, orca, seal            |
-| `chelonian`      | Head · Shell · Limbs                             | tortoise, turtle             |
-| `cephalopod`     | Mantle · Head · Arms                             | octopus                      |
+| Plan             | Zones                                          | Example creatures             |
+| ---------------- | ---------------------------------------------- | ----------------------------- |
+| `ungulate`       | Head · Forelegs · Torso · Hindquarters         | bovine, horse, stag, rhino    |
+| `carnivore`      | Head · Forelegs · Torso · Hindquarters         | bear, lion, wolf, crocodile   |
+| `smallQuadruped` | Forequarters · Torso · Hindquarters            | cat, dog, badger, lizard      |
+| `anthropoid`     | Head · Arms · Torso · Legs                     | ape, monkey (and every Being) |
+| `smallAvian`     | Head · Body · Hindquarters                     | crow, raven, bat              |
+| `largeAvian`     | Head · Wing · Body · Wing · Hindquarters       | eagle, condor, roc            |
+| `biped`          | Head · Body · Hindquarters                     | ostrich, raptor-lizards       |
+| `drake`          | Head · Wings · Forelegs · Torso · Hindquarters | forest and mountain drakes    |
+| `serpentine`     | Head · Forebody · Hindbody                     | snake, centipede, wurm        |
+| `proboscidean`   | Head · Trunk · Forelegs · Torso · Hindquarters | elephant                      |
+| `arachnid`       | Cephalothorax · Abdomen · Legs                 | spider, scorpion              |
+| `insect`         | Head · Thorax · Abdomen                        | ant, wasp, beetle             |
+| `aquatic`        | Head · Body · Tail                             | shark, orca, seal             |
+| `chelonian`      | Head · Shell · Limbs                           | tortoise, turtle              |
+| `cephalopod`     | Mantle · Head · Arms                           | octopus                       |
 
 An **ape or monkey uses the human plan unchanged** — the same six parts and thirty-two hit locations a Being carries — over a zone run scaled to its size, so a monkey's zone numbers run 1–6 where a person's run 1–15.
 
@@ -505,16 +505,16 @@ Use `BodyStructure.addPartUpdate(partData)` to build the update payload:
 const zone = structure.getZoneByCode("tailzone");
 // `BodyZone.addPartUpdate` stamps `bodyZoneCode` for you.
 await beingActor.update(
-    zone.addPartUpdate({
-        shortcode: "tailpart",
-        name: "Tail",
-        bodyZoneCode: "tailzone",
-        roles: ["locomotor"],
-        favoredFlag: false,
-        canHoldItem: false,
-        heldItemId: null,
-        probWeight: 1,
-    }),
+  zone.addPartUpdate({
+    shortcode: "tailpart",
+    name: "Tail",
+    bodyZoneCode: "tailzone",
+    roles: ["locomotor"],
+    favoredFlag: false,
+    canHoldItem: false,
+    heldItemId: null,
+    probWeight: 1,
+  }),
 );
 ```
 
@@ -523,7 +523,7 @@ Its hit locations are added separately, against the flat `locations` array — a
 ```typescript
 const part = beingActor.logic.body.structure.getPartByCode("tailpart");
 await beingActor.update(
-    part.addLocationUpdate(blankBodyLocation("Tail Tip", "tailtiploc")),
+  part.addLocationUpdate(blankBodyLocation("Tail Tip", "tailtiploc")),
 );
 ```
 

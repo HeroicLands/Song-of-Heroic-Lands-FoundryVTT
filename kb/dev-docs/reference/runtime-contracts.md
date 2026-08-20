@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Runtime Contracts
-    aliases: []
+  full: Runtime Contracts
+  aliases: []
 id: Ktt9YETs9obxH9WX
 slug: runtime-contracts
 type: doc
@@ -149,9 +149,9 @@ A context-menu predicate — an entry's `condition`, or an action's `visible` /
 `trigger` — is handed only the clicked element. Its `itemLogic` and `actorLogic`
 bindings are resolved from the DOM by walking **up** from that element:
 
-| Binding      | Resolved from                                                        |
-| ------------ | -------------------------------------------------------------------- |
-| `actorLogic` | the nearest `[data-actor-id]` ancestor                               |
+| Binding      | Resolved from                                                          |
+| ------------ | ---------------------------------------------------------------------- |
+| `actorLogic` | the nearest `[data-actor-id]` ancestor                                 |
 | `itemLogic`  | the nearest `[data-item-id]` ancestor, looked up on the resolved actor |
 
 Two obligations follow, and a surface that renders rows must meet them:
@@ -224,22 +224,22 @@ Domain entities — results (`SuccessTestResult`, `AttackResult`, …), modifier
 
 - **Ownership.** Every `SohlEntity` requires a `parent` Logic (`options.parent`); the constructor throws `SohlEntity requires a parent` otherwise. `parent` is transient — never serialized — and is re-supplied on revival.
 - **Two constructor forms.** The constructor is overloaded (matching the `clone(parent)` shorthand below): `new X(parent)` is shorthand for an empty entity owned by `parent`, while `new X(data, options)` supplies persisted state plus options (`options.parent` required). The base normalizes the overloaded first argument with `SohlEntity.dataOf` / `SohlEntity.optionsOf`, which use the `isA(x, "SohlLogic")` **brand** check — not duck-typing — so a data bag that merely carries a `parent` **key** is never mistaken for a Logic. Subclasses that construct usefully from `{}` (`ValueModifier`, `MasteryLevelModifier`, `CombatModifier`, `ImpactModifier`, `SimpleRoll`, `TestResult`, `SuccessTestResult`) expose both overloads; classes that require non-empty `data` (the body classes, strike modes, and the non-empty results) keep the single `(data, options)` form. A subclass adopts the shorthand with a fixed template — declare the two overloads, then normalize inside the `super(...)` arguments:
-    ```ts
-    constructor(parent: SohlLogic<any>);
-    constructor(data: Partial<X.Data>, options: Partial<X.Options>);
-    constructor(
-        dataOrParent: SohlEntity.DataOrParent<X.Data> = {},
-        options: Partial<X.Options> = {},
-    ) {
-        super(
-            SohlEntity.dataOf<X.Data>(dataOrParent),
-            SohlEntity.optionsOf<X.Options>(dataOrParent, options),
-        );
-        const data = SohlEntity.dataOf<X.Data>(dataOrParent);
-        // …rehydrate fields from `data` as before…
-    }
-    ```
-    Normalizing _inside_ the `super(...)` argument expressions (rather than in statements before `super`) keeps the class immune to the "`super` must be the first statement" rule.
+  ```ts
+  constructor(parent: SohlLogic<any>);
+  constructor(data: Partial<X.Data>, options: Partial<X.Options>);
+  constructor(
+      dataOrParent: SohlEntity.DataOrParent<X.Data> = {},
+      options: Partial<X.Options> = {},
+  ) {
+      super(
+          SohlEntity.dataOf<X.Data>(dataOrParent),
+          SohlEntity.optionsOf<X.Options>(dataOrParent, options),
+      );
+      const data = SohlEntity.dataOf<X.Data>(dataOrParent);
+      // …rehydrate fields from `data` as before…
+  }
+  ```
+  Normalizing _inside_ the `super(...)` argument expressions (rather than in statements before `super`) keeps the class immune to the "`super` must be the first statement" rule.
 - **Serialize / revive through `defaultToJSON` / `defaultFromJSON`.** `JSON.stringify(defaultToJSON(entity))` is the wire form; `defaultFromJSON(parsed, { parent })` rebuilds it. `defaultToJSON` honors each object's `toJSON` (and stamps a `__kind` tag through the `SohlEntity` chain); `defaultFromJSON` revives nested `__kind`-tagged children bottom-up, then calls `new Ctor(data, { parent })` via the kind registry.
 - **Curated `toJSON`, `Data`-shaped.** Each subclass that adds state overrides `toJSON` (chaining `...super.toJSON()`) and emits keys matching its `Data` interface in **persisted** representation — a uuid/shortcode where the implementation holds a _resolved_ object (`combatantUuid`, not the live combatant), the raw value where a getter normalizes it. The governing rule: **`toJSON()` output must be valid `data` for the constructor**, i.e. `new Ctor(x.toJSON(), { parent })` reconstructs `x`. Emit special-typed fields (`Map`, `Set`, `Date`, nested entities) through `defaultToJSON` or the child's `toJSON` so the tree is fully JSON-safe. Do **not** re-emit a value that a nested modifier already carries (e.g. a situational modifier folded into `masteryLevelModifier`) — it would double-apply on revival.
 - **Register for revival.** A class rehydrates to its concrete type only if it calls `registerKind(X.Kind, X)`. Without it, `defaultFromJSON` leaves the serialized form as inert data — dropping deltas, collapsing computed values back to the base.

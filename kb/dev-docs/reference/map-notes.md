@@ -5,17 +5,17 @@ See also: [Type Catalog](type-catalog.md), [Scene, Token, and Combatant Systems]
 A **map note** is a markdown note in `assets/content/` that compiles to a Foundry
 `Scene`. It is the scene counterpart of an item or actor note: the same
 frontmatter envelope, the same `sohl:` block, the same folder mechanism, and the
-same rule that the note carries an *essence* rather than a mirror of the Foundry
+same rule that the note carries an _essence_ rather than a mirror of the Foundry
 data model.
 
 Three note types compile through one compiler, differing only in derived
 defaults:
 
-| `type:`        | Scale         | `grid.type` | `grid.distance` | `grid.units` | `tokenVision` | `fog.mode`   | `padding` |
-| -------------- | ------------- | ----------- | --------------- | ------------ | ------------- | ------------ | --------- |
-| `battlemap`    | tactical      | square      | 5               | `ft`         | `true`        | `INDIVIDUAL` | 0.25      |
-| `localmap`     | ~1 km         | square      | 10              | `m`          | `false`       | `DISABLED`   | 0.1       |
-| `regionalmap`  | large         | gridless    | 5               | `km`         | `false`       | `DISABLED`   | 0         |
+| `type:`       | Scale    | `grid.type` | `grid.distance` | `grid.units` | `tokenVision` | `fog.mode`   | `padding` |
+| ------------- | -------- | ----------- | --------------- | ------------ | ------------- | ------------ | --------- |
+| `battlemap`   | tactical | square      | 5               | `ft`         | `true`        | `INDIVIDUAL` | 0.25      |
+| `localmap`    | ~1 km    | square      | 10              | `m`          | `false`       | `DISABLED`   | 0.1       |
+| `regionalmap` | large    | gridless    | 5               | `km`         | `false`       | `DISABLED`   | 0         |
 
 These are emitted **explicitly** on every scene. `grid.type`, `grid.distance`
 and `grid.units` declare `initial: () => game.system.grid.*`, and there is no
@@ -51,25 +51,25 @@ across, is rejected; so is a location outside the map's grid extent.
 name:
   full: Wayfarer's Rest, Ground Floor
 description: "The common room of a roadside shelter."
-id: Xwo4dsmey2A3Rvrn          # pinned, as with items and actors
+id: Xwo4dsmey2A3Rvrn # pinned, as with items and actors
 shortcode: wayrestground
 type: battlemap
 package: sohl
 sohl:
-  folder: Pw3nJvVsGuMdRb1K    # a folder id from scene-folders.yaml
-  place: wayfarersrest        # optional; groups scenes into one Adventure
-  placeName: Wayfarer's Rest  # optional; the Adventure's name
+  folder: Pw3nJvVsGuMdRb1K # a folder id from scene-folders.yaml
+  place: wayfarersrest # optional; groups scenes into one Adventure
+  placeName: Wayfarer's Rest # optional; the Adventure's name
   image: systems/sohl/assets/ui/parchment.jpg
-  overlay: …                  # optional foreground layer
-  levelName: Ground           # optional; names the synthesised Level
-  backgroundColor: "#999999"  # optional
-  dimensions: [512, 512]      # PIXELS — the map's own size
-  pxPerGrid: 64               # the one number that must match the art
+  overlay: … # optional foreground layer
+  levelName: Ground # optional; names the synthesised Level
+  backgroundColor: "#999999" # optional
+  dimensions: [512, 512] # PIXELS — the map's own size
+  pxPerGrid: 64 # the one number that must match the art
 
-  locations:                  # GRID squares; keys name body headings
+  locations: # GRID squares; keys name body headings
     common-room: { at: [4, 4] }
 
-  walls:                      # PIXELS, keyed by feature
+  walls: # PIXELS, keyed by feature
     shell:
       blocks: [movement, sight, light, sound]
       segments:
@@ -81,15 +81,15 @@ sohl:
 
   doors:
     front:
-      kind: door              # door | secret
-      state: closed           # closed | open | locked
+      kind: door # door | secret
+      state: closed # closed | open | locked
       blocks: [movement, sight, light]
       segment: [288, 448, 224, 448]
 
   lights:
     hearth:
-      position: [112, 112]    # PIXELS
-      dim: 30                 # DISTANCE UNITS, like Foundry's own field
+      position: [112, 112] # PIXELS
+      dim: 30 # DISTANCE UNITS, like Foundry's own field
       bright: 10
       color: "#ff9329"
 
@@ -102,7 +102,7 @@ sohl:
   sounds:
     eaves:
       position: [256, 64]
-      radius: 20              # DISTANCE UNITS
+      radius: 20 # DISTANCE UNITS
       path: systems/sohl/assets/audio/swoosh1.ogg
       volume: 0.3
 
@@ -111,7 +111,7 @@ sohl:
       name: Smoke Bay
       shapes:
         - rect: [96, 96, 128, 128]
-      restrict: light         # light | darkness | sight | sound | move
+      restrict: light # light | darkness | sight | sound | move
       behaviors:
         gloom:
           adjustDarknessLevel: { mode: darken, modifier: 0.25 }
@@ -155,7 +155,7 @@ ships with no map at all.
 server-side `migrateLevels` shim runs on any Scene record stamped older than
 **14.353** and **replaces `levels` outright** with a single default level
 synthesised from the pre-v14 flat fields — it never checks whether the record
-already has one. Packs used to stamp `coreVersion: "14"`, which sorts *below*
+already has one. Packs used to stamp `coreVersion: "14"`, which sorts _below_
 every v14 build, so a compiled scene loaded from its pack with the authored Level
 gone, replaced by an empty one named after the scene, and no image. Nothing in
 the build could see it (#1533).
@@ -165,7 +165,7 @@ Every compiled document now stamps the manifest's own `compatibility.minimum`
 `@heroiclands/content-build/engine/helpers` — which the
 manifest itself enforces, so no supported client can legitimately need those
 shims. Map notes
-carry no special case for it — but `map-notes.cy.js` asserts the Level's *name*
+carry no special case for it — but `map-notes.cy.js` asserts the Level's _name_
 as well as its background, because that is the only place the failure is visible.
 
 Multi-level scenes are out of scope for v1: one scene per floor, with stair
@@ -176,17 +176,17 @@ regions teleporting between them.
 ```yaml
 regions:
   <key>:
-    name: The Crypt                # display name; defaults to the key
-    shapes:                        # PIXELS; at least one
+    name: The Crypt # display name; defaults to the key
+    shapes: # PIXELS; at least one
       - polygon: [400, 400, 1200, 400, 1200, 1100]
       - rect: [1400, 1800, 300, 200]
       - circle: [1500, 600, 250]
-      - ellipse: [1500, 1400, 300, 200, 30]   # rotation optional
+      - ellipse: [1500, 1400, 300, 200, 30] # rotation optional
       - polygon: [...]
         hole: true
-    elevation: [0, null]           # [bottom, top]; null = infinite
-    visibility: gamemaster         # layer | gamemaster | always | observer | layerUnlocked
-    restrict: move                 # optional
+    elevation: [0, null] # [bottom, top]; null = infinite
+    visibility: gamemaster # layer | gamemaster | always | observer | layerUnlocked
+    restrict: move # optional
     behaviors:
       <key>: { <behaviourType>: { … } }
 ```
@@ -214,7 +214,7 @@ Allowed in v1: `trigger` (the SoHL bridge, see
 `pauseGame`, `suppressWeather`, `teleportToken`, `toggleBehavior`.
 
 Each behaviour's fields are an **allow-list**: an unlisted field fails the build
-rather than being dropped in silence, and an unlisted *type* fails here rather
+rather than being dropped in silence, and an unlisted _type_ fails here rather
 than surfacing from Foundry as `Cannot read properties of undefined (reading
 'regions')`.
 
@@ -231,7 +231,7 @@ behaviors:
   arrival:
     trigger:
       events: [tokenEnter, tokenExit]
-      action: reactionTest      # omit = forward-only, no offer
+      action: reactionTest # omit = forward-only, no offer
 ```
 
 `events:` is validated against the curated set SoHL forwards — `tokenEnter`,
@@ -282,7 +282,7 @@ Which pack a map lands in follows from what it references:
 
 - **`scenes`** holds every map's Scene. It is what a `[[battlemap-<shortcode>]]`
   wikilink addresses, and what a GM browses.
-- **`adventures`** holds one `Adventure` per *place* — the notes sharing a
+- **`adventures`** holds one `Adventure` per _place_ — the notes sharing a
   `place:`, defaulting to the note's own shortcode — bundling those scenes with
   their JournalEntries. A map with `locations:` **must** be imported this way:
   `Adventure#importContent` creates with `keepId: true`, and `Note.entryId` /
@@ -307,15 +307,15 @@ full `@UUID`.
 Foundry accepts each of these without complaint and produces a document that
 simply never does anything:
 
-| Authored mistake                        | What Foundry does                  |
-| --------------------------------------- | ---------------------------------- |
-| A region event outside the curated set   | stores it verbatim; nothing fires  |
-| Grid units where pixels belong           | a tiny feature in the top-left     |
-| Pixels where grid squares belong         | a pin off the edge of the map      |
-| A region with no shapes                  | a valid region that never triggers |
-| A two-point "polygon"                    | passes the schema's floor of 4     |
-| `restrict:` with no level                | the restriction never computes     |
-| A field the behaviour does not have      | silently dropped                   |
+| Authored mistake                       | What Foundry does                  |
+| -------------------------------------- | ---------------------------------- |
+| A region event outside the curated set | stores it verbatim; nothing fires  |
+| Grid units where pixels belong         | a tiny feature in the top-left     |
+| Pixels where grid squares belong       | a pin off the edge of the map      |
+| A region with no shapes                | a valid region that never triggers |
+| A two-point "polygon"                  | passes the schema's floor of 4     |
+| `restrict:` with no level              | the restriction never computes     |
+| A field the behaviour does not have    | silently dropped                   |
 
 Each is an error at build time, named by its authored key.
 
