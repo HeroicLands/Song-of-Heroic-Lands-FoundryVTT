@@ -177,6 +177,16 @@ alias onto a consuming repository's source. `tests/suite-is-self-contained.test.
 enforces that — a test in this suite that reached for `globalThis.game` or `@src`
 would pass in situ and fail the moment the package was installed from npm.
 
+`tests/dependencies-are-declared.test.ts` guards the same failure from the
+shipping side. Because this package is a workspace, npm hoists the root
+repository's `devDependencies` into the workspace root, so an import this
+package never declared still resolves here and fails nowhere but a consumer's
+install (#1557). The test walks every module named by the `files` field and
+holds each bare specifier to one of three cases — a Node builtin, this package
+addressing itself, or a declared `dependency` — and checks the converse: nothing
+shipped may import a `devDependency`, and no declared dependency may go
+unimported.
+
 ## License
 
 GPL-3.0-or-later — see the

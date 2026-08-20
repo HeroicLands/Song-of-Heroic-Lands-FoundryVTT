@@ -66,6 +66,23 @@ function manifestPacks() {
     return readPackageManifest().manifest.packs;
 }
 
+/**
+ * This package's own version, for `--version`.
+ *
+ * Read from the package's `package.json` rather than left to yargs, which
+ * defaults to the *nearest* `package.json` walking up from the working
+ * directory — inside a consuming repository that is the consumer's manifest, so
+ * `content-build --version` reported the consumer's version instead of the
+ * toolchain's (#1557).
+ *
+ * @returns {string} The `version` field of this package's manifest.
+ */
+function ownVersion() {
+    return JSON.parse(
+        fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+    ).version;
+}
+
 fs.mkdirSync(packConfig.paths.unpack, { recursive: true });
 
 // Configure loglevel
@@ -84,6 +101,7 @@ prefix.apply(log, {
 
 const argv = yargs(hideBin(process.argv))
     .command(packageCommand())
+    .version(ownVersion())
     .help()
     .alias("help", "h").argv;
 
