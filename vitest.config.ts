@@ -46,11 +46,14 @@ export default defineConfig({
         ],
     },
     test: {
-        // Two projects, so a single `npm run test` still runs everything CI
-        // gates on while `@heroiclands/content-build` stays verifiable on its
-        // own (#1511). The package's project is its own config file — the same
-        // one `npm test -w @heroiclands/content-build` loads — so the two entry
-        // points can never run different suites.
+        // One project. `@heroiclands/content-build` used to be a second one,
+        // pointing at the copy vendored under `packages/`; it is now developed
+        // in its own repository and consumed from the registry like every other
+        // consumer resolves it (#1589), so its suite runs there.
+        //
+        // What remains here is `tests/build/`, which asserts the agreements
+        // between this repository and that package — the facts neither side can
+        // check alone.
         projects: [
             {
                 extends: true,
@@ -62,7 +65,6 @@ export default defineConfig({
                     include: ["tests/**/*.test.ts"],
                 },
             },
-            "./packages/content-build/vitest.config.ts",
         ],
         coverage: {
             reporter: ["text", "html"],
