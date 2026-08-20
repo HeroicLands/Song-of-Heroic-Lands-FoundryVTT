@@ -164,7 +164,7 @@
         "ssh2-sftp-client": "^12.1.1",
         "svg2ttf": "^6.1.0",
         "svgicons2svgfont": "^16.0.0",
-        "svgo": "^4.0.1",
+        "svgo": "^4.0.2",
         "svgson": "^5.3.1",
         "ttf2woff2": "^8.0.1",
         "typedoc": "0.27.6",
