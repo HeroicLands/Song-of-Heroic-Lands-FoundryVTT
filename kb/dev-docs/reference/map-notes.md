@@ -239,7 +239,8 @@ behaviors:
 `tokenRoundEnd`. An excluded name (most plausibly `tokenMoveWithin`) is stored
 verbatim by Foundry and then dropped by the bridge: no error, no log, no
 automation. The build rejects it and names the excluded set in the message. The
-list is shared with the runtime from `src/entity/event/region-events.mjs`, so
+list is shared with the runtime from
+`@heroiclands/content-build/engine/region-events`, so
 the two cannot drift.
 
 An `action:` naming no known SoHL action is a **warning**, not an error: the

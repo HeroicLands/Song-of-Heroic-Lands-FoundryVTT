@@ -8,13 +8,13 @@
 import { describe, it, expect } from "vitest";
 // The single source of truth for per-type default item art — shared by the
 // build-time pack builder (`utils/packs/items.mjs`) and the runtime
-// `SohlItem.getDefaultArtwork` override. Plain ESM, imported here by the same
-// relative path the pack scripts use (it lives outside the runtime bundle's
-// concerns but inside `@src`). See issues #890, #932.
+// `SohlItem.getDefaultArtwork` override. Plain ESM, living in the build package
+// and imported here through the same leaf entry point both of them use, so this
+// suite exercises the map they actually read. See issues #890, #932, #1510.
 import {
     DEFAULT_ITEM_ART,
     defaultItemArt,
-} from "@src/utils/default-item-art.mjs";
+} from "@heroiclands/content-build/sohl/default-item-art";
 // The item-type registry — the one place a type is declared (#1504). Deriving
 // the expectation from it is what stops this map becoming a third list that
 // disagrees with the whitelist and the builder table.

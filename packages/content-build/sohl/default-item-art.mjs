@@ -13,7 +13,7 @@
 
 /**
  * Default item artwork, keyed by item `type` — the single source of truth for
- * both the compendium builder (`utils/packs/items.mjs`, at build time) and the
+ * both the compendium builder (the items pack compiler, at build time) and the
  * runtime `SohlItem.getDefaultArtwork` override (fresh, ad-hoc-created items).
  *
  * Foundry's `Item.DEFAULT_ICON` is the white `icons/svg/item-bag.svg`, which is
@@ -29,6 +29,14 @@
  * `@src` alias and strips types). Keeping one map here is what prevents the
  * build-time and runtime defaults from drifting apart (issue #932 was exactly
  * that drift: the builder had a default, runtime did not).
+ *
+ * It lives in this package rather than in the system's `src/` tree because the
+ * pack pipeline is installed as a dependency (#1501): a relative path out of
+ * the package would resolve to garbage once the pipeline runs from
+ * `node_modules`. The runtime imports it back through the package's
+ * `./sohl/default-item-art` entry point, so there is still exactly one map
+ * (#1510). Injecting the map through configuration instead would re-open #932,
+ * because the two sides would once more be free to disagree.
  *
  * Paths are fully resolved (`systems/sohl/...`) — the served path both layers
  * need. If a new item type is added, add its default here.
@@ -64,8 +72,11 @@ export const DEFAULT_ITEM_ART = {
 export function defaultItemArt(type) {
     if (!(type in DEFAULT_ITEM_ART)) {
         throw new Error(
-            `No default art for item type "${type}" — add one to src/utils/default-item-art.mjs`,
+            `No default art for item type "${type}" — add one to @heroiclands/content-build/sohl/default-item-art`,
         );
     }
-    return DEFAULT_ITEM_ART[type];
+    // The map's inferred type has no index signature — deliberately, so callers
+    // reading it directly get the precise key set. The `in` guard above has
+    // already proved this key is present.
+    return /** @type {Record<string, string>} */ (DEFAULT_ITEM_ART)[type];
 }

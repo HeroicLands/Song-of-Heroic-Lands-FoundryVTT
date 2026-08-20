@@ -20,9 +20,20 @@
  * generation, wikilink resolution, id and folder derivation, the link manifest
  * and the web-address rule, `BasePackCompiler`, and the generic Foundry
  * document compilers (journals, macros, scenes) as #1501 moves them here. It
- * exports nothing yet.
+ * already carries the region-event vocabulary the scene/map-note compiler
+ * validates against, which the runtime shares (#1510).
+ *
+ * That module is also reachable as its own entry point,
+ * `@heroiclands/content-build/engine/region-events`. The runtime imports it
+ * that way on purpose: this barrel grows to hold compilers that read the
+ * filesystem, and a client bundle must never pull those in to reach a frozen
+ * list of strings.
  *
  * @module
  */
 
-export {};
+export {
+    CURATED_REGION_EVENTS,
+    EXCLUDED_REGION_EVENTS,
+    REGION_EVENT_TO_TRIGGER,
+} from "./region-events.mjs";

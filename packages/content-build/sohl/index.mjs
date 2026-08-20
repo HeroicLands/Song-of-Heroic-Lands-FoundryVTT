@@ -15,11 +15,18 @@
  * The SoHL-specific half of the toolchain: the knowledge of the Song of Heroic
  * Lands data model that a generic content module must never receive.
  *
- * This barrel will re-export `ITEM_TYPES`, `BUILDERS`, the items and actors
- * compilers, and the default-art seam as #1501 moves them here. It exports
- * nothing yet.
+ * This barrel will re-export `ITEM_TYPES`, `BUILDERS`, and the items and
+ * actors compilers as #1501 moves them here. It already carries the two
+ * plain-ESM leaves the runtime shares with the build (#1510).
+ *
+ * Those two are also reachable as their own entry points —
+ * `@heroiclands/content-build/sohl/default-item-art` and
+ * `.../sohl/affiliation-standings`. The runtime imports them that way on
+ * purpose: this barrel grows to hold compilers that read the filesystem, and a
+ * client bundle must never pull those in to reach a constant map.
  *
  * @module
  */
 
-export {};
+export { DEFAULT_ITEM_ART, defaultItemArt } from "./default-item-art.mjs";
+export { AFFILIATION_STANDINGS } from "./affiliation-standings.mjs";

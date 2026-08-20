@@ -106,6 +106,19 @@ copy would silently stop following it.
 Both namespaces are barrels that fill as the extraction proceeds; the compilers
 still live in the SoHL repository's `utils/packs/` today.
 
+A few plain-ESM leaves are shared **with the Foundry runtime**, not just with the
+build: the item default-art map, the curated region-event vocabulary, and the
+affiliation standings. Each has its own entry point —
+`@heroiclands/content-build/sohl/default-item-art`,
+`.../engine/region-events`, `.../sohl/affiliation-standings` — so a client bundle
+reaches the constant without importing a barrel that grows to hold compilers
+reading the filesystem. Keeping one copy of each is the point: the build-time and
+runtime values cannot disagree, which is the drift that produced #932.
+
+`@heroiclands/content-build/config` exposes the configuration contract's own
+module, so a consumer can name its types (`ContentBuildConfig`, `PackSpec`) from
+JSDoc.
+
 ## License
 
 GPL-3.0-or-later — see the

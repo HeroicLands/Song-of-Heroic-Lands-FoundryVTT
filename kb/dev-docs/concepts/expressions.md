@@ -219,7 +219,8 @@ expression**. Authors writing expressions need only the table above.
 Scopes live in `src/entity/expr/expression-scopes.mjs`. It is deliberately plain
 ESM — no TypeScript, no `@src` aliases, no Foundry — so the bare-`node`
 documentation script and the bundled TS runtime can both import it (the same
-arrangement as `src/utils/default-item-art.mjs`). That object **is** the
+arrangement as `@heroiclands/content-build/sohl/default-item-art`). That object
+**is** the
 registry; there is no separate registration step.
 
 1. **Declare the scope.** Add an entry keyed by a dotted `<subject>.<use>` id.

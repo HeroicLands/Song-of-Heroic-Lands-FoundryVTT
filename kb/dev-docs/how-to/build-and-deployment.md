@@ -394,7 +394,8 @@ not a type the compiler will accept a note for.
 
 Adding a type is therefore one entry in `ITEM_BUILDERS`, its subtype declaration
 in `documentTypes.Item` (`assets/templates/system.template.json`), and its
-default artwork in `src/utils/default-item-art.mjs` — the last of which the unit
+default artwork in `@heroiclands/content-build/sohl/default-item-art` — the last
+of which the unit
 suite holds in exact step with the registry. Removing a type is the same three
 deletions. The registry is a **leaf module**: it imports only the frontmatter
 readers in `utils/packs/frontmatter.mjs`, never `helpers.mjs`, because

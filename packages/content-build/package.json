@@ -15,9 +15,25 @@
             "types": "./types/engine/index.d.mts",
             "import": "./engine/index.mjs"
         },
+        "./engine/region-events": {
+            "types": "./types/engine/region-events.d.mts",
+            "import": "./engine/region-events.mjs"
+        },
         "./sohl": {
             "types": "./types/sohl/index.d.mts",
             "import": "./sohl/index.mjs"
+        },
+        "./sohl/default-item-art": {
+            "types": "./types/sohl/default-item-art.d.mts",
+            "import": "./sohl/default-item-art.mjs"
+        },
+        "./sohl/affiliation-standings": {
+            "types": "./types/sohl/affiliation-standings.d.mts",
+            "import": "./sohl/affiliation-standings.mjs"
+        },
+        "./config": {
+            "types": "./types/config.d.mts",
+            "import": "./config.mjs"
         },
         "./package.json": "./package.json"
     },

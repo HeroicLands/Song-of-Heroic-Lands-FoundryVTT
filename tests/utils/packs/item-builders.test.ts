@@ -19,7 +19,7 @@ import {
     itemBuilder,
 } from "../../../utils/packs/item-builders.mjs";
 import { ITEM_TYPES } from "../../../utils/packs/item-docs.mjs";
-import { DEFAULT_ITEM_ART } from "@src/utils/default-item-art.mjs";
+import { DEFAULT_ITEM_ART } from "@heroiclands/content-build/sohl/default-item-art";
 
 const BUILDERS = ITEM_BUILDERS as Record<string, unknown>;
 

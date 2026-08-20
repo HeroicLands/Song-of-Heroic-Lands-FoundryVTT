@@ -53,9 +53,9 @@ import {
 import { itemBuilder } from "./item-builders.mjs";
 // Per-type default art lives in one framework-free module shared with the
 // runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
-// Imported by relative path because the pack scripts run under bare `node`,
-// outside the `@src` alias tree.
-import { defaultItemArt } from "../../src/utils/default-item-art.mjs";
+// It lives in the build package, not `src/`: a relative path out of the package
+// resolves to garbage once this pipeline runs from `node_modules` (#1510).
+import { defaultItemArt } from "@heroiclands/content-build/sohl/default-item-art";
 import { journalPageId, splitPages } from "./journals.mjs";
 import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { ITEM_TYPES, itemDocEntryId, itemDocPointer } from "./item-docs.mjs";
