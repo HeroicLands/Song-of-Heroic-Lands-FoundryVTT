@@ -5,9 +5,17 @@
 # closed set, so `labels-sync.yml` would delete the label again on the next push
 # to `main`. Naming a managed label keeps the two from fighting.
 #
-# Only minor and patch bumps are grouped. A major bump is a decision, not
-# housekeeping, so it arrives as its own pull request with its own changelog to
-# read.
+# Only minor and patch bumps are grouped *by dependency type*. A major bump is a
+# decision, not housekeeping, so it arrives as its own pull request with its own
+# changelog to read.
+#
+# Lockstep families are the exception, and they are grouped across *every* update
+# type. Packages like `vitest` and `@vitest/*` peer on an exact matching version,
+# so a pull request bumping one of them alone cannot install at all — `npm ci`
+# fails with ERESOLVE before any build step runs, and the pull request is
+# unreviewable rather than merely risky. Grouping them does not weaken the rule
+# above: the family is still one decision, it just arrives as one pull request
+# that can actually be evaluated.
 version: 2
 updates:
     - package-ecosystem: npm
@@ -24,6 +32,28 @@ updates:
           prefix: chore(deps)
           prefix-development: chore(deps-dev)
       groups:
+          # Lockstep families first — Dependabot assigns a dependency to the
+          # first group it matches, so these must precede the catch-alls to
+          # survive a minor/patch bump as well as a major one.
+          vitest:
+              patterns:
+                  - vitest
+                  - "@vitest/*"
+          eslint:
+              patterns:
+                  - eslint
+                  - "@eslint/*"
+                  - "@typescript-eslint/*"
+                  - "eslint-plugin-*"
+                  - "eslint-config-*"
+          typedoc:
+              patterns:
+                  - typedoc
+                  - "typedoc-*"
+          vite:
+              patterns:
+                  - vite
+                  - "@vitejs/*"
           production-minor-patch:
               dependency-type: production
               update-types:
