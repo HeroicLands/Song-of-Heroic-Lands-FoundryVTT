@@ -32,16 +32,24 @@ import {
  * and none should keep its own copy (issue #1454). That splits the contract in
  * two, and only one half is ours:
  *
- * - _The theme_ owns `layouts/404.html`. It is a submodule, and the job that
- *   runs this suite does not check submodules out, so these assertions cannot
- *   read it — asserting on an empty directory would fail for the wrong reason.
+ * - _The theme_ owns `layouts/404.html`. It arrives as the npm package
+ *   `@heroiclands/hugo-theme` (#1640), which the job running this suite does
+ *   not install, so these assertions do not read it — asserting on an absent
+ *   directory would fail for the wrong reason.
  * - _This repository_ owns the wording and the routes back, via
  *   `params.notfound` in `kb/hugo.toml`, and owns the deploy that publishes the
  *   artifact.
  *
  * So the assertions below pin what this repository can actually regress: the
  * consumer configuration, the assembly step that refuses to ship a build
- * missing the file, and a deploy that checks the theme out at all.
+ * missing the file, and a deploy that puts the theme in front of Hugo at all.
+ *
+ * That last one is deliberately pinned to the *outcome* rather than to a
+ * mechanism. It used to read `submodules: recursive`, and when the theme became
+ * a dependency (#1641) the assertion failed while the behaviour it guarded was
+ * perfectly fine — a stale test that blocked an unrelated pull request (#1645).
+ * What must hold is that the theme is installed before Hugo runs, whatever
+ * installs it.
  */
 const REPO_ROOT = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -79,11 +87,26 @@ describe("the /sohl/ site's 404 page (#1416)", () => {
         expect(urls).toContain("api/");
     });
 
-    it("checks out the theme, which is where the template lives", () => {
-        // Without the submodule the theme's `layouts/404.html` is absent and
-        // Hugo emits no 404 at all — the exact soft-404 this guards against,
-        // reintroduced by a checkout option rather than by deleting anything.
-        expect(read(DEPLOY)).toMatch(/submodules:\s*recursive/);
+    it("installs the theme, which is where the template lives", () => {
+        // Without the theme, `layouts/404.html` is absent and Hugo emits no 404
+        // at all — the exact soft-404 this guards against, reintroduced by a
+        // build-order change rather than by deleting anything.
+        const deploy = read(DEPLOY);
+        const install = deploy.indexOf("npm ci");
+        const hugo = deploy.search(/uses:\s*peaceiris\/actions-hugo/);
+        expect(install, "the deploy must install dependencies").toBeGreaterThan(
+            -1,
+        );
+        expect(hugo, "the deploy must set up Hugo").toBeGreaterThan(-1);
+        // Order is the whole point: installing *after* Hugo has already run
+        // publishes a site built without the theme.
+        expect(install).toBeLessThan(hugo);
+
+        // And what `npm ci` installs has to include the theme. Read from the
+        // manifest rather than the lockfile: the declaration is the intent, and
+        // the lockfile only ever follows it.
+        const pkg = JSON.parse(read("package.json"));
+        expect(pkg.devDependencies).toHaveProperty("@heroiclands/hugo-theme");
     });
 
     it("is required by the assembly step, which the deploy runs", () => {
