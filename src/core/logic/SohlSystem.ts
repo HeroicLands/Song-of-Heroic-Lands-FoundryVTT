@@ -50,7 +50,8 @@ import {
 import {
     scheduleAction,
     unscheduleAction,
-    type Schedulable,
+    type MaybeSchedulable,
+    requireSchedulable,
 } from "@src/entity/event/scheduled-actions";
 import {
     attachScriptAction,
@@ -471,7 +472,7 @@ export class SohlSystem {
      * @returns A promise that resolves once the schedule is persisted and armed.
      */
     async schedule(
-        doc: Schedulable,
+        doc: MaybeSchedulable,
         actionName: string,
         interval: number,
         payload?: Record<string, unknown>,
@@ -480,9 +481,12 @@ export class SohlSystem {
         predicate?: string,
         anchor?: number,
     ): Promise<void> {
+        // Narrow once: everything below is addressed by uuid, and
+        // `scheduleAction` would reject an unaddressable document anyway.
+        const schedulable = requireSchedulable(doc);
         const now = fvttWorldTime();
         await scheduleAction(
-            doc,
+            schedulable,
             this.events,
             actionName,
             interval,
@@ -500,7 +504,7 @@ export class SohlSystem {
         // clock, and the chain would look broken. Dispatching here is not a
         // cascade: what fires is a `*Check`, which posts a card and stops dead
         // until a human presses it.
-        const fireAt = this.events.nextFireTime(doc.uuid, actionName);
+        const fireAt = this.events.nextFireTime(schedulable.uuid, actionName);
         if (fireAt !== undefined && fireAt <= now) {
             await this.events.fire({
                 name: "updateWorldTime",
@@ -519,7 +523,7 @@ export class SohlSystem {
      * @param actionName - The schedule to remove.
      * @returns A promise that resolves once the schedule is removed.
      */
-    unschedule(doc: Schedulable, actionName: string): Promise<void> {
+    unschedule(doc: MaybeSchedulable, actionName: string): Promise<void> {
         return unscheduleAction(doc, this.events, actionName);
     }
 

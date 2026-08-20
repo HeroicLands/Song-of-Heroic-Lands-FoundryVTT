@@ -1059,6 +1059,40 @@ export function getCanvas(): foundry.canvas.Canvas {
 }
 
 /**
+ * The slice of the grid API this system measures with.
+ *
+ * `canvas.grid` is typed as the **abstract** `BaseGrid`, which declares
+ * `measurePath` with `never` parameters on purpose: each concrete grid
+ * re-declares it with its own overloads, so the base must admit nothing. Calling
+ * through the abstract type is therefore always an error, however well-formed
+ * the waypoints are — and narrowing to the union of the three concrete grids
+ * does not help either, since a union of differently-overloaded methods is not
+ * callable.
+ *
+ * So state the contract actually depended on instead. Every grid measures a path
+ * of 2D-or-3D points and reports a total distance; that much is common to all
+ * three and is the whole of what this system uses. Declaring it here keeps the
+ * assumption visible and in one place, rather than asserting at three call sites
+ * that the grid is square when it may be hexagonal or gridless.
+ */
+interface PathMeasurer {
+    measurePath(
+        waypoints: { x: number; y: number; elevation?: number }[],
+        options: object,
+    ): foundry.grid.BaseGrid.MeasurePathResult | undefined;
+}
+
+/**
+ * The active canvas grid as a {@link PathMeasurer}, or `undefined` when the
+ * canvas has no grid.
+ *
+ * @returns The grid, narrowed to its measurement surface.
+ */
+function measurableGrid(): PathMeasurer | undefined {
+    return (getCanvas().grid as unknown as PathMeasurer | null) ?? undefined;
+}
+
+/**
  * The world's currently **active** scene (the one flagged active in the scene
  * navigation), or `undefined` when the game is unavailable or no scene is active.
  *
@@ -1177,8 +1211,7 @@ export function fvttActiveTokenLogicForActor(
 ): SohlTokenDocumentLogic | undefined {
     if (!actor) return undefined;
     const token = (actor.getActiveTokens?.()?.[0] as any)?.document as
-        | { logic?: SohlTokenDocumentLogic }
-        | undefined;
+        { logic?: SohlTokenDocumentLogic } | undefined;
     return token?.logic ?? undefined;
 }
 
@@ -1370,7 +1403,7 @@ export function fvttRangeToTarget(
     const from = tokenMeasureCenter(sourceToken);
     const to = tokenMeasureCenter(targetToken);
     const result =
-        from && to ? getCanvas().grid?.measurePath([from, to], {}) : undefined;
+        from && to ? measurableGrid()?.measurePath([from, to], {}) : undefined;
 
     if (!result) {
         sohl.log.uiWarn(
@@ -1412,7 +1445,7 @@ export function combatantGridDistance(
     const from = combatantMeasurePoint(a);
     const to = combatantMeasurePoint(b);
     if (!from || !to) return undefined;
-    return getCanvas().grid?.measurePath([from, to], {})?.distance ?? undefined;
+    return measurableGrid()?.measurePath([from, to], {})?.distance ?? undefined;
 }
 
 /**
@@ -1434,7 +1467,7 @@ export function combatantSpacesMoved(
         y: start.y,
         elevation: 0,
     };
-    const result = getCanvas().grid?.measurePath(
+    const result = measurableGrid()?.measurePath(
         [
             { x: start.x, y: start.y, elevation: start.elevation },
             { x: current.x, y: current.y, elevation: current.elevation },

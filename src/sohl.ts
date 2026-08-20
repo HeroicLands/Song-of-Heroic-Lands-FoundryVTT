@@ -495,9 +495,7 @@ function registerSystemHooks() {
             const updateData = turnStartCombatantUpdate(
                 center,
                 token.elevation ?? 0,
-            ) satisfies DeepPartial<
-                SohlCombatant["_source"]
-            > as Combatant.UpdateData;
+            ) satisfies DeepPartial<SohlCombatant["_source"]>;
             await combatant.update(updateData);
         },
     );
