@@ -145,24 +145,28 @@ repository](#work-delivered-in-another-repository) below.
 
 ### Work delivered in another repository
 
-The project spans several repositories, and **this one is the single issue tracker for
-all of them** — see [Issue Reporting §9](../how-to/issue-reporting.md#9-cross-repository-work).
-An issue labelled `site` is delivered in `heroiclands-site`, where several gates above
-simply do not exist: there is no `.changeset/`, no `npm run build`, no `npm run docs`,
-and no `npm run format:check`. Do not invent equivalents, and do not treat their
-absence as work left undone.
+The project spans several repositories, and **each one tracks the work it delivers**
+— see [Issue Reporting §9](../how-to/issue-reporting.md#9-which-repository-does-an-issue-belong-in)
+for how to choose. `sohl-thalorna` and `sohl-kethira-basic` carry their own copy of
+the four-axis standard; `heroiclands-site` is still tracked from here, under the
+`site` label.
+
+Several gates above simply do not exist outside this repository. A `site` issue is
+delivered in `heroiclands-site`, where there is no `.changeset/`, no `npm run build`,
+no `npm run docs`, and no `npm run format:check`. Do not invent equivalents, and do
+not treat their absence as work left undone.
 
 What still holds for any tracked work, wherever it lands:
 
-- [ ] A tracking issue here, labelled with its delivery target.
-- [ ] A correctly named branch in the repository the change is made in.
+- [ ] A tracking issue **in the repository that will deliver it**.
+- [ ] A correctly named branch in that repository.
 - [ ] Verification appropriate to that repository — a site build that succeeds, a
       pack build that compiles, a page that renders.
 - [ ] Documentation updated for the changed behaviour.
 - [ ] A commit or PR description saying what changed and why.
-- [ ] The issue **closed by hand**, with a comment linking the delivering commit or
-      PR. `Closes #<n>` does not work across repositories: GitHub records the
-      reference and leaves the issue open.
+- [ ] If the work also closes an issue **here**, that issue is closed **by hand**,
+      with a comment linking the delivering commit or PR. `Closes #<n>` does not work
+      across repositories: GitHub records the reference and leaves the issue open.
 
 ### Issue first
 
