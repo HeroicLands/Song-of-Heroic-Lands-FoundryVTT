@@ -34,7 +34,7 @@
         "./package.json": "./package.json"
     },
     "bin": {
-        "content-build": "./bin/content-build.mjs"
+        "content-build": "bin/content-build.mjs"
     },
     "files": [
         "bin",
