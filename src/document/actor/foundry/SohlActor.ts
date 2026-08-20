@@ -158,7 +158,7 @@ export class SohlActor extends Actor {
         if (!scene) return null;
 
         const linkedTokens = scene.tokens.filter(
-            (td) => td.actorLink && td.actorId === this.id,
+            (td: SohlTokenDocument) => td.actorLink && td.actorId === this.id,
         );
 
         return (linkedTokens[0] as SohlTokenDocument) ?? null;
