@@ -28,25 +28,23 @@
  *
  * Not a standalone script — exports the `Items` compiler class, imported and
  * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ *
+ * The walk itself — filtering by package and type, skipping drafts,
+ * expanding tables, converting wikilinks, writing the JSON and counting
+ * errors — belongs to {@link sohl.utils.packs.BasePackCompiler}; this module
+ * states only what makes this pass its own (#1509).
  */
 
-import fs from "fs";
-import path from "path";
 import log from "loglevel";
 
 import {
-    walkMarkdownTree,
     sohlField,
-    makeFilename,
     resolveName,
     resolveImg,
     buildStats,
     withArchetypeFlag,
-    buildContentLinkIndex,
-    convertNoteWikilinks,
-    collectContentDocs,
-    expandNoteTables,
 } from "./helpers.mjs";
+import { BasePackCompiler } from "./base-compiler.mjs";
 // Per-type `system` builders live in the item-type registry — the one list
 // `ITEM_TYPES` is derived from, so the whitelist and the builder table cannot
 // disagree (#1504).
@@ -57,7 +55,7 @@ import { itemBuilder } from "./item-builders.mjs";
 // outside the `@src` alias tree.
 import { defaultItemArt } from "../../src/utils/default-item-art.mjs";
 import { journalPageId, splitPages } from "./journals.mjs";
-import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
+import { FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { ITEM_TYPES, itemDocEntryId, itemDocPointer } from "./item-docs.mjs";
 
 const STATS = buildStats();
@@ -110,63 +108,47 @@ function commonSystem(fm, description) {
 /*  Compiler                                                            */
 /* -------------------------------------------------------------------- */
 
-export class Items {
+export class Items extends BasePackCompiler {
     static id = "items";
-
-    /** @type {string} */
-    contentBase;
-    /** @type {string} */
-    outputDir;
-    /** @type {(path: string|null) => string|null} */
-    folderResolver;
-    /** @type {number} */
-    errorCount = 0;
+    static label = "item";
 
     /**
-     * Entries this pass wrote to its own pack. Zero from a non-empty content
-     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     * How many of each item type this pass wrote, for the summary. Every type
+     * is present from the start so the tally reads as a census of the
+     * whitelist rather than of what happened to compile.
      *
-     * @type {number}
+     * @type {Record<string, number>}
      */
-    compiledCount = 0;
+    counts = Object.fromEntries([...ITEM_TYPES].map((t) => [t, 0]));
 
-    constructor({ contentBase, dest, folderResolver = () => null }) {
-        if (!contentBase) {
-            throw new Error("Items compiler requires `contentBase`");
-        }
-        if (!fs.existsSync(contentBase)) {
-            throw new Error(`Content tree not found at ${contentBase}`);
-        }
-        Object.defineProperty(this, "contentBase", {
-            value: contentBase,
-            writable: false,
-        });
-        Object.defineProperty(this, "outputDir", {
-            value: dest,
-            writable: false,
-        });
-        Object.defineProperty(this, "folderResolver", {
-            value: folderResolver,
-            writable: false,
-        });
+    /**
+     * Every content type that compiles into an item.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @returns {boolean} True for a whitelisted item type.
+     */
+    selects(fm) {
+        return Boolean(fm.type) && ITEM_TYPES.has(fm.type);
     }
 
-    writeItem(outputData) {
-        const fname = makeFilename(outputData.name, outputData._id);
-        const outputPath = path.join(this.outputDir, fname);
-        fs.writeFileSync(
-            outputPath,
-            JSON.stringify(outputData, null, 2),
-            "utf8",
-        );
+    /** An item is named by its own type in the log, not by "item". */
+    noteLabel(fm) {
+        return fm.type;
     }
 
     /**
      * Construct the full compendium envelope for one item, including
      * synthesized Active Effects where applicable.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @param {string} markdown - The body, tables expanded and wikilinks
+     *   resolved.
+     * @returns {object} The item document, keyed for the pack.
      */
-    buildEntry(type, fm, description) {
+    buildEntry(fm, markdown) {
+        const type = fm.type;
         const name = resolveName(fm);
+        const description = itemDescription(markdown, fm, name);
         const id = fm.id;
         const system = {
             ...commonSystem(fm, description),
@@ -195,85 +177,23 @@ export class Items {
         };
     }
 
-    async compile() {
-        const counts = Object.fromEntries(
-            [...ITEM_TYPES].map((t) => [t, 0]),
-        );
-        let skippedDraft = 0;
-        let skippedOtherType = 0;
+    /** @inheritdoc */
+    onCompiled(fm) {
+        this.counts[fm.type]++;
+    }
 
-        this.linkIndex = buildContentLinkIndex(this.contentBase);
-        this.contentDocs = collectContentDocs(this.contentBase);
-        this.unresolvedLinks = 0;
-
-        for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
-            this.contentBase,
-        )) {
-            if (!fm || fm.package !== CONTENT_PACKAGE) {
-                skippedOtherType++;
-                continue;
-            }
-            const type = fm.type;
-            if (!type || !ITEM_TYPES.has(type)) {
-                skippedOtherType++;
-                continue;
-            }
-            if (fm.draft === true) {
-                skippedDraft++;
-                log.debug(`Skipping draft: ${absPath}`);
-                continue;
-            }
-            if (!fm.id) {
-                // Fatal, not a warning: a skipped item silently vanishes from
-                // the compendium while its KB page and content still build, so
-                // the omission is invisible until someone looks for the item.
-                // Matches the folder-id check in helpers.mjs, which throws.
-                throw new Error(`Item missing id: ${absPath}`);
-            }
-
-            log.debug(`Processing ${type}: ${resolveName(fm)} (${absPath})`);
-            try {
-                // Wikilinks resolve against the whole content tree, so an item
-                // may link to another item, a creature, or a rules journal.
-                // Generated tables expand before wikilinks, so a cell
-                // they emit is resolved along with the authored links.
-                const tabulated = expandNoteTables(body, {
-                    docs: this.contentDocs,
-                    name: resolveName(fm),
-                    pkg: fm.package,
-                    fm,
-                });
-                const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
-                    type,
-                    id: fm.id,
-                    index: this.linkIndex,
-                    name: resolveName(fm),
-                });
-                this.unresolvedLinks += unresolved.length;
-                const entry = this.buildEntry(
-                    type,
-                    fm,
-                    itemDescription(markdown, fm, resolveName(fm)),
-                );
-                this.writeItem(entry);
-                counts[type]++;
-            } catch (err) {
-                this.errorCount++;
-                log.error(
-                    `Failed to compile ${type} at ${absPath}: ${err.message}`,
-                );
-            }
-        }
-
-        const total = Object.values(counts).reduce((a, b) => a + b, 0);
-        this.compiledCount = total;
-        log.info(`Compiled ${total} items:`);
-        for (const [t, n] of Object.entries(counts)) {
+    /** @inheritdoc */
+    reportCompiled(stats) {
+        log.info(`Compiled ${stats.compiled} items:`);
+        for (const [t, n] of Object.entries(this.counts)) {
             if (n > 0) log.info(`  ${t}: ${n}`);
         }
-        if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
+    }
+
+    /** @inheritdoc */
+    reportDetail(stats) {
         log.debug(
-            `Skipped ${skippedOtherType} non-item file(s) (no recognized type)`,
+            `Skipped ${stats.skippedOther} non-item file(s) (no recognized type)`,
         );
     }
 }
