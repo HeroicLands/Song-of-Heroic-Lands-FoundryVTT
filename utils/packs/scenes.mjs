@@ -41,6 +41,11 @@
  *
  * Not a standalone script — exports the `Scenes` compiler class, imported and
  * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ *
+ * The walk itself — filtering by package and type, skipping drafts,
+ * expanding tables, converting wikilinks, writing the JSON and counting
+ * errors — belongs to {@link sohl.utils.packs.BasePackCompiler}; this module
+ * states only what makes this pass its own (#1509).
  */
 
 import fs from "fs";
@@ -50,15 +55,11 @@ import log from "loglevel";
 import {
     walkMarkdownTree,
     sohlField,
-    makeFilename,
     resolveName,
     slugify,
     buildStats,
-    buildContentLinkIndex,
-    convertNoteWikilinks,
-    collectContentDocs,
-    expandNoteTables,
 } from "./helpers.mjs";
+import { BasePackCompiler } from "./base-compiler.mjs";
 import { buildJournalEntry, splitPages, journalPageId } from "./journals.mjs";
 import { compendiumUuid, makeId } from "./ids.mjs";
 import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
@@ -136,27 +137,19 @@ function stripKeys(value) {
     return value;
 }
 
-export class Scenes {
+export class Scenes extends BasePackCompiler {
     static id = "scenes";
+    static label = "map";
 
-    /** @type {string} */
-    contentBase;
-    /** @type {string} */
-    outputDir;
     /** @type {string} */
     adventureDir;
-    /** @type {(path: string|null) => string|null} */
-    folderResolver;
-    /** @type {number} */
-    errorCount = 0;
 
     /**
-     * Entries this pass wrote to its own pack. Zero from a non-empty content
-     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     * Adventures this pass bundled, for the summary.
      *
      * @type {number}
      */
-    compiledCount = 0;
+    adventureCount = 0;
 
     constructor({
         contentBase,
@@ -165,31 +158,25 @@ export class Scenes {
         folderResolver = () => null,
         repoRoot = process.cwd(),
     }) {
-        if (!contentBase) {
-            throw new Error("Scenes compiler requires `contentBase`");
-        }
-        if (!fs.existsSync(contentBase)) {
-            throw new Error(`Content tree not found at ${contentBase}`);
-        }
+        super({ contentBase, dest, folderResolver });
         if (!companionDests.adventures) {
             throw new Error(
                 "Scenes compiler requires an `adventures` companion destination",
             );
         }
-        Object.defineProperty(this, "contentBase", {
-            value: contentBase,
-            writable: false,
-        });
-        Object.defineProperty(this, "outputDir", { value: dest, writable: false });
         Object.defineProperty(this, "adventureDir", {
             value: companionDests.adventures,
             writable: false,
         });
-        Object.defineProperty(this, "folderResolver", {
-            value: folderResolver,
-            writable: false,
-        });
         Object.defineProperty(this, "repoRoot", { value: repoRoot, writable: false });
+    }
+
+    /**
+     * @param {object} fm - The note's frontmatter.
+     * @returns {boolean} True for a map note.
+     */
+    selects(fm) {
+        return isMapType(fm.type);
     }
 
     /**
@@ -375,127 +362,119 @@ export class Scenes {
         return pageIds;
     }
 
-    writeEntry(dir, doc) {
-        fs.writeFileSync(
-            path.join(dir, makeFilename(doc.name, doc._id)),
-            JSON.stringify(doc, null, 2),
-            "utf8",
-        );
+    /**
+     * Index every cross-reference before the walk: a reference in the first
+     * note may address the last, and the effects an authored `to:` names live
+     * on item notes this pass does not otherwise read.
+     *
+     * @returns {Promise<void>}
+     */
+    async prepare() {
+        await super.prepare();
+        const { maps, effectsByAddress } = this.#collect();
+        this.index = this.#indexMaps(maps);
+        this.effectsByAddress = effectsByAddress;
+        this.knownActions = collectKnownActionNames(this.repoRoot);
+        /** place key → `{name, img, scenes: [], journal: []}` */
+        this.places = new Map();
     }
 
-    async compile() {
-        this.linkIndex = buildContentLinkIndex(this.contentBase);
-        this.contentDocs = collectContentDocs(this.contentBase);
-        this.unresolvedLinks = 0;
-
-        const { maps, effectsByAddress } = this.#collect();
-        const index = this.#indexMaps(maps);
-        const knownActions = collectKnownActionNames(this.repoRoot);
-
-        /** place key → `{name, img, scenes: [], journal: []}` */
-        const places = new Map();
-        let compiled = 0;
-
-        for (const { fm, body, absPath } of maps) {
-            const name = resolveName(fm);
-            try {
-                const tabulated = expandNoteTables(body, {
-                    docs: this.contentDocs,
-                    name,
-                    pkg: fm.package,
-                    fm,
-                });
-                const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
-                    type: fm.type,
-                    id: fm.id,
-                    index: this.linkIndex,
-                    name,
-                });
-                this.unresolvedLinks += unresolved.length;
-
-                const hasBody = Boolean(String(markdown).trim());
-                // The same doc-entry id the journals pass derives, from the
-                // shared `DOC_ENTRY_TYPES` arrangement (#1514) — so neither
-                // pass has to read the other's output.
-                const entryId = hasBody ? itemDocEntryId(fm.id) : undefined;
-                const folder = this.folderResolver(sohlField(fm, "folder", null));
-                const warnings = [];
-                const scene = buildScene(fm, {
-                    packageId: FOUNDRY_PACKAGE_ID,
-                    name,
-                    folder,
-                    stats: STATS,
-                    journalEntryId: entryId,
-                    pageIds:
-                        hasBody ?
-                            this.#pageIds(markdown, entryId, name)
-                        :   new Map(),
-                    knownActions,
-                    warnings,
-                    ...this.#resolvers(index, effectsByAddress, fm.shortcode),
-                });
-                for (const message of warnings) {
-                    log.warn(`Map "${name}": ${message}`);
-                }
-                this.writeEntry(this.outputDir, scene);
-                compiled++;
-
-                // The journal the pins point at, derived here exactly as the
-                // journals pass derives it, so the Adventure bundles the same
-                // document that pack ships.
-                const journal =
-                    hasBody ?
-                        buildJournalEntry({
-                            id: entryId,
-                            name,
-                            markdown,
-                            leadName: name,
-                            folder: sohlField(fm, "folder", null),
-                            flags: fm.flags,
-                        })
-                    :   null;
-
-                const placeKey = sohlField(fm, "place", null) || fm.shortcode;
-                if (!places.has(placeKey)) {
-                    places.set(placeKey, {
-                        key: placeKey,
-                        name: sohlField(fm, "placeName", null) || name,
-                        img: sohlField(fm, "image", null),
-                        pinned: false,
-                        scenes: [],
-                        journal: [],
-                    });
-                }
-                const place = places.get(placeKey);
-                place.scenes.push(stripKeys(scene));
-                if (journal) place.journal.push(stripKeys(journal));
-                if (Object.keys(fm.sohl?.locations ?? {}).length) {
-                    place.pinned = true;
-                }
-            } catch (err) {
-                this.errorCount++;
-                log.error(`Failed to compile map at ${absPath}: ${err.message}`);
-            }
+    /**
+     * Compile one map note into a Scene, and accumulate the place it belongs
+     * to — a map's Scene and the JournalEntry its prose compiles into ship
+     * together in an Adventure, which is the only import that preserves the
+     * ids its pins address.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @param {string} markdown - The body, tables expanded and wikilinks
+     *   resolved.
+     * @returns {object} The Scene document.
+     */
+    compileNote(fm, markdown) {
+        const name = resolveName(fm);
+        const hasBody = Boolean(String(markdown).trim());
+        // The same doc-entry id the journals pass derives, from the
+        // shared `DOC_ENTRY_TYPES` arrangement (#1514) — so neither
+        // pass has to read the other's output.
+        const entryId = hasBody ? itemDocEntryId(fm.id) : undefined;
+        const folder = this.folderResolver(sohlField(fm, "folder", null));
+        const warnings = [];
+        const scene = buildScene(fm, {
+            packageId: FOUNDRY_PACKAGE_ID,
+            name,
+            folder,
+            stats: STATS,
+            journalEntryId: entryId,
+            pageIds:
+                hasBody ?
+                    this.#pageIds(markdown, entryId, name)
+                :   new Map(),
+            knownActions: this.knownActions,
+            warnings,
+            ...this.#resolvers(this.index, this.effectsByAddress, fm.shortcode),
+        });
+        for (const message of warnings) {
+            log.warn(`Map "${name}": ${message}`);
         }
+        this.writeEntry(scene);
 
-        let adventures = 0;
-        for (const place of places.values()) {
+        // The journal the pins point at, derived here exactly as the
+        // journals pass derives it, so the Adventure bundles the same
+        // document that pack ships.
+        const journal =
+            hasBody ?
+                buildJournalEntry({
+                    id: entryId,
+                    name,
+                    markdown,
+                    leadName: name,
+                    folder: sohlField(fm, "folder", null),
+                    flags: fm.flags,
+                })
+            :   null;
+
+        const placeKey = sohlField(fm, "place", null) || fm.shortcode;
+        if (!this.places.has(placeKey)) {
+            this.places.set(placeKey, {
+                key: placeKey,
+                name: sohlField(fm, "placeName", null) || name,
+                img: sohlField(fm, "image", null),
+                pinned: false,
+                scenes: [],
+                journal: [],
+            });
+        }
+        const place = this.places.get(placeKey);
+        place.scenes.push(stripKeys(scene));
+        if (journal) place.journal.push(stripKeys(journal));
+        if (Object.keys(fm.sohl?.locations ?? {}).length) {
+            place.pinned = true;
+        }
+        return scene;
+    }
+
+    /**
+     * Bundle each pinned place into an Adventure, once every map of it has
+     * compiled.
+     *
+     * @returns {Promise<void>}
+     */
+    async finish() {
+        this.adventureCount = 0;
+        for (const place of this.places.values()) {
             // A scene that references nothing ships fine as a plain `scenes`
             // entry; only pins need the id-preserving import an Adventure gives.
             if (!place.pinned) continue;
-            this.writeEntry(this.adventureDir, this.#buildAdventure(place));
-            adventures++;
+            this.writeTo(this.adventureDir, this.#buildAdventure(place));
+            this.adventureCount++;
         }
+    }
 
-        this.compiledCount = compiled;
+    /** @inheritdoc */
+    reportCompiled(stats) {
         log.info(
-            `Compiled ${compiled} scene(s) and ${adventures} adventure(s)`,
+            `Compiled ${stats.compiled} scene(s) and ${this.adventureCount} adventure(s)`,
         );
-        if (this.unresolvedLinks) {
-            log.info(
-                `${this.unresolvedLinks} wikilink(s) left as literal text (no target in the content tree)`,
-            );
-        }
     }
 
     /**

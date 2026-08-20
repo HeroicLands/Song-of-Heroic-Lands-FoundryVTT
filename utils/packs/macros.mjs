@@ -43,21 +43,22 @@
  *
  * Not a standalone script — exports the `Macros` compiler class, imported and
  * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ *
+ * The walk itself — filtering by package and type, skipping drafts,
+ * expanding tables, converting wikilinks, writing the JSON and counting
+ * errors — belongs to {@link sohl.utils.packs.BasePackCompiler}; this module
+ * states only what makes this pass its own (#1509).
  */
 
-import fs from "fs";
-import path from "path";
 import log from "loglevel";
 
 import {
-    walkMarkdownTree,
     sohlField,
-    makeFilename,
     resolveName,
     resolveImg,
     buildStats,
 } from "./helpers.mjs";
-import { CONTENT_PACKAGE } from "./content-package.mjs";
+import { BasePackCompiler } from "./base-compiler.mjs";
 import { splitPages } from "./journals.mjs";
 
 const STATS = buildStats();
@@ -288,61 +289,32 @@ export function buildMacroEntry(fm, { command, folder = null, stats = STATS }) {
  * note into one Macro document. The same note's documentation is compiled by
  * the journals pass; neither pass reads the other's output.
  */
-export class Macros {
+export class Macros extends BasePackCompiler {
     static id = "macros";
-
-    /** @type {string} */
-    contentBase;
-    /** @type {string} */
-    outputDir;
-    /** @type {(path: string|null) => string|null} */
-    folderResolver;
-    /** @type {number} */
-    errorCount = 0;
+    static label = "macro";
 
     /**
-     * Entries this pass wrote to its own pack. Zero from a non-empty content
-     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
-     *
-     * @type {number}
+     * The command must be exactly what the author typed, so this pass reads the
+     * note as authored: no table expansion, no wikilink conversion, and no
+     * content-wide link index it would never consult. The journals pass
+     * compiles the converted copy of the same body independently.
      */
-    compiledCount = 0;
+    static convertsWikilinks = false;
 
-    constructor({ contentBase, dest, folderResolver = () => null }) {
-        if (!contentBase) {
-            throw new Error("Macros compiler requires `contentBase`");
-        }
-        if (!fs.existsSync(contentBase)) {
-            throw new Error(`Content tree not found at ${contentBase}`);
-        }
-        Object.defineProperty(this, "contentBase", {
-            value: contentBase,
-            writable: false,
-        });
-        Object.defineProperty(this, "outputDir", {
-            value: dest,
-            writable: false,
-        });
-        Object.defineProperty(this, "folderResolver", {
-            value: folderResolver,
-            writable: false,
-        });
-    }
-
-    writeEntry(doc) {
-        const fname = makeFilename(doc.name, doc._id);
-        fs.writeFileSync(
-            path.join(this.outputDir, fname),
-            JSON.stringify(doc, null, 2),
-            "utf8",
-        );
+    /**
+     * @param {object} fm - The note's frontmatter.
+     * @returns {boolean} True for a `macro` note.
+     */
+    selects(fm) {
+        return fm.type === "macro";
     }
 
     /**
      * Compile one note into a Macro.
      *
      * @param {object} fm - The note's frontmatter.
-     * @param {string} body - The note body, frontmatter stripped.
+     * @param {string} body - The note body, frontmatter stripped and otherwise
+     *   exactly as authored.
      * @returns {MacroDocument} The Macro document.
      */
     buildEntry(fm, body) {
@@ -353,50 +325,8 @@ export class Macros {
         });
     }
 
-    async compile() {
-        let compiled = 0;
-        let skippedDraft = 0;
-        let skippedOther = 0;
-
-        for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
-            this.contentBase,
-        )) {
-            if (
-                !fm ||
-                fm.package !== CONTENT_PACKAGE ||
-                fm.type !== "macro"
-            ) {
-                skippedOther++;
-                continue;
-            }
-            if (fm.draft === true) {
-                skippedDraft++;
-                log.debug(`Skipping draft: ${absPath}`);
-                continue;
-            }
-            if (!fm.id) {
-                // Fatal, not a warning, exactly as for an item: a skipped
-                // macro silently vanishes from the compendium while its
-                // knowledgebase page still builds, so the omission is
-                // invisible until someone looks for the macro.
-                throw new Error(`Macro missing id: ${absPath}`);
-            }
-
-            log.debug(`Processing macro: ${resolveName(fm)} (${absPath})`);
-            try {
-                this.writeEntry(this.buildEntry(fm, body));
-                compiled++;
-            } catch (err) {
-                this.errorCount++;
-                log.error(
-                    `Failed to compile macro at ${absPath}: ${err.message}`,
-                );
-            }
-        }
-
-        this.compiledCount = compiled;
-        log.info(`Compiled ${compiled} macro${compiled === 1 ? "" : "s"}`);
-        if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
-        log.debug(`Skipped ${skippedOther} non-macro file(s)`);
+    /** @inheritdoc */
+    reportDetail(stats) {
+        log.debug(`Skipped ${stats.skippedOther} non-macro file(s)`);
     }
 }

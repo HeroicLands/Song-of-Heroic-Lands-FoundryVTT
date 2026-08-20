@@ -342,6 +342,42 @@ per configured pack (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`,
 frontmatter, validates folders against the pack's `*-folders.yaml`, and writes
 per-entry JSON — from which the LevelDB is then compiled.
 
+#### Adding a pack compiler: `BasePackCompiler`
+
+That walk is written **once**, in `utils/packs/base-compiler.mjs`. Walking the
+tree, rejecting notes of another content package, skipping drafts, expanding
+generated tables, converting wikilinks, writing the JSON and counting what
+failed are identical in every pass, so `BasePackCompiler` owns them and each
+pass subclasses it (#1509). A pass states only what makes it that pass:
+
+| Hook | What it decides |
+| --- | --- |
+| `selects(fm)` | Which notes this pack claims. **Required.** |
+| `buildEntry(fm, markdown)` | One note → one document. **Required.** |
+| `prepare()` | Anything the walk needs first — an index, a prior pack's output. |
+| `skipNote(fm, body)` | A further rejection the type filter cannot express. |
+| `compileNote(fm, markdown)` | A note that emits *more* than its own document. |
+| `onCompiled(fm, doc)` | Per-note tallies for the summary. |
+| `finish(stats)` | Work that needs every note compiled first. |
+| `reportCompiled` / `reportDetail` | The pass's own log lines. |
+
+Two static switches complete it: `requiresId` (a claimed note with no `id` is
+fatal, or merely skipped — the journals pass is the only one that tolerates it)
+and `convertsWikilinks` (whether the body reaching `buildEntry` is converted or
+exactly as authored — the macros pass needs the latter, because its `command` is
+executable source).
+
+**This is the extension point.** The pack list is data and each entry names a
+Foundry document type; a consumer needing a document type the toolchain does not
+ship writes a subclass and registers it in `generate.mjs`'s `COMPILERS` map,
+rather than copying a pass and editing it. The contract the generator relies on
+stays small — construct with `{contentBase, dest, companionDests,
+folderResolver}`, `await compile()`, read `errorCount` and `compiledCount`.
+
+`utils/packs/map-notes.mjs` is deliberately **not** a subclass: it never walks
+the tree. It is the pure markdown→`Scene` translator the scenes pass calls, and
+keeping it framework-free is what makes it unit-testable.
+
 #### The pack pipeline is configured, not hard-coded
 
 Everything about the pipeline that is *this repository's* rather than any

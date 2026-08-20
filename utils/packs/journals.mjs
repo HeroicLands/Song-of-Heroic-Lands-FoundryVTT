@@ -37,25 +37,23 @@
  *
  * Not a standalone script — exports the `Journals` compiler class, imported
  * and driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ *
+ * The walk itself — filtering by package and type, skipping drafts,
+ * expanding tables, converting wikilinks, writing the JSON and counting
+ * errors — belongs to {@link sohl.utils.packs.BasePackCompiler}; this module
+ * states only what makes this pass its own (#1509).
  */
 
-import fs from "fs";
-import path from "path";
 import log from "loglevel";
 
 import {
-    walkMarkdownTree,
     sohlField,
-    makeFilename,
     makeId,
     resolveName,
     buildStats,
     md,
-    buildContentLinkIndex,
-    convertNoteWikilinks,
-    collectContentDocs,
-    expandNoteTables,
 } from "./helpers.mjs";
+import { BasePackCompiler } from "./base-compiler.mjs";
 import { CONTENT_PACKAGE } from "./content-package.mjs";
 import { anchorPageId } from "./wikilinks.mjs";
 import { hasDocEntry, itemDocEntryId } from "./item-docs.mjs";
@@ -261,54 +259,54 @@ export function buildJournalEntry({
     };
 }
 
-export class Journals {
+export class Journals extends BasePackCompiler {
     static id = "journals";
-
-    /** @type {string} */
-    contentBase;
-    /** @type {string} */
-    outputDir;
-    /** @type {(path: string|null) => string|null} */
-    folderResolver;
-    /** @type {number} */
-    errorCount = 0;
+    static label = "journal";
 
     /**
-     * Entries this pass wrote to its own pack. Zero from a non-empty content
-     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
+     * A note with no id is skipped with a warning rather than failing the
+     * build: unlike an item or a macro, an unidentified journal note is prose
+     * that simply never became an entry.
+     */
+    static requiresId = false;
+
+    /**
+     * How many of the compiled entries were documentation for a document
+     * compiled elsewhere, for the summary.
      *
      * @type {number}
      */
-    compiledCount = 0;
+    docEntries = 0;
 
-    constructor({ contentBase, dest, folderResolver = () => null }) {
-        if (!contentBase) {
-            throw new Error("Journals compiler requires `contentBase`");
-        }
-        if (!fs.existsSync(contentBase)) {
-            throw new Error(`Content tree not found at ${contentBase}`);
-        }
-        Object.defineProperty(this, "contentBase", {
-            value: contentBase,
-            writable: false,
-        });
-        Object.defineProperty(this, "outputDir", {
-            value: dest,
-            writable: false,
-        });
-        Object.defineProperty(this, "folderResolver", {
-            value: folderResolver,
-            writable: false,
-        });
+    /**
+     * Journal notes, plus every doc-carrying note — an item's prose is its
+     * documentation, so it compiles here and the item keeps a pointer to it
+     * (#1348); a macro's is the same arrangement (#1514), and so is a map's,
+     * whose prose is the place description its pins point at (#1525).
+     *
+     * The membership is {@link sohl.utils.packs.DOC_ENTRY_TYPES}, read through
+     * {@link sohl.utils.packs.hasDocEntry} — the one set the link manifest also
+     * reads, so what compiles and what is published cannot drift apart.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @returns {boolean} True for a `doc` note or a doc-carrying note.
+     */
+    selects(fm) {
+        return fm.type === "doc" || hasDocEntry(fm.type);
     }
 
-    writeEntry(doc) {
-        const fname = makeFilename(doc.name, doc._id);
-        fs.writeFileSync(
-            path.join(this.outputDir, fname),
-            JSON.stringify(doc, null, 2),
-            "utf8",
-        );
+    /**
+     * An item with no prose gets no doc, and the items pass leaves its
+     * description empty rather than pointing at nothing; a map with no prose
+     * gets no entry and no pin target. The two passes apply the same rule to
+     * the same body, so they agree.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @param {string} body - The note body, frontmatter stripped.
+     * @returns {boolean} True to skip the note.
+     */
+    skipNote(fm, body) {
+        return hasDocEntry(fm.type) && !String(body).trim();
     }
 
     /**
@@ -324,30 +322,15 @@ export class Journals {
      * because the macro pass also reads it (#1514).
      *
      * @param {object} fm - The note's frontmatter.
-     * @param {string} body - The note body, frontmatter stripped.
+     * @param {string} markdown - The body, tables expanded and wikilinks
+     *   resolved. The links are resolved from the note as authored — against
+     *   the note's own id, not the entry's.
      * @returns {object} The JournalEntry document.
      */
-    buildEntry(fm, body) {
+    buildEntry(fm, markdown) {
         const name = resolveName(fm);
         const ownsDoc = hasDocEntry(fm.type);
         const id = ownsDoc ? itemDocEntryId(fm.id) : fm.id;
-        // Generated tables expand first: their cells may carry wikilinks, which
-        // the conversion below then resolves along with the authored ones.
-        const tabulated = expandNoteTables(body, {
-            docs: this.contentDocs,
-            name,
-            pkg: fm.package,
-            fm,
-        });
-        const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
-            type: fm.type,
-            // The note's own id, not the entry's: this resolves the links the
-            // note *writes*, which are addressed from the note as authored.
-            id: fm.id,
-            index: this.linkIndex,
-            name,
-        });
-        this.unresolvedLinks += unresolved.length;
 
         // A documentation entry is filed exactly where the document it
         // describes is, so the journals pack mirrors the items pack and a doc
@@ -371,80 +354,22 @@ export class Journals {
         });
     }
 
-    async compile() {
-        let compiled = 0;
-        let docEntries = 0;
-        let skippedNoId = 0;
-        let skippedDraft = 0;
-        let skippedOther = 0;
+    /** @inheritdoc */
+    onCompiled(fm) {
+        if (hasDocEntry(fm.type)) this.docEntries++;
+    }
 
-        this.linkIndex = buildContentLinkIndex(this.contentBase);
-        this.contentDocs = collectContentDocs(this.contentBase);
-        this.unresolvedLinks = 0;
-
-        for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
-            this.contentBase,
-        )) {
-            // Journal notes, plus every doc-carrying note — an item's prose is
-            // its documentation, so it compiles here and the item keeps a
-            // pointer to it (#1348); a macro's is the same arrangement (#1514),
-            // and so is a map's, whose prose is the place description its pins
-            // point at (#1525).
-            const ownsDoc = hasDocEntry(fm?.type);
-            if (
-                !fm ||
-                fm.package !== CONTENT_PACKAGE ||
-                (fm.type !== "doc" && !ownsDoc)
-            ) {
-                skippedOther++;
-                continue;
-            }
-            if (fm.draft === true) {
-                skippedDraft++;
-                log.debug(`Skipping draft: ${absPath}`);
-                continue;
-            }
-            if (!fm.id) {
-                skippedNoId++;
-                log.warn(`Journal note missing id, skipping: ${absPath}`);
-                continue;
-            }
-            // An item with no prose gets no doc, and the items pass leaves its
-            // description empty rather than pointing at nothing, and a map with
-            // no prose gets no entry and no pin target. The two passes apply
-            // the same rule to the same body, so they agree.
-            if (ownsDoc && !String(body).trim()) {
-                skippedOther++;
-                continue;
-            }
-
-            log.debug(`Processing journal: ${resolveName(fm)} (${absPath})`);
-            try {
-                const doc = this.buildEntry(fm, body);
-                this.writeEntry(doc);
-                compiled++;
-                if (ownsDoc) docEntries++;
-            } catch (err) {
-                this.errorCount++;
-                log.error(
-                    `Failed to compile journal at ${absPath}: ${err.message}`,
-                );
-            }
-        }
-
-        this.compiledCount = compiled;
+    /** @inheritdoc */
+    reportCompiled(stats) {
         log.info(
-            `Compiled ${compiled} journal entr${compiled === 1 ? "y" : "ies"} (${docEntries} documentation entr${docEntries === 1 ? "y" : "ies"})`,
+            `Compiled ${stats.compiled} journal entr${stats.compiled === 1 ? "y" : "ies"} (${this.docEntries} documentation entr${this.docEntries === 1 ? "y" : "ies"})`,
         );
-        if (this.unresolvedLinks) {
-            log.info(
-                `${this.unresolvedLinks} wikilink(s) left as literal text (no target in the content tree)`,
-            );
-        }
-        if (skippedNoId) log.info(`Skipped ${skippedNoId} note(s) missing id`);
-        if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
+    }
+
+    /** @inheritdoc */
+    reportDetail(stats) {
         log.debug(
-            `Skipped ${skippedOther} non-doc file(s) ` +
+            `Skipped ${stats.skippedOther} non-doc file(s) ` +
                 `(not type:doc package:${CONTENT_PACKAGE})`,
         );
     }

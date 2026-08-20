@@ -29,6 +29,11 @@
  * Not a standalone script — exports the `Actors` compiler class, imported and
  * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`). Must run
  * after the items pass, since it reads the items pack's generated JSON tree.
+ *
+ * The walk itself — filtering by package and type, skipping drafts,
+ * expanding tables, converting wikilinks, writing the JSON and counting
+ * errors — belongs to {@link sohl.utils.packs.BasePackCompiler}; this module
+ * states only what makes this pass its own (#1509).
  */
 
 import fs from "fs";
@@ -36,21 +41,16 @@ import path from "path";
 import log from "loglevel";
 
 import {
-    walkMarkdownTree,
     sohlField,
     getFrontmatter,
-    makeFilename,
     makeId,
     resolveName,
     resolveImg,
     buildStats,
     withArchetypeFlag,
     md,
-    buildContentLinkIndex,
-    convertNoteWikilinks,
-    collectContentDocs,
-    expandNoteTables,
 } from "./helpers.mjs";
+import { BasePackCompiler } from "./base-compiler.mjs";
 import { CONTENT_PACKAGE } from "./content-package.mjs";
 
 const STATS = buildStats();
@@ -227,27 +227,12 @@ function renderSection(body, anchorId) {
     return slice ? md.render(slice) : "";
 }
 
-export class Actors {
+export class Actors extends BasePackCompiler {
     static id = "actors";
+    static label = "actor";
 
-    /** @type {string} */
-    contentBase;
-    /** @type {string} */
-    outputDir;
     /** @type {string} */
     itemsSourceDir;
-    /** @type {(path: string|null) => string|null} */
-    folderResolver;
-    /** @type {number} */
-    errorCount = 0;
-
-    /**
-     * Entries this pass wrote to its own pack. Zero from a non-empty content
-     * tree is a build failure, not a quiet no-op — see `generate.mjs`.
-     *
-     * @type {number}
-     */
-    compiledCount = 0;
 
     constructor({
         contentBase,
@@ -255,12 +240,7 @@ export class Actors {
         itemsSourceDir,
         folderResolver = () => null,
     }) {
-        if (!contentBase) {
-            throw new Error("Actors compiler requires `contentBase`");
-        }
-        if (!fs.existsSync(contentBase)) {
-            throw new Error(`Content tree not found at ${contentBase}`);
-        }
+        super({ contentBase, dest, folderResolver });
         // Where the items pass wrote its JSON. Stated by the caller rather than
         // assumed to be this pack's sibling: the two packs' locations are
         // configuration, and a consumer may put them anywhere (#1508).
@@ -271,30 +251,54 @@ export class Actors {
                     "resolved against",
             );
         }
-        Object.defineProperty(this, "contentBase", {
-            value: contentBase,
-            writable: false,
-        });
-        Object.defineProperty(this, "outputDir", {
-            value: dest,
-            writable: false,
-        });
         Object.defineProperty(this, "itemsSourceDir", {
             value: itemsSourceDir,
             writable: false,
         });
-        Object.defineProperty(this, "folderResolver", {
-            value: folderResolver,
-            writable: false,
-        });
     }
 
-    writeActor(doc) {
-        const fname = makeFilename(doc.name, doc._id);
-        fs.writeFileSync(
-            path.join(this.outputDir, fname),
-            JSON.stringify(doc, null, 2),
-            "utf8",
+    /**
+     * Both content types `character` and `creature` produce a Foundry `being`
+     * actor; no other distinction propagates to the output.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @returns {boolean} True for a character or creature note.
+     */
+    selects(fm) {
+        return ACTOR_VAULT_TYPES.has(fm.type);
+    }
+
+    /**
+     * The predefined items each being's embedded items resolve against, loaded
+     * before the walk from the items pass's output.
+     *
+     * @returns {Promise<void>}
+     */
+    async prepare() {
+        await super.prepare();
+        this.itemsMap = loadItemsMap(this.itemsSourceDir);
+        log.info(
+            `Loaded ${this.itemsMap.size} predefined items for actor resolution`,
+        );
+    }
+
+    /**
+     * Compile one character or creature note into a `being`.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @param {string} markdown - The body, tables expanded and wikilinks
+     *   resolved.
+     * @returns {object} The actor document, keyed for the pack.
+     */
+    buildEntry(fm, markdown) {
+        return this.buildBeing(this.itemsMap, fm, markdown);
+    }
+
+    /** @inheritdoc */
+    reportDetail(stats) {
+        log.debug(
+            `Skipped ${stats.skippedOther} non-actor file(s) ` +
+                `(not character/creature, package:${CONTENT_PACKAGE})`,
         );
     }
 
@@ -474,77 +478,4 @@ export class Actors {
         };
     }
 
-    async compile() {
-        const itemsMap = loadItemsMap(this.itemsSourceDir);
-        log.info(`Loaded ${itemsMap.size} predefined items for actor resolution`);
-
-        let compiled = 0;
-        let skippedDraft = 0;
-        let skippedOther = 0;
-
-        this.linkIndex ??= buildContentLinkIndex(this.contentBase);
-        this.contentDocs ??= collectContentDocs(this.contentBase);
-        this.unresolvedLinks ??= 0;
-
-        for (const { frontmatter: fm, body: rawBody, absPath } of walkMarkdownTree(
-            this.contentBase,
-        )) {
-            if (!fm || fm.package !== CONTENT_PACKAGE) {
-                skippedOther++;
-                continue;
-            }
-            if (!ACTOR_VAULT_TYPES.has(fm.type)) {
-                skippedOther++;
-                continue;
-            }
-            if (fm.draft === true) {
-                skippedDraft++;
-                log.debug(`Skipping draft: ${absPath}`);
-                continue;
-            }
-            if (!fm.id) {
-                // Fatal, not a warning — see the matching check in items.mjs.
-                throw new Error(`Actor missing id: ${absPath}`);
-            }
-
-            log.debug(`Processing actor: ${resolveName(fm)} (${absPath})`);
-            try {
-                // Wikilinks in an actor's prose sections resolve against the
-                // whole content tree, exactly as they do in items and journals.
-                // Generated tables expand before wikilinks, so a cell
-                // they emit is resolved along with the authored links.
-                const { markdown: body, unresolved } = convertNoteWikilinks(
-                    expandNoteTables(rawBody, {
-                        docs: this.contentDocs,
-                        name: resolveName(fm),
-                        pkg: fm.package,
-                        fm,
-                    }),
-                    {
-                        type: fm.type,
-                        id: fm.id,
-                        index: this.linkIndex,
-                        name: resolveName(fm),
-                    },
-                );
-                this.unresolvedLinks += unresolved.length;
-                const doc = this.buildBeing(itemsMap, fm, body);
-                this.writeActor(doc);
-                compiled++;
-            } catch (err) {
-                this.errorCount++;
-                log.error(
-                    `Failed to compile actor at ${absPath}: ${err.message}`,
-                );
-            }
-        }
-
-        this.compiledCount = compiled;
-        log.info(`Compiled ${compiled} actor${compiled === 1 ? "" : "s"}`);
-        if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
-        log.debug(
-            `Skipped ${skippedOther} non-actor file(s) ` +
-                `(not character/creature, package:${CONTENT_PACKAGE})`,
-        );
-    }
 }
