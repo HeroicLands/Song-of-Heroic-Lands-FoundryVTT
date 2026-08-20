@@ -61,7 +61,8 @@ import {
 } from "./helpers.mjs";
 import { BasePackCompiler } from "./base-compiler.mjs";
 import { buildJournalEntry, splitPages, journalPageId } from "./journals.mjs";
-import { compendiumUuid, makeId } from "./ids.mjs";
+import { compendiumUuid, makeId, packForType } from "./ids.mjs";
+import { packRouter } from "./pack-router.mjs";
 import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { itemDocEntryId } from "./item-docs.mjs";
 import {
@@ -202,6 +203,13 @@ export class Scenes extends BasePackCompiler {
                 effectsByAddress.set(`${fm.type}-${fm.shortcode}`, {
                     id: fm.id,
                     type: fm.type,
+                    // Where the owning item landed, so a region behaviour's
+                    // effect reference addresses the right pack when a
+                    // repository ships several of one type (#1566).
+                    pack: packRouter.resolveOrNull(
+                        fm,
+                        packForType(fm.type).docType,
+                    ),
                     effects: fm.effects,
                 });
             }
@@ -339,7 +347,7 @@ export class Scenes extends BasePackCompiler {
                             `"${addr.effect}" with an \`_id\``,
                     );
                 }
-                return `${compendiumUuid(FOUNDRY_PACKAGE_ID, item.type, item.id)}.ActiveEffect.${effect._id}`;
+                return `${compendiumUuid(FOUNDRY_PACKAGE_ID, item.type, item.id, item.pack)}.ActiveEffect.${effect._id}`;
             },
         };
     }
@@ -410,6 +418,10 @@ export class Scenes extends BasePackCompiler {
             folder,
             stats: STATS,
             journalEntryId: entryId,
+            // A map note's prose is a derived JournalEntry: it lands in the
+            // default JournalEntry pack, not in whichever Scene pack the map
+            // itself was routed to (#1566).
+            journalPack: packRouter.defaultOf("JournalEntry"),
             pageIds:
                 hasBody ? this.#pageIds(markdown, entryId, name) : new Map(),
             knownActions: this.knownActions,

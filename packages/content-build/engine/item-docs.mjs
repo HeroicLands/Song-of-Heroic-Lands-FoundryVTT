@@ -45,6 +45,7 @@
 import { compendiumUuid, makeId, pageUuid } from "./ids.mjs";
 import { packConfig } from "./pack-config.mjs";
 import { ITEM_TYPES } from "./item-registry.mjs";
+import { packRouter } from "./pack-router.mjs";
 
 /**
  * Every content type that compiles into an item — and therefore into an item
@@ -134,6 +135,14 @@ export function itemDocEntryId(itemId) {
  * @returns {string} The pointer to store in `system.docHtml`.
  */
 export function itemDocPointer(packageId, itemId, name, firstPageId) {
-    const entryUuid = compendiumUuid(packageId, "doc", itemDocEntryId(itemId));
+    // An item doc is a *derived* document: it lands in the default
+    // JournalEntry pack whatever Item pack the item itself was routed to
+    // (#1566).
+    const entryUuid = compendiumUuid(
+        packageId,
+        "doc",
+        itemDocEntryId(itemId),
+        packRouter.defaultOf("JournalEntry"),
+    );
     return `@UUID[${pageUuid(entryUuid, firstPageId)}]{${name}}`;
 }

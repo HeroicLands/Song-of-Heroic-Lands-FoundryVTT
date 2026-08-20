@@ -906,7 +906,8 @@ function buildRegion(key, spec, geom, ctx) {
  *
  * @param {object} fm - The note's frontmatter.
  * @param {object} ctx - The compile context:
- *   `packageId`, `journalEntryId`, `pageIds` (heading key → page id),
+ *   `packageId`, `journalEntryId`, `journalPack` (the pack the note's derived
+ *   JournalEntry landed in), `pageIds` (heading key → page id),
  *   `resolveRegionRef` / `resolveBehaviorRef` / `resolveEffectRef` (address →
  *   UUID), `knownActions`, `warnings`, and optionally `folder` and `stats`.
  * @returns {object} The Scene document, keyed for the pack.
@@ -991,7 +992,12 @@ export function buildScene(fm, ctx) {
         // pack needs the flag to find the entry at all.
         scene.journal = ctx.journalEntryId;
         scene.flags[ctx.packageId] = {
-            docUuid: compendiumUuid(ctx.packageId, "doc", ctx.journalEntryId),
+            docUuid: compendiumUuid(
+                ctx.packageId,
+                "doc",
+                ctx.journalEntryId,
+                ctx.journalPack,
+            ),
         };
     }
     return scene;

@@ -118,6 +118,13 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  * One compendium pack the build compiles, named exactly as it is declared in
  * the package manifest's `packs` array.
  *
+ * Several packs may share a `type`. The `type` selects the **compiler** that
+ * fills the pack; a note's `pack:` frontmatter selects **which pack of that
+ * type** receives its document. The two are orthogonal, and both are needed
+ * once a repository groups same-type documents editorially — which it may have
+ * to, since a compendium UUID carries its pack name and collapsing such a
+ * layout breaks every stored reference (#1566).
+ *
  * @typedef {object} PackSpec
  * @property {string} name              Pack name — the manifest `name`, and the
  *                                      directory under `packs/`.
@@ -134,6 +141,15 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  * @property {boolean} [mayBeEmpty]     Whether a pass compiling zero entries is
  *                                      legitimate rather than a build failure.
  *                                      Default `false`.
+ * @property {boolean} [default]        Whether this is the pack of its `type`
+ *                                      that receives notes declaring no `pack:`
+ *                                      of their own. Default `false`. A type
+ *                                      with exactly one pack is its default
+ *                                      implicitly; a type with several and no
+ *                                      `default: true` requires every note of
+ *                                      that type to declare one. Not permitted
+ *                                      on a companion — no note is routed into
+ *                                      one. See `engine/pack-router.mjs`.
  */
 
 /**
@@ -147,6 +163,7 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  * @property {string|null} folders
  * @property {readonly Readonly<ResolvedPackSpec>[]} companions
  * @property {boolean} mayBeEmpty
+ * @property {boolean} default
  */
 
 /**
@@ -246,7 +263,13 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  *                                          builder producing its `system` block.
  *                                          Default `{}` — a content module that
  *                                          ships no items declares none.
- * @property {PackSpec[]} packs             Packs to compile.
+ * @property {PackSpec[]} packs             Packs to compile. More than one entry
+ *                                          may share a `type`: a note then names
+ *                                          the pack it belongs in with its
+ *                                          `pack:` frontmatter, and one pack of
+ *                                          the type is marked `default: true` to
+ *                                          receive the notes that name none
+ *                                          (#1566).
  * @property {PathsInput} [paths]           Layout overrides. See {@link DEFAULT_PATHS}.
  * @property {string[]} [skipDirectories]   Directory names the content walk ignores
  *                                          wherever they appear (e.g. Obsidian's
@@ -307,6 +330,7 @@ const PACK_KEYS = [
     "folders",
     "companions",
     "mayBeEmpty",
+    "default",
 ];
 const PATH_KEYS = Object.keys(DEFAULT_PATHS);
 const STATS_KEYS = ["systemId", "systemVersion", "lastModifiedBy"];
@@ -400,6 +424,13 @@ function normalizePack(value, where, nested = false) {
     if (companionsInput !== undefined && !Array.isArray(companionsInput)) {
         fail(`${where}.companions`, "must be an array");
     }
+    if (nested && pack.default !== undefined) {
+        fail(
+            `${where}.default`,
+            "may not be declared on a companion: a companion is written by " +
+                "another pack's pass, so no note is ever routed into one",
+        );
+    }
     if (nested && Array.isArray(companionsInput) && companionsInput.length) {
         fail(
             `${where}.companions`,
@@ -430,6 +461,9 @@ function normalizePack(value, where, nested = false) {
             `${where}.mayBeEmpty`,
             false,
         ),
+        // Which pack of a type receives a note that declares none. Validated
+        // across the whole list in `defineConfig` — at most one per type.
+        default: optionalBoolean(pack.default, `${where}.default`, false),
     };
     return Object.freeze(normalized);
 }
@@ -639,6 +673,25 @@ export function defineConfig(config) {
             fail("packs", `declares the pack \`${name}\` more than once`);
         }
         seen.add(name);
+    }
+
+    // Several packs of one document type are allowed — editorial grouping of
+    // same-type documents is ordinary Foundry practice, and collapsing such a
+    // layout breaks every stored compendium UUID (#1566). What is not allowed
+    // is two candidates for the same undeclared note.
+    const defaultsByType = new Map();
+    for (const pack of packs) {
+        if (!pack.default) continue;
+        const already = defaultsByType.get(pack.type);
+        if (already) {
+            fail(
+                "packs",
+                `marks both \`${already}\` and \`${pack.name}\` as the ` +
+                    `default ${pack.type} pack; a note declaring no \`pack:\` ` +
+                    `must have one destination`,
+            );
+        }
+        defaultsByType.set(pack.type, pack.name);
     }
 
     if (

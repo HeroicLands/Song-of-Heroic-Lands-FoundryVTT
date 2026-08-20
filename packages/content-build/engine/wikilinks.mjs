@@ -134,7 +134,7 @@ export function resolveItemDocType(qualifier, types) {
     const base = qualifier.slice(ITEM_DOC_PREFIX.length);
     if (!base || !types.has(base)) return null;
     if (hasDocEntry(base)) return base;
-    return packForType(base).pack === ITEM_PACK.pack ? base : null;
+    return packForType(base).docType === ITEM_PACK.docType ? base : null;
 }
 
 /**
@@ -259,7 +259,10 @@ export function anchorPageId(noteId, anchorSlug) {
  * Builds the link-resolution tables for a content tree.
  *
  * @param {Array<{type: string, id: string, shortcode?: string|null,
- *   aliases?: string[], name?: string}>} docs - One entry per content note.
+ *   aliases?: string[], name?: string, pack?: string, docPack?: string}>} docs -
+ *   One entry per content note. `pack` / `docPack` name the packs the note's
+ *   document and its documentation entry landed in; omitted, the conventional
+ *   one-pack-per-type names stand in.
  * @param {string} packageId - The Foundry package shipping the packs; the first
  *   segment of every emitted UUID.
  * @param {Map<string, object>} [foreign] - Canonically keyed entries from
@@ -295,11 +298,20 @@ export function buildWikilinkIndex(docs, packageId, foreign, contentPackage) {
         types.add(norm(d.type));
 
         uuidByDoc.set(d, {
-            uuid: compendiumUuid(packageId, d.type, d.id),
+            // `d.pack` is where this note's document actually landed, resolved
+            // by the pack router when the index was collected. A repository may
+            // ship several packs of one type (#1566) and a UUID carries the
+            // pack name, so the address cannot be derived from the type alone.
+            uuid: compendiumUuid(packageId, d.type, d.id, d.pack),
             // An item's prose compiles into a separate JournalEntry, addressed
             // by the virtual `doc<type>` qualifier. Its id is derived from the
             // item's, so its address is knowable here too.
-            docUuid: compendiumUuid(packageId, "doc", itemDocEntryId(d.id)),
+            docUuid: compendiumUuid(
+                packageId,
+                "doc",
+                itemDocEntryId(d.id),
+                d.docPack,
+            ),
         });
 
         if (d.shortcode)
@@ -445,12 +457,17 @@ const WIKILINK = /\[\[([^\]\n]+)\]\]/g;
  * @param {object} ctx
  * @param {string} ctx.type - The source note's `type`, which scopes a bare `[[Text]]`.
  * @param {string} ctx.id - The source note's document id.
+ * @param {string} [ctx.pack] - The pack the source note's own document landed
+ *   in, which addresses a `[[#slug]]` self-link — the one target with no index
+ *   entry.
+ * @param {string} [ctx.docPack] - The pack the source note's documentation
+ *   entry landed in.
  * @param {{byShortcode: Map, byAlias: Map, types: Set}} ctx.index - From
  *   {@link buildWikilinkIndex}.
  * @returns {{markdown: string, unresolved: Array<{link: string, target: string,
  *   reason: "unknown"|"ambiguous"|"unknown-type"}>}}
  */
-export function convertWikilinks(markdown, { type, id, index }) {
+export function convertWikilinks(markdown, { type, id, pack, docPack, index }) {
     const unresolved = [];
 
     const out = replaceOutsideCode(markdown, WIKILINK, (all, rawInner) => {
@@ -483,7 +500,7 @@ export function convertWikilinks(markdown, { type, id, index }) {
         // Kept for the foreign fallback below, which needs the parsed address.
         let qualifiedRead = null;
         if (target === "" && slug) {
-            doc = { type, id };
+            doc = { type, id, pack, docPack };
         } else {
             const qualified = readQualifier(
                 target,
@@ -562,16 +579,18 @@ export function convertWikilinks(markdown, { type, id, index }) {
         // self-link is resolved from the source's own type and id, which the
         // caller supplied, so it is addressed the same way here.
         const addresses = index.uuidByDoc.get(doc) ?? {
-            uuid: compendiumUuid(index.packageId, doc.type, doc.id),
+            uuid: compendiumUuid(index.packageId, doc.type, doc.id, doc.pack),
             docUuid: compendiumUuid(
                 index.packageId,
                 "doc",
                 itemDocEntryId(doc.id),
+                doc.docPack,
             ),
         };
         const entryUuid = itemDoc ? addresses.docUuid : addresses.uuid;
         const entryId = itemDoc ? itemDocEntryId(doc.id) : doc.id;
-        const isJournal = itemDoc || packForType(doc.type).pack === "journals";
+        const isJournal =
+            itemDoc || packForType(doc.type).docType === "JournalEntry";
         // A JournalEntry link opens a journal — at its first page, or at the
         // page an anchor names. An Item or Actor link opens that document's
         // *sheet*, which has no sections, so the anchor has nothing to address

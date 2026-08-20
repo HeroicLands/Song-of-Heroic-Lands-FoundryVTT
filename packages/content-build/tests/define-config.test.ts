@@ -48,7 +48,9 @@ describe("defineConfig", () => {
         expect(config.foundryPackage).toBe("sohl");
         expect(config.packageKind).toBe("systems");
         // `label` defaults to the pack name and `private` to false; a pack
-        // declares no folder file and no companion unless it has one.
+        // declares no folder file and no companion unless it has one, and is
+        // not its type's declared default (a type with one pack needs no
+        // declaration to have one — see `engine/pack-router.mjs`).
         expect(config.packs).toEqual([
             {
                 name: "items",
@@ -58,6 +60,7 @@ describe("defineConfig", () => {
                 folders: null,
                 companions: [],
                 mayBeEmpty: false,
+                default: false,
             },
         ]);
         expect(config.assets).toEqual([
@@ -279,6 +282,7 @@ describe("defineConfig — the layout a consumer supplies (#1508)", () => {
                 folders: null,
                 companions: [],
                 mayBeEmpty: false,
+                default: false,
             },
         ]);
     });

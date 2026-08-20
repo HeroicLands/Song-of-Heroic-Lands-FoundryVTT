@@ -33,7 +33,7 @@
  * @module
  */
 
-/** Deterministic document ids, the pack router, and compendium UUIDs. */
+/** Deterministic document ids, the conventional pack map, and compendium UUIDs. */
 export * as ids from "./ids.mjs";
 
 /** Fenced-code detection, so a rewrite never edits a code block. */
@@ -47,6 +47,9 @@ export * as contentTree from "./content-tree.mjs";
 
 /** The consuming repository's resolved `content-build.config.mjs`. */
 export * as packConfig from "./pack-config.mjs";
+
+/** Which pack of a document type a note's document lands in (#1566). */
+export * as packRouter from "./pack-router.mjs";
 
 /** The content package a build compiles, and the Foundry package it ships in. */
 export * as contentPackage from "./content-package.mjs";

@@ -38,6 +38,12 @@
  * merely skipped) and `convertsWikilinks` (whether the body reaching
  * `buildEntry` is converted or exactly as authored).
  *
+ * `selects` answers *which document type* a pass claims, and it is the same
+ * answer for every pack of that type. Which **pack of that type** a claimed
+ * note lands in is a second question, answered by the pack router from the
+ * note's own `pack:` declaration (#1566) — so a subclass never has to know that
+ * its type ships in more than one pack.
+ *
  * **This is the extension point.** The pack list is data
  * (`content-build.config.mjs`) and each entry names a document type; a consumer
  * adding a document type this toolchain does not ship writes a subclass of this
@@ -67,6 +73,7 @@ import {
     expandNoteTables,
 } from "./helpers.mjs";
 import { CONTENT_PACKAGE } from "./content-package.mjs";
+import { packForType } from "./ids.mjs";
 
 /**
  * The tallies one pass accumulates while walking the tree.
@@ -135,6 +142,34 @@ export class BasePackCompiler {
     errorCount = 0;
 
     /**
+     * The pack this pass writes, and the Foundry document type it holds.
+     *
+     * Supplied by the generator from the configured pack list. Left undefined
+     * by a caller constructing a compiler directly (the unit suite), which
+     * turns routing off: with one pack there is nothing to route between.
+     *
+     * @type {string|undefined}
+     */
+    packName;
+    /** @type {string|undefined} */
+    docType;
+    /** @type {{resolve: Function}|undefined} */
+    router;
+
+    /**
+     * Whether this pass reports a note of its document type that routes
+     * nowhere.
+     *
+     * Every pack of a type claims the same notes, so all of them would report
+     * the same unroutable note. The **first configured pack of the type** owns
+     * the message, and the rest stay quiet — one error, named once, and the
+     * build still fails.
+     *
+     * @type {boolean}
+     */
+    routingReporter = false;
+
+    /**
      * Entries this pass wrote to its own pack. Zero from a non-empty content
      * tree is a build failure, not a quiet no-op — see `generate.mjs`.
      *
@@ -156,8 +191,22 @@ export class BasePackCompiler {
      * @param {string} options.dest - Where this pass writes its JSON.
      * @param {(path: string|null) => string|null} [options.folderResolver] -
      *   Resolves a `sohl.folder` id against this pack's folder hierarchy.
+     * @param {string} [options.packName] - The pack this pass writes.
+     * @param {string} [options.docType] - The Foundry document type it holds.
+     * @param {{resolve: Function}} [options.router] - The pack router. Omit it
+     *   — as the unit suite does — and every claimed note is compiled here.
+     * @param {boolean} [options.routingReporter] - Whether this pass reports a
+     *   note of its type that routes nowhere.
      */
-    constructor({ contentBase, dest, folderResolver = () => null } = {}) {
+    constructor({
+        contentBase,
+        dest,
+        folderResolver = () => null,
+        packName,
+        docType,
+        router,
+        routingReporter = false,
+    } = {}) {
         if (!contentBase) {
             throw new Error(
                 `${this.constructor.name} compiler requires \`contentBase\``,
@@ -178,6 +227,23 @@ export class BasePackCompiler {
             value: folderResolver,
             writable: false,
         });
+        this.packName = packName;
+        this.docType = docType;
+        this.router = router;
+        this.routingReporter = routingReporter;
+    }
+
+    /**
+     * Whether this pass's pack is the one a claimed note belongs in.
+     *
+     * @param {object} fm - The note's frontmatter.
+     * @returns {boolean} True to compile it here.
+     * @throws {import("./pack-router.mjs").PackRoutingError} When the note
+     *   routes to no pack at all — a build failure, never a silent drop.
+     */
+    routesHere(fm) {
+        if (!this.router || !this.packName || !this.docType) return true;
+        return this.router.resolve(fm, this.docType) === this.packName;
     }
 
     /**
@@ -232,7 +298,10 @@ export class BasePackCompiler {
      */
     async prepare() {
         if (this.constructor.convertsWikilinks) {
-            this.linkIndex = buildContentLinkIndex(this.contentBase);
+            this.linkIndex = buildContentLinkIndex(
+                this.contentBase,
+                this.router,
+            );
             this.contentDocs = collectContentDocs(this.contentBase);
         }
         this.unresolvedLinks = 0;
@@ -261,6 +330,11 @@ export class BasePackCompiler {
         const { markdown, unresolved } = convertNoteWikilinks(tabulated, {
             type: fm.type,
             id: fm.id,
+            // A `[[#slug]]` self-link addresses the source note, which has no
+            // entry in the index — so where its own documents landed has to
+            // travel with it (#1566).
+            pack: this.router?.resolveOrNull(fm, packForType(fm.type).docType),
+            docPack: this.router?.resolveOrNull(fm, "JournalEntry"),
             index: this.linkIndex,
             name,
         });
@@ -421,6 +495,22 @@ export class BasePackCompiler {
                 }
                 stats.skippedNoId++;
                 log.warn(`${Label} note missing id, skipping: ${absPath}`);
+                continue;
+            }
+            // Which pack of this type takes it. Applied after the draft and
+            // id checks — a draft is not compiled anywhere, so its declaration
+            // is nobody's business — and before `skipNote`, so a note this pack
+            // does not own never reaches this pass's own rejection rules.
+            try {
+                if (!this.routesHere(fm)) {
+                    stats.skippedOther++;
+                    continue;
+                }
+            } catch (err) {
+                if (this.routingReporter) {
+                    this.errorCount++;
+                    log.error(`${absPath}: ${err.message}`);
+                }
                 continue;
             }
             if (this.skipNote(fm, body)) {

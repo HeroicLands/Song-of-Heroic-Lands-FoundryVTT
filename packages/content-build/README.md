@@ -101,6 +101,64 @@ fills the optional halves with their defaults (`assets: []`, `skipDirectories:
 copy. A malformed configuration throws a `TypeError` naming the offending field,
 so it fails at load rather than as an empty pack much later.
 
+### Several packs of one document type
+
+A repository may declare more than one pack of the same `type`, and route notes
+between them. Editorial grouping of same-type documents into separate
+compendiums is ordinary Foundry practice — "Core Spells" and "Expanded Spells"
+are two Item packs — and it matters beyond taste: a compendium UUID carries its
+pack name (`Compendium.<package>.<pack>.Item.<id>`), so collapsing several packs
+into one invalidates every reference an existing world holds.
+
+Two axes, deliberately orthogonal:
+
+- a pack's **`type`** selects the _compiler_ that fills it;
+- a note's **`pack:`** frontmatter selects _which pack of that type_ receives its
+  document.
+
+```js
+packs: [
+  { name: "characteristics", type: "Item", default: true },
+  { name: "mysteries", type: "Item" },
+  { name: "journals", type: "JournalEntry" },
+],
+```
+
+```yaml
+# A note that says nothing lands in `characteristics`, the default Item pack.
+---
+name:
+  full: Climbing
+type: skill
+package: kethira
+id: ...
+---
+# A note that names one lands there instead.
+---
+name:
+  full: Second Sight
+type: skill
+package: kethira
+id: ...
+pack: mysteries
+---
+```
+
+- **`pack:` is optional, and silence means the default.** Every note written
+  before this existed declares nothing, so an undeclared note must keep
+  compiling exactly where it always did. A type with exactly **one** pack is
+  that type's default implicitly; a type with several designates one with
+  `default: true`. Where several exist and none is marked, a declaration is
+  **mandatory** and an undeclared note fails the build.
+- **A `pack:` naming no configured pack is a build error**, not a fall-through to
+  the default. A typo'd name that quietly landed content in the wrong compendium
+  would be silent partial compilation — the failure mode this toolchain's guards
+  exist to eliminate. The same applies to a name that belongs to a pack of
+  another document type, or to a companion (no note is ever routed into one).
+- **A note's `pack:` names where its _own_ document goes.** Anything derived from
+  it — an item's or a macro's prose, which compiles into a JournalEntry of its
+  own — lands in the default pack of _that_ type.
+
 **Import `defineConfig` from `@heroiclands/content-build/config`, never from the
 package root.** `engine/pack-config.mjs` finds this file by walking up from
 itself — so it works from `packages/` and from `node_modules/` alike, and does
