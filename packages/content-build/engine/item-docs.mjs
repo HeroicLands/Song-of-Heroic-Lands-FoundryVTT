@@ -44,29 +44,20 @@
 
 import { compendiumUuid, makeId, pageUuid } from "./ids.mjs";
 import { packConfig } from "./pack-config.mjs";
+import { ITEM_TYPES } from "./item-registry.mjs";
 
 /**
  * Every content type that compiles into an item — and therefore into an item
- * doc. Exposed here rather than from the items compiler because both passes
- * need it: the items pass to know what to compile, the journals pass to know
- * whose prose it is holding.
+ * doc. Re-exported here rather than restated because both passes need it: the
+ * items pass to know what to compile, the journals pass to know whose prose it
+ * is holding.
  *
- * **Derived, never authored.** These are the keys of the consuming
- * repository's `itemBuilders` registry — the table that pairs each type with
- * the builder producing its `system` block — so the whitelist and the builder
- * table are the same list and cannot drift apart. They already had: `trait` was
- * whitelisted here long after the item type was retired (#651), with no builder
- * behind it, so every `type: trait` note passed this gate and then failed to
- * compile (#1504).
- *
- * The registry itself is the consumer's — SoHL's lives in
- * `@heroiclands/content-build/sohl` — and reaches this module through
- * configuration, so the engine holds the *concept* of a doc-carrying type
- * without holding any package's data model (#1512).
- *
- * @type {ReadonlySet<string>}
+ * It is the consuming repository's `itemBuilders` keys, resolved once in
+ * `item-registry.mjs` alongside the builder lookup the Item compiler dispatches
+ * through — one object, so the whitelist and the table cannot disagree
+ * (#1504/#1563).
  */
-export const ITEM_TYPES = packConfig.itemTypes;
+export { ITEM_TYPES };
 
 /**
  * Every content type whose **prose compiles into a JournalEntry of its own**,

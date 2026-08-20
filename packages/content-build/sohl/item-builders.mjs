@@ -15,23 +15,28 @@
  * **The item-type registry** — every content type that compiles into a Foundry
  * Item, keyed to the builder that produces its `system` block.
  *
- * There is one list, not two. `ITEM_TYPES` (re-exported from `item-docs.mjs`,
- * where the doc-carrying types are assembled) is derived from
- * {@link ITEM_BUILDERS}' own keys, so a type cannot be whitelisted for
- * compilation without a builder to compile it. Previously the whitelist and the
- * builder table were maintained by hand and had already drifted: `trait` — an
- * item type **retired in #651**, absent from `documentTypes.Item` and reported
- * by world migration as unrecognized — was still advertised as compilable, so a
- * `type: trait` note passed the gate and then died on `BUILDERS[type] is not a
- * function`, swallowed as a per-file error (#1504).
+ * There is one list, not two. This repository hands {@link ITEM_BUILDERS} to
+ * the build as `itemBuilders` in `content-build.config.mjs`, and `ITEM_TYPES`
+ * — the whitelist — is derived from that table's own keys, so a type cannot be
+ * whitelisted for compilation without a builder to compile it. Previously the
+ * whitelist and the builder table were maintained by hand and had already
+ * drifted: `trait` — an item type **retired in #651**, absent from
+ * `documentTypes.Item` and reported by world migration as unrecognized — was
+ * still advertised as compilable, so a `type: trait` note passed the gate and
+ * then died on `BUILDERS[type] is not a function`, swallowed as a per-file
+ * error (#1504).
  *
  * Adding an item type is therefore one edit here (plus its `documentTypes.Item`
  * declaration and its default art); removing one is likewise a single deletion.
  *
- * **A leaf module.** It imports only the pure frontmatter readers, never
- * `helpers.mjs` — which reaches wikilinks and through them back to
- * `item-docs.mjs`, the module that derives `ITEM_TYPES` from this registry.
- * Keeping the dependency one-way is what lets the derivation exist at all.
+ * **A leaf module, and the reason the seam works.** It imports only the pure
+ * frontmatter readers — never `helpers.mjs`, and never the resolved
+ * configuration. The config file imports *this* module, so a read back out of
+ * the configuration here would close a cycle around the config's own
+ * evaluation. The table travels into configuration; the engine's
+ * `item-registry.mjs` reads it back out and the Item compiler dispatches
+ * through that, which is how a consumer's own table is the one its notes
+ * compile with (#1563).
  */
 
 import {
@@ -285,8 +290,9 @@ function buildConcoctionGear(fm) {
 }
 
 /**
- * Every item type, keyed to the builder that produces its `system` block —
- * the single source of truth for "which types compile into an Item".
+ * Every item type SoHL ships, keyed to the builder that produces its `system`
+ * block — this repository's answer to "which types compile into an Item",
+ * declared as `itemBuilders` and read back through the resolved configuration.
  *
  * @type {Readonly<Record<string, (fm: object) => object>>}
  */
@@ -305,25 +311,3 @@ export const ITEM_BUILDERS = Object.freeze({
     trauma: buildTrauma,
     weapongear: buildWeaponGear,
 });
-
-/**
- * The builder registered for an item type.
- *
- * Unreachable through the compiler — its whitelist *is* this registry's keys —
- * so a throw here means a caller invented a type. It names the type rather than
- * failing as `BUILDERS[type] is not a function` (#1504).
- *
- * @param {string} type - The note's `type` frontmatter.
- * @returns {(fm: object) => object} The builder for that type.
- * @throws {Error} When no builder is registered for `type`.
- */
-export function itemBuilder(type) {
-    const builder = ITEM_BUILDERS[type];
-    if (typeof builder !== "function") {
-        throw new Error(
-            `No builder registered for item type "${type}" — add one to ` +
-                `packages/content-build/sohl/item-builders.mjs, or stop declaring the type.`,
-        );
-    }
-    return builder;
-}

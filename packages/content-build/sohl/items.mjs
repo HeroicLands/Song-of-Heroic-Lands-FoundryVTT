@@ -45,10 +45,6 @@ import {
     withArchetypeFlag,
 } from "../engine/helpers.mjs";
 import { BasePackCompiler } from "../engine/base-compiler.mjs";
-// Per-type `system` builders live in the item-type registry — the one list
-// `ITEM_TYPES` is derived from, so the whitelist and the builder table cannot
-// disagree (#1504).
-import { itemBuilder } from "./item-builders.mjs";
 // Per-type default art lives in one framework-free module shared with the
 // runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
 // It lives in the build package, not `src/`: a relative path out of the package
@@ -56,11 +52,12 @@ import { itemBuilder } from "./item-builders.mjs";
 import { defaultItemArt } from "./default-item-art.mjs";
 import { journalPageId, splitPages } from "../engine/journals.mjs";
 import { FOUNDRY_PACKAGE_ID } from "../engine/content-package.mjs";
-import {
-    ITEM_TYPES,
-    itemDocEntryId,
-    itemDocPointer,
-} from "../engine/item-docs.mjs";
+import { itemDocEntryId, itemDocPointer } from "../engine/item-docs.mjs";
+// The whitelist and the per-type `system` builders both come from the resolved
+// configuration, so the types this pass claims and the builders it compiles
+// them with are one table — the consuming repository's, not this package's
+// (#1504/#1563).
+import { ITEM_TYPES, itemBuilder } from "../engine/item-registry.mjs";
 
 const STATS = buildStats();
 

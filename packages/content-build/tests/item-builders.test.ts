@@ -14,8 +14,8 @@
 import { describe, it, expect } from "vitest";
 // Imported by relative path, not the `@src` alias, because the pack-build
 // scripts live outside that tree.
-import { ITEM_BUILDERS, itemBuilder } from "../sohl/item-builders.mjs";
-import { ITEM_TYPES } from "../engine/item-docs.mjs";
+import { ITEM_BUILDERS } from "../sohl/item-builders.mjs";
+import { ITEM_TYPES, itemBuilder } from "../engine/item-registry.mjs";
 import { DEFAULT_ITEM_ART } from "../sohl/default-item-art.mjs";
 
 const BUILDERS = ITEM_BUILDERS as Record<string, unknown>;
@@ -55,6 +55,9 @@ describe("ITEM_BUILDERS (the one registry keyed by item type, #1504)", () => {
 
 describe("itemBuilder (lookup that fails loudly)", () => {
     it("returns the registered builder for a known type", () => {
+        // Resolved from configuration, which in this repository *is* this
+        // registry — so the identity check proves the dispatch reaches the
+        // table the repository declared, not a copy of it (#1563).
         expect(itemBuilder("skill")).toBe(BUILDERS["skill"]);
         expect(itemBuilder("weapongear")).toBe(BUILDERS["weapongear"]);
     });
