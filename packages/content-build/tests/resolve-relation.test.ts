@@ -11,7 +11,7 @@ import { describe, it, expect } from "vitest";
 import {
     resolveRelation,
     // eslint-disable-next-line
-} from "../../../utils/packs/helpers.mjs";
+} from "../engine/helpers.mjs";
 
 describe("resolveRelation (pack builder — affiliation standing map, #1404)", () => {
     it("returns an empty map when the affiliation authors no relations", () => {

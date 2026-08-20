@@ -7,7 +7,7 @@
 
 import { describe, it, expect } from "vitest";
 // The single source of truth for per-type default item art — shared by the
-// build-time pack builder (`utils/packs/items.mjs`) and the runtime
+// build-time pack builder (`packages/content-build/sohl/items.mjs`) and the runtime
 // `SohlItem.getDefaultArtwork` override. Plain ESM, living in the build package
 // and imported here through the same leaf entry point both of them use, so this
 // suite exercises the map they actually read. See issues #890, #932, #1510.
@@ -15,7 +15,7 @@ import { DEFAULT_ITEM_ART, defaultItemArt } from "../sohl/default-item-art.mjs";
 // The item-type registry — the one place a type is declared (#1504). Deriving
 // the expectation from it is what stops this map becoming a third list that
 // disagrees with the whitelist and the builder table.
-import { ITEM_TYPES } from "../../../utils/packs/item-docs.mjs";
+import { ITEM_TYPES } from "../engine/item-docs.mjs";
 
 // The `.mjs` map has a precise inferred type (no index signature); view it as a
 // loose record for the string-keyed lookups the tests exercise.

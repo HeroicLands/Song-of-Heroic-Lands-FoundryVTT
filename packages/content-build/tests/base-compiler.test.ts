@@ -12,13 +12,13 @@ import path from "node:path";
 
 // Build-time pack compilers (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
-import { BasePackCompiler } from "../../../utils/packs/base-compiler.mjs";
-import { Items } from "../../../utils/packs/items.mjs";
-import { Journals } from "../../../utils/packs/journals.mjs";
-import { Actors } from "../../../utils/packs/actors.mjs";
-import { Macros } from "../../../utils/packs/macros.mjs";
-import { Scenes } from "../../../utils/packs/scenes.mjs";
-import { CONTENT_PACKAGE } from "../../../utils/packs/content-package.mjs";
+import { BasePackCompiler } from "../engine/base-compiler.mjs";
+import { Items } from "../sohl/items.mjs";
+import { Journals } from "../engine/journals.mjs";
+import { Actors } from "../sohl/actors.mjs";
+import { Macros } from "../engine/macros.mjs";
+import { Scenes } from "../engine/scenes.mjs";
+import { CONTENT_PACKAGE } from "../engine/content-package.mjs";
 
 /** A note of this build's own content package, in the tree's shape. */
 function note(

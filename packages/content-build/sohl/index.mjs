@@ -15,18 +15,32 @@
  * The SoHL-specific half of the toolchain: the knowledge of the Song of Heroic
  * Lands data model that a generic content module must never receive.
  *
- * This barrel will re-export `ITEM_TYPES`, `BUILDERS`, and the items and
- * actors compilers as #1501 moves them here. It already carries the two
- * plain-ESM leaves the runtime shares with the build (#1510).
+ * The item-type registry and its builders, the items and actors compilers, the
+ * default-art map, and the affiliation standings live here (#1512). Nothing in
+ * `@heroiclands/content-build/engine` exports any of it, so an adventure module
+ * that builds journals, macros, and scenes never receives `buildWeaponGear`.
  *
- * Those two are also reachable as their own entry points —
- * `@heroiclands/content-build/sohl/default-item-art` and
- * `.../sohl/affiliation-standings`. The runtime imports them that way on
- * purpose: this barrel grows to hold compilers that read the filesystem, and a
- * client bundle must never pull those in to reach a constant map.
+ * A consuming repository hands its own registry to the engine as configuration
+ * — `itemBuilders` in `content-build.config.mjs` — which is how the engine
+ * composes the one doc-carrying-type set without holding any package's data
+ * model.
+ *
+ * Namespaced rather than flattened, for the reason the engine barrel gives.
  *
  * @module
  */
 
+/** The item-type registry: every type that compiles into an Item, and its builder. */
+export * as itemBuilders from "./item-builders.mjs";
+
+/** The Item compiler. */
+export * as items from "./items.mjs";
+
+/** The Actor compiler. */
+export * as actors from "./actors.mjs";
+
+// Flat as well as namespaced: the Foundry runtime imports these by name through
+// their own entry points, and they were this barrel's surface before the
+// compilers arrived (#1510).
 export { DEFAULT_ITEM_ART, defaultItemArt } from "./default-item-art.mjs";
 export { AFFILIATION_STANDINGS } from "./affiliation-standings.mjs";

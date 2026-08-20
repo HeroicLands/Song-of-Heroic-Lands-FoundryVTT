@@ -27,7 +27,7 @@
  * assignment is deferred — every item currently emits `folder: null`.
  *
  * Not a standalone script — exports the `Items` compiler class, imported and
- * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
+ * driven by `packages/content-build/engine/generate.mjs` (via `npm run build:compiledb`).
  *
  * The walk itself — filtering by package and type, skipping drafts,
  * expanding tables, converting wikilinks, writing the JSON and counting
@@ -43,8 +43,8 @@ import {
     resolveImg,
     buildStats,
     withArchetypeFlag,
-} from "./helpers.mjs";
-import { BasePackCompiler } from "./base-compiler.mjs";
+} from "../engine/helpers.mjs";
+import { BasePackCompiler } from "../engine/base-compiler.mjs";
 // Per-type `system` builders live in the item-type registry — the one list
 // `ITEM_TYPES` is derived from, so the whitelist and the builder table cannot
 // disagree (#1504).
@@ -53,10 +53,14 @@ import { itemBuilder } from "./item-builders.mjs";
 // runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
 // It lives in the build package, not `src/`: a relative path out of the package
 // resolves to garbage once this pipeline runs from `node_modules` (#1510).
-import { defaultItemArt } from "@heroiclands/content-build/sohl/default-item-art";
-import { journalPageId, splitPages } from "./journals.mjs";
-import { FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
-import { ITEM_TYPES, itemDocEntryId, itemDocPointer } from "./item-docs.mjs";
+import { defaultItemArt } from "./default-item-art.mjs";
+import { journalPageId, splitPages } from "../engine/journals.mjs";
+import { FOUNDRY_PACKAGE_ID } from "../engine/content-package.mjs";
+import {
+    ITEM_TYPES,
+    itemDocEntryId,
+    itemDocPointer,
+} from "../engine/item-docs.mjs";
 
 const STATS = buildStats();
 

@@ -58,7 +58,7 @@ import { compendiumUuid, makeId, MAP_TYPES } from "./ids.mjs";
 import {
     CURATED_REGION_EVENTS,
     EXCLUDED_REGION_EVENTS,
-} from "@heroiclands/content-build/engine/region-events";
+} from "./region-events.mjs";
 
 /* -------------------------------------------------------------------- */
 /*  Note types and their canvas profiles                                */
@@ -457,7 +457,11 @@ export function buildShape(spec, geom) {
     switch (form) {
         case "rect":
         case "rectangle":
-            expectLength(raw, 4, `${geom.label}: rectangle is [x, y, width, height]`);
+            expectLength(
+                raw,
+                4,
+                `${geom.label}: rectangle is [x, y, width, height]`,
+            );
             return {
                 type: "rectangle",
                 x: raw[0],
@@ -468,7 +472,13 @@ export function buildShape(spec, geom) {
             };
         case "circle":
             expectLength(raw, 3, `${geom.label}: circle is [x, y, radius]`);
-            return { type: "circle", x: raw[0], y: raw[1], radius: raw[2], hole };
+            return {
+                type: "circle",
+                x: raw[0],
+                y: raw[1],
+                radius: raw[2],
+                hole,
+            };
         case "ellipse":
             if (raw.length !== 4 && raw.length !== 5) {
                 throw new Error(
@@ -647,7 +657,8 @@ function buildBehavior(key, spec, ctx) {
     const [type] = types;
 
     const banned = BANNED_REGION_BEHAVIOR_TYPES.get(type);
-    if (banned) throw new Error(`${label}: "${type}" is not permitted — ${banned}`);
+    if (banned)
+        throw new Error(`${label}: "${type}" is not permitted — ${banned}`);
     const behaviorSpec = BEHAVIOR_SPECS[type];
     if (!behaviorSpec) {
         throw new Error(
@@ -669,7 +680,13 @@ function buildBehavior(key, spec, ctx) {
         }
     }
 
-    const system = compileBehaviorSystem(type, authored, behaviorSpec, label, ctx);
+    const system = compileBehaviorSystem(
+        type,
+        authored,
+        behaviorSpec,
+        label,
+        ctx,
+    );
     const id = behaviorDocId(ctx.regionId, key, spec._id);
     const doc = {
         _id: id,
@@ -1027,24 +1044,38 @@ export function buildWalls(sohl, geom, ctx) {
         const label = `walls.${key}`;
         const segments = toList(spec.segments);
         if (!segments.length) {
-            throw new Error(`${label}: a wall group needs at least one segment`);
+            throw new Error(
+                `${label}: a wall group needs at least one segment`,
+            );
         }
         segments.forEach((segment, i) => {
             const id = makeId("scene-wall", `${ctx.sceneId}:${key}:${i}`);
-            out.push(buildWall(segment, spec, { ...geom, label }, {
-                sceneId: ctx.sceneId,
-                id,
-            }));
+            out.push(
+                buildWall(
+                    segment,
+                    spec,
+                    { ...geom, label },
+                    {
+                        sceneId: ctx.sceneId,
+                        id,
+                    },
+                ),
+            );
         });
     }
     for (const [key, spec] of Object.entries(sohl.doors ?? {})) {
         const label = `doors.${key}`;
         const id = spec._id || makeId("scene-door", `${ctx.sceneId}:${key}`);
         out.push(
-            buildWall(spec.segment, { kind: "door", ...spec }, { ...geom, label }, {
-                sceneId: ctx.sceneId,
-                id,
-            }),
+            buildWall(
+                spec.segment,
+                { kind: "door", ...spec },
+                { ...geom, label },
+                {
+                    sceneId: ctx.sceneId,
+                    id,
+                },
+            ),
         );
     }
     return out;
@@ -1134,7 +1165,8 @@ export function buildSounds(sohl, geom, ctx) {
     return Object.entries(sohl.sounds ?? {}).map(([key, spec]) => {
         const label = `sounds.${key}`;
         const [x, y] = requirePosition(spec.position, { ...geom, label });
-        if (!spec.path) throw new Error(`${label}: an ambient sound needs a path`);
+        if (!spec.path)
+            throw new Error(`${label}: an ambient sound needs a path`);
         const id = spec._id || makeId("scene-sound", `${ctx.sceneId}:${key}`);
         return {
             _id: id,

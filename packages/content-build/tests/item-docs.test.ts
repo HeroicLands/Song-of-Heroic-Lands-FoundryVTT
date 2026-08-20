@@ -19,12 +19,8 @@ import {
     itemDocEntryId,
     itemDocPointer,
     ITEM_TYPES,
-} from "../../../utils/packs/item-docs.mjs";
-import {
-    splitPages,
-    buildPages,
-    journalPageId,
-} from "../../../utils/packs/journals.mjs";
+} from "../engine/item-docs.mjs";
+import { splitPages, buildPages, journalPageId } from "../engine/journals.mjs";
 
 const ITEM_ID = "xPisQgs7pKDaYaKs";
 const FOUNDRY_ID = /^[A-Za-z0-9]{16}$/;

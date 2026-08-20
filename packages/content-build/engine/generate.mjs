@@ -36,9 +36,9 @@ import fs from "fs";
 import path from "path";
 import log from "loglevel";
 
-import { Items } from "./items.mjs";
+import { Items } from "../sohl/items.mjs";
 import { Journals } from "./journals.mjs";
-import { Actors } from "./actors.mjs";
+import { Actors } from "../sohl/actors.mjs";
 import { Macros } from "./macros.mjs";
 import { Scenes } from "./scenes.mjs";
 import {
@@ -49,7 +49,7 @@ import {
 } from "./helpers.mjs";
 import { countContentNotes } from "./content-tree.mjs";
 import { assertPackageIdMatchesManifestFile } from "./package-manifest.mjs";
-import { packConfig } from "./config.mjs";
+import { packConfig } from "./pack-config.mjs";
 
 /**
  * The compiler class for each Foundry document type a pack may hold.
@@ -92,7 +92,7 @@ export function itemPackJsonDir(config = packConfig) {
     const itemPack = config.packs.find((pack) => pack.type === "Item");
     if (!itemPack) {
         throw new Error(
-            "No pack of type \"Item\" is configured, so an actor's embedded " +
+            'No pack of type "Item" is configured, so an actor\'s embedded ' +
                 "items cannot be resolved. Declare one in " +
                 "content-build.config.mjs.",
         );
@@ -126,9 +126,8 @@ async function generatePack({ name, type, folders, companions }, config) {
     let folderList;
     let resolver;
     try {
-        folderList = folders ?
-            loadFolders(path.join(contentBase, folders))
-        :   [];
+        folderList =
+            folders ? loadFolders(path.join(contentBase, folders)) : [];
         ({ resolver } = buildFolderResolver(folderList));
     } catch (err) {
         log.error(`${name} ${folders} validation failed: ${err.message}`);

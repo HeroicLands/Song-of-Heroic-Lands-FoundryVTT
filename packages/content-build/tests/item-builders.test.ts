@@ -14,11 +14,8 @@
 import { describe, it, expect } from "vitest";
 // Imported by relative path, not the `@src` alias, because the pack-build
 // scripts live outside that tree.
-import {
-    ITEM_BUILDERS,
-    itemBuilder,
-} from "../../../utils/packs/item-builders.mjs";
-import { ITEM_TYPES } from "../../../utils/packs/item-docs.mjs";
+import { ITEM_BUILDERS, itemBuilder } from "../sohl/item-builders.mjs";
+import { ITEM_TYPES } from "../engine/item-docs.mjs";
 import { DEFAULT_ITEM_ART } from "../sohl/default-item-art.mjs";
 
 const BUILDERS = ITEM_BUILDERS as Record<string, unknown>;

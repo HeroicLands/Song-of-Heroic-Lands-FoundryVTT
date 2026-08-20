@@ -31,8 +31,8 @@
  * as the other slug-shaped transforms in the build:
  *
  * - heading **anchor** slugs (`[[#some-heading]]`, `{#slug}`) — position within
- *   a page, in `utils/kb-wikilinks.mjs` and `utils/packs/journals.mjs`;
- * - pack **filename** slugs, in `utils/packs/compendiums.mjs`;
+ *   a page, in `utils/kb-wikilinks.mjs` and `packages/content-build/engine/journals.mjs`;
+ * - pack **filename** slugs, in `packages/content-build/engine/compendiums.mjs`;
  * - `slugifyShortcode` in `src/utils/helpers.ts`, which runs the other way —
  *   suggesting a shortcode _from_ a name when an item is created.
  *

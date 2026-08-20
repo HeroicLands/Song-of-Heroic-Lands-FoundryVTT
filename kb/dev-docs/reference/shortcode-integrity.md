@@ -202,7 +202,7 @@ JournalEntry an item points at through `docHtml`'s `@UUID`, which survives any c
 to the published address; a per-document absolute URL would make one a pack rebuild
 plus a world migration.
 
-`contentSlug` in `utils/content-slug.mjs` is the single derivation. It transliterates
+`contentSlug` in `packages/content-build/engine/content-slug.mjs` is the single derivation. It transliterates
 before reducing, so an accented character is carried across rather than dropped —
 `Nüsvōrroth` becomes `nusvorroth`, where the old slugifier produced `n-sv-rroth` and
 forced a hand-written override. Ligatures expand as a reader would spell them

@@ -24,12 +24,18 @@ import { descriptionLinkTarget } from "@src/utils/description-link";
 import {
     itemDocEntryId,
     itemDocPointer,
-} from "../../utils/packs/item-docs.mjs";
-import { splitPages, journalPageId } from "../../utils/packs/journals.mjs";
+} from "@heroiclands/content-build/engine/item-docs";
+import {
+    splitPages,
+    journalPageId,
+} from "@heroiclands/content-build/engine/journals";
 
-const PACKS_DIR = path.resolve(__dirname, "../../utils/packs");
+// The pipeline itself now lives in the workspace package (#1512), so the
+// severance is asserted where the modules are — the guard follows the code
+// rather than the directory it used to sit in.
+const PACKS_DIR = path.resolve(__dirname, "../../packages/content-build");
 
-/** Every `.mjs` under `utils/packs/`, recursively. */
+/** Every `.mjs` under `packages/content-build/`, recursively. */
 function packModules(dir: string): string[] {
     return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
         const full = path.join(dir, entry.name);
@@ -48,15 +54,20 @@ function importSpecifiers(source: string): string[] {
 }
 
 describe("pack pipeline severance from src/ (#1510)", () => {
+    it("finds the pipeline it is guarding", () => {
+        // A walk that found nothing would make the case below vacuously pass.
+        expect(packModules(PACKS_DIR).length).toBeGreaterThan(20);
+    });
+
     it("no pack module imports anything out of src/", () => {
         const offenders: string[] = [];
         for (const file of packModules(PACKS_DIR)) {
             for (const spec of importSpecifiers(
                 fs.readFileSync(file, "utf8"),
             )) {
-                // A relative specifier that climbs out of `utils/` and into
-                // `src/` resolves to garbage once this code is installed into
-                // `node_modules` as `@heroiclands/content-build`.
+                // A relative specifier that climbs out of the package and
+                // into `src/` resolves to garbage once this code is installed
+                // into `node_modules` as `@heroiclands/content-build`.
                 if (/(^|\/)src\//.test(spec)) {
                     offenders.push(
                         `${path.relative(PACKS_DIR, file)} → ${spec}`,

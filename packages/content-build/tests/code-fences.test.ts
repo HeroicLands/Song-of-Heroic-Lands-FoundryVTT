@@ -6,13 +6,13 @@
  */
 
 import { describe, it, expect } from "vitest";
-// Build-time markdown helper (plain ESM, no Foundry). Imported by relative
-// path because the build scripts live outside the `@src` alias tree.
+// Fenced-code detection is engine machinery: every content package's wikilink
+// and table passes skip code regions through it (#1512).
 import {
     codeRegions,
     matchAllOutsideCode,
     replaceOutsideCode,
-} from "../../utils/code-fences.mjs";
+} from "../engine/code-fences.mjs";
 
 /** Stand-in for a rewriter: every `[[…]]` outside code becomes `X`. */
 const LINK = /\[\[([^\]\n]+)\]\]/g;

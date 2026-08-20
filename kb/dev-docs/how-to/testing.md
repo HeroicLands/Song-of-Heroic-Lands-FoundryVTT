@@ -98,10 +98,6 @@ a **repository** test: it belongs in `tests/build/`, where
 `src-import-severance.test.ts` keeps the build package and the runtime agreeing
 on the values they share.
 
-> The package's tests still import the compilers from the repository's
-> `utils/packs/`, which is where they live until #1512 moves them into the
-> package. Those specifiers shorten to package-relative paths when it does.
-
 ## TDD workflow
 
 1. **Write the test first.** Define what the code should do via test cases before writing any implementation.

@@ -27,7 +27,7 @@
  * properties. `sohl.skills` is ignored.
  *
  * Not a standalone script — exports the `Actors` compiler class, imported and
- * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`). Must run
+ * driven by `packages/content-build/engine/generate.mjs` (via `npm run build:compiledb`). Must run
  * after the items pass, since it reads the items pack's generated JSON tree.
  *
  * The walk itself — filtering by package and type, skipping drafts,
@@ -49,9 +49,9 @@ import {
     buildStats,
     withArchetypeFlag,
     md,
-} from "./helpers.mjs";
-import { BasePackCompiler } from "./base-compiler.mjs";
-import { CONTENT_PACKAGE } from "./content-package.mjs";
+} from "../engine/helpers.mjs";
+import { BasePackCompiler } from "../engine/base-compiler.mjs";
+import { CONTENT_PACKAGE } from "../engine/content-package.mjs";
 
 const STATS = buildStats();
 
@@ -311,7 +311,15 @@ export class Actors extends BasePackCompiler {
      * `(actorId, type, shortcode, indexKey)` so re-exports are stable.
      * Returns null if the descriptor cannot be resolved.
      */
-    resolveEmbedded(itemsMap, actorId, type, shortcode, overlay, indexKey, ctx) {
+    resolveEmbedded(
+        itemsMap,
+        actorId,
+        type,
+        shortcode,
+        overlay,
+        indexKey,
+        ctx,
+    ) {
         let base = null;
         if (shortcode) {
             base = itemsMap.get(`${type}:${shortcode}`);
@@ -334,7 +342,10 @@ export class Actors extends BasePackCompiler {
         }
         const merged = overlay ? deepMerge(base, overlay) : base;
         merged.type = type;
-        merged._id = makeId(actorId, `${type}:${shortcode || merged.name}:${indexKey}`);
+        merged._id = makeId(
+            actorId,
+            `${type}:${shortcode || merged.name}:${indexKey}`,
+        );
         // Foundry's pack compiler flattens the document hierarchy into LevelDB,
         // storing each embedded document under its own `_key`. Embedded items
         // therefore need a hierarchical key, as do any effects they carry
@@ -444,7 +455,11 @@ export class Actors extends BasePackCompiler {
         }
 
         // Being-only combat grouping (mirrors `system.defaultCombatGroup`).
-        const defaultCombatGroup = sohlField(fm, "defaultCombatGroup", undefined);
+        const defaultCombatGroup = sohlField(
+            fm,
+            "defaultCombatGroup",
+            undefined,
+        );
         if (defaultCombatGroup !== undefined) {
             system.defaultCombatGroup = defaultCombatGroup;
         }
@@ -477,5 +492,4 @@ export class Actors extends BasePackCompiler {
             _key: `!actors!${id}`,
         };
     }
-
 }

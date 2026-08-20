@@ -137,8 +137,9 @@ export function checkSceneLevels(records) {
         const inline = Array.isArray(adventure?.scenes) ? adventure.scenes : [];
         for (const scene of inline) {
             const levelIds = (
-                Array.isArray(scene?.levels) ? scene.levels : []
-            ).map((level) => level?._id ?? level);
+                Array.isArray(scene?.levels) ?
+                    scene.levels
+                :   []).map((level) => level?._id ?? level);
             const where =
                 `Adventure "${adventure?.name ?? adventure?._id}" scene ` +
                 `"${scene?.name ?? scene?._id}"`;

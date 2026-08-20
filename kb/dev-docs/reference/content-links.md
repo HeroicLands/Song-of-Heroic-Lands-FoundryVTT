@@ -216,7 +216,7 @@ would a local one, and it resolves if the target package publishes it.
 
 An address that resolves in no package — local or vendored — is a typo and fails the
 build. That check is live only while every package in `LINK_PACKAGES`
-(`utils/kb-manifest.mjs`) is accounted for; if a manifest is missing, unresolved
+(`packages/content-build/engine/kb-manifest.mjs`) is accounted for; if a manifest is missing, unresolved
 addresses are tolerated and the build says so, because the distinction is not
 decidable without it.
 
@@ -224,7 +224,7 @@ decidable without it.
 `{ path, name }`, and `path` says where the page sits *inside its own package*
 (`creature/grukar-ahk/`) — never where that package is served. The mount point is
 the consuming build's knowledge, held one line per package in `PACKAGE_BASE`
-(`utils/kb-manifest.mjs`) and prefixed when the address is resolved, so
+(`packages/content-build/engine/kb-manifest.mjs`) and prefixed when the address is resolved, so
 `creature-grkrahk` renders as `/thalorna/creature/grukar-ahk/` here.
 
 Repointing a package is therefore that one string — to another path

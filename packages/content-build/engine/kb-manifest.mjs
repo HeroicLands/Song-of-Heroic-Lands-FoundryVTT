@@ -413,7 +413,7 @@ export function loadForeignManifests(dir, localPackages, bases = PACKAGE_BASE) {
         if (needsBase && (typeof base !== "string" || !base)) {
             stale.push({
                 package: pkg,
-                reason: `no package base configured for "${pkg}" (PACKAGE_BASE in utils/kb-manifest.mjs)`,
+                reason: `no package base configured for "${pkg}" (PACKAGE_BASE in packages/content-build/engine/kb-manifest.mjs)`,
             });
             continue;
         }

@@ -25,8 +25,8 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { defineConfig } from "../index.mjs";
-import { buildStats as buildStatsRaw } from "../../../utils/packs/helpers.mjs";
-import { countContentNotes } from "../../../utils/packs/content-tree.mjs";
+import { buildStats as buildStatsRaw } from "../engine/helpers.mjs";
+import { countContentNotes } from "../engine/content-tree.mjs";
 
 // The pack helpers are plain ESM whose JSDoc types the return as `object`.
 const buildStats = (systemVersion?: string, config?: unknown): any =>
@@ -36,7 +36,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, "../../..");
 const CONFIG_URL = pathToFileURL(path.resolve(HERE, "../config.mjs")).href;
 const HELPERS_URL = pathToFileURL(
-    path.join(REPO_ROOT, "utils/packs/helpers.mjs"),
+    path.resolve(HERE, "../engine/helpers.mjs"),
 ).href;
 
 /** A note the content walk will find, wherever the consumer put its tree. */

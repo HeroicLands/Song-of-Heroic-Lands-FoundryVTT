@@ -15,7 +15,7 @@
  * Wikilink resolution for the knowledgebase build.
  *
  * The same authored links the pack compilers turn into Foundry `@UUID` enrichers
- * (see `utils/packs/wikilinks.mjs`) become site-local hrefs here:
+ * (see `packages/content-build/engine/wikilinks.mjs`) become site-local hrefs here:
  *
  *   `[[type/shortcode|Text]]`       → `[Text](/section/slug/)`
  *   `[[Text]]`                      → the same, via a type-scoped alias
@@ -34,8 +34,8 @@
 // build's own rule, so the two builds cannot drift apart on it: they disagreed
 // once over the unlabelled hyphen form, which the packs showed as a raw
 // shortcode and the knowledgebase as a name (#1409).
-import { readQualifier } from "./packs/wikilinks.mjs";
-import { replaceOutsideCode } from "./code-fences.mjs";
+import { readQualifier } from "@heroiclands/content-build/engine/wikilinks";
+import { replaceOutsideCode } from "@heroiclands/content-build/engine/code-fences";
 
 /** KB heading/anchor slug: lowercase, non-alphanumerics to single hyphens. */
 export const slugify = (s) =>

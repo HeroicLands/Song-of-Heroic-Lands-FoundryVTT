@@ -11,7 +11,7 @@ import { describe, it, expect } from "vitest";
 import {
     resolveCharges,
     // eslint-disable-next-line
-} from "../../../utils/packs/helpers.mjs";
+} from "../engine/helpers.mjs";
 
 describe("resolveCharges (pack builder — a blank maximum means 'does not use charges', #1129)", () => {
     it("yields a null max when the frontmatter declares no charges block", () => {

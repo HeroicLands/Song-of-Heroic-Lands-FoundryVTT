@@ -14,18 +14,18 @@ import path from "node:path";
 // the *configured* content package, so a repository that ships another
 // package's notes compiles them. Mocking the configuration to a package that is
 // not "sohl" is what tells a configured read apart from a hard-coded literal.
-vi.mock("../../../utils/packs/content-package.mjs", () => ({
+vi.mock("../engine/content-package.mjs", () => ({
     CONTENT_PACKAGE: "thalorna",
     FOUNDRY_PACKAGE_ID: "sohl-thalorna",
 }));
 
 // Build-time pack compilers (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
-import { Items } from "../../../utils/packs/items.mjs";
-import { Actors } from "../../../utils/packs/actors.mjs";
-import { Journals } from "../../../utils/packs/journals.mjs";
-import { Macros } from "../../../utils/packs/macros.mjs";
-import { Scenes } from "../../../utils/packs/scenes.mjs";
+import { Items } from "../sohl/items.mjs";
+import { Actors } from "../sohl/actors.mjs";
+import { Journals } from "../engine/journals.mjs";
+import { Macros } from "../engine/macros.mjs";
+import { Scenes } from "../engine/scenes.mjs";
 
 /** A note of the package this repository is configured to compile. */
 const OWN_SKILL = `---

@@ -37,15 +37,18 @@ import {
     readCanonicalKey,
     loadForeignManifests,
     manifestsComplete,
-} from "./kb-manifest.mjs";
-import { contentSlug, findSlugCollisions } from "./content-slug.mjs";
+} from "@heroiclands/content-build/engine/kb-manifest";
+import {
+    contentSlug,
+    findSlugCollisions,
+} from "@heroiclands/content-build/engine/content-slug";
 import {
     CONTENT_PACKAGE,
     FOUNDRY_PACKAGE_ID,
-} from "./packs/content-package.mjs";
-import { expandContentTables } from "./content-tables.mjs";
+} from "@heroiclands/content-build/engine/content-package";
+import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
 import { applyRedirects, pageRedirects } from "./kb-redirects.mjs";
-import { hasDocEntry } from "./packs/item-docs.mjs";
+import { hasDocEntry } from "@heroiclands/content-build/engine/item-docs";
 
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");

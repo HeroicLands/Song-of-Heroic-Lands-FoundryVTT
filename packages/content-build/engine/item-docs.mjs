@@ -42,8 +42,8 @@
  * Plain ESM with no Foundry and no filesystem access, so it is unit-testable.
  */
 
-import { compendiumUuid, makeId, MAP_TYPES, pageUuid } from "./ids.mjs";
-import { ITEM_BUILDERS } from "./item-builders.mjs";
+import { compendiumUuid, makeId, pageUuid } from "./ids.mjs";
+import { packConfig } from "./pack-config.mjs";
 
 /**
  * Every content type that compiles into an item — and therefore into an item
@@ -51,17 +51,22 @@ import { ITEM_BUILDERS } from "./item-builders.mjs";
  * need it: the items pass to know what to compile, the journals pass to know
  * whose prose it is holding.
  *
- * **Derived, never authored.** These are the keys of
- * {@link sohl.utils.packs.ITEM_BUILDERS} — the registry that pairs each type
- * with the builder producing its `system` block — so the whitelist and the
- * builder table are the same list and cannot drift apart. They already had:
- * `trait` was whitelisted here long after the item type was retired (#651),
- * with no builder behind it, so every `type: trait` note passed this gate and
- * then failed to compile (#1504).
+ * **Derived, never authored.** These are the keys of the consuming
+ * repository's `itemBuilders` registry — the table that pairs each type with
+ * the builder producing its `system` block — so the whitelist and the builder
+ * table are the same list and cannot drift apart. They already had: `trait` was
+ * whitelisted here long after the item type was retired (#651), with no builder
+ * behind it, so every `type: trait` note passed this gate and then failed to
+ * compile (#1504).
+ *
+ * The registry itself is the consumer's — SoHL's lives in
+ * `@heroiclands/content-build/sohl` — and reaches this module through
+ * configuration, so the engine holds the *concept* of a doc-carrying type
+ * without holding any package's data model (#1512).
  *
  * @type {ReadonlySet<string>}
  */
-export const ITEM_TYPES = Object.freeze(new Set(Object.keys(ITEM_BUILDERS)));
+export const ITEM_TYPES = packConfig.itemTypes;
 
 /**
  * Every content type whose **prose compiles into a JournalEntry of its own**,
@@ -76,16 +81,15 @@ export const ITEM_TYPES = Object.freeze(new Set(Object.keys(ITEM_BUILDERS)));
  * decides what to compile from it, and the link manifest decides what to
  * publish a `doc<type>` entry for. Held apart, the two drift into a manifest
  * that asserts documentation nothing compiled — or a compiled entry no
- * consumer can address.
+ * consumer can address. It is composed exactly once, in `defineConfig`, and
+ * read from there — never recomposed at a call site.
  *
  * `doc` notes and actors are absent: each is a single document, so it has no
  * separate documentation to address.
  *
  * @type {ReadonlySet<string>}
  */
-export const DOC_ENTRY_TYPES = Object.freeze(
-    new Set([...ITEM_TYPES, "macro", ...MAP_TYPES]),
-);
+export const DOC_ENTRY_TYPES = packConfig.docEntryTypes;
 
 /**
  * Whether a content note's type is one whose prose becomes a JournalEntry of

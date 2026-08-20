@@ -33,7 +33,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { packConfig } from "./config.mjs";
+import { packConfig } from "./pack-config.mjs";
 import { FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 
 /**

@@ -21,11 +21,8 @@ import {
     regionColor,
     regionDocId,
     wallRestrictions,
-} from "../../../utils/packs/map-notes.mjs";
-import {
-    DOC_ENTRY_TYPES,
-    hasDocEntry,
-} from "../../../utils/packs/item-docs.mjs";
+} from "../engine/map-notes.mjs";
+import { DOC_ENTRY_TYPES, hasDocEntry } from "../engine/item-docs.mjs";
 
 const SCENE_ID = "AAAAAAAAAAAAAAAA";
 

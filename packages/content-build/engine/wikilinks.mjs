@@ -90,7 +90,7 @@ import {
     PACK_BY_TYPE,
 } from "./ids.mjs";
 import { hasDocEntry, itemDocEntryId } from "./item-docs.mjs";
-import { replaceOutsideCode } from "../code-fences.mjs";
+import { replaceOutsideCode } from "./code-fences.mjs";
 
 export { ITEM_PACK, PACK_BY_TYPE, packForType };
 
@@ -302,11 +302,15 @@ export function buildWikilinkIndex(docs, packageId, foreign, contentPackage) {
             docUuid: compendiumUuid(packageId, "doc", itemDocEntryId(d.id)),
         });
 
-        if (d.shortcode) byShortcode.set(`${norm(d.type)}/${norm(d.shortcode)}`, d);
+        if (d.shortcode)
+            byShortcode.set(`${norm(d.type)}/${norm(d.shortcode)}`, d);
         for (const a of d.aliases ?? []) {
             const key = `${norm(d.type)}|${norm(a)}`;
             // Second claimant poisons the alias: it can no longer be resolved.
-            byAlias.set(key, byAlias.has(key) && byAlias.get(key) !== d ? null : d);
+            byAlias.set(
+                key,
+                byAlias.has(key) && byAlias.get(key) !== d ? null : d,
+            );
         }
     }
     // Entries published by *other* packages, keyed canonically. Merged as one
@@ -488,7 +492,11 @@ export function convertWikilinks(markdown, { type, id, index }) {
             );
             qualifiedRead = qualified;
             if (qualified?.reason) {
-                unresolved.push({ link: all, target, reason: qualified.reason });
+                unresolved.push({
+                    link: all,
+                    target,
+                    reason: qualified.reason,
+                });
                 return unresolvedLink(text || target, target);
             }
             if (qualified) {
@@ -571,9 +579,9 @@ export function convertWikilinks(markdown, { type, id, index }) {
         // can never hold one is what made such links dead-end (#1362); an
         // item's pages are addressed through its `doc<type>` counterpart.
         const uuid =
-            slug && isJournal
-                ? pageUuid(entryUuid, anchorPageId(entryId, slug))
-                : entryUuid;
+            slug && isJournal ?
+                pageUuid(entryUuid, anchorPageId(entryId, slug))
+            :   entryUuid;
         return `@UUID[${uuid}]{${text}}`;
     });
 

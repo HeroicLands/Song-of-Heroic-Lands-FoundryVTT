@@ -22,7 +22,7 @@
  * spelling for them.
  */
 
-import { packConfig } from "./config.mjs";
+import { packConfig } from "./pack-config.mjs";
 
 /**
  * The **content** package: the distribution unit a note declares in its

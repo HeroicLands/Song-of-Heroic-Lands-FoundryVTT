@@ -8,7 +8,14 @@
         "types": ["node"],
         "strict": true,
         "allowJs": true,
-        "checkJs": true,
+        // Declaration emit, not type checking. The pipeline is plain ESM with
+        // JSDoc written for humans and for TypeDoc; several passes hand each
+        // other loosely-typed frontmatter objects that no annotation describes
+        // honestly, and `checkJs` would report those as errors in a step whose
+        // job is to publish `.d.mts` files. Types are still emitted from the
+        // JSDoc that is there. The repository type-checks its own sources in
+        // `npm run build:types` and `npm run lint:dts`.
+        "checkJs": false,
         "declaration": true,
         "emitDeclarationOnly": true,
         "noEmitOnError": true,

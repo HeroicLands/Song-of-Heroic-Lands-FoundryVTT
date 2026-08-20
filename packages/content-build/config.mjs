@@ -58,6 +58,10 @@
 
 import path from "node:path";
 
+// A leaf with no local imports of its own, so naming it here cannot close a
+// cycle around a consumer's config file (see `engine/pack-config.mjs`).
+import { MAP_TYPES } from "./engine/ids.mjs";
+
 /**
  * The two kinds of Foundry package a content module can be built into. The
  * value is also the directory Foundry installs the package under, which is why
@@ -236,6 +240,12 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  *                                          `system.json` / `module.json`.
  * @property {PackageKind} packageKind      Whether the package is a system or a module.
  * @property {StatsSpec} stats              Identity stamped into every document's `_stats`.
+ * @property {Record<string, Function>} [itemBuilders]  The consumer's item-type
+ *                                          registry: each content `type` that
+ *                                          compiles into an Item, paired with the
+ *                                          builder producing its `system` block.
+ *                                          Default `{}` — a content module that
+ *                                          ships no items declares none.
  * @property {PackSpec[]} packs             Packs to compile.
  * @property {PathsInput} [paths]           Layout overrides. See {@link DEFAULT_PATHS}.
  * @property {string[]} [skipDirectories]   Directory names the content walk ignores
@@ -257,6 +267,16 @@ export const PACK_DOCUMENT_TYPES = /** @type {const} */ ([
  *                                     `<packageKind>/<foundryPackage>/assets`.
  * @property {Readonly<ResolvedPaths>} paths
  * @property {Readonly<StatsSpec>} stats
+ * @property {Readonly<Record<string, Function>>} itemBuilders
+ * @property {ReadonlySet<string>} itemTypes       Derived: the keys of
+ *                                     {@link ContentBuildConfigInput.itemBuilders},
+ *                                     so the accepted item types and the builder
+ *                                     table are one list (#1504).
+ * @property {ReadonlySet<string>} docEntryTypes   Derived: every type whose prose
+ *                                     compiles into a JournalEntry of its own —
+ *                                     the item types, plus `macro`, plus the map
+ *                                     types. The one set the compilers and the
+ *                                     link-manifest emitter both read.
  * @property {readonly string[]} skipDirectories
  * @property {readonly Readonly<ResolvedPackSpec>[]} packs
  * @property {readonly string[]} packDirectories  Derived: every pack directory
@@ -272,6 +292,7 @@ const CONFIG_KEYS = [
     "foundryPackage",
     "packageKind",
     "stats",
+    "itemBuilders",
     "paths",
     "skipDirectories",
     "packs",
@@ -491,6 +512,29 @@ function normalizeAsset(value, index) {
 }
 
 /**
+ * Validate a consumer's item-type registry.
+ *
+ * The registry is *code* a consumer supplies — the only place the configuration
+ * carries any — because the type list and the builder table have to be the same
+ * list. They were two, and `trait` sat in the whitelist for a release with no
+ * builder behind it (#1504).
+ *
+ * @param {unknown} value
+ * @returns {Readonly<Record<string, Function>>}
+ */
+function normalizeItemBuilders(value) {
+    if (value === undefined) return Object.freeze({});
+    if (!isPlainObject(value)) fail("itemBuilders", "must be an object");
+    const input = /** @type {Record<string, unknown>} */ (value);
+    for (const [type, builder] of Object.entries(input)) {
+        if (typeof builder !== "function") {
+            fail(`itemBuilders.${type}`, "must be a function");
+        }
+    }
+    return Object.freeze({ ...input });
+}
+
+/**
  * @param {unknown} value
  * @returns {Readonly<PublishSwitches>}
  */
@@ -617,6 +661,9 @@ export function defineConfig(config) {
         "foundryPackage",
     );
 
+    const itemBuilders = normalizeItemBuilders(input.itemBuilders);
+    const itemTypes = Object.freeze(new Set(Object.keys(itemBuilders)));
+
     return Object.freeze({
         rootDir,
         contentPackage: requireNonEmptyString(
@@ -630,6 +677,17 @@ export function defineConfig(config) {
         assetRoot: `${packageKind}/${foundryPackage}/assets`,
         paths: normalizePaths(input.paths, rootDir),
         stats: normalizeStats(input.stats),
+        itemBuilders,
+        // Resolved once, here, and read everywhere as `packConfig.itemTypes` /
+        // `packConfig.docEntryTypes`. The doc-entry *concept* is the engine's —
+        // a note that carries documentation is not a SoHL idea — but the
+        // membership is the consumer's, and there is exactly one resolved set at
+        // runtime. Two would drift, which is the whole reason the composition
+        // was written down in one place to begin with.
+        itemTypes,
+        docEntryTypes: Object.freeze(
+            new Set([...itemTypes, "macro", ...MAP_TYPES]),
+        ),
         skipDirectories: Object.freeze(skipDirectories),
         packs: Object.freeze(packs),
         packDirectories: Object.freeze(packDirectories),

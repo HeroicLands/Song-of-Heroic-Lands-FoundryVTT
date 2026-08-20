@@ -8,10 +8,7 @@
 import { describe, it, expect } from "vitest";
 // Build-time content helper (plain ESM, no Foundry). Imported by relative path
 // because the build scripts live outside the `@src` alias tree.
-import {
-    contentSlug,
-    findSlugCollisions,
-} from "../../../utils/content-slug.mjs";
+import { contentSlug, findSlugCollisions } from "../engine/content-slug.mjs";
 
 describe("contentSlug", () => {
     it("is the note's name, lowercased and hyphenated", () => {
