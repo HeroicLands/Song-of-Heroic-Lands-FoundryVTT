@@ -81,6 +81,28 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * kb/dev-docs/reference/runtime-contracts.md.
  * ────────────────────────────────────────────────────────────────────────────
  */
+
+/**
+ * The fixed ceiling of the **Value Diamond** scale — the quality grade of a
+ * Success Value test runs 0-5, so the card draws five diamonds and fills the
+ * earned ones (see {@link SuccessTestResult.valueDiamondMarks}).
+ */
+export const VALUE_DIAMOND_SCALE = 5;
+
+/**
+ * Spread an earned Value Diamond count across the fixed
+ * {@link VALUE_DIAMOND_SCALE | 0-5 scale} as one entry per diamond — `true`
+ * where the diamond was earned. A count outside the scale is clamped rather
+ * than overflowing (or truncating) the row.
+ *
+ * @param earned - The graded count, as resolved from the result-description table.
+ * @returns One boolean per diamond on the scale.
+ */
+export function toValueDiamondMarks(earned: number): boolean[] {
+    const n = Math.max(0, Math.min(VALUE_DIAMOND_SCALE, Math.trunc(earned)));
+    return Array.from({ length: VALUE_DIAMOND_SCALE }, (_, i) => i < n);
+}
+
 /**
  * The result of a **d100 roll-under mastery level test** — the most common
  * resolution mechanic in SoHL.
@@ -118,27 +140,6 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * - {@link AttackResult} — attacker's roll, with impact dice and aim
  * - {@link DefendResult} — defender's roll with situational modifiers
  */
-/**
- * The fixed ceiling of the **Value Diamond** scale — the quality grade of a
- * Success Value test runs 0-5, so the card draws five diamonds and fills the
- * earned ones (see {@link SuccessTestResult.valueDiamondMarks}).
- */
-export const VALUE_DIAMOND_SCALE = 5;
-
-/**
- * Spread an earned Value Diamond count across the fixed
- * {@link VALUE_DIAMOND_SCALE | 0-5 scale} as one entry per diamond — `true`
- * where the diamond was earned. A count outside the scale is clamped rather
- * than overflowing (or truncating) the row.
- *
- * @param earned - The graded count, as resolved from the result-description table.
- * @returns One boolean per diamond on the scale.
- */
-export function toValueDiamondMarks(earned: number): boolean[] {
-    const n = Math.max(0, Math.min(VALUE_DIAMOND_SCALE, Math.trunc(earned)));
-    return Array.from({ length: VALUE_DIAMOND_SCALE }, (_, i) => i < n);
-}
-
 export class SuccessTestResult extends TestResult {
     private _successLevel: number;
     protected _tokenLogic?: SohlTokenDocumentLogic;
