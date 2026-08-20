@@ -203,11 +203,22 @@ export class SohlActor extends Actor {
      * effects whose scope targets this actor. Replaces Foundry's
      * transfer-flag-driven generator with scope-driven inclusion.
      */
-    override *allApplicableEffects(): Generator<SohlActiveEffect> {
+    override *allApplicableEffects(): Generator<
+        ActiveEffect.Stored,
+        void,
+        undefined
+    > {
+        // The base declares `ActiveEffect.Stored` — a persisted effect, whose
+        // id and uuid are non-null. Everything yielded here comes from a
+        // document collection, so it is stored by construction; the cast states
+        // that rather than widening the contract for every caller.
         for (const effect of this.effects.values() as Iterable<SohlActiveEffect>) {
-            if (effect.targets.includes(this)) yield effect;
+            if (effect.targets.includes(this))
+                yield effect as unknown as ActiveEffect.Stored;
         }
-        for (const effect of this.transferredActiveEffects()) yield effect;
+        for (const effect of this.transferredActiveEffects()) {
+            yield effect as unknown as ActiveEffect.Stored;
+        }
     }
 
     /**

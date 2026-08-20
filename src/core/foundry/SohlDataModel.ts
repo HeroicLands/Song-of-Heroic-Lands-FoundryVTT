@@ -512,16 +512,20 @@ export namespace SohlDataModel {
              * @param form - The submitted form element.
              * @param submitData - The processed submit data.
              * @param options - Additional update/create options.
-             * @returns A promise that resolves once the submit is
-             *   persisted, or immediately when it is skipped for a
-             *   deleted root document.
+             * @returns The submit result — which document was created or
+             *   updated. Skipping a deleted root document returns an empty
+             *   result: Foundry defines one where neither happened, and that is
+             *   exactly this case, so the skip is reported rather than disguised
+             *   as a completed update.
              */
             protected override async _processSubmitData(
                 event: SubmitEvent,
                 form: HTMLFormElement,
-                submitData: foundry.applications.ux.FormDataExtended,
-                options?: unknown,
-            ): Promise<void> {
+                submitData: foundry.applications.api.DocumentSheetV2.SubmitData<any>,
+                options?: foundry.applications.api.DocumentSheetV2.ProcessSubmitOptions<any>,
+            ): Promise<
+                foundry.applications.api.DocumentSheetV2.SubmitResult<any>
+            > {
                 // Walk to the primary document: an embedded document's home is
                 // its ancestor's collection, which the ancestor's deletion
                 // orphans but does not clear — so only the root's own
@@ -534,7 +538,7 @@ export namespace SohlDataModel {
                     (!rootId || !root.collection?.has(rootId)) &&
                     !(this.options as { canCreate?: boolean }).canCreate
                 ) {
-                    return;
+                    return {};
                 }
                 return super._processSubmitData(
                     event,
