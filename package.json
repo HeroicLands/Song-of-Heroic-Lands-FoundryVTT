@@ -143,7 +143,7 @@
         "eslint": "^10.8.1",
         "eslint-config-prettier": "^10.1.1",
         "eslint-plugin-jsdoc": "^64.2.1",
-        "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#14aa149928c0fee81ce6da6a2301fa8b8721860d",
+        "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#c65553f8fe675a560dbf6dde9cfa7adc0f3f7b67",
         "glob": "^13.0.6",
         "globals": "^17.11.0",
         "gray-matter": "^4.0.3",

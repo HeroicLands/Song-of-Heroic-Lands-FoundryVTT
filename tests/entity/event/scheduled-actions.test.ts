@@ -13,6 +13,7 @@ import {
     armScheduledActions,
     scheduleAction,
     unscheduleAction,
+    requireSchedulable,
     type ScheduledAction,
 } from "@src/entity/event/scheduled-actions";
 
@@ -465,5 +466,42 @@ describe("schedule anchoring (#1181)", () => {
         const fireAt = q.scheduleAt.mock.calls[0][2];
         expect(fireAt).toBe(15);
         expect(d.update).toHaveBeenCalled();
+    });
+});
+
+describe("requireSchedulable (uuid is the schedule key)", () => {
+    it("returns the document unchanged when it has a uuid", () => {
+        const doc = mockDoc();
+        expect(requireSchedulable(doc)).toBe(doc);
+    });
+
+    it("throws when the document has never been persisted", () => {
+        // Foundry types `Document#uuid` as `string | null`: an unsaved document
+        // has no address yet. A schedule is *addressed* by uuid — the queue arms,
+        // finds, and unschedules by it — so an entry written for a null uuid
+        // could never be found, run, or cleared.
+        const unsaved = { ...mockDoc(), uuid: null };
+        expect(() => requireSchedulable(unsaved)).toThrow(/no uuid/i);
+    });
+
+    it("refuses rather than silently recording an unaddressable schedule", async () => {
+        const queue = mockQueue();
+        const unsaved = { ...mockDoc(), uuid: null };
+        await expect(
+            scheduleAction(unsaved, queue, "healingCheck", 100, undefined, 0),
+        ).rejects.toThrow(/no uuid/i);
+        // Nothing persisted and nothing armed — the failure is total, not partial.
+        expect(unsaved.update).not.toHaveBeenCalled();
+        expect(queue.scheduleAt).not.toHaveBeenCalled();
+    });
+
+    it("refuses to unschedule an unaddressable document", async () => {
+        const queue = mockQueue();
+        const unsaved = { ...mockDoc(), uuid: null };
+        await expect(
+            unscheduleAction(unsaved, queue, "healingCheck"),
+        ).rejects.toThrow(/no uuid/i);
+        expect(unsaved.update).not.toHaveBeenCalled();
+        expect(queue.unsubscribe).not.toHaveBeenCalled();
     });
 });

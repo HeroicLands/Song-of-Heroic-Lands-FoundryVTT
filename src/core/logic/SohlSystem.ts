@@ -50,7 +50,7 @@ import {
 import {
     scheduleAction,
     unscheduleAction,
-    type Schedulable,
+    type MaybeSchedulable,
 } from "@src/entity/event/scheduled-actions";
 import {
     attachScriptAction,
@@ -471,7 +471,7 @@ export class SohlSystem {
      * @returns A promise that resolves once the schedule is persisted and armed.
      */
     async schedule(
-        doc: Schedulable,
+        doc: MaybeSchedulable,
         actionName: string,
         interval: number,
         payload?: Record<string, unknown>,
@@ -519,7 +519,7 @@ export class SohlSystem {
      * @param actionName - The schedule to remove.
      * @returns A promise that resolves once the schedule is removed.
      */
-    unschedule(doc: Schedulable, actionName: string): Promise<void> {
+    unschedule(doc: MaybeSchedulable, actionName: string): Promise<void> {
         return unscheduleAction(doc, this.events, actionName);
     }
 

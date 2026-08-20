@@ -205,6 +205,43 @@ export function armScheduledActions(
     }
 }
 
+/**
+ * A document as Foundry hands it over, before it is known to be schedulable.
+ *
+ * Foundry types `Document#uuid` as `string | null`, because a document that has
+ * not been persisted has no address yet. That is the shape every caller holds,
+ * so it is the shape the schedule entry points accept — they narrow it to
+ * {@link Schedulable} once, on entry, via {@link requireSchedulable}.
+ */
+export interface MaybeSchedulable extends Omit<Schedulable, "uuid"> {
+    /** The document's uuid, or `null` if it has never been persisted. */
+    uuid: string | null;
+}
+
+/**
+ * Narrow a document to {@link Schedulable}, or throw.
+ *
+ * A schedule is addressed by uuid: the event queue arms, finds, and unschedules
+ * entries by it, and the persisted `system.scheduledActions` records it. A
+ * document without one cannot be scheduled at all — the entry would be written
+ * but never findable — so this fails loudly rather than recording an
+ * unaddressable schedule.
+ *
+ * @param doc - The document to check.
+ * @returns The same document, typed as schedulable.
+ * @throws {Error} If the document has no uuid.
+ */
+export function requireSchedulable(doc: MaybeSchedulable): Schedulable {
+    if (doc.uuid == null) {
+        throw new Error(
+            "Cannot schedule an action on a document with no uuid: a schedule " +
+                "is addressed by uuid, so the entry could never be found, run, " +
+                "or unscheduled. Persist the document first.",
+        );
+    }
+    return doc as Schedulable;
+}
+
 /** The minimal document surface the schedule mutators need. */
 export interface Schedulable {
     /** The document's uuid. */
@@ -242,7 +279,7 @@ export interface Schedulable {
  *   gating an event-driven schedule (issue #569); ignored for a time schedule.
  */
 export async function scheduleAction(
-    doc: Schedulable,
+    maybeDoc: MaybeSchedulable,
     queue: SohlEventQueue,
     actionName: string,
     interval: number,
@@ -252,6 +289,7 @@ export async function scheduleAction(
     triggerName?: string,
     predicate?: string,
 ): Promise<void> {
+    const doc = requireSchedulable(maybeDoc);
     const timeBased = isTimeTrigger(triggerName);
     const entry: ScheduledAction = {
         actionName,
@@ -293,10 +331,11 @@ export async function scheduleAction(
  * @param actionName - The schedule to remove.
  */
 export async function unscheduleAction(
-    doc: Schedulable,
+    maybeDoc: MaybeSchedulable,
     queue: SohlEventQueue,
     actionName: string,
 ): Promise<void> {
+    const doc = requireSchedulable(maybeDoc);
     const list = removeScheduledAction(doc.system.scheduledActions, actionName);
     await doc.update({ "system.scheduledActions": list });
     queue.unsubscribe(doc.uuid, actionName);

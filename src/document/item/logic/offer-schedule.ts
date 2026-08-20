@@ -36,7 +36,7 @@ import { dialog } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
 import {
     isTimeTrigger,
-    type Schedulable,
+    type MaybeSchedulable,
 } from "@src/entity/event/scheduled-actions";
 
 /**
@@ -121,7 +121,7 @@ function describeCadence(interval: number, triggerName?: string): string {
  */
 export async function offerSchedule(
     context: OfferContext,
-    doc: Schedulable,
+    doc: MaybeSchedulable,
     actionName: string,
     interval: number,
     triggerName?: string,
