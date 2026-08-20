@@ -123,11 +123,15 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
 
     describe("strike-mode scope (mod:<path> on matched strike modes)", () => {
         // The effect supplies the matched strike modes; scope routing keys off
-        // `change.effect.system.scope`. (matchingStrikeModes' own predicate
-        // logic is covered in SohlActiveEffectTargets.test.ts.)
+        // `change.effect.sohlData.scope` — the subtype-narrowed view of
+        // `system`, which is undefined on a non-SoHL effect.
+        // (matchingStrikeModes' own predicate logic is covered in
+        // SohlActiveEffectTargets.test.ts.)
         const makeEffect = (scope: string, matched: any[]) => ({
             name: "Test Effect",
+            type: "sohleffectdata",
             system: { scope },
+            sohlData: { scope },
             matchingStrikeModes: () => matched,
         });
         const smChange = (key: string, value: unknown, effect: any) =>

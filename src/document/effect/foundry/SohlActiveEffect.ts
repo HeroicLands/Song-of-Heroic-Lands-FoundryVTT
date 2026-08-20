@@ -13,6 +13,7 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlActiveEffectDataModel } from "@src/document/effect/foundry/SohlActiveEffectDataModel";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import { ContextMenuEntry } from "@src/apps/logic/ContextMenuEntry";
 import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
@@ -43,15 +44,34 @@ const STRIKE_MODE_SCOPES: Record<string, string> = {
  * code reaches effects through the logic layer.
  */
 export class SohlActiveEffect extends ActiveEffect {
+    /**
+     * This effect's SoHL data, or `undefined` when the effect is not SoHL-typed.
+     *
+     * This class is registered as the document class for **every** ActiveEffect,
+     * and the system declares two subtypes (`base` and `sohleffectdata`), so an
+     * instance is not necessarily a SoHL effect. Only the `sohleffectdata` model
+     * carries `scope` and `test`; on a `base` effect `system` has neither.
+     *
+     * Reading them off `system` directly therefore asserts a subtype nothing
+     * checked — it yielded `undefined` on a `base` effect and every caller
+     * silently took the not-applicable branch. This makes that explicit, so the
+     * absence is handled rather than assumed away.
+     */
+    get sohlData(): SohlActiveEffectDataModel | undefined {
+        return this.type === "sohleffectdata" ?
+                (this.system as unknown as SohlActiveEffectDataModel)
+            :   undefined;
+    }
+
     /** The owning `SohlItem` when the effect is on an item, else `null`. */
-    get item(): SohlItem | null {
+    override get item(): SohlItem | null {
         return ItemKinds.includes(this.parent?.type as any) ?
                 (this.parent as SohlItem)
             :   null;
     }
 
     /** The owning `SohlActor` (the item's actor, or the actor parent). */
-    get actor(): SohlActor {
+    override get actor(): SohlActor {
         return (this.item?.actor || this.parent) as unknown as SohlActor;
     }
 
@@ -81,7 +101,12 @@ export class SohlActiveEffect extends ActiveEffect {
      */
     get targets(): Array<SohlItem | SohlActor> {
         if (!this.actor) return [];
-        const scope = this.system.scope;
+        // A non-SoHL effect carries no scope, so it targets nothing. This is
+        // distinct from the unrecognized-scope warning below, which is about a
+        // SoHL effect whose scope value is wrong.
+        const data = this.sohlData;
+        if (!data) return [];
+        const scope = data.scope;
 
         if (scope === ACTIVE_EFFECT_SCOPE.THIS) {
             return this.item ? [this.item] : [this.actor];
@@ -122,7 +147,7 @@ export class SohlActiveEffect extends ActiveEffect {
      * @returns The compiled predicate, `undefined` (match all), or `null` (error).
      */
     protected _compileTest(scopeId: string): SafeExpression | undefined | null {
-        const script = this.system.test;
+        const script = this.sohlData?.test;
         if (!script) return undefined;
         try {
             return new SafeExpression(
@@ -171,7 +196,12 @@ export class SohlActiveEffect extends ActiveEffect {
             } catch (err) {
                 sohl.log.warn(
                     "Test script threw on Active Effect evaluation:",
-                    { test: this.system.test, effect: this, item, error: err },
+                    {
+                        test: this.sohlData?.test,
+                        effect: this,
+                        item,
+                        error: err,
+                    },
                 );
             }
         }
@@ -190,7 +220,9 @@ export class SohlActiveEffect extends ActiveEffect {
      * @returns The matching strike modes.
      */
     matchingStrikeModes(item: SohlItem): StrikeModeBase[] {
-        const smType = STRIKE_MODE_SCOPES[this.system.scope];
+        const effectScope = this.sohlData?.scope;
+        const smType =
+            effectScope ? STRIKE_MODE_SCOPES[effectScope] : undefined;
         if (!smType) return [];
         const strikeModes: StrikeModeBase[] =
             (item.logic as any)?.strikeModes ?? [];
@@ -213,7 +245,7 @@ export class SohlActiveEffect extends ActiveEffect {
             } catch (err) {
                 sohl.log.warn(
                     "Test script threw on strike-mode Active Effect evaluation:",
-                    { test: this.system.test, effect: this, sm, error: err },
+                    { test: this.sohlData?.test, effect: this, sm, error: err },
                 );
             }
         }
@@ -242,7 +274,7 @@ export class SohlActiveEffect extends ActiveEffect {
      * @returns The result of the routed handler, or `undefined` when no SoHL
      *   handler applies.
      */
-    protected static _applyChangeUnguided(
+    protected static override _applyChangeUnguided(
         targetDoc: any,
         change: any,
         changes: Record<string, unknown>,
@@ -250,7 +282,7 @@ export class SohlActiveEffect extends ActiveEffect {
     ): unknown {
         const rawKey: string = change?.key ?? "";
         const effect: SohlActiveEffect | undefined = change?.effect;
-        const scope: string | undefined = effect?.system?.scope;
+        const scope: string | undefined = effect?.sohlData?.scope;
 
         // Strike-mode scope: apply the change to each matching strike mode on
         // the target item rather than to the item document itself.
@@ -344,8 +376,7 @@ export class SohlActiveEffect extends ActiveEffect {
      */
     async toggleEnabledState(): Promise<this | undefined> {
         return (await this.update({ disabled: !this.disabled })) as
-            | this
-            | undefined;
+            this | undefined;
     }
 }
 
@@ -400,7 +431,7 @@ function applyStrikeModeChange(
             pushDeltaToValueModifier(node, change);
         } else {
             sohl.log.warn(
-                `strike-mode change "${change.key}" did not resolve to a ValueModifier on a ${effect.system.scope} of ${targetDoc?.uuid ?? "<unknown>"}`,
+                `strike-mode change "${change.key}" did not resolve to a ValueModifier on a ${effect.sohlData?.scope} of ${targetDoc?.uuid ?? "<unknown>"}`,
             );
         }
     }

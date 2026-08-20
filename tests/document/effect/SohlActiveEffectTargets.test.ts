@@ -23,6 +23,10 @@ function makeEffect(opts: {
 }): SohlActiveEffect {
     const eff = Object.create(SohlActiveEffect.prototype) as any;
     eff.parent = opts.parent;
+    // A real SoHL effect is created with this subtype (SohlDataModel's
+    // `createEffect` sets it); `scope` and `test` live only on that data model,
+    // and `sohlData` returns undefined without it.
+    eff.type = "sohleffectdata";
     eff.system = { scope: opts.scope, test: opts.test ?? "" };
     // The `item` and `actor` getters on SohlActiveEffect derive from `parent`.
     if (opts.actor !== undefined) {
