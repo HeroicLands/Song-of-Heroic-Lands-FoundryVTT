@@ -1,6 +1,6 @@
 {
     "name": "@heroiclands/content-build",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Shared toolchain that compiles a HeroicLands content tree into Foundry VTT compendium packs.",
     "license": "GPL-3.0-or-later",
     "type": "module",
