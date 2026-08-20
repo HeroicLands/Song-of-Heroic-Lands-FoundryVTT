@@ -58,7 +58,7 @@ import { compendiumUuid, makeId, MAP_TYPES } from "./ids.mjs";
 import {
     CURATED_REGION_EVENTS,
     EXCLUDED_REGION_EVENTS,
-} from "../../src/entity/event/region-events.mjs";
+} from "@heroiclands/content-build/engine/region-events";
 
 /* -------------------------------------------------------------------- */
 /*  Note types and their canvas profiles                                */

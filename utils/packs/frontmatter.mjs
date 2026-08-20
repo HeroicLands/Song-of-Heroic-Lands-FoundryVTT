@@ -15,7 +15,8 @@
  * **Frontmatter readers** — the pure functions that read a content note's
  * `sohl:` block and normalize what they find.
  *
- * Split out of `helpers.mjs` as a **leaf module**: it imports nothing, so the
+ * Split out of `helpers.mjs` as a **leaf module**: its only import is a frozen
+ * list of constants, so the
  * item-type registry (`item-builders.mjs`) can build on it without dragging in
  * `helpers.mjs`, which reaches wikilinks — and through them back to
  * `item-docs.mjs`, the very module that derives `ITEM_TYPES` from the registry
@@ -24,6 +25,12 @@
  * `helpers.mjs` re-exports everything here, so existing importers are
  * unaffected: there is still one name for each reader.
  */
+
+// The affiliation standings an authored `relation` map may use. Read from the
+// build package rather than restated here, so the pipeline and the runtime
+// enum cannot drift apart (#1510) — a value absent from the list is a build
+// error, never a silent ship.
+import { AFFILIATION_STANDINGS } from "@heroiclands/content-build/sohl/affiliation-standings";
 
 /**
  * Resolves a dotted frontmatter key (e.g., "name.full") into the nested
@@ -120,15 +127,6 @@ export function resolveSkillAptitudes(fm, ctx = "item") {
     }
     return out;
 }
-
-/**
- * The affiliation standings an authored `relation` map may use. Kept in step
- * with `AFFILIATION_STANDING` in `src/utils/constants.ts` (the pack scripts run
- * under bare `node`, outside the `@src` alias tree, so the list is restated
- * rather than imported — a value absent here is a build error, never a silent
- * ship).
- */
-const AFFILIATION_STANDINGS = ["aligned", "unaligned", "rival", "nemesis"];
 
 /**
  * Resolve an affiliation's `relation` map — the shortcode of another

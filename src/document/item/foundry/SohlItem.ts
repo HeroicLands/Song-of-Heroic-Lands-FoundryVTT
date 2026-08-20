@@ -19,7 +19,11 @@ import {
 } from "@src/utils/helpers";
 import { labelWithFenceSuffix } from "@src/utils/constants";
 import { toFilePath } from "@src/utils/helpers";
-import { DEFAULT_ITEM_ART } from "@src/utils/default-item-art.mjs";
+// The one default-art map, shared with the pack builder so build-time and
+// runtime defaults cannot drift (#932). It lives in the build package —
+// which is where the pack pipeline itself is headed (#1501) — and is reached
+// through that package's own leaf entry point, never a path into it (#1510).
+import { DEFAULT_ITEM_ART } from "@heroiclands/content-build/sohl/default-item-art";
 import { isValidShortcode } from "@src/utils/shortcode-format.mjs";
 import {
     dialog,
