@@ -2,7 +2,7 @@
 aliases:
   - Áldrik Hárvenar
   - Aldrik Harvenar
-  - character-aldrikharvenar
+  - being-aldrikharvenar
 tags:
   - todo-warrior
 name:
@@ -17,7 +17,7 @@ folder: Nu7AgLZEmR26u2pk
 shortcode: aldrikharvenar
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/aldrikharvenar-portrait.webp
-type: character
+type: being
 package: sohl
 social:
   occupation: Man-at-Arms
@@ -56,6 +56,7 @@ gear:
     - wtrskin:1
     - Bandg:3
 sohl:
+  kbcat: npc
   archetype: null
   attributes:
     agl: 14

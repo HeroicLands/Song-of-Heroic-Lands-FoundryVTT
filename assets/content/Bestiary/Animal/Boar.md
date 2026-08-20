@@ -1,7 +1,7 @@
 ---
 aliases:
   - Boar
-  - creature-boar
+  - being-boar
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: uyxMgEZ2vyfT2W7A
 img: icons/game-icons/caro-asercion/boar.svg
 portrait: images/being/boar-portrait.webp
 shortcode: boar
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

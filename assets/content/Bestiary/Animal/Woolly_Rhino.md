@@ -1,7 +1,7 @@
 ---
 aliases:
   - Woolly Rhino
-  - creature-wllyrhn
+  - being-wllyrhn
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: vxgCrkIE0FSMA3Ty
 img: icons/game-icons/delapouite/rhinoceros-horn.svg
 portrait: images/being/wllyrhn-portrait.webp
 shortcode: wllyrhn
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

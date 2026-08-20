@@ -1,7 +1,7 @@
 ---
 aliases:
   - Hippopotamus
-  - creature-hppptms
+  - being-hppptms
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: OB7yGxza3GSVUOFw
 img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/hppptms-portrait.webp
 shortcode: hppptms
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

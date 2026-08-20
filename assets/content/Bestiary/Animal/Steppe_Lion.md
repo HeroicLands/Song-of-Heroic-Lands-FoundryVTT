@@ -1,7 +1,7 @@
 ---
 aliases:
   - Steppe Lion
-  - creature-stppln
+  - being-stppln
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: qzveOIr4oOPGkWen
 img: icons/game-icons/lorc/lion.svg
 portrait: images/being/stppln-portrait.webp
 shortcode: stppln
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

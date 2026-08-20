@@ -1,7 +1,7 @@
 ---
 aliases:
   - Cobra
-  - creature-cobra
+  - being-cobra
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: NQZVX98HeA9QlGWY
 img: icons/game-icons/lorc/snake.svg
 portrait: images/being/cobra-portrait.webp
 shortcode: cobra
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

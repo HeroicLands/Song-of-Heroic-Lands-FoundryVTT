@@ -1,7 +1,7 @@
 ---
 aliases:
   - Jackal
-  - creature-jackal
+  - being-jackal
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: QwBtVq9RDqpwnf7s
 img: icons/game-icons/lorc/hound.svg
 portrait: images/being/jackal-portrait.webp
 shortcode: jackal
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

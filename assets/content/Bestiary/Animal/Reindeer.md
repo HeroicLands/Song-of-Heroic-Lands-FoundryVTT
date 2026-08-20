@@ -2,7 +2,7 @@
 aliases:
   - Caribou
   - Reindeer
-  - creature-reindeer
+  - being-reindeer
 tags:
   - animal
   - image-needed
@@ -14,7 +14,7 @@ id: o5zGvTtdOAvkEa0u
 img: icons/game-icons/caro-asercion/deer.svg
 portrait: images/being/reindeer-portrait.webp
 shortcode: reindeer
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

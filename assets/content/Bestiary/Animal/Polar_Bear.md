@@ -2,7 +2,7 @@
 aliases:
   - Ice Bear
   - Polar Bear
-  - creature-plrbr
+  - being-plrbr
 tags:
   - animal
   - image-needed
@@ -14,7 +14,7 @@ id: gFFrYYtroCDjUsx4
 img: icons/game-icons/cathelineau/polar-bear.svg
 portrait: images/being/plrbr-portrait.webp
 shortcode: plrbr
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

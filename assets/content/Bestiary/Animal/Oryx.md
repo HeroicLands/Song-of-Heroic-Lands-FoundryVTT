@@ -1,7 +1,7 @@
 ---
 aliases:
   - Oryx
-  - creature-oryx
+  - being-oryx
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: gIK5jksNoWu7af9z
 img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/oryx-portrait.webp
 shortcode: oryx
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

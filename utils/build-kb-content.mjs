@@ -43,9 +43,16 @@ import {
     findSlugCollisions,
 } from "@heroiclands/content-build/engine/content-slug";
 import {
-    CONTENT_PACKAGE,
-    FOUNDRY_PACKAGE_ID,
+    contentPackage,
+    foundryPackageId,
 } from "@heroiclands/content-build/engine/content-package";
+
+// Resolved once, here, rather than at each use. The package exports these as
+// accessors so that *importing* a module never needs a consumer config
+// (#1559); this is a build entry point, which always has one, so reading them
+// at module scope is the same instant the script runs.
+const CONTENT_PACKAGE = contentPackage();
+const FOUNDRY_PACKAGE_ID = foundryPackageId();
 import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
 import { applyRedirects, pageRedirects } from "./kb-redirects.mjs";
 import { hasDocEntry } from "@heroiclands/content-build/engine/item-docs";
@@ -315,8 +322,12 @@ function sectionOf(fm) {
  * their landing exists (titled) even before any content of that type ships.
  */
 const SECTION_META = {
-    character: { title: "Characters", banner: "banners/character.webp" },
-    creature: { title: "Creatures", banner: "banners/creature.webp" },
+    // One section, because there is one content type: `character` and
+    // `creature` were retired in favour of the `being` they had always
+    // compiled into (#1580). The banner is still `creature.webp` — there is no
+    // `being.webp` on the CDN, and 91 of the 95 pages this section holds are
+    // what that image already depicts. Replacing it is art, not code.
+    being: { title: "Beings", banner: "banners/creature.webp" },
     weapongear: { title: "Weapons", banner: "banners/weapons.webp" },
     armorgear: {
         title: "Armor/Clothing",
@@ -348,6 +359,23 @@ const SECTION_META = {
     localmap: { title: "Local Maps" },
     regionalmap: { title: "Regional Maps" },
 };
+
+/**
+ * Sections that absorbed another section's pages, and the addresses those
+ * sections published at. The surviving landing redirects from each, so a
+ * bookmark of the old index still lands somewhere true.
+ *
+ * Only landings need this. A *page* that moved between sections gets its
+ * redirect from {@link oldSectionOf}, which reads the note; a landing has no
+ * note to read, so what it replaced is stated here.
+ *
+ * @type {Readonly<Record<string, readonly string[]>>}
+ */
+const RETIRED_SECTIONS = Object.freeze({
+    // `character` and `creature` compiled to the same `being` and were merged
+    // into one content type, and so into one section (#1580).
+    being: Object.freeze(["character", "creature"]),
+});
 
 /**
  * Landing title + hero banner for the doc sections, whose index comes from a
@@ -902,13 +930,23 @@ for (const [sec, meta] of Object.entries(SECTION_META)) {
     // A section may have no hero image — the banners are CDN assets and not
     // every section has one. An explicit `banner: undefined` is not a value
     // YAML can carry, so the key is left off entirely.
-    fs.writeFileSync(
-        path.join(dir, "_index.md"),
-        matter.stringify("", {
-            title: meta.title,
-            ...(meta.banner ? { banner: meta.banner } : {}),
-        }),
-    );
+    //
+    // A landing can also redirect, and for the same reason a page does: when
+    // two sections merge, the addresses of both landings are real URLs that
+    // readers hold. `pageRedirects` cannot supply these — it answers for a
+    // *note*, and these landings are generated, with no note behind them.
+    const data = {
+        title: meta.title,
+        ...(meta.banner ? { banner: meta.banner } : {}),
+    };
+    if (RETIRED_SECTIONS[sec]) {
+        applyRedirects(
+            data,
+            RETIRED_SECTIONS[sec].map((old) => `${KB_BASE}${old}/`),
+            SOHL_BASE,
+        );
+    }
+    fs.writeFileSync(path.join(dir, "_index.md"), matter.stringify("", data));
 }
 
 // Each section directly under the mount needs an `_index.md`, or its own

@@ -366,7 +366,7 @@ authored in the vault and exported anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
 pack because of its `type` (item kinds →
 the items pack **and**, for its prose, the journals pack; `type: doc` → journals;
-`character` / `creature` → actors), so the
+`being` → actors), so the
 folder layout is for human organization only and can be reorganized freely. Folder
 hierarchies are declared per pack in `assets/content/<pack>-folders.yaml` and
 referenced from entries via `sohl.folder: <id>`.
@@ -599,9 +599,9 @@ Which `type:` values compile into an Item is declared **once**, in the registry
 that produces its `system` block. This repository hands that table to the build
 as `itemBuilders` in `content-build.config.mjs`, and
 `@heroiclands/content-build/engine/item-registry` reads it back out of the
-resolved configuration — both the whitelist `ITEM_TYPES` (its key set, which
+resolved configuration — both the whitelist `itemTypes()` (its key set, which
 `@heroiclands/content-build/engine/item-docs` re-exports and assembles
-`DOC_ENTRY_TYPES` from) and the `itemBuilder(type)` lookup the Item compiler
+`docEntryTypes()` from) and the `itemBuilder(type)` lookup the Item compiler
 dispatches through. So the whitelist of compilable types and the table of
 builders are the same object and cannot drift; a type with no builder is not a
 type the compiler will accept a note for.

@@ -126,5 +126,5 @@ documentation can misrender. Tracked as
 | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `@heroiclands/content-build/engine/macros`    | The macros compiler: fence extraction, frontmatter validation, the Macro document.                                                           |
 | `@heroiclands/content-build/engine/journals`  | Compiles the same note's body into its JournalEntry.                                                                                         |
-| `@heroiclands/content-build/engine/item-docs` | `DOC_ENTRY_TYPES` — the one set naming every type that carries separate documentation, read by the compilers and by the link manifest alike. |
+| `@heroiclands/content-build/engine/item-docs` | `docEntryTypes()` — the one set naming every type that carries separate documentation, read by the compilers and by the link manifest alike. |
 | `assets/content/macro-folders.yaml`           | The macros pack's folder hierarchy.                                                                                                          |

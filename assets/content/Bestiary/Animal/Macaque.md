@@ -2,7 +2,7 @@
 aliases:
   - Temple Monkey
   - Macaque
-  - creature-macaque
+  - being-macaque
 tags:
   - animal
   - image-needed
@@ -14,7 +14,7 @@ id: Wd9cQgzgGxgMomn7
 img: icons/game-icons/lorc/monkey.svg
 portrait: images/being/macaque-portrait.webp
 shortcode: macaque
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

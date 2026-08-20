@@ -1,7 +1,7 @@
 ---
 aliases:
   - Guard Dog
-  - creature-guarddog
+  - being-guarddog
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: BfM41VLgQk9RdUFa
 img: icons/game-icons/lorc/hound.svg
 portrait: images/being/guarddog-portrait.webp
 shortcode: guarddog
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

@@ -1,7 +1,7 @@
 ---
 aliases:
   - Vulture
-  - creature-vulture
+  - being-vulture
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: CDvOpm9UbhRybcAy
 img: icons/game-icons/lorc/vulture.svg
 portrait: images/being/vulture-portrait.webp
 shortcode: vulture
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

@@ -1,7 +1,7 @@
 ---
 aliases:
   - Snow Leopard
-  - creature-snwlprd
+  - being-snwlprd
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: LMyTG1K48t5guDBD
 img: icons/game-icons/delapouite/feline.svg
 portrait: images/being/snwlprd-portrait.webp
 shortcode: snwlprd
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

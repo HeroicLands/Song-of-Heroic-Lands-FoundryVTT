@@ -31,11 +31,19 @@ import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { collectContentDocs } from "@heroiclands/content-build/engine/helpers";
 import { compendiumUuid } from "@heroiclands/content-build/engine/ids";
-import { packRouter } from "@heroiclands/content-build/engine/pack-router";
+import { packRouter as loadPackRouter } from "@heroiclands/content-build/engine/pack-router";
 import {
-    CONTENT_PACKAGE,
-    FOUNDRY_PACKAGE_ID,
+    contentPackage,
+    foundryPackageId,
 } from "@heroiclands/content-build/engine/content-package";
+
+// Resolved once, here, rather than at each use. The package exports these as
+// accessors so that *importing* a module never needs a consumer config
+// (#1559); this is a build entry point, which always has one, so reading them
+// at module scope is the same instant the script runs.
+const CONTENT_PACKAGE = contentPackage();
+const FOUNDRY_PACKAGE_ID = foundryPackageId();
+const packRouter = loadPackRouter();
 
 const STAGE_DIR = resolve("build/stage");
 const systemTemplatePath = resolve("assets/templates/system.template.json");

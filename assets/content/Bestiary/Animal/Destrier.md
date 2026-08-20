@@ -1,7 +1,7 @@
 ---
 aliases:
   - Destrier
-  - creature-destrier
+  - being-destrier
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: AYrEr6jrDy802WIf
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: images/being/destrier-portrait.webp
 shortcode: destrier
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

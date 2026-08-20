@@ -2,7 +2,7 @@
 aliases:
   - Álverrik Tárvallor
   - Alverrik Tarvallor
-  - character-alverriktarvall
+  - being-alverriktarvall
 tags: []
 name:
   full: Álverrik Tárvallor
@@ -17,7 +17,7 @@ folder: Nu7AgLZEmR26u2pk
 shortcode: alverriktarvall
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/alverriktarvall-portrait.webp
-type: character
+type: being
 package: sohl
 social:
   occupation: Caravan Guard
@@ -52,6 +52,7 @@ gear:
     - basic first aid kit
     - navigation tools
 sohl:
+  kbcat: npc
   archetype: null
   attributes:
     str: 16

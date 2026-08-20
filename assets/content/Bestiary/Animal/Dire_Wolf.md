@@ -1,7 +1,7 @@
 ---
 aliases:
   - Dire Wolf
-  - creature-direwolf
+  - being-direwolf
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: ILqvei5kP8X84icm
 img: icons/game-icons/lorc/wolf-head.svg
 portrait: images/being/direwolf-portrait.webp
 shortcode: direwolf
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

@@ -1,7 +1,7 @@
 ---
 aliases:
   - Water Buffalo
-  - creature-wtrbffl
+  - being-wtrbffl
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: QpWdvTgOQceHrZhi
 img: icons/game-icons/delapouite/buffalo-head.svg
 portrait: images/being/wtrbffl-portrait.webp
 shortcode: wtrbffl
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

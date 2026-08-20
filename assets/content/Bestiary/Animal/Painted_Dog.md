@@ -2,7 +2,7 @@
 aliases:
   - Xerathian Wild Dog
   - Painted Dog
-  - creature-pntddg
+  - being-pntddg
 tags:
   - animal
   - image-needed
@@ -14,7 +14,7 @@ id: 0tPcOrOwOP9EOWuE
 img: icons/game-icons/lorc/hound.svg
 portrait: images/being/pntddg-portrait.webp
 shortcode: pntddg
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

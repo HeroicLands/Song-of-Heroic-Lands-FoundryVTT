@@ -36,15 +36,44 @@
 import path from "node:path";
 
 /**
+ * Which retired section a `being` page published under, by its `sohl.kbcat`.
+ *
+ * `character` and `creature` were one distinction with two spellings; retiring
+ * them in favour of `being` (#1580) moved 95 published URLs, and the section
+ * segment each page used to carry is the one thing the retype erases from the
+ * note. It does not have to be stored per note, because `kbcat` — the field
+ * that now carries the taxonomy — already implies it.
+ *
+ * **Absence is a valid answer, not a gap.** A being added *after* the merge has
+ * never published anywhere else and must emit no redirect at all, so an
+ * unlisted `kbcat` falls through to "no move" rather than being reported. That
+ * is why this maps only the values that existed when the sections merged; a new
+ * one means new content, which is exactly the case with no old URL to preserve.
+ *
+ * @type {Readonly<Record<string, string>>}
+ */
+const RETIRED_BEING_SECTION = Object.freeze({
+    animal: "creature",
+    npc: "character",
+    archetype: "character",
+});
+
+/**
  * Old (pre-split) section URL a moved page redirects from, so existing links and
  * bookmarks don't 404: every `type: doc` page used to live under `/guide/`
- * except the developer docs, which were under `/dev/`.
+ * except the developer docs, which were under `/dev/`. A `being` page used to
+ * live under `/character/` or `/creature/` — see {@link RETIRED_BEING_SECTION}.
  *
- * @param {{type?: string}} fm - The note's frontmatter.
+ * @param {{type?: string, sohl?: {kbcat?: string}}} fm - The note's frontmatter.
  * @param {boolean} isDevDoc - Whether the page is a developer doc.
- * @returns {string | undefined} The old section segment.
+ * @returns {string | undefined} The old section segment. Equal to the current
+ *   section when the page has not moved, which is how the caller tells "no
+ *   redirect" from one.
  */
 export function oldSectionOf(fm, isDevDoc) {
+    if (fm.type === "being") {
+        return RETIRED_BEING_SECTION[fm.sohl?.kbcat] ?? fm.type;
+    }
     if (fm.type !== "doc") return fm.type;
     return isDevDoc ? "dev" : "guide";
 }

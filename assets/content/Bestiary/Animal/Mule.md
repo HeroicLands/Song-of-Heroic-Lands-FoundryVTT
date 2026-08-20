@@ -1,7 +1,7 @@
 ---
 aliases:
   - Mule
-  - creature-mule
+  - being-mule
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: aquEJHnE8u8I9pur
 img: icons/game-icons/skoll/donkey.svg
 portrait: images/being/mule-portrait.webp
 shortcode: mule
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

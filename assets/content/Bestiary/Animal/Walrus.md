@@ -1,7 +1,7 @@
 ---
 aliases:
   - Walrus
-  - creature-walrus
+  - being-walrus
 tags:
   - animal
   - image-needed
@@ -13,7 +13,7 @@ id: Ydk8zqgDTmqzr3uV
 img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/walrus-portrait.webp
 shortcode: walrus
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

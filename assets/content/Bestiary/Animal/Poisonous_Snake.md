@@ -1,7 +1,7 @@
 ---
 aliases:
   - Poisonous Snake
-  - creature-psnssnk
+  - being-psnssnk
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: VjtudyT7ZWs0T4bO
 img: icons/game-icons/lorc/snake.svg
 portrait: images/being/psnssnk-portrait.webp
 shortcode: psnssnk
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

@@ -1,7 +1,7 @@
 ---
 aliases:
   - Monitor Lizard
-  - creature-mntrlzrd
+  - being-mntrlzrd
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: buxdi9gtzv4CEBbs
 img: icons/game-icons/lorc/gecko.svg
 portrait: images/being/mntrlzrd-portrait.webp
 shortcode: mntrlzrd
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

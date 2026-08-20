@@ -1,7 +1,7 @@
 ---
 aliases:
   - Charger
-  - creature-charger
+  - being-charger
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: Cxlwa3jzWHmPyVl7
 img: icons/game-icons/delapouite/horse-head.svg
 portrait: images/being/charger-portrait.webp
 shortcode: charger
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

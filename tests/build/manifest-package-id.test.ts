@@ -8,7 +8,7 @@ import { describe, it, expect } from "vitest";
 import path from "node:path";
 
 import { assertPackageIdMatchesManifestFile } from "@heroiclands/content-build/engine/package-manifest";
-import { FOUNDRY_PACKAGE_ID } from "@heroiclands/content-build/engine/content-package";
+import { foundryPackageId } from "@heroiclands/content-build/engine/content-package";
 
 /**
  * The guard itself is exercised against fixture directories in the package's own
@@ -24,12 +24,12 @@ import { FOUNDRY_PACKAGE_ID } from "@heroiclands/content-build/engine/content-pa
 describe("this repository's shipped manifest", () => {
     it("declares the package id the build addresses every document by", () => {
         // The regression the guard exists for (#1503): every compiled UUID takes
-        // its first segment from FOUNDRY_PACKAGE_ID. If the manifest's `id` and
+        // its first segment from `foundryPackageId()`. If the manifest's `id` and
         // the configured `foundryPackage` drift apart, the packs address a
         // package that does not ship them — and nothing else notices.
         expect(() =>
             assertPackageIdMatchesManifestFile(
-                FOUNDRY_PACKAGE_ID,
+                foundryPackageId(),
                 path.resolve(__dirname, "../../assets/templates"),
             ),
         ).not.toThrow();

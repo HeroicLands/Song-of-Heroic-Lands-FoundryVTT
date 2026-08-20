@@ -1,7 +1,7 @@
 ---
 aliases:
   - Gray Wolf
-  - creature-graywolf
+  - being-graywolf
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: nPuJf6mTzOMgeULk
 img: icons/game-icons/lorc/wolf-head.svg
 portrait: images/being/graywolf-portrait.webp
 shortcode: graywolf
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

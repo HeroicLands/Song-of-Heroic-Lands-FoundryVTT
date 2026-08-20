@@ -1,7 +1,7 @@
 ---
 aliases:
   - Falcon
-  - creature-falcon
+  - being-falcon
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: Gs2wXshABfQ16Lc0
 img: icons/game-icons/delapouite/falcon-moon.svg
 portrait: images/being/falcon-portrait.webp
 shortcode: falcon
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

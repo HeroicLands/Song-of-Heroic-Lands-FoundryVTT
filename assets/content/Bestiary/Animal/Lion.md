@@ -1,7 +1,7 @@
 ---
 aliases:
   - Lion
-  - creature-lion
+  - being-lion
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: TpFdKsRE286DXe8u
 img: icons/game-icons/lorc/lion.svg
 portrait: images/being/lion-portrait.webp
 shortcode: lion
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal

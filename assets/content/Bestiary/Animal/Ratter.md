@@ -1,7 +1,7 @@
 ---
 aliases:
   - Ratter
-  - creature-ratter
+  - being-ratter
 tags:
   - animal
 name:
@@ -12,7 +12,7 @@ id: 1rt4bCbVyGDW9hKA
 img: icons/game-icons/lorc/hound.svg
 portrait: images/being/ratter-portrait.webp
 shortcode: ratter
-type: creature
+type: being
 package: sohl
 sohl:
   kbcat: animal
