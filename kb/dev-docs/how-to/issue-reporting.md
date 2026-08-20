@@ -350,12 +350,18 @@ one tracks its own work.** There is no central tracker.
 | `sohl-thalorna`                   | The `thalorna` package — original setting content, and the `/thalorna` site | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-thalorna/blob/main/.github/ISSUE_REPORTING.md) |
 | `sohl-kethira-basic`              | The `kethira` package — unofficial Hârn fan material, Foundry packs only    | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-kethira-basic/blob/main/.github/ISSUE_REPORTING.md) |
 | `heroiclands-site`                | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN                  | This document, via the `site` label                                                                          |
-| `heroiclands-hugo-theme`          | The Hugo theme all three sites render through — layouts, partials, styling  | This document, via the `site` label                                                                          |
+| `heroiclands-hugo-theme`          | The Hugo theme all three sites render through — layouts, partials, styling  | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/heroiclands-hugo-theme/blob/main/.github/ISSUE_REPORTING.md) |
 
-The last two have no tracker of their own: they are tracked here under the `site`
-label, and closed here. That is a choice about where the work is *watched*, not a
-contradiction of the delivery rule below — the rule picks the repository among those
-that keep a backlog.
+Only `heroiclands-site` has no tracker of its own: it is tracked here under the
+`site` label, and closed here. That is a choice about where the work is *watched*,
+not a contradiction of the delivery rule below — the rule picks the repository among
+those that keep a backlog.
+
+**The theme is the easiest one to misfile,** because a theme fault and a consumer
+fault look identical in a browser. If a page renders wrong on more than one site it
+is the theme; on exactly one, that site is feeding the theme different input and the
+issue is that site's. Anything about a URL, menu entry, or branding is always the
+consumer's — the theme carries no addresses.
 
 **Every repository runs the same four axes.** Types and the Priority field are
 organization-level, so they are literally shared. The issue forms and the §1–§8 rules
