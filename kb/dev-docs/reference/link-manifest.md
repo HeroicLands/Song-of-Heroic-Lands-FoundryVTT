@@ -13,11 +13,11 @@ treat every rule below as load-bearing rather than descriptive.
 
 ## Where it lives
 
-| | |
-| --- | --- |
-| **Emitted to** | `build/manifests/<package>.json`, by `npm run build:link-manifest` |
+|                  |                                                                       |
+| ---------------- | --------------------------------------------------------------------- |
+| **Emitted to**   | `build/manifests/<package>.json`, by `npm run build:link-manifest`    |
 | **Published by** | copying that file into the consuming repository's `assets/manifests/` |
-| **Committed?** | yes, in the consumer |
+| **Committed?**   | yes, in the consumer                                                  |
 
 The vendored copy is committed deliberately. A contributor without every
 repository checked out then resolves exactly the links CI does, and a build never
@@ -28,35 +28,35 @@ depends on a sibling checkout being present or current.
 ```jsonc
 {
   "version": 5,
-  "package": "sohl",           // the CONTENT package these notes declare
-  "foundryPackage": "sohl",    // the FOUNDRY package shipping the documents
+  "package": "sohl", // the CONTENT package these notes declare
+  "foundryPackage": "sohl", // the FOUNDRY package shipping the documents
   "entries": {
     "sohl-affliction-aconite": {
       "path": "kb/affliction/aconite/",
       "name": "Aconite",
       "uuid": "Compendium.sohl.items.Item.J6aklskzkfBdEnoo",
-      "doc":  "sohl-docaffliction-aconite"
+      "doc": "sohl-docaffliction-aconite",
     },
     "sohl-docaffliction-aconite": {
       "path": "kb/affliction/aconite/",
       "name": "Aconite",
       "uuid": "Compendium.sohl.journals.JournalEntry.e0e3f50b1f1ebcf8",
       "anchors": {
-        "$lead": "Compendium.sohl.journals.JournalEntry.e0e3f50b1f1ebcf8.JournalEntryPage.2d448b72c005a250"
-      }
-    }
-  }
+        "$lead": "Compendium.sohl.journals.JournalEntry.e0e3f50b1f1ebcf8.JournalEntryPage.2d448b72c005a250",
+      },
+    },
+  },
 }
 ```
 
 ### Document fields
 
-| Field | Meaning |
-| --- | --- |
-| `version` | Format version. See [Versioning](#versioning). |
-| `package` | The **content** package — what a note declares as `package:` in frontmatter. |
+| Field            | Meaning                                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `version`        | Format version. See [Versioning](#versioning).                                                                           |
+| `package`        | The **content** package — what a note declares as `package:` in frontmatter.                                             |
 | `foundryPackage` | The **Foundry** package whose compendiums hold the compiled documents. Absent when the emitting build compiles no packs. |
-| `entries` | Canonical address → entry. Sorted, so a committed copy diffs only on real change. |
+| `entries`        | Canonical address → entry. Sorted, so a committed copy diffs only on real change.                                        |
 
 `package` and `foundryPackage` are **different namespaces** and coincide only by
 accident. A note says `package: thalorna`; its documents are addressed
@@ -65,13 +65,13 @@ compilation targets, which is why addresses are namespaced on it.
 
 ### Entry fields
 
-| Field | Required | Meaning |
-| --- | --- | --- |
-| `name` | yes | The document's display name, used as a link's fallback label. |
-| `path` | no | The note's address **below the package's own base**, no leading slash. |
-| `uuid` | no | The Foundry UUID of the document this note compiles into. |
-| `doc` | no | For an item, the **address** of its documentation entry. |
-| `anchors` | no | Named sections → the whole UUID each compiled to. |
+| Field     | Required | Meaning                                                                |
+| --------- | -------- | ---------------------------------------------------------------------- |
+| `name`    | yes      | The document's display name, used as a link's fallback label.          |
+| `path`    | no       | The note's address **below the package's own base**, no leading slash. |
+| `uuid`    | no       | The Foundry UUID of the document this note compiles into.              |
+| `doc`     | no       | For an item, the **address** of its documentation entry.               |
+| `anchors` | no       | Named sections → the whole UUID each compiled to.                      |
 
 `name` is the only required field, because it is the only one that is not an
 address. A note may have a web address, a Foundry address, or both, and the
@@ -82,11 +82,11 @@ entry states the ones it has.
 `path` and `uuid` are optional **independently** (#1516). Two publishing
 profiles follow from that, and the format has to carry both:
 
-| Publishes | `path` | `uuid` |
-| --- | --- | --- |
-| Pages and packs | yes | yes |
-| Pages only — a note compiling into no document | yes | no |
-| Packs only — a module with no site | no | yes |
+| Publishes                                      | `path` | `uuid` |
+| ---------------------------------------------- | ------ | ------ |
+| Pages and packs                                | yes    | yes    |
+| Pages only — a note compiling into no document | yes    | no     |
+| Packs only — a module with no site             | no     | yes    |
 
 The pack-only case is the mirror of the one the format already handled, and it
 is real: a module can ship compendiums and no website while its documents stay
@@ -107,7 +107,7 @@ consumer that hard-failed on the mix would freeze a rule that a future profile
 may need relaxed.
 
 **A pack-only package needs no `PACKAGE_BASE` entry.** A base exists to resolve
-a `path`; with no paths there is nothing to resolve. A base *is* still demanded
+a `path`; with no paths there is nothing to resolve. A base _is_ still demanded
 the moment any entry carries a `path`, since silently dropping such a package
 would turn every link into it back into an address that reads as a typo.
 
@@ -153,7 +153,7 @@ rather than a UUID** — the documentation entry owns that UUID, and stating it
 twice would let the two disagree.
 
 On the web both addresses resolve to the same `path`: the item note renders as
-one page which *is* its documentation.
+one page which _is_ its documentation.
 
 ## Anchors
 
@@ -175,7 +175,7 @@ to, never a fragment to be appended to `uuid`.
 - **Every other key is an authored `{#slug}`** from a heading in the note.
 - **The key is omitted entirely** when a note has no anchors.
 
-Whole UUIDs rather than fragments, for two reasons. An anchor is not *required*
+Whole UUIDs rather than fragments, for two reasons. An anchor is not _required_
 to live inside its own entry — today it always does, but that is a property of
 the current derivation, not something worth freezing into a published format. And
 it keeps the page-id derivation out of the contract: a consumer resolves a
@@ -202,7 +202,7 @@ it is written in.
    unaffected: it resolves through `uuid` and never reads `path`.
 4. **Tolerate an entry with no `anchors` and no `doc`.** Both are optional.
 5. **Resolve `path` against your own base for that package.** A manifest records
-   where a note sits *within* its package and says nothing about where the
+   where a note sits _within_ its package and says nothing about where the
    package is mounted — so the consumer prefixes its own base. Never store or
    assume the emitter's mount point.
 6. **Resolve a bare address only when exactly one package publishes it.** An
@@ -219,15 +219,15 @@ it is written in.
 
 `version` catches a stale **format**, and nothing else.
 
-| Version | Change |
-| --- | --- |
-| 1 | Initial: entries keyed `type/shortcode`, valued `{ url, name }`. |
-| 2 | Site-absolute `url` became package-relative `path` (#1465). |
-| 3 | Keys became fully qualified; entries gained Foundry addresses (#1499). |
-| 4 | Keys took the authored hyphen separator; item docs became entries in their own right; entries gained `anchors` (#1499). |
-| 5 | `path` became optional, so a pack-only package can publish Foundry addresses (#1516). |
+| Version | Change                                                                                                                  |
+| ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| 1       | Initial: entries keyed `type/shortcode`, valued `{ url, name }`.                                                        |
+| 2       | Site-absolute `url` became package-relative `path` (#1465).                                                             |
+| 3       | Keys became fully qualified; entries gained Foundry addresses (#1499).                                                  |
+| 4       | Keys took the authored hyphen separator; item docs became entries in their own right; entries gained `anchors` (#1499). |
+| 5       | `path` became optional, so a pack-only package can publish Foundry addresses (#1516).                                   |
 
-A version is what stops a file whose values *read differently* from being
+A version is what stops a file whose values _read differently_ from being
 resolved anyway — a v2 key read as a v4 one addresses a package named after a
 type, and a v1 `url` prefixed with a base yields `/thalorna/thalorna/…`, which
 resolves, renders, and 404s for the reader. That is the only thing it gates.
@@ -241,7 +241,7 @@ the same afternoon or every build breaking — which is a large recurring cost f
 no safety, and precisely the cost that made this decision urgent (#1516).
 
 The unsafe direction is unchanged and still **fails the build**: a consumer
-meeting a version *above* its set rejects the file, because it cannot know what
+meeting a version _above_ its set rejects the file, because it cannot know what
 the newer shape permits. So widening the format is always safe to publish first
 and adopt elsewhere later, and a stale consumer never silently misreads.
 
@@ -260,7 +260,7 @@ affecting them. If it needs to cite another package it consumes manifests withou
 publishing one; the dependency must never run the other way.
 
 That exclusion is a **licensing** decision, not a format one, and the two should
-not be confused. Since #1516 a pack-only package *can* publish a manifest, so
+not be confused. Since #1516 a pack-only package _can_ publish a manifest, so
 another module in the same shape — packs only, no site — may publish one and be
 cited in Foundry. `kethira` still does not, because what makes it unciteable is
 that nothing may depend on it, and a manifest edge pointing into it is exactly

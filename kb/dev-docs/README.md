@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: SoHL Developer & API Documentation
-    aliases: []
+  full: SoHL Developer & API Documentation
+  aliases: []
 id: TTyUIc3DZWDLHDcp
 slug: readme
 type: doc

@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: "Build, Deployment, and Release"
-    aliases: []
+  full: "Build, Deployment, and Release"
+  aliases: []
 id: 2lkG02SkmKisa2xK
 slug: build-and-deployment
 type: doc
@@ -105,7 +105,7 @@ only symptom is a blank battlemap. That is measured behaviour on both 14.359 and
 permanent.
 
 The check therefore runs against the compiled bytes rather than the JSON they
-came from, because the gap it closes is the *write* path: the emitter is already
+came from, because the gap it closes is the _write_ path: the emitter is already
 unit-tested, whereas the compendium CLI has previously mishandled Scene Levels.
 An `Adventure` carries its scenes inline, levels and all, so that second shape is
 checked too. The rule itself is a pure function (`@heroiclands/content-build/engine/scene-levels`)
@@ -113,46 +113,46 @@ and is unit-tested directly.
 
 ### Tests, lint, format
 
-| Script                    | What it does                                                                                                                  |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `test`                    | Run the vitest suite once.                                                                                                    |
-| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                   |
-| `test:coverage`           | Run with coverage.                                                                                                            |
-| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                    |
-| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md). |
-| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                            |
-| `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
-| `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
-| `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
-| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes). |
-| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes). |
+| Script                    | What it does                                                                                                                                                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `test`                    | Run the vitest suite once.                                                                                                                                                                                      |
+| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                                                                                                     |
+| `test:coverage`           | Run with coverage.                                                                                                                                                                                              |
+| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                                                                                                      |
+| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md).                                                                                   |
+| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                                                                                                              |
+| `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                                                                                                       |
+| `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                                                                                                           |
+| `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md).                                                           |
+| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes).                    |
+| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes).                      |
 | `lint:doc-links`          | Fail on a relative link in `kb/dev-docs/` whose target does not exist, or an `#anchor` no heading declares. The developer tree links by path, so moving a page breaks every link into it; this is what says so. |
-| `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`. |
-| `lint:dts`                | Validate the generated public type surface.                                                                                   |
-| `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`. |
-| `format` / `format:check` | Prettier write / check the whole repo.                                                                                        |
+| `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`.  |
+| `lint:dts`                | Validate the generated public type surface.                                                                                                                                                                     |
+| `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`.                                    |
+| `format` / `format:check` | Prettier write / check the whole repo.                                                                                                                                                                          |
 
 ### Docs
 
-| Script                      | What it does                                                                           |
-| --------------------------- | -------------------------------------------------------------------------------------- |
-| `docs`                      | Full doc build: `docs:prepare → docs:html → docs:md`.                                  |
-| `docs:prepare`              | `docs:catalog` (generate the type catalog) + `docs:expr-scopes` (generate the expression-scope table). |
+| Script                      | What it does                                                                                                          |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `docs`                      | Full doc build: `docs:prepare → docs:html → docs:md`.                                                                 |
+| `docs:prepare`              | `docs:catalog` (generate the type catalog) + `docs:expr-scopes` (generate the expression-scope table).                |
 | `docs:expr-scopes`          | Regenerate the bound-variables table in [Expressions and Scripts](../concepts/expressions.md) from the scope catalog. |
-| `docs:html` / `docs:md`     | TypeDoc HTML / Markdown output.                                                        |
-| `docs:coverage`             | Report doc-comment coverage.                                                           |
-| `docs:serve` / `docs:watch` | Serve `build/docs-html` / rebuild-and-serve on change.                                |
+| `docs:html` / `docs:md`     | TypeDoc HTML / Markdown output.                                                                                       |
+| `docs:coverage`             | Report doc-comment coverage.                                                                                          |
+| `docs:serve` / `docs:watch` | Serve `build/docs-html` / rebuild-and-serve on change.                                                                |
 
 ### Deploy and release
 
-| Script                                     | What it does                                                                                       |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| `push:dev` / `push:qa` / `push:prod`       | 🔧 copy `build/stage/` to the matching `FOUNDRYVTT_*_DATA` instance.                               |
-| `deploy:dev` / `deploy:qa` / `deploy:prod` | 🔧 `build` then the matching `push:*`.                                                             |
-| `deploy:release`                           | `build` then `build:pack-release` — produce the release zip locally.                               |
-| `changeset`                                | Create a changeset (interactive). See [Writing Changesets](../contributing/writing-changesets.md). |
-| `changeset:version`                        | Apply pending changesets: bump the version and update `CHANGELOG.md` (normally run by CI).         |
-| `changeset:check`                          | Verify a changeset exists.                                                                         |
+| Script                                     | What it does                                                                                        |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| `push:dev` / `push:qa` / `push:prod`       | 🔧 copy `build/stage/` to the matching `FOUNDRYVTT_*_DATA` instance.                                |
+| `deploy:dev` / `deploy:qa` / `deploy:prod` | 🔧 `build` then the matching `push:*`.                                                              |
+| `deploy:release`                           | `build` then `build:pack-release` — produce the release zip locally.                                |
+| `changeset`                                | Create a changeset (interactive). See [Writing Changesets](../contributing/writing-changesets.md).  |
+| `changeset:version`                        | Apply pending changesets: bump the version and update `CHANGELOG.md` (normally run by CI).          |
+| `changeset:check`                          | Verify a changeset exists.                                                                          |
 | `build:sohl-types`                         | Regenerate `packages/sohl-types/index.d.ts` from the SoHL source (run by that package's `prepack`). |
 
 ## 3. The build pipeline
@@ -164,9 +164,9 @@ and is unit-tested directly.
 3. **`build:types`** — `tsc` type-checks the whole project.
 4. **`lint:dts`** — the generated public type surface is valid.
 5. **`build:prepare`** (parallel):
-    - **`build:css`** — Sass → `build/stage/css/sohl.css`.
-    - **`build:db`** — copy assets, then compile packs to `build/stage/packs/`.
-    - **`build:system`** — write `build/stage/system.json`.
+   - **`build:css`** — Sass → `build/stage/css/sohl.css`.
+   - **`build:db`** — copy assets, then compile packs to `build/stage/packs/`.
+   - **`build:system`** — write `build/stage/system.json`.
 6. **`test:coverage`** and **`test:purity`** — the suite must pass.
 7. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
    module, sourcemap, unminified, with `emptyOutDir: false` so it doesn't wipe the
@@ -308,7 +308,7 @@ name:
 type: skill
 package: sohl
 id: BBBBBBBBBBBBBBBB
-pack: mysteries      # optional; one of the configured Item packs
+pack: mysteries # optional; one of the configured Item packs
 ---
 ```
 
@@ -326,7 +326,7 @@ runs), `pack:` decides **which pack of that type receives it**.
   compilation the pack build's other guards exist to catch.
 - **The declaration is about the note's own document.** An item's prose still
   compiles into a JournalEntry in the journals pack; `pack:` says where the
-  *item* goes.
+  _item_ goes.
 - Where a type has several packs and none is marked `default: true`, the field is
   **mandatory** for every note of that type.
 
@@ -388,18 +388,18 @@ generated tables, converting wikilinks, writing the JSON and counting what
 failed are identical in every pass, so `BasePackCompiler` owns them and each
 pass subclasses it (#1509). A pass states only what makes it that pass:
 
-| Hook | What it decides |
-| --- | --- |
-| `selects(fm)` | Which notes this pack claims. **Required.** |
-| `buildEntry(fm, markdown)` | One note → one document. **Required.** |
-| `prepare()` | Anything the walk needs first — an index, a prior pack's output. |
-| `skipNote(fm, body)` | A further rejection the type filter cannot express. |
-| `compileNote(fm, markdown)` | A note that emits *more* than its own document. |
-| `onCompiled(fm, doc)` | Per-note tallies for the summary. |
-| `finish(stats)` | Work that needs every note compiled first. |
-| `reportCompiled` / `reportDetail` | The pass's own log lines. |
+| Hook                              | What it decides                                                  |
+| --------------------------------- | ---------------------------------------------------------------- |
+| `selects(fm)`                     | Which notes this pack claims. **Required.**                      |
+| `buildEntry(fm, markdown)`        | One note → one document. **Required.**                           |
+| `prepare()`                       | Anything the walk needs first — an index, a prior pack's output. |
+| `skipNote(fm, body)`              | A further rejection the type filter cannot express.              |
+| `compileNote(fm, markdown)`       | A note that emits _more_ than its own document.                  |
+| `onCompiled(fm, doc)`             | Per-note tallies for the summary.                                |
+| `finish(stats)`                   | Work that needs every note compiled first.                       |
+| `reportCompiled` / `reportDetail` | The pass's own log lines.                                        |
 
-`selects` answers *which document type* a pass claims, and every pack of that
+`selects` answers _which document type_ a pass claims, and every pack of that
 type gives the same answer. Which **pack of that type** a claimed note lands in
 is a second question, answered by the pack router from the note's own `pack:`
 declaration — so a subclass never has to know that its type ships in more than
@@ -426,7 +426,7 @@ keeping it framework-free is what makes it unit-testable.
 
 #### The pack pipeline is configured, not hard-coded
 
-Everything about the pipeline that is *this repository's* rather than any
+Everything about the pipeline that is _this repository's_ rather than any
 consumer's lives in one file at the repository root,
 **`content-build.config.mjs`**, validated by `defineConfig` from the shared
 `@heroiclands/content-build` package. Nothing inside that package spells a path,
@@ -489,18 +489,18 @@ actually bites:
 
 What it declares:
 
-| Key | What it settles |
-| --- | --- |
-| `rootDir` | The repository the paths below are resolved against. Absolute (`import.meta.dirname`), so the build reads the same files whatever directory it was launched from. |
-| `contentPackage` / `foundryPackage` / `packageKind` | Which notes are compiled, which Foundry package ships them, and whether that package is a `systems/` or a `modules/` install. |
-| `stats` | The identity stamped into every compiled document's `_stats` — `systemId`, `systemVersion`, `lastModifiedBy`. |
-| `skipDirectories` | Directory names the content walk ignores (`Templates/`, Obsidian's templater scaffolding — a convention of this vault, not of a content tree). |
-| `paths` | The content root, the manifest-template directory, the vendored link manifests, and the three build outputs. Each defaults to the conventional layout and is relative to `rootDir`. |
-| `packs` | The one pack list: name, Foundry document type, folder-hierarchy file, `companions`, `mayBeEmpty`. |
+| Key                                                 | What it settles                                                                                                                                                                     |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rootDir`                                           | The repository the paths below are resolved against. Absolute (`import.meta.dirname`), so the build reads the same files whatever directory it was launched from.                   |
+| `contentPackage` / `foundryPackage` / `packageKind` | Which notes are compiled, which Foundry package ships them, and whether that package is a `systems/` or a `modules/` install.                                                       |
+| `stats`                                             | The identity stamped into every compiled document's `_stats` — `systemId`, `systemVersion`, `lastModifiedBy`.                                                                       |
+| `skipDirectories`                                   | Directory names the content walk ignores (`Templates/`, Obsidian's templater scaffolding — a convention of this vault, not of a content tree).                                      |
+| `paths`                                             | The content root, the manifest-template directory, the vendored link manifests, and the three build outputs. Each defaults to the conventional layout and is relative to `rootDir`. |
+| `packs`                                             | The one pack list: name, Foundry document type, folder-hierarchy file, `companions`, `mayBeEmpty`.                                                                                  |
 
 Two properties of that shape are load-bearing:
 
-- **One pack list.** The directories compiled to LevelDB are *derived* from the
+- **One pack list.** The directories compiled to LevelDB are _derived_ from the
   pack list as `packDirectories` (each pack, then its companions), so the
   compile order and the compiler list cannot drift apart — they used to be two
   separately-maintained arrays that had to agree.
@@ -544,7 +544,7 @@ deletions. The registry is a **leaf module**: it imports only the frontmatter
 readers in `@heroiclands/content-build/engine/frontmatter`, never `helpers.mjs`,
 and never the resolved configuration. The config file imports the registry, so a
 read back out of configuration there would close a cycle around the config's own
-evaluation; the data travels *into* configuration and only `item-registry.mjs`,
+evaluation; the data travels _into_ configuration and only `item-registry.mjs`,
 which no config file imports, reads it back out.
 
 ### An item's prose compiles to a journal, not into the item
@@ -568,11 +568,11 @@ Two passes have to agree on the link without either seeing the other's output,
 which they do by deriving both ids from the item note's own `id` — the technique
 `anchorPageId()` already uses to let a section link and its page agree:
 
-| | Items pass | Journals pass |
-| --- | --- | --- |
-| Entry id | `itemDocEntryId(fm.id)` | same |
-| First page id | `journalPageId(entryId, page, 0)` | same, for every page |
-| Splits the body | to name page 0 | into the pages themselves |
+|                 | Items pass                        | Journals pass             |
+| --------------- | --------------------------------- | ------------------------- |
+| Entry id        | `itemDocEntryId(fm.id)`           | same                      |
+| First page id   | `journalPageId(entryId, page, 0)` | same, for every page      |
+| Splits the body | to name page 0                    | into the pages themselves |
 
 Both split the **converted** markdown, so an H1 carrying a wikilink names the
 same page on both sides. An item note with an empty body gets no entry and an
@@ -587,11 +587,11 @@ empty description, rather than a pointer to nothing.
 Because the item and its prose are now **two documents in two packs**, they need
 two addresses:
 
-| Wikilink | Addresses |
-| --- | --- |
-| `[[skill/wpnc]]` | the Skill **Item**, in the items pack |
-| `[[docskill/wpnc]]` | that skill's **JournalEntry**, in the journals pack |
-| `[[docskill/wpnc#crafting]]` | the `{#crafting}` **page** of that entry |
+| Wikilink                     | Addresses                                           |
+| ---------------------------- | --------------------------------------------------- |
+| `[[skill/wpnc]]`             | the Skill **Item**, in the items pack               |
+| `[[docskill/wpnc]]`          | that skill's **JournalEntry**, in the journals pack |
+| `[[docskill/wpnc#crafting]]` | the `{#crafting}` **page** of that entry            |
 
 Every item type has a virtual `doc<type>` counterpart. It is formed by prefix
 and never enumerated, so a type added tomorrow is addressable the day it is
@@ -609,7 +609,7 @@ a link compiled to a `JournalEntryPage` id under the _items_ pack and dead-ended
 (#1362).
 
 **The knowledgebase reads the same link differently, by design.** There an item
-note renders as one page which *is* its documentation, so `doc<type>` and
+note renders as one page which _is_ its documentation, so `doc<type>` and
 `<type>` are aliases for the same URL and the anchor stays an ordinary in-page
 anchor. One authored link, correct in both builds.
 
@@ -673,16 +673,16 @@ npm run container:dev stop                                          # tear it do
 
 The commands (`node utils/foundry-container.mjs <stage> <command>`):
 
-| Command    | Effect                                                                               |
-| ---------- | ------------------------------------------------------------------------------------ |
+| Command    | Effect                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------------- |
 | `start`    | Create (or restart) `sohl-foundry-<stage>` and serve `/data`. Sweeps a stale lock first when the container is down. |
-| `stop`     | Stop the container (state is kept for a fast `start`).                               |
-| `restart`  | Stop, sweep a stale lock, start. Deliberately **not** `docker restart`, which leaves no window in which to sweep. |
-| `recreate` | Remove and re-create the container so changed `FOUNDRY_*`/`CONTAINER_*` env applies. |
-| `rm`       | Stop and remove the container.                                                       |
-| `status`   | Show the container's `docker ps -a` row.                                             |
-| `logs`     | Follow the container log (watch first-run install / boot here).                      |
-| `pull`     | Pull the latest image.                                                               |
+| `stop`     | Stop the container (state is kept for a fast `start`).                                                              |
+| `restart`  | Stop, sweep a stale lock, start. Deliberately **not** `docker restart`, which leaves no window in which to sweep.   |
+| `recreate` | Remove and re-create the container so changed `FOUNDRY_*`/`CONTAINER_*` env applies.                                |
+| `rm`       | Stop and remove the container.                                                                                      |
+| `status`   | Show the container's `docker ps -a` row.                                                                            |
+| `logs`     | Follow the container log (watch first-run install / boot here).                                                     |
+| `pull`     | Pull the latest image.                                                                                              |
 
 **The data-root lock.** Foundry takes `Config/options.json.lock` while it runs
 and releases it on a clean shutdown. A container that dies holding it (`docker
@@ -707,7 +707,7 @@ Configuration lives in `.env.local` (all optional):
 | Variable                     | Default                | Purpose                                                             |
 | ---------------------------- | ---------------------- | ------------------------------------------------------------------- |
 | `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (`:14` matches `system.json` `minimum`).           |
-| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).      |
+| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).     |
 | `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).  |
 | `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).  |
 | `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below). |
@@ -795,16 +795,16 @@ These accumulate on `main` as PRs merge.
 3. 🔧 **Merge that PR** — in the GitHub UI, or from the CLI (the changesets
    action opens it from the `changeset-release/main` branch):
 
-    ```bash
-    gh pr merge changeset-release/main [--admin] --squash --delete-branch
-    ```
+   ```bash
+   gh pr merge changeset-release/main [--admin] --squash --delete-branch
+   ```
 
-    Merging _is_ the release — there's nothing else to run locally. The workflow
-    re-runs on the merge, sees a new untagged version, and automatically:
-    - runs `npm run build` then `npm run build:pack-release`,
-    - creates the `v<version>` git tag and a **GitHub Release**,
-    - attaches `system.zip` + `system.json` (the manifest/download Foundry installs
-      and updates from).
+   Merging _is_ the release — there's nothing else to run locally. The workflow
+   re-runs on the merge, sees a new untagged version, and automatically:
+   - runs `npm run build` then `npm run build:pack-release`,
+   - creates the `v<version>` git tag and a **GitHub Release**,
+   - attaches `system.zip` + `system.json` (the manifest/download Foundry installs
+     and updates from).
 
 4. **`/sohl/` republishes itself.** The release job dispatches
    `deploy-sohl.yml`, which rebuilds the whole subtree — landing page,
@@ -826,10 +826,10 @@ That's the entire release. Two notes:
 `packages/` holds two published npm packages, both **hand-versioned** in their own
 `package.json` and independent of the system version:
 
-| Package                       | What it is                                                                   |
-| ----------------------------- | ---------------------------------------------------------------------------- |
-| `@heroiclands/sohl-types`     | Type declarations for authoring modules and macros against SoHL in TypeScript. |
-| `@heroiclands/content-build`  | The shared toolchain that compiles a content tree into Foundry compendium packs. |
+| Package                      | What it is                                                                       |
+| ---------------------------- | -------------------------------------------------------------------------------- |
+| `@heroiclands/sohl-types`    | Type declarations for authoring modules and macros against SoHL in TypeScript.   |
+| `@heroiclands/content-build` | The shared toolchain that compiles a content tree into Foundry compendium packs. |
 
 The root `package.json` declares them with
 
@@ -862,14 +862,14 @@ yet.
 
 **At a glance — who does what:**
 
-| Step                          | Manual?  | By         |
-| ----------------------------- | -------- | ---------- |
-| Author changesets             | 🔧 yes   | developer  |
-| Open the Version Packages PR  | no (CI)  | —          |
-| Merge the Version Packages PR | 🔧 yes   | maintainer |
-| Tag + GitHub Release + assets | no (CI)  | —          |
-| Publish the API docs          | no (CI)  | —          |
-| Deploy to a Foundry instance  | 🔧 yes   | operator   |
+| Step                          | Manual? | By         |
+| ----------------------------- | ------- | ---------- |
+| Author changesets             | 🔧 yes  | developer  |
+| Open the Version Packages PR  | no (CI) | —          |
+| Merge the Version Packages PR | 🔧 yes  | maintainer |
+| Tag + GitHub Release + assets | no (CI) | —          |
+| Publish the API docs          | no (CI) | —          |
+| Deploy to a Foundry instance  | 🔧 yes  | operator   |
 
 ## 8. Publishing the `/sohl/` website
 
@@ -877,11 +877,11 @@ Some of what this repository builds is published to the **web** rather than to a
 Foundry instance, and all of it is one site: everything under
 `www.heroiclands.org/sohl/`.
 
-| Address        | What                                        | Built by                       | Built from             |
-| -------------- | ------------------------------------------- | ------------------------------ | ---------------------- |
-| `/sohl/`       | The package landing page                    | Hugo (`kb/layouts/index.html`) | `main`                 |
-| `/sohl/kb/`    | The knowledgebase                           | Hugo (`build:kb`)              | `main`                 |
-| `/sohl/api/`   | The API documentation                       | TypeDoc (`docs:html`)          | the newest release tag |
+| Address      | What                     | Built by                       | Built from             |
+| ------------ | ------------------------ | ------------------------------ | ---------------------- |
+| `/sohl/`     | The package landing page | Hugo (`kb/layouts/index.html`) | `main`                 |
+| `/sohl/kb/`  | The knowledgebase        | Hugo (`build:kb`)              | `main`                 |
+| `/sohl/api/` | The API documentation    | TypeDoc (`docs:html`)          | the newest release tag |
 
 `npm run build:site` produces the whole thing locally, and
 `.github/workflows/deploy-sohl.yml` produces and deploys it in CI — one build,
@@ -895,7 +895,7 @@ serves simply republishes the same bytes. The second trigger exists because the
 API half tracks the newest **release tag**, not `main`, so a freshly published
 release changes the site without any push doing so — `release.yml` dispatches
 this workflow from the one step that knows it actually cut a release. It is
-deliberately *not* wired to that workflow's *completion*: `release.yml` runs on
+deliberately _not_ wired to that workflow's _completion_: `release.yml` runs on
 every push to `main` and succeeds whether or not it released, so watching it
 deployed twice per push (#1484).
 
@@ -926,7 +926,7 @@ indexable. The hosting cannot tell the routing layer's request apart from a
 reader's, since it is the same URL at the same address, so the header reaches
 `www` too and the router (`heroiclands-site`, `worker/`) drops it there — the
 one place the two addresses are distinguishable. A page that must not be indexed
-at *any* address says so in the document (`<meta name="robots">`), which is
+at _any_ address says so in the document (`<meta name="robots">`), which is
 passed through untouched.
 
 **Both surfaces are rebuilt on every run**, even though they track different
@@ -948,7 +948,7 @@ finishes, the assembler reads every rendered page and fails the build on any
 `href` or `src` addressing one of the withdrawn hosts in `RETIRED_HOSTS`
 (`utils/retired-hosts.mjs`). Such a link fails at DNS with no redirect to
 follow, so it is a hard dead end, and nothing else in the pipeline notices — an
-absolute URL is opaque to the wikilink checks. Prose that merely *names* a
+absolute URL is opaque to the wikilink checks. Prose that merely _names_ a
 withdrawn host is not reported; these docs explain the move, and saying so is
 not a dead end.
 
@@ -958,8 +958,7 @@ hostname was withdrawn reproduces the dead links on every deploy however clean
 `main` is — which is exactly what `/sohl/api/` was doing (#1487). The assembler
 therefore repoints those links, taking a replacement **only when the page it
 names is present in the tree it has just assembled**: a repair is verified, never
-guessed, because a wrong one would trade a dead end a reader can see for a quiet
-404. Candidates come from `rewriteCandidates`, which knows both that the API
+guessed, because a wrong one would trade a dead end a reader can see for a quiet 404. Candidates come from `rewriteCandidates`, which knows both that the API
 site dropped its version segment and that the developer docs now live under
 `/dev-docs/`. Anything it cannot rescue falls through to the gate and fails the
 build. Every repair is printed: for a current tag the count should be zero, so a
@@ -993,30 +992,30 @@ here as a `devDependency` from the registry — the same way every other consume
 resolves it (#1589). Each script carries a header comment describing its purpose
 and how to invoke it — read the file itself for the authoritative detail. In brief:
 
-| Script                              | Purpose                                                                                   |
-| ----------------------------------- | ----------------------------------------------------------------------------------------- |
-| `build-system-json.mjs`             | Generate `build/stage/system.json` from the template + version.                           |
-| `copy-assets.mjs`                   | Stage templates, lang, assets, and root files into `build/stage/`.                        |
-| `build-icon-font.mjs`               | Build the icon font from SVGs.                                                            |
-| `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                            |
-| `docs-coverage.mjs`                 | Report doc-comment coverage.                                                              |
-| `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                 |
-| `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                   |
-| `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
-| `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
-| `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.  |
+| Script                              | Purpose                                                                                                                     |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `build-system-json.mjs`             | Generate `build/stage/system.json` from the template + version.                                                             |
+| `copy-assets.mjs`                   | Stage templates, lang, assets, and root files into `build/stage/`.                                                          |
+| `build-icon-font.mjs`               | Build the icon font from SVGs.                                                                                              |
+| `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                                                              |
+| `docs-coverage.mjs`                 | Report doc-comment coverage.                                                                                                |
+| `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                                                   |
+| `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                     |
+| `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                                                           |
+| `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                                                            |
+| `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.                                     |
 | `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname. |
-| `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate. |
-| `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                     |
-| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress. |
-| `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |
-| `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects. |
-| `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.    |
-| `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                   |
-| `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                                 |
-| `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                       |
-| `packs/clean-sources.mjs`           | Remove generated `_source/` trees.                                                        |
-| `typedoc-plugin-*.mjs`              | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).        |
+| `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                      |
+| `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                                                       |
+| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress.                              |
+| `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                   |
+| `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects.                   |
+| `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.                                      |
+| `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                                                     |
+| `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                                                                   |
+| `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                                                         |
+| `packs/clean-sources.mjs`           | Remove generated `_source/` trees.                                                                                          |
+| `typedoc-plugin-*.mjs`              | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).                                          |
 
 ## See also
 

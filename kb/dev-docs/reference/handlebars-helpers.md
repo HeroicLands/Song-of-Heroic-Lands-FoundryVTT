@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Handlebars Template Helpers
-    aliases: []
+  full: Handlebars Template Helpers
+  aliases: []
 id: 7609nwkW4zqu6FIf
 slug: handlebars-helpers
 type: doc
@@ -66,7 +66,7 @@ array**. Place it inside your own `<select>`.
 
 ```hbs
 <select name="importantChoice">
-    {{selectArray choices selected=system.choice blank="—" sort=true}}
+  {{selectArray choices selected=system.choice blank="—" sort=true}}
 </select>
 ```
 
@@ -88,9 +88,9 @@ given a `DataField` it delegates to `field.toInput` (inheriting the schema's
 
 ```hbs
 {{clearableNumberInput
-    fields.diagnosisBonusBase
-    name="system.diagnosisBonusBase"
-    value=system.diagnosisBonusBase
+  fields.diagnosisBonusBase
+  name="system.diagnosisBonusBase"
+  value=system.diagnosisBonusBase
 }}
 ```
 

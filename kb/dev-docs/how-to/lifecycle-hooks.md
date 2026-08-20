@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Lifecycle Hooks
-    aliases: []
+  full: Lifecycle Hooks
+  aliases: []
 id: wAO09gIz6slBmjYb
 slug: lifecycle-hooks
 type: doc
@@ -44,15 +44,15 @@ or `preFinalize`/`postFinalize`.
 ```js
 // Augment: run after every mystical ability finishes evaluating.
 Hooks.on("sohl.mysticalability.postEvaluate", (item, ctx) => {
-    // item = the mysticalability item; ctx = SohlActionContext
-    // read/adjust derived state here (not persisted)
+  // item = the mysticalability item; ctx = SohlActionContext
+  // read/adjust derived state here (not persisted)
 });
 
 // Replace: cancel the default initialize phase for a specific item.
 Hooks.on("sohl.mysticalability.preInitialize", (item, ctx) => {
-    if (item.system.shortcode !== "curse") return; // leave others alone
-    // ...do the replacement work...
-    return false; // returning false from a pre* hook cancels the phase
+  if (item.system.shortcode !== "curse") return; // leave others alone
+  // ...do the replacement work...
+  return false; // returning false from a pre* hook cancels the phase
 });
 ```
 
