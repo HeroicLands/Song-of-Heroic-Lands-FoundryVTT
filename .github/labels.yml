@@ -24,7 +24,7 @@
 
 - name: thalorna
   color: "ce10df"
-  description: Thalorna setting material.
+  description: Retired — sohl-thalorna tracks its own work; kept only for historical issues.
 
 - name: site
   color: "24bdb0"

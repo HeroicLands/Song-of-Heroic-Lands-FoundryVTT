@@ -44,12 +44,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout (with the theme submodule)
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
               with:
                   submodules: recursive
 
             - name: Setup Node.js
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v7
               with:
                   node-version: 24
                   cache: npm
@@ -89,7 +89,7 @@ jobs:
                   echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
             - name: Checkout the release tag
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
               with:
                   ref: ${{ steps.release.outputs.tag }}
                   path: release
@@ -119,7 +119,7 @@ jobs:
             # own pages, `cdn`) on every publish (#1484). If a Cache Rule is
             # ever added over `/sohl/`, purge those URLs — not the zone.
             - name: Deploy to Cloudflare Pages (production)
-              uses: cloudflare/wrangler-action@v3
+              uses: cloudflare/wrangler-action@v4
               with:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
