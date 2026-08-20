@@ -57,7 +57,7 @@
         "loglevel-plugin-prefix": "^0.8.4",
         "markdown-it": "^14.1.0",
         "unidecode": "^1.1.0",
-        "yaml": "^2.8.1",
+        "yaml": "^2.9.0",
         "yargs": "^18.1.0"
     },
     "devDependencies": {
