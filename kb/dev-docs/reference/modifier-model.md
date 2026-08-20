@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Modifier Model
-    aliases: []
+  full: Modifier Model
+  aliases: []
 id: 6cEVx2MHCyKiYW3C
 slug: modifier-model
 type: doc
@@ -41,12 +41,12 @@ The calculation runs lazily when `effective` is accessed:
 1. Start with `base` (from `setBase()`, or 0 if never set).
 2. Sort all `ValueDelta` entries by operator priority.
 3. Apply in order:
-    - **ADD** — add to running total
-    - **MULTIPLY** — multiply running total
-    - **UPGRADE** (floor) — enforce a minimum: `effective = max(effective, value)`
-    - **DOWNGRADE** (ceiling) — enforce a maximum: `effective = min(effective, value)`
-    - **OVERRIDE** — replace the computed value entirely
-    - **CUSTOM** — delegate to a custom function
+   - **ADD** — add to running total
+   - **MULTIPLY** — multiply running total
+   - **UPGRADE** (floor) — enforce a minimum: `effective = max(effective, value)`
+   - **DOWNGRADE** (ceiling) — enforce a maximum: `effective = min(effective, value)`
+   - **OVERRIDE** — replace the computed value entirely
+   - **CUSTOM** — delegate to a custom function
 4. Round to 3 significant digits.
 
 ### Example
@@ -103,16 +103,16 @@ Deltas are never persisted. To change the base value permanently, update the und
 
 ### Delta manipulation
 
-| Method                             | Description                     |
-| ---------------------------------- | ------------------------------- |
-| `add(name, abbrev, value)`         | Add an additive delta           |
-| `multiply(name, abbrev, value)`    | Add a multiplicative delta      |
-| `set(name, abbrev, value)`         | Add an override delta           |
-| `floor(name, abbrev, value)`       | Add an upgrade (minimum) delta  |
-| `ceiling(name, abbrev, value)`     | Add a downgrade (maximum) delta |
-| `get(abbrev)`                      | Get a delta by abbrev           |
-| `has(abbrev)`                      | Check if a delta exists         |
-| `delete(abbrev)`                   | Remove a delta by abbrev        |
+| Method                          | Description                     |
+| ------------------------------- | ------------------------------- |
+| `add(name, abbrev, value)`      | Add an additive delta           |
+| `multiply(name, abbrev, value)` | Add a multiplicative delta      |
+| `set(name, abbrev, value)`      | Add an override delta           |
+| `floor(name, abbrev, value)`    | Add an upgrade (minimum) delta  |
+| `ceiling(name, abbrev, value)`  | Add a downgrade (maximum) delta |
+| `get(abbrev)`                   | Get a delta by abbrev           |
+| `has(abbrev)`                   | Check if a delta exists         |
+| `delete(abbrev)`                | Remove a delta by abbrev        |
 
 ### State
 
@@ -172,7 +172,7 @@ free. The pieces, all on `SkillLogic`:
   `optionFate` world setting (`everyone` / `pconly` / off) and disabled when the
   actor has no Aura. {@link sohl.document.item.logic.SkillLogic.fateTest | `fateTest`}
   rolls it as its own success test (resolved by `getFateDescTable`, `canFate:
-  false` so a Fate roll can't itself be fated) — the generic `successTest` path
+false` so a Fate roll can't itself be fated) — the generic `successTest` path
   again, not a subclass.
 - **Rung → (consume, delta).** The matched **rung** drives the outcome (never
   `isSuccess`): CF → lose a point, +0; MF → keep, +0; MS → spend, +1; CS → the
@@ -195,8 +195,8 @@ Created by the combat-technique `SkillLogic` for each strike mode's attack and d
 
 ```typescript
 this.defense = {
-    block: new CombatModifier(this), // (parent) shorthand
-    counterstrike: new CombatModifier(this),
+  block: new CombatModifier(this), // (parent) shorthand
+  counterstrike: new CombatModifier(this),
 };
 ```
 

@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Calendar Reference
-    aliases: []
+  full: Calendar Reference
+  aliases: []
 id: 3FnZNhXbtsrG5O2O
 slug: calendar
 type: doc
@@ -69,8 +69,8 @@ The shipped built-in calendar is **hardcoded in code**, not a data file. Its def
 
 One ships — twelve 30-day months on a 10-day week (360-day year, four seasons, `yearZero: 720`, no year zero):
 
-| Shortcode | Calendar             | Era     | Months                                                  |
-| --------- | -------------------- | ------- | ------------------------------------------------------- |
+| Shortcode | Calendar                         | Era      | Months                                                                                                     |
+| --------- | -------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------- |
 | `vylrec`  | **Vylarian Reckoning** (default) | VR / BVR | Floralis, Lusenar, Murkas, Taranis, Vulcar, Menaris, Venuris, Karnavar, Morveth, Thanaris, Aetheris, Janar |
 
 The **Vylarian Reckoning** (`vylrec`) — the reckoning of the world of Thalorna — is the default active calendar. All names are localization keys. A world adds more calendars through the Calendar Settings menu; a module via `SohlSystem.registerCalendar(...)`.
@@ -81,10 +81,10 @@ SoHL keeps a registry of calendars keyed by ID. `SohlSystem.registerCalendar(id,
 
 Two world settings drive the GM-facing workflow:
 
-| Setting                  | Purpose                                                                                                                                                                        |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Setting                  | Purpose                                                                                                                                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `sohl.activeCalendar`    | ID of the currently active calendar. Default `"vylrec"` (Vylarian Reckoning). Its `onChange` handler calls `SohlSystem.applyCalendar`, which re-initializes `game.time` — no reload required. |
-| `sohl.importedCalendars` | Map of imported calendar configs persisted across sessions.                                                                                                                    |
+| `sohl.importedCalendars` | Map of imported calendar configs persisted across sessions.                                                                                                                                   |
 
 The `Calendar Settings` menu (`src/apps/foundry/CalendarSettingsMenu.ts`) lets the GM:
 
@@ -147,10 +147,10 @@ Calendar **display** is one half of the use case; the other is **scheduling work
 ```typescript
 // In a Logic class's finalize() — schedule the next check
 sohl.events.scheduleAt(
-    this.item.uuid,
-    "healingTest",
-    injury.logic.nextHealthCheck, // derived from the persisted anchor
-    { level: this.data.levelBase },
+  this.item.uuid,
+  "healingTest",
+  injury.logic.nextHealthCheck, // derived from the persisted anchor
+  { level: this.data.levelBase },
 );
 
 // In the document's handleSohlEvent — fire the test, then re-schedule

@@ -26,10 +26,19 @@
  *
  * Only the region between the BEGIN/END markers is rewritten — the surrounding
  * prose stays hand-written.
+ *
+ * The result is then run through Prettier, so the page satisfies the generator
+ * and `prettier --check` at once. Without that the two disagree permanently:
+ * Prettier realigns the generated table's columns, this generator writes them
+ * back, and whichever ran last leaves the other failing. Formatting here is what
+ * lets the page stay under Prettier rather than being excluded from it — it is a
+ * hand-written concept doc that happens to carry one generated table, so
+ * excluding it would leave all of its prose unformatted.
  */
 
 import fs from "fs";
 import path from "path";
+import { formatGenerated } from "./format-generated.mjs";
 import { EXPRESSION_SCOPES } from "../src/entity/expr/expression-scopes.mjs";
 
 const DOC = path.resolve("kb/dev-docs/concepts/expressions.md");
@@ -118,7 +127,7 @@ export function renderDoc(current) {
 const isCheck = process.argv.includes("--check");
 const rel = path.relative(process.cwd(), DOC);
 const current = fs.readFileSync(DOC, "utf8");
-const next = renderDoc(current);
+const next = await formatGenerated(renderDoc(current), DOC);
 
 if (isCheck) {
     if (current !== next) {

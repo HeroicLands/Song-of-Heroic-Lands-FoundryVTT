@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: CSS Architecture & Styleguide
-    aliases: []
+  full: CSS Architecture & Styleguide
+  aliases: []
 id: yPExBMoJ8a1t8Foi
 slug: css-architecture
 type: doc
@@ -138,25 +138,25 @@ map-driven pattern already proven by `$typography-scale` / `type-style()` in
 ```scss
 // abstracts/_tokens.scss
 $space: (
-    "xs": 2px,
-    "sm": 5px,
-    "md": 10px,
-    "lg": 20px,
+  "xs": 2px,
+  "sm": 5px,
+  "md": 10px,
+  "lg": 20px,
 );
 
 @mixin emit-tokens {
-    :root {
-        @each $name, $value in $space {
-            --sohl-space-#{$name}: #{$value};
-        }
+  :root {
+    @each $name, $value in $space {
+      --sohl-space-#{$name}: #{$value};
     }
+  }
 }
 ```
 
 ```scss
 // consumed in a component
 .sohl-list__item {
-    padding: var(--sohl-space-sm) var(--sohl-space-md);
+  padding: var(--sohl-space-sm) var(--sohl-space-md);
 }
 ```
 
@@ -240,7 +240,7 @@ compound selector precisely for this reason (`scss/sohl.scss`):
 /* Loaded under the COMPOUND `.sohl.sheet` selector because ApplicationV2 puts
    `sohl` and `sheet` on the same frame element. */
 .sohl.sheet {
-    @include meta.load-css("components/sheet");
+  @include meta.load-css("components/sheet");
 }
 ```
 
@@ -250,7 +250,7 @@ specificity and stays easy to override:
 
 ```scss
 :where(.sohl) .sohl-list__item {
-    /* low-specificity, easy to theme */
+  /* low-specificity, easy to theme */
 }
 ```
 
