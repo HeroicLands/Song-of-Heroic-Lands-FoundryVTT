@@ -194,13 +194,13 @@ A fourth, [[#editing-a-posted-test-result-gm|the GM's result edit]], re-opens th
 
 **Nearly every roll in SoHL opens this dialog first.** Skill tests, attribute tests, healing checks, morale, treatment — if an action ends in a d100, this is the window that appears before the dice are thrown. It is your chance to say what the situation is worth before the roll is made, rather than arguing about it after.
 
-| Field                      | What it is                                                                                                                                               |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Target**                 | Read-only. The number the roll must come in at or under, with everything already applied                                                                 |
-| _The modifier breakdown_   | Read-only. Every modifier making up that target, itemized, so you can see where the number came from                                                     |
-| **Situational Modifier**   | A whole number you type in — positive for favorable circumstances, negative for adverse ones. Starts at 0                                                |
-| **Success Level Modifier** | A whole number that shifts the **result** rather than the roll: +1 turns a marginal success into a critical one, −1 the reverse                          |
-| **Roll Visibility**        | Who sees the roll and its result                                                                                                                         |
+| Field                      | What it is                                                                                                                                                        |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Target**                 | Read-only. The number the roll must come in at or under, with everything already applied                                                                          |
+| _The modifier breakdown_   | Read-only. Every modifier making up that target, itemized, so you can see where the number came from                                                              |
+| **Situational Modifier**   | A whole number you type in — positive for favorable circumstances, negative for adverse ones. Starts at 0                                                         |
+| **Success Level Modifier** | A whole number that shifts the **result** rather than the roll: +1 turns a marginal success into a critical one, −1 the reverse                                   |
+| **Roll Visibility**        | Who sees the roll and its result                                                                                                                                  |
 | **Break Ties**             | Opposed tests only, and only for the side starting one. Off by default; ticked, a tied contest is settled instead of reported as a tie — see [[doc-token\|Token]] |
 
 **Situational Modifier vs. Success Level Modifier.** The first changes how likely you are to succeed; the second changes how well you did once you have. Use the situational modifier for the ordinary "that's harder than usual" adjustments — darkness, a bad footing, a helpful assistant. The success-level modifier is the rarer tool, for rules and effects that grade a result up or down without making the attempt itself easier.
