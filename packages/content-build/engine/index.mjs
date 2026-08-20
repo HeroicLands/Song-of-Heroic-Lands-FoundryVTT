@@ -69,6 +69,9 @@ export * as contentTables from "./content-tables.mjs";
 /** Markdown parsing, stats, folders, images, and the wikilink index. */
 export * as helpers from "./helpers.mjs";
 
+/** The consumer's resolved item-type registry: the whitelist and its builders. */
+export * as itemRegistry from "./item-registry.mjs";
+
 /** Which types carry documentation of their own, and where it is addressed. */
 export * as itemDocs from "./item-docs.mjs";
 

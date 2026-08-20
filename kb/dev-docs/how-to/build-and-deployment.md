@@ -426,11 +426,20 @@ The `assets/` root a content note's `img:` resolves to is derived, not written:
 
 Which `type:` values compile into an Item is declared **once**, in the registry
 `packages/content-build/sohl/item-builders.mjs`: `ITEM_BUILDERS` pairs each type with the builder
-that produces its `system` block, and `ITEM_TYPES` (exported from
-`packages/content-build/engine/item-docs.mjs`, which assembles `DOC_ENTRY_TYPES` from it) is
-derived from that registry's keys. So the whitelist of compilable types and the
-table of builders are the same list and cannot drift; a type with no builder is
-not a type the compiler will accept a note for.
+that produces its `system` block. This repository hands that table to the build
+as `itemBuilders` in `content-build.config.mjs`, and
+`packages/content-build/engine/item-registry.mjs` reads it back out of the
+resolved configuration — both the whitelist `ITEM_TYPES` (its key set, which
+`packages/content-build/engine/item-docs.mjs` re-exports and assembles
+`DOC_ENTRY_TYPES` from) and the `itemBuilder(type)` lookup the Item compiler
+dispatches through. So the whitelist of compilable types and the table of
+builders are the same object and cannot drift; a type with no builder is not a
+type the compiler will accept a note for.
+
+Because both halves are read from configuration, a **consuming repository
+supplies its own table** and its notes compile with its own builders — the
+compiler dispatched through this package's module-level table until #1563, so a
+consumer got the types it asked for and the builders it did not.
 
 Adding a type is therefore one entry in `ITEM_BUILDERS`, its subtype declaration
 in `documentTypes.Item` (`assets/templates/system.template.json`), and its
@@ -438,9 +447,11 @@ default artwork in `@heroiclands/content-build/sohl/default-item-art` — the la
 of which the unit
 suite holds in exact step with the registry. Removing a type is the same three
 deletions. The registry is a **leaf module**: it imports only the frontmatter
-readers in `packages/content-build/engine/frontmatter.mjs`, never `helpers.mjs`, because
-`helpers.mjs` reaches wikilinks and through them back to `item-docs.mjs` — the
-module deriving `ITEM_TYPES` from the registry.
+readers in `packages/content-build/engine/frontmatter.mjs`, never `helpers.mjs`,
+and never the resolved configuration. The config file imports the registry, so a
+read back out of configuration there would close a cycle around the config's own
+evaluation; the data travels *into* configuration and only `item-registry.mjs`,
+which no config file imports, reads it back out.
 
 ### An item's prose compiles to a journal, not into the item
 

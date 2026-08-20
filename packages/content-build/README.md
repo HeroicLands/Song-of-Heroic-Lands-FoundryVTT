@@ -119,6 +119,13 @@ exactly once, here, and read from `packConfig` everywhere. There is one resolved
 set at runtime; the compilers and the link-manifest emitter cannot come to
 disagree about which notes carry documentation.
 
+The Item compiler **dispatches through that same resolved table**, via
+`engine/item-registry.mjs` (`ITEM_TYPES` and `itemBuilder(type)`), so the types a
+consumer's notes are accepted for and the builders they compile with are one
+object. Supplying `itemBuilders` is therefore all a consumer does to define an
+item type of its own; a table this package ships is one possible value, not the
+one the compiler holds.
+
 **Configuration supplies paths, never captured values.** `paths.packageManifest`
 says _where_ the shipped `system.template.json` / `module.template.json` lives;
 the package-id drift guard and the compiled packs' `_stats.coreVersion` both read
