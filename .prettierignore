@@ -51,6 +51,23 @@ kb/layouts/
 # Hugo data files, both generated: api-symbols.json by the TypeDoc symbol-map
 # plugin, legacy-slugs.json by utils/kb-redirects.mjs.
 kb/data/
+# The three generated trees under kb/ (#1632). All three are already ignored by
+# kb/.gitignore, which does nothing here: Prettier's --ignore-path defaults to
+# `.gitignore` and `.prettierignore` at the ROOT and never reads a nested
+# .gitignore, so a tree ignored only from kb/ is invisible to git and fully
+# visible to Prettier. That made `format:check` report on what had been built
+# rather than on what had been written — clean before a knowledgebase build, 735
+# warnings after `build:kb-content`, and a hard SyntaxError on minified HTML
+# after `build:kb`. Restating them here is what actually excludes them, and
+# tests/build/prettier-nested-gitignore.test.ts fails if a fourth is added there
+# and not here.
+#
+# Assembled from assets/content/ + kb/dev-docs/ by utils/build-kb-content.mjs on
+# every `npm run build:kb-content`; never committed.
+kb/content/
+# Hugo's own output (`npm run build:kb`) and its resource cache.
+kb/public/
+kb/resources/_gen/
 # Prettier has no TOML parser.
 kb/hugo.toml
 # Submodule (heroiclands-hugo-theme); it formats itself in its own repository.
