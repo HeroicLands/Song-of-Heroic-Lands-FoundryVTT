@@ -13,8 +13,8 @@ here. It maps a note's canonical address to every address that note has — a
   "package": "thalorna",
   "foundryPackage": "sohl-thalorna",
   "entries": {
-    "thalorna-creature-grkrahk": {
-      "path": "creature/grukar-ahk/",
+    "thalorna-being-grkrahk": {
+      "path": "being/grukar-ahk/",
       "name": "Grukar-ahk",
       "uuid": "Compendium.sohl-thalorna.items.Item.WPulW6UO0nVXOVWt"
     }

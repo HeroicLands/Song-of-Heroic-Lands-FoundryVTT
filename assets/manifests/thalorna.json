@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "package": "thalorna",
   "foundryPackage": "sohl-thalorna",
   "entries": {
@@ -891,1213 +891,1938 @@
       "uuid": "Compendium.sohl-thalorna.items.Item.1Go7PyToz0pzuoCy",
       "doc": "thalorna-docaffiliation-zurathra"
     },
-    "thalorna-character-afzndhprnzr": {
-      "path": "character/afzandah-parnazar/",
+    "thalorna-being-abyssdrk": {
+      "path": "being/abyssdrake/",
+      "name": "Abyssdrake",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.MoaH3MMvKwCfPZpw"
+    },
+    "thalorna-being-abysslsl": {
+      "path": "being/abyssal-silt/",
+      "name": "Abyssal Silt",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.1afcBWsxQXPUIBxG"
+    },
+    "thalorna-being-acidtoad": {
+      "path": "being/acidtoad/",
+      "name": "Acidtoad",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ho5hsRAglADOtInP"
+    },
+    "thalorna-being-afzndhprnzr": {
+      "path": "being/afzandah-parnazar/",
       "name": "Afzandah Parnâzar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.DpKTLyMGMTZ1lJ2E"
     },
-    "thalorna-character-agapevrzns": {
-      "path": "character/agapeia-varzanes/",
+    "thalorna-being-agapevrzns": {
+      "path": "being/agapeia-varzanes/",
       "name": "Agápeia Varzánês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.ek8aQBwT3vKbseKG"
     },
-    "thalorna-character-ailemkrmys": {
-      "path": "character/ailema-keriamyes/",
+    "thalorna-being-agrnsntn": {
+      "path": "being/aegiron-sentinel/",
+      "name": "Aegiron Sentinel",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.0XIdKN3uKTf5qx8n"
+    },
+    "thalorna-being-ailemkrmys": {
+      "path": "being/ailema-keriamyes/",
       "name": "Ailêmâ Kêrîamyês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.B2MmcByySffMkCPX"
     },
-    "thalorna-character-akhremrnfr": {
-      "path": "character/akhrem-reenfre/",
+    "thalorna-being-akhremrnfr": {
+      "path": "being/akhrem-reenfre/",
       "name": "Akhrem Re'en'fré",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.772bjjl9UPxZqT2D"
     },
-    "thalorna-character-akksplytms": {
-      "path": "character/akakios-polytimos/",
+    "thalorna-being-akksplytms": {
+      "path": "being/akakios-polytimos/",
       "name": "Akákios Polytimós",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.4Ls4vyEaxtqnkRON"
     },
-    "thalorna-character-alykosmpsn": {
-      "path": "character/alykos-sampsion/",
+    "thalorna-being-alykosmpsn": {
+      "path": "being/alykos-sampsion/",
       "name": "Alýkos Sampsiôn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.aTwfQByXFdJ0R4QM"
     },
-    "thalorna-character-alyksthtks": {
-      "path": "character/alykos-theotokis/",
+    "thalorna-being-alyksthtks": {
+      "path": "being/alykos-theotokis/",
       "name": "Alýkos Theotókis",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.xHAlCIQh56sf9sy0"
     },
-    "thalorna-character-alyrklmrth": {
-      "path": "character/alyra-kalmereth/",
+    "thalorna-being-alyrklmrth": {
+      "path": "being/alyra-kalmereth/",
       "name": "Ályra Kálmereth",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.SJC2oE0E6CsazPKq"
     },
-    "thalorna-character-angldskntkzns": {
-      "path": "character/angelides-kantakouzenos/",
+    "thalorna-being-angldskntkzns": {
+      "path": "being/angelides-kantakouzenos/",
       "name": "Ángelides Kantakouzenós",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.1d1IMLnClylJnPHF"
     },
-    "thalorna-character-angldsptrks": {
-      "path": "character/angelides-patrikios/",
+    "thalorna-being-angldsptrks": {
+      "path": "being/angelides-patrikios/",
       "name": "Ángelides Patrikîos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.qVZXP6qXaetsnV9z"
     },
-    "thalorna-character-anrjhrdvmbjkr": {
-      "path": "character/anuraja-harsadevambujakar/",
+    "thalorna-being-anrjhrdvmbjkr": {
+      "path": "being/anuraja-harsadevambujakar/",
       "name": "Anûraja Harṣadēvāmbujakar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.YHBgnmtqKa4EczPy"
     },
-    "thalorna-character-arevynlydr": {
-      "path": "character/arevyn-llydar/",
+    "thalorna-being-arevynlydr": {
+      "path": "being/arevyn-llydar/",
       "name": "Arévyn Llýdar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.HS1MvsmNU2KsyuPC"
     },
-    "thalorna-character-arkdsphlmds": {
-      "path": "character/arkadios-philomedis/",
+    "thalorna-being-arkdsphlmds": {
+      "path": "being/arkadios-philomedis/",
       "name": "Arkádios Philomédis",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.JtOURC71suokEdaY"
     },
-    "thalorna-character-arkhekrkss": {
-      "path": "character/arkhea-kourkasios/",
+    "thalorna-being-arkhekrkss": {
+      "path": "being/arkhea-kourkasios/",
       "name": "Arkhêa Kourkásios",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.on35i2IjiOvRMa0c"
     },
-    "thalorna-character-asbjrnkhrt": {
-      "path": "character/asbjorn-oakheart/",
+    "thalorna-being-asbjrnkhrt": {
+      "path": "being/asbjorn-oakheart/",
       "name": "Asbjorn Oakheart",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.WyeojtfzVxXJy57s"
     },
-    "thalorna-character-astrdfrskn": {
-      "path": "character/astrid-the-forsaken/",
+    "thalorna-being-astrdfrskn": {
+      "path": "being/astrid-the-forsaken/",
       "name": "Astrid the Forsaken",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.EhZ7oubLCClWzgDt"
     },
-    "thalorna-character-atenhershr": {
-      "path": "character/atenheru-sahri/",
+    "thalorna-being-atenhershr": {
+      "path": "being/atenheru-sahri/",
       "name": "Atenheru Sahri",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Nm9WhaLkJEPn02Ho"
     },
-    "thalorna-character-athlwvthrnd": {
-      "path": "character/athalwa-vithrund/",
+    "thalorna-being-athlwvthrnd": {
+      "path": "being/athalwa-vithrund/",
       "name": "Athalwa Vithrúnd",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.8ES6ZaacpcZo5fJc"
     },
-    "thalorna-character-athngrsktkls": {
-      "path": "character/athenagoras-katakalos/",
+    "thalorna-being-athngrsktkls": {
+      "path": "being/athenagoras-katakalos/",
       "name": "Athênagoras Katakálos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.8cGFS7lwMpacShaL"
     },
-    "thalorna-character-banutjaut": {
-      "path": "character/banut-jaut/",
+    "thalorna-being-banutjaut": {
+      "path": "being/banut-jaut/",
       "name": "Bânut Jâut",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Vky3tsscqH9M3WEL"
     },
-    "thalorna-character-bazdrshhrn": {
-      "path": "character/bazudar-shahrun/",
+    "thalorna-being-bazdrshhrn": {
+      "path": "being/bazudar-shahrun/",
       "name": "Bazûdar Shahrûn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.wjLn1VqrmO3CHSZU"
     },
-    "thalorna-character-bjlfhrfnsvld": {
-      "path": "character/bjalfi-hrafnsvald/",
+    "thalorna-being-bjlfhrfnsvld": {
+      "path": "being/bjalfi-hrafnsvald/",
       "name": "Bjalfi Hrafnsvald",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.fZ0FZCUHKMFUjyH6"
     },
-    "thalorna-character-bjorgdrknt": {
-      "path": "character/bjorg-drekanott/",
+    "thalorna-being-bjorgdrknt": {
+      "path": "being/bjorg-drekanott/",
       "name": "Björg Drekanótt",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.27J04R6N0Txnbpgm"
     },
-    "thalorna-character-bjrnstrmbrn": {
-      "path": "character/bjorn-stormborn/",
+    "thalorna-being-bjrnstrmbrn": {
+      "path": "being/bjorn-stormborn/",
       "name": "Bjorn Stormborn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.IQJpaW7lB8mYgiWK"
     },
-    "thalorna-character-bjrnvtrdmr": {
-      "path": "character/bjorn-vetrdomr/",
+    "thalorna-being-bjrnvtrdmr": {
+      "path": "being/bjorn-vetrdomr/",
       "name": "Bjǫrn Vetrdómr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.9ZfFDoH8TCU6PfFz"
     },
-    "thalorna-character-branwldrgr": {
-      "path": "character/branwaal-dorgaar/",
+    "thalorna-being-bldrbck": {
+      "path": "being/boulderback/",
+      "name": "Boulderback",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.yBv7xJJafJv5vXrt"
+    },
+    "thalorna-being-blinkfox": {
+      "path": "being/blinkfox/",
+      "name": "Blinkfox",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.yWF2AXVSDAjJXF4f"
+    },
+    "thalorna-being-bnscrpn": {
+      "path": "being/bone-scorpion/",
+      "name": "Bone Scorpion",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.6qq2ohVEMdu3Lmwo"
+    },
+    "thalorna-being-branwldrgr": {
+      "path": "being/branwaal-dorgaar/",
       "name": "Brànwâal Dôrgaar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.WSk96sYAqyEqOLpg"
     },
-    "thalorna-character-brnksksrns": {
-      "path": "character/branakis-kaseranis/",
+    "thalorna-being-brmblfng": {
+      "path": "being/bramblefang/",
+      "name": "Bramblefang",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.6KSkMKbbQE2We7kA"
+    },
+    "thalorna-being-brmblspn": {
+      "path": "being/bramblespine-dartel/",
+      "name": "Bramblespine Dartel",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.eDyiMoyAhdyDQpvk"
+    },
+    "thalorna-being-brnksksrns": {
+      "path": "being/branakis-kaseranis/",
       "name": "Bránakis Kâserânis",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.CKhqAnKWmu18wZ1L"
     },
-    "thalorna-character-brnlnsbrkls": {
-      "path": "character/branalenis-barkalas/",
+    "thalorna-being-brnlnsbrkls": {
+      "path": "being/branalenis-barkalas/",
       "name": "Brânalenîs Bárkalâs",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.HySXklJQfb8FnTsx"
     },
-    "thalorna-character-brynhldrshnmdn": {
-      "path": "character/brynhildr-ashenmaiden/",
+    "thalorna-being-brynhldrshnmdn": {
+      "path": "being/brynhildr-ashenmaiden/",
       "name": "Brynhildr Ashenmaiden",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.qlJODLpgKXPE441j"
     },
-    "thalorna-character-bthvrslvrgr": {
-      "path": "character/bothvarr-solvargr/",
+    "thalorna-being-bthvrslvrgr": {
+      "path": "being/bothvarr-solvargr/",
       "name": "Bǫthvarr Sólvargr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.V5HnPNXCvbny78Mm"
     },
-    "thalorna-character-carengrvth": {
-      "path": "character/carenna-graveth/",
+    "thalorna-being-carengrvth": {
+      "path": "being/carenna-graveth/",
       "name": "Cárenna Gráveth",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.4VoSx8nbfIX6dFlG"
     },
-    "thalorna-character-casiaveric": {
-      "path": "character/cassia-verric/",
+    "thalorna-being-casiaveric": {
+      "path": "being/cassia-verric/",
       "name": "Cassia Verric",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.vMAm7UbCONvPa5a7"
     },
-    "thalorna-character-chlbrhydyn": {
-      "path": "character/cheleb-rhyddyn/",
+    "thalorna-being-cheeprow": {
+      "path": "being/cheeprow/",
+      "name": "Cheeprow",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.IlhU4aquYsNBK4Q1"
+    },
+    "thalorna-being-chlbrhydyn": {
+      "path": "being/cheleb-rhyddyn/",
       "name": "Chéleb Rhýddýn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.PTMNrOoyG1L212mK"
     },
-    "thalorna-character-chndrkrtsndrjyvl": {
-      "path": "character/chandrakirtisundari-jayavalli/",
+    "thalorna-being-chndrkrtsndrjyvl": {
+      "path": "being/chandrakirtisundari-jayavalli/",
       "name": "Chandrakīrtisundarī Jayavalli",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.mJfvEsyCUxVmCzNJ"
     },
-    "thalorna-character-chrysntskvdrs": {
-      "path": "character/chrysantos-kavadaris/",
+    "thalorna-being-chrysntskvdrs": {
+      "path": "being/chrysantos-kavadaris/",
       "name": "Chrysántos Kavadáris",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.BtMTHqs8q6Gckwb6"
     },
-    "thalorna-character-cibelasrnt": {
-      "path": "character/cibella-serentia/",
+    "thalorna-being-cibelasrnt": {
+      "path": "being/cibella-serentia/",
       "name": "Cibella Serentia",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.O6Vbzwn11PRRijsS"
     },
-    "thalorna-character-cndrthrchrymkhysvr": {
-      "path": "character/candrathar-acharyamukhyesvara/",
+    "thalorna-being-clffstlk": {
+      "path": "being/cliff-stalker/",
+      "name": "Cliff Stalker",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.A2bZirKOMgCcZ7qS"
+    },
+    "thalorna-being-cndrthrchrymkhysvr": {
+      "path": "being/candrathar-acharyamukhyesvara/",
       "name": "Càndrathar Āchāryamukhyēśvara",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.XXiPdWrbAZaXkOY9"
     },
-    "thalorna-character-dagmrwndrr": {
-      "path": "character/dagmar-the-wanderer/",
+    "thalorna-being-crgclmbr": {
+      "path": "being/cragclimber/",
+      "name": "Cragclimber",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.lehcDkx0YgAsYjaw"
+    },
+    "thalorna-being-crglrkr": {
+      "path": "being/crag-lurker/",
+      "name": "Crag Lurker",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.bnKZuFaJKbkhFJxn"
+    },
+    "thalorna-being-crystlcl": {
+      "path": "being/crystalclaw/",
+      "name": "Crystalclaw",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.aR2QPYkOiyPmVC4k"
+    },
+    "thalorna-being-cvgbln": {
+      "path": "being/cave-goblin/",
+      "name": "Cave Goblin",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.pDiXk1iBL5unp4Q3"
+    },
+    "thalorna-being-cvtrll": {
+      "path": "being/cave-troll/",
+      "name": "Cave Troll",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.LLdlPmp4JmXGcj1o"
+    },
+    "thalorna-being-dagmrwndrr": {
+      "path": "being/dagmar-the-wanderer/",
       "name": "Dagmar the Wanderer",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.pTNOxSvYuw4eXF5r"
     },
-    "thalorna-character-dagulfvthr": {
-      "path": "character/dagulf-vethar/",
+    "thalorna-being-dagulfvthr": {
+      "path": "being/dagulf-vethar/",
       "name": "Dágulf Véthar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.6Bc5fC5rRrl6cMNj"
     },
-    "thalorna-character-damklsmpsn": {
-      "path": "character/damaklios-sampsion/",
+    "thalorna-being-damklsmpsn": {
+      "path": "being/damaklios-sampsion/",
       "name": "Damáklios Sampsiôn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.f18FWVA5XOWaW9tc"
     },
-    "thalorna-character-damsnghlrn": {
-      "path": "character/damasun-gholaron/",
+    "thalorna-being-damsnghlrn": {
+      "path": "being/damasun-gholaron/",
       "name": "Dámàsûn Ghôlâron",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.R8kmkRmbdNRcvwuA"
     },
-    "thalorna-character-daryshshvn": {
-      "path": "character/daryash-shavan/",
+    "thalorna-being-daryshshvn": {
+      "path": "being/daryash-shavan/",
       "name": "Daryash Shavân",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.O6tHeE3VuZgiVhP8"
     },
-    "thalorna-character-dekvetrdmr": {
-      "path": "character/dek-vetrdomr/",
+    "thalorna-being-dekvetrdmr": {
+      "path": "being/dek-vetrdomr/",
       "name": "Dek Vetrdómr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.iX6xDDr8qwN2G3pb"
     },
-    "thalorna-character-dhrmplvmkt": {
-      "path": "character/dharmapala-vimuktana/",
+    "thalorna-being-dhrmplvmkt": {
+      "path": "being/dharmapala-vimuktana/",
       "name": "Dharmàpala Vimuktaṇa",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.dhCoCEo0H7FWyMlT"
     },
-    "thalorna-character-dmrthsvshrds": {
-      "path": "character/domrithas-vishardas/",
+    "thalorna-being-dmrthsvshrds": {
+      "path": "being/domrithas-vishardas/",
       "name": "Dómrithâs Vîshârdâs",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.UjnAChynlU60dM9m"
     },
-    "thalorna-character-domthgrvth": {
-      "path": "character/dometh-graveth/",
+    "thalorna-being-dnstrdr": {
+      "path": "being/dune-strider/",
+      "name": "Dune Strider",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.FSZZ80hJvwUGnbkD"
+    },
+    "thalorna-being-domthgrvth": {
+      "path": "being/dometh-graveth/",
       "name": "Dómeth Gráveth",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.4V407t5CS3PWmdoC"
     },
-    "thalorna-character-dornsyndlr": {
-      "path": "character/doren-syndalr/",
+    "thalorna-being-dornsyndlr": {
+      "path": "being/doren-syndalr/",
       "name": "Dôren Sýndalr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.5l0LmrkfSYMUUxui"
     },
-    "thalorna-character-drkaranamn": {
-      "path": "character/drksarana-manrsti/",
+    "thalorna-being-drgnflyh": {
+      "path": "being/dragonfly-hawk/",
+      "name": "Dragonfly Hawk",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.Ld3BjQ7uxeuVYQa7"
+    },
+    "thalorna-being-drhnybdg": {
+      "path": "being/dire-honey-badger/",
+      "name": "Dire Honey Badger",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.yfdwPLNfDfwLHV8b"
+    },
+    "thalorna-being-drkaranamn": {
+      "path": "being/drksarana-manrsti/",
       "name": "Drkṣàrana Manṛṣṭi",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.lRVZo2QwwY20k6XS"
     },
-    "thalorna-character-drknsdlsns": {
-      "path": "character/drakonis-dalassenos/",
+    "thalorna-being-drknsdlsns": {
+      "path": "being/drakonis-dalassenos/",
       "name": "Drákonis Dalássênos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.nCrXLQipSbxl12H9"
     },
-    "thalorna-character-eirkrlwgvr": {
-      "path": "character/eirikr-lawgiver/",
+    "thalorna-being-drwlvrn": {
+      "path": "being/dire-wolverine/",
+      "name": "Dire Wolverine",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.9zpdW3LB7gb3PZXi"
+    },
+    "thalorna-being-duneclaw": {
+      "path": "being/duneclaw/",
+      "name": "Duneclaw",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.2DpHrcNw4BfmRgld"
+    },
+    "thalorna-being-eirkrlwgvr": {
+      "path": "being/eirikr-lawgiver/",
       "name": "Eiríkr Lawgiver",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.kJ8l5sMQNaJK9dzj"
     },
-    "thalorna-character-eldgrmrflmhrt": {
-      "path": "character/eldgrimr-flameheart/",
+    "thalorna-being-eldgrmrflmhrt": {
+      "path": "being/eldgrimr-flameheart/",
       "name": "Eldgrimr Flameheart",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.eN5rOZknYKp72v0P"
     },
-    "thalorna-character-eldridfrhr": {
-      "path": "character/eldrid-firehair/",
+    "thalorna-being-eldridfrhr": {
+      "path": "being/eldrid-firehair/",
       "name": "Eldrid Firehair",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Yn25raq7PEoX9VDX"
     },
-    "thalorna-character-elyseskyrn": {
-      "path": "character/elyse-skyrn/",
+    "thalorna-being-elyseskyrn": {
+      "path": "being/elyse-skyrn/",
       "name": "Elýsè Skýrn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.R9JqWrIVvy6hxCDo"
     },
-    "thalorna-character-ermlndrknt": {
-      "path": "character/ermelina-drekanott/",
+    "thalorna-being-embermaw": {
+      "path": "being/embermaw/",
+      "name": "Embermaw",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.Q2oJByEiRbME0lGy"
+    },
+    "thalorna-being-embrhnd": {
+      "path": "being/emberhound/",
+      "name": "Emberhound",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.WGeazrSoyg3VKwns"
+    },
+    "thalorna-being-ermlndrknt": {
+      "path": "being/ermelina-drekanott/",
       "name": "Ermelína Drekanótt",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.afXTPv4Ov9YCgZNC"
     },
-    "thalorna-character-erythnslnds": {
-      "path": "character/erython-uselindas/",
+    "thalorna-being-erthchrg": {
+      "path": "being/earthcharger/",
+      "name": "Earthcharger",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.u8zP1zROlFGp2zuv"
+    },
+    "thalorna-being-erthrvr": {
+      "path": "being/earthreaver/",
+      "name": "Earthreaver",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.sSoExpz4Qk9l3k5m"
+    },
+    "thalorna-being-erythnslnds": {
+      "path": "being/erython-uselindas/",
       "name": "Érython Ûselîndâs",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.BomCu7u0xgOlNbPW"
     },
-    "thalorna-character-esharumtrz": {
-      "path": "character/esharum-taruzi/",
+    "thalorna-being-esharumtrz": {
+      "path": "being/esharum-taruzi/",
       "name": "Eshârum Tarûzî",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.5CGhiZ2Whf6jIcSG"
     },
-    "thalorna-character-eshewamagr": {
-      "path": "character/eshe-wa-magara/",
+    "thalorna-being-eshewamagr": {
+      "path": "being/eshe-wa-magara/",
       "name": "Eshe wa Magara",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Lx9sOAx8WULtNPca"
     },
-    "thalorna-character-fakhrdtmrn": {
-      "path": "character/fakhrad-tamaran/",
+    "thalorna-being-fakhrdtmrn": {
+      "path": "being/fakhrad-tamaran/",
       "name": "Fakhrad Tamârân",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.mz6d5dp9JqrXm87U"
     },
-    "thalorna-character-faradunfrn": {
-      "path": "character/faradun-afrun/",
+    "thalorna-being-faradunfrn": {
+      "path": "being/faradun-afrun/",
       "name": "Faradûn Afrûn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.1t4ij9G8873glDfp"
     },
-    "thalorna-character-fethardhrl": {
-      "path": "character/fethar-dharel/",
+    "thalorna-being-feraldew": {
+      "path": "being/feraldew/",
+      "name": "Feraldew",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.c9Dwi7Xceu24w4P6"
+    },
+    "thalorna-being-fethardhrl": {
+      "path": "being/fethar-dharel/",
       "name": "Féthar Dhárel",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.nDeptoLD1ULk7vsM"
     },
-    "thalorna-character-firavdprsk": {
-      "path": "character/firavad-paresak/",
+    "thalorna-being-firavdprsk": {
+      "path": "being/firavad-paresak/",
       "name": "Firâvâd Pâresak",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.a1YDztFxs4vUPXNj"
     },
-    "thalorna-character-frydslvrhnd": {
-      "path": "character/freydis-silverhand/",
+    "thalorna-being-fireflit": {
+      "path": "being/fireflit/",
+      "name": "Fireflit",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.WTtS70pyqXortIMX"
+    },
+    "thalorna-being-flmwrth": {
+      "path": "being/flamewraith/",
+      "name": "Flamewraith",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.IkisGKow2uz3lPSw"
+    },
+    "thalorna-being-frostjaw": {
+      "path": "being/frostjaw/",
+      "name": "Frostjaw",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.1qpvK28UB8kSIGR0"
+    },
+    "thalorna-being-frostmaw": {
+      "path": "being/frostmaw/",
+      "name": "Frostmaw",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.eUOcXzXo2vWIG2sf"
+    },
+    "thalorna-being-frstdrk": {
+      "path": "being/forest-drake/",
+      "name": "Forest Drake",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.TD1mrTArS6vzQzxW"
+    },
+    "thalorna-being-frstgbln": {
+      "path": "being/forest-goblin/",
+      "name": "Forest Goblin",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.B24v0x403YmclrJb"
+    },
+    "thalorna-being-frsttrll": {
+      "path": "being/forest-troll/",
+      "name": "Forest Troll",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.l4GBcRoNaHSO3RRn"
+    },
+    "thalorna-being-frstwng": {
+      "path": "being/frostwing/",
+      "name": "Frostwing",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.MzYAPPEnFLXmQ6Cg"
+    },
+    "thalorna-being-frydslvrhnd": {
+      "path": "being/freydis-silverhand/",
       "name": "Freydis Silverhand",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.uc36Ag2geh9YjBvy"
     },
-    "thalorna-character-frztbnlksr": {
-      "path": "character/father-izteban-alkassar/",
+    "thalorna-being-frztbnlksr": {
+      "path": "being/father-izteban-alkassar/",
       "name": "Father Iztéban Alkássar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Nzu2JgeuaTC1ZcZa"
     },
-    "thalorna-character-gahijwfnjr": {
-      "path": "character/gahiji-wa-fenjara/",
+    "thalorna-being-fthrcrst": {
+      "path": "being/feathercrest-velon/",
+      "name": "Feathercrest Velon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.Or8DbTmkrdKMEqDi"
+    },
+    "thalorna-being-gahijwfnjr": {
+      "path": "being/gahiji-wa-fenjara/",
       "name": "Gahiji wa Fénjara",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.DsVbnDM8LZGFtqA1"
     },
-    "thalorna-character-garlendhrl": {
-      "path": "character/garlen-dharel/",
+    "thalorna-being-garlendhrl": {
+      "path": "being/garlen-dharel/",
       "name": "Gârlen Dhárel",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.cKCD0maKPSHQ03nD"
     },
-    "thalorna-character-gnstnvrnhm": {
-      "path": "character/gunnsteinn-vornheim/",
+    "thalorna-being-giantant": {
+      "path": "being/giant-ant/",
+      "name": "Giant Ant",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.z1mE9iVDLalVjhSc"
+    },
+    "thalorna-being-giantbee": {
+      "path": "being/giant-bee/",
+      "name": "Giant Bee",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.LBdgt05Nh0uI1pIt"
+    },
+    "thalorna-being-giantowl": {
+      "path": "being/giant-owl/",
+      "name": "Giant Owl",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.QQBrXJej14IhQbcW"
+    },
+    "thalorna-being-giantrat": {
+      "path": "being/giant-rat/",
+      "name": "Giant Rat",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.JYYfIP5IvvkQ0oJK"
+    },
+    "thalorna-being-glmfng": {
+      "path": "being/gloomfang/",
+      "name": "Gloomfang",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.PdsQX4rPIfQgbxtn"
+    },
+    "thalorna-being-glmhnd": {
+      "path": "being/gloomhound/",
+      "name": "Gloomhound",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ldVaPfqXY1Mh4tK4"
+    },
+    "thalorna-being-glmsprt": {
+      "path": "being/gloomsprite/",
+      "name": "Gloomsprite",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.TzpgPd5BTOfbWPIY"
+    },
+    "thalorna-being-glowvine": {
+      "path": "being/glowvine/",
+      "name": "Glowvine",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.dQx4jt8bWKxTwaOT"
+    },
+    "thalorna-being-glssfng": {
+      "path": "being/glassfang/",
+      "name": "Glassfang",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ehEf5wCFXsQmP6pd"
+    },
+    "thalorna-being-gnstnvrnhm": {
+      "path": "being/gunnsteinn-vornheim/",
       "name": "Gunnsteinn Vǫrnheim",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Dm5aSUfrER4V3eMn"
     },
-    "thalorna-character-gnvrhfrngr": {
-      "path": "character/gunnvor-hafringr/",
+    "thalorna-being-gntarmdl": {
+      "path": "being/giant-armadillo/",
+      "name": "Giant Armadillo",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.n2nQ2Jd3wZHiIlb9"
+    },
+    "thalorna-being-gntbr": {
+      "path": "being/giant-boar/",
+      "name": "Giant Boar",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.lZvL9MY97JDX0GeN"
+    },
+    "thalorna-being-gntbvr": {
+      "path": "being/giant-beaver/",
+      "name": "Giant Beaver",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.sChYtBXlCKoOHaHl"
+    },
+    "thalorna-being-gntcmlsp": {
+      "path": "being/giant-camel-spider/",
+      "name": "Giant Camel Spider",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.k5mpq1z2caMC2nJ0"
+    },
+    "thalorna-being-gntegl": {
+      "path": "being/giant-eagle/",
+      "name": "Giant Eagle",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.qXfebwntoioh2qjT"
+    },
+    "thalorna-being-gnthdghg": {
+      "path": "being/giant-hedgehog/",
+      "name": "Giant Hedgehog",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.DWJU5xSE5N4KxtaN"
+    },
+    "thalorna-being-gntjmpng": {
+      "path": "being/giant-jumping-spider/",
+      "name": "Giant Jumping Spider",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.A95HDhCBTL8EVKBO"
+    },
+    "thalorna-being-gntoctps": {
+      "path": "being/giant-octopus/",
+      "name": "Giant Octopus",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ZlKGP4V2B881MIoc"
+    },
+    "thalorna-being-gntscrpn": {
+      "path": "being/giant-scorpion/",
+      "name": "Giant Scorpion",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.D8RLnGJ3DDuh4jNr"
+    },
+    "thalorna-being-gntspdr": {
+      "path": "being/giant-spider/",
+      "name": "Giant Spider",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.HzxG1auqS4IJfpH1"
+    },
+    "thalorna-being-gnttrts": {
+      "path": "being/giant-tortoise/",
+      "name": "Giant Tortoise",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ydAbGU9VRn1tdWQ5"
+    },
+    "thalorna-being-gntwsp": {
+      "path": "being/giant-wasp/",
+      "name": "Giant Wasp",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.3gqGlLb8DWK538oW"
+    },
+    "thalorna-being-gnvrhfrngr": {
+      "path": "being/gunnvor-hafringr/",
       "name": "Gunnvǫr Hafringr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.SbSOX4r7roxdSEi4"
     },
-    "thalorna-character-grgrsphthympls": {
-      "path": "character/gregoras-ephthymiopoulos/",
+    "thalorna-being-grgrsphthympls": {
+      "path": "being/gregoras-ephthymiopoulos/",
       "name": "Grégoras Ephthymiópoulos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Qk52LmyfyG3PPgI4"
     },
-    "thalorna-character-grlfdrthgr": {
-      "path": "character/garulf-druthgar/",
+    "thalorna-being-grkrahk": {
+      "path": "being/grukar-ahk/",
+      "name": "Grukar-ahk",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ZwRLpmQF1zAklkyE"
+    },
+    "thalorna-being-grkrh": {
+      "path": "being/grukar-hai/",
+      "name": "Grukar-Hai",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.NVtoBlsW4OFbRG4i"
+    },
+    "thalorna-being-grkrsh": {
+      "path": "being/grukar-sha/",
+      "name": "Grukar-Sha",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.FBrFf3Qr1QfvV4QY"
+    },
+    "thalorna-being-grlfdrthgr": {
+      "path": "being/garulf-druthgar/",
       "name": "Garulf Druthgar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.1AijJWW9daL9R2kZ"
     },
-    "thalorna-character-grmdnshrndns": {
-      "path": "character/goremadanis-herendanis/",
+    "thalorna-being-grmdnshrndns": {
+      "path": "being/goremadanis-herendanis/",
       "name": "Goremadânis Hérendânis",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Mncde691bwG62CIr"
     },
-    "thalorna-character-grmsvrtrnr": {
-      "path": "character/grima-svartrunar/",
+    "thalorna-being-grmshdw": {
+      "path": "being/grimshadow/",
+      "name": "Grimshadow",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.S7yW1LZ9GR7D7Zdg"
+    },
+    "thalorna-being-grmsvrtrnr": {
+      "path": "being/grima-svartrunar/",
       "name": "Gríma Svartrúnar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Ps4lfDePe0mQJBIZ"
     },
-    "thalorna-character-grosdrnrgd": {
-      "path": "character/groa-the-seidr-of-norgaad/",
+    "thalorna-being-grosdrnrgd": {
+      "path": "being/groa-the-seidr-of-norgaad/",
       "name": "Gróa the Seiðr of Norgaad",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.EjXww1TgpaxLD192"
     },
-    "thalorna-character-gthrnslvrgr": {
-      "path": "character/guthrun-solvargr/",
+    "thalorna-being-grukaruk": {
+      "path": "being/grukar-uk/",
+      "name": "Grukar-Uk",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.VBfGJvhWaj4uisjN"
+    },
+    "thalorna-being-gryphon": {
+      "path": "being/gryphon/",
+      "name": "Gryphon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.3cvUtYLpqMrX5jpp"
+    },
+    "thalorna-being-gthrnslvrgr": {
+      "path": "being/guthrun-solvargr/",
       "name": "Guthrún Sólvargr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.m9vFKsnAzKnA3Uar"
     },
-    "thalorna-character-gulrnhgzvn": {
-      "path": "character/gulranah-gazvan/",
+    "thalorna-being-gulrnhgzvn": {
+      "path": "being/gulranah-gazvan/",
       "name": "Gulrânah Gazvân",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.c7RWGvTLcVd5Lg7A"
     },
-    "thalorna-character-gvrlsnktrts": {
-      "path": "character/gavrilos-niktariotes/",
+    "thalorna-being-gvrlsnktrts": {
+      "path": "being/gavrilos-niktariotes/",
       "name": "Gávrilos Niktariôtês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.uK9EFGQgo0b4Bo6b"
     },
-    "thalorna-character-hakonfrtng": {
-      "path": "character/hakon-fire-tongue/",
+    "thalorna-being-hakonfrtng": {
+      "path": "being/hakon-fire-tongue/",
       "name": "Hakon Fire-Tongue",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.30golrnmNsRWhWcH"
     },
-    "thalorna-character-hathurasfr": {
-      "path": "character/hathura-isefre/",
+    "thalorna-being-harpy": {
+      "path": "being/harpy/",
+      "name": "Harpy",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.PE8La0dJVHwnZDWg"
+    },
+    "thalorna-being-hathurasfr": {
+      "path": "being/hathura-isefre/",
       "name": "Hathura Ise'fré",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.KBtuTe3yT29FRm6C"
     },
-    "thalorna-character-helnmystks": {
-      "path": "character/helenaia-mystakes/",
+    "thalorna-being-helnmystks": {
+      "path": "being/helenaia-mystakes/",
       "name": "Hélénaia Mystákês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.pgoKQsvyOFACnMKU"
     },
-    "thalorna-character-hersaisant": {
-      "path": "character/hersais-saanut/",
+    "thalorna-being-hersaisant": {
+      "path": "being/hersais-saanut/",
       "name": "Her'sa'îs Sa'Anut",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.HhMbJDNK49dWeLu0"
     },
-    "thalorna-character-hldrstnblt": {
-      "path": "character/hildr-steinblot/",
+    "thalorna-being-hldrstnblt": {
+      "path": "being/hildr-steinblot/",
       "name": "Hildr Steinblót",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.2mnu06IiMqWhvNFg"
     },
-    "thalorna-character-hlgyshdwlkr": {
-      "path": "character/helgya-shadow-walker/",
+    "thalorna-being-hlgyshdwlkr": {
+      "path": "being/helgya-shadow-walker/",
       "name": "Helgya Shadow-Walker",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.FtLsFezwL64M4zuB"
     },
-    "thalorna-character-hlrksbrnthr": {
-      "path": "character/halrikos-branthira/",
+    "thalorna-being-hlrksbrnthr": {
+      "path": "being/halrikos-branthira/",
       "name": "Hálrikos Bránthira",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.emuJyRdRzH4YsiI3"
     },
-    "thalorna-character-hotepanu": {
-      "path": "character/hotep-anu/",
+    "thalorna-being-hlthrls": {
+      "path": "being/helthraals/",
+      "name": "Helthraals",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.Y8roQ11S5nFysVFW"
+    },
+    "thalorna-being-hotepanu": {
+      "path": "being/hotep-anu/",
       "name": "Hotep Anu",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.0qmKGuY7koJIp6Qc"
     },
-    "thalorna-character-hrafnlefws": {
-      "path": "character/hrafnleif-the-wise/",
+    "thalorna-being-hppgryph": {
+      "path": "being/hippogryph/",
+      "name": "Hippogryph",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.9JVkmvPhZ6b3UtGU"
+    },
+    "thalorna-being-hrafnlefws": {
+      "path": "being/hrafnleif-the-wise/",
       "name": "Hrafnleif the Wise",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.vxzpRAsxTUQXIGov"
     },
-    "thalorna-character-hrfnklhrfnsvld": {
-      "path": "character/hrafnkell-hrafnsvald/",
+    "thalorna-being-hrfnklhrfnsvld": {
+      "path": "being/hrafnkell-hrafnsvald/",
       "name": "Hrafnkell Hrafnsvald",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.z7z7tW1x70FIeB2H"
     },
-    "thalorna-character-hrjlfvtrdmr": {
-      "path": "character/herjulf-vetrdomr/",
+    "thalorna-being-hrjlfvtrdmr": {
+      "path": "being/herjulf-vetrdomr/",
       "name": "Herjúlf Vetrdómr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.QN3ixBlCs7Ho4lzi"
     },
-    "thalorna-character-hrkhsbrmyds": {
-      "path": "character/harkhis-baremydes/",
+    "thalorna-being-hrkhsbrmyds": {
+      "path": "being/harkhis-baremydes/",
       "name": "Harkhîs Bàremydês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.s99osv3adjS5B63L"
     },
-    "thalorna-character-hrlfrshldbrr": {
-      "path": "character/hrolfur-shieldbearer/",
+    "thalorna-being-hrlfrshldbrr": {
+      "path": "being/hrolfur-shieldbearer/",
       "name": "Hrólfur Shieldbearer",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.6sPufPIIO5wpeDbB"
     },
-    "thalorna-character-hrodrrnthl": {
-      "path": "character/hrodar-arnthul/",
+    "thalorna-being-hrodrrnthl": {
+      "path": "being/hrodar-arnthul/",
       "name": "Hródar Arnthúl",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.D6xkziKoyoWEuzDs"
     },
-    "thalorna-character-hrthgrrnfst": {
-      "path": "character/hrothgar-ironfist/",
+    "thalorna-being-hrthgrrnfst": {
+      "path": "being/hrothgar-ironfist/",
       "name": "Hrothgar Ironfist",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.8ZmZXqZ3szmBuY4r"
     },
-    "thalorna-character-idriskrsvr": {
-      "path": "character/idrise-korisvar/",
+    "thalorna-being-idriskrsvr": {
+      "path": "being/idrise-korisvar/",
       "name": "Ídrisè Kórisvar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Ell1HtmhWLO71Iv6"
     },
-    "thalorna-character-inghrvstblsd": {
-      "path": "character/inga-harvest-blessed/",
+    "thalorna-being-inghrvstblsd": {
+      "path": "being/inga-harvest-blessed/",
       "name": "Inga Harvest-Blessed",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.GhSo3e8vrKA459Us"
     },
-    "thalorna-character-ingrthrskyrkr": {
-      "path": "character/ingrithr-skyrekkr/",
+    "thalorna-being-ingrthrskyrkr": {
+      "path": "being/ingrithr-skyrekkr/",
       "name": "Íngrithr Skýrekkr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.aiXt5Gk0y8qyILNJ"
     },
-    "thalorna-character-isarakhldr": {
-      "path": "character/isara-khalidra/",
+    "thalorna-being-ironjaw": {
+      "path": "being/ironjaw/",
+      "name": "Ironjaw",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.HKFCGWSqLCYSzPqf"
+    },
+    "thalorna-being-isarakhldr": {
+      "path": "being/isara-khalidra/",
       "name": "Isâra Khalîdra",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.fj0fF6zdQIIKOsu1"
     },
-    "thalorna-character-isaretkskr": {
-      "path": "character/isaret-kaseker/",
+    "thalorna-being-isaretkskr": {
+      "path": "being/isaret-kaseker/",
       "name": "Isaret Ka'Seker",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.sDY5Rgc6HrxX8NSY"
     },
-    "thalorna-character-isidrmlsns": {
-      "path": "character/isidora-melissenos/",
+    "thalorna-being-isidrmlsns": {
+      "path": "being/isidora-melissenos/",
       "name": "Isidôra Melissenós",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.PpxoHMQ7KrREO9Z0"
     },
-    "thalorna-character-juthrjmthn": {
-      "path": "character/juthara-jamithon/",
+    "thalorna-being-juthrjmthn": {
+      "path": "being/juthara-jamithon/",
       "name": "Júthâra Jâmîthôn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.UqERNMxqW9jiWub4"
     },
-    "thalorna-character-kalidkrkss": {
-      "path": "character/kalida-kourkasios/",
+    "thalorna-being-kalidkrkss": {
+      "path": "being/kalida-kourkasios/",
       "name": "Kalída Kourkásios",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Sx0wO6RzgXlBRE42"
     },
-    "thalorna-character-kamdkhvndr": {
-      "path": "character/kamid-khavandar/",
+    "thalorna-being-kamdkhvndr": {
+      "path": "being/kamid-khavandar/",
       "name": "Kamîd Khâvandar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.kJBNJDcyHSsIax0Z"
     },
-    "thalorna-character-karriseldr": {
-      "path": "character/karr-iseldr/",
+    "thalorna-being-karriseldr": {
+      "path": "being/karr-iseldr/",
       "name": "Kárr Íseldr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.3p77MTlQ0N5PHfSM"
     },
-    "thalorna-character-kasndrbsrn": {
-      "path": "character/kassandria-bessarion/",
+    "thalorna-being-kasndrbsrn": {
+      "path": "being/kassandria-bessarion/",
       "name": "Kassándria Bessarîon",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.AMMNpo1BObedkvJe"
     },
-    "thalorna-character-kasuradmzr": {
-      "path": "character/kasura-damzaru/",
+    "thalorna-being-kasuradmzr": {
+      "path": "being/kasura-damzaru/",
       "name": "Kasûra Damzarû",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.nFRQMN4520J4jKHx"
     },
-    "thalorna-character-kayvondzrd": {
-      "path": "character/kayvonad-zarid/",
+    "thalorna-being-kayvondzrd": {
+      "path": "being/kayvonad-zarid/",
       "name": "Kayvonad Zârîd",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.1GBQoF5UrJkfoC2p"
     },
-    "thalorna-character-kelnstylgn": {
-      "path": "character/kelena-stylgon/",
+    "thalorna-being-kelnstylgn": {
+      "path": "being/kelena-stylgon/",
       "name": "Kêlena Stýlgon",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.dcR8CKR8PUfUxVVF"
     },
-    "thalorna-character-kharnhkhfr": {
-      "path": "character/kharanah-khafur/",
+    "thalorna-being-kharnhkhfr": {
+      "path": "being/kharanah-khafur/",
       "name": "Khârânah Khafûr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.fVcWZBuAv0d4Q10o"
     },
-    "thalorna-character-khathmykhr": {
-      "path": "character/khatah-meykhari/",
+    "thalorna-being-khathmykhr": {
+      "path": "being/khatah-meykhari/",
       "name": "Khatah Mey'khari",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.0qJU1wsLVPDSxsZm"
     },
-    "thalorna-character-kirobashkm": {
-      "path": "character/kiroba-of-the-shokuma/",
+    "thalorna-being-kirobashkm": {
+      "path": "being/kiroba-of-the-shokuma/",
       "name": "Kiroba of the Shókuma",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.5l2XBtKG8RPHxPsW"
     },
-    "thalorna-character-kjrvngjrln": {
-      "path": "character/kjorvan-gjarlen/",
+    "thalorna-being-kjrvngjrln": {
+      "path": "being/kjorvan-gjarlen/",
       "name": "Kjôrvan Gjârlen",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.fCySNaHBQkTfCcF5"
     },
-    "thalorna-character-klnkszygmls": {
-      "path": "character/kallinikos-zygomalas/",
+    "thalorna-being-klnkszygmls": {
+      "path": "being/kallinikos-zygomalas/",
       "name": "Kallínikos Zygomálas",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Yrbze8Mf1QdwE0J4"
     },
-    "thalorna-character-klstrtsxrchds": {
-      "path": "character/kallistratos-exarchides/",
+    "thalorna-being-klstrtsxrchds": {
+      "path": "being/kallistratos-exarchides/",
       "name": "Kallistratos Exarchides",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.xSWu1nUtq11yojH4"
     },
-    "thalorna-character-klxnsprklvs": {
-      "path": "character/kallixenos-paraklavos/",
+    "thalorna-being-klxnsprklvs": {
+      "path": "being/kallixenos-paraklavos/",
       "name": "Kallíxenos Paraklávos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.rVSVRH2h1MF6RDP7"
     },
-    "thalorna-character-knstntnsplytms": {
-      "path": "character/konstantinos-polytimos/",
+    "thalorna-being-kmdbhmth": {
+      "path": "being/komodo-behemoth/",
+      "name": "Komodo Behemoth",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.2cHRBpFKXGd8RaX4"
+    },
+    "thalorna-being-knstntnsplytms": {
+      "path": "being/konstantinos-polytimos/",
       "name": "Konstántinos Polytimós",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.mi6F6AVRK3KcbqFK"
     },
-    "thalorna-character-krmdnsbrkrtys": {
-      "path": "character/koremdanis-barkratys/",
+    "thalorna-being-krmdnsbrkrtys": {
+      "path": "being/koremdanis-barkratys/",
       "name": "Korêmdânis Bárkrâtys",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.9UQwsC5dVnahmw52"
     },
-    "thalorna-character-kyrksptrks": {
-      "path": "character/kyriakos-patrikios/",
+    "thalorna-being-kyrksptrks": {
+      "path": "being/kyriakos-patrikios/",
       "name": "Kyriákos Patrikîos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.ufOwxGi74z7sajfY"
     },
-    "thalorna-character-laylamarut": {
-      "path": "character/layla-marut/",
+    "thalorna-being-laylamarut": {
+      "path": "being/layla-marut/",
       "name": "Layla Marut",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.suoA7Rl4e1TOlo6L"
     },
-    "thalorna-character-leifrnskld": {
-      "path": "character/leif-runaskald/",
+    "thalorna-being-leifrnskld": {
+      "path": "being/leif-runaskald/",
       "name": "Leif Runaskald",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.fB3q96RyjfMa9e6m"
     },
-    "thalorna-character-lnntstrtgpls": {
-      "path": "character/leonantos-strategopoulos/",
+    "thalorna-being-lmnphg": {
+      "path": "being/luminophage/",
+      "name": "Luminophage",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.Ul7aa7gAof3P8b46"
+    },
+    "thalorna-being-lmnshd": {
+      "path": "being/luminshade/",
+      "name": "Luminshade",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.V51NYCYdbU2A7tse"
+    },
+    "thalorna-being-lnntstrtgpls": {
+      "path": "being/leonantos-strategopoulos/",
       "name": "Leónantos Stratégopoulos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.4wtqksxBi9W6iVQ1"
     },
-    "thalorna-character-lrdmlnvsbr": {
-      "path": "character/lord-aemilon-visbari/",
+    "thalorna-being-lrdmlnvsbr": {
+      "path": "being/lord-aemilon-visbari/",
       "name": "Lord Aemilon Visbari",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.ETrFSo0UKTY2q0nN"
     },
-    "thalorna-character-lucernsrnt": {
-      "path": "character/lucerian-serentia/",
+    "thalorna-being-lrgspdr": {
+      "path": "being/large-spider/",
+      "name": "Large Spider",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.7z21KuX3vzQ2XC2E"
+    },
+    "thalorna-being-lthgnt": {
+      "path": "being/lithogiant/",
+      "name": "Lithogiant",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.OBrElkIzfPrZaQbM"
+    },
+    "thalorna-being-lucernsrnt": {
+      "path": "being/lucerian-serentia/",
       "name": "Lucerian Serentia",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.8L6LLi5wLRiZqr36"
     },
-    "thalorna-character-lysndrschrysnthpls": {
-      "path": "character/lysandros-chrysanthopoulos/",
+    "thalorna-being-lysndrschrysnthpls": {
+      "path": "being/lysandros-chrysanthopoulos/",
       "name": "Lysándros Chrysanthópoulos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.9MWvA6UWlp8vQf1B"
     },
-    "thalorna-character-madhurvrdr": {
-      "path": "character/madhurava-rudrata/",
+    "thalorna-being-madhurvrdr": {
+      "path": "being/madhurava-rudrata/",
       "name": "Màdhurava Rudraṭa",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.A1n0eOJtWKSf2XEC"
     },
-    "thalorna-character-mehradzrdn": {
-      "path": "character/mehrad-azardan/",
+    "thalorna-being-margrush": {
+      "path": "being/margrush/",
+      "name": "Margrush",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.hfTq2IglUl64LTn9"
+    },
+    "thalorna-being-mehradzrdn": {
+      "path": "being/mehrad-azardan/",
       "name": "Mehrâd Âzardan",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.nAWp90UIXOg1Pc6y"
     },
-    "thalorna-character-mentshpkhr": {
-      "path": "character/meneti-shapkher/",
+    "thalorna-being-mentshpkhr": {
+      "path": "being/meneti-shapkher/",
       "name": "Meneti Shap'kher",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.IT0MZM3HrICcrOwb"
     },
-    "thalorna-character-minakprkhn": {
-      "path": "character/minaka-parikshana/",
+    "thalorna-being-mghyn": {
+      "path": "being/mega-hyena/",
+      "name": "Mega Hyena",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.KwFBcUKIMJnaE7kG"
+    },
+    "thalorna-being-minakprkhn": {
+      "path": "being/minaka-parikshana/",
       "name": "Minàka Parikṣhana",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.EObT8J1l6UEFApNm"
     },
-    "thalorna-character-mithrnmznd": {
-      "path": "character/mithran-mazanid/",
+    "thalorna-being-mithrnmznd": {
+      "path": "being/mithran-mazanid/",
       "name": "Mithran Mazânid",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.DgnJDWv2gTRRXzJJ"
     },
-    "thalorna-character-mkthsvnrds": {
-      "path": "character/makithos-vanardis/",
+    "thalorna-being-mkthsvnrds": {
+      "path": "being/makithos-vanardis/",
       "name": "Màkîthos Vânardis",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.XPJffxceSnvQmDsI"
     },
-    "thalorna-character-mrkvdrdthmg": {
-      "path": "character/morkvidr-the-deathmage/",
+    "thalorna-being-mmmthcnt": {
+      "path": "being/mammoth-centipede/",
+      "name": "Mammoth Centipede",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.DQLxBAAPzYaUa5K2"
+    },
+    "thalorna-being-mntndrk": {
+      "path": "being/mountain-drake/",
+      "name": "Mountain Drake",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.LtrwdR2jwzBxLm9J"
+    },
+    "thalorna-being-mntntrll": {
+      "path": "being/mountain-troll/",
+      "name": "Mountain Troll",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.CkpnCdKnSiNWnnjO"
+    },
+    "thalorna-being-mrkvdrdthmg": {
+      "path": "being/morkvidr-the-deathmage/",
       "name": "Mörkvidr the Deathmage",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.nuBxrco7vFWAzASM"
     },
-    "thalorna-character-mrtpnkhkhs": {
-      "path": "character/mertep-ankhkhes/",
+    "thalorna-being-mrlrkr": {
+      "path": "being/mirelurker/",
+      "name": "Mirelurker",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.EAg26B2pYAXS9TJv"
+    },
+    "thalorna-being-mrrrlng": {
+      "path": "being/mirrorling/",
+      "name": "Mirrorling",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.u7FShyu98eDuRwVS"
+    },
+    "thalorna-being-mrtpnkhkhs": {
+      "path": "being/mertep-ankhkhes/",
       "name": "Mer'tep Ankh'Khes",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.dxWxIHy6AlGTauWz"
     },
-    "thalorna-character-mrtsbkhkmn": {
-      "path": "character/meret-sebek-hekaamun/",
+    "thalorna-being-mrtsbkhkmn": {
+      "path": "being/meret-sebek-hekaamun/",
       "name": "Meret-Sebek Heka’amun",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.O8DM193IL84QUQZb"
     },
-    "thalorna-character-mthrnshrdr": {
-      "path": "character/mithran-shiradar/",
+    "thalorna-being-mssbcktr": {
+      "path": "being/mossback-turtle/",
+      "name": "Mossback Turtle",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.8e0pLwFIiIUuHOsb"
+    },
+    "thalorna-being-mthrnshrdr": {
+      "path": "being/mithran-shiradar/",
       "name": "Mithran Shiradar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.skGF7W5mzTVDMTFm"
     },
-    "thalorna-character-muritarikh": {
-      "path": "character/muri-tarikh/",
+    "thalorna-being-mtrfrdrg": {
+      "path": "being/mature-fire-dragon/",
+      "name": "Mature Fire Dragon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.KnuTXF76FU1MTtAN"
+    },
+    "thalorna-being-mtricdrg": {
+      "path": "being/mature-ice-dragon/",
+      "name": "Mature Ice Dragon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.2tsk1oPbOk4V5jJf"
+    },
+    "thalorna-being-muritarikh": {
+      "path": "being/muri-tarikh/",
       "name": "Muri Târikh",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.eKzDzF6fdG1wdtaH"
     },
-    "thalorna-character-myrnklypss": {
-      "path": "character/myrine-kalypsos/",
+    "thalorna-being-myrnklypss": {
+      "path": "being/myrine-kalypsos/",
       "name": "Myrine Kalypsos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.yrsuou8x6G2HF5hA"
     },
-    "thalorna-character-narisahrvn": {
-      "path": "character/nari-sahravan/",
+    "thalorna-being-narisahrvn": {
+      "path": "being/nari-sahravan/",
       "name": "Nari Sahravân",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.xFeMlO6Esxer4BfX"
     },
-    "thalorna-character-neferetimr": {
-      "path": "character/neferet-imi-ra/",
+    "thalorna-being-ncrtcmr": {
+      "path": "being/necrotic-mire/",
+      "name": "Necrotic Mire",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.a2al6XRUzVftGyhp"
+    },
+    "thalorna-being-neferetimr": {
+      "path": "being/neferet-imi-ra/",
       "name": "Neferet Imi-Ra",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.cUlOZ6taTjhSI4XI"
     },
-    "thalorna-character-nkhtrmnrsht": {
-      "path": "character/nakhtar-amunrashet/",
+    "thalorna-being-nghtshds": {
+      "path": "being/nightshade-serpent/",
+      "name": "Nightshade Serpent",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.sihuakxB0kpupEU6"
+    },
+    "thalorna-being-nghtwght": {
+      "path": "being/nightwights/",
+      "name": "Nightwights",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.Kpo7Htb3b9uJEh6x"
+    },
+    "thalorna-being-nghtwrth": {
+      "path": "being/nightwraith/",
+      "name": "Nightwraith",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ep28BnO3DsmrKAf2"
+    },
+    "thalorna-being-nkhtrmnrsht": {
+      "path": "being/nakhtar-amunrashet/",
       "name": "Nakhtar Amun'Râshet",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.VAuokF0eOIzfBP52"
     },
-    "thalorna-character-nrvsrytjmhnnd": {
-      "path": "character/narava-suryatejamahananda/",
+    "thalorna-being-nmspt": {
+      "path": "being/nemespite/",
+      "name": "Nemespite",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ZSoywGNHpw4z64RZ"
+    },
+    "thalorna-being-nrvsrytjmhnnd": {
+      "path": "being/narava-suryatejamahananda/",
       "name": "Nárava Sūryatejamahānanda",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.knEigojy3UhmSf7X"
     },
-    "thalorna-character-nushirnrsf": {
-      "path": "character/nushir-narsafi/",
+    "thalorna-being-nsvrroth": {
+      "path": "being/nusvorroth/",
+      "name": "Nüsvōrroth",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.0ygZo8s6O9Rj2kRt"
+    },
+    "thalorna-being-nushirnrsf": {
+      "path": "being/nushir-narsafi/",
       "name": "Nushir Narsâfî",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.XujRU8bZpk8v4Y3f"
     },
-    "thalorna-character-oskdrekant": {
-      "path": "character/osk-drekanott/",
+    "thalorna-being-octowolf": {
+      "path": "being/octowolf/",
+      "name": "Octowolf",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.BwTf4AoCnGxgkYyZ"
+    },
+    "thalorna-being-oldfrdrg": {
+      "path": "being/old-fire-dragon/",
+      "name": "Old Fire Dragon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.4g9BryPNyWeQLBA0"
+    },
+    "thalorna-being-oldicdrg": {
+      "path": "being/old-ice-dragon/",
+      "name": "Old Ice Dragon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.IHBBFMFd2LieAudc"
+    },
+    "thalorna-being-oskdrekant": {
+      "path": "being/osk-drekanott/",
       "name": "Ósk Drekanótt",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.PGJWdx0sS4X1Q4cV"
     },
-    "thalorna-character-osknbjrgskrn": {
-      "path": "character/oskunn-bjargskorn/",
+    "thalorna-being-osknbjrgskrn": {
+      "path": "being/oskunn-bjargskorn/",
       "name": "Óskunn Bjargskorn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.ltUbakCQz8bc9FeL"
     },
-    "thalorna-character-palvdrvksh": {
-      "path": "character/pallavi-draviksha/",
+    "thalorna-being-palvdrvksh": {
+      "path": "being/pallavi-draviksha/",
       "name": "Pallàvi Drâviksha",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.H5ejeuVYV1L7tk3n"
     },
-    "thalorna-character-parirnkhns": {
-      "path": "character/parri-reenkhensu/",
+    "thalorna-being-parirnkhns": {
+      "path": "being/parri-reenkhensu/",
       "name": "Par'ri Re'en'Khensu",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.2f0ZMAmYp9RXcMX4"
     },
-    "thalorna-character-pashrhtrmt": {
-      "path": "character/pasher-hetremet/",
+    "thalorna-being-pashrhtrmt": {
+      "path": "being/pasher-hetremet/",
       "name": "Pasher Het'remet",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.utOmhiD2rcjI7K2Y"
     },
-    "thalorna-character-patnfrstmr": {
-      "path": "character/patnefur-setmaar/",
+    "thalorna-being-patnfrstmr": {
+      "path": "being/patnefur-setmaar/",
       "name": "Pat'nefur Set'maâr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.RS86KhDXwmkTxamD"
     },
-    "thalorna-character-pdmvldhnrvdkrtrj": {
-      "path": "character/padmavali-dhanurvedakirtiraja/",
+    "thalorna-being-pdmvldhnrvdkrtrj": {
+      "path": "being/padmavali-dhanurvedakirtiraja/",
       "name": "Padmàvali Dhanurvedakīrtirāja",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.oWXEiRFuiXNLGHa9"
     },
-    "thalorna-character-phlndrskyrks": {
-      "path": "character/philandros-kyriakos/",
+    "thalorna-being-phlndrskyrks": {
+      "path": "being/philandros-kyriakos/",
       "name": "Philándros Kyriákos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.PRkrr4DqeA41typS"
     },
-    "thalorna-character-phlnmrksns": {
-      "path": "character/philina-markesianos/",
+    "thalorna-being-phlnmrksns": {
+      "path": "being/philina-markesianos/",
       "name": "Philína Markêsianos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.1sTgw2TTJsatwD83"
     },
-    "thalorna-character-phlthnktrts": {
-      "path": "character/philotheia-niktariotes/",
+    "thalorna-being-phlthnktrts": {
+      "path": "being/philotheia-niktariotes/",
       "name": "Philothêia Niktariôtês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.6EZ1uh00ViHvMf0E"
     },
-    "thalorna-character-phltsklfts": {
-      "path": "character/philetos-kleftes/",
+    "thalorna-being-phltsklfts": {
+      "path": "being/philetos-kleftes/",
       "name": "Philetos Kleftes",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.jvc9JLBxL6l2hfKF"
     },
-    "thalorna-character-phtnstrtgpls": {
-      "path": "character/photianos-strategopoulos/",
+    "thalorna-being-phntmwng": {
+      "path": "being/phantomwing/",
+      "name": "Phantomwing",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.HgferELsOeHk6yUO"
+    },
+    "thalorna-being-phsphrsc": {
+      "path": "being/phosphorescent-globule/",
+      "name": "Phosphorescent Globule",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.WQjWcb6PtRpcRxGe"
+    },
+    "thalorna-being-phtnstrtgpls": {
+      "path": "being/photianos-strategopoulos/",
       "name": "Phótianos Stratégopoulos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.ZEGtH5NEBaA6gzHw"
     },
-    "thalorna-character-prthmjkydr": {
-      "path": "character/prthimaja-kayadara/",
+    "thalorna-being-prthmjkydr": {
+      "path": "being/prthimaja-kayadara/",
       "name": "Prthîmâja Kâyadara",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.IGbqFKlLlHrrWLBA"
     },
-    "thalorna-character-prthnblthl": {
-      "path": "character/parthun-belthal/",
+    "thalorna-being-prthnblthl": {
+      "path": "being/parthun-belthal/",
       "name": "Párthun Bélthal",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.EG2uzxHZTnhI9IPS"
     },
-    "thalorna-character-prtrkpdmdksh": {
-      "path": "character/pritarika-padmadiksha/",
+    "thalorna-being-prtrkpdmdksh": {
+      "path": "being/pritarika-padmadiksha/",
       "name": "Pritàrika Padmadîksha",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.kCtgf7de4hSOoag2"
     },
-    "thalorna-character-prynbrmndn": {
-      "path": "character/paryan-barmandan/",
+    "thalorna-being-prynbrmndn": {
+      "path": "being/paryan-barmandan/",
       "name": "Paryan Barmandan",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.84mKejK7twbhw2Vo"
     },
-    "thalorna-character-qamiralamr": {
-      "path": "character/qamira-lamari/",
+    "thalorna-being-pyrclsm": {
+      "path": "being/pyroclasm/",
+      "name": "Pyroclasm",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.2ubjJNt3rPAcOeTj"
+    },
+    "thalorna-being-qamiralamr": {
+      "path": "being/qamira-lamari/",
       "name": "Qâmira Lamari",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.id1VYkFj9m65hNCu"
     },
-    "thalorna-character-ragnarfrgd": {
-      "path": "character/ragnar-the-reforged/",
+    "thalorna-being-qllbr": {
+      "path": "being/quillbear/",
+      "name": "Quillbear",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.oqNIZvLCRl1RMynG"
+    },
+    "thalorna-being-ragnarfrgd": {
+      "path": "being/ragnar-the-reforged/",
       "name": "Ragnar the Reforged",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Jtz47rULGmErzIfx"
     },
-    "thalorna-character-raiahsekmt": {
-      "path": "character/raiah-sekmeta/",
+    "thalorna-being-raiahsekmt": {
+      "path": "being/raiah-sekmeta/",
       "name": "Raiah Sekmet'â",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.0M8HOay3gpvRiuUF"
     },
-    "thalorna-character-raiyawstnb": {
-      "path": "character/raiya-wasetneb/",
+    "thalorna-being-raiyawstnb": {
+      "path": "being/raiya-wasetneb/",
       "name": "Raiya Waset'neb",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Avs9wmHM1ZoiryOC"
     },
-    "thalorna-character-renuternfr": {
-      "path": "character/renute-reenfre/",
+    "thalorna-being-rckbckbr": {
+      "path": "being/rockback-bear/",
+      "name": "Rockback Bear",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.KRJCfi3ZMuOYTwFd"
+    },
+    "thalorna-being-rckhdglm": {
+      "path": "being/rockhide-golem/",
+      "name": "Rockhide Golem",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.5bCOMUSs7gQSkDPD"
+    },
+    "thalorna-being-rcksclan": {
+      "path": "being/rockscale-anklyte/",
+      "name": "Rockscale Anklyte",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.UWITLnj5XOBDX43o"
+    },
+    "thalorna-being-rdgdskmm": {
+      "path": "being/ridged-skimmer/",
+      "name": "Ridged Skimmer",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.6dbt4Nbd3KY7TJta"
+    },
+    "thalorna-being-renuternfr": {
+      "path": "being/renute-reenfre/",
       "name": "Renutê Re'en'fré",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.qXxPfRUDCQtkpbuI"
     },
-    "thalorna-character-rgnvldrsgrnd": {
-      "path": "character/rognvaldr-asgrind/",
+    "thalorna-being-rgnvldrsgrnd": {
+      "path": "being/rognvaldr-asgrind/",
       "name": "Rǫgnvaldr Ásgrind",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.KZegPHrI9zZwcX7L"
     },
-    "thalorna-character-rkrthrsldr": {
-      "path": "character/rikarthr-iseldr/",
+    "thalorna-being-rkrthrsldr": {
+      "path": "being/rikarthr-iseldr/",
       "name": "Ríkarthr Íseldr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.rn9KO5qrWdoqToSu"
     },
-    "thalorna-character-rngrvtrdmr": {
-      "path": "character/rangr-vetrdomr/",
+    "thalorna-being-rngrvtrdmr": {
+      "path": "being/rangr-vetrdomr/",
       "name": "Rängr Vetrdómr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.WfReEkqClUXafnNc"
     },
-    "thalorna-character-rnhrngsdtr": {
-      "path": "character/runa-hringsdottir/",
+    "thalorna-being-rnhrngsdtr": {
+      "path": "being/runa-hringsdottir/",
       "name": "Rúna Hringsdóttir",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.QOSper74Psh635yp"
     },
-    "thalorna-character-rnthrprdln": {
-      "path": "character/ranthor-pardalen/",
+    "thalorna-being-rnthrprdln": {
+      "path": "being/ranthor-pardalen/",
       "name": "Ránthor Párdalen",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.8VoyUIKJpLklwgC4"
     },
-    "thalorna-character-rshrhssfrn": {
-      "path": "character/rashira-of-house-safiron/",
+    "thalorna-being-roc": {
+      "path": "being/roc/",
+      "name": "Roc",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.MM4WsOp5MweEuH4U"
+    },
+    "thalorna-being-rshrhssfrn": {
+      "path": "being/rashira-of-house-safiron/",
       "name": "Rashîra of House Safîrôn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.fXm0xUfnOLYesZgg"
     },
-    "thalorna-character-rshrnbrmndn": {
-      "path": "character/rosharan-barmandan/",
+    "thalorna-being-rshrnbrmndn": {
+      "path": "being/rosharan-barmandan/",
       "name": "Rosharan Barmandan",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.POk5Kke569heakuq"
     },
-    "thalorna-character-rudavahfrd": {
-      "path": "character/rudavah-farrud/",
+    "thalorna-being-rtwrth": {
+      "path": "being/rootwraith/",
+      "name": "Rootwraith",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.1deqLlOJoWRJ2sPS"
+    },
+    "thalorna-being-rudavahfrd": {
+      "path": "being/rudavah-farrud/",
       "name": "Rudâvah Farrud",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Tep93UDYlLWAd6KL"
     },
-    "thalorna-character-rznshmrvrn": {
-      "path": "character/razanash-mervaran/",
+    "thalorna-being-rznshmrvrn": {
+      "path": "being/razanash-mervaran/",
       "name": "Razanash Mervaran",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.hwF1FvYG8pTuJkwE"
     },
-    "thalorna-character-sabirajira": {
-      "path": "character/sabir-ajira/",
+    "thalorna-being-sabirajira": {
+      "path": "being/sabir-ajira/",
       "name": "Sâbir Âjira",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.CLSKx2YS5Xc26oaP"
     },
-    "thalorna-character-satiynbkht": {
-      "path": "character/satiya-nebakhet/",
+    "thalorna-being-sandwurm": {
+      "path": "being/sand-wurm/",
+      "name": "Sand Wurm",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.7hW9W4pXEtgVMSMD"
+    },
+    "thalorna-being-satiynbkht": {
+      "path": "being/satiya-nebakhet/",
       "name": "Satîya Neb'akhet",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.dJqasQpgkCLp0rSM"
     },
-    "thalorna-character-satrrnkhns": {
-      "path": "character/satara-reenkhensu/",
+    "thalorna-being-satrrnkhns": {
+      "path": "being/satara-reenkhensu/",
       "name": "Satara Re'en'Khensu",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.0Cn6X5sgjYv7AeHV"
     },
-    "thalorna-character-senptvkrmd": {
-      "path": "character/senapati-vikramada/",
+    "thalorna-being-scrchbt": {
+      "path": "being/screechbat/",
+      "name": "Screechbat",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.lHuMVOj4m48jiGcS"
+    },
+    "thalorna-being-senptvkrmd": {
+      "path": "being/senapati-vikramada/",
       "name": "Sénapati Vikramâda",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.mCsuUes7ZyvdxVMu"
     },
-    "thalorna-character-sentatsrkt": {
-      "path": "character/senta-tasereket/",
+    "thalorna-being-sentatsrkt": {
+      "path": "being/senta-tasereket/",
       "name": "Sênta Ta'Sereket",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Bsazl9Wt9ZN5uPcn"
     },
-    "thalorna-character-sevnmyrkls": {
-      "path": "character/sevion-myrkelis/",
+    "thalorna-being-sevnmyrkls": {
+      "path": "being/sevion-myrkelis/",
       "name": "Sevion Myrkelis",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.haT4BX4HIh5GeqEe"
     },
-    "thalorna-character-sgvrdrnhnd": {
-      "path": "character/sigvardr-one-hand/",
+    "thalorna-being-sgvrdrnhnd": {
+      "path": "being/sigvardr-one-hand/",
       "name": "Sigvarðr One-Hand",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.d19oZWzJXH9Soxub"
     },
-    "thalorna-character-sgynnchntrs": {
-      "path": "character/sigyn-the-enchantress/",
+    "thalorna-being-sgynnchntrs": {
+      "path": "being/sigyn-the-enchantress/",
       "name": "Sigyn the Enchantress",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.p1AKpLn5kKnmJ9rU"
     },
-    "thalorna-character-shadalnadn": {
-      "path": "character/shadal-nadina/",
+    "thalorna-being-shadalnadn": {
+      "path": "being/shadal-nadina/",
       "name": "Shadal Nadina",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.a40goq3AuU9OErFG"
     },
-    "thalorna-character-shadzrkmrz": {
-      "path": "character/shadezar-kamruz/",
+    "thalorna-being-shadzrkmrz": {
+      "path": "being/shadezar-kamruz/",
       "name": "Shâdezar Kamruz",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.FlkeLYuSgvdRipj3"
     },
-    "thalorna-character-shdqbnrhmndplmtcblddncr": {
-      "path": "character/shadiq-ibn-rahman-the-diplomatic-blade-dancer/",
+    "thalorna-being-shdqbnrhmndplmtcblddncr": {
+      "path": "being/shadiq-ibn-rahman-the-diplomatic-blade-dancer/",
       "name": "Shadiq ibn Rahman, The Diplomatic Blade Dancer",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Gwi4Ze6InoeQmW4R"
     },
-    "thalorna-character-shebsthtms": {
-      "path": "character/shebas-thutmosa/",
+    "thalorna-being-shdwclw": {
+      "path": "being/shadowclaw/",
+      "name": "Shadowclaw",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.jjuIModhoOI5xUyv"
+    },
+    "thalorna-being-shdwlynx": {
+      "path": "being/shadow-lynx/",
+      "name": "Shadow Lynx",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.i1hrH7tYkoFMzTzq"
+    },
+    "thalorna-being-shdwspnn": {
+      "path": "being/shadowspinner/",
+      "name": "Shadowspinner",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.0zzYLJWzwisk1CDQ"
+    },
+    "thalorna-being-shdwstlk": {
+      "path": "being/shadowstalker/",
+      "name": "Shadowstalker",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.K30OECnGa5hVR22R"
+    },
+    "thalorna-being-shebsthtms": {
+      "path": "being/shebas-thutmosa/",
       "name": "Shebas Thutmosa",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.elyLZGvIgAkwHPtP"
     },
-    "thalorna-character-shenurbapt": {
-      "path": "character/shenur-bapata/",
+    "thalorna-being-shenurbapt": {
+      "path": "being/shenur-bapata/",
       "name": "Shenur Ba'pata",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.FP1Qp5eteOJJbpvp"
     },
-    "thalorna-character-shrmnhthvn": {
-      "path": "character/sharminah-tahvan/",
+    "thalorna-being-shrdbk": {
+      "path": "being/shardbeak/",
+      "name": "Shardbeak",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.P8wL9XPubsbvSFty"
+    },
+    "thalorna-being-shrmnhthvn": {
+      "path": "being/sharminah-tahvan/",
       "name": "Sharmînah Tahvân",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.pECuT0gi0X82fudW"
     },
-    "thalorna-character-sifhildsbn": {
-      "path": "character/sifhild-sea-bane/",
+    "thalorna-being-sifhildsbn": {
+      "path": "being/sifhild-sea-bane/",
       "name": "Sifhild Sea-Bane",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.EOvIik9nMOMWRORv"
     },
-    "thalorna-character-sigfstrmrt": {
-      "path": "character/sigfuss-stormrot/",
+    "thalorna-being-sigfstrmrt": {
+      "path": "being/sigfuss-stormrot/",
       "name": "Sigfúss Stormrót",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.uKal2sQw3LTDMtFf"
     },
-    "thalorna-character-sigurdecvr": {
-      "path": "character/sigurd-the-deceiver/",
+    "thalorna-being-sigurdecvr": {
+      "path": "being/sigurd-the-deceiver/",
       "name": "Sigurd the Deceiver",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.iB0pAohYTsOGW5Kv"
     },
-    "thalorna-character-siprahipmr": {
-      "path": "character/siprah-ipmaar/",
+    "thalorna-being-siprahipmr": {
+      "path": "being/siprah-ipmaar/",
       "name": "Sip'rah Ip'maâr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.iJazXdPywn1EE10S"
     },
-    "thalorna-character-skfrnstrmrt": {
-      "path": "character/skufrun-stormrot/",
+    "thalorna-being-skfrnstrmrt": {
+      "path": "being/skufrun-stormrot/",
       "name": "Skúfrún Stormrót",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.eDRKhmTUeFfr53qe"
     },
-    "thalorna-character-skhmtkskhn": {
-      "path": "character/sekhemet-kasekhen/",
+    "thalorna-being-skhmtkskhn": {
+      "path": "being/sekhemet-kasekhen/",
       "name": "Sekhemet Ka'sekhen",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.4jK9YFO53TFGWXN6"
     },
-    "thalorna-character-skjldmrrksdtr": {
-      "path": "character/skjaldmaer-eiriksdottir/",
+    "thalorna-being-skjldmrrksdtr": {
+      "path": "being/skjaldmaer-eiriksdottir/",
       "name": "Skjaldmær Eiriksdottir",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.NmwOdGbbT4nruZhH"
     },
-    "thalorna-character-skthldfrdbn": {
-      "path": "character/skathilda-frodban/",
+    "thalorna-being-skthldfrdbn": {
+      "path": "being/skathilda-frodban/",
       "name": "Skathilda Fróðbán",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.YDi8ZNGZXZN1gfUY"
     },
-    "thalorna-character-skulvtrdmr": {
-      "path": "character/skuli-vetrdomr/",
+    "thalorna-being-skulvtrdmr": {
+      "path": "being/skuli-vetrdomr/",
       "name": "Skúli Vetrdómr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.84SmKjnQrLLxWImQ"
     },
-    "thalorna-character-slvrvlskyr": {
-      "path": "character/selvara-valskyr/",
+    "thalorna-being-skysrpnt": {
+      "path": "being/sky-serpent/",
+      "name": "Sky Serpent",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.IufOc6e3iYJZ46GV"
+    },
+    "thalorna-being-slvrvlskyr": {
+      "path": "being/selvara-valskyr/",
       "name": "Sélvara Válskyr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.wXzvtquwDf00rfHZ"
     },
-    "thalorna-character-smrnklkyrs": {
-      "path": "character/samarina-kalokyres/",
+    "thalorna-being-smmtdrk": {
+      "path": "being/summitdrake/",
+      "name": "Summitdrake",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.I96v45Ggz9t91r4o"
+    },
+    "thalorna-being-smrnklkyrs": {
+      "path": "being/samarina-kalokyres/",
       "name": "Samarína Kalokyrês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.kdVyqNewPWRnhw1s"
     },
-    "thalorna-character-snorjrnskl": {
-      "path": "character/snorri-jarnskel/",
+    "thalorna-being-sndstlkr": {
+      "path": "being/sand-stalker/",
+      "name": "Sand Stalker",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.cF5pl6GNTSOo7LyT"
+    },
+    "thalorna-being-snorjrnskl": {
+      "path": "being/snorri-jarnskel/",
       "name": "Snorri Járnskel",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.k4JEKZEOQVEktuMQ"
     },
-    "thalorna-character-sntydhyrjvrdhn": {
-      "path": "character/sunati-ayodhyarajavardhan/",
+    "thalorna-being-sntydhyrjvrdhn": {
+      "path": "being/sunati-ayodhyarajavardhan/",
       "name": "Sunáti Āyodhyārājavardhan",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.m3zyA5WlzKIBStex"
     },
-    "thalorna-character-srdrzhsycnknghtblckflm": {
-      "path": "character/sir-drazha-sycani-knight-of-the-black-flame/",
+    "thalorna-being-spctrwlf": {
+      "path": "being/specterwolf/",
+      "name": "Specterwolf",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.rD3EROAf0ElFfGjr"
+    },
+    "thalorna-being-spndlfnd": {
+      "path": "being/spindlefiend/",
+      "name": "Spindlefiend",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.uiCv7LNZzmeo0C5F"
+    },
+    "thalorna-being-srdrzhsycnknghtblckflm": {
+      "path": "being/sir-drazha-sycani-knight-of-the-black-flame/",
       "name": "Sir Drazha Sycâni, Knight of the Black Flame",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.quoq4fCBYQEsUFGC"
     },
-    "thalorna-character-srndrslrcknghtwstrnmrchs": {
-      "path": "character/sir-andres-lorca-knight-of-the-western-marches/",
+    "thalorna-being-srndrslrcknghtwstrnmrchs": {
+      "path": "being/sir-andres-lorca-knight-of-the-western-marches/",
       "name": "Sir Andrés Lorca, Knight of the Western Marches",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.wjpyASdgdi32ZXfT"
     },
-    "thalorna-character-suvrtkrtns": {
-      "path": "character/suvaratika-ratnisena/",
+    "thalorna-being-stnbst": {
+      "path": "being/stonebeast/",
+      "name": "Stonebeast",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.vkJVD3VzKCKvgPCx"
+    },
+    "thalorna-being-stnclmbr": {
+      "path": "being/stoneclimber/",
+      "name": "Stoneclimber",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.K2ltSub3JftqQzbn"
+    },
+    "thalorna-being-stoneram": {
+      "path": "being/stone-ram/",
+      "name": "Stone Ram",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.ev0hqSRmPJlFtV7E"
+    },
+    "thalorna-being-strcrwlr": {
+      "path": "being/starcrawler/",
+      "name": "Starcrawler",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.KwgKiSFDeCgFjebo"
+    },
+    "thalorna-being-strmsr": {
+      "path": "being/stormseer/",
+      "name": "Stormseer",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.TXoRX749dQrUkWYC"
+    },
+    "thalorna-being-stygnlvt": {
+      "path": "being/stygian-leviathan/",
+      "name": "Stygian Leviathan",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.NTZQh3DsxPrIxvtI"
+    },
+    "thalorna-being-suvrtkrtns": {
+      "path": "being/suvaratika-ratnisena/",
       "name": "Suvaratika Ratniseṇa",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.eGECK7DL3dikpz5l"
     },
-    "thalorna-character-takorozanethar": {
-      "path": "character/takoro-zanethar/",
+    "thalorna-being-swmpglm": {
+      "path": "being/swampgolem/",
+      "name": "Swampgolem",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.rkqNzivEoFUry3Wa"
+    },
+    "thalorna-being-swmpstrd": {
+      "path": "being/swampstrider/",
+      "name": "Swampstrider",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.nx1JBaUtNq1pa3Ki"
+    },
+    "thalorna-being-takorozanethar": {
+      "path": "being/takoro-zanethar/",
       "name": "Tákoro Zanethar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.kIJdPc7U4AEkhMfz"
     },
-    "thalorna-character-tamiyrajat": {
-      "path": "character/tamiyra-jaut/",
+    "thalorna-being-tamiyrajat": {
+      "path": "being/tamiyra-jaut/",
       "name": "Ta'miyra Jâut",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.xhjXcv7FLvFvrHyk"
     },
-    "thalorna-character-tarelblthl": {
-      "path": "character/tarellia-belthal/",
+    "thalorna-being-tarelblthl": {
+      "path": "being/tarellia-belthal/",
       "name": "Tárellia Bélthal",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Phe3YMnWvtD0zL3T"
     },
-    "thalorna-character-tefnuthtwr": {
-      "path": "character/tefnuti-hetwera/",
+    "thalorna-being-tefnuthtwr": {
+      "path": "being/tefnuti-hetwera/",
       "name": "Tefnutî Het'Wera",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.YQqx7K6B85XCEHAN"
     },
-    "thalorna-character-theklarhms": {
-      "path": "character/thekla-rhomaios/",
+    "thalorna-being-theklarhms": {
+      "path": "being/thekla-rhomaios/",
       "name": "Thêkla Rhomaios",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Az5pxgK7QZddXlN1"
     },
-    "thalorna-character-thjthrhrfnsvld": {
-      "path": "character/thjotharr-hrafnsvald/",
+    "thalorna-being-thjthrhrfnsvld": {
+      "path": "being/thjotharr-hrafnsvald/",
       "name": "Thjótharr Hrafnsvald",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.5hPtTtbAjhP3zcGU"
     },
-    "thalorna-character-thlstrvlth": {
-      "path": "character/thalisa-torvaleth/",
+    "thalorna-being-thlstrvlth": {
+      "path": "being/thalisa-torvaleth/",
       "name": "Thalísa Torvaleth",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.KRJE8JnPkSUIjjAs"
     },
-    "thalorna-character-thmdspphnts": {
-      "path": "character/theomides-epiphaniotes/",
+    "thalorna-being-thmdspphnts": {
+      "path": "being/theomides-epiphaniotes/",
       "name": "Theomídes Epiphaniôtês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.LNLKyWIEhGtW5FUc"
     },
-    "thalorna-character-thrglthndrstrk": {
-      "path": "character/thorgil-thunderstrike/",
+    "thalorna-being-thndrbrd": {
+      "path": "being/thunderbird/",
+      "name": "Thunderbird",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.cCvH3RbioiVmP5uA"
+    },
+    "thalorna-being-thndrhrn": {
+      "path": "being/thunderhorn/",
+      "name": "Thunderhorn",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.AimHPopglSXjxhWa"
+    },
+    "thalorna-being-thndrtln": {
+      "path": "being/thundertalon/",
+      "name": "Thundertalon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.BER0R5sENldRKjgM"
+    },
+    "thalorna-being-thornrat": {
+      "path": "being/thornrat/",
+      "name": "Thornrat",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.RIxGnXKWRth60BN7"
+    },
+    "thalorna-being-thrglthndrstrk": {
+      "path": "being/thorgil-thunderstrike/",
       "name": "Thorgil Thunderstrike",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.nfC0bpNA1h7ehe0w"
     },
-    "thalorna-character-thrlkrvndrkv": {
-      "path": "character/thorlakr-vindrkve/",
+    "thalorna-being-thrlkrvndrkv": {
+      "path": "being/thorlakr-vindrkve/",
       "name": "Thorlákr Vindrkvé",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.u6Leo9Ecs0DxnsNo"
     },
-    "thalorna-character-thrnkbldtscbr": {
-      "path": "character/thornak-blodtusc-bar/",
+    "thalorna-being-thrnbckb": {
+      "path": "being/thornback-boar/",
+      "name": "Thornback Boar",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.eQYklk8rdEDE0Dzb"
+    },
+    "thalorna-being-thrnbckr": {
+      "path": "being/thornback-raptor/",
+      "name": "Thornback Raptor",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.9nYhkvI252ewBJW3"
+    },
+    "thalorna-being-thrnkbldtscbr": {
+      "path": "being/thornak-blodtusc-bar/",
       "name": "Thornak Blodtūsc Bār",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.hH7o4YAGiDlrPEZb"
     },
-    "thalorna-character-thrsnsblsng": {
-      "path": "character/thora-sunnas-blessing/",
+    "thalorna-being-thrsnsblsng": {
+      "path": "being/thora-sunnas-blessing/",
       "name": "Thora Sunna's Blessing",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.IJjbnGBvpektfbZ4"
     },
-    "thalorna-character-thrstnfrstlf": {
-      "path": "character/thorsteinn-frostulf/",
+    "thalorna-being-thrstnfrstlf": {
+      "path": "being/thorsteinn-frostulf/",
       "name": "Thorsteinn Frostulf",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.uxEkxAHHqmd0fVfS"
     },
-    "thalorna-character-thrstnjrnskl": {
-      "path": "character/thorsteinn-jarnskel/",
+    "thalorna-being-thrstnjrnskl": {
+      "path": "being/thorsteinn-jarnskel/",
       "name": "Thorsteinn Járnskel",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.PfkHxcqixrNhiLmM"
     },
-    "thalorna-character-thrstnslvrgr": {
-      "path": "character/thorsteinn-solvargr/",
+    "thalorna-being-thrstnslvrgr": {
+      "path": "being/thorsteinn-solvargr/",
       "name": "Thorsteinn Sólvargr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Xi62HBbqAfDw60NQ"
     },
-    "thalorna-character-thrwldhldskrn": {
-      "path": "character/thrawald-hildskorn/",
+    "thalorna-being-thrwldhldskrn": {
+      "path": "being/thrawald-hildskorn/",
       "name": "Thráwald Hildskorn",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.H8W36Py5SZwjqIEr"
     },
-    "thalorna-character-thslnkkthrpls": {
-      "path": "character/thesalonike-katharopoulos/",
+    "thalorna-being-thslnkkthrpls": {
+      "path": "being/thesalonike-katharopoulos/",
       "name": "Thêsaloníke Katharópoulos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.l0edWhjOQxHZEy92"
     },
-    "thalorna-character-thyrgldnhr": {
-      "path": "character/thyra-goldenhair/",
+    "thalorna-being-thyrgldnhr": {
+      "path": "being/thyra-goldenhair/",
       "name": "Thyra Goldenhair",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.09FAmaYOSLWyv7Ya"
     },
-    "thalorna-character-timthngvls": {
-      "path": "character/timotheon-gavalas/",
+    "thalorna-being-timthngvls": {
+      "path": "being/timotheon-gavalas/",
       "name": "Timothéon Gaválas",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.eZMSqTKJeZNuLNO5"
     },
-    "thalorna-character-tiryedjetm": {
-      "path": "character/tirye-djetame/",
+    "thalorna-being-tiryedjetm": {
+      "path": "being/tirye-djetame/",
       "name": "Tirye Djet'amê",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.1gRrA9CzFh9ey0KG"
     },
-    "thalorna-character-tmrsrytjmhnnd": {
-      "path": "character/tamura-suryatejamahananda/",
+    "thalorna-being-tmrsrytjmhnnd": {
+      "path": "being/tamura-suryatejamahananda/",
       "name": "Tamûra Sūryatejamahānanda",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.e5ZUZ5Awlc7fthSo"
     },
-    "thalorna-character-torniskbry": {
-      "path": "character/tornis-kubry/",
+    "thalorna-being-tnvrnelp": {
+      "path": "being/tanvuran-elephant/",
+      "name": "Tānvüran Elephant",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.hKF5XSPgvAUIQtLc"
+    },
+    "thalorna-being-torniskbry": {
+      "path": "being/tornis-kubry/",
       "name": "Tórnis Kúbrý",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.q1U2hLtb9m4uuzGK"
     },
-    "thalorna-character-totkarhtwr": {
-      "path": "character/totkar-hetwera/",
+    "thalorna-being-totkarhtwr": {
+      "path": "being/totkar-hetwera/",
       "name": "Tot'kar Het'Wera",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.oVd0fGTKVyci3mOS"
     },
-    "thalorna-character-trvldgrnshld": {
-      "path": "character/torvald-greenshield/",
+    "thalorna-being-trrkthsn": {
+      "path": "being/terrakith-sentinel/",
+      "name": "Terrakith Sentinel",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.mYRlDMSiKnHIpUzq"
+    },
+    "thalorna-being-trvldgrnshld": {
+      "path": "being/torvald-greenshield/",
       "name": "Torvald Greenshield",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.pTeGY4ZF40gbIFT7"
     },
-    "thalorna-character-unreldskar": {
-      "path": "character/unnr-eldskari/",
+    "thalorna-being-tskcrshr": {
+      "path": "being/tuskcrasher/",
+      "name": "Tuskcrasher",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.1LGC1Tv40FQz4hXf"
+    },
+    "thalorna-being-ttnbtl": {
+      "path": "being/titan-beetle/",
+      "name": "Titan Beetle",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.uIJSscPVcBwVMyGp"
+    },
+    "thalorna-being-unicorn": {
+      "path": "being/unicorn/",
+      "name": "Unicorn",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.BHOxntPKnVng9YYZ"
+    },
+    "thalorna-being-unreldskar": {
+      "path": "being/unnr-eldskari/",
       "name": "Unnr Eldskari",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.aedUEUFwI1ZeDk46"
     },
-    "thalorna-character-valdrkshpr": {
-      "path": "character/valdrik-the-shaper/",
+    "thalorna-being-valdrkshpr": {
+      "path": "being/valdrik-the-shaper/",
       "name": "Valdrik the Shaper",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.UvT1G72vpeZ1mj5X"
     },
-    "thalorna-character-vanikartns": {
-      "path": "character/vanika-ratnisena/",
+    "thalorna-being-vanikartns": {
+      "path": "being/vanika-ratnisena/",
       "name": "Vànika Ratniseṇa",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.YDrk4CIsTjtWzOqG"
     },
-    "thalorna-character-veldrblthl": {
-      "path": "character/veldor-belthal/",
+    "thalorna-being-vdsrpnt": {
+      "path": "being/voidserpent/",
+      "name": "Voidserpent",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.mXr47FnIDlmq2RCz"
+    },
+    "thalorna-being-vdyrnrhn": {
+      "path": "being/vedyaran-rhinoceros/",
+      "name": "Vedyaran Rhinoceros",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.gg3f6OB21jF3mg0f"
+    },
+    "thalorna-being-veldrblthl": {
+      "path": "being/veldor-belthal/",
       "name": "Véldor Bélthal",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.KGChYYem9ligaSh9"
     },
-    "thalorna-character-vgbrndrskyrkr": {
-      "path": "character/vigbrandr-skyrekkr/",
+    "thalorna-being-vgbrndrskyrkr": {
+      "path": "being/vigbrandr-skyrekkr/",
       "name": "Vígbrandr Skýrekkr",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.0kCfEiBx8AXiqcIR"
     },
-    "thalorna-character-vishalblry": {
-      "path": "character/vishali-balarnaya/",
+    "thalorna-being-vishalblry": {
+      "path": "being/vishali-balarnaya/",
       "name": "Vishali Bâlarṇaya",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.GsNhNWQb3LsLeUGY"
     },
-    "thalorna-character-visvarmhpr": {
-      "path": "character/visvara-mahapara/",
+    "thalorna-being-visvarmhpr": {
+      "path": "being/visvara-mahapara/",
       "name": "Viśvàra Mahâpara",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.0gab7SwO7XpdEeqv"
     },
-    "thalorna-character-vndrcgrwld": {
-      "path": "character/vandaric-garwald/",
+    "thalorna-being-vndrcgrwld": {
+      "path": "being/vandaric-garwald/",
       "name": "Vandaric Garwald",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.zlOcjaYq8V63SWEZ"
     },
-    "thalorna-character-vogrblothl": {
-      "path": "character/voggr-blotholl/",
+    "thalorna-being-vnmspttr": {
+      "path": "being/venomspitter/",
+      "name": "Venomspitter",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.YmCBrcF6Kw2CrctD"
+    },
+    "thalorna-being-vogrblothl": {
+      "path": "being/voggr-blotholl/",
       "name": "Vǫggr Blóthǫll",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.MveWFi3LLbH015Yk"
     },
-    "thalorna-character-vrgskhrmdkn": {
-      "path": "character/virangasikharam-duksana/",
+    "thalorna-being-voidmoth": {
+      "path": "being/voidmoth/",
+      "name": "Voidmoth",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.0YaWh1FabKCGtnAs"
+    },
+    "thalorna-being-vprwsp": {
+      "path": "being/vaporwisp/",
+      "name": "Vaporwisp",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.SZSbxQbHhZFFCLQh"
+    },
+    "thalorna-being-vrdntcl": {
+      "path": "being/verdantcoil/",
+      "name": "Verdantcoil",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.e18xTUwy6qZEDvSE"
+    },
+    "thalorna-being-vrgskhrmdkn": {
+      "path": "being/virangasikharam-duksana/",
       "name": "Vīrāṅgaśikharam Dukṣana",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Z3xWPxIHGgXk3UmE"
     },
-    "thalorna-character-vrgskrflbld": {
-      "path": "character/vargskaer-the-fellblade/",
+    "thalorna-being-vrgskrflbld": {
+      "path": "being/vargskaer-the-fellblade/",
       "name": "Vargskær the Fellblade",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.sflJFLRFBVN0a1zP"
     },
-    "thalorna-character-vshnshvdysgrml": {
-      "path": "character/vishnusha-vidyasagaramandala/",
+    "thalorna-being-vshnshvdysgrml": {
+      "path": "being/vishnusha-vidyasagaramandala/",
       "name": "Vishnusha Vidyāsāgaramaṇḍala",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.OfQVaxe1HktFIUMr"
     },
-    "thalorna-character-vsvmbhrkhlrtngdvds": {
-      "path": "character/visvambharakhila-ratnangadevadasa/",
+    "thalorna-being-vsvmbhrkhlrtngdvds": {
+      "path": "being/visvambharakhila-ratnangadevadasa/",
       "name": "Viśvambhārākhila Ratnāṅgadēvadāsa",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Jmrmm5y8MbguqGeu"
     },
-    "thalorna-character-xadrosdmts": {
-      "path": "character/xadros-daemates/",
+    "thalorna-being-warg": {
+      "path": "being/warg/",
+      "name": "Warg",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.Fk5LGJPnTZLxzWuG"
+    },
+    "thalorna-being-wbcrwlr": {
+      "path": "being/webcrawler/",
+      "name": "Webcrawler",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.c0MYxLmxJqlP3eq6"
+    },
+    "thalorna-being-wrthblm": {
+      "path": "being/wraithbloom/",
+      "name": "Wraithbloom",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.NZjkwSdqmk6Tuf64"
+    },
+    "thalorna-being-wyvern": {
+      "path": "being/wyvern/",
+      "name": "Wyvern",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.f7qow0t2vLn2UWpk"
+    },
+    "thalorna-being-xadrosdmts": {
+      "path": "being/xadros-daemates/",
       "name": "Xadrôs Dâemâtês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.kSbpsbr6fEgtilry"
     },
-    "thalorna-character-xrphnklmkns": {
-      "path": "character/xerophon-kalmakanes/",
+    "thalorna-being-xrphnklmkns": {
+      "path": "being/xerophon-kalmakanes/",
       "name": "Xerôphôn Kâlmâkanês",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.pOqNxorvMT9K0YFZ"
     },
-    "thalorna-character-yasurajckl": {
-      "path": "character/yasura-the-jackal/",
+    "thalorna-being-xrthnfrs": {
+      "path": "being/xerathian-forest-elephant/",
+      "name": "Xerathian Forest Elephant",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.pGoe1xHOveNk8ycM"
+    },
+    "thalorna-being-xrthnsvn": {
+      "path": "being/xerathian-savanna-elephant/",
+      "name": "Xerathian Savanna Elephant",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.XghBgeCi6JfLAZbD"
+    },
+    "thalorna-being-yasurajckl": {
+      "path": "being/yasura-the-jackal/",
       "name": "Yâsûra the Jackal",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.BYP7Z32nydjk2iyi"
     },
-    "thalorna-character-ylrskrsdtr": {
-      "path": "character/ylira-skorrsdottir/",
+    "thalorna-being-ylrskrsdtr": {
+      "path": "being/ylira-skorrsdottir/",
       "name": "Ylíra Skorrsdottir",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.Jb3E8nYXWG0bX0HW"
     },
-    "thalorna-character-yngvrblthl": {
-      "path": "character/yngvarr-blotholl/",
+    "thalorna-being-yngfrdrg": {
+      "path": "being/young-fire-dragon/",
+      "name": "Young Fire Dragon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.x9FJYB3bym5ZUUgs"
+    },
+    "thalorna-being-yngicdrg": {
+      "path": "being/young-ice-dragon/",
+      "name": "Young Ice Dragon",
+      "uuid": "Compendium.sohl-thalorna.actors.Actor.7ifxZxScmlMHr44B"
+    },
+    "thalorna-being-yngvrblthl": {
+      "path": "being/yngvarr-blotholl/",
       "name": "Yngvarr Blóthǫll",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.kIbWnNYsUS07Rw5e"
     },
-    "thalorna-character-yngvrdrtgr": {
-      "path": "character/yngvarr-drottgar/",
+    "thalorna-being-yngvrdrtgr": {
+      "path": "being/yngvarr-drottgar/",
       "name": "Yngvarr Dróttgar",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.2mKYgaRHKWc3R4gK"
     },
-    "thalorna-character-zahirmlkht": {
-      "path": "character/zahira-malkhet/",
+    "thalorna-being-zahirmlkht": {
+      "path": "being/zahira-malkhet/",
       "name": "Zahira Malkhet",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.y9DjC9T3RB04prDK"
     },
-    "thalorna-character-zensphlkls": {
-      "path": "character/zenais-philokalos/",
+    "thalorna-being-zensphlkls": {
+      "path": "being/zenais-philokalos/",
       "name": "Zênais Philokálos",
       "uuid": "Compendium.sohl-thalorna.actors.Actor.4ZF2JPTBYsrm932y"
     },
@@ -2527,731 +3252,6 @@
       "uuid": "Compendium.sohl-thalorna.items.Item.Za5UXkYeMCRVDxBk",
       "doc": "thalorna-docconcoctiongear-ptnstms"
     },
-    "thalorna-creature-abyssdrk": {
-      "path": "creature/abyssdrake/",
-      "name": "Abyssdrake",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.MoaH3MMvKwCfPZpw"
-    },
-    "thalorna-creature-abysslsl": {
-      "path": "creature/abyssal-silt/",
-      "name": "Abyssal Silt",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.1afcBWsxQXPUIBxG"
-    },
-    "thalorna-creature-acidtoad": {
-      "path": "creature/acidtoad/",
-      "name": "Acidtoad",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ho5hsRAglADOtInP"
-    },
-    "thalorna-creature-agrnsntn": {
-      "path": "creature/aegiron-sentinel/",
-      "name": "Aegiron Sentinel",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.0XIdKN3uKTf5qx8n"
-    },
-    "thalorna-creature-bldrbck": {
-      "path": "creature/boulderback/",
-      "name": "Boulderback",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.yBv7xJJafJv5vXrt"
-    },
-    "thalorna-creature-blinkfox": {
-      "path": "creature/blinkfox/",
-      "name": "Blinkfox",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.yWF2AXVSDAjJXF4f"
-    },
-    "thalorna-creature-bnscrpn": {
-      "path": "creature/bone-scorpion/",
-      "name": "Bone Scorpion",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.6qq2ohVEMdu3Lmwo"
-    },
-    "thalorna-creature-brmblfng": {
-      "path": "creature/bramblefang/",
-      "name": "Bramblefang",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.6KSkMKbbQE2We7kA"
-    },
-    "thalorna-creature-brmblspn": {
-      "path": "creature/bramblespine-dartel/",
-      "name": "Bramblespine Dartel",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.eDyiMoyAhdyDQpvk"
-    },
-    "thalorna-creature-cheeprow": {
-      "path": "creature/cheeprow/",
-      "name": "Cheeprow",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.IlhU4aquYsNBK4Q1"
-    },
-    "thalorna-creature-clffstlk": {
-      "path": "creature/cliff-stalker/",
-      "name": "Cliff Stalker",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.A2bZirKOMgCcZ7qS"
-    },
-    "thalorna-creature-crgclmbr": {
-      "path": "creature/cragclimber/",
-      "name": "Cragclimber",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.lehcDkx0YgAsYjaw"
-    },
-    "thalorna-creature-crglrkr": {
-      "path": "creature/crag-lurker/",
-      "name": "Crag Lurker",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.bnKZuFaJKbkhFJxn"
-    },
-    "thalorna-creature-crystlcl": {
-      "path": "creature/crystalclaw/",
-      "name": "Crystalclaw",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.aR2QPYkOiyPmVC4k"
-    },
-    "thalorna-creature-cvgbln": {
-      "path": "creature/cave-goblin/",
-      "name": "Cave Goblin",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.pDiXk1iBL5unp4Q3"
-    },
-    "thalorna-creature-cvtrll": {
-      "path": "creature/cave-troll/",
-      "name": "Cave Troll",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.LLdlPmp4JmXGcj1o"
-    },
-    "thalorna-creature-dnstrdr": {
-      "path": "creature/dune-strider/",
-      "name": "Dune Strider",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.FSZZ80hJvwUGnbkD"
-    },
-    "thalorna-creature-drgnflyh": {
-      "path": "creature/dragonfly-hawk/",
-      "name": "Dragonfly Hawk",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.Ld3BjQ7uxeuVYQa7"
-    },
-    "thalorna-creature-drhnybdg": {
-      "path": "creature/dire-honey-badger/",
-      "name": "Dire Honey Badger",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.yfdwPLNfDfwLHV8b"
-    },
-    "thalorna-creature-drwlvrn": {
-      "path": "creature/dire-wolverine/",
-      "name": "Dire Wolverine",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.9zpdW3LB7gb3PZXi"
-    },
-    "thalorna-creature-duneclaw": {
-      "path": "creature/duneclaw/",
-      "name": "Duneclaw",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.2DpHrcNw4BfmRgld"
-    },
-    "thalorna-creature-embermaw": {
-      "path": "creature/embermaw/",
-      "name": "Embermaw",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.Q2oJByEiRbME0lGy"
-    },
-    "thalorna-creature-embrhnd": {
-      "path": "creature/emberhound/",
-      "name": "Emberhound",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.WGeazrSoyg3VKwns"
-    },
-    "thalorna-creature-erthchrg": {
-      "path": "creature/earthcharger/",
-      "name": "Earthcharger",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.u8zP1zROlFGp2zuv"
-    },
-    "thalorna-creature-erthrvr": {
-      "path": "creature/earthreaver/",
-      "name": "Earthreaver",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.sSoExpz4Qk9l3k5m"
-    },
-    "thalorna-creature-feraldew": {
-      "path": "creature/feraldew/",
-      "name": "Feraldew",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.c9Dwi7Xceu24w4P6"
-    },
-    "thalorna-creature-fireflit": {
-      "path": "creature/fireflit/",
-      "name": "Fireflit",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.WTtS70pyqXortIMX"
-    },
-    "thalorna-creature-flmwrth": {
-      "path": "creature/flamewraith/",
-      "name": "Flamewraith",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.IkisGKow2uz3lPSw"
-    },
-    "thalorna-creature-frostjaw": {
-      "path": "creature/frostjaw/",
-      "name": "Frostjaw",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.1qpvK28UB8kSIGR0"
-    },
-    "thalorna-creature-frostmaw": {
-      "path": "creature/frostmaw/",
-      "name": "Frostmaw",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.eUOcXzXo2vWIG2sf"
-    },
-    "thalorna-creature-frstdrk": {
-      "path": "creature/forest-drake/",
-      "name": "Forest Drake",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.TD1mrTArS6vzQzxW"
-    },
-    "thalorna-creature-frstgbln": {
-      "path": "creature/forest-goblin/",
-      "name": "Forest Goblin",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.B24v0x403YmclrJb"
-    },
-    "thalorna-creature-frsttrll": {
-      "path": "creature/forest-troll/",
-      "name": "Forest Troll",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.l4GBcRoNaHSO3RRn"
-    },
-    "thalorna-creature-frstwng": {
-      "path": "creature/frostwing/",
-      "name": "Frostwing",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.MzYAPPEnFLXmQ6Cg"
-    },
-    "thalorna-creature-fthrcrst": {
-      "path": "creature/feathercrest-velon/",
-      "name": "Feathercrest Velon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.Or8DbTmkrdKMEqDi"
-    },
-    "thalorna-creature-giantant": {
-      "path": "creature/giant-ant/",
-      "name": "Giant Ant",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.z1mE9iVDLalVjhSc"
-    },
-    "thalorna-creature-giantbee": {
-      "path": "creature/giant-bee/",
-      "name": "Giant Bee",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.LBdgt05Nh0uI1pIt"
-    },
-    "thalorna-creature-giantowl": {
-      "path": "creature/giant-owl/",
-      "name": "Giant Owl",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.QQBrXJej14IhQbcW"
-    },
-    "thalorna-creature-giantrat": {
-      "path": "creature/giant-rat/",
-      "name": "Giant Rat",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.JYYfIP5IvvkQ0oJK"
-    },
-    "thalorna-creature-glmfng": {
-      "path": "creature/gloomfang/",
-      "name": "Gloomfang",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.PdsQX4rPIfQgbxtn"
-    },
-    "thalorna-creature-glmhnd": {
-      "path": "creature/gloomhound/",
-      "name": "Gloomhound",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ldVaPfqXY1Mh4tK4"
-    },
-    "thalorna-creature-glmsprt": {
-      "path": "creature/gloomsprite/",
-      "name": "Gloomsprite",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.TzpgPd5BTOfbWPIY"
-    },
-    "thalorna-creature-glowvine": {
-      "path": "creature/glowvine/",
-      "name": "Glowvine",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.dQx4jt8bWKxTwaOT"
-    },
-    "thalorna-creature-glssfng": {
-      "path": "creature/glassfang/",
-      "name": "Glassfang",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ehEf5wCFXsQmP6pd"
-    },
-    "thalorna-creature-gntarmdl": {
-      "path": "creature/giant-armadillo/",
-      "name": "Giant Armadillo",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.n2nQ2Jd3wZHiIlb9"
-    },
-    "thalorna-creature-gntbr": {
-      "path": "creature/giant-boar/",
-      "name": "Giant Boar",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.lZvL9MY97JDX0GeN"
-    },
-    "thalorna-creature-gntbvr": {
-      "path": "creature/giant-beaver/",
-      "name": "Giant Beaver",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.sChYtBXlCKoOHaHl"
-    },
-    "thalorna-creature-gntcmlsp": {
-      "path": "creature/giant-camel-spider/",
-      "name": "Giant Camel Spider",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.k5mpq1z2caMC2nJ0"
-    },
-    "thalorna-creature-gntegl": {
-      "path": "creature/giant-eagle/",
-      "name": "Giant Eagle",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.qXfebwntoioh2qjT"
-    },
-    "thalorna-creature-gnthdghg": {
-      "path": "creature/giant-hedgehog/",
-      "name": "Giant Hedgehog",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.DWJU5xSE5N4KxtaN"
-    },
-    "thalorna-creature-gntjmpng": {
-      "path": "creature/giant-jumping-spider/",
-      "name": "Giant Jumping Spider",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.A95HDhCBTL8EVKBO"
-    },
-    "thalorna-creature-gntoctps": {
-      "path": "creature/giant-octopus/",
-      "name": "Giant Octopus",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ZlKGP4V2B881MIoc"
-    },
-    "thalorna-creature-gntscrpn": {
-      "path": "creature/giant-scorpion/",
-      "name": "Giant Scorpion",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.D8RLnGJ3DDuh4jNr"
-    },
-    "thalorna-creature-gntspdr": {
-      "path": "creature/giant-spider/",
-      "name": "Giant Spider",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.HzxG1auqS4IJfpH1"
-    },
-    "thalorna-creature-gnttrts": {
-      "path": "creature/giant-tortoise/",
-      "name": "Giant Tortoise",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ydAbGU9VRn1tdWQ5"
-    },
-    "thalorna-creature-gntwsp": {
-      "path": "creature/giant-wasp/",
-      "name": "Giant Wasp",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.3gqGlLb8DWK538oW"
-    },
-    "thalorna-creature-grkrahk": {
-      "path": "creature/grukar-ahk/",
-      "name": "Grukar-ahk",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ZwRLpmQF1zAklkyE"
-    },
-    "thalorna-creature-grkrh": {
-      "path": "creature/grukar-hai/",
-      "name": "Grukar-Hai",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.NVtoBlsW4OFbRG4i"
-    },
-    "thalorna-creature-grkrsh": {
-      "path": "creature/grukar-sha/",
-      "name": "Grukar-Sha",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.FBrFf3Qr1QfvV4QY"
-    },
-    "thalorna-creature-grmshdw": {
-      "path": "creature/grimshadow/",
-      "name": "Grimshadow",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.S7yW1LZ9GR7D7Zdg"
-    },
-    "thalorna-creature-grukaruk": {
-      "path": "creature/grukar-uk/",
-      "name": "Grukar-Uk",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.VBfGJvhWaj4uisjN"
-    },
-    "thalorna-creature-gryphon": {
-      "path": "creature/gryphon/",
-      "name": "Gryphon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.3cvUtYLpqMrX5jpp"
-    },
-    "thalorna-creature-harpy": {
-      "path": "creature/harpy/",
-      "name": "Harpy",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.PE8La0dJVHwnZDWg"
-    },
-    "thalorna-creature-hlthrls": {
-      "path": "creature/helthraals/",
-      "name": "Helthraals",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.Y8roQ11S5nFysVFW"
-    },
-    "thalorna-creature-hppgryph": {
-      "path": "creature/hippogryph/",
-      "name": "Hippogryph",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.9JVkmvPhZ6b3UtGU"
-    },
-    "thalorna-creature-ironjaw": {
-      "path": "creature/ironjaw/",
-      "name": "Ironjaw",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.HKFCGWSqLCYSzPqf"
-    },
-    "thalorna-creature-kmdbhmth": {
-      "path": "creature/komodo-behemoth/",
-      "name": "Komodo Behemoth",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.2cHRBpFKXGd8RaX4"
-    },
-    "thalorna-creature-lmnphg": {
-      "path": "creature/luminophage/",
-      "name": "Luminophage",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.Ul7aa7gAof3P8b46"
-    },
-    "thalorna-creature-lmnshd": {
-      "path": "creature/luminshade/",
-      "name": "Luminshade",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.V51NYCYdbU2A7tse"
-    },
-    "thalorna-creature-lrgspdr": {
-      "path": "creature/large-spider/",
-      "name": "Large Spider",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.7z21KuX3vzQ2XC2E"
-    },
-    "thalorna-creature-lthgnt": {
-      "path": "creature/lithogiant/",
-      "name": "Lithogiant",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.OBrElkIzfPrZaQbM"
-    },
-    "thalorna-creature-margrush": {
-      "path": "creature/margrush/",
-      "name": "Margrush",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.hfTq2IglUl64LTn9"
-    },
-    "thalorna-creature-mghyn": {
-      "path": "creature/mega-hyena/",
-      "name": "Mega Hyena",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.KwFBcUKIMJnaE7kG"
-    },
-    "thalorna-creature-mmmthcnt": {
-      "path": "creature/mammoth-centipede/",
-      "name": "Mammoth Centipede",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.DQLxBAAPzYaUa5K2"
-    },
-    "thalorna-creature-mntndrk": {
-      "path": "creature/mountain-drake/",
-      "name": "Mountain Drake",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.LtrwdR2jwzBxLm9J"
-    },
-    "thalorna-creature-mntntrll": {
-      "path": "creature/mountain-troll/",
-      "name": "Mountain Troll",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.CkpnCdKnSiNWnnjO"
-    },
-    "thalorna-creature-mrlrkr": {
-      "path": "creature/mirelurker/",
-      "name": "Mirelurker",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.EAg26B2pYAXS9TJv"
-    },
-    "thalorna-creature-mrrrlng": {
-      "path": "creature/mirrorling/",
-      "name": "Mirrorling",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.u7FShyu98eDuRwVS"
-    },
-    "thalorna-creature-mssbcktr": {
-      "path": "creature/mossback-turtle/",
-      "name": "Mossback Turtle",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.8e0pLwFIiIUuHOsb"
-    },
-    "thalorna-creature-mtrfrdrg": {
-      "path": "creature/mature-fire-dragon/",
-      "name": "Mature Fire Dragon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.KnuTXF76FU1MTtAN"
-    },
-    "thalorna-creature-mtricdrg": {
-      "path": "creature/mature-ice-dragon/",
-      "name": "Mature Ice Dragon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.2tsk1oPbOk4V5jJf"
-    },
-    "thalorna-creature-ncrtcmr": {
-      "path": "creature/necrotic-mire/",
-      "name": "Necrotic Mire",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.a2al6XRUzVftGyhp"
-    },
-    "thalorna-creature-nghtshds": {
-      "path": "creature/nightshade-serpent/",
-      "name": "Nightshade Serpent",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.sihuakxB0kpupEU6"
-    },
-    "thalorna-creature-nghtwght": {
-      "path": "creature/nightwights/",
-      "name": "Nightwights",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.Kpo7Htb3b9uJEh6x"
-    },
-    "thalorna-creature-nghtwrth": {
-      "path": "creature/nightwraith/",
-      "name": "Nightwraith",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ep28BnO3DsmrKAf2"
-    },
-    "thalorna-creature-nmspt": {
-      "path": "creature/nemespite/",
-      "name": "Nemespite",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ZSoywGNHpw4z64RZ"
-    },
-    "thalorna-creature-nsvrroth": {
-      "path": "creature/nusvorroth/",
-      "name": "Nüsvōrroth",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.0ygZo8s6O9Rj2kRt"
-    },
-    "thalorna-creature-octowolf": {
-      "path": "creature/octowolf/",
-      "name": "Octowolf",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.BwTf4AoCnGxgkYyZ"
-    },
-    "thalorna-creature-oldfrdrg": {
-      "path": "creature/old-fire-dragon/",
-      "name": "Old Fire Dragon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.4g9BryPNyWeQLBA0"
-    },
-    "thalorna-creature-oldicdrg": {
-      "path": "creature/old-ice-dragon/",
-      "name": "Old Ice Dragon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.IHBBFMFd2LieAudc"
-    },
-    "thalorna-creature-phntmwng": {
-      "path": "creature/phantomwing/",
-      "name": "Phantomwing",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.HgferELsOeHk6yUO"
-    },
-    "thalorna-creature-phsphrsc": {
-      "path": "creature/phosphorescent-globule/",
-      "name": "Phosphorescent Globule",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.WQjWcb6PtRpcRxGe"
-    },
-    "thalorna-creature-pyrclsm": {
-      "path": "creature/pyroclasm/",
-      "name": "Pyroclasm",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.2ubjJNt3rPAcOeTj"
-    },
-    "thalorna-creature-qllbr": {
-      "path": "creature/quillbear/",
-      "name": "Quillbear",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.oqNIZvLCRl1RMynG"
-    },
-    "thalorna-creature-rckbckbr": {
-      "path": "creature/rockback-bear/",
-      "name": "Rockback Bear",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.KRJCfi3ZMuOYTwFd"
-    },
-    "thalorna-creature-rckhdglm": {
-      "path": "creature/rockhide-golem/",
-      "name": "Rockhide Golem",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.5bCOMUSs7gQSkDPD"
-    },
-    "thalorna-creature-rcksclan": {
-      "path": "creature/rockscale-anklyte/",
-      "name": "Rockscale Anklyte",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.UWITLnj5XOBDX43o"
-    },
-    "thalorna-creature-rdgdskmm": {
-      "path": "creature/ridged-skimmer/",
-      "name": "Ridged Skimmer",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.6dbt4Nbd3KY7TJta"
-    },
-    "thalorna-creature-roc": {
-      "path": "creature/roc/",
-      "name": "Roc",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.MM4WsOp5MweEuH4U"
-    },
-    "thalorna-creature-rtwrth": {
-      "path": "creature/rootwraith/",
-      "name": "Rootwraith",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.1deqLlOJoWRJ2sPS"
-    },
-    "thalorna-creature-sandwurm": {
-      "path": "creature/sand-wurm/",
-      "name": "Sand Wurm",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.7hW9W4pXEtgVMSMD"
-    },
-    "thalorna-creature-scrchbt": {
-      "path": "creature/screechbat/",
-      "name": "Screechbat",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.lHuMVOj4m48jiGcS"
-    },
-    "thalorna-creature-shdwclw": {
-      "path": "creature/shadowclaw/",
-      "name": "Shadowclaw",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.jjuIModhoOI5xUyv"
-    },
-    "thalorna-creature-shdwlynx": {
-      "path": "creature/shadow-lynx/",
-      "name": "Shadow Lynx",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.i1hrH7tYkoFMzTzq"
-    },
-    "thalorna-creature-shdwspnn": {
-      "path": "creature/shadowspinner/",
-      "name": "Shadowspinner",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.0zzYLJWzwisk1CDQ"
-    },
-    "thalorna-creature-shdwstlk": {
-      "path": "creature/shadowstalker/",
-      "name": "Shadowstalker",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.K30OECnGa5hVR22R"
-    },
-    "thalorna-creature-shrdbk": {
-      "path": "creature/shardbeak/",
-      "name": "Shardbeak",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.P8wL9XPubsbvSFty"
-    },
-    "thalorna-creature-skysrpnt": {
-      "path": "creature/sky-serpent/",
-      "name": "Sky Serpent",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.IufOc6e3iYJZ46GV"
-    },
-    "thalorna-creature-smmtdrk": {
-      "path": "creature/summitdrake/",
-      "name": "Summitdrake",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.I96v45Ggz9t91r4o"
-    },
-    "thalorna-creature-sndstlkr": {
-      "path": "creature/sand-stalker/",
-      "name": "Sand Stalker",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.cF5pl6GNTSOo7LyT"
-    },
-    "thalorna-creature-spctrwlf": {
-      "path": "creature/specterwolf/",
-      "name": "Specterwolf",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.rD3EROAf0ElFfGjr"
-    },
-    "thalorna-creature-spndlfnd": {
-      "path": "creature/spindlefiend/",
-      "name": "Spindlefiend",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.uiCv7LNZzmeo0C5F"
-    },
-    "thalorna-creature-stnbst": {
-      "path": "creature/stonebeast/",
-      "name": "Stonebeast",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.vkJVD3VzKCKvgPCx"
-    },
-    "thalorna-creature-stnclmbr": {
-      "path": "creature/stoneclimber/",
-      "name": "Stoneclimber",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.K2ltSub3JftqQzbn"
-    },
-    "thalorna-creature-stoneram": {
-      "path": "creature/stone-ram/",
-      "name": "Stone Ram",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.ev0hqSRmPJlFtV7E"
-    },
-    "thalorna-creature-strcrwlr": {
-      "path": "creature/starcrawler/",
-      "name": "Starcrawler",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.KwgKiSFDeCgFjebo"
-    },
-    "thalorna-creature-strmsr": {
-      "path": "creature/stormseer/",
-      "name": "Stormseer",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.TXoRX749dQrUkWYC"
-    },
-    "thalorna-creature-stygnlvt": {
-      "path": "creature/stygian-leviathan/",
-      "name": "Stygian Leviathan",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.NTZQh3DsxPrIxvtI"
-    },
-    "thalorna-creature-swmpglm": {
-      "path": "creature/swampgolem/",
-      "name": "Swampgolem",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.rkqNzivEoFUry3Wa"
-    },
-    "thalorna-creature-swmpstrd": {
-      "path": "creature/swampstrider/",
-      "name": "Swampstrider",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.nx1JBaUtNq1pa3Ki"
-    },
-    "thalorna-creature-thndrbrd": {
-      "path": "creature/thunderbird/",
-      "name": "Thunderbird",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.cCvH3RbioiVmP5uA"
-    },
-    "thalorna-creature-thndrhrn": {
-      "path": "creature/thunderhorn/",
-      "name": "Thunderhorn",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.AimHPopglSXjxhWa"
-    },
-    "thalorna-creature-thndrtln": {
-      "path": "creature/thundertalon/",
-      "name": "Thundertalon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.BER0R5sENldRKjgM"
-    },
-    "thalorna-creature-thornrat": {
-      "path": "creature/thornrat/",
-      "name": "Thornrat",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.RIxGnXKWRth60BN7"
-    },
-    "thalorna-creature-thrnbckb": {
-      "path": "creature/thornback-boar/",
-      "name": "Thornback Boar",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.eQYklk8rdEDE0Dzb"
-    },
-    "thalorna-creature-thrnbckr": {
-      "path": "creature/thornback-raptor/",
-      "name": "Thornback Raptor",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.9nYhkvI252ewBJW3"
-    },
-    "thalorna-creature-tnvrnelp": {
-      "path": "creature/tanvuran-elephant/",
-      "name": "Tānvüran Elephant",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.hKF5XSPgvAUIQtLc"
-    },
-    "thalorna-creature-trrkthsn": {
-      "path": "creature/terrakith-sentinel/",
-      "name": "Terrakith Sentinel",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.mYRlDMSiKnHIpUzq"
-    },
-    "thalorna-creature-tskcrshr": {
-      "path": "creature/tuskcrasher/",
-      "name": "Tuskcrasher",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.1LGC1Tv40FQz4hXf"
-    },
-    "thalorna-creature-ttnbtl": {
-      "path": "creature/titan-beetle/",
-      "name": "Titan Beetle",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.uIJSscPVcBwVMyGp"
-    },
-    "thalorna-creature-unicorn": {
-      "path": "creature/unicorn/",
-      "name": "Unicorn",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.BHOxntPKnVng9YYZ"
-    },
-    "thalorna-creature-vdsrpnt": {
-      "path": "creature/voidserpent/",
-      "name": "Voidserpent",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.mXr47FnIDlmq2RCz"
-    },
-    "thalorna-creature-vdyrnrhn": {
-      "path": "creature/vedyaran-rhinoceros/",
-      "name": "Vedyaran Rhinoceros",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.gg3f6OB21jF3mg0f"
-    },
-    "thalorna-creature-vnmspttr": {
-      "path": "creature/venomspitter/",
-      "name": "Venomspitter",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.YmCBrcF6Kw2CrctD"
-    },
-    "thalorna-creature-voidmoth": {
-      "path": "creature/voidmoth/",
-      "name": "Voidmoth",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.0YaWh1FabKCGtnAs"
-    },
-    "thalorna-creature-vprwsp": {
-      "path": "creature/vaporwisp/",
-      "name": "Vaporwisp",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.SZSbxQbHhZFFCLQh"
-    },
-    "thalorna-creature-vrdntcl": {
-      "path": "creature/verdantcoil/",
-      "name": "Verdantcoil",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.e18xTUwy6qZEDvSE"
-    },
-    "thalorna-creature-warg": {
-      "path": "creature/warg/",
-      "name": "Warg",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.Fk5LGJPnTZLxzWuG"
-    },
-    "thalorna-creature-wbcrwlr": {
-      "path": "creature/webcrawler/",
-      "name": "Webcrawler",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.c0MYxLmxJqlP3eq6"
-    },
-    "thalorna-creature-wrthblm": {
-      "path": "creature/wraithbloom/",
-      "name": "Wraithbloom",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.NZjkwSdqmk6Tuf64"
-    },
-    "thalorna-creature-wyvern": {
-      "path": "creature/wyvern/",
-      "name": "Wyvern",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.f7qow0t2vLn2UWpk"
-    },
-    "thalorna-creature-xrthnfrs": {
-      "path": "creature/xerathian-forest-elephant/",
-      "name": "Xerathian Forest Elephant",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.pGoe1xHOveNk8ycM"
-    },
-    "thalorna-creature-xrthnsvn": {
-      "path": "creature/xerathian-savanna-elephant/",
-      "name": "Xerathian Savanna Elephant",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.XghBgeCi6JfLAZbD"
-    },
-    "thalorna-creature-yngfrdrg": {
-      "path": "creature/young-fire-dragon/",
-      "name": "Young Fire Dragon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.x9FJYB3bym5ZUUgs"
-    },
-    "thalorna-creature-yngicdrg": {
-      "path": "creature/young-ice-dragon/",
-      "name": "Young Ice Dragon",
-      "uuid": "Compendium.sohl-thalorna.actors.Actor.7ifxZxScmlMHr44B"
-    },
     "thalorna-doc-adventures": {
       "path": "adventure/",
       "name": "Adventures",
@@ -3548,6 +3548,14 @@
         "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.ijEMnWfPBKZeYMVm.JournalEntryPage.c3d81bb3db8031da"
       }
     },
+    "thalorna-doc-beings": {
+      "path": "being/",
+      "name": "Beings",
+      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.xTfvYG6qYHuI8qst",
+      "anchors": {
+        "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.xTfvYG6qYHuI8qst.JournalEntryPage.e9b36c0814566541"
+      }
+    },
     "thalorna-doc-beitshofar": {
       "path": "settlement/beit-shofar/",
       "name": "Beit-Shōfár",
@@ -3695,7 +3703,10 @@
     "thalorna-doc-byzariargn": {
       "path": "region/byzaria-region/",
       "name": "Byzaría Region",
-      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.KL25bRryRCoKb7k5"
+      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.KL25bRryRCoKb7k5",
+      "anchors": {
+        "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.KL25bRryRCoKb7k5.JournalEntryPage.0cec1ceffc1560f4"
+      }
     },
     "thalorna-doc-byzaris": {
       "path": "settlement/byzaris/",
@@ -3849,14 +3860,6 @@
         "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.u06VCq3gWTSKlQJZ.JournalEntryPage.27b83c036d952538"
       }
     },
-    "thalorna-doc-characters": {
-      "path": "character/",
-      "name": "Characters",
-      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.xTfvYG6qYHuI8qst",
-      "anchors": {
-        "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.xTfvYG6qYHuI8qst.JournalEntryPage.9f23a5f693775803"
-      }
-    },
     "thalorna-doc-chastelclr": {
       "path": "settlement/chastelclair/",
       "name": "Chastèlclair",
@@ -3935,14 +3938,6 @@
       "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.0yneTHleAxbUv6TI",
       "anchors": {
         "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.0yneTHleAxbUv6TI.JournalEntryPage.38b00769222e378b"
-      }
-    },
-    "thalorna-doc-creatures2": {
-      "path": "creature/",
-      "name": "Creatures",
-      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.S9zrHr78WeL3xDzZ",
-      "anchors": {
-        "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.S9zrHr78WeL3xDzZ.JournalEntryPage.17296978e18cdc27"
       }
     },
     "thalorna-doc-crmsyndctsthlrn": {
@@ -4484,7 +4479,10 @@
     "thalorna-doc-haradregin": {
       "path": "region/harad-region/",
       "name": "Harad Region",
-      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.IakeTyaqWrqc635z"
+      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.IakeTyaqWrqc635z",
+      "anchors": {
+        "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.IakeTyaqWrqc635z.JournalEntryPage.4e4d4aad7f1e4fed"
+      }
     },
     "thalorna-doc-hardncrncy": {
       "path": "reference/haradian-currency/",
@@ -4526,7 +4524,7 @@
         "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.n24XoHaQViCi0IYu.JournalEntryPage.49de2cd1942dadaa"
       }
     },
-    "thalorna-doc-heladregin": {
+    "thalorna-doc-heladrgn": {
       "path": "region/hellad-region/",
       "name": "Hellád Region",
       "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.fT0m0zgori7CbpJj",
@@ -6717,11 +6715,6 @@
       "anchors": {
         "$lead": "Compendium.sohl-thalorna.journals.JournalEntry.JWByO0F561rYME7K.JournalEntryPage.91fcddc982d3063a"
       }
-    },
-    "thalorna-doc-vylariargn": {
-      "path": "region/vylaria-region/",
-      "name": "Vylaria Region",
-      "uuid": "Compendium.sohl-thalorna.journals.JournalEntry.GHIXrjvkfpw2yc6e"
     },
     "thalorna-doc-vylarilngg": {
       "path": "language/vylari-language/",
