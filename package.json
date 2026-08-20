@@ -139,7 +139,7 @@
         "archiver": "^7.0.1",
         "classic-level": "^3.0.0",
         "cypress": "^15.20.1",
-        "dotenv": "^16.4.7",
+        "dotenv": "^17.4.2",
         "eslint": "^10.8.1",
         "eslint-config-prettier": "^10.1.1",
         "eslint-plugin-jsdoc": "^64.2.1",
