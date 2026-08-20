@@ -125,6 +125,9 @@
         "docs:expr-scopes": "node utils/build-expression-scopes-doc.mjs",
         "lint:expr-scopes": "node utils/build-expression-scopes-doc.mjs --check"
     },
+    "overrides": {
+        "handlebars-intl": "npm:@favware/skip-dependency@1.2.2"
+    },
     "devDependencies": {
         "@changesets/cli": "^2.28.1",
         "@eslint/js": "^10.0.1",
