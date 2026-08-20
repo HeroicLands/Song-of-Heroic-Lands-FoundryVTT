@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Action Cards & the Consent Model
-    aliases: []
+  full: Action Cards & the Consent Model
+  aliases: []
 id: mk4wWsr1y3vaHHRP
 slug: action-cards
 type: doc
@@ -81,15 +81,15 @@ through a {@link sohl.core.logic.SohlSpeaker} (whose `toChat` accepts raw HTML).
 
 ```ts
 await postActionCard(this.speaker, {
-    template: "systems/sohl/templates/chat/treatment-request-card.hbs",
-    data: { patientName, woundName, aspect, severity },
-    buttons: {
-        action: "performTreatmentTest", // the executor to run on click
-        handlerUuid: SELF_HANDLER, // who may click it (here: open)
-        scope: { injuryUuid }, // the action's pre-filled parameters
-        label: "Perform Treatment Test",
-        iconFAClass: "fa-solid fa-staff-snake",
-    },
+  template: "systems/sohl/templates/chat/treatment-request-card.hbs",
+  data: { patientName, woundName, aspect, severity },
+  buttons: {
+    action: "performTreatmentTest", // the executor to run on click
+    handlerUuid: SELF_HANDLER, // who may click it (here: open)
+    scope: { injuryUuid }, // the action's pre-filled parameters
+    label: "Perform Treatment Test",
+    iconFAClass: "fa-solid fa-staff-snake",
+  },
 });
 ```
 
@@ -200,13 +200,13 @@ pair of actions, and the split between them is the consent model applied to time
 
 Concretely:
 
-| | `*Check` (`courseCheck`, `contagionCheck`, …) | `*Test` (`courseTest`, `contagionTest`, …) |
-| --- | --- | --- |
-| **What it does** | Posts a card offering the test | Rolls, applies the outcome |
-| **Who may run it** | **Anyone** — it imposes nothing | Someone who controls the subject |
-| **Writes anything?** | No | Yes |
-| **Visibility** | Hidden — reached from the reminder or a card | In the Actions context menu |
-| **Ends by** | Waiting for a human to press the button | Offering the next `*Test` |
+|                      | `*Check` (`courseCheck`, `contagionCheck`, …) | `*Test` (`courseTest`, `contagionTest`, …) |
+| -------------------- | --------------------------------------------- | ------------------------------------------ |
+| **What it does**     | Posts a card offering the test                | Rolls, applies the outcome                 |
+| **Who may run it**   | **Anyone** — it imposes nothing               | Someone who controls the subject           |
+| **Writes anything?** | No                                            | Yes                                        |
+| **Visibility**       | Hidden — reached from the reminder or a card  | In the Actions context menu                |
+| **Ends by**          | Waiting for a human to press the button       | Offering the next `*Test`                  |
 
 ### One check, one test
 
@@ -229,12 +229,12 @@ consent, one test at a time, with the original cadence preserved exactly.
 
 On a 5-day cadence anchored at day 0, with the player at day 22:
 
-| Test performed | Next anchored at | Next due | Effect |
-| --- | --- | --- | --- |
-| day 5 | day 5 | day 10 | past → card posts immediately |
-| day 10 | day 10 | day 15 | past → card posts immediately |
-| day 15 | day 15 | day 20 | past → card posts immediately |
-| day 20 | day 20 | day 25 | future → waits |
+| Test performed | Next anchored at | Next due | Effect                        |
+| -------------- | ---------------- | -------- | ----------------------------- |
+| day 5          | day 5            | day 10   | past → card posts immediately |
+| day 10         | day 10           | day 15   | past → card posts immediately |
+| day 15         | day 15           | day 20   | past → card posts immediately |
+| day 20         | day 20           | day 25   | future → waits                |
 
 Four tests, four separate consents, and the cadence still lands on day 25 — not
 on day 27, where anchoring at the moment of each click would have pushed it.

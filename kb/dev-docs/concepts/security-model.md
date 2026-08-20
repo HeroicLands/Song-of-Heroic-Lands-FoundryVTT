@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Security Model & Guardrails
-    aliases: []
+  full: Security Model & Guardrails
+  aliases: []
 id: 7mShMNnp3lYzSMpL
 slug: security-model
 type: doc

@@ -1,12 +1,12 @@
 ---
 aliases:
-    - Migration Runner
-    - World Migration
-    - systemMigrationVersion
-    - sohl.entity.migration
+  - Migration Runner
+  - World Migration
+  - systemMigrationVersion
+  - sohl.entity.migration
 name:
-    full: World Migration Runner
-    aliases: []
+  full: World Migration Runner
+  aliases: []
 id: mZ8qP2rLxK4vN7bd
 slug: migration
 type: doc
@@ -14,12 +14,12 @@ package: sohl
 category: dev-docs
 folder: null
 tags:
-    - core-system
-    - data-model
-    - lifecycle
+  - core-system
+  - data-model
+  - lifecycle
 audience: >-
-    Developers who change a persisted schema and need old worlds to upgrade
-    seamlessly on load.
+  Developers who change a persisted schema and need old worlds to upgrade
+  seamlessly on load.
 ---
 
 # World Migration Runner
@@ -41,13 +41,13 @@ See also: [Runtime Contracts](./runtime-contracts.md),
 
 The runner is split along the system's Foundry boundary:
 
-| Layer | File | Responsibility |
-| --- | --- | --- |
-| **Decision (Foundry-free)** | `src/entity/migration/` → `sohl.entity.migration` | Semver comparison, step planning, and folding one document's source into an update. Pure, unit-tested. |
-| **Orchestration (Foundry boundary)** | `src/core/foundry/migration.ts` | Reads/writes the `systemMigrationVersion` setting through the `fvtt*` shims and walks the world's live documents applying the plan. |
+| Layer                                | File                                              | Responsibility                                                                                                                      |
+| ------------------------------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Decision (Foundry-free)**          | `src/entity/migration/` → `sohl.entity.migration` | Semver comparison, step planning, and folding one document's source into an update. Pure, unit-tested.                              |
+| **Orchestration (Foundry boundary)** | `src/core/foundry/migration.ts`                   | Reads/writes the `systemMigrationVersion` setting through the `fvtt*` shims and walks the world's live documents applying the plan. |
 
-Because the decision logic is Foundry-free, *which* migrations run for a given
-version pair — and *what* each one changes for a given document source — is proven
+Because the decision logic is Foundry-free, _which_ migrations run for a given
+version pair — and _what_ each one changes for a given document source — is proven
 in Node by `tests/domain/migration/*` and `tests/core/migration.test.ts`; the
 thin walk-and-write loop is what a real world exercises.
 
@@ -67,9 +67,9 @@ version a world was last migrated **to**. On load the runner resolves an effecti
 "from" version and plans every step in `(from, current]`:
 
 - **Stored version present** → migrate from it.
-- **Empty + world has no content** → *brand-new world*: `from = current`, so the
+- **Empty + world has no content** → _brand-new world_: `from = current`, so the
   plan is empty and the runner simply stamps the version forward.
-- **Empty + world has content** → *pre-tracking legacy world*: `from = "0.0.0"`,
+- **Empty + world has content** → _pre-tracking legacy world_: `from = "0.0.0"`,
   so every registered step runs.
 
 The stored version is advanced whenever it differs from the running version —
@@ -106,18 +106,18 @@ step does not touch.
 
 ```ts
 const example: MigrationStep = {
-    version: "0.8.0",
-    description: "Rename skill.system.foo → skill.system.bar",
-    migrators: {
-        Item: (src) => {
-            if (src.type !== "skill" || !src.system) return undefined;
-            const system = { ...src.system };
-            system.bar = system.foo ?? 0;
-            delete system.foo;
-            return { system };
-        },
+  version: "0.8.0",
+  description: "Rename skill.system.foo → skill.system.bar",
+  migrators: {
+    Item: (src) => {
+      if (src.type !== "skill" || !src.system) return undefined;
+      const system = { ...src.system };
+      system.bar = system.foo ?? 0;
+      delete system.foo;
+      return { system };
     },
-}
+  },
+};
 ```
 
 ### Payloads replace, they do not merge
@@ -141,7 +141,7 @@ skipped while the run still counted them as applied (#1402).
 ### Steps chain
 
 Every migrator hands back a whole root object built by spreading the source, so if
-each step were handed the *original* source, two steps that touch one document would
+each step were handed the _original_ source, two steps that touch one document would
 be mutually exclusive: the later payload, rebuilt from the original, would drop the
 earlier step's edit and reinstate a key it had removed. `migrateDocumentSource`
 therefore feeds each whole-object replacement forward into the source the next
@@ -177,11 +177,11 @@ does. Guard on the field's own type guard rather than on presence:
 
 ```ts
 const stampAffiliationSubType: DocMigrator = (source) => {
-    if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
-    if (isAffiliationSubType(source.system?.subType)) return undefined;
-    return {
-        system: { ...source.system, subType: AFFILIATION_SUBTYPE.SOCIAL },
-    };
+  if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
+  if (isAffiliationSubType(source.system?.subType)) return undefined;
+  return {
+    system: { ...source.system, subType: AFFILIATION_SUBTYPE.SOCIAL },
+  };
 };
 ```
 

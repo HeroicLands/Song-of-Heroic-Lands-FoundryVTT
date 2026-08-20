@@ -32,7 +32,7 @@ exists:
   though import gave the world copy a fresh `_id` and the user has since edited its
   values.
 - **Archetype override / shadowing.** A world archetype with the same `(type,
-  shortcode)` as a shipped one _shadows_ it in the Create dialog — same identity,
+shortcode)` as a shipped one _shadows_ it in the Create dialog — same identity,
   world copy wins.
 - **Cross-scope lookup.** `fvttFindItemByShortcode` / `fvttActorByShortcode`,
   `actions.get(shortcode)`, cohort membership, and expression/effect references all
@@ -70,11 +70,11 @@ name, while a repair keeps an _existing_ identity as recognizable as possible.
 `(type, shortcode)` is unique within each of four **scopes**, and `shortcode` is a
 non-null, non-blank string on every persisted key-bearing document:
 
-| Scope | Uniqueness set |
-| --- | --- |
-| **World items** | every item in `game.items` of the same `type` |
-| **Embedded items** | an actor's own items of the same `type` |
-| **World actors** | every actor in `game.actors` of the same `type` |
+| Scope               | Uniqueness set                                               |
+| ------------------- | ------------------------------------------------------------ |
+| **World items**     | every item in `game.items` of the same `type`                |
+| **Embedded items**  | an actor's own items of the same `type`                      |
+| **World actors**    | every actor in `game.actors` of the same `type`              |
 | **Compendium pack** | a single pack's entries of the same `type` (items or actors) |
 
 Cross-scope duplicates are fine: a world item and an embedded copy, or the same code
@@ -139,16 +139,16 @@ The pure decision logic is {@link sohl.utils.resolveShortcodeKey} — Foundry-fr
 unit-tested. It takes the desired shortcode, the document name, the taken set, and a
 `shortcodeDedupe` flag, and returns `{ shortcode }` or `{ reject: true }`:
 
-| shortcode in data | name → slug | `shortcodeDedupe` | result |
-| --- | --- | --- | --- |
-| provided, alphanumeric | — | `true` | collides → suffix (`arrow` → `arrow2`); else accept |
-| provided, alphanumeric | — | `false`/absent | collides → **reject** (`collision`); else accept |
-| provided, not alphanumeric | — | `true` | stripped (`B&CFl` → `BCFl`), then as above |
-| provided, not alphanumeric | — | `false`/absent | **reject** (`invalid`) |
-| blank | non-empty | `true` | base = slug; collides → suffix |
-| blank | non-empty | `false`/absent | base = slug; collides → **reject** |
-| blank | blank | `true` | random 16-char id |
-| blank | blank | `false`/absent | **reject** (`missing`) |
+| shortcode in data          | name → slug | `shortcodeDedupe` | result                                              |
+| -------------------------- | ----------- | ----------------- | --------------------------------------------------- |
+| provided, alphanumeric     | —           | `true`            | collides → suffix (`arrow` → `arrow2`); else accept |
+| provided, alphanumeric     | —           | `false`/absent    | collides → **reject** (`collision`); else accept    |
+| provided, not alphanumeric | —           | `true`            | stripped (`B&CFl` → `BCFl`), then as above          |
+| provided, not alphanumeric | —           | `false`/absent    | **reject** (`invalid`)                              |
+| blank                      | non-empty   | `true`            | base = slug; collides → suffix                      |
+| blank                      | non-empty   | `false`/absent    | base = slug; collides → **reject**                  |
+| blank                      | blank       | `true`            | random 16-char id                                   |
+| blank                      | blank       | `false`/absent    | **reject** (`missing`)                              |
 
 A reject carries a `reason` (`collision` / `invalid` / `missing`) so the veto can say
 which mistake was made. Shape is settled before uniqueness: a malformed key cannot be
@@ -216,7 +216,7 @@ fails the build naming every claimant rather than letting one page overwrite the
 the fix is a more specific title. The content tree has no collisions today.
 
 **The one record of the old URLs** is `kb/data/legacy-slugs.json`, keyed by
-`type:shortcode` — the identity, which is exactly why the shortcode belongs *here*
+`type:shortcode` — the identity, which is exactly why the shortcode belongs _here_
 rather than in the URL. The knowledgebase build emits a Hugo `aliases` redirect from
 each, so a rename never orphans an inbound link. It is append-only history: never edit
 an entry, and add a row only when a page's URL changes again.

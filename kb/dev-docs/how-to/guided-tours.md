@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Writing Guided Tours
-    aliases: []
+  full: Writing Guided Tours
+  aliases: []
 id: itInwUAn0CjjS0t2
 slug: guided-tours
 type: doc
@@ -156,37 +156,37 @@ Its shape, condensed:
 
 ```ts
 const config: SohlTourConfig = {
-    namespace: "sohl",
-    id: "my-tour",
-    title: "SOHL.Tour.MyTour.title",
-    display: true, // list in Tour Management (vs. false — see "Listing vs. hiding")
-    // canStart omitted → always startable. Add it ONLY for hard eligibility the
-    // user can't fix from within the tour; coach a satisfiable prerequisite in a
-    // first step instead (see "Gate on eligibility, or coach the prerequisite?").
-    steps: [
-        // Free — centered intro.
-        { id: "intro", title: "…", content: "…" },
-        // Navigation + value gate — switch to Skills, wait for the search box.
-        {
-            id: "search",
-            title: "…",
-            content: "…",
-            selector: 'input[name="search-skills"]',
-            resolveDocument: () => firstOwnedBeing(),
-            nav: { tab: "skills", group: "primary" },
-            gate: TourGate.value(gateValue.nonEmpty()),
-        },
-        // Action gate — wait until the user opens the Combat tab themselves.
-        {
-            id: "combat",
-            title: "…",
-            content: "…",
-            selector: '[data-action="tab"][data-tab="combat"]',
-            resolveDocument: () => firstOwnedBeing(),
-            gate: TourGate.state((ctx) => ctx.state === "combat"),
-            readState: () => firstOwnedBeing()?.sheet?.tabGroups?.primary,
-        },
-    ],
+  namespace: "sohl",
+  id: "my-tour",
+  title: "SOHL.Tour.MyTour.title",
+  display: true, // list in Tour Management (vs. false — see "Listing vs. hiding")
+  // canStart omitted → always startable. Add it ONLY for hard eligibility the
+  // user can't fix from within the tour; coach a satisfiable prerequisite in a
+  // first step instead (see "Gate on eligibility, or coach the prerequisite?").
+  steps: [
+    // Free — centered intro.
+    { id: "intro", title: "…", content: "…" },
+    // Navigation + value gate — switch to Skills, wait for the search box.
+    {
+      id: "search",
+      title: "…",
+      content: "…",
+      selector: 'input[name="search-skills"]',
+      resolveDocument: () => firstOwnedBeing(),
+      nav: { tab: "skills", group: "primary" },
+      gate: TourGate.value(gateValue.nonEmpty()),
+    },
+    // Action gate — wait until the user opens the Combat tab themselves.
+    {
+      id: "combat",
+      title: "…",
+      content: "…",
+      selector: '[data-action="tab"][data-tab="combat"]',
+      resolveDocument: () => firstOwnedBeing(),
+      gate: TourGate.state((ctx) => ctx.state === "combat"),
+      readState: () => firstOwnedBeing()?.sheet?.tabGroups?.primary,
+    },
+  ],
 };
 return new SohlTour(config);
 ```
@@ -285,12 +285,10 @@ rolls are reproducible across runs.
 
 ```ts
 const config: SohlTourConfig = {
-    namespace: "sohl",
-    id: "automated-combat",
-    seedRng: "automated-combat-tour", // reproducible dice for the duration
-    steps: [
-        /* … drive steps … */
-    ],
+  namespace: "sohl",
+  id: "automated-combat",
+  seedRng: "automated-combat-tour", // reproducible dice for the duration
+  steps: [/* … drive steps … */],
 };
 ```
 
