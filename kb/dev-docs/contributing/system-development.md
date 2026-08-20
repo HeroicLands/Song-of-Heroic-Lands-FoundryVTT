@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: System Development
-    aliases: []
+  full: System Development
+  aliases: []
 id: Kl4MXnx2WYSFaxqR
 slug: system-development
 type: doc
@@ -42,8 +42,8 @@ that:
 - You have the legal right to contribute the material.
 - You agree that your contribution is licensed under the project's dual-license
   structure:
-    - [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html) for software code
-    - [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/) for documentation and creative content
+  - [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html) for software code
+  - [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/) for documentation and creative content
 - Your contribution may be redistributed under those licenses.
 
 Contributors retain copyright to their contributions.
@@ -352,19 +352,19 @@ against real world data — migrations must never require manual user interventi
   the [Architecture Overview](../concepts/architecture.md).
 - **Null vs. undefined — null at the edges, undefined in the core.** Absence is not
   spelled two ways at random:
-    - _Persistence and the Foundry API boundary use `null`._ DataModel fields and
-      the Foundry APIs that natively return `null` (`DialogV2` dismissal, `getFlag`,
-      document lookups) keep it — Foundry mandates it and `null` survives
-      `JSON.stringify` where `undefined` keys are dropped.
-    - _The logic/domain layer uses `undefined`_ for "maybe absent" — matching
-      optional parameters/properties (`?:`), which already yield `undefined`. Write
-      `T | undefined` directly; there is no `Optional<T>` alias (an alias cannot
-      cover `?:` positions, so it could never be the single consistent spelling).
-    - _The `FoundryHelpers` shim normalizes_ Foundry `null` to `undefined` as values
-      cross into the logic layer.
-    - `== null` / `!= null` (matches both) is the blessed idiom at genuine mixed
-      boundaries; `eqeqeq` (configured with `{ null: "ignore" }`) enforces strict
-      equality everywhere else.
+  - _Persistence and the Foundry API boundary use `null`._ DataModel fields and
+    the Foundry APIs that natively return `null` (`DialogV2` dismissal, `getFlag`,
+    document lookups) keep it — Foundry mandates it and `null` survives
+    `JSON.stringify` where `undefined` keys are dropped.
+  - _The logic/domain layer uses `undefined`_ for "maybe absent" — matching
+    optional parameters/properties (`?:`), which already yield `undefined`. Write
+    `T | undefined` directly; there is no `Optional<T>` alias (an alias cannot
+    cover `?:` positions, so it could never be the single consistent spelling).
+  - _The `FoundryHelpers` shim normalizes_ Foundry `null` to `undefined` as values
+    cross into the logic layer.
+  - `== null` / `!= null` (matches both) is the blessed idiom at genuine mixed
+    boundaries; `eqeqeq` (configured with `{ null: "ignore" }`) enforces strict
+    equality everywhere else.
 - **DataModel empty values — sentinel vs. nullable.** In persisted schemas the choice
   is semantic, not serialization-driven (both `null` and `""`/`0` round-trip). Use a
   typed blank sentinel (`""`, `0`, `[]`, `{}`) when the empty state is itself a valid
@@ -372,15 +372,15 @@ against real world data — migrations must never require manual user interventi
   distinguishable from _every_ valid value (an optional cap, a die size, an optional
   reference). Always set `initial` explicitly — a bare `new StringField()` is
   non-required and silently initializes to `undefined`, not `""`.
-    - _Optional "not specified" StringField → `null`, not `""`._ For an optional string
-      that means "unset" when empty (an optional reference/code/UUID, a formula, a
-      free-text field where blank and unset coincide), prefer
-      `{ nullable: true, blank: false, initial: null }` over an `""` sentinel: `blank:
+  - _Optional "not specified" StringField → `null`, not `""`._ For an optional string
+    that means "unset" when empty (an optional reference/code/UUID, a formula, a
+    free-text field where blank and unset coincide), prefer
+    `{ nullable: true, blank: false, initial: null }` over an `""` sentinel: `blank:
 false` makes Foundry clean a cleared form input (and any legacy `""`) to `null`, so
-      "unset" is one honest value rather than two. Declare the field — and its
-      logic-`Data` interface — as `T | null`, and guard reads (`if (x)` / `x ?? ""`).
-      Canonical examples: `SkillDataModel.ts` `parentSkillCode`, `TraumaDataModel.ts`
-      `category`.
+    "unset" is one honest value rather than two. Declare the field — and its
+    logic-`Data` interface — as `T | null`, and guard reads (`if (x)` / `x ?? ""`).
+    Canonical examples: `SkillDataModel.ts` `parentSkillCode`, `TraumaDataModel.ts`
+    `category`.
 - **A `required` field carries no default.** `required: true` **and** an `initial` are
   contradictory: Foundry auto-fills a `required` field from its `initial` when the value
   is absent, so a defaulted field is never actually caller-mandatory. Where a field has

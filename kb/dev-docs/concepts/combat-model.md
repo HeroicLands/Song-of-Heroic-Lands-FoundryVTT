@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Combat Model
-    aliases: []
+  full: Combat Model
+  aliases: []
 id: iESB3wp9JuxLYmqp
 slug: combat-model
 type: doc
@@ -172,12 +172,12 @@ be authorized. The flow (`src/sohl.ts` `renderChatMessageHTML` hook, plus
    `data-handler-actor-uuid`.
 2. **Render-time gating (every client).** `gateAutomatedDefenseButtons`
    (`chat-card-gating.ts`) runs on each client and:
-    - removes all buttons unless the viewer is the defender's **owner** (a GM owns
-      all);
-    - if the defender has any `DEFENSE_DISABLING_STATUSES`, leaves **only Ignore**;
-    - shows Block only if there are blockable modes, Counterstrike only if there's
-      a melee attack mode, Dodge only if the Dodge skill is usable.
-      This is **UX only** — it hides buttons, it does not authorize.
+   - removes all buttons unless the viewer is the defender's **owner** (a GM owns
+     all);
+   - if the defender has any `DEFENSE_DISABLING_STATUSES`, leaves **only Ignore**;
+   - shows Block only if there are blockable modes, Counterstrike only if there's
+     a melee attack mode, Dodge only if the Dodge skill is usable.
+     This is **UX only** — it hides buttons, it does not authorize.
 3. **Click-time authorization (the real boundary, #167).**
    `resolveAuthorizedChatCardHandler` (`chat-card-dispatch.ts`) resolves the
    handler doc (uuid precedence `docUuid → handlerUuid → handlerActorUuid →
@@ -196,13 +196,13 @@ combatant/actor and communicates back through the target-addressed card (see
 `SohlCombatant` (`src/document/combatant/foundry/SohlCombatant.ts`) adds
 encounter-scoped state on top of Foundry's Combatant. Key fields the logic reads:
 
-| Field / getter                     | Meaning                                                                                                                                                                                                     |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Field / getter                     | Meaning                                                                                                                                                                                                      |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `groupId`                          | The combatant's `CombatantGroup` — the side it fights on. Reads `_source.group` first for a stable id. The sole input to `isEnemyOf` / `allies` / `threatenedBy`; see [Combatant groups](#combatant-groups). |
-| `moveFactor`                       | GM situational move multiplier (run/sprint/terrain); `computedMove()` scales the actor's `feetPerRound` by it.                                                                                              |
-| `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set › the actor's `currentMoveMedium` › schema default). _(Not yet honored by `computedMove`, which uses the actor's active medium.)_ |
-| `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's `feetPerRound` (scaled by `moveFactor`), or `null` for a non-mover (movement medium `NONE`).                                                                       |
-| initiative                         | `_getInitiativeFormula()` returns the actor's `init` skill mastery as a **fixed string** — SoHL initiative is skill-driven, not a die roll.                                                                 |
+| `moveFactor`                       | GM situational move multiplier (run/sprint/terrain); `computedMove()` scales the actor's `feetPerRound` by it.                                                                                               |
+| `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set › the actor's `currentMoveMedium` › schema default). _(Not yet honored by `computedMove`, which uses the actor's active medium.)_  |
+| `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's `feetPerRound` (scaled by `moveFactor`), or `null` for a non-mover (movement medium `NONE`).                                                                        |
+| initiative                         | `_getInitiativeFormula()` returns the actor's `init` skill mastery as a **fixed string** — SoHL initiative is skill-driven, not a die roll.                                                                  |
 
 Combat relationships are computed, not stored — `isEnemyOf`, `allies`, and
 `threatenedBy` are all derived from group membership on demand. See
@@ -230,10 +230,10 @@ _enemy_, so a not-yet-seeded combatant is never mistaken for a friend.
 three derived queries, computed on demand and never stored, each a pure function
 of group membership plus current scene state:
 
-| Query          | Definition                                                                                                                                                                                   |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `isEnemyOf`    | Different non-null groups (above).                                                                                                                                                           |
-| `allies`       | The other combatants sharing this one's group. Empty when ungrouped.                                                                                                                         |
+| Query          | Definition                                                                                                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `isEnemyOf`    | Different non-null groups (above).                                                                                                                                                                                  |
+| `allies`       | The other combatants sharing this one's group. Empty when ungrouped.                                                                                                                                                |
 | `threatenedBy` | The enemies actually menacing this combatant _right now_ — not defeated, carrying none of `THREAT_NEGATING_STATUSES` (unconscious, sleep, stun, restrained, paralyzed, frozen), not hidden, and within melee reach. |
 
 `threatenedBy` is what the concept is ultimately for. Engagement is the question
@@ -247,7 +247,7 @@ Nothing in `src/` currently reads `allies` or `threatenedBy`; they are
 implemented and unit-tested, and exist for macros, modules, and the rules work
 that will price engagement — see
 [Current gaps and caveats](#current-gaps-and-caveats). What group membership
-drives *today* is the tracker's group chip and the seeding described below.
+drives _today_ is the tracker's group chip and the seeding described below.
 
 **What a group deliberately does not do.** It carries no leader, no group
 initiative, and no turn ordering — the tracker sorts by individual initiative

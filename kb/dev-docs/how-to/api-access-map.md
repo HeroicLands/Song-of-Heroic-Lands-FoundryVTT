@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: API Access Map (Macros and Modules)
-    aliases: []
+  full: API Access Map (Macros and Modules)
+  aliases: []
 id: tRjRH3x7Z3Mqu2hB
 slug: api-access-map
 type: doc
@@ -85,7 +85,7 @@ Subclass one (e.g. in a variant module):
 
 ```js
 class MyResult extends sohl.entity.SuccessTestResult {
-    // override rules here
+  // override rules here
 }
 ```
 
@@ -104,9 +104,7 @@ Register a world calendar with the static
 worked examples.
 
 ```js
-SohlSystem.registerCalendar("my-calendar", {
-    /* calendar definition */
-});
+SohlSystem.registerCalendar("my-calendar", {/* calendar definition */});
 ```
 
 ## Type declarations for a TypeScript module
@@ -123,25 +121,25 @@ keep them distinct:
   of the system.
 - **Types — dev-time only.** Install the types package:
 
-    ```
-    npm install -D @heroiclands/sohl-types
-    ```
+  ```
+  npm install -D @heroiclands/sohl-types
+  ```
 
-    and reference it in your module's `tsconfig.json`:
+  and reference it in your module's `tsconfig.json`:
 
-    ```json
-    {
-        "compilerOptions": {
-            "types": ["@heroiclands/sohl-types"]
-        }
+  ```json
+  {
+    "compilerOptions": {
+      "types": ["@heroiclands/sohl-types"]
     }
-    ```
+  }
+  ```
 
-    It declares **no runtime values** — it exports the Logic/Data interfaces and
-    domain class types for annotations, and types the `sohl` global with the full
-    namespace tree. It is **generated from the SoHL source**, so it never drifts.
-    `fvtt-types` is a **peer dependency** (it supplies Foundry's globals, which these
-    types reference); your module already depends on it for Foundry development.
+  It declares **no runtime values** — it exports the Logic/Data interfaces and
+  domain class types for annotations, and types the `sohl` global with the full
+  namespace tree. It is **generated from the SoHL source**, so it never drifts.
+  `fvtt-types` is a **peer dependency** (it supplies Foundry's globals, which these
+  types reference); your module already depends on it for Foundry development.
 
 ```ts
 // dev-time: annotation type from the package

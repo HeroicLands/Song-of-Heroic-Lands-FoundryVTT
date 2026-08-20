@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Result-description tables
-    aliases: []
+  full: Result-description tables
+  aliases: []
 id: DkH5D79VOKoo875S
 slug: result-description-tables
 type: doc
@@ -70,12 +70,12 @@ import { SafeExpression } from "@src/entity/expr/SafeExpression";
 
 // A row whose star count is one more than the (negative) success level.
 const row = {
-    maxValue: -1,
-    lastDigits: [],
-    success: false,
-    label: "You go screaming down the halls in terror",
-    description: "",
-    result: new SafeExpression({ source: "successLevel + 1" }, { parent }),
+  maxValue: -1,
+  lastDigits: [],
+  success: false,
+  label: "You go screaming down the halls in terror",
+  description: "",
+  result: new SafeExpression({ source: "successLevel + 1" }, { parent }),
 };
 ```
 
@@ -133,14 +133,14 @@ live objects `fvttMergeObject`'s deep-copy would strip of their prototype). An
 author reading the template — or supplying extra `data` — relies on this
 contract:
 
-| Card-data field           | Source                                                                 | Why it must be folded                                                      |
-| ------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `resultText` / `resultDesc` / `valueDiamonds` | `resolveDescription()` against the `resultDescTable`     | Derived-on-read, never stored (see [above](#derived-on-read-never-stored)) |
-| `mlMod`                   | the `MasteryLevelModifier`'s `constrainedEffective`, `effective`, `chatHtml`, `empty`, `successLevelMod` | The **Target** (roll-at-or-under value) and the per-delta breakdown — live getters |
-| `roll.total`              | `SimpleRoll.total`                                                      | A getter absent from `SimpleRoll.toJSON`                                    |
-| `isSuccess` / `isCritical`| the result's outcome getters                                           | Drive pass/fail styling and the localized footer                           |
-| `item.uuid` / `actor.uuid`| the owning item and its actor                                          | The card root, edit-pencil, and Fate button dispatch against these         |
-| `fateScopeJSON`           | serialized `{ priorTestResult: this }`, only when Fate is offered      | Lets a Fate click reconstruct _this_ result (never a re-roll)              |
+| Card-data field                               | Source                                                                                                   | Why it must be folded                                                              |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `resultText` / `resultDesc` / `valueDiamonds` | `resolveDescription()` against the `resultDescTable`                                                     | Derived-on-read, never stored (see [above](#derived-on-read-never-stored))         |
+| `mlMod`                                       | the `MasteryLevelModifier`'s `constrainedEffective`, `effective`, `chatHtml`, `empty`, `successLevelMod` | The **Target** (roll-at-or-under value) and the per-delta breakdown — live getters |
+| `roll.total`                                  | `SimpleRoll.total`                                                                                       | A getter absent from `SimpleRoll.toJSON`                                           |
+| `isSuccess` / `isCritical`                    | the result's outcome getters                                                                             | Drive pass/fail styling and the localized footer                                   |
+| `item.uuid` / `actor.uuid`                    | the owning item and its actor                                                                            | The card root, edit-pencil, and Fate button dispatch against these                 |
+| `fateScopeJSON`                               | serialized `{ priorTestResult: this }`, only when Fate is offered                                        | Lets a Fate click reconstruct _this_ result (never a re-roll)                      |
 
 > A subclass or a caller that reposts the card must fold the same fields, or the
 > Target, Roll, styling, and buttons render blank — the class binds to `toJSON`,
@@ -156,13 +156,13 @@ without a bespoke template:
 
 ```ts
 await result.toChat({
-    buttons: {
-        action: "applyShockState",
-        handlerUuid: beingUuid,
-        scope: { priorTestResult: result },
-        label: sohl.i18n.localize("SOHL.Being.ShockTest.apply"),
-        iconFAClass: "fa-solid fa-face-dizzy",
-    },
+  buttons: {
+    action: "applyShockState",
+    handlerUuid: beingUuid,
+    scope: { priorTestResult: result },
+    label: sohl.i18n.localize("SOHL.Being.ShockTest.apply"),
+    iconFAClass: "fa-solid fa-face-dizzy",
+  },
 });
 ```
 

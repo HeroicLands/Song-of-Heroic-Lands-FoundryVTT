@@ -10,16 +10,16 @@ once and be correct in both.
 This page is for anyone authoring notes under `assets/content/` — including the
 prose that becomes an **item's documentation**. The one thing to internalise is
 in [An item and its documentation are two documents](#an-item-and-its-documentation-are-two-documents):
-the link that opens a skill's *sheet* is not the link that opens its *write-up*.
+the link that opens a skill's _sheet_ is not the link that opens its _write-up_.
 
 ## The four forms
 
-| Form | Addresses |
-| --- | --- |
-| `[[type-shortcode\|Text]]` | a document of that type |
-| `[[Text]]` | an alias unique **within the source note's own type** |
-| `[[type-shortcode#slug\|Text]]` | a section of that document |
-| `[[#slug\|Text]]` | a section of the note you are writing |
+| Form                            | Addresses                                             |
+| ------------------------------- | ----------------------------------------------------- |
+| `[[type-shortcode\|Text]]`      | a document of that type                               |
+| `[[Text]]`                      | an alias unique **within the source note's own type** |
+| `[[type-shortcode#slug\|Text]]` | a section of that document                            |
+| `[[#slug\|Text]]`               | a section of the note you are writing                 |
 
 The qualifier is the note's **type**, not its directory. `(type, shortcode)` is
 the system's logical identity and is unique by rule (see
@@ -35,7 +35,7 @@ renamed. Every note additionally carries its own `type-shortcode` in frontmatter
 
 A hyphen qualifies **only when what precedes it is a known type**: note names
 contain hyphens too (`Grukar-ahk`), and those keep resolving as aliases. The split
-is at the *first* hyphen, so a shortcode may itself contain one. The older
+is at the _first_ hyphen, so a shortcode may itself contain one. The older
 `type/shortcode` form is still resolved, so a link written before the vault
 migration does not silently die.
 
@@ -50,8 +50,8 @@ build.
 ```yaml
 ---
 aliases:
-    - Weaponcraft
-    - skill-wpnc # ← the note's address
+  - Weaponcraft
+  - skill-wpnc # ← the note's address
 type: skill
 shortcode: wpnc
 ---
@@ -75,7 +75,7 @@ left as literal text and reported by the build, so a mistake degrades visibly
 rather than silently.
 
 **The `|Text` label is optional, and leaving it off means two different things.**
-On a qualified link the target is an *address*, so both builds show the target
+On a qualified link the target is an _address_, so both builds show the target
 document's **name**: `[[doc-shock]]` reads as "Shock". On a bare link the target
 is already the prose you wrote, so it stands as written — `worsens the [[Shock
 State]]` keeps saying "Shock State". Write the label whenever the sentence needs
@@ -92,11 +92,11 @@ it (see
 Two documents need two addresses. Every item type therefore has a **virtual
 `doc<type>` qualifier** naming its documentation:
 
-| Wikilink | Opens |
-| --- | --- |
-| `[[skill-wpnc]]` | the Weaponcraft **item sheet** |
-| `[[docskill-wpnc]]` | the Weaponcraft **write-up**, at its first page |
-| `[[docskill-wpnc#crafting]]` | the **`{#crafting}` page** of that write-up |
+| Wikilink                     | Opens                                           |
+| ---------------------------- | ----------------------------------------------- |
+| `[[skill-wpnc]]`             | the Weaponcraft **item sheet**                  |
+| `[[docskill-wpnc]]`          | the Weaponcraft **write-up**, at its first page |
+| `[[docskill-wpnc#crafting]]` | the **`{#crafting}` page** of that write-up     |
 
 The prefix works for every item type — `docweapongear-…`, `docmystery-…`,
 `doctrauma-…` — and is formed by prefix rather than spelled out at each address,
@@ -123,13 +123,13 @@ level when you want an inbound link to reach it.
 ```
 
 **An anchor on an Item, an Actor or a Macro does nothing and is dropped.** Such a
-link opens that document's *sheet*, not its documentation, and a sheet has no
+link opens that document's _sheet_, not its documentation, and a sheet has no
 sections to address. Only a JournalEntry link opens a journal, at its first page
 or at the page an anchor names.
 
 ```markdown
-[[skill-wpnc#crafting]]      <!-- anchor ignored: opens the item sheet -->
-[[docskill-wpnc#crafting]]   <!-- opens the Crafting page of the write-up -->
+[[skill-wpnc#crafting]] <!-- anchor ignored: opens the item sheet -->
+[[docskill-wpnc#crafting]] <!-- opens the Crafting page of the write-up -->
 ```
 
 This is the mistake worth knowing about: the first form looks right, resolves
@@ -143,18 +143,18 @@ four-space indented block, or inside an inline `` `code span` `` is shown to the
 reader exactly as written. That is how a note can document the link syntax itself, and it is how a
 macro's script survives compilation — `const first = grid[[0]];` is a nested
 array literal, not an address, and it used to be rewritten in the macro's
-*documentation* copy while its executable copy stayed correct.
+_documentation_ copy while its executable copy stayed correct.
 
 ````markdown
 ```js
 const first = grid[[0]];   <!-- left alone: source, not a link -->
 ```
 
-Write `[[skill-wpnc]]` to link the skill.   <!-- shown, not resolved -->
+Write `[[skill-wpnc]]` to link the skill. <!-- shown, not resolved -->
 ````
 
 Only code is exempt. A wikilink inside a table cell, a blockquote or a list is an
-ordinary link, and a `dataview` table is expanded *before* links resolve — so a
+ordinary link, and a `dataview` table is expanded _before_ links resolve — so a
 generated cell may itself carry one.
 
 ## The knowledgebase reads the same link differently
@@ -203,7 +203,7 @@ table row counts as a real link on all the wikilink counts.
 
 **A bare `[[Name]]` is not an address and is never reported.** Unqualified targets
 are the long-standing placeholder for worldbuilding notes kept outside this
-repository, and a hyphenated *name* (`[[Grukar-ahk]]`) stays a name, since a hyphen
+repository, and a hyphenated _name_ (`[[Grukar-ahk]]`) stays a name, since a hyphen
 only qualifies on a known type.
 
 **Addressing another package.** `assets/content/` holds the `sohl` package alone,
@@ -221,7 +221,7 @@ addresses are tolerated and the build says so, because the distinction is not
 decidable without it.
 
 **What a manifest entry records is package-relative** (#1465). An entry is
-`{ path, name }`, and `path` says where the page sits *inside its own package*
+`{ path, name }`, and `path` says where the page sits _inside its own package_
 (`creature/grukar-ahk/`) — never where that package is served. The mount point is
 the consuming build's knowledge, held one line per package in `PACKAGE_BASE`
 (`@heroiclands/content-build/engine/kb-manifest`) and prefixed when the address is resolved, so
@@ -249,7 +249,7 @@ out of the link index, so `[[Testing]]` would find nothing and render as literal
 text. Relative paths are also what GitHub and an IDE follow, and that tree is
 read in the repository at least as often as on the knowledgebase.
 
-A wikilink in a developer doc *pointing at a content note* does work — that
+A wikilink in a developer doc _pointing at a content note_ does work — that
 direction resolves normally. It is only dev-doc → dev-doc that has no target.
 
 The cost of a path is that it encodes location: move a page and every link into
