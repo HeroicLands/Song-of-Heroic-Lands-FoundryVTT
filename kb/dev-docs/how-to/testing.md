@@ -73,30 +73,35 @@ tests/
 > holds the pure `src/entity/*` object tests, `tests/item/` and `tests/actor/`
 > hold Logic-class tests, and `tests/core/` holds the Foundry-free core tests.
 
-### Two vitest projects
+### Where the pack-pipeline tests live
 
-`vitest.config.ts` declares two [projects](https://vitest.dev/guide/projects),
-and `npm run test` runs both:
+They are **not in this repository**. `@heroiclands/content-build` is developed in
+[HeroicLands/content-build](https://github.com/HeroicLands/content-build) and
+arrives here as a `devDependency` resolved from the registry — the same way
+`sohl-thalorna` and `sohl-kethira-basic` resolve it. Its suite runs in its own
+repository, against fixtures it owns.
 
-| Project         | Suite                            | Harness                                             |
-| --------------- | -------------------------------- | --------------------------------------------------- |
-| `system`        | `tests/**/*.test.ts`             | `tests/setup.ts`, the `@src`/`@tests` aliases       |
-| `content-build` | `packages/content-build/tests/**` | `packages/content-build/vitest.config.ts` — neither |
+`vitest.config.ts` therefore declares one project:
 
-The pack-pipeline tests live **with the toolchain they exercise**, so
-`@heroiclands/content-build` is verifiable on its own: `npm test -w
-@heroiclands/content-build` loads that same project config and runs that suite
-alone. The root command references the file rather than duplicating its
-settings, so the two entry points can never drift into running different suites.
+| Project  | Suite                | Harness                                 |
+| -------- | -------------------- | --------------------------------------- |
+| `system` | `tests/**/*.test.ts` | `tests/setup.ts`, `@src`/`@tests` aliases |
 
-The package's harness is deliberately austere — no `tests/setup.ts`, no Foundry
-globals, no `@src` alias. The pack pipeline is Foundry-free and severed from the
-system source, and a harness offering either would let that severance rot;
-`packages/content-build/tests/suite-is-self-contained.test.ts` fails the build if
-a test in that suite reaches for one. A test that genuinely needs the runtime is
-a **repository** test: it belongs in `tests/build/`, where
-`src-import-severance.test.ts` keeps the build package and the runtime agreeing
-on the values they share.
+What stays here is `tests/build/`, which asserts the **agreements between this
+repository and that package** — the facts neither side can check alone:
+
+- `src-import-severance.test.ts` walks the *installed* package under
+  `node_modules/` and fails if any module imports out of `src/`. Checking what
+  npm actually delivered is stronger than checking a working copy: it is the
+  only form a consumer ever sees, so a module that is clean in its own
+  repository but ships broken is still caught.
+- `manifest-package-id.test.ts` checks this repository's shipped manifest
+  declares the package id the build addresses every document by (#1503).
+
+Both used to live in the package's own suite, reaching this repository through a
+hardcoded `../../..`. That resolved only because the package was vendored under
+`packages/`, and it made the package's suite claim a self-containment it did not
+have — see HeroicLands/content-build#1.
 
 ## TDD workflow
 

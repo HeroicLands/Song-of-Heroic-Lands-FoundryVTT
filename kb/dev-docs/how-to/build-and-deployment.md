@@ -108,7 +108,7 @@ The check therefore runs against the compiled bytes rather than the JSON they
 came from, because the gap it closes is the *write* path: the emitter is already
 unit-tested, whereas the compendium CLI has previously mishandled Scene Levels.
 An `Adventure` carries its scenes inline, levels and all, so that second shape is
-checked too. The rule itself is a pure function (`packages/content-build/engine/scene-levels.mjs`)
+checked too. The rule itself is a pure function (`@heroiclands/content-build/engine/scene-levels`)
 and is unit-tested directly.
 
 ### Tests, lint, format
@@ -154,7 +154,6 @@ and is unit-tested directly.
 | `changeset:version`                        | Apply pending changesets: bump the version and update `CHANGELOG.md` (normally run by CI).         |
 | `changeset:check`                          | Verify a changeset exists.                                                                         |
 | `build:sohl-types`                         | Regenerate `packages/sohl-types/index.d.ts` from the SoHL source (run by that package's `prepack`). |
-| `build:content-build-types`                | Regenerate `packages/content-build/types/**.d.mts` from that package's JSDoc (run by its `prepack`). |
 
 ## 3. The build pipeline
 
@@ -279,7 +278,7 @@ its entry in `content-build.config.mjs`, rather than the guard being relaxed for
 everyone.
 
 Cross-package references are resolved through published link manifests rather
-than a shared tree; see `packages/content-build/engine/kb-manifest.mjs` and `assets/manifests/`.
+than a shared tree; see `@heroiclands/content-build/engine/kb-manifest` and `assets/manifests/`.
 
 ### Authoring content notes
 
@@ -366,15 +365,15 @@ both content builds silently, so `npm run lint:content-links` (also part of
   an index links to nearly everything, and following it would make the check
   vacuous.
 
-`build:compiledb` runs the pack CLI, `packages/content-build/bin/content-build.mjs`. The
-CLI owns every side effect — argv parsing, `loglevel` configuration, creating
+`build:compiledb` runs the pack CLI, the `content-build` binary the installed
+package puts on the path. The CLI owns every side effect — argv parsing, `loglevel` configuration, creating
 `build/tmp/packs/`, and the process exit code — and calls the import-safe library
-`packages/content-build/engine/compendiums.mjs`, whose `compilePacks` / `unpackPacks` / `cleanPacks`
+`@heroiclands/content-build/engine/compendiums`, whose `compilePacks` / `unpackPacks` / `cleanPacks`
 take every path and pack list as an argument. That split is what lets another
 repository's build import the compiler without inheriting a `build/` tree or a
 reconfigured logger.
 
-`compilePacks` in turn runs `packages/content-build/engine/generate.mjs`, which
+`compilePacks` in turn runs `@heroiclands/content-build/engine/generate`, which
 drives one compiler per configured pack (`sohl/items.mjs`, `sohl/actors.mjs`,
 `engine/journals.mjs`, `engine/macros.mjs`, `engine/scenes.mjs`): each walks the
 content tree, selects files by frontmatter, validates folders against the pack's
@@ -383,7 +382,7 @@ compiled.
 
 #### Adding a pack compiler: `BasePackCompiler`
 
-That walk is written **once**, in `packages/content-build/engine/base-compiler.mjs`. Walking the
+That walk is written **once**, in `@heroiclands/content-build/engine/base-compiler`. Walking the
 tree, rejecting notes of another content package, skipping drafts, expanding
 generated tables, converting wikilinks, writing the JSON and counting what
 failed are identical in every pass, so `BasePackCompiler` owns them and each
@@ -421,7 +420,7 @@ stays small — construct with `{contentBase, dest, companionDests,
 folderResolver, packName, docType, router}`, `await compile()`, read `errorCount`
 and `compiledCount`.
 
-`packages/content-build/engine/map-notes.mjs` is deliberately **not** a subclass: it never walks
+`@heroiclands/content-build/engine/map-notes` is deliberately **not** a subclass: it never walks
 the tree. It is the pure markdown→`Scene` translator the scenes pass calls, and
 keeping it framework-free is what makes it unit-testable.
 
@@ -430,12 +429,11 @@ keeping it framework-free is what makes it unit-testable.
 Everything about the pipeline that is *this repository's* rather than any
 consumer's lives in one file at the repository root,
 **`content-build.config.mjs`**, validated by `defineConfig` from the shared
-`@heroiclands/content-build` package. Nothing under `packages/content-build/`
-spells a path, a package name, or a pack list of its own; each module reads the
-resolved configuration through `packages/content-build/engine/pack-config.mjs`,
-which locates the config file by walking up from itself — so it lands on the
-consuming repository's root whether the toolchain sits in `packages/` or in
-`node_modules/` (#1508). A consuming repository —
+`@heroiclands/content-build` package. Nothing inside that package spells a path,
+a package name, or a pack list of its own; each module reads the resolved
+configuration through `@heroiclands/content-build/engine/pack-config`, which
+locates the config file by walking up from itself — so it lands on the consuming
+repository's root from `node_modules/` (#1508). A consuming repository —
 `sohl-thalorna`, `sohl-kethira-basic`, an adventure module — ships the same
 toolchain with its own copy of that file and nothing else.
 
@@ -471,7 +469,7 @@ packs: [
   is written by its parent's pass, and that indirection is the only one the build
   has.
 
-The routing itself is `packages/content-build/engine/pack-router.mjs`, one pure
+The routing itself is `@heroiclands/content-build/engine/pack-router`, one pure
 function over the configured pack list. `BasePackCompiler` consults it for every
 note its `selects` claims, so a pass never has to know that its document type
 ships in more than one pack. Every pack of a type sees the same notes, so the
@@ -521,12 +519,12 @@ The `assets/` root a content note's `img:` resolves to is derived, not written:
 #### Adding or removing an item type
 
 Which `type:` values compile into an Item is declared **once**, in the registry
-`packages/content-build/sohl/item-builders.mjs`: `ITEM_BUILDERS` pairs each type with the builder
+`@heroiclands/content-build/sohl/item-builders`: `ITEM_BUILDERS` pairs each type with the builder
 that produces its `system` block. This repository hands that table to the build
 as `itemBuilders` in `content-build.config.mjs`, and
-`packages/content-build/engine/item-registry.mjs` reads it back out of the
+`@heroiclands/content-build/engine/item-registry` reads it back out of the
 resolved configuration — both the whitelist `ITEM_TYPES` (its key set, which
-`packages/content-build/engine/item-docs.mjs` re-exports and assembles
+`@heroiclands/content-build/engine/item-docs` re-exports and assembles
 `DOC_ENTRY_TYPES` from) and the `itemBuilder(type)` lookup the Item compiler
 dispatches through. So the whitelist of compilable types and the table of
 builders are the same object and cannot drift; a type with no builder is not a
@@ -543,7 +541,7 @@ default artwork in `@heroiclands/content-build/sohl/default-item-art` — the la
 of which the unit
 suite holds in exact step with the registry. Removing a type is the same three
 deletions. The registry is a **leaf module**: it imports only the frontmatter
-readers in `packages/content-build/engine/frontmatter.mjs`, never `helpers.mjs`,
+readers in `@heroiclands/content-build/engine/frontmatter`, never `helpers.mjs`,
 and never the resolved configuration. The config file imports the registry, so a
 read back out of configuration there would close a cycle around the config's own
 evaluation; the data travels *into* configuration and only `item-registry.mjs`,
@@ -557,7 +555,7 @@ folder and under the same name as the item — and `system.docHtml` becomes
 nothing but a `@UUID` link to that entry's first page. The runtime recognises a
 description that is only a link as a **pointer** and shows what it points at —
 `descriptionLinkTarget()` decides, and Display Description follows. See
-`packages/content-build/engine/item-docs.mjs`. A reader of the chat card sees the prose, not a
+`@heroiclands/content-build/engine/item-docs`. A reader of the chat card sees the prose, not a
 link.
 
 The prose therefore exists **once**. It used to exist once per item and again on
@@ -989,9 +987,10 @@ publishDir-relative and does **not** get the baseURL path added, so
 ## 9. The build utility scripts
 
 The build/deploy/doc tooling lives in **`utils/`**; the pack pipeline is the
-shared workspace package **`packages/content-build/`** (#1512), which `utils/`
-consumes as `@heroiclands/content-build`. Each script carries a header comment
-describing its purpose
+shared package **`@heroiclands/content-build`** (#1512), developed in
+[its own repository](https://github.com/HeroicLands/content-build) and consumed
+here as a `devDependency` from the registry — the same way every other consumer
+resolves it (#1589). Each script carries a header comment describing its purpose
 and how to invoke it — read the file itself for the authoritative detail. In brief:
 
 | Script                              | Purpose                                                                                   |

@@ -22,9 +22,9 @@ and `grid.units` declare `initial: () => game.system.grid.*`, and there is no
 `game` at build time, so leaving them to their initial is not an option. An
 unrecognised `type:` fails the build.
 
-The translation lives in `packages/content-build/engine/map-notes.mjs` (framework-free and
+The translation lives in `@heroiclands/content-build/engine/map-notes` (framework-free and
 unit-tested); the pass that walks the tree, resolves cross-references and writes
-the pack JSON is `packages/content-build/engine/scenes.mjs`.
+the pack JSON is `@heroiclands/content-build/engine/scenes`.
 
 ## Two units, told apart by the key
 
@@ -162,7 +162,7 @@ the build could see it (#1533).
 
 Every compiled document now stamps the manifest's own `compatibility.minimum`
 — `supportedCoreVersion` in
-[`packages/content-build/engine/helpers.mjs`](../../../packages/content-build/engine/helpers.mjs) — which the
+`@heroiclands/content-build/engine/helpers` — which the
 manifest itself enforces, so no supported client can legitimately need those
 shims. Map notes
 carry no special case for it — but `map-notes.cy.js` asserts the Level's *name*

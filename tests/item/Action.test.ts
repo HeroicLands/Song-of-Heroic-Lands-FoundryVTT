@@ -383,7 +383,7 @@ describe("SohlAction.execute gates on permission then trigger", () => {
             minActorOwnership: OWNERSHIP.OWNER,
         });
         await action.execute({ speaker: {} } as any);
-        const blocked = infoSpy.mock.calls.filter((args) =>
+        const blocked = infoSpy.mock.calls.filter((args: unknown[]) =>
             String(args[0]).includes("blocked"),
         );
         expect(blocked).toEqual([]);
@@ -397,7 +397,7 @@ describe("SohlAction.execute gates on permission then trigger", () => {
             minActorOwnership: OWNERSHIP.OWNER,
         });
         await action.execute({ speaker: {} } as any);
-        const blocked = infoSpy.mock.calls.filter((args) =>
+        const blocked = infoSpy.mock.calls.filter((args: unknown[]) =>
             String(args[0]).includes("blocked"),
         );
         expect(blocked).toEqual([]);

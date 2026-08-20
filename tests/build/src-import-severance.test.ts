@@ -30,12 +30,17 @@ import {
     journalPageId,
 } from "@heroiclands/content-build/engine/journals";
 
-// The pipeline itself now lives in the workspace package (#1512), so the
-// severance is asserted where the modules are — the guard follows the code
-// rather than the directory it used to sit in.
-const PACKS_DIR = path.resolve(__dirname, "../../packages/content-build");
+// The pipeline lives in its own repository now (#1589) and arrives here as an
+// installed dependency, so the guard walks what npm actually delivered rather
+// than a working copy. That is the stronger check: it asserts the severance of
+// the *published tarball*, which is the only form any consumer ever sees, and
+// it would catch a module that is clean in its own repository but ships broken.
+const PACKS_DIR = path.resolve(
+    __dirname,
+    "../../node_modules/@heroiclands/content-build",
+);
 
-/** Every `.mjs` under `packages/content-build/`, recursively. */
+/** Every `.mjs` in the installed package, recursively. */
 function packModules(dir: string): string[] {
     return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
         const full = path.join(dir, entry.name);
