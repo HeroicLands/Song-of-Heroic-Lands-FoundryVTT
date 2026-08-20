@@ -5,7 +5,7 @@ body:
     - type: markdown
       attributes:
           value: |
-              A **task** is maintenance/chore work (a defect is a **Bug**; new capability is a **Feature**; exploratory work with an uncertain outcome is a **Spike**). A behavior-preserving refactor is a task tagged `tech-debt`. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/docs/how-to/issue-reporting.md).
+              A **task** is maintenance/chore work (a defect is a **Bug**; new capability is a **Feature**; exploratory work with an uncertain outcome is a **Spike**). A behavior-preserving refactor is a task tagged `tech-debt`. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/kb/dev-docs/how-to/issue-reporting.md).
     - type: textarea
       id: what
       attributes:

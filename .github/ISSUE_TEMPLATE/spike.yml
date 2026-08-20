@@ -5,7 +5,7 @@ body:
     - type: markdown
       attributes:
           value: |
-              A **spike** answers a question whose outcome is genuinely uncertain; it produces a _conclusion_, not production code, and typically spawns follow-up issues. If the steps are already known, it's a **Task**. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/docs/how-to/issue-reporting.md).
+              A **spike** answers a question whose outcome is genuinely uncertain; it produces a _conclusion_, not production code, and typically spawns follow-up issues. If the steps are already known, it's a **Task**. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/kb/dev-docs/how-to/issue-reporting.md).
     - type: textarea
       id: question
       attributes:
