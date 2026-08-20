@@ -9,6 +9,7 @@ import { describe, it, expect } from "vitest";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Build-time pack helpers (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
@@ -19,6 +20,12 @@ import {
     readManifestPackageId,
 } from "../../../utils/packs/package-manifest.mjs";
 import { FOUNDRY_PACKAGE_ID } from "../../../utils/packs/content-package.mjs";
+
+// Anchored on this file, not the working directory (see pack-config.test.ts).
+const REPO_ROOT = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "../../..",
+);
 
 /** A throwaway `assets/templates`-shaped directory, `{ fileName: contents }`. */
 function templateDir(files: Record<string, string>): string {
@@ -139,7 +146,7 @@ describe("assertPackageIdMatchesManifestFile — the thin caller", () => {
         expect(() =>
             assertPackageIdMatchesManifestFile(
                 FOUNDRY_PACKAGE_ID,
-                path.resolve("./assets/templates"),
+                path.join(REPO_ROOT, "assets/templates"),
             ),
         ).not.toThrow();
     });

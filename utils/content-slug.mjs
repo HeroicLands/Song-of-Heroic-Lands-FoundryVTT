@@ -37,7 +37,7 @@
  *   suggesting a shortcode _from_ a name when an item is created.
  *
  * Plain ESM with no Foundry and no filesystem access, so it is unit-testable —
- * see `tests/build/content-slug.test.ts`.
+ * see `packages/content-build/tests/content-slug.test.ts`.
  */
 
 import unidecode from "unidecode";

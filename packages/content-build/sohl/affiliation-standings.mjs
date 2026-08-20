@@ -26,7 +26,7 @@
  * (`utils/build-type-catalog.mjs`) and the localization-coverage check
  * (`utils/check-lang-coverage.mjs`) — and replacing it with an imported
  * reference would blind both. The two lists are held identical by a test
- * (`tests/utils/packs/src-import-severance.test.ts`), so the drift the
+ * (`tests/build/src-import-severance.test.ts`), so the drift the
  * duplication would otherwise allow is a failing build rather than an
  * affiliation whose authored hostility quietly became neutrality.
  *

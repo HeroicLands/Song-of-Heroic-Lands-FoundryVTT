@@ -161,4 +161,4 @@ Expansion happens **before** wikilink resolution, in all four content compilers:
 wikilink. In the knowledgebase build it also runs *outside* that build's code-fence
 protection — a query **is** a fenced block, so protecting it first would hide it from
 the expander. The expander itself is dependency-free ESM and is unit-tested in
-`tests/build/content-tables.test.ts`.
+`packages/content-build/tests/content-tables.test.ts`.

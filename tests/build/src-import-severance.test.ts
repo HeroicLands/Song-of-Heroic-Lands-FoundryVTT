@@ -16,8 +16,18 @@ import { DEFAULT_ITEM_ART } from "@heroiclands/content-build/sohl/default-item-a
 import { AFFILIATION_STANDINGS } from "@heroiclands/content-build/sohl/affiliation-standings";
 // The runtime enum the shared standings list mirrors.
 import { AffiliationStandings } from "@src/utils/constants";
+// The runtime rule that decides whether a description is a pointer, and the
+// pack-side pieces that write one. The agreement between them is a
+// repository-side fact, so it is asserted here rather than travelling with the
+// pack tests into the package (#1511).
+import { descriptionLinkTarget } from "@src/utils/description-link";
+import {
+    itemDocEntryId,
+    itemDocPointer,
+} from "../../utils/packs/item-docs.mjs";
+import { splitPages, journalPageId } from "../../utils/packs/journals.mjs";
 
-const PACKS_DIR = path.resolve(__dirname, "../../../utils/packs");
+const PACKS_DIR = path.resolve(__dirname, "../../utils/packs");
 
 /** Every `.mjs` under `utils/packs/`, recursively. */
 function packModules(dir: string): string[] {
@@ -70,6 +80,32 @@ describe("pack pipeline severance from src/ (#1510)", () => {
         // #932-shaped drift this arrangement exists to prevent.
         expect([...AFFILIATION_STANDINGS].sort()).toEqual(
             [...AffiliationStandings].sort(),
+        );
+    });
+});
+
+describe("the pack pipeline and the runtime agree on description pointers", () => {
+    /** The pointer the items pass writes for a note, derived exactly as it does. */
+    function pointerFor(
+        itemId: string,
+        name: string,
+        markdown: string,
+    ): string {
+        const [lead] = splitPages(markdown, name);
+        return itemDocPointer(
+            "sohl",
+            itemId,
+            name,
+            journalPageId(itemDocEntryId(itemId), lead, 0),
+        );
+    }
+
+    it("is a pointer by the system's own rule", () => {
+        // The round-trip that matters: what the pack writes is what
+        // `descriptionLinkTarget` recognises at runtime (#1356).
+        const pointer = pointerFor("xPisQgs7pKDaYaKs", "Dehydrated", "body");
+        expect(descriptionLinkTarget(pointer)).toBe(
+            pointer.slice("@UUID[".length, pointer.indexOf("]")),
         );
     });
 });

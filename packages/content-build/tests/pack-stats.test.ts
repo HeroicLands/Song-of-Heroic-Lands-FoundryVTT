@@ -8,20 +8,26 @@
 import { describe, it, expect } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Build-time pack helper (plain ESM, no Foundry). Imported by relative path
 // because the pack-build scripts live outside the `@src` alias tree.
 import { buildStats as buildStatsRaw } from "../../../utils/packs/helpers.mjs";
 import { packConfig } from "../../../utils/packs/config.mjs";
-import { defineConfig } from "../../../packages/content-build/index.mjs";
+import { defineConfig } from "../index.mjs";
 
 // The pack helpers are plain ESM whose JSDoc types the return as `object`.
 const buildStats = (systemVersion?: string, config?: unknown): any =>
     buildStatsRaw(systemVersion as any, config as any);
 
+// Anchored on this file, not the working directory (see pack-config.test.ts).
+const REPO_ROOT = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "../../..",
+);
 const MANIFEST = JSON.parse(
     fs.readFileSync(
-        path.resolve("assets/templates/system.template.json"),
+        path.join(REPO_ROOT, "assets/templates/system.template.json"),
         "utf8",
     ),
 );
@@ -105,7 +111,7 @@ describe("the `_stats` stamp is configuration, not a literal (#1508)", () => {
 
     it("stamps a non-`sohl` consumer's own identity", () => {
         const moduleConfig = defineConfig({
-            rootDir: path.resolve("."),
+            rootDir: REPO_ROOT,
             contentPackage: "thalorna",
             foundryPackage: "sohl-thalorna",
             packageKind: "modules",

@@ -20,15 +20,63 @@ import { itemDocEntryId } from "../../../utils/packs/item-docs.mjs";
 
 /** A small stand-in content tree spanning three packs. */
 const DOCS = [
-    { type: "doc", id: "aaaaaaaaaaaaaaa1", shortcode: "shock", name: "Shock", aliases: ["Shock", "Shock State"] },
-    { type: "doc", id: "aaaaaaaaaaaaaaa2", shortcode: "bleeding", name: "Bleeding", aliases: ["Bleeding"] },
-    { type: "doc", id: "aaaaaaaaaaaaaaa3", shortcode: "coma", name: "Coma", aliases: ["Coma"] },
+    {
+        type: "doc",
+        id: "aaaaaaaaaaaaaaa1",
+        shortcode: "shock",
+        name: "Shock",
+        aliases: ["Shock", "Shock State"],
+    },
+    {
+        type: "doc",
+        id: "aaaaaaaaaaaaaaa2",
+        shortcode: "bleeding",
+        name: "Bleeding",
+        aliases: ["Bleeding"],
+    },
+    {
+        type: "doc",
+        id: "aaaaaaaaaaaaaaa3",
+        shortcode: "coma",
+        name: "Coma",
+        aliases: ["Coma"],
+    },
     // Shares the "Coma" alias with the doc above — ambiguous, so unusable bare.
-    { type: "doc", id: "aaaaaaaaaaaaaaa4", shortcode: "extshock", name: "Extreme Shock", aliases: ["Coma"] },
-    { type: "skill", id: "bbbbbbbbbbbbbbb1", shortcode: "climb", name: "Climbing", aliases: ["Climbing"] },
-    { type: "creature", id: "ccccccccccccccc1", shortcode: "condor", name: "Condor", aliases: ["Condor"] },
-    { type: "macro", id: "ddddddddddddddd1", shortcode: "rollit", name: "Roll It", aliases: ["Roll It"] },
-    { type: "containergear", id: "eeeeeeeeeeeeeee1", shortcode: "backpack", name: "Backpack", aliases: ["Backpack"] },
+    {
+        type: "doc",
+        id: "aaaaaaaaaaaaaaa4",
+        shortcode: "extshock",
+        name: "Extreme Shock",
+        aliases: ["Coma"],
+    },
+    {
+        type: "skill",
+        id: "bbbbbbbbbbbbbbb1",
+        shortcode: "climb",
+        name: "Climbing",
+        aliases: ["Climbing"],
+    },
+    {
+        type: "creature",
+        id: "ccccccccccccccc1",
+        shortcode: "condor",
+        name: "Condor",
+        aliases: ["Condor"],
+    },
+    {
+        type: "macro",
+        id: "ddddddddddddddd1",
+        shortcode: "rollit",
+        name: "Roll It",
+        aliases: ["Roll It"],
+    },
+    {
+        type: "containergear",
+        id: "eeeeeeeeeeeeeee1",
+        shortcode: "backpack",
+        name: "Backpack",
+        aliases: ["Backpack"],
+    },
 ];
 
 const index = buildWikilinkIndex(DOCS, "sohl");
@@ -79,14 +127,28 @@ describe("packForType (content type → the pack it compiles into)", () => {
 
     it("routes every other type to the items pack, including one it has never seen", () => {
         for (const type of [
-            "armorgear", "weapongear", "containergear", "miscgear", "skill",
-            "attribute", "affliction", "trauma", "mystery", "mysticalability",
+            "armorgear",
+            "weapongear",
+            "containergear",
+            "miscgear",
+            "skill",
+            "attribute",
+            "affliction",
+            "trauma",
+            "mystery",
+            "mysticalability",
         ]) {
-            expect(packForType(type)).toEqual({ pack: "items", docType: "Item" });
+            expect(packForType(type)).toEqual({
+                pack: "items",
+                docType: "Item",
+            });
         }
         // Item types are the open set, so a type added tomorrow is linkable the
         // day it is authored — no table to forget (#1276).
-        expect(packForType("somenewgear")).toEqual({ pack: "items", docType: "Item" });
+        expect(packForType("somenewgear")).toEqual({
+            pack: "items",
+            docType: "Item",
+        });
     });
 });
 
@@ -105,13 +167,17 @@ describe("anchorPageId (deterministic JournalEntryPage id for an anchor)", () =>
     it("differs by anchor slug and by note id", () => {
         const a = anchorPageId("aaaaaaaaaaaaaaa1", "shock-state-index");
         expect(a).not.toBe(anchorPageId("aaaaaaaaaaaaaaa1", "shock-states"));
-        expect(a).not.toBe(anchorPageId("aaaaaaaaaaaaaaa9", "shock-state-index"));
+        expect(a).not.toBe(
+            anchorPageId("aaaaaaaaaaaaaaa9", "shock-state-index"),
+        );
     });
 });
 
 describe("convertWikilinks", () => {
     it("converts a qualified link to a same-pack @UUID enricher", () => {
-        const { markdown, unresolved } = convert("see [[doc/shock|the Shock rules]].");
+        const { markdown, unresolved } = convert(
+            "see [[doc/shock|the Shock rules]].",
+        );
         expect(markdown).toBe(
             "see @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{the Shock rules}.",
         );
@@ -119,7 +185,9 @@ describe("convertWikilinks", () => {
     });
 
     it("converts a bare link via a unique alias in the source's own type", () => {
-        const { markdown } = convert("worsens the [[Shock State]] of the victim");
+        const { markdown } = convert(
+            "worsens the [[Shock State]] of the victim",
+        );
         expect(markdown).toBe(
             "worsens the @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock State} of the victim",
         );
@@ -155,7 +223,9 @@ describe("convertWikilinks", () => {
 
     it("converts a cross-page section link to a JournalEntryPage target", () => {
         const page = anchorPageId("aaaaaaaaaaaaaaa1", "shock-state-index");
-        const { markdown } = convert("the [[doc/shock#shock-state-index|Shock State Index]]");
+        const { markdown } = convert(
+            "the [[doc/shock#shock-state-index|Shock State Index]]",
+        );
         expect(markdown).toBe(
             "the @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1.JournalEntryPage." +
                 page +
@@ -165,7 +235,9 @@ describe("convertWikilinks", () => {
 
     it("resolves a same-page anchor against the source note itself", () => {
         const page = anchorPageId(from.id, "blood-loss-advance-test");
-        const { markdown } = convert("see [[#blood-loss-advance-test|the advance test]]");
+        const { markdown } = convert(
+            "see [[#blood-loss-advance-test|the advance test]]",
+        );
         expect(markdown).toBe(
             "see @UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa2.JournalEntryPage." +
                 page +
@@ -181,38 +253,59 @@ describe("convertWikilinks", () => {
     });
 
     it("cannot resolve a bare alias that belongs to another type", () => {
-        const { markdown } = convert("[[Coma]]", { type: "skill", id: "bbbbbbbbbbbbbbb1" });
+        const { markdown } = convert("[[Coma]]", {
+            type: "skill",
+            id: "bbbbbbbbbbbbbbb1",
+        });
         // "Coma" is not an alias of any skill — unresolvable from there.
-        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>');
+        expect(markdown).toBe(
+            '<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>',
+        );
     });
 
     it("leaves an ambiguous bare alias untouched and reports it", () => {
         const { markdown, unresolved } = convert("a [[Coma]] state");
-        expect(markdown).toBe(`a ${'<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>'} state`);
+        expect(markdown).toBe(
+            `a ${'<span class="sohl-unresolved-link" title="Unresolved link: Coma">Coma</span>'} state`,
+        );
         expect(unresolved).toHaveLength(1);
-        expect(unresolved[0]).toMatchObject({ target: "Coma", reason: "ambiguous" });
+        expect(unresolved[0]).toMatchObject({
+            target: "Coma",
+            reason: "ambiguous",
+        });
     });
 
     it("leaves an unknown shortcode untouched and reports it", () => {
-        const { markdown, unresolved } = convert("the [[doc/nosuchcode|Injury]] rules");
-        expect(markdown).toBe(`the ${'<span class="sohl-unresolved-link" title="Unresolved link: doc/nosuchcode">Injury</span>'} rules`);
+        const { markdown, unresolved } = convert(
+            "the [[doc/nosuchcode|Injury]] rules",
+        );
+        expect(markdown).toBe(
+            `the ${'<span class="sohl-unresolved-link" title="Unresolved link: doc/nosuchcode">Injury</span>'} rules`,
+        );
         expect(unresolved).toHaveLength(1);
         expect(unresolved[0].reason).toBe("unknown");
     });
 
     it("rejects a qualifier that is not a content type — including the retired directory form", () => {
-        const { markdown, unresolved } = convert("the [[Rules/shock|Shock]] rules");
-        expect(markdown).toBe(`the ${'<span class="sohl-unresolved-link" title="Unresolved link: Rules/shock">Shock</span>'} rules`);
+        const { markdown, unresolved } = convert(
+            "the [[Rules/shock|Shock]] rules",
+        );
+        expect(markdown).toBe(
+            `the ${'<span class="sohl-unresolved-link" title="Unresolved link: Rules/shock">Shock</span>'} rules`,
+        );
         expect(unresolved[0]).toMatchObject({ reason: "unknown-type" });
     });
 
     it("never touches external markdown links or intra-page markdown", () => {
-        const src = "see [Kelestia](https://www.kelestia.com/) and ![art](icons/a.svg)";
+        const src =
+            "see [Kelestia](https://www.kelestia.com/) and ![art](icons/a.svg)";
         expect(convert(src).markdown).toBe(src);
     });
 
     it("converts every link on a line, and leaves surrounding prose alone", () => {
-        const { markdown } = convert("[[doc/shock|Shock]] and [[skill/climb|Climbing]] both");
+        const { markdown } = convert(
+            "[[doc/shock|Shock]] and [[skill/climb|Climbing]] both",
+        );
         expect(markdown).toBe(
             "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock} and " +
                 "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing} both",
@@ -229,7 +322,9 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
     const climbDoc = itemDocEntryId("bbbbbbbbbbbbbbb1");
 
     it("addresses the item doc entry, not the item", () => {
-        const { markdown, unresolved } = convert("see [[docskill/climb|the Climbing rules]]");
+        const { markdown, unresolved } = convert(
+            "see [[docskill/climb|the Climbing rules]]",
+        );
         expect(markdown).toBe(
             `see @UUID[Compendium.sohl.journals.JournalEntry.${climbDoc}]{the Climbing rules}`,
         );
@@ -240,7 +335,9 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
 
     it("addresses a page within the item doc via an anchor", () => {
         const page = anchorPageId(climbDoc, "crafting");
-        const { markdown } = convert("the [[docskill/climb#crafting|crafting rules]]");
+        const { markdown } = convert(
+            "the [[docskill/climb#crafting|crafting rules]]",
+        );
         expect(markdown).toBe(
             "the @UUID[Compendium.sohl.journals.JournalEntry." +
                 `${climbDoc}.JournalEntryPage.${page}]{crafting rules}`,
@@ -289,8 +386,12 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
     });
 
     it("reports an unknown shortcode under a valid virtual qualifier", () => {
-        const { markdown, unresolved } = convert("[[docskill/nosuchcode|Nope]]");
-        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: docskill/nosuchcode">Nope</span>');
+        const { markdown, unresolved } = convert(
+            "[[docskill/nosuchcode|Nope]]",
+        );
+        expect(markdown).toBe(
+            '<span class="sohl-unresolved-link" title="Unresolved link: docskill/nosuchcode">Nope</span>',
+        );
         expect(unresolved[0]).toMatchObject({ reason: "unknown" });
     });
 
@@ -298,7 +399,9 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
         // Only a JournalEntry has pages. Rather than forge a JournalEntryPage id
         // onto a document that can never hold one (the #1362 defect), the anchor
         // is simply dropped and the link addresses the item.
-        const { markdown, unresolved } = convert("[[skill/climb#crafting|Climbing]]");
+        const { markdown, unresolved } = convert(
+            "[[skill/climb#crafting|Climbing]]",
+        );
         expect(markdown).toBe(
             "@UUID[Compendium.sohl.items.Item.bbbbbbbbbbbbbbb1]{Climbing}",
         );
@@ -328,15 +431,25 @@ describe("convertWikilinks — the `doc<type>` virtual qualifier", () => {
     it("prefers a real content type over the virtual reading of the same name", () => {
         // Were a type literally named `docskill` ever authored, it would own the
         // qualifier — the virtual form is only consulted when no such type exists.
-        const withReal = buildWikilinkIndex([
-            ...DOCS,
-            { type: "docskill", id: "fffffffffffffff1", shortcode: "climb", aliases: [] },
-        ], "sohl");
+        const withReal = buildWikilinkIndex(
+            [
+                ...DOCS,
+                {
+                    type: "docskill",
+                    id: "fffffffffffffff1",
+                    shortcode: "climb",
+                    aliases: [],
+                },
+            ],
+            "sohl",
+        );
         const { markdown } = convertWikilinks("[[docskill/climb|X]]", {
             ...from,
             index: withReal,
         });
-        expect(markdown).toBe("@UUID[Compendium.sohl.items.Item.fffffffffffffff1]{X}");
+        expect(markdown).toBe(
+            "@UUID[Compendium.sohl.items.Item.fffffffffffffff1]{X}",
+        );
     });
 });
 
@@ -353,7 +466,10 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
         // separator was understood this resolved only from a `doc` note and
         // silently failed from every other type — 283 links at the time.
         const fromSkill = { type: "skill", id: "bbbbbbbbbbbbbbb1" };
-        const { markdown, unresolved } = convert("[[doc-shock|Shock]]", fromSkill);
+        const { markdown, unresolved } = convert(
+            "[[doc-shock|Shock]]",
+            fromSkill,
+        );
         expect(markdown).toBe(
             "@UUID[Compendium.sohl.journals.JournalEntry.aaaaaaaaaaaaaaa1]{Shock}",
         );
@@ -394,15 +510,18 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
         // Two authored shortcodes contain a hyphen (`self-pro`, `self-suf`), so
         // the shortcode is everything after the first separator — the remainder
         // is never re-read as a second qualifier.
-        const withHyphenCode = buildWikilinkIndex([
-            ...DOCS,
-            {
-                type: "trauma",
-                id: "99999999999999a1",
-                shortcode: "self-pro",
-                aliases: [],
-            },
-        ], "sohl");
+        const withHyphenCode = buildWikilinkIndex(
+            [
+                ...DOCS,
+                {
+                    type: "trauma",
+                    id: "99999999999999a1",
+                    shortcode: "self-pro",
+                    aliases: [],
+                },
+            ],
+            "sohl",
+        );
         const { markdown, unresolved } = convertWikilinks(
             "[[trauma-self-pro|Self-Protective]]",
             { ...from, index: withHyphenCode },
@@ -418,15 +537,18 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
         // qualifies when what precedes it is a known type, which is why the
         // hyphen form cannot be treated as unconditionally qualified the way the
         // slash form is.
-        const withDash = buildWikilinkIndex([
-            ...DOCS,
-            {
-                type: "doc",
-                id: "77777777777777a1",
-                shortcode: "grukarahk",
-                aliases: ["Grukar-ahk"],
-            },
-        ], "sohl");
+        const withDash = buildWikilinkIndex(
+            [
+                ...DOCS,
+                {
+                    type: "doc",
+                    id: "77777777777777a1",
+                    shortcode: "grukarahk",
+                    aliases: ["Grukar-ahk"],
+                },
+            ],
+            "sohl",
+        );
         const { markdown, unresolved } = convertWikilinks("[[Grukar-ahk]]", {
             ...from,
             index: withDash,
@@ -439,10 +561,11 @@ describe("convertWikilinks — the `type-shortcode` separator (#1398)", () => {
 
     it("reports an unknown shortcode under a valid type", () => {
         const { markdown, unresolved } = convert("[[doc-nosuchcode|Nope]]");
-        expect(markdown).toBe('<span class="sohl-unresolved-link" title="Unresolved link: doc-nosuchcode">Nope</span>');
+        expect(markdown).toBe(
+            '<span class="sohl-unresolved-link" title="Unresolved link: doc-nosuchcode">Nope</span>',
+        );
         expect(unresolved[0]).toMatchObject({ reason: "unknown" });
     });
-
 });
 
 describe("convertWikilinks — an unlabelled link (#1409)", () => {
@@ -496,9 +619,17 @@ describe("convertWikilinks — an unlabelled link (#1409)", () => {
     });
 
     it("falls back to the target when the document has no name", () => {
-        const nameless = buildWikilinkIndex([
-            { type: "doc", id: "88888888888888a1", shortcode: "nameless", aliases: [] },
-        ], "sohl");
+        const nameless = buildWikilinkIndex(
+            [
+                {
+                    type: "doc",
+                    id: "88888888888888a1",
+                    shortcode: "nameless",
+                    aliases: [],
+                },
+            ],
+            "sohl",
+        );
         const { markdown } = convertWikilinks("[[doc-nameless]]", {
             ...from,
             index: nameless,
@@ -542,14 +673,14 @@ describe("readQualifier — the optional package segment (#1499)", () => {
     });
 
     it("still reads the virtual doc<type> form under a package", () => {
-        expect(readQualifier("thalorna-docskill-wpnc", TYPES, PACKAGES)).toEqual(
-            {
-                type: "skill",
-                shortcode: "wpnc",
-                itemDoc: true,
-                package: "thalorna",
-            },
-        );
+        expect(
+            readQualifier("thalorna-docskill-wpnc", TYPES, PACKAGES),
+        ).toEqual({
+            type: "skill",
+            shortcode: "wpnc",
+            itemDoc: true,
+            package: "thalorna",
+        });
     });
 });
 

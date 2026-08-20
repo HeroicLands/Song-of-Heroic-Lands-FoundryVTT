@@ -13,14 +13,9 @@
 
 import { describe, it, expect } from "vitest";
 import path from "node:path";
-// The shared content-build toolchain is a workspace package consumed by path;
-// imported relatively here for the same reason `tests/utils/packs/*` import the
-// pack scripts by path — build tooling lives outside the `@src` alias tree.
-import { defineConfig } from "../../../packages/content-build/index.mjs";
-import type {
-    ContentBuildConfigInput,
-    PackSpec,
-} from "../../../packages/content-build/config.mjs";
+// The package's own entry point and configuration contract.
+import { defineConfig } from "../index.mjs";
+import type { ContentBuildConfigInput, PackSpec } from "../config.mjs";
 
 /** The smallest configuration `defineConfig` accepts. */
 function minimal(): ContentBuildConfigInput {
@@ -317,7 +312,7 @@ describe("defineConfig — the layout a consumer supplies (#1508)", () => {
 
 describe("the package barrels", () => {
     it("exposes the engine and sohl namespaces", async () => {
-        const pkg = await import("../../../packages/content-build/index.mjs");
+        const pkg = await import("../index.mjs");
 
         expect(pkg.engine).toBeTypeOf("object");
         expect(pkg.sohl).toBeTypeOf("object");

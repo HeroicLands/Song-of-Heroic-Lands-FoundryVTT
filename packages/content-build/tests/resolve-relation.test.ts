@@ -50,9 +50,9 @@ describe("resolveRelation (pack builder — affiliation standing map, #1404)", (
     });
 
     it("throws when the map is not a map", () => {
-        expect(() =>
-            resolveRelation({ relation: ["peoni"] }, "Agrik"),
-        ).toThrow(/map of shortcode/);
+        expect(() => resolveRelation({ relation: ["peoni"] }, "Agrik")).toThrow(
+            /map of shortcode/,
+        );
         expect(() => resolveRelation({ relation: "peoni" }, "Agrik")).toThrow(
             /map of shortcode/,
         );

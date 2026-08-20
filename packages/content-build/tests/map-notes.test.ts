@@ -58,7 +58,8 @@ function makeCtx(over: Record<string, unknown> = {}) {
         packageId: "sohl",
         journalEntryId: "JJJJJJJJJJJJJJJJ",
         pageIds: new Map([["gatehouse", "PPPPPPPPPPPPPPPP"]]),
-        resolveRegionRef: () => "Scene.OTHEROTHEROTHER1.Region.RRRRRRRRRRRRRRRR",
+        resolveRegionRef: () =>
+            "Scene.OTHEROTHEROTHER1.Region.RRRRRRRRRRRRRRRR",
         resolveBehaviorRef: () =>
             "Scene.OTHEROTHEROTHER1.Region.RRRRRRRRRRRRRRRR.RegionBehavior.BBBBBBBBBBBBBBBB",
         resolveEffectRef: () =>
@@ -138,30 +139,39 @@ describe("wall restrictions (blocks / limits, never Foundry's raw vocabulary)", 
     });
 
     it("rejects an unknown sense name", () => {
-        expect(() => wallRestrictions({ blocks: ["vision"] }, "walls.x")).toThrow(
-            /vision/,
-        );
+        expect(() =>
+            wallRestrictions({ blocks: ["vision"] }, "walls.x"),
+        ).toThrow(/vision/);
     });
 
     it("rejects a sense named in both blocks and limits", () => {
         expect(() =>
-            wallRestrictions({ blocks: ["sight"], limits: ["sight"] }, "walls.x"),
+            wallRestrictions(
+                { blocks: ["sight"], limits: ["sight"] },
+                "walls.x",
+            ),
         ).toThrow(/both/i);
     });
 });
 
 describe("region shapes", () => {
-    const geom = { label: "regions.crypt", pxPerGrid: 100, dimensions: [1900, 2600] };
+    const geom = {
+        label: "regions.crypt",
+        pxPerGrid: 100,
+        dimensions: [1900, 2600],
+    };
 
     it("compiles a rectangle from [x, y, w, h]", () => {
-        expect(buildShape({ rectangle: [1400, 1800, 300, 200] }, geom)).toEqual({
-            type: "rectangle",
-            x: 1400,
-            y: 1800,
-            width: 300,
-            height: 200,
-            hole: false,
-        });
+        expect(buildShape({ rectangle: [1400, 1800, 300, 200] }, geom)).toEqual(
+            {
+                type: "rectangle",
+                x: 1400,
+                y: 1800,
+                width: 300,
+                height: 200,
+                hole: false,
+            },
+        );
     });
 
     it("compiles a circle and an ellipse", () => {
@@ -199,9 +209,9 @@ describe("region shapes", () => {
 
     it("rejects a degenerate two-point polygon the schema would accept", () => {
         // The schema's floor is 4 numbers, which admits a line segment.
-        expect(() => buildShape({ polygon: [400, 400, 1200, 400] }, geom)).toThrow(
-            /at least 3 points/i,
-        );
+        expect(() =>
+            buildShape({ polygon: [400, 400, 1200, 400] }, geom),
+        ).toThrow(/at least 3 points/i);
     });
 
     it("rejects a shape type outside the authored four", () => {
@@ -219,8 +229,12 @@ describe("region shapes", () => {
 describe("region colour", () => {
     it("derives deterministically from the region key", () => {
         expect(regionColor("crypt-interior")).toMatch(/^#[0-9a-f]{6}$/);
-        expect(regionColor("crypt-interior")).toBe(regionColor("crypt-interior"));
-        expect(regionColor("crypt-interior")).not.toBe(regionColor("courtyard"));
+        expect(regionColor("crypt-interior")).toBe(
+            regionColor("crypt-interior"),
+        );
+        expect(regionColor("crypt-interior")).not.toBe(
+            regionColor("courtyard"),
+        );
     });
 });
 
@@ -237,7 +251,9 @@ describe("embedded document ids", () => {
 
     it("derives a behaviour id from its region and key", () => {
         const rid = regionDocId(SCENE_ID, "crypt");
-        expect(behaviorDocId(rid, "dread")).not.toBe(behaviorDocId(rid, "gloom"));
+        expect(behaviorDocId(rid, "dread")).not.toBe(
+            behaviorDocId(rid, "gloom"),
+        );
         expect(behaviorDocId(rid, "dread", "pAmeKn8CPUaDdPQe")).toBe(
             "pAmeKn8CPUaDdPQe",
         );
@@ -253,12 +269,18 @@ describe("buildScene — the whole document", () => {
         expect(scene.levels).toHaveLength(1);
         const [level] = scene.levels;
         expect(level._id).toBe(DEFAULT_LEVEL_ID);
-        expect(level.background.src).toBe("systems/sohl/assets/ui/parchment.jpg");
-        expect(level.foreground.src).toBe("systems/sohl/assets/ui/parchment.jpg");
+        expect(level.background.src).toBe(
+            "systems/sohl/assets/ui/parchment.jpg",
+        );
+        expect(level.foreground.src).toBe(
+            "systems/sohl/assets/ui/parchment.jpg",
+        );
         expect(scene.initialLevel).toBe(DEFAULT_LEVEL_ID);
         // Every embedded document carries its own `_key`, or the compile fails
         // with "Key cannot be null or undefined".
-        expect(level._key).toBe(`!scenes.levels!${SCENE_ID}.${DEFAULT_LEVEL_ID}`);
+        expect(level._key).toBe(
+            `!scenes.levels!${SCENE_ID}.${DEFAULT_LEVEL_ID}`,
+        );
         expect(scene._key).toBe(`!scenes!${SCENE_ID}`);
     });
 
@@ -322,7 +344,11 @@ describe("buildScene — the whole document", () => {
             door: 0,
         });
         const door = scene.walls.find((w: any) => w.door === 1);
-        expect(door).toMatchObject({ c: [900, 400, 900, 500], ds: 0, sound: 0 });
+        expect(door).toMatchObject({
+            c: [900, 400, 900, 500],
+            ds: 0,
+            sound: 0,
+        });
         for (const wall of scene.walls) {
             expect(wall._key).toBe(`!scenes.walls!${SCENE_ID}.${wall._id}`);
         }
@@ -332,7 +358,12 @@ describe("buildScene — the whole document", () => {
         expect(() =>
             buildSceneDoc(
                 makeNote({
-                    walls: { outer: { blocks: ["movement"], segments: [[1, 1, 9, 1]] } },
+                    walls: {
+                        outer: {
+                            blocks: ["movement"],
+                            segments: [[1, 1, 9, 1]],
+                        },
+                    },
                 }),
                 makeCtx(),
             ),
@@ -457,7 +488,11 @@ describe("buildScene — regions", () => {
 
     it("compiles visibility by name and elevation as [bottom, top]", () => {
         const scene = buildSceneDoc(
-            withRegion({ ...simple, visibility: "gamemaster", elevation: [0, null] }),
+            withRegion({
+                ...simple,
+                visibility: "gamemaster",
+                elevation: [0, null],
+            }),
             makeCtx(),
         );
         expect(scene.regions[0].visibility).toBe(1); // GAMEMASTER
@@ -466,7 +501,10 @@ describe("buildScene — regions", () => {
 
     it("rejects an unknown visibility name", () => {
         expect(() =>
-            buildSceneDoc(withRegion({ ...simple, visibility: "secret" }), makeCtx()),
+            buildSceneDoc(
+                withRegion({ ...simple, visibility: "secret" }),
+                makeCtx(),
+            ),
         ).toThrow(/visibility/i);
     });
 
@@ -485,7 +523,10 @@ describe("buildScene — regions", () => {
 
     it("rejects an unknown restriction type", () => {
         expect(() =>
-            buildSceneDoc(withRegion({ ...simple, restrict: "thought" }), makeCtx()),
+            buildSceneDoc(
+                withRegion({ ...simple, restrict: "thought" }),
+                makeCtx(),
+            ),
         ).toThrow(/restrict/i);
     });
 
@@ -511,7 +552,12 @@ describe("buildScene — region behaviours", () => {
     it("compiles the SoHL trigger bridge, mapping `action` to actionName", () => {
         const scene = buildSceneDoc(
             region({
-                dread: { trigger: { events: ["tokenEnter", "tokenExit"], action: "fearTest" } },
+                dread: {
+                    trigger: {
+                        events: ["tokenEnter", "tokenExit"],
+                        action: "fearTest",
+                    },
+                },
             }),
             makeCtx(),
         );
@@ -552,7 +598,11 @@ describe("buildScene — region behaviours", () => {
     it("warns on an action naming no known SoHL action", () => {
         const ctx = makeCtx();
         buildSceneDoc(
-            region({ dread: { trigger: { events: ["tokenEnter"], action: "wibble" } } }),
+            region({
+                dread: {
+                    trigger: { events: ["tokenEnter"], action: "wibble" },
+                },
+            }),
             ctx,
         );
         expect(ctx.warnings.join("\n")).toMatch(/wibble/);
@@ -561,7 +611,9 @@ describe("buildScene — region behaviours", () => {
     it("compiles a core behaviour off the allowlist, its mode authored by name", () => {
         const scene = buildSceneDoc(
             region({
-                gloom: { adjustDarknessLevel: { mode: "darken", modifier: 0.5 } },
+                gloom: {
+                    adjustDarknessLevel: { mode: "darken", modifier: 0.5 },
+                },
             }),
             makeCtx(),
         );
@@ -584,7 +636,9 @@ describe("buildScene — region behaviours", () => {
         const scene = buildSceneDoc(
             region({
                 up: {
-                    teleportToken: { to: { map: "manorsolar", region: "stair-landing" } },
+                    teleportToken: {
+                        to: { map: "manorsolar", region: "stair-landing" },
+                    },
                 },
             }),
             makeCtx(),
@@ -600,7 +654,13 @@ describe("buildScene — region behaviours", () => {
                 latch: {
                     toggleBehavior: {
                         events: ["tokenEnter"],
-                        enable: [{ map: "manorsolar", region: "hall", behavior: "gloom" }],
+                        enable: [
+                            {
+                                map: "manorsolar",
+                                region: "hall",
+                                behavior: "gloom",
+                            },
+                        ],
                     },
                 },
             }),
@@ -614,7 +674,10 @@ describe("buildScene — region behaviours", () => {
     it("refuses executeScript outright — data may not carry code", () => {
         expect(BANNED_REGION_BEHAVIOR_TYPES.has("executeScript")).toBe(true);
         expect(() =>
-            buildSceneDoc(region({ evil: { executeScript: { source: "1+1" } } }), makeCtx()),
+            buildSceneDoc(
+                region({ evil: { executeScript: { source: "1+1" } } }),
+                makeCtx(),
+            ),
         ).toThrow(/executeScript/);
     });
 
@@ -622,7 +685,10 @@ describe("buildScene — region behaviours", () => {
         expect(REGION_BEHAVIOR_TYPES.has("modifyMovementCost")).toBe(true);
         expect(REGION_BEHAVIOR_TYPES.has("increaseMovementCost")).toBe(false);
         expect(() =>
-            buildSceneDoc(region({ slow: { increaseMovementCost: {} } }), makeCtx()),
+            buildSceneDoc(
+                region({ slow: { increaseMovementCost: {} } }),
+                makeCtx(),
+            ),
         ).toThrow(/increaseMovementCost/);
     });
 

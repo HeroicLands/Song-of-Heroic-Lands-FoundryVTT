@@ -119,6 +119,29 @@ runtime values cannot disagree, which is the drift that produced #932.
 module, so a consumer can name its types (`ContentBuildConfig`, `PackSpec`) from
 JSDoc.
 
+## Tests
+
+The package carries its own suite and its own vitest project, so it is
+verifiable without the repository that happens to host it:
+
+```
+npm test -w @heroiclands/content-build     # from the SoHL repository root
+npm test                                   # from packages/content-build/
+```
+
+The SoHL repository's root `npm run test` names the very same project config, so
+one command still gates everything CI runs and neither entry point can drift
+into a different suite.
+
+The harness is deliberately austere: no global setup, no Foundry stubs, and no
+alias onto a consuming repository's source. `tests/suite-is-self-contained.test.ts`
+enforces that — a test in this suite that reached for `globalThis.game` or `@src`
+would pass in situ and fail the moment the package was installed from npm.
+
+While the extraction is in progress the suite still imports the compilers from
+the SoHL repository's `utils/packs/`; those specifiers become package-relative
+when the modules land here.
+
 ## License
 
 GPL-3.0-or-later — see the

@@ -55,11 +55,7 @@ describe("withArchetypeFlag (build:compiledb archetype contract, #640)", () => {
     });
 
     it("omits the flag entirely when archetype is null", () => {
-        const flags = withArchetypeFlag(
-            { sohl: { archetype: null } },
-            {},
-            "x",
-        );
+        const flags = withArchetypeFlag({ sohl: { archetype: null } }, {}, "x");
         expect(flags).toEqual({});
         expect("sohl" in flags).toBe(false);
     });

@@ -214,7 +214,9 @@ describe("BasePackCompiler's per-pass switches", () => {
         const out = dest("raw");
         const pack = new RawProbe({ contentBase: content, dest: out });
         await pack.compile();
-        expect(read(out)["Probe One"].body).toContain("[[doc-probetarget|Target]]");
+        expect(read(out)["Probe One"].body).toContain(
+            "[[doc-probetarget|Target]]",
+        );
     });
 
     it("fails the build on a note with no id", async () => {

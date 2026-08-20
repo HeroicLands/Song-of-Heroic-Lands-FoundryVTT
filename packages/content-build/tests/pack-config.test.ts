@@ -9,6 +9,7 @@ import { describe, it, expect } from "vitest";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Build-time pack configuration (plain ESM, no Foundry). Imported by relative
 // path because the pack-build scripts live outside the `@src` alias tree.
@@ -24,7 +25,13 @@ import {
 } from "../../../utils/packs/package-manifest.mjs";
 import { supportedCoreVersion } from "../../../utils/packs/helpers.mjs";
 
-const REPO_ROOT = path.resolve(".");
+// Anchored on this file, not the working directory: the package's own test
+// script runs from `packages/content-build/`, and the repository build runs
+// from the root — the same paths have to resolve from either.
+const REPO_ROOT = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "../../..",
+);
 const MANIFEST = JSON.parse(
     fs.readFileSync(
         path.join(REPO_ROOT, "assets/templates/system.template.json"),
@@ -112,9 +119,7 @@ describe("the one pack list (#1508 — SOURCE_PACKS and PACK_CONFIGS merged)", (
     });
 
     it("gives each generated pack its folder-hierarchy file", () => {
-        expect(
-            packConfig.packs.map((p) => [p.name, p.folders]),
-        ).toEqual([
+        expect(packConfig.packs.map((p) => [p.name, p.folders])).toEqual([
             ["items", "item-folders.yaml"],
             ["journals", "journal-folders.yaml"],
             ["actors", "actor-folders.yaml"],
@@ -198,7 +203,9 @@ describe("the core version is a path in config, never a captured value", () => {
     it("throws rather than falling back when there is no manifest", () => {
         // Blocker #1: the loud failure is the feature. A silent fallback is how
         // every pack came to ship `coreVersion: "14"` (#1533).
-        const empty = fs.mkdtempSync(path.join(os.tmpdir(), "sohl-nomanifest-"));
+        const empty = fs.mkdtempSync(
+            path.join(os.tmpdir(), "sohl-nomanifest-"),
+        );
         expect(() => supportedCoreVersion(empty)).toThrow();
     });
 
