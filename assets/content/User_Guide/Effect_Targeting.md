@@ -82,17 +82,17 @@ A strike-mode key applies to _each_ strike mode the predicate matched — so an 
 
 # Worked examples
 
-### 1. Buff only the item the effect is on
+## 1. Buff only the item the effect is on
 
 - **Scope:** `This`
 - **Predicate:** _(ignored)_
 
-### 2. Apply an actor-wide condition
+## 2. Apply an actor-wide condition
 
 - **Scope:** `Actor`
 - **Predicate:** _(ignored)_
 
-### 3. Affect a subset of skills
+## 3. Affect a subset of skills
 
 Target the Dodge, Initiative, and Awareness skills by shortcode:
 
@@ -105,19 +105,19 @@ Or by name pattern:
 
 Leave the predicate empty to affect **every** skill.
 
-### 4. +10 to all melee attack rolls
+## 4. +10 to all melee attack rolls
 
 - **Scope:** `Melee Strike Mode`
 - **Predicate:** _(empty — every melee strike mode)_
 - **Change:** key `mod:attack`, mode _Add_, value `10`
 
-### 5. +10 attack, but only on a named weapon
+## 5. +10 attack, but only on a named weapon
 
 - **Scope:** `Melee Strike Mode`
 - **Predicate:** `itemLogic.name === "Broadsword"`
 - **Change:** key `mod:attack`, mode _Add_, value `10`
 
-### 6. Buff only a specific strike mode
+## 6. Buff only a specific strike mode
 
 Raise impact only for thrusting attacks, on any weapon:
 

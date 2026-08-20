@@ -101,7 +101,7 @@ Foundry's `updateWorldTime` / `combatStart` / `deleteCombat` / `combatRound` /
 `Hooks.on(...)` elsewhere for dispatch** — add a built-in trigger by editing that
 one file, or a custom one via [custom triggers](#6-a-custom-trigger--fire-your-own-lifecycle-moment).
 
-#### Scene-region & environment triggers (issue #593)
+### Scene-region & environment triggers (issue #593)
 
 The vocabulary above is **time and combat**. A second, **event-driven** family
 covers _where_ characters are and _what the scene is doing_ — Foundry v14 scene

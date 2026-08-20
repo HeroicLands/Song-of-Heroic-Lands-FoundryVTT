@@ -113,24 +113,94 @@ and is unit-tested directly.
 
 ### Tests, lint, format
 
-| Script                    | What it does                                                                                                                                                                                                    |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `test`                    | Run the vitest suite once.                                                                                                                                                                                      |
-| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                                                                                                     |
-| `test:coverage`           | Run with coverage.                                                                                                                                                                                              |
-| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                                                                                                      |
-| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md).                                                                                   |
-| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                                                                                                              |
-| `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                                                                                                       |
-| `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                                                                                                           |
-| `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md).                                                           |
-| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes).                    |
-| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes).                      |
-| `lint:doc-links`          | Fail on a relative link in `kb/dev-docs/` whose target does not exist, or an `#anchor` no heading declares. The developer tree links by path, so moving a page breaks every link into it; this is what says so. |
-| `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`.  |
-| `lint:dts`                | Validate the generated public type surface.                                                                                                                                                                     |
-| `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`.                                    |
-| `format` / `format:check` | Prettier write / check the whole repo.                                                                                                                                                                          |
+| Script                    | What it does                                                                                                                                                                                                                                   |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `test`                    | Run the vitest suite once.                                                                                                                                                                                                                     |
+| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                                                                                                                                    |
+| `test:coverage`           | Run with coverage.                                                                                                                                                                                                                             |
+| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                                                                                                                                     |
+| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md).                                                                                                                  |
+| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                                                                                                                                             |
+| `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                                                                                                                                      |
+| `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                                                                                                                                          |
+| `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md).                                                                                          |
+| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes).                                                   |
+| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes).                                                     |
+| `lint:doc-links`          | Fail on a relative link in `kb/dev-docs/` whose target does not exist, or an `#anchor` no heading declares. The developer tree links by path, so moving a page breaks every link into it; this is what says so.                                |
+| `lint:styles`             | stylelint over `scss/`. Enforces the BEM class convention and the `--sohl-*` token namespace, plus invalid declarations, unknown properties, and dead selectors. See [What the two linters check](#what-the-two-linters-check).                |
+| `lint:markdown`           | markdownlint over every git-tracked `.md` file. A deliberately narrow structural set — heading hierarchy, duplicate sibling anchors, broken table rows, links that do not link. See [What the two linters check](#what-the-two-linters-check). |
+| `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`.                                 |
+| `lint:dts`                | Validate the generated public type surface.                                                                                                                                                                                                    |
+| `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`.                                                                   |
+| `format` / `format:check` | Prettier write / check the whole repo.                                                                                                                                                                                                         |
+
+#### What the two linters check
+
+Prettier formats ~96% of the hand-written text in this repository, and formatting
+is all it does. `lint:styles` and `lint:markdown` (#1622) exist for the checks it
+structurally cannot make — and each is scoped to **exactly** that, because both
+tools ship defaults that would otherwise re-format the tree to a second opinion.
+Their configuration files (`stylelint.config.mjs`, `.markdownlint-cli2.jsonc`)
+carry the per-rule rationale; the rule of thumb for adding a rule to either is
+whether it can report that something is **wrong**, not that it is spelled
+differently.
+
+**`lint:styles` (stylelint + `stylelint-config-standard-scss`).** The gate that
+matters most is naming, because the stylesheets carry a public extension surface:
+[CSS Architecture](../concepts/css-architecture.md) tells module authors to build
+against the `--sohl-*` custom properties, and §3 fixes SoHL's class names to BEM.
+Neither had a guard before, so a rename was an API break nobody could see.
+
+- `selector-class-pattern` — BEM `block__element--modifier` (§3). The pattern also
+  admits the Foundry-owned classes SoHL selects on, which are plain kebab-case
+  blocks. Third-party names that are not (`.ProseMirror`) are disabled at the one
+  site, with the reason, rather than widened into the pattern.
+- `custom-property-pattern` — lowercase kebab-case everywhere, tightened to the
+  `--sohl-*` namespace inside `scss/abstracts/`, where §4's `emit-tokens` mixin
+  declares the tokens. It is deliberately looser outside that folder because the
+  rule inspects `var()` references as well as declarations, and SoHL legitimately
+  reads Foundry-core properties and its own template-set layout hooks
+  (`--ledger-cols`, `--hp-fill`).
+- Everything else `stylelint-config-standard-scss` brings — invalid and duplicate
+  declarations, unknown properties and units, dead selectors — stays on.
+
+Its **limit**, worth knowing before trusting it: the `--sohl-*` tokens are
+generated by interpolation (`--sohl-color-#{$name}`), which stylelint skips as
+non-standard syntax. Renaming a key in the `$color` map renames a public token and
+no linter here will say so.
+
+Rules that only rewrite a value into an equivalent spelling are **off** —
+blank-line placement, `rgb()` notation, `currentcolor` casing, longhand-vs-shorthand.
+Satisfying them would mean reflowing 52 hand-written partials for byte-identical
+compiled output, which is the cosmetic refactor
+[System Development](../contributing/system-development.md) forbids.
+
+**`lint:markdown` (markdownlint-cli2).** Enabled on markdownlint's defaults over
+1,600 files it reports ~74,000 findings, essentially all of them line length, list
+indentation, and blank lines — Prettier's territory. So `default` is off and nine
+rules are named individually:
+
+| Rule            | Catches                                                                   |
+| --------------- | ------------------------------------------------------------------------- |
+| `MD001`         | A skipped heading level, which breaks every outline derived from the page |
+| `MD024`         | Two identical **sibling** headings — two identical anchors, one reachable |
+| `MD056`         | A table row whose cell count does not match its header                    |
+| `MD011`         | Reversed link syntax, `(text)[url]`, which renders as plain text          |
+| `MD034`         | A bare URL, which only some of our three renderers auto-link              |
+| `MD039`/`MD042` | Spaces inside link text; an empty link target                             |
+| `MD052`/`MD053` | An undefined reference link; an orphaned reference definition             |
+
+`MD024` runs with `siblings_only` — repeating `## Notes` under several parents is a
+normal reference-page shape, and only a repeat within one parent is ambiguous.
+`gitignore: true` keeps the generated trees out (`kb/content/`, `kb/public/`,
+`build/`, `nogit/`); `CHANGELOG.md` and the theme submodule are excluded by name,
+as they are from Prettier.
+
+Note what is **not** here: `MD018` (`#Heading` with no space) reads a line starting
+`#1405) …` as a malformed heading, and this repository writes bare issue numbers
+constantly. `MD051` (link fragments resolve) is already covered, and covered
+better — across files rather than within one — by `lint:doc-links` and
+`lint:content-links`.
 
 ### Docs
 
@@ -161,6 +231,8 @@ and is unit-tested directly.
 
 1. **`lint:todos`** — no `TODO`/`FIXME` markers under `src/`.
 2. **`lint:docs-index`** — every `docs/` page is linked from its section nav and the README.
+   `lint` also runs `lint:markdown` and `lint:styles` here; see
+   [What the two linters check](#what-the-two-linters-check).
 3. **`build:types`** — `tsc` type-checks the whole project.
 4. **`lint:dts`** — the generated public type surface is valid.
 5. **`build:prepare`** (parallel):
@@ -295,7 +367,7 @@ folder layout is for human organization only and can be reorganized freely. Fold
 hierarchies are declared per pack in `assets/content/<pack>-folders.yaml` and
 referenced from entries via `sohl.folder: <id>`.
 
-##### Choosing a pack: the optional `pack:` field
+#### Choosing a pack: the optional `pack:` field
 
 A repository may ship **more than one pack of a document type** — two Item packs
 grouping items editorially, say. Where it does, a note names the one it belongs

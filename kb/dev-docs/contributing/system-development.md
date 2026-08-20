@@ -340,6 +340,17 @@ against real world data — migrations must never require manual user interventi
   code symbols only, not doc pages. Non-rendered `//` or `/* */` comments (which
   TypeDoc does not emit) may instead cite the repo path `kb/dev-docs/…​.md`,
   which a source reader opens directly.
+- **Stylesheets and markdown are linted, not just formatted.** Prettier owns the
+  whitespace of both; `npm run lint:styles` (stylelint) and `npm run lint:markdown`
+  (markdownlint) — both part of `npm run lint` — own what it cannot see. In SCSS
+  that is the BEM class convention and the `--sohl-*` token namespace, which
+  [CSS Architecture](../concepts/css-architecture.md) publishes as an extension
+  surface; in markdown it is document structure and links that do not link. Both
+  rule sets are deliberately narrow and both configuration files carry the
+  rationale per rule — see
+  [Build & Deployment → What the two linters check](../how-to/build-and-deployment.md#what-the-two-linters-check)
+  before adding to either. A deliberate exception is annotated at the site with a
+  `stylelint-disable` comment and its reason, not by switching the rule off.
 - **Localization keys.** Every user-visible string is a key in `lang/en.json`, named
   by the standard in [Localization Keys](../reference/localization-keys.md):
   `SOHL.<Namespace>[.<Group>].<leaf>`, where the namespace is a singular PascalCase
