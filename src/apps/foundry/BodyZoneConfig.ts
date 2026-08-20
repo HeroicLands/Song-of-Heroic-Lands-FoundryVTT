@@ -126,8 +126,7 @@ export class BodyZoneConfig extends (BodyZoneConfig_Base as typeof foundry.appli
         const index = structure?.getZoneByCode(this.#key)?.index;
         if (structure === undefined || index === undefined) return undefined;
         return (structure.parent as any).data.body.structure.zones[index] as
-            | BodyZone.Data
-            | undefined;
+            BodyZone.Data | undefined;
     }
 
     /**

@@ -237,8 +237,7 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         }
         const siblings = (
             (this.#item.system as any).strikeModes as
-                | StrikeModeBase.Data[]
-                | undefined
+                StrikeModeBase.Data[] | undefined
         )
             ?.map((m) => m.shortcode)
             .filter((sc) => sc !== this.#key);

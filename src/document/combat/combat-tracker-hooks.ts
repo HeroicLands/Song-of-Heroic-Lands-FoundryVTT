@@ -68,8 +68,7 @@ export function registerCombatTrackerHooks(): void {
             const id = row.dataset.combatantId;
             if (!id) continue;
             const combatant = combat.combatants?.get?.(id) as
-                | SohlCombatant
-                | undefined;
+                SohlCombatant | undefined;
             if (!combatant) continue;
 
             // Group-name label (display only — no row grouping).

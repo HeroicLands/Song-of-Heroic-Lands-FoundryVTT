@@ -42,8 +42,7 @@ export type TourStepKind = (typeof TOUR_STEP_KIND)[keyof typeof TOUR_STEP_KIND];
 
 /** The kinds that carry a gate — everything except a free step. */
 export type TourGateKind =
-    | typeof TOUR_STEP_KIND.VALUE_GATE
-    | typeof TOUR_STEP_KIND.STATE_GATE;
+    typeof TOUR_STEP_KIND.VALUE_GATE | typeof TOUR_STEP_KIND.STATE_GATE;
 
 /**
  * The evidence a gate predicate decides over. The Foundry-coupled `SohlTour`

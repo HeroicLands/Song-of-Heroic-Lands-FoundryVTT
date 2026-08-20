@@ -283,9 +283,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         const path = target.dataset.fieldPath;
         if (!path) return;
         const current = foundry.utils.getProperty(this.document, path) as
-            | number
-            | null
-            | undefined;
+            number | null | undefined;
         const result = await openDatePickerDialog(current);
         if (result === undefined) return;
         await this.document.update({ [path]: result });
@@ -310,9 +308,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         const path = target.dataset.fieldPath;
         if (!path) return;
         const current = foundry.utils.getProperty(this.document, path) as
-            | string
-            | null
-            | undefined;
+            string | null | undefined;
         // `data-expr-scope` carries the id the SafeExpressionField declared, so
         // the editor's autocomplete and live validation come from the same
         // declaration the runtime validates against (#1142).

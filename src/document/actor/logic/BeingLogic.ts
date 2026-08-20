@@ -806,8 +806,7 @@ export class BeingLogic<
         const shockMl =
             (
                 this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
+                    SkillLogic | undefined
             )?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, shockMl, {
             type: options.type ?? "shock-test",
@@ -1077,8 +1076,7 @@ export class BeingLogic<
         const shockMl =
             (
                 this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
+                    SkillLogic | undefined
             )?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, shockMl, {
             type: "shock-retest",
@@ -1270,8 +1268,7 @@ export class BeingLogic<
      * @returns The inducing injury's location code, level, and Shock Value.
      */
     private inducingInjury():
-        | { code: string; level: number; shockValue: number }
-        | undefined {
+        { code: string; level: number; shockValue: number } | undefined {
         const injuries = (
             this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
         ).filter(
@@ -1387,11 +1384,9 @@ export class BeingLogic<
         },
     ): Promise<SuccessTestResult | null> {
         const attr = this.getItemLogic(opts.attrCode, ITEM_KIND.ATTRIBUTE) as
-            | AttributeLogic
-            | undefined;
+            AttributeLogic | undefined;
         const skill = this.getItemLogic(opts.skillCode, ITEM_KIND.SKILL) as
-            | SkillLogic
-            | undefined;
+            SkillLogic | undefined;
 
         // Better of the two, ties to the skill; either alone if the other is
         // absent (a being commonly has no Acrobatics / Legerdemain skill).
@@ -1473,8 +1468,7 @@ export class BeingLogic<
         const initMl =
             (
                 this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
+                    SkillLogic | undefined
             )?.masteryLevel?.effective ?? 0;
         const braveBonus = this.hasBraveBonus() ? MORALE_BRAVE_BONUS : 0;
         const result = await rollTimedTest(this, initMl, {
@@ -1571,8 +1565,7 @@ export class BeingLogic<
         const initMl =
             (
                 this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
+                    SkillLogic | undefined
             )?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, initMl, {
             type: "reaction-test",
@@ -1640,13 +1633,11 @@ export class BeingLogic<
         const cmdMl =
             (
                 this.getItemLogic(SKILL_CODE.COMMAND, ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
+                    SkillLogic | undefined
             )?.masteryLevel?.effective ??
             (
                 this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
+                    SkillLogic | undefined
             )?.masteryLevel?.effective ??
             0;
         const result = await rollTimedTest(this, cmdMl, {
@@ -1753,13 +1744,11 @@ export class BeingLogic<
         const spiritMl =
             (
                 this.getItemLogic("spirit", ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
+                    SkillLogic | undefined
             )?.masteryLevel?.effective ??
             (
                 this.getItemLogic(ATTRIBUTE_CODE.AURA, ITEM_KIND.ATTRIBUTE) as
-                    | AttributeLogic
-                    | undefined
+                    AttributeLogic | undefined
             )?.masteryLevel?.effective ??
             0;
         const result = await rollTimedTest(this, spiritMl, {
@@ -2000,8 +1989,7 @@ export class BeingLogic<
         const willMl =
             (
                 this.getItemLogic(ATTRIBUTE_CODE.WILL, ITEM_KIND.ATTRIBUTE) as
-                    | AttributeLogic
-                    | undefined
+                    AttributeLogic | undefined
             )?.masteryLevel?.effective ?? 0;
         const braveBonus = this.hasBraveBonus() ? FEAR_BRAVE_BONUS : 0;
         const result = await rollTimedTest(this, willMl, {
@@ -3200,8 +3188,7 @@ export class BeingLogic<
 
         const strMl = (
             this.getItemLogic(ATTRIBUTE_CODE.STRENGTH, ITEM_KIND.ATTRIBUTE) as
-                | AttributeLogic
-                | undefined
+                AttributeLogic | undefined
         )?.masteryLevel?.effective;
         if (strMl == null) return undefined;
 

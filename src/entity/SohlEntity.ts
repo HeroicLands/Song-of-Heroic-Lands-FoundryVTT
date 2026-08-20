@@ -208,8 +208,7 @@ export namespace SohlEntity {
      * their own `Data` type as `D`.
      */
     export type DataOrParent<D extends SohlEntity.Data = SohlEntity.Data> =
-        | Partial<D>
-        | SohlLogic<any>;
+        Partial<D> | SohlLogic<any>;
 
     /**
      * Kind tag used by the kind registry and serialization. Typed as `string`

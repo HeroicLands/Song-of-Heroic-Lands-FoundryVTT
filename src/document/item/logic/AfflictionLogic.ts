@@ -416,8 +416,7 @@ export class AfflictionLogic<
         context: SohlActionContext,
     ): Promise<{ treatmentDate: number; courseBonus: number } | undefined> {
         const scope = context.scope as
-            | { valueDiamonds?: unknown; courseBonus?: unknown }
-            | undefined;
+            { valueDiamonds?: unknown; courseBonus?: unknown } | undefined;
         const seeded = Number(scope?.courseBonus ?? scope?.valueDiamonds ?? 0);
         let courseBonus = Number.isFinite(seeded) ? Math.trunc(seeded) : 0;
 

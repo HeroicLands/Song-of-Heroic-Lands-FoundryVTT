@@ -135,8 +135,7 @@ export class CombatResult extends OpposedTestResult {
         const defendResult =
             data.defendResult ??
             (data.targetTestResult as
-                | (AttackResult | DefendResult)
-                | undefined);
+                (AttackResult | DefendResult) | undefined);
         if (!attackResult) {
             throw new Error("CombatResult requires attackResult");
         }

@@ -16,10 +16,7 @@
 // dark — so neither is merely "a red that looked fine".
 .sohl-unresolved-link {
     font-weight: 700;
-    color: var(
-        --sohl-unresolved-link-color,
-        light-dark(#b3261e, #ff8a80)
-    );
+    color: var(--sohl-unresolved-link-color, light-dark(#b3261e, #ff8a80));
     // Faint underline so the marking survives for a reader who cannot separate
     // the hue from body text.
     text-decoration: underline dotted currentcolor;

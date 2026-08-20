@@ -177,8 +177,7 @@ export async function sohlCreateDialog(
 
     const subTypeOptions = subTypeOptionsForType(documentName, type);
     const preSubType = (data.system as PlainObject | undefined)?.subType as
-        | string
-        | undefined;
+        string | undefined;
     const subTypeIsValid =
         !!preSubType && subTypeOptions.some((s) => s.value === preSubType);
     // Only lock the subtype if the type is also locked (a locked type keeps the

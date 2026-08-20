@@ -226,8 +226,7 @@ export const entity: SohlEntitySurface = (() => {
             );
         }
         const canon = canonical.get(name) as
-            | ({ name: string } & Function)
-            | undefined;
+            ({ name: string } & Function) | undefined;
         if (!canon) {
             throw new Error(
                 `sohl.entity.register: canonical "${String(name)}" is not yet loaded; import the class before overriding it`,

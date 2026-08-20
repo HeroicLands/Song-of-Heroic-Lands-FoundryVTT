@@ -213,8 +213,7 @@ export class MysteryLogic<
         // `skillAptitudes` is Being-specific state, reached the way other
         // being-level accumulators are (cf. TraumaLogic and `fatiguePenalty`).
         const accumulator = (this.actorLogic as any)?.skillAptitudes as
-            | Map<string, number>
-            | undefined;
+            Map<string, number> | undefined;
         if (!accumulator) return;
         mergeSkillAptitudes(accumulator, aptitudes);
     }

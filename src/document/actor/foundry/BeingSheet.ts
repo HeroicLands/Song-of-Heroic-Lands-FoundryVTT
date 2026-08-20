@@ -351,9 +351,7 @@ export class BeingSheet extends SohlActorSheetBase {
             .map((it) => ({
                 id: it.id ?? "",
                 containerId: (it.system as any).containerId as
-                    | string
-                    | null
-                    | undefined,
+                    string | null | undefined,
             }));
 
         const move = resolveGearContainerMove(droppedId, destContainerId, gear);
@@ -1540,8 +1538,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // action acts on the clicked mode. Weapons and combat techniques both
         // carry these actions, so the same anchor handler serves both.
         const action = itemLogic.actions?.get(`${testKind}Test`) as
-            | SohlAction
-            | undefined;
+            SohlAction | undefined;
         if (!action) return;
 
         const sm = itemLogic.strikeModes?.find(
