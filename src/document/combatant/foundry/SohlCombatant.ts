@@ -55,7 +55,8 @@ export interface StrikeModeRef {
 // named a type argument on a class with none, which `lint:dts` then rejected.
 // Removing the `actor` override changes nothing either. Tracked upstream with
 // fvtt-types; delete this directive when that lands -- TypeScript reports an
-// unused `@ts-expect-error`, so it cannot outlive the fix.
+// unused `@ts-expect-error`, so it cannot outlive the fix. Upstream issue:
+// https://github.com/League-of-Foundry-Developers/foundry-vtt-types/issues/3744
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
