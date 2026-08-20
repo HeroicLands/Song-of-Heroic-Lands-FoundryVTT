@@ -13,7 +13,15 @@ publishDir = "../build/site/sohl"
 
 # Brand chrome, layouts, palette, and SoHL info-block partials come from the
 # shared theme, so /sohl/ reads as one site with www and Thalorna.
-theme = "heroiclands-hugo-theme"
+#
+# It arrives through `npm ci`, not a git submodule (#1640). Hugo looks for
+# `<themesDir>/<theme>`, so the package's scope is the themes directory and its
+# name is the theme name — nothing is copied and no module mounts are needed.
+#
+# `themesDir` is relative to the **Hugo root**, which is this directory, not the
+# repository root; the lockfile that installed the theme is one level up.
+themesDir = "../node_modules/@heroiclands"
+theme = "hugo-theme"
 
 [params]
   description = "Song of Heroic Lands — a classless, skill-based fantasy system for Foundry Virtual Tabletop."
