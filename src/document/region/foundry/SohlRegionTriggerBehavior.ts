@@ -100,12 +100,12 @@ export class SohlRegionTriggerBehavior extends foundry.data.regionBehaviors
         const token = event?.data?.token;
         const ctx = buildRegionTriggerContext({
             eventName: event?.name,
-            regionUuid: this.region?.uuid,
+            regionUuid: this.region?.uuid ?? undefined,
             regionId: this.region?.id ?? undefined,
             regionName: this.region?.name ?? undefined,
             tokenUuid: token?.uuid,
             actorUuid: token?.actor?.uuid,
-            sceneUuid: this.scene?.uuid,
+            sceneUuid: this.scene?.uuid ?? undefined,
         });
         if (!ctx) return; // an excluded/unknown event
 

@@ -158,7 +158,8 @@ export class SohlActor extends Actor {
         if (!scene) return null;
 
         const linkedTokens = scene.tokens.filter(
-            (td: SohlTokenDocument) => td.actorLink && td.actorId === this.id,
+            (td: TokenDocument.Stored) =>
+                td.actorLink && td.actorId === this.id,
         );
 
         return (linkedTokens[0] as SohlTokenDocument) ?? null;
@@ -391,7 +392,7 @@ export class SohlActor extends Actor {
     protected override async _preCreate(
         createData: PlainObject,
         options: PlainObject,
-        user: User,
+        user: User.Stored,
     ): Promise<boolean | void> {
         const allowed = await super._preCreate(
             createData as any,
