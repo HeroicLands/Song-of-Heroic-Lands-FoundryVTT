@@ -66,8 +66,10 @@ import {
 } from "@heroiclands/content-build/engine/content-package";
 import {
     compendiumUuid,
+    packForType,
     pageUuid,
 } from "@heroiclands/content-build/engine/ids";
+import { packRouter } from "@heroiclands/content-build/engine/pack-router";
 import {
     hasDocEntry,
     itemDocEntryId,
@@ -171,6 +173,10 @@ export function collectEntries(contentBase) {
                 FOUNDRY_PACKAGE_ID,
                 "doc",
                 docEntryId,
+                // A published address must name the pack the document actually
+                // shipped in: a consumer resolves the UUID verbatim, and a
+                // repository may ship several packs of one type (#1566).
+                packRouter.defaultOf("JournalEntry"),
             );
             entries.push({
                 key,
@@ -179,7 +185,15 @@ export function collectEntries(contentBase) {
                 url,
                 uuid:
                     fm.id ?
-                        compendiumUuid(FOUNDRY_PACKAGE_ID, fm.type, fm.id)
+                        compendiumUuid(
+                            FOUNDRY_PACKAGE_ID,
+                            fm.type,
+                            fm.id,
+                            packRouter.resolveOrNull(
+                                fm,
+                                packForType(fm.type).docType,
+                            ),
+                        )
                     :   undefined,
                 doc: docKey,
             });
@@ -203,7 +217,12 @@ export function collectEntries(contentBase) {
         // in its own right, so its anchors sit on its own entry.
         const uuid =
             fm.id ?
-                compendiumUuid(FOUNDRY_PACKAGE_ID, fm.type, fm.id)
+                compendiumUuid(
+                    FOUNDRY_PACKAGE_ID,
+                    fm.type,
+                    fm.id,
+                    packRouter.resolveOrNull(fm, packForType(fm.type).docType),
+                )
             :   undefined;
         entries.push({
             key,

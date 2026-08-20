@@ -187,8 +187,9 @@ beforeAll(async () => {
         contentBase: content,
         dest: dest("actors"),
         // Stated, not inferred from the destination's siblings: where the items
-        // pass wrote its JSON is configuration (#1508).
-        itemsSourceDir: dirs.items,
+        // passes wrote their JSON is configuration (#1508), and there may be
+        // more than one Item pack (#1566).
+        itemsSourceDirs: [dirs.items],
     });
     await compilers.actors.compile();
 

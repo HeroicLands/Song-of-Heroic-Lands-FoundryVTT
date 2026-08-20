@@ -34,6 +34,7 @@ import markdownit from "markdown-it";
 import log from "loglevel";
 
 import { packConfig } from "./pack-config.mjs";
+import { packRouter } from "./pack-router.mjs";
 import { CONTENT_PACKAGE, FOUNDRY_PACKAGE_ID } from "./content-package.mjs";
 import { readPackageManifest } from "./package-manifest.mjs";
 import { loadForeignManifests, PACKAGE_BASE } from "./kb-manifest.mjs";
@@ -338,6 +339,10 @@ export function buildStats(systemVersion = undefined, config = packConfig) {
  */
 export { makeId } from "./ids.mjs";
 
+// The content-type → document-type map, which decides *which* pack list a
+// note's own document is routed against.
+import { packForType } from "./ids.mjs";
+
 /* ------------------------------------------------------------------------ */
 /*  Wikilink resolution: the content-wide link index                        */
 /* ------------------------------------------------------------------------ */
@@ -348,10 +353,20 @@ export { makeId } from "./ids.mjs";
  * to another skill, a journal to a creature, a creature to a rules page, and
  * each target's own **type** decides which pack the UUID points into.
  *
+ * Each note's pack is resolved here, once, and stored on its index entry: a
+ * UUID carries a pack name, so a repository shipping several packs of one type
+ * (#1566) would otherwise address every one of them as the first. A note whose
+ * declaration is unroutable is indexed against the conventional name and left
+ * for the compile pass to report — the index has no business failing a build,
+ * and the pass fails it with a far better message.
+ *
  * @param {string} contentBase - Root of the content tree.
+ * @param {object} [router] - The pack router. Supplied by the calling pass so
+ *   the index and the compile agree about where each note landed; defaults to
+ *   this repository's own.
  * @returns {{byShortcode: Map, byAlias: Map}} From `buildWikilinkIndex`.
  */
-export function buildContentLinkIndex(contentBase) {
+export function buildContentLinkIndex(contentBase, router = packRouter) {
     const docs = [];
     for (const { frontmatter: fm, absPath } of walkMarkdownTree(contentBase)) {
         if (!fm?.id) continue;
@@ -359,6 +374,10 @@ export function buildContentLinkIndex(contentBase) {
         docs.push({
             type: fm.type,
             id: fm.id,
+            // Where this note's own document lands, and where the JournalEntry
+            // its prose compiles into lands — two documents, two packs (#1362).
+            pack: router.resolveOrNull(fm, packForType(fm.type).docType),
+            docPack: router.resolveOrNull(fm, "JournalEntry"),
             shortcode: fm.shortcode ?? null,
             name: fm.name?.full ?? base,
             aliases: [
@@ -408,11 +427,22 @@ export function buildContentLinkIndex(contentBase) {
  * warning text and the leave-it-alone fallback are identical everywhere.
  *
  * @param {string} body - The note's markdown body.
- * @param {object} ctx - `{ type, id, index, name }` — `name` is used in the log.
+ * @param {object} ctx - `{ type, id, pack, docPack, index, name }` — `name` is
+ *   used in the log, and the two pack names address a `[[#slug]]` self-link,
+ *   whose target is the source note itself and so has no index entry.
  * @returns {{markdown: string, unresolved: Array<object>}}
  */
-export function convertNoteWikilinks(body, { type, id, index, name }) {
-    const result = convertWikilinks(body ?? "", { type, id, index });
+export function convertNoteWikilinks(
+    body,
+    { type, id, pack, docPack, index, name },
+) {
+    const result = convertWikilinks(body ?? "", {
+        type,
+        id,
+        pack,
+        docPack,
+        index,
+    });
     for (const u of result.unresolved) {
         // A qualified address resolving nowhere is a typo, now that every
         // linkable package is either built here or vendored (#1499) — so it

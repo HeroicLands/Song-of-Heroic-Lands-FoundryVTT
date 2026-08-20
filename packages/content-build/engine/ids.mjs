@@ -89,12 +89,21 @@ export const PACK_BY_TYPE = Object.freeze({
 export const ITEM_PACK = Object.freeze({ pack: "items", docType: "Item" });
 
 /**
- * The pack a type's documents live in.
+ * The pack a type's documents live in, in the conventional one-pack-per-type
+ * layout.
  *
  * Item types are the open set — a new one is added whenever the system grows a
  * document type — so they are the **default** rather than an enumerated list. A
  * hand-maintained list is what made an entire content directory silently
  * unlinkable once (#1276); nothing to maintain, nothing to forget.
+ *
+ * The `docType` is the authority: it is a property of the *content type* and
+ * holds however a repository names or splits its packs. The `pack` is the
+ * conventional name only — a repository may rename its packs, or ship several
+ * of one type (#1566), in which case the pack a particular note's document
+ * lands in comes from `engine/pack-router.mjs` and is passed to
+ * {@link compendiumUuid} explicitly. This module stays free of the
+ * configuration so the link resolver above it can stay pure.
  *
  * @param {string} type - The target note's `type`.
  * @returns {{pack: string, docType: string}} The pack and document type.
@@ -114,11 +123,16 @@ export function packForType(type) {
  *   `sohl`. A system id or a module id; Foundry addresses both the same way.
  * @param {string} type - The note's content `type`.
  * @param {string} id - The document's id.
+ * @param {string} [packName] - The pack the document actually landed in, from
+ *   the pack router. Supplied wherever the note is known, because a repository
+ *   may ship several packs of one type and a UUID carries the pack name
+ *   (#1566). Omitted only where there is no note to route — the conventional
+ *   name from {@link packForType} then stands in.
  * @returns {string} `Compendium.<packageId>.<pack>.<DocumentType>.<id>`
  */
-export function compendiumUuid(packageId, type, id) {
+export function compendiumUuid(packageId, type, id, packName) {
     const { pack, docType } = packForType(type);
-    return `Compendium.${packageId}.${pack}.${docType}.${id}`;
+    return `Compendium.${packageId}.${packName || pack}.${docType}.${id}`;
 }
 
 /**

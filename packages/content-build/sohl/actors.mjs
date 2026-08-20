@@ -19,8 +19,10 @@
  * no other distinction propagates to the output.
  *
  * Each actor's embedded items are resolved by looking up `<type>:<shortcode>`
- * against the items pack's generated JSON tree (built in a prior items pass and
- * named by the caller as `itemsSourceDir`).
+ * against the generated JSON tree of every Item pack (built in prior items
+ * passes and named by the caller as `itemsSourceDirs`). All of them, because a
+ * repository may group its items into several Item packs (#1566) and a being
+ * may hold items from any of them.
  * Attributes (`sohl.attributes` map) become embedded attribute items with
  * `scoreBase` set from the map value. Each entry in `sohl.items` is similarly
  * resolved by `(type, shortcode)` and deep-merged with the entry's other
@@ -151,34 +153,58 @@ function extractBodyAndMovement(fm) {
 }
 
 /**
- * Load every JSON file under `itemsSourceDir`, returning a Map keyed by
- * `${type}:${system.shortcode}`. Folder docs and entries without a
+ * Load every JSON file under each of `itemsSourceDirs`, returning one Map keyed
+ * by `${type}:${system.shortcode}`. Folder docs and entries without a
  * shortcode are skipped. The `_key` field is stripped from each entry —
  * it is not part of the item data model.
+ *
+ * The directories are read as one address space, because a being names an item
+ * by `(type, shortcode)` and never by the pack it happens to ship in. Two Item
+ * packs claiming the same address is therefore ambiguous rather than a
+ * last-one-wins ordering detail, and fails here.
+ *
+ * @param {readonly string[]} itemsSourceDirs - Every Item pack's JSON tree.
+ * @returns {Map<string, object>} The predefined items, by address.
  */
-function loadItemsMap(itemsSourceDir) {
+function loadItemsMap(itemsSourceDirs) {
     const map = new Map();
-    if (!fs.existsSync(itemsSourceDir)) {
-        throw new Error(
-            `Items source directory ${itemsSourceDir} does not exist — actors must be generated after items`,
-        );
-    }
-    for (const name of fs.readdirSync(itemsSourceDir)) {
-        if (!name.endsWith(".json")) continue;
-        if (name.startsWith("folder_")) continue;
-        const full = path.join(itemsSourceDir, name);
-        let doc;
-        try {
-            doc = JSON.parse(fs.readFileSync(full, "utf8"));
-        } catch (err) {
-            log.warn(`Skipping unparseable item JSON ${full}: ${err.message}`);
-            continue;
+    const source = new Map();
+    for (const itemsSourceDir of itemsSourceDirs) {
+        if (!fs.existsSync(itemsSourceDir)) {
+            throw new Error(
+                `Items source directory ${itemsSourceDir} does not exist — actors must be generated after items`,
+            );
         }
-        const shortcode = doc?.system?.shortcode;
-        if (!doc?.type || !shortcode) continue;
-        // eslint-disable-next-line no-unused-vars
-        const { _key, ...rest } = doc;
-        map.set(`${doc.type}:${shortcode}`, rest);
+        for (const name of fs.readdirSync(itemsSourceDir)) {
+            if (!name.endsWith(".json")) continue;
+            if (name.startsWith("folder_")) continue;
+            const full = path.join(itemsSourceDir, name);
+            let doc;
+            try {
+                doc = JSON.parse(fs.readFileSync(full, "utf8"));
+            } catch (err) {
+                log.warn(
+                    `Skipping unparseable item JSON ${full}: ${err.message}`,
+                );
+                continue;
+            }
+            const shortcode = doc?.system?.shortcode;
+            if (!doc?.type || !shortcode) continue;
+            const address = `${doc.type}:${shortcode}`;
+            const owner = source.get(address);
+            if (owner && owner !== itemsSourceDir) {
+                throw new Error(
+                    `Two Item packs both define "${address}" (${owner} and ` +
+                        `${itemsSourceDir}); a being addresses an item by ` +
+                        `(type, shortcode), so the address must be unique across ` +
+                        `every Item pack`,
+                );
+            }
+            source.set(address, itemsSourceDir);
+            // eslint-disable-next-line no-unused-vars
+            const { _key, ...rest } = doc;
+            map.set(address, rest);
+        }
     }
     return map;
 }
@@ -231,28 +257,25 @@ export class Actors extends BasePackCompiler {
     static id = "actors";
     static label = "actor";
 
-    /** @type {string} */
-    itemsSourceDir;
+    /** @type {readonly string[]} */
+    itemsSourceDirs;
 
-    constructor({
-        contentBase,
-        dest,
-        itemsSourceDir,
-        folderResolver = () => null,
-    }) {
-        super({ contentBase, dest, folderResolver });
-        // Where the items pass wrote its JSON. Stated by the caller rather than
-        // assumed to be this pack's sibling: the two packs' locations are
-        // configuration, and a consumer may put them anywhere (#1508).
-        if (!itemsSourceDir) {
+    constructor({ itemsSourceDirs, ...options }) {
+        super(options);
+        // Where the items passes wrote their JSON. Stated by the caller rather
+        // than assumed to be this pack's sibling: the packs' locations are
+        // configuration, and a consumer may put them anywhere (#1508). Every
+        // Item pack, because a repository may ship more than one (#1566).
+        if (!itemsSourceDirs?.length) {
             throw new Error(
-                "Actors compiler requires `itemsSourceDir` — the generated JSON " +
-                    "of the Item pack, which each being's embedded items are " +
-                    "resolved against",
+                "Actors compiler requires `itemsSourceDirs` — the generated JSON " +
+                    "of every Item pack, which each being's embedded items are " +
+                    "resolved against. Declare at least one pack of type " +
+                    '"Item" in content-build.config.mjs.',
             );
         }
-        Object.defineProperty(this, "itemsSourceDir", {
-            value: itemsSourceDir,
+        Object.defineProperty(this, "itemsSourceDirs", {
+            value: Object.freeze([...itemsSourceDirs]),
             writable: false,
         });
     }
@@ -270,13 +293,13 @@ export class Actors extends BasePackCompiler {
 
     /**
      * The predefined items each being's embedded items resolve against, loaded
-     * before the walk from the items pass's output.
+     * before the walk from the items passes' output.
      *
      * @returns {Promise<void>}
      */
     async prepare() {
         await super.prepare();
-        this.itemsMap = loadItemsMap(this.itemsSourceDir);
+        this.itemsMap = loadItemsMap(this.itemsSourceDirs);
         log.info(
             `Loaded ${this.itemsMap.size} predefined items for actor resolution`,
         );

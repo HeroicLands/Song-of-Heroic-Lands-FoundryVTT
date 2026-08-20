@@ -296,6 +296,44 @@ folder layout is for human organization only and can be reorganized freely. Fold
 hierarchies are declared per pack in `assets/content/<pack>-folders.yaml` and
 referenced from entries via `sohl.folder: <id>`.
 
+##### Choosing a pack: the optional `pack:` field
+
+A repository may ship **more than one pack of a document type** — two Item packs
+grouping items editorially, say. Where it does, a note names the one it belongs
+in with a top-level `pack:` field:
+
+```yaml
+---
+name:
+  full: Second Sight
+type: skill
+package: sohl
+id: BBBBBBBBBBBBBBBB
+pack: mysteries      # optional; one of the configured Item packs
+---
+```
+
+`type:` and `pack:` answer different questions and are not interchangeable:
+`type:` decides **what the note compiles into** (and therefore which compiler
+runs), `pack:` decides **which pack of that type receives it**.
+
+- **The field is optional, and omitting it is the normal case.** A note that
+  declares nothing lands in the **default** pack of its type. A type with
+  exactly one pack — which is every type in this repository — is its own default,
+  so no SoHL note declares a pack and none needs to.
+- **A `pack:` naming no configured pack fails the build**, naming the file and
+  what it asked for. It does not quietly fall back to the default: a typo that
+  landed content in the wrong compendium would be exactly the silent partial
+  compilation the pack build's other guards exist to catch.
+- **The declaration is about the note's own document.** An item's prose still
+  compiles into a JournalEntry in the journals pack; `pack:` says where the
+  *item* goes.
+- Where a type has several packs and none is marked `default: true`, the field is
+  **mandatory** for every note of that type.
+
+(Why a default exists at all: every note in every consuming repository predates
+this field, so silence has to keep meaning "the one pack of my type".)
+
 ```bash
 # assets/content/ Markdown → build/packs-json/ (JSON) → build/stage/packs/ (LevelDB)
 npm run build:compiledb
@@ -362,6 +400,13 @@ pass subclasses it (#1509). A pass states only what makes it that pass:
 | `finish(stats)` | Work that needs every note compiled first. |
 | `reportCompiled` / `reportDetail` | The pass's own log lines. |
 
+`selects` answers *which document type* a pass claims, and every pack of that
+type gives the same answer. Which **pack of that type** a claimed note lands in
+is a second question, answered by the pack router from the note's own `pack:`
+declaration — so a subclass never has to know that its type ships in more than
+one pack (see [Several packs of one document
+type](#several-packs-of-one-document-type)).
+
 Two static switches complete it: `requiresId` (a claimed note with no `id` is
 fatal, or merely skipped — the journals pass is the only one that tolerates it)
 and `convertsWikilinks` (whether the body reaching `buildEntry` is converted or
@@ -373,7 +418,8 @@ Foundry document type; a consumer needing a document type the toolchain does not
 ship writes a subclass and registers it in `generate.mjs`'s `COMPILERS` map,
 rather than copying a pass and editing it. The contract the generator relies on
 stays small — construct with `{contentBase, dest, companionDests,
-folderResolver}`, `await compile()`, read `errorCount` and `compiledCount`.
+folderResolver, packName, docType, router}`, `await compile()`, read `errorCount`
+and `compiledCount`.
 
 `packages/content-build/engine/map-notes.mjs` is deliberately **not** a subclass: it never walks
 the tree. It is the pure markdown→`Scene` translator the scenes pass calls, and
@@ -392,6 +438,56 @@ consuming repository's root whether the toolchain sits in `packages/` or in
 `node_modules/` (#1508). A consuming repository —
 `sohl-thalorna`, `sohl-kethira-basic`, an adventure module — ships the same
 toolchain with its own copy of that file and nothing else.
+
+##### Several packs of one document type
+
+The pack list may hold more than one entry of the same `type`. That is not a
+stylistic nicety: a compendium UUID carries its pack name
+(`Compendium.<package>.<pack>.Item.<id>`), so a module that ships three Item
+packs and later collapses them into one invalidates every reference an existing
+world holds. Foundry modules routinely split same-type documents editorially, and
+the pipeline has to be able to express that.
+
+```js
+packs: [
+    { name: "characteristics", type: "Item", default: true },
+    { name: "mysteries", type: "Item" },
+    { name: "journals", type: "JournalEntry" },
+],
+```
+
+- `type` selects the **compiler**; the note's `pack:` selects **which pack of
+  that type** receives its document. Getting those two confused is the easiest
+  mistake to make here — they are orthogonal, and both are needed.
+- `default: true` designates the pack of its type that receives notes declaring
+  none. At most one per type, enforced by `defineConfig`. A type with exactly one
+  pack is its default implicitly, which is what keeps every existing
+  one-pack-per-type configuration — including this repository's — valid and
+  behaving identically.
+- Where a type has several packs and none is marked default, every note of that
+  type **must** declare one; an undeclared note fails the build rather than
+  guessing.
+- A companion pack may not be marked default and may not be named by a note: it
+  is written by its parent's pass, and that indirection is the only one the build
+  has.
+
+The routing itself is `packages/content-build/engine/pack-router.mjs`, one pure
+function over the configured pack list. `BasePackCompiler` consults it for every
+note its `selects` claims, so a pass never has to know that its document type
+ships in more than one pack. Every pack of a type sees the same notes, so the
+**first configured pack of each type** owns the error message for a note of that
+type that routes nowhere — one error, named once, rather than one per pack.
+
+Two consequences worth naming, because they are where multi-pack support
+actually bites:
+
+- **Links.** Each note's pack is resolved once when the content-wide link index
+  is built, and the resolved name is what every emitted `@UUID` carries — so a
+  wikilink into the second Item pack addresses that pack, not the first.
+- **Embedded items.** The actors pass resolves each being's predefined items
+  against **every** Item pack's generated JSON, read as one `(type, shortcode)`
+  address space. Two Item packs claiming one address is ambiguous rather than an
+  ordering detail, and fails the build.
 
 What it declares:
 

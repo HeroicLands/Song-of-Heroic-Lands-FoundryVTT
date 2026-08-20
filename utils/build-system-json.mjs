@@ -31,6 +31,7 @@ import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { collectContentDocs } from "@heroiclands/content-build/engine/helpers";
 import { compendiumUuid } from "@heroiclands/content-build/engine/ids";
+import { packRouter } from "@heroiclands/content-build/engine/pack-router";
 import {
     CONTENT_PACKAGE,
     FOUNDRY_PACKAGE_ID,
@@ -89,7 +90,14 @@ function resolveCreditsUuid() {
                 `compiles to no JournalEntry and cannot be addressed.`,
         );
     }
-    return compendiumUuid(FOUNDRY_PACKAGE_ID, "doc", note.fm.id);
+    // The credits note compiles into a JournalEntry, so it ships in the
+    // default JournalEntry pack whatever else the repository declares (#1566).
+    return compendiumUuid(
+        FOUNDRY_PACKAGE_ID,
+        "doc",
+        note.fm.id,
+        packRouter.defaultOf("JournalEntry"),
+    );
 }
 
 await mkdir(STAGE_DIR, { recursive: true });

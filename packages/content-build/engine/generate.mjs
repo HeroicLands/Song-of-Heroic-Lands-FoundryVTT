@@ -50,6 +50,7 @@ import {
 import { countContentNotes } from "./content-tree.mjs";
 import { assertPackageIdMatchesManifestFile } from "./package-manifest.mjs";
 import { packConfig } from "./pack-config.mjs";
+import { routerFor } from "./pack-router.mjs";
 
 /**
  * The compiler class for each Foundry document type a pack may hold.
@@ -80,24 +81,26 @@ export const packJsonDir = (name, config = packConfig) =>
     path.join(config.paths.packJson, name);
 
 /**
- * The generated JSON of the configured Item pack — what the actors pass reads
- * its predefined items from.
+ * The generated JSON of **every** configured Item pack — what the actors pass
+ * reads its predefined items from.
+ *
+ * All of them, not the first: a repository may ship several Item packs (#1566),
+ * and an actor's embedded items may be sourced from any of them. Finding one
+ * pack and stopping is how embedded-item resolution would silently miss every
+ * item that landed in another. Returned in configured order, which is also the
+ * order they compile in, so a pack later in the list cannot be read before it
+ * is written.
  *
  * @param {object} [config] - The resolved build configuration. Defaults to this
  *   repository's.
- * @returns {string} The pack's JSON directory.
- * @throws {Error} When no pack holds Items, which the actors pass requires.
+ * @returns {string[]} Each Item pack's JSON directory. Empty when the
+ *   repository ships no items at all — the actors pass, which is the only
+ *   caller that needs one, refuses that itself.
  */
-export function itemPackJsonDir(config = packConfig) {
-    const itemPack = config.packs.find((pack) => pack.type === "Item");
-    if (!itemPack) {
-        throw new Error(
-            'No pack of type "Item" is configured, so an actor\'s embedded ' +
-                "items cannot be resolved. Declare one in " +
-                "content-build.config.mjs.",
-        );
-    }
-    return packJsonDir(itemPack.name, config);
+export function itemPackJsonDirs(config = packConfig) {
+    return config.packs
+        .filter((pack) => pack.type === "Item")
+        .map((pack) => packJsonDir(pack.name, config));
 }
 
 /**
@@ -105,10 +108,21 @@ export function itemPackJsonDir(config = packConfig) {
  *
  * @param {object} pack - One entry of the configured pack list.
  * @param {object} config - The resolved build configuration.
+ * @param {object} router - The pack router, which decides which pack of this
+ *     pass's document type each claimed note belongs in.
+ * @param {boolean} routingReporter - Whether this pass reports a note of its
+ *     document type that routes nowhere. True for the first configured pack of
+ *     the type, so one unroutable note yields one error rather than one per
+ *     pack.
  * @returns {Promise<{errors: number, compiled: number}>} The compiler's error
  *     count (0 on success) and the number of entries it wrote.
  */
-async function generatePack({ name, type, folders, companions }, config) {
+async function generatePack(
+    { name, type, folders, companions },
+    config,
+    router,
+    routingReporter,
+) {
     const contentBase = config.paths.content;
     const dest = packJsonDir(name, config);
 
@@ -155,11 +169,17 @@ async function generatePack({ name, type, folders, companions }, config) {
         dest,
         companionDests,
         // The actors pass resolves each being's embedded items against the items
-        // pass's output. That used to be an unwritten sibling-directory contract
+        // passes' output. That used to be an unwritten sibling-directory contract
         // (`path.resolve(dest, "..", "items")`); the configured pack list names
-        // the Item pack, so the dependency is stated rather than assumed (#1508).
-        itemsSourceDir: itemPackJsonDir(config),
+        // the Item packs, so the dependency is stated rather than assumed
+        // (#1508) — and it is every Item pack, since a repository may ship more
+        // than one (#1566).
+        itemsSourceDirs: itemPackJsonDirs(config),
         folderResolver: resolver,
+        packName: name,
+        docType: type,
+        router,
+        routingReporter,
     });
     await pack.compile();
     return { errors: pack.errorCount, compiled: pack.compiledCount };
@@ -250,10 +270,24 @@ export async function generatePacksJson({ only, config = packConfig } = {}) {
             pack.name === only ||
             pack.companions.some((companion) => companion.name === only),
     );
+    // One router per configuration, so every pass agrees about where a note
+    // goes, and the first pack of each document type owns the error message for
+    // a note of that type that goes nowhere.
+    const router = routerFor(config);
+    const firstOfType = new Map();
+    for (const pack of config.packs) {
+        if (!firstOfType.has(pack.type)) firstOfType.set(pack.type, pack.name);
+    }
+
     let totalErrors = 0;
     const passes = [];
     for (const pack of packs) {
-        const { errors, compiled } = await generatePack(pack, config);
+        const { errors, compiled } = await generatePack(
+            pack,
+            config,
+            router,
+            firstOfType.get(pack.type) === pack.name,
+        );
         totalErrors += errors;
         passes.push({
             name: pack.name,
