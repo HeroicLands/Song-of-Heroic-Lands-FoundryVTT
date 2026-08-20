@@ -218,7 +218,8 @@ export class SohlActorBaseLogic<
     getItemLogic(id: string): SohlItemLogic<any> | undefined;
 
     /**
-     * @inheritDoc
+     * Implementation signature backing the `getItemLogic` overloads above.
+     *
      * @param idOrShortcode - Item id (no `type`) or shortcode (with `type`).
      * @param type - The item kind to filter by; omit for id-based lookup.
      * @returns The matching logic instance, or `undefined` if not found.
