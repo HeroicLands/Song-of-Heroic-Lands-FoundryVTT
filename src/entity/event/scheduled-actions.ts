@@ -264,7 +264,7 @@ export interface Schedulable {
  * `system.scheduledActions` array (the durable record) and arms the queue (the
  * live entry), both anchored at `now`.
  *
- * @param doc - The document to schedule on.
+ * @param maybeDoc - The document to schedule on; rejected if it has no uuid.
  * @param queue - The event queue to arm.
  * @param actionName - The action to run on the document's logic when due.
  * @param interval - Seconds until the next fire.
@@ -326,7 +326,7 @@ export async function scheduleAction(
 /**
  * Remove a recurring schedule for `actionName` on `doc` — clears the persisted
  * entry and unsubscribes it from the queue.
- * @param doc - The document to unschedule on.
+ * @param maybeDoc - The document to unschedule on; rejected if it has no uuid.
  * @param queue - The event queue to unsubscribe from.
  * @param actionName - The schedule to remove.
  */

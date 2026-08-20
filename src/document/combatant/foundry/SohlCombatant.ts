@@ -43,6 +43,19 @@ export interface StrikeModeRef {
  * SoHL's Combatant document. Adds strike-mode memory (last attack/block) and
  * threat queries on top of Foundry's combatant.
  */
+// @ts-expect-error - TS2310: this class is its own base type, which cannot be
+// resolved from here. `SohlCombatant extends Combatant`, and the global
+// `Combatant` resolves to whatever `ConfiguredCombatant.document` declares --
+// which is this class. `SohlActor` and `SohlItem` register identically without
+// complaint, so it is specific to how fvtt-types models Combatant, not to
+// anything this file does. Six variations were measured (dropping the type
+// parameter, leaving the base unparameterised, an alias indirection in the
+// registration, and combinations of those): each either kept this error or
+// traded it for more elsewhere, and the only one that cleared `build:types`
+// named a type argument on a class with none, which `lint:dts` then rejected.
+// Removing the `actor` override changes nothing either. Tracked upstream with
+// fvtt-types; delete this directive when that lands -- TypeScript reports an
+// unused `@ts-expect-error`, so it cannot outlive the fix.
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
