@@ -24,9 +24,14 @@ import path from "node:path";
  * build can resolve `{@link sohl.*}` references in the developer docs to the API
  * site without itself running TypeDoc.
  *
- * Using TypeDoc's own `reflection.url` (rather than scanning HTML filenames)
- * captures disambiguation suffixes (e.g. `SafeExpression-1.html`) and member
- * anchors correctly.
+ * URLs come from the renderer's {@link https://typedoc.org | Router} rather
+ * than from scanning HTML filenames, so disambiguation suffixes (e.g.
+ * `SafeExpression-1.html`) and member anchors are captured correctly.
+ *
+ * TypeDoc 0.28 moved URL ownership off the reflection and onto the router:
+ * `reflection.url` is no longer populated, so asking the router is now the only
+ * way to get a page address. Reading the old property silently produced an
+ * empty map.
  *
  * @param {import("typedoc").Application} app
  */
@@ -35,14 +40,30 @@ export function load(app) {
         const project = event.project;
         if (!project) return;
 
+        const router = app.renderer.router;
+        if (!router) {
+            throw new Error(
+                "symbol-map: the renderer exposed no router, so no symbol URL " +
+                    "can be resolved. Refusing to overwrite kb/data/api-symbols.json.",
+            );
+        }
+
         const map = {};
         const visit = (refl) => {
-            if (refl.url && typeof refl.getFullName === "function") {
-                map[refl.getFullName(".")] = refl.url;
+            if (typeof refl.getFullName === "function" && router.hasUrl(refl)) {
+                map[refl.getFullName(".")] = router.getFullUrl(refl);
             }
             refl.children?.forEach(visit);
         };
         project.children?.forEach(visit);
+
+        if (Object.keys(map).length === 0) {
+            throw new Error(
+                "symbol-map: resolved 0 symbols, which would blank " +
+                    "kb/data/api-symbols.json and break every API link in the " +
+                    "knowledgebase. Refusing to write.",
+            );
+        }
 
         const sorted = {};
         for (const key of Object.keys(map).sort()) sorted[key] = map[key];
