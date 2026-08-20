@@ -259,6 +259,15 @@ shows up as unformatted, stop and ask — do not run `format` blind, since
 your commit. Once only your files are flagged, run `npm run format`, then `git add`
 only your files.
 
+Since #1621 that should be rare: the same check runs as `lint:format`, first in
+the `lint` chain, so `main` cannot carry drift for long. Two things still produce
+it, and they call for opposite responses. A **Prettier version bump** invalidates
+the tree wholesale — the declared range is a caret, so a minor that changes a
+layout rule reformats files nobody edited; that belongs in its own reformat-only
+commit, not in yours. A **single stray file** is ordinary drift and is yours to
+format if you were touching it anyway. Either way the rule above holds: format by
+explicit path, never the whole repo.
+
 ### Commit messages
 
 Do **not** add AI/assistant attribution to commit messages, pull-request

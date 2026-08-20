@@ -132,6 +132,7 @@ and is unit-tested directly.
 | `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`.                                 |
 | `lint:dts`                | Validate the generated public type surface.                                                                                                                                                                                                    |
 | `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`.                                                                   |
+| `lint:format`             | Prettier `--check` over the repo — the same check as `format:check`, wired into the `lint` chain so drift fails the build (#1621).                                                                                                             |
 | `format` / `format:check` | Prettier write / check the whole repo.                                                                                                                                                                                                         |
 
 #### What the two linters check
@@ -229,21 +230,22 @@ better — across files rather than within one — by `lint:doc-links` and
 
 `npm run build` runs `npm ci` then `build:noci`, which is:
 
-1. **`lint:todos`** — no `TODO`/`FIXME` markers under `src/`.
-2. **`lint:docs-index`** — every `docs/` page is linked from its section nav and the README.
+1. **`lint:format`** — Prettier reports no drift anywhere in the repo.
+2. **`lint:todos`** — no `TODO`/`FIXME` markers under `src/`.
+3. **`lint:docs-index`** — every `docs/` page is linked from its section nav and the README.
    `lint` also runs `lint:markdown` and `lint:styles` here; see
    [What the two linters check](#what-the-two-linters-check).
-3. **`build:types`** — `tsc` type-checks the whole project.
-4. **`lint:dts`** — the generated public type surface is valid.
-5. **`build:prepare`** (parallel):
+4. **`build:types`** — `tsc` type-checks the whole project.
+5. **`lint:dts`** — the generated public type surface is valid.
+6. **`build:prepare`** (parallel):
    - **`build:css`** — Sass → `build/stage/css/sohl.css`.
    - **`build:db`** — copy assets, then compile packs to `build/stage/packs/`.
    - **`build:system`** — write `build/stage/system.json`.
-6. **`test:coverage`** and **`test:purity`** — the suite must pass.
-7. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
+7. **`test:coverage`** and **`test:purity`** — the suite must pass.
+8. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
    module, sourcemap, unminified, with `emptyOutDir: false` so it doesn't wipe the
    staged CSS/assets/packs).
-8. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
+9. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
 
 The result is a complete, deployable system in **`build/stage/`**.
 
