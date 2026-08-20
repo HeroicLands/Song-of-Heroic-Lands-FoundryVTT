@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Issue Reporting
-    aliases: []
+  full: Issue Reporting
+  aliases: []
 id: ZLeoKpUIOg1HUFZV
 slug: issue-reporting
 type: doc
@@ -87,24 +87,24 @@ in the registry is deleted on sync). `npm run lint` fails if the two disagree
 > Extending this registry is a deliberate decision made by editing **both** this
 > table and `.github/labels.yml`, not something done at filing time.
 
-| Label             | Scope                                                                                                                                   |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `system`          | The Foundry VTT game system code (TypeScript, data model, sheets, logic).                                                               |
-| `documentation`   | The Foundry VTT game system documents (dev, api, user docs, rules content, etc.)                                                        |
-| `content`         | Non-documentation assets, such as new or modified images, compendium packs, actors, items, journals, or other content                   |
+| Label             | Scope                                                                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `system`          | The Foundry VTT game system code (TypeScript, data model, sheets, logic).                                                                  |
+| `documentation`   | The Foundry VTT game system documents (dev, api, user docs, rules content, etc.)                                                           |
+| `content`         | Non-documentation assets, such as new or modified images, compendium packs, actors, items, journals, or other content                      |
 | `thalorna`        | **Retired.** `sohl-thalorna` tracks its own work; the label is kept only so historical issues keep their delivery target. Do not apply it. |
-| `site`            | heroiclands.org — Hugo site, Cloudflare Pages, CDN.                                                                                     |
-| `vault`           | **Retired.** The HeroicLands vault is archived; the label is kept only so historical issues keep their delivery target. Do not apply it. |
-| `devops`          | Build, tooling, release pipeline, repo config.                                                                                          |
-| `tests`           | Vitest, Quench, or Playwright test suites and harness.                                                                                  |
-| `security`        | Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure (see §7). |
-| `tech-debt`       | Restructuring or cleanup of working code; refactors.                                                                                    |
-| `regression`      | Something that previously worked and stopped. Pairs with type `bug`.                                                                    |
-| `breaking-change` | Alters a public API, data schema, or save compatibility.                                                                                |
-| `blocked`         | Cannot proceed until an external dependency or another issue clears.                                                                    |
-| `duplicate`       | This issue or pull request already exists                                                                                               |
-| `question`        | Further information is requested                                                                                                        |
-| `wontfix`         | This will not be worked on                                                                                                              |
+| `site`            | heroiclands.org — Hugo site, Cloudflare Pages, CDN.                                                                                        |
+| `vault`           | **Retired.** The HeroicLands vault is archived; the label is kept only so historical issues keep their delivery target. Do not apply it.   |
+| `devops`          | Build, tooling, release pipeline, repo config.                                                                                             |
+| `tests`           | Vitest, Quench, or Playwright test suites and harness.                                                                                     |
+| `security`        | Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure (see §7).    |
+| `tech-debt`       | Restructuring or cleanup of working code; refactors.                                                                                       |
+| `regression`      | Something that previously worked and stopped. Pairs with type `bug`.                                                                       |
+| `breaking-change` | Alters a public API, data schema, or save compatibility.                                                                                   |
+| `blocked`         | Cannot proceed until an external dependency or another issue clears.                                                                       |
+| `duplicate`       | This issue or pull request already exists                                                                                                  |
+| `question`        | Further information is requested                                                                                                           |
+| `wontfix`         | This will not be worked on                                                                                                                 |
 
 > **No capability-gate labels.** Progress toward a capability is tracked by
 > **milestones** (§4), not labels. Do not add `combat`-style or `v3.0`-style labels
@@ -344,16 +344,16 @@ maintainer decide whether to make it public.
 The project spans several repositories in the `HeroicLands` organization, and **each
 one tracks its own work.** There is no central tracker.
 
-| Repository                        | Tracks                                                                     | Standard                                                                                                     |
-| --------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `Song-of-Heroic-Lands-FoundryVTT` | **This repository** — the system code, the `sohl` package, the system build | This document                                                                                                |
-| `sohl-thalorna`                   | The `thalorna` package — original setting content, and the `/thalorna` site | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-thalorna/blob/main/.github/ISSUE_REPORTING.md) |
-| `sohl-kethira-basic`              | The `kethira` package — unofficial Hârn fan material, Foundry packs only    | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-kethira-basic/blob/main/.github/ISSUE_REPORTING.md) |
-| `heroiclands-site`                | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN                  | This document, via the `site` label                                                                          |
+| Repository                        | Tracks                                                                      | Standard                                                                                                                       |
+| --------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `Song-of-Heroic-Lands-FoundryVTT` | **This repository** — the system code, the `sohl` package, the system build | This document                                                                                                                  |
+| `sohl-thalorna`                   | The `thalorna` package — original setting content, and the `/thalorna` site | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-thalorna/blob/main/.github/ISSUE_REPORTING.md)          |
+| `sohl-kethira-basic`              | The `kethira` package — unofficial Hârn fan material, Foundry packs only    | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-kethira-basic/blob/main/.github/ISSUE_REPORTING.md)     |
+| `heroiclands-site`                | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN                  | This document, via the `site` label                                                                                            |
 | `heroiclands-hugo-theme`          | The Hugo theme all three sites render through — layouts, partials, styling  | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/heroiclands-hugo-theme/blob/main/.github/ISSUE_REPORTING.md) |
 
 Only `heroiclands-site` has no tracker of its own: it is tracked here under the
-`site` label, and closed here. That is a choice about where the work is *watched*,
+`site` label, and closed here. That is a choice about where the work is _watched_,
 not a contradiction of the delivery rule below — the rule picks the repository among
 those that keep a backlog.
 
@@ -373,7 +373,7 @@ no test suite, and each is its own subject by definition.
 
 ### Choosing the repository
 
-**File the issue where the work will be done.** The rule is *delivery*, not subject —
+**File the issue where the work will be done.** The rule is _delivery_, not subject —
 if the fix is an edit to a file in a given repository, the issue belongs to that
 repository, even when the symptom shows up somewhere else. Two cases that look alike
 and are not:

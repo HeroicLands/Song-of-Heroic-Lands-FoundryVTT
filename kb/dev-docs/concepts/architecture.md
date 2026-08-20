@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: SoHL Architecture
-    aliases: []
+  full: SoHL Architecture
+  aliases: []
 id: NuF7KlTBhlcriBxf
 slug: architecture
 type: doc
@@ -112,12 +112,12 @@ The `logic/` directory contains code that can run and be tested without Foundry 
 
 A `defineSchema()` is built from Foundry's own `foundry.data.fields.*` types. SoHL adds **two** of its own, both in `src/core/foundry/` and both `StringField` subclasses — reach for them instead of a bare `StringField` when they apply:
 
-| Field                                                | Use it for                                                                    | Notes                                                                                                                                                                                              |
-| ---------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| {@link sohl.core.foundry.SafeExpressionField}        | A GM-authored formula or predicate (a Skill Base, an affliction's outcome)     | Marks the field as holding a {@link sohl.entity.expr.SafeExpression} source, which is what gives it the **code editor** on the sheet rather than a plain text input. Declare its `scope` — see [Expressions and Scripts](./expressions.md#adding-a-call-site-declaring-its-scope). |
-| {@link sohl.core.foundry.URLField}                   | A string that must be a well-formed `http(s)` URL                             | Validates on assignment, so a malformed URL is rejected at the schema boundary.                                                                                                                    |
+| Field                                         | Use it for                                                                 | Notes                                                                                                                                                                                                                                                                              |
+| --------------------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| {@link sohl.core.foundry.SafeExpressionField} | A GM-authored formula or predicate (a Skill Base, an affliction's outcome) | Marks the field as holding a {@link sohl.entity.expr.SafeExpression} source, which is what gives it the **code editor** on the sheet rather than a plain text input. Declare its `scope` — see [Expressions and Scripts](./expressions.md#adding-a-call-site-declaring-its-scope). |
+| {@link sohl.core.foundry.URLField}            | A string that must be a well-formed `http(s)` URL                          | Validates on assignment, so a malformed URL is rejected at the schema boundary.                                                                                                                                                                                                    |
 
-Both store an ordinary string, so neither changes the persisted *type*. They add behavior: validation, and (for `SafeExpressionField`) the editing affordance the sheet keys off.
+Both store an ordinary string, so neither changes the persisted _type_. They add behavior: validation, and (for `SafeExpressionField`) the editing affordance the sheet keys off.
 
 Switching an existing field is not automatically a no-op, though. `SafeExpressionField` defaults to `nullable: true, blank: false`, so Foundry cleans a legacy `""` to `null` — the right shape for "unset" (see [null vs. undefined](../contributing/system-development.md#conventions)), but a change in the values downstream code sees. Check the readers before converting a populated field.
 

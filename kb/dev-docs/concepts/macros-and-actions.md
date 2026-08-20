@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Macros and Actions
-    aliases: []
+  full: Macros and Actions
+  aliases: []
 id: Hk17waT8fDxpYs6u
 slug: macros-and-actions
 type: doc

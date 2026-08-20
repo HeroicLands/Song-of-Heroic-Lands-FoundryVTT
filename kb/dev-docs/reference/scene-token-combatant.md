@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: "Scene, Token, and Combatant Systems"
-    aliases: []
+  full: "Scene, Token, and Combatant Systems"
+  aliases: []
 id: HA1i1joNOvi4nWAU
 slug: scene-token-combatant
 type: doc

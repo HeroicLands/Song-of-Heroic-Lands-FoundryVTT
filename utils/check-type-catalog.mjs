@@ -23,6 +23,7 @@
 import fs from "fs";
 import path from "path";
 import { buildTypeCatalog } from "./build-type-catalog.mjs";
+import { formatGenerated } from "./format-generated.mjs";
 
 const OUT = path.resolve("kb/dev-docs/reference/type-catalog.md");
 const rel = path.relative(process.cwd(), OUT);
@@ -31,7 +32,11 @@ const { md, warnings } = buildTypeCatalog();
 for (const w of warnings) console.warn(`⚠️  ${w}`);
 
 const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf8") : "";
-if (current !== md) {
+// Compare against what the writer would actually produce: `docs:catalog` runs
+// the builder's output through Prettier, so comparing the raw output here would
+// report every up-to-date file as stale.
+const expected = await formatGenerated(md, OUT);
+if (current !== expected) {
     console.error(
         `✗ ${rel} is out of date with the code.\n` +
             `  Run \`npm run docs:catalog\` and commit the regenerated file.`,

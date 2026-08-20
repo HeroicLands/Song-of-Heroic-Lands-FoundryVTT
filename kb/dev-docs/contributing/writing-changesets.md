@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Writing Changesets
-    aliases: []
+  full: Writing Changesets
+  aliases: []
 id: n79r8AjfB8I4WFeU
 slug: writing-changesets
 type: doc
@@ -150,9 +150,9 @@ is indented two spaces beneath the bullet. The example above renders as:
 
 - a1b2c3d: **Key embedded items when exporting the actors pack**
 
-    Fixes [#59](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/59):
-    the actor pack exporter now writes a hierarchical `_key`
-    (`!actors.items!<actorId>.<itemId>`, …) on each embedded item. …
+  Fixes [#59](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/59):
+  the actor pack exporter now writes a hierarchical `_key`
+  (`!actors.items!<actorId>.<itemId>`, …) on each embedded item. …
 ```
 
 A `minor` change lands the same way under a `### Minor Changes` heading. The GitHub

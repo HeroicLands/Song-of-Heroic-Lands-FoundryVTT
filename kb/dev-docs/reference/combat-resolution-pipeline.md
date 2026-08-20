@@ -1,9 +1,9 @@
 ---
 aliases:
-    - Combat Resolution Pipeline
+  - Combat Resolution Pipeline
 name:
-    full: Combat Resolution Pipeline
-    aliases: []
+  full: Combat Resolution Pipeline
+  aliases: []
 id: 3kScB1NX9zBdYHtz
 slug: combat-resolution-pipeline
 type: doc
@@ -11,10 +11,10 @@ package: sohl
 category: dev-docs
 folder: null
 tags:
-    - rules
-    - core-system
-    - combat
-    - injury
+  - rules
+  - core-system
+  - combat
+  - injury
 audience: "SoHL maintainers extending tests, opposed rolls, or combat outcomes."
 ---
 
@@ -109,17 +109,17 @@ The standard d100 roll-under mastery level test.
 
 Two competing SuccessTestResults compared to determine a winner.
 
-| Property                    | Type                | Description                                                     |
-| --------------------------- | ------------------- | --------------------------------------------------------------- |
-| `sourceTestResult`          | `SuccessTestResult` | Initiating actor's test                                         |
-| `targetTestResult`          | `SuccessTestResult` | Responding actor's test                                         |
-| `breakTies`                 | `boolean`           | Whether a tie is settled rather than reported                   |
-| `tieBreak`                  | `number`            | Which side a tie was awarded to (`SOURCE` / `NONE` / `TARGET`)  |
-| `tieBreakReason`            | `string`            | Which rule settled it (`roll` / `ml` / `rolloff`)               |
-| `sourceWins` / `targetWins` | `boolean`           | Outcome flags                                                   |
-| `isTied` / `bothFail`       | `boolean`           | Edge case flags                                                 |
-| `isTieBroken`               | `boolean`           | The contest tied, and `tieBreak` then settled it                |
-| `victoryStars`              | `number`            | Margin in Victory Stars; `1` for a broken tie, `0` for a tie    |
+| Property                    | Type                | Description                                                    |
+| --------------------------- | ------------------- | -------------------------------------------------------------- |
+| `sourceTestResult`          | `SuccessTestResult` | Initiating actor's test                                        |
+| `targetTestResult`          | `SuccessTestResult` | Responding actor's test                                        |
+| `breakTies`                 | `boolean`           | Whether a tie is settled rather than reported                  |
+| `tieBreak`                  | `number`            | Which side a tie was awarded to (`SOURCE` / `NONE` / `TARGET`) |
+| `tieBreakReason`            | `string`            | Which rule settled it (`roll` / `ml` / `rolloff`)              |
+| `sourceWins` / `targetWins` | `boolean`           | Outcome flags                                                  |
+| `isTied` / `bothFail`       | `boolean`           | Edge case flags                                                |
+| `isTieBroken`               | `boolean`           | The contest tied, and `tieBreak` then settled it               |
+| `victoryStars`              | `number`            | Margin in Victory Stars; `1` for a broken tie, `0` for a tie   |
 
 Winner and margin are compared on the **raw** (unclamped) success levels
 (`SuccessTestResult.rawSuccessLevel`), so a `successLevelMod` that pushes a level
@@ -187,12 +187,12 @@ Per-defense outcome. Every attacker cell is additionally conditional on
 `attackResult.isSuccess` — **a failed attack never lands**, however badly the
 defence blundered:
 
-| Defense       | Attacker delivers                                         | Defender delivers          | Notes                                          |
-| ------------- | --------------------------------------------------------- | -------------------------- | ---------------------------------------------- |
+| Defense       | Attacker delivers                                         | Defender delivers          | Notes                                                          |
+| ------------- | --------------------------------------------------------- | -------------------------- | -------------------------------------------------------------- |
 | Block         | `VS > 0`                                                  | never                      | a tie wards the blow, and sets `weaponBreakCheck = "defender"` |
-| Counterstrike | `VS >= 0`                                                 | when its own roll succeeds | both blows may land                            |
-| Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never                      |                                                |
-| Ignore        | always                                                    | never                      | no defender contest                            |
+| Counterstrike | `VS >= 0`                                                 | when its own roll succeeds | both blows may land                                            |
+| Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never                      |                                                                |
+| Ignore        | always                                                    | never                      | no defender contest                                            |
 
 A block need only **tie** to ward the blow — and the tie is what the blocker's
 weapon-break check exists for, so it fires only when there was a blow to absorb

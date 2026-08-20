@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Effects Integration
-    aliases: []
+  full: Effects Integration
+  aliases: []
 id: tJSDDkjs0P3j2rOE
 slug: effects-integration
 type: doc
@@ -28,9 +28,9 @@ See also: [Modifier Model](./modifier-model.md), [Extension Points](../how-to/ex
 
 - Extends Foundry `ActiveEffect`.
 - Exposes convenience accessors:
-    - `logic` → typed `SohlEffectData`
-    - `item` → parent item (when effect is item-owned)
-    - `actor` → owning actor fallback
+  - `logic` → typed `SohlEffectData`
+  - `item` → parent item (when effect is item-owned)
+  - `actor` → owning actor fallback
 - Delegates context-menu entries to logic (`_getContextOptions`).
 
 ### `SohlEffectData`
@@ -50,11 +50,11 @@ Foundry's baseline ActiveEffect model operates on the embedded owner document. S
 This behavior is driven by two fields on `SohlActiveEffectDataModel`:
 
 - `scope`
-    - `"this"` → apply changes to the document where the effect is embedded (item or actor).
-    - `"actor"` → apply changes to the owning actor.
-    - `<itemKind>` (e.g. `"skill"`, `"trauma"`, `"weapongear"`, etc.) → apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
+  - `"this"` → apply changes to the document where the effect is embedded (item or actor).
+  - `"actor"` → apply changes to the owning actor.
+  - `<itemKind>` (e.g. `"skill"`, `"trauma"`, `"weapongear"`, etc.) → apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
 - `test`
-    - Optional {@link sohl.entity.expr.SafeExpression}. When `scope` is an item-kind, this predicate narrows the matched items. Variable binding: `item`. Empty `test` matches every item of that kind.
+  - Optional {@link sohl.entity.expr.SafeExpression}. When `scope` is an item-kind, this predicate narrows the matched items. Variable binding: `item`. Empty `test` matches every item of that kind.
 
 `SohlActiveEffect.targets` returns the resolved set of target documents; `SohlActiveEffect.allApplicableEffects()` (on both `SohlItem` and `SohlActor`) composes own self-targeting effects with effects living elsewhere that target this document (the inbound "pull" side, surfaced via `transferredActiveEffects()`).
 
@@ -86,28 +86,28 @@ A SoHL extension on the per-change schema, only consulted when the key matches `
 ```jsonc
 // Example: "Honed Edge" — +1 attack and +1 impact on all cutting strike modes
 {
-    "name": "Honed Edge",
-    "transfer": false,
-    "system": {
-        "scope": "this",
-        "test": "",
-        "changes": [
-            {
-                "key": "mod:sm:attack",
-                "type": "add",
-                "value": "1",
-                "phase": "initial",
-                "strikeModePredicate": "sm.traits.cutting === true",
-            },
-            {
-                "key": "mod:sm:impact",
-                "type": "add",
-                "value": "1",
-                "phase": "initial",
-                "strikeModePredicate": "sm.traits.cutting === true",
-            },
-        ],
-    },
+  "name": "Honed Edge",
+  "transfer": false,
+  "system": {
+    "scope": "this",
+    "test": "",
+    "changes": [
+      {
+        "key": "mod:sm:attack",
+        "type": "add",
+        "value": "1",
+        "phase": "initial",
+        "strikeModePredicate": "sm.traits.cutting === true",
+      },
+      {
+        "key": "mod:sm:impact",
+        "type": "add",
+        "value": "1",
+        "phase": "initial",
+        "strikeModePredicate": "sm.traits.cutting === true",
+      },
+    ],
+  },
 }
 ```
 
@@ -119,9 +119,9 @@ All SoHL-prefix dispatch happens in `SohlActiveEffect._applyChangeUnguided` (sta
 
 - `details` tab: scope choices (`this`, `actor`, and every registered item kind), plus the `test` predicate textarea.
 - `changes` tab:
-    - localized type labels from `ActiveEffect.CHANGE_TYPES` (v14)
-    - key choices resolved from the EFFECT_KEY namespace selected by `scope`
-    - a conditional `strikeModePredicate` row, shown only when `scope === "weapongear"` and the change key starts with `sm:` or `mod:sm:` (helper: `isSmKey`)
+  - localized type labels from `ActiveEffect.CHANGE_TYPES` (v14)
+  - key choices resolved from the EFFECT_KEY namespace selected by `scope`
+  - a conditional `strikeModePredicate` row, shown only when `scope === "weapongear"` and the change key starts with `sm:` or `mod:sm:` (helper: `isSmKey`)
 
 Templates: [templates/effect/details.hbs](../../../templates/effect/details.hbs), [templates/effect/changes.hbs](../../../templates/effect/changes.hbs).
 
@@ -198,8 +198,8 @@ Use `registerSohlTrigger(name, label)` to add a custom trigger name to both Foun
 
 ```typescript
 import {
-    registerSohlTrigger,
-    fireSohlTrigger,
+  registerSohlTrigger,
+  fireSohlTrigger,
 } from "@src/entity/event/event-trigger";
 
 registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");

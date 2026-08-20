@@ -10,9 +10,9 @@ part of the note ends up in.
 
 ## One note, two documents
 
-| Compiled by | Becomes | Addressed as |
-| --- | --- | --- |
-| `@heroiclands/content-build/engine/macros` | a **Macro** in `packs/macros` | `[[macro-<shortcode>]]` |
+| Compiled by                                  | Becomes                                | Addressed as               |
+| -------------------------------------------- | -------------------------------------- | -------------------------- |
+| `@heroiclands/content-build/engine/macros`   | a **Macro** in `packs/macros`          | `[[macro-<shortcode>]]`    |
 | `@heroiclands/content-build/engine/journals` | a **JournalEntry** in `packs/journals` | `[[docmacro-<shortcode>]]` |
 
 This is the same arrangement an item note already uses — frontmatter becomes the
@@ -73,15 +73,15 @@ aliases:
 ---
 ```
 
-| Key | Meaning |
-| --- | --- |
-| `type` | `macro` — this is what routes the note to the macros pack. It is **not** the Foundry macro type. |
-| `id` | The Foundry document id of the Macro. The JournalEntry's id is derived from it. |
-| `shortcode` | The note's identity, and half of every address that reaches it. |
-| `img` | Optional. A content-relative `icons/…` path is rooted under this system's assets; omitted, the macro takes Foundry's own `icons/svg/dice-target.svg`. |
-| `folder` | A folder id declared in `assets/content/macro-folders.yaml`, or `null`. |
-| `sohl.macroType` | Optional; defaults to `script`. See below. |
-| `sohl.macroScope` | Optional; defaults to `global`. One of `global`, `actors`, `actor`. |
+| Key               | Meaning                                                                                                                                               |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | `macro` — this is what routes the note to the macros pack. It is **not** the Foundry macro type.                                                      |
+| `id`              | The Foundry document id of the Macro. The JournalEntry's id is derived from it.                                                                       |
+| `shortcode`       | The note's identity, and half of every address that reaches it.                                                                                       |
+| `img`             | Optional. A content-relative `icons/…` path is rooted under this system's assets; omitted, the macro takes Foundry's own `icons/svg/dice-target.svg`. |
+| `folder`          | A folder id declared in `assets/content/macro-folders.yaml`, or `null`.                                                                               |
+| `sohl.macroType`  | Optional; defaults to `script`. See below.                                                                                                            |
+| `sohl.macroScope` | Optional; defaults to `global`. One of `global`, `actors`, `actor`.                                                                                   |
 
 ### `sohl.macroType` — and why `chat` is rejected
 
@@ -103,7 +103,7 @@ data-derived strings into code — no `eval`, no `new Function`, no
 **authored source shipped as content**, stored in a document Foundry itself
 executes through its own macro runner, under the permission model that already
 governs every macro in a world. The security model names a Macro UUID as one of
-the *references* data is allowed to carry. Nothing in the compiler evaluates,
+the _references_ data is allowed to carry. Nothing in the compiler evaluates,
 compiles, or revives anything; it copies text from a markdown fence into a JSON
 field.
 
@@ -122,9 +122,9 @@ documentation can misrender. Tracked as
 
 ## Where the code lives
 
-| File | Role |
-| --- | --- |
-| `@heroiclands/content-build/engine/macros` | The macros compiler: fence extraction, frontmatter validation, the Macro document. |
-| `@heroiclands/content-build/engine/journals` | Compiles the same note's body into its JournalEntry. |
+| File                                          | Role                                                                                                                                         |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@heroiclands/content-build/engine/macros`    | The macros compiler: fence extraction, frontmatter validation, the Macro document.                                                           |
+| `@heroiclands/content-build/engine/journals`  | Compiles the same note's body into its JournalEntry.                                                                                         |
 | `@heroiclands/content-build/engine/item-docs` | `DOC_ENTRY_TYPES` — the one set naming every type that carries separate documentation, read by the compilers and by the link manifest alike. |
-| `assets/content/macro-folders.yaml` | The macros pack's folder hierarchy. |
+| `assets/content/macro-folders.yaml`           | The macros pack's folder hierarchy.                                                                                                          |
