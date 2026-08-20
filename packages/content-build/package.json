@@ -50,6 +50,19 @@
         "test:watch": "vitest",
         "prepack": "cd ../.. && npm run build:content-build-types"
     },
+    "dependencies": {
+        "@foundryvtt/foundryvtt-cli": "^3.0.4",
+        "classic-level": "^3.0.0",
+        "loglevel": "^1.9.2",
+        "loglevel-plugin-prefix": "^0.8.4",
+        "markdown-it": "^14.1.0",
+        "unidecode": "^1.1.0",
+        "yaml": "^2.8.1",
+        "yargs": "^18.1.0"
+    },
+    "devDependencies": {
+        "vitest": "^3.1.2"
+    },
     "engines": {
         "node": ">=24.0.0"
     },
