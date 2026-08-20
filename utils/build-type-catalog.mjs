@@ -31,6 +31,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { globSync } from "glob";
+import { formatGenerated } from "./format-generated.mjs";
 
 const OUT = path.resolve("kb/dev-docs/reference/type-catalog.md");
 const CONSTANTS = path.resolve("src/utils/constants.ts");
@@ -190,7 +191,7 @@ ${itemRows.join("\n")}
 // Write the catalog when invoked directly (`npm run docs:catalog`).
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const { md, warnings, actorCount, itemCount } = buildTypeCatalog();
-    fs.writeFileSync(OUT, md);
+    fs.writeFileSync(OUT, await formatGenerated(md, OUT));
     console.log(
         `✅ Generated ${path.relative(process.cwd(), OUT)} ` +
             `(${actorCount} actor + ${itemCount} item types).`,
