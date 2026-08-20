@@ -175,14 +175,14 @@
         "vite": "^6.2.3",
         "vite-plugin-banner": "^0.8.0",
         "vitest": "^3.1.2",
-        "yaml": "^2.8.1"
+        "yaml": "^2.9.0"
     },
     "dependencies": {
-        "@codemirror/autocomplete": "^6.18.7",
-        "@codemirror/language": "^6.11.3",
-        "@codemirror/state": "^6.5.2",
-        "@codemirror/view": "^6.38.2",
-        "@lezer/highlight": "^1.2.1",
+        "@codemirror/autocomplete": "^6.20.3",
+        "@codemirror/language": "^6.12.4",
+        "@codemirror/state": "^6.7.1",
+        "@codemirror/view": "^6.43.9",
+        "@lezer/highlight": "^1.2.3",
         "jsep": "^1.4.0"
     }
 }
