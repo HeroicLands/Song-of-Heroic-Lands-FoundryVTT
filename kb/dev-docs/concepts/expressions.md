@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Expressions and Scripts
-    aliases: []
+  full: Expressions and Scripts
+  aliases: []
 id: WBg5LHbc23Vceh6u
 slug: expressions
 type: doc
@@ -104,20 +104,20 @@ condition or computed value** from a data field. These are the call sites today:
 
 <!-- BEGIN GENERATED: expression-scopes -->
 
-| Call site | Where | Field(s) | Bindings | Result |
-| --------- | ----- | -------- | -------- | ------ |
-| Action — UI visibility | `SohlAction` (`compileVisibility`) | `visible` | `element`, `itemLogic`, `actorLogic`, `isGM` | boolean |
-| Action — executability | `SohlAction` (`compileTrigger`) | `trigger` | `itemLogic`, `actorLogic` | boolean |
-| Active Effect — item targeting | `SohlActiveEffect` (item-kind scope) | `test` | `itemLogic` | boolean |
-| Active Effect — strike-mode targeting | `SohlActiveEffect` (`meleestrikemode` / `missilestrikemode` scope) | `test` | `itemLogic`, `sm` | boolean |
-| Context-menu entry | `ContextMenuEntry` (`compileCondition`) | `condition` | `target`, `itemLogic`, `actorLogic` | boolean |
-| Skill Base formula | `SkillLogic` (`computeSkillBase`) | `skillBaseFormula` | `attr` | number |
-| Being — strength modifier | `BeingLogic` (`evaluate`) | `strMod` | `str` | number |
-| Being — encumbrance | `BeingLogic` (`evaluate`) | `encumbrance` | `wt` | number |
-| Body — derived weight | `BodyLogic` (`evaluate`) | `weight.calc` | `str` | number |
-| Result-description table row | `SuccessTestResult` (result-description tables) | `label`, `description`, `result` | `successLevel`, `targetValue`, `lastDigit` | string (label/description) or number (result) |
-| Event-queue subscription predicate | `SohlEventQueue` (`fire`) | `predicate` | `name`, `subscriberUuid`, `payload`, `worldTime`, `dt`, `combat`, `combatant`, `round`, `turn`, `skipped`, `sceneUuid`, `darkness`, `priorDarkness`, `regionUuid`, `regionId`, `regionName`, `tokenUuid`, `actorUuid` _(open)_ | boolean |
-| Affliction — outcome trauma | `AfflictionLogic` (`contractOutcomeTraumas`) | `outcomeTrauma` | _none_ | string or string[] (trauma shortcodes) |
+| Call site                             | Where                                                              | Field(s)                         | Bindings                                                                                                                                                                                                                       | Result                                        |
+| ------------------------------------- | ------------------------------------------------------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- |
+| Action — UI visibility                | `SohlAction` (`compileVisibility`)                                 | `visible`                        | `element`, `itemLogic`, `actorLogic`, `isGM`                                                                                                                                                                                   | boolean                                       |
+| Action — executability                | `SohlAction` (`compileTrigger`)                                    | `trigger`                        | `itemLogic`, `actorLogic`                                                                                                                                                                                                      | boolean                                       |
+| Active Effect — item targeting        | `SohlActiveEffect` (item-kind scope)                               | `test`                           | `itemLogic`                                                                                                                                                                                                                    | boolean                                       |
+| Active Effect — strike-mode targeting | `SohlActiveEffect` (`meleestrikemode` / `missilestrikemode` scope) | `test`                           | `itemLogic`, `sm`                                                                                                                                                                                                              | boolean                                       |
+| Context-menu entry                    | `ContextMenuEntry` (`compileCondition`)                            | `condition`                      | `target`, `itemLogic`, `actorLogic`                                                                                                                                                                                            | boolean                                       |
+| Skill Base formula                    | `SkillLogic` (`computeSkillBase`)                                  | `skillBaseFormula`               | `attr`                                                                                                                                                                                                                         | number                                        |
+| Being — strength modifier             | `BeingLogic` (`evaluate`)                                          | `strMod`                         | `str`                                                                                                                                                                                                                          | number                                        |
+| Being — encumbrance                   | `BeingLogic` (`evaluate`)                                          | `encumbrance`                    | `wt`                                                                                                                                                                                                                           | number                                        |
+| Body — derived weight                 | `BodyLogic` (`evaluate`)                                           | `weight.calc`                    | `str`                                                                                                                                                                                                                          | number                                        |
+| Result-description table row          | `SuccessTestResult` (result-description tables)                    | `label`, `description`, `result` | `successLevel`, `targetValue`, `lastDigit`                                                                                                                                                                                     | string (label/description) or number (result) |
+| Event-queue subscription predicate    | `SohlEventQueue` (`fire`)                                          | `predicate`                      | `name`, `subscriberUuid`, `payload`, `worldTime`, `dt`, `combat`, `combatant`, `round`, `turn`, `skipped`, `sceneUuid`, `darkness`, `priorDarkness`, `regionUuid`, `regionId`, `regionName`, `tokenUuid`, `actorUuid` _(open)_ | boolean                                       |
+| Affliction — outcome trauma           | `AfflictionLogic` (`contractOutcomeTraumas`)                       | `outcomeTrauma`                  | _none_                                                                                                                                                                                                                         | string or string[] (trauma shortcodes)        |
 
 Scopes marked _(open)_ carry a context that varies at runtime, so an
 identifier beyond those listed is permitted there; everywhere else, an
@@ -237,18 +237,18 @@ registry; there is no separate registration step.
    unknown id, so a typo is a startup error rather than an unvalidated
    expression:
 
-    ```ts
-    const scope = expressionScopes.require("skill.base");
-    const expr = new SafeExpression({ source }, { parent: this, scope });
-    ```
+   ```ts
+   const scope = expressionScopes.require("skill.base");
+   const expr = new SafeExpression({ source }, { parent: this, scope });
+   ```
 
 3. **Bind through the scope at evaluation.** {@link sohl.entity.expr.ExpressionScope.bind}
    checks that the context you supply matches what the scope promised, then
    returns it unchanged:
 
-    ```ts
-    expr.evaluate(scope.bind({ attr: this.buildAttrContext() }));
-    ```
+   ```ts
+   expr.evaluate(scope.bind({ attr: this.buildAttrContext() }));
+   ```
 
    It guards the direction construction cannot: a call site that quietly stops
    binding something, or invents a key nobody declared, warns once per distinct
@@ -348,10 +348,10 @@ valid regular expression. `padStart`, `padEnd`, and `repeat` throw a
 **Dicts and folding** _(the grammar has no object literals, so a dict is built and
 combined through helpers)_
 
-| Helper                    | Returns             | Description                                                                                                                                                                                                       |
-| ------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `settings(...pairs)`      | `object`            | A dict from alternating key/value arguments — `settings("pel", 15, "subtype:combat", 5)` → `{ pel: 15, "subtype:combat": 5 }`. Throws on an odd argument count.                                                   |
-| `sum(...values)`          | `number`            | The sum of the given numbers (`0` with none). Also usable as a `merge` fold policy.                                                                                                                              |
+| Helper                      | Returns             | Description                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `settings(...pairs)`        | `object`            | A dict from alternating key/value arguments — `settings("pel", 15, "subtype:combat", 5)` → `{ pel: 15, "subtype:combat": 5 }`. Throws on an odd argument count.                                                                                                                                                                                                                                    |
+| `sum(...values)`            | `number`            | The sum of the given numbers (`0` with none). Also usable as a `merge` fold policy.                                                                                                                                                                                                                                                                                                                |
 | `merge(...lists, combiner)` | `object` or `array` | Fold dicts (or arrays) **per key**, applying the named pure combiner to the **present values only** for each key. `combiner` is the **last** argument — a **string** naming a registered pure combiner (`"max"`, `"min"`, `"sum"`). One leading list is the common case (`merge(list, "max")`); several leading lists are concatenated first (`merge(listA, listB, "max")`). Arrays fold by index. |
 
 `merge`'s combiner is _selected_ from the registry by name (never injected code)

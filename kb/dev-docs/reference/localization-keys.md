@@ -22,13 +22,13 @@ already in the file — read [Keys are permanent](#keys-are-permanent) first.
 SOHL.<Namespace>[.<Group>].<leaf>[.label|.hint]
 ```
 
-| Segment       | Case                                  | Example                            |
-| ------------- | ------------------------------------- | ---------------------------------- |
-| root          | `SOHL`, or a Foundry-mandated root    | `SOHL`, `TYPES`                    |
-| `<Namespace>` | PascalCase, **singular**, the concept | `Action`, `Skill`, `ActiveEffect`  |
-| `<Group>`     | PascalCase (optional)                 | `SubType`, `Column`, `Heading`     |
-| `<leaf>`      | camelCase, or the enum's stored value | `editMacro`, `search`, `intrinsic` |
-| suffix        | `label` / `hint` where Foundry reads them | `title.label`, `title.hint`    |
+| Segment       | Case                                      | Example                            |
+| ------------- | ----------------------------------------- | ---------------------------------- |
+| root          | `SOHL`, or a Foundry-mandated root        | `SOHL`, `TYPES`                    |
+| `<Namespace>` | PascalCase, **singular**, the concept     | `Action`, `Skill`, `ActiveEffect`  |
+| `<Group>`     | PascalCase (optional)                     | `SubType`, `Column`, `Heading`     |
+| `<leaf>`      | camelCase, or the enum's stored value     | `editMacro`, `search`, `intrinsic` |
+| suffix        | `label` / `hint` where Foundry reads them | `title.label`, `title.hint`        |
 
 Worked examples:
 
@@ -106,10 +106,11 @@ numeric values and for change-paths containing `.` or `:`). So the prefix you pa
 _is_ the namespace-plus-group, and the leaves are the **stored values**:
 
 ```ts
-export const { kind: ACTION_SUBTYPE, choices: ActionSubTypeChoices } = defineType(
-    "SOHL.Action.SubType",
-    { INTRINSIC: "intrinsic", SCRIPT: "script" },
-);
+export const { kind: ACTION_SUBTYPE, choices: ActionSubTypeChoices } =
+  defineType("SOHL.Action.SubType", {
+    INTRINSIC: "intrinsic",
+    SCRIPT: "script",
+  });
 ```
 
 ```jsonc
@@ -268,11 +269,11 @@ for the one sanctioned way to keep a key it cannot.
 Three checks run in `npm run lint`, and all three **fail** the build. Between them they
 cover both directions — a key with no string, and a string with no key.
 
-| Check | Fails on |
-| --- | --- |
-| `lint:lang` (`check-lang.mjs`) | A key that is both a leaf and a branch (the `expandObject` collision above); a value using `{{…}}` or an unbalanced brace; a key segment outside `[A-Za-z0-9_-]`. |
-| `lint:lang-coverage` (`check-lang-coverage.mjs`) | A referenced key missing from `en.json`, **and** an `en.json` key nothing references. |
-| `lint:lang-hardcoded` (`check-lang-hardcoded.mjs`) | User-visible English left in a template; a template that fails to compile. |
+| Check                                              | Fails on                                                                                                                                                          |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lint:lang` (`check-lang.mjs`)                     | A key that is both a leaf and a branch (the `expandObject` collision above); a value using `{{…}}` or an unbalanced brace; a key segment outside `[A-Za-z0-9_-]`. |
+| `lint:lang-coverage` (`check-lang-coverage.mjs`)   | A referenced key missing from `en.json`, **and** an `en.json` key nothing references.                                                                             |
+| `lint:lang-hardcoded` (`check-lang-hardcoded.mjs`) | User-visible English left in a template; a template that fails to compile.                                                                                        |
 
 ### What `lint:lang-coverage` can and cannot see
 
@@ -305,10 +306,10 @@ plus **a reason a reviewer can check**.
 
 ```js
 const RETAINED = [
-    [
-        "SOHL.Gear.Action.",
-        "Intrinsic action titles built as `${titlePrefix}.${shortcode}` — the prefix is a parameter, so no scan can resolve it.",
-    ],
+  [
+    "SOHL.Gear.Action.",
+    "Intrinsic action titles built as `${titlePrefix}.${shortcode}` — the prefix is a parameter, so no scan can resolve it.",
+  ],
 ];
 ```
 

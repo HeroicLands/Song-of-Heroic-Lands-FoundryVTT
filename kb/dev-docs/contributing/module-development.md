@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: Writing Modules for SoHL
-    aliases: []
+  full: Writing Modules for SoHL
+  aliases: []
 id: KiLEkudeFGD7QBBE
 slug: module-development
 type: doc
@@ -34,24 +34,24 @@ SoHL is a Foundry **system** with id `sohl` (see `system.json`), requiring Found
 
 ```json
 {
-    "id": "my-sohl-module",
-    "title": "My SoHL Module",
-    "compatibility": {
-        "minimum": "14"
-    },
-    "relationships": {
-        "systems": [
-            {
-                "id": "sohl",
-                "type": "system",
-                "manifest": "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json",
-                "compatibility": {
-                    "minimum": "0.7.0"
-                }
-            }
-        ]
-    },
-    "esmodules": ["scripts/my-module.js"]
+  "id": "my-sohl-module",
+  "title": "My SoHL Module",
+  "compatibility": {
+    "minimum": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "sohl",
+        "type": "system",
+        "manifest": "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json",
+        "compatibility": {
+          "minimum": "0.7.0"
+        }
+      }
+    ]
+  },
+  "esmodules": ["scripts/my-module.js"]
 }
 ```
 
@@ -62,16 +62,16 @@ then hooks into the system at runtime — a minimal skeleton:
 ```js
 // scripts/my-module.js
 Hooks.once("init", () => {
-    console.log("my-module | init");
-    // Register settings, keybindings, etc. here.
+  console.log("my-module | init");
+  // Register settings, keybindings, etc. here.
 });
 
 Hooks.once("ready", () => {
-    // `sohl` and every document's `.logic` are available from here on.
-    // Extend behavior with SoHL lifecycle hooks (see below) — never edit core.
-    Hooks.on("sohl.mysticalability.postFinalize", (item, ctx) => {
-        // your house rule
-    });
+  // `sohl` and every document's `.logic` are available from here on.
+  // Extend behavior with SoHL lifecycle hooks (see below) — never edit core.
+  Hooks.on("sohl.mysticalability.postFinalize", (item, ctx) => {
+    // your house rule
+  });
 });
 ```
 
@@ -144,8 +144,8 @@ hand-writing the `actionDefs` array:
 ```js
 // bind a permission-gated Macro as a runnable SCRIPT action (GM only)
 await sohl.addScriptAction(host, {
-    name: "checkForBandits", // becomes the action shortcode AND default title
-    executor: macro.uuid, // a Foundry Macro UUID — a reference, never code
+  name: "checkForBandits", // becomes the action shortcode AND default title
+  executor: macro.uuid, // a Foundry Macro UUID — a reference, never code
 });
 ```
 
@@ -208,11 +208,11 @@ the schedule fires only while that scene is the **active** scene:
 
 ```js
 await sohl.schedule(
-    host,
-    "checkForBandits",
-    4 * 60 * 60,
-    { visibility: "gm" },
-    scene.uuid,
+  host,
+  "checkForBandits",
+  4 * 60 * 60,
+  { visibility: "gm" },
+  scene.uuid,
 );
 ```
 
@@ -247,24 +247,24 @@ There are two ways to author it, and neither modifies system source:
    `regionTokenExit` / `regionTokenTurn{Start,End}` / `regionTokenRound{Start,End}`,
    plus `sceneDarknessChange` for environment:
 
-    ```js
-    sohl.events.subscribe({
-        uuid: actor.uuid,
-        actionName: "fearCheck",
-        triggerName: "regionTokenEnter",
-        predicate: new sohl.entity.expr.SafeExpression({
-            source: "regionId == 'crypt'",
-        }),
-    });
-    ```
+   ```js
+   sohl.events.subscribe({
+     uuid: actor.uuid,
+     actionName: "fearCheck",
+     triggerName: "regionTokenEnter",
+     predicate: new sohl.entity.expr.SafeExpression({
+       source: "regionId == 'crypt'",
+     }),
+   });
+   ```
 
-    The action receives the region context (`regionId`, `tokenUuid`, `actorUuid`,
-    `sceneUuid`) as its scope. These triggers are **event-driven**: `nextFireTime`
-    is `undefined`; use `actor.system.lastRun[actionName]` for "when last?". The GM
-    must still place a "SoHL Event Trigger" behavior on the region for the events to
-    flow — that is the human-behest opt-in. High-frequency streams (`tokenMove*`)
-    are deliberately not exposed. See
-    [Event Queue → Scene-region triggers](../reference/event-queue.md#8-a-scene-region-trigger--offer-a-check-on-entering).
+   The action receives the region context (`regionId`, `tokenUuid`, `actorUuid`,
+   `sceneUuid`) as its scope. These triggers are **event-driven**: `nextFireTime`
+   is `undefined`; use `actor.system.lastRun[actionName]` for "when last?". The GM
+   must still place a "SoHL Event Trigger" behavior on the region for the events to
+   flow — that is the human-behest opt-in. High-frequency streams (`tokenMove*`)
+   are deliberately not exposed. See
+   [Event Queue → Scene-region triggers](../reference/event-queue.md#8-a-scene-region-trigger--offer-a-check-on-entering).
 
 ### Shipping Create-dialog archetypes
 
@@ -322,35 +322,35 @@ There are three steps, and the system provides the hard part.
    ordinary journal — nothing about it is special to SoHL.
 2. **Declare its UUID** in your `module.json`, under the shared flag key:
 
-    ```json
-    {
-        "id": "my-module",
-        "flags": {
-            "sohl": {
-                "creditsUuid": "Compendium.my-module.journals.JournalEntry.abcdef0123456789"
-            }
-        }
-    }
-    ```
+   ```json
+   {
+     "id": "my-module",
+     "flags": {
+       "sohl": {
+         "creditsUuid": "Compendium.my-module.journals.JournalEntry.abcdef0123456789"
+       }
+     }
+   }
+   ```
 
 3. **Register the menu during `init`**, passing your module id:
 
-    ```js
-    Hooks.once("init", () => {
-        sohl.apps.foundry.registerCreditsMenu("my-module");
-    });
-    ```
+   ```js
+   Hooks.once("init", () => {
+     sohl.apps.foundry.registerCreditsMenu("my-module");
+   });
+   ```
 
-    Every display string may be overridden with your own `lang` keys:
+   Every display string may be overridden with your own `lang` keys:
 
-    ```js
-    sohl.apps.foundry.registerCreditsMenu("my-module", {
-        name: "MYMODULE.Credits.name",
-        label: "MYMODULE.Credits.label",
-        hint: "MYMODULE.Credits.hint",
-        icon: "fa-solid fa-heart",
-    });
-    ```
+   ```js
+   sohl.apps.foundry.registerCreditsMenu("my-module", {
+     name: "MYMODULE.Credits.name",
+     label: "MYMODULE.Credits.label",
+     hint: "MYMODULE.Credits.hint",
+     icon: "fa-solid fa-heart",
+   });
+   ```
 
 **Register it first.** Foundry renders a package's settings menus in
 `game.settings.menus` insertion order, ahead of its plain settings — so call

@@ -1,8 +1,8 @@
 ---
 aliases: []
 name:
-    full: House Rules Cookbook
-    aliases: []
+  full: House Rules Cookbook
+  aliases: []
 id: A5LW8vjcC46wNUQ2
 slug: house-rules-cookbook
 type: doc
@@ -69,11 +69,11 @@ So for a module-level "all mystical abilities" rule, register one handler and fi
 
 ```js
 Hooks.on("sohl.mysticalability.postInitialize", (item, ctx) => {
-    // Optional narrowing:
-    // if (!["curse", "bless", "ward"].includes(item.system.shortcode)) return;
-    // your broad house-rule logic here
-    // item = current mysticalability item
-    // ctx = SohlActionContext
+  // Optional narrowing:
+  // if (!["curse", "bless", "ward"].includes(item.system.shortcode)) return;
+  // your broad house-rule logic here
+  // item = current mysticalability item
+  // ctx = SohlActionContext
 });
 ```
 
@@ -87,24 +87,24 @@ Pattern: combine a world setting check with a GM-only guard before applying pers
 
 ```js
 Hooks.once("init", () => {
-    game.settings.register("my-house-rules", "enableMysticalTweaks", {
-        name: "Enable mystical house rules",
-        hint: "Apply custom mystical ability initialization behavior.",
-        scope: "world",
-        config: true,
-        type: Boolean,
-        default: false,
-    });
+  game.settings.register("my-house-rules", "enableMysticalTweaks", {
+    name: "Enable mystical house rules",
+    hint: "Apply custom mystical ability initialization behavior.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
 });
 
 Hooks.on("sohl.mysticalability.postFinalize", async (item, ctx) => {
-    if (item.system.shortcode !== "curse") return;
-    const enabled = game.settings.get("my-house-rules", "enableMysticalTweaks");
-    if (!enabled) return;
-    if (!game.user?.isGM) return;
+  if (item.system.shortcode !== "curse") return;
+  const enabled = game.settings.get("my-house-rules", "enableMysticalTweaks");
+  if (!enabled) return;
+  if (!game.user?.isGM) return;
 
-    // guarded house-rule logic here
-    // safe place for persistent writes (create/update documents, apply effects, etc.)
+  // guarded house-rule logic here
+  // safe place for persistent writes (create/update documents, apply effects, etc.)
 });
 ```
 
@@ -152,10 +152,10 @@ The two combine. For a disease that leaves survivors permanently weakened:
 
 ```js
 await affliction.update({
-    system: {
-        outcome: "cured", // survives…
-        outcomeTrauma: "'weakness20'", // …but contracts the `weakness20` trauma
-    },
+  system: {
+    outcome: "cured", // survives…
+    outcomeTrauma: "'weakness20'", // …but contracts the `weakness20` trauma
+  },
 });
 ```
 
@@ -167,11 +167,11 @@ data.
 ## Tradeoffs summary
 
 - **Action item**
-    - Easiest path; no module packaging.
-    - Best for one-off item-level overrides.
+  - Easiest path; no module packaging.
+  - Best for one-off item-level overrides.
 - **Module**
-    - No SoHL core edits required.
-    - Best for campaign-wide or category-wide house rules.
+  - No SoHL core edits required.
+  - Best for campaign-wide or category-wide house rules.
 
 ## Related docs
 

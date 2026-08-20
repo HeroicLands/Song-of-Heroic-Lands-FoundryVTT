@@ -48,13 +48,13 @@ Keywords are case-insensitive (`table`/`TABLE`, `as`/`AS`, `and`/`AND`). Clauses
 appear in the order above, once each — which is what lets a **frontmatter field share
 a clause keyword's name**, as the traits table's `SORT sort ASC` does.
 
-| Clause    | Meaning                                                                    |
-| --------- | -------------------------------------------------------------------------- |
-| `TABLE`   | The columns. `WITHOUT ID` drops Dataview's implicit leading `File` column.  |
-| `FROM`    | Restrict to a folder (`FROM "Creatures"`) or a tag (`FROM #animal`).        |
-| `WHERE`   | Keep the notes the expression holds for.                                    |
-| `SORT`    | Sort keys, each optionally `ASC` (default) or `DESC`.                       |
-| `LIMIT`   | Keep only the first _n_ rows, after sorting.                                |
+| Clause  | Meaning                                                                    |
+| ------- | -------------------------------------------------------------------------- |
+| `TABLE` | The columns. `WITHOUT ID` drops Dataview's implicit leading `File` column. |
+| `FROM`  | Restrict to a folder (`FROM "Creatures"`) or a tag (`FROM #animal`).       |
+| `WHERE` | Keep the notes the expression holds for.                                   |
+| `SORT`  | Sort keys, each optionally `ASC` (default) or `DESC`.                      |
+| `LIMIT` | Keep only the first _n_ rows, after sorting.                               |
 
 `LIST`, `TASK`, and `CALENDAR` queries, and the `GROUP BY` and `FLATTEN` commands,
 are refused by name.
@@ -94,14 +94,14 @@ is `null`, not an error.
 
 `file.*` names the note's place in the tree instead:
 
-| Field         | Value                                                            |
-| ------------- | ---------------------------------------------------------------- |
-| `file.path`   | Location below `assets/content/` — `Creatures/Animal/Aurochs.md` |
-| `file.folder` | Its directory — `Creatures/Animal`                               |
-| `file.name`   | Its filename without the extension — `Aurochs`                   |
-| `file.link`   | A link to the note itself                                        |
+| Field         | Value                                                                |
+| ------------- | -------------------------------------------------------------------- |
+| `file.path`   | Location below `assets/content/` — `Creatures/Animal/Aurochs.md`     |
+| `file.folder` | Its directory — `Creatures/Animal`                                   |
+| `file.name`   | Its filename without the extension — `Aurochs`                       |
+| `file.link`   | A link to the note itself                                            |
 | `file.tags`   | Its tags, each with a leading `#`, plus every parent of a nested tag |
-| `file.etags`  | Its tags exactly as written, without parent expansion            |
+| `file.etags`  | Its tags exactly as written, without parent expansion                |
 
 An unknown `file.*` field is a build error — it would otherwise read as a table that
 silently matches nothing.
@@ -111,15 +111,15 @@ silently matches nothing.
 
 ## Expressions
 
-| Form                          | Meaning                                                     |
-| ----------------------------- | ----------------------------------------------------------- |
-| `a and b`, `a or b`, `not a`, `!a`, `( … )` | Boolean combination                            |
-| `type = "creature"`           | Equality — **case-sensitive**, as Dataview's is              |
-| `intensity != "attribute"`    | Inequality                                                   |
-| `sohl.value > 90`, `>=`, `<`, `<=` | Ordering; numeric when both sides are numbers           |
-| `shortcode`                   | A bare field is a **presence** test (absent/empty/zero is false) |
-| `!shortcode`                  | Absence                                                      |
-| `"text"`, `12`, `true`, `null`, `[a, b]` | Literals                                          |
+| Form                                        | Meaning                                                          |
+| ------------------------------------------- | ---------------------------------------------------------------- |
+| `a and b`, `a or b`, `not a`, `!a`, `( … )` | Boolean combination                                              |
+| `type = "creature"`                         | Equality — **case-sensitive**, as Dataview's is                  |
+| `intensity != "attribute"`                  | Inequality                                                       |
+| `sohl.value > 90`, `>=`, `<`, `<=`          | Ordering; numeric when both sides are numbers                    |
+| `shortcode`                                 | A bare field is a **presence** test (absent/empty/zero is false) |
+| `!shortcode`                                | Absence                                                          |
+| `"text"`, `12`, `true`, `null`, `[a, b]`    | Literals                                                         |
 
 Functions: `contains` / `icontains` / `econtains`, `startswith`, `endswith`, `lower`,
 `upper`, `length`, `default`, `number`, `string`, `join`, `regexmatch`, `regextest`,
@@ -158,7 +158,7 @@ with no content written yet is a normal state of the corpus, not a broken build.
 Expansion happens **before** wikilink resolution, in all four content compilers:
 `@heroiclands/content-build/engine/journals`, `@heroiclands/content-build/sohl/items`, `@heroiclands/content-build/sohl/actors`, and
 `utils/build-kb-content.mjs`. That ordering is what lets a generated cell contain a
-wikilink. In the knowledgebase build it also runs *outside* that build's code-fence
+wikilink. In the knowledgebase build it also runs _outside_ that build's code-fence
 protection — a query **is** a fenced block, so protecting it first would hide it from
 the expander. The expander itself is dependency-free ESM and is unit-tested in
 `HeroicLands/content-build's `tests/content-tables.test.ts``.
