@@ -48,11 +48,7 @@ import { compareVersions, isNewerVersion } from "./version";
  * touch scene-level flags even though Scenes carry no SoHL system data.
  */
 export type MigrationDocKind =
-    | "Actor"
-    | "Item"
-    | "ActiveEffect"
-    | "RegionBehavior"
-    | "Scene";
+    "Actor" | "Item" | "ActiveEffect" | "RegionBehavior" | "Scene";
 
 /**
  * A plain, serialized document source handed to a migrator. This is the shape of

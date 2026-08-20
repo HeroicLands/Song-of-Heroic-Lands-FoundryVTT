@@ -1106,8 +1106,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         if (!medium) return;
         const logic = this.document.logic as any;
         const action = logic?.actions.get("makeDefaultMedium") as
-            | SohlAction
-            | undefined;
+            SohlAction | undefined;
         if (!logic || !action) return;
         const context = new SohlActionContext({
             speaker: (this.document as any).getSpeaker(),

@@ -162,11 +162,9 @@ export class VehicleSheet extends SohlActorSheetBase {
         scope: PlainObject = {},
     ): Promise<void> {
         const logic = this.document.logic as unknown as
-            | VehicleLogic
-            | undefined;
+            VehicleLogic | undefined;
         const action = (logic as any)?.actions.get(name) as
-            | SohlAction
-            | undefined;
+            SohlAction | undefined;
         if (!logic || !action) return;
         await action.execute(
             new SohlActionContext({

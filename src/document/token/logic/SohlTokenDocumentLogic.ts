@@ -121,8 +121,7 @@ export class SohlTokenDocumentLogic<
         context: SohlActionContext,
     ): Promise<OpposedTestResult | null> {
         const logicUuid = (context.scope as any)?.logicUuid as
-            | string
-            | undefined;
+            string | undefined;
         const source = this.opposedItemLogics().find(
             (il) => il.uuid === logicUuid,
         );
@@ -153,8 +152,7 @@ export class SohlTokenDocumentLogic<
     ): Promise<OpposedTestResult | false | undefined> {
         const scope = (context.scope as any) ?? {};
         const priorTestResult = scope.opposedTestResult as
-            | OpposedTestResult
-            | undefined;
+            OpposedTestResult | undefined;
         if (!priorTestResult) {
             sohl.log.uiWarn(
                 `${this.actorName} has no opposed test to resolve.`,

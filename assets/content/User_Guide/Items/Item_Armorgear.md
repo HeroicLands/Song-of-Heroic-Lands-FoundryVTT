@@ -44,8 +44,8 @@ When not worn but carried (i.e., carried but not equipped), the armor does have 
 
 Armor adds one action of its own to the ones every piece of gear carries:
 
-| Action                        | Shortcode    | Where you meet it                                     |
-| ----------------------------- | ------------ | ----------------------------------------------------- |
+| Action                        | Shortcode    | Where you meet it                                    |
+| ----------------------------- | ------------ | ---------------------------------------------------- |
 | [[#toggle-worn\|Toggle Worn]] | `toggleWorn` | The 🛡 button on the Gear tab row, or the Actions tab |
 
 Everything else on an armor item is inherited and documented elsewhere: **Toggle Carried** belongs to all gear and is described on [[doc-itemgear|Gear]], and **Edit**, **Delete**, and **Output Description to Chat** belong to every item and are described once on [[doc-baseitem|Base Item]]. None of them behaves differently on armor.
@@ -59,7 +59,7 @@ Armor defines **no hidden actions** — Toggle Worn is the whole of what armor a
 | **Name**      | Toggle Worn                                                                                                                    |
 | **Shortcode** | `toggleWorn`                                                                                                                   |
 | **Icon**      | `fa-shield-halved` (a shield split down the middle)                                                                            |
-| **Invoked**   | The 🛡 button on the armor's Gear tab row, or the ▶ beside _Toggle Worn_ on the armor's own **Actions** tab                    |
+| **Invoked**   | The 🛡 button on the armor's Gear tab row, or the ▶ beside _Toggle Worn_ on the armor's own **Actions** tab                     |
 | **API**       | [`ArmorGearLogic.toggleWorn`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.ArmorGearLogic#toggleworn) |
 
 ## What it does and when to use it

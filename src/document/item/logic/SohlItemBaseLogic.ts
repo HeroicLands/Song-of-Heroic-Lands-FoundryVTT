@@ -243,8 +243,7 @@ export async function buildItemDescCardData(
     // means the item does not use charges. Show a concrete count where one
     // applies; omit it otherwise.
     const chargesData = (data as unknown as { charges?: unknown }).charges as
-        | { value?: number | null; max?: number | null }
-        | undefined;
+        { value?: number | null; max?: number | null } | undefined;
     let charges: string | undefined;
     if (chargesData && typeof chargesData === "object") {
         const { value, max } = chargesData;

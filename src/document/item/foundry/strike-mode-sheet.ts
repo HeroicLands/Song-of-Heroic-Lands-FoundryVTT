@@ -269,8 +269,7 @@ export async function addStrikeMode(item: SohlItem): Promise<void> {
         const existing =
             (
                 (item.system as any).strikeModes as
-                    | StrikeModeBase.Data[]
-                    | undefined
+                    StrikeModeBase.Data[] | undefined
             )?.map((m) => m.shortcode) ?? [];
         const error = validateShortcode(spec.shortcode, existing);
         if (error) {

@@ -296,8 +296,7 @@ export class SkillLogic<
      */
     async recalculate(): Promise<void> {
         const rollFormula = this.data.getFlag("sohl", "rollFormula") as
-            | string
-            | undefined;
+            string | undefined;
         if (!rollFormula) return;
 
         const sb = this._skillBaseForRoll;
@@ -878,9 +877,7 @@ export class SkillLogic<
             const penalty =
                 (
                     this.actorLogic as
-                        | { wornPerceptionPenalty?: number }
-                        | null
-                        | undefined
+                        { wornPerceptionPenalty?: number } | null | undefined
                 )?.wornPerceptionPenalty ?? 0;
             if (penalty) {
                 this.masteryLevel.add(

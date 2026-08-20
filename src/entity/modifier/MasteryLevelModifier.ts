@@ -438,9 +438,7 @@ export class MasteryLevelModifier extends ValueModifier {
             impairedByRoles,
             (
                 this.parent?.actorLogic as
-                    | { unusableRoles?: () => Set<string> }
-                    | null
-                    | undefined
+                    { unusableRoles?: () => Set<string> } | null | undefined
             )?.unusableRoles?.() ?? new Set<string>(),
         );
 

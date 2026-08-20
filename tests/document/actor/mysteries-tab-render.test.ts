@@ -34,8 +34,7 @@ function abilityLike(over: Record<string, any> = {}) {
     const logic = {
         assocRef: { name: "Spellcraft" } as { name: string } | undefined,
         affiliation: { name: "Church of Larani" } as
-            | { name: string }
-            | undefined,
+            { name: string } | undefined,
         level: mod(3),
         masteryLevel: mod(42),
         charges: { value: mod(3), max: mod(5) },

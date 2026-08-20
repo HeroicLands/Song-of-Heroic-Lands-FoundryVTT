@@ -57,9 +57,7 @@ const STRIKE_MODE_EFFECT_KEYS: Record<
  */
 export function buildChangeTypesMap(
     changeTypes:
-        | Record<string, { label?: string } | undefined>
-        | null
-        | undefined,
+        Record<string, { label?: string } | undefined> | null | undefined,
 ): Record<string, string> {
     const types: Record<string, string> = {};
     for (const [key, config] of Object.entries(changeTypes ?? {})) {

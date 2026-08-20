@@ -1094,13 +1094,7 @@ export function traumaSeverityLabel(level: number): string {
  * an untreated marker).
  */
 export type TraumaColumnKind =
-    | "category"
-    | "level"
-    | "severity"
-    | "hr"
-    | "area"
-    | "notes"
-    | "nextTest";
+    "category" | "level" | "severity" | "hr" | "area" | "notes" | "nextTest";
 
 /** One column in a Trauma sub-type's Being-sheet ledger (#939). */
 export interface TraumaColumn {
@@ -1224,12 +1218,7 @@ export function traumaLedgerCols(columns: readonly TraumaColumn[]): string {
 
 /** Which row field a Mystical Ability ledger column renders (#990). */
 export type MysticalAbilityColumnKind =
-    | "skill"
-    | "affiliation"
-    | "level"
-    | "eml"
-    | "charges"
-    | "notes";
+    "skill" | "affiliation" | "level" | "eml" | "charges" | "notes";
 
 /** One column in a Mystical Ability sub-type's Being-sheet ledger (#990). */
 export interface MysticalAbilityColumn {

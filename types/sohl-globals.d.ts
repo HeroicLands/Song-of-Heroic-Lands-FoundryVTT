@@ -64,9 +64,10 @@ declare global {
     type DeepPartial<T> =
         T extends object ?
             T extends (
-                | any[]
-                | ((...args: any[]) => any)
-                | (new (...args: any[]) => any)
+
+                    | any[]
+                    | ((...args: any[]) => any)
+                    | (new (...args: any[]) => any)
             ) ?
                 T
             :   { [K in keyof T]?: DeepPartial<T[K]> }

@@ -77,8 +77,7 @@ export class SohlCombat<
             hasGroup: !!c.groupId,
             desiredName:
                 ((c.actor as any)?.system?.defaultCombatGroup as
-                    | string
-                    | undefined) ?? null,
+                    string | undefined) ?? null,
         }));
 
         const existingGroups: ExistingGroup[] = (

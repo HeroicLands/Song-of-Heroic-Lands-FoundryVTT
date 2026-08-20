@@ -39,6 +39,5 @@ export function resolveAssocSkill(
 ): SkillLogic | undefined {
     if (!actorLogic || !assocSkillCode) return undefined;
     return actorLogic.getItemLogic(assocSkillCode, ITEM_KIND.SKILL) as
-        | SkillLogic
-        | undefined;
+        SkillLogic | undefined;
 }

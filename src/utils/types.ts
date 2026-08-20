@@ -31,13 +31,7 @@ import type { FilePath, HTMLString } from "@src/utils/helpers";
  * (string, number, boolean, bigint, null, or undefined) or an array thereof.
  */
 export type SohlSettingValue =
-    | string
-    | number
-    | boolean
-    | bigint
-    | null
-    | undefined
-    | SohlSettingValue[];
+    string | number | boolean | bigint | null | undefined | SohlSettingValue[];
 
 // ---------------------------------------------------------------------------
 // Dialog types
