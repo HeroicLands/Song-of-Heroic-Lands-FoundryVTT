@@ -202,7 +202,7 @@ JournalEntry an item points at through `docHtml`'s `@UUID`, which survives any c
 to the published address; a per-document absolute URL would make one a pack rebuild
 plus a world migration.
 
-`contentSlug` in `packages/content-build/engine/content-slug.mjs` is the single derivation. It transliterates
+`contentSlug` in `@heroiclands/content-build/engine/content-slug` is the single derivation. It transliterates
 before reducing, so an accented character is carried across rather than dropped —
 `Nüsvōrroth` becomes `nusvorroth`, where the old slugifier produced `n-sv-rroth` and
 forced a hand-written override. Ligatures expand as a reader would spell them
@@ -241,7 +241,7 @@ their own `slug` frontmatter, routed by source path.
   injected `makeRandomId` stub (no Foundry).
 - **Migration** — `tests/domain/migration/MigrationRegistry.test.ts` covers the
   0.9.0 repair, including the three renamed content keys.
-- **URL derivation** — `packages/content-build/tests/content-slug.test.ts` covers
+- **URL derivation** — `HeroicLands/content-build's `tests/content-slug.test.ts`` covers
   `contentSlug` and `findSlugCollisions` (no Foundry).
 - **Redirects** — `tests/build/kb-redirects.test.ts` covers `pageRedirects` and
   `applyRedirects`: the legacy-slug and section-move redirects still emit, a display-name

@@ -34,16 +34,17 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// The shared toolchain is a workspace package, consumed by path from within
-// this repository. A downstream consumer writes
-// `import { defineConfig } from "@heroiclands/content-build/config";` instead.
+// The shared toolchain is a devDependency resolved from the registry, exactly
+// as `sohl-thalorna` and `sohl-kethira-basic` resolve it. This repository used
+// to consume it by workspace path, which meant the example a module author read
+// here was not one they could reproduce (#1589).
 //
 // Both specifiers name the *leaf* contract module, never the package root
 // barrel: the barrel pulls in the compilers, the compilers read the resolved
 // configuration, and resolving it loads this file — so importing the barrel here
 // would close a cycle around this file's own evaluation. The leaf imports
 // nothing but `node:path` and the id helpers, so it cannot.
-import { defineConfig } from "./packages/content-build/config.mjs";
+import { defineConfig } from "@heroiclands/content-build/config";
 
 // The item-type registry: every content `type` that compiles into an Item,
 // paired with the builder producing its `system` block. It is SoHL data-model
@@ -54,7 +55,7 @@ import { defineConfig } from "./packages/content-build/config.mjs";
 // Imported from its own entry point rather than the `sohl` barrel, for the same
 // cycle reason: the barrel carries the item and actor compilers, which read the
 // resolved configuration.
-import { ITEM_BUILDERS } from "./packages/content-build/sohl/item-builders.mjs";
+import { ITEM_BUILDERS } from "@heroiclands/content-build/sohl/item-builders";
 
 export default defineConfig({
     // Anchors every configured path, so the build reads the same files whatever

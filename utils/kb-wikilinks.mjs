@@ -15,7 +15,7 @@
  * Wikilink resolution for the knowledgebase build.
  *
  * The same authored links the pack compilers turn into Foundry `@UUID` enrichers
- * (see `packages/content-build/engine/wikilinks.mjs`) become site-local hrefs here:
+ * (see `@heroiclands/content-build/engine/wikilinks`) become site-local hrefs here:
  *
  *   `[[type/shortcode|Text]]`       → `[Text](/section/slug/)`
  *   `[[Text]]`                      → the same, via a type-scoped alias
