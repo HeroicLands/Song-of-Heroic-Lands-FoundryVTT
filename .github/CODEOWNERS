@@ -1,0 +1,5 @@
+# Every path is owned by the maintainer. `require_code_owner_review` is off in
+# the `Protect main` ruleset, so this does not gate merges — it auto-requests a
+# review on pull requests from outside contributors.
+
+* @toastygm
