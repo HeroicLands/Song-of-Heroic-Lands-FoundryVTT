@@ -92,7 +92,7 @@ in the registry is deleted on sync). `npm run lint` fails if the two disagree
 | `system`          | The Foundry VTT game system code (TypeScript, data model, sheets, logic).                                                               |
 | `documentation`   | The Foundry VTT game system documents (dev, api, user docs, rules content, etc.)                                                        |
 | `content`         | Non-documentation assets, such as new or modified images, compendium packs, actors, items, journals, or other content                   |
-| `thalorna`        | Thalorna setting material.                                                                                                              |
+| `thalorna`        | **Retired.** `sohl-thalorna` tracks its own work; the label is kept only so historical issues keep their delivery target. Do not apply it. |
 | `site`            | heroiclands.org — Hugo site, Cloudflare Pages, CDN.                                                                                     |
 | `vault`           | **Retired.** The HeroicLands vault is archived; the label is kept only so historical issues keep their delivery target. Do not apply it. |
 | `devops`          | Build, tooling, release pipeline, repo config.                                                                                          |
@@ -339,39 +339,66 @@ maintainer decide whether to make it public.
 > **Type:** bug · **Priority:** Urgent · **Labels:** `security`, `system`
 > Filed as a **private advisory**, not a public issue, because it's exploitable.
 
-## 9. Cross-repository work
+## 9. Which repository does an issue belong in?
 
-The project spans several repositories in the `HeroicLands` organization, one per
-package plus the site:
+The project spans several repositories in the `HeroicLands` organization, and **each
+one tracks its own work.** There is no central tracker.
 
-| Repository | Holds | Label |
-| --- | --- | --- |
-| `Song-of-Heroic-Lands-FoundryVTT` | The Foundry system, the `sohl` package's content, and its build | `system`, `content`, … |
-| `sohl-thalorna` | The `thalorna` package — setting content, and the `/thalorna` site it publishes | `thalorna` |
-| `heroiclands-site` | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN | `site` |
+| Repository                        | Tracks                                                                     | Standard                                                                                                     |
+| --------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `Song-of-Heroic-Lands-FoundryVTT` | **This repository** — the system code, the `sohl` package, the system build | This document                                                                                                |
+| `sohl-thalorna`                   | The `thalorna` package — original setting content, and the `/thalorna` site | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-thalorna/blob/main/.github/ISSUE_REPORTING.md) |
+| `sohl-kethira-basic`              | The `kethira` package — unofficial Hârn fan material, Foundry packs only    | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-kethira-basic/blob/main/.github/ISSUE_REPORTING.md) |
+| `heroiclands-site`                | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN                  | This document, via the `site` label                                                                          |
 
-**This repository is the single tracker for all of them.** File the issue here even
-when the change will be made in another repository, and label it with its delivery
-target so that target is visible. The reasons are practical: the four-axis standard
-is per-repository machinery (`.github/labels.yml`, `sync-labels.mjs`,
-`check-labels.mjs`, the issue forms) that would have to be duplicated and kept in
-step, and the work is one dependency chain, which becomes invisible when split across
-backlogs. Only the Issue Type and Priority fields are organization-level and shared.
+**Every repository runs the same four axes.** Types and the Priority field are
+organization-level, so they are literally shared. The issue forms and the §1–§8 rules
+are duplicated into each repository and kept deliberately identical — a contributor
+who knows one tracker knows them all. Only the **label registry** differs, because a
+closed registry should describe what its repository can actually hold: the satellites
+carry no `system`, `tests`, or `thalorna` label, since they hold no system code and
+no test suite, and each is its own subject by definition.
 
-**Closing keywords do not cross repositories.** A pull request in `heroiclands-site`
-or `sohl-thalorna` carrying `Closes HeroicLands/Song-of-Heroic-Lands-FoundryVTT#123`
-creates a reference but **does not close** the issue — GitHub only auto-closes within
-the same repository. A cross-repository issue is therefore **closed by hand**, with a
-comment linking the delivering commit or pull request. Never assume the keyword did
-it; check.
+### Choosing the repository
 
-**Done means something different off-repo.** The
-[Definition of Done](../contributing/system-development.md#definition-of-done) lists
-gates that only exist here — a `.changeset/` entry, `npm run build`, `npm run docs`,
-`npm run format:check`. A site change cannot satisfy them and is not expected
-to. What still applies to any tracked work: a tracking issue, a correctly named branch
-in whichever repository the change lands, tests or a verification step appropriate to
-that repository, updated documentation, and a description of what changed and why.
+**File the issue where the work will be done.** The rule is *delivery*, not subject —
+if the fix is an edit to a file in a given repository, the issue belongs to that
+repository, even when the symptom shows up somewhere else. Two cases that look alike
+and are not:
+
+- A Thalorna note renders wrong because its own frontmatter is malformed → an issue in
+  `sohl-thalorna`.
+- A Thalorna note renders wrong because `@heroiclands/content-build` mishandles valid
+  frontmatter → an issue **here**, because that is where the package lives.
+
+When the answer is genuinely "both", file in each repository and link them — the
+symptom where it appears, the cause where it lives.
+
+> **Closing keywords do not cross repositories.** A pull request in `sohl-thalorna`
+> or `heroiclands-site` carrying
+> `Closes HeroicLands/Song-of-Heroic-Lands-FoundryVTT#123` creates a reference but
+> **does not close** the issue — GitHub only auto-closes within the same repository.
+> A cross-repository issue is therefore **closed by hand**, with a comment linking
+> the delivering commit or pull request. Never assume the keyword did it; check.
+
+### Done means something different off-repo
+
+The [Definition of Done](../contributing/system-development.md#definition-of-done)
+lists gates that only exist here — a `.changeset/` entry, `npm run build`, `npm run
+docs`, `npm run format:check`. Another repository's work cannot satisfy them and is
+not expected to; verify with what that repository actually has. What still applies to
+any tracked work, wherever it lands: a tracking issue in the delivering repository, a
+correctly named branch, a verification step appropriate to that repository, updated
+documentation, and a description of what changed and why.
+
+### Historical note
+
+Until 2026-08-20 this repository was the single tracker for the whole project, and
+carried delivery-target labels (`thalorna`, `site`) so an issue filed here could say
+where its work would land. `sohl-thalorna` and `sohl-kethira-basic` now track their
+own work; the `thalorna` label is retired, and open issues carrying it were either
+transferred there or reclassified as work delivered here. `site` remains active,
+because `heroiclands-site` is still tracked from this repository.
 
 ## Self-check before filing
 
