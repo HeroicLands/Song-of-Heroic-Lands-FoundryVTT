@@ -7,6 +7,11 @@
     border: 0;
     padding: 0;
 
+    // stylelint-disable-next-line property-no-deprecated -- `clip` is
+    // deprecated but deliberate: paired with the 1px box above it is the
+    // visually-hidden idiom every screen reader has supported for a decade,
+    // and `clip-path: inset(50%)` alone loses the older engines Foundry
+    // still runs on. Revisit when `clip` is actually removed.
     clip: rect(0 0 0 0);
     overflow: hidden;
 }

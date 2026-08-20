@@ -85,10 +85,14 @@ section.highlight {
 // ProseMirror renders the editable body as `.editor-content.ProseMirror` inside
 // the `<prose-mirror>` element; pin its color to the token too so typed text is
 // legible in both themes.
+// stylelint-disable selector-class-pattern -- `.ProseMirror` is the editor's own
+// class name, set by ProseMirror rather than by SoHL. Not ours to rename, so it
+// cannot be brought under the BEM convention.
 prose-mirror .editor-content,
 prose-mirror .ProseMirror {
     color: var(--sohl-color-text-primary);
 }
+// stylelint-enable selector-class-pattern
 
 // ProseMirror toolbar — re-theme to Manuscript tokens (#810). Foundry paints the
 // menu bar with its fixed dark "cool" palette (`--menu-background: --color-cool-4`,

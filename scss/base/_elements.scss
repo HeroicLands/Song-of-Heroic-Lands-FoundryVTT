@@ -96,6 +96,11 @@ button {
 // when checked. Core's `::before` is suppressed so only ours shows.
 input[type="checkbox"] {
     appearance: none;
+    // stylelint-disable-next-line property-no-vendor-prefix -- there is no
+    // autoprefixer in this build, so the prefix is hand-written on purpose:
+    // suppressing the native control is what lets the `::after` glyph below
+    // be the checkbox at all, and it must not degrade on an engine that only
+    // honours the prefixed form.
     -webkit-appearance: none;
     box-sizing: border-box;
     // Explicit + min-* sizing keeps the box from collapsing where a layout rule

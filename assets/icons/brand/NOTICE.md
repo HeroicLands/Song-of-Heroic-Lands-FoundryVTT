@@ -11,4 +11,4 @@ requirements.
 
 Do not relicense, modify, or reuse these marks. A forked or modified
 distribution must remove or replace them. For permission, contact
-toasty@heroiclands.org.
+<toasty@heroiclands.org>.

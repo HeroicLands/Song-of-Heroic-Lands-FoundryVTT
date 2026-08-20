@@ -35,6 +35,24 @@ target** and the code is what needs migrating.
 > ad-hoc naming. The rules here exist so that class of bug cannot recur and so the
 > stylesheets stay extensible.
 
+## 0. What enforces this page
+
+Most of what follows is convention, and conventions drift. Two of these rules do
+not: `npm run lint:styles` (stylelint, part of `npm run lint`) fails the build on a
+class name outside the BEM convention of §3, and on a custom property outside the
+`--sohl-*` namespace of §4 where the tokens are declared. It also carries the
+ordinary correctness checks — invalid declarations, unknown properties, dead
+selectors. The rule set and the reasoning behind each choice are in
+`stylelint.config.mjs`; what it does and does not cover is described in
+[Build & Deployment → What the two linters check](../how-to/build-and-deployment.md#what-the-two-linters-check).
+
+One gap to keep in mind: the tokens are emitted through interpolation
+(`--sohl-color-#{$name}`), which stylelint cannot see through. Renaming a key in a
+token map still renames a public custom property with nothing to warn you.
+
+Everything else on this page — the folder roles of §2, the layer order of §5, the
+compound-selector rule of §6 — is reviewed, not linted.
+
 ## 1. Tooling — stay on SCSS (Dart Sass)
 
 **Decision: keep SCSS; modernize how we use it.**
