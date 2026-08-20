@@ -17,8 +17,8 @@ folder: F4NGyU9QQgWwTcHe
 Injuries recover through periodic **Injury Healing Tests**, one per injury on that injury's own healing period. Each is a test of **`Healing Base × Healing Rate`** (see [[doc-hlngbs|Healing Base]]), read by [[doc-sccsstst#success-level|success level]]:
 
 | Success Level | Result                                                 |
-| ------------- | ------------------------------------------------------ | ------------------- |
-| CF (−1)       | No healing. If infection was possible, an [[doc-infctn | Infection]] occurs. |
+| ------------- | ------------------------------------------------------ |
+| CF (−1)       | No healing. If infection was possible, an [[doc-infctn\|Infection]] occurs. |
 | MF (0)        | No healing.                                            |
 | MS (1)        | Reduce Injury Level by 1.                              |
 | CS (2)        | Reduce Injury Level by 2.                              |
