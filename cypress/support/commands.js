@@ -163,6 +163,14 @@ function guardHeadlessTokenDraw(win) {
  * Region paths reach the private pass through `_updateRegionShapeConstraints`
  * rather than the public flag.
  *
+ * Scope, so a later reader does not over-read this: patching `Scene` covers the
+ * Level path *for this defect only*. `Level#updateRegionShapeConstraints` does
+ * no `canvas.scene` dereference of its own and ends by delegating here, so the
+ * null-scene case cannot escape — but anything Level does **above** that
+ * delegation runs unguarded (on 14.367 it throws on `!this.persisted` first).
+ * Guarding Level itself means patching `CONFIG.Level.documentClass` too, with
+ * its own marker; this function deliberately does not.
+ *
  * A source-level guard rather than an `uncaught:exception` allowlist entry, for
  * the same reason as {@link guardHeadlessTokenDraw}: `reading 'id'` is far too
  * generic a message to leave allowlisted — even qualified by a stack frame, it
