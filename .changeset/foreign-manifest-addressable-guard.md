@@ -17,10 +17,11 @@ reads correctly and nothing reports a thing.
   `build-kb-content` and `check-content-links` now fail on it. Partial drift is
   deliberately not reported: it resolves something, and the rest surfaces as an
   ordinary dead address pointed at the note that cites it.
-- The finding is emitted as `file:line:column: error: message`, locating the
-  offending key in the manifest itself, so the diagnostic names the file at
-  fault rather than the notes that cite it. The position is dropped rather than
-  guessed when the key cannot be located.
+- The finding is reported through `lint-diagnostics` as
+  `file:line:column: error: message`, locating the offending key in the manifest
+  itself, so the diagnostic names the file at fault rather than the notes that
+  cite it. The position is dropped rather than guessed when the key cannot be
+  located.
 - Removed the dead slash-splitting type seeding left behind in
   `check-content-links` when keys became canonical; foreign types are seeded
   from the manifest entries themselves.

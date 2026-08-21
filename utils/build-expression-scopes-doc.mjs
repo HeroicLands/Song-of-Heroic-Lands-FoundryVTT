@@ -37,6 +37,7 @@
  */
 
 import fs from "fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import path from "path";
 import { formatGenerated } from "./format-generated.mjs";
 import { EXPRESSION_SCOPES } from "../src/entity/expr/expression-scopes.mjs";
@@ -131,10 +132,13 @@ const next = await formatGenerated(renderDoc(current), DOC);
 
 if (isCheck) {
     if (current !== next) {
-        console.error(
-            `✗ ${rel} — the generated expression-scope section is out of date.\n` +
-                `  Run \`npm run docs:expr-scopes\` and commit the result.`,
-        );
+        reportDiagnostic({
+            file: rel,
+            severity: "error",
+            message:
+                "the generated expression-scope section is out of date — run " +
+                "`npm run docs:expr-scopes` and commit the result",
+        });
         process.exit(1);
     }
     console.log(`✓ ${rel} expression-scope section is up to date.`);

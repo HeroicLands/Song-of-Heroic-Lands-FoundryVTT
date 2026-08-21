@@ -27,6 +27,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { readCanonicalKey } from "@heroiclands/content-build/engine/kb-manifest";
+import { formatDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 
 /**
  * Every foreign package whose manifest entries this build cannot address.
@@ -76,66 +77,44 @@ export function unaddressableForeignPackages(foreignIndex) {
 }
 
 /**
- * The file a package's vendored manifest is read from.
- *
- * Relative to the working directory, because that is where a diagnostic's
- * consumer — an editor jumping to the finding — resolves it from.
- */
-function manifestPath(pkg, manifestDir) {
-    const file = path.join(manifestDir, `${pkg}.json`);
-    const relative = path.relative(process.cwd(), file);
-    // A manifest outside the tree stays absolute rather than becoming a run of
-    // `../`, which is harder to read and no more useful.
-    return relative && !relative.startsWith("..") ? relative : file;
-}
-
-/**
- * Where a key literal sits in the manifest text, or `null` if it is not there.
- *
- * The finding is about a key the reader can see in the file, so its position is
- * implicit rather than absent and is recovered by searching for it. When the
- * search fails the position is **dropped**, never defaulted to `1:1` — a guessed
- * position sends the reader to the top of a 588KB file for a finding that is
- * not there.
- */
-function locateKey(file, key) {
-    let text;
-    try {
-        text = fs.readFileSync(file, "utf8");
-    } catch {
-        return null;
-    }
-    const at = text.indexOf(`"${key}"`);
-    if (at < 0) return null;
-    const before = text.slice(0, at);
-    const line = before.split("\n").length;
-    const column = at - (before.lastIndexOf("\n") + 1) + 1;
-    return { line, column };
-}
-
-/**
  * One finding, in the toolchain's standard `file:line:column: severity: message`
  * form so an editor or CI annotator can act on it without being taught to.
+ *
+ * The position is recovered by locating the offending key in the manifest text:
+ * the finding is about a literal the reader can see in the file, so its position
+ * is implicit rather than absent. When the file cannot be read, or the key is
+ * not in it, {@link positionOf} yields nothing and the locator degrades to the
+ * file alone — a dropped field, never a guessed `1:1` that would send the reader
+ * to the top of a 500KB manifest for a finding that is not there.
  *
  * @param {{ package: string, entries: number, sampleKey: string }} finding
  * @param {string} manifestDir - The directory the manifests were loaded from.
  * @returns {string} The formatted diagnostic, path first on the line.
  */
 export function formatUnaddressableFinding(finding, manifestDir) {
-    const file = manifestPath(finding.package, manifestDir);
-    const at = locateKey(file, finding.sampleKey);
-    const where =
-        at ?
-            `${file}:${at.line}:${at.column}`
-            // Only the file is known — a dropped field, not a guessed one.
-        :   file;
-    return (
-        `${where}: error: no key in this manifest is a canonical ` +
-        `\`package-type-shortcode\` address (${finding.entries} ` +
-        `${finding.entries === 1 ? "entry" : "entries"}, none addressable; ` +
-        `first is \`${finding.sampleKey}\`) — every cross-package link to ` +
-        `${finding.package} would resolve to nothing, silently`
-    );
+    const file = path.join(manifestDir, `${finding.package}.json`);
+    let at = {};
+    try {
+        at = positionOf(
+            fs.readFileSync(file, "utf8"),
+            `"${finding.sampleKey}"`,
+        );
+    } catch {
+        // Unreadable here is not itself the finding — `loadForeignManifests`
+        // already reports that as a stale manifest. The file is simply all that
+        // is known about where this one is.
+    }
+    return formatDiagnostic({
+        file,
+        ...at,
+        severity: "error",
+        message:
+            "no key in this manifest is a canonical " +
+            `\`package-type-shortcode\` address (${finding.entries} ` +
+            `${finding.entries === 1 ? "entry" : "entries"}, none addressable; ` +
+            `first is \`${finding.sampleKey}\`) — every cross-package link to ` +
+            `${finding.package} would resolve to nothing, silently`,
+    });
 }
 
 /**

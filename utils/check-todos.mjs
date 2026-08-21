@@ -31,6 +31,7 @@
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 
 const ROOT = "src";
 const FORBIDDEN = /\b(?:TODO|FIXME)\b/;
@@ -58,7 +59,15 @@ for (const file of walk(ROOT)) {
         const comment = code.match(/\/\/.*|\/\*.*|^\s*\*.*/)?.[0];
         if (!comment) return;
         if (FORBIDDEN.test(comment)) {
-            violations.push(`${file}:${i + 1}: ${line.trim()}`);
+            // The column is the marker's own, so an editor lands on the word
+            // rather than the start of the line (#1668).
+            const at = line.search(FORBIDDEN);
+            violations.push({
+                file,
+                line: i + 1,
+                column: at === -1 ? undefined : at + 1,
+                text: line.trim(),
+            });
         }
     });
 }
@@ -67,7 +76,15 @@ if (violations.length) {
     console.error(
         `\ncheck-todos: ${violations.length} TODO/FIXME marker(s) in committed code:\n`,
     );
-    for (const v of violations) console.error(`  ${v}`);
+    for (const v of violations) {
+        reportDiagnostic({
+            file: v.file,
+            line: v.line,
+            column: v.column,
+            severity: "error",
+            message: `TODO/FIXME marker: ${v.text}`,
+        });
+    }
     console.error(
         "\nDeferred work is tracked in GitHub issues, not flagged in code. " +
             "File or find an issue,\nrecord any code-site context there, and remove the marker.\n",

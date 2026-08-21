@@ -51,6 +51,7 @@
  *   node utils/check-bundle-globals.mjs // direct invocation (no args)
  */
 import { existsSync, readFileSync } from "node:fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { resolve } from "node:path";
 import { argv } from "node:process";
 import { fileURLToPath } from "node:url";
@@ -195,7 +196,12 @@ function main() {
                 `   (Vite builds it as an ES module — see 'build.lib.formats' in vite.config.ts).\n`,
         );
         for (const v of violations.slice(0, 25)) {
-            console.error(`   sohl.js:${v.line}  ${v.name}  (${v.kind})`);
+            reportDiagnostic({
+                file: "sohl.js",
+                line: v.line,
+                severity: "error",
+                message: `${v.kind} \`${v.name}\` is declared at global scope`,
+            });
         }
         if (violations.length > 25) {
             console.error(`   … and ${violations.length - 25} more.`);

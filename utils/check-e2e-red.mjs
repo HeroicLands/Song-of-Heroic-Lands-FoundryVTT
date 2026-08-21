@@ -39,6 +39,7 @@
  *   node utils/check-e2e-red.mjs  // direct invocation (no args)
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { join } from "node:path";
 
 const ROOT = "cypress/e2e";
@@ -127,20 +128,23 @@ for (const file of walk(ROOT)) {
 function checkRed(loc, text, kind, line) {
     const refs = issueRefs(text);
     if (refs.length === 0) {
-        violations.push(
-            `${loc}: ${kind} cites no issue — add the blocking issue as (#NN):\n      ${line.trim()}`,
-        );
+        violations.push({
+            loc,
+            message: `${kind} cites no issue — add the blocking issue as (#NN): ${line.trim()}`,
+        });
         return;
     }
     const fenced = refs.filter((n) => n in FENCED_RED_ALLOWLIST);
     if (fenced.length === 0) {
-        violations.push(
-            `${loc}: in-scope spec is RED (issues ${refs
-                .map((n) => `#${n}`)
-                .join(
-                    ", ",
-                )} not in the fenced allowlist) — make it green, or fence the feature by adding it to FENCED_RED_ALLOWLIST:\n      ${line.trim()}`,
-        );
+        violations.push({
+            loc,
+            message:
+                `in-scope spec is RED (issues ${refs
+                    .map((n) => `#${n}`)
+                    .join(", ")} not in the fenced allowlist) — make it ` +
+                `green, or fence the feature by adding it to ` +
+                `FENCED_RED_ALLOWLIST: ${line.trim()}`,
+        });
         return;
     }
     for (const n of fenced) usedIssues.add(n);
@@ -157,7 +161,17 @@ if (violations.length) {
     console.error(
         `\ncheck-e2e-red: ${violations.length} frozen-subset e2e violation(s):\n`,
     );
-    for (const v of violations) console.error(`  ${v}`);
+    for (const v of violations) {
+        // `loc` is already `file:line`; splitting it keeps the one format the
+        // whole lint chain now speaks (#1668).
+        const at = v.loc.lastIndexOf(":");
+        reportDiagnostic({
+            file: v.loc.slice(0, at),
+            line: Number(v.loc.slice(at + 1)) || undefined,
+            severity: "error",
+            message: v.message,
+        });
+    }
     console.error(
         "\nThe frozen-path e2e suite must be green. A RED (it.skip/describe.skip) spec is\n" +
             "permitted only for a fenced feature or post-freeze behavior listed in\n" +

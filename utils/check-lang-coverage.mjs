@@ -58,6 +58,7 @@
  *   node utils/check-lang-coverage.mjs --absent   // also list the byproduct sets
  */
 import { readFileSync } from "node:fs";
+import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { globSync } from "glob";
 import ts from "typescript";
 
@@ -70,7 +71,11 @@ const TOKEN_RE = /^(?:SOHL|TYPES|TYPE)\.[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*$/;
 const TOKEN_SCAN_RE =
     /(?<![A-Za-z0-9_.])(?:SOHL|TYPES|TYPE)\.[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*/g;
 
-const en = JSON.parse(readFileSync("lang/en.json", "utf8"));
+const LANG_FILE = "lang/en.json";
+// Kept so an unreferenced key can be reported at its own line in the file the
+// fix is made in (#1668).
+const langRaw = readFileSync(LANG_FILE, "utf8");
+const en = JSON.parse(langRaw);
 const enKeys = new Set(Object.keys(en));
 
 // ---------------------------------------------------------------------------
@@ -511,15 +516,28 @@ if (genMissing.length) {
     console.error(
         `\n✖ ${genMissing.length} defineType-generated key(s) missing from en.json:`,
     );
+    // One finding per site that generates the key, so each names the file to
+    // open rather than listing them in parentheses (#1668).
     for (const k of genMissing)
-        console.error(`   ${k}   (${[...generated.get(k)].join(", ")})`);
+        for (const file of generated.get(k))
+            reportDiagnostic({
+                file,
+                severity: "error",
+                message: `defineType generates "${k}", which en.json does not declare`,
+            });
 }
 if (refMissing.length) {
     console.error(
         `\n✖ ${refMissing.length} referenced key(s) missing from en.json:`,
     );
     for (const k of refMissing)
-        console.error(`   ${k}   (${[...concreteRefs.get(k)].join(", ")})`);
+        for (const file of concreteRefs.get(k))
+            reportDiagnostic({
+                file,
+                ...positionOf(readFileSync(file, "utf8"), k),
+                severity: "error",
+                message: `references "${k}", which en.json does not declare`,
+            });
 }
 
 if (unconsumedSets.length && SHOW_ABSENT) {
@@ -538,14 +556,27 @@ if (unresolvedDefs.length) {
         `\n⚠ ${unresolvedDefs.length} defineType call(s) not statically resolvable:`,
     );
     for (const u of unresolvedDefs)
-        console.warn(`   ${u.file}:${u.line} — ${u.reason}`);
+        reportDiagnostic({
+            file: u.file,
+            line: u.line,
+            severity: "warning",
+            message: `defineType call is not statically resolvable: ${u.reason}`,
+        });
 }
 
 if (unused.length) {
     errors += unused.length;
     console.error(`\n✖ ${unused.length} en.json key(s) are unreferenced:`);
     const shown = SHOW_UNUSED ? unused : unused.slice(0, 20);
-    for (const k of shown) console.error(`   ${k}`);
+    // The key is declared in en.json — that file and line is where the fix
+    // is made, so that is what the finding names.
+    for (const k of shown)
+        reportDiagnostic({
+            file: LANG_FILE,
+            ...positionOf(langRaw, `"${k}"`),
+            severity: "error",
+            message: `key "${k}" is unreferenced`,
+        });
     if (!SHOW_UNUSED && unused.length > shown.length)
         console.error(`   … run with --unused to list all ${unused.length}`);
     console.error(

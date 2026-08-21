@@ -33,6 +33,7 @@
  *   node utils/check-lang-hardcoded.mjs
  */
 import { readFileSync } from "node:fs";
+import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { globSync } from "glob";
 import Handlebars from "handlebars";
 
@@ -82,13 +83,18 @@ function hardcodedLiterals(src) {
 
     for (const m of stripped.matchAll(/>([^<>]+)</g)) {
         const text = m[1].replace(/\s+/g, " ").trim();
-        if (isProse(text)) found.push(text);
+        // `needle` is the text *unnormalized*, which is what locates it in the
+        // source: `stripped` has had substitutions of a different length, so
+        // the match index cannot be carried across (#1668).
+        if (isProse(text)) found.push({ text, needle: m[1] });
     }
     for (const attr of VISIBLE_ATTRS) {
         const re = new RegExp(`\\b${attr}="([^"]*)"`, "g");
         for (const m of stripped.matchAll(re)) {
             const text = m[1].replace(/\s+/g, " ").trim();
-            if (isProse(text)) found.push(`${attr}="${text}"`);
+            if (isProse(text)) {
+                found.push({ text: `${attr}="${text}"`, needle: m[0] });
+            }
         }
     }
     return found;
@@ -107,15 +113,30 @@ let offenders = 0;
 let broken = 0;
 for (const file of templates) {
     const src = readFileSync(file, "utf8");
-    for (const literal of hardcodedLiterals(src)) {
+    for (const { text, needle } of hardcodedLiterals(src)) {
         offenders++;
-        console.error(`  ${file}: ${literal}`);
+        reportDiagnostic({
+            file,
+            ...positionOf(src, needle),
+            severity: "error",
+            message: `hardcoded user-visible string: ${text}`,
+        });
     }
     try {
         Handlebars.precompile(src);
     } catch (err) {
         broken++;
-        console.error(`  ${file}: ${String(err).split("\n")[0]}`);
+        reportDiagnostic({
+            file,
+            // Handlebars reports a line/column of its own for a parse error.
+            line: err?.hash?.loc?.first_line ?? err?.lineNumber,
+            column:
+                err?.hash?.loc?.first_column ?
+                    err.hash.loc.first_column + 1
+                :   undefined,
+            severity: "error",
+            message: `template does not compile: ${String(err).split("\n")[0]}`,
+        });
     }
 }
 

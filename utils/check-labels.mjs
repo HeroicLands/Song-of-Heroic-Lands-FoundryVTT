@@ -22,6 +22,7 @@
  */
 
 import { readFileSync } from "node:fs";
+import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { resolve } from "node:path";
 import { parse } from "yaml";
 
@@ -34,7 +35,8 @@ const MAX_DESCRIPTION = 100;
  * rather than mid-sync against the GitHub API.
  */
 function registryNames() {
-    const list = parse(readFileSync(resolve(".github/labels.yml"), "utf8"));
+    const raw = readFileSync(resolve(".github/labels.yml"), "utf8");
+    const list = parse(raw);
     const tooLong = list.filter(
         (l) => (l.description ?? "").length > MAX_DESCRIPTION,
     );
@@ -43,7 +45,12 @@ function registryNames() {
             `check-labels: label description exceeds ${MAX_DESCRIPTION} chars (GitHub's limit):`,
         );
         for (const l of tooLong) {
-            console.error(`  ${l.name} — ${l.description.length} chars`);
+            reportDiagnostic({
+                file: ".github/labels.yml",
+                ...positionOf(raw, l.name),
+                severity: "error",
+                message: `label "${l.name}" description is ${l.description.length} chars, over the ${MAX_DESCRIPTION}-char limit`,
+            });
         }
         process.exit(1);
     }
@@ -83,14 +90,22 @@ if (missingFromDoc.length || missingFromRegistry.length) {
     console.error(
         "check-labels: .github/labels.yml and issue-reporting.md §3 disagree.",
     );
-    if (missingFromDoc.length)
-        console.error(
-            `  in labels.yml but not §3: ${missingFromDoc.join(", ")}`,
-        );
-    if (missingFromRegistry.length)
-        console.error(
-            `  in §3 but not labels.yml: ${missingFromRegistry.join(", ")}`,
-        );
+    // Each side is reported against the file that is missing the label, so
+    // the finding names the file to edit rather than the disagreement.
+    for (const name of missingFromDoc) {
+        reportDiagnostic({
+            file: "kb/dev-docs/how-to/issue-reporting.md",
+            severity: "error",
+            message: `label "${name}" is in .github/labels.yml but not in §3`,
+        });
+    }
+    for (const name of missingFromRegistry) {
+        reportDiagnostic({
+            file: ".github/labels.yml",
+            severity: "error",
+            message: `label "${name}" is in §3 but not in .github/labels.yml`,
+        });
+    }
     console.error(
         "Edit both when changing the registry (see issue-reporting.md §3).",
     );

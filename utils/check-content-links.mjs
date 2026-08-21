@@ -54,6 +54,7 @@ import matter from "gray-matter";
 
 import { slugify, frontmatterWikilinks } from "./kb-wikilinks.mjs";
 import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
+import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
 import { matchAllOutsideCode } from "@heroiclands/content-build/engine/code-fences";
 import { readQualifier } from "@heroiclands/content-build/engine/wikilinks";
@@ -120,7 +121,7 @@ for (const file of walk(CONTENT)) {
     const { data: fm, content: body } = matter(raw);
     if (!fm || typeof fm.type !== "string") continue;
     for (const hit of frontmatterWikilinks(fm)) {
-        frontmatterLinks.push({ file, ...hit });
+        frontmatterLinks.push({ file, raw, ...hit });
     }
     notes.push({ file, fm, body, raw, type: fm.type.toLowerCase() });
 }
@@ -208,17 +209,32 @@ function linksOf(note) {
         }).markdown;
     }
     const out = [];
+    // How many times each authored link has been seen, so two identical links
+    // in one note are reported at their own positions rather than both at the
+    // first (#1668).
+    const seen = new Map();
     // Code is verbatim, so a `[[…]]` inside a fence, an indented block or an
     // inline span is not a link to check — the compilers do not make one of
     // it either (#1505).
-    for (const [, rawInner] of matchAllOutsideCode(body, /\[\[([^\]]+)\]\]/g)) {
+    for (const [all, rawInner] of matchAllOutsideCode(
+        body,
+        /\[\[([^\]]+)\]\]/g,
+    )) {
         const inner = rawInner.replace(/\\\|/g, "|");
         const bar = inner.indexOf("|");
         const linkPart = (bar === -1 ? inner : inner.slice(0, bar)).trim();
         const hash = linkPart.indexOf("#");
+        const occurrence = (seen.get(all) ?? 0) + 1;
+        seen.set(all, occurrence);
         out.push({
             target: (hash === -1 ? linkPart : linkPart.slice(0, hash)).trim(),
             anchor: hash === -1 ? "" : linkPart.slice(hash + 1).trim(),
+            // The link exactly as authored, which is what locates it in the
+            // file. A link a `dataview` table generated is not in the file at
+            // all, so the search simply fails and the finding names the file —
+            // the drop-rather-than-guess rule.
+            text: all,
+            occurrence,
         });
     }
     return out;
@@ -326,7 +342,7 @@ const resolve = (note, target) => {
 
 const deadAnchors = [];
 for (const note of notes) {
-    for (const { target, anchor } of linksOf(note)) {
+    for (const { target, anchor, text, occurrence } of linksOf(note)) {
         if (!anchor) continue;
         const dest = target ? resolve(note, target) : note;
         // An unresolvable target is an external reference, not this check's
@@ -337,6 +353,9 @@ for (const note of notes) {
                 file: note.file,
                 link: `${target}#${anchor}`,
                 dest: dest.file,
+                note,
+                text,
+                occurrence,
             });
         }
     }
@@ -347,7 +366,7 @@ for (const note of notes) {
 const deadAddresses = [];
 const usedManifest = new Set();
 for (const note of notes) {
-    for (const { target } of linksOf(note)) {
+    for (const { target, text, occurrence } of linksOf(note)) {
         if (!target) continue; // a same-page `[[#anchor]]`
         // Only a *qualified* target is an address. A bare `[[Name]]` that finds
         // nothing is a worldbuilding placeholder by long-standing convention,
@@ -362,7 +381,7 @@ for (const note of notes) {
             usedManifest.add(target.toLowerCase());
             continue;
         }
-        deadAddresses.push({ file: note.file, target });
+        deadAddresses.push({ file: note.file, target, note, text, occurrence });
     }
 }
 
@@ -371,7 +390,7 @@ for (const note of notes) {
 const retiredLinks = [];
 for (const note of notes) {
     for (const hit of findRetiredLinks(note.raw)) {
-        retiredLinks.push({ file: note.file, ...hit });
+        retiredLinks.push({ file: note.file, raw: note.raw, ...hit });
     }
 }
 
@@ -426,7 +445,12 @@ if (deadAnchors.length) {
         `\ncheck-content-links: ${deadAnchors.length} link(s) to an anchor no heading declares:\n`,
     );
     for (const d of deadAnchors) {
-        console.error(`  ${d.file}: [[${d.link}]] → ${d.dest}`);
+        reportDiagnostic({
+            file: d.file,
+            ...positionOf(d.note.raw, d.text, d.occurrence),
+            severity: "error",
+            message: `link [[${d.link}]] points at an anchor no heading in ${d.dest} declares`,
+        });
     }
     console.error(
         "\nA `#anchor` link compiles even when nothing declares the anchor, and dead-ends\n" +
@@ -441,7 +465,12 @@ if (deadAddresses.length) {
         `\ncheck-content-links: ${deadAddresses.length} link(s) to a document that does not exist:\n`,
     );
     for (const d of deadAddresses) {
-        console.error(`  ${d.file}: [[${d.target}]]`);
+        reportDiagnostic({
+            file: d.file,
+            ...positionOf(d.note.raw, d.text, d.occurrence),
+            severity: "error",
+            message: `dead address [[${d.target}]] — no document has that identity`,
+        });
     }
     console.error(
         "\nA qualified `[[type-shortcode]]` names a document by its identity, so one that\n" +
@@ -458,7 +487,14 @@ if (frontmatterLinks.length) {
         `\ncheck-content-links: ${frontmatterLinks.length} wikilink(s) authored in frontmatter:\n`,
     );
     for (const f of frontmatterLinks) {
-        console.error(`  ${f.file}: ${f.path} → ${f.link}`);
+        reportDiagnostic({
+            file: f.file,
+            // The link text is a literal in the frontmatter, so its position
+            // is a search away even though the value was reached by key.
+            ...positionOf(f.raw, f.link),
+            severity: "error",
+            message: `wikilink ${f.link} authored in frontmatter at ${f.path} — frontmatter is data and is never resolved`,
+        });
     }
     console.error(
         "\nWikilinks are resolved in a note's body only. Frontmatter is data: the pack\n" +
@@ -474,8 +510,17 @@ if (retiredLinks.length) {
         `\ncheck-content-links: ${retiredLinks.length} link(s) to a retired hostname:\n`,
     );
     for (const r of retiredLinks) {
-        console.error(`  ${r.file}:${r.line}: ${r.url}`);
-        if (r.hint) console.error(`    → ${r.hint}`);
+        reportDiagnostic({
+            file: r.file,
+            line: r.line,
+            // `findRetiredLinks` already knew the line; the column is the
+            // URL's own position on it.
+            ...positionOf(r.raw, r.url),
+            severity: "error",
+            message:
+                `link to the retired hostname in ${r.url}` +
+                (r.hint ? ` — use ${r.hint}` : ""),
+        });
     }
     console.error(
         "\nThese hostnames have been withdrawn, so the link fails at DNS — there is no\n" +
@@ -495,7 +540,15 @@ for (const { corpus, orphans } of walks) {
     console.error(
         `\ncheck-content-links: ${orphans.length} ${corpus.label} document(s) unreachable from ${corpus.root}:\n`,
     );
-    for (const o of orphans) console.error(`  ${o.file}`);
+    for (const o of orphans) {
+        // Unreachability is a property of the whole document, so there is no
+        // line to name — the file alone is the honest locator.
+        reportDiagnostic({
+            file: o.file,
+            severity: "error",
+            message: `unreachable from ${corpus.root} — nothing in the ${corpus.label} corpus links to it`,
+        });
+    }
     console.error(
         "\nA corpus is a book, not a pile of notes: a document nobody links to cannot be\n" +
             "arrived at by reading. Link each one from the chapter or section that owns it.\n",

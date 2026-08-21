@@ -30,6 +30,7 @@
  *   node utils/check-docs-index.mjs
  */
 import { readdirSync, readFileSync } from "node:fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { join } from "node:path";
 
 const DOCS = "kb/dev-docs";
@@ -48,7 +49,10 @@ for (const section of SECTIONS) {
         const rel = `${section}/${name}`;
         // README links pages as `<section>/<name>.md`.
         if (!readme.includes(rel)) {
-            violations.push(`${rel} is not linked from ${README}`);
+            violations.push({
+                file: rel,
+                message: `not linked from ${README}`,
+            });
         }
     }
 }
@@ -57,7 +61,13 @@ if (violations.length) {
     console.error(
         `\ncheck-docs-index: ${violations.length} documentation page(s) missing from the index:\n`,
     );
-    for (const v of violations) console.error(`  ${v}`);
+    for (const v of violations) {
+        reportDiagnostic({
+            file: v.file,
+            severity: "error",
+            message: v.message,
+        });
+    }
     console.error(
         `\nEvery ${DOCS}/<section>/<page>.md must be linked from ${README}.\n` +
             "Add the missing link(s), or move the page out of the section directory.\n",

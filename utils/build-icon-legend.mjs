@@ -32,6 +32,7 @@
  */
 
 import { readFileSync, writeFileSync } from "fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { formatGenerated } from "./format-generated.mjs";
 import { globSync } from "glob";
 
@@ -421,11 +422,14 @@ async function main() {
         return;
     }
 
-    console.error(
-        `✗ ${OUT_PATH} does not match what utils/build-icon-legend.mjs would write.\n` +
-            `  It is generated from src/ and lang/en.json — edit the generator, not the page.\n` +
-            `  Regenerate with: npm run build:icon-legend\n`,
-    );
+    reportDiagnostic({
+        file: OUT_PATH,
+        severity: "error",
+        message:
+            "does not match what utils/build-icon-legend.mjs would write — " +
+            "it is generated from src/ and lang/en.json, so edit the " +
+            "generator, not the page; regenerate with `npm run build:icon-legend`",
+    });
     for (const line of firstDifference(onDisk, text))
         console.error(`  ${line}`);
     process.exitCode = 1;
