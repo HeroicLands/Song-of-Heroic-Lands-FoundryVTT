@@ -12,52 +12,34 @@
  */
 
 /**
- * CI guard: every localization file must survive `foundry.utils.expandObject`,
- * which Foundry runs on each translation file as it loads it
- * (`Localization#loadTranslationFile`). That turns the flat, dot-keyed JSON into
- * a nested object — and it **throws** when one key is a strict dotted-prefix of
- * another (e.g. `"SOHL.Trauma.Pall"` as a string alongside
- * `"SOHL.Trauma.Pall.Note.Resist"`: it cannot create a `Note` property on the
- * string `"The Pall"`). Foundry catches that throw and discards the **entire**
- * file, so a single colliding pair silently drops *all* of SoHL's translations
- * and every `SOHL.*` / `TYPES.*` string renders as its raw key (issue #636).
+ * CI guard: every localization file this package ships is one Foundry can
+ * actually load.
  *
- * A key must therefore be either a leaf **or** a branch, never both. This runs as
- * a `lint:*` step so the build fails fast — before the type-check and test steps —
- * with a crisp signal, rather than surfacing only as a downstream test failure.
+ * **The rules live in `@heroiclands/package-build`**, not here. Every
+ * HeroicLands package ships `lang/*.json` and declares it under `languages` in
+ * its manifest, so every package can break it the same ways — and each way
+ * fails silently, which is precisely when a shared rule beats a shared
+ * convention. `sohl-kethira-basic` ships a `lang/en.json` that has never
+ * loaded; nothing told it so, because the guard was here rather than in
+ * something it consumes.
  *
- * Scans every `lang/*.json`; writes nothing. Prints each offending
- * `prefix`/`leaf` pair and exits non-zero (failing CI) on any collision.
+ * What stays here is this repository's half: finding the files and printing the
+ * findings. See {@link https://www.heroiclands.org/sohl/kb/dev-docs/reference/localization-keys/}
+ * for the key-naming standard the segment rule freezes in place.
+ *
+ * Scans every `lang/*.json`; writes nothing. Prints each finding as
+ * `file:line:column: severity: message` and exits non-zero on any.
  *
  * Usage:
  *   npm run lint:lang         // node utils/check-lang.mjs
  *   node utils/check-lang.mjs // direct invocation (no args)
  */
 import { readFileSync } from "node:fs";
-import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { globSync } from "glob";
 
-/**
- * Return every `[prefixKey, leafKey]` pair where `prefixKey` is a strict dotted
- * prefix of `leafKey` and both are present as keys — the exact shape that makes
- * `foundry.utils.expandObject` throw.
- *
- * @param {Record<string, unknown>} json - The parsed, flat localization object.
- * @returns {[string, string][]} The colliding `[prefix, leaf]` pairs.
- */
-function findPrefixCollisions(json) {
-    const keys = Object.keys(json);
-    const keySet = new Set(keys);
-    const collisions = [];
-    for (const key of keys) {
-        const parts = key.split(".");
-        for (let i = 1; i < parts.length; i++) {
-            const prefix = parts.slice(0, i).join(".");
-            if (keySet.has(prefix)) collisions.push([prefix, key]);
-        }
-    }
-    return collisions;
-}
+import { validateLangSource } from "@heroiclands/package-build/lang";
+
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 
 const files = globSync("lang/*.json");
 if (!files.length) {
@@ -67,96 +49,9 @@ if (!files.length) {
 
 let total = 0;
 for (const file of files.sort()) {
-    let json;
-    // Kept so a finding about a key can be reported at the key's own line and
-    // column, rather than at the file (#1668).
-    const raw = readFileSync(file, "utf8");
-    try {
-        json = JSON.parse(raw);
-    } catch (err) {
-        reportDiagnostic({
-            file,
-            severity: "error",
-            message: `not valid JSON: ${err.message}`,
-        });
-        process.exit(1);
-    }
-    /**
-     * Where a key is declared in the file.
-     *
-     * @param {string} key - The localization key.
-     * @returns {{line?: number, column?: number}} Spreadable position fields.
-     */
-    const at = (key) => positionOf(raw, `"${key}"`);
-    // -- placeholder syntax ------------------------------------------------
-    // Foundry interpolates with `format()` and SINGLE braces. A `{{…}}` value
-    // renders literally unless some call site happens to hand it to a
-    // Handlebars pass — which is the rule-#10 pattern, not a placeholder (#1353).
-    for (const [key, value] of Object.entries(json)) {
-        if (typeof value !== "string") continue;
-        if (/\{\{|\}\}/.test(value)) {
-            total++;
-            reportDiagnostic({
-                file,
-                ...at(key),
-                severity: "error",
-                message: `"${key}" uses Handlebars double braces; Foundry placeholders are single-braced {camelCase}`,
-            });
-        }
-        const braces = value.split("").reduce(
-            (n, c) =>
-                n +
-                (c === "{" ? 1
-                : c === "}" ? -1
-                : 0),
-            0,
-        );
-        if (braces !== 0) {
-            total++;
-            reportDiagnostic({
-                file,
-                ...at(key),
-                severity: "error",
-                message: `"${key}" has an unbalanced brace`,
-            });
-        }
-    }
-
-    // -- key-segment charset -----------------------------------------------
-    // A segment carrying anything but [A-Za-z0-9_] is data baked into a key —
-    // a path, a UUID — and a dotted payload is how the expandObject collision
-    // above gets in (#636, #1351).
-    for (const key of Object.keys(json)) {
-        const bad = key
-            .split(".")
-            .filter((seg) => !/^[A-Za-z0-9_-]*$/.test(seg));
-        if (bad.length) {
-            total++;
-            reportDiagnostic({
-                file,
-                ...at(key),
-                severity: "error",
-                message:
-                    `"${key}" has a segment outside [A-Za-z0-9_-]: ` +
-                    `${bad.map((b) => `"${b}"`).join(", ")}`,
-            });
-        }
-    }
-
-    const collisions = findPrefixCollisions(json);
-    if (collisions.length) {
-        total += collisions.length;
-        console.error(
-            `\ncheck-lang: ${collisions.length} dotted-prefix key collision(s) in ${file}:\n`,
-        );
-        for (const [prefix, leaf] of collisions) {
-            reportDiagnostic({
-                file,
-                ...at(prefix),
-                severity: "error",
-                message: `"${prefix}" is a leaf but also a prefix of "${leaf}"`,
-            });
-        }
+    for (const finding of validateLangSource(readFileSync(file, "utf8"))) {
+        total++;
+        reportDiagnostic({ file, ...finding });
     }
 }
 

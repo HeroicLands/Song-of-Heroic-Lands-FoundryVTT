@@ -1,0 +1,43 @@
+{
+    "name": "@heroiclands/package-build",
+    "version": "0.1.0",
+    "description": "Shared toolchain for building and shipping a HeroicLands Foundry VTT package — manifest, localization, styles, bundle and deployment.",
+    "license": "GPL-3.0-or-later",
+    "type": "module",
+    "main": "./index.mjs",
+    "exports": {
+        ".": "./index.mjs",
+        "./lang": "./lang.mjs",
+        "./text": "./text.mjs",
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "index.mjs",
+        "lang.mjs",
+        "text.mjs",
+        "README.md"
+    ],
+    "engines": {
+        "node": ">=24.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "keywords": [
+        "foundry-vtt",
+        "foundryvtt",
+        "heroiclands",
+        "sohl",
+        "song-of-heroic-lands",
+        "build"
+    ],
+    "homepage": "https://heroiclands.org",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT.git",
+        "directory": "packages/package-build"
+    },
+    "bugs": {
+        "url": "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues"
+    }
+}
