@@ -14,7 +14,7 @@
 /**
  * CI guard: content links land somewhere, and the corpus can be read through.
  *
- * Three link defects survive both content builds silently, so neither the pack
+ * Four link defects survive both content builds silently, so neither the pack
  * compilers nor the knowledgebase build catches them:
  *
  * 1. **Dead `#anchor` links.** `anchorPageId()` derives a Foundry page id by
@@ -31,6 +31,12 @@
  *    withdrawn compiles and publishes looking exactly like a working one, and
  *    fails at DNS with no redirect to follow. 71 of them shipped that way
  *    (#1485); {@link RETIRED_HOSTS} is the list that now fails the build.
+ * 4. **A wikilink authored in frontmatter.** Both builds walk a note's *body*
+ *    and copy its frontmatter through verbatim, so a link written in a
+ *    `description` or a `government.summary` is never resolved and publishes
+ *    as literal `[[…]]` text in whatever the theme renders that field as
+ *    (#1428). The knowledgebase build now refuses it too; this catches it a
+ *    step earlier, on every change rather than on every publish.
  *
  * The wikilink checks resolve links the way the builds do: an alias scoped to the
  * source note's own type, then the qualifier — `type-shortcode`, or the legacy
@@ -46,7 +52,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-import { slugify } from "./kb-wikilinks.mjs";
+import { slugify, frontmatterWikilinks } from "./kb-wikilinks.mjs";
 import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
 import { matchAllOutsideCode } from "@heroiclands/content-build/engine/code-fences";
 import { readQualifier } from "@heroiclands/content-build/engine/wikilinks";
@@ -106,10 +112,15 @@ function* walk(dir) {
  * @type {Array<{file: string, fm: object, body: string, raw: string, type: string}>}
  */
 const notes = [];
+/** Wikilinks authored in frontmatter (#1428) — `{file, path, link}` each. */
+const frontmatterLinks = [];
 for (const file of walk(CONTENT)) {
     const raw = readFileSync(file, "utf8");
     const { data: fm, content: body } = matter(raw);
     if (!fm || typeof fm.type !== "string") continue;
+    for (const hit of frontmatterWikilinks(fm)) {
+        frontmatterLinks.push({ file, ...hit });
+    }
     notes.push({ file, fm, body, raw, type: fm.type.toLowerCase() });
 }
 
@@ -435,6 +446,22 @@ if (deadAddresses.length) {
     );
 }
 
+if (frontmatterLinks.length) {
+    failed = true;
+    console.error(
+        `\ncheck-content-links: ${frontmatterLinks.length} wikilink(s) authored in frontmatter:\n`,
+    );
+    for (const f of frontmatterLinks) {
+        console.error(`  ${f.file}: ${f.path} → ${f.link}`);
+    }
+    console.error(
+        "\nWikilinks are resolved in a note's body only. Frontmatter is data: the pack\n" +
+            "compilers and the knowledgebase build both copy it through untouched, so the\n" +
+            "link is never resolved and the reader is shown the brackets. Move the link into\n" +
+            "the prose the field summarises, or write the value as plain text.\n",
+    );
+}
+
 if (retiredLinks.length) {
     failed = true;
     console.error(
@@ -477,7 +504,7 @@ console.log(
         (manifests.complete ? "" : (
             `; no manifest for ${manifests.missing.join(", ")}`
         )) +
-        `), no link to a retired hostname; ` +
+        `), no wikilink in frontmatter, no link to a retired hostname; ` +
         walks
             .map((w) => `all ${w.reached.size} ${w.corpus.label} documents`)
             .join(" and ") +

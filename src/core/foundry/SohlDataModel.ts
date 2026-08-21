@@ -120,7 +120,7 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
         // the event queue offers it as a [Perform] reminder when due, and
         // `sohl.schedule` / the scope-matched re-arm hook keep it in sync with
         // the queue. Any SoHL document can carry a schedule — a wound, a scene,
-        // or a `_sohlworld` actor — with no bespoke fields. Logical identity is
+        // or a `sohlworld` actor — with no bespoke fields. Logical identity is
         // `actionName`; write the whole array back (never by index).
         scheduledActions: new ArrayField(
             new SchemaField({

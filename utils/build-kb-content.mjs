@@ -31,7 +31,11 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-import { slugify, resolveKbWikilinks } from "./kb-wikilinks.mjs";
+import {
+    slugify,
+    resolveKbWikilinks,
+    frontmatterWikilinks,
+} from "./kb-wikilinks.mjs";
 import {
     canonicalKey,
     readCanonicalKey,
@@ -538,6 +542,15 @@ const LOCAL_BASE = SOHL_BASE;
 const entries = [];
 const refIndex = new Map();
 const slugErrors = [];
+/**
+ * Notes with a wikilink in frontmatter (#1428) — `{file, path, link}` each.
+ *
+ * Frontmatter is copied to the published page verbatim, so a link written in
+ * one is never resolved and reaches the reader as literal `[[…]]`. Collected
+ * across both walks and failed on before anything is written; see
+ * {@link frontmatterWikilinks}.
+ */
+const fmLinkErrors = [];
 
 // assets/content → reference pages (SoHL + Thalorna packages).
 for (const file of walk(CONTENT_SRC)) {
@@ -548,6 +561,10 @@ for (const file of walk(CONTENT_SRC)) {
         continue;
     }
     if (!KB_PACKAGES.has(fm.package) || !fm.type) continue;
+
+    for (const hit of frontmatterWikilinks(fm)) {
+        fmLinkErrors.push({ file: path.relative(REPO, file), ...hit });
+    }
 
     const name = fm.name?.full ?? path.basename(file, ".md");
     // The URL segment is derived from the name (#1278) — not from the shortcode,
@@ -602,6 +619,10 @@ for (const file of walk(DOCS_SRC)) {
     } catch {
         continue;
     }
+    for (const hit of frontmatterWikilinks(fm)) {
+        fmLinkErrors.push({ file: path.relative(REPO, file), ...hit });
+    }
+
     const rel = path.relative(DOCS_SRC, file).replace(/\\/g, "/");
     const base = path.basename(rel);
     const isReadme = base.toLowerCase() === "readme.md";
@@ -631,6 +652,24 @@ for (const file of walk(DOCS_SRC)) {
         url,
         isReadme,
     });
+}
+
+// --- Frontmatter integrity -----------------------------------------------
+// Refused before a single page is written: a wikilink in frontmatter is copied
+// through unresolved and publishes as literal `[[…]]` (#1428).
+if (fmLinkErrors.length) {
+    console.error(
+        `\n✖ ${fmLinkErrors.length} wikilink(s) authored in frontmatter:`,
+    );
+    for (const e of fmLinkErrors) {
+        console.error(`  ${e.link}  (${e.file}: ${e.path})`);
+    }
+    console.error(
+        "\nWikilinks are resolved in a note's body only — frontmatter is data, and this\n" +
+            "build copies it to the page verbatim, so the reader gets the brackets. Move the\n" +
+            "link into the prose the field summarises, or write the value as plain text.\n",
+    );
+    process.exit(1);
 }
 
 // --- URL integrity -------------------------------------------------------

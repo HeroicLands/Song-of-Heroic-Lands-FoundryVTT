@@ -65,6 +65,20 @@ and keeps case** — `B&CFl` → `BCFl`, `self-pro` → `selfpro`. That is delib
 `slugifyShortcode`, which also lowercases: that one derives a _new_ key from a display
 name, while a repair keeps an _existing_ identity as recognizable as possible.
 
+### The rule binds the system's own keys too
+
+Nothing exempts a key the _system_ writes. The singleton world host
+(`sohl.worldHost()`, issue #588) is created through the same create guard as any
+document, so its reserved code is subject to the same pattern — and its original
+`_sohlworld` was refused as malformed, which vetoed the host's own creation and
+left `sohl.worldHost()` returning `undefined` (issue #1536). The code is now
+`sohlworld`, which is also what the 0.9.0 repair migration produces from a host a
+v0.8 world already created, so an upgraded world keeps the host it has.
+
+Reserved codes are reserved by _convention_, not by a separate namespace: they
+are ordinary `(type, shortcode)` keys and share the uniqueness scopes below. Do
+not author content that claims one.
+
 ## The invariant
 
 `(type, shortcode)` is unique within each of four **scopes**, and `shortcode` is a

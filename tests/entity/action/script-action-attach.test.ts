@@ -166,4 +166,17 @@ describe("script-action-attach — attachScriptAction", () => {
         expect(written).toHaveLength(1);
         expect(written[0].executor).toBe("Macro.2");
     });
+
+    it("names the missing document instead of dereferencing it (#1536)", async () => {
+        // `sohl.worldHost()` returns `undefined` for a user who cannot see the
+        // host, and callers hand its result straight in. Dereferencing it
+        // surfaced as `Cannot read properties of undefined (reading 'system')`,
+        // which points at this module rather than at the caller's document.
+        await expect(
+            attachScriptAction(undefined as any, {
+                name: "a",
+                executor: MACRO,
+            }),
+        ).rejects.toThrow(/addScriptAction: `doc`/);
+    });
 });

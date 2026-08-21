@@ -31,8 +31,16 @@ export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
  * Reserved shortcode identifying the singleton **world host** actor — the
  * document world-scoped scheduled actions and events hang off of (issue #588).
  * Found or created via `sohl.worldHost()`.
+ *
+ * Like every other `shortcode` it must be **strictly alphanumeric** (issue
+ * #1397): the host is created through the same `(type, shortcode)` guard as any
+ * document, which refuses a malformed key outright — so the original
+ * `_sohlworld` vetoed the host's own creation (issue #1536). The underscore is
+ * dropped rather than exempted, which is also what the 0.9.0 repair migration
+ * does to a host a v0.8 world already created, so an upgraded world keeps the
+ * one host it has instead of growing a second.
  */
-export const WORLD_HOST_SHORTCODE = "_sohlworld" as const;
+export const WORLD_HOST_SHORTCODE = "sohlworld" as const;
 
 /**
  * Runtime type brands — an `instanceof` replacement for the cases where an

@@ -797,22 +797,40 @@ These cost real debugging time; they are not apparent from the code.
   placeable's rendered state (which is viewport-dependent and empty here anyway).
   This is a source-level guard, deliberately not an `uncaught:exception` allowlist
   entry, so it can't mask a real `addChild` / `OBJECTS` error elsewhere.
-- **A scene deleted mid-draw throws on 14.367 — the guard makes it inert.**
+- **Region shape constraints are suppressed headless.** A **restricted** Region
+  (`restriction.enabled`) makes core flag its scene's shape constraints, and the
+  deferred pass picks a designated User with a predicate reading
+  `canvas.scene.id` — `null` here, because no scene is ever viewed, so it throws
+  `reading 'id'` out of a PIXI ticker and fails whichever spec is running
+  (#1535). Core defect, not a SoHL one, fixed upstream in 14.367 (`this.id`); the
+  guard stays while the committed default pins the 14.359 floor. `cy.login()`
+  therefore makes both entry points inert when `canvas.scene` is nullish
+  (`guardHeadlessRegionShapeConstraints`). Shape constraints are perception state
+  for a _viewed_ scene, so nothing here loses coverage — but it does mean a spec
+  cannot assert on a Region's `_shapeConstraints`. Again a source-level guard,
+  not an allowlist entry: `reading 'id'` is too generic a message to allowlist
+  safely, even qualified by a stack frame.
+- **A scene deleted mid-draw throws on 14.367 — the same guard makes it inert.**
   `Canvas##draw` calls `scene.updateRegionShapeConstraints()` as its last step,
   after a long run of awaits, and 14.367 opened that method by throwing
   _"A nonpersisted Document cannot be updated."_ unless `this.persisted`. Since
   `cy.cleanupWorld()` deletes the scenes a spec creates, a draw begun on a tagged
   scene routinely finishes after that scene has left `game.scenes` — the throw
   then escapes as an unhandled rejection and fails whichever spec is running,
-  with no SoHL frame on the stack (#1550). `cy.login()` therefore skips the call
-  when `persisted === false` (`guardHeadlessRegionShapeConstraints`, which
-  patches `Level` as well as `Scene` — `Level` has its own copy of the method and
-  throws before delegating to the scene). Strict `=== false`, so a build without
-  the getter runs core untouched and the pinned floor is unaffected. A
-  source-level guard rather than an allowlist entry: that
-  message is core's generic one for updating _any_ deleted document, so
-  allowlisting it could mask a real SoHL bug writing to a document it had already
-  destroyed.
+  with no SoHL frame on the stack (#1550). A second, independent defect in the
+  same method: that scene is live and truthy, merely no longer in its collection,
+  so the `canvas.scene` clause above does not catch it. The guard adds
+  `persisted === false` to the public entry point, and patches `Level` too — it
+  has its own copy of the method (new in 14.367) and throws before delegating to
+  the scene. Strict `=== false`, so a build without the getter runs core
+  untouched and the pinned floor is unaffected.
+- **Don't expect that one to reproduce from the specs a sweep blames.** The
+  throw escapes asynchronously and lands on whichever spec runs next, so the
+  failing spec names are an artifact of ordering and load: all three the #1550
+  sweep named pass when run alone on 14.367 with the guard removed.
+  `scene-nonpersisted.cy.js` therefore asserts the condition directly — delete a
+  scene, invoke the entry points the draw path uses, require each one the build
+  defines to be inert — rather than waiting on the race.
 - **Placed tokens are linked — a combatant's `.actor` is the world actor.**
   `cy.placeToken` / `cy.placeAdjacentTokens` create `actorLink: true` tokens, so a
   combatant reads the same world actor a spec prepared with `cy.prepare`, not an
