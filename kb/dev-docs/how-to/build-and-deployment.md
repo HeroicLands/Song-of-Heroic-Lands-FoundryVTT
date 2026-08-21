@@ -573,7 +573,7 @@ What it declares:
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `rootDir`                                           | The repository the paths below are resolved against. Absolute (`import.meta.dirname`), so the build reads the same files whatever directory it was launched from.                   |
 | `contentPackage` / `foundryPackage` / `packageKind` | Which notes are compiled, which Foundry package ships them, and whether that package is a `systems/` or a `modules/` install.                                                       |
-| `stats`                                             | The identity stamped into every compiled document's `_stats` — `systemId`, `systemVersion`, `lastModifiedBy`.                                                                       |
+| `stats`                                             | The identity stamped into every compiled document's `_stats` — `systemId`, `systemVersion` (read from `package.json`, not transcribed), `lastModifiedBy`.                           |
 | `skipDirectories`                                   | Directory names the content walk ignores (`Templates/`, Obsidian's templater scaffolding — a convention of this vault, not of a content tree).                                      |
 | `paths`                                             | The content root, the manifest-template directory, the vendored link manifests, and the three build outputs. Each defaults to the conventional layout and is relative to `rootDir`. |
 | `packs`                                             | The one pack list: name, Foundry document type, folder-hierarchy file, `companions`, `mayBeEmpty`.                                                                                  |
@@ -591,6 +591,14 @@ Two properties of that shape are load-bearing:
   deliberately absent from the config: it is the manifest's
   `compatibility.minimum`, which moves with test evidence, and a copy would
   silently stop following it — the shape of defect #1533 was.
+  `stats.systemVersion` obeys the same rule from the other side: it is a
+  configured value, but the config **reads** it from `package.json` — the file
+  Changesets bumps and `build:system` stamps into the manifest — rather than
+  transcribing it. Transcribed, it froze at `0.6.0` for four releases, leaving
+  every shipped document eligible for migrations it did not need (#1548). It
+  stays per-repository rather than moving onto the toolchain because a module
+  repository shipping SoHL content declares the version of the _system_ it is
+  content for, not its own package version.
 
 The `assets/` root a content note's `img:` resolves to is derived, not written:
 `<packageKind>/<foundryPackage>/assets`, so the same note yields
