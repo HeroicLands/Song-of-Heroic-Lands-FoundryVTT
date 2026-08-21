@@ -54,7 +54,11 @@ if (projectErrors.length > 0) {
         "Type errors in project files with skipLibCheck OFF " +
             "(hidden by the normal build — fix them in the offending file):\n",
     );
-    for (const line of projectErrors) console.error(`  ${line}`);
+    // `tsc` already emits `file(line,col): error TSxxxx: message`, which is a
+    // parseable form of its own. Indenting it was the only thing putting it
+    // outside what an error matcher reads, so it is passed through as-is
+    // rather than reformatted into the colon dialect (#1668).
+    for (const line of projectErrors) console.error(line);
     console.error(`\n${projectErrors.length} error(s).`);
     process.exit(1);
 }

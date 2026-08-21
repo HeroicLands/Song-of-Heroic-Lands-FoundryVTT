@@ -21,6 +21,7 @@
  */
 
 import fs from "fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import path from "path";
 import { buildTypeCatalog } from "./build-type-catalog.mjs";
 import { formatGenerated } from "./format-generated.mjs";
@@ -29,7 +30,9 @@ const OUT = path.resolve("kb/dev-docs/reference/type-catalog.md");
 const rel = path.relative(process.cwd(), OUT);
 
 const { md, warnings } = buildTypeCatalog();
-for (const w of warnings) console.warn(`⚠️  ${w}`);
+for (const w of warnings) {
+    reportDiagnostic({ file: rel, severity: "warning", message: w });
+}
 
 const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf8") : "";
 // Compare against what the writer would actually produce: `docs:catalog` runs
@@ -37,10 +40,15 @@ const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf8") : "";
 // report every up-to-date file as stale.
 const expected = await formatGenerated(md, OUT);
 if (current !== expected) {
-    console.error(
-        `✗ ${rel} is out of date with the code.\n` +
-            `  Run \`npm run docs:catalog\` and commit the regenerated file.`,
-    );
+    // Staleness is a property of the whole generated file, so there is no
+    // line to name.
+    reportDiagnostic({
+        file: rel,
+        severity: "error",
+        message:
+            "out of date with the code — run `npm run docs:catalog` and " +
+            "commit the regenerated file",
+    });
     process.exit(1);
 }
 

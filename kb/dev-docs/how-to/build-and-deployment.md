@@ -137,6 +137,44 @@ and is unit-tested directly.
 | `lint:format`             | Prettier `--check` over the repo — the same check as `format:check`, wired into the `lint` chain so drift fails the build (#1621).                                                                                                             |
 | `format` / `format:check` | Prettier write / check the whole repo.                                                                                                                                                                                                         |
 
+#### How a linter reports a finding
+
+Every finding a `utils/check-*.mjs` linter emits is a single line in the form
+every C-family compiler, `tsc` and ESLint already use, so an editor's error
+matcher, a CI annotator or a `grep` resolves it without being told anything
+about this repository (#1668):
+
+```text
+assets/content/Rules/Attributes.md:28:13: error: dead address [[doc-nosuchthing]] — no document has that identity
+```
+
+`file:line:column: severity: message`, unindented, one finding per line. The
+path is relative to the repository root. `formatDiagnostic` in
+[utils/lint-diagnostics.mjs](../../../utils/lint-diagnostics.mjs) is the only
+place that layout is written; a linter calls `reportDiagnostic` and never
+formats its own.
+
+Two rules make it dependable:
+
+- **The path starts the line.** A finding is never indented and never prefixed.
+  Leading whitespace alone puts it outside what a standard error matcher reads,
+  which is what the old `  <file>:<line>: …` form did.
+- **A field is dropped, never guessed.** A linter reports the position it can
+  establish honestly and no more — `file:line: …` where the column is
+  meaningless, `file: …` where only the file is known. Nothing defaults to
+  `1:1`, which would send a reader to the top of the file every time.
+
+Where a finding is _about_ a literal the linter matched — a wikilink, a
+hardcoded caption, a `TODO` marker, a lang key — its position is recovered with
+`locateInText`, which also takes an occurrence number, so two identical findings
+in one file are reported at their own columns rather than both at the first.
+Where a finding is a property of the whole file — a stale generated page, a
+missing barrel, an unreachable document — the file alone is the honest locator
+and no position is invented.
+
+Summary counts and the explanatory paragraph each linter prints after its
+findings are **not** findings, and keep their prose form.
+
 #### What the two linters check
 
 Prettier formats ~96% of the hand-written text in this repository, and formatting

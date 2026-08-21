@@ -34,6 +34,7 @@
  *   node utils/check-lang.mjs // direct invocation (no args)
  */
 import { readFileSync } from "node:fs";
+import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { globSync } from "glob";
 
 /**
@@ -67,12 +68,26 @@ if (!files.length) {
 let total = 0;
 for (const file of files.sort()) {
     let json;
+    // Kept so a finding about a key can be reported at the key's own line and
+    // column, rather than at the file (#1668).
+    const raw = readFileSync(file, "utf8");
     try {
-        json = JSON.parse(readFileSync(file, "utf8"));
+        json = JSON.parse(raw);
     } catch (err) {
-        console.error(`check-lang: ${file} is not valid JSON: ${err.message}`);
+        reportDiagnostic({
+            file,
+            severity: "error",
+            message: `not valid JSON: ${err.message}`,
+        });
         process.exit(1);
     }
+    /**
+     * Where a key is declared in the file.
+     *
+     * @param {string} key - The localization key.
+     * @returns {{line?: number, column?: number}} Spreadable position fields.
+     */
+    const at = (key) => positionOf(raw, `"${key}"`);
     // -- placeholder syntax ------------------------------------------------
     // Foundry interpolates with `format()` and SINGLE braces. A `{{…}}` value
     // renders literally unless some call site happens to hand it to a
@@ -81,10 +96,12 @@ for (const file of files.sort()) {
         if (typeof value !== "string") continue;
         if (/\{\{|\}\}/.test(value)) {
             total++;
-            console.error(
-                `check-lang: ${file}: "${key}" uses Handlebars double braces; ` +
-                    "Foundry placeholders are single-braced {camelCase}.",
-            );
+            reportDiagnostic({
+                file,
+                ...at(key),
+                severity: "error",
+                message: `"${key}" uses Handlebars double braces; Foundry placeholders are single-braced {camelCase}`,
+            });
         }
         const braces = value.split("").reduce(
             (n, c) =>
@@ -96,9 +113,12 @@ for (const file of files.sort()) {
         );
         if (braces !== 0) {
             total++;
-            console.error(
-                `check-lang: ${file}: "${key}" has an unbalanced brace.`,
-            );
+            reportDiagnostic({
+                file,
+                ...at(key),
+                severity: "error",
+                message: `"${key}" has an unbalanced brace`,
+            });
         }
     }
 
@@ -112,10 +132,14 @@ for (const file of files.sort()) {
             .filter((seg) => !/^[A-Za-z0-9_-]*$/.test(seg));
         if (bad.length) {
             total++;
-            console.error(
-                `check-lang: ${file}: "${key}" has a segment outside ` +
-                    `[A-Za-z0-9_-]: ${bad.map((b) => `"${b}"`).join(", ")}`,
-            );
+            reportDiagnostic({
+                file,
+                ...at(key),
+                severity: "error",
+                message:
+                    `"${key}" has a segment outside [A-Za-z0-9_-]: ` +
+                    `${bad.map((b) => `"${b}"`).join(", ")}`,
+            });
         }
     }
 
@@ -126,9 +150,12 @@ for (const file of files.sort()) {
             `\ncheck-lang: ${collisions.length} dotted-prefix key collision(s) in ${file}:\n`,
         );
         for (const [prefix, leaf] of collisions) {
-            console.error(
-                `  "${prefix}" is a leaf but also a prefix of "${leaf}"`,
-            );
+            reportDiagnostic({
+                file,
+                ...at(prefix),
+                severity: "error",
+                message: `"${prefix}" is a leaf but also a prefix of "${leaf}"`,
+            });
         }
     }
 }

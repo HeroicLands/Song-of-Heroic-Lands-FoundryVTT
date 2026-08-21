@@ -32,6 +32,7 @@
  */
 
 import fs from "fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import path from "path";
 
 const SRC = "src";
@@ -95,7 +96,10 @@ function check(dir) {
 
     const index = path.join(dir, "index.ts");
     if (!fs.existsSync(index)) {
-        problems.push(`${index}: missing barrel (this folder is a namespace)`);
+        problems.push({
+            file: index,
+            message: "missing barrel (this folder is a namespace)",
+        });
         return;
     }
     const src = fs.readFileSync(index, "utf8");
@@ -119,17 +123,22 @@ function check(dir) {
 
     for (const s of subdirs) {
         if (!namespaced.has(s))
-            problems.push(
-                `${index}: missing \`export * as ${s} from "./${s}"\``,
-            );
+            problems.push({
+                file: index,
+                message: `missing \`export * as ${s} from "./${s}"\``,
+            });
         else if (!described.has(s))
-            problems.push(
-                `${index}: namespace \`${s}\` needs a /** description */`,
-            );
+            problems.push({
+                file: index,
+                message: `namespace \`${s}\` needs a /** description */`,
+            });
     }
     for (const m of modules) {
         if (!reexported.has(m))
-            problems.push(`${index}: missing \`export * from "./${m}"\``);
+            problems.push({
+                file: index,
+                message: `missing \`export * from "./${m}"\``,
+            });
     }
 }
 
@@ -137,9 +146,17 @@ check(SRC);
 
 if (problems.length) {
     console.error(
-        `check-ns-barrels: ${problems.length} namespace-barrel problem(s):\n` +
-            problems.map((p) => `  - ${p}`).join("\n"),
+        `check-ns-barrels: ${problems.length} namespace-barrel problem(s):\n`,
     );
+    for (const p of problems) {
+        // A barrel problem is about the file as a whole — what is missing is
+        // by definition not at any line in it.
+        reportDiagnostic({
+            file: p.file,
+            severity: "error",
+            message: p.message,
+        });
+    }
     process.exit(1);
 }
 console.log(
