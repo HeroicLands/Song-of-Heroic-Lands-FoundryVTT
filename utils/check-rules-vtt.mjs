@@ -33,6 +33,7 @@
  *   node utils/check-rules-vtt.mjs // direct invocation (no args)
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { join } from "node:path";
 
 const ROOT = join("assets", "content", "Rules");
@@ -93,9 +94,16 @@ for (const file of walk(ROOT)) {
         }
         for (const [pattern, why] of FORBIDDEN) {
             if (pattern.test(line)) {
-                violations.push(
-                    `${file}:${i + 1}: ${why}\n      ${line.trim()}`,
-                );
+                // The column is where the offending phrase starts, so an
+                // editor lands on it rather than on the line (#1668).
+                const at = line.search(pattern);
+                violations.push({
+                    file,
+                    line: i + 1,
+                    column: at === -1 ? undefined : at + 1,
+                    why,
+                    text: line.trim(),
+                });
                 return;
             }
         }
@@ -106,7 +114,15 @@ if (violations.length) {
     console.error(
         `\ncheck-rules-vtt: ${violations.length} VTT reference(s) in the rules:\n`,
     );
-    for (const v of violations) console.error(`  ${v}`);
+    for (const v of violations) {
+        reportDiagnostic({
+            file: v.file,
+            line: v.line,
+            column: v.column,
+            severity: "error",
+            message: `${v.why}: ${v.text}`,
+        });
+    }
     console.error(
         "\nThe rules are the specification the VTT implements and must read as though no\n" +
             "VTT exists. Restate the mechanic as what happens at the table; move automation\n" +

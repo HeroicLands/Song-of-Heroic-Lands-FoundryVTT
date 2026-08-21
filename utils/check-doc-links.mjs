@@ -46,6 +46,7 @@
  *   node utils/check-doc-links.mjs
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -158,11 +159,15 @@ export function linksIn(source) {
         // look for that path inside `kb/dev-docs/` and call it dead.
         if (raw.startsWith("/")) continue;
         const hash = raw.indexOf("#");
+        // `maskCode` preserves length, so the match index is the index into
+        // the source too. The link text starts two characters in, past `](`.
+        const at = m.index + 2;
         out.push({
             raw,
             rel: hash === -1 ? raw : raw.slice(0, hash),
             anchor: hash === -1 ? "" : raw.slice(hash + 1),
             line: body.slice(0, m.index).split("\n").length,
+            column: at - body.lastIndexOf("\n", at),
         });
     }
     return out;
@@ -187,7 +192,7 @@ export function scan(root = ROOT) {
 
     for (const file of walk(root)) {
         const dir = path.dirname(file);
-        for (const { raw, rel, anchor, line } of linksIn(
+        for (const { raw, rel, anchor, line, column } of linksIn(
             readFileSync(file, "utf8"),
         )) {
             // `#anchor` alone is a link within this same page.
@@ -197,12 +202,12 @@ export function scan(root = ROOT) {
                 );
 
             if (!existsSync(target)) {
-                missing.push({ file, line, link: raw, target });
+                missing.push({ file, line, column, link: raw, target });
                 continue;
             }
             if (!anchor || !target.endsWith(".md")) continue;
             if (!anchorsFor(target).has(anchor)) {
-                deadAnchors.push({ file, line, link: raw, target });
+                deadAnchors.push({ file, line, column, link: raw, target });
             }
         }
     }
@@ -225,8 +230,13 @@ if (
                 `  ${missing.length} link(s) to a file that does not exist:`,
             );
             for (const v of missing) {
-                console.error(`    ${v.file}:${v.line}: ${v.link}`);
-                console.error(`      resolves to ${v.target}`);
+                reportDiagnostic({
+                    file: v.file,
+                    line: v.line,
+                    column: v.column,
+                    severity: "error",
+                    message: `link ${v.link} resolves to ${v.target}, which does not exist`,
+                });
             }
         }
         if (deadAnchors.length) {
@@ -234,7 +244,13 @@ if (
                 `\n  ${deadAnchors.length} link(s) to an anchor nobody declares:`,
             );
             for (const v of deadAnchors) {
-                console.error(`    ${v.file}:${v.line}: ${v.link}`);
+                reportDiagnostic({
+                    file: v.file,
+                    line: v.line,
+                    column: v.column,
+                    severity: "error",
+                    message: `link ${v.link} points at an anchor nobody declares`,
+                });
             }
         }
         console.error(

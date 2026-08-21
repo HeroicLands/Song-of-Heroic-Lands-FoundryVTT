@@ -40,6 +40,7 @@
  *   node utils/check-content-aliases.mjs
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { join, relative } from "node:path";
 import matter from "gray-matter";
 
@@ -128,12 +129,16 @@ function main() {
 
     console.error("✗ Notes whose `type-shortcode` alias is wrong:\n");
     for (const f of failures) {
-        console.error(`  ${f.file}`);
-        console.error(`      ${REASONS[f.reason]}`);
-        console.error(`      expected: ${f.expected}`);
-        console.error(
-            `      found:    ${f.found.length ? f.found.join(", ") : "(none)"}`,
-        );
+        // The alias lives in frontmatter `aliases`; the expected string is not
+        // in the file (that is the finding), so there is no position to name
+        // beyond the file itself.
+        reportDiagnostic({
+            file: f.file,
+            severity: "error",
+            message:
+                `${REASONS[f.reason]} — expected \`${f.expected}\`, found ` +
+                `${f.found.length ? f.found.join(", ") : "(none)"}`,
+        });
     }
     console.error(
         `\n${failures.length} note(s). Every content note carries its own ` +

@@ -40,6 +40,7 @@
  *   node utils/check-pack-shortcodes.mjs
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
+import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { join, relative } from "node:path";
 import matter from "gray-matter";
 import { isValidShortcode } from "../src/utils/shortcode-format.mjs";
@@ -111,8 +112,11 @@ function main() {
     if (malformed.length > 0) {
         console.error("✗ Shortcodes that are not strictly alphanumeric:\n");
         for (const { key, file } of malformed) {
-            console.error(`  ${key}`);
-            console.error(`      ${file}`);
+            reportDiagnostic({
+                file,
+                severity: "error",
+                message: `shortcode ${key} is not strictly alphanumeric`,
+            });
         }
         console.error(
             `\n${malformed.length} malformed shortcode(s). A shortcode must match ` +
