@@ -37,6 +37,27 @@ updates:
       commit-message:
           prefix: chore(deps)
           prefix-development: chore(deps-dev)
+      # TypeScript 7 is held back, and not because a peer range is stale.
+      # 7.0 is the native Go rewrite: it ships platform binaries and no longer
+      # exposes the JavaScript compiler API. Two gates in `npm run lint` and
+      # `npm run docs` are built on precisely that API and cannot run without
+      # it -- `typedoc` (which also publishes api.heroiclands.org) peers no
+      # higher than `6.0.x`, and `@typescript-eslint/*` peers `<6.1.0` on every
+      # published version, canary included. So a 7.x pull request cannot even
+      # install: `npm ci` fails with ERESOLVE before a build step runs, which
+      # is the unreviewable shape the note on lockstep families describes
+      # below.
+      #
+      # The bound is `>=7` rather than the whole major, because 6.0.x sits
+      # inside both peer ranges and this repository is on it -- 6.0.3 builds,
+      # lints, tests, and documents clean. Keeping 6.x open means patches still
+      # arrive normally. Lift this entry once TypeDoc and typescript-eslint
+      # both declare support for 7; that, not a newer TypeScript, is what
+      # unblocks it.
+      ignore:
+          - dependency-name: typescript
+            versions:
+                - ">=7"
       groups:
           # First-party packages, ahead of everything: each is its own decision
           # and neither may be swept into a grouped housekeeping pull request.
