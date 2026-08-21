@@ -46,6 +46,7 @@ import {
     contentSlug,
     findSlugCollisions,
 } from "@heroiclands/content-build/engine/content-slug";
+import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
 import { protectCode } from "./kb-protect-code.mjs";
 import {
     contentPackage,
@@ -716,6 +717,14 @@ if (foreign.stale.length) {
     for (const s of foreign.stale) console.error(`  ${s.package}: ${s.reason}`);
     process.exit(1);
 }
+
+// A manifest this build can *read* but cannot *address* is the failure mode
+// #1664 documents: the lookup below matches nothing, every cross-package link
+// falls through to its display text, and no check fires — a dead-link guard
+// only ever sees addresses that resolved to the wrong place, never ones that
+// resolved to nothing at all.
+assertForeignManifestsAddressable(foreign.index, MANIFEST_SRC);
+
 const manifests = manifestsComplete(localPackages, foreign.packages);
 
 // Every key is canonical and therefore globally unique, so a foreign manifest

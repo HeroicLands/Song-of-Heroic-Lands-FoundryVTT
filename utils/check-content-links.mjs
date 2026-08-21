@@ -53,6 +53,7 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import { slugify, frontmatterWikilinks } from "./kb-wikilinks.mjs";
+import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
 import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
 import { matchAllOutsideCode } from "@heroiclands/content-build/engine/code-fences";
@@ -259,6 +260,16 @@ if (foreign.stale.length) {
     );
     process.exit(1);
 }
+
+// Readable is not the same as addressable (#1664). Every lookup below reaches
+// the manifest through `readCanonicalKey`, so a key shape it cannot parse makes
+// each one miss — and this check then blames the *notes*, reporting correct
+// cross-package addresses as dead, which reads as a pile of typos. The guard
+// names the file at fault instead.
+assertForeignManifestsAddressable(
+    foreign.index,
+    path.join("assets", "manifests"),
+);
 const manifests = manifestsComplete(
     new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
     foreign.packages,
@@ -272,11 +283,6 @@ const packages = new Set([
     ...[...byKey.values()].map((n) => n.fm?.package).filter(Boolean),
     ...foreign.packages,
 ]);
-for (const k of []) {
-    const slash = k.indexOf("/");
-    if (slash > 0) types.add(k.slice(0, slash));
-}
-
 /** The manifest entry a qualified address names in another package, or null. */
 const manifestHit = (target) => {
     const q = readQualifier(target, types, packages);
