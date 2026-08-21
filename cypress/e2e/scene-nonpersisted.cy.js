@@ -27,11 +27,11 @@
  * is what makes it so.
  *
  * That guard covers a second, unrelated defect too (#1535: no scene viewed), and
- * its clause for that one is tested *first*. Since headless `canvas.scene` is
- * always `null`, it would short-circuit every call here and this spec would pass
- * with the #1550 fix reverted — so `withViewedScene` below restores the
- * precondition the draw path actually presents: a live, truthy `canvas.scene`
- * that is merely no longer persisted.
+ * its clause for that one is tested *first*. Were `canvas.scene` `null` it would
+ * short-circuit every call here and this spec would pass with the #1550 fix
+ * reverted — so `withViewedScene` below pins the precondition the draw path
+ * actually presents: a live, truthy `canvas.scene` that is merely no longer
+ * persisted.
  *
  * `Level` is checked alongside `Scene` because it carries its own copy of the
  * method and throws from it *before* delegating to the scene, so the callers
@@ -66,11 +66,12 @@ describe("scene: a nonpersisted Scene is inert (#1550)", () => {
      *
      * The draw path holds the scene it is drawing, so when it makes this call
      * `canvas.scene` is live and truthy — it is only `persisted` that has gone
-     * false. Headless nothing is ever viewed, so `canvas.scene` is `null`, and
-     * the guard's *other* clause (no scene viewed, #1535) would short-circuit
-     * first and the nonpersisted clause would never be reached. Then this spec
-     * would pass with the #1550 fix reverted, which is worth nothing. Setting
-     * it restores the real precondition rather than working around the guard.
+     * false, and it is the *deleted* scene, not whichever one the client happens
+     * to view. Leave that to the environment and the guard's *other* clause (no
+     * scene viewed, #1535) short-circuits first in any run with nothing viewed,
+     * the nonpersisted clause is never reached, and this spec passes with the
+     * #1550 fix reverted — which is worth nothing. Setting it pins the real
+     * precondition rather than working around the guard.
      */
     function withViewedScene(win, scene, fn) {
         const prior = Object.getOwnPropertyDescriptor(win.canvas, "scene");

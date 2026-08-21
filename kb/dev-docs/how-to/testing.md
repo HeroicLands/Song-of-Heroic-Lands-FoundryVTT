@@ -797,19 +797,31 @@ These cost real debugging time; they are not apparent from the code.
   placeable's rendered state (which is viewport-dependent and empty here anyway).
   This is a source-level guard, deliberately not an `uncaught:exception` allowlist
   entry, so it can't mask a real `addChild` / `OBJECTS` error elsewhere.
-- **Region shape constraints are suppressed headless.** A **restricted** Region
-  (`restriction.enabled`) makes core flag its scene's shape constraints, and the
-  deferred pass picks a designated User with a predicate reading
-  `canvas.scene.id` — `null` here, because no scene is ever viewed, so it throws
-  `reading 'id'` out of a PIXI ticker and fails whichever spec is running
-  (#1535). Core defect, not a SoHL one, fixed upstream in 14.367 (`this.id`); the
-  guard stays while the committed default pins the 14.359 floor. `cy.login()`
-  therefore makes both entry points inert when `canvas.scene` is nullish
-  (`guardHeadlessRegionShapeConstraints`). Shape constraints are perception state
-  for a _viewed_ scene, so nothing here loses coverage — but it does mean a spec
-  cannot assert on a Region's `_shapeConstraints`. Again a source-level guard,
-  not an allowlist entry: `reading 'id'` is too generic a message to allowlist
-  safely, even qualified by a stack frame.
+- **Region shape constraints are suppressed when no scene is viewed.** A
+  **restricted** Region (`restriction.enabled`) makes core flag its scene's shape
+  constraints, and the deferred pass picks a designated User with a predicate
+  reading `canvas.scene.id` — so wherever nothing is viewed and `canvas.scene` is
+  `null`, it throws `reading 'id'` out of a PIXI ticker and fails whichever spec
+  is running (#1535). Core defect, not a SoHL one, fixed upstream in 14.367
+  (`this.id`); the guard stays while the committed default pins the 14.359 floor.
+  `cy.login()` therefore makes both entry points inert when `canvas.scene` is
+  nullish (`guardHeadlessRegionShapeConstraints`). Shape constraints are
+  perception state for a _viewed_ scene, so nothing here loses coverage — but it
+  does mean a spec cannot assert on a Region's `_shapeConstraints`. Again a
+  source-level guard, not an allowlist entry: `reading 'id'` is too generic a
+  message to allowlist safely, even qualified by a stack frame.
+- **Headless does not mean scene-less — the seeded world views one.**
+  `utils/seed-test-world.mjs` seeds an **active** default scene (#451, so the
+  canvas is ready and the new-user tour never overlays a sheet), and the client
+  views it at load, so `canvas.scene` is normally a live Scene. Nor does
+  importing content change that: core auto-activates a created scene only when
+  the world has no active one, and an Adventure's scenes carry `active: false`
+  anyway. So a spec must never assert `canvas.scene` is `null` as a standing
+  fact — a #1535 spec did, immediately after importing an adventure, and failed
+  on every build (#1661). A spec that needs the no-scene-viewed state has to
+  present it, by shadowing `canvas.scene` with an own property for the duration
+  (`withNoSceneViewed` in `map-notes.cy.js`, `withViewedScene` in
+  `scene-nonpersisted.cy.js`) rather than by relying on the environment.
 - **A scene deleted mid-draw throws on 14.367 — the same guard makes it inert.**
   `Canvas##draw` calls `scene.updateRegionShapeConstraints()` as its last step,
   after a long run of awaits, and 14.367 opened that method by throwing
