@@ -926,7 +926,15 @@ for (const e of entries) {
         items++;
     } else {
         // Developer doc — preserve the source tree; a README is its dir's landing.
-        const meta = isReadme ? README_META[sec] : null;
+        //
+        // `README_META` is keyed by *section*, so it describes the mount's own
+        // landing (`kb/dev-docs/README.md`) and nothing beneath it. A nested
+        // README is a sub-section's landing, and reading the section's entry
+        // for it would title every one of them "Developer Documentation" and
+        // hang the section hero on each (#1571). Its title comes from its H1,
+        // like any other page's.
+        const isSectionRoot = path.posix.dirname(e.rel) === ".";
+        const meta = isReadme && isSectionRoot ? README_META[sec] : null;
         const data = { ...fm, title: meta?.title ?? fm.title ?? name };
         if (meta?.banner) data.banner = meta.banner;
         applyRedirects(data, redirects, SOHL_BASE);

@@ -59,6 +59,34 @@ const RETIRED_BEING_SECTION = Object.freeze({
 });
 
 /**
+ * Developer-doc pages that have moved between sections, keyed by their current
+ * path under `kb/dev-docs/` (lowercased, no extension) and valued by the path
+ * they used to publish at.
+ *
+ * A dev doc's URL is its path, so moving a page between sections moves a
+ * published address — and unlike a content note, nothing the page still carries
+ * records where it used to be. A dev doc has no frontmatter at all: its section
+ * is the directory it sits in, and after the move that directory only names the
+ * new one. So the move has to be recorded, here, exactly as the legacy-slug map
+ * records a content note's pre-shortcode URL.
+ *
+ * **Only real former addresses belong here.** The point is not "this page is
+ * related to that path" — it is "this page was served at that URL and links to
+ * it exist in the wild". A page created in its current section has never
+ * published anywhere else and takes no entry.
+ *
+ * @type {Readonly<Record<string, string>>}
+ */
+const MOVED_DEV_DOCS = Object.freeze({
+    // The content-authoring pages, gathered out of `reference/` into the
+    // Content Creator section (#1572).
+    "content-creator/content-links": "reference/content-links",
+    "content-creator/content-tables": "reference/content-tables",
+    "content-creator/macro-notes": "reference/macro-notes",
+    "content-creator/map-notes": "reference/map-notes",
+});
+
+/**
  * Old (pre-split) section URL a moved page redirects from, so existing links and
  * bookmarks don't 404: every `type: doc` page used to live under `/guide/`
  * except the developer docs, which were under `/dev/`. A `being` page used to
@@ -125,13 +153,22 @@ export function pageRedirects(entry, legacySlugs = {}, base = "/") {
         if (kind === "dev") {
             const relNoExt = rel.slice(0, -3).toLowerCase();
             const dir = path.posix.dirname(relNoExt);
-            redirects.add(
-                isReadme ?
+            if (isReadme) {
+                redirects.add(
                     dir === "." ?
                         `${base}${oldSec}/`
-                    :   `${base}${oldSec}/${dir}/`
-                :   `${base}${oldSec}/${relNoExt}/`,
-            );
+                    :   `${base}${oldSec}/${dir}/`,
+                );
+            } else {
+                // Where this page published before it moved sections, if it
+                // has — the pre-split address is the *old* path's, since the
+                // new one did not exist when `/dev/` was the mount.
+                const former = MOVED_DEV_DOCS[relNoExt] ?? relNoExt;
+                redirects.add(`${base}${oldSec}/${former}/`);
+                if (former !== relNoExt) {
+                    redirects.add(`${base}${sec}/${former}/`);
+                }
+            }
         } else {
             redirects.add(`${base}${oldSec}/${legacy ?? slug}/`);
             if (isReadme) redirects.add(`${base}${oldSec}/`);

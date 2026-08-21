@@ -1,6 +1,6 @@
 # The Link Manifest
 
-See also: [Linking Between Content Notes](./content-links.md), [Shortcode Integrity](./shortcode-integrity.md), [Build, Deployment, and Release](../how-to/build-and-deployment.md)
+See also: [Linking Between Content Notes](../content-creator/content-links.md), [Shortcode Integrity](./shortcode-integrity.md), [Build, Deployment, and Release](../how-to/build-and-deployment.md)
 
 Each content package is single-sourced in the repository that ships it, so a note
 in one package citing a note in another has no shared index to resolve against.
@@ -166,11 +166,11 @@ sohl-docaffliction-aconite   → the JournalEntry holding its prose
 
 A **macro** note is the same arrangement — `sohl-macro-autoattack` is the Macro,
 `sohl-docmacro-autoattack` its write-up (see
-[Authoring a Macro Content Note](./macro-notes.md)). Which types work this way is
+[Authoring a Macro Content Note](../content-creator/macro-notes.md)). Which types work this way is
 one set, `docEntryTypes()`, read by the compilers and by this emitter alike:
 held apart, they drift into a manifest asserting documentation nothing compiled.
 
-The `doc<type>` form is the [virtual qualifier](./content-links.md) an author
+The `doc<type>` form is the [virtual qualifier](../content-creator/content-links.md) an author
 already writes. The document's own entry names it with `doc`, as an **address
 rather than a UUID** — the documentation entry owns that UUID, and stating it
 twice would let the two disagree.
