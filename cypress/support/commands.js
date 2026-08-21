@@ -159,17 +159,21 @@ function guardHeadlessTokenDraw(win) {
  * for a *viewed* scene (which restriction types block light/sight across a
  * region's edges), and this suite views no scene. So the whole pass is made
  * inert whenever `canvas.scene` is nullish — which is the behaviour the flag
- * should have had anyway. Both entry points are patched, because the Level and
- * Region paths reach the private pass through `_updateRegionShapeConstraints`
- * rather than the public flag.
+ * should have had anyway. Both entry points are patched: a Region saving its
+ * shape reaches the private pass through `_updateRegionShapeConstraints`
+ * (`Region#updateShapeConstraints({save: true})` →
+ * `this.parent._updateRegionShapeConstraints(this)`) and never touches the
+ * public flag — true on every supported build.
  *
- * Scope, so a later reader does not over-read this: patching `Scene` covers the
- * Level path *for this defect only*. `Level#updateRegionShapeConstraints` does
- * no `canvas.scene` dereference of its own and ends by delegating here, so the
- * null-scene case cannot escape — but anything Level does **above** that
- * delegation runs unguarded (on 14.367 it throws on `!this.persisted` first).
- * Guarding Level itself means patching `CONFIG.Level.documentClass` too, with
- * its own marker; this function deliberately does not.
+ * Scope, so a later reader does not over-read this. `Level` has no
+ * `updateRegionShapeConstraints` at all on the 14.359 floor — the method is new
+ * in 14.367 — so on the build this guard exists for, there is nothing on Level
+ * to guard. On 14.367 Level's method delegates here and does no `canvas.scene`
+ * dereference of its own, so the null-scene case still cannot escape it; but
+ * anything Level does **above** that delegation runs unguarded (it throws on
+ * `!this.persisted` first). Guarding Level itself means patching
+ * `CONFIG.Level.documentClass` too, with its own marker; this function
+ * deliberately does not.
  *
  * A source-level guard rather than an `uncaught:exception` allowlist entry, for
  * the same reason as {@link guardHeadlessTokenDraw}: `reading 'id'` is far too
