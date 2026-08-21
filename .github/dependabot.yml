@@ -9,6 +9,14 @@
 # decision, not housekeeping, so it arrives as its own pull request with its own
 # changelog to read.
 #
+# That reasoning inverts below 1.0, which is where both first-party packages sit.
+# A `0.x` package signals a breaking change with a **minor** bump — `0.4.0` to
+# `0.5.0` is the break, and the major rule above never fires because `1.0.0`
+# never arrives. So `@heroiclands/*` is matched ahead of the catch-alls and
+# never grouped: each gets its own pull request for every update type (#1643).
+# The two are kept apart from each other as well, because a toolchain break and
+# a layout break are separate decisions.
+#
 # Lockstep families are the exception, and they are grouped across *every* update
 # type. Packages like `vitest` and `@vitest/*` peer on an exact matching version,
 # so a pull request bumping one of them alone cannot install at all — `npm ci`
@@ -19,8 +27,6 @@
 version: 2
 updates:
     - package-ecosystem: npm
-      # The root lockfile covers every workspace (`packages/*` and `.`), so one
-      # entry here updates the whole monorepo.
       directory: /
       schedule:
           interval: weekly
@@ -32,7 +38,17 @@ updates:
           prefix: chore(deps)
           prefix-development: chore(deps-dev)
       groups:
-          # Lockstep families first — Dependabot assigns a dependency to the
+          # First-party packages, ahead of everything: each is its own decision
+          # and neither may be swept into a grouped housekeeping pull request.
+          # A group of one still yields one pull request per package, which is
+          # the point — see the note on 0.x above.
+          content-build:
+              patterns:
+                  - "@heroiclands/content-build"
+          hugo-theme:
+              patterns:
+                  - "@heroiclands/hugo-theme"
+          # Lockstep families next — Dependabot assigns a dependency to the
           # first group it matches, so these must precede the catch-alls to
           # survive a minor/patch bump as well as a major one.
           vitest:
