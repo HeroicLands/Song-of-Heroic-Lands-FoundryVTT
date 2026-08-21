@@ -217,39 +217,97 @@ describe("Map notes → Scenes (#1525)", () => {
         });
     });
 
-    it("flagging a restricted region's shape constraints is inert headless (#1535)", () => {
+    /**
+     * Run `fn()` with no scene viewed, then hand `canvas.scene` back to core.
+     *
+     * The state #1535 is about is a client viewing nothing, and this harness is
+     * not that client: `utils/seed-test-world.mjs` seeds an **active** default
+     * scene (#451, so the canvas is ready and the new-user tour never overlays a
+     * sheet), which the client views at load — so `canvas.scene` here is a live
+     * Scene. Importing the adventure does not change that: an Adventure carries
+     * `active: false` on its scenes, and core only auto-activates a created
+     * scene when the world has no active one. `canvas.scene` is `null` before
+     * that first draw completes, and wherever nothing is viewed — which is where
+     * the guard earns its place, and what this test has to present rather than
+     * assume.
+     *
+     * An own property shadowing the accessor `Canvas` defines on its prototype
+     * is the same handle `scene-nonpersisted.cy.js` uses to pin the sibling
+     * defect's precondition, and it keeps the assertion off a real
+     * `canvas.draw(null)` teardown/redraw — headless canvas churn being the very
+     * thing this suite keeps getting bitten by (#611, #1550).
+     */
+    async function withNoSceneViewed(win, fn) {
+        const prior = Object.getOwnPropertyDescriptor(win.canvas, "scene");
+        Object.defineProperty(win.canvas, "scene", {
+            configurable: true,
+            get: () => null,
+        });
+        try {
+            return await fn();
+        } finally {
+            if (prior) Object.defineProperty(win.canvas, "scene", prior);
+            else delete win.canvas.scene;
+        }
+    }
+
+    it("a restricted region's shape-constraint pass is inert with no scene viewed (#1535)", () => {
         cy.foundry(async (win) => {
             await importAdventure(win);
             const ground = win.game.scenes.find((s) => s.name === GROUND);
-            // Record every embedded write the flag provokes, without
-            // suppressing it — if the scheduled pass runs at all it lands here
-            // as a "Region" write, empty update list or not.
+            // Record every embedded write a flag provokes, without suppressing
+            // it — if the scheduled pass runs at all it lands here as a "Region"
+            // write, empty update list or not.
             const written = [];
             const real = ground.updateEmbeddedDocuments;
             ground.updateEmbeddedDocuments = function (type, ...rest) {
                 written.push(type);
                 return real.call(this, type, ...rest);
             };
-            ground.updateRegionShapeConstraints();
             // Core throttles the flag by 250ms and then defers the pass to a
             // PIXI ticker callback; give both room to fire inside this test, so
             // an unguarded throw fails *here* rather than in an unrelated spec.
-            await new Promise((res) => win.setTimeout(res, 1500));
+            const flagAndSettle = async () => {
+                written.length = 0;
+                ground.updateRegionShapeConstraints();
+                await new Promise((res) => win.setTimeout(res, 1500));
+                return written.filter((t) => t === "Region").length;
+            };
+
+            // With a scene viewed there is nothing to guard against, and the
+            // guard must not reach further than the defect: core's pass runs.
+            const viewedScene = win.canvas?.scene?.id ?? null;
+            const writesWhileViewed = await flagAndSettle();
+            // With none viewed it is inert. Unguarded on the 14.359 floor this
+            // is the #1535 crash itself: the deferred callback reads
+            // `canvas.scene.id` and throws `reading 'id'` out of the ticker.
+            const writesWhileUnviewed = await withNoSceneViewed(win, () =>
+                flagAndSettle(),
+            );
+
             delete ground.updateEmbeddedDocuments;
             return {
-                viewedScene: win.canvas?.scene ?? null,
+                viewedScene,
                 restricted: ground.regions.filter((r) => r.restriction.enabled)
                     .length,
-                regionWrites: written.filter((t) => t === "Region").length,
+                writesWhileViewed,
+                writesWhileUnviewed,
             };
         }).should((r) => {
-            expect(r.viewedScene, "no scene is viewed headless").to.be.null;
+            expect(
+                r.viewedScene,
+                "the seeded world views its default scene",
+            ).to.be.a("string");
             expect(
                 r.restricted,
                 "the fixture ships a restricted region",
             ).to.be.gte(1);
             expect(
-                r.regionWrites,
+                r.writesWhileViewed,
+                "the pass runs normally with a scene viewed",
+            ).to.eq(1);
+            expect(
+                r.writesWhileUnviewed,
                 "no shape-constraint pass is attempted with no scene viewed",
             ).to.eq(0);
         });

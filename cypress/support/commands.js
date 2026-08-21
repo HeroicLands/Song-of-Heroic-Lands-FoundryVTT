@@ -148,12 +148,19 @@ function guardHeadlessTokenDraw(win) {
  * (`restriction.enabled`) makes core flag its scene's shape constraints for
  * recomputation, which it throttles and then defers to a PIXI ticker callback.
  * That callback picks the User designated to do the work with a predicate
- * reading `u.viewedScene === canvas.scene.id` — and headless no scene is ever
- * viewed, so `canvas.scene` is `null` and it throws `Cannot read properties of
- * null (reading 'id')` from the ticker, failing whichever spec happens to be
- * running at the time. Core fixed this in 14.367 by reading `this.id` instead,
- * but the guard stays: the suite's committed default is the
- * `compatibility.minimum` floor (14.359), which still carries the bug.
+ * reading `u.viewedScene === canvas.scene.id` — so wherever nothing is viewed
+ * and `canvas.scene` is `null`, it throws `Cannot read properties of null
+ * (reading 'id')` from the ticker, failing whichever spec happens to be running
+ * at the time. Core fixed this in 14.367 by reading `this.id` instead, but the
+ * guard stays: the suite's committed default is the `compatibility.minimum`
+ * floor (14.359), which still carries the bug.
+ *
+ * Note that "headless" alone does **not** mean no scene is viewed: the seeded
+ * world ships an **active** default scene (`utils/seed-test-world.mjs`, #451),
+ * which the client views at load, so `canvas.scene` is normally a live Scene.
+ * It is `null` before that first draw completes, and in any run whose active
+ * scene is absent or unviewed — which is the window this clause covers, and the
+ * state `map-notes.cy.js` presents deliberately to test it (#1661).
  *
  * **The scene has been deleted (#1550).** 14.367 opened the public entry point
  * with `if ( !this.persisted ) throw new Error("A nonpersisted Document cannot
