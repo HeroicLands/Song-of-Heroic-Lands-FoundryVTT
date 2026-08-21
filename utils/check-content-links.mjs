@@ -246,15 +246,26 @@ const types = new Set(notes.map((n) => n.type));
 // Cross-package manifests (#1446). A foreign package may use a type this
 // repository has never seen, so its types join `types` — otherwise
 // `readQualifier` reads the link as prose and it is never checked at all.
+const MANIFEST_DIR = path.join("assets", "manifests");
 const foreign = loadForeignManifests(
-    path.join("assets", "manifests"),
+    MANIFEST_DIR,
     new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
 );
 if (foreign.stale.length) {
     // An unusable manifest would otherwise surface as a pile of dead addresses
-    // pointing at the notes that cite it, rather than at the file at fault.
+    // pointing at the notes that cite it, rather than at the file at fault —
+    // so it names that file. `loadForeignManifests` derives each package name
+    // from the filename, so the path is exactly `<dir>/<package>.json`, and
+    // stating the directory once keeps the load and the report from
+    // disagreeing about where it looked (#1673).
     console.error("\ncheck-content-links: unusable link manifest(s):");
-    for (const s of foreign.stale) console.error(`  ${s.package}: ${s.reason}`);
+    for (const s of foreign.stale) {
+        reportDiagnostic({
+            file: path.join(MANIFEST_DIR, `${s.package}.json`),
+            severity: "error",
+            message: `unusable link manifest: ${s.reason}`,
+        });
+    }
     console.error(
         "\nRefresh the vendored copy from that package's own build (#1465).\n",
     );
