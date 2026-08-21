@@ -138,7 +138,7 @@
         "@changesets/cli": "^3.0.0",
         "@eslint/js": "^10.0.1",
         "@foundryvtt/foundryvtt-cli": "^3.0.4",
-        "@heroiclands/content-build": "^0.6.0",
+        "@heroiclands/content-build": "^0.7.0",
         "@heroiclands/hugo-theme": "^0.1.2",
         "@octokit/rest": "^22.0.1",
         "@typescript-eslint/eslint-plugin": "^8.67.0",
