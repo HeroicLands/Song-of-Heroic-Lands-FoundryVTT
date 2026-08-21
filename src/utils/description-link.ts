@@ -68,12 +68,22 @@ export function descriptionLinkTarget(
     return bare ? bare[1] : null;
 }
 
-/** Remove every tag, leaving only the text a reader would see. */
+/**
+ * Remove every tag, leaving only the text a reader would see.
+ *
+ * @param html - The description markup to strip.
+ * @returns The same content with every tag removed.
+ */
 function withoutTags(html: string): string {
     return html.replace(/<[^>]*>/g, "");
 }
 
-/** Drop the markup that renders as nothing, then trim what is left. */
+/**
+ * Drop the markup that renders as nothing, then trim what is left.
+ *
+ * @param html - The description markup to tidy.
+ * @returns The same content without {@link BLANK_CONTENT}, trimmed.
+ */
 function tidy(html: string): string {
     return html.replace(BLANK_CONTENT, "").trim();
 }
