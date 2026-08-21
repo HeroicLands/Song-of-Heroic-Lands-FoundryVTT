@@ -85,6 +85,44 @@ function qualifiedKey(target, contentTypes) {
 }
 
 /**
+ * How an **unresolved** link renders.
+ *
+ * The author's text is kept, so the sentence still reads — dropping it would
+ * silently rewrite the prose. It is marked so a reader can tell that something
+ * was meant to be a link, and an author can find it: the appearance lives in
+ * `scss/components/_unresolved-link.scss` for Foundry and in the Hugo theme for
+ * the website, not here.
+ *
+ * This is deliberately identical to the pack compiler's own `unresolvedLink`,
+ * down to the class name and the `title` wording. One authored link renders on
+ * two surfaces, and the two builds have drifted before over exactly this kind
+ * of detail (#1409) — matching markup is what keeps a reader's cue the same in
+ * a journal and on the page. Duplicated rather than imported only because the
+ * function is not exported from `@heroiclands/content-build`; hoisting it there
+ * is HeroicLands/content-build#13.
+ *
+ * The knowledgebase renders with `unsafe = true` (`kb/hugo.toml`), so raw HTML
+ * in generated markdown reaches the page. That makes escaping obligatory: this
+ * is the one path where *authored* text becomes markup rather than content.
+ *
+ * @param {string} text - The text to show, from the link's label or target.
+ * @param {string} target - The address that resolved nowhere, for the tooltip.
+ * @returns {string} An inline HTML span, safe to sit in a markdown table cell.
+ */
+function unresolvedLink(text, target) {
+    const esc = (v) =>
+        String(v)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    return (
+        `<span class="sohl-unresolved-link" title="Unresolved link: ` +
+        `${esc(target)}">${esc(text)}</span>`
+    );
+}
+
+/**
  * A wikilink, as it is written, anywhere in a value that is not markdown.
  *
  * Deliberately its own pattern rather than the body resolver's: nothing here is
@@ -167,9 +205,20 @@ function isPlainMap(value) {
  * An unresolved target fails the build only when it is a genuine intra-KB
  * problem — an ambiguous alias, or a qualified `prefix/key` whose prefix is a
  * real KB section or content directory. Anything else is treated as an external
- * reference and rendered as plain text — until every package's manifest is
- * present, after which any `type-shortcode` address resolving nowhere fails
- * too. Failures are collected in `ctx.errors`.
+ * reference — until every package's manifest is present, after which any
+ * `type-shortcode` address resolving nowhere fails too. Failures are collected
+ * in `ctx.errors`.
+ *
+ * Whether or not it fails the build, a target that resolves nowhere renders
+ * through {@link unresolvedLink} rather than as bare prose (#1665): the author's
+ * text is kept, marked so a reader can see a link was intended. Not failing the
+ * build is a statement that the link *may* be legitimate prose — it was never a
+ * reason to make a dead link indistinguishable from the sentence around it.
+ *
+ * A target that **resolved** to an entry with no page is not this case and is
+ * not marked: a pack-only package (#1516) publishes Foundry addresses and no
+ * web pages, so the author wrote a real address and there is simply nothing to
+ * link to.
  *
  * @param {string} body - The markdown body.
  * @param {object} ctx - `{ index, typeAlias, collide, typeCollide, sections,
@@ -277,6 +326,6 @@ export function resolveKbWikilinks(body, ctx) {
                 reason: "broken type/shortcode",
             });
         }
-        return display ?? target;
+        return unresolvedLink(display ?? target, target);
     });
 }
