@@ -52,7 +52,7 @@ underscores, no spaces, no punctuation, no accented letters. Case is unconstrain
 The rule is not cosmetic. A shortcode is half of the `type-shortcode` address that
 content wikilinks and knowledgebase pages parse, and that parse depends on the
 separating hyphen being the **only** hyphen in the string (see
-[Linking Between Content Notes](content-links.md)); the same key also has to survive
+[Linking Between Content Notes](../content-creator/content-links.md)); the same key also has to survive
 URLs, YAML frontmatter, and expression source unescaped.
 
 The pattern lives in one place, `src/utils/shortcode-format.mjs` (`isValidShortcode`
@@ -238,7 +238,7 @@ an entry, and add a row only when a page's URL changes again.
 **`aliases` means two different things, and only one of them is a URL.** In Obsidian a
 note's `aliases` are alternative _names_ — what a reader might call the thing, and what
 makes a bare `[[Text]]` wikilink resolve (see
-[Linking Between Content Notes](content-links.md)). In Hugo they are _redirects_. A
+[Linking Between Content Notes](../content-creator/content-links.md)). In Hugo they are _redirects_. A
 display name is not an old URL, so an authored alias is never published as one: every
 redirect a page emits is **generated**, by `pageRedirects` in `utils/kb-redirects.mjs`,
 from the legacy-slug map above and from the pre-split `/guide/` → section move. Names

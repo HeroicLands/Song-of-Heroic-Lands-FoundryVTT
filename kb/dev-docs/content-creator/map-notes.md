@@ -1,6 +1,6 @@
 # Map Notes
 
-See also: [Type Catalog](type-catalog.md), [Scene, Token, and Combatant Systems](scene-token-combatant.md), [Event Queue](event-queue.md)
+See also: [Type Catalog](../reference/type-catalog.md), [Scene, Token, and Combatant Systems](../reference/scene-token-combatant.md), [Event Queue](../reference/event-queue.md)
 
 A **map note** is a markdown note in `assets/content/` that compiles to a Foundry
 `Scene`. It is the scene counterpart of an item or actor note: the same
@@ -209,7 +209,7 @@ Two derived fields matter:
 ## Region behaviours
 
 Allowed in v1: `trigger` (the SoHL bridge, see
-[Event Queue](event-queue.md)), `adjustDarknessLevel`, `applyActiveEffect`,
+[Event Queue](../reference/event-queue.md)), `adjustDarknessLevel`, `applyActiveEffect`,
 `changeLevel`, `defineSurface`, `displayScrollingText`, `modifyMovementCost`,
 `pauseGame`, `suppressWeather`, `teleportToken`, `toggleBehavior`.
 
