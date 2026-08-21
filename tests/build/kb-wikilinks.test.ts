@@ -8,7 +8,11 @@
 import { describe, it, expect } from "vitest";
 // Build-time KB helper (plain ESM, no Foundry). Imported by relative path
 // because the KB build scripts live outside the `@src` alias tree.
-import { slugify, resolveKbWikilinks } from "../../utils/kb-wikilinks.mjs";
+import {
+    slugify,
+    resolveKbWikilinks,
+    frontmatterWikilinks,
+} from "../../utils/kb-wikilinks.mjs";
 
 /**
  * A stand-in KB index. `index` holds the unambiguous keys (`section/slug` and
@@ -389,5 +393,77 @@ describe("a code fence is verbatim (#1505)", () => {
         expect(resolveKbWikilinks("write `grid[[0]]` here", ctx)).toBe(
             "write `grid[[0]]` here",
         );
+    });
+});
+
+describe("frontmatterWikilinks (#1428)", () => {
+    it("finds a wikilink authored in a nested frontmatter value", () => {
+        expect(
+            frontmatterWikilinks({
+                type: "polity",
+                government: {
+                    summary:
+                        "A warlord protecting the spawn-chamber of a fertile " +
+                        "[[creature-grkrahk|Grukar-ahk]]; nominally sovereign.",
+                },
+            }),
+        ).toEqual([
+            {
+                path: "government.summary",
+                link: "[[creature-grkrahk|Grukar-ahk]]",
+            },
+        ]);
+    });
+
+    it("reports a link in a top-level string, a list, and a list of maps", () => {
+        expect(
+            frontmatterWikilinks({
+                description: "See [[doc-shock]].",
+                aliases: ["plain", "[[doc-shock|Shock]]"],
+                rows: [{ note: "and [[skill-climb]]" }],
+            }),
+        ).toEqual([
+            { path: "description", link: "[[doc-shock]]" },
+            { path: "aliases.1", link: "[[doc-shock|Shock]]" },
+            { path: "rows.0.note", link: "[[skill-climb]]" },
+        ]);
+    });
+
+    it("reports every link in one value, in reading order", () => {
+        expect(
+            frontmatterWikilinks({ summary: "[[a-one]] then [[b-two|Two]]" }),
+        ).toEqual([
+            { path: "summary", link: "[[a-one]]" },
+            { path: "summary", link: "[[b-two|Two]]" },
+        ]);
+    });
+
+    it("passes clean frontmatter, and non-string values, without complaint", () => {
+        expect(
+            frontmatterWikilinks({
+                type: "polity",
+                weight: 12,
+                published: true,
+                when: new Date("2026-08-20T00:00:00Z"),
+                name: { full: "Kingdom of Grukarholm" },
+                tags: ["ankaris", "grukarholm"],
+                empty: null,
+            }),
+        ).toEqual([]);
+    });
+
+    it("is not fooled by a lone bracket pair or an unclosed link", () => {
+        expect(
+            frontmatterWikilinks({
+                a: "an array literal grid[0] and a [single] bracket",
+                b: "an unclosed [[doc-shock",
+            }),
+        ).toEqual([]);
+    });
+
+    it("answers for absent or non-object frontmatter", () => {
+        expect(frontmatterWikilinks(undefined)).toEqual([]);
+        expect(frontmatterWikilinks(null)).toEqual([]);
+        expect(frontmatterWikilinks("not frontmatter")).toEqual([]);
     });
 });

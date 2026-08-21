@@ -85,6 +85,77 @@ function qualifiedKey(target, contentTypes) {
 }
 
 /**
+ * A wikilink, as it is written, anywhere in a value that is not markdown.
+ *
+ * Deliberately its own pattern rather than the body resolver's: nothing here is
+ * markdown, so there is no fence or code span to step around, and a frontmatter
+ * value is a single line by construction (`[^\]\n]` keeps a runaway match from
+ * swallowing the rest of a folded scalar).
+ */
+const FRONTMATTER_WIKILINK = /\[\[[^\]\n]+\]\]/g;
+
+/**
+ * Every wikilink authored inside a frontmatter value (#1428).
+ *
+ * Wikilinks are resolved in a note's **body** — by {@link resolveKbWikilinks}
+ * here, and by the pack compilers' `convertWikilinks` for Foundry. Frontmatter
+ * is not markdown and is never walked by either, so a link written in one is
+ * copied through verbatim and reaches the reader as literal `[[…]]` text, in
+ * whatever the theme renders that field as (an infobox row, a description, a
+ * card subtitle). Nothing downstream notices: the value is a valid string, the
+ * page builds, and the defect is visible only to someone who looks at it.
+ *
+ * So the form is refused rather than resolved. Resolving it would mean choosing
+ * an output syntax for a field whose renderer is unknown to this build — a
+ * markdown link is inert in a Hugo template that prints the value as text, and
+ * an `<a>` is unusable in one that escapes it — and would quietly bless an
+ * authoring habit that the pack build has no way to honour at all. Frontmatter
+ * carries data; a link belongs in prose.
+ *
+ * Values are read from the *parsed* frontmatter, so a `[[` inside a YAML comment
+ * is not a hit, and every hit can be named by the path a reader would look at.
+ *
+ * @param {unknown} fm - Parsed frontmatter, as `gray-matter` returns it.
+ * @returns {Array<{path: string, link: string}>} In reading order; `path` is the
+ *   dotted key path of the offending value (`government.summary`, `aliases.1`).
+ */
+export function frontmatterWikilinks(fm) {
+    const hits = [];
+    const visit = (value, trail) => {
+        if (typeof value === "string") {
+            for (const m of value.matchAll(FRONTMATTER_WIKILINK)) {
+                hits.push({ path: trail, link: m[0] });
+            }
+        } else if (Array.isArray(value)) {
+            value.forEach((v, i) => visit(v, `${trail}.${i}`));
+        } else if (isPlainMap(value)) {
+            for (const [k, v] of Object.entries(value)) {
+                visit(v, trail ? `${trail}.${k}` : k);
+            }
+        }
+    };
+    if (!isPlainMap(fm)) return hits;
+    visit(fm, "");
+    return hits;
+}
+
+/**
+ * Whether a value is a YAML mapping rather than a scalar the parser built into
+ * an object of its own (a `Date`, which is what an unquoted date becomes).
+ *
+ * @param {unknown} value
+ * @returns {boolean}
+ */
+function isPlainMap(value) {
+    return (
+        typeof value === "object" &&
+        value !== null &&
+        !Array.isArray(value) &&
+        !(value instanceof Date)
+    );
+}
+
+/**
  * Rewrites the wikilinks in a markdown body as KB-local markdown links.
  *
  * A target is looked up case-insensitively: first as an alias scoped to the
