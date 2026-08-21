@@ -225,7 +225,7 @@ better — across files rather than within one — by `lint:doc-links` and
 | `deploy:release`                           | `build` then `build:pack-release` — produce the release zip locally.                                |
 | `changeset`                                | Create a changeset (interactive). See [Writing Changesets](../contributing/writing-changesets.md).  |
 | `changeset:version`                        | Apply pending changesets: bump the version and update `CHANGELOG.md` (normally run by CI).          |
-| `changeset:check`                          | Verify a changeset exists.                                                                          |
+| `changeset:check`                          | `changeset status --since=main` — fail if the branch changed something but added no changeset.      |
 | `build:sohl-types`                         | Regenerate `packages/sohl-types/index.d.ts` from the SoHL source (run by that package's `prepack`). |
 | `check:sohl-types`                         | `build:sohl-types`, then type-check it as a consumer would and validate the bundle. Gated in CI.    |
 

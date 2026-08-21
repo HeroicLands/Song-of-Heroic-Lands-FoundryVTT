@@ -49,6 +49,18 @@ Verify a pending changeset exists before you push:
 npm run changeset:check
 ```
 
+That is `changeset status --since=main` — it reports what your branch would bump
+and **exits non-zero when your branch changes something but adds no changeset**.
+Two things about it are worth knowing:
+
+- **`--since=main` is what makes it a check.** A bare `changeset status` counts
+  every file already sitting in `.changeset/`, so it passes no matter what your
+  branch did. The comparison against `main` is what narrows it to _your_ changeset.
+- **It cannot tell a `chore/*` branch from a `feat/*` one.** The repository is a
+  single package, so Changesets sees any change at all — source, docs, tooling —
+  as "the package changed" and asks for a changeset. On a branch that legitimately
+  needs none, the failure is expected; just don't run it there.
+
 `npm run changeset:version` (which bumps the version and rewrites `CHANGELOG.md`) is
 a **maintainer/release** step — contributors do not run it.
 
