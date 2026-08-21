@@ -12,9 +12,13 @@
         "prepack": "cd ../.. && npm run build:sohl-types"
     },
     "peerDependencies": {
+        "@codemirror/autocomplete": "^6.20.3",
         "fvtt-types": "*"
     },
     "peerDependenciesMeta": {
+        "@codemirror/autocomplete": {
+            "optional": false
+        },
         "fvtt-types": {
             "optional": false
         }
