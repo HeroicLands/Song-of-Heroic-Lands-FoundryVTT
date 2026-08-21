@@ -810,6 +810,27 @@ These cost real debugging time; they are not apparent from the code.
   cannot assert on a Region's `_shapeConstraints`. Again a source-level guard,
   not an allowlist entry: `reading 'id'` is too generic a message to allowlist
   safely, even qualified by a stack frame.
+- **A scene deleted mid-draw throws on 14.367 — the same guard makes it inert.**
+  `Canvas##draw` calls `scene.updateRegionShapeConstraints()` as its last step,
+  after a long run of awaits, and 14.367 opened that method by throwing
+  _"A nonpersisted Document cannot be updated."_ unless `this.persisted`. Since
+  `cy.cleanupWorld()` deletes the scenes a spec creates, a draw begun on a tagged
+  scene routinely finishes after that scene has left `game.scenes` — the throw
+  then escapes as an unhandled rejection and fails whichever spec is running,
+  with no SoHL frame on the stack (#1550). A second, independent defect in the
+  same method: that scene is live and truthy, merely no longer in its collection,
+  so the `canvas.scene` clause above does not catch it. The guard adds
+  `persisted === false` to the public entry point, and patches `Level` too — it
+  has its own copy of the method (new in 14.367) and throws before delegating to
+  the scene. Strict `=== false`, so a build without the getter runs core
+  untouched and the pinned floor is unaffected.
+- **Don't expect that one to reproduce from the specs a sweep blames.** The
+  throw escapes asynchronously and lands on whichever spec runs next, so the
+  failing spec names are an artifact of ordering and load: all three the #1550
+  sweep named pass when run alone on 14.367 with the guard removed.
+  `scene-nonpersisted.cy.js` therefore asserts the condition directly — delete a
+  scene, invoke the entry points the draw path uses, require each one the build
+  defines to be inert — rather than waiting on the race.
 - **Placed tokens are linked — a combatant's `.actor` is the world actor.**
   `cy.placeToken` / `cy.placeAdjacentTokens` create `actorLink: true` tokens, so a
   combatant reads the same world actor a spec prepared with `cy.prepare`, not an
