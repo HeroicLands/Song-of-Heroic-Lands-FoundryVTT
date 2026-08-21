@@ -131,6 +131,29 @@ precedence rule. That is the property the format exists to provide, and a key
 already present on merge is therefore a real conflict rather than an artefact of
 two packages sharing a namespace.
 
+### Readable is not addressable
+
+A consumer must check that the keys it merged are keys it can actually _use_,
+because the failure mode when they are not is silent. An address that resolves
+to nothing falls through to its own display text, so the page still reads
+correctly and the link is simply gone — a dead-link check never sees it, having
+only ever been shown addresses that resolved somewhere wrong. That is exactly
+what happened when keys became canonical (#1499): this repository read 2,367
+`thalorna` entries through a lookup keyed the way v2 wrote them, and not one
+cross-package link worked for over a release (#1664).
+
+So both consumers here — `build-kb-content` and `check-content-links` — call
+`assertForeignManifestsAddressable` (`utils/kb-foreign-manifest.mjs`) right after
+loading, and **fail** when a package contributes entries of which none yields a
+readable canonical key. The diagnostic locates the offending key inside the
+manifest, so it names the file at fault rather than the notes that cite it.
+
+Two cases deliberately do **not** fail. A package contributing no entries is
+normal — a pack-only package publishes no addressable pages (#1516) and one
+being brought up publishes nothing yet. And _partial_ drift resolves something,
+so whatever it fails to resolve surfaces as an ordinary dead address, reported
+against the citing note where a reader can act on it.
+
 ## A document and its documentation are two entries
 
 An item note compiles into an item **and**, separately, its prose compiles into a
