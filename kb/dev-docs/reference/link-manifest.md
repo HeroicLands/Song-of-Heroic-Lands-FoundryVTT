@@ -270,9 +270,34 @@ such a dependency.
 
 Once every linkable package is either built locally or vendored, an address that
 resolves nowhere can only be a typo, so a **qualified** address failing to
-resolve fails the build. A **bare** alias remains a warning — it may be ordinary
-prose that merely looks like a link.
+resolve fails the build. A **bare** alias does not — it may be ordinary prose
+that merely looks like a link.
 
-An unresolved link keeps the author's text, marked with the
-`sohl-unresolved-link` class so a reader can tell a link was intended. Dropping
-the text instead would silently rewrite the sentence.
+**Not failing the build is not the same as saying nothing.** An unresolved link
+keeps the author's text, marked with the `sohl-unresolved-link` class so a
+reader can tell a link was intended and an author can find it. Dropping the text
+instead would silently rewrite the sentence; leaving it unmarked would make a
+dead link indistinguishable from the prose around it, which is the failure this
+whole index exists to prevent. It is the one case where the reader is the person
+best placed to notice.
+
+Both surfaces mark it, in the same markup:
+
+```html
+<span class="sohl-unresolved-link" title="Unresolved link: being-nosuch"
+  >Name</span
+>
+```
+
+The appearance is not shared, because the two hosts theme differently. In
+Foundry it comes from `scss/components/_unresolved-link.scss`, which uses
+`light-dark()` — Foundry drives its themes through `color-scheme`. On the
+knowledgebase it comes from the Hugo theme, which is single-mode dark and pins
+the dark value; `light-dark()` there would resolve to the _light_ colour and
+render the marker at roughly 2.5:1 against the page, which is a marker nobody
+can see.
+
+**A resolved address with no `path` is not this case and is not marked.** A
+pack-only package (#1516) publishes Foundry addresses and no pages, so the
+author wrote a real address and there is simply nothing to link to — see
+consumer rule 3 above. Marking it would report correct content as a mistake.

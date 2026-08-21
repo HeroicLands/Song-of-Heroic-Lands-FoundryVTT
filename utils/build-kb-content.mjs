@@ -46,6 +46,7 @@ import {
     contentSlug,
     findSlugCollisions,
 } from "@heroiclands/content-build/engine/content-slug";
+import { protectCode } from "./kb-protect-code.mjs";
 import {
     contentPackage,
     foundryPackageId,
@@ -241,28 +242,6 @@ function rewriteRepoLinks(body, docRel) {
         }
         return `](${href2}${title})`;
     });
-}
-
-/**
- * Run `transform` over a Markdown body while leaving fenced code blocks and inline
- * code spans untouched — the link rewriters must not fire on `](` or `{@link}`
- * sequences that appear inside code examples (e.g. a `'return this'` exploit
- * snippet, or a `` `{@link Symbol}` `` syntax illustration).
- *
- * Each code run is stashed and replaced with a `\u0000<index>\u0000` sentinel; a
- * NUL never occurs in Markdown source, so the sentinel cannot collide with prose
- * and survives the transforms unchanged before being restored.
- */
-function protectCode(body, transform) {
-    const stash = [];
-    const masked = body.replace(
-        /```[\s\S]*?```|~~~[\s\S]*?~~~|``[^`]*``|`[^`]*`/g,
-        (m) => `\u0000${stash.push(m) - 1}\u0000`,
-    );
-    return transform(masked).replace(
-        /\u0000(\d+)\u0000/g,
-        (_m, i) => stash[Number(i)],
-    );
 }
 
 /** Recursively collect every `.md` under `dir`. */

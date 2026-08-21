@@ -53,6 +53,18 @@ function makeCtx(overrides: Record<string, unknown> = {}) {
     };
 }
 
+/**
+ * The markup an unresolved link renders as.
+ *
+ * Mirrors the pack compiler's `unresolvedLink`, deliberately character for
+ * character: one authored link must look the same on both surfaces, and a
+ * literal here is what makes a divergence show up as a failing test rather
+ * than as two builds quietly disagreeing (#1665).
+ */
+const unresolved = (text: string, target: string) =>
+    `<span class="sohl-unresolved-link" title="Unresolved link: ${target}">` +
+    `${text}</span>`;
+
 describe("slugify (KB heading/anchor slug)", () => {
     it("lowercases and hyphenates, trimming stray separators", () => {
         expect(slugify("Shock State Index")).toBe("shock-state-index");
@@ -170,7 +182,9 @@ describe("resolveKbWikilinks", () => {
 
     it("reports a qualified target whose key does not exist", () => {
         const ctx = makeCtx();
-        expect(resolveKbWikilinks("[[doc/nosuch|X]]", ctx)).toBe("X");
+        expect(resolveKbWikilinks("[[doc/nosuch|X]]", ctx)).toBe(
+            unresolved("X", "doc/nosuch"),
+        );
         expect(ctx.errors).toHaveLength(1);
         expect(ctx.errors[0]).toMatchObject({
             reason: "broken type/shortcode",
@@ -186,7 +200,7 @@ describe("resolveKbWikilinks", () => {
         // written only by this repository's own older links, still errors.
         const ctx = makeCtx();
         expect(resolveKbWikilinks("[[creature-grkrahk|the Ahk]]", ctx)).toBe(
-            "the Ahk",
+            unresolved("the Ahk", "creature-grkrahk"),
         );
         expect(ctx.errors).toEqual([]);
     });
@@ -197,7 +211,7 @@ describe("resolveKbWikilinks", () => {
         // build on every worldbuilding reference kept outside this repository.
         const ctx = makeCtx();
         expect(resolveKbWikilinks("[[Grukar-ahk|the Grukar]]", ctx)).toBe(
-            "the Grukar",
+            unresolved("the Grukar", "Grukar-ahk"),
         );
         expect(ctx.errors).toEqual([]);
     });
@@ -233,7 +247,7 @@ describe("resolveKbWikilinks", () => {
     it("reports an alias that is ambiguous within the source's type", () => {
         const ctx = makeCtx();
         expect(resolveKbWikilinks("a [[Coma]] state", ctx)).toBe(
-            "a Coma state",
+            `a ${unresolved("Coma", "Coma")} state`,
         );
         expect(ctx.errors[0]).toMatchObject({ reason: "ambiguous" });
     });
@@ -243,7 +257,7 @@ describe("resolveKbWikilinks", () => {
         const ctx = makeCtx();
         expect(
             resolveKbWikilinks("the [[Empire of Tanvur|Tanvurans]] rode", ctx),
-        ).toBe("the Tanvurans rode");
+        ).toBe(`the ${unresolved("Tanvurans", "Empire of Tanvur")} rode`);
         expect(ctx.errors).toEqual([]);
     });
 
@@ -251,7 +265,12 @@ describe("resolveKbWikilinks", () => {
         const ctx = makeCtx();
         expect(
             resolveKbWikilinks("[[Setting/Creatures/Folk/Grukar]]", ctx),
-        ).toBe("Setting/Creatures/Folk/Grukar");
+        ).toBe(
+            unresolved(
+                "Setting/Creatures/Folk/Grukar",
+                "Setting/Creatures/Folk/Grukar",
+            ),
+        );
         expect(ctx.errors).toEqual([]);
     });
 });
@@ -306,7 +325,7 @@ describe("cross-package addresses (link manifest)", () => {
     it("fails an address that resolves nowhere, once manifests are complete", () => {
         const ctx = makeCtx({ foreign, manifestsComplete: true });
         expect(resolveKbWikilinks("[[creature-notreal|Nope]]", ctx)).toBe(
-            "Nope",
+            unresolved("Nope", "creature-notreal"),
         );
         expect(ctx.errors).toEqual([
             {
@@ -323,7 +342,7 @@ describe("cross-package addresses (link manifest)", () => {
         // this and failing here would break the build on good content.
         const ctx = makeCtx({ manifestsComplete: false });
         expect(resolveKbWikilinks("[[creature-notreal|Nope]]", ctx)).toBe(
-            "Nope",
+            unresolved("Nope", "creature-notreal"),
         );
         expect(ctx.errors).toHaveLength(0);
     });
@@ -361,14 +380,72 @@ describe("cross-package addresses (link manifest)", () => {
         expect(ctx.errors).toHaveLength(0);
     });
 
-    it("leaves a bare prose link alone even when manifests are complete", () => {
+    it("marks a bare prose link but does not fail the build", () => {
         // `[[Grukar-ahk]]` is prose, not an address; only a qualified target is
-        // checked, so a worldbuilding placeholder is still not an error.
+        // checked, so a worldbuilding placeholder is still not an error — but
+        // it is *marked*, so the author can see the link went nowhere (#1665).
         const ctx = makeCtx({ foreign, manifestsComplete: true });
         expect(resolveKbWikilinks("[[Some Unwritten Place]]", ctx)).toBe(
-            "Some Unwritten Place",
+            unresolved("Some Unwritten Place", "Some Unwritten Place"),
         );
         expect(ctx.errors).toHaveLength(0);
+    });
+});
+
+/**
+ * Marking an unresolved link (#1665).
+ *
+ * A link that resolves nowhere keeps the author's text — dropping it would
+ * rewrite the sentence — but it is marked, so a reader can tell a link was
+ * meant and an author can find it. The pack compiler has always done this for
+ * compiled Foundry prose; these cases are the website half of the same rule.
+ */
+describe("an unresolved link is marked, not silently plain (#1665)", () => {
+    it("escapes the author's text and the target", () => {
+        // The span is raw HTML in a markdown document, so anything interpolated
+        // into it has to be escaped — an unresolved link is the one path where
+        // authored text becomes markup rather than content.
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks('[[a<b>&"c|x<y>&"z]]', ctx)).toBe(
+            '<span class="sohl-unresolved-link" ' +
+                'title="Unresolved link: a&lt;b&gt;&amp;&quot;c">' +
+                "x&lt;y&gt;&amp;&quot;z</span>",
+        );
+    });
+
+    it("leaves a resolved link untouched", () => {
+        const ctx = makeCtx();
+        expect(resolveKbWikilinks("[[doc/shock|Shock]]", ctx)).toBe(
+            "[Shock](/rules/sohl-shock/)",
+        );
+        expect(resolveKbWikilinks("[[doc/shock|Shock]]", ctx)).not.toContain(
+            "sohl-unresolved-link",
+        );
+    });
+
+    it("does not mark a resolved address that merely has no page", () => {
+        // The reverse error, and the costlier one: a pack-only package (#1516)
+        // publishes Foundry addresses and no pages, so the address *resolved*
+        // and the author did nothing wrong. Marking it would report correct
+        // content as a mistake.
+        const packOnly = new Map<string, object>([
+            ["creature/wolf", { name: "Dire Wolf", package: "adventure" }],
+        ]);
+        const ctx = makeCtx({ foreign: packOnly, manifestsComplete: true });
+        const out = resolveKbWikilinks("a [[creature-wolf]] howls", ctx);
+        expect(out).toBe("a Dire Wolf howls");
+        expect(out).not.toContain("sohl-unresolved-link");
+    });
+
+    it("marks a link inside a table cell without breaking the row", () => {
+        // Inline HTML is legal in a cell; a `|` would not be, so the markup
+        // must not introduce one.
+        const ctx = makeCtx();
+        const out = resolveKbWikilinks("| [[Nowhere At All]] |", ctx);
+        expect(out).toBe(
+            `| ${unresolved("Nowhere At All", "Nowhere At All")} |`,
+        );
+        expect(out.split("|")).toHaveLength(3);
     });
 });
 
