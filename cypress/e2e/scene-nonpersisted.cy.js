@@ -26,6 +26,13 @@
  * require it to be inert. `cy.login()`'s `guardHeadlessRegionShapeConstraints`
  * is what makes it so.
  *
+ * That guard covers a second, unrelated defect too (#1535: no scene viewed), and
+ * its clause for that one is tested *first*. Since headless `canvas.scene` is
+ * always `null`, it would short-circuit every call here and this spec would pass
+ * with the #1550 fix reverted — so `withViewedScene` below restores the
+ * precondition the draw path actually presents: a live, truthy `canvas.scene`
+ * that is merely no longer persisted.
+ *
  * `Level` is checked alongside `Scene` because it carries its own copy of the
  * method and throws from it *before* delegating to the scene, so the callers
  * that address a level directly — the levels a moved token affects, and the
@@ -52,6 +59,33 @@ describe("scene: a nonpersisted Scene is inert (#1550)", () => {
         const scene = win.game.scenes.get(sceneId);
         const level = scene.firstLevel;
         return Promise.resolve(scene.delete()).then(() => ({ scene, level }));
+    }
+
+    /**
+     * Run `fn()` with `canvas.scene` reporting `scene`, then restore.
+     *
+     * The draw path holds the scene it is drawing, so when it makes this call
+     * `canvas.scene` is live and truthy — it is only `persisted` that has gone
+     * false. Headless nothing is ever viewed, so `canvas.scene` is `null`, and
+     * the guard's *other* clause (no scene viewed, #1535) would short-circuit
+     * first and the nonpersisted clause would never be reached. Then this spec
+     * would pass with the #1550 fix reverted, which is worth nothing. Setting
+     * it restores the real precondition rather than working around the guard.
+     */
+    function withViewedScene(win, scene, fn) {
+        const prior = Object.getOwnPropertyDescriptor(win.canvas, "scene");
+        // An own property shadowing the accessor `Canvas` defines on its
+        // prototype; deleting it below hands the getter back to core.
+        Object.defineProperty(win.canvas, "scene", {
+            configurable: true,
+            get: () => scene,
+        });
+        try {
+            return fn();
+        } finally {
+            if (prior) Object.defineProperty(win.canvas, "scene", prior);
+            else delete win.canvas.scene;
+        }
     }
 
     it("reports the deleted scene and its level as nonpersisted", () => {
@@ -81,34 +115,36 @@ describe("scene: a nonpersisted Scene is inert (#1550)", () => {
     it("does not throw when the draw path recomputes region shape constraints", () => {
         cy.createScene({ name: "nonpersisted scene draw" }).then((created) => {
             cy.foundry((win) =>
-                deleteAndKeep(win, created.id).then(({ scene, level }) => {
-                    // Exactly what the canvas draw does with the scene it was
-                    // drawing, and what a moved token does with each level it
-                    // affects. Collect the entry points this build actually
-                    // defines, and the message of any that threw — the message
-                    // rather than the Error itself, which would not survive the
-                    // realm boundary intact.
-                    const present = [];
-                    const threw = {};
-                    for (const [label, doc] of [
-                        ["scene", scene],
-                        ["level", level],
-                    ]) {
-                        if (
-                            typeof doc?.updateRegionShapeConstraints !==
-                            "function"
-                        ) {
-                            continue;
+                deleteAndKeep(win, created.id).then(({ scene, level }) =>
+                    withViewedScene(win, scene, () => {
+                        // Exactly what the canvas draw does with the scene it
+                        // was drawing, and what a moved token does with each
+                        // level it affects. Collect the entry points this build
+                        // actually defines, and the message of any that threw —
+                        // the message rather than the Error itself, which would
+                        // not survive the realm boundary intact.
+                        const present = [];
+                        const threw = {};
+                        for (const [label, doc] of [
+                            ["scene", scene],
+                            ["level", level],
+                        ]) {
+                            if (
+                                typeof doc?.updateRegionShapeConstraints !==
+                                "function"
+                            ) {
+                                continue;
+                            }
+                            present.push(label);
+                            try {
+                                doc.updateRegionShapeConstraints();
+                            } catch (err) {
+                                threw[label] = err?.message ?? "a non-Error";
+                            }
                         }
-                        present.push(label);
-                        try {
-                            doc.updateRegionShapeConstraints();
-                        } catch (err) {
-                            threw[label] = err?.message ?? "a non-Error";
-                        }
-                    }
-                    return { present, threw };
-                }),
+                        return { present, threw };
+                    }),
+                ),
             ).should((r) => {
                 expect(r.present, "Scene defines the entry point").to.include(
                     "scene",
