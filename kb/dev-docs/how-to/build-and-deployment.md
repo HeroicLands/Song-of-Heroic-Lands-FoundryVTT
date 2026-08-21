@@ -227,6 +227,7 @@ better — across files rather than within one — by `lint:doc-links` and
 | `changeset:version`                        | Apply pending changesets: bump the version and update `CHANGELOG.md` (normally run by CI).          |
 | `changeset:check`                          | Verify a changeset exists.                                                                          |
 | `build:sohl-types`                         | Regenerate `packages/sohl-types/index.d.ts` from the SoHL source (run by that package's `prepack`). |
+| `check:sohl-types`                         | `build:sohl-types`, then type-check it as a consumer would and validate the bundle. Gated in CI.    |
 
 ## 3. The build pipeline
 
@@ -239,15 +240,18 @@ better — across files rather than within one — by `lint:doc-links` and
    [What the two linters check](#what-the-two-linters-check).
 4. **`build:types`** — `tsc` type-checks the whole project.
 5. **`lint:dts`** — the generated public type surface is valid.
-6. **`build:prepare`** (parallel):
+6. **`check:sohl-types`** — `@heroiclands/sohl-types` regenerates, type-checks
+   from a consumer's position, and passes `utils/check-sohl-types.mjs`
+   (see [The npm workspace package](#the-npm-workspace-package)).
+7. **`build:prepare`** (parallel):
    - **`build:css`** — Sass → `build/stage/css/sohl.css`.
    - **`build:db`** — copy assets, then compile packs to `build/stage/packs/`.
    - **`build:system`** — write `build/stage/system.json`.
-7. **`test:coverage`** and **`test:purity`** — the suite must pass.
-8. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
+8. **`test:coverage`** and **`test:purity`** — the suite must pass.
+9. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
    module, sourcemap, unminified, with `emptyOutDir: false` so it doesn't wipe the
    staged CSS/assets/packs).
-9. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
+10. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
 
 The result is a complete, deployable system in **`build/stage/`**.
 
@@ -897,24 +901,24 @@ That's the entire release. Two notes:
 - A push to `main` with no pending changesets whose version is already tagged does
   nothing — ordinary merges never release.
 
-### The npm workspace packages
+### The npm workspace package
 
-`packages/` holds two published npm packages, both **hand-versioned** in their own
+`packages/` holds one published npm package, **hand-versioned** in its own
 `package.json` and independent of the system version:
 
-| Package                      | What it is                                                                       |
-| ---------------------------- | -------------------------------------------------------------------------------- |
-| `@heroiclands/sohl-types`    | Type declarations for authoring modules and macros against SoHL in TypeScript.   |
-| `@heroiclands/content-build` | The shared toolchain that compiles a content tree into Foundry compendium packs. |
+| Package                   | What it is                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------ |
+| `@heroiclands/sohl-types` | Type declarations for authoring modules and macros against SoHL in TypeScript. |
 
-The root `package.json` declares them with
+`@heroiclands/content-build` used to live here too. It was extracted to its own
+repository (#1589) and publishes from there; this repository now resolves it from
+the registry like every other consumer (#1604).
+
+The root `package.json` declares the workspace with
 
 ```json
 "workspaces": ["packages/*", "."]
 ```
-
-so this repository consumes them **by path** — a change to the toolchain is usable
-here immediately, and only external repositories wait on a release.
 
 🔧 **The trailing `"."` is load-bearing, not a typo.** npm does not need it (it
 picks the root up regardless), but Changesets discovers packages through the same
@@ -924,11 +928,18 @@ which is not in the workspace"_ and the release workflow stops dead. Listing the
 root as a workspace keeps `sohl` a package Changesets can version. The one visible
 side effect is a `node_modules/sohl` symlink back to the repository root.
 
-Both are published by the release workflow through **npm Trusted Publishing**
+It is published by the release workflow through **npm Trusted Publishing**
 (OIDC — there is no `NPM_TOKEN`), in a step that is idempotent (it skips a version
 already on npm) and `continue-on-error` (Foundry installs from the Release's
-`system.zip`, so an npm hiccup must not fail the release). Each package's
-`prepack` regenerates its declarations at pack time.
+`system.zip`, so an npm hiccup must not fail the release). Its `prepack`
+regenerates `index.d.ts` at pack time.
+
+⚠️ **`continue-on-error` means the publish step cannot be the thing that tells you
+the package is broken.** It swallowed a failing `prepack` for a full release cycle,
+so `@heroiclands/sohl-types` quietly stopped being published and nothing went red
+(#1613). The generation path is therefore gated by the ordinary build instead —
+`build:noci` runs `check:sohl-types` — and that is where a regression must surface.
+Keep it there; do not rely on the release job to notice.
 
 Publishing a **new** package needs two one-off maintainer actions that CI cannot
 perform: configure a Trusted Publisher for the package name on npmjs.com (pointing

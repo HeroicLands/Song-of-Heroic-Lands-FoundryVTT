@@ -1,11 +1,15 @@
 {
     "extends": "./tsconfig.json",
+    // NOTE: do not add "stripInternal" here. It deletes every @internal-marked
+    // declaration but keeps the imports the retained public declarations make of
+    // them, so rollup-plugin-dts dies on the dangling reference (#1613). The
+    // published surface is curated by packages/sohl-types/generate/entry.ts and
+    // rollup-plugin-dts tree-shaking, not by that flag.
     "compilerOptions": {
         "noEmit": false,
         "emitDeclarationOnly": true,
         "declaration": true,
         "declarationMap": false,
-        "stripInternal": true,
         "rootDir": ".",
         "declarationDir": "build/dts",
         "noEmitOnError": false,

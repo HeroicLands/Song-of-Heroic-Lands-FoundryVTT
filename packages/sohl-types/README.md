@@ -34,9 +34,19 @@ Reference it in your module's `tsconfig.json`:
 The declarations are **generated from the SoHL source** — the Logic/Data
 interfaces, the domain class types, and the full `sohl.*` namespace tree
 (`sohl.document.effect.foundry.SohlActiveEffect`, `sohl.entity.modifier.ValueModifier`,
-…). `fvtt-types` is a **peer dependency** (it provides Foundry's globals, which
-these types reference); install it in your module as you already do for Foundry
-development.
+…).
+
+### Peer dependencies
+
+Two packages supply types these declarations reference, so npm asks you to
+install them alongside:
+
+| Peer                       | Why                                                                                                                              |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `fvtt-types`               | Foundry's own globals — SoHL's document classes extend `Actor`, `Item`, `Scene`, and friends.                                    |
+| `@codemirror/autocomplete` | The expression editor's completion source is part of the `sohl.apps.foundry.*` surface and is typed with CodeMirror's own types. |
+
+You almost certainly have `fvtt-types` already if you write Foundry TypeScript.
 
 ## License
 

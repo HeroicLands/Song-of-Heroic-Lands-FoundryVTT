@@ -9,6 +9,21 @@ const root = path.resolve(
 );
 const DTS = path.join(root, "build/dts/src");
 
+// The published package's own `peerDependencies` are the single declaration of
+// what stays external. Deriving `external` from them means a third-party module
+// can only leak into `index.d.ts` as a bare import if the package also promises
+// consumers it will be there (#1613) — `utils/check-sohl-types.mjs` enforces the
+// other direction, that every emitted bare import is one of these.
+const PEERS = Object.keys(
+    JSON.parse(
+        fs.readFileSync(
+            path.join(root, "packages/sohl-types/package.json"),
+            "utf8",
+        ),
+    ).peerDependencies ?? {},
+);
+const isPeer = (id) => PEERS.some((p) => id === p || id.startsWith(`${p}/`));
+
 // Resolve `@src/x` to the tsc-emitted declaration (file, else the folder barrel).
 const srcAlias = {
     name: "src-alias",
@@ -40,5 +55,5 @@ export default {
         ].join("\n"),
     },
     plugins: [srcAlias, dts({ respectExternal: false })],
-    external: [/^fvtt-types/],
+    external: isPeer,
 };

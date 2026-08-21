@@ -65,7 +65,12 @@ export class BodyZoneConfig extends (BodyZoneConfig_Base as typeof foundry.appli
         },
         tag: "form" as const,
         form: {
-            handler: BodyZoneConfig.#onSubmit,
+            // Annotated so declaration emit does not have to name the
+            // private static `#onSubmit`, which it can only spell with a
+            // synthetic `__#N@#onSubmit` that no downstream `.d.ts`
+            // consumer can parse (issue #1613).
+            handler: BodyZoneConfig
+                .#onSubmit as foundry.applications.api.ApplicationV2.FormSubmission,
             closeOnSubmit: false,
             submitOnChange: true,
         },
