@@ -423,7 +423,7 @@ export function fvttWorldActors(): any[] {
 /**
  * The first world actor with the given `system.shortcode`, or `undefined`.
  * Actors enforce a unique `(type, shortcode)` key, so a reserved shortcode
- * (e.g. `_sohlworld`) identifies a singleton. The client sees only the actors it
+ * (e.g. `sohlworld`) identifies a singleton. The client sees only the actors it
  * has permission for.
  * @param shortcode - The actor shortcode to look up.
  * @returns The matching actor, or `undefined`.

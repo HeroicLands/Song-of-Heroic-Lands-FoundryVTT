@@ -319,7 +319,7 @@ or item). A world event has no natural document, so hang it off the singleton
 **world host** actor via {@link sohl.core.logic.SohlSystem.worldHost | sohl.worldHost}:
 
 ```js
-const host = await sohl.worldHost(); // find-or-create the `_sohlworld` actor
+const host = await sohl.worldHost(); // find-or-create the `sohlworld` actor
 await sohl.schedule(
   host,
   "checkForBandits",

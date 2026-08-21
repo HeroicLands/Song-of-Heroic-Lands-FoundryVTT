@@ -34,13 +34,12 @@ import "./commands/dialogs.js";
  *   'INTERFACE')" — creating a scene Region makes the canvas RegionLayer draw
  *   shape controls, which reads a canvas group that is absent headless (#593
  *   region-trigger spec). Canvas rendering, not region-trigger logic.
- * - Scene#updateRegionShapeConstraints: "Cannot read properties of null
- *   (reading 'id')" — a **restricted** Region schedules a PIXI ticker callback
- *   that reads `canvas.scene.id`, and headless no scene is ever viewed, so
- *   `canvas.scene` is null (#1535). Core dereferences it without a guard. Only
- *   fires for `restriction.enabled` regions, which is why the map-note fixture
- *   is the first thing here to meet it. Qualified by its stack, because the
- *   message alone is far too generic to allowlist.
+ *
+ * A restricted Region's shape-constraint pass (#1535) used to be a third entry
+ * here — `Scene#updateRegionShapeConstraints` throws `reading 'id'` out of a
+ * PIXI ticker callback headless. It is now neutralized at the source instead,
+ * by `guardHeadlessRegionShapeConstraints` in `commands.js`: `reading 'id'` is
+ * far too generic a message to leave allowlisted, even qualified by a stack.
  *
  * An entry is `{message}` alone, or `{message, stack}` when the message is not
  * distinctive enough to be safe on its own — both must match.
@@ -48,10 +47,6 @@ import "./commands/dialogs.js";
 const IGNORED_APP_ERRORS = [
     { message: /Cannot use 'in' operator to search for 'turn' in undefined/ },
     { message: /Cannot read properties of undefined \(reading 'INTERFACE'\)/ },
-    {
-        message: /Cannot read properties of null \(reading 'id'\)/,
-        stack: /getDesignatedUser/,
-    },
 ];
 
 Cypress.on("uncaught:exception", (err) => {

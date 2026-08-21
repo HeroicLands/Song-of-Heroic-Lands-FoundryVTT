@@ -438,7 +438,7 @@ export class SohlSystem {
      *
      * Works on any document whose data model extends the base `SohlDataModel`
      * and so carries a `system.scheduledActions` field — an **actor** (including
-     * the `_sohlworld` host) or an **item** (a wound, an affliction). Scenes and
+     * the `sohlworld` host) or an **item** (a wound, an affliction). Scenes and
      * active effects extend `TypeDataModel` directly and cannot host a schedule.
      * Must run as an owner of `doc` (a document write). Both halves derive the
      * fire time from the same anchor + interval, so they cannot drift.
@@ -568,7 +568,7 @@ export class SohlSystem {
      * duplicating it, so an init hook can run on every reload safely.
      *
      * Works on any document that carries `system.actionDefs` — an **actor**
-     * (including the `_sohlworld` host) or an **item**. Because SCRIPT entries
+     * (including the `sohlworld` host) or an **item**. Because SCRIPT entries
      * are GM-authored, this is a no-op returning `undefined` for a non-GM (the
      * same gate `SohlActor`/`SohlItem._preUpdate` enforce at the persist
      * boundary); the caller must also be an owner of `doc` (a document write).
@@ -577,7 +577,8 @@ export class SohlSystem {
      * @param spec - The Script Action spec (`name` + `executor` required).
      * @returns The persisted action def, or `undefined` when the current user is
      *   not a GM.
-     * @throws If `spec.name` or `spec.executor` is blank.
+     * @throws If `doc` is absent (e.g. a {@link worldHost} call that returned
+     *   nothing), or `spec.name` / `spec.executor` is blank.
      */
     async addScriptAction(
         doc: ActionAttachable,

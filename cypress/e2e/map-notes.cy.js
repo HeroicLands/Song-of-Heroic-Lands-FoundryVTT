@@ -217,6 +217,44 @@ describe("Map notes → Scenes (#1525)", () => {
         });
     });
 
+    it("flagging a restricted region's shape constraints is inert headless (#1535)", () => {
+        cy.foundry(async (win) => {
+            await importAdventure(win);
+            const ground = win.game.scenes.find((s) => s.name === GROUND);
+            // Record every embedded write the flag provokes, without
+            // suppressing it — if the scheduled pass runs at all it lands here
+            // as a "Region" write, empty update list or not.
+            const written = [];
+            const real = ground.updateEmbeddedDocuments;
+            ground.updateEmbeddedDocuments = function (type, ...rest) {
+                written.push(type);
+                return real.call(this, type, ...rest);
+            };
+            ground.updateRegionShapeConstraints();
+            // Core throttles the flag by 250ms and then defers the pass to a
+            // PIXI ticker callback; give both room to fire inside this test, so
+            // an unguarded throw fails *here* rather than in an unrelated spec.
+            await new Promise((res) => win.setTimeout(res, 1500));
+            delete ground.updateEmbeddedDocuments;
+            return {
+                viewedScene: win.canvas?.scene ?? null,
+                restricted: ground.regions.filter((r) => r.restriction.enabled)
+                    .length,
+                regionWrites: written.filter((t) => t === "Region").length,
+            };
+        }).should((r) => {
+            expect(r.viewedScene, "no scene is viewed headless").to.be.null;
+            expect(
+                r.restricted,
+                "the fixture ships a restricted region",
+            ).to.be.gte(1);
+            expect(
+                r.regionWrites,
+                "no shape-constraint pass is attempted with no scene viewed",
+            ).to.eq(0);
+        });
+    });
+
     it("a token moved into an authored region reaches the SoHL trigger", () => {
         cy.importActor().then((actor) => {
             cy.foundry(async (win) => {

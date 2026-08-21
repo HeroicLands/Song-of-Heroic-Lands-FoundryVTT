@@ -192,11 +192,11 @@ actionName)` removes both halves.
 **world host** actor:
 
 ```js
-const host = await sohl.worldHost(); // find-or-create the `_sohlworld` actor
+const host = await sohl.worldHost(); // find-or-create the `sohlworld` actor
 if (host) await sohl.schedule(host, "checkForBandits", 6 * 60 * 60);
 ```
 
-`sohl.worldHost()` returns the reserved `_sohlworld` actor, creating it (GM only,
+`sohl.worldHost()` returns the reserved `sohlworld` actor, creating it (GM only,
 ownership NONE so players never see it) if absent. Because it is an actor it
 already has the execution surface a `[Perform]` needs. Pass `{ visibility: "gm" }`
 in the payload to whisper the reminder to the GM only — no metagame leak for
