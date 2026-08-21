@@ -797,6 +797,19 @@ These cost real debugging time; they are not apparent from the code.
   placeable's rendered state (which is viewport-dependent and empty here anyway).
   This is a source-level guard, deliberately not an `uncaught:exception` allowlist
   entry, so it can't mask a real `addChild` / `OBJECTS` error elsewhere.
+- **Region shape constraints are suppressed headless.** A **restricted** Region
+  (`restriction.enabled`) makes core flag its scene's shape constraints, and the
+  deferred pass picks a designated User with a predicate reading
+  `canvas.scene.id` — `null` here, because no scene is ever viewed, so it throws
+  `reading 'id'` out of a PIXI ticker and fails whichever spec is running
+  (#1535). Core defect, not a SoHL one, fixed upstream in 14.367 (`this.id`); the
+  guard stays while the committed default pins the 14.359 floor. `cy.login()`
+  therefore makes both entry points inert when `canvas.scene` is nullish
+  (`guardHeadlessRegionShapeConstraints`). Shape constraints are perception state
+  for a _viewed_ scene, so nothing here loses coverage — but it does mean a spec
+  cannot assert on a Region's `_shapeConstraints`. Again a source-level guard,
+  not an allowlist entry: `reading 'id'` is too generic a message to allowlist
+  safely, even qualified by a stack frame.
 - **Placed tokens are linked — a combatant's `.actor` is the world actor.**
   `cy.placeToken` / `cy.placeAdjacentTokens` create `actorLink: true` tokens, so a
   combatant reads the same world actor a spec prepared with `cy.prepare`, not an
