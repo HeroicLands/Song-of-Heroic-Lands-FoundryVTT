@@ -46,10 +46,17 @@
  * the same one-rule-two-implementations drift that #1664 was — a format both
  * sides must agree on, with nothing making them.
  *
- * What remains local is what the package has no equivalent for: locating a
- * literal in an arbitrary file. The package's `positionInBody` maps an *offset*
- * within a parsed note body back to its file, which is a different job — these
- * linters read source, docs, lang files and e2e specs, none of which are notes.
+ * Locating a literal in an arbitrary file is the other half, and content-build
+ * has no equivalent: its `positionInBody` maps an *offset* within a parsed note
+ * body back to its file, which is a different job — these linters read source,
+ * docs, lang files and e2e specs, none of which are notes. That half now lives
+ * in `@heroiclands/package-build`, whose whole subject is the non-content parts
+ * of a Foundry package, and this module re-exports it for the same reason it
+ * re-exports the format: a rule both sides must agree on, with nothing making
+ * them, is the drift #1664 was.
+ *
+ * So nothing is defined here any more. The module survives as the name
+ * twenty-odd linters already import, which is churn worth not spending.
  */
 
 import {
@@ -57,8 +64,9 @@ import {
     formatDiagnostic,
     emitDiagnostic,
 } from "@heroiclands/content-build/engine/diagnostics";
+import { locateInText, positionOf } from "@heroiclands/package-build/text";
 
-export { formatLocator, formatDiagnostic };
+export { formatLocator, formatDiagnostic, locateInText, positionOf };
 
 /**
  * Prints one finding on stderr.
@@ -73,51 +81,3 @@ export { formatLocator, formatDiagnostic };
  * @returns {void}
  */
 export const reportDiagnostic = emitDiagnostic;
-
-/**
- * Where a literal sits in a text, so a linter can report the position it
- * already had implicitly.
- *
- * Most findings are *about* a string the linter matched — a wikilink, a
- * hardcoded caption, a marker. Its position is then a string search away, which
- * is worth doing: it costs nothing and it is the difference between a finding
- * that can be opened and one that has to be hunted for.
- *
- * @param {string} text - The file's contents.
- * @param {string} needle - The literal to locate.
- * @param {number} [occurrence=1] - Which occurrence, 1-based. Repeats of the
- *   same literal are otherwise indistinguishable — the symptom that motivated
- *   this whole change.
- * @returns {{line: number, column: number}|undefined} 1-based position, or
- *   `undefined` when the literal is not there. A caller that gets `undefined`
- *   reports the file alone rather than a position that is not the problem.
- */
-export function locateInText(text, needle, occurrence = 1) {
-    if (typeof text !== "string" || !needle) return undefined;
-    let at = -1;
-    for (let n = 0; n < occurrence; n++) {
-        at = text.indexOf(needle, at + 1);
-        if (at === -1) return undefined;
-    }
-    const before = text.slice(0, at);
-    return {
-        line: before.split("\n").length,
-        column: at - before.lastIndexOf("\n"),
-    };
-}
-
-/**
- * Where a literal sits, as the fields {@link formatDiagnostic} takes.
- *
- * Saves every caller the same three-line spread, and keeps the
- * drop-rather-than-guess rule in one place: an unfound literal contributes no
- * position at all instead of `undefined` fields that read as a bug.
- *
- * @param {string} text - The file's contents.
- * @param {string} needle - The literal to locate.
- * @param {number} [occurrence=1] - Which occurrence, 1-based.
- * @returns {{line?: number, column?: number}} Spreadable position fields.
- */
-export function positionOf(text, needle, occurrence = 1) {
-    return locateInText(text, needle, occurrence) ?? {};
-}
