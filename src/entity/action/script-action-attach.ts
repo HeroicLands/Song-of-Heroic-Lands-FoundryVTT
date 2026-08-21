@@ -165,12 +165,20 @@ export function upsertActionDef(
  * @param doc - The document to attach the action to (an actor or item).
  * @param spec - The Script Action spec.
  * @returns The persisted action def.
- * @throws If `name` or `executor` is blank.
+ * @throws If `doc` carries no system data, or `name`/`executor` is blank.
  */
 export async function attachScriptAction(
     doc: ActionAttachable,
     spec: ScriptActionSpec,
 ): Promise<SohlAction.Data> {
+    // `sohl.worldHost()` yields `undefined` for a user who cannot see the host,
+    // and callers pass its result straight in (issue #1536). Name the missing
+    // document rather than letting the dereference below report itself.
+    if (!doc?.system) {
+        throw new Error(
+            "addScriptAction: `doc` must be a document carrying system data.",
+        );
+    }
     const def = buildScriptActionDef(spec);
     const list = upsertActionDef(doc.system.actionDefs, def);
     await doc.update({ "system.actionDefs": list });

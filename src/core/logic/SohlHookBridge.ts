@@ -60,7 +60,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     // active GM) — each populates its own queue from the documents it can see.
     //
     // Only documents whose data model extends the base `SohlDataModel` carry a
-    // `system.scheduledActions` field: actors (including the `_sohlworld` host)
+    // `system.scheduledActions` field: actors (including the `sohlworld` host)
     // and items. Scenes and ActiveEffects extend `TypeDataModel` directly and
     // cannot host a schedule, so there is nothing to re-arm for them. On world
     // `ready` we walk every world actor and its embedded items.

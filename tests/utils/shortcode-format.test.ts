@@ -4,6 +4,9 @@ import {
     isValidShortcode,
     sanitizeShortcode,
 } from "@src/utils/shortcode-format.mjs";
+import { WORLD_HOST_SHORTCODE } from "@src/utils/constants";
+import { resolveShortcodeKey } from "@src/utils/helpers";
+import { SOHL_MIGRATIONS } from "@src/entity/migration/MigrationRegistry";
 
 describe("shortcode-format (the shape rule, #1397)", () => {
     describe("isValidShortcode", () => {
@@ -76,6 +79,43 @@ describe("shortcode-format (the shape rule, #1397)", () => {
                 const out = sanitizeShortcode(raw);
                 expect(out === "" || isValidShortcode(out)).toBe(true);
             }
+        });
+    });
+
+    describe("the system's own reserved keys (#1536)", () => {
+        it("the world-host shortcode obeys the rule", () => {
+            // It is not authored content, but it is written to
+            // `system.shortcode` like any other key, so the create guard
+            // judges it by the same rule.
+            expect(isValidShortcode(WORLD_HOST_SHORTCODE)).toBe(true);
+        });
+
+        it("the create guard resolves it rather than refusing it", () => {
+            // The exact decision `enforceShortcodeOnCreate` makes for the actor
+            // `sohl.worldHost()` creates: a malformed key was refused as
+            // `invalid`, which vetoed the create and left `worldHost()`
+            // returning `undefined`.
+            expect(
+                resolveShortcodeKey(WORLD_HOST_SHORTCODE, "World", new Set(), {
+                    dedupe: false,
+                }),
+            ).toEqual({ shortcode: WORLD_HOST_SHORTCODE });
+        });
+
+        it("a v0.8 host's legacy `_sohlworld` key migrates onto it", () => {
+            // The 0.9.0 repair (#1397) rewrites the key a v0.8 world's host
+            // carries; it must land on the code `worldHost()` now looks the
+            // singleton up by, or the upgraded world grows a second host.
+            const step = SOHL_MIGRATIONS.find((s) =>
+                s.description.toLowerCase().includes("shortcode"),
+            );
+            expect(
+                step!.migrators!.Actor!({
+                    type: "being",
+                    name: "World",
+                    system: { shortcode: "_sohlworld" },
+                }),
+            ).toEqual({ system: { shortcode: WORLD_HOST_SHORTCODE } });
         });
     });
 });
