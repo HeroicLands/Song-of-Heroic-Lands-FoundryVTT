@@ -26,11 +26,15 @@
  * shipped Foundry manifest is; the package id guard and the compiled packs'
  * `_stats.coreVersion` both read it from there, so moving
  * `compatibility.minimum` moves the stamp without touching this file. Nothing
- * here may copy a value the manifest owns.
+ * here may copy a value the manifest owns. The same rule governs the version
+ * stamped in `_stats.systemVersion`: it is read from `package.json`, the file
+ * that owns it, rather than transcribed — a transcribed one froze at `0.6.0`
+ * for four releases (#1548).
  *
  * @module
  */
 
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -57,12 +61,37 @@ import { defineConfig } from "@heroiclands/content-build/config";
 // resolved configuration.
 import { ITEM_BUILDERS } from "@heroiclands/content-build/sohl/item-builders";
 
+/** This repository's root — the directory this configuration file sits in. */
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
+
+/**
+ * The system version this repository ships, read from the file that owns it.
+ *
+ * `package.json` is the single source Changesets bumps and
+ * `utils/build-system-json.mjs` stamps into the shipped manifest's `version`,
+ * so reading it here is what keeps a compiled document's
+ * `_stats.systemVersion` equal to the version of the system that compiled it
+ * (#1548) — the same "follow the source, don't copy it" rule
+ * `_stats.coreVersion` follows against the manifest's `compatibility.minimum`
+ * (#1533).
+ *
+ * Read *here* rather than by the toolchain, because the stamp is not the
+ * building package's version in general: a module repository shipping SoHL
+ * content (`sohl-thalorna`) declares `systemId: "sohl"`, and the version that
+ * belongs beside it is the SoHL system's, not that module's own. Which version
+ * a repository ships content *for* is a per-repository fact, so it stays in the
+ * per-repository file.
+ */
+const shippedSystemVersion = JSON.parse(
+    fs.readFileSync(path.join(rootDir, "package.json"), "utf8"),
+).version;
+
 export default defineConfig({
     // Anchors every configured path, so the build reads the same files whatever
     // directory it was launched from — the property the pack helpers used to get
     // by resolving the manifest relative to their own module, which breaks the
     // moment the toolchain is installed under `node_modules/` (#1508).
-    rootDir: path.dirname(fileURLToPath(import.meta.url)),
+    rootDir,
 
     // The distribution unit a note declares in its `package:` frontmatter. The
     // pack compilers select their entries by it, and it is stable across
@@ -81,13 +110,13 @@ export default defineConfig({
     // declares as "sohl". `coreVersion` is deliberately absent — it is read from
     // the manifest's `compatibility.minimum`.
     //
-    // `systemVersion` is the version the packs claim to have been built against.
-    // It has lagged `package.json` since 0.6.0; correcting it rewrites the
-    // `_stats` of every shipped document, so it is tracked separately (#1548)
-    // rather than changed in passing here.
+    // `systemVersion` is the version the packs claim to have been built by, and
+    // it follows `package.json` rather than a literal maintained here: a
+    // document that under-reports its version is eligible for migrations it does
+    // not need (#1548).
     stats: {
         systemId: "sohl",
-        systemVersion: "0.6.0",
+        systemVersion: shippedSystemVersion,
         lastModifiedBy: "sohlbuilder00000",
     },
 
