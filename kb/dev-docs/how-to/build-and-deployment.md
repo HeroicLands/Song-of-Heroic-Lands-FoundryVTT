@@ -713,7 +713,7 @@ empty description, rather than a pointer to nothing.
 #### Linking to an item's documentation: the `doc<type>` qualifier
 
 > Authoring a link rather than changing the build? Read
-> [Linking Between Content Notes](../reference/content-links.md) instead — this
+> [Linking Between Content Notes](../content-creator/content-links.md) instead — this
 > section is the mechanism behind it.
 
 Because the item and its prose are now **two documents in two packs**, they need

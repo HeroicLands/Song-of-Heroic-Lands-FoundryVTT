@@ -16,10 +16,16 @@
  * on disk, so a new `kb/dev-docs/<section>/<page>.md` can never be silently
  * orphaned from the navigation.
  *
- * Every content page under `kb/dev-docs/{concepts,how-to,reference,contributing}/`
- * must be linked from `kb/dev-docs/README.md` — the doc-tree landing (rendered as
- * the `/dev-docs/` landing on the knowledgebase, and the GitHub-facing index).
+ * Every content page under any `kb/dev-docs/<section>/` directory must be linked
+ * from `kb/dev-docs/README.md` — the doc-tree landing (rendered as the
+ * `/dev-docs/` landing on the knowledgebase, and the GitHub-facing index).
  * Exits non-zero on any omission.
+ *
+ * **The sections are read off disk, not listed here.** They used to be a literal
+ * array, which meant a *new* section was invisible to this guard rather than
+ * covered by it — every page in it could be orphaned silently, which is the one
+ * failure this script exists to prevent (#1571). Discovering them makes adding a
+ * section safe by default: the guard picks it up the moment the directory exists.
  *
  * (The API site no longer carries the guide tree — `projectDocuments` was removed
  * in #430 — so there is no per-section `children:` stub to cross-check anymore;
@@ -34,8 +40,13 @@ import { reportDiagnostic } from "./lint-diagnostics.mjs";
 import { join } from "node:path";
 
 const DOCS = "kb/dev-docs";
-const SECTIONS = ["concepts", "how-to", "reference", "contributing"];
 const README = join(DOCS, "README.md");
+
+/** Every section directory that exists, in stable order. */
+const SECTIONS = readdirSync(DOCS, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
 
 const readme = readFileSync(README, "utf8");
 const violations = [];

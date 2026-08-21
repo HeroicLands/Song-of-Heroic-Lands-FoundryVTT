@@ -158,6 +158,32 @@ describe("pageRedirects — developer docs", () => {
         ).toEqual(["/dev/concepts/"]);
     });
 
+    // A page that moves between dev-doc sections changes its published URL,
+    // and the section segment is not recoverable from anything the page still
+    // carries — so the move is recorded (#1572). Both addresses it really
+    // published at have to keep resolving; the address it never published at
+    // (`/dev/<new path>/`) must not be claimed.
+    it("redirects both addresses a page moved between sections published at", () => {
+        expect(
+            pageRedirects(
+                dev({
+                    rel: "content-creator/content-links.md",
+                    slug: "content-links",
+                    url: "/dev-docs/content-creator/content-links/",
+                }),
+            ),
+        ).toEqual([
+            "/dev/reference/content-links/",
+            "/dev-docs/reference/content-links/",
+        ]);
+    });
+
+    it("claims only the pre-split address for a page that has not moved", () => {
+        expect(pageRedirects(dev(), LEGACY)).not.toContain(
+            "/dev-docs/reference/body-structure/",
+        );
+    });
+
     it("never consults the legacy map for a developer doc", () => {
         // Dev docs have no shortcode; `undefined:undefined` must not key into it.
         expect(

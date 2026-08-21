@@ -57,16 +57,26 @@ Task-oriented guides for getting something done.
 - [Build, Deployment, and Release](how-to/build-and-deployment.md)
 - [Issue Reporting](how-to/issue-reporting.md) — how issues are typed, prioritized, labeled, and tied to capability milestones.
 
+## Content Creator
+
+Authoring the content notes in `assets/content/` that compile into compendium documents — for the person writing notes rather than changing the system.
+
+- [Content Creator](content-creator/README.md) — the section landing: what a content note is, and which page answers which question.
+- [The Authoring Workflow](content-creator/authoring-workflow.md) — where content lives, the frontmatter every note carries whatever its type, and how a note becomes a compendium document. **Read this first.**
+- [Item Note Frontmatter](content-creator/item-frontmatter.md) — the generated per-type field reference for all 13 item types: every `sohl:` field, its shape, requiredness, and default.
+- [Actor Notes](content-creator/actor-notes.md) — authoring a `being`, and the `(type, shortcode)` address space its embedded items resolve through.
+- [Map Notes](content-creator/map-notes.md) — authoring a Foundry Scene as a markdown note: the `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions, regions and their behaviours, and how a map is packaged.
+- [Authoring a Macro Content Note](content-creator/macro-notes.md) — how a `type: macro` note compiles into a Foundry Macro plus its documentation, and what the `{#script}` anchor does.
+- [Linking Between Content Notes](content-creator/content-links.md) — wikilinks for content authors: the four forms, and why an item and its documentation need two different addresses.
+- [Asset Conventions](content-creator/asset-conventions.md) — where art files live, how `img:` resolves to a shipped path, image and SVG standards, and default item art.
+- [Generated Content Tables](content-creator/content-tables.md) — Dataview `TABLE` queries that tabulate content notes from their frontmatter.
+
 ## Reference
 
 Contracts, catalogs, and specifications.
 
 - [Type Catalog](reference/type-catalog.md)
-- [Map Notes](reference/map-notes.md) — authoring a Foundry Scene as a markdown note: the `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions, regions and their behaviours, and how a map is packaged.
-- [Linking Between Content Notes](reference/content-links.md) — wikilinks for content authors: the four forms, and why an item and its documentation need two different addresses.
-- [Authoring a Macro Content Note](reference/macro-notes.md) — how a `type: macro` note compiles into a Foundry Macro plus its documentation, and what the `{#script}` anchor does.
 - [The Link Manifest](reference/link-manifest.md) — the cross-package index: canonical addresses, Foundry UUIDs and anchors, and what a consuming build must do with them.
-- [Generated Content Tables](reference/content-tables.md) — Dataview `TABLE` queries that tabulate content notes from their frontmatter.
 - [Modifier Model](reference/modifier-model.md)
 - [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)
 - [Result-description Tables](reference/result-description-tables.md)

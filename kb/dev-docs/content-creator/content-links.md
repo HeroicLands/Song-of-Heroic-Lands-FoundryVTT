@@ -1,6 +1,6 @@
 # Linking Between Content Notes
 
-See also: [Shortcode Integrity](./shortcode-integrity.md), [Generated Content Tables](./content-tables.md), [Build, Deployment, and Release](../how-to/build-and-deployment.md)
+See also: [Shortcode Integrity](../reference/shortcode-integrity.md), [Generated Content Tables](./content-tables.md), [Build, Deployment, and Release](../how-to/build-and-deployment.md)
 
 Content notes link to one another with **wikilinks**, never with file paths. One
 authored link compiles into a Foundry `@UUID` enricher for the compendium packs
@@ -23,7 +23,7 @@ the link that opens a skill's _sheet_ is not the link that opens its _write-up_.
 
 The qualifier is the note's **type**, not its directory. `(type, shortcode)` is
 the system's logical identity and is unique by rule (see
-[Shortcode Integrity](./shortcode-integrity.md)), so an address stays valid when
+[Shortcode Integrity](../reference/shortcode-integrity.md)), so an address stays valid when
 a note is refiled. There is deliberately no path form.
 
 **The separator is a hyphen, because content is authored in Obsidian.** Obsidian
