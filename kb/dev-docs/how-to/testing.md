@@ -797,6 +797,22 @@ These cost real debugging time; they are not apparent from the code.
   placeable's rendered state (which is viewport-dependent and empty here anyway).
   This is a source-level guard, deliberately not an `uncaught:exception` allowlist
   entry, so it can't mask a real `addChild` / `OBJECTS` error elsewhere.
+- **A scene deleted mid-draw throws on 14.367 — the guard makes it inert.**
+  `Canvas##draw` calls `scene.updateRegionShapeConstraints()` as its last step,
+  after a long run of awaits, and 14.367 opened that method by throwing
+  _"A nonpersisted Document cannot be updated."_ unless `this.persisted`. Since
+  `cy.cleanupWorld()` deletes the scenes a spec creates, a draw begun on a tagged
+  scene routinely finishes after that scene has left `game.scenes` — the throw
+  then escapes as an unhandled rejection and fails whichever spec is running,
+  with no SoHL frame on the stack (#1550). `cy.login()` therefore skips the call
+  when `persisted === false` (`guardHeadlessRegionShapeConstraints`, which
+  patches `Level` as well as `Scene` — `Level` has its own copy of the method and
+  throws before delegating to the scene). Strict `=== false`, so a build without
+  the getter runs core untouched and the pinned floor is unaffected. A
+  source-level guard rather than an allowlist entry: that
+  message is core's generic one for updating _any_ deleted document, so
+  allowlisting it could mask a real SoHL bug writing to a document it had already
+  destroyed.
 - **Placed tokens are linked — a combatant's `.actor` is the world actor.**
   `cy.placeToken` / `cy.placeAdjacentTokens` create `actorLink: true` tokens, so a
   combatant reads the same world actor a spec prepared with `cy.prepare`, not an

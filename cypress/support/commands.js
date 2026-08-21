@@ -49,7 +49,10 @@ Cypress.Commands.add("login", (opts = {}) => {
 
     cy.visit("/game");
     cy.window({ timeout: 60000 }).its("game").its("ready").should("eq", true);
-    cy.window({ log: false }).then((win) => guardHeadlessTokenDraw(win));
+    cy.window({ log: false }).then((win) => {
+        guardHeadlessTokenDraw(win);
+        guardHeadlessRegionShapeConstraints(win);
+    });
 });
 
 /**
@@ -133,4 +136,84 @@ function guardHeadlessTokenDraw(win) {
     };
     proto.applyRenderFlags = function () {};
     proto.__sohlHeadlessGuarded = true;
+}
+
+/**
+ * Neutralize `updateRegionShapeConstraints` for a document that is no longer
+ * persisted.
+ *
+ * Foundry 14.367 opened that method — on both the classes that define it — with
+ * an unconditional guard:
+ *
+ * ```js
+ * updateRegionShapeConstraints(types=CONST.EDGE_RESTRICTION_TYPES) {
+ *   if ( !this.persisted ) throw new Error("A nonpersisted Document cannot be updated.");
+ * ```
+ *
+ * and left callers that cannot honour it. The canvas's private `#draw` calls
+ * the `Scene` copy as the very last thing it does, after a long run of awaits
+ * (`#initialize`, the `_onReady` manager event, the `canvasReady` hook, region
+ * `BEHAVIOR_VIEWED` events). This suite deletes the scenes it creates —
+ * `cy.cleanupWorld()` in `afterEach` — so a draw begun on a tagged scene
+ * routinely finishes after that scene has left `game.scenes`. `persisted` is
+ * false by then, the method throws, and since nothing awaits the tail of the
+ * draw the rejection escapes unhandled and fails whichever spec happens to be
+ * running, with no SoHL frame anywhere on the stack (#1550).
+ *
+ * So make the call inert in exactly the case core refuses to serve: recomputing
+ * region shape constraints for a document nobody can update has no work to do,
+ * which is what the caller assumed in the first place. The predicate is core's
+ * own condition, tested strictly — `persisted === false`, not `!persisted` — so
+ * on a build with no such getter it reads `undefined`, the original runs
+ * untouched, and the pinned 14.359 floor behaves exactly as before.
+ *
+ * A source-level guard rather than an `uncaught:exception` allowlist entry:
+ * "A nonpersisted Document cannot be updated." is core's *generic* message for
+ * updating any deleted document, so allowlisting it — even qualified by a stack
+ * frame — could mask a real SoHL bug writing to a document it had already
+ * destroyed. Skipping one unreachable call can mask nothing.
+ *
+ * Both prototypes are patched, because `Level` carries its own copy of the
+ * method (not an inherited one) and throws from it *before* delegating to
+ * `Scene#_updateRegionShapeConstraints` — so guarding `Scene` alone would leave
+ * the callers that address a Level directly still able to throw: the levels a
+ * moved token affects (`Token#_onUpdate`), and the equivalent light and wall
+ * updates. `Level` only gained that method in 14.367, and the pinned 14.359
+ * floor has none — hence the `typeof` check below, which makes the second patch
+ * a no-op there rather than an error. Installed once per page load, idempotent
+ * per prototype via an own marker; `testIsolation` is off, so one install per
+ * spec file covers all of its tests.
+ *
+ * @param {Window} win - the game client window.
+ */
+function guardHeadlessRegionShapeConstraints(win) {
+    // `CONFIG.Scene.documentClass` is `SohlScene`, which only inherits the
+    // method, so this shadows core's without mutating the base class. `Level`
+    // has no SoHL subclass, so its own prototype is the only handle.
+    guardNonpersistedRegionShapeConstraints(
+        win.CONFIG?.Scene?.documentClass?.prototype,
+    );
+    guardNonpersistedRegionShapeConstraints(
+        win.CONFIG?.Level?.documentClass?.prototype,
+    );
+}
+
+/**
+ * Wrap one prototype's `updateRegionShapeConstraints` so it returns early for a
+ * nonpersisted document instead of throwing. See
+ * {@link guardHeadlessRegionShapeConstraints} for why.
+ *
+ * @param {object|undefined} proto - the document prototype to patch, if present.
+ */
+function guardNonpersistedRegionShapeConstraints(proto) {
+    // `hasOwn`, not a truthiness test: the marker must not be mistaken for set
+    // because some ancestor prototype carries one.
+    if (!proto || Object.hasOwn(proto, "__sohlNonpersistedGuarded")) return;
+    const update = proto.updateRegionShapeConstraints;
+    if (typeof update !== "function") return;
+    proto.updateRegionShapeConstraints = function (...args) {
+        if (this.persisted === false) return;
+        return update.apply(this, args);
+    };
+    proto.__sohlNonpersistedGuarded = true;
 }
