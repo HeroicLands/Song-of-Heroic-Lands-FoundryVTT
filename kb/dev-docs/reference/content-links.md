@@ -167,6 +167,33 @@ Only code is exempt. A wikilink inside a table cell, a blockquote or a list is a
 ordinary link, and a `dataview` table is expanded _before_ links resolve — so a
 generated cell may itself carry one.
 
+## A wikilink belongs in prose, not in frontmatter
+
+Both builds walk a note's **body**. Frontmatter is data: the pack compilers and
+the knowledgebase build copy it through untouched, so a wikilink written in one
+is never resolved and reaches the reader as literal `[[…]]` — in whatever the
+theme renders that field as, an infobox row or a card subtitle. Nothing further
+down notices, because the value is a perfectly good string (#1428).
+
+```yaml
+government:
+  summary: A warlord protecting the spawn-chamber of a fertile [[creature-grkrahk|Grukar-ahk]].
+```
+
+So the form is **refused rather than resolved**, by `lint:content-links` on every
+change and by the knowledgebase build before it writes a page. Resolving it would
+mean choosing an output syntax for a field whose renderer the build does not
+know — a markdown link is inert in a template that prints the value as text, and
+an `<a>` is unusable in one that escapes it — and it would bless an authoring
+habit the pack build has no way to honour at all.
+
+Write the value as plain text and put the link in the prose the field summarises:
+
+```yaml
+government:
+  summary: A warlord protecting the spawn-chamber of a fertile Grukar-ahk.
+```
+
 ## The knowledgebase reads the same link differently
 
 Deliberately. On the KB an item note renders as a **single page which is its
@@ -200,6 +227,13 @@ compilers cannot:
 - **Every qualified `[[type-shortcode]]` resolves to a document.** A dead address
   degrades to plain text and keeps its label, so the prose still reads correctly
   while the link is simply gone — the failure mode that hides best.
+
+- **No wikilink is authored in frontmatter.** Both builds copy frontmatter to
+  the page verbatim, so the link never resolves and the reader is shown the
+  brackets — see
+  [A wikilink belongs in prose, not in frontmatter](#a-wikilink-belongs-in-prose-not-in-frontmatter).
+  The knowledgebase build refuses it as well, so it cannot publish that way even
+  if the lint is bypassed.
 
 - **No absolute URL names a hostname the project has retired.** The checks above
   read wikilinks, so an absolute URL passes through all of them untouched — which
