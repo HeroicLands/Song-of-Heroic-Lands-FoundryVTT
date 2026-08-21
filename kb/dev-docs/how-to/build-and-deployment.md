@@ -149,10 +149,16 @@ assets/content/Rules/Attributes.md:28:13: error: dead address [[doc-nosuchthing]
 ```
 
 `file:line:column: severity: message`, unindented, one finding per line. The
-path is relative to the repository root. `formatDiagnostic` in
-[utils/lint-diagnostics.mjs](../../../utils/lint-diagnostics.mjs) is the only
-place that layout is written; a linter calls `reportDiagnostic` and never
-formats its own.
+path is relative to the repository root. The layout is written in exactly one
+place, and that place is **not this repository** — `formatDiagnostic` lives in
+`@heroiclands/content-build` (`engine/diagnostics`), so the content build's note
+warnings and these linters' findings cannot drift into two dialects of the same
+form. [utils/lint-diagnostics.mjs](../../../utils/lint-diagnostics.mjs)
+re-exports it and adds only what the package has no equivalent for: locating a
+literal in an arbitrary file (`locateInText` / `positionOf`), since the package's
+`positionInBody` maps an offset within a parsed _note_ body and these linters
+read source, docs, lang files and e2e specs. A linter calls `reportDiagnostic`
+and never formats its own.
 
 Two rules make it dependable:
 

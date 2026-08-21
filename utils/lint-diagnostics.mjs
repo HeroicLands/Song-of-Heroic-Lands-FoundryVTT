@@ -39,73 +39,40 @@
  * Summary counts and the explanatory paragraphs each linter prints are **not**
  * findings and keep their prose form — nothing needs to parse them.
  *
- * This is the same contract `@heroiclands/content-build` adopted for its own
- * note diagnostics (content-build#17). It is stated here rather than imported
- * because these linters check *this* repository's source, docs, lang files and
- * e2e specs — subjects the content package knows nothing about — and because
- * the lint chain must not wait on a content-build release to run. If the two
- * ever need to be one module, this file is the seam to collapse.
+ * **The contract itself lives in `@heroiclands/content-build`**
+ * (`engine/diagnostics`, content-build#17), and this module re-exports it
+ * rather than restating it. It was briefly stated here because the package had
+ * not published it yet; once 0.7.0 did, keeping a second copy would have been
+ * the same one-rule-two-implementations drift that #1664 was — a format both
+ * sides must agree on, with nothing making them.
+ *
+ * What remains local is what the package has no equivalent for: locating a
+ * literal in an arbitrary file. The package's `positionInBody` maps an *offset*
+ * within a parsed note body back to its file, which is a different job — these
+ * linters read source, docs, lang files and e2e specs, none of which are notes.
  */
 
-import path from "node:path";
+import {
+    formatLocator,
+    formatDiagnostic,
+    emitDiagnostic,
+} from "@heroiclands/content-build/engine/diagnostics";
 
-/**
- * The `file:line:column` locator, with whatever is known.
- *
- * The path is relativized against the working directory — the repository root
- * for every lint script — so it is both shorter to read and what an editor
- * resolves a relative diagnostic against. A path outside the tree stays
- * absolute, since a `../../..` locator helps nobody.
- *
- * @param {object} at
- * @param {string} [at.file] - Absolute or repository-relative path.
- * @param {number} [at.line] - 1-based line.
- * @param {number} [at.column] - 1-based column. Ignored without a line.
- * @returns {string} The locator, or `""` when not even a file is known.
- */
-export function formatLocator({ file, line, column } = {}) {
-    if (!file) return "";
-    let shown = file;
-    if (path.isAbsolute(file)) {
-        const rel = path.relative(process.cwd(), file);
-        // `..` means the file sits outside the working directory; an absolute
-        // path is the more useful of the two there.
-        if (rel && !rel.startsWith("..")) shown = rel;
-    }
-    if (!Number.isFinite(line)) return shown;
-    if (!Number.isFinite(column)) return `${shown}:${line}`;
-    return `${shown}:${line}:${column}`;
-}
-
-/**
- * One finding, as a parseable line.
- *
- * @param {object} d
- * @param {string} [d.file] - The file the finding is about.
- * @param {number} [d.line] - 1-based line.
- * @param {number} [d.column] - 1-based column.
- * @param {"error"|"warning"} d.severity - Which of the two levels this is.
- * @param {string} d.message - What is wrong, in one sentence.
- * @returns {string} `file:line:column: severity: message`, with any unknown
- *   leading field omitted.
- */
-export function formatDiagnostic({ file, line, column, severity, message }) {
-    const locator = formatLocator({ file, line, column });
-    return `${locator ? `${locator}: ` : ""}${severity}: ${message}`;
-}
+export { formatLocator, formatDiagnostic };
 
 /**
  * Prints one finding on stderr.
  *
- * Findings go to stderr whatever their severity: they are the output a caller
- * pipes or matches, kept clear of the summary prose on stdout.
+ * A thin alias for the package's {@link emitDiagnostic}, kept because nineteen
+ * linters already call it by this name and the rename would be churn. Both
+ * severities reach stderr either way — `console.warn` is a stderr stream in
+ * Node — so findings stay clear of the summary prose on stdout, which is the
+ * property the linters depend on.
  *
  * @param {object} d - As {@link formatDiagnostic}.
  * @returns {void}
  */
-export function reportDiagnostic(d) {
-    console.error(formatDiagnostic(d));
-}
+export const reportDiagnostic = emitDiagnostic;
 
 /**
  * Where a literal sits in a text, so a linter can report the position it
