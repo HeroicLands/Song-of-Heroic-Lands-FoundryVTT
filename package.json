@@ -127,7 +127,7 @@
         "lint:bundle-globals": "node utils/check-bundle-globals.mjs",
         "changeset": "changeset",
         "changeset:version": "changeset version",
-        "changeset:check": "changeset check",
+        "changeset:check": "changeset status --since=main",
         "docs:expr-scopes": "node utils/build-expression-scopes-doc.mjs",
         "lint:expr-scopes": "node utils/build-expression-scopes-doc.mjs --check"
     },

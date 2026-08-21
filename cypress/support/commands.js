@@ -49,7 +49,10 @@ Cypress.Commands.add("login", (opts = {}) => {
 
     cy.visit("/game");
     cy.window({ timeout: 60000 }).its("game").its("ready").should("eq", true);
-    cy.window({ log: false }).then((win) => guardHeadlessTokenDraw(win));
+    cy.window({ log: false }).then((win) => {
+        guardHeadlessTokenDraw(win);
+        guardHeadlessRegionShapeConstraints(win);
+    });
 });
 
 /**
@@ -133,4 +136,71 @@ function guardHeadlessTokenDraw(win) {
     };
     proto.applyRenderFlags = function () {};
     proto.__sohlHeadlessGuarded = true;
+}
+
+/**
+ * Make a Region shape-constraint pass inert when no scene is viewed.
+ *
+ * A **restricted** Region (`restriction.enabled`) makes core flag its scene's
+ * shape constraints for recomputation, which it throttles and then defers to a
+ * PIXI ticker callback. That callback picks the User designated to do the work
+ * with a predicate reading `u.viewedScene === canvas.scene.id` — and headless
+ * no scene is ever viewed, so `canvas.scene` is `null` and it throws
+ * `Cannot read properties of null (reading 'id')` from the ticker, failing
+ * whichever spec happens to be running at the time (#1535).
+ *
+ * This is a **core** defect, not a SoHL one — nothing in the system's code is on
+ * that stack — and core fixed it in 14.367 by reading `this.id` instead. The
+ * guard stays regardless, because the suite's committed default is the
+ * `compatibility.minimum` floor (14.359), which still carries the bug; it can go
+ * when the floor moves past 14.367.
+ *
+ * Nothing here asserts on shape constraints: they are canvas-perception state
+ * for a *viewed* scene (which restriction types block light/sight across a
+ * region's edges), and this suite views no scene. So the whole pass is made
+ * inert whenever `canvas.scene` is nullish — which is the behaviour the flag
+ * should have had anyway. Both entry points are patched: a Region saving its
+ * shape reaches the private pass through `_updateRegionShapeConstraints`
+ * (`Region#updateShapeConstraints({save: true})` →
+ * `this.parent._updateRegionShapeConstraints(this)`) and never touches the
+ * public flag — true on every supported build.
+ *
+ * Scope, so a later reader does not over-read this. `Level` has no
+ * `updateRegionShapeConstraints` at all on the 14.359 floor — the method is new
+ * in 14.367 — so on the build this guard exists for, there is nothing on Level
+ * to guard. On 14.367 Level's method delegates here and does no `canvas.scene`
+ * dereference of its own, so the null-scene case still cannot escape it; but
+ * anything Level does **above** that delegation runs unguarded (it throws on
+ * `!this.persisted` first). Guarding Level itself means patching
+ * `CONFIG.Level.documentClass` too, with its own marker; this function
+ * deliberately does not.
+ *
+ * A source-level guard rather than an `uncaught:exception` allowlist entry, for
+ * the same reason as {@link guardHeadlessTokenDraw}: `reading 'id'` is far too
+ * generic a message to leave allowlisted — even qualified by a stack frame, it
+ * sits one refactor away from swallowing a real null dereference in system
+ * code. Installed once per page load (idempotent); `testIsolation` is off, so
+ * one install per spec file covers all its tests.
+ *
+ * @param {Window} win - the game client window.
+ */
+function guardHeadlessRegionShapeConstraints(win) {
+    const proto = win.CONFIG?.Scene?.documentClass?.prototype;
+    if (!proto || proto.__sohlHeadlessRegionGuarded) return;
+
+    const flag = proto.updateRegionShapeConstraints;
+    if (typeof flag === "function") {
+        proto.updateRegionShapeConstraints = function (...args) {
+            if (!win.canvas?.scene) return;
+            return flag.apply(this, args);
+        };
+    }
+    const flagOne = proto._updateRegionShapeConstraints;
+    if (typeof flagOne === "function") {
+        proto._updateRegionShapeConstraints = function (...args) {
+            if (!win.canvas?.scene) return;
+            return flagOne.apply(this, args);
+        };
+    }
+    proto.__sohlHeadlessRegionGuarded = true;
 }
