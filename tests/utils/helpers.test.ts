@@ -856,9 +856,16 @@ describe("defaultFromJSON — a legacy __funcref__ string is inert data", () => 
 
 describe("slugifyShortcode", () => {
     it("lowercases and strips non-alphanumerics", () => {
-        expect(slugifyShortcode("Long Sword")).toBe("longsword");
-        expect(slugifyShortcode("Arrow, Broadhead")).toBe("arrowbroadhead");
-        expect(slugifyShortcode("Fletcher's Kit")).toBe("fletcherskit");
+        expect(slugifyShortcode("Long Sword")).toBe("longswd");
+        expect(slugifyShortcode("Dagger")).toBe("dagger");
+    });
+
+    // Past ten characters, vowels go one at a time from the end until it
+    // fits — a guideline, not a limit, and the suggestion is a dialog default
+    // an author may replace.
+    it("reduces a name that runs long", () => {
+        expect(slugifyShortcode("Arrow, Broadhead")).toBe("arrowbrdhd");
+        expect(slugifyShortcode("Fletcher's Kit")).toBe("fletchrskt");
     });
 
     it("returns '' for a name with no alphanumerics", () => {

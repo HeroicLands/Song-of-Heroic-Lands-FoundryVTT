@@ -33,9 +33,9 @@ import matter from "gray-matter";
 
 import {
     slugify,
-    resolveKbWikilinks,
+    resolveWebWikilinks,
     frontmatterWikilinks,
-} from "./kb-wikilinks.mjs";
+} from "@heroiclands/content-build/engine/web-wikilinks";
 import {
     canonicalKey,
     readCanonicalKey,
@@ -47,7 +47,7 @@ import {
     findSlugCollisions,
 } from "@heroiclands/content-build/engine/content-slug";
 import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
-import { protectCode } from "./kb-protect-code.mjs";
+import { protectCode } from "@heroiclands/content-build/engine/code-fences";
 import {
     contentPackage,
     foundryPackageId,
@@ -866,7 +866,7 @@ for (const e of entries) {
     const { fm, name, slug, sec, base, isReadme } = e;
     const src = e.rel ?? `${sec}/${base}`;
     const resolve = (t) =>
-        resolveKbWikilinks(resolveLinks(t), wikiCtx(src, e.fm.type));
+        resolveWebWikilinks(resolveLinks(t), wikiCtx(src, e.fm.type));
 
     // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
     // live under /guide/ (assets/content) or /dev/ (developer docs), and content
