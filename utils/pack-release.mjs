@@ -12,53 +12,24 @@
  */
 
 /**
- * Packages the staged build into a distributable release archive.
+ * Package the staged build into the two assets a Release carries.
  *
- * Reads `build/stage/system.json` for the version, zips the entire
- * `build/stage` directory (max compression) to `build/dist/system.zip`, and
- * copies `system.json` alongside it into `build/dist`. Exports `packStage()`
- * for programmatic use and runs it automatically when invoked directly.
+ * The work is `@heroiclands/package-build`'s — a Foundry package's release is
+ * always `<artifact>.zip` plus the manifest beside it — so this is the entry
+ * point that names *this* repository's artifact and reports the result.
  *
  * Usage:
  *   npm run build:pack-release   // node utils/pack-release.mjs
  *   node utils/pack-release.mjs  // direct invocation (no args)
  */
 
-import fs from "fs";
-import fsp from "fs/promises";
-import archiver from "archiver";
-import { mkdirSync } from "fs";
-import { join, relative, resolve } from "path";
+import { relative } from "path";
 
-export async function packStage() {
-    const STAGE_DIR = resolve("./build/stage");
-    const RELEASE_DIR = resolve("./build/dist");
-    mkdirSync(RELEASE_DIR, { recursive: true });
+import { packRelease } from "@heroiclands/package-build/release";
 
-    const system = JSON.parse(
-        await fsp.readFile(join(STAGE_DIR, "system.json"), "utf8"),
-    );
-    const version = system.version;
-    const zipPath = join(RELEASE_DIR, "system.zip");
-    const output = fs.createWriteStream(zipPath);
-    const archive = archiver("zip", { zlib: { level: 9 } });
+const { zip, version, bytes } = await packRelease({ artifact: "system" });
 
-    archive.pipe(output);
-    archive.directory(STAGE_DIR, false);
-    await archive.finalize();
-
-    await fsp.copyFile(
-        join(STAGE_DIR, "system.json"),
-        join(RELEASE_DIR, "system.json"),
-    );
-
-    console.log("✅ Packaging for release complete:", relative(".", zipPath));
-}
-
-// CLI support
-if (process.argv[1] === resolve("./utils/pack-release.mjs")) {
-    packStage().catch((err) => {
-        console.error("❌ Packaging for release failed:", err);
-        process.exit(1);
-    });
-}
+console.log(
+    `✅ Packaged ${version} for release: ${relative(".", zip)} ` +
+        `(${(bytes / 1024 / 1024).toFixed(1)} MB)`,
+);

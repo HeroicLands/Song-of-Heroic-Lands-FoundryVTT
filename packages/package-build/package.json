@@ -8,17 +8,24 @@
     "exports": {
         ".": "./index.mjs",
         "./lang": "./lang.mjs",
+        "./manifest": "./manifest.mjs",
+        "./release": "./release.mjs",
+        "./stage": "./stage.mjs",
         "./text": "./text.mjs",
-        "./package.json": "./package.json",
-        "./manifest": "./manifest.mjs"
+        "./package.json": "./package.json"
     },
     "files": [
         "README.md",
         "index.mjs",
         "lang.mjs",
         "manifest.mjs",
+        "release.mjs",
+        "stage.mjs",
         "text.mjs"
     ],
+    "dependencies": {
+        "archiver": "^8.0.0"
+    },
     "engines": {
         "node": ">=24.0.0"
     },

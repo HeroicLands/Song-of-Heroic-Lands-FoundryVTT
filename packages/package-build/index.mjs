@@ -42,6 +42,12 @@
 /** The Foundry package manifest: `system.json` / `module.json`. */
 export * as manifest from "./manifest.mjs";
 
+/** Assembling the build stage, and clearing it away again. */
+export * as stage from "./stage.mjs";
+
+/** The release archive a GitHub Release carries. */
+export * as release from "./release.mjs";
+
 /** Localization files: what a shippable `lang/*.json` must satisfy. */
 export * as lang from "./lang.mjs";
 
