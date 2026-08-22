@@ -63,7 +63,7 @@ export const SETTINGS_LINKS_MARKER = "data-sohl-links";
 
 /**
  * The coiled-dragon emblem. Ships as a solid black SVG under `assets/icons/`,
- * which the build (`copy-assets.mjs` → `svg-theme.mjs`) recolors to adapt to
+ * which the build (`package-build assets` → `svg-theme.mjs`) recolors to adapt to
  * light/dark mode, so the same mark reads as ink on the light settings sidebar
  * and cream on the dark one.
  *

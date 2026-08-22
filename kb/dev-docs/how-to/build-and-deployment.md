@@ -63,7 +63,7 @@ sequence; `run-p` runs them in parallel.
 | `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                        |
 | `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                     |
 | `build:system`        | Generate `build/stage/system.json` from the template + `package.json` version (`utils/build-system-json.mjs`).                                    |
-| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`utils/copy-assets.mjs`).                                  |
+| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                   |
 | `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                         |
 | `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                |
 | `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                       |
@@ -74,7 +74,7 @@ sequence; `run-p` runs them in parallel.
 | `build:kb`            | `build:kb-content` then render it with Hugo → `build/site/sohl/`. Needs Hugo and the theme submodule.                                             |
 | `site:assemble`       | Mount the TypeDoc HTML at `build/site/sohl/api/` and finish the deployable tree (`utils/build-site.mjs`).                                         |
 | `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                     |
-| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`utils/pack-release.mjs`).                                                   |
+| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                    |
 | `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                              |
 
 ### Compendium packs
@@ -1150,14 +1150,12 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | Script                              | Purpose                                                                                                                     |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `build-system-json.mjs`             | Generate `build/stage/system.json` from the template + version.                                                             |
-| `copy-assets.mjs`                   | Stage templates, lang, assets, and root files into `build/stage/`.                                                          |
+| `svg-theme.mjs`                     | The `transform` hook `package-build assets` calls: recolor each staged SVG so icons follow the Foundry theme.               |
 | `build-icon-font.mjs`               | Build the icon font from SVGs.                                                                                              |
 | `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                                                              |
 | `docs-coverage.mjs`                 | Report doc-comment coverage.                                                                                                |
 | `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                                                   |
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                     |
-| `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                                                           |
-| `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                                                            |
 | `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.                                     |
 | `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname. |
 | `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                      |
