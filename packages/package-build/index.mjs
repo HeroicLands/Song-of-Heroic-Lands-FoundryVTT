@@ -42,6 +42,9 @@
 /** The Foundry package manifest: `system.json` / `module.json`. */
 export * as manifest from "./manifest.mjs";
 
+/** The code bundle, and whether the manifest agrees with how it parses. */
+export * as bundle from "./bundle.mjs";
+
 /** Assembling the build stage, and clearing it away again. */
 export * as stage from "./stage.mjs";
 
