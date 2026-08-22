@@ -39,6 +39,9 @@
  * @module
  */
 
+/** The Foundry package manifest: `system.json` / `module.json`. */
+export * as manifest from "./manifest.mjs";
+
 /** Localization files: what a shippable `lang/*.json` must satisfy. */
 export * as lang from "./lang.mjs";
 

@@ -12,23 +12,29 @@
  */
 
 /**
- * Generates the Foundry `system.json` manifest for the build.
+ * Generate this repository's Foundry `system.json`.
  *
- * Reads `assets/templates/system.template.json` and `package.json`, then
- * stamps the template with the current `version`, the GitHub
- * url/bugs/manifest/download URLs, and the project's external links under
- * `flags.sohl` (copied from `package.json` — the single source of truth — so
- * the settings-sidebar section reads them at runtime rather than hardcoding
- * them). The result is written to `build/stage/system.json` (creating the
- * stage directory if needed).
+ * **Being a Foundry package is `@heroiclands/package-build`'s job**, not this
+ * script's: reading the template, stamping the version and the four release
+ * addresses, and writing the result into the stage is the same work every
+ * HeroicLands package does, and `sohl-thalorna` carries a forked copy of it
+ * today. What stays here is only what is true of *this* package.
+ *
+ * Two things are:
+ *
+ * - the **settings-sidebar links**, single-sourced from `package.json` so the
+ *   running system reads them rather than hardcoding them;
+ * - the **Credits & Attributions journal's UUID**, resolved from the content
+ *   tree so the note's frontmatter `id` stays the single source of truth.
  *
  * Usage:
  *   npm run build:system             // node utils/build-system-json.mjs
  *   node utils/build-system-json.mjs // direct invocation (no args)
  */
 
-import { mkdir, readFile, writeFile } from "fs/promises";
+import { readFile } from "fs/promises";
 import { resolve } from "path";
+
 import { collectContentDocs } from "@heroiclands/content-build/engine/helpers";
 import { compendiumUuid } from "@heroiclands/content-build/engine/ids";
 import { packRouter as loadPackRouter } from "@heroiclands/content-build/engine/pack-router";
@@ -36,6 +42,7 @@ import {
     contentPackage,
     foundryPackageId,
 } from "@heroiclands/content-build/engine/content-package";
+import { writeFoundryManifest } from "@heroiclands/package-build/manifest";
 
 // Resolved once, here, rather than at each use. The package exports these as
 // accessors so that *importing* a module never needs a consumer config
@@ -47,7 +54,6 @@ const packRouter = loadPackRouter();
 
 const STAGE_DIR = resolve("build/stage");
 const systemTemplatePath = resolve("assets/templates/system.template.json");
-const systemJsonPath = resolve(STAGE_DIR, "system.json");
 const packageJsonPath = resolve("package.json");
 const contentBase = resolve("assets/content");
 
@@ -108,46 +114,30 @@ function resolveCreditsUuid() {
     );
 }
 
-await mkdir(STAGE_DIR, { recursive: true });
+const pkg = JSON.parse(await readFile(packageJsonPath, "utf-8"));
 
-// --- Load files ---
-const [templateRaw, packageRaw] = await Promise.all([
-    readFile(systemTemplatePath, "utf-8"),
-    readFile(packageJsonPath, "utf-8"),
-]);
+const { path: written } = await writeFoundryManifest({
+    templatePath: systemTemplatePath,
+    packageJson: pkg,
+    outDir: STAGE_DIR,
+    // External links for the settings-sidebar "Game System" section, each used
+    // as given: one unversioned tree of API documentation is published, for the
+    // newest release (#1452), so there is no per-version address for a running
+    // system to point at and nothing to compose.
+    flags: {
+        sohl: {
+            mainSiteUrl: pkg.homepage,
+            knowledgeBaseUrl: pkg.heroicLands.knowledgeBaseUrl,
+            apiDocsUrl: pkg.heroicLands.apiDocsUrl,
+            issuesUrl: `${pkg.repository.url}/issues`,
+            discordInviteUrl: pkg.heroicLands.discordInviteUrl,
+            // Resolved from the content tree rather than hardcoded — see
+            // resolveCreditsUuid above. A module ships the same key in its own
+            // manifest, which is the whole of what
+            // `sohl.apps.foundry.registerCreditsMenu` needs from it.
+            creditsUuid: resolveCreditsUuid(),
+        },
+    },
+});
 
-const template = JSON.parse(templateRaw);
-const pkg = JSON.parse(packageRaw);
-
-// --- Modify fields ---
-template.version = pkg.version;
-template.url = "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT";
-template.bugs =
-    "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues";
-template.manifest = `https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json`;
-template.download = `https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/download/v${pkg.version}/system.zip`;
-
-// External links for the settings-sidebar "Game System" section, single-sourced
-// from package.json. Each is used as given: one unversioned tree of API
-// documentation is published, for the newest release (#1452), so there is no
-// per-version address for a running system to point at and nothing to compose.
-// Preserve any existing `flags.sohl` keys the template may carry.
-template.flags = template.flags ?? {};
-template.flags.sohl = {
-    ...(template.flags.sohl ?? {}),
-    mainSiteUrl: pkg.homepage,
-    knowledgeBaseUrl: pkg.heroicLands.knowledgeBaseUrl,
-    apiDocsUrl: pkg.heroicLands.apiDocsUrl,
-    issuesUrl: template.bugs,
-    discordInviteUrl: pkg.heroicLands.discordInviteUrl,
-    // The Credits & Attributions journal, resolved from the content tree rather
-    // than hardcoded — see resolveCreditsUuid above. A module ships the same key
-    // in its own manifest, which is the whole of what
-    // `sohl.apps.foundry.registerCreditsMenu` needs from it.
-    creditsUuid: resolveCreditsUuid(),
-};
-
-// --- Write final system.json ---
-await writeFile(systemJsonPath, JSON.stringify(template, null, 2), "utf-8");
-
-console.log(`✅ Wrote ${systemJsonPath}`);
+console.log(`✅ Wrote ${written}`);
