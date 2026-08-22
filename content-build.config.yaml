@@ -1,0 +1,79 @@
+# This repository's content-build configuration — everything about the pack
+# pipeline that is *this* repository's rather than any consumer's (#1508).
+#
+# Every value the pack compilers used to carry as a module-level constant is
+# declared here: which content package they select, which Foundry package ships
+# the result, where the content tree and the build outputs live, what each
+# compiled document's `_stats` block says, and which packs exist. A different
+# repository — `sohl-thalorna`, `sohl-kethira-basic`, an adventure module —
+# ships the same toolchain with its own copy of this file and nothing else.
+#
+# **Paths, not captured values.** `paths.packageManifest` says *where* the
+# shipped Foundry manifest is; the package id guard and the compiled packs'
+# `_stats.coreVersion` both read it from there, so moving
+# `compatibility.minimum` moves the stamp without touching this file. Nothing
+# here may copy a value the manifest owns.
+#
+# **What is absent is derived, not forgotten.** `rootDir` is the directory this
+# file sits in; `stats.systemVersion` is read from the `package.json` beside it
+# — the file Changesets bumps and `utils/build-system-json.mjs` stamps into the
+# shipped manifest's `version`, so the stamp equals the version of the system
+# that compiled the document. A transcribed one froze at `0.6.0` for four
+# releases (#1548).
+
+# The distribution unit a note declares in its `package:` frontmatter. The pack
+# compilers select their entries by it, and it is stable across compilation
+# targets.
+contentPackage: sohl
+
+# The Foundry package the packs ship in — the `id` in
+# `assets/templates/system.template.json`, and the first segment of every
+# compendium UUID the compilers emit. Equal to `contentPackage` here only by
+# coincidence: in `sohl-thalorna` the two differ (#1498).
+foundryPackage: sohl
+packageKind: systems
+
+# Stamped into every compiled document's `_stats`. `systemId` names the game
+# system the content is *for*, which a module shipping SoHL content still
+# declares as "sohl". `coreVersion` is deliberately absent — it is read from the
+# manifest's `compatibility.minimum` — and so is `systemVersion`, read from
+# `package.json`.
+stats:
+    systemId: sohl
+    lastModifiedBy: sohlbuilder00000
+
+# Which content types compile into Items, and what builds each one's `system`
+# block. `itemTypes` and the doc-carrying-type set are derived from the
+# registry's keys, so a type cannot be accepted without a builder behind it
+# (#1504). It is named rather than supplied: the registry is SoHL data-model
+# knowledge living in the toolchain's `sohl` half, and data cannot carry code.
+itemBuilders: sohl
+
+# `assets/content/` is opened as an Obsidian vault, whose templater scaffolding
+# lives in `Templates/` and is never compendium content.
+skipDirectories: [Templates]
+
+# The one pack list. Order is load-bearing: the actors pass resolves each
+# being's embedded items against the items pass's output, so items compile
+# first. `packDirectories` — what `build:compiledb` turns into LevelDB — is
+# derived from this, so the compile list and the compiler list cannot drift
+# apart the way `SOURCE_PACKS` and `PACK_CONFIGS` did.
+packs:
+    - { name: items, type: Item, folders: item-folders.yaml }
+    - { name: journals, type: JournalEntry, folders: journal-folders.yaml }
+    - { name: actors, type: Actor, folders: actor-folders.yaml }
+    - { name: macros, type: Macro, folders: macro-folders.yaml }
+    - name: scenes
+      type: Scene
+      folders: scene-folders.yaml
+      # One pass, two packs: every map note's Scene, and the Adventure bundling
+      # the pinned ones with their journals so a `keepId: true` import makes the
+      # pins resolve (#1525).
+      companions:
+          - { name: adventures, type: Adventure }
+
+# This repository publishes a knowledgebase and a link manifest, and consumes
+# the manifests of the packages it links into (#1385/#1446).
+publish:
+    site: true
+    manifests: { publish: true, consume: true }

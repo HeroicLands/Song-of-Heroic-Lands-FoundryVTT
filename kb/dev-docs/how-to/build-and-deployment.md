@@ -398,7 +398,7 @@ empty **output**, when a pass compiles zero entries from a tree that is not
 empty. That second case is what a wrong package id looks like: every note is
 rejected because it declares a package this build does not compile. A pack that
 genuinely ships nothing in some consuming package declares `mayBeEmpty: true` on
-its entry in `content-build.config.mjs`, rather than the guard being relaxed for
+its entry in `content-build.config.yaml`, rather than the guard being relaxed for
 everyone.
 
 Cross-package references are resolved through published link manifests rather
@@ -408,7 +408,7 @@ than a shared tree; see `@heroiclands/content-build/engine/kb-manifest` and `ass
 
 Items, actors, and journal entries are Markdown files with YAML frontmatter
 (a `package:` naming the content package this repository compiles — `sohl` here,
-declared once as `contentPackage` in `content-build.config.mjs` — a
+declared once as `contentPackage` in `content-build.config.yaml` — a
 `type:`, a stable `id:`, and folder/embedding metadata),
 authored in the vault and exported anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
@@ -552,14 +552,29 @@ keeping it framework-free is what makes it unit-testable.
 
 Everything about the pipeline that is _this repository's_ rather than any
 consumer's lives in one file at the repository root,
-**`content-build.config.mjs`**, validated by `defineConfig` from the shared
-`@heroiclands/content-build` package. Nothing inside that package spells a path,
-a package name, or a pack list of its own; each module reads the resolved
+**`content-build.config.yaml`**. Nothing inside the shared package spells a
+path, a package name, or a pack list of its own; each module reads the resolved
 configuration through `@heroiclands/content-build/engine/pack-config`, which
 locates the config file by walking up from itself — so it lands on the consuming
 repository's root from `node_modules/` (#1508). A consuming repository —
 `sohl-thalorna`, `sohl-kethira-basic`, an adventure module — ships the same
 toolchain with its own copy of that file and nothing else.
+
+**The configuration is data, and it is deliberately not code.** Three values a
+code config used to compute are derived by the loader instead, so no repository
+reproduces them:
+
+| Field                 | Derived from                                                        |
+| --------------------- | ------------------------------------------------------------------- |
+| `rootDir`             | the directory the config file sits in — **authoring it throws**     |
+| `stats.systemVersion` | `version` in the adjacent `package.json`, unless stated             |
+| `itemBuilders`        | a **name** (`itemBuilders: sohl`), resolved to the shipped registry |
+
+A `content-build.config.mjs` still loads, for a consumer whose item-builder
+registry is its own code — data cannot carry functions. Both forms end at the
+same `defineConfig`, so both are validated and frozen identically. A directory
+holding **both** is an error rather than a precedence question: picking one
+would let a repository mid-conversion build from the file nobody is editing.
 
 ##### Several packs of one document type
 
@@ -570,9 +585,9 @@ packs and later collapses them into one invalidates every reference an existing
 world holds. Foundry modules routinely split same-type documents editorially, and
 the pipeline has to be able to express that.
 
-```js
-packs: [
-    { name: "characteristics", type: "Item", default: true },
+```yaml
+packs:
+    - { name: characteristics, type: Item, default: true }
     { name: "mysteries", type: "Item" },
     { name: "journals", type: "JournalEntry" },
 ],
@@ -652,8 +667,9 @@ The `assets/` root a content note's `img:` resolves to is derived, not written:
 
 Which `type:` values compile into an Item is declared **once**, in the registry
 `@heroiclands/content-build/sohl/item-builders`: `ITEM_BUILDERS` pairs each type with the builder
-that produces its `system` block. This repository hands that table to the build
-as `itemBuilders` in `content-build.config.mjs`, and
+that produces its `system` block. This repository **names** that registry —
+`itemBuilders: sohl` in `content-build.config.yaml`, since data cannot carry
+functions — the loader resolves the name to the table, and
 `@heroiclands/content-build/engine/item-registry` reads it back out of the
 resolved configuration — both the whitelist `itemTypes()` (its key set, which
 `@heroiclands/content-build/engine/item-docs` re-exports and assembles

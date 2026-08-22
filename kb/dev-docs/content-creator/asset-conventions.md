@@ -327,8 +327,9 @@ into a square box and will letterbox anything else.
 3. Reference it from the note with the short form — `img: icons/other/relic.svg`
    — never the rooted one.
 4. Confirm the file is really at that path. Nothing else will.
-5. For a new **item type**, pair its default art with its builder in
-   `content-build.config.mjs` rather than reaching for a SoHL table.
+5. For a new **item type**, pair its default art with its builder in the
+   `ITEM_BUILDERS` registry rather than reaching for a SoHL table. The
+   configuration names that registry; it does not carry it.
 
 Where `img:` and `portrait:` sit in a note is per-type: see
 [Item Note Frontmatter](item-frontmatter.md) and [Actor Notes](actor-notes.md).
