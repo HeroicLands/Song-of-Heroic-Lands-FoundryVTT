@@ -41,7 +41,9 @@ outnumbers WebP about 379 to 1. Raster art is the exception here (portraits,
 placeholders, branding), not the norm; if you are adding an item icon you are
 almost certainly adding an SVG.
 
-**Only five asset directories ship.** `utils/copy-assets.mjs` mirrors
+**Only five asset directories ship.** `npm run build:assets`
+(`package-build assets`, driven by `packageBuild.assets` in
+`content-build.config.yaml`) mirrors
 `assets/{audio,icons,silhouette,fonts,ui}` into `build/stage/`, along with
 `lang/` and `templates/`. `assets/content/`, `assets/manifests/` and
 `assets/templates/` are build inputs and are **not** copied — a file dropped
@@ -140,7 +142,7 @@ Two live consequences are already on record.
 two magic prefixes, and 95 `being` notes author
 `portrait: images/being/<code>-portrait.webp`, which compiles to
 `systems/sohl/assets/images/being/…` — a directory the build never creates and
-`copy-assets.mjs` never ships. Every one of those portraits currently resolves
+the staged asset table never ships. Every one of those portraits currently resolves
 nowhere. The paths are correct as an intention; the art has not been drawn yet.
 
 **`sohl-thalorna` hit the same class of failure at scale.** 444 of its 630
@@ -212,7 +214,7 @@ meaning, wherever it is written. This is the current, fixed behaviour (#1568).
 Bundled icons are solid black silhouettes, which vanish on a dark surface —
 including the Foundry compendium and directory windows, whose `<img>` thumbnails
 SoHL's `.sohl`-scoped CSS cannot reach. The only styling that travels with an
-SVG loaded through `<img>` is the SVG itself, so `copy-assets.mjs` runs every
+SVG loaded through `<img>` is the SVG itself, so staging runs every
 `.svg` under `assets/icons` through `injectAdaptiveFill`
 (`utils/svg-theme.mjs`), which inserts a `<style>` block carrying a
 `@media (prefers-color-scheme: dark)` fill swap: iron-gall ink `#211d16` in

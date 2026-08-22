@@ -22,7 +22,8 @@
  * `@media (prefers-color-scheme: dark)` fill swap: iron-gall ink in light, cream
  * in dark, matching the Manuscript tokens.
  *
- * Applied at build time only (see `utils/copy-assets.mjs`) — the source SVGs stay
+ * Applied at build time only (see {@link transform}, which
+ * `package-build assets` calls for every staged file) — the source SVGs stay
  * pristine black-on-transparent so the knowledgebase and website (which render
  * them on light ground) are unaffected.
  *
@@ -33,6 +34,8 @@
  * style wins over a `<style>` rule) — those are returned unchanged rather than
  * half-recolored.
  */
+
+import { readFileSync } from "node:fs";
 
 // Iron-gall ink (light) / cream (dark) — mirrors `--sohl-color-text-primary` in
 // scss/abstracts/_tokens.scss. Kept in sync by hand (a build script can't read
@@ -99,4 +102,20 @@ export function injectAdaptiveFill(svg) {
     if (!open) return svg;
     const at = open.index + open[0].length;
     return svg.slice(0, at) + STYLE + svg.slice(at);
+}
+
+/**
+ * The staging hook `package-build assets` calls for every file it copies.
+ *
+ * Returns replacement text for an SVG, and `null` for anything else — which is
+ * the CLI's signal to copy the file through untouched. It exists so that the
+ * *rule* (which files, and what to do to them) stays here, in the repository
+ * that owns the icons, while the copying stays in the shared toolchain.
+ *
+ * @param {string} sourcePath - Absolute path of the file being staged.
+ * @returns {string|null} The rewritten SVG, or `null` to copy verbatim.
+ */
+export function transform(sourcePath) {
+    if (!sourcePath.endsWith(".svg")) return null;
+    return injectAdaptiveFill(readFileSync(sourcePath, "utf8"));
 }

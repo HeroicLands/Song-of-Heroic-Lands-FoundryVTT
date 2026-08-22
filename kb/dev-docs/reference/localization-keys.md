@@ -220,7 +220,7 @@ Foundry runs `foundry.utils.expandObject` over the whole file as it loads it, an
 the throw and discards the **entire file**, so one colliding pair drops every SoHL
 string and the UI renders raw keys (#636).
 
-`npm run lint:lang` (`utils/check-lang.mjs`) fails the build on any such pair. If you
+`npm run lint:lang` (`package-build lang check`) fails the build on any such pair. If you
 need both a label for a thing and keys beneath it, give the label its own leaf:
 `SOHL.Trauma.Pall.label` plus `SOHL.Trauma.Pall.Note`.
 
@@ -271,7 +271,7 @@ cover both directions — a key with no string, and a string with no key.
 
 | Check                                              | Fails on                                                                                                                                                          |
 | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `lint:lang` (`check-lang.mjs`)                     | A key that is both a leaf and a branch (the `expandObject` collision above); a value using `{{…}}` or an unbalanced brace; a key segment outside `[A-Za-z0-9_-]`. |
+| `lint:lang` (`package-build lang check`)           | A key that is both a leaf and a branch (the `expandObject` collision above); a value using `{{…}}` or an unbalanced brace; a key segment outside `[A-Za-z0-9_-]`. |
 | `lint:lang-coverage` (`check-lang-coverage.mjs`)   | A referenced key missing from `en.json`, **and** an `en.json` key nothing references.                                                                             |
 | `lint:lang-hardcoded` (`check-lang-hardcoded.mjs`) | User-visible English left in a template; a template that fails to compile.                                                                                        |
 

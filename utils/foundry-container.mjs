@@ -16,7 +16,7 @@
  *
  * Loads `.env.local` (then `.env`) from the repo root and reads the Foundry
  * user-data root from `FOUNDRYVTT_<STAGE>_DATA` (dev/qa/prod) — the same
- * variable `push-stage.mjs` deploys into. That directory is bind-mounted at
+ * variable `package-build deploy` writes into. That directory is bind-mounted at
  * `/data` in the container, so the system pushed to `<root>/Data/systems/sohl/`
  * is served directly.
  *
