@@ -855,7 +855,7 @@ for (const e of entries) {
         // Rest, Loft/` and the like. They are dropped, and this build emits
         // no redirects of its own.
         delete data.aliases;
-        if (fm.type === "character" || fm.type === "creature") {
+        if (fm.type === "being") {
             data.sohl = deriveBeingSohl(fm.sohl, refIndex);
         }
         if (isReadme) {
