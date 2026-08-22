@@ -50,4 +50,31 @@ describe("injectAdaptiveFill (dark-mode adaptive icon SVGs, #893)", () => {
         const inline = `<svg viewBox="0 0 8 8"><path style="fill:#000" d="M0 0Z"/></svg>`;
         expect(injectAdaptiveFill(inline)).toBe(inline);
     });
+
+    it("still skips a fill declaration that is not the first in its style", () => {
+        const inline = `<svg viewBox="0 0 8 8"><path style="stroke: none; fill: rgb(0,0,0); opacity: 1;" d="M0 0Z"/></svg>`;
+        expect(injectAdaptiveFill(inline)).toBe(inline);
+    });
+
+    it("skips on a single-quoted style attribute too", () => {
+        const inline = `<svg viewBox="0 0 8 8"><path style='fill: black' d="M0 0Z"/></svg>`;
+        expect(injectAdaptiveFill(inline)).toBe(inline);
+    });
+
+    it("keys the guard on the `fill` property, not the substring (#1677)", () => {
+        // `fill-rule`, `fill-opacity` and `paint-order: fill` are not fills.
+        // A shape whose colour comes from a `fill` **attribute** is themeable,
+        // and must not be skipped just because its style names one of those.
+        const svg = `<svg viewBox="0 0 8 8"><path style="fill-rule: nonzero; fill-opacity: 1; paint-order: fill;" fill="#000" d="M0 0Z"/></svg>`;
+        expect(injectAdaptiveFill(svg)).toContain("<style>");
+    });
+
+    it("does not mistake a `fill` inside a <style> block for an inline style", () => {
+        // A CSS rule loses to our injected rule on specificity, so a file that
+        // classes its shapes is themeable; only a style *attribute* wins.
+        const svg = `<svg viewBox="0 0 8 8"><style>.fil0 {fill:black}</style><path class="fil0" d="M0 0Z"/></svg>`;
+        expect(injectAdaptiveFill(svg)).toContain(
+            "@media(prefers-color-scheme:dark)",
+        );
+    });
 });

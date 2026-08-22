@@ -61,6 +61,26 @@ const STYLE =
     `<style>${SELECTOR}{fill:${INK_LIGHT}}` +
     `@media(prefers-color-scheme:dark){${SELECTOR}{fill:${INK_DARK}}}</style>`;
 
+// Every `style="…"` / `style='…'` attribute, capturing the declarations.
+const STYLE_ATTR = /style\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+// A `fill` *declaration* — the property itself, at the start of the attribute
+// or after a `;`. Deliberately not `\bfill\b`, which also matches `fill-rule`,
+// `fill-opacity` and `paint-order: fill`, none of which set a colour (#1677).
+const FILL_DECL = /(?:^|;)\s*fill\s*:/i;
+
+/**
+ * Does any element carry a `fill` declaration in its `style` attribute?
+ *
+ * @param {string} svg - the SVG file contents.
+ * @returns {boolean} `true` when at least one inline `fill:` is present.
+ */
+function hasInlineFill(svg) {
+    for (const [, dq, sq] of svg.matchAll(STYLE_ATTR)) {
+        if (FILL_DECL.test(dq ?? sq ?? "")) return true;
+    }
+    return false;
+}
+
 /**
  * Inject the adaptive-fill `<style>` into an SVG source string.
  *
@@ -74,7 +94,7 @@ export function injectAdaptiveFill(svg) {
     if (svg.includes("prefers-color-scheme")) return svg;
     // Inline fill styles win over a <style> rule, so we can't reliably recolor
     // such a file — leave it rather than produce a half-recolored icon.
-    if (/style\s*=\s*["'][^"']*\bfill\b/i.test(svg)) return svg;
+    if (hasInlineFill(svg)) return svg;
     const open = svg.match(/<svg\b[^>]*>/i);
     if (!open) return svg;
     const at = open.index + open[0].length;

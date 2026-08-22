@@ -235,7 +235,10 @@ The injected rule matches `[fill="#000"]`, `[fill="#000000"]`,
 1. It has an `<svg …>` open tag.
 2. It contains no `prefers-color-scheme` (already-themed files are left alone,
    which is what makes the injection idempotent).
-3. It contains no inline `style="…fill…"` anywhere in the file.
+3. No drawable states its colour as a `fill` declaration inside a `style`
+   attribute. The guard keys on the **property**, so `fill-rule`,
+   `fill-opacity` and `paint-order: fill` are all fine — only `fill:` itself
+   disqualifies a file.
 4. Its drawables either carry a black `fill` attribute or no `fill` attribute.
 
 Each of the first three bail-outs returns the file **unchanged** rather than
@@ -250,20 +253,29 @@ theme. 38 files under `other/` use it; all are UI-chrome glyphs with no black
 fill to match, so they are simply unaffected rather than broken. Do not reach
 for `currentColor` expecting it to do what the injected `<style>` does.
 
-### An inline fill style skips the file entirely — 45 of them today
+### An inline fill style skips the file entirely
 
 An inline `style` attribute wins over a `<style>` rule, so `injectAdaptiveFill`
-declines to touch such a file. **45 icons are in that state**: `noun/longbow.svg`,
-`noun/polearm.svg`, and 43 under `other/`.
+declines to touch such a file. **State an icon's colour as a `fill` attribute,
+never as a `fill:` declaration** — or drop it entirely, so the shape defaults to
+black and the injected rule picks it up through `:not([fill])`.
 
-**Four of them are default item art**, so those four types ship un-themed icons
-today: `affliction` (`other/sick.svg`), `mysticalability`
-(`other/hand-sparkles.svg`), `mystery` (`other/sparkles.svg`) and `skill`
-(`other/head-gear.svg`).
+Forty-five bundled icons were authored the other way, five of them default item
+art, and each shipped black on the dark compendium and directory windows. They
+were rewritten to `fill` attributes in #1677; the rendered artwork is
+unchanged, since a `fill` attribute and a `fill:` declaration name the same
+colour.
 
-This is a known wart, not a design decision. **If you are authoring or replacing
-an icon, strip inline fill styles from it** — move the colour to a `fill`
-attribute (or drop it, so the shape defaults to black) and the file themes.
+`tests/build/icon-theming.test.ts` is the standing gate. It walks every `.svg`
+under `assets/icons`, fails on any the injection declines, and separately
+requires each `ITEM_METADATA` / `ACTOR_METADATA` default art to theme. A new
+icon carrying inline fills fails there rather than shipping un-themed.
+
+That suite carries one allowlist entry: `other/mantle.svg` is drawn entirely in
+**strokes**, whose colour lives in an inline `stroke:` that no injected rule can
+override, and rewriting only its fills would half-recolour it. Stroke theming is
+tracked in #1687 — it affects roughly two dozen further icons that carry a black
+`stroke` attribute alongside a themed fill.
 
 ### The webfont normaliser is a separate pass
 
@@ -309,8 +321,9 @@ into a square box and will letterbox anything else.
 
 1. Put it under the right `assets/` directory — an item or actor icon goes in
    `assets/icons/other/` unless it comes from a vendored set.
-2. If it is an SVG, check it against the four conditions above; strip any inline
-   `style="fill:…"`.
+2. If it is an SVG, check it against the four conditions above; move any
+   `style="…fill:…"` colour out to a `fill` attribute.
+   `tests/build/icon-theming.test.ts` checks this for you.
 3. Reference it from the note with the short form — `img: icons/other/relic.svg`
    — never the rooted one.
 4. Confirm the file is really at that path. Nothing else will.
