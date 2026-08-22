@@ -27,6 +27,11 @@ on it from another repository.
 
 ## What it covers today
 
+- **`manifest`** — the Foundry package manifest, `system.json` or `module.json`:
+  read the repository's template, stamp the version and the four release
+  addresses, write it into the stage. The artifact is inferred from the
+  template's name, and every address is derived from `package.json`'s
+  `repository` — nothing is transcribed.
 - **`lang`** — what a shippable Foundry localization file must satisfy: it
   parses, its top level is an object, no key is both a leaf and a dotted prefix
   of another, placeholders are single-braced, and key segments carry no data.
@@ -35,8 +40,11 @@ on it from another repository.
 
 ## Design
 
-**Everything exported is pure.** Functions take source text and return findings
-or values; discovery, I/O and reporting stay with the caller.
+**The rules are pure, and I/O is confined to functions named for it.** A rule
+takes source text or data and returns findings or values; discovery and
+reporting stay with the caller. Where a step genuinely has to touch disk it is a
+single `write*` / `read*` export whose decisions are all made by the pure
+functions beside it — `writeFoundryManifest` is the only one today.
 
 ```js
 import { validateLangSource } from "@heroiclands/package-build/lang";
