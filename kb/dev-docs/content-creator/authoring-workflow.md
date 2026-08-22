@@ -94,7 +94,7 @@ checks that would have explained it.
 
 `package:` names the **distribution** that owns the note, and it is checked first,
 against the `contentPackage` this repository configures — `sohl`, declared in
-`content-build.config.mjs`. A note whose `package:` does not match is skipped:
+`content-build.config.yaml`. A note whose `package:` does not match is skipped:
 
 ```js
 if (!fm || fm.package !== contentPackage()) {
