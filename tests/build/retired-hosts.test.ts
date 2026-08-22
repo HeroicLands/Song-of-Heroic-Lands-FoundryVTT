@@ -10,7 +10,6 @@ import { describe, it, expect } from "vitest";
 // because the build scripts live outside the `@src` alias tree.
 import {
     RETIRED_HOSTS,
-    findRetiredLinks,
     findRetiredHrefs,
     repairRetiredHrefs,
     rewriteCandidates,
@@ -38,69 +37,6 @@ describe("RETIRED_HOSTS", () => {
         );
         expect(RETIRED_HOSTS.get("kb.heroiclands.org")).toContain(
             "www.heroiclands.org/sohl/kb/",
-        );
-    });
-});
-
-describe("findRetiredLinks", () => {
-    it("finds a retired host in a markdown link", () => {
-        const found = findRetiredLinks(
-            "| **API** | [`TraumaLogic.requestTreatment`]" +
-                "(https://api.heroiclands.org/main/classes/X.html#req) |\n",
-        );
-        expect(found).toHaveLength(1);
-        expect(found[0].host).toBe("api.heroiclands.org");
-        expect(found[0].url).toBe(
-            "https://api.heroiclands.org/main/classes/X.html#req",
-        );
-    });
-
-    it("reports the line each one is on", () => {
-        const found = findRetiredLinks(
-            "clean\nhttps://kb.heroiclands.org/rules/\nclean\n",
-        );
-        expect(found).toHaveLength(1);
-        expect(found[0].line).toBe(2);
-    });
-
-    it("finds several on one line, and both hosts", () => {
-        const found = findRetiredLinks(
-            "see https://api.heroiclands.org/main/a.html and " +
-                "https://kb.heroiclands.org/b/\n",
-        );
-        expect(found.map((f) => f.host)).toEqual([
-            "api.heroiclands.org",
-            "kb.heroiclands.org",
-        ]);
-    });
-
-    it("matches a bare or scheme-less occurrence, not just a full URL", () => {
-        // The rot shows up in prose and in `system.json`-style bare hosts too;
-        // catching only `https://…` would let those through.
-        expect(
-            findRetiredLinks("visit api.heroiclands.org today"),
-        ).toHaveLength(1);
-    });
-
-    it("leaves the surviving host alone", () => {
-        // The whole point of the move — these are the addresses that work.
-        expect(
-            findRetiredLinks(
-                "https://www.heroiclands.org/sohl/api/classes/X\n" +
-                    "https://www.heroiclands.org/sohl/kb/user-guide/\n",
-            ),
-        ).toEqual([]);
-    });
-
-    it("is not fooled by a longer hostname that ends the same way", () => {
-        // `myapi.heroiclands.org` is a different host; a naive substring match
-        // would report it and fail the build on a link that works.
-        expect(findRetiredLinks("https://myapi.heroiclands.org/x")).toEqual([]);
-    });
-
-    it("returns nothing for content with no absolute links at all", () => {
-        expect(findRetiredLinks("[[skill-battle]] and some prose\n")).toEqual(
-            [],
         );
     });
 });

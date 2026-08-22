@@ -14,66 +14,53 @@
 /**
  * CI guard: content links land somewhere, and the corpus can be read through.
  *
- * Four link defects survive both content builds silently, so neither the pack
- * compilers nor the knowledgebase build catches them:
+ * **Resolving links is `@heroiclands/content-build`'s job**, not this script's:
+ * three defects survive both content builds silently — a dead `#anchor`, a
+ * dead qualified address, and a wikilink authored in frontmatter — and every
+ * package authors notes against the same rules, so the checks live where every
+ * package gets them (content-build#20). This repository's copy also carried its
+ * own wikilink pattern, which had drifted from the compilers' own.
  *
- * 1. **Dead `#anchor` links.** `anchorPageId()` derives a Foundry page id by
- *    hashing `"<noteId>-<anchorSlug>"` — it never checks that a heading
- *    declaring that slug exists. A link to an anchor nobody declares compiles
- *    cleanly, emits a `@UUID` enricher, and dead-ends for the reader.
- * 2. **Unreachable documents.** A note with no inbound link is still compiled
- *    into the pack and still published to the knowledgebase; it is simply
- *    impossible to arrive at by reading. The rules are a book and the user
- *    guide is a manual, so every `Rules/**` and `User_Guide/**` document must
- *    be reachable from its own root by following links.
- * 3. **Links to a retired hostname.** An absolute URL is opaque to the two
- *    checks above — they read wikilinks — so a link to a host this project has
- *    withdrawn compiles and publishes looking exactly like a working one, and
- *    fails at DNS with no redirect to follow. 71 of them shipped that way
- *    (#1485); {@link RETIRED_HOSTS} is the list that now fails the build.
- * 4. **A wikilink authored in frontmatter.** Both builds walk a note's *body*
- *    and copy its frontmatter through verbatim, so a link written in a
- *    `description` or a `government.summary` is never resolved and publishes
- *    as literal `[[…]]` text in whatever the theme renders that field as
- *    (#1428). The knowledgebase build now refuses it too; this catches it a
- *    step earlier, on every change rather than on every publish.
+ * One check stays here, because it is a statement about what *this* package
+ * publishes rather than about the note format:
  *
- * The wikilink checks resolve links the way the builds do: an alias scoped to the
- * source note's own type, then the qualifier — `type-shortcode`, or the legacy
- * `type/shortcode` — read with the pack compilers' own {@link readQualifier}
- * rather than a second copy of the rule. Fenced `dataview` tables are expanded
- * first, so a generated row link counts as a real link.
+ * - **Corpus reachability.** The rules are a book and the user guide is a
+ *   manual, so every `Rules/**` and `User_Guide/**` document must be reachable
+ *   from its own root by following links. A note with no inbound link is still
+ *   compiled and still published; it is simply impossible to arrive at by
+ *   reading.
+ *
+ * It is answered from the link graph the package returns rather than from a
+ * second resolver.
+ *
+ * **Retired hostnames are no longer checked here.** 71 links to a withdrawn host
+ * shipped once (#1485), and the scan that caught them has reported nothing since
+ * — an author reintroduces a dead hostname only by typing one they never use.
+ * What still needs guarding is *generated* output, where a URL is emitted rather
+ * than authored: `utils/build-site.mjs` repairs retired hrefs in the assembled
+ * site and refuses to publish one it cannot repair. That is where the risk
+ * actually lives.
  *
  * Usage:
- *   npm run lint:content-links         // node utils/check-content-links.mjs
- *   node utils/check-content-links.mjs // direct invocation (no args)
+ *   npm run lint:content-links        // node utils/check-content-links.mjs
+ *   node utils/check-content-links.mjs
  */
-import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
 
 import {
-    slugify,
-    frontmatterWikilinks,
-} from "@heroiclands/content-build/engine/web-wikilinks";
+    auditLinks,
+    buildLinkIndex,
+} from "@heroiclands/content-build/engine/content-links";
+
 import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
 import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
-import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
-import { matchAllOutsideCode } from "@heroiclands/content-build/engine/code-fences";
-import { readQualifier } from "@heroiclands/content-build/engine/wikilinks";
-import { hasDocEntry } from "@heroiclands/content-build/engine/item-docs";
-import {
-    canonicalKey,
-    readCanonicalKey,
-    loadForeignManifests,
-    manifestsComplete,
-} from "@heroiclands/content-build/engine/kb-manifest";
-import { RETIRED_HOSTS, findRetiredLinks } from "./retired-hosts.mjs";
 
 const CONTENT = path.join("assets", "content");
+const MANIFEST_DIR = path.join("assets", "manifests");
+
 /**
  * The corpora that must be readable end to end, each declared as
- * `[label, root]`; the directory it owns is the root's own.
+ * `[label, rootRelativeToContent]`; the directory it owns is the root's own.
  *
  * The rules are a book and the user guide is a manual: each has a page one, and
  * everything in its tree must follow from it. Both roots are `README.md`,
@@ -83,13 +70,10 @@ const CONTENT = path.join("assets", "content");
  * `_Introduction.md` name.
  */
 const CORPORA = [
-    ["rules", path.join(CONTENT, "Rules", "README.md")],
-    ["user guide", path.join(CONTENT, "User_Guide", "README.md")],
-].map(([label, root]) => ({
-    label,
-    root,
-    dir: path.dirname(root) + path.sep,
-}));
+    ["rules", "Rules/README.md"],
+    ["user guide", "User_Guide/README.md"],
+].map(([label, root]) => ({ label, root, dir: `${path.dirname(root)}/` }));
+
 /**
  * Index pages are walked *to*, never *through*. The glossary links to nearly
  * every page in the corpus, so following it would make the reachability check
@@ -98,171 +82,16 @@ const CORPORA = [
  */
 const INDEX_SHORTCODES = new Set(["glossary"]);
 
-/** @returns {Generator<string>} every `.md` file under `dir`, recursively. */
-function* walk(dir) {
-    for (const name of readdirSync(dir).sort()) {
-        const p = path.join(dir, name);
-        if (statSync(p).isDirectory()) yield* walk(p);
-        else if (p.endsWith(".md")) yield p;
-    }
-}
+const index = buildLinkIndex(CONTENT, {
+    manifestDir: MANIFEST_DIR,
+    skipDirectories: ["Templates"],
+});
 
-// --- Load every content note ---------------------------------------------
-
-/**
- * Every note, with its raw text kept alongside the parsed body — a retired
- * hostname can sit in frontmatter (a `url:` field) as readily as in prose, and
- * the parsed body has already dropped it.
- *
- * @type {Array<{file: string, fm: object, body: string, raw: string, type: string}>}
- */
-const notes = [];
-/** Wikilinks authored in frontmatter (#1428) — `{file, path, link}` each. */
-const frontmatterLinks = [];
-for (const file of walk(CONTENT)) {
-    const raw = readFileSync(file, "utf8");
-    const { data: fm, content: body } = matter(raw);
-    if (!fm || typeof fm.type !== "string") continue;
-    for (const hit of frontmatterWikilinks(fm)) {
-        frontmatterLinks.push({ file, raw, ...hit });
-    }
-    notes.push({ file, fm, body, raw, type: fm.type.toLowerCase() });
-}
-
-// --- Resolution index (mirrors the builds) -------------------------------
-
-const byKey = new Map(); // `type/shortcode` → note
-const byAlias = new Map(); // `type|alias`     → note
-const aliasCollide = new Set();
-for (const note of notes) {
-    const { fm, type } = note;
-    if (typeof fm.shortcode === "string" && fm.shortcode) {
-        byKey.set(`${type}/${fm.shortcode}`.toLowerCase(), note);
-        // The canonical, fully qualified address alongside the short one, so a
-        // package-qualified link checks the same way a bare one does (#1499).
-        if (fm.package) {
-            byKey.set(canonicalKey(fm.package, type, fm.shortcode), note);
-        }
-        // An item's documentation is a document — and an address — in its own
-        // right, so it is indexed as one. It has to be: once a manifest
-        // publishes `doc<type>` entries, `doc<type>` is a *known type*, and the
-        // virtual reading that used to answer for it no longer fires (a real
-        // type owns its own name).
-        if (hasDocEntry(type)) {
-            byKey.set(`doc${type}/${fm.shortcode}`.toLowerCase(), note);
-            if (fm.package) {
-                byKey.set(
-                    canonicalKey(fm.package, `doc${type}`, fm.shortcode),
-                    note,
-                );
-            }
-        }
-    }
-    const aliases = [
-        ...(Array.isArray(fm.aliases) ? fm.aliases : []),
-        ...(Array.isArray(fm.name?.aliases) ? fm.name.aliases : []),
-        fm.name?.full,
-        path.basename(note.file, ".md").replace(/_/g, " "),
-    ].filter((a) => typeof a === "string" && a);
-    for (const a of aliases) {
-        const k = `${type}|${a}`.toLowerCase();
-        if (aliasCollide.has(k)) continue;
-        const cur = byAlias.get(k);
-        if (cur && cur !== note) {
-            byAlias.delete(k);
-            aliasCollide.add(k);
-        } else if (!cur) {
-            byAlias.set(k, note);
-        }
-    }
-}
-
-/** The searchable universe a `dataview` table draws its rows from. */
-const tableDocs = notes.map((n) => ({
-    fm: n.fm,
-    path: path.relative(CONTENT, n.file).split(path.sep).join("/"),
-    tld: path.relative(CONTENT, n.file).split(path.sep)[0],
-    folder: path.dirname(path.relative(CONTENT, n.file)).split(path.sep).pop(),
-}));
-
-/** Every `{#anchor}` a note declares on a heading. */
-function anchorsOf(note) {
-    const found = new Set();
-    for (const line of note.body.split("\n")) {
-        const m = /^#{1,6}\s+.*\{#([a-z0-9-]+)\}\s*$/.exec(line.trim());
-        if (m) found.add(m[1]);
-    }
-    return found;
-}
-const anchors = new Map(notes.map((n) => [n, anchorsOf(n)]));
-
-/**
- * Every wikilink in a note body, with its `dataview` tables already expanded.
- *
- * @returns {Array<{target: string, anchor: string}>} `target` is `""` for a
- *   same-page `[[#anchor]]` link.
- */
-function linksOf(note) {
-    let body = note.body;
-    if (/^[ \t]*(?:`{3,}|~{3,})[ \t]*dataview\b/im.test(body)) {
-        body = expandContentTables(body, {
-            docs: tableDocs.filter((d) => d.fm.package === note.fm.package),
-            linkable: (d) => Boolean(d.fm.shortcode),
-            source: note.file,
-        }).markdown;
-    }
-    const out = [];
-    // How many times each authored link has been seen, so two identical links
-    // in one note are reported at their own positions rather than both at the
-    // first (#1668).
-    const seen = new Map();
-    // Code is verbatim, so a `[[…]]` inside a fence, an indented block or an
-    // inline span is not a link to check — the compilers do not make one of
-    // it either (#1505).
-    for (const [all, rawInner] of matchAllOutsideCode(
-        body,
-        /\[\[([^\]]+)\]\]/g,
-    )) {
-        const inner = rawInner.replace(/\\\|/g, "|");
-        const bar = inner.indexOf("|");
-        const linkPart = (bar === -1 ? inner : inner.slice(0, bar)).trim();
-        const hash = linkPart.indexOf("#");
-        const occurrence = (seen.get(all) ?? 0) + 1;
-        seen.set(all, occurrence);
-        out.push({
-            target: (hash === -1 ? linkPart : linkPart.slice(0, hash)).trim(),
-            anchor: hash === -1 ? "" : linkPart.slice(hash + 1).trim(),
-            // The link exactly as authored, which is what locates it in the
-            // file. A link a `dataview` table generated is not in the file at
-            // all, so the search simply fails and the finding names the file —
-            // the drop-rather-than-guess rule.
-            text: all,
-            occurrence,
-        });
-    }
-    return out;
-}
-
-/** Every type the tree contains — what makes a hyphen read as a qualifier. */
-const types = new Set(notes.map((n) => n.type));
-
-// Cross-package manifests (#1446). A foreign package may use a type this
-// repository has never seen, so its types join `types` — otherwise
-// `readQualifier` reads the link as prose and it is never checked at all.
-const MANIFEST_DIR = path.join("assets", "manifests");
-const foreign = loadForeignManifests(
-    MANIFEST_DIR,
-    new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
-);
-if (foreign.stale.length) {
+if (index.foreign.stale.length) {
     // An unusable manifest would otherwise surface as a pile of dead addresses
-    // pointing at the notes that cite it, rather than at the file at fault —
-    // so it names that file. `loadForeignManifests` derives each package name
-    // from the filename, so the path is exactly `<dir>/<package>.json`, and
-    // stating the directory once keeps the load and the report from
-    // disagreeing about where it looked (#1673).
+    // pointing at the notes that cite it, rather than at the file at fault.
     console.error("\ncheck-content-links: unusable link manifest(s):");
-    for (const s of foreign.stale) {
+    for (const s of index.foreign.stale) {
         reportDiagnostic({
             file: path.join(MANIFEST_DIR, `${s.package}.json`),
             severity: "error",
@@ -275,150 +104,26 @@ if (foreign.stale.length) {
     process.exit(1);
 }
 
-// Readable is not the same as addressable (#1664). Every lookup below reaches
-// the manifest through `readCanonicalKey`, so a key shape it cannot parse makes
-// each one miss — and this check then blames the *notes*, reporting correct
-// cross-package addresses as dead, which reads as a pile of typos. The guard
-// names the file at fault instead.
-assertForeignManifestsAddressable(
-    foreign.index,
-    path.join("assets", "manifests"),
-);
-const manifests = manifestsComplete(
-    new Set(notes.map((n) => n.fm?.package).filter(Boolean)),
-    foreign.packages,
-);
-for (const v of foreign.index.values()) {
-    if (v.type) types.add(v.type);
-}
-// Every package an address may name: the ones this tree publishes, plus every
-// one a vendored manifest speaks for.
-const packages = new Set([
-    ...[...byKey.values()].map((n) => n.fm?.package).filter(Boolean),
-    ...foreign.packages,
-]);
-/** The manifest entry a qualified address names in another package, or null. */
-const manifestHit = (target) => {
-    const q = readQualifier(target, types, packages);
-    if (!q || q.reason) return null;
-    if (q.package) {
-        return (
-            foreign.index.get(canonicalKey(q.package, q.type, q.shortcode)) ??
-            null
-        );
-    }
-    // A bare address names no package, so it resolves against any foreign one
-    // that publishes it. Claimed by two, it is ambiguous and the author must
-    // write the qualified form.
-    const type = String(q.type).toLowerCase();
-    const shortcode = String(q.shortcode).toLowerCase();
-    const hits = [...foreign.index].filter(([k]) => {
-        const parts = readCanonicalKey(k);
-        return parts?.type === type && parts.shortcode === shortcode;
-    });
-    return hits.length === 1 ? hits[0][1] : null;
-};
+// Readable is not the same as addressable (#1664). Every lookup reaches the
+// manifest through `readCanonicalKey`, so a key shape it cannot parse makes
+// each one miss — and the audit then blames the *notes*, reporting correct
+// cross-package addresses as dead, which reads as a pile of typos.
+assertForeignManifestsAddressable(index.foreign.index, MANIFEST_DIR);
+
+const { deadAnchors, deadAddresses, frontmatterLinks, usedManifest } =
+    auditLinks(index);
+
+// --- Reachability: every document follows from its corpus's root ----------
 
 /**
- * Resolves a link target the way both content builds do, or `undefined`.
+ * Walk one corpus from its root and report what it could not reach.
  *
- * The qualifier is read with the pack compilers' own {@link readQualifier}
- * rather than a second copy of the rule, so this check cannot drift from what
- * the builds actually do — the two separators, the first-hyphen split, and the
- * known-type condition that keeps a hyphenated *name* an alias.
- *
- * That condition is why the type-scoped alias index is not enough on its own:
- * it only reaches a target of the source's **own** type, so before the
- * qualifier was read here, a cross-type `[[type-shortcode#anchor]]` resolved to
- * nothing and its anchor went unchecked — silently, since an unresolvable
- * target is treated as an external reference.
- *
- * A `doc<type>` target addresses an item's documentation rather than the item
- * (#1362). Both are compiled from the one note, so the note is what resolution
- * yields — which is also what makes the anchors of a `doc<type>` link
- * checkable, since the headings live in that same note.
- */
-const resolve = (note, target) => {
-    const direct =
-        byAlias.get(`${note.type}|${target}`.toLowerCase()) ??
-        byKey.get(target.toLowerCase());
-    if (direct) return direct;
-    const qualified = readQualifier(target, types, packages);
-    if (!qualified || qualified.reason) return undefined;
-    return byKey.get(
-        qualified.package ?
-            canonicalKey(qualified.package, qualified.type, qualified.shortcode)
-        :   `${qualified.type}/${qualified.shortcode}`.toLowerCase(),
-    );
-};
-
-// --- Check 1: every `#anchor` link points at a heading that declares it ---
-
-const deadAnchors = [];
-for (const note of notes) {
-    for (const { target, anchor, text, occurrence } of linksOf(note)) {
-        if (!anchor) continue;
-        const dest = target ? resolve(note, target) : note;
-        // An unresolvable target is an external reference, not this check's
-        // business — the KB build already rules on those.
-        if (!dest) continue;
-        if (!anchors.get(dest).has(slugify(anchor))) {
-            deadAnchors.push({
-                file: note.file,
-                link: `${target}#${anchor}`,
-                dest: dest.file,
-                note,
-                text,
-                occurrence,
-            });
-        }
-    }
-}
-
-// --- Check 3: every qualified target resolves to a note -------------------
-
-const deadAddresses = [];
-const usedManifest = new Set();
-for (const note of notes) {
-    for (const { target, text, occurrence } of linksOf(note)) {
-        if (!target) continue; // a same-page `[[#anchor]]`
-        // Only a *qualified* target is an address. A bare `[[Name]]` that finds
-        // nothing is a worldbuilding placeholder by long-standing convention,
-        // and is deliberately left alone.
-        const qualified = readQualifier(target, types, packages);
-        if (!qualified) continue;
-        if (resolve(note, target)) continue;
-        // A manifest answers the question the allowlist was standing in for,
-        // and answers it with the target package's own build output rather
-        // than a reviewed guess.
-        if (manifestHit(target)) {
-            usedManifest.add(target.toLowerCase());
-            continue;
-        }
-        deadAddresses.push({ file: note.file, target, note, text, occurrence });
-    }
-}
-
-// --- Check 4: no absolute link points at a hostname we retired -----------
-
-const retiredLinks = [];
-for (const note of notes) {
-    for (const hit of findRetiredLinks(note.raw)) {
-        retiredLinks.push({ file: note.file, raw: note.raw, ...hit });
-    }
-}
-
-// --- Check 2: every document is reachable from its corpus's root ---------
-
-/**
- * Walks one corpus from its root and returns what it could and could not reach.
- *
- * @param {{label: string, root: string, dir: string}} corpus
- * @returns {{reached: Set<object>, orphans: object[]}}
+ * @param {{label: string, root: string, dir: string}} corpus - The corpus.
+ * @returns {{orphans: object[]}} The documents nothing links to.
  */
 function walkCorpus(corpus) {
-    const inCorpus = (note) => note.file.startsWith(corpus.dir);
-    const root = notes.find((n) => n.file === corpus.root);
+    const inCorpus = (note) => note.rel.startsWith(corpus.dir);
+    const root = index.notes.find((n) => n.rel === corpus.root);
     if (!root) {
         console.error(
             `check-content-links: no ${corpus.label} root at ${corpus.root}`,
@@ -430,9 +135,9 @@ function walkCorpus(corpus) {
     while (queue.length) {
         const note = queue.shift();
         if (INDEX_SHORTCODES.has(String(note.fm.shortcode))) continue;
-        for (const { target } of linksOf(note)) {
+        for (const { target } of index.linksOf(note)) {
             if (!target) continue;
-            const dest = resolve(note, target);
+            const dest = index.resolve(note, target);
             // The walk stays inside the corpus: a link out to an item, a
             // creature, or the other corpus is a real link, but it is not a
             // page of this one.
@@ -442,8 +147,7 @@ function walkCorpus(corpus) {
         }
     }
     return {
-        reached,
-        orphans: notes.filter((n) => inCorpus(n) && !reached.has(n)),
+        orphans: index.notes.filter((n) => inCorpus(n) && !reached.has(n)),
     };
 }
 
@@ -460,10 +164,10 @@ if (deadAnchors.length) {
     );
     for (const d of deadAnchors) {
         reportDiagnostic({
-            file: d.file,
+            file: d.note.file,
             ...positionOf(d.note.raw, d.text, d.occurrence),
             severity: "error",
-            message: `link [[${d.link}]] points at an anchor no heading in ${d.dest} declares`,
+            message: `link [[${d.link}]] points at an anchor no heading in ${d.dest.rel} declares`,
         });
     }
     console.error(
@@ -480,7 +184,7 @@ if (deadAddresses.length) {
     );
     for (const d of deadAddresses) {
         reportDiagnostic({
-            file: d.file,
+            file: d.note.file,
             ...positionOf(d.note.raw, d.text, d.occurrence),
             severity: "error",
             message: `dead address [[${d.target}]] — no document has that identity`,
@@ -502,10 +206,10 @@ if (frontmatterLinks.length) {
     );
     for (const f of frontmatterLinks) {
         reportDiagnostic({
-            file: f.file,
+            file: f.note.file,
             // The link text is a literal in the frontmatter, so its position
             // is a search away even though the value was reached by key.
-            ...positionOf(f.raw, f.link),
+            ...positionOf(f.note.raw, f.link),
             severity: "error",
             message: `wikilink ${f.link} authored in frontmatter at ${f.path} — frontmatter is data and is never resolved`,
         });
@@ -515,36 +219,6 @@ if (frontmatterLinks.length) {
             "compilers and the knowledgebase build both copy it through untouched, so the\n" +
             "link is never resolved and the reader is shown the brackets. Move the link into\n" +
             "the prose the field summarises, or write the value as plain text.\n",
-    );
-}
-
-if (retiredLinks.length) {
-    failed = true;
-    console.error(
-        `\ncheck-content-links: ${retiredLinks.length} link(s) to a retired hostname:\n`,
-    );
-    for (const r of retiredLinks) {
-        reportDiagnostic({
-            file: r.file,
-            line: r.line,
-            // `findRetiredLinks` already knew the line; the column is the
-            // URL's own position on it.
-            ...positionOf(r.raw, r.url),
-            severity: "error",
-            message:
-                `link to the retired hostname in ${r.url}` +
-                (r.hint ? ` — use ${r.hint}` : ""),
-        });
-    }
-    console.error(
-        "\nThese hostnames have been withdrawn, so the link fails at DNS — there is no\n" +
-            "redirect to follow, and nothing else in the build notices, because an absolute\n" +
-            "URL is opaque to the wikilink checks above. Use the surviving address:\n" +
-            [...RETIRED_HOSTS]
-                .map(([host, base]) => `  ${host} → ${base}`)
-                .join("\n") +
-            "\n\nThe API site publishes one unversioned tree, so drop any /main/ or /latest/\n" +
-            "segment rather than merely rehosting it (#1485).\n",
     );
 }
 
@@ -570,16 +244,18 @@ for (const { corpus, orphans } of walks) {
 }
 
 if (failed) process.exit(1);
+
+const reachable = walks
+    .map(({ corpus, orphans }) => {
+        const total = index.notes.filter((n) =>
+            n.rel.startsWith(corpus.dir),
+        ).length;
+        return `all ${total - orphans.length} ${corpus.label} documents`;
+    })
+    .join(" and ");
+
 console.log(
-    `check-content-links: ${notes.length} notes, every anchor link lands and every ` +
-        `qualified address resolves (${usedManifest.size} cross-package reference(s) ` +
-        `via manifest` +
-        (manifests.complete ? "" : (
-            `; no manifest for ${manifests.missing.join(", ")}`
-        )) +
-        `), no wikilink in frontmatter, no link to a retired hostname; ` +
-        walks
-            .map((w) => `all ${w.reached.size} ${w.corpus.label} documents`)
-            .join(" and ") +
-        " reachable from their roots.",
+    `check-content-links: ${index.notes.length} notes, every anchor link lands ` +
+        `and every qualified address resolves (${usedManifest.size} cross-package ` +
+        `reference(s) via manifest), no wikilink in frontmatter; ${reachable} reachable from their roots.`,
 );
