@@ -1120,7 +1120,7 @@ site paths that nothing rewrites afterwards. They come from `SOHL_BASE` /
 `KB_BASE` / `API_BASE` in `utils/build-kb-content.mjs`, which is where a
 relocation is edited. One consequence worth remembering: a Hugo `alias` is
 publishDir-relative and does **not** get the baseURL path added, so
-`applyRedirects` strips the site root on the way into the frontmatter.
+An authored Obsidian `aliases` is stripped on the way into the frontmatter: in Hugo the key means URL redirects, not names.
 
 ## 9. The build utility scripts
 

@@ -60,7 +60,6 @@ import {
 const CONTENT_PACKAGE = contentPackage();
 const FOUNDRY_PACKAGE_ID = foundryPackageId();
 import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
-import { applyRedirects, pageRedirects } from "./kb-redirects.mjs";
 import { hasDocEntry } from "@heroiclands/content-build/engine/item-docs";
 
 const REPO = path.resolve(".");
@@ -115,27 +114,6 @@ const symbols = (() => {
         return JSON.parse(
             fs.readFileSync(
                 path.join(REPO, "kb/data/api-symbols.json"),
-                "utf8",
-            ),
-        );
-    } catch {
-        return {};
-    }
-})();
-
-/**
- * The URL segment each content note used **before** URLs were derived from the
- * shortcode (#1278), keyed by its `type:shortcode` identity. Authored `slug`
- * frontmatter is gone, so this committed map is the only record of the old URLs
- * — it exists to emit a Hugo `aliases` redirect for each one. Entries are
- * append-only history: never edit one, and only add a row when a page's URL
- * changes again.
- */
-const legacySlugs = (() => {
-    try {
-        return JSON.parse(
-            fs.readFileSync(
-                path.join(REPO, "kb/data/legacy-slugs.json"),
                 "utf8",
             ),
         );
@@ -343,23 +321,6 @@ const SECTION_META = {
     localmap: { title: "Local Maps" },
     regionalmap: { title: "Regional Maps" },
 };
-
-/**
- * Sections that absorbed another section's pages, and the addresses those
- * sections published at. The surviving landing redirects from each, so a
- * bookmark of the old index still lands somewhere true.
- *
- * Only landings need this. A *page* that moved between sections gets its
- * redirect from {@link oldSectionOf}, which reads the note; a landing has no
- * note to read, so what it replaced is stated here.
- *
- * @type {Readonly<Record<string, readonly string[]>>}
- */
-const RETIRED_SECTIONS = Object.freeze({
-    // `character` and `creature` compiled to the same `being` and were merged
-    // into one content type, and so into one section (#1580).
-    being: Object.freeze(["character", "creature"]),
-});
 
 /**
  * Landing title + hero banner for the doc sections, whose index comes from a
@@ -868,12 +829,6 @@ for (const e of entries) {
     const resolve = (t) =>
         resolveWebWikilinks(resolveLinks(t), wikiCtx(src, e.fm.type));
 
-    // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
-    // live under /guide/ (assets/content) or /dev/ (developer docs), and content
-    // notes at a pre-shortcode slug. Wholly generated — an authored (Obsidian)
-    // `aliases` is a list of *names*, never a URL, so it never lands here.
-    const redirects = pageRedirects(e, legacySlugs, KB_BASE);
-
     if (e.kind === "content") {
         const data = {
             ...fm,
@@ -881,6 +836,13 @@ for (const e of entries) {
             title: fm.title ?? name,
             kbfolder: e.folder,
         };
+        // An authored `aliases` is Obsidian's: a list of *names* a reader
+        // might call the note, which is vault addressing and stays in the
+        // vault. Hugo reads `aliases` as **URL redirects**, so passing them
+        // through would publish a redirect stub at each name — `/Wayfarer's
+        // Rest, Loft/` and the like. They are dropped, and this build emits
+        // no redirects of its own.
+        delete data.aliases;
         if (fm.type === "character" || fm.type === "creature") {
             data.sohl = deriveBeingSohl(fm.sohl, refIndex);
         }
@@ -894,7 +856,6 @@ for (const e of entries) {
                 if (meta.banner) data.banner = meta.banner;
             }
         }
-        applyRedirects(data, redirects, SOHL_BASE);
         const dest =
             isReadme ?
                 path.join(OUT, sec, "_index.md")
@@ -937,7 +898,13 @@ for (const e of entries) {
         const meta = isReadme && isSectionRoot ? README_META[sec] : null;
         const data = { ...fm, title: meta?.title ?? fm.title ?? name };
         if (meta?.banner) data.banner = meta.banner;
-        applyRedirects(data, redirects, SOHL_BASE);
+        // An authored `aliases` is Obsidian's: a list of *names* a reader
+        // might call the note, which is vault addressing and stays in the
+        // vault. Hugo reads `aliases` as **URL redirects**, so passing them
+        // through would publish a redirect stub at each name — `/Wayfarer's
+        // Rest, Loft/` and the like. They are dropped, and this build emits
+        // no redirects of its own.
+        delete data.aliases;
         const relOut =
             isReadme ?
                 path.posix.join(path.posix.dirname(e.rel), "_index.md")
@@ -965,22 +932,10 @@ for (const [sec, meta] of Object.entries(SECTION_META)) {
     // A section may have no hero image — the banners are CDN assets and not
     // every section has one. An explicit `banner: undefined` is not a value
     // YAML can carry, so the key is left off entirely.
-    //
-    // A landing can also redirect, and for the same reason a page does: when
-    // two sections merge, the addresses of both landings are real URLs that
-    // readers hold. `pageRedirects` cannot supply these — it answers for a
-    // *note*, and these landings are generated, with no note behind them.
     const data = {
         title: meta.title,
         ...(meta.banner ? { banner: meta.banner } : {}),
     };
-    if (RETIRED_SECTIONS[sec]) {
-        applyRedirects(
-            data,
-            RETIRED_SECTIONS[sec].map((old) => `${KB_BASE}${old}/`),
-            SOHL_BASE,
-        );
-    }
     fs.writeFileSync(path.join(dir, "_index.md"), matter.stringify("", data));
 }
 

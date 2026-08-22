@@ -249,20 +249,20 @@ Nothing stops two notes in one section from sharing a name, so `findSlugCollisio
 fails the build naming every claimant rather than letting one page overwrite the other;
 the fix is a more specific title. The content tree has no collisions today.
 
-**The one record of the old URLs** is `kb/data/legacy-slugs.json`, keyed by
-`type:shortcode` — the identity, which is exactly why the shortcode belongs _here_
-rather than in the URL. The knowledgebase build emits a Hugo `aliases` redirect from
-each, so a rename never orphans an inbound link. It is append-only history: never edit
-an entry, and add a row only when a page's URL changes again.
+**A URL is presentation, and it is not kept stable.** A rename changes the page's
+address, and the knowledgebase publishes no redirect from the old one: the record of
+former URLs that used to drive them (`kb/data/legacy-slugs.json`, and the pre-split
+section map) has been retired. That is a deliberate trade — the addresses had already
+moved without redirects more than once, so the table was recording a stability nothing
+else was honouring.
 
 **`aliases` means two different things, and only one of them is a URL.** In Obsidian a
 note's `aliases` are alternative _names_ — what a reader might call the thing, and what
 makes a bare `[[Text]]` wikilink resolve (see
-[Linking Between Content Notes](../content-creator/content-links.md)). In Hugo they are _redirects_. A
-display name is not an old URL, so an authored alias is never published as one: every
-redirect a page emits is **generated**, by `pageRedirects` in `utils/kb-redirects.mjs`,
-from the legacy-slug map above and from the pre-split `/guide/` → section move. Names
-stay in the vault, where they mean something.
+[Linking Between Content Notes](../content-creator/content-links.md)). In Hugo they are _redirects_.
+So an authored alias is **stripped** on the way to the site: published as-is, each name
+would become a redirect stub at its own text — `/Wayfarer's Rest, Loft/` and the like.
+Names stay in the vault, where they mean something.
 
 Developer docs (`kb/dev-docs/`) are not content notes — they have no shortcode and keep
 their own `slug` frontmatter, routed by source path.
@@ -277,9 +277,6 @@ their own `slug` frontmatter, routed by source path.
   0.9.0 repair, including the three renamed content keys.
 - **URL derivation** — `HeroicLands/content-build's `tests/content-slug.test.ts`` covers
   `contentSlug` and `findSlugCollisions` (no Foundry).
-- **Redirects** — `tests/build/kb-redirects.test.ts` covers `pageRedirects` and
-  `applyRedirects`: the legacy-slug and section-move redirects still emit, a display-name
-  alias never does, and no page redirects to itself.
 - **Runtime + dialog + pack** — `cypress/e2e/shortcode-uniqueness.cy.js` drives the
   live client: an explicit collision is rejected on create, `shortcodeDedupe` suffixes
   it, renaming into a collision is rejected on update, and the same code on a different
