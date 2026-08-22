@@ -348,19 +348,19 @@ function abbreviateWords(tokens: string[]): string[] {
  *
  * The result is a *default* offered in the create dialog, which an author is
  * free to replace — so this aims at a readable, short key rather than at any
- * particular one. A shortcode must be strictly alphanumeric
- * ({@link SHORTCODE_PATTERN}), so unlike a URL slug it joins with nothing:
- * the `type-shortcode` address parse needs the separating hyphen to be the only
- * hyphen in the string.
+ * particular one. A shortcode must be strictly alphanumeric — `SHORTCODE_PATTERN`
+ * in `src/utils/shortcode-format.mjs` — so unlike a URL slug it joins with
+ * nothing: the `type-shortcode` address parse needs the separating hyphen to be
+ * the only hyphen in the string.
  *
  * Three steps, each doing less than the last:
  *
- * 1. **Transliterate** ({@link toAsciiLetters}). Dropping non-ASCII letters
+ * 1. **Transliterate**, with `toAsciiLetters`. Dropping non-ASCII letters
  *    instead is what made `Æthelred` into `thelred` and `Straße` into `strae`,
  *    losing a name's first letter.
  * 2. **Abbreviate** whole words — the conventional shortenings for this
  *    setting's vocabulary.
- * 3. **Reduce** towards {@link SHORTCODE_TARGET_LENGTH}, removing vowels one at
+ * 3. **Reduce** towards `SHORTCODE_TARGET_LENGTH`, removing vowels one at
  *    a time from the end and re-measuring after each — never a word's opening
  *    vowels. Ten characters is a guideline, not a limit: nothing is truncated,
  *    and a name that cannot reach it stays long.

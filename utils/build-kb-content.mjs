@@ -46,7 +46,10 @@ import {
     contentSlug,
     findSlugCollisions,
 } from "@heroiclands/content-build/engine/content-slug";
-import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
+import {
+    formatUnaddressableFinding,
+    unaddressableForeignPackages,
+} from "@heroiclands/content-build/engine/foreign-manifests";
 import { protectCode } from "@heroiclands/content-build/engine/code-fences";
 import {
     contentPackage,
@@ -684,7 +687,16 @@ if (foreign.stale.length) {
 // falls through to its display text, and no check fires — a dead-link guard
 // only ever sees addresses that resolved to the wrong place, never ones that
 // resolved to nothing at all.
-assertForeignManifestsAddressable(foreign.index, MANIFEST_SRC);
+// Reported and exited here rather than thrown from the package: this is a
+// build script, which already reports its own manifest problems this way, and
+// a stack trace would bury the diagnostic the reader needs.
+const unaddressable = unaddressableForeignPackages(foreign.index);
+if (unaddressable.length) {
+    for (const finding of unaddressable) {
+        console.error(formatUnaddressableFinding(finding, MANIFEST_SRC));
+    }
+    process.exit(1);
+}
 
 const manifests = manifestsComplete(localPackages, foreign.packages);
 
