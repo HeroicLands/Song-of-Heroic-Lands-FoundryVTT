@@ -58,7 +58,7 @@ shortcode: wpnc
 ```
 
 Write it by hand when you create a note. **Exactly one** address alias is
-allowed, and `npm run lint:content-aliases` fails on any note that has none, has
+allowed, and `npm run lint:addresses` fails on any note that has none, has
 two, or has one that is not its own address. The count is the point: change a
 shortcode and leave the old alias behind, and every stale `[[skill-oldcode|…]]`
 goes on resolving to the right note — nothing degrades, nothing is reported, and
@@ -72,7 +72,7 @@ written by a build script rather than by hand, the alias has to come from the
 generator — `utils/build-icon-legend.mjs` derives it from the same `type` and
 `shortcode` constants it writes into the frontmatter, so the three cannot drift
 apart. It previously emitted neither, and the alias was added to the page by hand
-instead: `lint:content-aliases` passed, and the next run of the generator would
+instead: `lint:addresses` passed, and the next run of the generator would
 have silently deleted the address again. If you add a generator that emits a
 content note, emit its address alias too, and gate the output the way
 `lint:icon-legend` does.
@@ -207,7 +207,7 @@ at a document — writes an ordinary markdown link to its URL.
 
 ## What the build checks
 
-`npm run lint:content-aliases` (part of `npm run lint`) enforces that every note
+`npm run lint:addresses` (part of `npm run lint`) enforces that every note
 carrying a `type` also carries **exactly one** `type-shortcode` alias, equal to
 its own address — see
 [Every note carries its own address, exactly once](#every-note-carries-its-own-address-exactly-once).

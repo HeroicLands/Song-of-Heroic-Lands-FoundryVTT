@@ -185,7 +185,7 @@ to keep in sync.
   nothing.
 - **Uniqueness.** `(type, shortcode)` is unique within a pack (#766).
 
-**Both are enforced by `npm run lint:packs`, not by the pack compile.** The
+**Both are enforced by `npm run lint:addresses`, not by the pack compile.** The
 compile will happily emit two documents sharing an address; the lint is what
 refuses it. Run it before you commit.
 
@@ -210,7 +210,7 @@ aliases:
 Obsidian resolves a wikilink against the files on disk, so the address only
 resolves in the editor if the literal string sits in that note's `aliases`. A
 build-time derivation cannot stand in for it — the editor is not running the
-build. `npm run lint:content-aliases` fails on a note with none, with two, or
+build. `npm run lint:addresses` fails on a note with none, with two, or
 with one that is not its own address; the exactness is the point, since a stale
 alias left behind after a rename keeps resolving and reports nothing.
 
@@ -370,9 +370,9 @@ which note caused it.
 Three lints answer questions the compilers cannot, and all three are part of
 `npm run lint`:
 
-- **`npm run lint:packs`** — the shortcode shape and `(type, shortcode)`
+- **`npm run lint:addresses`** — the shortcode shape and `(type, shortcode)`
   uniqueness rules. Not enforced by the compile.
-- **`npm run lint:content-aliases`** — every note carrying a `type` also carries
+- **`npm run lint:addresses`** — every note carrying a `type` also carries
   exactly one address alias equal to its own address.
 - **`npm run lint:content-links`** — every wikilink resolves, every `#anchor`
   lands on a heading that declares it, and no wikilink is authored in
