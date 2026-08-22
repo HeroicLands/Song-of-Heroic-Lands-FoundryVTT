@@ -95,6 +95,32 @@ describe("icon color-scheme (#917)", () => {
         });
     });
 
+    it("serves default item art carrying the dark-mode fill swap (#1677)", () => {
+        // The unit suite proves the injection and the source files agree; only
+        // a running system proves the *deployed* icon carries the result. An
+        // icon whose colour sat in an inline `style` was declined by the build
+        // and shipped black on Foundry's own dark chrome.
+        cy.foundry((win) => [
+            ...new Set(
+                [
+                    ...Object.values(win.sohl.utils.ITEM_METADATA),
+                    ...Object.values(win.sohl.utils.ACTOR_METADATA),
+                ].map((m) => m.Image),
+            ),
+        ]).then((images) => {
+            expect(images, "default art paths").to.have.length.greaterThan(0);
+            for (const src of images) {
+                cy.request(`/${src}`).then((res) => {
+                    expect(res.body, `${src} is themed`).to.contain(
+                        "prefers-color-scheme",
+                    );
+                    // The cream ink the dark branch swaps in.
+                    expect(res.body, `${src} dark ink`).to.contain("#ece3cf");
+                });
+            }
+        });
+    });
+
     it("leaves Foundry's own chrome following Foundry's theme (scope boundary)", () => {
         // The fix is scoped to `.sohl` and must NOT leak onto Foundry's own
         // windows: the compendium directory must keep inheriting Foundry's theme
