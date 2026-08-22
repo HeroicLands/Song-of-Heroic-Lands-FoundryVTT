@@ -55,10 +55,14 @@ separating hyphen being the **only** hyphen in the string (see
 [Linking Between Content Notes](../content-creator/content-links.md)); the same key also has to survive
 URLs, YAML frontmatter, and expression source unescaped.
 
-The pattern lives in one place, `src/utils/shortcode-format.mjs` (`isValidShortcode`
-/ `sanitizeShortcode`), which is plain ESM precisely so the runtime, the world
-migration, and the bare-`node` lint script all share it rather than each carrying a
-copy.
+The pattern is stated **twice, on purpose**, and a test keeps the two equal.
+`src/utils/shortcode-format.mjs` (`isValidShortcode` / `sanitizeShortcode`) is the
+runtime's copy — plain ESM, so the create/update guards and the world migration
+share it. `@heroiclands/content-build` carries the build-time copy, because it
+lints every package's content tree and not just this one's. Shipped code cannot
+import a build dependency, so neither copy can be removed;
+`tests/build/shortcode-format-agreement.test.ts` compares them and is the only
+thing that would notice a drift.
 
 Repair, where a violation cannot simply be refused, **strips the offending characters
 and keeps case** — `B&CFl` → `BCFl`, `self-pro` → `selfpro`. That is deliberately not
@@ -127,10 +131,26 @@ disables **Create** for either, so a human never reaches the `_preCreate` reject
 
 Authored compendium content is Markdown under `assets/content/`, seeded into packs by
 the compendium CLI, which **bypasses `_preCreate`**. The build-time guard
-`lint:packs` (`utils/check-pack-shortcodes.mjs`, part of `npm run lint`) walks that
+`lint:addresses` (`content-build lint`, part of `npm run lint`) walks that
 content and fails on any shortcode that is not strictly alphanumeric, and on any
-duplicate `(type, shortcode)` within a pack. Because a type routes to exactly one
-pack, a global `(type, shortcode)` collision _is_ a within-pack collision.
+duplicate `(type, shortcode)`.
+
+**The rule lives in the toolchain, not here.** Three repositories author notes
+against it, so a copy in this repository's `utils/` was a rule the other two did
+not have — which is why they were never checked at all
+(HeroicLands/content-build#20). The runtime keeps its own plain-ESM copy of the
+_shape_ rule in `src/utils/shortcode-format.mjs`, because shipped code cannot
+import a build dependency; `tests/build/shortcode-format-agreement.test.ts` is
+what keeps the two equal.
+
+**The build-time scope is wider than the per-pack runtime scope above, and
+deliberately so.** The guard once claimed per-pack uniqueness, on the reasoning
+that a type routed to exactly one pack — which `pack:` frontmatter made false.
+What the pipeline actually enforces is that a document is addressed by
+`(type, shortcode)` across **every** pack of its document type, so routing two
+same-address notes to different packs does not separate them (#1678). Authored
+content therefore has to satisfy the stricter rule, even though the runtime
+uniqueness table above scopes a compendium to itself.
 
 Content is authored in the vault and exported here, so a malformed key is fixed in
 the **vault note** and re-exported — an edit to `assets/content/` alone is reverted by
@@ -263,4 +283,4 @@ their own `slug` frontmatter, routed by source path.
 - **Runtime + dialog + pack** — `cypress/e2e/shortcode-uniqueness.cy.js` drives the
   live client: an explicit collision is rejected on create, `shortcodeDedupe` suffixes
   it, renaming into a collision is rejected on update, and the same code on a different
-  type is allowed. The build-time guard is `npm run lint:packs`.
+  type is allowed. The build-time guard is `npm run lint:addresses`.

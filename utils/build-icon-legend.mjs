@@ -57,7 +57,7 @@ const USER_GUIDE_FOLDER_ID = "IgwaG8rAUUO9vrtz";
  * The alias is derived here rather than typed into the template because it is
  * not decoration: Obsidian resolves `[[doc-iconlgnd]]` against the literal
  * string in a note's `aliases`, so a note without it has no address in the
- * editor where content is written, and `lint:content-aliases` fails the build.
+ * editor where content is written, and `lint:addresses` fails the build.
  * Deriving it means the type and shortcode below cannot drift apart from it.
  *
  * See kb/dev-docs/reference/content-links.md.
