@@ -280,7 +280,9 @@ describe("resolveCreateIdentity — archetype-first defaults (#643)", () => {
                 "New Shield",
                 "shieldgear",
             ),
-        ).toEqual({ name: "Round Shield", shortcodeBase: "roundshield" });
+            // `roundshield` is eleven characters, so the suggestion drops one
+            // vowel from the end — see `slugifyShortcode`.
+        ).toEqual({ name: "Round Shield", shortcodeBase: "roundshild" });
     });
 
     it("(none): Name defaults to the class default and Shortcode derives from it", () => {

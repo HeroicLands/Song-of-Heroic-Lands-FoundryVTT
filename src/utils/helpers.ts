@@ -23,8 +23,11 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
 import { getCtorForKind } from "@src/utils/kindRegistry";
 import {
     isValidShortcode,
+    reduceToTarget,
     sanitizeShortcode,
+    toAsciiLetters,
 } from "@src/utils/shortcode-format.mjs";
+import { NAME_ABBREVIATIONS } from "@src/utils/name-abbreviations.mjs";
 
 /**
  * Resolver used by {@link defaultFromJSON} to revive a `ClientDocument`
@@ -297,16 +300,85 @@ export function createUniqueName<
 }
 
 /**
- * Reduce a name to a shortcode token: lowercased, ASCII-alphanumeric only
- * (spaces and punctuation dropped). Used to suggest a default `shortcode` from
- * an item's name. A name with no alphanumerics yields `""` (the caller supplies
- * a fallback).
+ * The longest phrase in {@link NAME_ABBREVIATIONS}, in words — how far ahead a
+ * match may look.
+ */
+const LONGEST_ABBREVIATION = Math.max(
+    ...Object.keys(NAME_ABBREVIATIONS).map(
+        (phrase) => phrase.split(/[^a-z0-9]+/).filter(Boolean).length,
+    ),
+);
+
+/**
+ * Replace whole words with their conventional abbreviations.
+ *
+ * Greedy and longest-first, so a phrase beats its own first word
+ * (`tribunus militum` → `tribmil`, not `trib` + `militum`) and a longer word
+ * beats a shorter one that prefixes it (`countess` is never reached by
+ * `count`'s rule).
+ *
+ * @param tokens - Lowercase alphanumeric words.
+ * @returns The words, each matched run replaced by one token.
+ */
+function abbreviateWords(tokens: string[]): string[] {
+    const out: string[] = [];
+    for (let i = 0; i < tokens.length;) {
+        let hit: { short: string; run: number } | null = null;
+        for (
+            let run = Math.min(LONGEST_ABBREVIATION, tokens.length - i);
+            run >= 1;
+            run--
+        ) {
+            const short = (NAME_ABBREVIATIONS as Record<string, string>)[
+                tokens.slice(i, i + run).join(" ")
+            ];
+            if (short) {
+                hit = { short, run };
+                break;
+            }
+        }
+        out.push(hit ? hit.short : (tokens[i] as string));
+        i += hit ? hit.run : 1;
+    }
+    return out;
+}
+
+/**
+ * Suggest a `shortcode` from a document's name.
+ *
+ * The result is a *default* offered in the create dialog, which an author is
+ * free to replace — so this aims at a readable, short key rather than at any
+ * particular one. A shortcode must be strictly alphanumeric
+ * ({@link SHORTCODE_PATTERN}), so unlike a URL slug it joins with nothing:
+ * the `type-shortcode` address parse needs the separating hyphen to be the only
+ * hyphen in the string.
+ *
+ * Three steps, each doing less than the last:
+ *
+ * 1. **Transliterate** ({@link toAsciiLetters}). Dropping non-ASCII letters
+ *    instead is what made `Æthelred` into `thelred` and `Straße` into `strae`,
+ *    losing a name's first letter.
+ * 2. **Abbreviate** whole words — the conventional shortenings for this
+ *    setting's vocabulary.
+ * 3. **Reduce** towards {@link SHORTCODE_TARGET_LENGTH}, removing vowels one at
+ *    a time from the end and re-measuring after each — never a word's opening
+ *    vowels. Ten characters is a guideline, not a limit: nothing is truncated,
+ *    and a name that cannot reach it stays long.
+ *
+ * A name with no alphanumerics yields `""`; the caller supplies a fallback.
  *
  * @param name - The source name.
- * @returns The slug token (possibly empty).
+ * @returns The suggested shortcode (possibly empty).
  */
 export function slugifyShortcode(name: string): string {
-    return (name ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+    const words = abbreviateWords(
+        toAsciiLetters(name)
+            .toLowerCase()
+            .split(/[^a-z0-9]+/)
+            .filter(Boolean),
+    );
+
+    return reduceToTarget(words);
 }
 
 /**
