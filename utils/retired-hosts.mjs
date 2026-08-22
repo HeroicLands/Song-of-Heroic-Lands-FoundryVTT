@@ -66,31 +66,6 @@ const hostPattern = () =>
     );
 
 /**
- * Every occurrence of a retired hostname in `text`.
- *
- * @param {string} text - File contents, or any block of markdown or prose.
- * @returns {Array<{url: string, host: string, line: number, hint: string | undefined}>}
- *   One entry per occurrence, in reading order. `url` is the whole matched
- *   address (including any `#fragment`), `line` is 1-based, and `hint` is the
- *   rewritten address when one can be derived — see {@link rewriteHint}.
- */
-export function findRetiredLinks(text) {
-    const out = [];
-    const lines = String(text).split("\n");
-    for (let i = 0; i < lines.length; i++) {
-        for (const m of lines[i].matchAll(hostPattern())) {
-            out.push({
-                url: m[0],
-                host: m[1],
-                line: i + 1,
-                hint: rewriteHint(m[0]),
-            });
-        }
-    }
-    return out;
-}
-
-/**
  * The working address a retired URL should become, or `undefined` if the host
  * is not one this project retired.
  *
