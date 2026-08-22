@@ -51,6 +51,9 @@ export * as stage from "./stage.mjs";
 /** The release archive a GitHub Release carries. */
 export * as release from "./release.mjs";
 
+/** Deploying a staged package into a Foundry data directory. */
+export * as deploy from "./deploy.mjs";
+
 /** Localization files: what a shippable `lang/*.json` must satisfy. */
 export * as lang from "./lang.mjs";
 
