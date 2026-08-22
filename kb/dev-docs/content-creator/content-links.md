@@ -235,12 +235,14 @@ compilers cannot:
   The knowledgebase build refuses it as well, so it cannot publish that way even
   if the lint is bypassed.
 
-- **No absolute URL names a hostname the project has retired.** The checks above
-  read wikilinks, so an absolute URL passes through all of them untouched — which
-  is how 71 links to the withdrawn `api.heroiclands.org` shipped (#1485). A
-  retired host fails at DNS, with no redirect to follow. The list lives in
-  `utils/retired-hosts.mjs` and the failure prints the rewritten address for each
-  hit; adding a host there is what retires it.
+A retired hostname is **no longer checked here**. The checks above read
+wikilinks, so an absolute URL passes through all of them untouched, which is how
+71 links to the withdrawn `api.heroiclands.org` once shipped (#1485). That scan
+has reported nothing since, and an author only reintroduces a dead hostname by
+typing one they never use — so the guard now sits where the risk actually is:
+`utils/build-site.mjs` repairs retired hrefs in the _generated_ site and refuses
+to publish one it cannot repair. The list still lives in
+`utils/retired-hosts.mjs`, and adding a host there is what retires it.
 
 Fenced `dataview` tables are expanded before the walk, so a link generated into a
 table row counts as a real link on all the wikilink counts.

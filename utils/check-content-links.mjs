@@ -21,7 +21,7 @@
  * package gets them (content-build#20). This repository's copy also carried its
  * own wikilink pattern, which had drifted from the compilers' own.
  *
- * Two checks stay here, because both are statements about what *this* package
+ * One check stays here, because it is a statement about what *this* package
  * publishes rather than about the note format:
  *
  * - **Corpus reachability.** The rules are a book and the user guide is a
@@ -29,13 +29,17 @@
  *   from its own root by following links. A note with no inbound link is still
  *   compiled and still published; it is simply impossible to arrive at by
  *   reading.
- * - **Retired hostnames.** An absolute URL is opaque to the link checks — it is
- *   not a wikilink — so a link to a host this project has withdrawn compiles
- *   and publishes looking exactly like a working one, and fails at DNS with no
- *   redirect to follow. 71 of them shipped that way (#1485).
  *
- * Both are answered from the link graph the package returns rather than from a
+ * It is answered from the link graph the package returns rather than from a
  * second resolver.
+ *
+ * **Retired hostnames are no longer checked here.** 71 links to a withdrawn host
+ * shipped once (#1485), and the scan that caught them has reported nothing since
+ * — an author reintroduces a dead hostname only by typing one they never use.
+ * What still needs guarding is *generated* output, where a URL is emitted rather
+ * than authored: `utils/build-site.mjs` repairs retired hrefs in the assembled
+ * site and refuses to publish one it cannot repair. That is where the risk
+ * actually lives.
  *
  * Usage:
  *   npm run lint:content-links        // node utils/check-content-links.mjs
@@ -50,7 +54,6 @@ import {
 
 import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
 import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
-import { RETIRED_HOSTS, findRetiredLinks } from "./retired-hosts.mjs";
 
 const CONTENT = path.join("assets", "content");
 const MANIFEST_DIR = path.join("assets", "manifests");
@@ -150,15 +153,6 @@ function walkCorpus(corpus) {
 
 const walks = CORPORA.map((corpus) => ({ corpus, ...walkCorpus(corpus) }));
 
-// --- Retired hostnames ----------------------------------------------------
-
-const retiredLinks = [];
-for (const note of index.notes) {
-    for (const hit of findRetiredLinks(note.raw)) {
-        retiredLinks.push({ file: note.file, raw: note.raw, ...hit });
-    }
-}
-
 // --- Report ---------------------------------------------------------------
 
 let failed = false;
@@ -228,36 +222,6 @@ if (frontmatterLinks.length) {
     );
 }
 
-if (retiredLinks.length) {
-    failed = true;
-    console.error(
-        `\ncheck-content-links: ${retiredLinks.length} link(s) to a retired hostname:\n`,
-    );
-    for (const r of retiredLinks) {
-        reportDiagnostic({
-            file: r.file,
-            line: r.line,
-            // `findRetiredLinks` already knew the line; the column is the
-            // URL's own position on it.
-            ...positionOf(r.raw, r.url),
-            severity: "error",
-            message:
-                `link to the retired hostname in ${r.url}` +
-                (r.hint ? ` — use ${r.hint}` : ""),
-        });
-    }
-    console.error(
-        "\nThese hostnames have been withdrawn, so the link fails at DNS — there is no\n" +
-            "redirect to follow, and nothing else in the build notices, because an absolute\n" +
-            "URL is opaque to the wikilink checks above. Use the surviving address:\n" +
-            [...RETIRED_HOSTS]
-                .map(([host, base]) => `  ${host} → ${base}`)
-                .join("\n") +
-            "\n\nThe API site publishes one unversioned tree, so drop any /main/ or /latest/\n" +
-            "segment rather than merely rehosting it (#1485).\n",
-    );
-}
-
 for (const { corpus, orphans } of walks) {
     if (!orphans.length) continue;
     failed = true;
@@ -293,6 +257,5 @@ const reachable = walks
 console.log(
     `check-content-links: ${index.notes.length} notes, every anchor link lands ` +
         `and every qualified address resolves (${usedManifest.size} cross-package ` +
-        `reference(s) via manifest), no wikilink in frontmatter, no link to a ` +
-        `retired hostname; ${reachable} reachable from their roots.`,
+        `reference(s) via manifest), no wikilink in frontmatter; ${reachable} reachable from their roots.`,
 );
