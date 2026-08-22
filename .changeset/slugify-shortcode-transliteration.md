@@ -17,8 +17,8 @@ word's opening vowels are never removed, so _Aeldred_ reduces to `aeldrd` and
 never to `ldrd`.
 
 Removing one vowel per pass, rather than all of them at once, is what keeps a
-name only slightly too long from being stripped bare: _Round Shield_ is eleven
-characters and becomes `roundshild`, not `rndshld`. Ten characters is a
+name only slightly too long from being stripped bare: _Arrow, Broadhead_ becomes
+`arrowbrdhd` rather than `arrwbrdhd`. Ten characters is a
 guideline rather than a limit: nothing is truncated, and the suggestion remains
 a default the author may replace.
 

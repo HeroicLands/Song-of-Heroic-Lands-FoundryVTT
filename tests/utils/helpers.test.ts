@@ -856,7 +856,7 @@ describe("defaultFromJSON — a legacy __funcref__ string is inert data", () => 
 
 describe("slugifyShortcode", () => {
     it("lowercases and strips non-alphanumerics", () => {
-        expect(slugifyShortcode("Long Sword")).toBe("longsword");
+        expect(slugifyShortcode("Long Sword")).toBe("longswd");
         expect(slugifyShortcode("Dagger")).toBe("dagger");
     });
 
