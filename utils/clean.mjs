@@ -12,11 +12,16 @@
  */
 
 /**
- * Removes generated build/cache directories from the repo root.
+ * Remove the generated build and cache directories.
  *
- * Deletes `build`, `.vite`, `.vitepress`, and `.rollup.cache`. With the
- * `--distclean` flag it additionally removes `node_modules`. Missing
- * directories are ignored, so the script is safe to run repeatedly.
+ * The set every HeroicLands repository regenerates — `build`, `.vite`,
+ * `.vitepress`, `.rollup.cache` — comes from `@heroiclands/package-build`,
+ * since it is produced by the shared toolchain rather than by this repository's
+ * layout. This system adds none of its own; `sohl-thalorna` adds its Hugo
+ * output.
+ *
+ * A directory that is already gone is not an error, so the command is safe to
+ * run repeatedly.
  *
  * Usage:
  *   npm run clean                        // node utils/clean.mjs
@@ -24,28 +29,19 @@
  *   node utils/clean.mjs [--distclean]   // direct invocation
  */
 
-import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+
+import { cleanBuildArtifacts } from "@heroiclands/package-build/stage";
 
 const repoRoot = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
     "..",
 );
 
-const dirs = ["build", ".vite", ".vitepress", ".rollup.cache"];
+const removed = cleanBuildArtifacts(repoRoot, {
+    includeNodeModules: process.argv.includes("--distclean"),
+});
 
-// If "distclean" is passed as an argument, also remove node_modules
-if (process.argv.includes("--distclean")) {
-    dirs.push("node_modules");
-}
-
-for (const dir of dirs) {
-    const target = path.join(repoRoot, dir);
-    try {
-        fs.rmSync(target, { recursive: true, force: true });
-        console.log(`Removed ${dir}`);
-    } catch {
-        // Already gone — nothing to do
-    }
-}
+for (const dir of removed) console.log(`Removed ${dir}`);
+if (!removed.length) console.log("Nothing to clean.");

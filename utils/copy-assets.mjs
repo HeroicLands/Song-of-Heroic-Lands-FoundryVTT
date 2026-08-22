@@ -12,71 +12,60 @@
  */
 
 /**
- * Copies static assets into the build output tree.
+ * Copy this system's static assets into the build stage.
  *
- * Recursively copies the audio/icons/silhouette/fonts/ui asset folders plus
- * `lang` and `templates` into `build/stage/...`; also copies `LICENSE.md` and
- * `README.md` into `build/stage`. Destination directories are created as
- * needed.
+ * The copying is `@heroiclands/package-build`'s — every HeroicLands package
+ * stages a list of paths the same way, and it refuses to start if any of them
+ * is missing rather than shipping a package that silently lacks its
+ * localization or its templates. What is written here is only *this* package's
+ * list, and the one transform it applies.
  *
  * Usage:
  *   npm run build:assets        // node utils/copy-assets.mjs
  *   node utils/copy-assets.mjs  // direct invocation (no args)
  */
 
-import {
-    copyFileSync,
-    mkdirSync,
-    readdirSync,
-    readFileSync,
-    statSync,
-    writeFileSync,
-} from "fs";
-import { join, dirname } from "path";
+import { readFileSync } from "fs";
+
+import { stageAssets } from "@heroiclands/package-build/stage";
+
 import { injectAdaptiveFill } from "./svg-theme.mjs";
 
 /**
- * Recursively copy `src` → `dest`. An optional `transformFile(srcPath)` may
- * return a string to write instead of a raw byte copy (used to theme SVGs);
- * returning `null`/`undefined` falls back to `copyFileSync`.
+ * Everything this system ships, as `[source, destination]` pairs.
+ *
+ * The compendium packs are not listed: `build:compiledb` compiles them into
+ * `build/stage/packs` directly from `assets/content`. Neither is `system.json`,
+ * which `build:system` generates.
  */
-function copyFolder(src, dest, transformFile) {
-    mkdirSync(dest, { recursive: true });
-    for (const file of readdirSync(src)) {
-        const srcPath = join(src, file);
-        const destPath = join(dest, file);
-        if (statSync(srcPath).isDirectory()) {
-            copyFolder(srcPath, destPath, transformFile);
-        } else {
-            mkdirSync(dirname(destPath), { recursive: true });
-            const transformed = transformFile ? transformFile(srcPath) : null;
-            if (transformed != null) writeFileSync(destPath, transformed);
-            else copyFileSync(srcPath, destPath);
-        }
-    }
+const ASSETS = [
+    ["assets/audio", "build/stage/assets/audio"],
+    ["assets/icons", "build/stage/assets/icons"],
+    ["assets/silhouette", "build/stage/assets/silhouette"],
+    ["assets/fonts", "build/stage/assets/fonts"],
+    ["assets/ui", "build/stage/assets/ui"],
+    ["lang", "build/stage/lang"],
+    ["templates", "build/stage/templates"],
+    ["LICENSE.md", "build/stage/LICENSE.md"],
+    ["README.md", "build/stage/README.md"],
+];
+
+/**
+ * Make bundled icon SVGs adapt to light and dark mode as they are staged
+ * (#893).
+ *
+ * Applied at build time only, so the source SVGs stay pristine
+ * black-on-transparent for the knowledgebase and the website, which render them
+ * on light ground. Everything that is not an `.svg` copies byte-for-byte.
+ *
+ * @param {string} sourcePath - The file being staged.
+ * @returns {string|null} The themed SVG, or `null` to copy the bytes.
+ */
+function themeSvg(sourcePath) {
+    if (!sourcePath.endsWith(".svg")) return null;
+    return injectAdaptiveFill(readFileSync(sourcePath, "utf8"));
 }
 
-// Make bundled icon SVGs adapt to light/dark mode (#893). Only `.svg` files are
-// transformed; everything else copies byte-for-byte.
-function themeSvg(srcPath) {
-    if (!srcPath.endsWith(".svg")) return null;
-    return injectAdaptiveFill(readFileSync(srcPath, "utf8"));
-}
+const { entries, files } = stageAssets(ASSETS, { transform: themeSvg });
 
-function copyFile(src, dest) {
-    mkdirSync(dirname(dest), { recursive: true });
-    copyFileSync(src, dest);
-}
-
-// Copy static assets to build/stage
-copyFolder("assets/audio", "build/stage/assets/audio");
-copyFolder("assets/icons", "build/stage/assets/icons", themeSvg);
-copyFolder("assets/silhouette", "build/stage/assets/silhouette");
-copyFolder("assets/fonts", "build/stage/assets/fonts");
-copyFolder("assets/ui", "build/stage/assets/ui");
-copyFolder("lang", "build/stage/lang");
-copyFolder("templates", "build/stage/templates");
-copyFile("LICENSE.md", "build/stage/LICENSE.md");
-copyFile("README.md", "build/stage/README.md");
-
-console.log("✅ Static assets copied.");
+console.log(`✅ Static assets copied (${entries} entries, ${files} files).`);
