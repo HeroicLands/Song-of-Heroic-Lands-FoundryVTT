@@ -70,3 +70,138 @@ export function isValidShortcode(value) {
 export function sanitizeShortcode(value) {
     return typeof value === "string" ? value.replace(/[^A-Za-z0-9]+/g, "") : "";
 }
+
+/**
+ * Letters that carry no combining mark to strip, and so must be spelled out.
+ *
+ * `String.prototype.normalize("NFD")` splits an accented letter into its base
+ * plus a combining mark, which makes `û` → `u` and `ó` → `o` free. It does
+ * nothing for a letter that is its own character rather than a decorated one —
+ * eth, thorn, the ligatures — so those are named here.
+ *
+ * **This is deliberately not `unidecode`.** The transliteration would be
+ * identical, but `unidecode` is CommonJS with 185 static `require()`s of its
+ * data tables, none of which a bundler can drop: importing it would add ~740 KB
+ * to a ~2.6 MB shipped bundle to spell a handful of letters. NFD plus this map
+ * agrees with it on every case this content uses.
+ *
+ * @type {Readonly<Record<string, string>>}
+ */
+const ASCII_LETTERS = Object.freeze({
+    æ: "ae",
+    Æ: "AE",
+    œ: "oe",
+    Œ: "OE",
+    ß: "ss",
+    þ: "th",
+    Þ: "TH",
+    ð: "d",
+    Ð: "D",
+    ø: "o",
+    Ø: "O",
+    đ: "d",
+    Đ: "D",
+    ł: "l",
+    Ł: "L",
+    ħ: "h",
+    Ħ: "H",
+    ŋ: "ng",
+    Ŋ: "NG",
+    ĳ: "ij",
+    Ĳ: "IJ",
+    ſ: "s",
+});
+
+/** Combining marks, which NFD separates from the letter they decorate. */
+const COMBINING = /[\u0300-\u036F]/g;
+
+/**
+ * Carry a name into ASCII, spelling letters out rather than dropping them.
+ *
+ * Dropping is what the build's slug rules used to do, and it turned `Kûrbúl`
+ * into `k-rb-l`; here it would turn `Æthelred` into `thelred`, losing the first
+ * letter of the name.
+ *
+ * @param {unknown} text - Any name.
+ * @returns {string} The same name, in ASCII.
+ */
+export function toAsciiLetters(text) {
+    return (
+        String(text ?? "")
+            // Matched positively rather than as "not ASCII": negating the ASCII
+            // range would put a NUL in the pattern, which `no-control-regex`
+            // rightly refuses.
+            .replace(/[\u0080-\uFFFF]/g, (ch) => ASCII_LETTERS[ch] ?? ch)
+            .normalize("NFD")
+            .replace(COMBINING, "")
+    );
+}
+
+/**
+ * The length past which a suggested shortcode is worth reducing.
+ *
+ * A guideline rather than a limit: nothing rejects a longer code, and the
+ * reduction below stops as soon as it has done what it can.
+ */
+export const SHORTCODE_TARGET_LENGTH = 10;
+
+/** Vowels, for the reduction below. `y` is left alone — it often carries one. */
+const VOWEL = /[aeiou]/;
+
+/** The run of vowels a word opens with, which is never eligible for removal. */
+const LEADING_VOWELS = /^[aeiou]+/;
+
+/**
+ * Shorten a name towards the target length by removing vowels, one at a time,
+ * from the end.
+ *
+ * **One vowel per pass, end-most first, re-measuring after each.** That is what
+ * keeps a name only slightly too long from being stripped bare: `roundshield`
+ * is eleven characters and loses exactly one vowel to become `roundshild`,
+ * where removing every eligible vowel at once would have left `rndshld`. The
+ * shortest readable form is the goal, not the shortest form.
+ *
+ * **A word's opening vowels are never eligible.** A reader recovers a name from
+ * the sound it starts with, so `aeldred` reduces to `aeldrd` and never to
+ * `ldrd`. The protection is per *word*, applied before the words are joined, so
+ * each component of a compound name keeps its own opening.
+ *
+ * Reduction stops when the result fits, or when no eligible vowel is left —
+ * whichever comes first. The target is a guideline, so a name that cannot reach
+ * it simply stays long; nothing is truncated.
+ *
+ * @param {readonly string[]} words - Lowercase alphanumeric words, already
+ *   abbreviated.
+ * @param {number} [target] - The length to shorten towards.
+ * @returns {string} The words, joined with nothing.
+ */
+export function reduceToTarget(words, target = SHORTCODE_TARGET_LENGTH) {
+    // Each word keeps the vowels it opens with; everything after that run is
+    // fair game.
+    const parts = words.map((word) => ({
+        text: word,
+        keep: (LEADING_VOWELS.exec(word)?.[0] ?? "").length,
+    }));
+
+    const joined = () => parts.map((p) => p.text).join("");
+
+    while (joined().length > target) {
+        // The end-most eligible vowel: last word first, and within a word its
+        // last character first.
+        let removed = false;
+        for (let w = parts.length - 1; w >= 0 && !removed; w--) {
+            const part = parts[w];
+            for (let i = part.text.length - 1; i >= part.keep; i--) {
+                if (VOWEL.test(part.text[i])) {
+                    part.text = part.text.slice(0, i) + part.text.slice(i + 1);
+                    removed = true;
+                    break;
+                }
+            }
+        }
+        // Nothing eligible left: the name stays as long as it is.
+        if (!removed) break;
+    }
+
+    return joined();
+}

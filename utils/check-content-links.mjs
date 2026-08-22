@@ -52,7 +52,10 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-import { slugify, frontmatterWikilinks } from "./kb-wikilinks.mjs";
+import {
+    slugify,
+    frontmatterWikilinks,
+} from "@heroiclands/content-build/engine/web-wikilinks";
 import { assertForeignManifestsAddressable } from "./kb-foreign-manifest.mjs";
 import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
 import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
