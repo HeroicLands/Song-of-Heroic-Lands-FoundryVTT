@@ -13,13 +13,21 @@
 
 import { defineConfig } from "cypress";
 import dotenv from "dotenv";
-import { E2E_GM_ID, e2eConfig } from "./utils/seed-test-world.mjs";
+import { loadPackageBuildConfig } from "@heroiclands/package-build/config";
+import { resolveStagePort } from "@heroiclands/package-build/container";
+import { resolveE2EWorld } from "@heroiclands/package-build/e2e";
 
 dotenv.config({ path: ".env.local" });
 dotenv.config({ path: ".env" });
 
-const port = Number(process.env.FOUNDRYVTT_TEST_PORT ?? 30003);
-const { worldId, gmName, gmPassword } = e2eConfig();
+// The seeded world and the specs that drive it read the *same* resolution the
+// harness seeds with, so neither the port nor the credentials are stated twice
+// — `package-build e2e seed` and this file cannot disagree about the world.
+const buildConfig = loadPackageBuildConfig();
+const port = resolveStagePort(buildConfig.e2eStage, {
+    stages: buildConfig.containerStages,
+});
+const { worldId, gmId, gmName, gmPassword } = resolveE2EWorld(buildConfig);
 
 export default defineConfig({
     e2e: {
@@ -36,11 +44,11 @@ export default defineConfig({
         // add little here, and specs share login state within a run.
         fixturesFolder: false,
         video: false,
-        // The seeded world + GM are the contract between the seed script and the
+        // The seeded world + GM are the contract between the seed and the
         // specs — exposed so `cy.login()` needs no hard-coded credentials.
         env: {
             worldId,
-            gmId: E2E_GM_ID,
+            gmId,
             gmName,
             gmPassword,
         },
