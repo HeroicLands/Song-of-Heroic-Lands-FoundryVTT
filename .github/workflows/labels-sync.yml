@@ -1,10 +1,16 @@
 name: Sync labels
 
 # Reconcile the repository's GitHub labels to the authoritative registry in
-# .github/labels.yml (utils/sync-labels.mjs). Runs when the registry changes on
-# main, or on demand. The set is closed: labels not in the registry are deleted.
+# .github/labels.yml. The machinery is the org-wide action; the registry stays
+# here, because it is this repository's. The set is closed: a label not in the
+# registry is deleted, from the repository and from every issue carrying it.
+#
+# A pull request touching the registry reports what a sync *would* change and
+# writes nothing, so that deletion is seen in review rather than after the fact.
 
 on:
+    pull_request:
+        paths: [".github/labels.yml"]
     push:
         branches: [main]
         paths: [".github/labels.yml"]
@@ -22,11 +28,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v7
+            - uses: HeroicLands/.github/actions/labels@main
               with:
-                  node-version: 24
-                  cache: npm
-            - run: npm ci
-            - run: node utils/sync-labels.mjs
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  mode: ${{ github.event_name == 'pull_request' && 'check' || 'sync' }}
+                  token: ${{ secrets.GITHUB_TOKEN }}

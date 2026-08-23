@@ -5,7 +5,8 @@
 # `utils/check-labels.mjs` (run as part of `npm run lint`). Editing the registry
 # means editing BOTH: this file (name/color/description) and the §3 table.
 #
-# GitHub's labels are reconciled to this file by `utils/sync-labels.mjs`, run by
+# GitHub's labels are reconciled to this file by the `HeroicLands/.github`
+# labels action, run by
 # .github/workflows/labels-sync.yml. The set is CLOSED: any label on GitHub that
 # is not listed here is deleted on sync. Do not invent labels — extending the
 # registry is a deliberate edit to this file and §3.
