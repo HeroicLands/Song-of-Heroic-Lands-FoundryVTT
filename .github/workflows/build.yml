@@ -28,6 +28,11 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v7
 
+            # Wants a checkout and nothing else, so it runs before the
+            # install and fails in seconds rather than after one.
+            - name: Check for forbidden markers
+              uses: HeroicLands/.github/actions/todos@main
+
             - name: Setup Node.js
               uses: actions/setup-node@v7
               with:
@@ -36,9 +41,6 @@ jobs:
 
             - name: Install dependencies
               run: npm ci
-
-            - name: Check TODO issue links
-              run: npm run lint:todos
 
             - name: Type-check project declaration files (skipLibCheck off)
               run: npm run lint:dts
