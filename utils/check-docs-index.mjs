@@ -36,7 +36,7 @@
  *   node utils/check-docs-index.mjs
  */
 import { readdirSync, readFileSync } from "node:fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import { join } from "node:path";
 
 const DOCS = "kb/dev-docs";
@@ -73,7 +73,7 @@ if (violations.length) {
         `\ncheck-docs-index: ${violations.length} documentation page(s) missing from the index:\n`,
     );
     for (const v of violations) {
-        reportDiagnostic({
+        emitDiagnostic({
             file: v.file,
             severity: "error",
             message: v.message,

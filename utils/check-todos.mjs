@@ -31,7 +31,7 @@
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 
 const ROOT = "src";
 const FORBIDDEN = /\b(?:TODO|FIXME)\b/;
@@ -77,7 +77,7 @@ if (violations.length) {
         `\ncheck-todos: ${violations.length} TODO/FIXME marker(s) in committed code:\n`,
     );
     for (const v of violations) {
-        reportDiagnostic({
+        emitDiagnostic({
             file: v.file,
             line: v.line,
             column: v.column,

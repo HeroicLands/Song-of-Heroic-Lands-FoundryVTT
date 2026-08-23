@@ -39,7 +39,7 @@
  *   node utils/check-e2e-red.mjs  // direct invocation (no args)
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import { join } from "node:path";
 
 const ROOT = "cypress/e2e";
@@ -165,7 +165,7 @@ if (violations.length) {
         // `loc` is already `file:line`; splitting it keeps the one format the
         // whole lint chain now speaks (#1668).
         const at = v.loc.lastIndexOf(":");
-        reportDiagnostic({
+        emitDiagnostic({
             file: v.loc.slice(0, at),
             line: Number(v.loc.slice(at + 1)) || undefined,
             severity: "error",

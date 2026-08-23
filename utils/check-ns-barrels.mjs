@@ -32,7 +32,7 @@
  */
 
 import fs from "fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import path from "path";
 
 const SRC = "src";
@@ -151,7 +151,7 @@ if (problems.length) {
     for (const p of problems) {
         // A barrel problem is about the file as a whole — what is missing is
         // by definition not at any line in it.
-        reportDiagnostic({
+        emitDiagnostic({
             file: p.file,
             severity: "error",
             message: p.message,

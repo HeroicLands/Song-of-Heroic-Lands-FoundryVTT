@@ -58,7 +58,10 @@
  *   node utils/check-lang-coverage.mjs --absent   // also list the byproduct sets
  */
 import { readFileSync } from "node:fs";
-import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
+import {
+    emitDiagnostic,
+    positionOfLiteral,
+} from "@heroiclands/content-build/engine/diagnostics";
 import { globSync } from "glob";
 import ts from "typescript";
 
@@ -520,7 +523,7 @@ if (genMissing.length) {
     // open rather than listing them in parentheses (#1668).
     for (const k of genMissing)
         for (const file of generated.get(k))
-            reportDiagnostic({
+            emitDiagnostic({
                 file,
                 severity: "error",
                 message: `defineType generates "${k}", which en.json does not declare`,
@@ -532,9 +535,9 @@ if (refMissing.length) {
     );
     for (const k of refMissing)
         for (const file of concreteRefs.get(k))
-            reportDiagnostic({
+            emitDiagnostic({
                 file,
-                ...positionOf(readFileSync(file, "utf8"), k),
+                ...positionOfLiteral(readFileSync(file, "utf8"), k),
                 severity: "error",
                 message: `references "${k}", which en.json does not declare`,
             });
@@ -556,7 +559,7 @@ if (unresolvedDefs.length) {
         `\n⚠ ${unresolvedDefs.length} defineType call(s) not statically resolvable:`,
     );
     for (const u of unresolvedDefs)
-        reportDiagnostic({
+        emitDiagnostic({
             file: u.file,
             line: u.line,
             severity: "warning",
@@ -571,9 +574,9 @@ if (unused.length) {
     // The key is declared in en.json — that file and line is where the fix
     // is made, so that is what the finding names.
     for (const k of shown)
-        reportDiagnostic({
+        emitDiagnostic({
             file: LANG_FILE,
-            ...positionOf(langRaw, `"${k}"`),
+            ...positionOfLiteral(langRaw, `"${k}"`),
             severity: "error",
             message: `key "${k}" is unreferenced`,
         });

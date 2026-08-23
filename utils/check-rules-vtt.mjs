@@ -33,7 +33,7 @@
  *   node utils/check-rules-vtt.mjs // direct invocation (no args)
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import { join } from "node:path";
 
 const ROOT = join("assets", "content", "Rules");
@@ -115,7 +115,7 @@ if (violations.length) {
         `\ncheck-rules-vtt: ${violations.length} VTT reference(s) in the rules:\n`,
     );
     for (const v of violations) {
-        reportDiagnostic({
+        emitDiagnostic({
             file: v.file,
             line: v.line,
             column: v.column,
