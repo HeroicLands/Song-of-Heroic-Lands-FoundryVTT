@@ -16,12 +16,42 @@ treat every rule below as load-bearing rather than descriptive.
 |                  |                                                                       |
 | ---------------- | --------------------------------------------------------------------- |
 | **Emitted to**   | `build/manifests/<package>.json`, by `npm run build:link-manifest`    |
+| **Emitted by**   | `content-build manifest`, from configuration — no script in this repo |
 | **Published by** | copying that file into the consuming repository's `assets/manifests/` |
 | **Committed?**   | yes, in the consumer                                                  |
 
 The vendored copy is committed deliberately. A contributor without every
 repository checked out then resolves exactly the links CI does, and a build never
 depends on a sibling checkout being present or current.
+
+## How an entry's `path` is derived
+
+Every `path` in this file is produced by the same address rule the knowledgebase
+build emits its pages at, from one setting in `content-build.config.yaml`:
+
+```yaml
+publish:
+  address:
+    prefix: kb/ # this package's content mounts under `kb/`
+    landing: readme # a `README.md` addresses its section
+```
+
+That the two read one setting is the point. A manifest is a set of promises
+about where pages are, so a manifest deriving addresses independently of the
+build that publishes them will eventually promise one that resolves at build
+time and 404s for a reader — which is the failure the whole format exists to
+prevent.
+
+`prefix` is where the content tree mounts **inside this package**, never where
+the package itself is served: that is the consuming build's knowledge, applied
+when it resolves an entry (see [What a consumer must do](#what-a-consumer-must-do)).
+`sohl` publishes a knowledgebase alongside generated API docs, so its notes sit
+under `kb/`; a package whose site is nothing but its content has no prefix.
+
+A note the rule yields no address for — a `doc` with no `category` — is reported
+as a located diagnostic and left out of the manifest. It is never given a guessed
+address, because an entry pointing at a page that does not exist is worse than no
+entry at all.
 
 ## Format
 

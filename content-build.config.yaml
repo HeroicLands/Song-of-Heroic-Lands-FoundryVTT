@@ -298,3 +298,11 @@ packageBuild:
 publish:
     site: true
     manifests: { publish: true, consume: true }
+    # Where the content tree mounts inside the package, and which note is a
+    # section's landing page. Read by both `manifest` and the knowledgebase
+    # build, so the address a manifest publishes is the address a page is
+    # emitted at — stating it twice is how a manifest comes to assert a URL
+    # that resolves at build time and 404s for the reader.
+    address:
+        prefix: kb/
+        landing: readme
