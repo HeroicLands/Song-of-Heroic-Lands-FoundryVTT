@@ -56,6 +56,22 @@
         // MD039 — no spaces inside link text. `[ Skills ](url)` carries the spaces
         // into the rendered anchor, which shows up as a stray underline and as a
         // mismatched link title in any index built from it.
+        // MD049 / MD050 — one marker for each kind of emphasis: `_emphasis_`
+        // and `**strong**`. Both are style rules rather than correctness ones,
+        // and both are already satisfied everywhere, because Prettier
+        // normalises to exactly this pair. That is the point of enabling them:
+        // the convention currently holds as a *side effect* of the formatter's
+        // default, so it would lapse silently if that default changed or a path
+        // were added to `.prettierignore`. Stated here, it is a decision rather
+        // than an accident.
+        //
+        // Note for anyone reading the rendered output: neither marker is an
+        // underline. Markdown has no underline; `_x_` and `*x*` both mean
+        // emphasis, and the choice between them is purely which one this
+        // repository writes.
+        "MD049": { "style": "underscore" },
+        "MD050": { "style": "asterisk" },
+
         "MD039": true,
 
         // MD042 — no empty links. `[Skills]()` renders as a dead anchor that looks
