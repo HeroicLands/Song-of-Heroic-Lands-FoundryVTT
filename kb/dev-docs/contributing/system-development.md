@@ -210,9 +210,15 @@ Deferred work is tracked in **GitHub issues, not flagged in the code**. Do not
 commit `TODO`/`FIXME` markers: a code marker duplicates the issue and drifts out
 of sync, and a marker inside published JSDoc leaks into the API site as
 documentation prose. When you would write a `TODO`, file (or find) an issue,
-record any code-site context in that issue, and leave the code clean. `npm run
-lint:todos` (run in CI and `build:noci`) fails the build on **any** `TODO`/`FIXME`
-marker under `src/`.
+record any code-site context in that issue, and leave the code clean.
+
+Every pull request is checked by
+[`HeroicLands/.github/actions/todos`](https://github.com/HeroicLands/.github),
+which fails on **any** `TODO`/`FIXME` marker in a comment under `src/`. The rule
+is not this repository's — every HeroicLands repository wants it, and only the
+paths and extensions ever differed — so the check lives where every one of them
+can reach it, and the build no longer carries a `lint:todos` of its own. String
+contents are blanked before matching, so a literal `"TODO"` is not a finding.
 
 ### Update the documentation
 
