@@ -46,7 +46,7 @@
  *   node utils/check-doc-links.mjs
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -230,7 +230,7 @@ if (
                 `  ${missing.length} link(s) to a file that does not exist:`,
             );
             for (const v of missing) {
-                reportDiagnostic({
+                emitDiagnostic({
                     file: v.file,
                     line: v.line,
                     column: v.column,
@@ -244,7 +244,7 @@ if (
                 `\n  ${deadAnchors.length} link(s) to an anchor nobody declares:`,
             );
             for (const v of deadAnchors) {
-                reportDiagnostic({
+                emitDiagnostic({
                     file: v.file,
                     line: v.line,
                     column: v.column,

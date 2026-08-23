@@ -33,7 +33,10 @@
  *   node utils/check-lang-hardcoded.mjs
  */
 import { readFileSync } from "node:fs";
-import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
+import {
+    emitDiagnostic,
+    positionOfLiteral,
+} from "@heroiclands/content-build/engine/diagnostics";
 import { globSync } from "glob";
 import Handlebars from "handlebars";
 
@@ -115,9 +118,9 @@ for (const file of templates) {
     const src = readFileSync(file, "utf8");
     for (const { text, needle } of hardcodedLiterals(src)) {
         offenders++;
-        reportDiagnostic({
+        emitDiagnostic({
             file,
-            ...positionOf(src, needle),
+            ...positionOfLiteral(src, needle),
             severity: "error",
             message: `hardcoded user-visible string: ${text}`,
         });
@@ -126,7 +129,7 @@ for (const file of templates) {
         Handlebars.precompile(src);
     } catch (err) {
         broken++;
-        reportDiagnostic({
+        emitDiagnostic({
             file,
             // Handlebars reports a line/column of its own for a parse error.
             line: err?.hash?.loc?.first_line ?? err?.lineNumber,

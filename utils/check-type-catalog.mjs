@@ -21,7 +21,7 @@
  */
 
 import fs from "fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import path from "path";
 import { buildTypeCatalog } from "./build-type-catalog.mjs";
 import { formatGenerated } from "./format-generated.mjs";
@@ -31,7 +31,7 @@ const rel = path.relative(process.cwd(), OUT);
 
 const { md, warnings } = buildTypeCatalog();
 for (const w of warnings) {
-    reportDiagnostic({ file: rel, severity: "warning", message: w });
+    emitDiagnostic({ file: rel, severity: "warning", message: w });
 }
 
 const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf8") : "";
@@ -42,7 +42,7 @@ const expected = await formatGenerated(md, OUT);
 if (current !== expected) {
     // Staleness is a property of the whole generated file, so there is no
     // line to name.
-    reportDiagnostic({
+    emitDiagnostic({
         file: rel,
         severity: "error",
         message:

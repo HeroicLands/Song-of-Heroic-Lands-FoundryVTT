@@ -22,7 +22,10 @@
  */
 
 import { readFileSync } from "node:fs";
-import { reportDiagnostic, positionOf } from "./lint-diagnostics.mjs";
+import {
+    emitDiagnostic,
+    positionOfLiteral,
+} from "@heroiclands/content-build/engine/diagnostics";
 import { resolve } from "node:path";
 import { parse } from "yaml";
 
@@ -45,9 +48,9 @@ function registryNames() {
             `check-labels: label description exceeds ${MAX_DESCRIPTION} chars (GitHub's limit):`,
         );
         for (const l of tooLong) {
-            reportDiagnostic({
+            emitDiagnostic({
                 file: ".github/labels.yml",
-                ...positionOf(raw, l.name),
+                ...positionOfLiteral(raw, l.name),
                 severity: "error",
                 message: `label "${l.name}" description is ${l.description.length} chars, over the ${MAX_DESCRIPTION}-char limit`,
             });
@@ -93,14 +96,14 @@ if (missingFromDoc.length || missingFromRegistry.length) {
     // Each side is reported against the file that is missing the label, so
     // the finding names the file to edit rather than the disagreement.
     for (const name of missingFromDoc) {
-        reportDiagnostic({
+        emitDiagnostic({
             file: "kb/dev-docs/how-to/issue-reporting.md",
             severity: "error",
             message: `label "${name}" is in .github/labels.yml but not in §3`,
         });
     }
     for (const name of missingFromRegistry) {
-        reportDiagnostic({
+        emitDiagnostic({
             file: ".github/labels.yml",
             severity: "error",
             message: `label "${name}" is in §3 but not in .github/labels.yml`,

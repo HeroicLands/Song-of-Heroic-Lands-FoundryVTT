@@ -153,12 +153,15 @@ path is relative to the repository root. The layout is written in exactly one
 place, and that place is **not this repository** — `formatDiagnostic` lives in
 `@heroiclands/content-build` (`engine/diagnostics`), so the content build's note
 warnings and these linters' findings cannot drift into two dialects of the same
-form. [utils/lint-diagnostics.mjs](../../../utils/lint-diagnostics.mjs)
-re-exports it and adds only what the package has no equivalent for: locating a
-literal in an arbitrary file (`locateInText` / `positionOf`), since the package's
-`positionInBody` maps an offset within a parsed _note_ body and these linters
-read source, docs, lang files and e2e specs. A linter calls `reportDiagnostic`
-and never formats its own.
+form. Each linter imports `emitDiagnostic` from there directly and never formats
+its own; where it needs to point at a literal in a file that is not a parsed
+note — source, docs, lang files, e2e specs — it imports `positionOfLiteral`
+from the same module.
+
+There is no local re-export barrel in between. There was one, and it earned
+nothing: ten of its thirteen consumers took a single symbol from it, so it saved
+no import line, while renaming `emitDiagnostic` to `reportDiagnostic` — which
+meant grepping this repository for the real name found nothing at all.
 
 Two rules make it dependable:
 

@@ -40,7 +40,7 @@
  *   node utils/check-sohl-types.mjs
  */
 import fs from "node:fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import path from "node:path";
 
 const PKG_DIR = path.resolve("packages/sohl-types");
@@ -141,7 +141,7 @@ if (errors.length > 0) {
     // The findings are about the generated bundle as a whole, so the file is
     // the honest locator and there is no line to add.
     for (const e of errors) {
-        reportDiagnostic({ file: BUNDLE, severity: "error", message: e });
+        emitDiagnostic({ file: BUNDLE, severity: "error", message: e });
     }
     console.error(`\n${errors.length} problem(s).`);
     process.exit(1);

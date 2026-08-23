@@ -37,7 +37,7 @@
  */
 
 import fs from "fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import path from "path";
 import { formatGenerated } from "./format-generated.mjs";
 import { EXPRESSION_SCOPES } from "../src/entity/expr/expression-scopes.mjs";
@@ -132,7 +132,7 @@ const next = await formatGenerated(renderDoc(current), DOC);
 
 if (isCheck) {
     if (current !== next) {
-        reportDiagnostic({
+        emitDiagnostic({
             file: rel,
             severity: "error",
             message:

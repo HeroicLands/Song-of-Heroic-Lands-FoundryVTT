@@ -32,7 +32,7 @@
  */
 
 import { readFileSync, writeFileSync } from "fs";
-import { reportDiagnostic } from "./lint-diagnostics.mjs";
+import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
 import { formatGenerated } from "./format-generated.mjs";
 import { globSync } from "glob";
 
@@ -422,7 +422,7 @@ async function main() {
         return;
     }
 
-    reportDiagnostic({
+    emitDiagnostic({
         file: OUT_PATH,
         severity: "error",
         message:
