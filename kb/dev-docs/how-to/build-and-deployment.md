@@ -70,7 +70,7 @@ sequence; `run-p` runs them in parallel.
 | `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                 |
 | `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                      |
 | `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.         |
-| `build:kb-content`    | Generate the site's Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/kb/` (`utils/build-kb-content.mjs`). No Hugo needed.                |
+| `build:kb-content`    | Generate the site's Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/kb/` (`content-build site`). No Hugo needed.                        |
 | `build:kb`            | `build:kb-content` then render it with Hugo → `build/site/sohl/`. Needs Hugo and the theme submodule.                                              |
 | `site:assemble`       | Mount the TypeDoc HTML at `build/site/sohl/api/` and finish the deployable tree (`utils/build-site.mjs`).                                          |
 | `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                      |
@@ -1144,8 +1144,9 @@ not the template.
 **Links inside the generated Markdown carry the prefix from the builder, not
 from Hugo.** Hugo prefixes what it emits itself (permalinks, assets, aliases),
 but the wikilinks and cross-references written into `kb/content/` are ordinary
-site paths that nothing rewrites afterwards. They come from `SOHL_BASE` /
-`KB_BASE` / `API_BASE` in `utils/build-kb-content.mjs`, which is where a
+site paths that nothing rewrites afterwards. They are composed from
+`site.base` (defaulting to `/<contentPackage>/`), `publish.address.prefix` and
+`site.passOptions.apiBase` in `content-build.config.yaml`, which is where a
 relocation is edited. One consequence worth remembering: a Hugo `alias` is
 publishDir-relative and does **not** get the baseURL path added, so
 An authored Obsidian `aliases` is stripped on the way into the frontmatter: in Hugo the key means URL redirects, not names.
@@ -1167,7 +1168,6 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                                                                             |
 | `docs-coverage.mjs`                 | Report doc-comment coverage.                                                                                                               |
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                                    |
-| `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.                                                    |
 | `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname.                |
 | `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                                     |
 | `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                                                                      |
