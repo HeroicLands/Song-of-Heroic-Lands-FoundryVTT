@@ -463,7 +463,7 @@ being the default.
 
 **Raising the pin is a decision to raise the supported floor**, not a test-config
 tweak. If the floor genuinely cannot be made to work, bump `compatibility.minimum`
-in `assets/templates/system.template.json` and move the pin with it, so the claim
+in `content-build.config.yaml`'s top-level `compatibility` and move the pin with it, so the claim
 and the evidence stay the same number. Do not quietly test on something newer than
 the manifest claims.
 

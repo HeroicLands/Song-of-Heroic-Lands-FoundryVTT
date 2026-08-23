@@ -152,7 +152,7 @@ const CONTAINER_PORT = 30000;
  *
  * Raising this value is therefore not a test-configuration change but a decision
  * to **raise the supported floor**: move `compatibility.minimum` in
- * `assets/templates/system.template.json` with it, so the claim and the evidence
+ * `content-build.config.yaml`'s `compatibility` with it, so the claim and the evidence
  * stay the same number.
  *
  * @type {Readonly<Record<string, string>>}
