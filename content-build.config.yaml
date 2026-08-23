@@ -53,6 +53,22 @@ compatibility:
     minimum: "14.359"
     verified: "14.364"
 
+# How this repository frames the pages `content-build docs` generates. The
+# tables come from the `itemBuilders` registry and are the same wherever they
+# are rendered; the heading, where the page is filed, and what a reader is told
+# before the tables start are this repository's. They were the whole reason a
+# script wrapped the renderer here.
+docs:
+    itemFields:
+        title: Item Note Frontmatter
+        out: kb/dev-docs/content-creator/item-frontmatter.md
+        preamble:
+            - "See also: [The Authoring Workflow](authoring-workflow.md), [Actor Notes](actor-notes.md), [Asset Conventions](asset-conventions.md)"
+            - ""
+            - "Every item note carries the frontmatter envelope described in [The Authoring Workflow](authoring-workflow.md) — `name.full`, `type`, `shortcode`, `package`, `id`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else."
+            - ""
+            - "The tables are rendered from the declaration that _builds_ each document, not from a description of it, so a field listed here is a field the compiler reads and a field absent here is one it ignores. An unrecognised `sohl:` key is silently dropped, so a typo shows up as a missing value rather than an error — check the spelling here first."
+
 # Which content types compile into Items, and what builds each one's `system`
 # block. `itemTypes` and the doc-carrying-type set are derived from the
 # registry's keys, so a type cannot be accepted without a builder behind it
