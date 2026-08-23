@@ -3,8 +3,11 @@
 # Reject commit messages that carry AI/assistant attribution.
 #
 # This project does not want Co-Authored-By trailers naming an AI assistant, nor
-# "Generated with Claude Code"-style signatures, in its history. See the matching
-# CI guard in .github/workflows/no-attribution.yml — keep the pattern in sync.
+# "Generated with Claude Code"-style signatures, in its history. The matching CI
+# guard is the shared HeroicLands/.github/actions/no-attribution action, which
+# this repository's .github/workflows/no-attribution.yml calls. That action holds
+# the pattern for every repository; this hook is the only other copy, because a
+# git hook runs from your checkout and cannot live in an action. Keep them in sync.
 #
 # Installed for everyone via the package.json "prepare" script, which points
 # git at this directory (`git config core.hooksPath .githooks`) on `npm install`.
