@@ -37,8 +37,6 @@ import {
     frontmatterWikilinks,
 } from "@heroiclands/content-build/engine/web-wikilinks";
 import {
-    canonicalKey,
-    readCanonicalKey,
     loadForeignManifests,
     manifestsComplete,
 } from "@heroiclands/content-build/engine/kb-manifest";
@@ -63,7 +61,10 @@ import {
 const CONTENT_PACKAGE = contentPackage();
 const FOUNDRY_PACKAGE_ID = foundryPackageId();
 import { expandContentTables } from "@heroiclands/content-build/engine/content-tables";
-import { hasDocEntry } from "@heroiclands/content-build/engine/item-docs";
+import {
+    buildSiteIndex,
+    wikiContext,
+} from "@heroiclands/content-build/engine/site-index";
 import {
     deriveBeingInfo,
     isBeing,
@@ -375,7 +376,6 @@ const LOCAL_BASE = SOHL_BASE;
 // `KB_PACKAGES` is what this build would accept, not what it actually found —
 // using it here silently discarded the manifest of any package it listed.
 const entries = [];
-const refIndex = new Map();
 const slugErrors = [];
 /**
  * Notes with a wikilink in frontmatter (#1428) — `{file, path, link}` each.
@@ -438,9 +438,6 @@ for (const file of walk(CONTENT_SRC)) {
         url,
         isReadme,
     });
-    if (typeof fm.shortcode === "string") {
-        refIndex.set(`${fm.type}:${fm.shortcode}`, { name, url });
-    }
 }
 
 // kb/dev-docs/ → developer docs. They preserve their source tree under the section
@@ -529,40 +526,11 @@ if (collisions.length) {
 }
 
 // --- Wikilink index ------------------------------------------------------
-// `section/slug` is unique by construction and always resolves. Name, filename,
-// and bare slug are collision-aware fallbacks: a key mapping to two different
-// pages is dropped and remembered as ambiguous, so `[[Name]]` on it fails the
-// build (the author must disambiguate with `[[section/slug|Label]]`).
-const wikiIndex = new Map(); // key → { url, name }
-const wikiCollide = new Set();
-const addFallback = (k, v) => {
-    k = k.toLowerCase();
-    if (wikiCollide.has(k)) return;
-    const cur = wikiIndex.get(k);
-    if (cur && cur.url !== v.url) {
-        wikiIndex.delete(k);
-        wikiCollide.add(k);
-    } else if (!cur) {
-        wikiIndex.set(k, v);
-    }
-};
-for (const e of entries) {
-    const v = { url: e.url, name: e.name };
-    wikiIndex.set(`${e.sec}/${e.slug}`.toLowerCase(), v); // unique
-    addFallback(e.name, v);
-    if (!e.isReadme) addFallback(path.basename(e.base, ".md"), v);
-    addFallback(e.slug, v);
-}
-
-// The authored form: `type/shortcode` — `(type, shortcode)` is the system's
-// logical identity and is unique by rule, so this key is unique by construction,
-// the same guarantee `section/slug` gives. Alongside it, every alias is indexed
-// *scoped to its type*, which is what makes a bare `[[Text]]` resolvable even
-// when the same name is used for another kind of document ("Shock" the rules
-// page and "Shock" the trauma item both exist). Two notes of the *same* type
-// sharing a name poison it: the bare form is then ambiguous and the author must
-// write `[[type/shortcode|Text]]`.
-// Packages this build actually publishes, and therefore is authoritative for.
+// Every key space a wikilink resolves through — `section/slug`,
+// `type/shortcode`, the canonical `package-type-shortcode`, collision-aware
+// bare fallbacks and type-scoped aliases — plus the foreign packages merged in.
+// The rules are the toolchain's (content-build#47); what stays here is how a
+// page got its address in the first place, which is genuinely this site's.
 const localPackages = new Set(
     entries.filter((e) => e.kind === "content").map((e) => e.fm.package),
 );
@@ -574,13 +542,10 @@ if (foreign.stale.length) {
 }
 
 // A manifest this build can *read* but cannot *address* is the failure mode
-// #1664 documents: the lookup below matches nothing, every cross-package link
-// falls through to its display text, and no check fires — a dead-link guard
-// only ever sees addresses that resolved to the wrong place, never ones that
-// resolved to nothing at all.
-// Reported and exited here rather than thrown from the package: this is a
-// build script, which already reports its own manifest problems this way, and
-// a stack trace would bury the diagnostic the reader needs.
+// #1664 documents: the lookup matches nothing, every cross-package link falls
+// through to its display text, and no check fires — a dead-link guard only ever
+// sees addresses that resolved to the wrong place, never ones that resolved to
+// nothing at all.
 const unaddressable = unaddressableForeignPackages(foreign.index);
 if (unaddressable.length) {
     for (const finding of unaddressable) {
@@ -590,103 +555,17 @@ if (unaddressable.length) {
 }
 
 const manifests = manifestsComplete(localPackages, foreign.packages);
+const siteIndex = buildSiteIndex(entries, { foreignIndex: foreign.index });
 
-// Every key is canonical and therefore globally unique, so a foreign manifest
-// merges straight into the local index — one map, one lookup, no precedence
-// rule. A key already present is a genuine conflict: two packages claiming one
-// address, which is the case the canonical form exists to make detectable.
-const linkConflicts = [];
-// A bare `[[doc-xyz]]` carries no package, so it must still find a foreign note
-// when exactly one package publishes that address. Claimed twice, it is genuinely
-// ambiguous and the author has to write the qualified form — the same rule the
-// type-scoped aliases above already use, one level out.
-const foreignShort = new Map();
-const foreignShortAmbiguous = new Set();
-for (const [key, v] of foreign.index) {
-    if (wikiIndex.has(key)) {
-        linkConflicts.push({ key, package: v.package });
-        continue;
-    }
-    wikiIndex.set(key, v);
-
-    const parts = readCanonicalKey(key);
-    if (!parts) continue;
-    const short = `${parts.type}/${parts.shortcode}`;
-    if (
-        foreignShort.has(short) &&
-        foreignShort.get(short).package !== v.package
-    ) {
-        foreignShortAmbiguous.add(short);
-    } else {
-        foreignShort.set(short, v);
-    }
-}
-for (const short of foreignShortAmbiguous) foreignShort.delete(short);
-// Local wins: a live build is authoritative and a vendored manifest can only be
-// staler, so a short key the local tree already claims is left alone.
-for (const [short, v] of foreignShort) {
-    if (!wikiIndex.has(short)) wikiIndex.set(short, v);
-}
-if (linkConflicts.length) {
+// Reported here rather than thrown from the package: this is a build script,
+// which already reports its own manifest problems this way, and a stack trace
+// would bury the diagnostic the reader needs.
+if (siteIndex.conflicts.length) {
     console.error("\n\u2716 address claimed by more than one package:");
-    for (const c of linkConflicts) {
+    for (const c of siteIndex.conflicts) {
         console.error(`  ${c.key} — also published by ${c.package}`);
     }
     process.exit(1);
-}
-
-const typeAlias = new Map(); // `type|alias` → { url, name }
-const typeCollide = new Set();
-const contentTypes = new Set();
-// A foreign package may use a type this build has never seen. Seeding those
-// here is what lets `readQualifier` recognise `polity-xyz` as an address at
-// all — without it the link is read as prose and silently loses its href.
-for (const v of foreign.index.values()) {
-    if (v.type) contentTypes.add(v.type);
-}
-for (const e of entries) {
-    if (e.kind !== "content") continue; // developer docs carry no type/shortcode
-    const type = String(e.fm.type).toLowerCase();
-    contentTypes.add(type);
-    const v = { url: e.url, name: e.name };
-    if (typeof e.fm.shortcode === "string" && e.fm.shortcode) {
-        wikiIndex.set(`${type}/${e.fm.shortcode}`.toLowerCase(), v);
-        // The canonical, fully qualified address alongside the short one. The
-        // short form stays because a bare `[[skill-lang]]` defaults to the
-        // citing note's own package and must keep resolving unchanged; the
-        // canonical form is what a cross-package link and every merged foreign
-        // entry use, in one key space (#1499).
-        wikiIndex.set(canonicalKey(e.fm.package, type, e.fm.shortcode), v);
-        // In Foundry an item and its documentation are two separate documents,
-        // so `skill/wpnc` and `docskill/wpnc` resolve to two different UUIDs
-        // (#1362). Here the item note renders as one page which *is* its
-        // documentation, so the two qualifiers are **aliases for the same URL**
-        // and an anchor on either is an ordinary in-page anchor. One authored
-        // link, correct in both builds. Restricted to the types that actually
-        // have an item doc, so a qualifier the packs would reject is reported
-        // broken here too.
-        if (hasDocEntry(type)) {
-            contentTypes.add(`doc${type}`);
-            wikiIndex.set(`doc${type}/${e.fm.shortcode}`.toLowerCase(), v);
-        }
-    }
-    const aliases = [
-        ...(Array.isArray(e.fm.aliases) ? e.fm.aliases : []),
-        ...(Array.isArray(e.fm.name?.aliases) ? e.fm.name.aliases : []),
-        e.name,
-        path.basename(e.base, ".md").replace(/_/g, " "),
-    ].filter((a) => typeof a === "string" && a);
-    for (const a of aliases) {
-        const k = `${type}|${a}`.toLowerCase();
-        if (typeCollide.has(k)) continue;
-        const cur = typeAlias.get(k);
-        if (cur && cur.url !== v.url) {
-            typeAlias.delete(k);
-            typeCollide.add(k);
-        } else if (!cur) {
-            typeAlias.set(k, v);
-        }
-    }
 }
 
 // --- Generated tables ----------------------------------------------------
@@ -709,21 +588,15 @@ const tableErrors = [];
 /** A cell can link to a note that has a shortcode to address it by. */
 const tableLinkable = (d) => Boolean(d.fm.shortcode);
 
-const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
 const wikiErrors = [];
-const wikiCtx = (src, type = null) => ({
-    index: wikiIndex,
-    foreign: foreign.index,
-    manifestsComplete: manifests.complete,
-    collide: wikiCollide,
-    sections: knownSections,
-    typeAlias,
-    typeCollide,
-    contentTypes,
-    type,
-    errors: wikiErrors,
-    src,
-});
+const wikiCtx = (src, type = null) =>
+    wikiContext(siteIndex, {
+        src,
+        type,
+        errors: wikiErrors,
+        foreignIndex: foreign.index,
+        manifestsComplete: manifests.complete,
+    });
 
 // --- Write phase ---------------------------------------------------------
 for (const e of entries) {
@@ -750,7 +623,7 @@ for (const e of entries) {
         // Asking here is how this build came to still be checking `character`
         // and `creature` months after #1580 retired them (#1696).
         if (isBeing(fm)) {
-            data.sohl = deriveBeingInfo(fm.sohl, refIndex);
+            data.sohl = deriveBeingInfo(fm.sohl, siteIndex.refIndex);
         }
         if (isReadme) {
             const meta = README_META[sec];
