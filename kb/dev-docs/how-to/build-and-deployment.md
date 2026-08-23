@@ -62,7 +62,7 @@ sequence; `run-p` runs them in parallel.
 | `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                             |
 | `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                        |
 | `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                     |
-| `build:system`        | Generate `build/stage/system.json` from the template + `package.json` version (`utils/build-system-json.mjs`).                                    |
+| `build:system`        | Generate `build/stage/system.json` from `content-build.config.yaml` (`package-build manifest`).                                                   |
 | `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                   |
 | `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                         |
 | `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                |
@@ -362,11 +362,18 @@ directory, and `build:pack-release` simply zips its contents into the release
 `system.zip`. There is no separate transform step — the staged directory **is** the
 system, and `system.zip` is just an archive of it.
 
-**How `system.json` is assembled** (`utils/build-system-json.mjs`): it reads
-`assets/templates/system.template.json` (the static metadata — document types,
-`packs` array, media) and injects the dynamic fields from `package.json`: `version`,
-the repo `url`/`bugs`, the `manifest` URL (latest release's `system.json`), and the
-versioned `download` URL (`…/releases/download/v<version>/system.zip`).
+**How `system.json` is assembled** (`package-build manifest`): everything it
+declares comes from `content-build.config.yaml`. The `packageBuild.manifest`
+block is emitted unchanged; `id`, `version`, the four release addresses,
+`compatibility` and `packs` are **derived** and may not be declared there; and
+`packageBuild.manifestFlags` names `utils/manifest-flags.mjs`, which computes
+the `sohl` flag namespace — the credits journal's `@UUID` only exists once the
+content tree has been walked.
+
+There is no template. `assets/templates/system.template.json` was retired
+(package-build#9): it was the last build input still hand-authored as JSON, and
+it declared the pack list, the package id and the Foundry range a second time,
+with nothing checking that the two agreed.
 
 ## 5. Compendium packs from in-repo Markdown
 
@@ -643,13 +650,16 @@ Two properties of that shape are load-bearing:
   pack list as `packDirectories` (each pack, then its companions), so the
   compile order and the compiler list cannot drift apart — they used to be two
   separately-maintained arrays that had to agree.
-- **Configuration supplies a path, never a captured value.** `paths.packageManifest`
-  says where `system.template.json` (or a module repository's
-  `module.template.json`) lives; both the package-id drift guard and the compiled
-  packs' `_stats.coreVersion` read it from there. The core version itself is
-  deliberately absent from the config: it is the manifest's
-  `compatibility.minimum`, which moves with test evidence, and a copy would
-  silently stop following it — the shape of defect #1533 was.
+- **Configuration is the source, and the manifest is generated from it.** That
+  arrow used to point the other way: `paths.packageManifest` said where
+  `system.template.json` lived, and both the package-id drift guard and the
+  compiled packs' `_stats.coreVersion` read out of it. Correct while the
+  manifest was hand-authored — a copy in config would have stopped following a
+  floor that moves with test evidence, which is the shape defect #1533 had.
+  `package-build manifest` generates the manifest now, so there is nothing left
+  to follow: the Foundry range is declared here as top-level `compatibility`,
+  the guard is deleted (a single source needs no corroboration), and
+  `paths.packageManifest` is gone.
   `stats.systemVersion` obeys the same rule from the other side: it is a
   configured value, but the config **reads** it from `package.json` — the file
   Changesets bumps and `build:system` stamps into the manifest — rather than
@@ -684,7 +694,8 @@ compiler dispatched through this package's module-level table until #1563, so a
 consumer got the types it asked for and the builders it did not.
 
 Adding a type is therefore one entry in `ITEM_BUILDERS`, its subtype declaration
-in `documentTypes.Item` (`assets/templates/system.template.json`), and its
+in `documentTypes.Item` (`packageBuild.manifest` in
+`content-build.config.yaml`), and its
 default artwork in `@heroiclands/content-build/sohl/default-item-art` — the last
 of which the unit
 suite holds in exact step with the registry. Removing a type is the same three
@@ -885,8 +896,8 @@ full suite has **actually passed**, never an aspiration.
 
 `FOUNDRYVTT_<STAGE>_VERSION` in `.env.local` overrides the committed default for
 any run. Raising the committed pin, by contrast, is a decision to **raise the
-supported floor**: move `compatibility.minimum` in
-`assets/templates/system.template.json` with it. See
+supported floor**: move the top-level `compatibility.minimum` in
+`content-build.config.yaml` with it. See
 [Testing → Which build the suite runs on](testing.md#which-build-the-suite-runs-on--the-two-tracks).
 
 🔧 **First-run licensing.** felddy needs to fetch Foundry once. Supply your
@@ -1147,28 +1158,28 @@ here as a `devDependency` from the registry — the same way every other consume
 resolves it (#1589). Each script carries a header comment describing its purpose
 and how to invoke it — read the file itself for the authoritative detail. In brief:
 
-| Script                              | Purpose                                                                                                                     |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `build-system-json.mjs`             | Generate `build/stage/system.json` from the template + version.                                                             |
-| `svg-theme.mjs`                     | The `transform` hook `package-build assets` calls: recolor each staged SVG so icons follow the Foundry theme.               |
-| `build-icon-font.mjs`               | Build the icon font from SVGs.                                                                                              |
-| `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                                                              |
-| `docs-coverage.mjs`                 | Report doc-comment coverage.                                                                                                |
-| `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                                                   |
-| `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                     |
-| `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.                                     |
-| `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname. |
-| `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                      |
-| `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                                                       |
-| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress.                              |
-| `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                   |
-| `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects.                   |
-| `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.                                      |
-| `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                                                     |
-| `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                                                                   |
-| `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                                                         |
-| `packs/clean-sources.mjs`           | Remove generated `_source/` trees.                                                                                          |
-| `typedoc-plugin-*.mjs`              | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).                                          |
+| Script                              | Purpose                                                                                                                                    |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `manifest-flags.mjs`                | The `flags(config)` hook `package-build manifest` calls: the credits journal's `@UUID`, which only exists once the content tree is walked. |
+| `svg-theme.mjs`                     | The `transform` hook `package-build assets` calls: recolor each staged SVG so icons follow the Foundry theme.                              |
+| `build-icon-font.mjs`               | Build the icon font from SVGs.                                                                                                             |
+| `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                                                                             |
+| `docs-coverage.mjs`                 | Report doc-comment coverage.                                                                                                               |
+| `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                                                                  |
+| `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                                    |
+| `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.                                                    |
+| `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname.                |
+| `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                                     |
+| `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                                                                      |
+| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress.                                             |
+| `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                                  |
+| `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects.                                  |
+| `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.                                                     |
+| `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                                                                    |
+| `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                                                                                  |
+| `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                                                                        |
+| `packs/clean-sources.mjs`           | Remove generated `_source/` trees.                                                                                                         |
+| `typedoc-plugin-*.mjs`              | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).                                                         |
 
 ## See also
 

@@ -8,18 +8,18 @@
 # repository — `sohl-thalorna`, `sohl-kethira-basic`, an adventure module —
 # ships the same toolchain with its own copy of this file and nothing else.
 #
-# **Paths, not captured values.** `paths.packageManifest` says *where* the
-# shipped Foundry manifest is; the package id guard and the compiled packs'
-# `_stats.coreVersion` both read it from there, so moving
-# `compatibility.minimum` moves the stamp without touching this file. Nothing
-# here may copy a value the manifest owns.
+# **This file is the source; the manifest is generated from it.** That arrow
+# used to point the other way: `system.template.json` was hand-authored JSON
+# holding the pack list, the Foundry range and the package id a second time,
+# and the build read `compatibility.minimum` back out of it. The template is
+# retired (package-build#9) and nothing reads it any more.
 #
 # **What is absent is derived, not forgotten.** `rootDir` is the directory this
-# file sits in; `stats.systemVersion` is read from the `package.json` beside it
-# — the file Changesets bumps and `utils/build-system-json.mjs` stamps into the
-# shipped manifest's `version`, so the stamp equals the version of the system
-# that compiled the document. A transcribed one froze at `0.6.0` for four
-# releases (#1548).
+# file sits in; `foundryPackage` is the `name` of the `package.json` beside it;
+# `stats.systemVersion` is that file's `version` — the one Changesets bumps —
+# so the stamp equals the version of the system that compiled the document. A
+# transcribed one froze at `0.6.0` for four releases (#1548). Authoring any of
+# them is an error, not an override.
 
 # The distribution unit a note declares in its `package:` frontmatter. The pack
 # compilers select their entries by it, and it is stable across compilation
@@ -30,7 +30,6 @@ contentPackage: sohl
 # `assets/templates/system.template.json`, and the first segment of every
 # compendium UUID the compilers emit. Equal to `contentPackage` here only by
 # coincidence: in `sohl-thalorna` the two differ (#1498).
-foundryPackage: sohl
 packageKind: systems
 
 # Stamped into every compiled document's `_stats`. `systemId` names the game
@@ -41,6 +40,18 @@ packageKind: systems
 stats:
     systemId: sohl
     lastModifiedBy: sohlbuilder00000
+
+# The Foundry core range this system supports. `minimum` is stamped into every
+# compiled document as `_stats.coreVersion`, so a document never claims to
+# predate the migrations that would rewrite it. `verified` names the newest
+# build the full suite has actually passed on — never an aspiration.
+#
+# It lives here rather than in the shipped manifest because the manifest is
+# generated *from* this file now; reading it back would be a round trip through
+# an artifact `build:db` can run before writing.
+compatibility:
+    minimum: "14.359"
+    verified: "14.364"
 
 # Which content types compile into Items, and what builds each one's `system`
 # block. `itemTypes` and the doc-carrying-type set are derived from the
@@ -59,18 +70,24 @@ skipDirectories: [Templates]
 # derived from this, so the compile list and the compiler list cannot drift
 # apart the way `SOURCE_PACKS` and `PACK_CONFIGS` did.
 packs:
-    - { name: items, type: Item, folders: item-folders.yaml }
-    - { name: journals, type: JournalEntry, folders: journal-folders.yaml }
-    - { name: actors, type: Actor, folders: actor-folders.yaml }
-    - { name: macros, type: Macro, folders: macro-folders.yaml }
+    - { name: items, label: Items, type: Item, folders: item-folders.yaml }
+    - {
+          name: journals,
+          label: Journals,
+          type: JournalEntry,
+          folders: journal-folders.yaml,
+      }
+    - { name: actors, label: Actors, type: Actor, folders: actor-folders.yaml }
+    - { name: macros, label: Macros, type: Macro, folders: macro-folders.yaml }
     - name: scenes
       type: Scene
+      label: Maps
       folders: scene-folders.yaml
       # One pass, two packs: every map note's Scene, and the Adventure bundling
       # the pinned ones with their journals so a `keepId: true` import makes the
       # pins resolve (#1525).
       companions:
-          - { name: adventures, type: Adventure }
+          - { name: adventures, type: Adventure, label: Adventures }
 
 # Everything `@heroiclands/package-build` needs. It reads this same file rather
 # than one of its own: `packageKind` and `foundryPackage` above are two of the
@@ -107,6 +124,149 @@ packageBuild:
             key a leaf OR a branch, never both. See
             kb/dev-docs/reference/localization-keys.md for the placeholder and
             key-segment rules.
+
+    # `flags.sohl.creditsUuid` is not a literal: it is the compendium address of
+    # the credits journal, which only exists once the content tree has been
+    # walked. This module computes it.
+    manifestFlags: ./utils/manifest-flags.mjs
+
+    # The Foundry package manifest, generated into the build stage by
+    # `package-build manifest`. Emitted as declared — `id`, `version`, the four
+    # release addresses, `compatibility` and `packs` are derived and must not
+    # appear here.
+    #
+    # Moved verbatim out of the retired `assets/templates/system.template.json`.
+    manifest:
+        title: Song of Heroic Lands
+        description:
+            "<p><strong>Song of Heroic Lands: A Gateway to Adventure!</strong> Embark on a journey
+            through a richly detailed fantasy world with Song of Heroic Lands (SoHL)—a game system built to
+            bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the renowned
+            HârnMaster system, SoHL allows you to experience the intricacies of one of the most immersive
+            and realistic fantasy role-playing systems ever created.</p><p>Designed for both seasoned veterans
+            and new players, SoHL captures the essence of detailed game mechanics while leveraging the power
+            of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich
+            environment.</p>"
+        authors:
+            - name: Toasty
+              discord: toasty#8538
+              flags: {}
+        license: LICENSE.md
+        readme: README.md
+        changelog: CHANGELOG.md
+        flags:
+            allowBugReporter: true
+            needsMigrationVersion: 0.3.5
+            compatibleMigrationVersion: 0.3.0
+        esmodules:
+            - sohl.js
+        styles:
+            - css/sohl.css
+        languages:
+            - lang: en
+              name: English
+              path: lang/en.json
+        documentTypes:
+            Actor:
+                being:
+                    htmlFields:
+                        - dossier
+                        - appearance
+                cohort:
+                    htmlFields:
+                        - dossier
+                        - appearance
+                structure:
+                    htmlFields:
+                        - dossier
+                        - appearance
+                vehicle:
+                    htmlFields:
+                        - dossier
+                        - appearance
+            Item:
+                affiliation:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                affliction:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                armorgear:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                attribute:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                concoctiongear:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                containergear:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                trauma:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                miscgear:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                mystery:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                mysticalability:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                projectilegear:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                skill:
+                    htmlFields:
+                        - notes
+                        - docHtml
+                weapongear:
+                    htmlFields:
+                        - notes
+                        - docHtml
+            ActiveEffect:
+                sohleffectdata: {}
+            RegionBehavior:
+                trigger: {}
+        packFolders:
+            - name: Song of Heroic Lands
+              sorting: m
+              color: "#094fcb"
+              packs:
+                  - items
+                  - journals
+                  - actors
+                  - macros
+                  - scenes
+                  - adventures
+        media:
+            - type: setup
+              url: systems/sohl/assets/ui/sohl-icon-3d-1920x1080.webp
+              thumbnail: systems/sohl/assets/ui/sohl-icon-3d-400x225.webp
+            - type: logo
+              url: systems/sohl/assets/ui/sohl-icon-3d-400x100.webp
+            - type: icon
+              url: systems/sohl/assets/ui/sohl-icon-3d-512x512.webp
+            - type: banner
+              url: systems/sohl/assets/ui/sohl-icon-3d-1200x400.webp
+        socket: true
+        grid:
+            distance: 5
+            units: ft
+        primaryTokenAttribute: health
 
 # This repository publishes a knowledgebase and a link manifest, and consumes
 # the manifests of the packages it links into (#1385/#1446).

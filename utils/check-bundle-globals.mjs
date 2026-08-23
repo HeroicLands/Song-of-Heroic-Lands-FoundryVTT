@@ -71,7 +71,7 @@ if (findings.length) {
     }
     console.error(
         `\nFix: list ${ENTRY} under "esmodules" in ` +
-            `assets/templates/system.template.json — Vite builds it as an ES ` +
+            `content-build.config.yaml — Vite builds it as an ES ` +
             `module (see 'build.lib.formats' in vite.config.ts), and a module's ` +
             `top-level declarations are module-scoped rather than global.\n`,
     );

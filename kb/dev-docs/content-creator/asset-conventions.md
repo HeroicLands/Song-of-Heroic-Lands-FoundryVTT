@@ -46,7 +46,7 @@ almost certainly adding an SVG.
 `content-build.config.yaml`) mirrors
 `assets/{audio,icons,silhouette,fonts,ui}` into `build/stage/`, along with
 `lang/` and `templates/`. `assets/content/`, `assets/manifests/` and
-`assets/templates/` are build inputs and are **not** copied — a file dropped
+build inputs are **not** copied — a file dropped
 into `assets/content/` alongside its note is not an asset and will not be
 served.
 
