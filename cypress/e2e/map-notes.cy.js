@@ -221,7 +221,7 @@ describe("Map notes → Scenes (#1525)", () => {
      * Run `fn()` with no scene viewed, then hand `canvas.scene` back to core.
      *
      * The state #1535 is about is a client viewing nothing, and this harness is
-     * not that client: `utils/seed-test-world.mjs` seeds an **active** default
+     * not that client: `package-build e2e seed` writes an **active** default
      * scene (#451, so the canvas is ready and the new-user tour never overlays a
      * sheet), which the client views at load — so `canvas.scene` here is a live
      * Scene. Importing the adventure does not change that: an Adventure carries

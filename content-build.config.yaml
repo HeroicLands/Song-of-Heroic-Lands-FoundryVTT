@@ -150,6 +150,45 @@ packageBuild:
     bundle:
         entry: sohl.js
 
+    # Running the built system in a Foundry container. dev, qa, prod and test
+    # need no entry — their data root is `FOUNDRYVTT_<STAGE>_DATA`, the same
+    # variable `package-build deploy` writes into, and their ports are
+    # conventional. `leg` is genuinely this repository's: the previous,
+    # pre-TypeScript system on an older Foundry, whose world is managed by hand
+    # (an empty `world` declares "never auto-launch"). Its build comes from
+    # FOUNDRYVTT_LEG_VERSION in .env.local, since it is the maintainer's own.
+    container:
+        stages:
+            leg: { port: 30000, world: "" }
+
+    # The end-to-end harness. Everything about the disposable world derives from
+    # the package id — world `sohl-e2e`, GM `Gamemaster` / `sohl-e2e` — so none
+    # of it is stated here.
+    #
+    # The Foundry build the suite runs on is not stated either: it is
+    # `compatibility.minimum` above. The floor is the claim the suite exists to
+    # defend, so the claim and the evidence for it are one number, and raising
+    # the pin is a decision to raise the supported floor rather than a test
+    # tweak. `npm run e2e:sweep -- <build>` runs the full suite against a build
+    # this repository does not pin.
+    e2e:
+        # The one thing the harness does not own.
+        suite:
+            run: [npx, cypress, run]
+            open: [npx, cypress, open]
+
+        # What the fast loop can rebuild, in the order it must be built: vite
+        # empties `build/stage`, so `code` goes first and the asset and pack
+        # passes copy into a stage it has already cleared. `system` writes the
+        # manifest, which Foundry reads once at world launch — so producing it
+        # means the container is recreated, not merely restarted.
+        build:
+            code: build:code
+            css: build:css
+            assets: build:assets
+            db: build:db
+            system: { script: build:system, recreate: true }
+
     # `flags.sohl.creditsUuid` is not a literal: it is the compendium address of
     # the credits journal, which only exists once the content tree has been
     # walked. This module computes it.
@@ -298,3 +337,67 @@ packageBuild:
 publish:
     site: true
     manifests: { publish: true, consume: true }
+    # Where the content tree mounts inside the package, and which note is a
+    # section's landing page. Read by both `manifest` and the knowledgebase
+    # build, so the address a manifest publishes is the address a page is
+    # emitted at — stating it twice is how a manifest comes to assert a URL
+    # that resolves at build time and 404s for the reader.
+    address:
+        prefix: kb/
+        landing: readme
+
+# How this repository frames the website it publishes. Framing only — how a page
+# gets its *address* is `publish.address` above, shared with the link manifest
+# so the two cannot disagree about where a page is.
+site:
+    out: kb/content
+    # Both packages are rendered here: this repository publishes the `sohl`
+    # knowledgebase, and a `thalorna` note filed in this tree renders beside it.
+    packages: [sohl, thalorna]
+    backfillSections: true
+    landing: { title: Knowledgebase, type: knowledgebase }
+    # This repository's own body rewrites: `{@link}` against the TypeDoc symbol
+    # map, and repo-relative links in the developer docs. Named rather than
+    # imported — a configuration is data and cannot hold a function.
+    pass: sohlKb
+    passOptions:
+        apiBase: /sohl/api/
+        symbolMap: kb/data/api-symbols.json
+        blob: https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/
+    trees:
+        - { from: kb/dev-docs, section: dev-docs }
+    # Landing title + hero for each item section, so a landing matches the
+    # home-page card that links to it rather than Hugo's auto-humanised
+    # directory name. Actor subtypes are listed so their landing exists, titled,
+    # before any content of that type ships.
+    sections:
+        being: { title: Beings, banner: banners/creature.webp }
+        weapongear: { title: Weapons, banner: banners/weapons.webp }
+        armorgear:
+            { title: Armor/Clothing, banner: banners/armor-clothing.webp }
+        projectilegear: { title: Projectiles, banner: banners/projectiles.webp }
+        containergear: { title: Containers, banner: banners/containers.webp }
+        miscgear: { title: Misc Gear, banner: banners/misc-gear.webp }
+        affliction: { title: Afflictions, banner: banners/affliction.webp }
+        trauma: { title: Trauma, banner: banners/trauma.webp }
+        mysticalability:
+            {
+                title: Mystical Abilities,
+                banner: banners/mystical-abilities.webp,
+            }
+        skill:
+            { title: Skills/Attributes, banner: banners/skills-attributes.webp }
+        attribute:
+            { title: Skills/Attributes, banner: banners/skills-attributes.webp }
+        # Map notes. No banner: the heroes are CDN assets and there is none for
+        # maps yet, so these landings render without one.
+        battlemap: { title: Battlemaps }
+        localmap: { title: Local Maps }
+        regionalmap: { title: Regional Maps }
+    # Landing title + hero for the doc sections, whose index comes from a README.
+    readmeSections:
+        dev-docs:
+            { title: Developer Documentation, banner: banners/dev-docs.webp }
+        user-guide: { title: User Guide, banner: banners/user-guide.webp }
+        rules: { title: Rules, banner: banners/rules.webp }
+        credits: { title: Credits & Attributions }
