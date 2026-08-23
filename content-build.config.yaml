@@ -125,6 +125,15 @@ packageBuild:
             kb/dev-docs/reference/localization-keys.md for the placeholder and
             key-segment rules.
 
+    # Vite emits `sohl.js`, not the `<packageId>.mjs` the toolchain assumes, so
+    # the one thing `package-build bundle check` cannot derive is stated here.
+    # It is deliberately not read back out of the generated manifest: a value
+    # taken from there would agree with itself by construction, and the check's
+    # whole question is whether the manifest declares this file the way Foundry
+    # needs it.
+    bundle:
+        entry: sohl.js
+
     # `flags.sohl.creditsUuid` is not a literal: it is the compendium address of
     # the credits journal, which only exists once the content tree has been
     # walked. This module computes it.
