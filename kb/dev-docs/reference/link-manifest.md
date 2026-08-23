@@ -172,7 +172,7 @@ what happened when keys became canonical (#1499): this repository read 2,367
 `thalorna` entries through a lookup keyed the way v2 wrote them, and not one
 cross-package link worked for over a release (#1664).
 
-So both consumers here — `build-kb-content` and `check-content-links` — call
+So both consumers here — `content-build site` and `content-build links` — call
 `assertForeignManifestsAddressable` (`utils/kb-foreign-manifest.mjs`) right after
 loading, and **fail** when a package contributes entries of which none yields a
 readable canonical key. The diagnostic locates the offending key inside the

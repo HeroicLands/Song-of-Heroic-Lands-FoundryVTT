@@ -54,7 +54,7 @@
         "build:kb-icons": "node utils/build-kb-icon-assets.mjs",
         "build:compiledb": "content-build package compile",
         "build:unpackdb": "content-build package unpack",
-        "build:kb-content": "node utils/build-kb-content.mjs",
+        "build:kb-content": "content-build site",
         "build:link-manifest": "content-build manifest",
         "build:kb": "npm run build:kb-content && hugo --source kb --minify --cleanDestinationDir",
         "site:assemble": "node utils/build-site.mjs",

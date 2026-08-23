@@ -157,7 +157,8 @@ with no content written yet is a normal state of the corpus, not a broken build.
 
 Expansion happens **before** wikilink resolution, in all four content compilers:
 `@heroiclands/content-build/engine/journals`, `@heroiclands/content-build/sohl/items`, `@heroiclands/content-build/sohl/actors`, and
-`utils/build-kb-content.mjs`. That ordering is what lets a generated cell contain a
+`@heroiclands/content-build/engine/site-build` (`content-build site`). That ordering
+is what lets a generated cell contain a
 wikilink. In the knowledgebase build it also runs _outside_ that build's code-fence
 protection — a query **is** a fenced block, so protecting it first would hide it from
 the expander. The expander itself is dependency-free ESM and is unit-tested in
