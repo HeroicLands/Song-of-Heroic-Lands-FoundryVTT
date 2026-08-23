@@ -388,17 +388,26 @@ the loop you actually want while writing a spec or chasing a failure. See
 every step of it has a quiet failure mode, catalogued there. The harness is fully
 isolated from your dev/qa worlds:
 
-| Piece                             | Role                                                                                                                              |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `FOUNDRYVTT_TEST_DATA`            | A **fresh, empty** data root for tests (set in `.env.local`).                                                                     |
-| `utils/seed-test-world.mjs`       | Writes `Data/worlds/sohl-e2e/` — `world.json` + a `users` LevelDB with a GM whose password is known. Idempotent (wiped each run). |
-| `container:test` (port 30003)     | Runs the seeded world with `FOUNDRY_WORLD=sohl-e2e` (the `test` stage of the container script).                                   |
-| `utils/e2e-run.mjs`               | Recreates the container, waits for the world to **activate**, runs Cypress, tears down.                                           |
-| `cypress/` + `cypress.config.mjs` | `cy.login()` authenticates via `/join` with the seeded GM; `cypress/e2e/smoke.cy.js` asserts the world + `sohl` system loaded.    |
+**The harness is not this repository's.** Standing a licensed Foundry up,
+seeding a disposable world, waiting for it to become _active_ and tearing it
+down again are `@heroiclands/package-build`'s — every HeroicLands package needs
+them, and until HeroicLands/package-build#18 only this one had them. What stays
+here is what is
+genuinely local: the Cypress suite itself (named in `packageBuild.e2e.suite`),
+and the `packageBuild.e2e.build` table saying which npm script produces what.
+
+| Piece                             | Role                                                                                                                           |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `FOUNDRYVTT_TEST_DATA`            | A **fresh, empty** data root for tests (set in `.env.local`) — the same variable `package-build deploy test` writes into.      |
+| `package-build e2e seed`          | Writes `Data/worlds/sohl-e2e/` — `world.json`, a `users` LevelDB with a GM whose password is known, and one active scene.      |
+| `package-build container test`    | Runs the seeded world, mounting that data root at `/data` (port 30003).                                                        |
+| `package-build e2e run`           | Deploys, reseeds, recreates the container, waits for the world to **activate**, runs the suite, tears down.                    |
+| `cypress/` + `cypress.config.mjs` | `cy.login()` authenticates via `/join` with the seeded GM; `cypress/e2e/smoke.cy.js` asserts the world + `sohl` system loaded. |
 
 Override the seed via `.env.local` (`SOHL_E2E_WORLD_ID`, `SOHL_E2E_GM_NAME`,
-`SOHL_E2E_GM_PASSWORD`, …); `cypress.config.mjs` reads the same values so
-`cy.login()` stays in sync — a spec just calls `cy.login()`.
+`SOHL_E2E_GM_PASSWORD`, …); `cypress.config.mjs` resolves it through the _same_
+function the seed uses (`resolveE2EWorld`), so the two cannot disagree about the
+world — a spec just calls `cy.login()`.
 
 🔧 **Foundry license (required).** The `test` container needs its own Foundry
 license. A license signed for one installation does **not** transfer to another
@@ -423,14 +432,16 @@ pins a stable one (`sohl-foundry-<stage>`); the signed `license.json` then
 persists across recreates (the seed wipes only the world, not `Config`). Without
 that pin Foundry would revert to "requires signature" on every run.
 
-🔧 **The test container's Foundry build is pinned by the repository.**
-`DEFAULT_STAGE_VERSIONS` in `utils/foundry-container.mjs` pins the `test` stage,
-and the container script passes it to felddy as `FOUNDRY_VERSION`, so a fresh
-checkout runs the suite on that exact build with no local configuration. This is
-deliberate: the suite is evidence, and left to the floating `:14` tag it would
-silently drift to whatever the registry served that week — so "the suite passes"
-would name no particular Foundry, and `system.json`'s `compatibility.verified`
-would be a claim nobody could re-run.
+🔧 **The test container's Foundry build is `compatibility.minimum` itself.**
+There is no second pin to keep in sync: the harness reads the floor from the top
+level of `content-build.config.yaml` and passes it to felddy as
+`FOUNDRY_VERSION`, so a fresh checkout runs the suite on that exact build with no
+local configuration. This is deliberate: the suite is evidence, and left to the
+floating `:14` tag it would silently drift to whatever the registry served that
+week — so "the suite passes" would name no particular Foundry, and
+`system.json`'s `compatibility.verified` would be a claim nobody could re-run.
+Because the pin _is_ the claim, raising it is a decision to raise the supported
+floor rather than a test-configuration tweak.
 
 `FOUNDRYVTT_TEST_DATA` must be a **separate, empty** dir — not your dev/qa root.
 If it points at a dir with an existing `Config/license.json`, felddy reuses that
@@ -462,9 +473,9 @@ the committed pin tracks the floor, and the newest release is swept instead of
 being the default.
 
 **Raising the pin is a decision to raise the supported floor**, not a test-config
-tweak. If the floor genuinely cannot be made to work, bump `compatibility.minimum`
-in `content-build.config.yaml`'s top-level `compatibility` and move the pin with it, so the claim
-and the evidence stay the same number. Do not quietly test on something newer than
+tweak — and since the pin _is_ `compatibility.minimum`, there is only one number
+to raise. Bump it in `content-build.config.yaml`'s top-level `compatibility` and
+the evidence moves with the claim. Do not quietly test on something newer than
 the manifest claims.
 
 **Running the sweep:**
@@ -528,27 +539,29 @@ npm run e2e:fast -- --build=none                      # skip the build; redeploy
 npm run e2e:fast -- --no-run                          # only make the environment current
 ```
 
-**Flags.** `--build` takes a comma-separated list of `assets`, `code`, `db`,
-`system`, `all` (default), or `none`; an unrecognized target fails fast rather
-than half-deploying. `--recreate` forces a container recreate, `--no-run` stops
-once the environment is current, and `--spec` is a convenience for the Cypress
-flag. Anything after a bare `--` passes through to Cypress verbatim, so its own
+**Flags.** `--build` takes a comma-separated list of the targets declared in
+`packageBuild.e2e.build` — here `code`, `assets`, `db`, `system` — plus `all`
+(default) or `none`; an unrecognized target fails fast rather than
+half-deploying. `--recreate` forces a container recreate, `--no-run` stops once
+the environment is current, and `--spec` is a convenience for the Cypress flag.
+Anything after a bare `--` passes through to Cypress verbatim, so its own
 options (`--browser`, `--headed`, `--reporter`, …) all work.
 
-**What it does, in order** (`utils/e2e-redeploy.mjs`):
+**What it does, in order** (`package-build e2e fast`):
 
-1. **Build** the selected targets, always running `code` first. `vite` empties
-   `build/stage`, so a later `build:code` would discard whatever the asset and
-   pack passes had just written into it.
-2. **Deploy** with `push:test`, mirroring `build/stage` into the test data root.
-   The mirror is destructive — it deletes anything not in the stage — which is
-   why step 1 must leave the stage complete.
+1. **Build** the selected targets, in the order `packageBuild.e2e.build`
+   declares them — `code` first, because `vite` empties `build/stage` and a
+   later `build:code` would discard whatever the asset and pack passes had just
+   written into it.
+2. **Deploy** into the test data root, mirroring `build/stage`. The mirror is
+   destructive — it deletes anything not in the stage — which is why step 1 must
+   leave the stage complete.
 3. **Cycle the world**: `recreate` when no container exists or `--recreate` was
-   asked for (which naming `system` in `--build` implies), otherwise `restart`.
-   Both sweep a stale data-root lock on the way through.
-4. **Wait** for `/join` to answer 200, polling every 2s up to 3 minutes, then
-   fail with a pointer at the container logs rather than handing Cypress a dead
-   port.
+   asked for (which naming a `recreate: true` target such as `system` implies),
+   otherwise `restart`. Both sweep a stale data-root lock on the way through.
+4. **Wait** for `/join` to render the join form — the world being _active_, not
+   merely the port answering — polling every 2s up to 3 minutes, then failing
+   with a pointer at the container logs rather than handing Cypress a dead port.
 5. **Run Cypress** with `ELECTRON_RUN_AS_NODE` stripped from the environment.
 
 The exit code is Cypress's own, so it composes in a script. Steps 1–3 abort the
@@ -557,15 +570,15 @@ run on the first failure instead of continuing with a half-built stage.
 The loop exists because each step has a quiet failure mode, and hand-rolling it
 means meeting them one at a time:
 
-| Step                   | What goes wrong by hand                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Build                  | The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not `src/`. Templates need `build:assets`, TypeScript `build:code`, content `build:db`.                                                                                                                                                                                                                                                                   |
-| Order                  | `vite` (`build:code`) **empties `build/stage`**, so building it after the asset/pack passes silently discards them, and `push:test` — a destructive mirror — then deletes them from the target.                                                                                                                                                                                                                                  |
-| `system.json`          | Read only at world launch, so it needs a container **recreate**, not a restart. Naming `system` in `--build` implies `--recreate`.                                                                                                                                                                                                                                                                                               |
-| Restart                | A running Foundry holds the old packs open, so a content change is invisible until the world reopens them.                                                                                                                                                                                                                                                                                                                       |
-| Stale lock             | A container that died holding the data-root lock (`docker kill`, a crash, an OOM) leaves `Config/options.json.lock` behind, and Foundry then refuses to boot with "already locked by another process" — naming no owner, so it reads like corruption. Every boot path in `utils/foundry-container.mjs` (`start`, `restart`, `recreate`) now sweeps it, which is safe precisely because each does so while the container is down. |
-| Readiness              | `docker start` returns long before Foundry serves; Cypress opens on a dead port and every spec fails for no visible reason. The loop polls `/join` until it answers.                                                                                                                                                                                                                                                             |
-| `ELECTRON_RUN_AS_NODE` | VS Code's integrated terminal and most agent/CI shells export it. With it set, Cypress's bundled Electron launches as plain Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic `MODULE_NOT_FOUND`. The loop strips it, as `npm run e2e:full` already does.                                                                                                                                        |
+| Step                   | What goes wrong by hand                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Build                  | The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not `src/`. Templates need `build:assets`, TypeScript `build:code`, content `build:db`.                                                                                                                                                                                                                                                           |
+| Order                  | `vite` (`build:code`) **empties `build/stage`**, so building it after the asset/pack passes silently discards them, and `push:test` — a destructive mirror — then deletes them from the target.                                                                                                                                                                                                                          |
+| `system.json`          | Read only at world launch, so it needs a container **recreate**, not a restart. Its build target declares `recreate: true`, so naming it in `--build` implies `--recreate`.                                                                                                                                                                                                                                              |
+| Restart                | A running Foundry holds the old packs open, so a content change is invisible until the world reopens them.                                                                                                                                                                                                                                                                                                               |
+| Stale lock             | A container that died holding the data-root lock (`docker kill`, a crash, an OOM) leaves `Config/options.json.lock` behind, and Foundry then refuses to boot with "already locked by another process" — naming no owner, so it reads like corruption. Every boot path in `package-build container` (`start`, `restart`, `recreate`) sweeps it, which is safe precisely because each does so while the container is down. |
+| Readiness              | `docker start` returns long before Foundry serves; Cypress opens on a dead port and every spec fails for no visible reason. The loop polls `/join` until it answers.                                                                                                                                                                                                                                                     |
+| `ELECTRON_RUN_AS_NODE` | VS Code's integrated terminal and most agent/CI shells export it. With it set, Cypress's bundled Electron launches as plain Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic `MODULE_NOT_FOUND`. The loop strips it, as `npm run e2e:full` already does.                                                                                                                                |
 
 A direct `npx cypress run` still works when the environment is already current —
 just remember the `env -u ELECTRON_RUN_AS_NODE` prefix that the loop applies for
@@ -811,7 +824,7 @@ These cost real debugging time; they are not apparent from the code.
   source-level guard, not an allowlist entry: `reading 'id'` is too generic a
   message to allowlist safely, even qualified by a stack frame.
 - **Headless does not mean scene-less — the seeded world views one.**
-  `utils/seed-test-world.mjs` seeds an **active** default scene (#451, so the
+  `package-build e2e seed` writes an **active** default scene (#451, so the
   canvas is ready and the new-user tour never overlays a sheet), and the client
   views it at load, so `canvas.scene` is normally a live Scene. Nor does
   importing content change that: core auto-activates a created scene only when

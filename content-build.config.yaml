@@ -150,6 +150,45 @@ packageBuild:
     bundle:
         entry: sohl.js
 
+    # Running the built system in a Foundry container. dev, qa, prod and test
+    # need no entry — their data root is `FOUNDRYVTT_<STAGE>_DATA`, the same
+    # variable `package-build deploy` writes into, and their ports are
+    # conventional. `leg` is genuinely this repository's: the previous,
+    # pre-TypeScript system on an older Foundry, whose world is managed by hand
+    # (an empty `world` declares "never auto-launch"). Its build comes from
+    # FOUNDRYVTT_LEG_VERSION in .env.local, since it is the maintainer's own.
+    container:
+        stages:
+            leg: { port: 30000, world: "" }
+
+    # The end-to-end harness. Everything about the disposable world derives from
+    # the package id — world `sohl-e2e`, GM `Gamemaster` / `sohl-e2e` — so none
+    # of it is stated here.
+    #
+    # The Foundry build the suite runs on is not stated either: it is
+    # `compatibility.minimum` above. The floor is the claim the suite exists to
+    # defend, so the claim and the evidence for it are one number, and raising
+    # the pin is a decision to raise the supported floor rather than a test
+    # tweak. `npm run e2e:sweep -- <build>` runs the full suite against a build
+    # this repository does not pin.
+    e2e:
+        # The one thing the harness does not own.
+        suite:
+            run: [npx, cypress, run]
+            open: [npx, cypress, open]
+
+        # What the fast loop can rebuild, in the order it must be built: vite
+        # empties `build/stage`, so `code` goes first and the asset and pack
+        # passes copy into a stage it has already cleared. `system` writes the
+        # manifest, which Foundry reads once at world launch — so producing it
+        # means the container is recreated, not merely restarted.
+        build:
+            code: build:code
+            css: build:css
+            assets: build:assets
+            db: build:db
+            system: { script: build:system, recreate: true }
+
     # `flags.sohl.creditsUuid` is not a literal: it is the compendium address of
     # the credits journal, which only exists once the content tree has been
     # walked. This module computes it.

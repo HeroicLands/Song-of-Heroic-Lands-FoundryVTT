@@ -831,7 +831,7 @@ npm run build && npm run push:dev && npm run container:dev start   # bring it up
 npm run container:dev stop                                          # tear it down
 ```
 
-The commands (`node utils/foundry-container.mjs <stage> <command>`):
+The commands (`package-build container <stage> <command>`):
 
 | Command    | Effect                                                                                                              |
 | ---------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -864,27 +864,27 @@ platform-specific).
 
 Configuration lives in `.env.local` (all optional):
 
-| Variable                     | Default                | Purpose                                                             |
-| ---------------------------- | ---------------------- | ------------------------------------------------------------------- |
-| `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (`:14` matches `system.json` `minimum`).           |
-| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).     |
-| `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).  |
-| `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).  |
-| `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below). |
+| Variable                     | Default                | Purpose                                                               |
+| ---------------------------- | ---------------------- | --------------------------------------------------------------------- |
+| `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (the major is derived from `compatibility.minimum`). |
+| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).       |
+| `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).    |
+| `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).    |
+| `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below).   |
 
-🔧 **The `test` stage's Foundry build is pinned by the repository**, in
-`DEFAULT_STAGE_VERSIONS` (`utils/foundry-container.mjs`), and passed to felddy as
-`FOUNDRY_VERSION` so it downloads that exact build rather than the newest of the
-`:14` tag. That pin is what makes the e2e suite reproducible: without it the test
-container drifts to whatever the floating tag serves, and "the suite passes" names
-no particular Foundry. No other stage is pinned here — `dev`/`qa`/`prod` are the
-maintainer's own instances.
+🔧 **The `test` stage's Foundry build is `compatibility.minimum` itself** — read
+from the top level of `content-build.config.yaml` and passed to felddy as
+`FOUNDRY_VERSION`, so it downloads that exact build rather than the newest of the
+`:14` tag. That is what makes the e2e suite reproducible: without it the test
+container drifts to whatever the floating tag serves, and "the suite passes"
+names no particular Foundry. No other stage is pinned — `dev`/`qa`/`prod` are
+the maintainer's own instances.
 
-**The pinned build is `system.json`'s `compatibility.minimum`** — the oldest
-Foundry the system claims to support, and therefore the claim the suite exists to
-defend. Testing above the floor would leave the promised configuration unverified,
-so the newest release is covered by a periodic **sweep** rather than by the
-default:
+Deriving the pin from the claim means there is **one** number, not two that can
+drift: `compatibility.minimum` is the oldest Foundry the system claims to
+support, and therefore the claim the suite exists to defend. Testing above the
+floor would leave the promised configuration unverified, so the newest release is
+covered by a periodic **sweep** rather than by the default:
 
 ```bash
 npm run e2e:sweep -- 14.367     # full suite against the newest release
@@ -1170,8 +1170,6 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                                    |
 | `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname.                |
 | `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                                     |
-| `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                                                                      |
-| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress.                                             |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                                  |
 | `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects.                                  |
 | `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.                                                     |

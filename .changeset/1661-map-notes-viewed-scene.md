@@ -6,7 +6,7 @@
 requiring `canvas.scene` to be `null` — "no scene is viewed headless" — one line
 after importing an Adventure, and failed on every build and every world. The
 premise was wrong, not the timing: the seeded test world ships an **active**
-default scene (`utils/seed-test-world.mjs`, #451), which the client views at
+default scene (`package-build e2e seed`, #451), which the client views at
 load, so `canvas.scene` is a live Scene throughout a run. Headless suppresses
 _rendering_; it does not leave the canvas without a scene.
 
