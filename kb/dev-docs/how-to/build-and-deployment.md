@@ -320,7 +320,7 @@ the SafeExpression editor) declares `const chrome`, and `style-mod` declares
 deliberately **unminified**, so these identifiers survive verbatim — Foundry's own
 CodeMirror build escapes the problem only because minification renames them.
 
-`npm run lint:bundle-globals` (`utils/check-bundle-globals.mjs`, part of
+`npm run lint:bundle-globals` (`package-build bundle check`, part of
 `build:noci`) enforces the agreement: it parses the built bundle exactly as a
 browser would and fails if `sohl.js` is served as a classic script while declaring
 anything at global scope.
