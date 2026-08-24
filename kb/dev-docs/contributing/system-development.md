@@ -259,18 +259,21 @@ the issue. See [Writing Changesets](./writing-changesets.md) for details.
 
 ### Format before commit
 
-Run `npm run format:check` (Prettier) **first**. If a file you did **not** touch
-shows up as unformatted, stop and ask — do not run `format` blind, since
-`prettier --write .` formats the whole repo and would sweep unrelated drift into
-your commit. Once only your files are flagged, run `npm run format`, then `git add`
-only your files.
+Run `npm run format:check` (Prettier, through `content-build format`) **first**.
+If a file you did **not** touch shows up as unformatted, stop and ask — do not
+run `format` blind, since it formats the whole repo and would sweep unrelated
+drift into your commit. Once only your files are flagged, run `npm run format`,
+then `git add` only your files. Both commands take paths, so
+`npm run format -- <path>` formats exactly what you name.
 
 Since #1621 that should be rare: the same check runs as `lint:format`, first in
 the `lint` chain, so `main` cannot carry drift for long. Two things still produce
 it, and they call for opposite responses. A **Prettier version bump** invalidates
-the tree wholesale — the declared range is a caret, so a minor that changes a
-layout rule reformats files nobody edited; that belongs in its own reformat-only
-commit, not in yours. A **single stray file** is ordinary drift and is yours to
+the tree wholesale — a minor that changes a layout rule reformats files nobody
+edited; that belongs in its own reformat-only commit, not in yours. Since the
+formatter and its configuration now arrive with `@heroiclands/content-build`,
+such a bump reaches this repository as a **content-build** bump, and shows up
+the same way: files you did not touch, flagged by `lint:format`. A **single stray file** is ordinary drift and is yours to
 format if you were touching it anyway. Either way the rule above holds: format by
 explicit path, never the whole repo.
 
