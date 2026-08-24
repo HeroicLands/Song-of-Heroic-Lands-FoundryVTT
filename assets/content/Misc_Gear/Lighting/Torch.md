@@ -1,7 +1,6 @@
 ---
 aliases:
   - Torch
-  - miscgear-torch2
 tags:
   - lighting
 name:
@@ -10,7 +9,7 @@ name:
 description: "Pitch-wrapped oakwood torch; bright, hot flame; common guard light, expendable."
 id: eIGrTkCcncTf8pTs
 img: icons/game-icons/lorc/swap-bag.svg
-shortcode: torch2
+shortcode: torch
 type: miscgear
 package: sohl
 sohl:
