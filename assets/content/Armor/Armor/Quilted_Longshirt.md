@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Quilted
   material: Quilted
   durability: 11
-  value: 172
+  value: 175
   weight: 7.7
   encumbrance: 0
   perceptionPenaltyBase: 0

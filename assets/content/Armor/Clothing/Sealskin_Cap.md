@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Sealskin
   material: Leather
   durability: 11
-  value: 48
+  value: 50
   weight: 0.7
   encumbrance: 0
   perceptionPenaltyBase: 0

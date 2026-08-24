@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Straw
   material: Cloth
   durability: 5
-  value: 1.8
+  value: 2
   weight: 0.1
   encumbrance: 0
   perceptionPenaltyBase: 0

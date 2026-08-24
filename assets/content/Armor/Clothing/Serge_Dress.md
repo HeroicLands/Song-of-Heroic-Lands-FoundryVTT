@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Serge
   material: Cloth
   durability: 7
-  value: 47.2
+  value: 50
   weight: 2.1
   encumbrance: 0
   perceptionPenaltyBase: 0

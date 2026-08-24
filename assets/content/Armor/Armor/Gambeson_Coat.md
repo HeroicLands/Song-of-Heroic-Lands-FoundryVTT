@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Gambeson
   material: Gambeson
   durability: 11
-  value: 528
+  value: 530
   weight: 18.5
   encumbrance: 10
   perceptionPenaltyBase: 0
