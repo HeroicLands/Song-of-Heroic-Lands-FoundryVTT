@@ -49,7 +49,21 @@ jobs:
               id: changesets
               uses: changesets/action@v1
               with:
-                  version: npx changeset version
+                  # The repository's own script, not a second spelling of it.
+                  # `changeset version` rewrites package.json and CHANGELOG.md
+                  # but never the lockfile, so `package-lock.json`'s root
+                  # `version` keeps the previous release's number until someone
+                  # happens to run an install; the script refreshes it, so the
+                  # two agree by construction.
+                  #
+                  # It must stay ONE command. This input is tokenized and
+                  # exec'd, never handed to a shell, so a `&&` chain written
+                  # here is read as arguments to the first command —
+                  # `changeset` would receive `--package-lock-only` and reject
+                  # it. That is exactly what broke every release in
+                  # `@heroiclands/content-build` (content-build#74); an npm
+                  # script is the seam that does get a shell.
+                  version: npm run changeset:version
                   commit: "chore(release): version packages"
                   title: "chore(release): version packages"
               env:
