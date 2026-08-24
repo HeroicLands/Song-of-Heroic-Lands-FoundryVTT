@@ -47,7 +47,7 @@ jobs:
             # signal that a freshly-versioned commit just landed on main.
             - name: Create or update the Version Packages PR
               id: changesets
-              uses: changesets/action@v1
+              uses: changesets/action@v2
               with:
                   # The repository's own script, not a second spelling of it.
                   # `changeset version` rewrites package.json and CHANGELOG.md
