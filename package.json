@@ -127,7 +127,7 @@
         "lint:dts": "node utils/check-dts.mjs",
         "lint:bundle-globals": "package-build bundle check",
         "changeset": "changeset",
-        "changeset:version": "changeset version",
+        "changeset:version": "changeset version && npm install --package-lock-only",
         "changeset:check": "changeset status --since=main",
         "docs:expr-scopes": "node utils/build-expression-scopes-doc.mjs",
         "lint:expr-scopes": "node utils/build-expression-scopes-doc.mjs --check"
