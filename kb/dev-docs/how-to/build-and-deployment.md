@@ -189,10 +189,12 @@ Prettier formats ~96% of the hand-written text in this repository, and formattin
 is all it does. `lint:styles` and `lint:markdown` (#1622) exist for the checks it
 structurally cannot make — and each is scoped to **exactly** that, because both
 tools ship defaults that would otherwise re-format the tree to a second opinion.
-Their configuration files (`stylelint.config.mjs`, `.markdownlint-cli2.jsonc`)
-carry the per-rule rationale; the rule of thumb for adding a rule to either is
-whether it can report that something is **wrong**, not that it is spelled
-differently.
+`stylelint.config.mjs` carries the per-rule rationale for the first; the
+markdown rules are **shared**, and their rationale lives with them in
+`@heroiclands/content-build` (`engine/prose-config.mjs`), because every content
+repository in the project is authored against the same set (#20). The rule of
+thumb for adding a rule to either is whether it can report that something is
+**wrong**, not that it is spelled differently.
 
 **`lint:styles` (stylelint + `stylelint-config-standard-scss`).** The gate that
 matters most is naming, because the stylesheets carry a public extension surface:
@@ -224,10 +226,10 @@ Satisfying them would mean reflowing 52 hand-written partials for byte-identical
 compiled output, which is the cosmetic refactor
 [System Development](../contributing/system-development.md) forbids.
 
-**`lint:markdown` (markdownlint-cli2).** Enabled on markdownlint's defaults over
-1,600 files it reports ~74,000 findings, essentially all of them line length, list
-indentation, and blank lines — Prettier's territory. So `default` is off and nine
-rules are named individually:
+**`lint:markdown` (`content-build markdown`).** Enabled on markdownlint's
+defaults over 1,600 files it reports ~74,000 findings, essentially all of them
+line length, list indentation, and blank lines — Prettier's territory. So
+`default` is off and nine rules are named individually:
 
 | Rule            | Catches                                                                   |
 | --------------- | ------------------------------------------------------------------------- |
@@ -242,8 +244,13 @@ rules are named individually:
 `MD024` runs with `siblings_only` — repeating `## Notes` under several parents is a
 normal reference-page shape, and only a repeat within one parent is ambiguous.
 `gitignore: true` keeps the generated trees out (`kb/content/`, `kb/public/`,
-`build/`, `nogit/`); `CHANGELOG.md` and the theme submodule are excluded by name,
-as they are from Prettier.
+`build/`, `nogit/`); `CHANGELOG.md` is excluded by the shared configuration,
+since `changeset version` regenerates it in every repository here, and the theme
+submodule by `.markdownlint-cli2.mjs` — which is all that file holds. It spreads
+the shared configuration and adds `kb/themes`, because a submodule that lints
+itself in its own repository is knowledge about _this_ repository's layout and
+nothing shared can know it. The same split applies to Prettier:
+`.prettierignore` stays here, the rules do not.
 
 Note what is **not** here: `MD018` (`#Heading` with no space) reads a line starting
 `#1405) …` as a malformed heading, and this repository writes bare issue numbers

@@ -207,12 +207,14 @@ The prose here compiles into the item's documentation.
 
 ## mystery
 
-| Field            | Shape                                       | Required | Default                     | Description                                                                                 |
-| ---------------- | ------------------------------------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------- |
-| `subType`        | string                                      | **yes**  | —                           | Which tradition the mystery belongs to.                                                     |
-| `levelBase`      | number                                      | no       | `0`                         | The mystery's level before any modifier.                                                    |
-| `skillAptitudes` | map of skill selector → whole number        | no       | `{}`                        | Aptitude the mystery grants, per skill selector.                                            |
-| `charges`        | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the mystery does not use charges. |
+| Field                  | Shape                                       | Required | Default                     | Description                                                                                                     |
+| ---------------------- | ------------------------------------------- | -------- | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `subType`              | string                                      | **yes**  | —                           | Which tradition the mystery belongs to.                                                                         |
+| `assocSkillCode`       | as authored, blank is unset                 | no       | `null`                      | Shortcode of the skill the mystery is tested against.                                                           |
+| `assocAffiliationCode` | as authored, blank is unset                 | no       | `null`                      | Shortcode of the affiliation whose standing confers the mystery — a religion, school, or ancestor/totem/spirit. |
+| `levelBase`            | number                                      | no       | `0`                         | The mystery's level before any modifier.                                                                        |
+| `skillAptitudes`       | map of skill selector → whole number        | no       | `{}`                        | Aptitude the mystery grants, per skill selector.                                                                |
+| `charges`              | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the mystery does not use charges.                     |
 
 ```markdown
 ---
@@ -232,15 +234,16 @@ The prose here compiles into the item's documentation.
 
 ## mysticalability
 
-| Field              | Shape                                       | Required | Default                     | Description                                                                                 |
-| ------------------ | ------------------------------------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------- |
-| `subType`          | string                                      | **yes**  | —                           | Which tradition the ability belongs to.                                                     |
-| `assocSkillCode`   | as authored                                 | no       | `""`                        | Shortcode of the skill the ability is tested against.                                       |
-| `assocMysteryCode` | as authored                                 | no       | `""`                        | Shortcode of the mystery the ability draws on.                                              |
-| `masteryLevelBase` | number                                      | no       | `0`                         | Mastery in the ability before any modifier.                                                 |
-| `improveFlag`      | boolean                                     | no       | `false`                     | Whether it is flagged for improvement.                                                      |
-| `levelBase`        | number                                      | no       | `0`                         | The ability's level before any modifier.                                                    |
-| `charges`          | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the ability does not use charges. |
+| Field                  | Shape                                       | Required | Default                     | Description                                                                                                     |
+| ---------------------- | ------------------------------------------- | -------- | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `subType`              | string                                      | **yes**  | —                           | Which tradition the ability belongs to.                                                                         |
+| `assocSkillCode`       | as authored                                 | no       | `""`                        | Shortcode of the skill the ability is tested against.                                                           |
+| `assocAffiliationCode` | as authored, blank is unset                 | no       | `null`                      | Shortcode of the affiliation whose standing confers the ability — a religion, school, or ancestor/totem/spirit. |
+| `assocMysteryCode`     | as authored                                 | no       | `""`                        | Shortcode of the mystery the ability draws on.                                                                  |
+| `masteryLevelBase`     | number                                      | no       | `0`                         | Mastery in the ability before any modifier.                                                                     |
+| `improveFlag`          | boolean                                     | no       | `false`                     | Whether it is flagged for improvement.                                                                          |
+| `levelBase`            | number                                      | no       | `0`                         | The ability's level before any modifier.                                                                        |
+| `charges`              | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the ability does not use charges.                     |
 
 ```markdown
 ---
