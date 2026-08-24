@@ -59,33 +59,9 @@ for (const f of [
     WEIGHT[f] = 0.03 / 7;
 
 /**
- * Base price per unit of coverage, by material. Ring is SoHL's own addition,
- * absent from the source table: it is mail a tenth cheaper (1500 × 0.9) and a
- * fifth heavier (45 × 1.2).
- */
-const BASE_PRICE: Record<string, number> = {
-    Cloth: 100,
-    Leather: 400,
-    Padded: 200,
-    Quilted: 400,
-    Gambeson: 800,
-    Kûrbúl: 500,
-    Scale: 1000,
-    Mail: 1500,
-    Ring: 1350,
-    Plate: 2000,
-};
-
-/**
- * The plain grade of each material — the one the table prices. It is the
- * material's own name everywhere except leather, where rawhide is the plain
- * grade and "Leather" is a better one costing twice as much.
- */
-const BASE_GRADE: Record<string, string> = { Leather: "Rawhide" };
-
-/**
- * The articles the table actually prices. Anything SoHL adds beyond it is not
- * held to the checksum, since those prices were never derived from it.
+ * The articles the source table actually lists. Anything SoHL adds beyond it is
+ * not held to the table's encumbrance and perception columns, having never been
+ * taken from them.
  */
 const TABLE_ARTICLES = new Set<string>(
     (
@@ -218,7 +194,6 @@ interface Article {
     flexible: string[];
     rigid: string[];
     facing: { location: string; side: string }[];
-    value: number;
     encumbrance: number;
     encumbranceGroup: string | null;
     perception: number;
@@ -246,27 +221,10 @@ const ARTICLES: Article[] = walk(ARMOR_ROOT)
         flexible: d.sohl.flexloc ?? [],
         rigid: d.sohl.rigidloc ?? [],
         facing: d.sohl.facing ?? [],
-        value: d.sohl.value,
         encumbrance: d.sohl.encumbrance ?? 0,
         encumbranceGroup: d.sohl.encumbranceGroup ?? null,
         perception: d.sohl.perceptionPenaltyBase ?? 0,
     }));
-
-/**
- * Coverage as the article's cost reckons it: a location protected from one side
- * only is half the material, so it counts half.
- *
- * Halving must be per location, not per article. A breastplate is one-sided
- * throughout, but a cloak wraps the shoulders and hangs down the back — its
- * shoulders count whole and everything below counts half.
- */
-const costCoverage = (a: Article) => {
-    const oneSided = new Set(a.facing.map((f) => f.location));
-    return [...new Set([...a.flexible, ...a.rigid])].reduce(
-        (t, l) => t + (WEIGHT[l] ?? 0) / (oneSided.has(l) ? 2 : 1),
-        0,
-    );
-};
 
 describe("armour coverage", () => {
     it("has articles to check", () => {
@@ -333,29 +291,21 @@ describe("armour coverage", () => {
         }
     });
 
-    /**
-     * Price is a checksum for coverage: an article costs its covered fraction
-     * of the body times the material's base price, with one-sided coverage
-     * counted at half because it is half the material. Checked on the articles
-     * whose detail material is the plain grade, since the others scale by the
-     * wearer's means. Articles SoHL adds beyond the table are excluded: their
-     * prices were set independently and have never been reconciled.
+    /*
+     * Price is deliberately **not** asserted here.
+     *
+     * It used to be: an article cost its covered fraction of the body times the
+     * material's base rate, which made price a checksum for coverage. That is
+     * the wrong thing to freeze. **Price is authorial** — an initial value may
+     * be derived that way, but the final figure is a design decision, and it
+     * has to be free to be set arbitrarily, including rounding to whole pence
+     * or to a shop-friendly band.
+     *
+     * **Weight is the honest checksum**, because it follows from how much
+     * material the article is made of, which is exactly what coverage measures.
+     * Asserting it needs the per-grade weights reconciled first — four grades
+     * hold ratios varying by a factor of three — so until #1716 lands, nothing
+     * in this file verifies an article's coverage, and a mis-authored
+     * `flexloc`/`facing` list will pass.
      */
-    it("prices each base article at its coverage times the material rate", () => {
-        const checked: string[] = [];
-        for (const a of ARTICLES) {
-            if (a.detailMaterial !== (BASE_GRADE[a.material] ?? a.material))
-                continue;
-            if (!TABLE_ARTICLES.has(`${a.material}/${a.armorType}`)) continue;
-            const rate = BASE_PRICE[a.material];
-            if (!rate) continue;
-            const cov = costCoverage(a);
-            expect(
-                a.value,
-                `${a.file} (coverage ${cov.toFixed(3)})`,
-            ).toBeCloseTo(cov * rate, 0);
-            checked.push(a.file);
-        }
-        expect(checked.length).toBeGreaterThan(20);
-    });
 });
