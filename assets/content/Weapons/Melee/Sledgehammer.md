@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 10
   weight: 6
-  value: 24
+  value: 25
   heft: 18
   weaponType: Club
   strikeModes:

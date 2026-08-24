@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 11
   weight: 4
-  value: 84
+  value: 85
   heft: 13
   weaponType: Axe
   strikeModes:

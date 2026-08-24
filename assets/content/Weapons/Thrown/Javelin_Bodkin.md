@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 10
   weight: 3
-  value: 36
+  value: 40
   heft: 11
   weaponType: Polearm
   strikeModes:

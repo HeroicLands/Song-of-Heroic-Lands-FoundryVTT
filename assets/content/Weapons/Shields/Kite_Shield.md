@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 11
   weight: 7
-  value: 72
+  value: 75
   heft: 11
   weaponType: Shield
   strikeModes:
