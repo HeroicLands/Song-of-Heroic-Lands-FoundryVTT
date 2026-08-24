@@ -20,8 +20,8 @@ sohl:
   archetype: 0
   quality: 0
   durability: 10
-  value: 0.22
-  weight: 1.25
+  value: 1
+  weight: 0.125
   impact:
     die: 12
     modifier: -1
