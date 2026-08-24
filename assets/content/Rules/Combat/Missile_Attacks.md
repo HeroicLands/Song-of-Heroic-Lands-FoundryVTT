@@ -98,9 +98,20 @@ A missile attack's [[doc-sccsstst#success-level|Critical Failure]] reads by its 
 
 See [[doc-atkreslv#mishaps|Mishaps]] for the keep-control tests both lead to.
 
+## Spent Ammunition {#spent-ammunition}
+
+Ammunition is consumed when it is loosed, but a shaft is not destroyed by being shot — it is merely somewhere else. Once the fighting is done, projectiles may be **recovered** from the ground they fell on. No test is made and no skill is called for: retrieving an arrow is a matter of being able to walk the ground and search it, not of craft.
+
+What decides the recovery is the ground, and who is left holding it. **A field held** — a practice butt, a defended wall, an enemy driven off — gives back most of what was shot, and the loss is the few shafts that shattered on stone or plate, or were never found. **A field given up** gives back nothing: an archer who withdraws leaves their arrows where they fell, and one who routs is fortunate to keep the quiver. Between the two the GM sets what the ground allows, and water, deep snow, thick undergrowth and a night's delay each take their share.
+
+This is why an archer's ammunition is a supply rather than a consumable. A full quiver is a real expense, and holding the field is how it is paid back — which makes the archer's true decision not what to shoot at but **how much to spend before the issue is settled**.
+
+Ammunition recovered from an enemy serves as well as one's own, provided it suits the launcher. A bolt is not shot from a bow.
+
 ## See also {#see-also}
 
 - [[doc-atkreslv|Attack Resolution]] — the exchange in full
 - [[doc-strkmds|Strike Modes]] — projectile type, range, draw, volley multiplier
 - [[doc-mlattcks|Melee Attacks]] — attacking at contact
 - [[doc-gear#weapons|Weapons]] — the missile weapons themselves
+- [[skill-fltch|Fletching]] — making projectiles, and working recovered shafts back into them

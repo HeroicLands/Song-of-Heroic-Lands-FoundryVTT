@@ -70,6 +70,8 @@ Composite bows are sinew-backed, which is why they call for Hideworking; the mon
 
 **Arrowheads** may be bought in rather than forged. If they are, the Metalcraft Secondary Modifier derives from the smith's Mastery Level rather than the fletcher's — cost doubles, crafting time halves.
 
+**Spent projectiles** are recovered rather than repaired. A shaft that comes back bent, stripped of its fletching, or short of its head is not a damaged article to be put right under the [[doc-crafting#craft-repair|repair]] rules — those restore a rating, and a projectile carries none. It is stock. A fletcher with a kit works a dozen such shafts back into serviceable projectiles at the **bench time listed above and no cost in materials**, which is the whole of the advantage: the salvage is worth what the fletcher would have paid for the stock, not what the finished arrow sells for. Recovering the head alone saves least of all, since the head is the cheap part of an arrow and the labour is very nearly the rest of it.
+
 **Bullets and slings** fall under the same trade in practice but different skills on the bench: lead bullets are a Metalcraft Success Value test, a sling a Hideworking one, a staff sling Hideworking (Woodworking). **Crossbow spanners** are a Metalcraft Success Value test, and each masterwork modifier on a spanner increases the user's effective draw by 10%.
 
 | Item          | Cost | Time | Pull | Success Value test |
