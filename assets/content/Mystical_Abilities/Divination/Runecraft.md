@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-Rune
+aliases: []
 tags: []
 name:
   full: Runecraft
@@ -8,7 +7,7 @@ name:
 description: "Casting inscribed lots and reading a terse answer from how they fall."
 id: 2J0wXp8grPjaA70I
 img: icons/game-icons/lorc/rune-stone.svg
-shortcode: Rune
+shortcode: runecft
 type: mysticalability
 package: sohl
 sohl:
