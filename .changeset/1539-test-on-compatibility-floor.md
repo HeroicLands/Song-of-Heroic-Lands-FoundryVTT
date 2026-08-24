@@ -9,7 +9,7 @@ minimum while working on the newer build would have passed the suite in silence,
 and the compatibility claim was unfalsified by anything the project ran.
 
 - **Default track — the floor.** `DEFAULT_STAGE_VERSIONS` in
-  `utils/foundry-container.mjs` now pins the `test` stage to **14.359**, matching
+  the container harness now pins the `test` stage to **14.359**, matching
   `compatibility.minimum`. Raising it is henceforth a decision to raise the
   supported floor, taken together with `compatibility.minimum` in
   `assets/templates/system.template.json` — not a test-configuration tweak.

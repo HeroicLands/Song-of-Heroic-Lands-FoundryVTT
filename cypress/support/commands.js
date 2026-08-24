@@ -156,7 +156,7 @@ function guardHeadlessTokenDraw(win) {
  * floor (14.359), which still carries the bug.
  *
  * Note that "headless" alone does **not** mean no scene is viewed: the seeded
- * world ships an **active** default scene (`utils/seed-test-world.mjs`, #451),
+ * world ships an **active** default scene (`package-build e2e seed`, #451),
  * which the client views at load, so `canvas.scene` is normally a live Scene.
  * It is `null` before that first draw completes, and in any run whose active
  * scene is absent or unviewed — which is the window this clause covers, and the

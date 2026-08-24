@@ -1,10 +1,13 @@
 name: No Attribution
 
-# Fail the check when a pull request's title, body, or any of its commit messages
-# carries AI/assistant attribution (a Co-Authored-By trailer naming an assistant,
-# or a "Generated with Claude Code"-style signature). This never edits anything —
-# it only reports and fails, so a human decides how to fix it. The commit-message
-# rule mirrors the local .githooks/commit-msg hook; keep the pattern in sync.
+# Fail a pull request whose title, body, or commit messages carry AI/assistant
+# attribution. The rule, the pattern, and the reason it is anchored to the start
+# of a line live in the shared action every HeroicLands repository calls; this
+# repository carried its own copy of all three until HeroicLands/.github#3.
+#
+# The local .githooks/commit-msg hook enforces the same pattern before a commit
+# is written. A git hook runs from a developer's own checkout, so it cannot move
+# into the action — those two are the pair to keep in sync, and the only pair.
 
 on:
     pull_request:
@@ -19,44 +22,7 @@ jobs:
         name: No AI attribution
         runs-on: ubuntu-latest
         steps:
-            - name: Scan PR title, body, and commit messages
-              env:
-                  GH_TOKEN: ${{ github.token }}
-                  PR_TITLE: ${{ github.event.pull_request.title }}
-                  PR_BODY: ${{ github.event.pull_request.body }}
-                  REPO: ${{ github.repository }}
-                  NUMBER: ${{ github.event.pull_request.number }}
-              run: |
-                  set -euo pipefail
-
-                  # Anchored to the start of a line: real attribution is a
-                  # trailer / signature at column 0, so prose that merely mentions
-                  # these phrases mid-sentence (e.g. this PR's own description)
-                  # does not trip it. The generated-with branch tolerates a
-                  # leading emoji/space.
-                  pattern='^[[:space:]]*co-authored-by:.*(claude|anthropic)|^[^[:alpha:]]*generated with .*claude code'
-                  fail=0
-
-                  scan() {
-                      name="$1"
-                      text="$2"
-                      hits="$(printf '%s' "$text" | grep -iEn "$pattern" || true)"
-                      if [ -n "$hits" ]; then
-                          echo "::error::AI/assistant attribution found in $name"
-                          printf '%s\n' "$hits" | sed 's/^/    /'
-                          fail=1
-                      fi
-                  }
-
-                  scan "PR title" "$PR_TITLE"
-                  scan "PR body" "$PR_BODY"
-
-                  messages="$(gh api "repos/$REPO/pulls/$NUMBER/commits" --paginate --jq '.[].commit.message')"
-                  scan "commit messages" "$messages"
-
-                  if [ "$fail" -ne 0 ]; then
-                      echo "::error::Remove the attribution (e.g. 'Co-Authored-By: Claude …', 'Generated with Claude Code'). Edit the PR title/body, and amend/rebase any commit whose message carries it, then push."
-                      exit 1
-                  fi
-
-                  echo "No AI attribution found."
+            # Needs no checkout: the subjects are the pull request, not the tree.
+            - uses: HeroicLands/.github/actions/no-attribution@main
+              with:
+                  token: ${{ github.token }}

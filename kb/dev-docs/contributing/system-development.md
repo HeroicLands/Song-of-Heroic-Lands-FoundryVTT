@@ -210,9 +210,15 @@ Deferred work is tracked in **GitHub issues, not flagged in the code**. Do not
 commit `TODO`/`FIXME` markers: a code marker duplicates the issue and drifts out
 of sync, and a marker inside published JSDoc leaks into the API site as
 documentation prose. When you would write a `TODO`, file (or find) an issue,
-record any code-site context in that issue, and leave the code clean. `npm run
-lint:todos` (run in CI and `build:noci`) fails the build on **any** `TODO`/`FIXME`
-marker under `src/`.
+record any code-site context in that issue, and leave the code clean.
+
+Every pull request is checked by
+[`HeroicLands/.github/actions/todos`](https://github.com/HeroicLands/.github),
+which fails on **any** `TODO`/`FIXME` marker in a comment under `src/`. The rule
+is not this repository's — every HeroicLands repository wants it, and only the
+paths and extensions ever differed — so the check lives where every one of them
+can reach it, and the build no longer carries a `lint:todos` of its own. String
+contents are blanked before matching, so a literal `"TODO"` is not a finding.
 
 ### Update the documentation
 
@@ -253,18 +259,21 @@ the issue. See [Writing Changesets](./writing-changesets.md) for details.
 
 ### Format before commit
 
-Run `npm run format:check` (Prettier) **first**. If a file you did **not** touch
-shows up as unformatted, stop and ask — do not run `format` blind, since
-`prettier --write .` formats the whole repo and would sweep unrelated drift into
-your commit. Once only your files are flagged, run `npm run format`, then `git add`
-only your files.
+Run `npm run format:check` (Prettier, through `content-build format`) **first**.
+If a file you did **not** touch shows up as unformatted, stop and ask — do not
+run `format` blind, since it formats the whole repo and would sweep unrelated
+drift into your commit. Once only your files are flagged, run `npm run format`,
+then `git add` only your files. Both commands take paths, so
+`npm run format -- <path>` formats exactly what you name.
 
 Since #1621 that should be rare: the same check runs as `lint:format`, first in
 the `lint` chain, so `main` cannot carry drift for long. Two things still produce
 it, and they call for opposite responses. A **Prettier version bump** invalidates
-the tree wholesale — the declared range is a caret, so a minor that changes a
-layout rule reformats files nobody edited; that belongs in its own reformat-only
-commit, not in yours. A **single stray file** is ordinary drift and is yours to
+the tree wholesale — a minor that changes a layout rule reformats files nobody
+edited; that belongs in its own reformat-only commit, not in yours. Since the
+formatter and its configuration now arrive with `@heroiclands/content-build`,
+such a bump reaches this repository as a **content-build** bump, and shows up
+the same way: files you did not touch, flagged by `lint:format`. A **single stray file** is ordinary drift and is yours to
 format if you were touching it anyway. Either way the rule above holds: format by
 explicit path, never the whole repo.
 

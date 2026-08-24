@@ -54,28 +54,28 @@ sequence; `run-p` runs them in parallel.
 
 ### Build
 
-| Script                | What it does                                                                                                                                      |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                            |
-| `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                        |
-| `build:noci`          | The pipeline without install: `lint:todos → lint:docs-index → build:types → lint:dts → build:prepare → test:coverage → test:purity → build:code`. |
-| `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                             |
-| `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                        |
-| `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                     |
-| `build:system`        | Generate `build/stage/system.json` from `content-build.config.yaml` (`package-build manifest`).                                                   |
-| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                   |
-| `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                         |
-| `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                |
-| `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                       |
-| `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                |
-| `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                     |
-| `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.        |
-| `build:kb-content`    | Generate the site's Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/kb/` (`utils/build-kb-content.mjs`). No Hugo needed.               |
-| `build:kb`            | `build:kb-content` then render it with Hugo → `build/site/sohl/`. Needs Hugo and the theme submodule.                                             |
-| `site:assemble`       | Mount the TypeDoc HTML at `build/site/sohl/api/` and finish the deployable tree (`utils/build-site.mjs`).                                         |
-| `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                     |
-| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                    |
-| `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                              |
+| Script                | What it does                                                                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                             |
+| `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                         |
+| `build:noci`          | The pipeline without install: `lint:format → lint:docs-index → build:types → lint:dts → build:prepare → test:coverage → test:purity → build:code`. |
+| `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                              |
+| `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                         |
+| `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                      |
+| `build:system`        | Generate `build/stage/system.json` from `content-build.config.yaml` (`package-build manifest`).                                                    |
+| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                    |
+| `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                          |
+| `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                 |
+| `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                        |
+| `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                 |
+| `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                      |
+| `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.         |
+| `build:kb-content`    | Generate the site's Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/kb/` (`content-build site`). No Hugo needed.                        |
+| `build:kb`            | `build:kb-content` then render it with Hugo → `build/site/sohl/`. Needs Hugo and the theme submodule.                                              |
+| `site:assemble`       | Mount the TypeDoc HTML at `build/site/sohl/api/` and finish the deployable tree (`utils/build-site.mjs`).                                          |
+| `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                      |
+| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                     |
+| `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                               |
 
 ### Compendium packs
 
@@ -122,7 +122,6 @@ and is unit-tested directly.
 | `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                                                                                                                                              |
 | `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md).                                                                                                                           |
 | `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                                                                                                                                                      |
-| `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                                                                                                                                               |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                                                                                                                                                   |
 | `lint:addresses`          | Fail on a malformed `shortcode`, a duplicate `(type, shortcode)`, or a note missing its address alias (`assets/content/`). Runs `content-build lint`, so the rules are the toolchain's. See [Shortcode Integrity](../reference/shortcode-integrity.md). |
 | `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes).                                                            |
@@ -190,10 +189,12 @@ Prettier formats ~96% of the hand-written text in this repository, and formattin
 is all it does. `lint:styles` and `lint:markdown` (#1622) exist for the checks it
 structurally cannot make — and each is scoped to **exactly** that, because both
 tools ship defaults that would otherwise re-format the tree to a second opinion.
-Their configuration files (`stylelint.config.mjs`, `.markdownlint-cli2.jsonc`)
-carry the per-rule rationale; the rule of thumb for adding a rule to either is
-whether it can report that something is **wrong**, not that it is spelled
-differently.
+`stylelint.config.mjs` carries the per-rule rationale for the first; the
+markdown rules are **shared**, and their rationale lives with them in
+`@heroiclands/content-build` (`engine/prose-config.mjs`), because every content
+repository in the project is authored against the same set (#20). The rule of
+thumb for adding a rule to either is whether it can report that something is
+**wrong**, not that it is spelled differently.
 
 **`lint:styles` (stylelint + `stylelint-config-standard-scss`).** The gate that
 matters most is naming, because the stylesheets carry a public extension surface:
@@ -225,10 +226,10 @@ Satisfying them would mean reflowing 52 hand-written partials for byte-identical
 compiled output, which is the cosmetic refactor
 [System Development](../contributing/system-development.md) forbids.
 
-**`lint:markdown` (markdownlint-cli2).** Enabled on markdownlint's defaults over
-1,600 files it reports ~74,000 findings, essentially all of them line length, list
-indentation, and blank lines — Prettier's territory. So `default` is off and nine
-rules are named individually:
+**`lint:markdown` (`content-build markdown`).** Enabled on markdownlint's
+defaults over 1,600 files it reports ~74,000 findings, essentially all of them
+line length, list indentation, and blank lines — Prettier's territory. So
+`default` is off and nine rules are named individually:
 
 | Rule            | Catches                                                                   |
 | --------------- | ------------------------------------------------------------------------- |
@@ -243,8 +244,13 @@ rules are named individually:
 `MD024` runs with `siblings_only` — repeating `## Notes` under several parents is a
 normal reference-page shape, and only a repeat within one parent is ambiguous.
 `gitignore: true` keeps the generated trees out (`kb/content/`, `kb/public/`,
-`build/`, `nogit/`); `CHANGELOG.md` and the theme submodule are excluded by name,
-as they are from Prettier.
+`build/`, `nogit/`); `CHANGELOG.md` is excluded by the shared configuration,
+since `changeset version` regenerates it in every repository here, and the theme
+submodule by `.markdownlint-cli2.mjs` — which is all that file holds. It spreads
+the shared configuration and adds `kb/themes`, because a submodule that lints
+itself in its own repository is knowledge about _this_ repository's layout and
+nothing shared can know it. The same split applies to Prettier:
+`.prettierignore` stays here, the rules do not.
 
 Note what is **not** here: `MD018` (`#Heading` with no space) reads a line starting
 `#1405) …` as a malformed heading, and this repository writes bare issue numbers
@@ -281,24 +287,23 @@ better — across files rather than within one — by `lint:doc-links` and
 `npm run build` runs `npm ci` then `build:noci`, which is:
 
 1. **`lint:format`** — Prettier reports no drift anywhere in the repo.
-2. **`lint:todos`** — no `TODO`/`FIXME` markers under `src/`.
-3. **`lint:docs-index`** — every `docs/` page is linked from its section nav and the README.
+2. **`lint:docs-index`** — every `docs/` page is linked from its section nav and the README.
    `lint` also runs `lint:markdown` and `lint:styles` here; see
    [What the two linters check](#what-the-two-linters-check).
-4. **`build:types`** — `tsc` type-checks the whole project.
-5. **`lint:dts`** — the generated public type surface is valid.
-6. **`check:sohl-types`** — `@heroiclands/sohl-types` regenerates, type-checks
+3. **`build:types`** — `tsc` type-checks the whole project.
+4. **`lint:dts`** — the generated public type surface is valid.
+5. **`check:sohl-types`** — `@heroiclands/sohl-types` regenerates, type-checks
    from a consumer's position, and passes `utils/check-sohl-types.mjs`
    (see [The npm workspace package](#the-npm-workspace-package)).
-7. **`build:prepare`** (parallel):
+6. **`build:prepare`** (parallel):
    - **`build:css`** — Sass → `build/stage/css/sohl.css`.
    - **`build:db`** — copy assets, then compile packs to `build/stage/packs/`.
    - **`build:system`** — write `build/stage/system.json`.
-8. **`test:coverage`** and **`test:purity`** — the suite must pass.
-9. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
+7. **`test:coverage`** and **`test:purity`** — the suite must pass.
+8. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
    module, sourcemap, unminified, with `emptyOutDir: false` so it doesn't wipe the
    staged CSS/assets/packs).
-10. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
+9. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
 
 The result is a complete, deployable system in **`build/stage/`**.
 
@@ -833,7 +838,7 @@ npm run build && npm run push:dev && npm run container:dev start   # bring it up
 npm run container:dev stop                                          # tear it down
 ```
 
-The commands (`node utils/foundry-container.mjs <stage> <command>`):
+The commands (`package-build container <stage> <command>`):
 
 | Command    | Effect                                                                                                              |
 | ---------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -866,27 +871,27 @@ platform-specific).
 
 Configuration lives in `.env.local` (all optional):
 
-| Variable                     | Default                | Purpose                                                             |
-| ---------------------------- | ---------------------- | ------------------------------------------------------------------- |
-| `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (`:14` matches `system.json` `minimum`).           |
-| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).     |
-| `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).  |
-| `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).  |
-| `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below). |
+| Variable                     | Default                | Purpose                                                               |
+| ---------------------------- | ---------------------- | --------------------------------------------------------------------- |
+| `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (the major is derived from `compatibility.minimum`). |
+| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).       |
+| `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).    |
+| `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).    |
+| `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below).   |
 
-🔧 **The `test` stage's Foundry build is pinned by the repository**, in
-`DEFAULT_STAGE_VERSIONS` (`utils/foundry-container.mjs`), and passed to felddy as
-`FOUNDRY_VERSION` so it downloads that exact build rather than the newest of the
-`:14` tag. That pin is what makes the e2e suite reproducible: without it the test
-container drifts to whatever the floating tag serves, and "the suite passes" names
-no particular Foundry. No other stage is pinned here — `dev`/`qa`/`prod` are the
-maintainer's own instances.
+🔧 **The `test` stage's Foundry build is `compatibility.minimum` itself** — read
+from the top level of `content-build.config.yaml` and passed to felddy as
+`FOUNDRY_VERSION`, so it downloads that exact build rather than the newest of the
+`:14` tag. That is what makes the e2e suite reproducible: without it the test
+container drifts to whatever the floating tag serves, and "the suite passes"
+names no particular Foundry. No other stage is pinned — `dev`/`qa`/`prod` are
+the maintainer's own instances.
 
-**The pinned build is `system.json`'s `compatibility.minimum`** — the oldest
-Foundry the system claims to support, and therefore the claim the suite exists to
-defend. Testing above the floor would leave the promised configuration unverified,
-so the newest release is covered by a periodic **sweep** rather than by the
-default:
+Deriving the pin from the claim means there is **one** number, not two that can
+drift: `compatibility.minimum` is the oldest Foundry the system claims to
+support, and therefore the claim the suite exists to defend. Testing above the
+floor would leave the promised configuration unverified, so the newest release is
+covered by a periodic **sweep** rather than by the default:
 
 ```bash
 npm run e2e:sweep -- 14.367     # full suite against the newest release
@@ -1146,8 +1151,9 @@ not the template.
 **Links inside the generated Markdown carry the prefix from the builder, not
 from Hugo.** Hugo prefixes what it emits itself (permalinks, assets, aliases),
 but the wikilinks and cross-references written into `kb/content/` are ordinary
-site paths that nothing rewrites afterwards. They come from `SOHL_BASE` /
-`KB_BASE` / `API_BASE` in `utils/build-kb-content.mjs`, which is where a
+site paths that nothing rewrites afterwards. They are composed from
+`site.base` (defaulting to `/<contentPackage>/`), `publish.address.prefix` and
+`site.passOptions.apiBase` in `content-build.config.yaml`, which is where a
 relocation is edited. One consequence worth remembering: a Hugo `alias` is
 publishDir-relative and does **not** get the baseURL path added, so
 An authored Obsidian `aliases` is stripped on the way into the frontmatter: in Hugo the key means URL redirects, not names.
@@ -1168,13 +1174,9 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `build-icon-font.mjs`               | Build the icon font from SVGs.                                                                                                             |
 | `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                                                                             |
 | `docs-coverage.mjs`                 | Report doc-comment coverage.                                                                                                               |
-| `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                                                                  |
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                                    |
-| `build-kb-content.mjs`              | Generate the Hugo content tree for `/sohl/kb/` from `assets/content/` + `kb/dev-docs/`.                                                    |
 | `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname.                |
 | `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                                     |
-| `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                                                                      |
-| `e2e-redeploy.mjs`                  | The fast e2e loop (`npm run e2e:fast`): rebuild → `push:test` → cycle the world → run Cypress.                                             |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                                  |
 | `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects.                                  |
 | `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.                                                     |
