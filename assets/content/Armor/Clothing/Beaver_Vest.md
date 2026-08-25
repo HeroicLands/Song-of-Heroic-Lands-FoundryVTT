@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Beaver
   material: Leather
   durability: 9
-  value: 288
+  value: 290
   weight: 2.9
   encumbrance: 0
   perceptionPenaltyBase: 0
