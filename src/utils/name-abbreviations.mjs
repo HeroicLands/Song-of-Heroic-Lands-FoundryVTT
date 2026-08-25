@@ -15,7 +15,7 @@
  * The conventional shortenings for this setting's vocabulary — ranks, offices,
  * materials, units.
  *
- * **This is the runtime's copy, and `@heroiclands/content-build` owns the
+ * **This is the runtime's copy, and `@heroiclands/package-build` owns the
  * original.** The build applies the same table when it derives a page's URL
  * from a note's name; the runtime applies it when it suggests a `shortcode`
  * from a document's name in the create dialog. Shipped code cannot import a

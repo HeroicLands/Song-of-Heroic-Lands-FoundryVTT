@@ -58,7 +58,7 @@ URLs, YAML frontmatter, and expression source unescaped.
 The pattern is stated **twice, on purpose**, and a test keeps the two equal.
 `src/utils/shortcode-format.mjs` (`isValidShortcode` / `sanitizeShortcode`) is the
 runtime's copy — plain ESM, so the create/update guards and the world migration
-share it. `@heroiclands/content-build` carries the build-time copy, because it
+share it. `@heroiclands/package-build` carries the build-time copy, because it
 lints every package's content tree and not just this one's. Shipped code cannot
 import a build dependency, so neither copy can be removed;
 `tests/build/shortcode-format-agreement.test.ts` compares them and is the only
@@ -236,7 +236,7 @@ JournalEntry an item points at through `docHtml`'s `@UUID`, which survives any c
 to the published address; a per-document absolute URL would make one a pack rebuild
 plus a world migration.
 
-`contentSlug` in `@heroiclands/content-build/engine/content-slug` is the single derivation. It transliterates
+`contentSlug` in `@heroiclands/package-build/engine/content-slug` is the single derivation. It transliterates
 before reducing, so an accented character is carried across rather than dropped —
 `Nüsvōrroth` becomes `nusvorroth`, where the old slugifier produced `n-sv-rroth` and
 forced a hand-written override. Ligatures expand as a reader would spell them

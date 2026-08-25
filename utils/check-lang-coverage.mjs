@@ -61,7 +61,7 @@ import { readFileSync } from "node:fs";
 import {
     emitDiagnostic,
     positionOfLiteral,
-} from "@heroiclands/content-build/engine/diagnostics";
+} from "@heroiclands/package-build/engine/diagnostics";
 import { globSync } from "glob";
 import ts from "typescript";
 

@@ -380,7 +380,7 @@ and are not:
 
 - A Thalorna note renders wrong because its own frontmatter is malformed → an issue in
   `sohl-thalorna`.
-- A Thalorna note renders wrong because `@heroiclands/content-build` mishandles valid
+- A Thalorna note renders wrong because `@heroiclands/package-build` mishandles valid
   frontmatter → an issue **here**, because that is where the package lives.
 
 When the answer is genuinely "both", file in each repository and link them — the

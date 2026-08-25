@@ -27,7 +27,7 @@ depends on a sibling checkout being present or current.
 ## How an entry's `path` is derived
 
 Every `path` in this file is produced by the same address rule the knowledgebase
-build emits its pages at, from one setting in `content-build.config.yaml`:
+build emits its pages at, from one setting in `package-build.config.yaml`:
 
 ```yaml
 publish:

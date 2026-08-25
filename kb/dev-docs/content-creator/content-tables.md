@@ -29,7 +29,7 @@ the same frontmatter, so one authored query yields the same table in three place
 Obsidian while writing, in the Foundry compendium packs, and on the knowledgebase.
 What the author sees is what ships.
 
-Both content builds run the same expander (`@heroiclands/content-build/engine/content-tables`).
+Both content builds run the same expander (`@heroiclands/package-build/engine/content-tables`).
 
 ## Supported grammar
 
@@ -156,8 +156,8 @@ with no content written yet is a normal state of the corpus, not a broken build.
 ## Where it runs
 
 Expansion happens **before** wikilink resolution, in all four content compilers:
-`@heroiclands/content-build/engine/journals`, `@heroiclands/content-build/sohl/items`, `@heroiclands/content-build/sohl/actors`, and
-`@heroiclands/content-build/engine/site-build` (`content-build site`). That ordering
+`@heroiclands/package-build/engine/journals`, `@heroiclands/package-build/sohl/items`, `@heroiclands/package-build/sohl/actors`, and
+`@heroiclands/package-build/engine/site-build` (`content-build site`). That ordering
 is what lets a generated cell contain a
 wikilink. In the knowledgebase build it also runs _outside_ that build's code-fence
 protection — a query **is** a fenced block, so protecting it first would hide it from

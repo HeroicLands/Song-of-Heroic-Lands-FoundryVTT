@@ -62,7 +62,7 @@ sequence; `run-p` runs them in parallel.
 | `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                              |
 | `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                         |
 | `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                      |
-| `build:system`        | Generate `build/stage/system.json` from `content-build.config.yaml` (`package-build manifest`).                                                    |
+| `build:system`        | Generate `build/stage/system.json` from `package-build.config.yaml` (`package-build manifest`).                                                    |
 | `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                    |
 | `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                          |
 | `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                 |
@@ -109,7 +109,7 @@ The check therefore runs against the compiled bytes rather than the JSON they
 came from, because the gap it closes is the _write_ path: the emitter is already
 unit-tested, whereas the compendium CLI has previously mishandled Scene Levels.
 An `Adventure` carries its scenes inline, levels and all, so that second shape is
-checked too. The rule itself is a pure function (`@heroiclands/content-build/engine/scene-levels`)
+checked too. The rule itself is a pure function (`@heroiclands/package-build/engine/scene-levels`)
 and is unit-tested directly.
 
 ### Tests, lint, format
@@ -150,7 +150,7 @@ assets/content/Rules/Attributes.md:28:13: error: dead address [[doc-nosuchthing]
 `file:line:column: severity: message`, unindented, one finding per line. The
 path is relative to the repository root. The layout is written in exactly one
 place, and that place is **not this repository** — `formatDiagnostic` lives in
-`@heroiclands/content-build` (`engine/diagnostics`), so the content build's note
+`@heroiclands/package-build` (`engine/diagnostics`), so the content build's note
 warnings and these linters' findings cannot drift into two dialects of the same
 form. Each linter imports `emitDiagnostic` from there directly and never formats
 its own; where it needs to point at a literal in a file that is not a parsed
@@ -191,7 +191,7 @@ structurally cannot make — and each is scoped to **exactly** that, because bot
 tools ship defaults that would otherwise re-format the tree to a second opinion.
 `stylelint.config.mjs` carries the per-rule rationale for the first; the
 markdown rules are **shared**, and their rationale lives with them in
-`@heroiclands/content-build` (`engine/prose-config.mjs`), because every content
+`@heroiclands/package-build` (`engine/prose-config.mjs`), because every content
 repository in the project is authored against the same set (#20). The rule of
 thumb for adding a rule to either is whether it can report that something is
 **wrong**, not that it is spelled differently.
@@ -371,7 +371,7 @@ directory, and `build:pack-release` simply zips its contents into the release
 system, and `system.zip` is just an archive of it.
 
 **How `system.json` is assembled** (`package-build manifest`): everything it
-declares comes from `content-build.config.yaml`. The `packageBuild.manifest`
+declares comes from `package-build.config.yaml`. The `packageBuild.manifest`
 block is emitted unchanged; `id`, `version`, the four release addresses,
 `compatibility` and `packs` are **derived** and may not be declared there; and
 `packageBuild.manifestFlags` names `utils/manifest-flags.mjs`, which computes
@@ -413,17 +413,17 @@ empty **output**, when a pass compiles zero entries from a tree that is not
 empty. That second case is what a wrong package id looks like: every note is
 rejected because it declares a package this build does not compile. A pack that
 genuinely ships nothing in some consuming package declares `mayBeEmpty: true` on
-its entry in `content-build.config.yaml`, rather than the guard being relaxed for
+its entry in `package-build.config.yaml`, rather than the guard being relaxed for
 everyone.
 
 Cross-package references are resolved through published link manifests rather
-than a shared tree; see `@heroiclands/content-build/engine/kb-manifest` and `assets/manifests/`.
+than a shared tree; see `@heroiclands/package-build/engine/kb-manifest` and `assets/manifests/`.
 
 ### Authoring content notes
 
 Items, actors, and journal entries are Markdown files with YAML frontmatter
 (a `package:` naming the content package this repository compiles — `sohl` here,
-declared once as `contentPackage` in `content-build.config.yaml` — a
+declared once as `contentPackage` in `package-build.config.yaml` — a
 `type:`, a stable `id:`, and folder/embedding metadata),
 authored in the vault and exported anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
@@ -507,12 +507,12 @@ both content builds silently, so `npm run lint:content-links` (also part of
 `build:compiledb` runs the pack CLI, the `content-build` binary the installed
 package puts on the path. The CLI owns every side effect — argv parsing, `loglevel` configuration, creating
 `build/tmp/packs/`, and the process exit code — and calls the import-safe library
-`@heroiclands/content-build/engine/compendiums`, whose `compilePacks` / `unpackPacks` / `cleanPacks`
+`@heroiclands/package-build/engine/compendiums`, whose `compilePacks` / `unpackPacks` / `cleanPacks`
 take every path and pack list as an argument. That split is what lets another
 repository's build import the compiler without inheriting a `build/` tree or a
 reconfigured logger.
 
-`compilePacks` in turn runs `@heroiclands/content-build/engine/generate`, which
+`compilePacks` in turn runs `@heroiclands/package-build/engine/generate`, which
 drives one compiler per configured pack (`sohl/items.mjs`, `sohl/actors.mjs`,
 `engine/journals.mjs`, `engine/macros.mjs`, `engine/scenes.mjs`): each walks the
 content tree, selects files by frontmatter, validates folders against the pack's
@@ -521,7 +521,7 @@ compiled.
 
 #### Adding a pack compiler: `BasePackCompiler`
 
-That walk is written **once**, in `@heroiclands/content-build/engine/base-compiler`. Walking the
+That walk is written **once**, in `@heroiclands/package-build/engine/base-compiler`. Walking the
 tree, rejecting notes of another content package, skipping drafts, expanding
 generated tables, converting wikilinks, writing the JSON and counting what
 failed are identical in every pass, so `BasePackCompiler` owns them and each
@@ -559,7 +559,7 @@ stays small — construct with `{contentBase, dest, companionDests,
 folderResolver, packName, docType, router}`, `await compile()`, read `errorCount`
 and `compiledCount`.
 
-`@heroiclands/content-build/engine/map-notes` is deliberately **not** a subclass: it never walks
+`@heroiclands/package-build/engine/map-notes` is deliberately **not** a subclass: it never walks
 the tree. It is the pure markdown→`Scene` translator the scenes pass calls, and
 keeping it framework-free is what makes it unit-testable.
 
@@ -567,9 +567,9 @@ keeping it framework-free is what makes it unit-testable.
 
 Everything about the pipeline that is _this repository's_ rather than any
 consumer's lives in one file at the repository root,
-**`content-build.config.yaml`**. Nothing inside the shared package spells a
+**`package-build.config.yaml`**. Nothing inside the shared package spells a
 path, a package name, or a pack list of its own; each module reads the resolved
-configuration through `@heroiclands/content-build/engine/pack-config`, which
+configuration through `@heroiclands/package-build/engine/pack-config`, which
 locates the config file by walking up from itself — so it lands on the consuming
 repository's root from `node_modules/` (#1508). A consuming repository —
 `sohl-thalorna`, `sohl-kethira-basic`, an adventure module — ships the same
@@ -585,7 +585,7 @@ reproduces them:
 | `stats.systemVersion` | `version` in the adjacent `package.json`, unless stated             |
 | `itemBuilders`        | a **name** (`itemBuilders: sohl`), resolved to the shipped registry |
 
-A `content-build.config.mjs` still loads, for a consumer whose item-builder
+A `package-build.config.mjs` still loads, for a consumer whose item-builder
 registry is its own code — data cannot carry functions. Both forms end at the
 same `defineConfig`, so both are validated and frozen identically. A directory
 holding **both** is an error rather than a precedence question: picking one
@@ -623,7 +623,7 @@ packs:
   is written by its parent's pass, and that indirection is the only one the build
   has.
 
-The routing itself is `@heroiclands/content-build/engine/pack-router`, one pure
+The routing itself is `@heroiclands/package-build/engine/pack-router`, one pure
 function over the configured pack list. `BasePackCompiler` consults it for every
 note its `selects` claims, so a pass never has to know that its document type
 ships in more than one pack. Every pack of a type sees the same notes, so the
@@ -684,13 +684,13 @@ The `assets/` root a content note's `img:` resolves to is derived, not written:
 #### Adding or removing an item type
 
 Which `type:` values compile into an Item is declared **once**, in the registry
-`@heroiclands/content-build/sohl/item-builders`: `ITEM_BUILDERS` pairs each type with the builder
+`@heroiclands/package-build/sohl/item-builders`: `ITEM_BUILDERS` pairs each type with the builder
 that produces its `system` block. This repository **names** that registry —
-`itemBuilders: sohl` in `content-build.config.yaml`, since data cannot carry
+`itemBuilders: sohl` in `package-build.config.yaml`, since data cannot carry
 functions — the loader resolves the name to the table, and
-`@heroiclands/content-build/engine/item-registry` reads it back out of the
+`@heroiclands/package-build/engine/item-registry` reads it back out of the
 resolved configuration — both the whitelist `itemTypes()` (its key set, which
-`@heroiclands/content-build/engine/item-docs` re-exports and assembles
+`@heroiclands/package-build/engine/item-docs` re-exports and assembles
 `docEntryTypes()` from) and the `itemBuilder(type)` lookup the Item compiler
 dispatches through. So the whitelist of compilable types and the table of
 builders are the same object and cannot drift; a type with no builder is not a
@@ -703,12 +703,12 @@ consumer got the types it asked for and the builders it did not.
 
 Adding a type is therefore one entry in `ITEM_BUILDERS`, its subtype declaration
 in `documentTypes.Item` (`packageBuild.manifest` in
-`content-build.config.yaml`), and its
-default artwork in `@heroiclands/content-build/sohl/default-item-art` — the last
+`package-build.config.yaml`), and its
+default artwork in `@heroiclands/package-build/sohl/default-item-art` — the last
 of which the unit
 suite holds in exact step with the registry. Removing a type is the same three
 deletions. The registry is a **leaf module**: it imports only the frontmatter
-readers in `@heroiclands/content-build/engine/frontmatter`, never `helpers.mjs`,
+readers in `@heroiclands/package-build/engine/frontmatter`, never `helpers.mjs`,
 and never the resolved configuration. The config file imports the registry, so a
 read back out of configuration there would close a cycle around the config's own
 evaluation; the data travels _into_ configuration and only `item-registry.mjs`,
@@ -722,7 +722,7 @@ folder and under the same name as the item — and `system.docHtml` becomes
 nothing but a `@UUID` link to that entry's first page. The runtime recognises a
 description that is only a link as a **pointer** and shows what it points at —
 `descriptionLinkTarget()` decides, and Display Description follows. See
-`@heroiclands/content-build/engine/item-docs`. A reader of the chat card sees the prose, not a
+`@heroiclands/package-build/engine/item-docs`. A reader of the chat card sees the prose, not a
 link.
 
 The prose therefore exists **once**. It used to exist once per item and again on
@@ -880,7 +880,7 @@ Configuration lives in `.env.local` (all optional):
 | `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below).   |
 
 🔧 **The `test` stage's Foundry build is `compatibility.minimum` itself** — read
-from the top level of `content-build.config.yaml` and passed to felddy as
+from the top level of `package-build.config.yaml` and passed to felddy as
 `FOUNDRY_VERSION`, so it downloads that exact build rather than the newest of the
 `:14` tag. That is what makes the e2e suite reproducible: without it the test
 container drifts to whatever the floating tag serves, and "the suite passes"
@@ -905,7 +905,7 @@ full suite has **actually passed**, never an aspiration.
 `FOUNDRYVTT_<STAGE>_VERSION` in `.env.local` overrides the committed default for
 any run. Raising the committed pin, by contrast, is a decision to **raise the
 supported floor**: move the top-level `compatibility.minimum` in
-`content-build.config.yaml` with it. See
+`package-build.config.yaml` with it. See
 [Testing → Which build the suite runs on](testing.md#which-build-the-suite-runs-on--the-two-tracks).
 
 🔧 **First-run licensing.** felddy needs to fetch Foundry once. Supply your
@@ -997,7 +997,7 @@ That's the entire release. Two notes:
 | ------------------------- | ------------------------------------------------------------------------------ |
 | `@heroiclands/sohl-types` | Type declarations for authoring modules and macros against SoHL in TypeScript. |
 
-`@heroiclands/content-build` used to live here too. It was extracted to its own
+`@heroiclands/package-build` used to live here too. It was extracted to its own
 repository (#1589) and publishes from there; this repository now resolves it from
 the registry like every other consumer (#1604).
 
@@ -1153,7 +1153,7 @@ from Hugo.** Hugo prefixes what it emits itself (permalinks, assets, aliases),
 but the wikilinks and cross-references written into `kb/content/` are ordinary
 site paths that nothing rewrites afterwards. They are composed from
 `site.base` (defaulting to `/<contentPackage>/`), `publish.address.prefix` and
-`site.passOptions.apiBase` in `content-build.config.yaml`, which is where a
+`site.passOptions.apiBase` in `package-build.config.yaml`, which is where a
 relocation is edited. One consequence worth remembering: a Hugo `alias` is
 publishDir-relative and does **not** get the baseURL path added, so
 An authored Obsidian `aliases` is stripped on the way into the frontmatter: in Hugo the key means URL redirects, not names.
@@ -1161,7 +1161,7 @@ An authored Obsidian `aliases` is stripped on the way into the frontmatter: in H
 ## 9. The build utility scripts
 
 The build/deploy/doc tooling lives in **`utils/`**; the pack pipeline is the
-shared package **`@heroiclands/content-build`** (#1512), developed in
+shared package **`@heroiclands/package-build`** (#1512), developed in
 [its own repository](https://github.com/HeroicLands/content-build) and consumed
 here as a `devDependency` from the registry — the same way every other consumer
 resolves it (#1589). Each script carries a header comment describing its purpose

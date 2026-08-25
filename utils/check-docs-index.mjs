@@ -36,7 +36,7 @@
  *   node utils/check-docs-index.mjs
  */
 import { readdirSync, readFileSync } from "node:fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import { join } from "node:path";
 
 const DOCS = "kb/dev-docs";

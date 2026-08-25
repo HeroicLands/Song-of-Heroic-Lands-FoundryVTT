@@ -16,7 +16,7 @@
  * the item carries only a `@UUID` pointer to it.
  *
  * The pointer is built by one pack pass and the page it addresses by another,
- * neither able to see the other's output (`@heroiclands/content-build/engine/item-docs`), and it
+ * neither able to see the other's output (`@heroiclands/package-build/engine/item-docs`), and it
  * is followed at runtime by `resolveDescription`. Unit tests cover each half:
  * that the two passes derive the same ids, and that a pointer description
  * resolves to its target. Only a real Foundry can prove the join — that the

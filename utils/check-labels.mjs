@@ -33,7 +33,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { parse } from "yaml";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 
 const REGISTRY = ".github/labels.yml";
 const GUIDE = "kb/dev-docs/how-to/issue-reporting.md";

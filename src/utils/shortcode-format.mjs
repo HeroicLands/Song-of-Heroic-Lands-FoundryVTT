@@ -18,7 +18,7 @@
  * `src/utils/helpers.ts`), the world migration that repairs legacy keys, and
  * the build-time `lint:packs` guard.
  *
- * Like `@heroiclands/content-build/sohl/default-item-art`, this module is
+ * Like `@heroiclands/package-build/sohl/default-item-art`, this module is
  * deliberately **plain ESM** — no
  * TypeScript, no `@src` aliases, no Foundry — because the pack/lint scripts run
  * under bare `node` (no bundler to resolve aliases or strip types) while the
