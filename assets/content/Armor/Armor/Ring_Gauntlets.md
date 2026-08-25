@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Ring
   material: Ring
   durability: 13
-  value: 67.5
+  value: 70
   weight: 2.7
   encumbrance: 0
   perceptionPenaltyBase: 0

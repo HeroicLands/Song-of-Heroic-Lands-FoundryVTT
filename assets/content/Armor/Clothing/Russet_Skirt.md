@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Russet
   material: Cloth
   durability: 7
-  value: 46.8
+  value: 50
   weight: 1
   encumbrance: 0
   perceptionPenaltyBase: 0

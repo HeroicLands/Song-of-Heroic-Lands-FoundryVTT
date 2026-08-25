@@ -47,7 +47,7 @@ jobs:
             # signal that a freshly-versioned commit just landed on main.
             - name: Create or update the Version Packages PR
               id: changesets
-              uses: changesets/action@v1
+              uses: changesets/action@v2
               with:
                   # The repository's own script, not a second spelling of it.
                   # `changeset version` rewrites package.json and CHANGELOG.md
@@ -63,9 +63,9 @@ jobs:
                   # it. That is exactly what broke every release in
                   # `@heroiclands/content-build` (content-build#74); an npm
                   # script is the seam that does get a shell.
-                  version: npm run changeset:version
-                  commit: "chore(release): version packages"
-                  title: "chore(release): version packages"
+                  version-script: npm run changeset:version
+                  commit-message: "chore(release): version packages"
+                  pr-title: "chore(release): version packages"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

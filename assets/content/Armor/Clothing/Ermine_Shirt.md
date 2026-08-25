@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Ermine
   material: Leather
   durability: 7
-  value: 792
+  value: 795
   weight: 3.2
   encumbrance: 0
   perceptionPenaltyBase: 0

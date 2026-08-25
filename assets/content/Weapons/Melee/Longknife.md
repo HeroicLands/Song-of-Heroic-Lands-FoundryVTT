@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 13
   weight: 2
-  value: 96
+  value: 100
   heft: 7
   weaponType: Knife
   strikeModes:

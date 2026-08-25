@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Cloth
   material: Cloth
   durability: 10
-  value: 39
+  value: 40
   weight: 2
   encumbrance: 0
   perceptionPenaltyBase: 0

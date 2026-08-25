@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 10
   weight: 5
-  value: 96
+  value: 100
   heft: 0
   weaponType: Crossbow
   strikeModes:
