@@ -40,7 +40,7 @@ Arms and armour are made by the common [[doc-crafting|crafting routine]] — wor
 
 | Weapon         | Cost | Time | Weapon          | Cost | Time |
 | -------------- | ---- | ---- | --------------- | ---- | ---- |
-| Ball and chain | 6d   | 120h | Maul [w] or [m] | 10d  | 20h  |
+| Ball and chain | 6d   | 120h | Maul [w] or [m] | 10d  | 8h   |
 | Bastard sword  | 14d  | 360h | Morningstar     | 9d   | 60h  |
 | Battleaxe      | 9d   | 190h | Net [t]         | 22d  | 80h  |
 | Battlesword    | 22d  | 450h | Pickaxe [m]     | 12d  | 20h  |
