@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Worsted
   material: Cloth
   durability: 9
-  value: 108
+  value: 110
   weight: 1.8
   encumbrance: 0
   perceptionPenaltyBase: 0

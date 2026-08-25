@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Velvet
   material: Cloth
   durability: 10
-  value: 84
+  value: 85
   weight: 1.2
   encumbrance: 0
   perceptionPenaltyBase: 0

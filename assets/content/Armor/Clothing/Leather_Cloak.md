@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Leather
   material: Leather
   durability: 9
-  value: 94.1
+  value: 95
   weight: 1.2
   encumbrance: 0
   perceptionPenaltyBase: 0
