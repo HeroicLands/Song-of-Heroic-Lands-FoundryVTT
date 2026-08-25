@@ -8,7 +8,7 @@ import { describe, it, expect } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 
-import { buildStats } from "@heroiclands/content-build/engine/helpers";
+import { buildStats } from "@heroiclands/package-build/engine/helpers";
 
 /**
  * The version a compiled document claims it was built by is an agreement

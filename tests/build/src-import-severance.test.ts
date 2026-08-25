@@ -12,8 +12,8 @@ import path from "node:path";
 // The two seams the pack pipeline used to reach into `src/` for. They now live
 // in the shared build package, which is where the pipeline is headed (#1501),
 // and the runtime imports the same modules from there (#1510).
-import { DEFAULT_ITEM_ART } from "@heroiclands/content-build/sohl/default-item-art";
-import { AFFILIATION_STANDINGS } from "@heroiclands/content-build/sohl/affiliation-standings";
+import { DEFAULT_ITEM_ART } from "@heroiclands/package-build/sohl/default-item-art";
+import { AFFILIATION_STANDINGS } from "@heroiclands/package-build/sohl/affiliation-standings";
 // The runtime enum the shared standings list mirrors.
 import { AffiliationStandings } from "@src/utils/constants";
 // The runtime rule that decides whether a description is a pointer, and the
@@ -24,11 +24,11 @@ import { descriptionLinkTarget } from "@src/utils/description-link";
 import {
     itemDocEntryId,
     itemDocPointer,
-} from "@heroiclands/content-build/engine/item-docs";
+} from "@heroiclands/package-build/engine/item-docs";
 import {
     splitPages,
     journalPageId,
-} from "@heroiclands/content-build/engine/journals";
+} from "@heroiclands/package-build/engine/journals";
 
 // The pipeline lives in its own repository now (#1589) and arrives here as an
 // installed dependency, so the guard walks what npm actually delivered rather
@@ -37,7 +37,7 @@ import {
 // it would catch a module that is clean in its own repository but ships broken.
 const PACKS_DIR = path.resolve(
     __dirname,
-    "../../node_modules/@heroiclands/content-build",
+    "../../node_modules/@heroiclands/package-build",
 );
 
 /** Every `.mjs` in the installed package, recursively. */
@@ -72,7 +72,7 @@ describe("pack pipeline severance from src/ (#1510)", () => {
             )) {
                 // A relative specifier that climbs out of the package and
                 // into `src/` resolves to garbage once this code is installed
-                // into `node_modules` as `@heroiclands/content-build`.
+                // into `node_modules` as `@heroiclands/package-build`.
                 if (/(^|\/)src\//.test(spec)) {
                     offenders.push(
                         `${path.relative(PACKS_DIR, file)} → ${spec}`,

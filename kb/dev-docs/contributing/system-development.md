@@ -271,7 +271,7 @@ the `lint` chain, so `main` cannot carry drift for long. Two things still produc
 it, and they call for opposite responses. A **Prettier version bump** invalidates
 the tree wholesale — a minor that changes a layout rule reformats files nobody
 edited; that belongs in its own reformat-only commit, not in yours. Since the
-formatter and its configuration now arrive with `@heroiclands/content-build`,
+formatter and its configuration now arrive with `@heroiclands/package-build`,
 such a bump reaches this repository as a **content-build** bump, and shows up
 the same way: files you did not touch, flagged by `lint:format`. A **single stray file** is ordinary drift and is yours to
 format if you were touching it anyway. Either way the rule above holds: format by

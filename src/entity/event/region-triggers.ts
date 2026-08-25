@@ -43,7 +43,7 @@ import {
     CURATED_REGION_EVENTS as CURATED_EVENTS_DATA,
     EXCLUDED_REGION_EVENTS as EXCLUDED_EVENTS_DATA,
     REGION_EVENT_TO_TRIGGER as EVENT_TO_TRIGGER_DATA,
-} from "@heroiclands/content-build/engine/region-events";
+} from "@heroiclands/package-build/engine/region-events";
 
 /** Names of the curated scene-region SoHL triggers. */
 export type SohlRegionTriggerName =
@@ -60,7 +60,7 @@ export type SohlRegionTriggerName =
  * is {@link EXCLUDED_REGION_EVENTS | excluded}.
  *
  * The data itself lives in the framework-free
- * `@heroiclands/content-build/engine/region-events`, so the
+ * `@heroiclands/package-build/engine/region-events`, so the
  * map-note pack compiler — which runs under bare `node` and must reject an
  * authored event the runtime would silently drop — reads the same list.
  */

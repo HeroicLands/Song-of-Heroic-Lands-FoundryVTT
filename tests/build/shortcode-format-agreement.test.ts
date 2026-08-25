@@ -8,7 +8,7 @@
 /**
  * The shortcode shape rule is stated twice, and the two copies must agree.
  *
- * It has to be stated twice. `@heroiclands/content-build` owns the build-time
+ * It has to be stated twice. `@heroiclands/package-build` owns the build-time
  * rule — it lints every package's content tree, including the two this
  * repository does not contain — while the **runtime** enforces the same rule on
  * a live document (`resolveShortcodeKey`, and the migration that repairs legacy
@@ -37,7 +37,7 @@ import {
 import {
     SHORTCODE_PATTERN as BUILD_PATTERN,
     isValidShortcode as buildIsValid,
-} from "@heroiclands/content-build/engine/content-lint";
+} from "@heroiclands/package-build/engine/content-lint";
 
 describe("the shortcode shape rule agrees across the boundary", () => {
     it("is the same pattern on both sides", () => {

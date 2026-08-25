@@ -40,7 +40,7 @@
  *   node utils/check-sohl-types.mjs
  */
 import fs from "node:fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import path from "node:path";
 
 const PKG_DIR = path.resolve("packages/sohl-types");

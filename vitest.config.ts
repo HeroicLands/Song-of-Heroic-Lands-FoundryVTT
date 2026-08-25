@@ -46,7 +46,7 @@ export default defineConfig({
         ],
     },
     test: {
-        // One project again. Both shared toolchains — `@heroiclands/content-build`
+        // One project again. Both shared toolchains — `@heroiclands/package-build`
         // and `@heroiclands/package-build` — were once a second project here,
         // pointing at a copy incubating under `packages/`. Each is now developed
         // in its own repository and consumed from the registry exactly as any

@@ -39,7 +39,7 @@
  *   node utils/check-e2e-red.mjs  // direct invocation (no args)
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import { join } from "node:path";
 
 const ROOT = "cypress/e2e";

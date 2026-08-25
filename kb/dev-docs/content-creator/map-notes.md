@@ -22,9 +22,9 @@ and `grid.units` declare `initial: () => game.system.grid.*`, and there is no
 `game` at build time, so leaving them to their initial is not an option. An
 unrecognised `type:` fails the build.
 
-The translation lives in `@heroiclands/content-build/engine/map-notes` (framework-free and
+The translation lives in `@heroiclands/package-build/engine/map-notes` (framework-free and
 unit-tested); the pass that walks the tree, resolves cross-references and writes
-the pack JSON is `@heroiclands/content-build/engine/scenes`.
+the pack JSON is `@heroiclands/package-build/engine/scenes`.
 
 ## Two units, told apart by the key
 
@@ -162,7 +162,7 @@ the build could see it (#1533).
 
 Every compiled document now stamps the manifest's own `compatibility.minimum`
 — `supportedCoreVersion` in
-`@heroiclands/content-build/engine/helpers` — which the
+`@heroiclands/package-build/engine/helpers` — which the
 manifest itself enforces, so no supported client can legitimately need those
 shims. Map notes
 carry no special case for it — but `map-notes.cy.js` asserts the Level's _name_
@@ -240,7 +240,7 @@ behaviors:
 verbatim by Foundry and then dropped by the bridge: no error, no log, no
 automation. The build rejects it and names the excluded set in the message. The
 list is shared with the runtime from
-`@heroiclands/content-build/engine/region-events`, so
+`@heroiclands/package-build/engine/region-events`, so
 the two cannot drift.
 
 An `action:` naming no known SoHL action is a **warning**, not an error: the

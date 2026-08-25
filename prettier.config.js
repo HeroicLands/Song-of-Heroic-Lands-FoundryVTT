@@ -2,7 +2,7 @@
  * This repository's Prettier configuration — the shared one it already uses.
  *
  * The values were spelled out here and are now declared once in
- * `@heroiclands/content-build`, which every content repository in the project
+ * `@heroiclands/package-build`, which every content repository in the project
  * runs through `content-build format`. They were already identical; stating
  * them in four places was four chances to drift, which is what #20 exists to
  * remove. This file remains so that an editor's format-on-save agrees with the
@@ -28,4 +28,4 @@
  *
  * @type {import("prettier").Config}
  */
-export { default } from "@heroiclands/content-build/prettier";
+export { default } from "@heroiclands/package-build/prettier";

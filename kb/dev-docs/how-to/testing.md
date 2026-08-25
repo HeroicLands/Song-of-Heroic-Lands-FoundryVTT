@@ -75,7 +75,7 @@ tests/
 
 ### Where the pack-pipeline tests live
 
-They are **not in this repository**. `@heroiclands/content-build` is developed in
+They are **not in this repository**. `@heroiclands/package-build` is developed in
 [HeroicLands/content-build](https://github.com/HeroicLands/content-build) and
 arrives here as a `devDependency` resolved from the registry — the same way
 `sohl-thalorna` and `sohl-kethira-basic` resolve it. Its suite runs in its own
@@ -434,7 +434,7 @@ that pin Foundry would revert to "requires signature" on every run.
 
 🔧 **The test container's Foundry build is `compatibility.minimum` itself.**
 There is no second pin to keep in sync: the harness reads the floor from the top
-level of `content-build.config.yaml` and passes it to felddy as
+level of `package-build.config.yaml` and passes it to felddy as
 `FOUNDRY_VERSION`, so a fresh checkout runs the suite on that exact build with no
 local configuration. This is deliberate: the suite is evidence, and left to the
 floating `:14` tag it would silently drift to whatever the registry served that
@@ -474,7 +474,7 @@ being the default.
 
 **Raising the pin is a decision to raise the supported floor**, not a test-config
 tweak — and since the pin _is_ `compatibility.minimum`, there is only one number
-to raise. Bump it in `content-build.config.yaml`'s top-level `compatibility` and
+to raise. Bump it in `package-build.config.yaml`'s top-level `compatibility` and
 the evidence moves with the claim. Do not quietly test on something newer than
 the manifest claims.
 

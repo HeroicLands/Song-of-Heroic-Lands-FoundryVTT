@@ -12,8 +12,8 @@ part of the note ends up in.
 
 | Compiled by                                  | Becomes                                | Addressed as               |
 | -------------------------------------------- | -------------------------------------- | -------------------------- |
-| `@heroiclands/content-build/engine/macros`   | a **Macro** in `packs/macros`          | `[[macro-<shortcode>]]`    |
-| `@heroiclands/content-build/engine/journals` | a **JournalEntry** in `packs/journals` | `[[docmacro-<shortcode>]]` |
+| `@heroiclands/package-build/engine/macros`   | a **Macro** in `packs/macros`          | `[[macro-<shortcode>]]`    |
+| `@heroiclands/package-build/engine/journals` | a **JournalEntry** in `packs/journals` | `[[docmacro-<shortcode>]]` |
 
 This is the same arrangement an item note already uses — frontmatter becomes the
 document, body becomes its write-up — so the same virtual `doc<type>` qualifier
@@ -124,7 +124,7 @@ documentation can misrender. Tracked as
 
 | File                                          | Role                                                                                                                                         |
 | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@heroiclands/content-build/engine/macros`    | The macros compiler: fence extraction, frontmatter validation, the Macro document.                                                           |
-| `@heroiclands/content-build/engine/journals`  | Compiles the same note's body into its JournalEntry.                                                                                         |
-| `@heroiclands/content-build/engine/item-docs` | `docEntryTypes()` — the one set naming every type that carries separate documentation, read by the compilers and by the link manifest alike. |
+| `@heroiclands/package-build/engine/macros`    | The macros compiler: fence extraction, frontmatter validation, the Macro document.                                                           |
+| `@heroiclands/package-build/engine/journals`  | Compiles the same note's body into its JournalEntry.                                                                                         |
+| `@heroiclands/package-build/engine/item-docs` | `docEntryTypes()` — the one set naming every type that carries separate documentation, read by the compilers and by the link manifest alike. |
 | `assets/content/macro-folders.yaml`           | The macros pack's folder hierarchy.                                                                                                          |

@@ -1,7 +1,7 @@
 // markdownlint — the shared rule set, plus what only this repository knows.
 //
 // The rules themselves used to be spelled out here, each enabled by name with
-// the reason it earns its place. They now live in `@heroiclands/content-build`
+// the reason it earns its place. They now live in `@heroiclands/package-build`
 // and are applied by `content-build markdown`, so every content repository
 // checks the same things instead of one repository checking them and the others
 // checking nothing (#20). The rationale for each rule moved with it.
@@ -21,7 +21,7 @@
 // Spread rather than mutated: the shared objects are frozen, so an edit in
 // place would fail loudly rather than quietly change the rules for everything
 // else in the process.
-import shared from "@heroiclands/content-build/markdownlint";
+import shared from "@heroiclands/package-build/markdownlint";
 
 export default {
     ...shared,

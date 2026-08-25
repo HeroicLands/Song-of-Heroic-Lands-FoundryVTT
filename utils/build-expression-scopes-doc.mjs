@@ -37,7 +37,7 @@
  */
 
 import fs from "fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import path from "path";
 import { formatGenerated } from "./format-generated.mjs";
 import { EXPRESSION_SCOPES } from "../src/entity/expr/expression-scopes.mjs";

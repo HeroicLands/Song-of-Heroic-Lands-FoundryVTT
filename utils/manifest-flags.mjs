@@ -16,7 +16,7 @@
  * state, called by `package-build manifest` (package-build#9).
  *
  * Everything else in the manifest is a literal, and literals belong in
- * `content-build.config.yaml` — which is where the other 190-odd lines of the
+ * `package-build.config.yaml` — which is where the other 190-odd lines of the
  * retired `system.template.json` now live. What is left here is the one value
  * that cannot be written down: an address that does not exist until the content
  * tree has been walked.
@@ -31,9 +31,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { collectContentDocs } from "@heroiclands/content-build/engine/helpers";
-import { compendiumUuid } from "@heroiclands/content-build/engine/ids";
-import { packRouter } from "@heroiclands/content-build/engine/pack-router";
+import { collectContentDocs } from "@heroiclands/package-build/engine/helpers";
+import { compendiumUuid } from "@heroiclands/package-build/engine/ids";
+import { packRouter } from "@heroiclands/package-build/engine/pack-router";
 
 /** The `type` and `shortcode` the credits journal is addressed by. */
 const CREDITS = { type: "doc", shortcode: "credits" };

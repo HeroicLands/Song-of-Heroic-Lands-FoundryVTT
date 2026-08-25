@@ -8,7 +8,7 @@
 /**
  * The abbreviation table is stated twice, and the two copies must agree.
  *
- * It has to be stated twice. `@heroiclands/content-build` owns the build-time
+ * It has to be stated twice. `@heroiclands/package-build` owns the build-time
  * copy — it abbreviates when it derives a page's URL from a note's name, for
  * every package's content tree. The **runtime** applies the same table when it
  * suggests a `shortcode` from a document's name in the create dialog, and
@@ -30,7 +30,7 @@
 import { describe, it, expect } from "vitest";
 
 import { NAME_ABBREVIATIONS } from "@src/utils/name-abbreviations.mjs";
-import { ABBREVIATIONS } from "@heroiclands/content-build/engine/abbreviations";
+import { ABBREVIATIONS } from "@heroiclands/package-build/engine/abbreviations";
 
 describe("the abbreviation table agrees across the boundary", () => {
     it("is not empty on either side", () => {

@@ -43,7 +43,7 @@ almost certainly adding an SVG.
 
 **Only five asset directories ship.** `npm run build:assets`
 (`package-build assets`, driven by `packageBuild.assets` in
-`content-build.config.yaml`) mirrors
+`package-build.config.yaml`) mirrors
 `assets/{audio,icons,silhouette,fonts,ui}` into `build/stage/`, along with
 `lang/` and `templates/`. `assets/content/`, `assets/manifests/` and
 build inputs are **not** copied — a file dropped
@@ -161,7 +161,7 @@ own copies or write the fully-rooted `systems/sohl/assets/…` form deliberately
 ## Default art
 
 An item note with no `img:` gets the art paired with its type. SoHL's own map is
-`DEFAULT_ITEM_ART` in `@heroiclands/content-build/sohl/default-item-art`, and
+`DEFAULT_ITEM_ART` in `@heroiclands/package-build/sohl/default-item-art`, and
 every entry is a fully-rooted, bundled SVG:
 
 | Item type         | Default art                                                 |

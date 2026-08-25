@@ -21,7 +21,7 @@
  */
 
 import fs from "fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import path from "path";
 import { buildTypeCatalog } from "./build-type-catalog.mjs";
 import { formatGenerated } from "./format-generated.mjs";

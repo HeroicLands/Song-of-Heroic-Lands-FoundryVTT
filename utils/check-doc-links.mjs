@@ -46,7 +46,7 @@
  *   node utils/check-doc-links.mjs
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 

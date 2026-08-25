@@ -33,7 +33,7 @@
  *   node utils/check-rules-vtt.mjs // direct invocation (no args)
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import { join } from "node:path";
 
 const ROOT = join("assets", "content", "Rules");

@@ -63,9 +63,9 @@ updates:
           # and neither may be swept into a grouped housekeeping pull request.
           # A group of one still yields one pull request per package, which is
           # the point — see the note on 0.x above.
-          content-build:
+          package-build:
               patterns:
-                  - "@heroiclands/content-build"
+                  - "@heroiclands/package-build"
           hugo-theme:
               patterns:
                   - "@heroiclands/hugo-theme"

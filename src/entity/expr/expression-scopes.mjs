@@ -31,7 +31,7 @@
  * This module is deliberately **plain ESM** — no TypeScript, no `@src` aliases,
  * no Foundry — precisely so the plain-`node` documentation scripts *and* the
  * bundled TS runtime can both import it (the same arrangement as
- * `@heroiclands/content-build/sohl/default-item-art`). A `.ts` module could not
+ * `@heroiclands/package-build/sohl/default-item-art`). A `.ts` module could not
  * be required by
  * the doc scripts, which run under bare `node`.
  *

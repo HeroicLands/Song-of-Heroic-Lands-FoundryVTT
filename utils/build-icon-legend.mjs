@@ -32,7 +32,7 @@
  */
 
 import { readFileSync, writeFileSync } from "fs";
-import { emitDiagnostic } from "@heroiclands/content-build/engine/diagnostics";
+import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import { formatGenerated } from "./format-generated.mjs";
 import { globSync } from "glob";
 
