@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 10
   weight: 3
-  value: 24
+  value: 25
   heft: 10
   weaponType: Flail
   strikeModes:

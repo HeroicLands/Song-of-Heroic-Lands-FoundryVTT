@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Rawhide
   material: Leather
   durability: 11
-  value: 88
+  value: 90
   weight: 3.5
   encumbrance: 0
   perceptionPenaltyBase: 0
