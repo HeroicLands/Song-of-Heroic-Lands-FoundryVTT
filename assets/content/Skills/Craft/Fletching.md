@@ -70,6 +70,12 @@ Composite bows are sinew-backed, which is why they call for Hideworking; the mon
 
 **Arrowheads** may be bought in rather than forged. If they are, the Metalcraft Secondary Modifier derives from the smith's Mastery Level rather than the fletcher's — cost doubles, crafting time halves.
 
+**Spent projectiles** are maintained, not repaired. A recovered shaft is not a damaged article to be put right under the [[doc-crafting#craft-repair|repair]] rules — those restore a rating, and a projectile carries none — and the work divides in two.
+
+**Maintenance** is the nightly business of anyone who shoots: shafts straightened over the knee or a warm stone, heads re-seated and re-bound, stripped fletching replaced from the quills in the case. A dozen damaged shafts are made serviceable again in about **two hours**, at no cost in materials. This is not the trade and does not require it — a character with no Fletching Mastery Level may do it at an Effective Mastery Level equal to **three times their Fletching [[doc-mstrylvl#skill-base|Skill Base]]**, the same allowance a crossbow gives an untrained shooter. A fletcher is quicker and wastes less; everyone else manages.
+
+**Re-making** is bench work. A shaft broken past straightening is stock — the head is worth salvaging, the nock and the fletching are not — and a dozen such are worked back into projectiles at the **time listed above and no cost in materials**. That saving is smaller than it looks, since the head is the cheap part of an arrow and the labour very nearly the rest of it, so re-making is barely quicker than starting fresh. It is worth doing because the materials are already paid for and already in hand, which on campaign counts for more than the pence.
+
 **Bullets and slings** fall under the same trade in practice but different skills on the bench: lead bullets are a Metalcraft Success Value test, a sling a Hideworking one, a staff sling Hideworking (Woodworking). **Crossbow spanners** are a Metalcraft Success Value test, and each masterwork modifier on a spanner increases the user's effective draw by 10%.
 
 | Item          | Cost | Time | Pull | Success Value test |
