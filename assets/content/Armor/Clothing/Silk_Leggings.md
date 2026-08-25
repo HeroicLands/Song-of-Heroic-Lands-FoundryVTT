@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Silk
   material: Cloth
   durability: 7
-  value: 324
+  value: 325
   weight: 0.9
   encumbrance: 0
   perceptionPenaltyBase: 0

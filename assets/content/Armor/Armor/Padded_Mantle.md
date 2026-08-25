@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Padded
   material: Padded
   durability: 10
-  value: 42
+  value: 45
   weight: 1.7
   encumbrance: 0
   perceptionPenaltyBase: 0

@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Buckram
   material: Cloth
   durability: 10
-  value: 79
+  value: 80
   weight: 4
   encumbrance: 0
   perceptionPenaltyBase: 0
