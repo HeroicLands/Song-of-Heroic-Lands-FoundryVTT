@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Linen
   material: Cloth
   durability: 5
-  value: 23
+  value: 25
   weight: 0.6
   encumbrance: 0
   perceptionPenaltyBase: 0

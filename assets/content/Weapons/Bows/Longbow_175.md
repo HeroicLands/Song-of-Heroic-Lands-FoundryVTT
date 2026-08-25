@@ -20,7 +20,7 @@ sohl:
   archetype: 0
   durability: 11
   weight: 4
-  value: 81
+  value: 85
   heft: 14
   weaponType: Bow
   strikeModes:

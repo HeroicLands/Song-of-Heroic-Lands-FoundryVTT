@@ -21,8 +21,8 @@ sohl:
   subType: arrow
   quality: 0
   durability: 10
-  value: 0.22
-  weight: 1.25
+  value: 1.5
+  weight: 0.125
   impact:
     die: 6
     modifier: -1

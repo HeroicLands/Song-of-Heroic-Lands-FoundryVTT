@@ -22,7 +22,7 @@ sohl:
   detailMaterial: Homespun
   material: Cloth
   durability: 5
-  value: 10.5
+  value: 11
   weight: 0.4
   encumbrance: 0
   perceptionPenaltyBase: 0
