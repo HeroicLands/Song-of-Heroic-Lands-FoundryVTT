@@ -42,20 +42,22 @@ A piece is made by the common [[doc-crafting|crafting routine]] — workshop, ex
 
 Without the second term a piece of base metal would be worth almost nothing, since the work in a copper chain is the same work as in a silver one. Most pieces are also set with **1d6** cut stones, each adding the **square of its weight in carats** times the stone's listed value. An eight-carat pearl is therefore worth 640d, which is why weight matters so much more than count.
 
-| Material     | Per oz | Stone         | Carats | Value |
-| ------------ | ------ | ------------- | ------ | ----- |
-| Amber        | 50d    | Agate         | 3d6    | 10d   |
-| Bone or horn | 1d     | Amber         | 3d6    | 2d    |
-| Brass        | 0.25d  | Diamond       | 1d6    | 800d  |
-| Bronze       | 0.16d  | Emerald       | 1d6    | 700d  |
-| Copper       | 0.13d  | Opal          | 3d6    | 80d   |
-| Glass        | 6d     | Pearl         | 3d6    | 10d   |
-| Gold         | 300d   | Quartz        | 3d6    | 5d    |
-| Ivory        | 16d    | Ruby          | 1d6    | 1000d |
-| Jade         | 500d   | Sapphire      | 1d6    | 900d  |
-| Pewter       | 0.19d  | Topaz, yellow | 1d6    | 600d  |
-| Silver       | 25d    |               |        |       |
-| Truesilver   | 750d   |               |        |       |
-| Wood         | 0.25d  |               |        |       |
+| Material        | Per oz | Stone         | Carats | Value |
+| --------------- | ------ | ------------- | ------ | ----- |
+| Amber           | 50d    | Agate         | 3d6    | 10d   |
+| Bone or horn    | 1d     | Amber         | 3d6    | 2d    |
+| Brass           | 0.25d  | Diamond       | 1d6    | 800d  |
+| Bronze          | 0.16d  | Emerald       | 1d6    | 700d  |
+| Copper          | 0.13d  | Opal          | 3d6    | 80d   |
+| Glass           | 6d     | Pearl         | 3d6    | 10d   |
+| Gold            | 300d   | Quartz        | 3d6    | 5d    |
+| Ivory           | 16d    | Ruby          | 1d6    | 1000d |
+| Jade            | 500d   | Sapphire      | 1d6    | 900d  |
+| Leather, tanned | 0.83d  | Topaz, yellow | 1d6    | 600d  |
+| Linen cloth     | 0.67d  |               |        |       |
+| Pewter          | 0.19d  |               |        |       |
+| Silver          | 25d    |               |        |       |
+| Truesilver      | 750d   |               |        |       |
+| Wood            | 0.25d  |               |        |       |
 
 One ounce is 142 carats.
