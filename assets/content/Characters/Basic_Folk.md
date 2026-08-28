@@ -517,128 +517,110 @@ sohl:
   items:
     - shortcode: archery
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
     - shortcode: awar
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: chrm
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: clmb
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: cmd
       type: skill
-      system:
-        masteryLevelBase: 20
+      initSkillMult: 2
     - shortcode: cook
       type: skill
-      system:
-        masteryLevelBase: 20
+      initSkillMult: 2
     - shortcode: dnce
       type: skill
-      system:
-        masteryLevelBase: 20
+      initSkillMult: 2
     - shortcode: dscr
       type: skill
-      system:
-        masteryLevelBase: 20
+      initSkillMult: 2
     - shortcode: draw
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
     - shortcode: folklr
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
     - shortcode: guil
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: init
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: shok
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: intr
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: jump
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: melee
       type: skill
-      system:
-        masteryLevelBase: 20
+      initSkillMult: 2
     - shortcode: dge
       type: skill
-      system:
-        masteryLevelBase: 20
+      initSkillMult: 2
     - shortcode: pysn
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
     - shortcode: ridg
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
     - shortcode: sing
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: stlth
       type: skill
-      system:
-        masteryLevelBase: 30
+      initSkillMult: 3
     - shortcode: srvl
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
+    - shortcode: spirit
+      type: skill
+      initSkillMult: 3
     - shortcode: swim
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
     - shortcode: thtcs
       type: skill
-      system:
-        masteryLevelBase: 10
+      initSkillMult: 1
     - shortcode: thro
       type: skill
-      system:
-        masteryLevelBase: 20
-    - shortcode: sprt
-      type: mysticalability
-      system:
-        masteryLevelBase: 30
-    - shortcode: pence
-      type: miscgear
-      system:
-        quantity: 1
+      initSkillMult: 2
     - shortcode: bflkbite
       type: skill
+      initSkillMult: 2
     - shortcode: bflkgrab
       type: skill
+      initSkillMult: 2
     - shortcode: bflkheadbutt
       type: skill
+      initSkillMult: 2
     - shortcode: bflkkick
       type: skill
+      initSkillMult: 2
     - shortcode: limbblock
       type: skill
+      initSkillMult: 2
     - shortcode: press
       type: skill
+      initSkillMult: 2
     - shortcode: bflkpunch
       type: skill
+      initSkillMult: 2
     - shortcode: trip
       type: skill
+      initSkillMult: 2
+    - shortcode: sprt
+      type: mysticalability
+    - shortcode: pence
+      type: miscgear
 ---
 
 <!-- The contents of the header with id "appearance" (and all sub-headers and contents) will  be written to the appearance property of the actor, and the contents of the header with id "dossier" (and all sub-headers and contents) will be written to the dossier property of the actor. To ensure least trouble, these should both be H1 headers. All other markdown text will be ignored when converting the note to a character. -->

@@ -14,7 +14,7 @@ package: sohl
 sohl:
   kbcat: mystical
   archetype: 0
-  subType: ritual
+  subType: mystical
   skillBaseFormula: "sb(attr.wil, attr.rea)"
   combatCategory: none
   parentSkillCode: ""
