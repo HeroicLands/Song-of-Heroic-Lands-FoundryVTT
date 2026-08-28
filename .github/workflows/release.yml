@@ -43,7 +43,7 @@ jobs:
             # When changesets are pending, this opens (or updates) the
             # "Version Packages" PR that bumps the version and rewrites
             # CHANGELOG.md. When that PR is merged, the changesets are gone, so
-            # this step is a no-op and `hasChangesets` is false — which is the
+            # this step is a no-op and `has-changesets` is false — which is the
             # signal that a freshly-versioned commit just landed on main.
             - name: Create or update the Version Packages PR
               id: changesets
@@ -72,9 +72,16 @@ jobs:
             # Release only when the Version PR has merged: no changesets remain
             # AND the current package version has not already been tagged. This
             # makes the job idempotent — ordinary pushes to main never release.
+            #
+            # The output is `has-changesets`, kebab-case: changesets/action v2
+            # renamed it from v1's `has-changesets`. Reading the old name yields
+            # an empty string, `'' == 'false'` is false, and every release step
+            # below is skipped forever — the workflow runs green and cuts
+            # nothing. Bracket notation is required too, because a hyphen in a
+            # property name is parsed as subtraction.
             - name: Decide whether to release
               id: decide
-              if: steps.changesets.outputs.hasChangesets == 'false'
+              if: steps.changesets.outputs['has-changesets'] == 'false'
               run: |
                   VERSION=$(node -p "require('./package.json').version")
                   TAG="v$VERSION"
