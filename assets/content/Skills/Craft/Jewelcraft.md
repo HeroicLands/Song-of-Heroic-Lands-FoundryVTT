@@ -45,15 +45,16 @@ Without the second term a piece of base metal would be worth almost nothing, sin
 | Material        | Per oz | Stone         | Carats | Value |
 | --------------- | ------ | ------------- | ------ | ----- |
 | Amber           | 50d    | Agate         | 3d6    | 10d   |
-| Bone or horn    | 1d     | Amber         | 3d6    | 2d    |
+| Bone            | 1d     | Amber         | 3d6    | 2d    |
 | Brass           | 0.25d  | Diamond       | 1d6    | 800d  |
 | Bronze          | 0.16d  | Emerald       | 1d6    | 700d  |
 | Copper          | 0.13d  | Opal          | 3d6    | 80d   |
 | Glass           | 6d     | Pearl         | 3d6    | 10d   |
 | Gold            | 300d   | Quartz        | 3d6    | 5d    |
-| Ivory           | 16d    | Ruby          | 1d6    | 1000d |
-| Jade            | 500d   | Sapphire      | 1d6    | 900d  |
-| Leather, tanned | 1.04d  | Topaz, yellow | 1d6    | 600d  |
+| Horn            | 2d     | Ruby          | 1d6    | 1000d |
+| Ivory           | 16d    | Sapphire      | 1d6    | 900d  |
+| Jade            | 500d   | Topaz, yellow | 1d6    | 600d  |
+| Leather, tanned | 1.04d  |               |        |       |
 | Linen cloth     | 0.67d  |               |        |       |
 | Pewter          | 0.19d  |               |        |       |
 | Silk            | 7.5d   |               |        |       |
