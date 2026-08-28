@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Kip (large calf)"
   aliases: []
-description: "Large calf hide between calf and steer; splits into shoe-sole and vamp."
+description: "Large calf hide between calf and steer; splits into shoe-sole and vamp. Price is for one whole skin."
 id: 1kJVHXuzWJF18aBd
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidekiplar

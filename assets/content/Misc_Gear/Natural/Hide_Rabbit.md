@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Rabbit"
   aliases: []
-description: "Tiny soft fur pelt; lined winter hoods and muffs by furriers."
+description: "Tiny soft fur pelt; lined winter hoods and muffs by furriers. Price is for one whole skin."
 id: WdE1i0tIq2EUjIo4
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hiderabbit

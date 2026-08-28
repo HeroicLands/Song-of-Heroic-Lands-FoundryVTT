@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Reindeer"
   aliases: []
-description: "Thick northern hide; salted, dried, water-resistant; arctic cloaks."
+description: "Thick northern hide; salted, dried, water-resistant; arctic cloaks. Price is for one whole skin."
 id: 9n4GUpB7HjBkHnCP
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidereinde

@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Sheep"
   aliases: []
-description: "Sturdy dried hide; yields suede for jerkins or tanned leather bookbindings."
+description: "Sturdy dried hide; yields suede for jerkins or tanned leather bookbindings. Price is for one whole skin."
 id: Utci3PodxcF5ZJo3
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidesheep

@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Otter/Weasel"
   aliases: []
-description: "Riverland otter-weasel pelt; dense guard hair sheds water; lining and collar facing."
+description: "Riverland otter-weasel pelt; dense guard hair sheds water; lining and collar facing. Price is for one whole skin."
 id: 3yI8J6wytWi6sQT2
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideotterw
