@@ -11,7 +11,7 @@ raw ingot cost what a pound of finished mail cost, which leaves nothing for the
 smith on an item that is almost entirely smith-work.
 
 The scale also disagreed with itself. Container prices were calibrated against
-Phillip McGregor's *Orbis Mundi 2: The Marketplace* on the grounds that this
+Phillip McGregor's _Orbis Mundi 2: The Marketplace_ on the grounds that this
 system and that book share a denier. Measured the same way, gold and silver
 already agreed with that reference within a few percent, while the base metals
 sat some fifteen to seventeen times above it — which put silver at 12.5 times

@@ -21,7 +21,7 @@ sohl:
   archetype: 0
   quality: 0
   durability: 7
-  value: 240
+  value: 300
   weight: 0.0625
 folder: TV3IMHs8SLZ1L1vv
 ---

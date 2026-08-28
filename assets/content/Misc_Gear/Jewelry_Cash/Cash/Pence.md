@@ -22,7 +22,7 @@ sohl:
   quality: 0
   durability: 3
   value: 1
-  weight: 0.004
+  weight: 0.0025
 folder: TV3IMHs8SLZ1L1vv
 ---
 
