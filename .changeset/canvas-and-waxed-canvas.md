@@ -74,5 +74,19 @@ all ten but `origValue` and `weight` still hold Rawhide's figures, which leaves 
 Vest heavier than an Ermine Shirt. It is the same shape of fault as the Mail/Scale copy
 already fixed, and wants the table rather than a derivation.
 
+Also adds two silk containers — **Belt pouch, silk, sm** (`bpchsmslk`, 1.5 capacity, 432d,
+0.3 lb) and **Belt pouch, silk, med** (`bpchmdslk`, 3 capacity, 864d, 0.6 lb), both
+durability 1. Both are scaled by capacity from `Purse, silk`, the only silk container in
+the tree, which is 288d / 0.2 lb at capacity 1.
+
+_That anchor is worth a second opinion._ The Containers tree has no coherent price model
+to derive from — `Bag, lg, canvas` and `Sack, canvas, 20 lb` are both canvas at capacity
+20 and are priced 8d and 60d — and `Purse, silk` sits two orders of magnitude above the
+leather belt pouches it most resembles (2d, 4d, 8d). Anchoring on the silk purse keeps the
+silk items consistent with each other; anchoring on the leather pouch line and applying the
+armour tree's silk premium (Silk ÷ Leather is ×1.125 by value) would instead give 2d and
+5d. The first was chosen because material consistency is the principle used everywhere else
+here, but the two readings differ by roughly 200×, and only the table settles it.
+
 No code change: `detailMaterial` is a free-form content field with no enum, registry or
 localization key behind it.
