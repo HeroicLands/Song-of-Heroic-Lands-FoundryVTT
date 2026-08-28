@@ -614,22 +614,35 @@ sohl:
       type: miscgear
       system:
         quantity: 2
+    - shortcode: spirit
+      type: skill
+      initSkillMult: 3
     - shortcode: bflkbite
       type: skill
+      initSkillMult: 2
     - shortcode: bflkgrab
       type: skill
+      initSkillMult: 2
     - shortcode: bflkheadbutt
       type: skill
+      initSkillMult: 2
     - shortcode: bflkkick
       type: skill
+      initSkillMult: 2
     - shortcode: limbblock
       type: skill
+      initSkillMult: 2
     - shortcode: press
       type: skill
+      initSkillMult: 2
     - shortcode: bflkpunch
       type: skill
+      initSkillMult: 2
     - shortcode: trip
       type: skill
+      initSkillMult: 2
+    - shortcode: sprt
+      type: mysticalability
 ---
 
 # Appearance {#appearance}
