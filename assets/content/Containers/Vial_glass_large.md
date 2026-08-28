@@ -20,7 +20,7 @@ sohl:
   quality: 0
   durability: 2
   maxCapacity: 0.5
-  value: 4
+  value: 8
   weight: 1.25
 folder: dl8lJ729W1mFlDvt
 ---
