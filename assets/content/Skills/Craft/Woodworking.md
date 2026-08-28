@@ -38,19 +38,21 @@ Woodwork is made by the common [[doc-crafting|crafting routine]] — workshop, e
 
 **Test.** A Woodworking Success Value test, read on the standard ladder. A **[d]** marks a decorative piece; weapons **[w]** are made by the [[docskill-wpnc#crafting|weaponmaking]] routine instead.
 
-| Item                       | lb  | Price | Item           | lb  | Price |
-| -------------------------- | --- | ----- | -------------- | --- | ----- |
-| Barrel, 10 gallon          | 30  | 12d   | Club [w]       | 3   | 12d   |
-| Barrel, 50 gallon          | 90  | 36d   | Cup, wooden    | 1   | 3d    |
-| Bed, single                | 85  | 48d   | Grainflail [w] | 2   | 12d   |
-| Bench                      | 22  | 18d   | Ladder, 8 ft   | 19  | 6d    |
-| Box, wooden, 12 x 8 x 6 in | 3   | 2d    | Maul [w]       | 7   | 24d   |
-| Bucket, wooden, 3 gallon   | 10  | 8d    | Staff [w]      | 3   | 36d   |
-| Cabinet                    | 60  | 144d  | Table          | 47  | 36d   |
-| Cage, wooden, large        | 40  | 15d   | Trunk, wooden  | 40  | 12d   |
-| Cage, wooden, small        | 4   | 7d    | Wheel          | 20  | 18d   |
-| Chair                      | 7   | 12d   | Wheelbarrow    | 24  | 10d   |
-| Chest, wooden              | 24  | 18d   | Yoke, ox       | 2   | 3d    |
+| Item                       | lb   | Price | Item             | lb   | Price |
+| -------------------------- | ---- | ----- | ---------------- | ---- | ----- |
+| Amulet, wooden             | 0.06 | 4d    | Cup, wooden      | 1    | 3d    |
+| Barrel, 10 gallon          | 30   | 12d   | Earrings, wooden | 0.01 | 2d    |
+| Barrel, 50 gallon          | 90   | 36d   | Grainflail [w]   | 2    | 12d   |
+| Bed, single                | 85   | 48d   | Ladder, 8 ft     | 19   | 6d    |
+| Bench                      | 22   | 18d   | Maul [w]         | 7    | 24d   |
+| Box, wooden, 12 x 8 x 6 in | 3    | 2d    | Necklace, wooden | 0.15 | 8d    |
+| Bucket, wooden, 3 gallon   | 10   | 8d    | Ring, wooden     | 0.02 | 2d    |
+| Cabinet                    | 60   | 144d  | Staff [w]        | 3    | 36d   |
+| Cage, wooden, large        | 40   | 15d   | Table            | 47   | 36d   |
+| Cage, wooden, small        | 4    | 7d    | Trunk, wooden    | 40   | 12d   |
+| Chair                      | 7    | 12d   | Wheel            | 20   | 18d   |
+| Chest, wooden              | 24   | 18d   | Wheelbarrow      | 24   | 10d   |
+| Club [w]                   | 3    | 12d   | Yoke, ox         | 2    | 3d    |
 
 **Vehicles.** A wagon or a cart is not a thing anyone carries, and is not tracked as a possession the way the articles above are. The wright's figures are given here for the cost of building one.
 
