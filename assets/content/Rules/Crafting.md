@@ -53,7 +53,9 @@ Trades state that expense in one of two ways, and each says which it uses:
 - **Per article.** A table gives the cost and the hours for each thing the trade makes — a dagger, a horseshoe, a saddle.
 - **By price.** Cost and time are derived from what the finished article sells for, at a rate the trade gives — so many hours or days per so much of the sale price, at so much a day in materials.
 
-The expense is what the work costs when it goes normally. A [[#craft-result|Critical Failure]] adds to the time, and [[#fast-crafting|fast crafting]] takes some of it away.
+**Cast work takes a quarter longer.** Where an article is founded rather than worked — melted, poured into a mould and then finished — add a quarter to the time the trade gives. Bronze, brass and pewter are cast; copper, silver, gold and iron are raised, drawn and hammered. This applies to every craft, whether or not the trade's own entry mentions it, and a trade that already prices its cast and wrought articles separately says so.
+
+The expense is what the work costs when it goes normally. A [[#craft-result|Critical Failure]] adds to the time, [[#fast-crafting|fast crafting]] takes some of it away, and casting adds to it as above.
 
 # The Test {#craft-test}
 

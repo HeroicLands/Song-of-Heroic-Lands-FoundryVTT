@@ -38,7 +38,7 @@ A piece is made by the common [[doc-crafting|crafting routine]] — workshop, ex
 
 **Test.** A Jewelcraft Success Value test, read on the standard ladder, fixes the quality of the piece.
 
-**Price.** A finished piece is worth its metal and the work in it, rounded to the penny. The **metal** is the weight of the base form times the price per ounce of its material. The **work** is **6d for every day at the bench**, reckoned as above — a day to the ounce, and never less than a day, so a ring is a day's work whatever it weighs. The metal is the jeweller's own outlay; the rest is his time. **Cast metals take a quarter longer** — bronze, brass and pewter must be founded, moulded and finished, where copper, silver and gold are raised and worked at the bench.
+**Price.** A finished piece is worth its metal and the work in it, rounded to the penny. The **metal** is the weight of the base form times the price per ounce of its material. The **work** is **6d for every day at the bench**, reckoned as above — a day to the ounce, and never less than a day, so a ring is a day's work whatever it weighs. The metal is the jeweller's own outlay; the rest is his time. Bronze, brass and pewter are founded rather than raised, so a piece in them takes the [[doc-crafting#craft-expense|quarter longer that cast work takes]].
 
 Without the second term a piece of base metal would be worth almost nothing, since the work in a copper chain is the same work as in a silver one. Most pieces are also set with **1d6** cut stones, each adding the **square of its weight in carats** times the stone's listed value. An eight-carat pearl is therefore worth 640d, which is why weight matters so much more than count.
 
