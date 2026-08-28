@@ -22,7 +22,7 @@ sohl:
   quality: 0
   durability: 5
   value: 20
-  weight: 0
+  weight: 1.2
 folder: 0JqxkW5hHZ8XVILm
 ---
 
