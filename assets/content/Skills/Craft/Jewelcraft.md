@@ -56,5 +56,6 @@ Without the second term a piece of base metal would be worth almost nothing, sin
 | Pewter       | 0.19d  | Topaz, yellow | 1d6    | 600d  |
 | Silver       | 25d    |               |        |       |
 | Truesilver   | 750d   |               |        |       |
+| Wood         | 0.25d  |               |        |       |
 
 One ounce is 142 carats.
