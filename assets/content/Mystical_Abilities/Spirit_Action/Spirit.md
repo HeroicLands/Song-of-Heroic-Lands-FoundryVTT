@@ -15,7 +15,7 @@ sohl:
   kbcat: spiritaction
   archetype: 0
   subType: spiritaction
-  assocSkillCode: ""
+  assocSkillCode: spirit
   assocMysteryCode: ""
   levelBase: 0
   masteryLevelBase: 0
