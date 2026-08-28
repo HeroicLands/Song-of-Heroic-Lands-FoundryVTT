@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Elk"
   aliases: []
-description: "Thick durable elk hide; heavy leather for armor backing and saddles."
+description: "Thick durable elk hide; heavy leather for armor backing and saddles. Price is for one whole skin."
 id: xxp9kNeJ5fXzxJqb
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideelk
@@ -21,7 +21,7 @@ sohl:
   archetype: 0
   quality: 0
   durability: 3
-  value: 0
+  value: 10
   weight: 5
 folder: 0JqxkW5hHZ8XVILm
 ---

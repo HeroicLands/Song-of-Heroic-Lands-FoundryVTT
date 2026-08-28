@@ -7,7 +7,7 @@ tags:
 name:
   full: Brass
   aliases: []
-description: "Copper-and-tin alloy resistant to corrosion; merchants trade ingots by weight."
+description: "Copper-and-zinc alloy resistant to corrosion; merchants trade ingots by weight."
 id: p0tv5i6QrzL1Agtc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: brass
@@ -21,9 +21,9 @@ sohl:
   archetype: 0
   quality: 0
   durability: 3
-  value: 1
-  weight: 0.0625
+  value: 4
+  weight: 1
 folder: 3YyFU1QkTs2yFq5t
 ---
 
-Brass, an alloy of copper and tin, beaten and worked into ingots or raw lumps by the metalsmith. It resists corrosion better than pure copper, making it favored for vessels, buckles, and ornamental work. Merchants trade brass in small measured portions by weight, and scrap brass finds its way to foundries and tinkers across every realm.
+Brass, an alloy of copper and zinc, beaten and worked into ingots or raw lumps by the metalsmith. It resists corrosion better than pure copper, making it favored for vessels, buckles, and ornamental work. Merchants trade brass in small measured portions by weight, and scrap brass finds its way to foundries and tinkers across every realm.

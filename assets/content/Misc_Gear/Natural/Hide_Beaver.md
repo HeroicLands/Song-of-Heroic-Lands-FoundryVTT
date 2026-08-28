@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Beaver"
   aliases: []
-description: "Beaver pelt with dense underfur and waterproof guard hairs; cloaks, winter garments."
+description: "Beaver pelt with dense underfur and waterproof guard hairs; cloaks, winter garments. Price is for one whole skin."
 id: 21lNzznQTTqz5Dg8
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidebeaver

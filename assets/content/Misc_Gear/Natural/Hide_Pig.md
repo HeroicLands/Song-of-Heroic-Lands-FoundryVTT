@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Pig"
   aliases: []
-description: "Hog hide thicker than sheep; moderately soft leather for gloves and belts."
+description: "Hog hide thicker than sheep; moderately soft leather for gloves and belts. Price is for one whole skin."
 id: zIR2o3q5Rx3qisCg
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidepig

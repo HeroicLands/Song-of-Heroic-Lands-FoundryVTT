@@ -7,7 +7,7 @@ tags:
 name:
   full: Gold Crown
   aliases: []
-description: "Royal-sealed gold coin; preferred exchange of merchants, nobles, realm foundation."
+description: "Royal-sealed coin of alloyed gold; the great coin of merchants, nobles and the crown."
 id: ExbuiNKETmm6MxHv
 img: icons/game-icons/badges/coins.svg
 shortcode: gldcrwn
@@ -21,9 +21,11 @@ sohl:
   archetype: 0
   quality: 0
   durability: 7
-  value: 240
-  weight: 0.0625
+  value: 35
+  weight: 0.0077
 folder: TV3IMHs8SLZ1L1vv
 ---
 
-A gold coin stamped with the royal seal, the currency of commerce and payment across the realm. The coin's weight and fineness guarantee its value in any market, making it the preferred exchange of merchants, nobles, and the crown itself. Counterfeiters face swift justice, ensuring that each crown maintains its standing.
+A gold coin stamped with the royal seal, the currency of commerce and of any payment too large to count out in silver. It is the preferred exchange of merchants, nobles, and the crown itself, and counterfeiters face swift justice.
+
+Like the pence it is not the pure metal. The crown is struck from alloyed gold — harder than the fine metal, and the better for it, since a coin of pure gold wears away in the purse. The mint takes its charge for striking, so the coin passes for slightly more than the gold in it is worth. A crown is thirty-five pence, and is weighed rather than counted where the issuing realm is not trusted.

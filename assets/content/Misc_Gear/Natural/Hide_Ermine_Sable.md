@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Ermine/Sable"
   aliases: []
-description: "Small pelt of stoat or marten; snow-white or dark fur for cloak-trim."
+description: "Small pelt of stoat or marten; snow-white or dark fur for cloak-trim. Price is for one whole skin."
 id: 5e4HPnC1RcbhChnn
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideermine

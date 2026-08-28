@@ -7,7 +7,7 @@ tags:
 name:
   full: "Hide, Exotic"
   aliases: []
-description: "Rare distant pelts: crocodile, ostrich, tiger, python; premium prices for noble collectors."
+description: "Rare distant pelts: crocodile, ostrich, tiger, python; premium prices for noble collectors. Price is for one whole skin."
 id: HnjQXdxSNuQdvbxj
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideexotic
@@ -22,7 +22,7 @@ sohl:
   quality: 0
   durability: 3
   value: 120
-  weight: 0
+  weight: 22
 folder: 0JqxkW5hHZ8XVILm
 ---
 
