@@ -21,7 +21,7 @@ sohl:
   archetype: 0
   quality: 0
   durability: 4
-  value: 0.075
+  value: 6
   weight: 0.03
 folder: 3YyFU1QkTs2yFq5t
 ---
