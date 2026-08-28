@@ -24,29 +24,29 @@ documented analogue occupies.
 **The error ran in both directions, which is why no single rate could have found it.**
 Soft carried goods were far too dear:
 
-| Article | was | now | analogue |
-| ------- | --: | --: | -------- |
-| Sack, canvas, 20 lb | 60 | 0.75 | canvas sack, 20 lb capacity |
-| Sack, canvas, 50 lb | 120 | 1.5 | canvas sack, scaled |
-| Pouch, buckram | 30 | 0.5 | canvas purse |
-| Bag, 15 lb, leather | 48 | 2 | leather sack, small–medium |
-| Arrow bag | 216 | 6 | bolt/quarrel case |
-| Waterskin, 2qt. | 24 | 2 | waterskin, larger size |
-| Purse, silk | 288 | 24 | fine leather purse × the armour tree's silk premium |
-| Backpack | 30 | 8 | leather backpack, medium |
-| Paper case, leather | 60 | 12 | above a large leather satchel |
+| Article             | was |  now | analogue                                            |
+| ------------------- | --: | ---: | --------------------------------------------------- |
+| Sack, canvas, 20 lb |  60 | 0.75 | canvas sack, 20 lb capacity                         |
+| Sack, canvas, 50 lb | 120 |  1.5 | canvas sack, scaled                                 |
+| Pouch, buckram      |  30 |  0.5 | canvas purse                                        |
+| Bag, 15 lb, leather |  48 |    2 | leather sack, small–medium                          |
+| Arrow bag           | 216 |    6 | bolt/quarrel case                                   |
+| Waterskin, 2qt.     |  24 |    2 | waterskin, larger size                              |
+| Purse, silk         | 288 |   24 | fine leather purse × the armour tree's silk premium |
+| Backpack            |  30 |    8 | leather backpack, medium                            |
+| Paper case, leather |  60 |   12 | above a large leather satchel                       |
 
 While rigid strongboxes, chests and blown glass were too cheap:
 
-| Article | was | now | analogue |
-| ------- | --: | --: | -------- |
-| Trunk, wooden | 12 | 90 | wooden chest, 40 lb |
-| Lockbox, large | 24 | 150 | between a wooden coffer and a small iron-bound lockbox |
-| Lockbox, small | 12 | 72 | wooden coffer, 5 lb |
-| Chest, wooden | 18 | 54 | wooden chest, 20 lb |
-| Cauldron, Iron | 30 | 72 | small cauldron, scaled to 30 lb |
-| Bottle, glass, medium | 10 | 30 | medium glass bottle |
-| Bottle, glass, small | 6 | 12 | small glass bottle |
+| Article               | was | now | analogue                                               |
+| --------------------- | --: | --: | ------------------------------------------------------ |
+| Trunk, wooden         |  12 |  90 | wooden chest, 40 lb                                    |
+| Lockbox, large        |  24 | 150 | between a wooden coffer and a small iron-bound lockbox |
+| Lockbox, small        |  12 |  72 | wooden coffer, 5 lb                                    |
+| Chest, wooden         |  18 |  54 | wooden chest, 20 lb                                    |
+| Cauldron, Iron        |  30 |  72 | small cauldron, scaled to 30 lb                        |
+| Bottle, glass, medium |  10 |  30 | medium glass bottle                                    |
+| Bottle, glass, small  |   6 |  12 | small glass bottle                                     |
 
 The leather belt pouches were right all along at 2d and 4d, and are unchanged; the large
 one moves 8 → 6 to sit inside the fine-leather-purse band. Ceramic was already sound and
