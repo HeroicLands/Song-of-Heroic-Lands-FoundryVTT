@@ -697,7 +697,6 @@ sohl:
       initSkillMult: 2
     - shortcode: sprt
       type: mysticalability
-
 ---
 
 # Appearance {#appearance}
