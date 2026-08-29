@@ -21,9 +21,11 @@
 # transcribed one froze at `0.6.0` for four releases (#1548). Authoring any of
 # them is an error, not an override.
 
-# The distribution unit a note declares in its `package:` frontmatter. The pack
-# compilers select their entries by it, and it is stable across compilation
-# targets.
+# The distribution unit every note in this tree belongs to. A note used to
+# declare its own in `package:` frontmatter; that field is retired and now a
+# hard build error (package-build#56), so this is the single source of a note's
+# package — the tree compiles as one unit, and membership is a property of the
+# repository rather than of the note.
 contentPackage: sohl
 
 # The Foundry package the packs ship in — the `id` in
@@ -359,9 +361,13 @@ publish:
 # so the two cannot disagree about where a page is.
 site:
     out: kb/content
-    # Both packages are rendered here: this repository publishes the `sohl`
-    # knowledgebase, and a `thalorna` note filed in this tree renders beside it.
-    packages: [sohl, thalorna]
+    # `packages:` is absent deliberately, and absent means `[contentPackage]` —
+    # exactly the pages this repository compiles. It used to name `thalorna`
+    # alongside `sohl`, from when a note declared its own package and a foreign
+    # one filed here would render beside the local ones. `package:` is retired
+    # (#1745, package-build#56), so every note in this tree is `sohl` by
+    # construction: naming a second package selects nothing, and nothing can
+    # make it select anything (#1753).
     backfillSections: true
     landing: { title: Knowledgebase, type: knowledgebase }
     # This repository's own body rewrites: `{@link}` against the TypeDoc symbol
