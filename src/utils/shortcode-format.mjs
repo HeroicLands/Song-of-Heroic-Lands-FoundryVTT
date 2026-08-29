@@ -56,19 +56,36 @@ export function isValidShortcode(value) {
 
 /**
  * Reduce a shortcode to the characters the rule allows, **preserving case** —
- * `B&CFl` → `BCFl`, `self-pro` → `selfpro`.
+ * `B&CFl` → `BCFl`, `self-pro` → `selfpro`, `Tabûri` → `Taburi`.
  *
  * This is the repair used where rejecting is not an option (the world migration,
  * and a create that opted into `shortcodeDedupe`). It differs from
- * `slugifyShortcode` (`src/utils/helpers.ts`), which lowercases as well because
- * it derives a *new* key from a display name; here an existing key is being
- * kept as recognizable as possible.
+ * `slugifyShortcode` (`src/utils/helpers.ts`), which lowercases and abbreviates
+ * as well because it derives a *new* key from a display name; here an existing
+ * key is being kept as recognizable as possible.
+ *
+ * **A letter is spelled, not deleted.** The value is carried into ASCII by
+ * {@link toAsciiLetters} before anything is dropped, so an accented letter folds
+ * (`û` → `u`) and a letter with no mark to separate is written out
+ * (`Æ` → `AE`). Deleting instead would change *which entity the key names*:
+ * `(type, shortcode)` is a logical identity, so repairing `Tabûri` to `Tabri`
+ * stops the document matching the compendium entry it came from, silently and
+ * irreversibly (issue #1748). Folding is a no-op on an ASCII key, so the
+ * punctuation repairs above are unchanged.
+ *
+ * What the fold cannot carry into a letter or digit is still dropped: a vulgar
+ * fraction has no canonical decomposition, so `Kûrbúl ¾-Helm` repairs to
+ * `KurbulHelm`.
  *
  * @param {unknown} value - the shortcode to repair.
  * @returns {string} the alphanumeric residue (`""` when nothing survives).
  */
 export function sanitizeShortcode(value) {
-    return typeof value === "string" ? value.replace(/[^A-Za-z0-9]+/g, "") : "";
+    return typeof value === "string" ?
+            // `toAsciiLetters` is declared below; the hoisted declaration is what
+            // lets the repair read in the order the reader meets it.
+            toAsciiLetters(value).replace(/[^A-Za-z0-9]+/g, "")
+        :   "";
 }
 
 /**

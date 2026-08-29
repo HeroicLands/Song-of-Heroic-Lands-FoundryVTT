@@ -64,10 +64,23 @@ import a build dependency, so neither copy can be removed;
 `tests/build/shortcode-format-agreement.test.ts` compares them and is the only
 thing that would notice a drift.
 
-Repair, where a violation cannot simply be refused, **strips the offending characters
-and keeps case** — `B&CFl` → `BCFl`, `self-pro` → `selfpro`. That is deliberately not
-`slugifyShortcode`, which also lowercases: that one derives a _new_ key from a display
-name, while a repair keeps an _existing_ identity as recognizable as possible.
+Repair, where a violation cannot simply be refused, **spells every letter it can and
+drops the rest, keeping case** — `B&CFl` → `BCFl`, `self-pro` → `selfpro`,
+`Tabûri` → `Taburi`, `Æthelred` → `AEthelred`. That is deliberately not
+`slugifyShortcode`, which also lowercases and abbreviates: that one derives a _new_ key
+from a display name, while a repair keeps an _existing_ identity as recognizable as
+possible.
+
+Keeping the identity recognizable is why a letter is **folded rather than deleted**.
+`sanitizeShortcode` carries the value into ASCII with `toAsciiLetters` — the same fold
+`slugifyShortcode` uses — before it drops anything, so an accented letter becomes its
+base (`û` → `u`) and a letter with no mark to separate is written out (`Æ` → `AE`,
+`þ` → `th`). Deleting instead changes **which entity the key names**: a document
+repaired from `Tabûri` to `Tabri` no longer matches the compendium entry it came from,
+which the identity semantics above make a silent, irreversible break (issue #1748).
+Folding is a no-op on an ASCII key, so the two punctuation repairs are unaffected; what
+the fold cannot carry into a letter or digit is still dropped, so `Kûrbúl ¾-Helm`
+repairs to `KurbulHelm`.
 
 ### The rule binds the system's own keys too
 
