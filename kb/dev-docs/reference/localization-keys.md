@@ -260,28 +260,44 @@ Anything else — renaming a live key because you prefer the new spelling — is
 the churn rule 4 forbids. Add the correctly-named key and leave the old one alone, or
 file an issue.
 
-`npm run lint:lang-coverage` decides deadness for you and **fails the build** on an
-unreferenced key — see [The guards](#the-guards) for what it can and cannot see, and
-for the one sanctioned way to keep a key it cannot.
+`npm run lint:lang-coverage` decides deadness for you and **reports** an unreferenced
+key without failing the build — see [The guards](#the-guards) for what it can and
+cannot see, and for the one sanctioned way to keep a key it cannot. A report rather
+than a failure because no scan sees every way a key is reached, and a guard that fails
+a build over one teaches everybody to switch it off; a key it _does_ report is still a
+key to delete unless you can say why not.
 
 ## The guards
 
-Three checks run in `npm run lint`, and all three **fail** the build. Between them they
-cover both directions — a key with no string, and a string with no key.
+Three checks run in `npm run lint`, and between them they cover both directions — a key
+with no string, and a string with no key. All three are
+`@heroiclands/package-build`'s, so every HeroicLands package is held to the same rules
+rather than this one running scripts nobody else can run.
 
-| Check                                              | Fails on                                                                                                                                                          |
-| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `lint:lang` (`package-build lang check`)           | A key that is both a leaf and a branch (the `expandObject` collision above); a value using `{{…}}` or an unbalanced brace; a key segment outside `[A-Za-z0-9_-]`. |
-| `lint:lang-coverage` (`check-lang-coverage.mjs`)   | A referenced key missing from `en.json`, **and** an `en.json` key nothing references.                                                                             |
-| `lint:lang-hardcoded` (`check-lang-hardcoded.mjs`) | User-visible English left in a template; a template that fails to compile.                                                                                        |
+| Check                                                  | Fails on                                                                                                                                                          |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lint:lang` (`package-build lang check`)               | A key that is both a leaf and a branch (the `expandObject` collision above); a value using `{{…}}` or an unbalanced brace; a key segment outside `[A-Za-z0-9_-]`. |
+| `lint:lang-coverage` (`package-build lang coverage`)   | A referenced key missing from `en.json`. An `en.json` key nothing references is **reported, not failed** — see above.                                             |
+| `lint:lang-hardcoded` (`package-build lang hardcoded`) | User-visible English left in a template; a template that fails to compile.                                                                                        |
+
+`lint:lang-coverage` prints the first twenty unreferenced keys and says how many more
+there are; `npx package-build lang coverage --unused` lists every one.
 
 ### What `lint:lang-coverage` can and cannot see
 
 It resolves concrete string literals (including keys inside inline HTML in a template
-literal), the keys a **consumed** `defineType` bundle generates, `<PREFIX>.FIELDS.<path>.label|hint`
-for each declared `LOCALIZATION_PREFIXES` entry, and a dynamic construction's **shape**
-— `` `SOHL.X.Month.${i}.label` `` vouches for `SOHL.X.Month.<segment>.label` and nothing
-else.
+literal), `<PREFIX>.FIELDS.<path>.label|hint` for each declared `LOCALIZATION_PREFIXES`
+entry, and a dynamic construction's **shape** — both
+`` `SOHL.X.Month.${i}.label` `` and `(concat "SOHL.X.Month." i)` vouch for
+`SOHL.X.Month.<segment>.label` and nothing else.
+
+The keys a **consumed** `defineType` bundle generates are SoHL's own convention, which
+no shared guard can know. They are contributed by `utils/lang-references.mjs`, named in
+`packageBuild.lang.references` and covered by `tests/build/lang-references.test.ts`. A
+bundle's labels count as consumed when its `labels`/`choices` is destructured into a
+binding that is used, or read as `<result>.labels`/`.choices`; a bundle that yields only
+`kind`/`values` localizes its entries through a dynamic `` `${prefix}.${value}` ``
+instead, so its label keys are a byproduct and need no entry.
 
 What it cannot see is a key built from a **variable** prefix:
 
@@ -294,23 +310,27 @@ title: `${titlePrefix}.${shortcode}`,
 …and keys Foundry reads itself without SoHL ever naming them (`TYPES.Item.*` for the
 sidebar and create dialog).
 
-### `RETAINED` and `ALLOWED` — the escape hatches
+### `retained` and `allow` — the escape hatches
 
-Each guard carries one allowlist, and both take the same shape: a prefix (or literal)
-plus **a reason a reviewer can check**.
+Each guard has one allowlist, and both live in `package-build.config.yaml` under
+`packageBuild.lang`. Both take the same shape: a prefix (or literal) plus **a reason a
+reviewer can check** — the reason is required, not decorative.
 
-- `RETAINED` in `check-lang-coverage.mjs` — keys that are genuinely reachable but
-  invisible to the scan, as above.
-- `ALLOWED` in `check-lang-hardcoded.mjs` — template literals that are not prose (a code
-  sample shown as a placeholder, say).
+- `retained` — keys that are genuinely reachable but invisible to the scan, as above.
+- `allow` — template literals that are not prose (a code sample shown as a placeholder,
+  say).
 
-```js
-const RETAINED = [
-  [
-    "SOHL.Gear.Action.",
-    "Intrinsic action titles built as `${titlePrefix}.${shortcode}` — the prefix is a parameter, so no scan can resolve it.",
-  ],
-];
+```yaml
+packageBuild:
+  lang:
+    retained:
+      - prefix: SOHL.Gear.Action.
+        reason: Intrinsic action titles built as `${titlePrefix}.${shortcode}`
+          — the prefix is a parameter, so no scan can resolve it.
+    allow:
+      - literal: item.system.code === 'pyrn'
+        reason: A SafeExpression example shown as a placeholder — code, not
+          prose.
 ```
 
 **Adding an entry is the exception, not the remedy.** For an unreferenced key the honest

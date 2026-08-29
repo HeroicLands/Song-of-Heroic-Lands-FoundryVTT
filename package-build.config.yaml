@@ -141,6 +141,66 @@ packageBuild:
             kb/dev-docs/reference/localization-keys.md for the placeholder and
             key-segment rules.
 
+        # `primary`, `scripts` and `templates` are absent because this
+        # repository follows the conventional layout the defaults describe:
+        # `lang/en.json`, `src/**/*.{ts,mjs}`, `templates/**/*.hbs`.
+
+        # Stated rather than derived because `TYPE` is a root this repository
+        # *scans for* and `lang/en.json` declares no key under: deriving the
+        # roots from the file's own keys would silently stop looking for it, and
+        # the day a `TYPE.…` reference appears it would be read as ordinary
+        # prose instead of as a missing key.
+        keyRoots: [SOHL, TYPES, TYPE]
+
+        # `defineType(prefix, def, labelKeys?)` (`src/utils/constants.ts`) mints
+        # one key per member of an enum by a rule that is SoHL's alone, so no
+        # shared guard can know it and no repository can compare the result
+        # against the file. This module reproduces the rule from the TypeScript
+        # AST and hands the keys back as an ordinary reference set.
+        references: ./utils/lang-references.mjs
+
+        # Keys reached in a way no scan can see, exempt from the unreferenced
+        # advisory. The reason is a claim a reviewer has to be able to check —
+        # the honest fix for an unreferenced key is to delete it.
+        retained:
+            - prefix: SOHL.Gear.Action.
+              reason:
+                  Intrinsic action titles built as `${titlePrefix}.${shortcode}`
+                  — the prefix is a parameter, so no scan can resolve it.
+            - prefix: SOHL.Skill.Action.
+              reason:
+                  As above (defineImproveSdrActions is called with the kind's
+                  prefix).
+            - prefix: SOHL.MysticalAbility.Action.
+              reason: As above.
+            - prefix: SOHL.Affliction.Action.
+              reason: As above.
+            # `SOHL.ContextMenu.SortGroup.` was retained here until the shared
+            # scan made it unnecessary: the action ledger builds those keys with
+            # `(concat "SOHL.ContextMenu.SortGroup." action.data.group)`, and a
+            # literal that ends on a dot is a key *shape* the shared scan reads
+            # as `SOHL.ContextMenu.SortGroup.*`. The local guard only recognised
+            # the template-literal spelling, so it reported all four as
+            # unreferenced and the entry existed to silence it.
+            - prefix: SOHL.Being.StumbleTest.
+              reason:
+                  keepControlTable resolves `<prefix>.<SuccessLevel>.label|description`
+                  from a success level computed at runtime.
+            - prefix: SOHL.Being.FumbleTest.
+              reason: As above.
+            - prefix: SOHL.AttackResult.TacticalAdvantage.action
+              reason:
+                  Resolved from the stored tactical-advantage value, not named
+                  in source.
+
+        # Template literals that are deliberately not localization keys. The
+        # escape hatch, not the rule: ordinary UI prose belongs in en.json.
+        allow:
+            - literal: item.system.code === 'pyrn'
+              reason:
+                  A SafeExpression example shown as a placeholder — code, not
+                  prose.
+
     # Vite emits `sohl.js`, not the `<packageId>.mjs` the toolchain assumes, so
     # the one thing `package-build bundle check` cannot derive is stated here.
     # It is deliberately not read back out of the generated manifest: a value
