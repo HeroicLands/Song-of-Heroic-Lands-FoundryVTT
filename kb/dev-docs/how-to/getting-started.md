@@ -6,7 +6,6 @@ name:
 id: zbZL9MPvAYWgZMD3
 slug: getting-started
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

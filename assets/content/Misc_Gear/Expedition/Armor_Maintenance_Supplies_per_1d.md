@@ -12,7 +12,6 @@ id: CnJ2CmuDagzXRGJ6
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: armrsup
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

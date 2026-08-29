@@ -11,7 +11,6 @@ id: yd83oCkGuZe9cfxZ
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: psydist
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

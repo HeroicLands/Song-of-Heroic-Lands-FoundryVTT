@@ -12,7 +12,6 @@ id: mxGYatEWGjscY4MH
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: Wtr1pt
 type: miscgear
-package: sohl
 hmk:
   name: "Water, 1pt."
 sohl:

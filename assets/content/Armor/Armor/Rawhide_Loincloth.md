@@ -11,7 +11,6 @@ id: iXpPoCBEEa8V3plS
 img: icons/game-icons/delapouite/loincloth.svg
 shortcode: RhLoin
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

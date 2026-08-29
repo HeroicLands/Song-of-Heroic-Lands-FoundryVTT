@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/snake.svg
 portrait: images/being/rckpythn-portrait.webp
 shortcode: rckpythn
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

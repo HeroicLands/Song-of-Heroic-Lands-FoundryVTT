@@ -12,7 +12,6 @@ id: ap7hFpUiRniVsNVG
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: herring
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

@@ -12,7 +12,6 @@ id: mF4Ubog9ycfXeJYO
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: emeraldcut
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

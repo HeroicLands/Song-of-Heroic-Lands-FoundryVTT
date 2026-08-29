@@ -4,7 +4,6 @@ aliases:
   - doc-rtlactn
 id: SAPsZAA28wMkaRbl
 type: doc
-package: sohl
 category: rules
 name:
   full: Ritual Action

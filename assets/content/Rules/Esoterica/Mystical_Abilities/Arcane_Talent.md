@@ -4,7 +4,6 @@ aliases:
   - doc-arcntlnt
 id: qOiNFIASYJVIfgHC
 type: doc
-package: sohl
 category: rules
 name:
   full: Arcane Talent

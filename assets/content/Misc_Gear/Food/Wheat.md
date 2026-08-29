@@ -12,7 +12,6 @@ id: kHcQMwrA7PupCBMA
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wheat
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

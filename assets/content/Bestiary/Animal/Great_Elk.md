@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/stag-head.svg
 portrait: images/being/greatelk-portrait.webp
 shortcode: greatelk
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

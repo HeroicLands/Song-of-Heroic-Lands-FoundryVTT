@@ -15,7 +15,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/peacock-portrait.webp
 shortcode: peacock
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

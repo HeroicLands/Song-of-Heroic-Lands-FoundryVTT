@@ -11,7 +11,6 @@ id: 2XCYfU6wsaBNY1g5
 img: icons/game-icons/lorc/halberd.svg
 shortcode: Glv
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

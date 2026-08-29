@@ -4,7 +4,6 @@ aliases:
   - doc-astrlgy
 id: 5NyYLL2GEcOVdpjS
 type: doc
-package: sohl
 category: rules
 name:
   full: Astrology

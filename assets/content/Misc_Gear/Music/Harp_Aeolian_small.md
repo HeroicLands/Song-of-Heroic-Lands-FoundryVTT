@@ -12,7 +12,6 @@ id: VaH2WAzCFKVJy6Lc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: harpaeolia
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

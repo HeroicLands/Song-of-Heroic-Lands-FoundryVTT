@@ -10,7 +10,6 @@ id: in1KGfGdrkpLzd9N
 img: icons/game-icons/badges/pencil.svg
 shortcode: draw
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

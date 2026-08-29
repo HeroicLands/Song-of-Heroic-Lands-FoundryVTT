@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/stag-head.svg
 portrait: images/being/stag-portrait.webp
 shortcode: stag
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

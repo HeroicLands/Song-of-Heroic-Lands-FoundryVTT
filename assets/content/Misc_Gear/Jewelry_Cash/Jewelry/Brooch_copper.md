@@ -12,7 +12,6 @@ id: JdRTHmGhGXpf63DQ
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: broochcopper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

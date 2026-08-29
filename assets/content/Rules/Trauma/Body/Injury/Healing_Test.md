@@ -5,7 +5,6 @@ aliases:
   - doc-hlngtst
 id: O1G83N1o9pJYVDbA
 type: doc
-package: sohl
 category: rules
 name:
   full: Healing Test

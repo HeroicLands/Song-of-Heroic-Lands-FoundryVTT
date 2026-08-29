@@ -12,7 +12,6 @@ id: uiYzUklfvVcldC7G
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: buns
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mill

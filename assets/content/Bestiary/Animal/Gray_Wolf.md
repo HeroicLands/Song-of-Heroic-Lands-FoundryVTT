@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/wolf-head.svg
 portrait: images/being/graywolf-portrait.webp
 shortcode: graywolf
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

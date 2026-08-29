@@ -10,7 +10,6 @@ id: 4f1uYKsUZ9dTs3nb
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cfs
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

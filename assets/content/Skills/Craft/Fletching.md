@@ -10,7 +10,6 @@ id: MMWQAgkjekFMjaqw
 img: icons/game-icons/lorc/broadhead-arrow.svg
 shortcode: fltch
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

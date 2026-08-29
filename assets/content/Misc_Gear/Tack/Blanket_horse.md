@@ -12,7 +12,6 @@ id: 9DfWDt6Fm8rRnWoz
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: blankethorse
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

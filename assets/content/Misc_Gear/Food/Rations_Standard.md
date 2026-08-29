@@ -12,7 +12,6 @@ id: o2a755Xc5wOdNXJH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: StdRtns
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: cook

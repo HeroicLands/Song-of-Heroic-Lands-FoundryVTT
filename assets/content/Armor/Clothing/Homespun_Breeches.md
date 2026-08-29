@@ -11,7 +11,6 @@ id: kJmxSBfhUM187vSP
 img: icons/game-icons/lorc/trousers.svg
 shortcode: HsBrch
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

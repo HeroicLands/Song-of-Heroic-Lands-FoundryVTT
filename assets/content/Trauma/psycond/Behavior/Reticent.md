@@ -9,7 +9,6 @@ id: ZweaBF2VSvxThOT1
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: reticent
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

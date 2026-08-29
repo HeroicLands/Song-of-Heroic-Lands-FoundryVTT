@@ -10,7 +10,6 @@ id: 2pMnvbwN1cHUKVkJ
 img: icons/game-icons/delapouite/animal-hide.svg
 shortcode: hide
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

@@ -11,7 +11,6 @@ id: X5appzIGFEX9OXYt
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: SlkClk
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

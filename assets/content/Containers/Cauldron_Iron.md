@@ -11,7 +11,6 @@ id: 0FvWMn567aCWyqm4
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cauldronir
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: mtlc

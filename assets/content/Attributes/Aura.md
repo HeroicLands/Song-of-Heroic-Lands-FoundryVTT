@@ -10,7 +10,6 @@ id: LwA1PJKKtH0DyGvg
 img: icons/game-icons/lorc/aura.svg
 shortcode: aur
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

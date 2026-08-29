@@ -12,7 +12,6 @@ id: 7xtWil4Te1qA76lP
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: ankletgold
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

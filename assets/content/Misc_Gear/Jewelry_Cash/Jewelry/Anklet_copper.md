@@ -12,7 +12,6 @@ id: r6LZIuQMIRG1g9Yy
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: ankletcopper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

@@ -11,7 +11,6 @@ id: olW8KZm5vIcIRXGM
 img: icons/game-icons/lorc/spear-hook.svg
 shortcode: Sprngld
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

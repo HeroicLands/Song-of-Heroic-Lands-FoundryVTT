@@ -11,7 +11,6 @@ id: HH19IBkixsDFW3rN
 img: icons/game-icons/delapouite/flail.svg
 shortcode: GrnFl
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

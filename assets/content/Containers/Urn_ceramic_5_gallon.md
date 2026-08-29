@@ -11,7 +11,6 @@ id: 81loUXRbTVhEh1me
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: urncer5gal
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: cmcs

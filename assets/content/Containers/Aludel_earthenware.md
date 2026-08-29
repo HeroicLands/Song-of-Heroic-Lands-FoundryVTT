@@ -11,7 +11,6 @@ id: 02ps01bBS6sqDOPC
 img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: aludelew
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: cmcs

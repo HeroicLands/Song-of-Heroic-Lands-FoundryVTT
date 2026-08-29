@@ -12,7 +12,6 @@ id: AMVfL4ehGLwFZor5
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: moonstonec
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

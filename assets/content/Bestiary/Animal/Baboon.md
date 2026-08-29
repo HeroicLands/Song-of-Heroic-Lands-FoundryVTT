@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/monkey.svg
 portrait: images/being/baboon-portrait.webp
 shortcode: baboon
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

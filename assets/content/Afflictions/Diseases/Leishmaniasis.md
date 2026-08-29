@@ -10,7 +10,6 @@ id: MKuBflNcGCbCof06
 img: icons/game-icons/lorc/virus.svg
 shortcode: lshmnss
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

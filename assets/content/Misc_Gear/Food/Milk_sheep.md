@@ -12,7 +12,6 @@ id: 0Zp6RfWRMfMV0OV4
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milksheep
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/dinosaur-rex.svg
 portrait: images/being/scklclwt-portrait.webp
 shortcode: scklclwt
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

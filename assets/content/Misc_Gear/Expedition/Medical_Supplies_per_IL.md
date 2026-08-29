@@ -12,7 +12,6 @@ id: uGRDcAoryepBuhCs
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: medsupil
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: herb

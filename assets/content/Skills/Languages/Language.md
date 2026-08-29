@@ -10,7 +10,6 @@ id: WRboU6egxMwB6fnx
 img: icons/game-icons/lorc/conversation.svg
 shortcode: lang
 type: skill
-package: sohl
 sohl:
   kbcat: languages
   archetype: 0

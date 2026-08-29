@@ -12,7 +12,6 @@ id: BFH8N4DwXnIpY2l3
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: harnesshor
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -12,7 +12,6 @@ id: yE5edoNgm7mC9vmH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: butter
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

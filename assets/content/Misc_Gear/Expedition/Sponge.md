@@ -12,7 +12,6 @@ id: 4t3xg7r7lkdsW5ai
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sponge
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

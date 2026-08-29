@@ -10,7 +10,6 @@ id: vGt7VF9Q1Vbh7tf4
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: cytotxn
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

@@ -6,7 +6,6 @@ name:
 id: yPExBMoJ8a1t8Foi
 slug: css-architecture
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

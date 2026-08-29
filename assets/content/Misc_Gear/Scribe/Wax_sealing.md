@@ -12,7 +12,6 @@ id: fAUJ8RepRHtX7vAN
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: waxsealing
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

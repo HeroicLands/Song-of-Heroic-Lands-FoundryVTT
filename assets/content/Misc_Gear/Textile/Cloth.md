@@ -12,7 +12,6 @@ id: 5qfyDSJjNyx6AcRj
 img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: cloth
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -10,7 +10,6 @@ id: R61ev5j1ZVltQ42m
 img: icons/game-icons/lorc/light-bulb.svg
 shortcode: cre
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

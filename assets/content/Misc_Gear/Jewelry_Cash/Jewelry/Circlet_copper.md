@@ -12,7 +12,6 @@ id: kG16ta7y5M05j1tn
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: circletcopper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

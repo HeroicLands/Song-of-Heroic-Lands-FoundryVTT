@@ -11,7 +11,6 @@ id: 5EDCAu3uGFk5JedD
 img: icons/game-icons/lorc/barbute.svg
 shortcode: PlHHelm
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

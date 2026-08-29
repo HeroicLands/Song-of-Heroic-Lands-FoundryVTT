@@ -11,7 +11,6 @@ id: V2is0qA4F2mro0Ux
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: BvShirt
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

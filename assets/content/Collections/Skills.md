@@ -8,7 +8,6 @@ name:
   aliases: []
 type: doc
 category: collection
-package: sohl
 shortcode: skills2
 section: skill
 tags:

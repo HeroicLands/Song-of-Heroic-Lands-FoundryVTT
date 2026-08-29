@@ -4,7 +4,6 @@ aliases:
   - doc-tssmncy
 id: V37Cp2A3oqdWwCES
 type: doc
-package: sohl
 category: rules
 name:
   full: Tasseomancy

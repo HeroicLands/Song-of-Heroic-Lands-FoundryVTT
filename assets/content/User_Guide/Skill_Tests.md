@@ -3,7 +3,6 @@ aliases:
   - doc-sklltsts
 id: 8l2J6Pczsy0YpT0P
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Skill Tests and Opposed Tests"

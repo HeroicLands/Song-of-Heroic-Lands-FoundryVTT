@@ -11,7 +11,6 @@ id: NwG06snlkXwaT7vQ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bucketcopp
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: mtlc

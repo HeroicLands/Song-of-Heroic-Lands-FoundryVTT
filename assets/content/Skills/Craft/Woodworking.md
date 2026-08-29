@@ -10,7 +10,6 @@ id: IVp2za6i2KFNZxSJ
 img: icons/game-icons/delapouite/hand-saw.svg
 shortcode: wood
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

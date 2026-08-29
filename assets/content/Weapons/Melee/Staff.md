@@ -11,7 +11,6 @@ id: VSEtx8k1V7TQE4a2
 img: icons/game-icons/delapouite/bo.svg
 shortcode: Stf
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

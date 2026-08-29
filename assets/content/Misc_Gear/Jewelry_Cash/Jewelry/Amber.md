@@ -12,7 +12,6 @@ id: P8KOgfPK1euQYrku
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amber
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

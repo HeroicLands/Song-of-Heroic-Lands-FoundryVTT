@@ -11,7 +11,6 @@ id: X1pr6PpdWzHx6dVa
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flaskmetal
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: mtlc

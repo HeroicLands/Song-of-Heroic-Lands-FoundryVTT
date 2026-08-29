@@ -12,7 +12,6 @@ id: IBPGjsFxsIwZeR6t
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chair
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

@@ -11,7 +11,6 @@ id: F4hmm6E0UdwhBUu9
 img: icons/game-icons/lorc/scale-mail.svg
 shortcode: SHabg
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

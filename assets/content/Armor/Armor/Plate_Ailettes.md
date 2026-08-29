@@ -11,7 +11,6 @@ id: FicdL283PUVYcDBa
 img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: PlAil
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

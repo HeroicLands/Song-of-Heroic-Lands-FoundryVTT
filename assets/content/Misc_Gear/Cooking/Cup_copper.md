@@ -12,7 +12,6 @@ id: FE6Vlj0bulyb6h7e
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cupcopper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

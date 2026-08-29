@@ -12,7 +12,6 @@ id: u3ezQ6GIIHgRMhZz
 img: icons/game-icons/badges/coins.svg
 shortcode: pence
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

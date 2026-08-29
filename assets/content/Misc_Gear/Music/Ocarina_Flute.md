@@ -12,7 +12,6 @@ id: qODVAWzBvpB2iwUs
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ocarinaflu
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

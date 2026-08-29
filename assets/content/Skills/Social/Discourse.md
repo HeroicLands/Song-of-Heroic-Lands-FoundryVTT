@@ -10,7 +10,6 @@ id: L3Glc3p57exL0wQK
 img: icons/game-icons/delapouite/face-to-face.svg
 shortcode: dscr
 type: skill
-package: sohl
 sohl:
   kbcat: social
   archetype: 0

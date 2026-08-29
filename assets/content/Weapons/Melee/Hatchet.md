@@ -11,7 +11,6 @@ id: zPUgBVRIImNn4CXw
 img: icons/game-icons/lorc/battle-axe.svg
 shortcode: Hcht
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

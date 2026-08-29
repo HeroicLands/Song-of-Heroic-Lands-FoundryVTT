@@ -12,7 +12,6 @@ id: 74Njo5FTdcP8JbSw
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scribekit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

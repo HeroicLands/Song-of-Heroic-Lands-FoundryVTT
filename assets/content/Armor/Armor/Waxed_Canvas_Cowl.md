@@ -11,7 +11,6 @@ id: rHgEt8gIaYCoJn4I
 img: icons/game-icons/lorc/hood.svg
 shortcode: WxCvCowl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

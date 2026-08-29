@@ -12,7 +12,6 @@ id: mzUTS4jU4i1SjI31
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beanscrate
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

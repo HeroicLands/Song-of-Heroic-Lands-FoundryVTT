@@ -12,7 +12,6 @@ id: n6PmXbPx9txmeI2x
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: applescrat
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

@@ -12,7 +12,6 @@ id: vm586aE7NdOdPaQ5
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pigeon
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

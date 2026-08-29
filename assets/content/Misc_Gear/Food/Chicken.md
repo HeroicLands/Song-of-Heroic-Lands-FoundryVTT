@@ -12,7 +12,6 @@ id: Igv0hOwiUIVcXWdi
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chicken
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

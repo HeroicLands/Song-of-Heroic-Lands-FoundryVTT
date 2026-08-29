@@ -11,7 +11,6 @@ id: prNeekK6Y0uI0qF4
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: RhSTunic
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

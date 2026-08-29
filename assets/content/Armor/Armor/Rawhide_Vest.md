@@ -11,7 +11,6 @@ id: SWS2IeKwR2QA5fZ5
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: RhVest
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

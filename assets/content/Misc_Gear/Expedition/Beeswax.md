@@ -12,7 +12,6 @@ id: 46pupDJw1uog74NJ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bswax
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

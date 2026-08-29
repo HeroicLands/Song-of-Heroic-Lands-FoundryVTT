@@ -11,7 +11,6 @@ id: QTItBsnxjW6mQ3S0
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: BstdSwd
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

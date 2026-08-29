@@ -9,7 +9,6 @@ id: SGu20H9HHfWtESm5
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: focused
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

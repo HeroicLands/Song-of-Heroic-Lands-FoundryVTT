@@ -7,7 +7,7 @@
 
 See also: [The Authoring Workflow](authoring-workflow.md), [Actor Notes](actor-notes.md), [Asset Conventions](asset-conventions.md)
 
-Every item note carries the frontmatter envelope described in [The Authoring Workflow](authoring-workflow.md) — `name.full`, `type`, `shortcode`, `package`, `id`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else.
+Every item note carries the frontmatter envelope described in [The Authoring Workflow](authoring-workflow.md) — `name.full`, `type`, `shortcode`, `id`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else.
 
 The tables are rendered from the declaration that _builds_ each document, not from a description of it, so a field listed here is a field the compiler reads and a field absent here is one it ignores. An unrecognised `sohl:` key is silently dropped, so a typo shows up as a missing value rather than an error — check the spelling here first.
 
@@ -30,7 +30,6 @@ name:
   full: An Example affiliation
 type: affiliation
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -59,7 +58,6 @@ name:
   full: An Example affliction
 type: affliction
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -95,7 +93,6 @@ name:
   full: An Example armorgear
 type: armorgear
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -119,7 +116,6 @@ name:
   full: An Example attribute
 type: attribute
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -146,7 +142,6 @@ name:
   full: An Example concoctiongear
 type: concoctiongear
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -172,7 +167,6 @@ name:
   full: An Example containergear
 type: containergear
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -196,7 +190,6 @@ name:
   full: An Example miscgear
 type: miscgear
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -222,7 +215,6 @@ name:
   full: An Example mystery
 type: mystery
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -251,7 +243,6 @@ name:
   full: An Example mysticalability
 type: mysticalability
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -282,7 +273,6 @@ name:
   full: An Example projectilegear
 type: projectilegear
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -311,7 +301,6 @@ name:
   full: An Example skill
 type: skill
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -340,7 +329,6 @@ name:
   full: An Example trauma
 type: trauma
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null
@@ -368,7 +356,6 @@ name:
   full: An Example weapongear
 type: weapongear
 shortcode: xmpl
-package: <your content package>
 id: <16-character id>
 sohl:
   archetype: null

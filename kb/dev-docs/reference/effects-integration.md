@@ -6,7 +6,6 @@ name:
 id: tJSDDkjs0P3j2rOE
 slug: effects-integration
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

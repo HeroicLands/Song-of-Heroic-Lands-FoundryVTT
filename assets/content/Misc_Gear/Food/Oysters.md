@@ -12,7 +12,6 @@ id: zdED4g9i0CAy8Yqq
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oysters
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

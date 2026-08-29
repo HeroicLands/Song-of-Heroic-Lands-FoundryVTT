@@ -12,7 +12,6 @@ id: DHsXxtx82IVM5gu2
 img: icons/game-icons/delapouite/sleeping-bag.svg
 shortcode: HvyBdrl
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

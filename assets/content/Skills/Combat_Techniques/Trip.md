@@ -11,7 +11,6 @@ id: YtmLuYuVcdNIxu1o
 img: icons/game-icons/lorc/hobbling-mace.svg
 shortcode: trip
 type: skill
-package: sohl
 sohl:
   kbcat: unarmed
   archetype: 0

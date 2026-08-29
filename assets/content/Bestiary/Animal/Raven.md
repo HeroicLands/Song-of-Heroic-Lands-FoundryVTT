@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/raven.svg
 portrait: images/being/raven-portrait.webp
 shortcode: raven
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

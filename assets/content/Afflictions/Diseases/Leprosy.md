@@ -10,7 +10,6 @@ id: ADyc8j8ugJpFufqk
 img: icons/game-icons/lorc/virus.svg
 shortcode: leprosy
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

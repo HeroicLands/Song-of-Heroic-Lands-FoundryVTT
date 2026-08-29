@@ -10,7 +10,6 @@ id: 0PErwXxsCUOTgoMV
 img: icons/game-icons/badges/coins.svg
 shortcode: mrcn
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

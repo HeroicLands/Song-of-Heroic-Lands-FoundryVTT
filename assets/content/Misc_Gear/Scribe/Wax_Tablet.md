@@ -12,7 +12,6 @@ id: 5ApDrA16iFkQMunn
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: waxtablet
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

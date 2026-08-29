@@ -11,7 +11,6 @@ id: jX4EXV6cwwmBokJU
 img: icons/game-icons/lorc/halberd.svg
 shortcode: Falcstra
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

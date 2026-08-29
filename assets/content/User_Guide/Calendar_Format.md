@@ -3,7 +3,6 @@ aliases:
   - doc-clndrjsn
 id: eFiHzB4DASknXQ2l
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Calendar JSON Format"

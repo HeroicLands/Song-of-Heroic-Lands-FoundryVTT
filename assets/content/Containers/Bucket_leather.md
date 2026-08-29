@@ -11,7 +11,6 @@ id: keFukmGhbobvDx7R
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bucketleat
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

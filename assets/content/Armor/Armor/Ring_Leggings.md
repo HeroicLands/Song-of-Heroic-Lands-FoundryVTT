@@ -11,7 +11,6 @@ id: OUoL2vBQsFHCkWNg
 img: icons/game-icons/lorc/trousers.svg
 shortcode: RnLeg
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

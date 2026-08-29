@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Heavy hardwood quarrel with ball head; breaks ribs, clears crowds bloodlessly."
 type: projectilegear
-package: sohl
 id: MjWznQvdlB5alUHo
 shortcode: BltHBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg

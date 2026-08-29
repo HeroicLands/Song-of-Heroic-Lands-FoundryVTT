@@ -7,7 +7,6 @@ aliases:
   - doc-combatintro
 id: T7DKbPLUwqQyQL08
 type: doc
-package: sohl
 category: rules
 name:
   full: Combat Introduction

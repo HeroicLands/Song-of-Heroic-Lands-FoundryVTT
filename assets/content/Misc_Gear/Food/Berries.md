@@ -12,7 +12,6 @@ id: yBraSy6LKZWxvDky
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: berries
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

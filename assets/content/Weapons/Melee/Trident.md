@@ -11,7 +11,6 @@ id: 3ifIDzsp6chxC60S
 img: icons/game-icons/lorc/trident.svg
 shortcode: Tri
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

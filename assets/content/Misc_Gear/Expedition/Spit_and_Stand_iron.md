@@ -12,7 +12,6 @@ id: OfwJBd3Xmz4B6eMV
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spitandsta
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

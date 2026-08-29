@@ -11,7 +11,6 @@ id: 27ECzpGhQjGhz3Ki
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: Estc
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

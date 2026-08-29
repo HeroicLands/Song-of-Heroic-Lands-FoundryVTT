@@ -12,7 +12,6 @@ id: qhN8gVRfjCsI42a9
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: oillamp
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

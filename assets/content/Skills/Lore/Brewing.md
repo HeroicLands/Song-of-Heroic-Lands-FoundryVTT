@@ -10,7 +10,6 @@ id: K0S3H3kzuwxmlSMj
 img: icons/game-icons/delapouite/barrel.svg
 shortcode: brew
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

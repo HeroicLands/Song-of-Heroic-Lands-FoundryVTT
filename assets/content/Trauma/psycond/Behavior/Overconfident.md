@@ -9,7 +9,6 @@ id: fngDLImVxPbStZFh
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: overconf
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

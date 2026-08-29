@@ -10,7 +10,6 @@ id: rve7MQf46F3L7gkU
 img: icons/game-icons/lorc/footprint.svg
 shortcode: trak
 type: skill
-package: sohl
 sohl:
   kbcat: nature
   archetype: 0

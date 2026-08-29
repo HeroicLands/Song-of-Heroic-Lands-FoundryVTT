@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/horse-head.svg
 portrait: images/being/courser-portrait.webp
 shortcode: courser
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

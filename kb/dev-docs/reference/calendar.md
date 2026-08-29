@@ -6,7 +6,6 @@ name:
 id: 3FnZNhXbtsrG5O2O
 slug: calendar
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

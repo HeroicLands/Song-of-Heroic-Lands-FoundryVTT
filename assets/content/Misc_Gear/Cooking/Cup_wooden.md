@@ -12,7 +12,6 @@ id: XsGnZoOhFaht07SI
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cupwood
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

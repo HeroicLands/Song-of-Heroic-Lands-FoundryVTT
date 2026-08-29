@@ -12,7 +12,6 @@ id: CKbVnsgFF6oUH8Z4
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: leathertan
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

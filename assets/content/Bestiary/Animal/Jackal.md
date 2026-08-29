@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/hound.svg
 portrait: images/being/jackal-portrait.webp
 shortcode: jackal
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

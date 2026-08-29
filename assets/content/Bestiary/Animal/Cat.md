@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/cat.svg
 portrait: images/being/cat-portrait.webp
 shortcode: cat
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

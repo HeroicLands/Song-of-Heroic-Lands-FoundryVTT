@@ -10,7 +10,6 @@ id: LDCPcITBQjtXB87S
 img: icons/game-icons/delapouite/biceps.svg
 shortcode: str
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

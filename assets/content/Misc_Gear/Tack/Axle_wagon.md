@@ -12,7 +12,6 @@ id: 6Gf1bs2wn6faxhl8
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: axlewagon
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

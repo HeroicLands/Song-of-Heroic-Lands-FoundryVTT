@@ -4,7 +4,6 @@ aliases:
   - doc-cncctn
 id: nV3Nq6xe3fUcJJzd
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Concoction"

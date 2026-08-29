@@ -11,7 +11,6 @@ id: 59cM9pz7xPicblSK
 img: icons/game-icons/badges/shield.svg
 shortcode: KnSh
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

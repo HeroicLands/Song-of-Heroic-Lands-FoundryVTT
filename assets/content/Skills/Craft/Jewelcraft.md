@@ -10,7 +10,6 @@ id: 8CHbTSbJ1aOVyqx7
 img: icons/game-icons/lorc/gems.svg
 shortcode: jewl
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

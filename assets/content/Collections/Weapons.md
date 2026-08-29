@@ -8,7 +8,6 @@ name:
   aliases: []
 type: doc
 category: collection
-package: sohl
 shortcode: weapons
 section: weapongear
 tags:

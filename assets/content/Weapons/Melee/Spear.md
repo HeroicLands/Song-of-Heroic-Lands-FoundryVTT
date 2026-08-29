@@ -11,7 +11,6 @@ id: iMEmU8GZWVZ3QPUk
 img: icons/game-icons/lorc/spears.svg
 shortcode: Spr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

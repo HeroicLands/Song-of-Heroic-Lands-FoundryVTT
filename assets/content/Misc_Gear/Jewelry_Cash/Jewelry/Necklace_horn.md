@@ -12,7 +12,6 @@ id: IQwPfQScuF4d3Eyb
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: necklacehorn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

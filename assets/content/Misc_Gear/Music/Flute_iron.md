@@ -12,7 +12,6 @@ id: muvrcEpY2PCkQkQk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fluteiron
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

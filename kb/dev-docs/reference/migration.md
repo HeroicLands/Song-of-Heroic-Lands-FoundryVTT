@@ -10,7 +10,6 @@ name:
 id: mZ8qP2rLxK4vN7bd
 slug: migration
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 tags:

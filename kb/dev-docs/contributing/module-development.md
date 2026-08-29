@@ -6,7 +6,6 @@ name:
 id: KiLEkudeFGD7QBBE
 slug: module-development
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

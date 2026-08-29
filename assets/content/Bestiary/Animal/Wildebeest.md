@@ -15,7 +15,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/wldbst-portrait.webp
 shortcode: wldbst
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

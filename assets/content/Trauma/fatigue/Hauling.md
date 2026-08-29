@@ -11,7 +11,6 @@ id: naZOIXcKpdq0E7ti
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: haul
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

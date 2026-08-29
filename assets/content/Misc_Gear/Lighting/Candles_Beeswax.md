@@ -12,7 +12,6 @@ id: Ko1iSbLYwxPgHPCr
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlesbee
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

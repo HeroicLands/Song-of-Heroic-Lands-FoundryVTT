@@ -11,7 +11,6 @@ id: nudRYFaC2QT8CRmj
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: LClk
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

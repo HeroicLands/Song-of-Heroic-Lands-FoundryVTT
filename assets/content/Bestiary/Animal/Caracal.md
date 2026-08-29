@@ -14,7 +14,6 @@ img: icons/game-icons/delapouite/lynx-head.svg
 portrait: images/being/caracal-portrait.webp
 shortcode: caracal
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

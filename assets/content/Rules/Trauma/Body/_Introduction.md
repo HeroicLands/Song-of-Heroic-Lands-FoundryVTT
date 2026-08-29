@@ -4,7 +4,6 @@ aliases:
   - doc-bodytrmaintro
 id: Yjn2JOJNvxe0I9HY
 type: doc
-package: sohl
 category: rules
 name:
   full: Body Trauma Introduction

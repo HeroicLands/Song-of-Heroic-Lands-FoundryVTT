@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Heavy shaft, square-sectioned spike; splits mail, dents breastplate close up."
 type: projectilegear
-package: sohl
 id: 1ykjrEPFWG47kjtO
 shortcode: BltHBod
 img: icons/game-icons/lorc/broadhead-arrow.svg

@@ -12,7 +12,6 @@ id: ZDjw1pXhh0FsURvD
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: circletsilver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

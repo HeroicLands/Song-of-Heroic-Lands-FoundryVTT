@@ -11,7 +11,6 @@ id: qrtobJZE7dJMGgII
 img: icons/game-icons/lorc/stone-sphere.svg
 shortcode: Trebch
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

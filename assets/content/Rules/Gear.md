@@ -7,7 +7,6 @@ aliases:
   - doc-gear
 id: wjqsgt0VbETSKE6Y
 type: doc
-package: sohl
 category: rules
 name:
   full: Gear

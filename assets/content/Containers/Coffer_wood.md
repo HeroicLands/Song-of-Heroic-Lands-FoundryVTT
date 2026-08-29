@@ -11,7 +11,6 @@ id: Y84ITY7ci3sZOgGH
 img: icons/game-icons/delapouite/chest.svg
 shortcode: cofferwood
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

@@ -10,7 +10,6 @@ id: CJxIqMc6kNXL3dxb
 img: icons/game-icons/lorc/juggler.svg
 shortcode: lgdm
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

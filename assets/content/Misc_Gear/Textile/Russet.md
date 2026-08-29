@@ -12,7 +12,6 @@ id: LjsANiHILmGJCwuE
 img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: russet
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

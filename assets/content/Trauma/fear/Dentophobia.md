@@ -9,7 +9,6 @@ id: LBJ80zK1VGngjWUe
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: dentophb
 type: trauma
-package: sohl
 sohl:
   kbcat: phobias
   archetype: 0

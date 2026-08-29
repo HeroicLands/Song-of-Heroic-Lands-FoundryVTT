@@ -12,7 +12,6 @@ id: uP63OHDAkEM6M2Fd
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amuletsilver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

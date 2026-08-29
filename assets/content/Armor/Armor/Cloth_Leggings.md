@@ -11,7 +11,6 @@ id: 4YLllmW2d5ahnPsC
 img: icons/game-icons/lorc/trousers.svg
 shortcode: CLeg
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

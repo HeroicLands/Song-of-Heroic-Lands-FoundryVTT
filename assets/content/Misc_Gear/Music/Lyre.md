@@ -12,7 +12,6 @@ id: llZHCs52rsg2ysfu
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lyre
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

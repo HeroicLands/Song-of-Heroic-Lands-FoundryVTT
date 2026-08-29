@@ -12,7 +12,6 @@ id: bicMXZpGW11RQ850
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tentmilita
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

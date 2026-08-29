@@ -10,7 +10,6 @@ id: m72JRqtTaHuyCsJy
 img: icons/game-icons/lorc/crossed-swords.svg
 shortcode: melee
 type: skill
-package: sohl
 sohl:
   kbcat: combat
   archetype: 0

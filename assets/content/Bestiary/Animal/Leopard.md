@@ -14,7 +14,6 @@ img: icons/game-icons/delapouite/feline.svg
 portrait: images/being/leopard-portrait.webp
 shortcode: leopard
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -4,7 +4,6 @@ aliases:
   - doc-brthsgn
 id: HOIFkzHnXv5I4A4C
 type: doc
-package: sohl
 category: rules
 name:
   full: Birthsign

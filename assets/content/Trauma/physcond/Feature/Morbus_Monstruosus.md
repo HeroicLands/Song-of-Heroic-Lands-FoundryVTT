@@ -10,7 +10,6 @@ id: mVwbl8ul2TZvwGd6
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: morbusmo
 type: trauma
-package: sohl
 sohl:
   kbcat: physfeature
   archetype: 0

@@ -11,7 +11,6 @@ id: GHvRvj1MmFKArZHE
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: WTunic
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

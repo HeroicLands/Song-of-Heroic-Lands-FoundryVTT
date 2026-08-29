@@ -11,7 +11,6 @@ id: mRct3mxYPf9rImMi
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: LBw150
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: fltch

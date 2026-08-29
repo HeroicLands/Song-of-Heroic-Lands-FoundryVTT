@@ -11,7 +11,6 @@ id: rVKlUCKrM6vpxzpf
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CvScoat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -11,7 +11,6 @@ id: VfWqeVpoCZaE6u53
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bagleather15
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

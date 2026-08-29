@@ -12,7 +12,6 @@ id: fJUhdF7Ltvntt56l
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltiny
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

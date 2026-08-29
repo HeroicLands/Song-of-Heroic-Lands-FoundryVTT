@@ -10,7 +10,6 @@ id: mARFb83ni5upS4h3
 img: icons/game-icons/delapouite/cavalry.svg
 shortcode: ridg
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

@@ -11,7 +11,6 @@ id: UnarmedHeadbutt1
 img: icons/game-icons/lorc/wrecking-ball.svg
 shortcode: bflkheadbutt
 type: skill
-package: sohl
 sohl:
   kbcat: unarmed
   archetype: 0

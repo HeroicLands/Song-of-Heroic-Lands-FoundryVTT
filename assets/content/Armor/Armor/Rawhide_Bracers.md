@@ -11,7 +11,6 @@ id: mCFgK5g4PXLyoD5k
 img: icons/game-icons/delapouite/bracer.svg
 shortcode: RhBrcr
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -12,7 +12,6 @@ id: e4zX6ZK0uvjGwo5G
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chainheavy
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

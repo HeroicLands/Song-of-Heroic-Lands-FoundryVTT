@@ -11,7 +11,6 @@ id: XybyEdF3GrJWBhh2
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wtrskin
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

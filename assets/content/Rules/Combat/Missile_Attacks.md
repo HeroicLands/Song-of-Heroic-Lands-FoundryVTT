@@ -8,7 +8,6 @@ aliases:
   - doc-msslattc
 id: rDBP7stlZ05KJIfE
 type: doc
-package: sohl
 category: rules
 name:
   full: Missile Attacks

@@ -12,7 +12,6 @@ id: tfOnWD9quoNAJe9q
 img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: straw
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

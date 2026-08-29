@@ -12,7 +12,6 @@ id: JRLlJbNluuULHoLV
 img: icons/game-icons/lorc/brandy-bottle.svg
 shortcode: brdykeg
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: brew

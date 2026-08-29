@@ -8,7 +8,6 @@ name:
   aliases: []
 type: doc
 category: collection
-package: sohl
 shortcode: containers
 section: containergear
 tags:

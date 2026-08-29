@@ -18,7 +18,6 @@ shortcode: aldrikharvenar
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/aldrikharvenar-portrait.webp
 type: being
-package: sohl
 social:
   occupation: Man-at-Arms
   station: soldiery

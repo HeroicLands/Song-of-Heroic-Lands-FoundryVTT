@@ -11,7 +11,6 @@ id: bVCElFjHP5tFxO4d
 img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: BvHat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

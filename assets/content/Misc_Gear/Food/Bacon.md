@@ -12,7 +12,6 @@ id: tT0TrgOmwLYrVxqR
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bacon
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

@@ -12,7 +12,6 @@ id: jEVPT6E2ofQhok1A
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: circlethorn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

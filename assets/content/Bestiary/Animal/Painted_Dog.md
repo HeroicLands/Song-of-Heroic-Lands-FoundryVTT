@@ -15,7 +15,6 @@ img: icons/game-icons/lorc/hound.svg
 portrait: images/being/pntddg-portrait.webp
 shortcode: pntddg
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -11,7 +11,6 @@ id: TkX3GNORKY6L0J6Y
 img: icons/game-icons/badges/shield.svg
 shortcode: KiSh
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

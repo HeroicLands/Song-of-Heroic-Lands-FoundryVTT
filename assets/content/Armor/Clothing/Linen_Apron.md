@@ -11,7 +11,6 @@ id: 1tzj1dt0PuZAlf1b
 img: icons/game-icons/delapouite/cook.svg
 shortcode: LApn
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

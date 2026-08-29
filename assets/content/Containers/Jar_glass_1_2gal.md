@@ -11,7 +11,6 @@ id: ulRTx0rVKIzCMnaF
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarglassla
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: glas

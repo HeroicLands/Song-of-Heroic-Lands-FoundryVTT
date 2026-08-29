@@ -7,7 +7,6 @@ aliases:
   - doc-crafting
 id: 3dQTVykMItQGXYTj
 type: doc
-package: sohl
 category: rules
 name:
   full: Crafting

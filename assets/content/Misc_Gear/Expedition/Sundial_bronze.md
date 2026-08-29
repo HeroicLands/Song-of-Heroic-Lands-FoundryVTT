@@ -12,7 +12,6 @@ id: xo2SJIqzl9chHdyk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sundialbro
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

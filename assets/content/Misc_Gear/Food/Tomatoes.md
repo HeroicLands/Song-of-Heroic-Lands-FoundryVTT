@@ -12,7 +12,6 @@ id: 9YQUZGdIvbxQXFwD
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tomatoes
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

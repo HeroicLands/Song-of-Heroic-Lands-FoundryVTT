@@ -12,7 +12,6 @@ id: owQxSTkEEyYBk7xe
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: curds
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

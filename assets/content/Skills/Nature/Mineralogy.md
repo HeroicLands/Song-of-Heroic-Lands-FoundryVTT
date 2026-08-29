@@ -10,7 +10,6 @@ id: 5eS0upGrJ75ayN5k
 img: icons/game-icons/delapouite/miner.svg
 shortcode: mnrl
 type: skill
-package: sohl
 sohl:
   kbcat: nature
   archetype: 0

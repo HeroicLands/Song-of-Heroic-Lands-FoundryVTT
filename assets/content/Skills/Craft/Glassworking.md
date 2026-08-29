@@ -10,7 +10,6 @@ id: Q0KPXtE0ZsH1YION
 img: icons/game-icons/lorc/round-bottom-flask.svg
 shortcode: glas
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

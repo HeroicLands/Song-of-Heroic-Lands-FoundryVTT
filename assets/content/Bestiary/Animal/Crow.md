@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/crow-dive.svg
 portrait: images/being/crow-portrait.webp
 shortcode: crow
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

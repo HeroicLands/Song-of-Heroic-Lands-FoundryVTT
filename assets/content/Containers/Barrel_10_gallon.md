@@ -11,7 +11,6 @@ id: uk7tD4Uh7vGN8Byo
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: barrel10gal
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

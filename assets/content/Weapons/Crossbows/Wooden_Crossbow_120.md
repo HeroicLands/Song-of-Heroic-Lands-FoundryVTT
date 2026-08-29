@@ -11,7 +11,6 @@ id: 1HZobnNCLhl51w37
 img: icons/game-icons/carl-olsen/crossbow.svg
 shortcode: WCxBw120
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: fltch

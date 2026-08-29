@@ -4,7 +4,6 @@ aliases:
   - doc-skill
 id: rbl6nD2s5gxsx9gR
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Skill"

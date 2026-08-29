@@ -4,7 +4,6 @@ aliases:
   - doc-mystclab
 id: k2BO5PGE97a6YEZe
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Mystical Ability"

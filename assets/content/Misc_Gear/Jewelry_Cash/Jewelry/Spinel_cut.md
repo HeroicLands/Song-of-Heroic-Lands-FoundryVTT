@@ -12,7 +12,6 @@ id: T5e6N6ftn0YD5dQx
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spinelcut
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

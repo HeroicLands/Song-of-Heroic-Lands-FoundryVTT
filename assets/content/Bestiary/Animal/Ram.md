@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/sheep.svg
 portrait: images/being/ramanml-portrait.webp
 shortcode: ramanml
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -10,7 +10,6 @@ id: 8SCHvY0B1oHUgWnM
 img: icons/game-icons/lorc/campfire.svg
 shortcode: srvl
 type: skill
-package: sohl
 sohl:
   kbcat: nature
   archetype: 0

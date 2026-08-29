@@ -12,7 +12,6 @@ id: OTvBmA73opLNSKEG
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: gobletpewt
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

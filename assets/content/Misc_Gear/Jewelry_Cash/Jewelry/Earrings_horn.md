@@ -12,7 +12,6 @@ id: HggOHXKlhDmMa96i
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: earringshorn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

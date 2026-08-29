@@ -12,7 +12,6 @@ id: 8Ulnkm4sD6cZMpoY
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: platetin
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

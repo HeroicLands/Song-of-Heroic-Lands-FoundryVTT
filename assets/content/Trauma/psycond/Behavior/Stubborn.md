@@ -9,7 +9,6 @@ id: LxWK9FMZRwSxLh9G
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: stubborn
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

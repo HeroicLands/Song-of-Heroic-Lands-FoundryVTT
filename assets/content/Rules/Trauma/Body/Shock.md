@@ -8,7 +8,6 @@ aliases:
   - doc-shock
 id: im1oSbKUZQFCBBI8
 type: doc
-package: sohl
 category: rules
 name:
   full: Shock

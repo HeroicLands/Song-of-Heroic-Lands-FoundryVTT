@@ -12,7 +12,6 @@ id: WU01IRdAXZkmXAB7
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fleece
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

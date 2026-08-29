@@ -10,7 +10,6 @@ id: uCTDMG4EGHB6dI5u
 img: icons/game-icons/lorc/bubbling-flask.svg
 shortcode: alch
 type: mysticalability
-package: sohl
 sohl:
   kbcat: alchemy
   archetype: 0

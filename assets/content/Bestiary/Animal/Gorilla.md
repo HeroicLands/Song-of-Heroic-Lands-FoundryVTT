@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/gorilla.svg
 portrait: images/being/gorilla-portrait.webp
 shortcode: gorilla
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -10,7 +10,6 @@ id: Gnyh1TB0R1my8Dfa
 img: icons/game-icons/lorc/hidden.svg
 shortcode: stlth
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

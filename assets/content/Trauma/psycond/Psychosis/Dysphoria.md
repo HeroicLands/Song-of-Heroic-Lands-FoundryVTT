@@ -9,7 +9,6 @@ id: v0ROwdXmKi6IguNH
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dysphr
 type: trauma
-package: sohl
 sohl:
   kbcat: psypsychosis
   archetype: 0

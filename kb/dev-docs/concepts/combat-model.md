@@ -6,7 +6,6 @@ name:
 id: iESB3wp9JuxLYmqp
 slug: combat-model
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

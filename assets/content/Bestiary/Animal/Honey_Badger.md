@@ -13,7 +13,6 @@ img: icons/game-icons/caro-asercion/badger.svg
 portrait: images/being/hnybdgr-portrait.webp
 shortcode: hnybdgr
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

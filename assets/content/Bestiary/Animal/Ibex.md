@@ -14,7 +14,6 @@ img: icons/game-icons/skoll/goat.svg
 portrait: images/being/ibex-portrait.webp
 shortcode: ibex
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -11,7 +11,6 @@ id: wg4u1iP8RxwdWSkj
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: CCBoot
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

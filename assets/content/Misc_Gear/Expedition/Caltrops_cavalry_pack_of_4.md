@@ -12,7 +12,6 @@ id: Pi5pJcdy8rGUJper
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: caltropsca
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

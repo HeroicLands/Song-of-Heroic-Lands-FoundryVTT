@@ -11,7 +11,6 @@ id: 6z8YBH8EKWdilDr1
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: BVest
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

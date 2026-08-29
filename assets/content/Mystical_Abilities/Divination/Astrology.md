@@ -10,7 +10,6 @@ id: xSuXXuS0hRjrSdzR
 img: icons/game-icons/lorc/star-swirl.svg
 shortcode: astr
 type: mysticalability
-package: sohl
 sohl:
   kbcat: divination
   archetype: 0

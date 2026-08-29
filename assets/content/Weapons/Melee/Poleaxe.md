@@ -11,7 +11,6 @@ id: XV3ldZxnNptio5nW
 img: icons/game-icons/lorc/halberd.svg
 shortcode: PAxe
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

@@ -12,7 +12,6 @@ id: vYXSMZ2zquTLbW1n
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spannerlever
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

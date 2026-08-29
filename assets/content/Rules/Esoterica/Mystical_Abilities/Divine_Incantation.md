@@ -4,7 +4,6 @@ aliases:
   - doc-dvnincnt
 id: oorZPGmBmLEyzvFe
 type: doc
-package: sohl
 category: rules
 name:
   full: Divine Incantation

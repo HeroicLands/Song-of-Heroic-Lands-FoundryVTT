@@ -4,7 +4,6 @@ aliases:
   - doc-crtmncy
 id: 3l5g6fs5EEwLMOzS
 type: doc
-package: sohl
 category: rules
 name:
   full: Cartomancy

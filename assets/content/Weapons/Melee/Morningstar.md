@@ -11,7 +11,6 @@ id: ryOspfRbgG4qRb8i
 img: icons/game-icons/delapouite/flanged-mace.svg
 shortcode: MgStr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

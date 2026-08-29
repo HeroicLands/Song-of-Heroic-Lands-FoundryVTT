@@ -5,7 +5,6 @@ aliases:
   - doc-sfexprss
 id: JvKYOVjZcqyqQHgj
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Safe Expressions"

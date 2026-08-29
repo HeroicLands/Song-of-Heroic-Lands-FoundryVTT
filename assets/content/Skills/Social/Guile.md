@@ -10,7 +10,6 @@ id: WZblksWtuxXkT40X
 img: icons/game-icons/lorc/imp.svg
 shortcode: guil
 type: skill
-package: sohl
 sohl:
   kbcat: social
   archetype: 0

@@ -12,7 +12,6 @@ id: hessefU2I49Y7iZ4
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tacklebloc
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

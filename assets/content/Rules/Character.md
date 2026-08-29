@@ -5,7 +5,6 @@ aliases:
   - doc-character
 id: xl7OIGqVKu52E5Oc
 type: doc
-package: sohl
 category: rules
 name:
   full: Characters Introduction

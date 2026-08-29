@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/snake.svg
 portrait: images/being/cobra-portrait.webp
 shortcode: cobra
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

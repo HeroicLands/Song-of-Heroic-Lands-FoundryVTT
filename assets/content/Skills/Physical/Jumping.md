@@ -10,7 +10,6 @@ id: kmkKoOgeVxj12Pbc
 img: icons/game-icons/delapouite/jump-across.svg
 shortcode: jump
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

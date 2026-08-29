@@ -10,7 +10,6 @@ id: fqNqvvCDHQx44iCe
 img: icons/game-icons/delapouite/megaphone.svg
 shortcode: elo
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

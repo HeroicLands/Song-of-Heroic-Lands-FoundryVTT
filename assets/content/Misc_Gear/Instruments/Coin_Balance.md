@@ -12,7 +12,6 @@ id: CSHSzLMHnwHy9e3t
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: coinbalanc
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

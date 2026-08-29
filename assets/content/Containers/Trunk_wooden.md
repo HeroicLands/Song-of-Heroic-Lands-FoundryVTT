@@ -11,7 +11,6 @@ id: T46zQsnsjKIlVG1E
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: trunkwood
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

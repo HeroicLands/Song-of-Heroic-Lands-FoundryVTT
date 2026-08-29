@@ -10,7 +10,6 @@ name:
 shortcode: bestiary
 type: doc
 category: rules
-package: sohl
 folder: RqKUTBUBN2Y3MHYB
 ---
 

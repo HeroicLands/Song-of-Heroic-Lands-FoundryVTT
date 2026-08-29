@@ -12,7 +12,6 @@ id: cnOuK89KZLGZa42S
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: parchment
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

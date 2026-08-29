@@ -12,7 +12,6 @@ id: xJS2uE0JJHnhz7c0
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chainlight
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

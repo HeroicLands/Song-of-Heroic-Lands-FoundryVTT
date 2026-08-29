@@ -12,7 +12,6 @@ id: N4Qx4O6buCoIOQgP
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: copperbron
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

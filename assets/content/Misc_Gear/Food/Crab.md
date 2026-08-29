@@ -12,7 +12,6 @@ id: ht0rQJUtkZVHzWOO
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: crab
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

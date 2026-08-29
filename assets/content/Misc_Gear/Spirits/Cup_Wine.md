@@ -12,7 +12,6 @@ id: yOeQXM2FjXjqeSAG
 img: icons/game-icons/lorc/jeweled-chalice.svg
 shortcode: winecup
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: brew

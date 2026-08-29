@@ -3,7 +3,6 @@ aliases:
   - doc-crtngact
 id: t5Fr0y9WRvj8YeGD
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Creating Actors and Items"

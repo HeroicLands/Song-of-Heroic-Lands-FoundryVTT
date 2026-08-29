@@ -12,7 +12,6 @@ id: OV9M7ALDI68S9etW
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chisel
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

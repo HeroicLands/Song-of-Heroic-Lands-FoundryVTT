@@ -14,7 +14,6 @@ id: JEmyKHG6jffHZwYg
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: piton
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

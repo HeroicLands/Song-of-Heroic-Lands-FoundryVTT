@@ -10,7 +10,6 @@ id: SOBolhplOfgbMpre
 img: icons/game-icons/delapouite/abacus.svg
 shortcode: math
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

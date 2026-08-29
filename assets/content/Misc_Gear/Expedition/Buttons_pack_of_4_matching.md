@@ -12,7 +12,6 @@ id: fdl3VvdhnDrhdTqx
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: buttonspac
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

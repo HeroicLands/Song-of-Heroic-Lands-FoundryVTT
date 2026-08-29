@@ -9,7 +9,6 @@ id: dslSFZ2Js4DVyRke
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: hoplophb
 type: trauma
-package: sohl
 sohl:
   kbcat: phobias
   archetype: 0

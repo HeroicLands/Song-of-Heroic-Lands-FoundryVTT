@@ -10,7 +10,6 @@ id: j7taHswPlFhvFIec
 img: icons/game-icons/lorc/sewing-needle.svg
 shortcode: txtl
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

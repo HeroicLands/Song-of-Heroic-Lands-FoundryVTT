@@ -12,7 +12,6 @@ id: loCnwK63bChmTvfz
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: yokeox
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

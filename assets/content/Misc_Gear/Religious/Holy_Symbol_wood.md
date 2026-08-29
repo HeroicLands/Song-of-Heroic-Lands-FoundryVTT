@@ -12,7 +12,6 @@ id: moKHRJkSyuSh5CD7
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: holysymwood
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

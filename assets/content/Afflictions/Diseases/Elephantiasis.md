@@ -10,7 +10,6 @@ id: mMcMukFxl6C3rfAZ
 img: icons/game-icons/lorc/virus.svg
 shortcode: elph
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

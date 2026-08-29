@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/rhinoceros-horn.svg
 portrait: images/being/wllyrhn-portrait.webp
 shortcode: wllyrhn
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

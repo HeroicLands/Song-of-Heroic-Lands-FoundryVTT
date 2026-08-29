@@ -14,7 +14,6 @@ img: icons/game-icons/skoll/donkey.svg
 portrait: images/being/onager-portrait.webp
 shortcode: onager
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

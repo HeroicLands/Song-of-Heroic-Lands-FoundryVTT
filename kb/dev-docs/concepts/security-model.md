@@ -6,7 +6,6 @@ name:
 id: 7mShMNnp3lYzSMpL
 slug: security-model
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

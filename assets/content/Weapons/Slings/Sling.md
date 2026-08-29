@@ -11,7 +11,6 @@ id: OBV58zUPlKHnO2hj
 img: icons/game-icons/delapouite/sling.svg
 shortcode: Slng
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: hide

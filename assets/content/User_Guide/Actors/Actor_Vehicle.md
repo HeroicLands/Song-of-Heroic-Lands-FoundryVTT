@@ -4,7 +4,6 @@ aliases:
   - doc-vehicle
 id: UzvfN3dVTI3CCC2V
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Vehicle"

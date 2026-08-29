@@ -11,7 +11,6 @@ id: yvt2s4NWBnK4iIDi
 img: icons/game-icons/willdabeast/round-shield.svg
 shortcode: Bklr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

@@ -12,7 +12,6 @@ id: HPVtEP2fGgaFFSNQ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: stonerough
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

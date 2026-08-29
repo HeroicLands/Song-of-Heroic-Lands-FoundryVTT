@@ -12,7 +12,6 @@ id: paY1FUBrezK0bFU4
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: harpjarind
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

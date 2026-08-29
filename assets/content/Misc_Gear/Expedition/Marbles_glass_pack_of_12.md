@@ -12,7 +12,6 @@ id: wYVxakyrxjt4PpVp
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: marblesgla
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: glas

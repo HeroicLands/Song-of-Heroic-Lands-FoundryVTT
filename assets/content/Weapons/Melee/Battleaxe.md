@@ -11,7 +11,6 @@ id: e2yTJarkknsljlVb
 img: icons/game-icons/lorc/battle-axe.svg
 shortcode: BAxe
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

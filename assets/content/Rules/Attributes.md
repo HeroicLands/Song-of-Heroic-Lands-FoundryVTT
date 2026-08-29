@@ -4,7 +4,6 @@ aliases:
   - doc-attributes
 id: dg1YJe27cn88Q2mi
 type: doc
-package: sohl
 category: rules
 name:
   full: Attributes

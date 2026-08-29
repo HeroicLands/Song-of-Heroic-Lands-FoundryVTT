@@ -4,7 +4,6 @@ aliases:
   - doc-boon
 id: IUE1zCOsO7IyrAbo
 type: doc
-package: sohl
 category: rules
 name:
   full: Boon

@@ -12,7 +12,6 @@ id: CdhDhKsvUFp48uV6
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scabbard
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -12,7 +12,6 @@ id: BuedzU9Hwrs1mkYy
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: duck
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

@@ -10,7 +10,6 @@ id: EImQe8BdY1M61KPy
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: arsenic
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

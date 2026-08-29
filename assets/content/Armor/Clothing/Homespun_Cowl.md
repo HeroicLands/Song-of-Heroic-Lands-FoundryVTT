@@ -11,7 +11,6 @@ id: iUe7OR9b2FUzLgrs
 img: icons/game-icons/lorc/hood.svg
 shortcode: HsCowl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

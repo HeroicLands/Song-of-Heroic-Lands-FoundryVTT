@@ -4,7 +4,6 @@ aliases:
   - doc-trtnginj
 id: tYs0q2sFoKHGe6vY
 type: doc
-package: sohl
 category: rules
 name:
   full: Treating Injuries

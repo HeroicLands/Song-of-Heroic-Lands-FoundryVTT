@@ -12,7 +12,6 @@ id: XJYw9rsf1HRoKwhx
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spannerwindlass
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

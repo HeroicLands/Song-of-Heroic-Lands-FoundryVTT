@@ -10,7 +10,6 @@ id: CVA6O8CNz68e9wFd
 img: icons/game-icons/delapouite/throwing-ball.svg
 shortcode: thro
 type: skill
-package: sohl
 sohl:
   kbcat: combat
   archetype: 0

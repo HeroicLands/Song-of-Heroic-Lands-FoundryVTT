@@ -12,7 +12,6 @@ id: wQeyZhSnCssepVXB
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hornbonehu
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

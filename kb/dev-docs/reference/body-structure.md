@@ -12,7 +12,6 @@ name:
 id: PrmiTB7yTz9BJodj
 slug: body-structure
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 tags:

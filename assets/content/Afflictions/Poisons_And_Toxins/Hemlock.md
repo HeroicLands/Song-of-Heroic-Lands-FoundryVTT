@@ -10,7 +10,6 @@ id: yjo0GvEQHJBaLzpY
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: hemlock
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

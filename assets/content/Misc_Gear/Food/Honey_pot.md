@@ -12,7 +12,6 @@ id: u0VzoJNiNQciWYO7
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: honeypot
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

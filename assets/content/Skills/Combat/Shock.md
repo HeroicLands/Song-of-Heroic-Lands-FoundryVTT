@@ -10,7 +10,6 @@ id: UufDJlNBkyC6FG7E
 img: icons/game-icons/lorc/lightning-arc.svg
 shortcode: shok
 type: skill
-package: sohl
 sohl:
   kbcat: combat
   archetype: 0

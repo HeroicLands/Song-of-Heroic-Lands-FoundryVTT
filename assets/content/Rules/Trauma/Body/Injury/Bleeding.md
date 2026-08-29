@@ -7,7 +7,6 @@ aliases:
   - doc-bleeding
 id: edDvJKnODEldyaSh
 type: doc
-package: sohl
 category: rules
 name:
   full: Bleeding

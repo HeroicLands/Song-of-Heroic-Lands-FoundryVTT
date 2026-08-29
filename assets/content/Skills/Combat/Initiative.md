@@ -10,7 +10,6 @@ id: RFWzRoQovoVqonca
 img: icons/game-icons/lorc/sprint.svg
 shortcode: init
 type: skill
-package: sohl
 sohl:
   kbcat: combat
   archetype: 0

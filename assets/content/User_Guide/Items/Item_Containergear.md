@@ -4,7 +4,6 @@ aliases:
   - doc-cntnr
 id: rF2XSEFWmBoOwkks
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Container"

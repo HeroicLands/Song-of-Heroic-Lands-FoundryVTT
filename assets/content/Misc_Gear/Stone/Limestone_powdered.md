@@ -12,7 +12,6 @@ id: UM1KDcS1GHMr2cPS
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: limestonep
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

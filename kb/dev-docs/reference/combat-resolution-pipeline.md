@@ -7,7 +7,6 @@ name:
 id: 3kScB1NX9zBdYHtz
 slug: combat-resolution-pipeline
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 tags:

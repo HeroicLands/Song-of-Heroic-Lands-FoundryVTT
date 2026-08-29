@@ -11,7 +11,6 @@ id: OiGsx0AXFt8RW6Yd
 img: icons/game-icons/lorc/falling-boulder.svg
 shortcode: Onagr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

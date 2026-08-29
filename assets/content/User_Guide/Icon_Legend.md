@@ -6,7 +6,6 @@ aliases:
   - doc-iconlgnd
 id: GU59i07VkICWsT2l
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Icon Legend"

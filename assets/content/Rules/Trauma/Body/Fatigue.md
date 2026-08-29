@@ -9,7 +9,6 @@ aliases:
   - doc-fatigue
 id: G1UDnlgH8sI9oNO7
 type: doc
-package: sohl
 category: rules
 name:
   full: Fatigue

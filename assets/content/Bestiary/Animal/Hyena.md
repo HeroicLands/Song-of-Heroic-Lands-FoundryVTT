@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/hyena-portrait.webp
 shortcode: hyena
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -12,7 +12,6 @@ id: f5GlVwjxdSWuMWRJ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ham
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

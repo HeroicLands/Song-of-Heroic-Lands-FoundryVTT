@@ -10,7 +10,6 @@ id: KfpVMJF4gXdlvwL4
 img: icons/game-icons/delapouite/herbs-bundle.svg
 shortcode: herb
 type: skill
-package: sohl
 sohl:
   kbcat: nature
   archetype: 0

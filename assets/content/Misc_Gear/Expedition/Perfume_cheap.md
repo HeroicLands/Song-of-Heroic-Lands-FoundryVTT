@@ -12,7 +12,6 @@ id: 1kdbq7wlJr1J68sN
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: perfumecheap
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: pfmy

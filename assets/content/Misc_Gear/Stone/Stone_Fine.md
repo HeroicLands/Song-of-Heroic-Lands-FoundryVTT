@@ -12,7 +12,6 @@ id: 4YT7IALRsIulSwsI
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: stonefine
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

@@ -12,7 +12,6 @@ id: 5e4HPnC1RcbhChnn
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideermine
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

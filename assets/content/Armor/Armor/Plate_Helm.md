@@ -11,7 +11,6 @@ id: 5ZStXFpMp4A1UkQO
 img: icons/game-icons/lorc/crested-helmet.svg
 shortcode: PHlm
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

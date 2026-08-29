@@ -10,7 +10,6 @@ id: l2gx8lA2IzZbeKOB
 img: icons/game-icons/lorc/brain.svg
 shortcode: rea
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

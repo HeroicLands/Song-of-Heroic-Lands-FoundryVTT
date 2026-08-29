@@ -12,7 +12,6 @@ id: M2KNdOVeOqikHgTD
 img: icons/game-icons/lorc/beer-stein.svg
 shortcode: alekeg
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: brew

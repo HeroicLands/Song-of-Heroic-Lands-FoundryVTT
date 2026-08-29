@@ -12,7 +12,6 @@ id: i1cgp6eMs6Nn34E6
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chalkbulk
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

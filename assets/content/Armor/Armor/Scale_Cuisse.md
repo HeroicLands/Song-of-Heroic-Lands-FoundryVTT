@@ -11,7 +11,6 @@ id: 2uzBVe3SfEQjD6TG
 img: icons/game-icons/lorc/scale-mail.svg
 shortcode: SCui
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

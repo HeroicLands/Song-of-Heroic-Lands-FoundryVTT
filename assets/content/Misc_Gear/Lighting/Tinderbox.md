@@ -12,7 +12,6 @@ id: sVIqivW8l6eNVdSl
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tndrbx
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

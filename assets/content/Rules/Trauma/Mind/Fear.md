@@ -5,7 +5,6 @@ aliases:
   - doc-fear
 id: JQ6QycfbFNiwqmoW
 type: doc
-package: sohl
 category: rules
 name:
   full: Fear

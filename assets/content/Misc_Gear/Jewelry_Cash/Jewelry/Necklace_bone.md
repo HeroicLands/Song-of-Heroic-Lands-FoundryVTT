@@ -12,7 +12,6 @@ id: vrQfDnc8aoPiAkSs
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: necklacebone
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

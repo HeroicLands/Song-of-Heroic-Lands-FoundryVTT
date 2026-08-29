@@ -12,7 +12,6 @@ id: iQkABhLBQZOOuRkk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: necklacewood
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

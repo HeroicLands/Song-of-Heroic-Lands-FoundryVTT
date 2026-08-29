@@ -10,7 +10,6 @@ id: 6fgtfnfNablzp2SI
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: archery
 type: skill
-package: sohl
 sohl:
   kbcat: combat
   archetype: 0

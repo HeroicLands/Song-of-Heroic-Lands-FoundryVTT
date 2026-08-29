@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/gecko.svg
 portrait: images/being/glsslzrd-portrait.webp
 shortcode: glsslzrd
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

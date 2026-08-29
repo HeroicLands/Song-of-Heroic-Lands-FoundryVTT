@@ -12,7 +12,6 @@ id: adk0pntONrseU6tp
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spade
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

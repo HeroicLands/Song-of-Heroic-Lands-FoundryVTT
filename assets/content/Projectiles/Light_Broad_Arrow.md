@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Light hunting shaft, leaf-shaped iron edge; bleeds prey, deer, fox, unarmoured men."
 type: projectilegear
-package: sohl
 id: VaCPXogiH2DZlFrH
 shortcode: ArwLBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg

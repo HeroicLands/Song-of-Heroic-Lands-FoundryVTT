@@ -11,7 +11,6 @@ id: SY6E2zLDpjWA5F22
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: carryframe
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

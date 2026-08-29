@@ -11,7 +11,6 @@ id: tto8ivGu4mNZPKKU
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pursesilk
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: txtl

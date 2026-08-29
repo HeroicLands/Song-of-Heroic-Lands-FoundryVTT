@@ -12,7 +12,6 @@ id: KZ5mXd7yvIS2rfT8
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chalkpowde
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

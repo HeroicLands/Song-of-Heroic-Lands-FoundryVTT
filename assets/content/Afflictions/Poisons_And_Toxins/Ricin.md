@@ -10,7 +10,6 @@ id: FdrJ7yAj3GXKJtpI
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: ricin
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

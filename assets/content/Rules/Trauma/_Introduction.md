@@ -4,7 +4,6 @@ aliases:
   - doc-traumaintro
 id: Np0h2gEc4EziXNeM
 type: doc
-package: sohl
 category: rules
 name:
   full: Trauma Introduction

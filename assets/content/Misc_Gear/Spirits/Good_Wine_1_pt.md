@@ -12,7 +12,6 @@ id: BzK8ME1Dc6FbjGu4
 img: icons/game-icons/delapouite/wine-bottle.svg
 shortcode: gwinept
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: brew

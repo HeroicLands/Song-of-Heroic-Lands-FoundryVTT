@@ -12,7 +12,6 @@ id: NhSLHwB8TN7H7bV3
 img: icons/game-icons/delapouite/flail.svg
 shortcode: BCFl
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

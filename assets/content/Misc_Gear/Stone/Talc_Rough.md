@@ -12,7 +12,6 @@ id: hxeEhl3KNAvCN6GW
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: talcrough
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

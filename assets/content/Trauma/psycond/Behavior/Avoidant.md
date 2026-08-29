@@ -9,7 +9,6 @@ id: WTWC6Z0qzDZIaK4L
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: avoidant
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

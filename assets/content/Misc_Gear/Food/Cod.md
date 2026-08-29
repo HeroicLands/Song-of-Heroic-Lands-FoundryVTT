@@ -12,7 +12,6 @@ id: PoTftOCpRY4tsKfJ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cod
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

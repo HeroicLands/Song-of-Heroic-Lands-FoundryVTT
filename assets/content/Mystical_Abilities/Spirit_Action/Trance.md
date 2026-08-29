@@ -10,7 +10,6 @@ id: W5zBa8cOWNIr58UE
 img: icons/game-icons/lorc/meditation.svg
 shortcode: trnc
 type: mysticalability
-package: sohl
 sohl:
   kbcat: spiritaction
   archetype: 0
