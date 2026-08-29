@@ -16,7 +16,6 @@ sohl:
   archetype: 0
   subType: arcanetalent
   assocSkillCode: ""
-  assocMysteryCode: ""
   levelBase: 0
   masteryLevelBase: 0
 

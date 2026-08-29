@@ -16,7 +16,6 @@ sohl:
   archetype: 0
   subType: spiritaction
   assocSkillCode: ""
-  assocMysteryCode: ""
   levelBase: 0
   masteryLevelBase: 0
 folder: u2uL4fjE2nKMfgbW
