@@ -11,7 +11,6 @@ id: 5oF5e9KKsdXXq7R0
 img: icons/game-icons/delapouite/sickle.svg
 shortcode: Skl
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

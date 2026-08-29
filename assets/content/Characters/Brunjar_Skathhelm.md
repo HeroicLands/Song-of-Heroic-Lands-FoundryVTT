@@ -19,7 +19,6 @@ shortcode: brunjarskathhel
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/brunjarskathhel-portrait.webp
 type: being
-package: sohl
 social:
   occupation: Brigand
   station: underworld

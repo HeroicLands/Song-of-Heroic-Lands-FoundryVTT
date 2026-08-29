@@ -11,7 +11,6 @@ id: eIGrTkCcncTf8pTs
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: torch
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

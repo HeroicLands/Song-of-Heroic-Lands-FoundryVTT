@@ -12,7 +12,6 @@ id: DH8AbckWaXc27pSf
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: millstone
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -11,7 +11,6 @@ id: 1X3l3LyuM3k7Iopu
 img: icons/game-icons/lorc/fishing-net.svg
 shortcode: Net
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: txtl

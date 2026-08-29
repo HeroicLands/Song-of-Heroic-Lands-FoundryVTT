@@ -12,7 +12,6 @@ id: CB3mEGhtlxzc9lGP
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: carpetwool
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

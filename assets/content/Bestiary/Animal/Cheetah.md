@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/lion.svg
 portrait: images/being/cheetah-portrait.webp
 shortcode: cheetah
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

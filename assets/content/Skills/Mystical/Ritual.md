@@ -10,7 +10,6 @@ id: K7tJynLhxSDiajCo
 img: icons/game-icons/delapouite/circle.svg
 shortcode: ritual
 type: skill
-package: sohl
 sohl:
   kbcat: mystical
   archetype: 0

@@ -12,7 +12,6 @@ id: 7xEE6PVS14HORuNO
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: carpentryk
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

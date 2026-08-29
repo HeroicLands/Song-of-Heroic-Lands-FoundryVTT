@@ -10,7 +10,6 @@ id: IQ6sKftvOoHAJOi5
 img: icons/game-icons/lorc/cartwheel.svg
 shortcode: agl
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

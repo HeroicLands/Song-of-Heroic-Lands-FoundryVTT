@@ -12,7 +12,6 @@ id: WtF9W9cqrBiW7S6y
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: veal
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

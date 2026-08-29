@@ -12,7 +12,6 @@ id: SXV5ucGWAX5LAcCO
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: holysymsilver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

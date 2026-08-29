@@ -12,7 +12,6 @@ id: IA4LIaSy3F0QaGEk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: climbkit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

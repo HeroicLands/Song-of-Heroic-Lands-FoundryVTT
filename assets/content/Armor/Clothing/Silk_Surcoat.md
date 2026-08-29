@@ -11,7 +11,6 @@ id: PkKiFjIhKQWTNDUk
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: SlkScoat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

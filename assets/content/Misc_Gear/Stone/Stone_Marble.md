@@ -12,7 +12,6 @@ id: cp3Sy3MceFAqdBaR
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: stonemarbl
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

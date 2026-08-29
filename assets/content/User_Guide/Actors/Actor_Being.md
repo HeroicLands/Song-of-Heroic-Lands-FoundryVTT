@@ -4,7 +4,6 @@ aliases:
   - doc-being
 id: yGlzMjLsBc8dCO6J
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Being"

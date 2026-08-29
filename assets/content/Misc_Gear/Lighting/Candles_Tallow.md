@@ -12,7 +12,6 @@ id: 5Ab7lgDc6uRDZYHi
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlestal
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

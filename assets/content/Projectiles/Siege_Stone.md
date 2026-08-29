@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Dressed round shot for an engine; a stone the weight of a man."
 type: projectilegear
-package: sohl
 id: Iwb9HCPzqn4nEsPF
 shortcode: StnSge
 img: icons/game-icons/lorc/stone-block.svg

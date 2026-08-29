@@ -13,7 +13,6 @@ img: icons/game-icons/caro-asercion/boar.svg
 portrait: images/being/wildboar-portrait.webp
 shortcode: wildboar
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

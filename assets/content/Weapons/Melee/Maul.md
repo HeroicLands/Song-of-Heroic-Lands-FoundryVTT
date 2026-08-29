@@ -11,7 +11,6 @@ id: h7iIfsK8x7lIOP1T
 img: icons/game-icons/lorc/claw-hammer.svg
 shortcode: Maul
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

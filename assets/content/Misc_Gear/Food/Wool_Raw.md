@@ -12,7 +12,6 @@ id: QhXFBXG6OXliukiD
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: woolraw
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

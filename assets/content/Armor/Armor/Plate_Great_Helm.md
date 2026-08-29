@@ -11,7 +11,6 @@ id: 7ixVyat08OnBx2nh
 img: icons/game-icons/lorc/visored-helm.svg
 shortcode: PlGtHlm
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

@@ -3,7 +3,6 @@ aliases:
   - doc-actions
 id: iQzDh13KVsOrpbqc
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Actions"

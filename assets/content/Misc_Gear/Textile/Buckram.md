@@ -12,7 +12,6 @@ id: 92h7wM75Y9YoXXzr
 img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: buckram
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

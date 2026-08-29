@@ -7,7 +7,6 @@ aliases:
   - doc-oppsdtst
 id: qu9CxTZmDhQa31YN
 type: doc
-package: sohl
 category: rules
 name:
   full: Opposed Tests

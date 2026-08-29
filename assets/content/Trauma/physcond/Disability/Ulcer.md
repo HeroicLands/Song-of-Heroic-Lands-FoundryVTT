@@ -9,7 +9,6 @@ id: d2LF42meCO17Khog
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ulcer
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

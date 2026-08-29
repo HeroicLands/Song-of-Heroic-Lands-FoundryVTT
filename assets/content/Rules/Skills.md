@@ -4,7 +4,6 @@ aliases:
   - doc-skills
 id: A38qwbVdPQHhGVgB
 type: doc
-package: sohl
 category: rules
 name:
   full: Skills Introduction

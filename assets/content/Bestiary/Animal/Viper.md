@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/snake.svg
 portrait: images/being/viper-portrait.webp
 shortcode: viper
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

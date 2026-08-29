@@ -4,7 +4,6 @@ aliases:
   - doc-mystabilintro
 id: Flm6eeiyl4UHZUIq
 type: doc
-package: sohl
 category: rules
 name:
   full: Mystical Abilities Introduction

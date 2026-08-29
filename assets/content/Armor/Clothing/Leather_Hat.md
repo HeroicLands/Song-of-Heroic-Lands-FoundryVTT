@@ -11,7 +11,6 @@ id: gIRZS8B8cDq8hukr
 img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: LtHat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

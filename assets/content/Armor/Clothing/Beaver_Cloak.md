@@ -11,7 +11,6 @@ id: LaYvnUQykZ3dT0zC
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: BvCloak
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

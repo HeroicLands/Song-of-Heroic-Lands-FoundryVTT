@@ -12,7 +12,6 @@ id: FHQXXrnxUgs2vgbi
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: carnelianc
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

@@ -10,7 +10,6 @@ id: cJnD2VAKWuxSdo5s
 img: icons/game-icons/caro-asercion/mountain-climbing.svg
 shortcode: clmb
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

@@ -12,7 +12,6 @@ id: WpGX1K3fmfuXFE9Y
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hornhuntin
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

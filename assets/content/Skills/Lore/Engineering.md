@@ -10,7 +10,6 @@ id: jKJI0RAuL2IEBDl3
 img: icons/game-icons/lorc/gears.svg
 shortcode: eng
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

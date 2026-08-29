@@ -6,7 +6,6 @@ name:
 id: wAO09gIz6slBmjYb
 slug: lifecycle-hooks
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

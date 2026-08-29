@@ -9,7 +9,6 @@ id: dZsXpK6LNwh13oqk
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: loyal
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

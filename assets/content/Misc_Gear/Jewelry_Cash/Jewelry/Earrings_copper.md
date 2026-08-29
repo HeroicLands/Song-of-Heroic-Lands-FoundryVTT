@@ -12,7 +12,6 @@ id: HXnvi2gBYKkQSYSK
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: earringscopper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

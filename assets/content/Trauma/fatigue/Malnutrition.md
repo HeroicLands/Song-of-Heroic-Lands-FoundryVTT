@@ -10,7 +10,6 @@ id: 64nItxYM9dSeqwTX
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: mlntxn
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

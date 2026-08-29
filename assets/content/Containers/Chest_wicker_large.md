@@ -11,7 +11,6 @@ id: vX6siwvOdO7NK7Nj
 img: icons/game-icons/delapouite/basket.svg
 shortcode: chestwklg
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

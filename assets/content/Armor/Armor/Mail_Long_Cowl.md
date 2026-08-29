@@ -11,7 +11,6 @@ id: PxXb0SdKVy4r5ww4
 img: icons/game-icons/lorc/hood.svg
 shortcode: MLCowl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

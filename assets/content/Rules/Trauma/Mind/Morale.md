@@ -7,7 +7,6 @@ aliases:
   - doc-morale
 id: jBDOZxRV8VpzsfPV
 type: doc
-package: sohl
 category: rules
 name:
   full: Morale

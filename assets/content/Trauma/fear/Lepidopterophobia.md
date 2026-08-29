@@ -9,7 +9,6 @@ id: FmFmSEVFuXRwgMcx
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: lepidopt
 type: trauma
-package: sohl
 sohl:
   kbcat: phobias
   archetype: 0

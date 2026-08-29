@@ -12,7 +12,6 @@ id: 5lXKChuoeMP2qUBv
 img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: KSpld
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

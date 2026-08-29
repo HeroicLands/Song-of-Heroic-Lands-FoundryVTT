@@ -11,7 +11,6 @@ id: o571LCZR0dPVHTlW
 img: icons/game-icons/delapouite/cape.svg
 shortcode: BMntl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

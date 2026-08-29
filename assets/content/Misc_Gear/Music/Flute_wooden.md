@@ -12,7 +12,6 @@ id: mLkL0dprHe0L8pxW
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flutewoode
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

@@ -15,7 +15,6 @@ img: icons/game-icons/delapouite/sperm-whale.svg
 portrait: images/being/orca-portrait.webp
 shortcode: orca
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

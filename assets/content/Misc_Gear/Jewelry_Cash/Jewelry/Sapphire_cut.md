@@ -12,7 +12,6 @@ id: m91U82SryxhSlh7O
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sapphirecu
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

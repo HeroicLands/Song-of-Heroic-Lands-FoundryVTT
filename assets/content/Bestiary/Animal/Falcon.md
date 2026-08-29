@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/falcon-moon.svg
 portrait: images/being/falcon-portrait.webp
 shortcode: falcon
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

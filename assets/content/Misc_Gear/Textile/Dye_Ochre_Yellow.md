@@ -12,7 +12,6 @@ id: 0Az6d79PEtKbfejf
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyeochr
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: herb

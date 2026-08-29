@@ -12,7 +12,6 @@ id: xgusnSDAlUSidvZe
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: necklacesilver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

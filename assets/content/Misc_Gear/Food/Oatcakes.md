@@ -12,7 +12,6 @@ id: 5gGCMxDun741ZDY5
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oatcakes
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mill

@@ -10,7 +10,6 @@ id: UqwlRxBPRTT0qnaO
 img: icons/game-icons/lorc/metal-bar.svg
 shortcode: mtlc
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

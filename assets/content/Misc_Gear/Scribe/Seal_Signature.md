@@ -12,7 +12,6 @@ id: 8iW0isQgUMlnQtHw
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sealsignat
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

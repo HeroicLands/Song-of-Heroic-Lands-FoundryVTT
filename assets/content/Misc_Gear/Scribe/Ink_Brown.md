@@ -12,7 +12,6 @@ id: SfwROmoRdYQjPB0M
 img: icons/game-icons/lorc/ink-swirl.svg
 shortcode: inkbrn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: herb

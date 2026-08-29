@@ -4,7 +4,6 @@ aliases:
   - doc-baseitem
 id: DXyazxuH0KLFWj4l
 type: doc
-package: sohl
 category: user-guide
 name:
   full: Base Item

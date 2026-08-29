@@ -12,7 +12,6 @@ id: nQT6C02fyJ2zGIXN
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grindstone
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: masn

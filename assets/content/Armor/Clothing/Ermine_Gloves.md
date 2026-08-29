@@ -11,7 +11,6 @@ id: C5CEWxxBG7zeuYD7
 img: icons/game-icons/delapouite/gloves.svg
 shortcode: EGlv
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

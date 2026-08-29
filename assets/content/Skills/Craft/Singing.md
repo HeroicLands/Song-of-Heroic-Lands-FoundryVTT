@@ -10,7 +10,6 @@ id: lH0RVKjTxtHEUacl
 img: icons/game-icons/lorc/sing.svg
 shortcode: sing
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

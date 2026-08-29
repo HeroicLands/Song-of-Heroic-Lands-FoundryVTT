@@ -4,7 +4,6 @@ aliases:
   - doc-mscllnsg
 id: 3tsCXpR4ep5hnzV1
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Miscellaneous Gear"

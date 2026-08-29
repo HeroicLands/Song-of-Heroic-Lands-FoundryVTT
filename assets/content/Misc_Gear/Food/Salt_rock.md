@@ -12,7 +12,6 @@ id: 9jNyZzQIuDmE7KZz
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saltrock
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

@@ -10,7 +10,6 @@ id: fudqfR2nnjqpo5O7
 img: icons/game-icons/lorc/scales.svg
 shortcode: law
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

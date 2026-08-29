@@ -12,7 +12,6 @@ id: hKmlqc4luv8CXkZZ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oatmeal
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: cook

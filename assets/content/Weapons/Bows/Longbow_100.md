@@ -11,7 +11,6 @@ id: cVBQ9bCrUJiPizU9
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: LBw100
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: fltch

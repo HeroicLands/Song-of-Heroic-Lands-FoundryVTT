@@ -4,7 +4,6 @@ aliases:
   - doc-structure
 id: STezcXhJMlmYv9XT
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Structure"

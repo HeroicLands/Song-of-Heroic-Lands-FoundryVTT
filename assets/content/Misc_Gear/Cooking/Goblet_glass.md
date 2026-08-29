@@ -12,7 +12,6 @@ id: oqvxrbmO7YWqzAdR
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: gobletglas
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: glas

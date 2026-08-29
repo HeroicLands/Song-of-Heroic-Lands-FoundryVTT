@@ -12,7 +12,6 @@ id: Dl9gY8B3QvdEm2Lp
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ploughshare
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

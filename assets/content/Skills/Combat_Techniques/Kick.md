@@ -11,7 +11,6 @@ id: uXdixGMpTKRvslpf
 img: icons/game-icons/lorc/foot-trip.svg
 shortcode: bflkkick
 type: skill
-package: sohl
 sohl:
   kbcat: unarmed
   archetype: 0

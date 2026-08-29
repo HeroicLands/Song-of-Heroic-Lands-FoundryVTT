@@ -6,7 +6,6 @@ name:
 id: N9XBbIadREP4tBDs
 slug: testing
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

@@ -10,7 +10,6 @@ id: Na0Kzoqj13YDU3Xt
 img: icons/game-icons/delapouite/unicorn.svg
 shortcode: folklr
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

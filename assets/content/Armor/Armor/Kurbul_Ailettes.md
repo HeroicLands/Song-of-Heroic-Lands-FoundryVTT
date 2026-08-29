@@ -12,7 +12,6 @@ id: 6Hbtu2iBZTd9d5Bb
 img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: KAil
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

@@ -12,7 +12,6 @@ id: tVbKScBj17e4suBR
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lockpadloc2
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: lock

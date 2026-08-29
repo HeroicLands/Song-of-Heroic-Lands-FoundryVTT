@@ -11,7 +11,6 @@ id: K5oiexxOcz1zUcMl
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: EVest
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -12,7 +12,6 @@ id: FIXSjmfSDNXqDtQr
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: topazcut
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

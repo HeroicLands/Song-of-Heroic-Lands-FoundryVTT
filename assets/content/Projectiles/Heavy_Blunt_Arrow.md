@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Stout ash shaft, wood or bronze knob; breaks bone, stuns boar."
 type: projectilegear
-package: sohl
 id: JE3pQL3kK5ZJyRni
 shortcode: ArwHBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg

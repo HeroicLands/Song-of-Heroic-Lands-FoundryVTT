@@ -11,7 +11,6 @@ id: rjE671F4IQ0hh3KL
 img: icons/game-icons/lorc/robe.svg
 shortcode: LtRobe
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

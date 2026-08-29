@@ -6,7 +6,6 @@ name:
 id: TTyUIc3DZWDLHDcp
 slug: readme
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

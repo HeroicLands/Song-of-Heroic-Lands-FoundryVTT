@@ -12,7 +12,6 @@ id: 0iypnRENI2leejE6
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jade
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

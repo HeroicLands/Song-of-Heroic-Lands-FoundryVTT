@@ -12,7 +12,6 @@ id: bilPNNYuuQW9jZa9
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scalesweig
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

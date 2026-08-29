@@ -12,7 +12,6 @@ id: hTaeFJPOKwh8alau
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: goose
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

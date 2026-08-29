@@ -12,7 +12,6 @@ id: zMDgT9fxgo7553RX
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beadscoppe
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

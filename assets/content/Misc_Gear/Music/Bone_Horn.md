@@ -12,7 +12,6 @@ id: ouFBUlaNt8q0AK9r
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bonehorn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

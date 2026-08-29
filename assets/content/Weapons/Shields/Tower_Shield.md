@@ -11,7 +11,6 @@ id: HPLnDDmmSh4yH0UK
 img: icons/game-icons/badges/shield.svg
 shortcode: TwrSh
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

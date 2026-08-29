@@ -12,7 +12,6 @@ id: 0eiMuSA61moh9U7n
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cagewoodlg
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

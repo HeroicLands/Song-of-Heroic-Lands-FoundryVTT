@@ -10,7 +10,6 @@ id: oXYa53IldDytbfFq
 img: icons/game-icons/delapouite/enrage.svg
 shortcode: summ
 type: mysticalability
-package: sohl
 sohl:
   kbcat: spiritaction
   archetype: 0

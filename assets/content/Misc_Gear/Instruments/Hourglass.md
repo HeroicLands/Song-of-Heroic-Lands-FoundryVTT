@@ -12,7 +12,6 @@ id: KVccLSorqPZcNG7f
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hourglass
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: glas

@@ -12,7 +12,6 @@ id: 2QVWCDQHcJv7iqvX
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: soap
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: pfmy

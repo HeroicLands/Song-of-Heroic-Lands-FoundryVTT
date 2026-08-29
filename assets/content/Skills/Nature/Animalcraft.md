@@ -10,7 +10,6 @@ id: DTPuFzFuaWPySSGj
 img: icons/game-icons/badges/paw.svg
 shortcode: anmcft
 type: skill
-package: sohl
 sohl:
   kbcat: nature
   archetype: 0

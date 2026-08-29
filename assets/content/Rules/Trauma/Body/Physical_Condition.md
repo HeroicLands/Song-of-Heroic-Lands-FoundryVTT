@@ -5,7 +5,6 @@ aliases:
   - doc-physclcn
 id: BkGKJhvkDMx4HOrQ
 type: doc
-package: sohl
 category: rules
 name:
   full: Physical Condition

@@ -12,7 +12,6 @@ id: SIAES0ePWmZnKFaC
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: LiteBlkt
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

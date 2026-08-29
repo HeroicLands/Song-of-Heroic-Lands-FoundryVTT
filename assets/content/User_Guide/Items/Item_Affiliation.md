@@ -4,7 +4,6 @@ aliases:
   - doc-affltn
 id: hJGjCXud883VX96W
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Affiliation"

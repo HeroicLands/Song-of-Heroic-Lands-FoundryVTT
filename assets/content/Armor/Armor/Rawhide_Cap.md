@@ -11,7 +11,6 @@ id: LZoITubAJhCRMT1C
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: RhCap
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

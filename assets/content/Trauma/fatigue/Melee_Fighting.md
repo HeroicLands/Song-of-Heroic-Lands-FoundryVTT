@@ -11,7 +11,6 @@ id: 4xM2HdylF5p2fWJJ
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: fight
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

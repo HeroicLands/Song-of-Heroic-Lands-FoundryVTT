@@ -12,7 +12,6 @@ id: p873p2YYpWT9ZFP0
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bloodstone
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

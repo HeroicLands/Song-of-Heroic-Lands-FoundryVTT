@@ -11,7 +11,6 @@ id: mzZ3KmDTTuXQ2eD6
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: WScoat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -4,7 +4,6 @@ aliases:
   - doc-injrylvl
 id: B1UF3CTHNtQKtIxC
 type: doc
-package: sohl
 category: rules
 name:
   full: Injury Levels

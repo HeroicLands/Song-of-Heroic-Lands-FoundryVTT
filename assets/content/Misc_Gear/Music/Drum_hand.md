@@ -12,7 +12,6 @@ id: 0LV72YlMVpb5HGsa
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: drumhand
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

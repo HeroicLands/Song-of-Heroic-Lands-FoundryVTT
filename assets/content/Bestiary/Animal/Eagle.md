@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/eagle-head.svg
 portrait: images/being/eagle-portrait.webp
 shortcode: eagle
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

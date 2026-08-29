@@ -3,7 +3,6 @@ aliases:
   - doc-scnstpan
 id: WxM4H3SLZKQhLTog
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Scene Setup and Tokens"

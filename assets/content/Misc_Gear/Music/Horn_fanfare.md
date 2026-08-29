@@ -12,7 +12,6 @@ id: 3kFjrA3q6RSR78P1
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hornfanfar
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

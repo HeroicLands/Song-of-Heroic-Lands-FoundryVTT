@@ -11,7 +11,6 @@ id: 0sLgREZBVVKRvN00
 img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: BHat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

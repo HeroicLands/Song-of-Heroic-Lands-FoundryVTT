@@ -65,7 +65,7 @@ docs:
         preamble:
             - "See also: [The Authoring Workflow](authoring-workflow.md), [Actor Notes](actor-notes.md), [Asset Conventions](asset-conventions.md)"
             - ""
-            - "Every item note carries the frontmatter envelope described in [The Authoring Workflow](authoring-workflow.md) — `name.full`, `type`, `shortcode`, `package`, `id`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else."
+            - "Every item note carries the frontmatter envelope described in [The Authoring Workflow](authoring-workflow.md) — `name.full`, `type`, `shortcode`, `id`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else."
             - ""
             - "The tables are rendered from the declaration that _builds_ each document, not from a description of it, so a field listed here is a field the compiler reads and a field absent here is one it ignores. An unrecognised `sohl:` key is silently dropped, so a typo shows up as a missing value rather than an error — check the spelling here first."
 

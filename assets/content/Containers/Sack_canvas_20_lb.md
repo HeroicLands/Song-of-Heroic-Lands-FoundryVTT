@@ -11,7 +11,6 @@ id: Fjpn7JM3j4x2M62C
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sackcanvas20
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: txtl

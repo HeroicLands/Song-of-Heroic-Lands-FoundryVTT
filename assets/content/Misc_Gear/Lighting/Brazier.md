@@ -12,7 +12,6 @@ id: vcHHFIAw2xs4JN6j
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: brazier
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -16,7 +16,6 @@ shortcode: basicfolk
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/basicfolk-portrait.webp
 type: being
-package: sohl
 social:
   occupation: ""
   station: ""

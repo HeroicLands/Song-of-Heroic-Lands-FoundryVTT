@@ -12,7 +12,6 @@ id: lyjo9CSEafzkiqdW
 img: icons/game-icons/delapouite/herbs-bundle.svg
 shortcode: pipewd
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

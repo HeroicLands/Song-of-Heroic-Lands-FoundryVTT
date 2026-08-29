@@ -12,7 +12,6 @@ id: Qc6ocryHI0PgvlNv
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: venison
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

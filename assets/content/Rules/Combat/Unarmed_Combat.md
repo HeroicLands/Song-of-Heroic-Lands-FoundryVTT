@@ -7,7 +7,6 @@ aliases:
   - doc-unrmdcmb
 id: SNdlp2B249F9Enwx
 type: doc
-package: sohl
 category: rules
 name:
   full: Unarmed Combat

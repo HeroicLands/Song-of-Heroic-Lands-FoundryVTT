@@ -12,7 +12,6 @@ id: eFG6UDTsM6qqj4Mi
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: penquill
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

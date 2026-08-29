@@ -4,7 +4,6 @@ aliases:
   - doc-shrtcds
 id: b44b338b7c4477fb
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Shortcodes"

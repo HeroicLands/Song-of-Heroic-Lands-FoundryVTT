@@ -10,7 +10,6 @@ id: VoZDMnV29TjcrO4T
 img: icons/game-icons/delapouite/wood-pile.svg
 shortcode: timb
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

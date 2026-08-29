@@ -9,7 +9,6 @@ aliases:
   - doc-strkmds
 id: ixrwbYUvFCsmEkO9
 type: doc
-package: sohl
 category: rules
 name:
   full: Strike Modes

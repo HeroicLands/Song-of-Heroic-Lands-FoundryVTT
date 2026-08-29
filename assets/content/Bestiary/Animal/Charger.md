@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/horse-head.svg
 portrait: images/being/charger-portrait.webp
 shortcode: charger
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

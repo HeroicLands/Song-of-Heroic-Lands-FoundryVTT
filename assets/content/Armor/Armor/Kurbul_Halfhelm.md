@@ -12,7 +12,6 @@ id: xi8WoJFZFH48so9o
 img: icons/game-icons/lorc/barbute.svg
 shortcode: KHlfHelm
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

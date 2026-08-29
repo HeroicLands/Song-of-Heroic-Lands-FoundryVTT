@@ -4,7 +4,6 @@ aliases:
   - doc-scrying
 id: fnTUYkZZllrMQirG
 type: doc
-package: sohl
 category: rules
 name:
   full: Scrying

@@ -6,7 +6,6 @@ aliases:
   - doc-coma
 id: bqBGHYIwbqvqaZ5I
 type: doc
-package: sohl
 category: rules
 name:
   full: Coma

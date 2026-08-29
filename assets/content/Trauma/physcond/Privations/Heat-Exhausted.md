@@ -10,7 +10,6 @@ id: us65TjFmPUDBVg5s
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: htexh
 type: trauma
-package: sohl
 sohl:
   kbcat: physprivations
   archetype: 0

@@ -12,7 +12,6 @@ id: 1wwhljSwXWTm3eh1
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: boneforcar
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

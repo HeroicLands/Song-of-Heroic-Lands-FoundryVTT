@@ -12,7 +12,6 @@ id: p0tv5i6QrzL1Agtc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: brass
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

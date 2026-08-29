@@ -4,7 +4,6 @@ aliases:
   - doc-grace
 id: VQ3MeSUiAE2YxrER
 type: doc
-package: sohl
 category: rules
 name:
   full: Grace

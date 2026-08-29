@@ -14,7 +14,6 @@ img: icons/game-icons/delapouite/tiger.svg
 portrait: images/being/tiger-portrait.webp
 shortcode: tiger
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

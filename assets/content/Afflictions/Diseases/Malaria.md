@@ -10,7 +10,6 @@ id: 0r4wSvwWk4LXfXlK
 img: icons/game-icons/lorc/virus.svg
 shortcode: malaria
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

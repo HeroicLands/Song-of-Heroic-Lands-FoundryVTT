@@ -4,7 +4,6 @@ aliases:
   - doc-affiliation
 id: l6WtRZ8ua1K0wZOK
 type: doc
-package: sohl
 category: rules
 name:
   full: Affiliations

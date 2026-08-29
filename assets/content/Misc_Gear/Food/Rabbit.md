@@ -12,7 +12,6 @@ id: VWvemhIoCuxy1YMv
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rabbit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

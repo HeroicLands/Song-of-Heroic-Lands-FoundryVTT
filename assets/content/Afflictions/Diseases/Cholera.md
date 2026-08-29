@@ -10,7 +10,6 @@ id: H8oEH0fN3IXFHJpJ
 img: icons/game-icons/lorc/virus.svg
 shortcode: cholera
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

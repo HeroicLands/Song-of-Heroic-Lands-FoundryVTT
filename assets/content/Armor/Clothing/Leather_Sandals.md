@@ -11,7 +11,6 @@ id: zqLrR90jgECDsRkk
 img: icons/game-icons/delapouite/flip-flops.svg
 shortcode: LtSndls
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

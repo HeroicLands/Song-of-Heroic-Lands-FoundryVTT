@@ -10,7 +10,6 @@ id: bZCm7bURkPsffnIW
 img: icons/game-icons/caro-asercion/mountain-climbing.svg
 shortcode: end
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

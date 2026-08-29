@@ -12,7 +12,6 @@ id: NCkn5appnYlVyyYt
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: drumbass
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

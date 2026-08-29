@@ -10,7 +10,6 @@ id: LPAYj3D7r0QjsnFA
 img: icons/game-icons/lorc/drama-masks.svg
 shortcode: thtcs
 type: skill
-package: sohl
 sohl:
   kbcat: social
   archetype: 0

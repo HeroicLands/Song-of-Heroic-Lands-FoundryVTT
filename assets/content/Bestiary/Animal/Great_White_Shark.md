@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/shark-jaws.svg
 portrait: images/being/grtwhtsh-portrait.webp
 shortcode: grtwhtsh
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

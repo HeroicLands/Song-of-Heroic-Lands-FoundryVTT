@@ -12,7 +12,6 @@ id: 8PydDHdaudrYFyNT
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oilcinnamon
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: pfmy

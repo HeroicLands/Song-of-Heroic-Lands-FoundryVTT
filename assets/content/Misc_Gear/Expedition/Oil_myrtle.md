@@ -12,7 +12,6 @@ id: 07EJGE9VTPDZzDJt
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oilmyrtle
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: pfmy

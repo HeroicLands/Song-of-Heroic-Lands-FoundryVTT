@@ -12,7 +12,6 @@ id: Utci3PodxcF5ZJo3
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidesheep
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

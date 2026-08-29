@@ -12,7 +12,6 @@ id: 9M7DmBPi2swClJBj
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: gluept
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

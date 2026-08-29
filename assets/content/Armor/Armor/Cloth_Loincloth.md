@@ -11,7 +11,6 @@ id: P4bLyiIsy0KUYAk0
 img: icons/game-icons/delapouite/loincloth.svg
 shortcode: CLoin
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -10,7 +10,6 @@ id: DlPCHm0GqMcwZyyh
 img: icons/game-icons/delapouite/swimfins.svg
 shortcode: swim
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

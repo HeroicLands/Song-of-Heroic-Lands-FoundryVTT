@@ -12,7 +12,6 @@ id: w2vPZlNJAkMnZTnS
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: twineper10
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

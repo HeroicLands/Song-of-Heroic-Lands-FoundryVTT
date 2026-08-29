@@ -12,7 +12,6 @@ id: kAh4kAClSazimdKm
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beadsglass
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: glas

@@ -12,7 +12,6 @@ id: nHOQfdq0BeCkjYHE
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: necklacegold
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

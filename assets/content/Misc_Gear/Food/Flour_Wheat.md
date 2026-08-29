@@ -12,7 +12,6 @@ id: c9LsOCT5B5ERiuRj
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flourwheat
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mill

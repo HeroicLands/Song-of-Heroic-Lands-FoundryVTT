@@ -4,7 +4,6 @@ aliases:
   - doc-divnint
 id: CKWywNBAT5axa27a
 type: doc
-package: sohl
 category: rules
 name:
   full: Divine Intervention

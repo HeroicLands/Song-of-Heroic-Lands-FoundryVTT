@@ -14,7 +14,6 @@ id: L9gPelify7nLTSWc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grphook
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

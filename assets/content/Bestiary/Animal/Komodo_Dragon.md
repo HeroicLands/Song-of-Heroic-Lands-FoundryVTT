@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/gecko.svg
 portrait: images/being/kmddrgn-portrait.webp
 shortcode: kmddrgn
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

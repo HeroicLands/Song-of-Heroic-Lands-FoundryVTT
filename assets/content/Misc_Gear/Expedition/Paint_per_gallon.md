@@ -12,7 +12,6 @@ id: 25ZZVDGChKWQ2Ca5
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: paintperga
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

@@ -12,7 +12,6 @@ id: iByVnCgxI9PYd5GD
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wheelbarrow
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

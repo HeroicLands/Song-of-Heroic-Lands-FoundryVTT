@@ -12,7 +12,6 @@ id: T1cTQTa0EjrkQm03
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fishinglin
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

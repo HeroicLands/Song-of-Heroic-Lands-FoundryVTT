@@ -10,7 +10,6 @@ id: FnaXc1K99zsHxghH
 img: icons/game-icons/lorc/sing.svg
 shortcode: voi
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

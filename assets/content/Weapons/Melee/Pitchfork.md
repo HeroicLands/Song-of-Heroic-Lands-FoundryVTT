@@ -11,7 +11,6 @@ id: 6rZTBCuixlaoOkaX
 img: icons/game-icons/delapouite/pitchfork.svg
 shortcode: Pfrk
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

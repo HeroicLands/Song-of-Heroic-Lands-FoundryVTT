@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/hppptms-portrait.webp
 shortcode: hppptms
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

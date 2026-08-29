@@ -11,7 +11,6 @@ id: QlSTQXxXgKPSGwIx
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: quiversmsh
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -12,7 +12,6 @@ id: plaiQQm2T5zVK5mO
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bowlcer
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: cmcs

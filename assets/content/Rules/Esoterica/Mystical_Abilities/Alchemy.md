@@ -4,7 +4,6 @@ aliases:
   - doc-alchemy
 id: 1qMLpYvFGBZ6dLgh
 type: doc
-package: sohl
 category: rules
 name:
   full: Alchemy

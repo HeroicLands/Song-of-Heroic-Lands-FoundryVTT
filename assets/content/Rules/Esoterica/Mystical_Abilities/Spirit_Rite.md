@@ -4,7 +4,6 @@ aliases:
   - doc-sprtrt
 id: TgCJ7QeTOa3GOMHe
 type: doc
-package: sohl
 category: rules
 name:
   full: Spirit Rite

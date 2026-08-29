@@ -10,7 +10,6 @@ id: PQLxHwunw4q55rDD
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: curare
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

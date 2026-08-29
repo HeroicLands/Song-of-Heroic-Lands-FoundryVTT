@@ -12,7 +12,6 @@ id: QZ40lP6BlDleOp38
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: incense
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: pfmy

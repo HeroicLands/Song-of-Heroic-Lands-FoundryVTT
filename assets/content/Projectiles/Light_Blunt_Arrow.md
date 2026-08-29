@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Light shaft with wooden knob or leather pad; squirrel, hare, bird hunting."
 type: projectilegear
-package: sohl
 id: 8i5eKRDIguMJHsXx
 shortcode: ArwLBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg

@@ -12,7 +12,6 @@ id: V7QZuj6IcixIikhT
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vellumperp
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

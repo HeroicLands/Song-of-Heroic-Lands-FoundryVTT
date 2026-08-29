@@ -11,7 +11,6 @@ id: knMoqHS0uR7WqT4o
 img: icons/game-icons/lorc/hood.svg
 shortcode: BvCowl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

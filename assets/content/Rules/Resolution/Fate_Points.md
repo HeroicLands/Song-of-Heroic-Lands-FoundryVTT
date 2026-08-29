@@ -6,7 +6,6 @@ aliases:
   - doc-fatepnts
 id: QTLdhEpRknXbUTsn
 type: doc
-package: sohl
 category: rules
 name:
   full: Fate Points

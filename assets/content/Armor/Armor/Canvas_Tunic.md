@@ -11,7 +11,6 @@ id: 54SlyZyHIhmwkXf3
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CvTunic
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -11,7 +11,6 @@ id: HsKeZDZvLKxyrFr4
 img: icons/game-icons/lorc/broad-dagger.svg
 shortcode: Dgr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

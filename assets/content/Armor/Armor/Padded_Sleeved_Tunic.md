@@ -11,7 +11,6 @@ id: SomxyDzmbxABARDj
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: PSTnc
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

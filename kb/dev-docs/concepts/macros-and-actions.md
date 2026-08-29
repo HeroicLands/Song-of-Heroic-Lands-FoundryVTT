@@ -6,7 +6,6 @@ name:
 id: Hk17waT8fDxpYs6u
 slug: macros-and-actions
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

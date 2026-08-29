@@ -11,7 +11,6 @@ id: LsTvYcobeFaVcrWy
 img: icons/game-icons/lorc/trousers.svg
 shortcode: QCui
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

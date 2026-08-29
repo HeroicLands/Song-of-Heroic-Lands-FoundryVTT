@@ -12,7 +12,6 @@ id: jlsqjTtntXSF7cBi
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milkgoat
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

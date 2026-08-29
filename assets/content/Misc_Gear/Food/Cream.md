@@ -12,7 +12,6 @@ id: bW8rH6qoPOolYIKd
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cream
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

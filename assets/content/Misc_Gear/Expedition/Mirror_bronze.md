@@ -12,7 +12,6 @@ id: ipjrHJVFn6MUdWG0
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mirrorbron
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

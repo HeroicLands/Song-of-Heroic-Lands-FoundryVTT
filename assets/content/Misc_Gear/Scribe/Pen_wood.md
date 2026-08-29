@@ -12,7 +12,6 @@ id: 3NgXytL5BdmDWQzH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: penwood
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

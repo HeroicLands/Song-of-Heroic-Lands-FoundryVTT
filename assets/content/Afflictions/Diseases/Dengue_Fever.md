@@ -11,7 +11,6 @@ id: xrF7d46zo1QswNPA
 img: icons/game-icons/lorc/virus.svg
 shortcode: dngfvr
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

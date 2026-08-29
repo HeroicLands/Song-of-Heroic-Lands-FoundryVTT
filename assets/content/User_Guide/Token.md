@@ -4,7 +4,6 @@ aliases:
   - doc-token
 id: cuzEYQJCbBO4RFDq
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Token"

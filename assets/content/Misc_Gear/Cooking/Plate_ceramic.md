@@ -12,7 +12,6 @@ id: pdeDVd6JcJOnYOZJ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: platecer
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: cmcs

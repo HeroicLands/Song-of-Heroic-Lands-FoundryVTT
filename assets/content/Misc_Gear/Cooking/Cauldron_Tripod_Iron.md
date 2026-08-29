@@ -12,7 +12,6 @@ id: KBLgA14HSoLxxDaQ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cauldrontr
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -11,7 +11,6 @@ id: 7sfKMsj67RzZGgbJ
 img: icons/game-icons/delapouite/cook.svg
 shortcode: RhApr
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

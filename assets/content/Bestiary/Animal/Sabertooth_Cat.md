@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/lion.svg
 portrait: images/being/sbrtthct-portrait.webp
 shortcode: sbrtthct
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

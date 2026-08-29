@@ -54,7 +54,6 @@ description: "The common room of a roadside shelter."
 id: Xwo4dsmey2A3Rvrn # pinned, as with items and actors
 shortcode: wayrestground
 type: battlemap
-package: sohl
 sohl:
   folder: Pw3nJvVsGuMdRb1K # a folder id from scene-folders.yaml
   place: wayfarersrest # optional; groups scenes into one Adventure

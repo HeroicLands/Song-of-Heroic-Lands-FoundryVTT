@@ -12,7 +12,6 @@ id: g6OjdIxbReVBO4Gl
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: herbkit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

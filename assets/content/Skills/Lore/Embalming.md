@@ -10,7 +10,6 @@ id: fBvSknN5B0nsvuLm
 img: icons/game-icons/delapouite/mummy-head.svg
 shortcode: embl
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

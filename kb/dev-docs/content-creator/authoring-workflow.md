@@ -56,7 +56,6 @@ id: K7tJynLhxSDiajCo
 img: icons/game-icons/delapouite/circle.svg
 shortcode: ritual
 type: skill
-package: sohl
 folder: IY7snVGTGcpTxofH
 sohl:
   archetype: 0
@@ -66,62 +65,53 @@ sohl:
 Prose goes here, and becomes this skill's write-up.
 ```
 
-| Field        | Required         | What it decides                                 |
-| ------------ | ---------------- | ----------------------------------------------- |
-| `package:`   | yes              | Whether this build compiles the note **at all** |
-| `type:`      | yes              | Which compiler claims it                        |
-| `id:`        | yes¹             | The Foundry document `_id`                      |
-| `shortcode:` | for link targets | The note's logical identity, and its address    |
-| `aliases:`   | yes¹             | That address, resolvable inside Obsidian        |
-| `name.full`  | in practice      | The document's name, and its published URL      |
-| `folder:`    | no               | Which compendium folder the document sits in    |
-| `img:`       | no               | The document's artwork                          |
-| `draft:`     | no               | Withholds the note from everything              |
-| `pack:`      | no               | Which compendium of its type receives it        |
-| `sohl:`      | by type          | The type-specific fields                        |
+| Field        | Required         | What it decides                              |
+| ------------ | ---------------- | -------------------------------------------- |
+| `type:`      | yes              | Which compiler claims it                     |
+| `id:`        | yes¹             | The Foundry document `_id`                   |
+| `shortcode:` | for link targets | The note's logical identity, and its address |
+| `aliases:`   | yes¹             | That address, resolvable inside Obsidian     |
+| `name.full`  | in practice      | The document's name, and its published URL   |
+| `folder:`    | no               | Which compendium folder the document sits in |
+| `img:`       | no               | The document's artwork                       |
+| `draft:`     | no               | Withholds the note from everything           |
+| `pack:`      | no               | Which compendium of its type receives it     |
+| `sohl:`      | by type          | The type-specific fields                     |
 
 ¹ `id:` is fatal for every pass but Journals; the address alias is required of
 every note that carries a `shortcode`. Both are explained below.
 
 **The order the compiler applies these is load-bearing**, because it decides
 which mistake produces which symptom. Each pass walks the whole content tree once
-and tests, in this order: `package:`, then whether the type is retired, then
-whether this pass claims the type at all, then `draft:`, then `id:`, then `pack:`,
-then the pass's own rejection rules. A note rejected early never reaches the
-checks that would have explained it.
+and tests, in this order: whether the type is retired, then whether this pass
+claims the type at all, then `draft:`, then `id:`, then `pack:`, then the pass's
+own rejection rules. A note rejected early never reaches the checks that would
+have explained it.
 
-## Why `package:` matters
+## The package is the repository's, not the note's
 
-`package:` names the **distribution** that owns the note, and it is checked first,
-against the `contentPackage` this repository configures — `sohl`, declared in
-`package-build.config.yaml`. A note whose `package:` does not match is skipped:
+A note does **not** declare which distribution owns it. Its package is the
+`contentPackage` this repository configures — `sohl`, declared in
+`package-build.config.yaml` — and every note in this tree belongs to it. There is
+nothing to author and nothing to keep in sync.
 
-```js
-if (!fm || fm.package !== contentPackage()) {
-    stats.skippedOther++;
-    continue;
-}
-```
+That is a deliberate retirement (HeroicLands/package-build#56). A note used to
+carry `package:`, and the compile loop read it as a **selector**: any note whose
+value did not match the configured one was skipped, silently, at `log.debug`
+below the CLI's `info` floor. The note compiled nothing, said nothing, and the
+build exited 0 — indistinguishable from a note that did not exist. A whole tree
+labelled for a package no configuration answered to compiled **zero** documents
+and still reported success, which is the state `sohl-kethira-basic` was in with
+235 of its 363 notes mislabelled (#1513).
 
-**The skip is silent.** It is reported at `log.debug`, and the CLI fixes the log
-level at `info`, so the line never prints. The note compiles nothing, says
-nothing, and the build exits 0. It is indistinguishable — from the outside — from
-a note that simply does not exist.
+Deriving the package removes the failure mode outright rather than guarding
+against it: there is no value to disagree with. A note that still declares
+`package:` is now a named build error rather than a quiet skip, and this
+repository carries none (#1745).
 
-**If a note you just wrote did not appear in the pack, check `package:` before
-anything else.** It is the single most confusing failure an author can hit, and
-it is live right now: 235 of `sohl-kethira-basic`'s 363 notes are labelled
-`package: sohl`, so that repository's own build skips two-thirds of its tree
-(#1513).
-
-The only safety net is per-pack, not per-note. `emptyPassErrors` fails a build in
-which a pack compiled **zero** entries from a non-empty tree, and its message
-names `contentPackage` as the first thing to check (#1502). That catches a
-repository-wide misconfiguration — one wrong package id rejecting everything —
-and catches nothing at all when 235 notes are wrong and 128 are right, because
-the pack is not empty. A per-note guard is not possible: thousands of notes
-legitimately belong to another package, and reporting each one would drown the
-build.
+**A note you just wrote did not appear in the pack?** Check `type:` — since the
+package can no longer be wrong, an unclaimed type is the remaining way to be
+skipped in silence.
 
 ## `type:` selects the compiler, never the pack
 
@@ -138,8 +128,9 @@ an unrecognised type falls through to the open item set, so `creature` would hav
 been routed to the items pack, silently and wrongly.
 
 **An unknown type that is not retired is claimed by no pass and skipped in
-silence**, the same way a note belonging to another package is. A typo in `type:`
-therefore behaves exactly like a typo in `package:`. Check both.
+silence.** Now that the package is derived rather than declared, this is the one
+frontmatter typo that still makes a note vanish without a word — check `type:`
+first when a note does not appear.
 
 The types this system defines are listed in the
 [Type Catalog](../reference/type-catalog.md).
@@ -268,11 +259,12 @@ document type** receives it. A type with exactly one configured pack needs no
 declaration, which is why no SoHL note carries one today: this repository
 declares one pack per document type.
 
-**`package:` and `pack:` are deliberately close and deliberately not the same
-word.** `package:` says which _distribution_ owns the note; `pack:` says which
-_compendium_ receives its document. Getting them confused is easy, which is
-exactly why the failure modes differ: a wrong `package:` is silent, while every
-wrong `pack:` is a build error naming the note and the candidates.
+**Do not confuse it with the note's _package_.** The package is the
+_distribution_ that owns the note, and it is no longer authored at all — it is
+the repository's configured `contentPackage`. `pack:` says which _compendium_
+receives the note's document, and it is the only one of the two a note ever
+declares. Every wrong `pack:` is a build error naming the note and the
+candidates.
 
 The router refuses, by name, a `pack:` that:
 

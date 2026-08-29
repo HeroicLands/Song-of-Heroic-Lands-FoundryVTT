@@ -11,7 +11,6 @@ id: UnarmedLimbBlock
 img: icons/game-icons/lorc/arm-bandage.svg
 shortcode: limbblock
 type: skill
-package: sohl
 sohl:
   kbcat: unarmed
   archetype: 0

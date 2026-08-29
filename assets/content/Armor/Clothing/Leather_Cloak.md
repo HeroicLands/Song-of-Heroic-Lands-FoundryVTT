@@ -11,7 +11,6 @@ id: zrWeNkZQpYu5RC6p
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: LtCloak
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -11,7 +11,6 @@ id: Ad2rrvw7Xg6vMEV6
 img: icons/game-icons/badges/club.svg
 shortcode: Cdgl
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

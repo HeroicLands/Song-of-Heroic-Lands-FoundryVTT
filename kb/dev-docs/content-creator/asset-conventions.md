@@ -104,8 +104,9 @@ That is the whole reason to author the short form: `icons/other/sword.svg` means
 package's icon", which is a claim you almost never intend to make.
 
 Note that `foundryPackage` is not `contentPackage`. They happen to be equal here
-(both `sohl`), but the content package is the note's `package:` frontmatter
-value, and the Foundry package is the id in the shipped manifest.
+(both `sohl`), but the content package is the `contentPackage` this repository
+declares in `package-build.config.yaml`, and the Foundry package is the id in the
+shipped manifest.
 
 ### What reads a resolved image
 

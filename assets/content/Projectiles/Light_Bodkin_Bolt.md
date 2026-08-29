@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Light narrow shaft, small square spike; pierces light mail, flat trajectory."
 type: projectilegear
-package: sohl
 id: NnOZe07hIf924QvY
 shortcode: BltLBod
 img: icons/game-icons/lorc/broadhead-arrow.svg

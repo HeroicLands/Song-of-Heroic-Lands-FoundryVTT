@@ -11,7 +11,6 @@ id: ae7BXc7eg3BDvawN
 img: icons/game-icons/lorc/halberd.svg
 shortcode: LStf
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

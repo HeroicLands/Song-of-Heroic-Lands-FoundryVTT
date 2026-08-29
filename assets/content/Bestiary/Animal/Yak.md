@@ -14,7 +14,6 @@ img: icons/game-icons/delapouite/bison.svg
 portrait: images/being/yak-portrait.webp
 shortcode: yak
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

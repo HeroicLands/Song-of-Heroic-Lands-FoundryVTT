@@ -357,7 +357,6 @@ aliases:
     - ${ADDRESS_ALIAS}
 id: ${PAGE_ID}
 type: ${PAGE_TYPE}
-package: sohl
 category: user-guide
 name:
     full: "Icon Legend"

@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/croc-jaws.svg
 portrait: images/being/crcdl-portrait.webp
 shortcode: crcdl
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

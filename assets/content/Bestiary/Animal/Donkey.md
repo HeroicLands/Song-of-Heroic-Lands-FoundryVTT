@@ -13,7 +13,6 @@ img: icons/game-icons/skoll/donkey.svg
 portrait: images/being/donkey-portrait.webp
 shortcode: donkey
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

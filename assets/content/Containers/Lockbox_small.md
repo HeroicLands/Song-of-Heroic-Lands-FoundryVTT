@@ -11,7 +11,6 @@ id: 2Qro8O0kK0hypKrD
 img: icons/game-icons/delapouite/chest.svg
 shortcode: lockboxsma
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

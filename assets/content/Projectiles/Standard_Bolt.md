@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Stout hardwood quarrel, simple iron head; cheap volley fire against unarmoured."
 type: projectilegear
-package: sohl
 id: 73z39WVsd1lvqIuG
 shortcode: BltStd
 img: icons/game-icons/lorc/broadhead-arrow.svg

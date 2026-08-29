@@ -9,7 +9,6 @@ id: odWkFnnjhkldU0XC
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: nrcssstc
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

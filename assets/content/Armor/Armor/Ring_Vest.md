@@ -11,7 +11,6 @@ id: z5crqHwZWxytq4YP
 img: icons/game-icons/lorc/leather-vest.svg
 shortcode: RnVest
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

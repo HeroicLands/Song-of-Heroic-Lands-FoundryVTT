@@ -6,7 +6,6 @@ name:
 id: HA1i1joNOvi4nWAU
 slug: scene-token-combatant
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

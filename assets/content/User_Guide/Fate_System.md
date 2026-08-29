@@ -3,7 +3,6 @@ aliases:
   - doc-thftsyst
 id: kRs6ef5NELRdB2Ui
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "The Fate System"

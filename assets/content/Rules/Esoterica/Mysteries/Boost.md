@@ -4,7 +4,6 @@ aliases:
   - doc-boost
 id: 6xY5jkTDBbRHjEdk
 type: doc
-package: sohl
 category: rules
 name:
   full: Boost

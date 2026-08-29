@@ -5,7 +5,6 @@ aliases:
   - doc-rulesintro
 id: Q0c9vOqCLix8iHC0
 type: doc
-package: sohl
 category: rules
 name:
   full: Song of Heroic Lands Rules

@@ -11,7 +11,6 @@ id: 546myP182pUV4f30
 img: icons/game-icons/lorc/breastplate.svg
 shortcode: PlCui
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

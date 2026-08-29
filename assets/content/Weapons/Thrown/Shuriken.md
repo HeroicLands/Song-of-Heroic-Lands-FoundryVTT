@@ -11,7 +11,6 @@ id: yapKwxwxqfwZy6Zq
 img: icons/game-icons/darkzaitzev/shuriken.svg
 shortcode: Shrkn
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

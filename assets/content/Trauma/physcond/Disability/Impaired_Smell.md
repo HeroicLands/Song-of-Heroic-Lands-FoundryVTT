@@ -10,7 +10,6 @@ id: 4pNGYQxNYDE5gCPX
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaire2
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

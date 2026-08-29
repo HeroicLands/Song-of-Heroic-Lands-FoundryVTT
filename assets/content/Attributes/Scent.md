@@ -10,7 +10,6 @@ id: RoMRyFlHJGNDcAF8
 img: icons/game-icons/lorc/snout.svg
 shortcode: snt
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

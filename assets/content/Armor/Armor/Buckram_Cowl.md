@@ -11,7 +11,6 @@ id: L1fA0Ad5QhtHRLFm
 img: icons/game-icons/lorc/hood.svg
 shortcode: BCowl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

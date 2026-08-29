@@ -6,7 +6,6 @@ name:
 id: A5LW8vjcC46wNUQ2
 slug: house-rules-cookbook
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

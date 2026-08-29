@@ -12,7 +12,6 @@ id: gU0QGe745bFn1PGu
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cherries
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

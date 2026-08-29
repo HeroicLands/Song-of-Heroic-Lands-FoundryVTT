@@ -12,7 +12,6 @@ id: 637hW4z2ERnJ27vB
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: anklethorn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

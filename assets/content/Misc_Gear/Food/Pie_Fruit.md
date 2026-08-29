@@ -12,7 +12,6 @@ id: mb7G3sRyF4YwFVUs
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: piefruit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: cook

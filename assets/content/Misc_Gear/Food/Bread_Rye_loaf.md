@@ -12,7 +12,6 @@ id: 4xIUw3hLj0ijS5VS
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: breadryelo
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mill

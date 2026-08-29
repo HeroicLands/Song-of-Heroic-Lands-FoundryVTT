@@ -11,7 +11,6 @@ id: ByXAUTJhfoNSPdHQ
 img: icons/game-icons/lorc/spears.svg
 shortcode: Pike
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

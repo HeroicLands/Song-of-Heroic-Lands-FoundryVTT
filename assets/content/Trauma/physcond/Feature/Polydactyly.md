@@ -9,7 +9,6 @@ id: dhu4Ziv1CtzeFuX1
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: polydact
 type: trauma
-package: sohl
 sohl:
   kbcat: physfeature
   archetype: 0

@@ -12,7 +12,6 @@ id: 35fd4i4C2mzenEpW
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hornforcar
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

@@ -11,7 +11,6 @@ id: 6xYCu0LohWTCUsEq
 img: icons/game-icons/lorc/trousers.svg
 shortcode: MLeg
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

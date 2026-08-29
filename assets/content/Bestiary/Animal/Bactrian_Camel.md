@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/camel-head.svg
 portrait: images/being/bctrncml-portrait.webp
 shortcode: bctrncml
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

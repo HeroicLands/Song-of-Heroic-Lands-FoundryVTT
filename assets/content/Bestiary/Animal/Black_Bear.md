@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/bear-head.svg
 portrait: images/being/blckbr-portrait.webp
 shortcode: blckbr
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

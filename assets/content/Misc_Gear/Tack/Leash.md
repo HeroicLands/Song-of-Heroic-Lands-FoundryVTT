@@ -12,7 +12,6 @@ id: fCjfFk0jxMwZZD6x
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: leash
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

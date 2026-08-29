@@ -8,7 +8,6 @@ aliases:
   - doc-afflctns
 id: Tt1JjQ3kmqtUDIm9
 type: doc
-package: sohl
 category: rules
 name:
   full: Afflictions

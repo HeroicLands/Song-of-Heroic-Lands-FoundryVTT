@@ -11,7 +11,6 @@ id: thMv4MXPW1HdoGf4
 img: icons/game-icons/lorc/battle-axe.svg
 shortcode: HAxe
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

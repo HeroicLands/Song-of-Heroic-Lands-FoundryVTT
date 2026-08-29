@@ -11,7 +11,6 @@ id: B0ZxXBBPqqOVLi0g
 img: icons/game-icons/lorc/trousers.svg
 shortcode: SgTrsr
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

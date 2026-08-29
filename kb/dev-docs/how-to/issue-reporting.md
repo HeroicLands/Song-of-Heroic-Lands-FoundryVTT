@@ -6,7 +6,6 @@ name:
 id: ZLeoKpUIOg1HUFZV
 slug: issue-reporting
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

@@ -12,7 +12,6 @@ id: D5h49Papv0HVhcEJ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pilotinstr
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

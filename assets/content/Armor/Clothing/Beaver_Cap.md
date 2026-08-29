@@ -11,7 +11,6 @@ id: WJr9xoOqr7eD70In
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: BvCap
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

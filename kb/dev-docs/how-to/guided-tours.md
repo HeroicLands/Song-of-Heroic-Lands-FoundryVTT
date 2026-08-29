@@ -6,7 +6,6 @@ name:
 id: itInwUAn0CjjS0t2
 slug: guided-tours
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

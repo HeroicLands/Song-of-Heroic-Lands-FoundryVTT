@@ -12,7 +12,6 @@ id: 99KBJjIWYH4mZGet
 img: icons/game-icons/lorc/prayer.svg
 shortcode: holysymgold
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

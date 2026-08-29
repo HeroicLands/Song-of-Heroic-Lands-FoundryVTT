@@ -12,7 +12,6 @@ id: BoeReTJGPgRPp7Dc
 img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: homespun
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

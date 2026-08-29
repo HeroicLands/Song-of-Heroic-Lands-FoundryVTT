@@ -11,7 +11,6 @@ id: DeRbT8UBKzngQxJQ
 img: icons/game-icons/lorc/battle-axe.svg
 shortcode: Shkn
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

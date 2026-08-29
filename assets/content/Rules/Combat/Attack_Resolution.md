@@ -9,7 +9,6 @@ aliases:
   - doc-atkreslv
 id: OuEx3Wa9RNMHtrgc
 type: doc
-package: sohl
 category: rules
 name:
   full: Attack Resolution

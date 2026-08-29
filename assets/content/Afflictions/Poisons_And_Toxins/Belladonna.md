@@ -10,7 +10,6 @@ id: 4IS3ubM0teikWEpD
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: bldna
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

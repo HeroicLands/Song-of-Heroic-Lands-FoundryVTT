@@ -12,7 +12,6 @@ id: UDfu6x8sxRAyL0Gt
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bedsingle
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

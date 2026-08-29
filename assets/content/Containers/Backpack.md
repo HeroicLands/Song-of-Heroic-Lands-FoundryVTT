@@ -11,7 +11,6 @@ id: GeZ2eeMHMWQjU9xa
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: backpk
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

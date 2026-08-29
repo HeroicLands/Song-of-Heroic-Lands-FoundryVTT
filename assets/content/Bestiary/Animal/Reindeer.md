@@ -15,7 +15,6 @@ img: icons/game-icons/caro-asercion/deer.svg
 portrait: images/being/reindeer-portrait.webp
 shortcode: reindeer
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

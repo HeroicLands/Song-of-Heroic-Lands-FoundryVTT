@@ -11,7 +11,6 @@ id: o4YbdZja0KpJp8GB
 img: icons/game-icons/delapouite/cook.svg
 shortcode: SgApn
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

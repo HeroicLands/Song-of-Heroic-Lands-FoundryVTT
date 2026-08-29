@@ -12,7 +12,6 @@ id: ISEPqfmryqg0TWum
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: seaweeddol
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

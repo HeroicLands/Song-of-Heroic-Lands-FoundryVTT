@@ -12,7 +12,6 @@ id: sOxLyDWFXDUrSeJd
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: horsemeat
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

@@ -10,7 +10,6 @@ id: JOWydK8KF9LbJg8r
 img: icons/game-icons/delapouite/amphora.svg
 shortcode: cmcs
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

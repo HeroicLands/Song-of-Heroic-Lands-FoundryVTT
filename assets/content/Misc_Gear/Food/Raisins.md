@@ -12,7 +12,6 @@ id: GwlCKs0inxH9Bh9Y
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: raisins
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

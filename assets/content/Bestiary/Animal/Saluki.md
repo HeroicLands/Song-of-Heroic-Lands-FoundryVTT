@@ -15,7 +15,6 @@ img: icons/game-icons/lorc/hound.svg
 portrait: images/being/saluki-portrait.webp
 shortcode: saluki
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

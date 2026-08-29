@@ -11,7 +11,6 @@ id: BvAGqDqYnZWWxCsK
 img: icons/game-icons/delapouite/gloves.svg
 shortcode: LtGlove
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

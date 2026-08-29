@@ -9,7 +9,6 @@ id: 0E85eT5vUuk0Xu6f
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: watchful
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

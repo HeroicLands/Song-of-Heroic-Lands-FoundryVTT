@@ -10,7 +10,6 @@ id: TF3mC3ZBxSZubKF4
 img: icons/game-icons/delapouite/ballerina-shoes.svg
 shortcode: dnce
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

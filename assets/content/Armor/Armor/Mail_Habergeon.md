@@ -11,7 +11,6 @@ id: zwEb3pZjccDUadjp
 img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MHbgn
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

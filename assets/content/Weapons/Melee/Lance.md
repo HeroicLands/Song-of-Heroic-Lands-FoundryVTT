@@ -11,7 +11,6 @@ id: QlzoUg52DEMEjkoo
 img: icons/game-icons/delapouite/cavalry.svg
 shortcode: Lnc
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

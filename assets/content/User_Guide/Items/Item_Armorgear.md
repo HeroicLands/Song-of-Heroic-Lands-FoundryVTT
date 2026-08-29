@@ -4,7 +4,6 @@ aliases:
   - doc-armor
 id: yh3LCFXRlhJWMqLW
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Armor"

@@ -12,7 +12,6 @@ id: VEfkAkPoc2CNWsgc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pipes
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

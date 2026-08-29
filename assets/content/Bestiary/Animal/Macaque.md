@@ -15,7 +15,6 @@ img: icons/game-icons/lorc/monkey.svg
 portrait: images/being/macaque-portrait.webp
 shortcode: macaque
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

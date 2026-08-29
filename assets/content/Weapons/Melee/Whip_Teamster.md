@@ -11,7 +11,6 @@ id: peZMGgdpM5LQ60a9
 img: icons/game-icons/lorc/whip.svg
 shortcode: TWhp
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: hide

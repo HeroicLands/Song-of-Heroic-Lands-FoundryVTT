@@ -11,7 +11,6 @@ id: 2ryS8kQlPEAX3raG
 img: icons/game-icons/delapouite/elbow-pad.svg
 shortcode: PlCou
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

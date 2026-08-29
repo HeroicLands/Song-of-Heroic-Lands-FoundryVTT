@@ -12,7 +12,6 @@ id: yvCUqFduhNInaQCl
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: eggs
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

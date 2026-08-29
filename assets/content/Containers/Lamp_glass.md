@@ -11,7 +11,6 @@ id: nXskf0nh3UQZ4IRw
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lampglass
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: glas

@@ -15,7 +15,6 @@ img: icons/game-icons/cathelineau/polar-bear.svg
 portrait: images/being/plrbr-portrait.webp
 shortcode: plrbr
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

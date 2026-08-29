@@ -11,7 +11,6 @@ id: 8YxOproKGlXe2Slh
 img: icons/game-icons/delapouite/flip-flops.svg
 shortcode: StShoes
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

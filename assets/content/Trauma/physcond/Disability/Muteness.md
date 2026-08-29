@@ -9,7 +9,6 @@ id: RhLLOxWjOCztbWRY
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: muteness
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

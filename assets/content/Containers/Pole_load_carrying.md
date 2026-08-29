@@ -11,7 +11,6 @@ id: 3NCcGvF3OtFguhon
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: polecarry
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

@@ -11,7 +11,6 @@ id: bmUPEN0bFc20MHqI
 img: icons/game-icons/delapouite/skirt.svg
 shortcode: RhSkirt
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

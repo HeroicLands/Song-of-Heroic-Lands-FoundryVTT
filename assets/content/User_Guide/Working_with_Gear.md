@@ -3,7 +3,6 @@ aliases:
   - doc-wrkngwth
 id: qB7c6j4tnrijhQ3P
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Working with Gear and Equipment"

@@ -11,7 +11,6 @@ id: 7l7GdhjflC46mB5U
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: CvCloak
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

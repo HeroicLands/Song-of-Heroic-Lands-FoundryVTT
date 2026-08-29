@@ -11,7 +11,6 @@ id: vbgEQjFYO3rVIK1b
 img: icons/game-icons/lorc/fangs.svg
 shortcode: bflkbite
 type: skill
-package: sohl
 sohl:
   kbcat: unarmed
   archetype: 0

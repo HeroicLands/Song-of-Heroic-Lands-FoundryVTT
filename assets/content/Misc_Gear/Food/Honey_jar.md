@@ -12,7 +12,6 @@ id: izW60sCh3KEQ9okV
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: honeyjar
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

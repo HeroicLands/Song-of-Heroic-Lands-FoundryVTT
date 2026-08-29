@@ -12,7 +12,6 @@ id: zZNuSN5hvKPk0F0G
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pork
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

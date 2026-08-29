@@ -11,7 +11,6 @@ id: eYsJ7zqUI9NymUMQ
 img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: alembcu5g
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: mtlc

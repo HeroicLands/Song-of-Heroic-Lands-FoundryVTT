@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/walrus-portrait.webp
 shortcode: walrus
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

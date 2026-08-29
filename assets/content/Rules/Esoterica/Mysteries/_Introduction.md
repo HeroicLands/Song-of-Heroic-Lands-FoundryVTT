@@ -4,7 +4,6 @@ aliases:
   - doc-mysteryintro
 id: 8gqF9lyFp5S6zceE
 type: doc
-package: sohl
 category: rules
 name:
   full: Mysteries Introduction

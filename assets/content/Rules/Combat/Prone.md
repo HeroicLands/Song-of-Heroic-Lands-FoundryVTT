@@ -4,7 +4,6 @@ aliases:
   - doc-prone
 id: ly7IlkeD7MGlz6wt
 type: doc
-package: sohl
 category: rules
 name:
   full: Prone

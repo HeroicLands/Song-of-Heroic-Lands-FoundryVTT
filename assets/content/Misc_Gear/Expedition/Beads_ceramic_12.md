@@ -12,7 +12,6 @@ id: DXzm76bjrVFj91xZ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beadscer12
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: cmcs

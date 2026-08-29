@@ -12,7 +12,6 @@ id: 8AbOO1EXW3OqlDnH
 img: icons/game-icons/lorc/prayer.svg
 shortcode: holysymbrass
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

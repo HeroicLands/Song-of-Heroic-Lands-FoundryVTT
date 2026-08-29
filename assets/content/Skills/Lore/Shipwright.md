@@ -10,7 +10,6 @@ id: aw5d6qqKckJDsKHN
 img: icons/game-icons/delapouite/sailboat.svg
 shortcode: shpw
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

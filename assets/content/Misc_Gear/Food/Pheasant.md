@@ -12,7 +12,6 @@ id: pf47vQyIl9I7d2JC
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pheasant
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

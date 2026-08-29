@@ -12,7 +12,6 @@ id: xIxE2oCpGFJp8HJE
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pipesmokin
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

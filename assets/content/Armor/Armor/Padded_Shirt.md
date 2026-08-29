@@ -11,7 +11,6 @@ id: 6xlSLAghi4ujcdEB
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: PSht
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -12,7 +12,6 @@ id: ncCC3rsFJYmtb0hg
 img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: serge
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -12,7 +12,6 @@ id: 9a3q9v3YpRKcAH2b
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: necklaceivory
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

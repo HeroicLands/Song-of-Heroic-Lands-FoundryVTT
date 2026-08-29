@@ -11,7 +11,6 @@ id: 3r8IGjIBY9yG26cD
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: coldexp
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

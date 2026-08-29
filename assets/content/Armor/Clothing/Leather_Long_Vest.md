@@ -11,7 +11,6 @@ id: I9UgYrPbVgnKUeb6
 img: icons/game-icons/delapouite/leather-armor.svg
 shortcode: LtLngVst
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

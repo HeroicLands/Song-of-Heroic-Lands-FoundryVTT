@@ -11,7 +11,6 @@ id: VZmryHHDq6GnZlCg
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bucketwood3
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

@@ -12,7 +12,6 @@ id: r7Ojm6nvAWhjCE58
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: groomkitnob
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -12,7 +12,6 @@ id: KR9GCv683WX64ogr
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chrysolite
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

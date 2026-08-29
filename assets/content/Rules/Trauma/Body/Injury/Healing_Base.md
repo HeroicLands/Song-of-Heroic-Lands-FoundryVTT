@@ -4,7 +4,6 @@ aliases:
   - doc-hlngbs
 id: Sb8dCIBSChIPJpKr
 type: doc
-package: sohl
 category: rules
 name:
   full: Healing Base

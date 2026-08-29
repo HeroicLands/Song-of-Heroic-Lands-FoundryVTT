@@ -12,7 +12,6 @@ id: LeruHtYyDlzcQn77
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: ankletbronze
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

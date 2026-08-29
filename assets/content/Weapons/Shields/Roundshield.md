@@ -11,7 +11,6 @@ id: QdNDwYLqJw62QlQw
 img: icons/game-icons/willdabeast/round-shield.svg
 shortcode: RndSh
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

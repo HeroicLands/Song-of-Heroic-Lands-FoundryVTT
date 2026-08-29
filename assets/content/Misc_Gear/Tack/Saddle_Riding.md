@@ -12,7 +12,6 @@ id: gnMMGPDKR7revPLL
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saddleridi
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

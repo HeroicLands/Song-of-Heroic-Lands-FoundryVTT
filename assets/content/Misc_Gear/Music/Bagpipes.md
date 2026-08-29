@@ -12,7 +12,6 @@ id: eFIzSGLEvBoBFbwn
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bagpipes
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

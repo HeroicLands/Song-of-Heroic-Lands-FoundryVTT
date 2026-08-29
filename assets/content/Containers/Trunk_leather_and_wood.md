@@ -11,7 +11,6 @@ id: 27wiU6fj87LNFcPZ
 img: icons/game-icons/delapouite/chest.svg
 shortcode: trunklw
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

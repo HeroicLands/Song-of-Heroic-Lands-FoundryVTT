@@ -4,7 +4,6 @@ aliases:
   - Credits and Attributions
 id: VCCHelr5qIC5ydop
 type: doc
-package: sohl
 category: credits
 name:
   full: "Credits & Attributions"

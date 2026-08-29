@@ -7,7 +7,6 @@ aliases:
   - doc-mlattcks
 id: OqIctLS39bjX8rbr
 type: doc
-package: sohl
 category: rules
 name:
   full: Melee Attacks

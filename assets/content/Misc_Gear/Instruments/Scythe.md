@@ -12,7 +12,6 @@ id: KVgJ2p4ZpHMX2ndG
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scythe
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

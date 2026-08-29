@@ -12,7 +12,6 @@ id: Mb1azilrSPemvtyP
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: anchovies
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

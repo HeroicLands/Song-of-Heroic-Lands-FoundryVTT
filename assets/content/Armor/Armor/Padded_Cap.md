@@ -11,7 +11,6 @@ id: XClZwCLpLsWvnWbH
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: PCap
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

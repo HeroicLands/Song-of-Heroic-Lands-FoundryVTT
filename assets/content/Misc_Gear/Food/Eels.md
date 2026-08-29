@@ -12,7 +12,6 @@ id: 8zzT10Vdg8TQ9vYe
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: eels
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

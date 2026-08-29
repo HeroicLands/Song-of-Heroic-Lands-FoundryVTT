@@ -12,7 +12,6 @@ id: X0l995RrWsgFBeUM
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oats
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

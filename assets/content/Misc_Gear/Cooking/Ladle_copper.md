@@ -12,7 +12,6 @@ id: dpNtTHN7b9OYEqJe
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ladlecoppe
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

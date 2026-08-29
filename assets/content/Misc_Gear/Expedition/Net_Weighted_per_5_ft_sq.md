@@ -12,7 +12,6 @@ id: XwQlQpZX3XzLVrpm
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: netweighte
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

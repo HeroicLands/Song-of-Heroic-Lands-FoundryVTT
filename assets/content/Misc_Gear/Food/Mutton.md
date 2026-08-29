@@ -12,7 +12,6 @@ id: GXG1GyUYLgGBKg2s
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mutton
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

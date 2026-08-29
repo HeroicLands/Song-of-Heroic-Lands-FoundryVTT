@@ -10,7 +10,6 @@ id: A6dgxBXv4Tu6rua4
 img: icons/game-icons/badges/shield.svg
 shortcode: hrld
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

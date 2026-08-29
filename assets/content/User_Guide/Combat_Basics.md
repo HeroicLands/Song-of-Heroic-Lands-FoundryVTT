@@ -3,7 +3,6 @@ aliases:
   - doc-cmbtbscs
 id: Mi1p8gYEKJ91dxsM
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Combat Basics"

@@ -12,7 +12,6 @@ id: OKB7QtgmYh5GXWoR
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: broochgold
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl
