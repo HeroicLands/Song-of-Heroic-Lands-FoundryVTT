@@ -12,7 +12,6 @@ id: KrbJcH3gpb9OKlra
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: trout
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

@@ -9,7 +9,6 @@ id: b50mWkG7YOA2mvOH
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dysphn
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

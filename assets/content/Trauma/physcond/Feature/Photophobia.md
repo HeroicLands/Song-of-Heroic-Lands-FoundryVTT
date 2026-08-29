@@ -9,7 +9,6 @@ id: 69Bur733yhdGFSWi
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: photophb
 type: trauma
-package: sohl
 sohl:
   kbcat: physfeature
   archetype: 0

@@ -11,7 +11,6 @@ id: cPnsG7hVk006GOHs
 img: icons/game-icons/lorc/hood.svg
 shortcode: SlsCowl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

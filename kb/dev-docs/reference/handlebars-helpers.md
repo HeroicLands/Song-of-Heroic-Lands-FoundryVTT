@@ -6,7 +6,6 @@ name:
 id: 7609nwkW4zqu6FIf
 slug: handlebars-helpers
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

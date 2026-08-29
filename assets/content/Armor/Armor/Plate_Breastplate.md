@@ -11,7 +11,6 @@ id: AKegqYRvVNwdSREm
 img: icons/game-icons/lorc/breastplate.svg
 shortcode: PlBreast
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

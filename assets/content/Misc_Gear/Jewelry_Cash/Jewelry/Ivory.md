@@ -12,7 +12,6 @@ id: mi84Ze1ptsDMnY4x
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ivory
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

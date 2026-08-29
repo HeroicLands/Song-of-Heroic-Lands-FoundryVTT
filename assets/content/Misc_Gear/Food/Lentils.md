@@ -12,7 +12,6 @@ id: dYyfpCR9RNlOrwaR
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lentils
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

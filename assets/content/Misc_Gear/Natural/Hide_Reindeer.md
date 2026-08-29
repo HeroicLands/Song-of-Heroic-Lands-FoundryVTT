@@ -12,7 +12,6 @@ id: 9n4GUpB7HjBkHnCP
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidereinde
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

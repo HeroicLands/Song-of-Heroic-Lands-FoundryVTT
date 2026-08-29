@@ -10,7 +10,6 @@ id: ZySPSvEiE6KdtjPN
 img: icons/game-icons/lorc/perfume-bottle.svg
 shortcode: pfmy
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

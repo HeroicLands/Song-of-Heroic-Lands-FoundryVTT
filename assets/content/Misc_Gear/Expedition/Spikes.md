@@ -12,7 +12,6 @@ id: 6h9UedIBm0jR4IBT
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spikes
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

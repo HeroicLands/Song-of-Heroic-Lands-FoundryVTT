@@ -11,7 +11,6 @@ id: IBwZA3n6zSzRPXVJ
 img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: PMitn
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

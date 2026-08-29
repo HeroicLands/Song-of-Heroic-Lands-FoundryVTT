@@ -12,7 +12,6 @@ id: 9Qt3YEbnnMJudDLH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: horseshoe
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

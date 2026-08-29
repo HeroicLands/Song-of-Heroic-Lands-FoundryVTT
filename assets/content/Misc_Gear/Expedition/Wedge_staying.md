@@ -12,7 +12,6 @@ id: mmVSxF9PE02bES9l
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wedgestayi
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

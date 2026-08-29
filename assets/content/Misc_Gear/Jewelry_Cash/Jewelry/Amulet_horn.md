@@ -12,7 +12,6 @@ id: imj9VX8cncdAq6iN
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: amulethorn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

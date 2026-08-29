@@ -11,7 +11,6 @@ id: cTWqIcLCMBf06Hfl
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CSTnc
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

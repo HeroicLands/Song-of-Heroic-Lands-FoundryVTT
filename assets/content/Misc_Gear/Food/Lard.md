@@ -12,7 +12,6 @@ id: BLIRS4rBQnW4xntq
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lard
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

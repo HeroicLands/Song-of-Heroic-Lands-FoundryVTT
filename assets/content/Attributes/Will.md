@@ -10,7 +10,6 @@ id: cSe7fh1LN9mEwwYs
 img: icons/game-icons/lorc/meditation.svg
 shortcode: wil
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

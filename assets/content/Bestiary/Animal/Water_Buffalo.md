@@ -14,7 +14,6 @@ img: icons/game-icons/delapouite/buffalo-head.svg
 portrait: images/being/wtrbffl-portrait.webp
 shortcode: wtrbffl
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -12,7 +12,6 @@ id: HwNlR1xeu8MatDnT
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: muzzle
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

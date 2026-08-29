@@ -10,7 +10,6 @@ id: 2oOsN38lUZHGDinC
 img: icons/game-icons/lorc/cloak-dagger.svg
 shortcode: intr
 type: skill
-package: sohl
 sohl:
   kbcat: social
   archetype: 0

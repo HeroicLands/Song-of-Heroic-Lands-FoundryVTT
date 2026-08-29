@@ -6,7 +6,6 @@ aliases:
   - doc-arlshck
 id: A8oMKQjucNVvKnpr
 type: doc
-package: sohl
 category: rules
 name:
   full: Aural Shock

@@ -11,7 +11,6 @@ id: Y5KlEXXYfWMtHgPn
 img: icons/game-icons/lorc/spears.svg
 shortcode: BodJav
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

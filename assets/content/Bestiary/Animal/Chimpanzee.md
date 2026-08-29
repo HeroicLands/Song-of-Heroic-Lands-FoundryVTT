@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/monkey.svg
 portrait: images/being/chmpnz-portrait.webp
 shortcode: chmpnz
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

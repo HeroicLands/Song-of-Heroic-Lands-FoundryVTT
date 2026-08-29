@@ -12,7 +12,6 @@ id: RaDwfAf1ScmL8oMd
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lute
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

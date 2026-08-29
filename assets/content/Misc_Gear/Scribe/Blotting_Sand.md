@@ -13,7 +13,6 @@ id: 1x5UVdeZsWQb0xW2
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: blotsand
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

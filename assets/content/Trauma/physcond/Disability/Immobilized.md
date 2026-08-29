@@ -11,7 +11,6 @@ id: L5Jzm8yQ4Gijxuen
 img: icons/game-icons/delapouite/handcuffed.svg
 shortcode: immob
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

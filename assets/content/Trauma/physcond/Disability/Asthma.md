@@ -9,7 +9,6 @@ id: QI9bgiYrrQ4g2Tiq
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: asthma
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

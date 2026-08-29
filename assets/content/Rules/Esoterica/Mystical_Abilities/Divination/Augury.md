@@ -4,7 +4,6 @@ aliases:
   - doc-augury
 id: vnhzmwxzgCuEHnuE
 type: doc
-package: sohl
 category: rules
 name:
   full: Augury

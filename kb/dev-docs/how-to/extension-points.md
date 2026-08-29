@@ -6,7 +6,6 @@ name:
 id: scDyKKrrUFPyaMYF
 slug: extension-points
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

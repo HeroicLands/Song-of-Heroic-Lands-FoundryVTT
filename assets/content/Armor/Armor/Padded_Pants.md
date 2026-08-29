@@ -11,7 +11,6 @@ id: t8hOlYiXWaL8HPJr
 img: icons/game-icons/lorc/trousers.svg
 shortcode: PPant
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

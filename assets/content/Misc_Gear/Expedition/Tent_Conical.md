@@ -12,7 +12,6 @@ id: 0sNGQqCqAW9RI87s
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tentconica
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -4,7 +4,6 @@ aliases:
   - doc-estrcint
 id: p9VfAypidUzXgdD0
 type: doc
-package: sohl
 category: rules
 name:
   full: Esoterica Introduction

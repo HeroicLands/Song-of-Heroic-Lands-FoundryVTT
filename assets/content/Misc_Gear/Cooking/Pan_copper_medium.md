@@ -12,7 +12,6 @@ id: clMS8trgKKuBtxWH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pancopperm
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

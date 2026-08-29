@@ -11,7 +11,6 @@ id: r6GPQ3FF3Ci4TbDV
 img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MLShirt
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

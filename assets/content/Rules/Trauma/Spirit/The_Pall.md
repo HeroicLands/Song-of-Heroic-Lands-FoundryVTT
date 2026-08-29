@@ -8,7 +8,6 @@ aliases:
   - doc-thepall
 id: RADvlTrsPHDSDYQN
 type: doc
-package: sohl
 category: rules
 name:
   full: The Pall

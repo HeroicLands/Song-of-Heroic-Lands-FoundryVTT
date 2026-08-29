@@ -11,7 +11,6 @@ id: ka8b28LXh1oFLnIG
 img: icons/game-icons/lorc/mailed-fist.svg
 shortcode: RMtn
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

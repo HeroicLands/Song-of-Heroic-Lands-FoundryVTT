@@ -11,7 +11,6 @@ id: Ll2GXzDMkBcvy89F
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: LtCap
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

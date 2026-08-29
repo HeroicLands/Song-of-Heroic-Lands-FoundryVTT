@@ -11,7 +11,6 @@ id: q3cLJY0FJHMDiMaw
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: march
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

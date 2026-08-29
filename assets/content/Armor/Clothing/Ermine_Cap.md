@@ -11,7 +11,6 @@ id: qZmaXlfn1v4Z76Oo
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: ECap
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

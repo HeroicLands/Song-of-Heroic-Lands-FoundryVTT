@@ -12,7 +12,6 @@ id: 1rRMihBm9Rso96gE
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tackkit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

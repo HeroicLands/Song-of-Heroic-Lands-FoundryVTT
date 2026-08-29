@@ -12,7 +12,6 @@ id: 40MvbIT7JZ1j8Zzr
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: circletbone
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

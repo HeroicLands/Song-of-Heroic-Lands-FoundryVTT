@@ -4,7 +4,6 @@ aliases:
   - doc-afflctn
 id: MoyrkIfKbklVs8Pn
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Affliction"

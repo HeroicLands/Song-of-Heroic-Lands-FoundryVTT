@@ -11,7 +11,6 @@ id: tTvMfFHzwX8SomqY
 img: icons/game-icons/delapouite/cavalry.svg
 shortcode: JPole
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

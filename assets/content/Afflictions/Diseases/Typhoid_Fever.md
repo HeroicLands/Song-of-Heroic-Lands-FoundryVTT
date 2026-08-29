@@ -11,7 +11,6 @@ id: B6PazsO8AH0U8OlS
 img: icons/game-icons/lorc/virus.svg
 shortcode: typhfvr
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

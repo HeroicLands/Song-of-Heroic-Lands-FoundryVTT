@@ -3,7 +3,6 @@ aliases:
   - doc-usngcmpn
 id: 0VrqqfwFEbVXxb3e
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Using Compendiums"

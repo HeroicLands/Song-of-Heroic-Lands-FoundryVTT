@@ -12,7 +12,6 @@ id: SQW3kCYDeUDCipS5
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: ringbone
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

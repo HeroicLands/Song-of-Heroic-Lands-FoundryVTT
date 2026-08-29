@@ -12,7 +12,6 @@ id: tnQLJqOSADXL6gMh
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grease
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

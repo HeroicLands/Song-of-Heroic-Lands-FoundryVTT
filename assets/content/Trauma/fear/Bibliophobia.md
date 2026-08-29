@@ -9,7 +9,6 @@ id: 5TrJWLGmTi8spunC
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: biblphb
 type: trauma
-package: sohl
 sohl:
   kbcat: phobias
   archetype: 0

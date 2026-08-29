@@ -12,7 +12,6 @@ id: DRHq9aOSoaQfgxFF
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cheese
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

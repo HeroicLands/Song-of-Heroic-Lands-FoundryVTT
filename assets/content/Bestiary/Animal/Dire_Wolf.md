@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/wolf-head.svg
 portrait: images/being/direwolf-portrait.webp
 shortcode: direwolf
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

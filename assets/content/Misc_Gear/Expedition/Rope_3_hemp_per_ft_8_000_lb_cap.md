@@ -12,7 +12,6 @@ id: w29C3rXf0IvhwzcZ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope3hempp
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

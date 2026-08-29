@@ -12,7 +12,6 @@ id: G1dVur8Fe2FpbOGH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hay
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

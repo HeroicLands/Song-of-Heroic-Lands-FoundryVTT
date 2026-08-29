@@ -11,7 +11,6 @@ id: 0ZrCUWYiONN27h3c
 img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: RhGntl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

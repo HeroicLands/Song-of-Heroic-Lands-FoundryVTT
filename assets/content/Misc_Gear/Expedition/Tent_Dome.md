@@ -12,7 +12,6 @@ id: EVNOt3rVL1Bb0arQ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tentdome
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

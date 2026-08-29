@@ -9,7 +9,6 @@ id: CTfLicg6fn1Uh6eO
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: dystychi
 type: trauma
-package: sohl
 sohl:
   kbcat: phobias
   archetype: 0

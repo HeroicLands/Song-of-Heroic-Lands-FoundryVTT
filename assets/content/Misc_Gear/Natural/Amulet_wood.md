@@ -12,7 +12,6 @@ id: BZZaFW9zQ0EnIxJz
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amuletwood
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

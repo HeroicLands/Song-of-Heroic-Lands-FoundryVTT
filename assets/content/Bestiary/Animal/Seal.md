@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/seal-portrait.webp
 shortcode: seal
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

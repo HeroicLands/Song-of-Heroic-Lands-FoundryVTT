@@ -12,7 +12,6 @@ id: cx4864ua847fNyCk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tea
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

@@ -11,7 +11,6 @@ id: ytcfNelfKDw7oI5m
 img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MByr
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

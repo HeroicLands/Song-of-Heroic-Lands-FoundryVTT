@@ -10,7 +10,6 @@ id: j33FxOHddwk3WYnE
 img: icons/game-icons/lorc/sword-smithing.svg
 shortcode: wpnc
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

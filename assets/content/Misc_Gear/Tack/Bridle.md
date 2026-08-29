@@ -12,7 +12,6 @@ id: leaMQx2uJtxYoz3p
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bridle
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -10,7 +10,6 @@ id: 4tmjKiz0ZXQ2pqWP
 img: icons/game-icons/lorc/psychic-waves.svg
 shortcode: spirit
 type: skill
-package: sohl
 sohl:
   kbcat: mystical
   archetype: 0

@@ -11,7 +11,6 @@ id: UbpwkroW1XavHFXl
 img: icons/game-icons/lorc/mining.svg
 shortcode: PkAxe
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -6,7 +6,6 @@ aliases:
   - doc-psychlgc
 id: R6LpCJeZV0uruifv
 type: doc
-package: sohl
 category: rules
 name:
   full: Psychological Condition

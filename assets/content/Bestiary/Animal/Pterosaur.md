@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/pterosau-portrait.webp
 shortcode: pterosau
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

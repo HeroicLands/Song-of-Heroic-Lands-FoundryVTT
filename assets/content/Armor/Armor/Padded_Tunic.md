@@ -11,7 +11,6 @@ id: bcS9FlEOENwUXzRf
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: PTnc
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

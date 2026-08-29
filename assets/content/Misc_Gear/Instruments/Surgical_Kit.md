@@ -12,7 +12,6 @@ id: H5pSahVX1t1huVsy
 img: icons/game-icons/lorc/scalpel.svg
 shortcode: surgkit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -10,7 +10,6 @@ id: E3HpfTHGnCfauHAc
 img: icons/game-icons/felbrigg/dodge.svg
 shortcode: dge
 type: skill
-package: sohl
 sohl:
   kbcat: combat
   archetype: 0

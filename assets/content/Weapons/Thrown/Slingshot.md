@@ -11,7 +11,6 @@ id: xXaZlrlrvLWEiNG7
 img: icons/game-icons/delapouite/slingshot.svg
 shortcode: SlngSht
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: hide

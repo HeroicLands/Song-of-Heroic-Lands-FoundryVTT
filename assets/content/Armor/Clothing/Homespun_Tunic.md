@@ -11,7 +11,6 @@ id: SxLz76CsRMYx40E2
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: HsTunic
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

@@ -5,7 +5,6 @@ aliases:
   - doc-glossary
 id: GMJ5HjXALiKv03rx
 type: doc
-package: sohl
 category: rules
 name:
   full: Glossary

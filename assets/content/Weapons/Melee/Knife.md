@@ -11,7 +11,6 @@ id: FF9MpNPDmRw6wV0t
 img: icons/game-icons/lorc/plain-dagger.svg
 shortcode: Kni
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

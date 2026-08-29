@@ -12,7 +12,6 @@ id: Xc5xz5nFvCfRMraC
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spurs
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

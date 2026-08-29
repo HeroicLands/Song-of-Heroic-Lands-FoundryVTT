@@ -7,7 +7,6 @@ aliases:
   - doc-sccssvlt
 id: PqED2bmjJU5AdEsU
 type: doc
-package: sohl
 category: rules
 name:
   full: Success Value Tests

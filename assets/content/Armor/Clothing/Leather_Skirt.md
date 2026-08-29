@@ -11,7 +11,6 @@ id: IjMtdnkNhDNkN5Nn
 img: icons/game-icons/delapouite/skirt.svg
 shortcode: LtSkirt
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

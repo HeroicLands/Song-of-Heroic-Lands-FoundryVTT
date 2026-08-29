@@ -12,7 +12,6 @@ id: AMiSwMSeSCPtfy0M
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: talc
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

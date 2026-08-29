@@ -11,7 +11,6 @@ id: ovMN4qWLa291vwpt
 img: icons/game-icons/skoll/dress.svg
 shortcode: SgDress
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

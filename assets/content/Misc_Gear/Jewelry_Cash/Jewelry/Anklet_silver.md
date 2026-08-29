@@ -12,7 +12,6 @@ id: aAEBDzpFBgYv9ME3
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: ankletsilver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

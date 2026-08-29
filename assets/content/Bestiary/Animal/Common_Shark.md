@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/shark-jaws.svg
 portrait: images/being/cmmnshrk-portrait.webp
 shortcode: cmmnshrk
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

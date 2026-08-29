@@ -11,7 +11,6 @@ id: stwGy3btoH8gYpxi
 img: icons/game-icons/lorc/virus.svg
 shortcode: rivrblnd
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

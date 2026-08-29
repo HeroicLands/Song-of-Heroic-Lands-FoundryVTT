@@ -12,7 +12,6 @@ id: tmXuoiVwgO1b8QhY
 img: icons/game-icons/lorc/beer-stein.svg
 shortcode: alehgsh
 type: miscgear
-package: sohl
 hmk:
   name: Hogshead Ale
 sohl:

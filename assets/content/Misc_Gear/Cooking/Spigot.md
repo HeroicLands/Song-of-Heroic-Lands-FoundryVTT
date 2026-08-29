@@ -12,7 +12,6 @@ id: lp4u0RbB9AqqnwPU
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spigot
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

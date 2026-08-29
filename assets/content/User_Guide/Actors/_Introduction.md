@@ -5,7 +5,6 @@ aliases:
   - doc-ugactors
 id: 850gXkDZhbNwwg2D
 type: doc
-package: sohl
 category: user-guide
 name:
   full: Actors

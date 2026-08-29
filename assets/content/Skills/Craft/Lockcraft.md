@@ -10,7 +10,6 @@ id: OWe6jR9RXag7ZMZk
 img: icons/game-icons/badges/lock.svg
 shortcode: lock
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

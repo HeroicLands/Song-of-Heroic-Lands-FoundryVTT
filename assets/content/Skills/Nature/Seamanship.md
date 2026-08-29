@@ -10,7 +10,6 @@ id: kcc6EipA4khnm9FB
 img: icons/game-icons/lorc/anchor.svg
 shortcode: smsh
 type: skill
-package: sohl
 sohl:
   kbcat: nature
   archetype: 0

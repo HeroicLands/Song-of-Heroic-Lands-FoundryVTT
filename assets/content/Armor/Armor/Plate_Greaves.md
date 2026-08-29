@@ -11,7 +11,6 @@ id: jJQidNhSSEQzP9oJ
 img: icons/game-icons/delapouite/greaves.svg
 shortcode: PlGrvs
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

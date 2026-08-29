@@ -4,7 +4,6 @@ aliases:
   - doc-afflandi
 id: jzsvrPQas8ak9Ti0
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Afflictions and Injuries"

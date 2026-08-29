@@ -11,7 +11,6 @@ id: OtLvXmWpl6oMqDiY
 img: icons/game-icons/delapouite/chest.svg
 shortcode: paychestir
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -11,7 +11,6 @@ id: eRPJ9XkAt9zOIdGR
 img: icons/game-icons/badges/club.svg
 shortcode: ClbImp
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

@@ -6,7 +6,6 @@ name:
 id: 2lkG02SkmKisa2xK
 slug: build-and-deployment
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---
@@ -422,9 +421,9 @@ than a shared tree; see `@heroiclands/package-build/engine/kb-manifest` and `ass
 ### Authoring content notes
 
 Items, actors, and journal entries are Markdown files with YAML frontmatter
-(a `package:` naming the content package this repository compiles — `sohl` here,
-declared once as `contentPackage` in `package-build.config.yaml` — a
-`type:`, a stable `id:`, and folder/embedding metadata),
+(a `type:`, a stable `id:`, and folder/embedding metadata; the content package is
+not authored per note — it is the `contentPackage` declared once in
+`package-build.config.yaml`, `sohl` here),
 authored in the vault and exported anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
 pack because of its `type` (item kinds →

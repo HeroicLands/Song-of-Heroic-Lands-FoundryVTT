@@ -11,7 +11,6 @@ id: oP4DZiYZmShsWYOs
 img: icons/game-icons/lorc/leather-boot.svg
 shortcode: LtKBoot
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

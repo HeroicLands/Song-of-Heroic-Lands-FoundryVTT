@@ -12,7 +12,6 @@ id: ZRrFMcmOKEDldztN
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bowlcopper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -11,7 +11,6 @@ id: EbxRF3Rb4IFl50ud
 img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MCui
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

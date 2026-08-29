@@ -4,7 +4,6 @@ aliases:
   - doc-hrspcy
 id: jlpNdIs8NF0IB4MP
 type: doc
-package: sohl
 category: rules
 name:
   full: Haruspicy

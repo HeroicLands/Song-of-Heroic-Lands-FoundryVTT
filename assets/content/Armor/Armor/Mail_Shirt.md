@@ -11,7 +11,6 @@ id: XxvkT7TmelCf7sBN
 img: icons/game-icons/lorc/mail-shirt.svg
 shortcode: MShirt
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

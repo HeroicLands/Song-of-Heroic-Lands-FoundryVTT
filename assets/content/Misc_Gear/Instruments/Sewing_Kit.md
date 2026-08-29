@@ -12,7 +12,6 @@ id: EcsJrkGzz8K0ef7b
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sewkit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

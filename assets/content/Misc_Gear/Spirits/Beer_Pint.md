@@ -12,7 +12,6 @@ id: k9HWSSECOIT1TaqZ
 img: icons/game-icons/lorc/beer-stein.svg
 shortcode: beerpt
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: brew

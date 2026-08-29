@@ -11,7 +11,6 @@ id: 4FBUBfxSPNJVYsDA
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vasecer
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: cmcs

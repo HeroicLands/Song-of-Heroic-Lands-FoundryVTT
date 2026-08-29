@@ -10,7 +10,6 @@ id: udl3mzMb0IyASIVy
 img: icons/game-icons/delapouite/fishing.svg
 shortcode: fish
 type: skill
-package: sohl
 sohl:
   kbcat: nature
   archetype: 0

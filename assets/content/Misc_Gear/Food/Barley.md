@@ -12,7 +12,6 @@ id: ArnXnDM5g0riWbdd
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: barley
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

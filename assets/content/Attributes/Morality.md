@@ -10,7 +10,6 @@ id: 5eOjes9tQHVozVcl
 img: icons/game-icons/lorc/scales.svg
 shortcode: mor
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

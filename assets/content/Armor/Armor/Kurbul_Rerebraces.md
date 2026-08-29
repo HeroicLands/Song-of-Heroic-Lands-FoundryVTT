@@ -12,7 +12,6 @@ id: pe8JR9rKFQknq3IO
 img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: KRebr
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

@@ -11,7 +11,6 @@ id: l84fJfEPdMbtWROO
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: CCoat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

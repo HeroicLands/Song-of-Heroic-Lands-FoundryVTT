@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/hound.svg
 portrait: images/being/guarddog-portrait.webp
 shortcode: guarddog
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

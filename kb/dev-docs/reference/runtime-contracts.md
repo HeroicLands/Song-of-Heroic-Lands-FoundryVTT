@@ -6,7 +6,6 @@ name:
 id: Ktt9YETs9obxH9WX
 slug: runtime-contracts
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

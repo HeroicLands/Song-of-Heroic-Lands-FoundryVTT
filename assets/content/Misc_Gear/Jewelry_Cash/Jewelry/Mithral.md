@@ -12,7 +12,6 @@ id: ixv7k4H9lU1QAIug
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mithral
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

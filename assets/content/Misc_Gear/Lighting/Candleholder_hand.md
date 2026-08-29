@@ -12,7 +12,6 @@ id: 4fZI1WVjyq4sN02V
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlehold
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

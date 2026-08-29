@@ -12,7 +12,6 @@ id: zTtXjPgpLSLCBLEC
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fletchkit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

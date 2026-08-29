@@ -12,7 +12,6 @@ id: TWn1UCP0vIWjYfyw
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cuppewter
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

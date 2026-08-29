@@ -12,7 +12,6 @@ id: hFxDjaThgTDwfZ2X
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: feathers
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

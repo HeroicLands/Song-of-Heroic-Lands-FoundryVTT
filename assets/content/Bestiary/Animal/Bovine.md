@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/cow.svg
 portrait: images/being/bovine-portrait.webp
 shortcode: bovine
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

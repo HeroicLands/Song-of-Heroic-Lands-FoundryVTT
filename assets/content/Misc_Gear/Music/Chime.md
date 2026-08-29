@@ -12,7 +12,6 @@ id: w73KsFmuEevTnJHP
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chime
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

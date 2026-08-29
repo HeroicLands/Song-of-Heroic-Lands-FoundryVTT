@@ -12,7 +12,6 @@ id: YSy15K56qRuVDUSA
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beltwaist
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

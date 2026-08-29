@@ -12,7 +12,6 @@ id: vX5NsBDIhBnVTHXz
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: traphuntin2
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

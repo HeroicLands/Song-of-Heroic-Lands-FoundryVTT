@@ -11,7 +11,6 @@ id: LBFoDsugD5iMKwpT
 img: icons/game-icons/delapouite/dart.svg
 shortcode: Flch
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

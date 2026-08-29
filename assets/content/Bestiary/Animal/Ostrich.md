@@ -14,7 +14,6 @@ img: icons/game-icons/delapouite/cassowary-head.svg
 portrait: images/being/ostrich-portrait.webp
 shortcode: ostrich
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

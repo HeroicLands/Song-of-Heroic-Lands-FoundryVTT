@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Thick shaft, four-sided iron spike; pierces plate, mail, gambeson up close."
 type: projectilegear
-package: sohl
 id: rNZGHJbveWGRoidQ
 shortcode: ArwHBod
 img: icons/game-icons/lorc/broadhead-arrow.svg

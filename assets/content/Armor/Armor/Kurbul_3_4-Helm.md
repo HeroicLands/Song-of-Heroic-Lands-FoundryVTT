@@ -13,7 +13,6 @@ id: nC7j4q4v8570Yuam
 img: icons/game-icons/lorc/crested-helmet.svg
 shortcode: K34Hlm
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

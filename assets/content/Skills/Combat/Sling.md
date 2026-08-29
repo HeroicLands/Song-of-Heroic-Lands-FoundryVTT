@@ -10,7 +10,6 @@ id: 7BpaZQE9sEtgmAx5
 img: icons/game-icons/delapouite/sling.svg
 shortcode: slng
 type: skill
-package: sohl
 sohl:
   kbcat: combat
   archetype: 0

@@ -10,7 +10,6 @@ id: fUCUOIumo1t0GIQ1
 img: icons/game-icons/faithtoken/card-random.svg
 shortcode: tarot
 type: mysticalability
-package: sohl
 sohl:
   kbcat: divination
   archetype: 0

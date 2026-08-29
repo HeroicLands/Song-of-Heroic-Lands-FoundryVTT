@@ -5,7 +5,6 @@ aliases:
   - doc-resolutionintro
 id: hzGEcwoamHndfE66
 type: doc
-package: sohl
 category: rules
 name:
   full: Resolution

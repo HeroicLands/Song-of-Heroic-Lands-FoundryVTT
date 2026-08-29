@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/horse-head.svg
 portrait: images/being/destrier-portrait.webp
 shortcode: destrier
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

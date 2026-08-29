@@ -11,7 +11,6 @@ id: LN3JMVS42GX9EmCq
 img: icons/game-icons/delapouite/chest.svg
 shortcode: lockboxiblg
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: mtlc

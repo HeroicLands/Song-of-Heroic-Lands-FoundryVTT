@@ -12,7 +12,6 @@ id: MBs9o3d3sVAw83kk
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cookkit
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

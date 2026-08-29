@@ -10,7 +10,6 @@ id: L4Dr0xLDD9EpAxlm
 img: icons/game-icons/lorc/charm.svg
 shortcode: cml
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

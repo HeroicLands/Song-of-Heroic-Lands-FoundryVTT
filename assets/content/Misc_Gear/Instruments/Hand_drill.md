@@ -12,7 +12,6 @@ id: 9Rmq8rou339Jx48e
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: handdrill
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

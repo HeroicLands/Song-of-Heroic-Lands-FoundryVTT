@@ -3,7 +3,6 @@ aliases:
   - doc-systmstt
 id: YApc5TRsPXe62WOA
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "System Settings"

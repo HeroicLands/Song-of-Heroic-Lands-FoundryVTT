@@ -10,7 +10,6 @@ id: oKkk7uWZEiRChlmc
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: malnut
 type: trauma
-package: sohl
 sohl:
   kbcat: physprivations
   archetype: 0

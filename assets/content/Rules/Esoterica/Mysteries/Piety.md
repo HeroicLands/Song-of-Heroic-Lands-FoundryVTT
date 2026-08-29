@@ -4,7 +4,6 @@ aliases:
   - doc-piety
 id: H5q0yAvdBHH0bH5G
 type: doc
-package: sohl
 category: rules
 name:
   full: Piety

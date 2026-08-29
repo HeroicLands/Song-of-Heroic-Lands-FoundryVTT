@@ -11,7 +11,6 @@ id: U5hPImsuxbuJVzJ4
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: poison
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

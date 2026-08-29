@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/bear-head.svg
 portrait: images/being/cavebear-portrait.webp
 shortcode: cavebear
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

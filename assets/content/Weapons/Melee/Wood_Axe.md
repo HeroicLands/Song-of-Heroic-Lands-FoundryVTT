@@ -11,7 +11,6 @@ id: TADxuXZx0WtG2rmG
 img: icons/game-icons/lorc/battle-axe.svg
 shortcode: WAxe
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -9,7 +9,6 @@ id: UW3rF6stfsPMXYYA
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: pteromer
 type: trauma
-package: sohl
 sohl:
   kbcat: phobias
   archetype: 0

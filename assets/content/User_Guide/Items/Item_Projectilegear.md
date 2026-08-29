@@ -4,7 +4,6 @@ aliases:
   - doc-prjctl
 id: vsv4MPXDQcskQEl9
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Projectile"

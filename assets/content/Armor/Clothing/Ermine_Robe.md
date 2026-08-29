@@ -11,7 +11,6 @@ id: msj7SA2MbJkmyL7Z
 img: icons/game-icons/lorc/robe.svg
 shortcode: ERobe
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -12,7 +12,6 @@ id: Xx2L2NR7aemZJW84
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: platepewte
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

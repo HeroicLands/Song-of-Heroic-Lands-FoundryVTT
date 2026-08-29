@@ -12,7 +12,6 @@ id: tWq2iMqjHXSUciNf
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lamb
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

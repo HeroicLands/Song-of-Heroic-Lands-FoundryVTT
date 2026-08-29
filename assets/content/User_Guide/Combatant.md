@@ -5,7 +5,6 @@ aliases:
   - doc-cmbtnt
 id: ORi4BIBMecFVaG4I
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Combatant"

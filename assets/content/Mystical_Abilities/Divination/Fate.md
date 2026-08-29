@@ -10,7 +10,6 @@ id: vXrNYKTPRjCPF2n4
 img: icons/game-icons/lorc/crystal-ball.svg
 shortcode: fate
 type: mysticalability
-package: sohl
 sohl:
   kbcat: divination
   archetype: 0

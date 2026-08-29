@@ -11,7 +11,6 @@ id: wLAXPpOWB5InnBgX
 img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: cruciblesm
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: cmcs

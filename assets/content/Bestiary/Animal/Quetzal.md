@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/quetzal-portrait.webp
 shortcode: quetzal
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

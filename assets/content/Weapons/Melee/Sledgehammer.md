@@ -11,7 +11,6 @@ id: GMeZ3QQhjRo51MKk
 img: icons/game-icons/lorc/claw-hammer.svg
 shortcode: SlgHmr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: mtlc

@@ -65,7 +65,6 @@ name:
 id: HSNwLca3kMYLN3Ag
 shortcode: autoattack
 img: icons/game-icons/lorc/crossed-swords.svg
-package: sohl
 folder: null
 aliases:
   - Automated Attack

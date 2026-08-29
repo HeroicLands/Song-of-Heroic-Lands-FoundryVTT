@@ -12,7 +12,6 @@ id: iOW0x6fI5TbOP3uE
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: silver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

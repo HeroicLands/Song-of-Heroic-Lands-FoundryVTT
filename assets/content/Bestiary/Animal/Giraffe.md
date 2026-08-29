@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/giraffe-portrait.webp
 shortcode: giraffe
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

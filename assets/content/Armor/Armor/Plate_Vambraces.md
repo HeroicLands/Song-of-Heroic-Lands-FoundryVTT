@@ -11,7 +11,6 @@ id: VNnWgvw6fBMJxx00
 img: icons/game-icons/delapouite/bracer.svg
 shortcode: PlVamb
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

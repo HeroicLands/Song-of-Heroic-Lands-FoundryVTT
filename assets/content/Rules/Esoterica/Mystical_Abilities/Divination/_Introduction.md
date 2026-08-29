@@ -4,7 +4,6 @@ aliases:
   - doc-divintro
 id: Nao57h8vo7wCINl9
 type: doc
-package: sohl
 category: rules
 name:
   full: Divination Introduction

@@ -12,7 +12,6 @@ id: 9F2irqHTxCn0qbr7
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: goat
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

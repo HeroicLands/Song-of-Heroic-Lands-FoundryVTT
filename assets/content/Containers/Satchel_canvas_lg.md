@@ -11,7 +11,6 @@ id: FQFzTf4njsYQUe37
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: satchcvlg
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: txtl

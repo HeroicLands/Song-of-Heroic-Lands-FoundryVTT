@@ -12,7 +12,6 @@ id: hQmMPH6YyURDjcCB
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jankorezcu
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

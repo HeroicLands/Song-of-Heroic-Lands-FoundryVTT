@@ -12,7 +12,6 @@ id: PNCuUTA2GDVPQEWK
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: booktrvl
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

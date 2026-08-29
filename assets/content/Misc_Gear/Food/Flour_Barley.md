@@ -12,7 +12,6 @@ id: iXsuE64gdzCiY7d9
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flourbarle
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mill

@@ -10,7 +10,6 @@ id: 5DPlnTLCpfyz4Rar
 img: icons/game-icons/delapouite/harp.svg
 shortcode: musc
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

@@ -12,7 +12,6 @@ id: XAl1HYIyDo1stvAQ
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: salmon
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

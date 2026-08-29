@@ -9,7 +9,6 @@ aliases:
   - doc-mstrylvl
 id: uil7KCJxAUM4nXLC
 type: doc
-package: sohl
 category: rules
 name:
   full: Mastery Level

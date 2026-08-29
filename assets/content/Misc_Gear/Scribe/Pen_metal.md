@@ -12,7 +12,6 @@ id: LjmDkpkUPBqzXWjM
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: penmetal
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

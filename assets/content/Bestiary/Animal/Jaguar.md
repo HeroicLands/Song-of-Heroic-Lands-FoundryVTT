@@ -15,7 +15,6 @@ img: icons/game-icons/delapouite/feline.svg
 portrait: images/being/jaguar-portrait.webp
 shortcode: jaguar
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -10,7 +10,6 @@ id: gWcGga86UIFpqRsG
 img: icons/game-icons/lorc/scroll-unfurled.svg
 shortcode: script
 type: skill
-package: sohl
 sohl:
   kbcat: script
   archetype: 0

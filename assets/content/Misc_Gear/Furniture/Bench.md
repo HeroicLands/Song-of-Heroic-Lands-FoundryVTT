@@ -12,7 +12,6 @@ id: 0DOk4QuvfCne1f7T
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bench
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

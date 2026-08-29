@@ -14,7 +14,6 @@ img: icons/game-icons/delapouite/camel-head.svg
 portrait: images/being/llama-portrait.webp
 shortcode: llama
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

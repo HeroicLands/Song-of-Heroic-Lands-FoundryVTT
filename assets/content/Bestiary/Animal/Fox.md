@@ -13,7 +13,6 @@ img: icons/game-icons/caro-asercion/fox.svg
 portrait: images/being/fox-portrait.webp
 shortcode: fox
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

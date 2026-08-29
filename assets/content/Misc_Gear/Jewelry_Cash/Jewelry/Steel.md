@@ -12,7 +12,6 @@ id: IEqY7M7yTgRynoIO
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: steel
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

@@ -11,7 +11,6 @@ id: WUFzVIR5S7961tcp
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: GTnc
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

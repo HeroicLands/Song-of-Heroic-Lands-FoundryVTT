@@ -11,7 +11,6 @@ id: iZJd1F4KbMZe3nMR
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: Scmtr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

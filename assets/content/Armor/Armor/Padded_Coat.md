@@ -11,7 +11,6 @@ id: GrueGMdrWW1fbZGa
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: PCoat
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

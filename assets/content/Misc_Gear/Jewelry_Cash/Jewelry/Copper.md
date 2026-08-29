@@ -12,7 +12,6 @@ id: 6IbwsYpIcnB6J2Pa
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: copper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

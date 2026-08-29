@@ -10,7 +10,6 @@ id: k81PKEq5iaHjsehi
 img: icons/game-icons/lorc/awareness.svg
 shortcode: awar
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

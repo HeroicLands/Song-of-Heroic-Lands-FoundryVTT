@@ -39,7 +39,7 @@ and saying the fix is mechanical.
 ## The envelope
 
 A being carries the frontmatter every note carries — `name.full`, `type`,
-`shortcode`, `package`, `id`, `folder`, and the required `sohl.archetype` — all
+`shortcode`, `id`, `folder`, and the required `sohl.archetype` — all
 described in [The Authoring Workflow](authoring-workflow.md). Two art fields are
 specific to actors:
 

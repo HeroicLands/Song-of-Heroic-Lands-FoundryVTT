@@ -13,7 +13,6 @@ img: icons/game-icons/caro-asercion/badger.svg
 portrait: images/being/wlvrn-portrait.webp
 shortcode: wlvrn
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

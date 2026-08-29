@@ -12,7 +12,6 @@ id: qVzCXeUYdj9AwUaU
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: earringsbone
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

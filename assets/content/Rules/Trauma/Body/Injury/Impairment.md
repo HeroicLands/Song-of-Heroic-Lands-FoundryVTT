@@ -4,7 +4,6 @@ aliases:
   - doc-imprmnt
 id: Aa8GO0i94Gh9cyGi
 type: doc
-package: sohl
 category: rules
 name:
   full: Impairment

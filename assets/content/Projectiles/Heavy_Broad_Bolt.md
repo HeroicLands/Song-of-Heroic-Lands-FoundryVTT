@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted rider."
 type: projectilegear
-package: sohl
 id: EjqzVPXe2q47OCWK
 shortcode: BltHBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg

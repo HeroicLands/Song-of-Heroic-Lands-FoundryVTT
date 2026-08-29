@@ -12,7 +12,6 @@ id: Ja0Ix9LKndf0c5mm
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pewter
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mnrl

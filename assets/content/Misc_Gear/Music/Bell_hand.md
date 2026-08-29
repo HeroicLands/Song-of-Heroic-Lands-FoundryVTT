@@ -12,7 +12,6 @@ id: Woak28XKFFBpgUPV
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bellhand
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

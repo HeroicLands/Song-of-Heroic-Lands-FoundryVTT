@@ -11,7 +11,6 @@ id: FDhKyOsZ0Bdcf39X
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: CBw80
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: fltch

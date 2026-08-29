@@ -12,7 +12,6 @@ id: ExbuiNKETmm6MxHv
 img: icons/game-icons/badges/coins.svg
 shortcode: gldcrwn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

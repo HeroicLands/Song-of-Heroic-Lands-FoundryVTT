@@ -10,7 +10,6 @@ id: Xk9uPqRbOH289xDf
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: hypox
 type: trauma
-package: sohl
 sohl:
   kbcat: physprivations
   archetype: 0

@@ -11,7 +11,6 @@ id: MqdkEey1XMSzZjwl
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sackltsm
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

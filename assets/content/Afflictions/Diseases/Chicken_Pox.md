@@ -11,7 +11,6 @@ id: HIc9XzMn2fc2GER6
 img: icons/game-icons/lorc/virus.svg
 shortcode: chknpox
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

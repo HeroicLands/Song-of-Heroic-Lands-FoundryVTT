@@ -12,7 +12,6 @@ id: lMBWKI4m4wgnnitl
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lenses
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: glas

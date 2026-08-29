@@ -12,7 +12,6 @@ id: dVuC9SoU1Vsrja1P
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bookbase
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -11,7 +11,6 @@ id: ZU82Ji5jLQp8MQwZ
 img: icons/game-icons/badges/club.svg
 shortcode: Stk
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

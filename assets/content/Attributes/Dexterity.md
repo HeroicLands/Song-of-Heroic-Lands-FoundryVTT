@@ -10,7 +10,6 @@ id: CK3tV3RtyxzcM6Sw
 img: icons/game-icons/lorc/juggler.svg
 shortcode: dex
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

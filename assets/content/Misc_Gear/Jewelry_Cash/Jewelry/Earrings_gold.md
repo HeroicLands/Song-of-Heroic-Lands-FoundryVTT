@@ -12,7 +12,6 @@ id: 9qKrBJnuwF0xoYUW
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: earringsgold
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

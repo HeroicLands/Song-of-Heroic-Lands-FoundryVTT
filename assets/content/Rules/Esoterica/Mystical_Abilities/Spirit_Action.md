@@ -4,7 +4,6 @@ aliases:
   - doc-sprtactn
 id: rSZepxNYmUfj2FIs
 type: doc
-package: sohl
 category: rules
 name:
   full: Spirit Action

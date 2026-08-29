@@ -11,7 +11,6 @@ id: Z5c4QPGMrErfJn8u
 img: icons/game-icons/badges/club.svg
 shortcode: Trunch
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

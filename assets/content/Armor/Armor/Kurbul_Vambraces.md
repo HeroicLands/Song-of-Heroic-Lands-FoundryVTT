@@ -12,7 +12,6 @@ id: WQUI5MnoU4jf4t8v
 img: icons/game-icons/delapouite/bracer.svg
 shortcode: KVamb
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

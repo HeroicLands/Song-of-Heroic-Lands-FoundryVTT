@@ -12,7 +12,6 @@ id: fcvGFJBzUMY8M0k5
 img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: linen
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: txtl

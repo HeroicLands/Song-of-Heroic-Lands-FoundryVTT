@@ -11,7 +11,6 @@ id: szGAt5jeXrQFKezN
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: hmgfvr
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

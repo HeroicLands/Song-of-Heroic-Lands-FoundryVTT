@@ -10,7 +10,6 @@ id: oi9UWBqy1A4rrTb3
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: starv
 type: trauma
-package: sohl
 sohl:
   kbcat: physprivations
   archetype: 0

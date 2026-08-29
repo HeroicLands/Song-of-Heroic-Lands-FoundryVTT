@@ -10,7 +10,6 @@ id: doe6pBSFOr8KBgTr
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: htntlrnc
 type: trauma
-package: sohl
 sohl:
   kbcat: physfeature
   archetype: 0

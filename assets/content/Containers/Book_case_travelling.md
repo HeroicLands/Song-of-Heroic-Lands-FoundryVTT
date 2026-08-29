@@ -11,7 +11,6 @@ id: kAnS4ey4C89JF1z5
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bkcasetrv
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

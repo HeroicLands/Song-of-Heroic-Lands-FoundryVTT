@@ -18,7 +18,6 @@ shortcode: alverriktarvall
 img: icons/game-icons/delapouite/person.svg
 portrait: images/being/alverriktarvall-portrait.webp
 type: being
-package: sohl
 social:
   occupation: Caravan Guard
   station: soldiery

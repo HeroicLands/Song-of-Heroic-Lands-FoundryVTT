@@ -10,7 +10,6 @@ id: sQsHFwWlXtlIazk3
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: anaemia
 type: trauma
-package: sohl
 sohl:
   kbcat: fatigue
   archetype: 0

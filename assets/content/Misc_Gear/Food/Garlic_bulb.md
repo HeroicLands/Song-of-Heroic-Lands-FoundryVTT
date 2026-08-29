@@ -12,7 +12,6 @@ id: P1BWxECTXvblbBfV
 img: icons/game-icons/delapouite/herbs-bundle.svg
 shortcode: garlic
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

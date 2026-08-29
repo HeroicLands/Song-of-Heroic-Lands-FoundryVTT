@@ -12,7 +12,6 @@ id: Zm4njdqySFmkO40G
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hammer
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

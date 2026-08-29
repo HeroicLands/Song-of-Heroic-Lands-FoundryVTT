@@ -4,7 +4,6 @@ aliases:
   - doc-chrctrcr
 id: 2jDp0HN2AvId0U5E
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Character Creation"

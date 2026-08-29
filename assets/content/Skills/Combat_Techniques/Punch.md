@@ -11,7 +11,6 @@ id: XIQyx0G00NUQT7Wc
 img: icons/game-icons/lorc/punch-blast.svg
 shortcode: bflkpunch
 type: skill
-package: sohl
 sohl:
   kbcat: unarmed
   archetype: 0

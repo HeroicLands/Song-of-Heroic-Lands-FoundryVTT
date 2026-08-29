@@ -11,7 +11,6 @@ id: s5D6QJbw7ZbETxdN
 img: icons/game-icons/lorc/broad-dagger.svg
 shortcode: Taburi
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

@@ -7,7 +7,6 @@ aliases:
   - doc-sccsstst
 id: V5ocvTbZq3Vw94oz
 type: doc
-package: sohl
 category: rules
 name:
   full: Success Tests

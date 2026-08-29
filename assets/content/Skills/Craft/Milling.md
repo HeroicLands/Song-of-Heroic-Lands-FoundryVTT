@@ -10,7 +10,6 @@ id: ojQ9h4Gv5xdDuCWm
 img: icons/game-icons/caro-asercion/water-mill.svg
 shortcode: mill
 type: skill
-package: sohl
 sohl:
   kbcat: craft
   archetype: 0

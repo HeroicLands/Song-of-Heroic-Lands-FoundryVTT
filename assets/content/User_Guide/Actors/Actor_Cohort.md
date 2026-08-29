@@ -4,7 +4,6 @@ aliases:
   - doc-cohort
 id: 3uAE5ivwuwl1a1ir
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Cohort"

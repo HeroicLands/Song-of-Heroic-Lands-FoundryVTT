@@ -12,7 +12,6 @@ id: aOdhzoCjhmU8eiOb
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spoonpewte
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

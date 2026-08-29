@@ -12,7 +12,6 @@ id: SDSgdn7LUjIyOkCc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: garnetcut
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

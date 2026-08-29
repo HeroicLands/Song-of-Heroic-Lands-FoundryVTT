@@ -12,7 +12,6 @@ id: R1RwlZcpeVN2at47
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mackerel
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: fish

@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/gazelle-portrait.webp
 shortcode: gazelle
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

@@ -10,7 +10,6 @@ id: nMPKgtFbCnXMNzuI
 img: icons/game-icons/delapouite/caduceus.svg
 shortcode: pysn
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

@@ -12,7 +12,6 @@ id: cqqHnGGvEgJd1wxj
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ladder8
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

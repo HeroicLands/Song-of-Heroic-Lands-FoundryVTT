@@ -58,7 +58,7 @@ entry at all.
 ```jsonc
 {
   "version": 5,
-  "package": "sohl", // the CONTENT package these notes declare
+  "package": "sohl", // the CONTENT package these notes belong to
   "foundryPackage": "sohl", // the FOUNDRY package shipping the documents
   "entries": {
     "sohl-affliction-aconite": {
@@ -84,13 +84,13 @@ entry at all.
 | Field            | Meaning                                                                                                                  |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `version`        | Format version. See [Versioning](#versioning).                                                                           |
-| `package`        | The **content** package — what a note declares as `package:` in frontmatter.                                             |
+| `package`        | The **content** package — the emitting repository's configured `contentPackage`.                                         |
 | `foundryPackage` | The **Foundry** package whose compendiums hold the compiled documents. Absent when the emitting build compiles no packs. |
 | `entries`        | Canonical address → entry. Sorted, so a committed copy diffs only on real change.                                        |
 
 `package` and `foundryPackage` are **different namespaces** and coincide only by
-accident. A note says `package: thalorna`; its documents are addressed
-`Compendium.sohl-thalorna.…`. Only the content package is invariant across
+accident. `sohl-thalorna` configures `contentPackage: thalorna`; its documents
+are addressed `Compendium.sohl-thalorna.…`. Only the content package is invariant across
 compilation targets, which is why addresses are namespaced on it.
 
 ### Entry fields

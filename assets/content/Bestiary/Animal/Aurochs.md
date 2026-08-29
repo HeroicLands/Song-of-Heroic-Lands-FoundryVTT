@@ -13,7 +13,6 @@ img: icons/game-icons/lorc/bull.svg
 portrait: images/being/aurochs-portrait.webp
 shortcode: aurochs
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

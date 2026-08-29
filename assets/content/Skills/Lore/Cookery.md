@@ -10,7 +10,6 @@ id: vOMFCy5llDJ16W5G
 img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: cook
 type: skill
-package: sohl
 sohl:
   kbcat: lore
   archetype: 0

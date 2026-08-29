@@ -12,7 +12,6 @@ id: 21lNzznQTTqz5Dg8
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidebeaver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

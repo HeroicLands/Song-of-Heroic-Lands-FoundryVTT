@@ -10,7 +10,6 @@ id: 9IdvC4RAPsx7og3I
 img: icons/psychic-waves.svg
 shortcode: tlnt
 type: mysticalability
-package: sohl
 sohl:
   kbcat: arcanetalent
   archetype: 0

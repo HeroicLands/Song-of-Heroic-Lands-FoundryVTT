@@ -9,7 +9,6 @@ id: It119DUjOzhfGtGz
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: chemophb
 type: trauma
-package: sohl
 sohl:
   kbcat: phobias
   archetype: 0

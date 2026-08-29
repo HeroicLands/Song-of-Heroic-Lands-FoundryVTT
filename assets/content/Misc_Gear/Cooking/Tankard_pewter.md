@@ -12,7 +12,6 @@ id: FOXdpFfY3XYtD3rT
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tankardpew
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

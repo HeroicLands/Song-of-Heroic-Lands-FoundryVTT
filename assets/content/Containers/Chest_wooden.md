@@ -11,7 +11,6 @@ id: B7Pgnj6PnUdDi0Cb
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chestwood
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

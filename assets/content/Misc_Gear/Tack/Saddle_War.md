@@ -12,7 +12,6 @@ id: U4XENkA69elz3lFS
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saddlewar
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

@@ -9,7 +9,6 @@ id: Wn0xXFSWaEqLYo7j
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: optimism
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

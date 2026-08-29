@@ -11,7 +11,6 @@ id: 4cz8wqi4oxWVZ8TY
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pouchbuckram
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: txtl

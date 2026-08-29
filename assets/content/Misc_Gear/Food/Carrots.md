@@ -12,7 +12,6 @@ id: QMMhI1h4rEq9KjXc
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: carrots
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

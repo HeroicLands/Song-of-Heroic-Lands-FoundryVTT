@@ -12,7 +12,6 @@ id: xtpclSUhLfQ8cfuM
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oilrose
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: pfmy

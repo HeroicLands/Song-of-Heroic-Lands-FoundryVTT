@@ -12,7 +12,6 @@ id: 4l2auY8DlPzAVMFN
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grimoire
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

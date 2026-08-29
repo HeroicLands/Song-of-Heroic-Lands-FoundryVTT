@@ -11,7 +11,6 @@ id: AG4ZCM7Lt32ADlI1
 img: icons/game-icons/delapouite/gloves.svg
 shortcode: BvMitt
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

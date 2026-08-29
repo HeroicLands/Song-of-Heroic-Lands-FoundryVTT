@@ -12,7 +12,6 @@ id: KW0j7IrRWN8uDniz
 img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: oilcook
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: cook

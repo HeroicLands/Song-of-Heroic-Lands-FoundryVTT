@@ -11,7 +11,6 @@ id: 1cnmkDSTXFmmkX19
 img: icons/game-icons/delapouite/warhammer.svg
 shortcode: Whmr
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

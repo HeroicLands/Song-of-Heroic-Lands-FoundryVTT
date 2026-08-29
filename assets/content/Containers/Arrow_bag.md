@@ -11,7 +11,6 @@ id: gOdM19b7bLkZlHjH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: arrowbag
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: txtl

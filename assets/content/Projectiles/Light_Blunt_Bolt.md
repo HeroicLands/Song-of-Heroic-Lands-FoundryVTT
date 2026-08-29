@@ -8,7 +8,6 @@ name:
   alias: []
 description: "Light quarrel with padded knob; stuns small game; spares fur and feather."
 type: projectilegear
-package: sohl
 id: K3xckwemrgxTl0wl
 shortcode: BltLBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg

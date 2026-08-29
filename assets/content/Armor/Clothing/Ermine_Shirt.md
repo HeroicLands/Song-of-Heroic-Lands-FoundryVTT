@@ -11,7 +11,6 @@ id: dWDq654JddNEgCmM
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: EShirt
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

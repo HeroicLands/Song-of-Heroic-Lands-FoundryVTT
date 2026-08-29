@@ -12,7 +12,6 @@ id: V6lkqEGEZdTLe3TL
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: horndrinki
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

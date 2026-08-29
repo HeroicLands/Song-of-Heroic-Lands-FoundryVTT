@@ -10,7 +10,6 @@ id: tKieDfHG5pLS0Pca
 img: icons/game-icons/lorc/conversation.svg
 shortcode: cmd
 type: skill
-package: sohl
 sohl:
   kbcat: social
   archetype: 0

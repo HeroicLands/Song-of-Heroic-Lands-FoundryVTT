@@ -12,7 +12,6 @@ id: 1jeWqJP3Kbi2UERw
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: broochhorn
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

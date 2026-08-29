@@ -12,7 +12,6 @@ id: MWtDunXasiSfpBca
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: nailspacko
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

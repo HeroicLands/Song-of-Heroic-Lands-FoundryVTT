@@ -12,7 +12,6 @@ id: SmjoOTQiAhHhS0wn
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flourrye
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mill

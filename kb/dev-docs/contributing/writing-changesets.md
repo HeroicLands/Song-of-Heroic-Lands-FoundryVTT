@@ -6,7 +6,6 @@ name:
 id: n79r8AjfB8I4WFeU
 slug: writing-changesets
 type: doc
-package: sohl
 category: dev-docs
 folder: null
 ---

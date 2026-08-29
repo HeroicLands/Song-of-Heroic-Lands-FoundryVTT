@@ -12,7 +12,6 @@ id: VuBYl6ERtDNUgMFF
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: map
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: draw

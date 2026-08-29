@@ -12,7 +12,6 @@ id: 3yI8J6wytWi6sQT2
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideotterw
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

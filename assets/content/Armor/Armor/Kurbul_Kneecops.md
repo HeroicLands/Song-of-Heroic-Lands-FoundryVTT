@@ -12,7 +12,6 @@ id: 8AAdzvAXmYz3hFsx
 img: icons/game-icons/delapouite/knee-pad.svg
 shortcode: KKnee
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

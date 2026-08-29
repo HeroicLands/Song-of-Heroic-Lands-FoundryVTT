@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/monkey.svg
 portrait: images/being/hwlrmnky-portrait.webp
 shortcode: hwlrmnky
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

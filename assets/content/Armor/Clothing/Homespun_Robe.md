@@ -11,7 +11,6 @@ id: mvpXPzqOD4LgF7NV
 img: icons/game-icons/lorc/robe.svg
 shortcode: HsRobe
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

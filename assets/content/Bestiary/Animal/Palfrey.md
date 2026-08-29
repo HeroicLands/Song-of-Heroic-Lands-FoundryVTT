@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/horse-head.svg
 portrait: images/being/palfrey-portrait.webp
 shortcode: palfrey
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

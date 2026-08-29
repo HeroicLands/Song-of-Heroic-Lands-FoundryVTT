@@ -12,7 +12,6 @@ id: yYVOEWtjTgoq3M39
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidehorse
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

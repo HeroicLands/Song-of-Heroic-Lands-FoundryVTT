@@ -10,7 +10,6 @@ id: qI1YEU3drmyEAiEl
 img: icons/game-icons/lorc/awareness.svg
 shortcode: per
 type: attribute
-package: sohl
 sohl:
   archetype: 0
   scoreBase: 0

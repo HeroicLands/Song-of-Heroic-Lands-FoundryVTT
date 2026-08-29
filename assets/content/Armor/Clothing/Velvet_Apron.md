@@ -11,7 +11,6 @@ id: 6sMhJOZtw58Ax8GJ
 img: icons/game-icons/delapouite/cook.svg
 shortcode: VApn
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

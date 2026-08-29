@@ -5,7 +5,6 @@ aliases:
   - doc-ugitems
 id: 6AUDdg96HqINKHdv
 type: doc
-package: sohl
 category: user-guide
 name:
   full: Items

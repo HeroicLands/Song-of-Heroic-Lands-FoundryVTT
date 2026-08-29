@@ -10,7 +10,6 @@ description: "The open moor the road crosses, a day's walk end to end."
 id: T8lynnfRG7ZcQtq3
 shortcode: hearthmoor
 type: regionalmap
-package: sohl
 sohl:
   kbcat: map
   folder: Vh8pLwCzEnUyQ2Sd

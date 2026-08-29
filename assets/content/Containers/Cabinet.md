@@ -11,7 +11,6 @@ id: MoHoUsqEwHSxf3Yq
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cabinet
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

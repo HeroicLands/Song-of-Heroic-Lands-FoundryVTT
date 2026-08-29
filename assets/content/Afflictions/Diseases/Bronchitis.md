@@ -10,7 +10,6 @@ id: 4DOGxp07TkUURNZP
 img: icons/game-icons/lorc/virus.svg
 shortcode: brnchts
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

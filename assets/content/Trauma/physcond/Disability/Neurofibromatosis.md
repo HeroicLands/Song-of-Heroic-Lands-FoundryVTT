@@ -9,7 +9,6 @@ id: IUR07QqjO12bZ0Tk
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: neurofib
 type: trauma
-package: sohl
 sohl:
   kbcat: physdisability
   archetype: 0

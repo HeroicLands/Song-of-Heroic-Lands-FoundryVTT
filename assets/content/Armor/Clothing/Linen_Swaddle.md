@@ -11,7 +11,6 @@ id: yAyq80z0iciJjVSg
 img: icons/game-icons/lorc/trousers.svg
 shortcode: LnSwd
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

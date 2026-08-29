@@ -5,7 +5,6 @@ aliases:
   - doc-itemtrauma
 id: PV8DkxfbuA1ORJ1U
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Trauma"

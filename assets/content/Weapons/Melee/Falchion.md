@@ -11,7 +11,6 @@ id: XlHwAsy5jkJz1fPt
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: Falcn
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

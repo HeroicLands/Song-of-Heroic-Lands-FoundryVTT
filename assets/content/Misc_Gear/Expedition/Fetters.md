@@ -12,7 +12,6 @@ id: ot5qOMTigtsh36Oy
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fetters
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

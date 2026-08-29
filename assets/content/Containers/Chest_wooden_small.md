@@ -11,7 +11,6 @@ id: WOqF4PWclB04ALdd
 img: icons/game-icons/delapouite/chest.svg
 shortcode: chestwdsm
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

@@ -10,7 +10,6 @@ id: cdUAhDMigdEaouPr
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cmpldsr
 type: trauma
-package: sohl
 sohl:
   kbcat: psypsychosis
   archetype: 0

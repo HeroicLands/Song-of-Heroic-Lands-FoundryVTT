@@ -12,7 +12,6 @@ id: e2XKT96x3d8Ukskg
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jewelerssc
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

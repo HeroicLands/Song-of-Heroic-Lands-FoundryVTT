@@ -3,7 +3,6 @@ aliases:
   - doc-effcttrg
 id: U0j0CeD2HOvqJ3UX
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Effect Targeting"

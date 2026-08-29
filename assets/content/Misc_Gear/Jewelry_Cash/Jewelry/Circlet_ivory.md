@@ -12,7 +12,6 @@ id: iPDbKcofwo3zHjvZ
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: circletivory
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

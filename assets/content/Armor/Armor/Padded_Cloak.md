@@ -11,7 +11,6 @@ id: xhO7W25EuzTsFY1V
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: PdClk
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

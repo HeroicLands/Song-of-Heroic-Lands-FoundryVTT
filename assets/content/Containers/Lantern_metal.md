@@ -11,7 +11,6 @@ id: s7p1cuaBcrUheB7Q
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lanternmet
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: mtlc

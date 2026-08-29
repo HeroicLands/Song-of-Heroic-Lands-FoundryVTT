@@ -12,7 +12,6 @@ id: 92Wj8lsopaK0Kzpb
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cageironla
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

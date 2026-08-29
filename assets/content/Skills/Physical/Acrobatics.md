@@ -10,7 +10,6 @@ id: MCxEVjsyUzLvJd4j
 img: icons/game-icons/lorc/cartwheel.svg
 shortcode: acro
 type: skill
-package: sohl
 sohl:
   kbcat: physical
   archetype: 0

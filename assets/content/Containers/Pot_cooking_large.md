@@ -11,7 +11,6 @@ id: pHqiZiH4kaGdWdjS
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: potcooking
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: cmcs

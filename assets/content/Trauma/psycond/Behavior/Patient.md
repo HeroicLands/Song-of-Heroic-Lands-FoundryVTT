@@ -9,7 +9,6 @@ id: eYpPLqWzAVaTcL4N
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: patient
 type: trauma
-package: sohl
 sohl:
   kbcat: psybehavior
   archetype: 0

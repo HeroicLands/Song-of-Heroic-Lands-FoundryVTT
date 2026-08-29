@@ -11,7 +11,6 @@ id: 8qyc91Lhgug9jCe4
 img: icons/game-icons/lorc/hood.svg
 shortcode: SCwl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

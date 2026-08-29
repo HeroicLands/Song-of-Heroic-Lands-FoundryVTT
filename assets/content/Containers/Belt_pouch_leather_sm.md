@@ -11,7 +11,6 @@ id: 23fY6O8R0VZw82c4
 img: icons/game-icons/lorc/knapsack.svg
 shortcode: beltpouchl3
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

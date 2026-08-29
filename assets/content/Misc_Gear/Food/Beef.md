@@ -12,7 +12,6 @@ id: ZsnHaMnpnDVEAdAg
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beef
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: anmcft

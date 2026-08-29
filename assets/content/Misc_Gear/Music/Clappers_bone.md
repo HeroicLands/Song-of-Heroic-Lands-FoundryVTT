@@ -12,7 +12,6 @@ id: i7RPzHfwNH74HUeu
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: clappersbo
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

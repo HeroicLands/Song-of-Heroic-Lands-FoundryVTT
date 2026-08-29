@@ -11,7 +11,6 @@ id: PKqzjZ1O9O86nyQH
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: papercasel
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: hide

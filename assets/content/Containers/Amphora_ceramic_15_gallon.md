@@ -11,7 +11,6 @@ id: U4lYF2cwFNwlYUyt
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amphoracer15
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: cmcs

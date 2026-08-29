@@ -11,7 +11,6 @@ id: GEZqCccHJWaVglBq
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: boxwood
 type: containergear
-package: sohl
 sohl:
   craft:
     skill: wood

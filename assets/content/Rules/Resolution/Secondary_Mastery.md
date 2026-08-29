@@ -6,7 +6,6 @@ aliases:
   - doc-scndryms
 id: ZS7AkgrQvXdkku0g
 type: doc
-package: sohl
 category: rules
 name:
   full: Secondary Mastery

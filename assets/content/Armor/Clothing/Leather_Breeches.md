@@ -11,7 +11,6 @@ id: aYp2LCPPci2Wl19T
 img: icons/game-icons/lorc/trousers.svg
 shortcode: LtBrch
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: hide

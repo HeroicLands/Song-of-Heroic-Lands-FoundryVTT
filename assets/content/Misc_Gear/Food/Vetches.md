@@ -12,7 +12,6 @@ id: 7CEm7AZ4zqKCizfV
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vetches
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: agri

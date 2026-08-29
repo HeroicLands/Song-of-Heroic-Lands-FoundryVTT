@@ -11,7 +11,6 @@ id: IhGpmZNPjNmWyAnC
 img: icons/game-icons/lorc/aerodynamic-harpoon.svg
 shortcode: Ballsta
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wood

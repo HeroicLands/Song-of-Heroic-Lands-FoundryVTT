@@ -12,7 +12,6 @@ id: ik8sdHR6JU9Euk3X
 img: icons/game-icons/lorc/prayer.svg
 shortcode: iconstnsm
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

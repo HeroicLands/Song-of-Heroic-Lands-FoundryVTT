@@ -11,7 +11,6 @@ id: oQLqdgNQrzY792yZ
 img: icons/game-icons/lorc/broadsword.svg
 shortcode: LKni
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: wpnc

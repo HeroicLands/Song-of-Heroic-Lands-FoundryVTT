@@ -11,7 +11,6 @@ id: fvwoslsqCB3UbxZP
 img: icons/game-icons/lucasms/shirt.svg
 shortcode: VSTnc
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

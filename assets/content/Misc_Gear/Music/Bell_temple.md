@@ -12,7 +12,6 @@ id: 58zPXzLGkb5cDkvI
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltemple
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: mtlc

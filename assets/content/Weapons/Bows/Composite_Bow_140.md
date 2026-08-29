@@ -11,7 +11,6 @@ id: cUV5jRbQTx1Sqpfn
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: CBw140
 type: weapongear
-package: sohl
 sohl:
   craft:
     skill: fltch

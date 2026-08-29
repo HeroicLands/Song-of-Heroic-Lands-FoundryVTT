@@ -11,7 +11,6 @@ id: w8A7ol7mEuYgXQ8D
 img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: SgCap
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

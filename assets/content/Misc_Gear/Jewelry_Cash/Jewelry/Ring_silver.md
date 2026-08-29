@@ -12,7 +12,6 @@ id: z8ROAoOPMxjgFA7R
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ringsilver
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

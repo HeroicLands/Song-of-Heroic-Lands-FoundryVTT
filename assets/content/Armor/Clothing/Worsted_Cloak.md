@@ -11,7 +11,6 @@ id: bgyHT5REPPpPhKW5
 img: icons/game-icons/lucasms/cloak.svg
 shortcode: WClk
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

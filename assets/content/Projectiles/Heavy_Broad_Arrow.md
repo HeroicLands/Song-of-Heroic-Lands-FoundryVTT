@@ -8,7 +8,6 @@ name:
   alias: []
 description: "War-arrow with wide flanged barbs; mortal wounds, hooks bone in skirmish."
 type: projectilegear
-package: sohl
 id: wzqyq4XbBxHJ7vyc
 shortcode: ArwHBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg

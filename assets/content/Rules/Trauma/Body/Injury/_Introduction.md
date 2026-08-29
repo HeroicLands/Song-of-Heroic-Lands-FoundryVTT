@@ -4,7 +4,6 @@ aliases:
   - doc-injintro
 id: mW5Qz3nO9kLwDLEO
 type: doc
-package: sohl
 category: rules
 name:
   full: Injury Introduction

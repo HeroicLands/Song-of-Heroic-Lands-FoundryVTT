@@ -10,7 +10,6 @@ id: YbNp8VymZVnrPf4h
 img: icons/game-icons/lorc/virus.svg
 shortcode: tbclos
 type: affliction
-package: sohl
 sohl:
   kbcat: diseases
   archetype: 0

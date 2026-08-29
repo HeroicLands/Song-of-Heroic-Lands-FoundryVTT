@@ -11,7 +11,6 @@ id: jFIjELgQikuQX4WC
 img: icons/game-icons/lorc/scale-mail.svg
 shortcode: SSlByrn
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

@@ -12,7 +12,6 @@ id: KSeVw5IkzHIAXYh8
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideseal
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: srvl

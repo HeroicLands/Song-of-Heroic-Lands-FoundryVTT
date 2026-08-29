@@ -12,7 +12,6 @@ id: Ck2EOxqsST61mVCn
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: necklacecopper
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

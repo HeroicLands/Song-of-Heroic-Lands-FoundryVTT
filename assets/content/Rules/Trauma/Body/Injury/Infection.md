@@ -5,7 +5,6 @@ aliases:
   - doc-infctn
 id: oG7E0HWgfvWL6uUQ
 type: doc
-package: sohl
 category: rules
 name:
   full: Infection

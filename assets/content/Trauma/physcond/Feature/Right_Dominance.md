@@ -10,7 +10,6 @@ id: idSEkL1vtiToutYV
 img: icons/game-icons/lorc/hand.svg
 shortcode: rdmnc
 type: trauma
-package: sohl
 sohl:
   kbcat: physfeature
   archetype: 0

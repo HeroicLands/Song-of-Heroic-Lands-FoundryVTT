@@ -11,7 +11,6 @@ id: azl99CUBdZoB3lgj
 img: icons/game-icons/lorc/trousers.svg
 shortcode: RBrch
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

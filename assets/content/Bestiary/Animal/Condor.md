@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/vulture.svg
 portrait: images/being/condor-portrait.webp
 shortcode: condor
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

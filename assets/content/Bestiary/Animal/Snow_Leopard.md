@@ -13,7 +13,6 @@ img: icons/game-icons/delapouite/feline.svg
 portrait: images/being/snwlprd-portrait.webp
 shortcode: snwlprd
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

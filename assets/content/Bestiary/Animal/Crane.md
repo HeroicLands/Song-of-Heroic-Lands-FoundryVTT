@@ -14,7 +14,6 @@ img: icons/game-icons/lorc/paw-print.svg
 portrait: images/being/crane-portrait.webp
 shortcode: crane
 type: being
-package: sohl
 sohl:
   kbcat: animal
   archetype: 0

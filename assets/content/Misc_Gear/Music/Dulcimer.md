@@ -12,7 +12,6 @@ id: QTedGo6TQqefe1s4
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: dulcimer
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: wood

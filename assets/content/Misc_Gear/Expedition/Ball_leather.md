@@ -12,7 +12,6 @@ id: YBDPZfG9M8Faiiwe
 img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ballleathe
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: hide

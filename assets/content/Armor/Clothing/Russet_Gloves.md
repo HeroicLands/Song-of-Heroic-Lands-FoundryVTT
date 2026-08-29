@@ -11,7 +11,6 @@ id: zZyBYx27eMQNyGOb
 img: icons/game-icons/delapouite/gloves.svg
 shortcode: RGlv
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: txtl

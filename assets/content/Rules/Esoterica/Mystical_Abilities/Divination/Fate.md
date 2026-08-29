@@ -4,7 +4,6 @@ aliases:
   - doc-ftdvn
 id: GSeR40tvrYO1pOHw
 type: doc
-package: sohl
 category: rules
 name:
   full: Fate

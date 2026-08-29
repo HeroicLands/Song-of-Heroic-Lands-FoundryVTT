@@ -11,7 +11,6 @@ id: uoSLJxu3VTAiQXl9
 img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: SGntl
 type: armorgear
-package: sohl
 sohl:
   craft:
     skill: wpnc

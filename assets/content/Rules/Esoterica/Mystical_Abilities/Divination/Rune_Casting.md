@@ -4,7 +4,6 @@ aliases:
   - doc-rncstng
 id: 4qy1qawptXZ8xQda
 type: doc
-package: sohl
 category: rules
 name:
   full: Rune Casting

@@ -10,7 +10,6 @@ id: YYZ9ERUcdCfROEK5
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: hemotxn
 type: affliction
-package: sohl
 sohl:
   kbcat: poisontoxin
   archetype: 0

@@ -12,7 +12,6 @@ id: WwYpRHYOP02ELoMt
 img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: ringivory
 type: miscgear
-package: sohl
 sohl:
   craft:
     skill: jewl

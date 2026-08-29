@@ -4,7 +4,6 @@ aliases:
   - doc-attrbt
 id: tFoBD6DazC0n9cxw
 type: doc
-package: sohl
 category: user-guide
 name:
   full: "Attribute"
