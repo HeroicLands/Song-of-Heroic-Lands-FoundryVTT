@@ -16,7 +16,6 @@ sohl:
   archetype: 0
   subType: alchemy
   assocSkillCode: ""
-  assocMysteryCode: ""
   levelBase: 0
   masteryLevelBase: 0
 folder: m0nRzDsS8uGisvDU
