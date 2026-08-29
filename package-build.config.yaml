@@ -335,7 +335,15 @@ packageBuild:
 # This repository publishes a knowledgebase and a link manifest, and consumes
 # the manifests of the packages it links into (#1385/#1446).
 publish:
-    site: true
+    # A mode, not the retired boolean (package-build#55). The mode says how
+    # much of the package reaches the web, and the floor is its front page at
+    # `/sohl/`: `homepage` publishes that page and *fences the content surfaces
+    # off* — the tree is never walked, and `sections`, `trees`, `landing` and
+    # `backfillSections` below emit nothing however they are declared, which is
+    # what keeps a fan-licensed package's content unpublishable by
+    # construction. This repository publishes the whole knowledgebase, so it is
+    # `content`: that page plus every page the content tree compiles to.
+    site: content
     manifests: { publish: true, consume: true }
     # Where the content tree mounts inside the package, and which note is a
     # section's landing page. Read by both `manifest` and the knowledgebase
