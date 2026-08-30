@@ -29,8 +29,9 @@ theme = "hugo-theme"
 
   # The theme carries layout, not addresses, so every site-specific URL it
   # renders is supplied here. See the theme's README for the full contract.
-  # This site renders its own home page (layouts/index.html), so it needs no
-  # params.home.
+  # The home page is the package landing, authored as `assets/content/homepage.md`
+  # and rendered by the theme's own `layouts/partials/landing.html` (#1760), so
+  # this site needs no params.home — that is the featured grid www renders.
   cdnBaseURL = "https://cdn.heroiclands.org"
 
   [params.brand]
