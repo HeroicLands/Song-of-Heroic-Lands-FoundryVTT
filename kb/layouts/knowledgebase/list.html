@@ -13,6 +13,14 @@
   point to the reference itself. Every link below is built from `.RelPermalink`
   — this page's own address — so the whole catalog follows the mount rather than
   restating it a card at a time.
+
+  The card list itself is still hand-written, and that is what makes it drift:
+  the Actors group offered separate Characters and Creatures cards long after
+  #1580 merged both content types into `being`, so both 404'd (#1766). The cards
+  mirror which content types exist, so the list belongs in the content rather
+  than here — #1758 tracks deriving it, blocked on the shared theme and build
+  package (heroiclands-hugo-theme#41, package-build#91). Until then, a content
+  type added or retired means editing this file.
 */ -}}
 {{ define "main" }}
 {{- $kb := .RelPermalink -}}
@@ -67,13 +75,9 @@
     <fieldset class="catalog-group">
       <legend>Actors</legend>
       <div class="catalog-cards">
-        <a class="catalog-card" href="{{ $kb }}character/">
-          <img class="card-hero" src="{{ $cdn }}images/banners/character.webp" alt="Characters" loading="lazy">
-          <span class="catalog-card-label">Characters</span>
-        </a>
-        <a class="catalog-card" href="{{ $kb }}creature/">
-          <img class="card-hero" src="{{ $cdn }}images/banners/creature.webp" alt="Creatures" loading="lazy">
-          <span class="catalog-card-label">Creatures</span>
+        <a class="catalog-card" href="{{ $kb }}being/">
+          <img class="card-hero" src="{{ $cdn }}images/banners/creature.webp" alt="Beings" loading="lazy">
+          <span class="catalog-card-label">Beings</span>
         </a>
       </div>
     </fieldset>

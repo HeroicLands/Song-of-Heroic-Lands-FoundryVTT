@@ -655,8 +655,10 @@ Two properties of that shape are load-bearing:
 
 - **One pack list.** The directories compiled to LevelDB are _derived_ from the
   pack list as `packDirectories` (each pack, then its companions), so the
-  compile order and the compiler list cannot drift apart — they used to be two
-  separately-maintained arrays that had to agree.
+  compile list and the compiler list cannot drift apart — they used to be two
+  separately-maintained arrays that had to agree. The _order_ of that list is
+  not load-bearing: each pass declares which document types' compiled output it
+  reads, and the build schedules the passes from those declarations.
 - **Configuration is the source, and the manifest is generated from it.** That
   arrow used to point the other way: `paths.packageManifest` said where
   `system.template.json` lived, and both the package-id drift guard and the

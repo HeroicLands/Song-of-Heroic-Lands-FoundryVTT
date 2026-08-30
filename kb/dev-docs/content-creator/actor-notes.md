@@ -175,14 +175,18 @@ addresses an item by (type, shortcode), so the address must be unique across
 every Item pack
 ```
 
-### Items are compiled first, and that is load-bearing
+### Items are compiled before actors, and the build derives that
 
-The actors pass reads the items passes' _output_, so it must run after them —
-`content-build package compile` orders them for you. Compiling the actors pack
-alone against a missing or stale items tree fails outright:
+The actors pass reads the items passes' _output_, so it must run after them.
+`content-build package compile` schedules it there itself, from what each pass
+declares it reads — the order the pack list happens to be written in is not what
+decides it. Compiling the actors pack _alone_ still fails outright, and now names
+the pack it was waiting on:
 
 ```
-Items source directory … does not exist — actors must be generated after items
+error: pack "actors" (Actor) reads the compiled output of the Item pack "items",
+       which this run does not compile and which build/packs-json/items does not
+       hold — compile the whole package, or compile "items" first
 ```
 
 ### A cross-package address does not work
