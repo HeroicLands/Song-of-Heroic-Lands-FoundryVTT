@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ratter
-  - being-ratter
 tags:
   - animal
 name:

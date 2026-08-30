@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Cap
-  - armorgear-LCap
 tags: []
 name:
   full: Linen Cap

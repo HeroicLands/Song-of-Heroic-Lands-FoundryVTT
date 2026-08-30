@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-ponrtxn
+aliases: []
 tags: []
 name:
   full: Poneratoxin

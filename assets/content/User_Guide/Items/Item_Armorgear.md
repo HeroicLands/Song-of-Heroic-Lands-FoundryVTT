@@ -1,7 +1,6 @@
 ---
 aliases:
   - Armor
-  - doc-armor
 id: yh3LCFXRlhJWMqLW
 type: doc
 category: user-guide

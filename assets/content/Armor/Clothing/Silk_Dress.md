@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Dress
-  - armorgear-SlkDress
 tags: []
 name:
   full: Silk Dress

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Surcoat
-  - armorgear-LtScoat
 tags: []
 name:
   full: Leather Surcoat

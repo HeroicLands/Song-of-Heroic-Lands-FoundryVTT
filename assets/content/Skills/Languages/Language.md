@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-lang
+aliases: []
 tags: []
 name:
   full: Language

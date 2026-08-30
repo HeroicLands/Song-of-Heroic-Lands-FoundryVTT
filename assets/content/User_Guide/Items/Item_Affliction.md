@@ -1,7 +1,6 @@
 ---
 aliases:
   - Affliction
-  - doc-afflctn
 id: MoyrkIfKbklVs8Pn
 type: doc
 category: user-guide

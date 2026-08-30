@@ -1,7 +1,6 @@
 ---
 aliases:
   - Woodworking Kit
-  - miscgear-woodwrkkit
 tags:
   - instruments
 name:

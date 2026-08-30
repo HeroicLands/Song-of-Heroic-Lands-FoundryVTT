@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Wheelbarrow"
-  - miscgear-wheelbarrow
 tags:
   - tack
 name:

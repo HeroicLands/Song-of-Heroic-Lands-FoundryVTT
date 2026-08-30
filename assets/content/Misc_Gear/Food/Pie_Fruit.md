@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Pie, Fruit"
-  - miscgear-piefruit
 tags:
   - food
 name:

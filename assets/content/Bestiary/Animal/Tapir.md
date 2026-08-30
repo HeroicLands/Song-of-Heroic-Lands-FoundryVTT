@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tapir
-  - being-tapir
 tags:
   - animal
   - image-needed

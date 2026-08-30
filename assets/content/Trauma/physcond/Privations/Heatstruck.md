@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-htstrk
+aliases: []
 tags: []
 name:
   full: Heatstruck

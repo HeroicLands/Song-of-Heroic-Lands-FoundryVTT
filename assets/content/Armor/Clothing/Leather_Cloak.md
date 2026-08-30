@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Cloak
-  - armorgear-LtCloak
 tags: []
 name:
   full: Leather Cloak

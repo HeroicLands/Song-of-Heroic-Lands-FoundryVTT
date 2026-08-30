@@ -1,7 +1,6 @@
 ---
 aliases:
   - Donkey
-  - being-donkey
 tags:
   - animal
 name:

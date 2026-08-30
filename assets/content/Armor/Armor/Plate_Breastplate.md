@@ -1,7 +1,6 @@
 ---
 aliases:
   - Plate Breastplate
-  - armorgear-PlBreast
 tags: []
 name:
   full: Plate Breastplate

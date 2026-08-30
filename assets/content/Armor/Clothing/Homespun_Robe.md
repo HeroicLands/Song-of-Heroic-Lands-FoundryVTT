@@ -1,7 +1,6 @@
 ---
 aliases:
   - Homespun Robe
-  - armorgear-HsRobe
 tags: []
 name:
   full: Homespun Robe

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-dprssn
+aliases: []
 tags: []
 name:
   full: Depression

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gambeson Vest
-  - armorgear-GVest
 tags: []
 name:
   full: Gambeson Vest

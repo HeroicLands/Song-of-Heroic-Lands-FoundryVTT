@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-focused
+aliases: []
 tags: []
 name:
   full: Focused

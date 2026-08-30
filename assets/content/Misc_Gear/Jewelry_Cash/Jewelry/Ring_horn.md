@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, horn"
-  - miscgear-ringhorn
 tags:
   - jewelry_cash
 name:

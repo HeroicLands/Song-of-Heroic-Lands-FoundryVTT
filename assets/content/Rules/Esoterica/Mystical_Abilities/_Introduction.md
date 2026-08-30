@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mystical Abilities Introduction
-  - doc-mystabilintro
 id: Flm6eeiyl4UHZUIq
 type: doc
 category: rules

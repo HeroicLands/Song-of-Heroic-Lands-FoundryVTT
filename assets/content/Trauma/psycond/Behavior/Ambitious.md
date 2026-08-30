@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-ambx
+aliases: []
 tags: []
 name:
   full: Ambitious

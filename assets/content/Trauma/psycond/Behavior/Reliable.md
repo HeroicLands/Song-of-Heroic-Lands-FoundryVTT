@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-reliable
+aliases: []
 tags: []
 name:
   full: Reliable

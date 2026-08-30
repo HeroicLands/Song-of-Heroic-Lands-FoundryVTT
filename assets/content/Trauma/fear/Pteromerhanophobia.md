@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-pteromer
+aliases: []
 tags: []
 name:
   full: Pteromerhanophobia

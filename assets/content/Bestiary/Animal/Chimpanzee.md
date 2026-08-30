@@ -1,7 +1,6 @@
 ---
 aliases:
   - Chimpanzee
-  - being-chmpnz
 tags:
   - animal
 name:

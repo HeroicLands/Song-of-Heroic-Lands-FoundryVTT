@@ -1,7 +1,6 @@
 ---
 aliases:
   - Plate Coudes
-  - armorgear-PlCou
 tags: []
 name:
   full: Plate Coudes

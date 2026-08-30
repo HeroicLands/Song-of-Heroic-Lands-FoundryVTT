@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hippopotamus
-  - being-hppptms
 tags:
   - animal
   - image-needed

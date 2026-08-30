@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-innvtv
+aliases: []
 tags: []
 name:
   full: Innovative

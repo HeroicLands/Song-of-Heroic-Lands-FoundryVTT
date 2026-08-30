@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Crucible, medium"
-  - containergear-cruciblemd
 tags: []
 name:
   full: "Crucible, medium"

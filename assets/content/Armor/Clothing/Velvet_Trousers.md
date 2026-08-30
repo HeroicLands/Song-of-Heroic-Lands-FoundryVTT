@@ -1,7 +1,6 @@
 ---
 aliases:
   - Velvet Trousers
-  - armorgear-VTrsr
 tags: []
 name:
   full: Velvet Trousers

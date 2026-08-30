@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-cynophb
+aliases: []
 tags: []
 name:
   full: Cynophobia

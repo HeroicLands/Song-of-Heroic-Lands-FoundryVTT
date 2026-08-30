@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leopard
-  - being-leopard
 tags:
   - animal
   - image-needed

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-pyrophb
+aliases: []
 tags: []
 name:
   full: Pyrophobia

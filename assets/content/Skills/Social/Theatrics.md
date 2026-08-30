@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-thtcs
+aliases: []
 tags: []
 name:
   full: Theatrics

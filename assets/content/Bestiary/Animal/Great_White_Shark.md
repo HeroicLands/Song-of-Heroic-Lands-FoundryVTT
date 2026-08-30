@@ -1,7 +1,6 @@
 ---
 aliases:
   - Great White Shark
-  - being-grtwhtsh
 tags:
   - animal
 name:

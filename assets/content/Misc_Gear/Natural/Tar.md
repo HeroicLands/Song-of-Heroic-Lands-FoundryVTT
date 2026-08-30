@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tar
-  - miscgear-tar
 tags:
   - natural
 name:

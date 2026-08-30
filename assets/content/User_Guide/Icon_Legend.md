@@ -3,7 +3,6 @@ aliases:
   - Icon Legend
   - Icons
   - Glyphs
-  - doc-iconlgnd
 id: GU59i07VkICWsT2l
 type: doc
 category: user-guide

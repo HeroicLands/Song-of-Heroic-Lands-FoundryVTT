@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Pen, wood"
-  - miscgear-penwood
 tags:
   - scribe
 name:

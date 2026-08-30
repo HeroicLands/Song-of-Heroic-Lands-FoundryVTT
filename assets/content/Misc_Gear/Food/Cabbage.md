@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cabbage
-  - miscgear-cabbage
 tags:
   - food
 name:

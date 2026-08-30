@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jar, glass, 1/2-gallon"
-  - containergear-jarglassla
 tags: []
 name:
   full: "Jar, glass, 1/2-gallon"

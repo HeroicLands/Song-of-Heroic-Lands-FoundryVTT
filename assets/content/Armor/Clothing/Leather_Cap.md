@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Cap
-  - armorgear-LtCap
 tags: []
 name:
   full: Leather Cap

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Baldric, Shoulder"
-  - miscgear-baldricsho
 tags:
   - expedition
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Canvas Leggings
-  - armorgear-CvLeg
 tags: []
 name:
   full: Canvas Leggings

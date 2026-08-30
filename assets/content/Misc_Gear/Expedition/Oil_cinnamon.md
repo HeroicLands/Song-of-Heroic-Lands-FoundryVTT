@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Oil, cinnamon"
-  - miscgear-oilcinnamon
 tags:
   - expedition
 name:

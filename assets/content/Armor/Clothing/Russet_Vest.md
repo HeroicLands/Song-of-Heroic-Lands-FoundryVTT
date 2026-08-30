@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Vest
-  - armorgear-RVest
 tags: []
 name:
   full: Russet Vest

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Composite Bow 80
-  - weapongear-CBw80
 tags: []
 name:
   full: Composite Bow 80

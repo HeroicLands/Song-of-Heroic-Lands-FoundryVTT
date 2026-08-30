@@ -1,7 +1,6 @@
 ---
 aliases:
   - Afflictions and Injuries
-  - doc-afflandi
 id: jzsvrPQas8ak9Ti0
 type: doc
 category: user-guide

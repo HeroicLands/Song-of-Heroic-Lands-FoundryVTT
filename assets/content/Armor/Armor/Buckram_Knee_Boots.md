@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Knee Boots
-  - armorgear-BBoot
 tags: []
 name:
   full: Buckram Knee Boots

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Salmon
-  - miscgear-salmon
 tags:
   - food
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-arrogant
+aliases: []
 tags: []
 name:
   full: Arrogant

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tack & Grooming Kit
-  - miscgear-tackkit
 tags:
   - instruments
 name:

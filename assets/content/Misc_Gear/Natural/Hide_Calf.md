@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Calf"
-  - miscgear-hidecalf
 tags:
   - natural
 name:

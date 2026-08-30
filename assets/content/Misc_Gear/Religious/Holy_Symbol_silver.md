@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Holy Symbol, silver"
-  - miscgear-holysymsilver
 tags:
   - religious
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Divine Intervention
-  - doc-divnint
 id: CKWywNBAT5axa27a
 type: doc
 category: rules

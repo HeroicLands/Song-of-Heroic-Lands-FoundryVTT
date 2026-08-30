@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Aludel, glass"
-  - containergear-aludelgl
 tags: []
 name:
   full: "Aludel, glass"

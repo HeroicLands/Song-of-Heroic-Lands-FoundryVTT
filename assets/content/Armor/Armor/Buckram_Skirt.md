@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Skirt
-  - armorgear-BSkirt
 tags: []
 name:
   full: Buckram Skirt

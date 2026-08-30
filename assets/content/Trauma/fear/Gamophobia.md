@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-gamophb
+aliases: []
 tags: []
 name:
   full: Gamophobia

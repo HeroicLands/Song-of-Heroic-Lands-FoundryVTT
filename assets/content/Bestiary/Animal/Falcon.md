@@ -1,7 +1,6 @@
 ---
 aliases:
   - Falcon
-  - being-falcon
 tags:
   - animal
 name:

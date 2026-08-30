@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-generous
+aliases: []
 tags: []
 name:
   full: Generous

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Beans, crate"
-  - miscgear-beanscrate
 tags:
   - food
 name:

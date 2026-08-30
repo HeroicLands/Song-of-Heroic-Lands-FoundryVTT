@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-irrespon
+aliases: []
 tags: []
 name:
   full: Irresponsible

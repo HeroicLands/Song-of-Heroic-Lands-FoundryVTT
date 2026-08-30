@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bag, sm, canvas
-  - containergear-bgsmcvs
 tags: []
 name:
   full: Bag, sm, canvas

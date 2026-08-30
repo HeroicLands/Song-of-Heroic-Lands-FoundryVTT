@@ -1,7 +1,6 @@
 ---
 aliases:
   - Impairment
-  - doc-imprmnt
 id: Aa8GO0i94Gh9cyGi
 type: doc
 category: rules

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Jackal
-  - being-jackal
 tags:
   - animal
   - image-needed

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Baboon
-  - being-baboon
 tags:
   - animal
   - image-needed

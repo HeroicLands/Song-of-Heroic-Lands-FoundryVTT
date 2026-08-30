@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-clubfoot
+aliases: []
 tags: []
 name:
   full: Clubfoot

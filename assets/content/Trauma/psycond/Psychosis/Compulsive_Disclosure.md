@@ -1,7 +1,6 @@
 ---
 aliases:
   - Compulsive Disclosure
-  - trauma-cmpldsr
 tags: []
 name:
   full: Compulsive Disclosure

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Quilted Trousers
-  - armorgear-QTrsr
 tags: []
 name:
   full: Quilted Trousers

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Amber
-  - miscgear-amber
 tags:
   - jewelry_cash
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Drum, bass"
-  - miscgear-drumbass
 tags:
   - music
 name:

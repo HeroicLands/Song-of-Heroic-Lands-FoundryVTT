@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Chest, wooden, large"
-  - containergear-chestwdlg
 tags: []
 name:
   full: "Chest, wooden, large"

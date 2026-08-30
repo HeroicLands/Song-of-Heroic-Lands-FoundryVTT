@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Worsted, per sq yard"
-  - miscgear-worsted
 tags:
   - clothing
 name:

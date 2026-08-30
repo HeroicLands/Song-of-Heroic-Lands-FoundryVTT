@@ -4,7 +4,6 @@ aliases:
   - Craft
   - Crafting Routine
   - Masterwork
-  - doc-crafting
 id: 3dQTVykMItQGXYTj
 type: doc
 category: rules

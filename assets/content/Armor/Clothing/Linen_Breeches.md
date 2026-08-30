@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Breeches
-  - armorgear-LnBrch
 tags: []
 name:
   full: Linen Breeches

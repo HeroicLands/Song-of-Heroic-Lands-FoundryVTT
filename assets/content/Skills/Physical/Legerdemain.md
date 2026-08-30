@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-lgdm
+aliases: []
 tags: []
 name:
   full: Legerdemain

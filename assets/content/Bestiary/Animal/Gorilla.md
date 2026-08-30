@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gorilla
-  - being-gorilla
 tags:
   - animal
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Hat
-  - armorgear-WHat
 tags: []
 name:
   full: Worsted Hat

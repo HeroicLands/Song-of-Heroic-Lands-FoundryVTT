@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Pole, load carrying"
-  - containergear-polecarry
 tags: []
 name:
   full: "Pole, load carrying"

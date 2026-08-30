@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-crtngact
+aliases: []
 id: t5Fr0y9WRvj8YeGD
 type: doc
 category: user-guide

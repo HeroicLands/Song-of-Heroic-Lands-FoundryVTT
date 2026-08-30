@@ -1,7 +1,6 @@
 ---
 aliases:
   - Komodo Dragon
-  - being-kmddrgn
 tags:
   - animal
 name:

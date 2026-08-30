@@ -1,7 +1,6 @@
 ---
 aliases:
   - Beaver Trousers
-  - armorgear-BvTrsr
 tags: []
 name:
   full: Beaver Trousers

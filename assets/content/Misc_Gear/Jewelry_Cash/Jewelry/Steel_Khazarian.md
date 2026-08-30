@@ -1,7 +1,6 @@
 ---
 aliases:
   - Steel, Khazárian
-  - miscgear-stlkhzr
 tags:
   - jewelry_cash
 name:

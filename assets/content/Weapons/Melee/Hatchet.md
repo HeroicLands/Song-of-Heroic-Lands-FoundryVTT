@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hatchet
-  - weapongear-Hcht
 tags: []
 name:
   full: Hatchet

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Skills Introduction
-  - doc-skills
 id: A38qwbVdPQHhGVgB
 type: doc
 category: rules

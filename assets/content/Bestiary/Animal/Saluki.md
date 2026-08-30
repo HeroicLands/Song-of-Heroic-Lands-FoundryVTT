@@ -2,7 +2,6 @@
 aliases:
   - Desert Sighthound
   - Saluki
-  - being-saluki
 tags:
   - animal
   - image-needed

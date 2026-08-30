@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mail Vest
-  - armorgear-MVest
 tags: []
 name:
   full: Mail Vest

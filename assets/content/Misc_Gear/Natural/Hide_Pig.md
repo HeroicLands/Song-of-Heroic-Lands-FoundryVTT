@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Pig"
-  - miscgear-hidepig
 tags:
   - natural
 name:

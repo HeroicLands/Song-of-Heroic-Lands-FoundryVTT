@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tokens
-  - doc-token
 id: cuzEYQJCbBO4RFDq
 type: doc
 category: user-guide

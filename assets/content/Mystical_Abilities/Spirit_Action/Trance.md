@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-trnc
+aliases: []
 tags: []
 name:
   full: Trance

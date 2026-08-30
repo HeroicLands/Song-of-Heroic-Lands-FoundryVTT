@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-syndacty
+aliases: []
 tags: []
 name:
   full: Syndactyly

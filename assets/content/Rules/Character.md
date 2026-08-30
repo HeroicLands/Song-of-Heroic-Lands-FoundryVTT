@@ -2,7 +2,6 @@
 aliases:
   - Characters Introduction
   - Character Introduction
-  - doc-character
 id: xl7OIGqVKu52E5Oc
 type: doc
 category: rules

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bag, lg, canvas
-  - containergear-bglgcvs
 tags: []
 name:
   full: Bag, lg, canvas

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ampoule, single dose, glass"
-  - containergear-ampoule1
 tags: []
 name:
   full: "Ampoule, single dose, glass"

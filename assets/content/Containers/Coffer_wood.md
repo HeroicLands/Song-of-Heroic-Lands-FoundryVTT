@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Coffer, wood"
-  - containergear-cofferwood
 tags: []
 name:
   full: "Coffer, wood"

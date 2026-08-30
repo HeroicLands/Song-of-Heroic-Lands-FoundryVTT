@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gambeson Tunic
-  - armorgear-GTnc
 tags: []
 name:
   full: Gambeson Tunic

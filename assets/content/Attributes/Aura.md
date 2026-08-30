@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-aur
+aliases: []
 tags: []
 name:
   full: Aura

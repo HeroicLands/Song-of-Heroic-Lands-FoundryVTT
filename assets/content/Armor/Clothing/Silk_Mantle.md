@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Mantle
-  - armorgear-SlkMntl
 tags: []
 name:
   full: Silk Mantle

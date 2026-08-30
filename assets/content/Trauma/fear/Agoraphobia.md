@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-agorphb
+aliases: []
 tags: []
 name:
   full: Agoraphobia

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Black Bear
-  - being-blckbr
 tags:
   - animal
 name:

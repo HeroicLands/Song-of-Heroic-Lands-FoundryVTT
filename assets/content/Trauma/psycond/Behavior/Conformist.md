@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-cnfrmst
+aliases: []
 tags: []
 name:
   full: Conformist

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Gloves
-  - armorgear-LtGlove
 tags: []
 name:
   full: Leather Gloves

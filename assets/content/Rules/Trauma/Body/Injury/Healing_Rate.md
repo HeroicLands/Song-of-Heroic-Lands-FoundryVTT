@@ -1,7 +1,6 @@
 ---
 aliases:
   - Healing Rate
-  - doc-hlngrt
 id: MRqOJqtZ0rvN9AQD
 type: doc
 category: rules

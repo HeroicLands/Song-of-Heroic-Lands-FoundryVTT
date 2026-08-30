@@ -1,7 +1,6 @@
 ---
 aliases:
   - Caracal
-  - being-caracal
 tags:
   - animal
   - image-needed

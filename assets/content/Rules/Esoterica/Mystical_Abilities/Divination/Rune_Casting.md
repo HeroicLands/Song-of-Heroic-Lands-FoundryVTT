@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rune Casting
-  - doc-rncstng
 id: 4qy1qawptXZ8xQda
 type: doc
 category: rules

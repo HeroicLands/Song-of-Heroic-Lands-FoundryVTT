@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bite
-  - skill-bflkbite
 tags: []
 name:
   full: Folk Bite

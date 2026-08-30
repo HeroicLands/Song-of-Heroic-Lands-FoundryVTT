@@ -1,7 +1,6 @@
 ---
 aliases:
   - Destrier
-  - being-destrier
 tags:
   - animal
 name:

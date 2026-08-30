@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Anklet, bone"
-  - miscgear-ankletbone
 tags:
   - jewelry_cash
 name:

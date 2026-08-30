@@ -1,7 +1,6 @@
 ---
 aliases:
   - Poisonous Snake
-  - being-psnssnk
 tags:
   - animal
 name:

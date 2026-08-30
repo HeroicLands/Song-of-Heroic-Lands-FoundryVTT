@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-vnstrphb
+aliases: []
 tags: []
 name:
   full: Venustraphobia

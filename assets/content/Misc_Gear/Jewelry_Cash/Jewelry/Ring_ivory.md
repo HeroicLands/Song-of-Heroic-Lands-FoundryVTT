@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, ivory"
-  - miscgear-ringivory
 tags:
   - jewelry_cash
 name:

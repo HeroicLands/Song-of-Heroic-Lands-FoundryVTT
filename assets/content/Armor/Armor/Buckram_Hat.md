@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Hat
-  - armorgear-BHat
 tags: []
 name:
   full: Buckram Hat

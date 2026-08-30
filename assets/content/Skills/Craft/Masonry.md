@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-masn
+aliases: []
 tags: []
 name:
   full: Masonry

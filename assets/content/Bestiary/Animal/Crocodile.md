@@ -1,7 +1,6 @@
 ---
 aliases:
   - Crocodile
-  - being-crcdl
 tags:
   - animal
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Impaired Hearing
-  - trauma-impaired
 tags: []
 name:
   full: Impaired Hearing

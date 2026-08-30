@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Cowl
-  - armorgear-CCowl
 tags: []
 name:
   full: Cloth Cowl

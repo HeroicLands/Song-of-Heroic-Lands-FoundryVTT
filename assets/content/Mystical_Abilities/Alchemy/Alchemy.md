@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-alch
+aliases: []
 tags: []
 name:
   full: Alchemy

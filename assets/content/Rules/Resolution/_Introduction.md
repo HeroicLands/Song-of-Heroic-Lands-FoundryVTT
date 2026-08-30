@@ -2,7 +2,6 @@
 aliases:
   - Resolution
   - Resolution Introduction
-  - doc-resolutionintro
 id: hzGEcwoamHndfE66
 type: doc
 category: rules

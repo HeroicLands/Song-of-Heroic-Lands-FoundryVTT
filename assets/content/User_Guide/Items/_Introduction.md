@@ -2,7 +2,6 @@
 aliases:
   - Item Types
   - Items Introduction
-  - doc-ugitems
 id: 6AUDdg96HqINKHdv
 type: doc
 category: user-guide

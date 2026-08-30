@@ -1,7 +1,6 @@
 ---
 aliases:
   - Charger
-  - being-charger
 tags:
   - animal
 name:

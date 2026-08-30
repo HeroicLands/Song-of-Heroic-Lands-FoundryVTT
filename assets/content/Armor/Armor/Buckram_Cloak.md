@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Cloak
-  - armorgear-BClk
 tags: []
 name:
   full: Buckram Cloak

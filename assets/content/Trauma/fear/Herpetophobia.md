@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-hrptphb
+aliases: []
 tags: []
 name:
   full: Herpetophobia

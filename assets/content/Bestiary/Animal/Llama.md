@@ -1,7 +1,6 @@
 ---
 aliases:
   - Llama
-  - being-llama
 tags:
   - animal
   - image-needed

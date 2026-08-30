@@ -1,7 +1,6 @@
 ---
 aliases:
   - Basic Folk
-  - being-basicfolk
 tags: []
 name:
   full: Basic Folk

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Skirt
-  - armorgear-WSkirt
 tags: []
 name:
   full: Worsted Skirt

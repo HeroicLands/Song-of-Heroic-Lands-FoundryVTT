@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Earrings, wood"
-  - miscgear-earringswood
 tags:
   - jewelry_cash
 name:

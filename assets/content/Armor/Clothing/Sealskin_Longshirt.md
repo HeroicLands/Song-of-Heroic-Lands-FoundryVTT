@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sealskin Longshirt
-  - armorgear-SlsLgSh
 tags: []
 name:
   full: Sealskin Longshirt

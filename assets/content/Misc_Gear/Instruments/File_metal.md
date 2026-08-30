@@ -1,7 +1,6 @@
 ---
 aliases:
   - "File, metal"
-  - miscgear-filemetal
 tags:
   - instruments
 name:

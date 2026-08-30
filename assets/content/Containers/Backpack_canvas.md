@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Backpack, canvas"
-  - containergear-backpkcvs
 tags: []
 name:
   full: "Backpack, canvas"

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-calm
+aliases: []
 tags: []
 name:
   full: Calm

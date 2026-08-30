@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-wood
+aliases: []
 tags: []
 name:
   full: Woodworking

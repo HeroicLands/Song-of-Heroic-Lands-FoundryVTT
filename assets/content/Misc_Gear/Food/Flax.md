@@ -1,7 +1,6 @@
 ---
 aliases:
   - Flax
-  - miscgear-flax
 tags:
   - food
 name:

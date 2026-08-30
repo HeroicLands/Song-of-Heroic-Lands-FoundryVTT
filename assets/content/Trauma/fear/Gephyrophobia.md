@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-gphyrphb
+aliases: []
 tags: []
 name:
   full: Gephyrophobia

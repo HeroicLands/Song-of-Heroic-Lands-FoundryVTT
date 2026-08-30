@@ -1,7 +1,6 @@
 ---
 aliases:
   - Scrying
-  - doc-scrying
 id: fnTUYkZZllrMQirG
 type: doc
 category: rules

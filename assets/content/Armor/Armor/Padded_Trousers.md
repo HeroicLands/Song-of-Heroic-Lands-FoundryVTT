@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Trousers
-  - armorgear-PTrsr
 tags: []
 name:
   full: Padded Trousers

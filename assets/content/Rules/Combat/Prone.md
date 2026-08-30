@@ -1,7 +1,6 @@
 ---
 aliases:
   - Prone
-  - doc-prone
 id: ly7IlkeD7MGlz6wt
 type: doc
 category: rules

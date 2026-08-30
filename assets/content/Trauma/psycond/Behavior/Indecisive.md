@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-indcsv
+aliases: []
 tags: []
 name:
   full: Indecisive

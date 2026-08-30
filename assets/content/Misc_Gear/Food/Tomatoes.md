@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tomatoes
-  - miscgear-tomatoes
 tags:
   - food
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-burden
+aliases: []
 tags: []
 name:
   full: Burden

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-awar
+aliases: []
 tags: []
 name:
   full: Awareness

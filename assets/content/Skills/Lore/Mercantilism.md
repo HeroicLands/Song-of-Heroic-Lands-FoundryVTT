@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-mrcn
+aliases: []
 tags: []
 name:
   full: Mercantilism

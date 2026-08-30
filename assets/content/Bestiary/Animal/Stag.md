@@ -1,7 +1,6 @@
 ---
 aliases:
   - Stag
-  - being-stag
 tags:
   - animal
 name:

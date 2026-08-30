@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brooch, ivory"
-  - miscgear-broochivory
 tags:
   - jewelry_cash
 name:

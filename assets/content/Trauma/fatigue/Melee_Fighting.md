@@ -1,7 +1,6 @@
 ---
 aliases:
   - Melee Fighting
-  - trauma-fight
 tags: []
 name:
   full: Melee Fighting

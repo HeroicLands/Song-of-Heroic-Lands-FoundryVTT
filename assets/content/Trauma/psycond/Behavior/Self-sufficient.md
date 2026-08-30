@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-selfsuf
+aliases: []
 tags: []
 name:
   full: Self-sufficient

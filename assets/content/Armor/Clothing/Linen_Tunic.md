@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Tunic
-  - armorgear-LTunic
 tags: []
 name:
   full: Linen Tunic

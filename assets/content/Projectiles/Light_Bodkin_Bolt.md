@@ -1,7 +1,6 @@
 ---
 aliases:
   - Light Bodkin Bolt
-  - projectilegear-BltLBod
 tags: []
 name:
   full: Light Bodkin Bolt

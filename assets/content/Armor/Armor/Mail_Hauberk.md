@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mail Hauberk
-  - armorgear-MHbk
 tags: []
 name:
   full: Mail Hauberk

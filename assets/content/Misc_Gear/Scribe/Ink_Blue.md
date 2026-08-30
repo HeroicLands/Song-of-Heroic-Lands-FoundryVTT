@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ink, Blue"
-  - miscgear-inkblu
 tags:
   - scribe
 name:

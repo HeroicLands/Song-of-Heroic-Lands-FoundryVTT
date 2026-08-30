@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-heliophb
+aliases: []
 tags: []
 name:
   full: Heliophobia

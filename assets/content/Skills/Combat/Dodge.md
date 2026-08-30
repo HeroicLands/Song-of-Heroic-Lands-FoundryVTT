@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-dge
+aliases: []
 tags: []
 name:
   full: Dodge

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ruby, cut"
-  - miscgear-rubycut
 tags:
   - jewelry_cash
 name:

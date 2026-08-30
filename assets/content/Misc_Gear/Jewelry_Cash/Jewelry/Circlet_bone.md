@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Circlet, bone"
-  - miscgear-circletbone
 tags:
   - jewelry_cash
 name:

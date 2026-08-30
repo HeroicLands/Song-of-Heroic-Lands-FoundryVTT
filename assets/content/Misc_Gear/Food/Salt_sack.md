@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Salt, sack"
-  - miscgear-saltsack
 tags:
   - food
 name:

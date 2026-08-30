@@ -1,7 +1,6 @@
 ---
 aliases:
   - Velvet Sleeved Tunic
-  - armorgear-VSTnc
 tags: []
 name:
   full: Velvet Sleeved Tunic

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-enthsstc
+aliases: []
 tags: []
 name:
   full: Enthusiastic

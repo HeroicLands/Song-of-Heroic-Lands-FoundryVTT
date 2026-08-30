@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-chemophb
+aliases: []
 tags: []
 name:
   full: Chemophobia

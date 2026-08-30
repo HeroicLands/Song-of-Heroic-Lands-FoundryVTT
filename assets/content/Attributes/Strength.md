@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-str
+aliases: []
 tags: []
 name:
   full: Strength

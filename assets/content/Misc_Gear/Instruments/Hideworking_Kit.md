@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hideworking Kit
-  - miscgear-hdwkkit
 tags:
   - instruments
 name:

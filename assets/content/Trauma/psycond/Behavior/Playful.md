@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-playful
+aliases: []
 tags: []
 name:
   full: Playful

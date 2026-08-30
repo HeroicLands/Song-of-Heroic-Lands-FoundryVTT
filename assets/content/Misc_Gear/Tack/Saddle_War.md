@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Saddle, War"
-  - miscgear-saddlewar
 tags:
   - tack
 name:

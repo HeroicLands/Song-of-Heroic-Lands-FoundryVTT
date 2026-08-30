@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Backpack, wicker"
-  - containergear-backpkwck
 tags: []
 name:
   full: "Backpack, wicker"

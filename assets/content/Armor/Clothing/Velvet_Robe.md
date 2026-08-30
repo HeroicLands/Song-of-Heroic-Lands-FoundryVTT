@@ -1,7 +1,6 @@
 ---
 aliases:
   - Velvet Robe
-  - armorgear-VRobe
 tags: []
 name:
   full: Velvet Robe

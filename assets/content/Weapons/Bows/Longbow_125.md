@@ -1,7 +1,6 @@
 ---
 aliases:
   - Longbow 125
-  - weapongear-LBw125
 tags: []
 name:
   full: Longbow 125

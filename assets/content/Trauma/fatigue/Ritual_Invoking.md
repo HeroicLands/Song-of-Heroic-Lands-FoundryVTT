@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ritual Invoking
-  - trauma-invk
 tags: []
 name:
   full: Ritual Invoking

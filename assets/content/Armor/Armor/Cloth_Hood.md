@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Hood
-  - armorgear-CHood
 tags: []
 name:
   full: Cloth Hood

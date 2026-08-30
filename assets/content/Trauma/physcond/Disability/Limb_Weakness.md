@@ -1,7 +1,6 @@
 ---
 aliases:
   - Limb Weakness
-  - trauma-lmbwknss
 tags: []
 name:
   full: Limb Weakness

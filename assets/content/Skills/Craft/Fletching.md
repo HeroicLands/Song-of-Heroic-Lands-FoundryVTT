@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-fltch
+aliases: []
 tags: []
 name:
   full: Fletching

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Robe
-  - armorgear-BRobe
 tags: []
 name:
   full: Buckram Robe

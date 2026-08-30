@@ -1,7 +1,6 @@
 ---
 aliases:
   - Divine Incantation
-  - doc-dvnincnt
 id: oorZPGmBmLEyzvFe
 type: doc
 category: rules

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-thlssphb
+aliases: []
 tags: []
 name:
   full: Thalassophobia

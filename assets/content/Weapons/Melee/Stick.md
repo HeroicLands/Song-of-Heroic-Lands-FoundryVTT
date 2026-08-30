@@ -1,7 +1,6 @@
 ---
 aliases:
   - Stick
-  - weapongear-Stk
 tags: []
 name:
   full: Stick

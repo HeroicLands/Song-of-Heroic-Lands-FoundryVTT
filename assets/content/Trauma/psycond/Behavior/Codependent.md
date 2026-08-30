@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-cdpndnt
+aliases: []
 tags: []
 name:
   full: Codependent

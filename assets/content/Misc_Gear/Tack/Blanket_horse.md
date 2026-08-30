@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Blanket, horse"
-  - miscgear-blankethorse
 tags:
   - tack
 name:

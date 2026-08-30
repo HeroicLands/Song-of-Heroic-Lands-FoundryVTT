@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Pan, copper, large"
-  - miscgear-pancopperl
 tags:
   - cooking
 name:

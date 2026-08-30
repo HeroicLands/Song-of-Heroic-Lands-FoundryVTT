@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Sleeved Tunic
-  - armorgear-LSTnc
 tags: []
 name:
   full: Linen Sleeved Tunic

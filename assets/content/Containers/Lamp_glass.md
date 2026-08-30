@@ -1,7 +1,6 @@
 ---
 aliases:
   - Lamp. glass
-  - containergear-lampglass
 tags: []
 name:
   full: Lamp. glass

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-hypth
+aliases: []
 tags: []
 name:
   full: Hypothermic

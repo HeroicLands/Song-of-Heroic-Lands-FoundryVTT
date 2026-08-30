@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Beaker, glass, large"
-  - containergear-beakergllg
 tags: []
 name:
   full: "Beaker, glass, large"

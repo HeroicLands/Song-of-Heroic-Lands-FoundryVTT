@@ -6,7 +6,6 @@ aliases:
   - EML
   - Skill Base
   - Index
-  - doc-mstrylvl
 id: uil7KCJxAUM4nXLC
 type: doc
 category: rules

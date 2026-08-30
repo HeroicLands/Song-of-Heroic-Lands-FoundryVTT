@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Chalk, bulk"
-  - miscgear-chalkbulk
 tags:
   - stone
 name:

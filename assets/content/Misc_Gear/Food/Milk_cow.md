@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Milk, cow"
-  - miscgear-milkcow
 tags:
   - food
 name:

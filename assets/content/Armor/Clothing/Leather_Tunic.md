@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Tunic
-  - armorgear-LtTunic
 tags: []
 name:
   full: Leather Tunic

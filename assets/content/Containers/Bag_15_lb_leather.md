@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Bag, 15 lb, leather"
-  - containergear-bagleather15
 tags: []
 name:
   full: "Bag, 15 lb, leather"

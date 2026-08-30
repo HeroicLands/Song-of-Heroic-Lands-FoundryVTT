@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-thftsyst
+aliases: []
 id: kRs6ef5NELRdB2Ui
 type: doc
 category: user-guide

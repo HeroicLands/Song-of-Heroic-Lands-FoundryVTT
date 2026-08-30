@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, bone"
-  - miscgear-ringbone
 tags:
   - jewelry_cash
 name:

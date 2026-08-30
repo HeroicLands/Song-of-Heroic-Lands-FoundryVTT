@@ -1,7 +1,6 @@
 ---
 aliases:
   - Feathers
-  - miscgear-feathers
 tags:
   - food
 name:

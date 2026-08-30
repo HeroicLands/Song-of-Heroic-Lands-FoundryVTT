@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ink, Black"
-  - miscgear-inkblk
 tags:
   - scribe
 name:

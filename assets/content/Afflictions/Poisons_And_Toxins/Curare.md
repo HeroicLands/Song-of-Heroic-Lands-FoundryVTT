@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-curare
+aliases: []
 tags: []
 name:
   full: Curare

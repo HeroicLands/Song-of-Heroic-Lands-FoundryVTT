@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-guil
+aliases: []
 tags: []
 name:
   full: Guile

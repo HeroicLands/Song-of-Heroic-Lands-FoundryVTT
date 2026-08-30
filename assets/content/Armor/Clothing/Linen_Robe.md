@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Robe
-  - armorgear-LRobe
 tags: []
 name:
   full: Linen Robe

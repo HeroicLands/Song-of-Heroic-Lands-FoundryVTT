@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Leggings
-  - armorgear-RLeg
 tags: []
 name:
   full: Russet Leggings

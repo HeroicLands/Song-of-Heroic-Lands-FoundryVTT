@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Earrings, ivory"
-  - miscgear-earringsivory
 tags:
   - jewelry_cash
 name:

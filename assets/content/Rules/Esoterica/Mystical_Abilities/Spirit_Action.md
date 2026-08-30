@@ -1,7 +1,6 @@
 ---
 aliases:
   - Spirit Action
-  - doc-sprtactn
 id: rSZepxNYmUfj2FIs
 type: doc
 category: rules

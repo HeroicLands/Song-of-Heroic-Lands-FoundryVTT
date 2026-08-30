@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-usngcmpn
+aliases: []
 id: 0VrqqfwFEbVXxb3e
 type: doc
 category: user-guide

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Canvas Tunic
-  - armorgear-CvTunic
 tags: []
 name:
   full: Canvas Tunic

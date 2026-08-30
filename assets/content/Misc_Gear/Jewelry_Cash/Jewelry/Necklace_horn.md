@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Necklace, horn"
-  - miscgear-necklacehorn
 tags:
   - jewelry_cash
 name:

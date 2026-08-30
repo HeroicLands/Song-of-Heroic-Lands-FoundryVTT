@@ -1,7 +1,6 @@
 ---
 aliases:
   - Fate
-  - doc-ftdvn
 id: GSeR40tvrYO1pOHw
 type: doc
 category: rules

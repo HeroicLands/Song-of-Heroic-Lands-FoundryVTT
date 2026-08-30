@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Circlet, horn"
-  - miscgear-circlethorn
 tags:
   - jewelry_cash
 name:

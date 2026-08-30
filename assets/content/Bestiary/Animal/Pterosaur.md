@@ -1,7 +1,6 @@
 ---
 aliases:
   - Pterosaur
-  - being-pterosau
 tags:
   - animal
 name:

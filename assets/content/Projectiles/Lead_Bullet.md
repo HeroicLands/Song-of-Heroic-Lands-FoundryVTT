@@ -1,7 +1,6 @@
 ---
 aliases:
   - Lead Bullet
-  - projectilegear-LBul
 tags: []
 name:
   full: Lead Bullet

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-advs
+aliases: []
 tags: []
 name:
   full: Adventurous

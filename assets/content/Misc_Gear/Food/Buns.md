@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buns
-  - miscgear-buns
 tags:
   - food
 name:

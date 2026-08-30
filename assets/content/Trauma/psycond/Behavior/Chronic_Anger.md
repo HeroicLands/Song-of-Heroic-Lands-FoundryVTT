@@ -1,7 +1,6 @@
 ---
 aliases:
   - Chronic Anger
-  - trauma-angerchr
 tags: []
 name:
   full: Chronic Anger

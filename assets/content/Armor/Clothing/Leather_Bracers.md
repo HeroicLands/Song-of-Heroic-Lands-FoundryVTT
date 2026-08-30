@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Bracers
-  - armorgear-LtBrcr
 tags: []
 name:
   full: Leather Bracers

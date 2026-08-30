@@ -1,7 +1,6 @@
 ---
 aliases:
   - Light Broad Bolt
-  - projectilegear-BltLBrd
 tags: []
 name:
   full: Light Broad Bolt

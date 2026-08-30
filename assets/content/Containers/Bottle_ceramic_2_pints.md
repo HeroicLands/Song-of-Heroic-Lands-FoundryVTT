@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Bottle, ceramic, 2 pints"
-  - containergear-bottlecer2pt
 tags: []
 name:
   full: "Bottle, ceramic, 2 pints"

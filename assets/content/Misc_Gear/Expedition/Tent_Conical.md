@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Tent, Conical"
-  - miscgear-tentconica
 tags:
   - expedition
 name:

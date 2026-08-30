@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Horn, bone, hunting"
-  - miscgear-hornbonehu
 tags:
   - music
 name:

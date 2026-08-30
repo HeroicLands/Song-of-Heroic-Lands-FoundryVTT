@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Cider, Keg"
-  - miscgear-cdrkeg
 tags:
   - spirits
 name:

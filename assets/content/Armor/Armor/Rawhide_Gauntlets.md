@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rawhide Gauntlets
-  - armorgear-RhGntl
 tags: []
 name:
   full: Rawhide Gauntlets

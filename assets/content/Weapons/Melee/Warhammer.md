@@ -1,7 +1,6 @@
 ---
 aliases:
   - Warhammer
-  - weapongear-Whmr
 tags: []
 name:
   full: Warhammer

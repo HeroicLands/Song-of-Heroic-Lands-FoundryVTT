@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-msnthrpy
+aliases: []
 tags: []
 name:
   full: Misanthropy

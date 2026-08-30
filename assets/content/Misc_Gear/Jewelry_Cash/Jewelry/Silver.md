@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silver
-  - miscgear-silver
 tags:
   - jewelry_cash
 name:

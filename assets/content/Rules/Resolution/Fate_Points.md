@@ -3,7 +3,6 @@ aliases:
   - Fate Point
   - Fate Points
   - Fate Mastery Level
-  - doc-fatepnts
 id: QTLdhEpRknXbUTsn
 type: doc
 category: rules

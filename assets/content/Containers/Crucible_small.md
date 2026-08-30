@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Crucible, small"
-  - containergear-cruciblesm
 tags: []
 name:
   full: "Crucible, small"

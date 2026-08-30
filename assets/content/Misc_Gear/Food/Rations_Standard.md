@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rations, Standard
-  - miscgear-StdRtns
 tags:
   - food
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-hemotxn
+aliases: []
 tags: []
 name:
   full: Hemotoxin

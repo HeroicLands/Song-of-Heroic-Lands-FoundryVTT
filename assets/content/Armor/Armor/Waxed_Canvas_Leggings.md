@@ -1,7 +1,6 @@
 ---
 aliases:
   - Waxed Canvas Leggings
-  - armorgear-WxCvLeg
 tags: []
 name:
   full: Waxed Canvas Leggings

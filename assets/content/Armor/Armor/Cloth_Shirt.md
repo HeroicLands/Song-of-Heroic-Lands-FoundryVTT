@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Shirt
-  - armorgear-CShirt
 tags: []
 name:
   full: Cloth Shirt

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Earrings, horn"
-  - miscgear-earringshorn
 tags:
   - jewelry_cash
 name:

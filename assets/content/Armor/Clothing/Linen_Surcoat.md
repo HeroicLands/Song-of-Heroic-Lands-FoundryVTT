@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Surcoat
-  - armorgear-LScoat
 tags: []
 name:
   full: Linen Surcoat

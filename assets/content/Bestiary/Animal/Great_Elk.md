@@ -1,7 +1,6 @@
 ---
 aliases:
   - Great Elk
-  - being-greatelk
 tags:
   - animal
 name:

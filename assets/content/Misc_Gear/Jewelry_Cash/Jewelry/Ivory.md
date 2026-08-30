@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ivory
-  - miscgear-ivory
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-iatrophb
+aliases: []
 tags: []
 name:
   full: Iatrophobia

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Mantle
-  - armorgear-LMntl
 tags: []
 name:
   full: Linen Mantle

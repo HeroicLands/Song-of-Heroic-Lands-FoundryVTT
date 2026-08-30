@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Pen, metal"
-  - miscgear-penmetal
 tags:
   - scribe
 name:

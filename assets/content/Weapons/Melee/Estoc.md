@@ -1,7 +1,6 @@
 ---
 aliases:
   - Estoc
-  - weapongear-Estc
 tags: []
 name:
   full: Estoc

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Containers
-  - doc-containers
 id: RtMkTCGjBNTXWJCB
 name:
   full: Containers

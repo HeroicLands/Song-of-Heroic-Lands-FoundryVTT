@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-actions
+aliases: []
 id: iQzDh13KVsOrpbqc
 type: doc
 category: user-guide

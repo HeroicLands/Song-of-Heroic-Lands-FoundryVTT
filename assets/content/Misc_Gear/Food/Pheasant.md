@@ -1,7 +1,6 @@
 ---
 aliases:
   - Pheasant
-  - miscgear-pheasant
 tags:
   - food
 name:

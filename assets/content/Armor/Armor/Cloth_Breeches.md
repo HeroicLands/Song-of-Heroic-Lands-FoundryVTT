@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Breeches
-  - armorgear-CBrch
 tags: []
 name:
   full: Cloth Breeches

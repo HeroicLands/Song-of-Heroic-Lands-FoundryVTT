@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-amaxphb
+aliases: []
 tags: []
 name:
   full: Amaxophobia

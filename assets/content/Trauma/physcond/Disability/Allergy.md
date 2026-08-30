@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-alrgmjr
+aliases: []
 tags: []
 name:
   full: Allergy

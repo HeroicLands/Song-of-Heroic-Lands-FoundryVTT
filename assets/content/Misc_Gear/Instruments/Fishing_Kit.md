@@ -1,7 +1,6 @@
 ---
 aliases:
   - Fishing Kit
-  - miscgear-fishgkit
 tags:
   - instruments
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Shortsword
-  - weapongear-ShrtSwd
 tags: []
 name:
   full: Shortsword

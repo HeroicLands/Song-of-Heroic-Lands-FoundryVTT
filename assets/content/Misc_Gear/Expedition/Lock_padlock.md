@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Lock, padlock"
-  - miscgear-lockpadloc2
 tags:
   - expedition
 name:

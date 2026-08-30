@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Mantle
-  - armorgear-CMntl
 tags: []
 name:
   full: Cloth Mantle

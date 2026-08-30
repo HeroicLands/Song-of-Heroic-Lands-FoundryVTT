@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Vial, glass, small"
-  - containergear-vialglasss
 tags: []
 name:
   full: "Vial, glass, small"

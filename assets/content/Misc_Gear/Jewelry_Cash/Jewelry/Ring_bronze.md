@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, bronze"
-  - miscgear-ringbronze
 tags:
   - jewelry_cash
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Stone, Fine"
-  - miscgear-stonefine
 tags:
   - stone
 name:

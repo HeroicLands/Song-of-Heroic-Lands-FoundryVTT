@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bone/Horn
-  - miscgear-bonehorn
 tags:
   - music
 name:

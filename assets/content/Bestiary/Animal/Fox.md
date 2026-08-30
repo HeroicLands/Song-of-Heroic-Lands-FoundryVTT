@@ -1,7 +1,6 @@
 ---
 aliases:
   - Fox
-  - being-fox
 tags:
   - animal
 name:

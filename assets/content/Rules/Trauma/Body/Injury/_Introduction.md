@@ -1,7 +1,6 @@
 ---
 aliases:
   - Injury Introduction
-  - doc-injintro
 id: mW5Qz3nO9kLwDLEO
 type: doc
 category: rules

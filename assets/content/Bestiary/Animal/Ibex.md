@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ibex
-  - being-ibex
 tags:
   - animal
   - image-needed

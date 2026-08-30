@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Otter/Weasel"
-  - miscgear-hideotterw
 tags:
   - natural
 name:

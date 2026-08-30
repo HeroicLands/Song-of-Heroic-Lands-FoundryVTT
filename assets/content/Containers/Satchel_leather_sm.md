@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Satchel, leather, sm"
-  - containergear-satchltsm
 tags: []
 name:
   full: "Satchel, leather, sm"

@@ -4,7 +4,6 @@ aliases:
   - Melee Attack
   - Melee Combat
   - Reach
-  - doc-mlattcks
 id: OqIctLS39bjX8rbr
 type: doc
 category: rules

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-numbness
+aliases: []
 tags: []
 name:
   full: Numbness

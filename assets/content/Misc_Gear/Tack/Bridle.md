@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bridle
-  - miscgear-bridle
 tags:
   - tack
 name:

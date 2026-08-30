@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Buttons, pack of 4 (matching)"
-  - miscgear-buttonspac
 tags:
   - expedition
 name:

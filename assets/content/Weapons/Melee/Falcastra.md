@@ -1,7 +1,6 @@
 ---
 aliases:
   - Falcastra
-  - weapongear-Falcstra
 tags: []
 name:
   full: Falcastra

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-tlnt
+aliases: []
 tags: []
 name:
   full: Talent

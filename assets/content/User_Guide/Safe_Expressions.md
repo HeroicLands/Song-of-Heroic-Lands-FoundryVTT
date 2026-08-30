@@ -2,7 +2,6 @@
 aliases:
   - Safe Expressions
   - SafeExpression
-  - doc-sfexprss
 id: JvKYOVjZcqyqQHgj
 type: doc
 category: user-guide

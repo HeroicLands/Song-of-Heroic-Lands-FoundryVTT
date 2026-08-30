@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Flute, wooden"
-  - miscgear-flutewoode
 tags:
   - music
 name:

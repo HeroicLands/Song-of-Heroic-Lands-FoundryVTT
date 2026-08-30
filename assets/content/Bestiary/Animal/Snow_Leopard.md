@@ -1,7 +1,6 @@
 ---
 aliases:
   - Snow Leopard
-  - being-snwlprd
 tags:
   - animal
 name:

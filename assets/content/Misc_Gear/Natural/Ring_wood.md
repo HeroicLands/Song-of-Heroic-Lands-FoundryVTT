@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, wood"
-  - miscgear-ringwood
 tags:
   - jewelry_cash
 name:

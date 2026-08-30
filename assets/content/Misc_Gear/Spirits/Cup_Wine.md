@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cup Wine
-  - miscgear-winecup
 tags:
   - spirits
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Sundial, bronze"
-  - miscgear-sundialbro
 tags:
   - expedition
 name:

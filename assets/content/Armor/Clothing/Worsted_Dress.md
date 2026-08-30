@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Dress
-  - armorgear-WDress
 tags: []
 name:
   full: Worsted Dress

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gazelle
-  - being-gazelle
 tags:
   - animal
   - image-needed

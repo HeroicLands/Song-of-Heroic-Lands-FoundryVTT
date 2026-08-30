@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gear
-  - doc-itemgear
 id: p5xXqvicKqdw49rA
 type: doc
 category: user-guide

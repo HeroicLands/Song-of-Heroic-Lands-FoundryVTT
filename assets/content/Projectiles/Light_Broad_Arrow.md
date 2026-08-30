@@ -1,7 +1,6 @@
 ---
 aliases:
   - Light Broad Arrow
-  - projectilegear-ArwLBrd
 tags: []
 name:
   full: Light Broad Arrow

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Homespun Vest
-  - armorgear-HsVest
 tags: []
 name:
   full: Homespun Vest

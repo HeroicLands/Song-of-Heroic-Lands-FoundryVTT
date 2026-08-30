@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-hoplophb
+aliases: []
 tags: []
 name:
   full: Hoplophobia

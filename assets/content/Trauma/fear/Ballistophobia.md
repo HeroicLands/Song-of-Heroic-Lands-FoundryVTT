@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-ballphb
+aliases: []
 tags: []
 name:
   full: Ballistophobia

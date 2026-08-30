@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-lshmnss
+aliases: []
 tags: []
 name:
   full: Leishmaniasis

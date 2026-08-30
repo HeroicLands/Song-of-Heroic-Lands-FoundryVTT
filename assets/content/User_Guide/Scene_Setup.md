@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-scnstpan
+aliases: []
 id: WxM4H3SLZKQhLTog
 type: doc
 category: user-guide

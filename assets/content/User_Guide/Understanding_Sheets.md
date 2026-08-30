@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-undrstnd
+aliases: []
 id: DplPGYa4Gv1DkL0H
 type: doc
 category: user-guide

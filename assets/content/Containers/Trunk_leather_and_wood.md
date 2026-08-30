@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Trunk, leather & wood"
-  - containergear-trunklw
 tags: []
 name:
   full: "Trunk, leather & wood"

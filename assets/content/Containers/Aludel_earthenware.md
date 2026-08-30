@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Aludel, earthenware"
-  - containergear-aludelew
 tags: []
 name:
   full: "Aludel, earthenware"

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bestiary
-  - doc-bestiary
 tags: []
 id: w21JSRk0uXGTaznQ
 name:

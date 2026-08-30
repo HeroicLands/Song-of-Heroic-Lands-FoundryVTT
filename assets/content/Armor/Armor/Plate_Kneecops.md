@@ -1,7 +1,6 @@
 ---
 aliases:
   - Plate Kneecops
-  - armorgear-PlKncp
 tags: []
 name:
   full: Plate Kneecops

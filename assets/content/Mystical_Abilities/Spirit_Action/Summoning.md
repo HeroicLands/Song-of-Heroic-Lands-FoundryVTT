@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-summ
+aliases: []
 tags: []
 name:
   full: Summoning

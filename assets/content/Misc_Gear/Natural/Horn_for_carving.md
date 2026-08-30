@@ -1,7 +1,6 @@
 ---
 aliases:
   - Horn (for carving)
-  - miscgear-hornforcar
 tags:
   - natural
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cave Bear
-  - being-cavebear
 tags:
   - animal
 name:

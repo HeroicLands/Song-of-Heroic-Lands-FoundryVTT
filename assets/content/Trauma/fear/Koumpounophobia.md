@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-kmpnphb
+aliases: []
 tags: []
 name:
   full: Koumpounophobia

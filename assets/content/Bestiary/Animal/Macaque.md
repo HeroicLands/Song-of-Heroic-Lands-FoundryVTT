@@ -2,7 +2,6 @@
 aliases:
   - Temple Monkey
   - Macaque
-  - being-macaque
 tags:
   - animal
   - image-needed

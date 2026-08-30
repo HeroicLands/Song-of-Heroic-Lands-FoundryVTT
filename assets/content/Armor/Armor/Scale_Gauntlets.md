@@ -1,7 +1,6 @@
 ---
 aliases:
   - Scale Gauntlets
-  - armorgear-SGntl
 tags: []
 name:
   full: Scale Gauntlets

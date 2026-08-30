@@ -1,7 +1,6 @@
 ---
 aliases:
   - Skills
-  - doc-skills2
 id: AVuARfyd5TjmGqUh
 name:
   full: Skills

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Sack, waxed canvas, med"
-  - containergear-sackwcmd
 tags: []
 name:
   full: "Sack, waxed canvas, med"

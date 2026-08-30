@@ -1,7 +1,6 @@
 ---
 aliases:
   - Woolly Rhino
-  - being-wllyrhn
 tags:
   - animal
 name:

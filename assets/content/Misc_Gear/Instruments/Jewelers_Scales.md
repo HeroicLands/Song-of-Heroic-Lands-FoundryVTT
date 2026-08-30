@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jeweler's Scales"
-  - miscgear-jewelerssc
 tags:
   - instruments
 name:

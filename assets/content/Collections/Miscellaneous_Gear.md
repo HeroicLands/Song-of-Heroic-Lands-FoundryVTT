@@ -1,7 +1,6 @@
 ---
 aliases:
   - Miscellaneous Gear
-  - doc-miscelnsgr
 id: gw0PK5jHBTEdEEQR
 name:
   full: Miscellaneous Gear

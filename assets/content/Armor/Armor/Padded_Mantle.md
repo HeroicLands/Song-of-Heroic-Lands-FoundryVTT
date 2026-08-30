@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Mantle
-  - armorgear-PMntl
 tags: []
 name:
   full: Padded Mantle

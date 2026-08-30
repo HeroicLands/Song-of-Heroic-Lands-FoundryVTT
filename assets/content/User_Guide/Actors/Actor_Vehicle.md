@@ -1,7 +1,6 @@
 ---
 aliases:
   - Vehicle
-  - doc-vehicle
 id: UzvfN3dVTI3CCC2V
 type: doc
 category: user-guide

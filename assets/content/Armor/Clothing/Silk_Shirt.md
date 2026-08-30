@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Shirt
-  - armorgear-SlkShirt
 tags: []
 name:
   full: Silk Shirt

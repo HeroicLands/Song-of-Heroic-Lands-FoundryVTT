@@ -1,7 +1,6 @@
 ---
 aliases:
   - Press
-  - skill-press
 tags: []
 name:
   full: Press

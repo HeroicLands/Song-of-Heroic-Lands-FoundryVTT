@@ -1,7 +1,6 @@
 ---
 aliases:
   - Homespun Tunic
-  - armorgear-HsTunic
 tags: []
 name:
   full: Homespun Tunic

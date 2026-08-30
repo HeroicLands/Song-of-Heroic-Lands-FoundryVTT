@@ -1,7 +1,6 @@
 ---
 aliases:
   - Concoctions
-  - doc-concoctins
 id: zo3tZIMKCKxVzfZ6
 name:
   full: Concoctions

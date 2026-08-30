@@ -1,7 +1,6 @@
 ---
 aliases:
   - Trauma Introduction
-  - doc-traumaintro
 id: Np0h2gEc4EziXNeM
 type: doc
 category: rules

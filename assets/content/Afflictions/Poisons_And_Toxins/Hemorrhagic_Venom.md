@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hemorrhagic Venom
-  - affliction-hmgfvr
 tags: []
 name:
   full: Hemorrhagic Venom

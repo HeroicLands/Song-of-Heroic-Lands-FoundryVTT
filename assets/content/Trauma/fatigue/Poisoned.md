@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-poison
+aliases: []
 tags: []
 name:
   full: Poisoned

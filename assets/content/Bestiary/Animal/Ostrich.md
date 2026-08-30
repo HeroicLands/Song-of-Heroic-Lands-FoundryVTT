@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ostrich
-  - being-ostrich
 tags:
   - animal
   - image-needed

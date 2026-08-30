@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-galeophb
+aliases: []
 tags: []
 name:
   full: Galeophobia

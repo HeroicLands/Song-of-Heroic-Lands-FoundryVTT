@@ -2,7 +2,6 @@
 aliases:
   - Actor Types
   - Actors Introduction
-  - doc-ugactors
 id: 850gXkDZhbNwwg2D
 type: doc
 category: user-guide

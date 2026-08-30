@@ -1,7 +1,6 @@
 ---
 aliases:
   - Quilted Tunic
-  - armorgear-QTnc
 tags: []
 name:
   full: Quilted Tunic

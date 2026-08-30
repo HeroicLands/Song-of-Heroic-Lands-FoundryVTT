@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-ptchphb
+aliases: []
 tags: []
 name:
   full: Ptochophobia

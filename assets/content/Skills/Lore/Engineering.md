@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-eng
+aliases: []
 tags: []
 name:
   full: Engineering

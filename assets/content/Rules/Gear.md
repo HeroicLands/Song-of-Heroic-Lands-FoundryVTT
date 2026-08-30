@@ -4,7 +4,6 @@ aliases:
   - Equipment
   - Inventory
   - Encumbrance
-  - doc-gear
 id: wjqsgt0VbETSKE6Y
 type: doc
 category: rules

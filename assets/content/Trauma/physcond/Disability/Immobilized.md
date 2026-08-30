@@ -1,7 +1,6 @@
 ---
 aliases:
   - Immobilized
-  - trauma-immob
 tags: []
 name:
   full: Immobilized

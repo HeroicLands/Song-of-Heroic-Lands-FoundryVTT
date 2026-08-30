@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Horn, musical"
-  - miscgear-hornmusica
 tags:
   - music
 name:

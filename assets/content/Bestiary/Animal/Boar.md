@@ -1,7 +1,6 @@
 ---
 aliases:
   - Boar
-  - being-boar
 tags:
   - animal
 name:

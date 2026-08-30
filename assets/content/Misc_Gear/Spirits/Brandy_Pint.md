@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brandy, Pint"
-  - miscgear-brdypt
 tags:
   - spirits
 name:

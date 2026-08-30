@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-anmcft
+aliases: []
 tags: []
 name:
   full: Animalcraft

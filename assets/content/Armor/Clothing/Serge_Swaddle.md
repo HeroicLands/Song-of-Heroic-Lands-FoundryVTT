@@ -1,7 +1,6 @@
 ---
 aliases:
   - Serge Swaddle
-  - armorgear-SgSwd
 tags: []
 name:
   full: Serge Swaddle

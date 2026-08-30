@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Garnet, cut"
-  - miscgear-garnetcut
 tags:
   - jewelry_cash
 name:

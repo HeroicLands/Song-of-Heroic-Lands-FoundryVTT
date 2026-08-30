@@ -2,7 +2,6 @@
 aliases:
   - Kurbul Rerebraces
   - Kûrbúl Rerebraces
-  - armorgear-KRebr
 tags: []
 name:
   full: Kûrbúl Rerebraces

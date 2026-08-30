@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Canteen, metal"
-  - containergear-cantmetal
 tags: []
 name:
   full: "Canteen, metal"

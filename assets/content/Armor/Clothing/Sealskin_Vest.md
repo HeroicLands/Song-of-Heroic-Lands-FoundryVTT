@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sealskin Vest
-  - armorgear-SlsVest
 tags: []
 name:
   full: Sealskin Vest

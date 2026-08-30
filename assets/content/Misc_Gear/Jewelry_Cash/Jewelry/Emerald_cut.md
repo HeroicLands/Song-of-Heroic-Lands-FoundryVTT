@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Emerald, cut"
-  - miscgear-emeraldcut
 tags:
   - jewelry_cash
 name:

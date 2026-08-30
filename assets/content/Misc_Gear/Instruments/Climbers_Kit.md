@@ -1,7 +1,6 @@
 ---
 aliases:
   - Climber's Kit
-  - miscgear-climbkit
 tags:
   - instruments
 name:

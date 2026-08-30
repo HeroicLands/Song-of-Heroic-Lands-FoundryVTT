@@ -1,7 +1,6 @@
 ---
 aliases:
   - Apples
-  - miscgear-apples
 tags:
   - food
 name:

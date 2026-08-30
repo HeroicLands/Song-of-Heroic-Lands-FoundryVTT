@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Shirt
-  - armorgear-WShirt
 tags: []
 name:
   full: Worsted Shirt

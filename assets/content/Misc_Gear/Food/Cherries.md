@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cherries
-  - miscgear-cherries
 tags:
   - food
 name:

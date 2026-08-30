@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-shpw
+aliases: []
 tags: []
 name:
   full: Shipwright

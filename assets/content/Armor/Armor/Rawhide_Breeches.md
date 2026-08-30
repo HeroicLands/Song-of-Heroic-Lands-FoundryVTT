@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rawhide Breeches
-  - armorgear-RhBrch
 tags: []
 name:
   full: Rawhide Breeches

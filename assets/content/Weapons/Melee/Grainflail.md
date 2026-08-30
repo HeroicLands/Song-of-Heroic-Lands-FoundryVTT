@@ -1,7 +1,6 @@
 ---
 aliases:
   - Grainflail
-  - weapongear-GrnFl
 tags: []
 name:
   full: Grainflail

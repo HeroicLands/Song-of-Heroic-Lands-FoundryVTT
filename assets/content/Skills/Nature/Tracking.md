@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-trak
+aliases: []
 tags: []
 name:
   full: Tracking

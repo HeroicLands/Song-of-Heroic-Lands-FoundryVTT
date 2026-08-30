@@ -1,7 +1,6 @@
 ---
 aliases:
   - Canvas Vest
-  - armorgear-CvVest
 tags: []
 name:
   full: Canvas Vest

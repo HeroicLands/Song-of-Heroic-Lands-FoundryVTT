@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hogshead Good Wine
-  - miscgear-gwinehgsh
 tags:
   - spirits
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Pot, cooking, small"
-  - containergear-potcooking2
 tags: []
 name:
   full: "Pot, cooking, small"

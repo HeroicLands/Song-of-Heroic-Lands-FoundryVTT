@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gambeson Sleeved Tunic
-  - armorgear-GSTnc
 tags: []
 name:
   full: Gambeson Sleeved Tunic

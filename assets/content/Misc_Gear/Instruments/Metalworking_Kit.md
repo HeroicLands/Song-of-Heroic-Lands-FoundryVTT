@@ -1,7 +1,6 @@
 ---
 aliases:
   - Metalworking Kit
-  - miscgear-metalwrktl
 tags:
   - instruments
 name:

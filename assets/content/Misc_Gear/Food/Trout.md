@@ -1,7 +1,6 @@
 ---
 aliases:
   - Trout
-  - miscgear-trout
 tags:
   - food
 name:

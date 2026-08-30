@@ -1,7 +1,6 @@
 ---
 aliases:
   - Lute
-  - miscgear-lute
 tags:
   - music
 name:

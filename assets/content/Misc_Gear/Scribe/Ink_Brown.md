@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ink, Brown"
-  - miscgear-inkbrn
 tags:
   - scribe
 name:

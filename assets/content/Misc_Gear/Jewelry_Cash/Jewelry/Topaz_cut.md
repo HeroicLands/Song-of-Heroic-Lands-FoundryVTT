@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Topaz, cut"
-  - miscgear-topazcut
 tags:
   - jewelry_cash
 name:

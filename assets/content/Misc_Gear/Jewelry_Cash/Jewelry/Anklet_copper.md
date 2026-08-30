@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Anklet, copper"
-  - miscgear-ankletcopper
 tags:
   - jewelry_cash
 name:

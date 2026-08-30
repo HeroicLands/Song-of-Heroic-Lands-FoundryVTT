@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rawhide Shoes
-  - armorgear-RhShoe
 tags: []
 name:
   full: Rawhide Shoes

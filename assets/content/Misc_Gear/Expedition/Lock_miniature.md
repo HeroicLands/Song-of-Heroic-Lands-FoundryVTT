@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Lock, miniature"
-  - miscgear-lockminiat
 tags:
   - expedition
 name:

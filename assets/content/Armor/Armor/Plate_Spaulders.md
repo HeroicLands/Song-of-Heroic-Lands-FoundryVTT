@@ -1,7 +1,6 @@
 ---
 aliases:
   - Plate Spaulders
-  - armorgear-PlSpld
 tags: []
 name:
   full: Plate Spaulders

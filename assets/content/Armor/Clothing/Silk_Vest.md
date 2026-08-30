@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Vest
-  - armorgear-SlkVest
 tags: []
 name:
   full: Silk Vest

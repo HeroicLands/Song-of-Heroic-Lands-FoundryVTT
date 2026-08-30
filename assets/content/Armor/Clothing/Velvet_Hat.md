@@ -1,7 +1,6 @@
 ---
 aliases:
   - Velvet Hat
-  - armorgear-VHat
 tags: []
 name:
   full: Velvet Hat

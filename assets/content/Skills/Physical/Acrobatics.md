@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-acro
+aliases: []
 tags: []
 name:
   full: Acrobatics

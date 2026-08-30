@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Lambskin"
-  - miscgear-hidelambsk
 tags:
   - natural
 name:

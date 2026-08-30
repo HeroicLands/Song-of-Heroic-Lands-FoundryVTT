@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Anklet, horn"
-  - miscgear-anklethorn
 tags:
   - jewelry_cash
 name:

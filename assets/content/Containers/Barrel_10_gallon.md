@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Barrel, 10 gallon"
-  - containergear-barrel10gal
 tags: []
 name:
   full: "Barrel, 10 gallon"

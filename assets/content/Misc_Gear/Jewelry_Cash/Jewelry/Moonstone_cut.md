@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Moonstone, cut"
-  - miscgear-moonstonec
 tags:
   - jewelry_cash
 name:

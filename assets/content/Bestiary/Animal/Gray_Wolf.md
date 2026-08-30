@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gray Wolf
-  - being-graywolf
 tags:
   - animal
 name:

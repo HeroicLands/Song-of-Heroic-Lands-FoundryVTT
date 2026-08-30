@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-malaria
+aliases: []
 tags: []
 name:
   full: Malaria

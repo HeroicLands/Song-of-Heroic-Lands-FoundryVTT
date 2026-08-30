@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cobra
-  - being-cobra
 tags:
   - animal
   - image-needed

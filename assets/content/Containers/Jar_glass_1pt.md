@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jar, glass, 1 pt."
-  - containergear-jarglass1pt
 tags: []
 name:
   full: "Jar, glass, 1 pt."

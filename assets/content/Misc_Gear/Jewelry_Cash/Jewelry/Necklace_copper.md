@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Necklace, copper"
-  - miscgear-necklacecopper
 tags:
   - jewelry_cash
 name:

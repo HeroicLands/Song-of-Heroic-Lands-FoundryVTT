@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amphora, ceramic, 15 gallon"
-  - containergear-amphoracer15
 tags: []
 name:
   full: "Amphora, ceramic, 15 gallon"

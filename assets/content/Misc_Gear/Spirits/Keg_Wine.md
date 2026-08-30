@@ -1,7 +1,6 @@
 ---
 aliases:
   - Keg Wine
-  - miscgear-winekeg
 tags:
   - spirits
 name:

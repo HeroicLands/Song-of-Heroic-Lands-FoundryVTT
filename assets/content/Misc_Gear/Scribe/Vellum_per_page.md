@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Vellum, per page"
-  - miscgear-vellumperp
 tags:
   - scribe
 name:

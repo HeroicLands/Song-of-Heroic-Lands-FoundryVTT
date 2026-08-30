@@ -1,7 +1,6 @@
 ---
 aliases:
   - Quilted Longshirt
-  - armorgear-QLgSht
 tags: []
 name:
   full: Quilted Longshirt

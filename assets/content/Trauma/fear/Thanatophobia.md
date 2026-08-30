@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-thntphb
+aliases: []
 tags: []
 name:
   full: Thanatophobia

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-mor
+aliases: []
 tags: []
 name:
   full: Morality

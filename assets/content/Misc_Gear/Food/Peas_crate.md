@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Peas, crate"
-  - miscgear-peascrate
 tags:
   - food
 name:

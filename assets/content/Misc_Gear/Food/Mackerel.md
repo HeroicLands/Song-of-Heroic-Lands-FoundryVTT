@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mackerel
-  - miscgear-mackerel
 tags:
   - food
 name:

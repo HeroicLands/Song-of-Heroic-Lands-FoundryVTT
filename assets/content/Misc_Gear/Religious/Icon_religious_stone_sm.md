@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Icon, religious, stone, sm"
-  - miscgear-iconstnsm
 tags:
   - religious
 name:

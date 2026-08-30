@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mystery
-  - doc-mystery
 id: 6fJTkfpqjc4srAqd
 type: doc
 category: user-guide

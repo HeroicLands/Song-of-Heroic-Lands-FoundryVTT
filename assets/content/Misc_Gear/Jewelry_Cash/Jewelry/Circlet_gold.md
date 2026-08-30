@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Circlet, gold"
-  - miscgear-circletgold
 tags:
   - jewelry_cash
 name:

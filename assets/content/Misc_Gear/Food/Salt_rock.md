@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Salt, rock"
-  - miscgear-saltrock
 tags:
   - food
 name:

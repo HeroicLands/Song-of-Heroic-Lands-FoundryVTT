@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Surcoat
-  - armorgear-SlkScoat
 tags: []
 name:
   full: Silk Surcoat

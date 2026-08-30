@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-stoic
+aliases: []
 tags: []
 name:
   full: Stoic

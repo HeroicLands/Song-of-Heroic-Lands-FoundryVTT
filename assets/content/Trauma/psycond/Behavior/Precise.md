@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-precise
+aliases: []
 tags: []
 name:
   full: Precise

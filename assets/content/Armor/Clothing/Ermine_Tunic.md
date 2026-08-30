@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ermine Tunic
-  - armorgear-ETunic
 tags: []
 name:
   full: Ermine Tunic

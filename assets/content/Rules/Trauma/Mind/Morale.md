@@ -4,7 +4,6 @@ aliases:
   - Morale Test
   - Rally Test
   - Reaction Test
-  - doc-morale
 id: jBDOZxRV8VpzsfPV
 type: doc
 category: rules

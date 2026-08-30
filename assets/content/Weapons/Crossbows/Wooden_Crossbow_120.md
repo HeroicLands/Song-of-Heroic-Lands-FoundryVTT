@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wooden Crossbow 120
-  - weapongear-WCxBw120
 tags: []
 name:
   full: Wooden Crossbow 120

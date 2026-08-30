@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-andphb
+aliases: []
 tags: []
 name:
   full: Androphobia

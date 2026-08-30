@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Rabbit"
-  - miscgear-hiderabbit
 tags:
   - natural
 name:

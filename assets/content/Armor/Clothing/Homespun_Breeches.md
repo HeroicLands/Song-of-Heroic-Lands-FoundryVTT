@@ -1,7 +1,6 @@
 ---
 aliases:
   - Homespun Breeches
-  - armorgear-HsBrch
 tags: []
 name:
   full: Homespun Breeches

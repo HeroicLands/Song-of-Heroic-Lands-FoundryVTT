@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Beaver"
-  - miscgear-hidebeaver
 tags:
   - natural
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Earrings, bronze"
-  - miscgear-earringsbronze
 tags:
   - jewelry_cash
 name:

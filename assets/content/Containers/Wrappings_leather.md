@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Wrappings, leather"
-  - containergear-wrapleath
 tags: []
 name:
   full: "Wrappings, leather"

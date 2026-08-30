@@ -6,7 +6,6 @@ aliases:
   - Combat Exchange
   - Tactical Advantage
   - Tactical Advantages
-  - doc-atkreslv
 id: OuEx3Wa9RNMHtrgc
 type: doc
 category: rules

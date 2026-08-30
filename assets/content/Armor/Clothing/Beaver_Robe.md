@@ -1,7 +1,6 @@
 ---
 aliases:
   - Beaver Robe
-  - armorgear-BvRobe
 tags: []
 name:
   full: Beaver Robe

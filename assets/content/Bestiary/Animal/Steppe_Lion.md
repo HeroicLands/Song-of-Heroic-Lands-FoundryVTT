@@ -1,7 +1,6 @@
 ---
 aliases:
   - Steppe Lion
-  - being-stppln
 tags:
   - animal
 name:

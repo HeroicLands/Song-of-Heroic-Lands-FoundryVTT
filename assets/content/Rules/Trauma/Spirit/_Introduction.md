@@ -1,7 +1,6 @@
 ---
 aliases:
   - Spirit Trauma Introduction
-  - doc-sprttraumaintro
 id: wLmzxrnaOabxN1LW
 type: doc
 category: rules

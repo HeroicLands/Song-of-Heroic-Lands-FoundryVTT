@@ -3,7 +3,6 @@ aliases:
   - Aural Shock
   - Aural Shock Level
   - Aural Shock Recovery Test
-  - doc-arlshck
 id: A8oMKQjucNVvKnpr
 type: doc
 category: rules

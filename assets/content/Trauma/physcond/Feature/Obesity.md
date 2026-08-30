@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-obesity
+aliases: []
 tags: []
 name:
   full: Obesity

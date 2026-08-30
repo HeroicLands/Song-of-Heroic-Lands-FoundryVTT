@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Sack, leather, sm"
-  - containergear-sackltsm
 tags: []
 name:
   full: "Sack, leather, sm"

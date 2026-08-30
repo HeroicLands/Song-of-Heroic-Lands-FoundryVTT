@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brooch, horn"
-  - miscgear-broochhorn
 tags:
   - jewelry_cash
 name:

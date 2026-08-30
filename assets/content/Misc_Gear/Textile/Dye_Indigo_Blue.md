@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Dye, Indigo Blue"
-  - miscgear-dyeindg
 tags:
   - clothing
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Pears
-  - miscgear-pears
 tags:
   - food
 name:

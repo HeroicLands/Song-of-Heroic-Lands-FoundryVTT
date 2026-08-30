@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Loincloth
-  - armorgear-CLoin
 tags: []
 name:
   full: Cloth Loincloth

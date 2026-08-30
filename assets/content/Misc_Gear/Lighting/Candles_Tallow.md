@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Candles, Tallow"
-  - miscgear-candlestal
 tags:
   - lighting
 name:

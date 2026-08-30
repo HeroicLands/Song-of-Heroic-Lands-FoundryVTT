@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-reticent
+aliases: []
 tags: []
 name:
   full: Reticent

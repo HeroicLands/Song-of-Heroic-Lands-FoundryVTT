@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-wpnc
+aliases: []
 tags: []
 name:
   full: Weaponcraft

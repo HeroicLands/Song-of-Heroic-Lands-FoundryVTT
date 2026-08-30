@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bedroll, heavy
-  - miscgear-HvyBdrl
 tags:
   - expedition
 name:

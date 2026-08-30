@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-slng
+aliases: []
 tags: []
 name:
   full: Sling

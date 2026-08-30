@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-barophb
+aliases: []
 tags: []
 name:
   full: Barophobia

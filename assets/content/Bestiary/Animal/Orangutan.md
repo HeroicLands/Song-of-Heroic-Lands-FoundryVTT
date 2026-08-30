@@ -1,7 +1,6 @@
 ---
 aliases:
   - Orangutan
-  - being-orngtn
 tags:
   - animal
 name:

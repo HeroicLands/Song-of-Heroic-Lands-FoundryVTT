@@ -1,7 +1,6 @@
 ---
 aliases:
   - Javelin, Barbed
-  - weapongear-BarJav
 tags: []
 name:
   full: Javelin, Barbed

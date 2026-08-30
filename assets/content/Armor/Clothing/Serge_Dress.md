@@ -1,7 +1,6 @@
 ---
 aliases:
   - Serge Dress
-  - armorgear-SgDress
 tags: []
 name:
   full: Serge Dress

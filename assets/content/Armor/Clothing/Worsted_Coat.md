@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Coat
-  - armorgear-WCoat
 tags: []
 name:
   full: Worsted Coat

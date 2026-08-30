@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mason's Kit
-  - miscgear-masonkit
 tags:
   - instruments
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Plate, tin"
-  - miscgear-platetin
 tags:
   - cooking
 name:

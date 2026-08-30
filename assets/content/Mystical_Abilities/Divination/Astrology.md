@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-astr
+aliases: []
 tags: []
 name:
   full: Astrology

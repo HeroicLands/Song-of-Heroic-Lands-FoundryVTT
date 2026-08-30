@@ -1,7 +1,6 @@
 ---
 aliases:
   - Base Item
-  - doc-baseitem
 id: DXyazxuH0KLFWj4l
 type: doc
 category: user-guide

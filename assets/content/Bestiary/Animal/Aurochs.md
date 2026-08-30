@@ -1,7 +1,6 @@
 ---
 aliases:
   - Aurochs
-  - being-aurochs
 tags:
   - animal
 name:

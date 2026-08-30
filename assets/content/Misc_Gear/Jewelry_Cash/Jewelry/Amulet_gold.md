@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amulet, gold"
-  - miscgear-amuletgold
 tags:
   - jewelry_cash
 name:

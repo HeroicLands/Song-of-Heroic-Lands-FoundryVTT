@@ -2,7 +2,6 @@
 aliases:
   - Peafowl
   - Peacock
-  - being-peacock
 tags:
   - animal
   - image-needed

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Quilted Cuisse
-  - armorgear-QCui
 tags: []
 name:
   full: Quilted Cuisse

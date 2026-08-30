@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-draw
+aliases: []
 tags: []
 name:
   full: Drawing

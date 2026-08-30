@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Tunic
-  - armorgear-BTunic
 tags: []
 name:
   full: Buckram Tunic

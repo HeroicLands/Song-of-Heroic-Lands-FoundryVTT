@@ -1,7 +1,6 @@
 ---
 aliases:
   - Walrus
-  - being-walrus
 tags:
   - animal
   - image-needed

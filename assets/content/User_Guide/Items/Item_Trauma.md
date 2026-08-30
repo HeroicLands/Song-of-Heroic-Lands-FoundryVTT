@@ -2,7 +2,6 @@
 aliases:
   - Injury
   - Injuries
-  - doc-itemtrauma
 id: PV8DkxfbuA1ORJ1U
 type: doc
 category: user-guide

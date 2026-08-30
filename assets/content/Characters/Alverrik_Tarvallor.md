@@ -2,7 +2,6 @@
 aliases:
   - Álverrik Tárvallor
   - Alverrik Tarvallor
-  - being-alverriktarvall
 tags: []
 name:
   full: Álverrik Tárvallor

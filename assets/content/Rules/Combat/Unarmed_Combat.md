@@ -4,7 +4,6 @@ aliases:
   - Combat Technique
   - Combat Techniques
   - Strength Trial
-  - doc-unrmdcmb
 id: SNdlp2B249F9Enwx
 type: doc
 category: rules

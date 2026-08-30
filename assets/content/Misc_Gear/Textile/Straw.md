@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Straw, woven, per sq yard"
-  - miscgear-straw
 tags:
   - clothing
 name:

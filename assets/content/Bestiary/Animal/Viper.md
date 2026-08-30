@@ -1,7 +1,6 @@
 ---
 aliases:
   - Viper
-  - being-viper
 tags:
   - animal
 name:

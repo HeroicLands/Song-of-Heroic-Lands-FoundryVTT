@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mule
-  - being-mule
 tags:
   - animal
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mace, Wood Handle
-  - weapongear-WdMce
 tags: []
 name:
   full: Mace, Wood Handle

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-pilt
+aliases: []
 tags: []
 name:
   full: Piloting

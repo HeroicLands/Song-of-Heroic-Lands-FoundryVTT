@@ -1,7 +1,6 @@
 ---
 aliases:
   - Homespun Skirt
-  - armorgear-HsSkirt
 tags: []
 name:
   full: Homespun Skirt

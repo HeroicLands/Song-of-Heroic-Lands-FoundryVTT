@@ -1,7 +1,6 @@
 ---
 aliases:
   - Armorer's Kit
-  - miscgear-armrkit
 tags:
   - instruments
 name:

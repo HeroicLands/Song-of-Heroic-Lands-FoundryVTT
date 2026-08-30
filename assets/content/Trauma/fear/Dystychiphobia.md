@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-dystychi
+aliases: []
 tags: []
 name:
   full: Dystychiphobia

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Grease
-  - miscgear-grease
 tags:
   - natural
 name:

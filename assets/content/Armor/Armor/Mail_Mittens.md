@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mail Mittens
-  - armorgear-MMtn
 tags: []
 name:
   full: Mail Mittens

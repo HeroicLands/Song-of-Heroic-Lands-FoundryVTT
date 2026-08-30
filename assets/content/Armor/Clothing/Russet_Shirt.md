@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Shirt
-  - armorgear-RShirt
 tags: []
 name:
   full: Russet Shirt

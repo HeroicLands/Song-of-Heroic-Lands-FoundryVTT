@@ -1,7 +1,6 @@
 ---
 aliases:
   - Curds
-  - miscgear-curds
 tags:
   - food
 name:

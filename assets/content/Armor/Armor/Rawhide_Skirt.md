@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rawhide Skirt
-  - armorgear-RhSkirt
 tags: []
 name:
   full: Rawhide Skirt

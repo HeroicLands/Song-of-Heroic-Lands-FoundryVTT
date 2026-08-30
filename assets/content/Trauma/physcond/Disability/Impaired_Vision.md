@@ -1,7 +1,6 @@
 ---
 aliases:
   - Impaired Vision
-  - trauma-imprdvsn
 tags: []
 name:
   full: Impaired Vision

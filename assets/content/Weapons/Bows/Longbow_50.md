@@ -1,7 +1,6 @@
 ---
 aliases:
   - Longbow 50
-  - weapongear-LBw50
 tags: []
 name:
   full: Longbow 50

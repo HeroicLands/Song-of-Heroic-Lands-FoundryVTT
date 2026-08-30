@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sealskin Cap
-  - armorgear-SlsCap
 tags: []
 name:
   full: Sealskin Cap

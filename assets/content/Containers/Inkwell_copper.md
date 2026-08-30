@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Inkwell, copper"
-  - containergear-inkwellcop
 tags: []
 name:
   full: "Inkwell, copper"

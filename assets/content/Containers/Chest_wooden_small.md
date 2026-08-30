@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Chest, wooden, small"
-  - containergear-chestwdsm
 tags: []
 name:
   full: "Chest, wooden, small"

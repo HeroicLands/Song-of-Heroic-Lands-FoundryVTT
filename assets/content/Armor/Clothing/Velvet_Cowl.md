@@ -1,7 +1,6 @@
 ---
 aliases:
   - Velvet Cowl
-  - armorgear-VCowl
 tags: []
 name:
   full: Velvet Cowl

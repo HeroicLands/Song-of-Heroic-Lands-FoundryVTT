@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-pnmna
+aliases: []
 tags: []
 name:
   full: Pneumonia

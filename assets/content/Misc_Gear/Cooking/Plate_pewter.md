@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Plate, pewter"
-  - miscgear-platepewte
 tags:
   - cooking
 name:

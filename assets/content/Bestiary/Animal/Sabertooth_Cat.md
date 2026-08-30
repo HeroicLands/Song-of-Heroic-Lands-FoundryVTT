@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sabertooth Cat
-  - being-sbrtthct
 tags:
   - animal
 name:

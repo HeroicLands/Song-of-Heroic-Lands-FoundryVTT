@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Axle, wagon"
-  - miscgear-axlewagon
 tags:
   - tack
 name:

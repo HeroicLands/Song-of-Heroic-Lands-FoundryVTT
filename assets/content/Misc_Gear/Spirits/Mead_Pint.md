@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Mead, Pint"
-  - miscgear-mdpt
 tags:
   - spirits
 name:

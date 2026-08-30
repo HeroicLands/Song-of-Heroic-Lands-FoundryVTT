@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Surcoat
-  - armorgear-BScoat
 tags: []
 name:
   full: Buckram Surcoat

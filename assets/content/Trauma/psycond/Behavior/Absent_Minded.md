@@ -1,7 +1,6 @@
 ---
 aliases:
   - Absent-Minded
-  - trauma-absntmd
 tags: []
 name:
   full: Absent-Minded

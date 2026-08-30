@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Cowl
-  - armorgear-RCowl
 tags: []
 name:
   full: Russet Cowl

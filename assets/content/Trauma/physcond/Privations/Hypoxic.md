@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-hypox
+aliases: []
 tags: []
 name:
   full: Hypoxic

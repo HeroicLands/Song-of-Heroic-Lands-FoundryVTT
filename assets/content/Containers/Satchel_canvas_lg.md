@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Satchel, canvas, lg"
-  - containergear-satchcvlg
 tags: []
 name:
   full: "Satchel, canvas, lg"

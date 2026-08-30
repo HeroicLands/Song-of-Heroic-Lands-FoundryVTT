@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Gloves
-  - armorgear-BGlv
 tags: []
 name:
   full: Buckram Gloves

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Circlet, ivory"
-  - miscgear-circletivory
 tags:
   - jewelry_cash
 name:

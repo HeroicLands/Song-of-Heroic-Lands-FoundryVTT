@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Canteen, pottery"
-  - containergear-cantpot
 tags: []
 name:
   full: "Canteen, pottery"

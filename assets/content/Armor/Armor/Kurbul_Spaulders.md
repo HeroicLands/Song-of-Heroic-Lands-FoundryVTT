@@ -2,7 +2,6 @@
 aliases:
   - Kurbul Spaulders
   - Kûrbúl Spaulders
-  - armorgear-KSpld
 tags: []
 name:
   full: Kûrbúl Spaulders

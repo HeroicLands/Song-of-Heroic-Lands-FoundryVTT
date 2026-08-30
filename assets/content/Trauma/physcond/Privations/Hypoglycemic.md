@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-hypgly
+aliases: []
 tags: []
 name:
   full: Hypoglycemic

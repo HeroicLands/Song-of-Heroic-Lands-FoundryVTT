@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cohort
-  - doc-cohort
 id: 3uAE5ivwuwl1a1ir
 type: doc
 category: user-guide

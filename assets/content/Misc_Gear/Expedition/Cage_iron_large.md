@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Cage, iron, large"
-  - miscgear-cageironla
 tags:
   - expedition
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tiger
-  - being-tiger
 tags:
   - animal
   - image-needed

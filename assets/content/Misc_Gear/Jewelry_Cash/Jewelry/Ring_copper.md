@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, copper"
-  - miscgear-ringcopper
 tags:
   - jewelry_cash
 name:

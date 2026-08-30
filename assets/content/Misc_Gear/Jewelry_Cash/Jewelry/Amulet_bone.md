@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amulet, bone"
-  - miscgear-amuletbone
 tags:
   - jewelry_cash
 name:

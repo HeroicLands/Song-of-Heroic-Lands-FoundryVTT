@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Beaker, glass, small"
-  - containergear-beakerglsm
 tags: []
 name:
   full: "Beaker, glass, small"

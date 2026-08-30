@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Bloodstone, cut"
-  - miscgear-bloodstone
 tags:
   - jewelry_cash
 name:

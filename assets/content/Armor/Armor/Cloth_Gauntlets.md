@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Gauntlets
-  - armorgear-CGntl
 tags: []
 name:
   full: Cloth Gauntlets

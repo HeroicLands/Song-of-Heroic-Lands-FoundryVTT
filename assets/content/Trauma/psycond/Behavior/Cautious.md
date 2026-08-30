@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-cautious
+aliases: []
 tags: []
 name:
   full: Cautious

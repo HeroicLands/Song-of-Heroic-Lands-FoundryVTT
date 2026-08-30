@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-rslnt
+aliases: []
 tags: []
 name:
   full: Resilient

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-nrotxn
+aliases: []
 tags: []
 name:
   full: Neurotoxin

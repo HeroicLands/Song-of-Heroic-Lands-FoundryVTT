@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Breeches
-  - armorgear-RBrch
 tags: []
 name:
   full: Russet Breeches

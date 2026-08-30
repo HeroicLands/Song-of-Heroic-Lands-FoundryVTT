@@ -1,7 +1,6 @@
 ---
 aliases:
   - Straw Hat
-  - armorgear-StHat
 tags: []
 name:
   full: Straw Hat

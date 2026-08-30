@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mutton
-  - miscgear-mutton
 tags:
   - food
 name:

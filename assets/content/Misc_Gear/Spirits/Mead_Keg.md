@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Mead, Keg"
-  - miscgear-mdkeg
 tags:
   - spirits
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Serge Tunic
-  - armorgear-SgTunic
 tags: []
 name:
   full: Serge Tunic

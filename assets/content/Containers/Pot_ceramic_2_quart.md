@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Pot, ceramic, 2 quart"
-  - containergear-potcer2qt
 tags: []
 name:
   full: "Pot, ceramic, 2 quart"

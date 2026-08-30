@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amulet, horn"
-  - miscgear-amulethorn
 tags:
   - jewelry_cash
 name:

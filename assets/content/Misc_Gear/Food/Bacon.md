@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bacon
-  - miscgear-bacon
 tags:
   - food
 name:

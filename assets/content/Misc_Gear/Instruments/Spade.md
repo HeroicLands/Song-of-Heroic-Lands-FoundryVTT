@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Spade"
-  - miscgear-spade
 tags:
   - instruments
 name:

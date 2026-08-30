@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-smsh
+aliases: []
 tags: []
 name:
   full: Seamanship

@@ -5,7 +5,6 @@ aliases:
   - Missile Sequence
   - Ranged Attacks
   - Volley
-  - doc-msslattc
 id: rDBP7stlZ05KJIfE
 type: doc
 category: rules

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Holy Symbol, brass"
-  - miscgear-holysymbrass
 tags:
   - religious
 name:

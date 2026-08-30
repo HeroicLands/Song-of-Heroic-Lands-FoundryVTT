@@ -5,7 +5,6 @@ aliases:
   - Pall Strength
   - Pall Stress
   - Pall Cloud
-  - doc-thepall
 id: RADvlTrsPHDSDYQN
 type: doc
 category: rules

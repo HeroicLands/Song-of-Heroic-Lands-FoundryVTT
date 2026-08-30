@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Beer, Hogshead"
-  - miscgear-beerhgsh
 tags:
   - spirits
 name:

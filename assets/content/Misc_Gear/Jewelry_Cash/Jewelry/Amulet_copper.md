@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amulet, copper"
-  - miscgear-amuletcopper
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-arsenic
+aliases: []
 tags: []
 name:
   full: Arsenic

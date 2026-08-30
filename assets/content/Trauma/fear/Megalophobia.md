@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-mglphb
+aliases: []
 tags: []
 name:
   full: Megalophobia
