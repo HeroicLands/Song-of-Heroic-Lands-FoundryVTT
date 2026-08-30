@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-mlntxn
+aliases: []
 tags: []
 name:
   full: Malnutrition

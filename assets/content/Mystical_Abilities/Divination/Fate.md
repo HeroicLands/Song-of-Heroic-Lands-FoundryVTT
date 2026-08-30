@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-fate
+aliases: []
 tags: []
 name:
   full: Fate

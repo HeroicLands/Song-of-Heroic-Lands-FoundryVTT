@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Sandals
-  - armorgear-LtSndls
 tags: []
 name:
   full: Leather Sandals

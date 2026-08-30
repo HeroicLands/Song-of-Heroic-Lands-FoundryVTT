@@ -1,7 +1,6 @@
 ---
 aliases:
   - Staff
-  - weapongear-Stf
 tags: []
 name:
   full: Staff

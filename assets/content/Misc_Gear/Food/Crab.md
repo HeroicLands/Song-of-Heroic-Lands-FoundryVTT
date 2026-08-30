@@ -1,7 +1,6 @@
 ---
 aliases:
   - Crab
-  - miscgear-crab
 tags:
   - food
 name:

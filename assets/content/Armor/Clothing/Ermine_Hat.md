@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ermine Hat
-  - armorgear-EHat
 tags: []
 name:
   full: Ermine Hat

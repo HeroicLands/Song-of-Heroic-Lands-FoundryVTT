@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wasp Venom
-  - affliction-waspvnm
 tags: []
 name:
   full: Wasp Venom

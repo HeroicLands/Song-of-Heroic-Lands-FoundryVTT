@@ -1,7 +1,6 @@
 ---
 aliases:
   - Light Bodkin Arrow
-  - projectilegear-ArwLBod
 tags: []
 name:
   full: Light Bodkin Arrow

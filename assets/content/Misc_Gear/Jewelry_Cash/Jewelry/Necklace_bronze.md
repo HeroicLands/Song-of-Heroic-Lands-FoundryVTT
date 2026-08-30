@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Necklace, bronze"
-  - miscgear-necklacebronze
 tags:
   - jewelry_cash
 name:

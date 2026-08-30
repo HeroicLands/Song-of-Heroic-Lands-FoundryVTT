@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-dwarfism
+aliases: []
 tags: []
 name:
   full: Dwarfism

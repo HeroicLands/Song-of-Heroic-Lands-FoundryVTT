@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ermine Vest
-  - armorgear-EVest
 tags: []
 name:
   full: Ermine Vest

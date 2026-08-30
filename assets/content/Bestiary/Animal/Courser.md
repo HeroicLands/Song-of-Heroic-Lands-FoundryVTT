@@ -1,7 +1,6 @@
 ---
 aliases:
   - Courser
-  - being-courser
 tags:
   - animal
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Pipe weed
-  - miscgear-pipewd
 tags:
   - expedition
 name:

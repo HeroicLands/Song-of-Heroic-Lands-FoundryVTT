@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leash
-  - miscgear-leash
 tags:
   - tack
 name:

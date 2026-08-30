@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Serge, per sq yard"
-  - miscgear-serge
 tags:
   - clothing
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Necklace, bone"
-  - miscgear-necklacebone
 tags:
   - jewelry_cash
 name:

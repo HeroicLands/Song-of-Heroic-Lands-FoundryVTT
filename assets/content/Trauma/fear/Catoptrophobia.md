@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-ctptrphb
+aliases: []
 tags: []
 name:
   full: Catoptrophobia

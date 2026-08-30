@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brooch, gold"
-  - miscgear-broochgold
 tags:
   - jewelry_cash
 name:

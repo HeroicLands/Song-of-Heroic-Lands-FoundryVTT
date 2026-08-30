@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rawhide Cap
-  - armorgear-RhCap
 tags: []
 name:
   full: Rawhide Cap

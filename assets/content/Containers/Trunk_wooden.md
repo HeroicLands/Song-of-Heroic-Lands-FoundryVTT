@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Trunk, wooden"
-  - containergear-trunkwood
 tags: []
 name:
   full: "Trunk, wooden"

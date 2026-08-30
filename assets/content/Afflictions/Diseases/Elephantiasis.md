@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-elph
+aliases: []
 tags: []
 name:
   full: Elephantiasis

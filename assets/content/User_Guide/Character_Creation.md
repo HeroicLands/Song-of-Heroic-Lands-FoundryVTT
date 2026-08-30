@@ -1,7 +1,6 @@
 ---
 aliases:
   - Character Creation
-  - doc-chrctrcr
 id: 2jDp0HN2AvId0U5E
 type: doc
 category: user-guide

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Structure
-  - doc-structure
 id: STezcXhJMlmYv9XT
 type: doc
 category: user-guide

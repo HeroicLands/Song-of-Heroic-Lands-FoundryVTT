@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Cowl
-  - armorgear-PCwl
 tags: []
 name:
   full: Padded Cowl

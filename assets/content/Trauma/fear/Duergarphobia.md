@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-drgrphb
+aliases: []
 tags: []
 name:
   full: Duergarphobia

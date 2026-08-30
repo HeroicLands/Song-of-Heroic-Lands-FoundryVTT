@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Horse"
-  - miscgear-hidehorse
 tags:
   - natural
 name:

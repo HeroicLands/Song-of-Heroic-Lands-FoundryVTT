@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-smlpox
+aliases: []
 tags: []
 name:
   full: Smallpox

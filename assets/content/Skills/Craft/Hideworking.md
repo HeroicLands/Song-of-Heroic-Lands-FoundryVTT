@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-hide
+aliases: []
 tags: []
 name:
   full: Hideworking

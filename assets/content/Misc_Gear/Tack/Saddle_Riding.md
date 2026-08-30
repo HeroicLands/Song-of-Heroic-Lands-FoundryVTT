@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Saddle, Riding"
-  - miscgear-saddleridi
 tags:
   - tack
 name:

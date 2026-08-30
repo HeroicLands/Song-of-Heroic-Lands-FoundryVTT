@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ring Hauberk
-  - armorgear-RHbk
 tags: []
 name:
   full: Ring Hauberk

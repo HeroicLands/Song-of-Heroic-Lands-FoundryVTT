@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Belt pouch, silk, med"
-  - containergear-bpchmdslk
 tags: []
 name:
   full: "Belt pouch, silk, med"

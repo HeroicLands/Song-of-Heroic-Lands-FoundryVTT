@@ -1,7 +1,6 @@
 ---
 aliases:
   - Net
-  - weapongear-Net
 tags: []
 name:
   full: Net

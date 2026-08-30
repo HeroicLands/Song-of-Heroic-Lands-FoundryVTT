@@ -1,7 +1,6 @@
 ---
 aliases:
   - Battlesword
-  - weapongear-BatlSwd
 tags: []
 name:
   full: Battlesword

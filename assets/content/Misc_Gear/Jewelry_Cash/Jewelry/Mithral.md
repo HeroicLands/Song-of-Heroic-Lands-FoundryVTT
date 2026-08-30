@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mithral
-  - miscgear-mithral
 tags:
   - jewelry_cash
 name:

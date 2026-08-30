@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Sack, waxed canvas, sm"
-  - containergear-sackwcsm
 tags: []
 name:
   full: "Sack, waxed canvas, sm"

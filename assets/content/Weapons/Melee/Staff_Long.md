@@ -1,7 +1,6 @@
 ---
 aliases:
   - Staff, Long
-  - weapongear-LStf
 tags: []
 name:
   full: Staff, Long

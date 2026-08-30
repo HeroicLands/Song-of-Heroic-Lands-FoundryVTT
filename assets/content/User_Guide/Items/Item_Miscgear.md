@@ -1,7 +1,6 @@
 ---
 aliases:
   - Miscellaneous Gear
-  - doc-mscllnsg
 id: 3tsCXpR4ep5hnzV1
 type: doc
 category: user-guide

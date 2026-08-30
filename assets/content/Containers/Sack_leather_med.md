@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Sack, leather, med"
-  - containergear-sackltmd
 tags: []
 name:
   full: "Sack, leather, med"

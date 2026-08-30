@@ -1,7 +1,6 @@
 ---
 aliases:
   - Condor
-  - being-condor
 tags:
   - animal
   - image-needed

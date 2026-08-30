@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Dice, pack of 6"
-  - miscgear-dicepackof
 tags:
   - expedition
 name:

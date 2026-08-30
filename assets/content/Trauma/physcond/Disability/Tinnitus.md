@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-tinnitus
+aliases: []
 tags: []
 name:
   full: Tinnitus

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ballista
-  - weapongear-Ballsta
 tags: []
 name:
   full: Ballista

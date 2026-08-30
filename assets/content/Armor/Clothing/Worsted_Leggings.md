@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Leggings
-  - armorgear-WLeg
 tags: []
 name:
   full: Worsted Leggings

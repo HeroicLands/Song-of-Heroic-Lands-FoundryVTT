@@ -1,7 +1,6 @@
 ---
 aliases:
   - Lentils
-  - miscgear-lentils
 tags:
   - food
 name:

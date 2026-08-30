@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Flour, Wheat"
-  - miscgear-flourwheat
 tags:
   - food
 name:

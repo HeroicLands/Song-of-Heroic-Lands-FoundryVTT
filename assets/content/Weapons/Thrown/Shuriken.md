@@ -1,7 +1,6 @@
 ---
 aliases:
   - Shuriken
-  - weapongear-Shrkn
 tags: []
 name:
   full: Shuriken

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jar, glass, 1 qt."
-  - containergear-jarglasssm
 tags: []
 name:
   full: "Jar, glass, 1 qt."

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mace, Steel Handle
-  - weapongear-StlMce
 tags: []
 name:
   full: Mace, Steel Handle

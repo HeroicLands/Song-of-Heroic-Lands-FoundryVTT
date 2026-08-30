@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Chest, wicker, small"
-  - containergear-chestwksm
 tags: []
 name:
   full: "Chest, wicker, small"

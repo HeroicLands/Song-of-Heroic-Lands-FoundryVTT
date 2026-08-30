@@ -1,7 +1,6 @@
 ---
 aliases:
   - Affiliation
-  - doc-affltn
 id: hJGjCXud883VX96W
 type: doc
 category: user-guide

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-mill
+aliases: []
 tags: []
 name:
   full: Milling

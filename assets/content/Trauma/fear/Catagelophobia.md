@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-ctglphb
+aliases: []
 tags: []
 name:
   full: Catagelophobia

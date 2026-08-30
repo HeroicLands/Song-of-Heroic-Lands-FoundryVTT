@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Wine, 1 pt."
-  - miscgear-winept
 tags:
   - spirits
 name:

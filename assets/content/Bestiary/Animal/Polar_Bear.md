@@ -2,7 +2,6 @@
 aliases:
   - Ice Bear
   - Polar Bear
-  - being-plrbr
 tags:
   - animal
   - image-needed

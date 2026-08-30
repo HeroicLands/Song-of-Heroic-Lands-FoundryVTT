@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sacred Quetzal
-  - being-quetzal
 tags:
   - animal
   - image-needed

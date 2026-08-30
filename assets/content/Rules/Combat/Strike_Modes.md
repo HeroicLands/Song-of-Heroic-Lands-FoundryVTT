@@ -6,7 +6,6 @@ aliases:
   - Missile Strike Mode
   - Attack Mode
   - Attack Modes
-  - doc-strkmds
 id: ixrwbYUvFCsmEkO9
 type: doc
 category: rules

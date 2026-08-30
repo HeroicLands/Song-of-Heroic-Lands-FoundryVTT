@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Long Vest
-  - armorgear-LtLngVst
 tags: []
 name:
   full: Leather Long Vest

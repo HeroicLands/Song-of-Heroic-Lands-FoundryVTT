@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-xenophb
+aliases: []
 tags: []
 name:
   full: Xenophobia

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rations, Iron
-  - miscgear-FRtns
 tags:
   - food
 name:

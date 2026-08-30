@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cold Exposure
-  - trauma-coldexp
 tags: []
 name:
   full: Cold Exposure

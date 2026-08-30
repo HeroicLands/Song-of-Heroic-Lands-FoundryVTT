@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Shirt
-  - armorgear-BShirt
 tags: []
 name:
   full: Buckram Shirt

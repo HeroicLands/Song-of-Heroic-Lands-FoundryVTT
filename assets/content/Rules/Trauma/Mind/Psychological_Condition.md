@@ -3,7 +3,6 @@ aliases:
   - Psychological Condition
   - Psyche Stress
   - Psyche Stress Level
-  - doc-psychlgc
 id: R6LpCJeZV0uruifv
 type: doc
 category: rules

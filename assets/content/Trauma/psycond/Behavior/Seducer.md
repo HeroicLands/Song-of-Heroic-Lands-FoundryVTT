@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-seducer
+aliases: []
 tags: []
 name:
   full: Seducer

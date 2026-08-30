@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ocarina Flute
-  - miscgear-ocarinaflu
 tags:
   - music
 name:

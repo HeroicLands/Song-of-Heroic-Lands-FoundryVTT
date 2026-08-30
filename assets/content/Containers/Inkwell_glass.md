@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Inkwell, glass"
-  - containergear-inkwellgla
 tags: []
 name:
   full: "Inkwell, glass"

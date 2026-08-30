@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-pediophb
+aliases: []
 tags: []
 name:
   full: Pediophobia

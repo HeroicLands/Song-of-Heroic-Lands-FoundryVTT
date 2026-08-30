@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Honey, jar"
-  - miscgear-honeyjar
 tags:
   - food
 name:

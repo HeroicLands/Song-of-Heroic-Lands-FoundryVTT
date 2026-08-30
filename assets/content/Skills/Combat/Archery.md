@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-archery
+aliases: []
 tags: []
 name:
   full: Archery

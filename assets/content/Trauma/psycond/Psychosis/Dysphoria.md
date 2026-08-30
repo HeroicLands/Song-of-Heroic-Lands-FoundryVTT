@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-dysphr
+aliases: []
 tags: []
 name:
   full: Dysphoria

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Trip
-  - skill-trip
 tags: []
 name:
   full: Trip

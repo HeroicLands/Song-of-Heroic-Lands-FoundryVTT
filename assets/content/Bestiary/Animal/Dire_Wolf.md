@@ -1,7 +1,6 @@
 ---
 aliases:
   - Dire Wolf
-  - being-direwolf
 tags:
   - animal
 name:

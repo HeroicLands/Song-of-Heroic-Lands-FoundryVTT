@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Horn, Hunting"
-  - miscgear-hornhuntin
 tags:
   - music
 name:

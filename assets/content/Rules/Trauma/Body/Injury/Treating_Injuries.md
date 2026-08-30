@@ -1,7 +1,6 @@
 ---
 aliases:
   - Treating Injuries
-  - doc-trtnginj
 id: tYs0q2sFoKHGe6vY
 type: doc
 category: rules

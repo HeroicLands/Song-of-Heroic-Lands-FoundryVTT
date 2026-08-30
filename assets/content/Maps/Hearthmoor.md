@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hearthmoor
-  - regionalmap-hearthmoor
 tags: []
 name:
   full: Hearthmoor

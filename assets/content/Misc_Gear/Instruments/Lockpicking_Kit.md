@@ -1,7 +1,6 @@
 ---
 aliases:
   - Lockpicking Kit
-  - miscgear-lkpickkit
 tags:
   - instruments
 name:

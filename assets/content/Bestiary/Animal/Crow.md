@@ -1,7 +1,6 @@
 ---
 aliases:
   - Crow
-  - being-crow
 tags:
   - animal
 name:

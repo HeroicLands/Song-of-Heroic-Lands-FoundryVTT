@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hand drill
-  - miscgear-handdrill
 tags:
   - instruments
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-enrgtc
+aliases: []
 tags: []
 name:
   full: Energetic

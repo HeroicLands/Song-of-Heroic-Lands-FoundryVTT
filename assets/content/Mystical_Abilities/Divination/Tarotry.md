@@ -1,6 +1,5 @@
 ---
-aliases:
-  - mysticalability-tarot
+aliases: []
 tags: []
 name:
   full: Tarotry

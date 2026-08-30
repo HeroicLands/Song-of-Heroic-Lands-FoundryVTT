@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jug, ceramic, 1 gallon"
-  - containergear-jugcer1gal
 tags: []
 name:
   full: "Jug, ceramic, 1 gallon"

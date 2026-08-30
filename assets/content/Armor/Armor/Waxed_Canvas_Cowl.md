@@ -1,7 +1,6 @@
 ---
 aliases:
   - Waxed Canvas Cowl
-  - armorgear-WxCvCowl
 tags: []
 name:
   full: Waxed Canvas Cowl

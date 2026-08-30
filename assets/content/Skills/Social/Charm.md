@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-chrm
+aliases: []
 tags: []
 name:
   full: Charm

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Cup, copper"
-  - miscgear-cupcopper
 tags:
   - cooking
 name:

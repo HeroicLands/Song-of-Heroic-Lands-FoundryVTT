@@ -1,7 +1,6 @@
 ---
 aliases:
   - Scabbard
-  - miscgear-scabbard
 tags:
   - expedition
 name:

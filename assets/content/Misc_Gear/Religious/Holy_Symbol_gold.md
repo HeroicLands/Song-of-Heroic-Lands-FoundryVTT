@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Holy Symbol, gold"
-  - miscgear-holysymgold
 tags:
   - religious
 name:

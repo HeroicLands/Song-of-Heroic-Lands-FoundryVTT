@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Sleeved Tunic
-  - armorgear-WSTnc
 tags: []
 name:
   full: Worsted Sleeved Tunic

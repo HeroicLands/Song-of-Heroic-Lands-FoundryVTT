@@ -1,7 +1,6 @@
 ---
 aliases:
   - Vetches
-  - miscgear-vetches
 tags:
   - food
 name:

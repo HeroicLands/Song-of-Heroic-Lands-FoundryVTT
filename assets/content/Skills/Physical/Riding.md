@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-ridg
+aliases: []
 tags: []
 name:
   full: Riding

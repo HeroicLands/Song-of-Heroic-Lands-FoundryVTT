@@ -2,7 +2,6 @@
 aliases:
   - Glossary
   - Rules Glossary
-  - doc-glossary
 id: GMJ5HjXALiKv03rx
 type: doc
 category: rules

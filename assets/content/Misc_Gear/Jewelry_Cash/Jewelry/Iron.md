@@ -1,7 +1,6 @@
 ---
 aliases:
   - Iron
-  - miscgear-iron
 tags:
   - jewelry_cash
 name:

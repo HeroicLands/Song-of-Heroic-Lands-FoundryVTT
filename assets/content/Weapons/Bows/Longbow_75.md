@@ -1,7 +1,6 @@
 ---
 aliases:
   - Longbow 75
-  - weapongear-LBw75
 tags: []
 name:
   full: Longbow 75

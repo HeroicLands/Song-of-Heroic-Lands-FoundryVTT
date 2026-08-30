@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Calf Boots
-  - armorgear-CCBoot
 tags: []
 name:
   full: Cloth Calf Boots

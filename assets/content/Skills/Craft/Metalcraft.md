@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-mtlc
+aliases: []
 tags: []
 name:
   full: Metalcraft

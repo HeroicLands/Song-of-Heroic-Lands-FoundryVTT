@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-dex
+aliases: []
 tags: []
 name:
   full: Dexterity

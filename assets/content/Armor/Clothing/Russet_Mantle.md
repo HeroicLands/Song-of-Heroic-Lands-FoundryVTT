@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Mantle
-  - armorgear-RMntl
 tags: []
 name:
   full: Russet Mantle

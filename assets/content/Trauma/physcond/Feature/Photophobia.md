@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-photophb
+aliases: []
 tags: []
 name:
   full: Photophobia

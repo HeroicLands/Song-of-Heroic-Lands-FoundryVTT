@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jar, ointment, tiny"
-  - containergear-jarointmen4
 tags: []
 name:
   full: "Jar, ointment, tiny"

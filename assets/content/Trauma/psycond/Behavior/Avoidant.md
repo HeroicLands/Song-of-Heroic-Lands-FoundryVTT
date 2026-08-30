@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-avoidant
+aliases: []
 tags: []
 name:
   full: Avoidant

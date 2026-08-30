@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jankorez, cut"
-  - miscgear-jankorezcu
 tags:
   - jewelry_cash
 name:

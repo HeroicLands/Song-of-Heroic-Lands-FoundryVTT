@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Icon, religious, wood, sm"
-  - miscgear-iconwdsm
 tags:
   - religious
 name:

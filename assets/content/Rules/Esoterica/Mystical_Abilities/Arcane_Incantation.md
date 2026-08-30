@@ -1,7 +1,6 @@
 ---
 aliases:
   - Arcane Incantation
-  - doc-arcnincn
 id: YKeuv5F1K814MSfx
 type: doc
 category: rules

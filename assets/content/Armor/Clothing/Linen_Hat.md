@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Hat
-  - armorgear-LHat
 tags: []
 name:
   full: Linen Hat

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-cmcs
+aliases: []
 tags: []
 name:
   full: Ceramics

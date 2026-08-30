@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Backpack, waxed canvas"
-  - containergear-backpkwc
 tags: []
 name:
   full: "Backpack, waxed canvas"

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Sleeved Tunic
-  - armorgear-RSTnc
 tags: []
 name:
   full: Russet Sleeved Tunic

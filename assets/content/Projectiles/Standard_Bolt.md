@@ -1,7 +1,6 @@
 ---
 aliases:
   - Standard Bolt
-  - projectilegear-BltStd
 tags: []
 name:
   full: Standard Bolt

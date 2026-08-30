@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Exotic"
-  - miscgear-hideexotic
 tags:
   - natural
 name:

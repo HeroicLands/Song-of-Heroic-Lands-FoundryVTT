@@ -1,7 +1,6 @@
 ---
 aliases:
   - Giraffe
-  - being-giraffe
 tags:
   - animal
   - image-needed

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Guard Dog
-  - being-guarddog
 tags:
   - animal
 name:

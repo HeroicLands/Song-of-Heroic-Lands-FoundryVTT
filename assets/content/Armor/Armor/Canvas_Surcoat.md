@@ -1,7 +1,6 @@
 ---
 aliases:
   - Canvas Surcoat
-  - armorgear-CvScoat
 tags: []
 name:
   full: Canvas Surcoat

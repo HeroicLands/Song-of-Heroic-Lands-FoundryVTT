@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Surcoat
-  - armorgear-PScoat
 tags: []
 name:
   full: Padded Surcoat

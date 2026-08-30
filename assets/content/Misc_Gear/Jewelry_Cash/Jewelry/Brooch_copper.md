@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brooch, copper"
-  - miscgear-broochcopper
 tags:
   - jewelry_cash
 name:

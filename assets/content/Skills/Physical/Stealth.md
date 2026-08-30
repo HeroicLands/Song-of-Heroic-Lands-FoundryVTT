@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-stlth
+aliases: []
 tags: []
 name:
   full: Stealth

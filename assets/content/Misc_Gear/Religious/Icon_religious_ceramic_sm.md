@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Icon, religious, ceramic, sm"
-  - miscgear-iconcrmcsm
 tags:
   - religious
 name:

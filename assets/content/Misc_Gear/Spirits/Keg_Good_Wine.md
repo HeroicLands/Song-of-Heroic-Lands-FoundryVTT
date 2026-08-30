@@ -1,7 +1,6 @@
 ---
 aliases:
   - Keg Good Wine
-  - miscgear-gwinekeg
 tags:
   - spirits
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Rope, 3” hemp, per ft (8,000 lb cap.)"
-  - miscgear-rope3hempp
 tags:
   - expedition
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-cytotxn
+aliases: []
 tags: []
 name:
   full: Cytotoxin

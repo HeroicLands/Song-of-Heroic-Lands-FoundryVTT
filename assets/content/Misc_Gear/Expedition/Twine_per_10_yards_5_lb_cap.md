@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Twine, per 10 yards (5 lb. cap.)"
-  - miscgear-twineper10
 tags:
   - expedition
 name:

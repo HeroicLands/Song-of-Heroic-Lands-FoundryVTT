@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-implsv
+aliases: []
 tags: []
 name:
   full: Impulsive

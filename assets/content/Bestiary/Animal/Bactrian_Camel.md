@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bactrian Camel
-  - being-bctrncml
 tags:
   - animal
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wild Boar
-  - being-wildboar
 tags:
   - animal
 name:

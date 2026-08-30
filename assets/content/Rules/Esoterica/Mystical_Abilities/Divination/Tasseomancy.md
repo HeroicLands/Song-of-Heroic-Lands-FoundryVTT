@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tasseomancy
-  - doc-tssmncy
 id: V37Cp2A3oqdWwCES
 type: doc
 category: rules

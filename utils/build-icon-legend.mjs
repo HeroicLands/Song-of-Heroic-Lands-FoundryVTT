@@ -51,20 +51,28 @@ const PAGE_ID = "GU59i07VkICWsT2l";
 const USER_GUIDE_FOLDER_ID = "IgwaG8rAUUO9vrtz";
 
 /**
- * The note's logical identity — `(type, shortcode)` — and the address alias that
- * must appear in its frontmatter.
+ * The note's logical identity — `(type, shortcode)`.
  *
- * The alias is derived here rather than typed into the template because it is
- * not decoration: Obsidian resolves `[[doc-iconlgnd]]` against the literal
- * string in a note's `aliases`, so a note without it has no address in the
- * editor where content is written, and `lint:addresses` fails the build.
- * Deriving it means the type and shortcode below cannot drift apart from it.
+ * **No `doc-iconlgnd` address alias.** The generator used to emit one, on the
+ * reasoning that Obsidian resolves `[[doc-iconlgnd]]` against the literal
+ * string in a note's `aliases`, so a note without it had no address in the
+ * editor. That was an accommodation for the editor, not a requirement of the
+ * build: both resolvers reach the address through `readQualifier` →
+ * `type/shortcode`, and `lint:addresses` — which is `content-build lint` — is
+ * clean without it. Every note in the tree has had its self-alias removed for
+ * that reason; a generator that kept emitting one would put this page's back
+ * on the next run.
+ *
+ * It also has to go rather than merely being tolerated: under the four-segment
+ * address grammar (HeroicLands/package-build#59) the pipe distinguishes an
+ * alias lookup from an address lookup, so a note listing its own address among
+ * its aliases makes `[[doc-iconlgnd]]` and `[[doc-iconlgnd|]]` collide on the
+ * same note.
  *
  * See kb/dev-docs/reference/content-links.md.
  */
 const PAGE_TYPE = "doc";
 const PAGE_SHORTCODE = "iconlgnd";
-const ADDRESS_ALIAS = `${PAGE_TYPE}-${PAGE_SHORTCODE}`;
 
 /** Flatten lang/en.json into dotted keys so `SOHL.A.B` resolves in one lookup. */
 function flattenLang(obj, prefix = "", out = {}) {
@@ -354,7 +362,6 @@ aliases:
     - Icon Legend
     - Icons
     - Glyphs
-    - ${ADDRESS_ALIAS}
 id: ${PAGE_ID}
 type: ${PAGE_TYPE}
 category: user-guide
@@ -397,6 +404,11 @@ ${body}
  * disk had gained the `doc-iconlgnd` address alias the generator never emitted,
  * so the *next* run of `npm run build:icon-legend` would have deleted it and
  * taken every `[[doc-iconlgnd]]` link down with it.
+ *
+ * The alias has since been removed from the whole tree and from this generator,
+ * and the gate earned its keep a second time in doing so: the sweep edited this
+ * page like any other and the check caught the generator still emitting the
+ * line, rather than letting the next regeneration quietly restore it.
  *
  * Same shape as `lint:expr-scopes` and `lint:type-catalog`: the generator is the
  * authority, and the gate is the generator asked whether it agrees with the tree.

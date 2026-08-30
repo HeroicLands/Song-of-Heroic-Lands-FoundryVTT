@@ -1,7 +1,6 @@
 ---
 aliases:
   - Pigeon
-  - miscgear-pigeon
 tags:
   - food
 name:

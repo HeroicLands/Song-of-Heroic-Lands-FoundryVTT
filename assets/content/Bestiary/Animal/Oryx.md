@@ -1,7 +1,6 @@
 ---
 aliases:
   - Oryx
-  - being-oryx
 tags:
   - animal
   - image-needed

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Blanket, light
-  - miscgear-LiteBlkt
 tags:
   - expedition
 name:

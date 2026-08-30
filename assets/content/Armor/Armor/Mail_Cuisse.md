@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mail Cuisse
-  - armorgear-MCui
 tags: []
 name:
   full: Mail Cuisse

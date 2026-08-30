@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ermine Shirt
-  - armorgear-EShirt
 tags: []
 name:
   full: Ermine Shirt

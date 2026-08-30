@@ -1,7 +1,6 @@
 ---
 aliases:
   - Horned Toad
-  - being-hrndtd
 tags:
   - animal
 name:

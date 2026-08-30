@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sugar
-  - miscgear-sugar
 tags:
   - food
 name:

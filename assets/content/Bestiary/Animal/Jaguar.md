@@ -2,7 +2,6 @@
 aliases:
   - Ix'balam
   - Jaguar
-  - being-jaguar
 tags:
   - animal
   - image-needed

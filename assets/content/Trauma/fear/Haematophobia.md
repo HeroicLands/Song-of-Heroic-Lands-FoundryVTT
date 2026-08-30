@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-hmtphb
+aliases: []
 tags: []
 name:
   full: Haematophobia

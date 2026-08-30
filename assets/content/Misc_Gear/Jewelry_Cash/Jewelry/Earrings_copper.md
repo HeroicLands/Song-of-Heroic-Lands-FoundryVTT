@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Earrings, copper"
-  - miscgear-earringscopper
 tags:
   - jewelry_cash
 name:

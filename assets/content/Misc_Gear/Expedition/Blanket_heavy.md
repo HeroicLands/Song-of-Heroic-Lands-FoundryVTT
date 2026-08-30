@@ -1,7 +1,6 @@
 ---
 aliases:
   - Blanket, heavy
-  - miscgear-HvyBlkt
 tags:
   - expedition
 name:

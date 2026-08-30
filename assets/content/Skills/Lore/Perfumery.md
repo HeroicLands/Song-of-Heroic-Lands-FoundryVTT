@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-pfmy
+aliases: []
 tags: []
 name:
   full: Perfumery

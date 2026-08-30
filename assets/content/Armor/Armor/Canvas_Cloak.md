@@ -1,7 +1,6 @@
 ---
 aliases:
   - Canvas Cloak
-  - armorgear-CvCloak
 tags: []
 name:
   full: Canvas Cloak

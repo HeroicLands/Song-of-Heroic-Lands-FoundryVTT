@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-dramatic
+aliases: []
 tags: []
 name:
   full: Dramatic

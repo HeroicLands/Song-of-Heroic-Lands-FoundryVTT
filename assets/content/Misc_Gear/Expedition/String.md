@@ -1,7 +1,6 @@
 ---
 aliases:
   - String
-  - miscgear-string
 tags:
   - expedition
 name:

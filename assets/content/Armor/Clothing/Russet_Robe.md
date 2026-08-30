@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Robe
-  - armorgear-RRobe
 tags: []
 name:
   full: Russet Robe

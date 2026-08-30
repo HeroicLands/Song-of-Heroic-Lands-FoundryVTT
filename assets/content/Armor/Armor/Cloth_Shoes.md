@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Shoes
-  - armorgear-CShoe
 tags: []
 name:
   full: Cloth Shoes

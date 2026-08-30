@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Cap
-  - armorgear-CCap
 tags: []
 name:
   full: Cloth Cap

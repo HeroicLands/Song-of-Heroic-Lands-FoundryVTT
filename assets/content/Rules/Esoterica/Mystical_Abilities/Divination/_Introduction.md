@@ -1,7 +1,6 @@
 ---
 aliases:
   - Divination Introduction
-  - doc-divintro
 id: Nao57h8vo7wCINl9
 type: doc
 category: rules

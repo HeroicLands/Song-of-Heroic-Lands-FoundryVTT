@@ -1,7 +1,6 @@
 ---
 aliases:
   - Palfrey
-  - being-palfrey
 tags:
   - animal
 name:

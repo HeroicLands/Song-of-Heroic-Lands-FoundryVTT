@@ -2,7 +2,6 @@
 aliases:
   - Gnu
   - Wildebeest
-  - being-wldbst
 tags:
   - animal
   - image-needed

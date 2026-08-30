@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-effcttrg
+aliases: []
 id: U0j0CeD2HOvqJ3UX
 type: doc
 category: user-guide

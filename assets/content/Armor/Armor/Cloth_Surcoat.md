@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Surcoat
-  - armorgear-CScoat
 tags: []
 name:
   full: Cloth Surcoat

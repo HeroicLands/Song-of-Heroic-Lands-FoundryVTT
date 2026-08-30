@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-cre
+aliases: []
 tags: []
 name:
   full: Creativity

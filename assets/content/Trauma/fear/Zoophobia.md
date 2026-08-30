@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-zoophb
+aliases: []
 tags: []
 name:
   full: Zoophobia

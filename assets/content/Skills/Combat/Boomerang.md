@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-bmrng
+aliases: []
 tags: []
 name:
   full: Boomerang

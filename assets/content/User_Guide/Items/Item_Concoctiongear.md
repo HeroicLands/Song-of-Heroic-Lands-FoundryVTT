@@ -1,7 +1,6 @@
 ---
 aliases:
   - Concoction
-  - doc-cncctn
 id: nV3Nq6xe3fUcJJzd
 type: doc
 category: user-guide

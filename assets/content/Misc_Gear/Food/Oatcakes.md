@@ -1,7 +1,6 @@
 ---
 aliases:
   - Oatcakes
-  - miscgear-oatcakes
 tags:
   - food
 name:

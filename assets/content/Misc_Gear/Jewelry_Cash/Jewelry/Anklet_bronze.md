@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Anklet, bronze"
-  - miscgear-ankletbronze
 tags:
   - jewelry_cash
 name:

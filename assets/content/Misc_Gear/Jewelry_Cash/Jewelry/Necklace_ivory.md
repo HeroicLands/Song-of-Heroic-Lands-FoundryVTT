@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Necklace, ivory"
-  - miscgear-necklaceivory
 tags:
   - jewelry_cash
 name:

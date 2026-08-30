@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-infect
+aliases: []
 tags: []
 name:
   full: Infected

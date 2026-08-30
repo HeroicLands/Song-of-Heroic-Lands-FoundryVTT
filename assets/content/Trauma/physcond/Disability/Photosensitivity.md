@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-photosen
+aliases: []
 tags: []
 name:
   full: Photosensitivity

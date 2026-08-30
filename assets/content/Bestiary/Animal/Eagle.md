@@ -1,7 +1,6 @@
 ---
 aliases:
   - Eagle
-  - being-eagle
 tags:
   - animal
 name:

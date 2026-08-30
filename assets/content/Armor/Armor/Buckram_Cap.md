@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Cap
-  - armorgear-BCap
 tags: []
 name:
   full: Buckram Cap

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brandy, Dram"
-  - miscgear-brdydrm
 tags:
   - spirits
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Sleeved Tunic
-  - armorgear-CSTnc
 tags: []
 name:
   full: Cloth Sleeved Tunic

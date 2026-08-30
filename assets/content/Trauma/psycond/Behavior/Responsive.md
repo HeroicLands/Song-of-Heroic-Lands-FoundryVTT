@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-rspnsv
+aliases: []
 tags: []
 name:
   full: Responsive

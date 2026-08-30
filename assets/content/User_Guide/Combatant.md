@@ -2,7 +2,6 @@
 aliases:
   - Combatant
   - Combatants
-  - doc-cmbtnt
 id: ORi4BIBMecFVaG4I
 type: doc
 category: user-guide

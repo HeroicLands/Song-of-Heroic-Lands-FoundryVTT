@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Wedge, splitting"
-  - miscgear-wedgesplit
 tags:
   - expedition
 name:

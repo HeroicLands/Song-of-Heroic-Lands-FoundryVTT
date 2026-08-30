@@ -1,7 +1,6 @@
 ---
 aliases:
   - River Blindness
-  - affliction-rivrblnd
 tags: []
 name:
   full: River Blindness

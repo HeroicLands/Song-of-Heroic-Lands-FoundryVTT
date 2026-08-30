@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Bread, Wheat, loaf"
-  - miscgear-breadwheat
 tags:
   - food
 name:

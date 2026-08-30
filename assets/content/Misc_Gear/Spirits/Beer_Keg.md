@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Beer, Keg"
-  - miscgear-beerkeg
 tags:
   - spirits
 name:

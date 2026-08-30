@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-polydact
+aliases: []
 tags: []
 name:
   full: Polydactyly

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tabûri
-  - weapongear-Taburi
 tags: []
 name:
   full: Tabûri

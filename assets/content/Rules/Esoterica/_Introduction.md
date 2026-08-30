@@ -1,7 +1,6 @@
 ---
 aliases:
   - Esoterica Introduction
-  - doc-estrcint
 id: p9VfAypidUzXgdD0
 type: doc
 category: rules

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Flask, Metal"
-  - containergear-flaskmetal
 tags: []
 name:
   full: "Flask, Metal"

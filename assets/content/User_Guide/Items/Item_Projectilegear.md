@@ -1,7 +1,6 @@
 ---
 aliases:
   - Projectile
-  - doc-prjctl
 id: vsv4MPXDQcskQEl9
 type: doc
 category: user-guide

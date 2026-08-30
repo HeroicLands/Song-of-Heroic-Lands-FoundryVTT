@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hunting Dog
-  - being-hntngdg
 tags:
   - animal
 name:

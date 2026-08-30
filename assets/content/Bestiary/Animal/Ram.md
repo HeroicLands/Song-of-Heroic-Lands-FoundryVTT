@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ram
-  - being-ramanml
 tags:
   - animal
 name:

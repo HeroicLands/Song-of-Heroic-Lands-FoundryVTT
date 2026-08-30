@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-htfat
+aliases: []
 tags: []
 name:
   full: Heat-Fatigued

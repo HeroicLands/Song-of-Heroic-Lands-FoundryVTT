@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Leggings
-  - armorgear-PLeg
 tags: []
 name:
   full: Padded Leggings

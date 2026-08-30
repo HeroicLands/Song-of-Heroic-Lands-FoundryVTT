@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-lock
+aliases: []
 tags: []
 name:
   full: Lockcraft

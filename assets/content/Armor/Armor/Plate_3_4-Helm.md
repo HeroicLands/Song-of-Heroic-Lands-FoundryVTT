@@ -2,7 +2,6 @@
 aliases:
   - Plate 3/4-Helm
   - Plate ¾-Helm
-  - armorgear-Pl34Hlm
 tags: []
 name:
   full: Plate ¾-Helm

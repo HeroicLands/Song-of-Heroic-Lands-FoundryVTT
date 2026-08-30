@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Ermine/Sable"
-  - miscgear-hideermine
 tags:
   - natural
 name:

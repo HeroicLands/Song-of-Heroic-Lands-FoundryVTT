@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wolverine
-  - being-wlvrn
 tags:
   - animal
 name:

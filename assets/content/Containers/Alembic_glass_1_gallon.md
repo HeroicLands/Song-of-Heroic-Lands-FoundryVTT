@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Alembic, glass, 1 gallon"
-  - containergear-alembgl1g
 tags: []
 name:
   full: "Alembic, glass, 1 gallon"

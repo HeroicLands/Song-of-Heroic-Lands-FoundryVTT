@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Oil, Lamp"
-  - miscgear-oillamp
 tags:
   - lighting
 name:

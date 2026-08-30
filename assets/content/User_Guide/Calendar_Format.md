@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-clndrjsn
+aliases: []
 id: eFiHzB4DASknXQ2l
 type: doc
 category: user-guide

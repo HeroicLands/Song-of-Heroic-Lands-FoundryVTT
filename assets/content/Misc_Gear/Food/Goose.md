@@ -1,7 +1,6 @@
 ---
 aliases:
   - Goose
-  - miscgear-goose
 tags:
   - food
 name:

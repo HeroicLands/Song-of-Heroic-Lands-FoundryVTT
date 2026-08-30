@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Quiver, lg (shoulder)"
-  - containergear-quiverlgsh
 tags: []
 name:
   full: "Quiver, lg (shoulder)"

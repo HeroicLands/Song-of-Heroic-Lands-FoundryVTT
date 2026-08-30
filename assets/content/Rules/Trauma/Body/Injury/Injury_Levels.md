@@ -1,7 +1,6 @@
 ---
 aliases:
   - Injury Levels
-  - doc-injrylvl
 id: B1UF3CTHNtQKtIxC
 type: doc
 category: rules

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Water Buffalo
-  - being-wtrbffl
 tags:
   - animal
   - image-needed

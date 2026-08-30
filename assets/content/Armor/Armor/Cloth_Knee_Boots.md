@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Knee Boots
-  - armorgear-CKBoot
 tags: []
 name:
   full: Cloth Knee Boots

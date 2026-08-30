@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-decisive
+aliases: []
 tags: []
 name:
   full: Decisive

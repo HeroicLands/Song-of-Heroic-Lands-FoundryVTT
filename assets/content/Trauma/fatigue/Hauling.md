@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-haul
+aliases: []
 tags: []
 name:
   full: Hauling

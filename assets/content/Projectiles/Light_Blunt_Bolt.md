@@ -1,7 +1,6 @@
 ---
 aliases:
   - Light Blunt Bolt
-  - projectilegear-BltLBlt
 tags: []
 name:
   full: Light Blunt Bolt

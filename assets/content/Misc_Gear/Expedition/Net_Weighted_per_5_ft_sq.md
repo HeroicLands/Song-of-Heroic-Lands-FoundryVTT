@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Net, Weighted, per 5 ft sq."
-  - miscgear-netweighte
 tags:
   - expedition
 name:

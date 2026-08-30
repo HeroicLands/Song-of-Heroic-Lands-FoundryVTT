@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Leggings
-  - armorgear-SlkLeg
 tags: []
 name:
   full: Silk Leggings

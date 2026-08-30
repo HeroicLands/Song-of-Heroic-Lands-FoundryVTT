@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gambeson Coat
-  - armorgear-GCoat
 tags: []
 name:
   full: Gambeson Coat

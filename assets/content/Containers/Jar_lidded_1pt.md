@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jar, lidded, 1 pint"
-  - containergear-jarliddeds
 tags: []
 name:
   full: "Jar, lidded, 1 pint"

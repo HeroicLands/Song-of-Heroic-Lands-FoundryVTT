@@ -1,7 +1,6 @@
 ---
 aliases:
   - Beaver Vest
-  - armorgear-BvVest
 tags: []
 name:
   full: Beaver Vest

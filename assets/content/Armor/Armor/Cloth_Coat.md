@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Coat
-  - armorgear-CCoat
 tags: []
 name:
   full: Cloth Coat

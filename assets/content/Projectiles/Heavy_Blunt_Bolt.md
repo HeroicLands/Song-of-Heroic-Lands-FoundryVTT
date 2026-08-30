@@ -1,7 +1,6 @@
 ---
 aliases:
   - Heavy Blunt Bolt
-  - projectilegear-BltHBlt
 tags: []
 name:
   full: Heavy Blunt Bolt

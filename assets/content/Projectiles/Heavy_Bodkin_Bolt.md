@@ -1,7 +1,6 @@
 ---
 aliases:
   - Heavy Bodkin Bolt
-  - projectilegear-BltHBod
 tags: []
 name:
   full: Heavy Bodkin Bolt

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Apron
-  - armorgear-SlkApn
 tags: []
 name:
   full: Silk Apron

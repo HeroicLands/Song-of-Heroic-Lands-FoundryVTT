@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-clptphb
+aliases: []
 tags: []
 name:
   full: Cleptophobia

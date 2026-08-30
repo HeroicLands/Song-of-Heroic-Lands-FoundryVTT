@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tin
-  - miscgear-tin
 tags:
   - jewelry_cash
 name:

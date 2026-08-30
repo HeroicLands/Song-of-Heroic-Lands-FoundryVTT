@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-aquaphb
+aliases: []
 tags: []
 name:
   full: Aquaphobia

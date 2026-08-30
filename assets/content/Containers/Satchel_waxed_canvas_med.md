@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Satchel, waxed canvas, med"
-  - containergear-satchwcmd
 tags: []
 name:
   full: "Satchel, waxed canvas, med"

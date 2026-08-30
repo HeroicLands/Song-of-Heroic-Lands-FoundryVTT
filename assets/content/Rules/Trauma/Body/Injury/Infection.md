@@ -2,7 +2,6 @@
 aliases:
   - Infection
   - Infection Healing Test
-  - doc-infctn
 id: oG7E0HWgfvWL6uUQ
 type: doc
 category: rules

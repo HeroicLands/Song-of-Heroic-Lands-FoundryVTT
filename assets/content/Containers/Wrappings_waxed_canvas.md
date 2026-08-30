@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Wrappings, waxed canvas"
-  - containergear-wrapwaxcv
 tags: []
 name:
   full: "Wrappings, waxed canvas"

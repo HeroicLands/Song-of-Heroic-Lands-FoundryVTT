@@ -1,7 +1,6 @@
 ---
 aliases:
   - Dromedary Camel
-  - being-drmdrycm
 tags:
   - animal
 name:

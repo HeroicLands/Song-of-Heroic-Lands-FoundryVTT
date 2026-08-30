@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Cloak
-  - armorgear-PdClk
 tags: []
 name:
   full: Padded Cloak

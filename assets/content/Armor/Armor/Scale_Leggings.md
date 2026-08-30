@@ -1,7 +1,6 @@
 ---
 aliases:
   - Scale Leggings
-  - armorgear-SLeg
 tags: []
 name:
   full: Scale Leggings

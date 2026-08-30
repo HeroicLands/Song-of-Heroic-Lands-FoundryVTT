@@ -1,7 +1,6 @@
 ---
 aliases:
   - Canvas Robe
-  - armorgear-CvRobe
 tags: []
 name:
   full: Canvas Robe

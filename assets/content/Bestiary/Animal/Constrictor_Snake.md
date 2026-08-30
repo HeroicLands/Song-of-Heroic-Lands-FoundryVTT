@@ -1,7 +1,6 @@
 ---
 aliases:
   - Constrictor Snake
-  - being-cnstrctr
 tags:
   - animal
 name:

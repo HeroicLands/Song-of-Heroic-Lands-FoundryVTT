@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Swaddle
-  - armorgear-BSwd
 tags: []
 name:
   full: Buckram Swaddle

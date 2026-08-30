@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-sspcs
+aliases: []
 tags: []
 name:
   full: Suspicious

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Alembic, copper, 5 gallon"
-  - containergear-alembcu5g
 tags: []
 name:
   full: "Alembic, copper, 5 gallon"

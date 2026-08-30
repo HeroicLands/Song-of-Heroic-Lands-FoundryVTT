@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-fish
+aliases: []
 tags: []
 name:
   full: Fishing

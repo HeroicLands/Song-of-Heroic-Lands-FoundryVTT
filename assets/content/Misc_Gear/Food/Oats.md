@@ -1,7 +1,6 @@
 ---
 aliases:
   - Oats
-  - miscgear-oats
 tags:
   - food
 name:

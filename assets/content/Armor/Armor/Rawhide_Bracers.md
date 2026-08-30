@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rawhide Bracers
-  - armorgear-RhBrcr
 tags: []
 name:
   full: Rawhide Bracers

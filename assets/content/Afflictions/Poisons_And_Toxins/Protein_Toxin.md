@@ -1,7 +1,6 @@
 ---
 aliases:
   - Protein Toxin
-  - affliction-prottxn
 tags: []
 name:
   full: Protein Toxin

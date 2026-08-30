@@ -1,7 +1,6 @@
 ---
 aliases:
   - Body Trauma Introduction
-  - doc-bodytrmaintro
 id: Yjn2JOJNvxe0I9HY
 type: doc
 category: rules

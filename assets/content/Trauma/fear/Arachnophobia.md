@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-aracphb
+aliases: []
 tags: []
 name:
   full: Arachnophobia

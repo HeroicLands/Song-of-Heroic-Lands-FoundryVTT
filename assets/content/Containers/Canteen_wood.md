@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Canteen, wood"
-  - containergear-cantwood
 tags: []
 name:
   full: "Canteen, wood"

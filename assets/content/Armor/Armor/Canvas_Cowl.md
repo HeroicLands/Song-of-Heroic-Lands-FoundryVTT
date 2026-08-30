@@ -1,7 +1,6 @@
 ---
 aliases:
   - Canvas Cowl
-  - armorgear-CvCowl
 tags: []
 name:
   full: Canvas Cowl

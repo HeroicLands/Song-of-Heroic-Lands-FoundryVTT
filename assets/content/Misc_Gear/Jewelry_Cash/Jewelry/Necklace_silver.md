@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Necklace, silver"
-  - miscgear-necklacesilver
 tags:
   - jewelry_cash
 name:

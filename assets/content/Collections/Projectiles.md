@@ -1,7 +1,6 @@
 ---
 aliases:
   - Projectiles
-  - doc-projectils
 id: DuzvuEQp2xMqiZWY
 name:
   full: Projectiles

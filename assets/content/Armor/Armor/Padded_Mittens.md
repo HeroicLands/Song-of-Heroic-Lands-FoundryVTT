@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Mittens
-  - armorgear-PMitn
 tags: []
 name:
   full: Padded Mittens

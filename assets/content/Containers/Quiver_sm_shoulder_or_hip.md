@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Quiver, sm (shoulder or hip)"
-  - containergear-quiversmsh
 tags: []
 name:
   full: "Quiver, sm (shoulder or hip)"

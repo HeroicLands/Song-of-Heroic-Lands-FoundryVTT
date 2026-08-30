@@ -2,7 +2,6 @@
 aliases:
   - Xerathian Wild Dog
   - Painted Dog
-  - being-pntddg
 tags:
   - animal
   - image-needed

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Cage, wooden, large"
-  - miscgear-cagewoodlg
 tags:
   - expedition
 name:

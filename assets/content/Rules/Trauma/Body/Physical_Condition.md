@@ -2,7 +2,6 @@
 aliases:
   - Physical Condition
   - Physical Conditions
-  - doc-physclcn
 id: BkGKJhvkDMx4HOrQ
 type: doc
 category: rules

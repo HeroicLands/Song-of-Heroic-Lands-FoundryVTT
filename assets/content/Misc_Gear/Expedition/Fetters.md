@@ -1,7 +1,6 @@
 ---
 aliases:
   - Fetters
-  - miscgear-fetters
 tags:
   - expedition
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Haruspicy
-  - doc-hrspcy
 id: jlpNdIs8NF0IB4MP
 type: doc
 category: rules

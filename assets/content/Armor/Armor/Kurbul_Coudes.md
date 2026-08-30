@@ -2,7 +2,6 @@
 aliases:
   - Kurbul Coudes
   - Kûrbúl Coudes
-  - armorgear-KCou
 tags: []
 name:
   full: Kûrbúl Coudes

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wild Horse
-  - being-wldhrs
 tags:
   - animal
   - image-needed

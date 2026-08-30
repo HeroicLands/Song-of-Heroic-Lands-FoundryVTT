@@ -1,7 +1,6 @@
 ---
 aliases:
   - Serge Skirt
-  - armorgear-SgSkirt
 tags: []
 name:
   full: Serge Skirt

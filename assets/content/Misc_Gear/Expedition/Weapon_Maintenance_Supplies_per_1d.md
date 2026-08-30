@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Weapon Maintenance Supplies, per 1d"
-  - miscgear-wpnsup
 tags:
   - expedition
 name:

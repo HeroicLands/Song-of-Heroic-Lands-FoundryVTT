@@ -1,7 +1,6 @@
 ---
 aliases:
   - Plate Great Helm
-  - armorgear-PlGtHlm
 tags: []
 name:
   full: Plate Great Helm

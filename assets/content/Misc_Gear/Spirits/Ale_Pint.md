@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ale, Pint"
-  - miscgear-alept
 tags:
   - spirits
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Monitor Lizard
-  - being-mntrlzrd
 tags:
   - animal
 name:

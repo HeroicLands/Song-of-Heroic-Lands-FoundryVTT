@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Robe
-  - armorgear-SlkRobe
 tags: []
 name:
   full: Silk Robe

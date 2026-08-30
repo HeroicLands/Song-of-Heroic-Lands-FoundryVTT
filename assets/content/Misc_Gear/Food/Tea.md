@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tea
-  - miscgear-tea
 tags:
   - food
 name:

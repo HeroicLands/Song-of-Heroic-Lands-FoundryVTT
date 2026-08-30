@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Elk"
-  - miscgear-hideelk
 tags:
   - natural
 name:

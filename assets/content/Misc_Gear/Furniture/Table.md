@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Table"
-  - miscgear-table
 tags:
   - furniture
 name:

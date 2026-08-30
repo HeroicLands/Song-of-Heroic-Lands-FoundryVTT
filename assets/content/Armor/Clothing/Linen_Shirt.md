@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Shirt
-  - armorgear-LShirt
 tags: []
 name:
   full: Linen Shirt

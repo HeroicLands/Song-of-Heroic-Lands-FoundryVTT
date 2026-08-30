@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-vigilant
+aliases: []
 tags: []
 name:
   full: Vigilant

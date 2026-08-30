@@ -1,7 +1,6 @@
 ---
 aliases:
   - Springald
-  - weapongear-Sprngld
 tags: []
 name:
   full: Springald

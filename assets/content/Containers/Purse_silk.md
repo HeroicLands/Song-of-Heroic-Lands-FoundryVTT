@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Purse, silk"
-  - containergear-pursesilk
 tags: []
 name:
   full: "Purse, silk"

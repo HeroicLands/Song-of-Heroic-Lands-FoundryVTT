@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-adapt
+aliases: []
 tags: []
 name:
   full: Adaptable

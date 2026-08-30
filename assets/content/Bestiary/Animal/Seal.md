@@ -1,7 +1,6 @@
 ---
 aliases:
   - Grey Seal
-  - being-seal
 tags:
   - animal
   - image-needed

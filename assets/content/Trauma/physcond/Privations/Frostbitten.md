@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-frost
+aliases: []
 tags: []
 name:
   full: Frostbitten

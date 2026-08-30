@@ -1,7 +1,6 @@
 ---
 aliases:
   - Spear
-  - weapongear-Spr
 tags: []
 name:
   full: Spear

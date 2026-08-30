@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Satchel, waxed canvas, lg"
-  - containergear-satchwclg
 tags: []
 name:
   full: "Satchel, waxed canvas, lg"

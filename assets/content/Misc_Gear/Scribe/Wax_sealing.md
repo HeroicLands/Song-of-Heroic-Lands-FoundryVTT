@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Wax, sealing"
-  - miscgear-waxsealing
 tags:
   - scribe
 name:

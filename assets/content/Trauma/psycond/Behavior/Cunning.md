@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-cunning
+aliases: []
 tags: []
 name:
   full: Cunning

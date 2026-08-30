@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-frigophb
+aliases: []
 tags: []
 name:
   full: Frigophobia

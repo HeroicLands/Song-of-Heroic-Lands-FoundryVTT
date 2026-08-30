@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-clmb
+aliases: []
 tags: []
 name:
   full: Climbing

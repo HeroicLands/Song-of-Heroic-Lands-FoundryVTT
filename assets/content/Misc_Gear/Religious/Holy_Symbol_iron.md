@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Holy Symbol, iron"
-  - miscgear-holysymiron
 tags:
   - religious
 name:

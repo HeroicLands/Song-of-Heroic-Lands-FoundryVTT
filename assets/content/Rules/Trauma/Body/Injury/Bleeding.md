@@ -4,7 +4,6 @@ aliases:
   - Blood Loss
   - Blood Loss Advance Test
   - Blood Stoppage Test
-  - doc-bleeding
 id: edDvJKnODEldyaSh
 type: doc
 category: rules

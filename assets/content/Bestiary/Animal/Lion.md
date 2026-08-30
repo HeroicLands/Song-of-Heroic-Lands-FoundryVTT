@@ -1,7 +1,6 @@
 ---
 aliases:
   - Lion
-  - being-lion
 tags:
   - animal
 name:

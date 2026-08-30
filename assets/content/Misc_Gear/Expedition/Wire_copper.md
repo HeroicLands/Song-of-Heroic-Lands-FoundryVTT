@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Wire, copper"
-  - miscgear-wirecopper
 tags:
   - expedition
 name:

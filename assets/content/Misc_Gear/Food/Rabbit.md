@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rabbit
-  - miscgear-rabbit
 tags:
   - food
 name:

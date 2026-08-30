@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Candlestick, iron"
-  - miscgear-candlestic
 tags:
   - lighting
 name:

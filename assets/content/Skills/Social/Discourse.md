@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-dscr
+aliases: []
 tags: []
 name:
   full: Discourse

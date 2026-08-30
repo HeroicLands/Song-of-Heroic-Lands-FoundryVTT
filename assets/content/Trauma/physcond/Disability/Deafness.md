@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-deafness
+aliases: []
 tags: []
 name:
   full: Deafness

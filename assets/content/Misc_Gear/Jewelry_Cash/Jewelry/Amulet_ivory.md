@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amulet, ivory"
-  - miscgear-amuletivory
 tags:
   - jewelry_cash
 name:

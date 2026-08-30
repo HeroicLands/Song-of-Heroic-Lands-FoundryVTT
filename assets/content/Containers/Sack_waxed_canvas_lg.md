@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Sack, waxed canvas, lg"
-  - containergear-sackwclg
 tags: []
 name:
   full: "Sack, waxed canvas, lg"

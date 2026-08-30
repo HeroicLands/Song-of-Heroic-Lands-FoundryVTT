@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-jewl
+aliases: []
 tags: []
 name:
   full: Jewelcraft

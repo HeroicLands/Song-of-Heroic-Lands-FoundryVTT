@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-cmbtbscs
+aliases: []
 id: Mi1p8gYEKJ91dxsM
 type: doc
 category: user-guide

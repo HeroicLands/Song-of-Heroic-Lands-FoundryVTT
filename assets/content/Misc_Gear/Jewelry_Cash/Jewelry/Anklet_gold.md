@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Anklet, gold"
-  - miscgear-ankletgold
 tags:
   - jewelry_cash
 name:

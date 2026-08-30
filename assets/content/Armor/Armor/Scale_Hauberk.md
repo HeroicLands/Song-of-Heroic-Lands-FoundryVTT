@@ -1,7 +1,6 @@
 ---
 aliases:
   - Scale Hauberk
-  - armorgear-SHaub
 tags: []
 name:
   full: Scale Hauberk

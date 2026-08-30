@@ -2,7 +2,6 @@
 aliases:
   - Kurbul Helm
   - Kûrbúl Helm
-  - armorgear-KHlm
 tags: []
 name:
   full: Kûrbúl Helm

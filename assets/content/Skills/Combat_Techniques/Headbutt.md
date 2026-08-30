@@ -1,7 +1,6 @@
 ---
 aliases:
   - Headbutt
-  - skill-bflkheadbutt
 tags: []
 name:
   full: Folk Headbutt

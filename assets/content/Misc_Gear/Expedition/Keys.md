@@ -1,7 +1,6 @@
 ---
 aliases:
   - Keys
-  - miscgear-keys
 tags:
   - expedition
 name:

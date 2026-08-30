@@ -1,7 +1,6 @@
 ---
 aliases:
   - Chalk Sticks
-  - miscgear-chalkstick
 tags:
   - expedition
 name:

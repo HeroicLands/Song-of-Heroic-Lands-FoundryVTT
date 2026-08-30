@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-wrkngwth
+aliases: []
 id: qB7c6j4tnrijhQ3P
 type: doc
 category: user-guide

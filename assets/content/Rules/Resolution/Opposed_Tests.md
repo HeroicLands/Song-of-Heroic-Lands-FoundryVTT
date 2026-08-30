@@ -4,7 +4,6 @@ aliases:
   - Opposed Success Test
   - Victory Degrees
   - Victory Stars
-  - doc-oppsdtst
 id: qu9CxTZmDhQa31YN
 type: doc
 category: rules

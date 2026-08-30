@@ -2,7 +2,6 @@
 aliases:
   - Kurbul Kneecops
   - Kûrbúl Kneecops
-  - armorgear-KKnee
 tags: []
 name:
   full: Kûrbúl Kneecops

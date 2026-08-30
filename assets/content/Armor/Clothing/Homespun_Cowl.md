@@ -1,7 +1,6 @@
 ---
 aliases:
   - Homespun Cowl
-  - armorgear-HsCowl
 tags: []
 name:
   full: Homespun Cowl

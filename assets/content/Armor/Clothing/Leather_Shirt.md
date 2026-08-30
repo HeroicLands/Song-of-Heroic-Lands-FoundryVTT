@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Shirt
-  - armorgear-LtShirt
 tags: []
 name:
   full: Leather Shirt

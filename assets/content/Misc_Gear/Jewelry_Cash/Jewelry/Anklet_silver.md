@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Anklet, silver"
-  - miscgear-ankletsilver
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-cnfdnt
+aliases: []
 tags: []
 name:
   full: Confident

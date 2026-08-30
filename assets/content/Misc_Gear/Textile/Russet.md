@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Russet, per sq yard"
-  - miscgear-russet
 tags:
   - clothing
 name:

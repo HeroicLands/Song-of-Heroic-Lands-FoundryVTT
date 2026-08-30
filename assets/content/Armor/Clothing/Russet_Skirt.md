@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Skirt
-  - armorgear-RSkirt
 tags: []
 name:
   full: Russet Skirt

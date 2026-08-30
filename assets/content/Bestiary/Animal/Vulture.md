@@ -1,7 +1,6 @@
 ---
 aliases:
   - Vulture
-  - being-vulture
 tags:
   - animal
   - image-needed

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amulet, bronze"
-  - miscgear-amuletbronze
 tags:
   - jewelry_cash
 name:

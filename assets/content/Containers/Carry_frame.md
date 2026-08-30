@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Carry frame"
-  - containergear-carryframe
 tags: []
 name:
   full: "Carry frame"

@@ -4,7 +4,6 @@ aliases:
   - SV Test
   - Success Value
   - Value Diamonds
-  - doc-sccssvlt
 id: PqED2bmjJU5AdEsU
 type: doc
 category: rules

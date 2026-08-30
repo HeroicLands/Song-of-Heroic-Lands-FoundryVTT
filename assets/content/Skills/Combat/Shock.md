@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-shok
+aliases: []
 tags: []
 name:
   full: Shock

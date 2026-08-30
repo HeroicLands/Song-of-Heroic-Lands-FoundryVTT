@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Cow"
-  - miscgear-hidecow
 tags:
   - natural
 name:

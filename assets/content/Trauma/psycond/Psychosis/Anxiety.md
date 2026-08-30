@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-anxiety
+aliases: []
 tags: []
 name:
   full: Anxiety

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Barley
-  - miscgear-barley
 tags:
   - food
 name:

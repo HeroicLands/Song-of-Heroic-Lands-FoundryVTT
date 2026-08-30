@@ -1,7 +1,6 @@
 ---
 aliases:
   - Maul
-  - weapongear-Maul
 tags: []
 name:
   full: Maul

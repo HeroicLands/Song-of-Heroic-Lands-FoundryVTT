@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-blndnss
+aliases: []
 tags: []
 name:
   full: Blindness

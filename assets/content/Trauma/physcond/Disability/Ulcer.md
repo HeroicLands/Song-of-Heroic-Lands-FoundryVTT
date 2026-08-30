@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-ulcer
+aliases: []
 tags: []
 name:
   full: Ulcer

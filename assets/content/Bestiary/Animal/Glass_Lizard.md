@@ -1,7 +1,6 @@
 ---
 aliases:
   - Glass Lizard
-  - being-glsslzrd
 tags:
   - animal
 name:

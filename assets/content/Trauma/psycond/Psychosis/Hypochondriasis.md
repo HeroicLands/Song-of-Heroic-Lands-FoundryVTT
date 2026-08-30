@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-hypochon
+aliases: []
 tags: []
 name:
   full: Hypochondriasis

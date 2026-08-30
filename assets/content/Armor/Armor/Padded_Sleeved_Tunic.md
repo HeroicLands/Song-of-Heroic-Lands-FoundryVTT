@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Sleeved Tunic
-  - armorgear-PSTnc
 tags: []
 name:
   full: Padded Sleeved Tunic

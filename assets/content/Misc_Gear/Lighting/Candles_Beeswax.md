@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Candles, Beeswax"
-  - miscgear-candlesbee
 tags:
   - lighting
 name:

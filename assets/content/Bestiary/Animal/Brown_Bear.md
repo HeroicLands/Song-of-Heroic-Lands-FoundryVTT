@@ -1,7 +1,6 @@
 ---
 aliases:
   - Brown Bear
-  - being-brwnbr
 tags:
   - animal
 name:

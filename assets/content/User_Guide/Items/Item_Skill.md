@@ -1,7 +1,6 @@
 ---
 aliases:
   - Skill
-  - doc-skill
 id: rbl6nD2s5gxsx9gR
 type: doc
 category: user-guide

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Typhoid Fever
-  - affliction-typhfvr
 tags: []
 name:
   full: Typhoid Fever

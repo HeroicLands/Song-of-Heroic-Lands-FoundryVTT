@@ -1,7 +1,6 @@
 ---
 aliases:
   - Partial Amnesia
-  - trauma-amnsprtl
 tags: []
 name:
   full: Partial Amnesia

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-patient
+aliases: []
 tags: []
 name:
   full: Patient

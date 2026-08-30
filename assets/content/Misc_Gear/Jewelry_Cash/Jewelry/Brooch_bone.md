@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brooch, bone"
-  - miscgear-broochbone
 tags:
   - jewelry_cash
 name:

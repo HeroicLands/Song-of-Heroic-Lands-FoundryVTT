@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Carnelian, cut"
-  - miscgear-carnelianc
 tags:
   - jewelry_cash
 name:

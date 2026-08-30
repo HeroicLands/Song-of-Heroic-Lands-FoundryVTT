@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mountain Lion
-  - being-mntnln
 tags:
   - animal
 name:

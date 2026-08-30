@@ -1,7 +1,6 @@
 ---
 aliases:
   - Fleece
-  - miscgear-fleece
 tags:
   - food
 name:

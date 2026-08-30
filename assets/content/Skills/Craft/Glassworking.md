@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-glas
+aliases: []
 tags: []
 name:
   full: Glassworking

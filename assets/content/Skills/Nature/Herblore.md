@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-herb
+aliases: []
 tags: []
 name:
   full: Herblore

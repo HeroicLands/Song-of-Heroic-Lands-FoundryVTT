@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-nervous
+aliases: []
 tags: []
 name:
   full: Nervous

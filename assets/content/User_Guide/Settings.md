@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-systmstt
+aliases: []
 id: YApc5TRsPXe62WOA
 type: doc
 category: user-guide

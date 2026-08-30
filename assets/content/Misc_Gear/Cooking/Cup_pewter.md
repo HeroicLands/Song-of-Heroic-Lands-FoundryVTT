@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Cup, pewter"
-  - miscgear-cuppewter
 tags:
   - cooking
 name:

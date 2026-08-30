@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-agl
+aliases: []
 tags: []
 name:
   full: Agility

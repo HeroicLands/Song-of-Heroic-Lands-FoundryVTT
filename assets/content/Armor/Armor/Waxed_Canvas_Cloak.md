@@ -1,7 +1,6 @@
 ---
 aliases:
   - Waxed Canvas Cloak
-  - armorgear-WxCvCloak
 tags: []
 name:
   full: Waxed Canvas Cloak

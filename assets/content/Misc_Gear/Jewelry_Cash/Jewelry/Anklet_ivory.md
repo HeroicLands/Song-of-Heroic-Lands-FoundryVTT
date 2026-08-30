@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Anklet, ivory"
-  - miscgear-ankletivory
 tags:
   - jewelry_cash
 name:

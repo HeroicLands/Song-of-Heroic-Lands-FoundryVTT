@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Yoke, ox"
-  - miscgear-yokeox
 tags:
   - tack
 name:

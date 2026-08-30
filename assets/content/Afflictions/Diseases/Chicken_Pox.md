@@ -1,7 +1,6 @@
 ---
 aliases:
   - Chicken Pox
-  - affliction-chknpox
 tags: []
 name:
   full: Chicken Pox

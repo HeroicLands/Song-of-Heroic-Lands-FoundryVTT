@@ -1,7 +1,6 @@
 ---
 aliases:
   - Waxed Canvas Tunic
-  - armorgear-WxCvTunic
 tags: []
 name:
   full: Waxed Canvas Tunic

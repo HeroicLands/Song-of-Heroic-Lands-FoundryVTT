@@ -1,7 +1,6 @@
 ---
 aliases:
   - Serge Mantle
-  - armorgear-SgMntl
 tags: []
 name:
   full: Serge Mantle

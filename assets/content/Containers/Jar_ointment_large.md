@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Jar, ointment, large"
-  - containergear-jarointmen
 tags: []
 name:
   full: "Jar, ointment, large"

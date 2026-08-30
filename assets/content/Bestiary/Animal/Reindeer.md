@@ -2,7 +2,6 @@
 aliases:
   - Caribou
   - Reindeer
-  - being-reindeer
 tags:
   - animal
   - image-needed

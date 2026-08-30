@@ -1,7 +1,6 @@
 ---
 aliases:
   - Velvet Shirt
-  - armorgear-VShirt
 tags: []
 name:
   full: Velvet Shirt

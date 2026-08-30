@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Robe
-  - armorgear-WRobe
 tags: []
 name:
   full: Worsted Robe

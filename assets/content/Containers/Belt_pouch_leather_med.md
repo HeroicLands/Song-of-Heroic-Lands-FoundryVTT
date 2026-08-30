@@ -1,7 +1,6 @@
 ---
 aliases:
   - Belt pouch, leather, med
-  - containergear-bpchmd
 tags: []
 name:
   full: Belt pouch, leather, med

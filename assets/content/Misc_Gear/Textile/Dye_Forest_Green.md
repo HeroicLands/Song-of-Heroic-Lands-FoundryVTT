@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Dye, Forest Green"
-  - miscgear-dyefst
 tags:
   - clothing
 name:

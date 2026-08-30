@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bronze
-  - miscgear-bronze
 tags:
   - jewelry_cash
 name:

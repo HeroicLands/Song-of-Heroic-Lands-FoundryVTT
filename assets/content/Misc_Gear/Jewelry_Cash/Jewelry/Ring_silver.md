@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, silver"
-  - miscgear-ringsilver
 tags:
   - jewelry_cash
 name:

@@ -5,7 +5,6 @@ aliases:
   - Shock State Index
   - Shock Re-Test
   - Extended Shock
-  - doc-shock
 id: im1oSbKUZQFCBBI8
 type: doc
 category: rules

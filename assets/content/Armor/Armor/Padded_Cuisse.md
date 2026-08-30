@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Cuisse
-  - armorgear-PCuis
 tags: []
 name:
   full: Padded Cuisse

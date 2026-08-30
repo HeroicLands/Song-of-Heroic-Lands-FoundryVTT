@@ -1,7 +1,6 @@
 ---
 aliases:
   - Tinderbox
-  - miscgear-tndrbx
 tags:
   - lighting
 name:

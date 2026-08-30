@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Chest, wicker, medium"
-  - containergear-chestwkmd
 tags: []
 name:
   full: "Chest, wicker, medium"

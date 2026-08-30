@@ -1,7 +1,6 @@
 ---
 aliases:
   - Kick
-  - skill-bflkkick
 tags: []
 name:
   full: Folk Kick

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Silk, per sq yard"
-  - miscgear-silk
 tags:
   - clothing
 name:

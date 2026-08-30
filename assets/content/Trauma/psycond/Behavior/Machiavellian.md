@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-mchvlln
+aliases: []
 tags: []
 name:
   full: Machiavellian

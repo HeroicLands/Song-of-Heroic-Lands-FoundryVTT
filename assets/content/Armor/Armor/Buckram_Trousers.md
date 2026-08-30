@@ -1,7 +1,6 @@
 ---
 aliases:
   - Buckram Trousers
-  - armorgear-BTrsr
 tags: []
 name:
   full: Buckram Trousers

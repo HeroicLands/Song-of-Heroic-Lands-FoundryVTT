@@ -1,7 +1,6 @@
 ---
 aliases:
   - Serge Leggings
-  - armorgear-SgLeg
 tags: []
 name:
   full: Serge Leggings

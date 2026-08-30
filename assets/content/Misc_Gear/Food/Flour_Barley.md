@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Flour, Barley"
-  - miscgear-flourbarle
 tags:
   - food
 name:

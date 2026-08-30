@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-hrld
+aliases: []
 tags: []
 name:
   full: Heraldry

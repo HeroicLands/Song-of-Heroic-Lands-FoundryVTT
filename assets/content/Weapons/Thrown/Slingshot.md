@@ -1,7 +1,6 @@
 ---
 aliases:
   - Slingshot
-  - weapongear-SlngSht
 tags: []
 name:
   full: Slingshot

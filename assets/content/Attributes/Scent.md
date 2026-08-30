@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-snt
+aliases: []
 tags: []
 name:
   full: Scent

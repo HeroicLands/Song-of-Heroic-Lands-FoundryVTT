@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Hide, Ox"
-  - miscgear-hideox
 tags:
   - natural
 name:

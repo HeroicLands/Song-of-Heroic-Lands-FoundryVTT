@@ -1,7 +1,6 @@
 ---
 aliases:
   - Being
-  - doc-being
 id: yGlzMjLsBc8dCO6J
 type: doc
 category: user-guide

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Howler Monkey
-  - being-hwlrmnky
 tags:
   - animal
   - image-needed

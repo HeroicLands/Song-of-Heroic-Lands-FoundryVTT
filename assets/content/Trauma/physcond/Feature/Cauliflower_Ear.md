@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cauliflower Ear
-  - trauma-clflwrr
 tags: []
 name:
   full: Cauliflower Ear

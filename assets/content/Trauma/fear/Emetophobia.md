@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-emetophb
+aliases: []
 tags: []
 name:
   full: Emetophobia

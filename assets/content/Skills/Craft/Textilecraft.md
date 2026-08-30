@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-txtl
+aliases: []
 tags: []
 name:
   full: Textilecraft

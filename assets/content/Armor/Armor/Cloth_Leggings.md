@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Leggings
-  - armorgear-CLeg
 tags: []
 name:
   full: Cloth Leggings

@@ -3,7 +3,6 @@ aliases:
   - Secondary Mastery
   - Secondary Modifier
   - Secondary Roll
-  - doc-scndryms
 id: ZS7AkgrQvXdkku0g
 type: doc
 category: rules

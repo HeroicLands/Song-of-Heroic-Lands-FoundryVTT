@@ -1,7 +1,6 @@
 ---
 aliases:
   - Pence
-  - miscgear-pence
 tags:
   - jewelry_cash
 name:

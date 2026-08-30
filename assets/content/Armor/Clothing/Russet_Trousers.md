@@ -1,7 +1,6 @@
 ---
 aliases:
   - Russet Trousers
-  - armorgear-RTrsr
 tags: []
 name:
   full: Russet Trousers

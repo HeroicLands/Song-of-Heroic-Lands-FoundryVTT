@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-sociable
+aliases: []
 tags: []
 name:
   full: Sociable

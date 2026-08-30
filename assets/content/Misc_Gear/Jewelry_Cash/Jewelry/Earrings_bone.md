@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Earrings, bone"
-  - miscgear-earringsbone
 tags:
   - jewelry_cash
 name:

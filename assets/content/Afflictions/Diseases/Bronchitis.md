@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-brnchts
+aliases: []
 tags: []
 name:
   full: Bronchitis

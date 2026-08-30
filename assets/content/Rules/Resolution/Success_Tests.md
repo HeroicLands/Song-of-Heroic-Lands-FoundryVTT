@@ -4,7 +4,6 @@ aliases:
   - Skill Test
   - d100 Test
   - Success Level
-  - doc-sccsstst
 id: V5ocvTbZq3Vw94oz
 type: doc
 category: rules

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Trousers
-  - armorgear-WTrsr
 tags: []
 name:
   full: Worsted Trousers

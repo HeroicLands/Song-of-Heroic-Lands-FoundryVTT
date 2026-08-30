@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Goblet, pewter"
-  - miscgear-gobletpewt
 tags:
   - cooking
 name:

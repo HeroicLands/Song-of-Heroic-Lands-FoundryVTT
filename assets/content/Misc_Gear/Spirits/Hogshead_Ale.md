@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hogshead Ale
-  - miscgear-alehgsh
 tags:
   - spirits
 name:

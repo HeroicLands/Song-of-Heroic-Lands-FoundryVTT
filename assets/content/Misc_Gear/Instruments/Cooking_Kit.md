@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cooking Kit
-  - miscgear-cookkit
 tags:
   - instruments
 name:

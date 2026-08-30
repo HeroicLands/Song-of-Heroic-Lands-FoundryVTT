@@ -1,7 +1,6 @@
 ---
 aliases:
   - Pony
-  - being-pony
 tags:
   - animal
 name:

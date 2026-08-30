@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-script
+aliases: []
 tags: []
 name:
   full: Script

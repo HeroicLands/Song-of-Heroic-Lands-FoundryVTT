@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Lockbox, small"
-  - containergear-lockboxsma
 tags: []
 name:
   full: "Lockbox, small"

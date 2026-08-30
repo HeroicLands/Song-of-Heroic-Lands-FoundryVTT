@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Lockbox, large"
-  - containergear-lockboxlar
 tags: []
 name:
   full: "Lockbox, large"

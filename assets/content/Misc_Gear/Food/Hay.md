@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hay
-  - miscgear-hay
 tags:
   - food
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Perfume, cheap"
-  - miscgear-perfumecheap
 tags:
   - expedition
 name:

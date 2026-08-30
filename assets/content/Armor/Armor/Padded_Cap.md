@@ -1,7 +1,6 @@
 ---
 aliases:
   - Padded Cap
-  - armorgear-PCap
 tags: []
 name:
   full: Padded Cap

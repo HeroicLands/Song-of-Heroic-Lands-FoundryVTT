@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Grooming Kit, noble"
-  - miscgear-groomkitnob
 tags:
   - instruments
 name:

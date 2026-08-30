@@ -1,7 +1,6 @@
 ---
 aliases:
   - Gambeson Shirt
-  - armorgear-GSht
 tags: []
 name:
   full: Gambeson Shirt

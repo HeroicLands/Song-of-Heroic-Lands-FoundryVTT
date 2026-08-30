@@ -1,7 +1,6 @@
 ---
 aliases:
   - Leather Trousers
-  - armorgear-LtTrsr
 tags: []
 name:
   full: Leather Trousers

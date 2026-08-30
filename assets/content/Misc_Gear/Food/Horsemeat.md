@@ -1,7 +1,6 @@
 ---
 aliases:
   - Horsemeat
-  - miscgear-horsemeat
 tags:
   - food
 name:

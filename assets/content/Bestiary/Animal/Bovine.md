@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bovine
-  - being-bovine
 tags:
   - animal
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Spurs
-  - miscgear-spurs
 tags:
   - tack
 name:

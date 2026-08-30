@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Linen, per sq yard"
-  - miscgear-linen
 tags:
   - clothing
 name:

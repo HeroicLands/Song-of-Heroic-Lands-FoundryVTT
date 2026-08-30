@@ -1,7 +1,6 @@
 ---
 aliases:
   - Straw Sandals
-  - armorgear-StShoes
 tags: []
 name:
   full: Straw Sandals

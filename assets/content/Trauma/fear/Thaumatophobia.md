@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-thmtphb
+aliases: []
 tags: []
 name:
   full: Thaumatophobia

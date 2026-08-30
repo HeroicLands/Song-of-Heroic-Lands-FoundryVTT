@@ -1,7 +1,6 @@
 ---
 aliases:
   - Throwing Axe
-  - weapongear-Shkn
 tags: []
 name:
   full: Throwing Axe

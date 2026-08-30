@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wooden Crossbow 80
-  - weapongear-WCxBw80
 tags: []
 name:
   full: Wooden Crossbow 80

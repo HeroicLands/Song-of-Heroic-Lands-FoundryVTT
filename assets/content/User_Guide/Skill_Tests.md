@@ -1,6 +1,5 @@
 ---
-aliases:
-  - doc-sklltsts
+aliases: []
 id: 8l2J6Pczsy0YpT0P
 type: doc
 category: user-guide

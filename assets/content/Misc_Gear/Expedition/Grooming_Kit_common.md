@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Grooming Kit, common"
-  - miscgear-groomkitcom
 tags:
   - instruments
 name:

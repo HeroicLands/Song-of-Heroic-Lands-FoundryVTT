@@ -1,7 +1,6 @@
 ---
 aliases:
   - Hyena
-  - being-hyena
 tags:
   - animal
 name:

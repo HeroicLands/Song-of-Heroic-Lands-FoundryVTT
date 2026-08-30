@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sickleclaw Troodon
-  - being-scklclwt
 tags:
   - animal
 name:

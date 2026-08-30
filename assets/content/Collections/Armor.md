@@ -1,7 +1,6 @@
 ---
 aliases:
   - Armor
-  - doc-armor2
 id: MA6x5oaB16x7cvyk
 name:
   full: Armor

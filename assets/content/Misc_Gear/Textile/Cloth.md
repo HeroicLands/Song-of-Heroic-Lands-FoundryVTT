@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Cloth, per sq yard"
-  - miscgear-cloth
 tags:
   - clothing
 name:

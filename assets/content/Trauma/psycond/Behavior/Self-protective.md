@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-selfpro
+aliases: []
 tags: []
 name:
   full: Self-protective

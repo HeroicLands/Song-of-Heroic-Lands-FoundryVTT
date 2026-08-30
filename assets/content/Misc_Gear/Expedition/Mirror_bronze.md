@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Mirror, bronze"
-  - miscgear-mirrorbron
 tags:
   - expedition
 name:

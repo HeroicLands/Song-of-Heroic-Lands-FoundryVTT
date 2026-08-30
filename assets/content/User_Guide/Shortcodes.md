@@ -1,7 +1,6 @@
 ---
 aliases:
   - Shortcode
-  - doc-shrtcds
 id: b44b338b7c4477fb
 type: doc
 category: user-guide

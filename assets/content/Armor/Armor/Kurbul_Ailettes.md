@@ -2,7 +2,6 @@
 aliases:
   - Kurbul Ailettes
   - Kûrbúl Ailettes
-  - armorgear-KAil
 tags: []
 name:
   full: Kûrbúl Ailettes

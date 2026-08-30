@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-cml
+aliases: []
 tags: []
 name:
   full: Comeliness

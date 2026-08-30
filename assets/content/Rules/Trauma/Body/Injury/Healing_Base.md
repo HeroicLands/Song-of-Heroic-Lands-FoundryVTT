@@ -1,7 +1,6 @@
 ---
 aliases:
   - Healing Base
-  - doc-hlngbs
 id: Sb8dCIBSChIPJpKr
 type: doc
 category: rules

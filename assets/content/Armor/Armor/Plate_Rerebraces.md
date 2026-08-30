@@ -1,7 +1,6 @@
 ---
 aliases:
   - Plate Rerebraces
-  - armorgear-PlRebr
 tags: []
 name:
   full: Plate Rerebraces

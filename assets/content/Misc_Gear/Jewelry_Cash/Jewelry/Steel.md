@@ -1,7 +1,6 @@
 ---
 aliases:
   - Steel
-  - miscgear-steel
 tags:
   - jewelry_cash
 name:

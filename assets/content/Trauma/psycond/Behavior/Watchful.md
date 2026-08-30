@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-watchful
+aliases: []
 tags: []
 name:
   full: Watchful

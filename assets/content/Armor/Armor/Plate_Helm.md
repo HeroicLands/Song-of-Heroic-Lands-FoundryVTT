@@ -1,7 +1,6 @@
 ---
 aliases:
   - Plate Helm
-  - armorgear-PHlm
 tags: []
 name:
   full: Plate Helm

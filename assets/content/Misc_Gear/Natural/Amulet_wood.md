@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Amulet, wood"
-  - miscgear-amuletwood
 tags:
   - jewelry_cash
 name:

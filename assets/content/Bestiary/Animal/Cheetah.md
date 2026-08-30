@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cheetah
-  - being-cheetah
 tags:
   - animal
   - image-needed

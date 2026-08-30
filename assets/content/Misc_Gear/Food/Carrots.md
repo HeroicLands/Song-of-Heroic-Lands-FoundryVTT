@@ -1,7 +1,6 @@
 ---
 aliases:
   - Carrots
-  - miscgear-carrots
 tags:
   - food
 name:

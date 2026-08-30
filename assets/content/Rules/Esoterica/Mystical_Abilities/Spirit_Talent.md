@@ -1,7 +1,6 @@
 ---
 aliases:
   - Spirit Talent
-  - doc-sprttlnt
 id: 3gNXNMLGhhsbQU6A
 type: doc
 category: rules

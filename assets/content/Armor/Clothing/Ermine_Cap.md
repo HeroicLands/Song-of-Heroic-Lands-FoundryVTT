@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ermine Cap
-  - armorgear-ECap
 tags: []
 name:
   full: Ermine Cap

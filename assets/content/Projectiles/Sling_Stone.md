@@ -1,7 +1,6 @@
 ---
 aliases:
   - Sling Stone
-  - projectilegear-SSton
 tags: []
 name:
   full: Sling Stone

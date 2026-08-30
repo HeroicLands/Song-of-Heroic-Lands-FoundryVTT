@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Calf Boots
-  - armorgear-WCBoot
 tags: []
 name:
   full: Worsted Calf Boots

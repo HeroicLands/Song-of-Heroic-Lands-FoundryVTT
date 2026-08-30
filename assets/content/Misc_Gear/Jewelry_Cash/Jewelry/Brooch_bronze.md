@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Brooch, bronze"
-  - miscgear-broochbronze
 tags:
   - jewelry_cash
 name:

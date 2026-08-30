@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Fishing Line, per 10 ft."
-  - miscgear-fishinglin
 tags:
   - expedition
 name:

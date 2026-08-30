@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cartomancy
-  - doc-crtmncy
 id: 3l5g6fs5EEwLMOzS
 type: doc
 category: rules

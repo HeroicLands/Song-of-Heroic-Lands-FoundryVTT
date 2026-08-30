@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-trachoma
+aliases: []
 tags: []
 name:
   full: Trachoma

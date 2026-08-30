@@ -1,7 +1,6 @@
 ---
 aliases:
   - Homespun Leggings
-  - armorgear-HsLeg
 tags: []
 name:
   full: Homespun Leggings

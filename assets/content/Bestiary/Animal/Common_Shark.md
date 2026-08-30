@@ -1,7 +1,6 @@
 ---
 aliases:
   - Common Shark
-  - being-cmmnshrk
 tags:
   - animal
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Icon, religious, wood, lg"
-  - miscgear-iconwdlg
 tags:
   - religious
 name:

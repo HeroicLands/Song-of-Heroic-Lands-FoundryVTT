@@ -1,6 +1,5 @@
 ---
-aliases:
-  - skill-ritual
+aliases: []
 tags: []
 name:
   full: Ritual

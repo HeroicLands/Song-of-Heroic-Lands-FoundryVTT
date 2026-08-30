@@ -1,7 +1,6 @@
 ---
 aliases:
   - Traits
-  - doc-traits
 id: b6UHh4QRhBkDNf02
 name:
   full: Traits

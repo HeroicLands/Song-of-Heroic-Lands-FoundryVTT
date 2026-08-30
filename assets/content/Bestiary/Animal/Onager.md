@@ -1,7 +1,6 @@
 ---
 aliases:
   - Onager
-  - being-onager
 tags:
   - animal
   - image-needed

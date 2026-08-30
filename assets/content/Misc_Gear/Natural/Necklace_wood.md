@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Necklace, wood"
-  - miscgear-necklacewood
 tags:
   - jewelry_cash
 name:

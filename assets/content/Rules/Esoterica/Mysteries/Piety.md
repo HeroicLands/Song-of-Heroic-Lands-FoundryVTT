@@ -1,7 +1,6 @@
 ---
 aliases:
   - Piety
-  - doc-piety
 id: H5q0yAvdBHH0bH5G
 type: doc
 category: rules

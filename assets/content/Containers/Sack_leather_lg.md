@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Sack, leather, lg"
-  - containergear-sackltlg
 tags: []
 name:
   full: "Sack, leather, lg"

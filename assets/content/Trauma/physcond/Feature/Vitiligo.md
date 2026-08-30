@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-vitiligo
+aliases: []
 tags: []
 name:
   full: Vitiligo

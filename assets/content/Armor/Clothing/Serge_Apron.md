@@ -1,7 +1,6 @@
 ---
 aliases:
   - Serge Apron
-  - armorgear-SgApn
 tags: []
 name:
   full: Serge Apron

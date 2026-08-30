@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-dysphn
+aliases: []
 tags: []
 name:
   full: Dysphonia

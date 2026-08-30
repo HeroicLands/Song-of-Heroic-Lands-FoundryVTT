@@ -1,7 +1,6 @@
 ---
 aliases:
   - Honey Badger
-  - being-hnybdgr
 tags:
   - animal
 name:

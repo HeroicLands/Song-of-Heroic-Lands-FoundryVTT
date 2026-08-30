@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Cowl
-  - armorgear-LCowl
 tags: []
 name:
   full: Linen Cowl

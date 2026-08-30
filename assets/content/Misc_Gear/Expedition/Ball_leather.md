@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ball, leather"
-  - miscgear-ballleathe
 tags:
   - expedition
 name:

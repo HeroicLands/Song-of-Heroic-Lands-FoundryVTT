@@ -2,7 +2,6 @@
 aliases:
   - Killer Whale
   - Orca
-  - being-orca
 tags:
   - animal
   - image-needed

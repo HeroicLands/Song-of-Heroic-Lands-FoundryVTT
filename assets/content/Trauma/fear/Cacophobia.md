@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-cacophb
+aliases: []
 tags: []
 name:
   full: Cacophobia

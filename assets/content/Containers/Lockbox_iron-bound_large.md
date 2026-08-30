@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Lockbox, iron-bound, large"
-  - containergear-lockboxiblg
 tags: []
 name:
   full: "Lockbox, iron-bound, large"

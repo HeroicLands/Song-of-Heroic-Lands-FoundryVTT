@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-voi
+aliases: []
 tags: []
 name:
   full: Voice

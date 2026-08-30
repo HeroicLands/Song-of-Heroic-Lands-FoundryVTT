@@ -5,7 +5,6 @@ aliases:
   - Course Test
   - Incubation Period
   - Symptomatic Period
-  - doc-afflctns
 id: Tt1JjQ3kmqtUDIm9
 type: doc
 category: rules

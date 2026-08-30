@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-tremors
+aliases: []
 tags: []
 name:
   full: Tremors

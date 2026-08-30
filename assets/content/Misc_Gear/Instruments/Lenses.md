@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Lenses"
-  - miscgear-lenses
 tags:
   - instruments
 name:

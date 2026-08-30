@@ -1,7 +1,6 @@
 ---
 aliases:
   - Disguise Kit
-  - miscgear-disgkit
 tags:
   - instruments
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Morbus Monstruosus
-  - trauma-morbusmo
 tags: []
 name:
   full: Morbus Monstruosus

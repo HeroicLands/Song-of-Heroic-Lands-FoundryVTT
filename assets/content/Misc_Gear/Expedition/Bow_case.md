@@ -1,7 +1,6 @@
 ---
 aliases:
   - Bow case
-  - miscgear-bowcase
 tags:
   - expedition
 name:

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Paychest, iron"
-  - containergear-paychestir
 tags: []
 name:
   full: "Paychest, iron"

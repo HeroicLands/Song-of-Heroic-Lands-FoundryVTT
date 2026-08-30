@@ -1,7 +1,6 @@
 ---
 aliases:
   - Celestial Crane
-  - being-crane
 tags:
   - animal
   - image-needed

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Ring, gold"
-  - miscgear-ringgold
 tags:
   - jewelry_cash
 name:

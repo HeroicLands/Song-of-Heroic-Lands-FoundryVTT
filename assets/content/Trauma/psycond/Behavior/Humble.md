@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-humble
+aliases: []
 tags: []
 name:
   full: Humble

@@ -6,7 +6,6 @@ aliases:
   - Windedness
   - Weariness
   - Weakness
-  - doc-fatigue
 id: G1UDnlgH8sI9oNO7
 type: doc
 category: rules

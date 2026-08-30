@@ -1,7 +1,6 @@
 ---
 aliases:
   - Boon
-  - doc-boon
 id: IUE1zCOsO7IyrAbo
 type: doc
 category: rules

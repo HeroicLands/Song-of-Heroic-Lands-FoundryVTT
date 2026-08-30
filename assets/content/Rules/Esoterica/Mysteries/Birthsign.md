@@ -1,7 +1,6 @@
 ---
 aliases:
   - Birthsign
-  - doc-brthsgn
 id: HOIFkzHnXv5I4A4C
 type: doc
 category: rules

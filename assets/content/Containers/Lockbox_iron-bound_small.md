@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Lockbox, iron-bound, small"
-  - containergear-lockboxibsm
 tags: []
 name:
   full: "Lockbox, iron-bound, small"

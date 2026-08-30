@@ -2,7 +2,6 @@
 aliases:
   - Fear
   - Fear Test
-  - doc-fear
 id: JQ6QycfbFNiwqmoW
 type: doc
 category: rules

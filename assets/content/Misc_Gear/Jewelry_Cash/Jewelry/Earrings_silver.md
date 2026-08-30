@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Earrings, silver"
-  - miscgear-earringssilver
 tags:
   - jewelry_cash
 name:

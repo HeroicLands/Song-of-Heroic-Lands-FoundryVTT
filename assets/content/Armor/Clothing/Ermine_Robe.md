@@ -1,7 +1,6 @@
 ---
 aliases:
   - Ermine Robe
-  - armorgear-ERobe
 tags: []
 name:
   full: Ermine Robe

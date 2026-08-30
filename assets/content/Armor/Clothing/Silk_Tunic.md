@@ -1,7 +1,6 @@
 ---
 aliases:
   - Silk Tunic
-  - armorgear-SlkTunic
 tags: []
 name:
   full: Silk Tunic

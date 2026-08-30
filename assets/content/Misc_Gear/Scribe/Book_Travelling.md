@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Book, Travelling"
-  - miscgear-booktrvl
 tags:
   - scribe
 name:

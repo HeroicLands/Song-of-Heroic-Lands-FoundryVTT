@@ -4,7 +4,6 @@ aliases:
   - Combat
   - Combat Round
   - Initiative Rank
-  - doc-combatintro
 id: T7DKbPLUwqQyQL08
 type: doc
 category: rules

@@ -3,7 +3,6 @@ aliases:
   - Coma
   - Coma Course Test
   - Coma Healing Rate
-  - doc-coma
 id: bqBGHYIwbqvqaZ5I
 type: doc
 category: rules

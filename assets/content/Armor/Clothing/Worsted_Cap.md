@@ -1,7 +1,6 @@
 ---
 aliases:
   - Worsted Cap
-  - armorgear-WCap
 tags: []
 name:
   full: Worsted Cap

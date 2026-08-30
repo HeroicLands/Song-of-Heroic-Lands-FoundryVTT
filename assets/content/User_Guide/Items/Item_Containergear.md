@@ -1,7 +1,6 @@
 ---
 aliases:
   - Container
-  - doc-cntnr
 id: rF2XSEFWmBoOwkks
 type: doc
 category: user-guide

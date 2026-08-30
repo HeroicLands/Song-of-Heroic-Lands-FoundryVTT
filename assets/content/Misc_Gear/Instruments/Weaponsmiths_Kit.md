@@ -1,7 +1,6 @@
 ---
 aliases:
   - Weaponsmith's Kit
-  - miscgear-wpnsmkit
 tags:
   - instruments
 name:

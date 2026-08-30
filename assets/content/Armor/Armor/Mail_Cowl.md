@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mail Cowl
-  - armorgear-MCwl
 tags: []
 name:
   full: Mail Cowl

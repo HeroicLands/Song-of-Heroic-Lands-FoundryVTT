@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Circlet, bronze"
-  - miscgear-circletbronze
 tags:
   - jewelry_cash
 name:

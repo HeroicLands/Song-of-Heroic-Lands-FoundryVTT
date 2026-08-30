@@ -1,7 +1,6 @@
 ---
 aliases:
   - Beaver Mantle
-  - armorgear-BvMntl
 tags: []
 name:
   full: Beaver Mantle

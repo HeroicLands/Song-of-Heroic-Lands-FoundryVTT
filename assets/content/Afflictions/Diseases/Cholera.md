@@ -1,6 +1,5 @@
 ---
-aliases:
-  - affliction-cholera
+aliases: []
 tags: []
 name:
   full: Cholera

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Linen Skirt
-  - armorgear-LSkirt
 tags: []
 name:
   full: Linen Skirt

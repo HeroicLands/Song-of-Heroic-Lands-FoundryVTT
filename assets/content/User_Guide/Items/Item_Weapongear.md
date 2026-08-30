@@ -1,7 +1,6 @@
 ---
 aliases:
   - Weapon
-  - doc-weapon
 id: kSuLAvR1c8R8tIW6
 type: doc
 category: user-guide

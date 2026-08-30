@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-sclss
+aliases: []
 tags: []
 name:
   full: Scoliosis

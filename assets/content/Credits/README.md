@@ -1,6 +1,5 @@
 ---
 aliases:
-  - doc-credits
   - Credits and Attributions
 id: VCCHelr5qIC5ydop
 type: doc

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Great Stag
-  - being-grtstg
 tags:
   - animal
 name:

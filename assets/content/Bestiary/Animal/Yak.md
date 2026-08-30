@@ -1,7 +1,6 @@
 ---
 aliases:
   - Yak
-  - being-yak
 tags:
   - animal
   - image-needed

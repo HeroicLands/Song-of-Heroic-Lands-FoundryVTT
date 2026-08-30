@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cloth Trousers
-  - armorgear-CTrsr
 tags: []
 name:
   full: Cloth Trousers

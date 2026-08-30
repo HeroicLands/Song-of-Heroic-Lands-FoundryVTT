@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wayfarer's Rest, Loft
-  - battlemap-wayrestloft
 tags: []
 name:
   full: Wayfarer's Rest, Loft

@@ -1,7 +1,6 @@
 ---
 aliases:
   - Augury
-  - doc-augury
 id: vnhzmwxzgCuEHnuE
 type: doc
 category: rules

@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Coffer, leather & wood"
-  - containergear-cofferlw
 tags: []
 name:
   full: "Coffer, leather & wood"

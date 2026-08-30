@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wayfarer's Rest, Ground Floor
-  - battlemap-wayrestground
 tags: []
 name:
   full: Wayfarer's Rest, Ground Floor

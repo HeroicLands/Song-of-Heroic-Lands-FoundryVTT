@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cnidarian Toxin
-  - affliction-cndntxn
 tags: []
 name:
   full: Cnidarian Toxin

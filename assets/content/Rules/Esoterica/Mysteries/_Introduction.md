@@ -1,7 +1,6 @@
 ---
 aliases:
   - Mysteries Introduction
-  - doc-mysteryintro
 id: 8gqF9lyFp5S6zceE
 type: doc
 category: rules

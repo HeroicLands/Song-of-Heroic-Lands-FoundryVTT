@@ -1,7 +1,6 @@
 ---
 aliases:
   - Rawhide Trousers
-  - armorgear-RhTrsr
 tags: []
 name:
   full: Rawhide Trousers

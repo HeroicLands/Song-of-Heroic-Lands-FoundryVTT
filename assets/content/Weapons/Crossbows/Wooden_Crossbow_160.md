@@ -1,7 +1,6 @@
 ---
 aliases:
   - Wooden Crossbow 160
-  - weapongear-WCxBw160
 tags: []
 name:
   full: Wooden Crossbow 160

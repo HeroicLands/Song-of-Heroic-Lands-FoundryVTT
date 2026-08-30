@@ -1,7 +1,6 @@
 ---
 aliases:
   - Poleaxe
-  - weapongear-PAxe
 tags: []
 name:
   full: Poleaxe

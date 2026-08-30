@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Satchel, canvas, med"
-  - containergear-satchcvmd
 tags: []
 name:
   full: "Satchel, canvas, med"

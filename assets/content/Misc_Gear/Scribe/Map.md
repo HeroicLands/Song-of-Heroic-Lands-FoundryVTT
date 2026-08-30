@@ -1,7 +1,6 @@
 ---
 aliases:
   - Map
-  - miscgear-map
 tags:
   - scribe
 name:

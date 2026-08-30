@@ -1,7 +1,6 @@
 ---
 aliases:
   - Cat
-  - being-cat
 tags:
   - animal
 name:

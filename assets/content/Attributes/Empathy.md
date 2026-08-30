@@ -1,6 +1,5 @@
 ---
-aliases:
-  - attribute-emp
+aliases: []
 tags: []
 name:
   full: Empathy

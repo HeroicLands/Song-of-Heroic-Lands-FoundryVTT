@@ -1,7 +1,6 @@
 ---
 aliases:
   - "Holy Symbol, wood"
-  - miscgear-holysymwood
 tags:
   - religious
 name:

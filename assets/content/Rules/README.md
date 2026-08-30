@@ -2,7 +2,6 @@
 aliases:
   - Song of Heroic Lands Rules
   - SoHL Rules
-  - doc-rulesintro
 id: Q0c9vOqCLix8iHC0
 type: doc
 category: rules

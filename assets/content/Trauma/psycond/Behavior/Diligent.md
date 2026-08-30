@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-diligent
+aliases: []
 tags: []
 name:
   full: Diligent

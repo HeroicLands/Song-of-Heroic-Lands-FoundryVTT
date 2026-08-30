@@ -1,7 +1,6 @@
 ---
 aliases:
   - Incense
-  - miscgear-incense
 tags:
   - expedition
 name:

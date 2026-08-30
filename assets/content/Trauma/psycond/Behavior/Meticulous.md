@@ -1,6 +1,5 @@
 ---
-aliases:
-  - trauma-mtcls
+aliases: []
 tags: []
 name:
   full: Meticulous
