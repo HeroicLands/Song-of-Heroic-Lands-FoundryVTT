@@ -12,7 +12,7 @@ import { resolve } from "node:path";
  * `LOCALIZATION_PREFIXES = ["SOHL.Attribute", …]` but `lang/en.json` carried no
  * `SOHL.Attribute.FIELDS.*` entries at all, so both labels stayed unset.
  *
- * `utils/check-lang-coverage.mjs` cannot catch this (it treats every
+ * `package-build lang coverage` cannot catch this (it treats every
  * `LOCALIZATION_PREFIXES` entry as a namespace, not a concrete key), so the
  * guard lives here: every field the Attribute Properties tab binds with
  * `formGroup` must have a resolvable label under one of the model's prefixes.
