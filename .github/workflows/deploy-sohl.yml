@@ -15,6 +15,43 @@ name: Deploy /sohl/ to Cloudflare Pages
 # physically. That is what lets it be checked at the project's own
 # `*.pages.dev` address before any routing points at it, and leaves the routing
 # layer (#1468) a path-preserving pass-through.
+#
+# ---------------------------------------------------------------------------
+# WHY THIS REPOSITORY DOES NOT CALL THE SHARED WORKFLOW
+# ---------------------------------------------------------------------------
+#
+# Four of the six packages deploy through the reusable workflow in
+# `HeroicLands/.github` (`deploy-package-site.yml`). This one does not, and that
+# was re-decided rather than merely inherited when #1765 asked the question.
+#
+# MIGRATING WOULD NOT HAVE DELIVERED THE FIX #1765 IS ABOUT. That workflow writes
+# its `_headers` payload — the one carrying the `noindex` rules — only when the
+# build produced none: "A package that emits its own keeps it, byte for byte —
+# nothing here rewrites, merges into, or appends to an existing file."
+# `utils/build-site.mjs` writes one unconditionally, so this repository would
+# have gone on serving its own two-rule file from inside the shared workflow. The
+# rule had to be added to `build-site.mjs` either way, and it was.
+#
+# AND MIGRATING TODAY WOULD CHANGE WHAT IS PUBLISHED. The shared workflow runs
+# ONE npm script and knows nothing of its steps. The existing `build:site`
+# (`docs:prepare docs:html build:kb site:assemble`) builds the API documentation
+# from the WORKING TREE, i.e. from `main` — but `/sohl/api/` documents the newest
+# RELEASE (#1452), which is why the steps below resolve the newest release tag,
+# check it out separately, and run `npm ci` in that checkout with its own
+# lockfile. Handing the shared workflow today's `build:site` would silently
+# republish `/sohl/api/` from `main`. The shared workflow anticipates this — its
+# checkout is unshallow with tags precisely so a package's build can check out
+# another ref — so migration is possible, but it is a rewrite of the build
+# script, not a change of caller, and it is not worth carrying on the back of a
+# three-line header rule.
+#
+# So the payload stays in `utils/build-site.mjs`, where it is unit-tested
+# (`tests/build/site-noindex.test.ts`) rather than merely written. That is what
+# the shared workflow asks for, in as many words — its completeness guard checks
+# only that `_headers` exists and is non-empty, and says so: "A package that
+# emits its OWN `_headers` passes this check with whatever it wrote, so it is
+# that package's job to cover the custom domain too." If this repository ever
+# does migrate, that stays true, and the three rules must come with it.
 
 on:
     # Every push to `main` republishes the whole subtree. No path filter: the
