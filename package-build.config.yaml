@@ -21,9 +21,11 @@
 # transcribed one froze at `0.6.0` for four releases (#1548). Authoring any of
 # them is an error, not an override.
 
-# The distribution unit a note declares in its `package:` frontmatter. The pack
-# compilers select their entries by it, and it is stable across compilation
-# targets.
+# The distribution unit every note in this tree belongs to. A note used to
+# declare its own in `package:` frontmatter; that field is retired and now a
+# hard build error (package-build#56), so this is the single source of a note's
+# package — the tree compiles as one unit, and membership is a property of the
+# repository rather than of the note.
 contentPackage: sohl
 
 # The Foundry package the packs ship in — the `id` in
@@ -140,6 +142,66 @@ packageBuild:
             key a leaf OR a branch, never both. See
             kb/dev-docs/reference/localization-keys.md for the placeholder and
             key-segment rules.
+
+        # `primary`, `scripts` and `templates` are absent because this
+        # repository follows the conventional layout the defaults describe:
+        # `lang/en.json`, `src/**/*.{ts,mjs}`, `templates/**/*.hbs`.
+
+        # Stated rather than derived because `TYPE` is a root this repository
+        # *scans for* and `lang/en.json` declares no key under: deriving the
+        # roots from the file's own keys would silently stop looking for it, and
+        # the day a `TYPE.…` reference appears it would be read as ordinary
+        # prose instead of as a missing key.
+        keyRoots: [SOHL, TYPES, TYPE]
+
+        # `defineType(prefix, def, labelKeys?)` (`src/utils/constants.ts`) mints
+        # one key per member of an enum by a rule that is SoHL's alone, so no
+        # shared guard can know it and no repository can compare the result
+        # against the file. This module reproduces the rule from the TypeScript
+        # AST and hands the keys back as an ordinary reference set.
+        references: ./utils/lang-references.mjs
+
+        # Keys reached in a way no scan can see, exempt from the unreferenced
+        # advisory. The reason is a claim a reviewer has to be able to check —
+        # the honest fix for an unreferenced key is to delete it.
+        retained:
+            - prefix: SOHL.Gear.Action.
+              reason:
+                  Intrinsic action titles built as `${titlePrefix}.${shortcode}`
+                  — the prefix is a parameter, so no scan can resolve it.
+            - prefix: SOHL.Skill.Action.
+              reason:
+                  As above (defineImproveSdrActions is called with the kind's
+                  prefix).
+            - prefix: SOHL.MysticalAbility.Action.
+              reason: As above.
+            - prefix: SOHL.Affliction.Action.
+              reason: As above.
+            # `SOHL.ContextMenu.SortGroup.` was retained here until the shared
+            # scan made it unnecessary: the action ledger builds those keys with
+            # `(concat "SOHL.ContextMenu.SortGroup." action.data.group)`, and a
+            # literal that ends on a dot is a key *shape* the shared scan reads
+            # as `SOHL.ContextMenu.SortGroup.*`. The local guard only recognised
+            # the template-literal spelling, so it reported all four as
+            # unreferenced and the entry existed to silence it.
+            - prefix: SOHL.Being.StumbleTest.
+              reason:
+                  keepControlTable resolves `<prefix>.<SuccessLevel>.label|description`
+                  from a success level computed at runtime.
+            - prefix: SOHL.Being.FumbleTest.
+              reason: As above.
+            - prefix: SOHL.AttackResult.TacticalAdvantage.action
+              reason:
+                  Resolved from the stored tactical-advantage value, not named
+                  in source.
+
+        # Template literals that are deliberately not localization keys. The
+        # escape hatch, not the rule: ordinary UI prose belongs in en.json.
+        allow:
+            - literal: item.system.code === 'pyrn'
+              reason:
+                  A SafeExpression example shown as a placeholder — code, not
+                  prose.
 
     # Vite emits `sohl.js`, not the `<packageId>.mjs` the toolchain assumes, so
     # the one thing `package-build bundle check` cannot derive is stated here.
@@ -359,9 +421,13 @@ publish:
 # so the two cannot disagree about where a page is.
 site:
     out: kb/content
-    # Both packages are rendered here: this repository publishes the `sohl`
-    # knowledgebase, and a `thalorna` note filed in this tree renders beside it.
-    packages: [sohl, thalorna]
+    # `packages:` is absent deliberately, and absent means `[contentPackage]` —
+    # exactly the pages this repository compiles. It used to name `thalorna`
+    # alongside `sohl`, from when a note declared its own package and a foreign
+    # one filed here would render beside the local ones. `package:` is retired
+    # (#1745, package-build#56), so every note in this tree is `sohl` by
+    # construction: naming a second package selects nothing, and nothing can
+    # make it select anything (#1753).
     backfillSections: true
     landing: { title: Knowledgebase, type: knowledgebase }
     # This repository's own body rewrites: `{@link}` against the TypeDoc symbol
