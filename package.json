@@ -151,7 +151,7 @@
         "classic-level": "^3.0.0",
         "cypress": "^15.21.0",
         "dotenv": "^17.4.2",
-        "eslint": "^10.9.0",
+        "eslint": "^10.9.1",
         "eslint-config-prettier": "^10.1.1",
         "eslint-plugin-jsdoc": "^64.2.1",
         "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#c65553f8fe675a560dbf6dde9cfa7adc0f3f7b67",
