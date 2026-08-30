@@ -1,0 +1,123 @@
+{{ define "main" }}
+{{ partial "hero-banner.html" . }}
+{{ partial "breadcrumbs.html" . }}
+
+<article class="single">
+  <div class="single-content">
+    {{ if .Content }}<div class="single-body">{{ .Content }}</div>{{ end }}
+
+    {{- /*
+      Beings — one catalog table per `sohl.kbcat` (Archetypes, NPCs, Animals),
+      grouped through the same `kbcat-groups.html` partial every other
+      multi-category section uses.
+
+      This section replaced the two that #1580 merged, and neither of their
+      layouts survives as-is: one was a flat table with character-only columns,
+      the other grouped by source subfolder — an artifact of where a note sits
+      on disk, which for the merged type would have re-created the very
+      character/creature split #1580 removed. `sohl.kbcat` is the authored
+      category, is carried by every being, and is the axis the rest of the
+      knowledgebase groups on.
+
+      The curated groups come first so the three NPCs and the one archetype are
+      not buried under ninety-odd animals.
+    */ -}}
+    {{- $titles := dict "archetype" "Archetypes" "npc" "NPCs" "animal" "Animals" -}}
+    {{- $order := slice "archetype" "npc" "animal" -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "type" "being" "titles" $titles "order" $order "extras" true) -}}
+
+    {{- /*
+      Attribute columns are DERIVED, never hardcoded: a being carries only the
+      attributes that apply to it, and the sets genuinely differ — an animal has
+      Scent where a person has Dexterity, and only people carry the social
+      attributes (Comeliness, Empathy, Eloquence, Voice, Morality). A fixed
+      nine-column block, which is what the retired layouts rendered, therefore
+      shows blank cells for attributes a being does not have while silently
+      omitting ones it does.
+
+      So the column ORDER comes from the `attribute` pages themselves, sorted by
+      their `sort` param — the same order the system presents attributes in —
+      and each group renders only the columns its own beings actually populate.
+      Adding an attribute note, or giving a being an attribute nothing else has,
+      needs no change here.
+    */ -}}
+    {{- $attrOrder := slice -}}
+    {{- $attrLink := dict -}}
+    {{- range $ap := sort (where site.RegularPages "Type" "attribute") "Params.sort" -}}
+      {{- with $ap.Params.shortcode -}}
+        {{- $attrOrder = $attrOrder | append . -}}
+        {{- $attrLink = merge $attrLink (dict . $ap.RelPermalink) -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- range $groups }}
+    {{- $pages := .pages -}}
+
+    {{- /* The attribute codes this group's beings actually carry... */ -}}
+    {{- $present := slice -}}
+    {{- range $pages -}}
+      {{- range $code, $score := (.Params.sohl.attributes | default dict) -}}
+        {{- if not (in $present $code) -}}{{- $present = $present | append $code -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- /* ...in catalog order, with any code the attribute pages do not
+           describe appended rather than dropped. */ -}}
+    {{- $cols := slice -}}
+    {{- range $code := $attrOrder -}}
+      {{- if in $present $code -}}{{- $cols = $cols | append $code -}}{{- end -}}
+    {{- end -}}
+    {{- range $code := sort $present -}}
+      {{- if not (in $attrOrder $code) -}}{{- $cols = $cols | append $code -}}{{- end -}}
+    {{- end -}}
+
+    {{- /* Occupation and Class are only meaningful for beings that carry a
+           `social` block, so those two columns appear for the groups that have
+           one and nowhere else. */ -}}
+    {{- $hasSocial := false -}}
+    {{- range $pages -}}
+      {{- with .Params.social -}}
+        {{- if or .occupation .class -}}{{- $hasSocial = true -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    <section class="kbcat-group">
+      <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>
+      <div class="kbcat-table-wrap" style="overflow-x: auto;">
+        <table class="kbcat-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Shortcode</th><th>Package</th>
+              {{- range $code := $cols }}
+              <th>{{ with index $attrLink $code }}<a href="{{ . }}">{{ upper $code }}</a>{{ else }}{{ upper $code }}{{ end }}</th>
+              {{- end }}
+              <th>Weight (lbs)</th><th>Body Scale</th><th>Movement (ft/round)</th>
+              {{- if $hasSocial }}<th>Occupation</th><th>Class</th>{{ end }}
+            </tr>
+          </thead>
+          <tbody>
+            {{- range $pages }}
+            {{- $attrs := .Params.sohl.attributes | default dict }}
+            <tr>
+              <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+              <td>{{ .Params.shortcode }}</td>
+              <td>{{ .Params.package }}</td>
+              {{- range $code := $cols }}
+              <td>{{ index $attrs $code }}</td>
+              {{- end }}
+              <td>{{ .Params.sohl.body.weight.base }}</td>
+              <td>{{ .Params.sohl.body.bodyScaleBase }}</td>
+              <td>{{ partial "actor-movement.html" . }}</td>
+              {{- if $hasSocial }}
+              <td>{{ with .Params.social }}{{ .occupation }}{{ end }}</td>
+              <td>{{ with .Params.social }}{{ .class }}{{ end }}</td>
+              {{- end }}
+            </tr>
+            {{- end }}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {{- end }}
+  </div>
+</article>
+{{ end }}
