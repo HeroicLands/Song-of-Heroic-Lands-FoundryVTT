@@ -82,11 +82,17 @@ itemBuilders: sohl
 # lives in `Templates/` and is never compendium content.
 skipDirectories: [Templates]
 
-# The one pack list. Order is load-bearing: the actors pass resolves each
-# being's embedded items against the items pass's output, so items compile
-# first. `packDirectories` — what `build:compiledb` turns into LevelDB — is
-# derived from this, so the compile list and the compiler list cannot drift
-# apart the way `SOURCE_PACKS` and `PACK_CONFIGS` did.
+# The one pack list. Order is **not** load-bearing (package-build#73). The
+# dependency it used to encode is real — the actors pass resolves each being's
+# embedded items against the items pass's output, so it must run after them —
+# but the toolchain now derives that from what each pass declares it reads,
+# rather than trusting the order written here. This list already compiles in the
+# order it is declared, so nothing moves; it is free to be ordered for the
+# reader, which matters because it is also the manifest's `packs` array and the
+# thing `packFolders` below names. `packDirectories` — what `build:compiledb`
+# turns into LevelDB — is still derived from it, so the compile list and the
+# compiler list cannot drift apart the way `SOURCE_PACKS` and `PACK_CONFIGS`
+# did.
 packs:
     - { name: items, label: Items, type: Item, folders: item-folders.yaml }
     - {
