@@ -34,13 +34,12 @@ contentPackage: sohl
 # coincidence: in `sohl-thalorna` the two differ (#1498).
 packageKind: systems
 
-# Stamped into every compiled document's `_stats`. `systemId` names the game
-# system the content is *for*, which a module shipping SoHL content still
-# declares as "sohl". `coreVersion` is deliberately absent — it is read from the
-# manifest's `compatibility.minimum` — and so is `systemVersion`, read from
-# `package.json`.
+# Stamped into every compiled document's `_stats`. Only `lastModifiedBy` is
+# authored: `systemId` and `systemVersion` are derived and refused if written
+# (HeroicLands/package-build#48) — a system package is its own system, and its
+# version is the `version` of the `package.json` beside this file. `coreVersion`
+# is likewise read from the manifest's `compatibility.minimum`.
 stats:
-    systemId: sohl
     lastModifiedBy: sohlbuilder00000
 
 # The Foundry core range this system supports. `minimum` is stamped into every
