@@ -14,7 +14,8 @@
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import {
     worldTimeDateField,
-    durationFields,
+    durationBaseField,
+    durationFormulaField,
 } from "@src/document/item/foundry/temporal-fields";
 import { TraumaLogic, TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
@@ -87,11 +88,23 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         }),
         contractDate: worldTimeDateField(),
         treatmentDate: worldTimeDateField(),
-        ...durationFields("healingCheck"),
-        ...durationFields("bloodLossAdvance"),
+        // The recurring intervals, written out rather than generated from a
+        // name. `durationFields("healingCheck")` built its keys with a template
+        // literal, so the names existed only once the argument was applied —
+        // and the schema is now read from this source as data by
+        // `package-build schema`, which does not evaluate arguments. Generated,
+        // these six fields were absent from the published schema entirely.
+        //
+        // The helpers still carry the field *definitions*; only the names are
+        // spelled here, where they can be read.
+        healingCheckDurationFormula: durationFormulaField(),
+        healingCheckDurationBase: durationBaseField(),
+        bloodLossAdvanceDurationFormula: durationFormulaField(),
+        bloodLossAdvanceDurationBase: durationBaseField(),
         // Extended Shock / Coma recovery Course Test (#556): its own recurring
         // cadence (Extended Shock every 4 hours; Coma every d10 days).
-        ...durationFields("course"),
+        courseDurationFormula: durationFormulaField(),
+        courseDurationBase: durationBaseField(),
         // Whether this injury, once treated, is eligible for permanent
         // impairment if it heals slowly (#553 sets it; #554 applies the
         // magnitude). A blank sentinel (`false`), not nullable: "not eligible"

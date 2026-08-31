@@ -117,6 +117,18 @@ packs:
 # values it wants, and restating them in a second file is two places for one
 # fact — which is exactly what `utils/push-stage.mjs` did before it was deleted.
 packageBuild:
+    # Where the data models are, so `package-build schema` can publish this
+    # system's `system` field sets as `schema.json`.
+    #
+    # Both registries live in one configuration module here, so the file is
+    # named twice; a system that keeps one registry per file names two. The
+    # registry — not a directory walk — is what says which subtypes exist:
+    # walking `*DataModel.ts` would publish schemas for classes nothing
+    # registers and miss any whose filename did not match.
+    schema:
+        Item: { from: src/core/foundry/sohl-config.ts, registry: ITEM_DM_DEF }
+        Actor: { from: src/core/foundry/sohl-config.ts, registry: ACTOR_DM_DEF }
+
     # Staged into `build/stage` (the default), so each `to:` is the path *within*
     # the shipped package. The table each consumer used to keep locally spelled
     # `build/stage/` on every row.

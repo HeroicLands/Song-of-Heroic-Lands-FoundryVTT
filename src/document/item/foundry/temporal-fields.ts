@@ -68,37 +68,23 @@ export function durationFormulaField(): foundry.data.fields.DataField.Any {
     return new StringField({ nullable: true, blank: false, initial: null });
 }
 
-/**
- * The field triplet for a **one-shot** timed phase: `{name}DurationFormula`,
- * `{name}DurationBase`, and `{name}Date` (the crystallized actual, `null` until
- * the phase fires).
+/*
+ * `phaseFields(name)` and `durationFields(name)` used to live here, building
+ * `{name}DurationFormula`, `{name}DurationBase` and `{name}Date` from a
+ * template literal. They are gone, and deliberately not replaced.
  *
- * @param name - The phase name (e.g. `"onset"`, `"resolution"`).
- * @returns A partial `DataSchema` to spread into a DataModel schema.
- */
-export function phaseFields(name: string): foundry.data.fields.DataSchema {
-    return {
-        [`${name}DurationFormula`]: durationFormulaField(),
-        [`${name}DurationBase`]: durationBaseField(),
-        [`${name}Date`]: worldTimeDateField(),
-    };
-}
-
-/**
- * The interval pair for a **recurring** timed process: `{name}DurationFormula`
- * and `{name}DurationBase` (the rolled interval). The recurrence **anchor** is
- * no longer a bespoke field — it lives in the generic `system.scheduledActions`
- * store (issue #588), whose entry's `anchor + interval` is the next fire time and
- * whose reload re-arm is generic. A recurring effect therefore keeps only its
- * author-editable interval formula and the last rolled base (still read for
- * display and derivations such as `TraumaLogic.isBleeding`).
+ * A schema whose keys are assembled from an argument has field names that exist
+ * only after the argument is applied — so they are not in the source, and
+ * `package-build schema`, which reads this file as data rather than running it,
+ * could not name them. All fourteen fields were missing from the published
+ * schema, and content authoring `system.onsetDate` would have been told no
+ * DataModel declares it.
  *
- * @param name - The process name (e.g. `"healingCheck"`, `"bloodLossAdvance"`).
- * @returns A partial `DataSchema` to spread into a DataModel schema.
+ * The two callers now spell the names out and call the field helpers above
+ * directly. The saving was three lines per phase; the cost was a schema that
+ * could not describe a third of what `affliction` and `trauma` actually store.
+ *
+ * The recurrence *anchor* is not among them: it lives in the generic
+ * `system.scheduledActions` store (issue #588), whose entry's
+ * `anchor + interval` is the next fire time.
  */
-export function durationFields(name: string): foundry.data.fields.DataSchema {
-    return {
-        [`${name}DurationFormula`]: durationFormulaField(),
-        [`${name}DurationBase`]: durationBaseField(),
-    };
-}

@@ -15,8 +15,8 @@ import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel"
 import { SafeExpressionField } from "@src/core/foundry/SafeExpressionField";
 import {
     worldTimeDateField,
-    phaseFields,
-    durationFields,
+    durationBaseField,
+    durationFormulaField,
 } from "@src/document/item/foundry/temporal-fields";
 import {
     AfflictionLogic,
@@ -106,9 +106,25 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         outcomeTrauma: new SafeExpressionField({
             scope: "affliction.outcomeTrauma",
         }),
-        ...phaseFields("onset"),
-        ...durationFields("healingCheck"),
-        ...phaseFields("resolution"),
+        // The timed phases, written out rather than generated from a name.
+        // `phaseFields("onset")` built its keys with a template literal, so the
+        // field names existed only once the argument was applied — and the
+        // schema is now read from this source as data by `package-build
+        // schema`, which does not evaluate arguments. Generated, these eight
+        // fields were simply absent from the published schema, and content
+        // authoring `system.onsetDate` would have been told no DataModel
+        // declares it.
+        //
+        // The helpers below still carry the field *definitions*; only the names
+        // are spelled here, where they can be read.
+        onsetDurationFormula: durationFormulaField(),
+        onsetDurationBase: durationBaseField(),
+        onsetDate: worldTimeDateField(),
+        healingCheckDurationFormula: durationFormulaField(),
+        healingCheckDurationBase: durationBaseField(),
+        resolutionDurationFormula: durationFormulaField(),
+        resolutionDurationBase: durationBaseField(),
+        resolutionDate: worldTimeDateField(),
     };
 }
 
