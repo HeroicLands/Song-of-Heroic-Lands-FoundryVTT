@@ -130,6 +130,14 @@ packageBuild:
         - { from: templates, to: templates }
         - { from: LICENSE.md, to: LICENSE.md }
         - { from: README.md, to: README.md }
+        # The published `system` field sets (HeroicLands/package-build#60).
+        # Shipped inside the archive rather than left to be fetched from a git
+        # tag, because `content-build deps fetch` already downloads and unzips
+        # exactly this archive at a relationship's `compatibility.verified` —
+        # so a consumer reads the schema of the version it actually pins,
+        # through the cache it already has, with no second network path and no
+        # way for the two to disagree.
+        - { from: schema.json, to: schema.json }
 
     # The one genuine piece of code in staging, and it stays this repository's:
     # every icon's hard-coded fill is rewritten to `currentColor` so the art
