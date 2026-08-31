@@ -40,9 +40,7 @@ describe("the abbreviation table agrees across the boundary", () => {
     });
 
     it("has the same words", () => {
-        expect(Object.keys(NAME_ABBREVIATIONS).sort()).toEqual(
-            Object.keys(ABBREVIATIONS).sort(),
-        );
+        expect(Object.keys(NAME_ABBREVIATIONS).sort()).toEqual(Object.keys(ABBREVIATIONS).sort());
     });
 
     it("maps every word to the same abbreviation", () => {

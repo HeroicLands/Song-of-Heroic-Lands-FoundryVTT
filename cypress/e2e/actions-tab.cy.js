@@ -36,9 +36,7 @@ function ledger(section) {
 function makeMacro(name, command) {
     return cy
         .foundry((win) =>
-            win.Macro.create(
-                toRealm(win, { name, type: "script", command }),
-            ).then((m) => m.uuid),
+            win.Macro.create(toRealm(win, { name, type: "script", command })).then((m) => m.uuid),
         )
         .then((uuid) => uuid);
 }
@@ -80,9 +78,7 @@ describe("Being Actions tab (#313)", () => {
         // the "E2E" marker (used in every test's action/macro name).
         cy.foundry((win) =>
             Promise.all(
-                win.game.macros
-                    .filter((m) => m.name.includes("E2E"))
-                    .map((m) => m.delete()),
+                win.game.macros.filter((m) => m.name.includes("E2E")).map((m) => m.delete()),
             ).then(() => null),
         );
     });
@@ -112,8 +108,7 @@ describe("Being Actions tab (#313)", () => {
                 .reverse()
                 .find((a) => /dialog/i.test(a.constructor.name));
             dlg.element.querySelector('input[name="title"]').value = title;
-            dlg.element.querySelector('select[name="macro"]').value =
-                macroValue;
+            dlg.element.querySelector('select[name="macro"]').value = macroValue;
             return null;
         });
         cy.submitDialog("ok");
@@ -121,26 +116,18 @@ describe("Being Actions tab (#313)", () => {
 
     it("create: binds a selected Macro under the given Action name", () => {
         cy.importActor().then((actor) => {
-            makeMacro("E2E Bind Macro", "console.log('bind');").then(
-                (macroUuid) => {
-                    cy.openSheet(actor);
-                    cy.switchTab("actions", "primary");
-                    fillCreateDialog("E2E Bound Action", macroUuid);
-                    cy.wait(700);
-                    // The action def is persisted, bound to the Macro's uuid…
-                    cy.foundry((win) =>
-                        (
-                            win.game.actors.get(actor.id).system.actionDefs ??
-                            []
-                        ).map((d) => d.executor),
-                    ).should("include", macroUuid);
-                    // …titled by the Action name, under Custom Actions.
-                    ledger("Custom Actions").contains(
-                        ".ledger__row",
-                        "E2E Bound Action",
-                    );
-                },
-            );
+            makeMacro("E2E Bind Macro", "console.log('bind');").then((macroUuid) => {
+                cy.openSheet(actor);
+                cy.switchTab("actions", "primary");
+                fillCreateDialog("E2E Bound Action", macroUuid);
+                cy.wait(700);
+                // The action def is persisted, bound to the Macro's uuid…
+                cy.foundry((win) =>
+                    (win.game.actors.get(actor.id).system.actionDefs ?? []).map((d) => d.executor),
+                ).should("include", macroUuid);
+                // …titled by the Action name, under Custom Actions.
+                ledger("Custom Actions").contains(".ledger__row", "E2E Bound Action");
+            });
         });
     });
 
@@ -153,19 +140,14 @@ describe("Being Actions tab (#313)", () => {
             // A SCRIPT macro named "<actor> E2E Fresh Action" was created…
             cy.foundry((win) => {
                 const actorName = win.game.actors.get(actor.id).name;
-                const m = win.game.macros.getName(
-                    `${actorName} E2E Fresh Action`,
-                );
+                const m = win.game.macros.getName(`${actorName} E2E Fresh Action`);
                 return m ? { type: m.type } : null;
             }).should((m) => {
                 expect(m, "new macro exists").to.not.be.null;
                 expect(m.type, "macro is a script").to.eq("script");
             });
             // …and the action is bound and listed under Custom Actions.
-            ledger("Custom Actions").contains(
-                ".ledger__row",
-                "E2E Fresh Action",
-            );
+            ledger("Custom Actions").contains(".ledger__row", "E2E Fresh Action");
         });
     });
 
@@ -182,9 +164,7 @@ describe("Being Actions tab (#313)", () => {
                 });
                 cy.openSheet(actor);
                 cy.switchTab("actions", "primary");
-                ledger("Custom Actions")
-                    .find('[data-action="runAction"]')
-                    .click();
+                ledger("Custom Actions").find('[data-action="runAction"]').click();
                 cy.wait(700);
                 cy.foundry((win) => win.__e2eRun).should("eq", 1);
             });
@@ -193,52 +173,38 @@ describe("Being Actions tab (#313)", () => {
 
     it("edit: opens the bound Macro's own sheet", () => {
         cy.importActor().then((actor) => {
-            makeMacro("E2E Edit Macro", "console.log('edit');").then(
-                (macroUuid) => {
-                    bindAction(actor.id, macroUuid, "E2E Edit Action");
-                    cy.openSheet(actor);
-                    cy.switchTab("actions", "primary");
-                    ledger("Custom Actions")
-                        .find('[data-action="editAction"]')
-                        .click();
-                    cy.wait(500);
-                    // A Macro config/sheet application is now open.
-                    cy.foundry((win) =>
-                        [...win.foundry.applications.instances.values()].some(
-                            (a) => /macro/i.test(a.constructor.name),
-                        ),
-                    ).should("be.true");
-                },
-            );
+            makeMacro("E2E Edit Macro", "console.log('edit');").then((macroUuid) => {
+                bindAction(actor.id, macroUuid, "E2E Edit Action");
+                cy.openSheet(actor);
+                cy.switchTab("actions", "primary");
+                ledger("Custom Actions").find('[data-action="editAction"]').click();
+                cy.wait(500);
+                // A Macro config/sheet application is now open.
+                cy.foundry((win) =>
+                    [...win.foundry.applications.instances.values()].some((a) =>
+                        /macro/i.test(a.constructor.name),
+                    ),
+                ).should("be.true");
+            });
         });
     });
 
     it("remove: disassociates the action but keeps the Macro", () => {
         cy.importActor().then((actor) => {
-            makeMacro("E2E Remove Macro", "console.log('rm');").then(
-                (macroUuid) => {
-                    bindAction(actor.id, macroUuid, "E2E Remove Action");
-                    cy.openSheet(actor);
-                    cy.switchTab("actions", "primary");
-                    ledger("Custom Actions")
-                        .find('[data-action="deleteAction"]')
-                        .click();
-                    cy.submitDialog("yes"); // DialogV2.confirm
-                    cy.wait(700);
-                    // The action def is gone…
-                    cy.foundry(
-                        (win) =>
-                            (
-                                win.game.actors.get(actor.id).system
-                                    .actionDefs ?? []
-                            ).length,
-                    ).should("eq", 0);
-                    // …but the Macro document still exists.
-                    cy.foundry((win) => !!win.fromUuidSync(macroUuid)).should(
-                        "be.true",
-                    );
-                },
-            );
+            makeMacro("E2E Remove Macro", "console.log('rm');").then((macroUuid) => {
+                bindAction(actor.id, macroUuid, "E2E Remove Action");
+                cy.openSheet(actor);
+                cy.switchTab("actions", "primary");
+                ledger("Custom Actions").find('[data-action="deleteAction"]').click();
+                cy.submitDialog("yes"); // DialogV2.confirm
+                cy.wait(700);
+                // The action def is gone…
+                cy.foundry(
+                    (win) => (win.game.actors.get(actor.id).system.actionDefs ?? []).length,
+                ).should("eq", 0);
+                // …but the Macro document still exists.
+                cy.foundry((win) => !!win.fromUuidSync(macroUuid)).should("be.true");
+            });
         });
     });
 });

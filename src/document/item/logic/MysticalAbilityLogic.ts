@@ -19,10 +19,7 @@ import type { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { resolveAssocAffiliation } from "@src/document/item/logic/resolveAssocAffiliation";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import {
-    SohlItemBaseLogic,
-    type SohlItemData,
-} from "@src/document/item/logic/SohlItemBaseLogic";
+import { SohlItemBaseLogic, type SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
     ITEM_KIND,
@@ -131,8 +128,7 @@ export class MysticalAbilityLogic<
     get hasValidSpiritPower(): boolean {
         return (
             !!this.assocSpiritPower &&
-            this.assocSpiritPower.data.subType ===
-                MYSTICALABILITY_SUBTYPE.SPIRITPOWER
+            this.assocSpiritPower.data.subType === MYSTICALABILITY_SUBTYPE.SPIRITPOWER
         );
     }
 
@@ -153,10 +149,7 @@ export class MysticalAbilityLogic<
      * {@link hasValidSpiritPower | valid Spirit Power}.
      */
     get isDisabled(): boolean {
-        return (
-            this.isExhausted ||
-            (this.usesSpiritPower && !this.hasValidSpiritPower)
-        );
+        return this.isExhausted || (this.usesSpiritPower && !this.hasValidSpiritPower);
     }
 
     /**
@@ -344,9 +337,7 @@ export class MysticalAbilityLogic<
      * @param context - The action context (speaker, scope) for the test.
      * @returns The test result, `undefined` if cancelled/blocked, or `false` on error.
      */
-    async successTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | undefined | false> {
+    async successTest(context: SohlActionContext): Promise<SuccessTestResult | undefined | false> {
         if (this.isDisabled) {
             sohl.log.uiWarn(
                 this.isExhausted ?
@@ -363,11 +354,7 @@ export class MysticalAbilityLogic<
         // not a cancel/undefined or error/false) and the ability uses finite
         // charges (max enabled, value not infinite). Decrement the persisted
         // base; Active-Effect deltas still stack on top of the stored value.
-        if (
-            result &&
-            !this.charges.max.disabled &&
-            !this.charges.value.disabled
-        ) {
+        if (result && !this.charges.max.disabled && !this.charges.value.disabled) {
             const remaining = this.data.charges.value;
             if (typeof remaining === "number" && remaining > 0) {
                 await this.item.update({
@@ -425,18 +412,12 @@ export class MysticalAbilityLogic<
             max: new entity.ValueModifier(this),
         };
         if (this.data.charges.max === null) {
-            this.charges.value.setDisabled(
-                "SOHL.MysticalAbility.DoesNotUseCharges",
-            );
-            this.charges.max.setDisabled(
-                "SOHL.MysticalAbility.DoesNotUseCharges",
-            );
+            this.charges.value.setDisabled("SOHL.MysticalAbility.DoesNotUseCharges");
+            this.charges.max.setDisabled("SOHL.MysticalAbility.DoesNotUseCharges");
         } else {
             this.charges.max.setBase(this.data.charges.max);
             if (this.data.charges.value === null) {
-                this.charges.value.setDisabled(
-                    "SOHL.MysticalAbility.InfiniteCharges",
-                );
+                this.charges.value.setDisabled("SOHL.MysticalAbility.InfiniteCharges");
             } else {
                 this.charges.value.setBase(this.data.charges.value);
             }
@@ -455,10 +436,7 @@ export class MysticalAbilityLogic<
         // internal mastery level (seeded from masteryLevelBase). With a skill,
         // the base is deferred to finalize(), which copies the skill's mastery
         // level in via addVM so the ability's own modifiers still stack on top.
-        this.masteryLevel = new entity.MasteryLevelModifier(
-            {},
-            { parent: this },
-        );
+        this.masteryLevel = new entity.MasteryLevelModifier({}, { parent: this });
         if (!this.data.assocSkillCode) {
             this.masteryLevel.setBase(this.data.masteryLevelBase);
         }
@@ -482,11 +460,7 @@ export class MysticalAbilityLogic<
         ) {
             const levelPenalty = this.level.effective * 2;
             if (levelPenalty > 0) {
-                this.masteryLevel.add(
-                    "SOHL.MysticalAbility.LevelPenalty",
-                    "LvlPen",
-                    -levelPenalty,
-                );
+                this.masteryLevel.add("SOHL.MysticalAbility.LevelPenalty", "LvlPen", -levelPenalty);
             }
         }
 
@@ -501,10 +475,7 @@ export class MysticalAbilityLogic<
                 ITEM_KIND.MYSTICALABILITY,
             ) as MysticalAbilityLogic | undefined;
         } else {
-            this.assocSkill = resolveAssocSkill(
-                actorLogic,
-                this.data.assocSkillCode,
-            );
+            this.assocSkill = resolveAssocSkill(actorLogic, this.data.assocSkillCode);
         }
 
         // The associated Affiliation is independent of the activating skill /
@@ -512,10 +483,7 @@ export class MysticalAbilityLogic<
         // school, ancestor/totem/spirit) whose standing this ability draws on.
         // Resolved for every subtype that names one; undefined when blank or
         // unmatched.
-        this.affiliation = resolveAssocAffiliation(
-            actorLogic,
-            this.data.assocAffiliationCode,
-        );
+        this.affiliation = resolveAssocAffiliation(actorLogic, this.data.assocAffiliationCode);
     }
 
     /** @inheritdoc */
@@ -555,8 +523,7 @@ export class MysticalAbilityLogic<
  * @remarks The shape of `system` on a `mysticalability` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "mysticalability"`. The backing DataModel implements this interface.
  */
 export interface MysticalAbilityData<
-    TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
-        MysticalAbilityLogic<any>,
+    TLogic extends MysticalAbilityLogic<MysticalAbilityData> = MysticalAbilityLogic<any>,
 > extends SohlItemData<TLogic> {
     /** Ability type (Incantation, Rite, Talent, etc.) */
     subType: MysticalAbilitySubType;

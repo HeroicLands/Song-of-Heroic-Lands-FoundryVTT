@@ -43,4 +43,4 @@ thing that regressed and a stronger claim, since other repositories read it.
 
 _Minor._ A more complete published schema and an internal refactor. No change to
 stored data, emitted documents, or the manifest. Requires
-`@heroiclands/package-build` 8.1.0, whose reader follows an imported spread.
+`@heroiclands/package-build` 9.0.0, whose reader follows an imported spread.

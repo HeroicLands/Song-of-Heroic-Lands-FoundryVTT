@@ -13,10 +13,7 @@
 
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { buildActionRows, runAction } from "@src/core/foundry/sheet-actions";
-import {
-    ACTION_SUBTYPE,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@src/utils/constants";
+import { ACTION_SUBTYPE, SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 import { makeMockSpeaker } from "@tests/mocks/logicHarness";
 
 /**
@@ -24,11 +21,7 @@ import { makeMockSpeaker } from "@tests/mocks/logicHarness";
  * builder reads only `data`, `isAvailable`, and `unavailableReason`.
  */
 function stubAction(overrides: Record<string, unknown> = {}): any {
-    const {
-        available = true,
-        unavailableReason = "SOHL.Action.unavailable",
-        ...data
-    } = overrides;
+    const { available = true, unavailableReason = "SOHL.Action.unavailable", ...data } = overrides;
     return {
         data: {
             shortcode: "act",
@@ -62,9 +55,7 @@ function stubDoc(actions: any[], type = "miscgear"): any {
 function stubControl(shortcode: string): any {
     return {
         closest: (selector: string) =>
-            selector === "[data-action-name]" ?
-                { getAttribute: () => shortcode }
-            :   null,
+            selector === "[data-action-name]" ? { getAttribute: () => shortcode } : null,
     };
 }
 
@@ -79,9 +70,7 @@ describe("buildActionRows (#1135, #1136)", () => {
                 }),
             ]),
         );
-        expect(rows.intrinsicActions.map((r) => r.data.shortcode)).toEqual([
-            "i1",
-        ]);
+        expect(rows.intrinsicActions.map((r) => r.data.shortcode)).toEqual(["i1"]);
         expect(rows.customActions.map((r) => r.data.shortcode)).toEqual(["s1"]);
     });
 
@@ -99,9 +88,7 @@ describe("buildActionRows (#1135, #1136)", () => {
     });
 
     it("marks a triggerable action available", () => {
-        const [row] = buildActionRows(
-            stubDoc([stubAction({ available: true })]),
-        ).intrinsicActions;
+        const [row] = buildActionRows(stubDoc([stubAction({ available: true })])).intrinsicActions;
         expect(row.available).toBe(true);
     });
 
@@ -131,9 +118,7 @@ describe("runAction reports a refused action (#1135)", () => {
     afterEach(() => vi.restoreAllMocks());
 
     it("warns with the action's reason instead of failing silently", async () => {
-        const warn = vi
-            .spyOn(sohl.log, "uiWarn" as any)
-            .mockImplementation(() => {});
+        const warn = vi.spyOn(sohl.log, "uiWarn" as any).mockImplementation(() => {});
         const action = stubAction({
             available: false,
             unavailableReason: "SOHL.Gear.actionRequiresCarried",
@@ -147,9 +132,7 @@ describe("runAction reports a refused action (#1135)", () => {
     });
 
     it("runs an available action without warning", async () => {
-        const warn = vi
-            .spyOn(sohl.log, "uiWarn" as any)
-            .mockImplementation(() => {});
+        const warn = vi.spyOn(sohl.log, "uiWarn" as any).mockImplementation(() => {});
         const action = stubAction({ available: true });
         await runAction(stubDoc([action]), stubControl("act"), {
             shiftKey: false,

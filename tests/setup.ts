@@ -8,10 +8,7 @@
 import { Sfc32Rng } from "@src/entity/random/Sfc32Rng";
 
 // Foundry adds paddedString to Number.prototype; replicate it for tests.
-(Number.prototype as any).paddedString = function (
-    this: number,
-    digits: number,
-): string {
+(Number.prototype as any).paddedString = function (this: number, digits: number): string {
     if (this < 0) return "-" + Math.abs(this).toString().padStart(digits, "0");
     return this.toString().padStart(digits, "0");
 };
@@ -29,10 +26,7 @@ const i18n = {
         }
         return result;
     },
-    normalizeText(
-        text: string,
-        _opts?: { caseInsensitive?: boolean; ascii?: boolean },
-    ): string {
+    normalizeText(text: string, _opts?: { caseInsensitive?: boolean; ascii?: boolean }): string {
         return text.toLowerCase().trim();
     },
     formatListOr(items: string[]): string {
@@ -116,8 +110,7 @@ const sohlMock = {
             return obj;
         },
         randomID(length: number = 16): string {
-            const chars =
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             let out = "";
             for (let i = 0; i < length; i++) {
                 out += chars[Math.floor(Math.random() * chars.length)];
@@ -165,8 +158,7 @@ const sohlMock = {
             timeToComponents(time: number = 0): any {
                 const secondsPerDay = this._secondsPerDay();
                 const secondsPerYear = this._secondsPerYear();
-                const secondsPerHour =
-                    this.days.secondsPerMinute * this.days.minutesPerHour;
+                const secondsPerHour = this.days.secondsPerMinute * this.days.minutesPerHour;
                 const secondsPerMinute = this.days.secondsPerMinute;
 
                 let year = Math.floor(time / secondsPerYear);
@@ -189,9 +181,7 @@ const sohlMock = {
                 const totalDays = Math.floor(time / secondsPerDay);
                 const wlen = this.days.values.length;
                 const dayOfWeek =
-                    (((totalDays + (this.years?.firstWeekday ?? 0)) % wlen) +
-                        wlen) %
-                    wlen;
+                    (((totalDays + (this.years?.firstWeekday ?? 0)) % wlen) + wlen) % wlen;
 
                 const hour = Math.floor(rem / secondsPerHour);
                 rem -= hour * secondsPerHour;
@@ -215,8 +205,7 @@ const sohlMock = {
             componentsToTime(c: any): number {
                 const secondsPerDay = this._secondsPerDay();
                 const secondsPerYear = this._secondsPerYear();
-                const secondsPerHour =
-                    this.days.secondsPerMinute * this.days.minutesPerHour;
+                const secondsPerHour = this.days.secondsPerMinute * this.days.minutesPerHour;
                 const secondsPerMinute = this.days.secondsPerMinute;
 
                 let time = (c.year ?? 0) * secondsPerYear;
@@ -224,8 +213,7 @@ const sohlMock = {
                     time += c.day * secondsPerDay;
                 } else if (c.month != null && c.dayOfMonth != null) {
                     let d = c.dayOfMonth;
-                    for (let m = 0; m < c.month; m++)
-                        d += this.months.values[m].days;
+                    for (let m = 0; m < c.month; m++) d += this.months.values[m].days;
                     time += d * secondsPerDay;
                 }
                 time += (c.hour ?? 0) * secondsPerHour;

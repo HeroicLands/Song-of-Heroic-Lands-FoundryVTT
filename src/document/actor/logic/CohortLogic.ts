@@ -109,9 +109,7 @@ export interface CohortMemberRow {
  *
  * @typeParam TData - The Cohort data interface.
  */
-export class CohortLogic<
-    TData extends CohortData = CohortData,
-> extends SohlActorBaseLogic<TData> {
+export class CohortLogic<TData extends CohortData = CohortData> extends SohlActorBaseLogic<TData> {
     /* --------------------------------------------- */
     /* Membership                                    */
     /* --------------------------------------------- */
@@ -155,15 +153,11 @@ export class CohortLogic<
             const ref = member.shortcodeOrUuid;
             const actor = fvttActorByRef(ref);
             const healthPct = healthPercent(actor?.logic?.data?.health);
-            const band =
-                healthPct === undefined ? undefined : healthBandFor(healthPct);
+            const band = healthPct === undefined ? undefined : healthBandFor(healthPct);
             return {
                 ref,
                 role: member.role,
-                roleLabel:
-                    (CohortMemberRoleChoices as Record<string, string>)[
-                        member.role
-                    ] ?? "",
+                roleLabel: (CohortMemberRoleChoices as Record<string, string>)[member.role] ?? "",
                 name: actor?.name ?? ref,
                 img: actor?.img ?? "",
                 uuid: actor?.uuid ?? null,
@@ -171,8 +165,7 @@ export class CohortLogic<
                 isLeader: ref === leaderCode,
                 healthPct,
                 healthBand: band,
-                healthBandLabel:
-                    band === undefined ? undefined : healthBandLabelFor(band),
+                healthBandLabel: band === undefined ? undefined : healthBandLabelFor(band),
             };
         });
     }
@@ -192,9 +185,7 @@ export class CohortLogic<
     get leaderCode(): string | null {
         const code = this.data.leaderCode;
         if (!code) return null;
-        return this.data.members.some((m) => m.shortcodeOrUuid === code) ?
-                code
-            :   null;
+        return this.data.members.some((m) => m.shortcodeOrUuid === code) ? code : null;
     }
 
     /**
@@ -239,9 +230,7 @@ export class CohortLogic<
         const carriers = this.memberLogics.map((logic) => ({
             name: logic.data.name,
             uuid: logic.data.uuid,
-            gear: logic.allLogics.filter((item): item is GearLogic =>
-                isGearKind(item.data.kind),
-            ),
+            gear: logic.allLogics.filter((item): item is GearLogic => isGearKind(item.data.kind)),
         }));
         return collectSharedGear(carriers, this.sharingRefs);
     }
@@ -280,8 +269,7 @@ export class CohortLogic<
                 (m) => m.shortcodeOrUuid !== shortcodeOrUuid,
             ),
         };
-        if (this.data.leaderCode === shortcodeOrUuid)
-            update["system.leaderCode"] = null;
+        if (this.data.leaderCode === shortcodeOrUuid) update["system.leaderCode"] = null;
         return update;
     }
 
@@ -296,15 +284,9 @@ export class CohortLogic<
      */
     setLeaderUpdate(shortcodeOrUuid: string | null): PlainObject | undefined {
         if (shortcodeOrUuid == null) return { "system.leaderCode": null };
-        if (
-            !this.data.members.some(
-                (m) => m.shortcodeOrUuid === shortcodeOrUuid,
-            )
-        )
-            return undefined;
+        if (!this.data.members.some((m) => m.shortcodeOrUuid === shortcodeOrUuid)) return undefined;
         return {
-            "system.leaderCode":
-                this.leaderCode === shortcodeOrUuid ? null : shortcodeOrUuid,
+            "system.leaderCode": this.leaderCode === shortcodeOrUuid ? null : shortcodeOrUuid,
         };
     }
 
@@ -380,9 +362,7 @@ export class CohortLogic<
         const scope = (context.scope ?? {}) as PlainObject;
         let ref = String(scope.shortcodeOrUuid ?? "").trim();
         let role: CohortMemberRole =
-            isCohortMemberRole(scope.role) ?
-                scope.role
-            :   COHORT_MEMBER_ROLE.MEMBER;
+            isCohortMemberRole(scope.role) ? scope.role : COHORT_MEMBER_ROLE.MEMBER;
 
         // Prefer asking: the handle is author-typed, so the dialog is where it
         // gets checked. Only a caller that already knows both — and says so —
@@ -405,37 +385,25 @@ export class CohortLogic<
                 ),
                 data: {
                     ref,
-                    refLabel: sohl.i18n.localize(
-                        "SOHL.Cohort.Members.add.refLabel",
-                    ),
-                    refHint: sohl.i18n.localize(
-                        "SOHL.Cohort.Members.add.refHint",
-                    ),
-                    roleLabel: sohl.i18n.localize(
-                        "SOHL.Cohort.FIELDS.members.role.label",
-                    ),
-                    roles: Object.entries(CohortMemberRoleChoices).map(
-                        ([value, key]) => ({
-                            value,
-                            label: sohl.i18n.localize(key),
-                            selected: value === role,
-                        }),
-                    ),
+                    refLabel: sohl.i18n.localize("SOHL.Cohort.Members.add.refLabel"),
+                    refHint: sohl.i18n.localize("SOHL.Cohort.Members.add.refHint"),
+                    roleLabel: sohl.i18n.localize("SOHL.Cohort.FIELDS.members.role.label"),
+                    roles: Object.entries(CohortMemberRoleChoices).map(([value, key]) => ({
+                        value,
+                        label: sohl.i18n.localize(key),
+                        selected: value === role,
+                    })),
                 },
                 buttons: [
                     {
                         action: "add",
-                        label: sohl.i18n.localize(
-                            "SOHL.Cohort.Members.add.confirm",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Cohort.Members.add.confirm"),
                         icon: "fa-solid fa-user-plus",
                         default: true,
                     },
                     {
                         action: "cancel",
-                        label: sohl.i18n.localize(
-                            "SOHL.Cohort.Members.add.cancel",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Cohort.Members.add.cancel"),
                     },
                 ],
                 callback: (formData: PlainObject, action: string) =>
@@ -444,32 +412,23 @@ export class CohortLogic<
             })) as PlainObject | undefined | null;
             if (!answer) return;
             ref = String(answer.shortcodeOrUuid ?? "").trim();
-            role =
-                isCohortMemberRole(answer.role) ?
-                    answer.role
-                :   COHORT_MEMBER_ROLE.MEMBER;
+            role = isCohortMemberRole(answer.role) ? answer.role : COHORT_MEMBER_ROLE.MEMBER;
         }
 
         if (!ref) return;
         if (this.data.members.some((m) => m.shortcodeOrUuid === ref)) {
-            sohl.log.uiWarn(
-                sohl.i18n.format("SOHL.Cohort.Members.add.duplicate", { ref }),
-            );
+            sohl.log.uiWarn(sohl.i18n.format("SOHL.Cohort.Members.add.duplicate", { ref }));
             return;
         }
         // `fvttActorByRef` yields an Actor or nothing — a UUID naming some
         // other document resolves to `undefined` — so this one check covers
         // both "no such document" and "that is not an actor".
         if (!fvttActorByRef(ref)) {
-            sohl.log.uiWarn(
-                sohl.i18n.format("SOHL.Cohort.Members.add.notAnActor", { ref }),
-            );
+            sohl.log.uiWarn(sohl.i18n.format("SOHL.Cohort.Members.add.notAnActor", { ref }));
             return;
         }
 
-        await this.data.update(
-            this.addMemberUpdate({ shortcodeOrUuid: ref, role }),
-        );
+        await this.data.update(this.addMemberUpdate({ shortcodeOrUuid: ref, role }));
     }
 
     /**
@@ -508,29 +467,23 @@ export class CohortLogic<
                 title: sohl.i18n.localize("SOHL.Cohort.Members.remove.title"),
                 content: toHTMLString(`<p>{{warning}}</p>`),
                 data: {
-                    warning: sohl.i18n.format(
-                        "SOHL.Cohort.Members.remove.warning",
-                        { name: row.name },
-                    ),
+                    warning: sohl.i18n.format("SOHL.Cohort.Members.remove.warning", {
+                        name: row.name,
+                    }),
                 },
                 buttons: [
                     {
                         action: "yes",
-                        label: sohl.i18n.localize(
-                            "SOHL.Cohort.Members.remove.confirm",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Cohort.Members.remove.confirm"),
                         icon: "fa-solid fa-trash",
                     },
                     {
                         action: "no",
-                        label: sohl.i18n.localize(
-                            "SOHL.Cohort.Members.remove.cancel",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Cohort.Members.remove.cancel"),
                         default: true,
                     },
                 ],
-                callback: (_formData: PlainObject, action: string) =>
-                    action === "yes",
+                callback: (_formData: PlainObject, action: string) => action === "yes",
                 rejectClose: false,
             });
             if (confirmed !== true) return;
@@ -590,9 +543,7 @@ export class CohortLogic<
     ): Promise<string | undefined> {
         const rows = this.memberRows;
         if (!rows.length) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Cohort.Members.empty.warn"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Cohort.Members.empty.warn"));
             return undefined;
         }
         const picked = await dialog({
@@ -616,15 +567,11 @@ export class CohortLogic<
                 },
                 {
                     action: "cancel",
-                    label: sohl.i18n.localize(
-                        "SOHL.Cohort.Members.picker.cancel",
-                    ),
+                    label: sohl.i18n.localize("SOHL.Cohort.Members.picker.cancel"),
                 },
             ],
             callback: (formData: PlainObject, action: string) =>
-                action === "select" ?
-                    String(formData?.shortcodeOrUuid ?? "")
-                :   undefined,
+                action === "select" ? String(formData?.shortcodeOrUuid ?? "") : undefined,
             rejectClose: false,
         });
         return picked || undefined;

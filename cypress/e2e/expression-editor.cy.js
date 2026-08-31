@@ -45,9 +45,7 @@ describe("SafeExpression editor (Skill Base pilot)", () => {
         // testIsolation is off, so a still-open editor dialog (a modal) would
         // cover the next test's sheet — close every open app before cleanup.
         cy.foundry((win) => {
-            for (const app of Array.from(
-                win.foundry.applications.instances.values(),
-            )) {
+            for (const app of Array.from(win.foundry.applications.instances.values())) {
                 if (app.rendered) app.close();
             }
         });
@@ -85,10 +83,7 @@ describe("SafeExpression editor (Skill Base pilot)", () => {
             cy.get('button[data-action="editExpression"]').click();
             cy.get(".expression-editor .cm-editor").should("exist");
             setEditor("a == b"); // `==` is a removed operator → parse error
-            cy.get(".expression-editor__status").should(
-                "have.class",
-                "is-error",
-            );
+            cy.get(".expression-editor__status").should("have.class", "is-error");
             cy.get('button[data-action="save"]').should("be.disabled");
         });
     });
@@ -98,18 +93,16 @@ describe("SafeExpression editor (Skill Base pilot)", () => {
             cy.get('button[data-action="editExpression"]').click();
             cy.get(".expression-editor .cm-editor").should("exist");
             setEditor("sb(attr.str)").should("eq", "sb(attr.str)");
-            cy.get(".expression-editor__status").should(
-                "have.class",
-                "is-valid",
-            );
+            cy.get(".expression-editor__status").should("have.class", "is-valid");
             cy.get('button[data-action="save"]').should("not.be.disabled");
             cy.submitDialog("save");
             // The action's `document.update` is async and the click doesn't await
             // it; give it a beat, then poll the persisted field until it settles.
             cy.wait(500);
-            cy.foundry(
-                (win) => win.game.items.get(skill.id).system.skillBaseFormula,
-            ).should("eq", "sb(attr.str)");
+            cy.foundry((win) => win.game.items.get(skill.id).system.skillBaseFormula).should(
+                "eq",
+                "sb(attr.str)",
+            );
         });
     });
 
@@ -125,9 +118,7 @@ describe("SafeExpression editor (Skill Base pilot)", () => {
                 .find("span")
                 .its("length")
                 .should("be.greaterThan", 1);
-            cy.get(".expression-editor .cm-line")
-                .first()
-                .should("contain.text", "sb");
+            cy.get(".expression-editor .cm-line").first().should("contain.text", "sb");
         });
     });
 
@@ -137,10 +128,7 @@ describe("SafeExpression editor (Skill Base pilot)", () => {
             cy.get(".expression-editor .cm-editor").should("exist");
             cy.get(".expression-editor__helpers summary").click();
             cy.get('.expression-editor__chip[data-helper="abs"]').click();
-            cy.foundry((win) => editorHandle(win).getValue()).should(
-                "contain",
-                "abs()",
-            );
+            cy.foundry((win) => editorHandle(win).getValue()).should("contain", "abs()");
         });
     });
 });
@@ -149,9 +137,7 @@ describe("SafeExpression editor rollout (Affliction outcomeTrauma)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => {
         cy.foundry((win) => {
-            for (const app of Array.from(
-                win.foundry.applications.instances.values(),
-            )) {
+            for (const app of Array.from(win.foundry.applications.instances.values())) {
                 if (app.rendered) app.close();
             }
         });
@@ -159,34 +145,25 @@ describe("SafeExpression editor rollout (Affliction outcomeTrauma)", () => {
     });
 
     it("shows the editor on the outcomeTrauma field and persists a valid value", () => {
-        cy.createWorldItem("affliction", { name: "Editor Affliction" }).then(
-            (affliction) => {
-                cy.openSheet(affliction);
-                cy.switchTab("properties", "sheet");
-                cy.get(
-                    'button[data-action="editExpression"][data-field-path="system.outcomeTrauma"]',
-                )
-                    .should("exist")
-                    .click();
-                cy.get(".expression-editor .cm-editor").should("exist");
-                cy.foundry((win) => {
-                    const node = win.document.querySelector(
-                        ".expression-editor [data-editor]",
-                    );
-                    node._expressionEditor.setValue("'psy'");
-                    return node._expressionEditor.getValue();
-                }).should("eq", "'psy'");
-                cy.get(".expression-editor__status").should(
-                    "have.class",
-                    "is-valid",
-                );
-                cy.submitDialog("save");
-                cy.wait(500);
-                cy.foundry(
-                    (win) =>
-                        win.game.items.get(affliction.id).system.outcomeTrauma,
-                ).should("eq", "'psy'");
-            },
-        );
+        cy.createWorldItem("affliction", { name: "Editor Affliction" }).then((affliction) => {
+            cy.openSheet(affliction);
+            cy.switchTab("properties", "sheet");
+            cy.get('button[data-action="editExpression"][data-field-path="system.outcomeTrauma"]')
+                .should("exist")
+                .click();
+            cy.get(".expression-editor .cm-editor").should("exist");
+            cy.foundry((win) => {
+                const node = win.document.querySelector(".expression-editor [data-editor]");
+                node._expressionEditor.setValue("'psy'");
+                return node._expressionEditor.getValue();
+            }).should("eq", "'psy'");
+            cy.get(".expression-editor__status").should("have.class", "is-valid");
+            cy.submitDialog("save");
+            cy.wait(500);
+            cy.foundry((win) => win.game.items.get(affliction.id).system.outcomeTrauma).should(
+                "eq",
+                "'psy'",
+            );
+        });
     });
 });

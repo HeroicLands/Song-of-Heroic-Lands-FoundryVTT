@@ -11,14 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    NONE_MOVE_PROFILE,
-    type MovementProfile,
-} from "@src/document/actor/logic/movement";
-import {
-    MovementMediumChoices,
-    type MovementMedium,
-} from "@src/utils/constants";
+import { NONE_MOVE_PROFILE, type MovementProfile } from "@src/document/actor/logic/movement";
+import { MovementMediumChoices, type MovementMedium } from "@src/utils/constants";
 
 /**
  * The render parts every actor sheet shows, whatever its type and whatever the
@@ -27,12 +21,7 @@ import {
  *
  * Everything else is a *detail* part, withheld under limited permission.
  */
-const ALWAYS_PARTS: readonly string[] = [
-    "fencedBanner",
-    "header",
-    "tabs",
-    "facade",
-];
+const ALWAYS_PARTS: readonly string[] = ["fencedBanner", "header", "tabs", "facade"];
 
 /** The render part id of the fenced (experimental) schema banner. */
 const FENCED_BANNER_PART_ID = "fencedBanner";

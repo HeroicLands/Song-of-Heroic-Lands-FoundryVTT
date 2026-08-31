@@ -44,9 +44,7 @@ describe("worstPerceptionPenalty", () => {
 
 describe("perceptionPenaltyApplies", () => {
     it("applies to a skill built on perception", () => {
-        expect(perceptionPenaltyApplies(["dex", PERCEPTION_SHORTCODE])).toBe(
-            true,
-        );
+        expect(perceptionPenaltyApplies(["dex", PERCEPTION_SHORTCODE])).toBe(true);
     });
 
     it("does not apply to a skill built on other attributes", () => {
@@ -68,9 +66,7 @@ describe("armHarnessEncumbrance", () => {
     });
 
     it("costs a flat 5 at the threshold and above", () => {
-        expect(armHarnessEncumbrance(ARM_HARNESS_THRESHOLD)).toBe(
-            ARM_HARNESS_ENCUMBRANCE,
-        );
+        expect(armHarnessEncumbrance(ARM_HARNESS_THRESHOLD)).toBe(ARM_HARNESS_ENCUMBRANCE);
         expect(armHarnessEncumbrance(4)).toBe(ARM_HARNESS_ENCUMBRANCE);
         expect(armHarnessEncumbrance(9)).toBe(ARM_HARNESS_ENCUMBRANCE);
     });

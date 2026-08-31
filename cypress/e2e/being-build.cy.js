@@ -122,9 +122,7 @@ describe("being build — manual character-build chain", () => {
                 expect(r.reach, "reach is numeric").to.be.a("number");
                 expect(r.hasBod, "structure present").to.be.true;
                 expect(r.parts, "body has anatomy").to.be.greaterThan(0);
-                expect(r.terrestrial, "terrestrial move is numeric").to.be.a(
-                    "number",
-                );
+                expect(r.terrestrial, "terrestrial move is numeric").to.be.a("number");
             });
         });
     });
@@ -182,10 +180,7 @@ describe("being build — manual character-build chain", () => {
                     };
                 }).should((r) => {
                     expect(r.sb, "skillBase").to.be.greaterThan(0);
-                    expect(
-                        r.base,
-                        "opening ML = skillBase × initSkillMult",
-                    ).to.eq(r.sb * r.mult);
+                    expect(r.base, "opening ML = skillBase × initSkillMult").to.eq(r.sb * r.mult);
                 });
             });
         });

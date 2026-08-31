@@ -20,11 +20,7 @@
 
 import { fvttCreateEmbeddedItems } from "@src/core/FoundryHelpers";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import {
-    FATIGUE_CATEGORY,
-    ITEM_KIND,
-    TRAUMA_SUBTYPE,
-} from "@src/utils/constants";
+import { FATIGUE_CATEGORY, ITEM_KIND, TRAUMA_SUBTYPE } from "@src/utils/constants";
 
 /**
  * Inflict `levels` Fatigue Levels of **weakness** fatigue on `actorLogic` as a

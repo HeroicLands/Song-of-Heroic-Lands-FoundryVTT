@@ -46,30 +46,20 @@ describe("physicalHealthCeiling (#470)", () => {
     });
 
     it("is harsher for critical parts, and a critical unusable part is 0 (dead)", () => {
-        expect(physicalHealthCeiling([part(SERIOUS, { critical: true })])).toBe(
-            20,
-        );
+        expect(physicalHealthCeiling([part(SERIOUS, { critical: true })])).toBe(20);
         expect(
             physicalHealthCeiling([
                 part(SERIOUS, { critical: true }),
                 part(SERIOUS, { critical: true }),
             ]),
         ).toBe(10);
-        expect(
-            physicalHealthCeiling([
-                part(NONE, { usable: false, critical: true }),
-            ]),
-        ).toBe(0);
+        expect(physicalHealthCeiling([part(NONE, { usable: false, critical: true })])).toBe(0);
     });
 
     it("takes the minimum across all buckets", () => {
         // 2 non-critical MINOR (50%) + 1 critical SERIOUS (20%) → 20%.
         expect(
-            physicalHealthCeiling([
-                part(MINOR),
-                part(MINOR),
-                part(SERIOUS, { critical: true }),
-            ]),
+            physicalHealthCeiling([part(MINOR), part(MINOR), part(SERIOUS, { critical: true })]),
         ).toBe(20);
     });
 });

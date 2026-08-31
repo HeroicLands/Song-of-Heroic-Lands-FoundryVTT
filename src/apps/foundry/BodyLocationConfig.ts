@@ -26,10 +26,9 @@ import {
     isBleedingSusceptibility,
 } from "@src/utils/constants";
 
-const BodyLocationConfig_Base: any =
-    foundry.applications.api.HandlebarsApplicationMixin(
-        foundry.applications.api.ApplicationV2,
-    );
+const BodyLocationConfig_Base: any = foundry.applications.api.HandlebarsApplicationMixin(
+    foundry.applications.api.ApplicationV2,
+);
 
 /**
  * A small, sheet-like editor for a single {@link BodyLocation} within a
@@ -106,10 +105,7 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
     ) {
         // Derive a stable, per-(actor, part, location) id so editing two
         // different locations opens two distinct windows.
-        const idSuffix = `${partShortcode}-${shortcode}`.replace(
-            /[^\w-]/g,
-            "-",
-        );
+        const idSuffix = `${partShortcode}-${shortcode}`.replace(/[^\w-]/g, "-");
         super({
             id: `body-location-config-${actor.id}-${idSuffix}`,
             ...options,
@@ -157,9 +153,8 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
         const structure = this.#structure();
         const index = structure?.getLocationByCode(this.#key)?.index;
         if (structure === undefined || index === undefined) return undefined;
-        return (structure.parent as any).data.body.structure.locations[
-            index
-        ] as BodyLocation.Data | undefined;
+        return (structure.parent as any).data.body.structure.locations[index] as
+            BodyLocation.Data | undefined;
     }
 
     /**
@@ -190,13 +185,11 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
                     selected: value === loc.bleedingSusceptibility,
                 }),
             ),
-            amputabilityOptions: Object.entries(AmputabilityChoices).map(
-                ([value, label]) => ({
-                    value,
-                    label,
-                    selected: value === loc.amputability,
-                }),
-            ),
+            amputabilityOptions: Object.entries(AmputabilityChoices).map(([value, label]) => ({
+                value,
+                label,
+                selected: value === loc.amputability,
+            })),
         };
     }
 
@@ -247,9 +240,7 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
         // typo). The dropdown only ever offers real parts plus the current value.
         const submittedPart = String(submitted.bodyPartCode ?? "");
         const bodyPartCode =
-            structure.getPartByCode(submittedPart) ? submittedPart : (
-                current.bodyPartCode
-            );
+            structure.getPartByCode(submittedPart) ? submittedPart : current.bodyPartCode;
 
         const prot = submitted.protectionBase ?? {};
         const merged: BodyLocation.Data = {
@@ -265,14 +256,8 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
                 isAmputability(submitted.amputability) ?
                     submitted.amputability
                 :   current.amputability,
-            shockValue: Math.max(
-                0,
-                Math.round(Number(submitted.shockValue) || 0),
-            ),
-            probWeight: Math.max(
-                0,
-                Math.round(Number(submitted.probWeight) || 0),
-            ),
+            shockValue: Math.max(0, Math.round(Number(submitted.shockValue) || 0)),
+            probWeight: Math.max(0, Math.round(Number(submitted.probWeight) || 0)),
             isStumble: !!submitted.isStumble,
             isFumble: !!submitted.isFumble,
             protectionBase: {
@@ -283,9 +268,7 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
             },
         };
         await this.#actor.update(
-            structure.setLocationFieldsUpdate([
-                { index: location.index, changes: merged },
-            ]),
+            structure.setLocationFieldsUpdate([{ index: location.index, changes: merged }]),
         );
         this.#key = plan.shortcode;
         // Track the (possibly new) owning part so the still-open form re-renders

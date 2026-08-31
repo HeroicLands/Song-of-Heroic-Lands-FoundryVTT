@@ -112,12 +112,10 @@ export class SohlSpeaker {
         }
 
         this.userId = data.user ?? fvttCurrentUser().id;
-        this.name =
-            data.alias || this.tokenLogic?.name || this.actorLogic?.name || "";
+        this.name = data.alias || this.tokenLogic?.name || this.actorLogic?.name || "";
         if (!this.name) {
             const user = fvttGetUser(data.user || "");
-            this.name =
-                user?.character?.name || user?.name || "Unknown Speaker";
+            this.name = user?.character?.name || user?.name || "Unknown Speaker";
         }
     }
 
@@ -209,9 +207,7 @@ export class SohlSpeaker {
             delete messageData.rollMode;
         }
 
-        return fvttCreateChatMessage(messageData) as Promise<
-            ChatMessage | undefined
-        >;
+        return fvttCreateChatMessage(messageData) as Promise<ChatMessage | undefined>;
     }
 
     /**
@@ -236,9 +232,7 @@ export class SohlSpeaker {
             delete messageData.rollMode;
         }
 
-        return fvttCreateChatMessage(messageData) as Promise<
-            ChatMessage | undefined
-        >;
+        return fvttCreateChatMessage(messageData) as Promise<ChatMessage | undefined>;
     }
 
     /**

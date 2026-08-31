@@ -8,17 +8,9 @@ import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
-import {
-    IMPACT_ASPECT,
-    ITEM_KIND,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@src/utils/constants";
+import { IMPACT_ASPECT, ITEM_KIND, SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
-import {
-    makeItemLogic,
-    makeMockActor,
-    makeAttributeStub,
-} from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
 
 /** Default SkillData fields; override per test. */
 function skillFields(overrides: Record<string, unknown> = {}) {
@@ -35,10 +27,7 @@ function skillFields(overrides: Record<string, unknown> = {}) {
     };
 }
 
-function makeSkill(
-    overrides: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
+function makeSkill(overrides: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
     return makeItemLogic(SkillLogic, ITEM_KIND.SKILL, skillFields(overrides), {
         name: "Test Skill",
         ...opts,
@@ -86,9 +75,7 @@ describe("SkillLogic", () => {
         it("keeps toggleImproveFlag visible in the general group", () => {
             const toggle = makeSkill().actions.get("toggleImproveFlag");
             expect((toggle as any).data.visible).toBe("true");
-            expect((toggle as any).data.group).toBe(
-                SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            );
+            expect((toggle as any).data.group).toBe(SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL);
         });
 
         it("canImprove does not throw before initialize() — masteryLevel unset (#511)", () => {
@@ -200,10 +187,7 @@ describe("SkillLogic", () => {
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
             actor.items.set("int1", makeAttributeStub("int", 14));
-            const logic = makeSkill(
-                { skillBaseFormula: "sb(attr.str, attr.int)" },
-                { actor },
-            );
+            const logic = makeSkill({ skillBaseFormula: "sb(attr.str, attr.int)" }, { actor });
             logic.initialize();
             expect(logic.valid).toBe(true);
             // sb() averages the referenced attribute values: (12+14)/2 = 13,
@@ -228,10 +212,7 @@ describe("SkillLogic", () => {
         it("flags an unknown helper as invalid (#972)", () => {
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
-            const logic = makeSkill(
-                { skillBaseFormula: "bogus(attr.str)" },
-                { actor },
-            );
+            const logic = makeSkill({ skillBaseFormula: "bogus(attr.str)" }, { actor });
             logic.initialize();
             expect(logic.skillBaseValid).toBe(false);
             expect(logic.skillBase).toBe(0);
@@ -250,9 +231,7 @@ describe("SkillLogic", () => {
             const actor = makeMockActor();
             const logic = makeSkill({}, { actor });
             logic.initialize();
-            expect(logic.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.FateNotSupported",
-            );
+            expect(logic.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.FateNotSupported");
         });
 
         it("disables fate when the optionFate setting does not apply", () => {
@@ -261,20 +240,13 @@ describe("SkillLogic", () => {
             actor.items.set("aur1", makeAttributeStub("aur", 12));
             const logic = makeSkill({}, { actor });
             logic.initialize();
-            expect(logic.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.FateDisabled",
-            );
+            expect(logic.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.FateDisabled");
         });
 
         it("seeds fate at 50 + half the Aura mastery level when optionFate is 'everyone'", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
-                "everyone",
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone");
             const actor = makeMockActor();
-            actor.items.set(
-                "aur1",
-                makeAttributeStub("aur", 14, { masteryLevel: 70 }),
-            );
+            actor.items.set("aur1", makeAttributeStub("aur", 14, { masteryLevel: 70 }));
             const logic = makeSkill({}, { actor });
             logic.initialize();
             expect(logic.fateMasteryLevel.disabled).toBeFalsy();
@@ -283,9 +255,7 @@ describe("SkillLogic", () => {
         });
 
         it("applies fate for 'pconly' only when the actor has a player owner", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
-                "pconly",
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("pconly");
             const pcActor = makeMockActor({ hasPlayerOwner: true });
             pcActor.items.set("aur1", makeAttributeStub("aur", 12));
             const pcSkill = makeSkill({}, { actor: pcActor });
@@ -296,19 +266,14 @@ describe("SkillLogic", () => {
             npcActor.items.set("aur1", makeAttributeStub("aur", 12));
             const npcSkill = makeSkill({}, { actor: npcActor });
             npcSkill.initialize();
-            expect(npcSkill.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.FateDisabled",
-            );
+            expect(npcSkill.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.FateDisabled");
         });
     });
 
     describe("evaluate", () => {
         it("links parentSkill from parentSkillCode on the owning actor", () => {
             const actor = makeMockActor();
-            const parentLogic = makeSkill(
-                {},
-                { actor, shortcode: "lang", id: "parentskill00001" },
-            );
+            const parentLogic = makeSkill({}, { actor, shortcode: "lang", id: "parentskill00001" });
             const logic = makeSkill({ parentSkillCode: "lang" }, { actor });
             logic.initialize();
             logic.evaluate();
@@ -341,10 +306,7 @@ describe("SkillLogic", () => {
                 { masteryLevelBase: 50 },
                 { actor, shortcode: "lang", id: "parentskill00001" },
             );
-            const logic = makeSkill(
-                { masteryLevelBase: 30, parentSkillCode: "lang" },
-                { actor },
-            );
+            const logic = makeSkill({ masteryLevelBase: 30, parentSkillCode: "lang" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.parentSkill).not.toBeNull();
@@ -402,15 +364,10 @@ describe("SkillLogic", () => {
         });
 
         it("disables fate for skills with Aura in the skill base formula", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
-                "everyone",
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone");
             const actor = makeMockActor();
             actor.items.set("aur1", makeAttributeStub("aur", 14));
-            const logic = makeSkill(
-                { skillBaseFormula: "sb(attr.aur)" },
-                { actor },
-            );
+            const logic = makeSkill({ skillBaseFormula: "sb(attr.aur)" }, { actor });
             logic.initialize();
             expect(logic.fateMasteryLevel.disabled).toBeFalsy();
             logic.evaluate();
@@ -418,15 +375,11 @@ describe("SkillLogic", () => {
             // sibling — notably the Aura attribute it derives from — has
             // evaluated.
             logic.finalize();
-            expect(logic.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.AuraBasedNoFate",
-            );
+            expect(logic.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.AuraBasedNoFate");
         });
 
         it("keeps fate when Aura only adjusts the result, outside sb() (#1175)", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
-                "everyone",
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone");
             const actor = makeMockActor();
             actor.items.set("aur1", makeAttributeStub("aur", 14));
             actor.items.set("str1", makeAttributeStub("str", 12));
@@ -442,9 +395,7 @@ describe("SkillLogic", () => {
             // Aura rule must not fire. (Fate is still withheld for want of a
             // charged Fate Mystery on this bare mock actor — a different reason.)
             expect(logic.skillBaseAttrs).toEqual(["str", "dex"]);
-            expect(logic.fateMasteryLevel.disabled).not.toBe(
-                "SOHL.MasteryLevel.AuraBasedNoFate",
-            );
+            expect(logic.fateMasteryLevel.disabled).not.toBe("SOHL.MasteryLevel.AuraBasedNoFate");
         });
     });
 
@@ -504,9 +455,7 @@ describe("SkillLogic", () => {
         });
 
         it("disables fate when no fate items are available", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
-                "everyone",
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone");
             const actor = makeMockActor();
             actor.items.set("aur1", makeAttributeStub("aur", 14));
             const logic = makeSkill({}, { actor });
@@ -515,9 +464,7 @@ describe("SkillLogic", () => {
             expect(logic.fateMasteryLevel.disabled).toBeFalsy();
             // availableFate is currently always [] (T2-2 roadmap)
             logic.finalize();
-            expect(logic.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.NoFateAvailable",
-            );
+            expect(logic.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.NoFateAvailable");
         });
     });
 
@@ -542,9 +489,7 @@ describe("SkillLogic", () => {
             const logic = makeSkill();
             logic.initialize();
             const result = { isSuccess: true } as any;
-            const spy = vi
-                .spyOn(logic.masteryLevel, "successTest")
-                .mockResolvedValue(result);
+            const spy = vi.spyOn(logic.masteryLevel, "successTest").mockResolvedValue(result);
             const ctx = { scope: {} } as any;
             await expect(logic.successTest(ctx)).resolves.toBe(result);
             expect(spy).toHaveBeenCalledWith(ctx);
@@ -553,10 +498,9 @@ describe("SkillLogic", () => {
         it("opposedTestStart - delegates to the actor's token logic with this skill's uuid in scope", async () => {
             const result = { isOpposed: true } as any;
             const opposedTestStart = vi.fn().mockResolvedValue(result);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttActiveTokenLogicForActor",
-            ).mockReturnValue({ opposedTestStart } as any);
+            vi.spyOn(FoundryHelpersMock, "fvttActiveTokenLogicForActor").mockReturnValue({
+                opposedTestStart,
+            } as any);
             const logic = makeSkill();
             logic.initialize();
             const ctx = { scope: {} } as any;
@@ -566,10 +510,7 @@ describe("SkillLogic", () => {
         });
 
         it("opposedTestStart - warns and returns null when the actor has no token", async () => {
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttActiveTokenLogicForActor",
-            ).mockReturnValue(undefined);
+            vi.spyOn(FoundryHelpersMock, "fvttActiveTokenLogicForActor").mockReturnValue(undefined);
             const logic = makeSkill();
             logic.initialize();
             const ctx = { scope: {} } as any;
@@ -691,23 +632,15 @@ describe("SkillLogic", () => {
         });
 
         it("includes the skill base value in the roll formula", async () => {
-            const fromFormula = vi
-                .spyOn(SimpleRoll, "fromFormula")
-                .mockReturnValue(mockRoll(50));
+            const fromFormula = vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(50));
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
-            const logic = makeSkill(
-                { skillBaseFormula: "sb(attr.str)" },
-                { actor },
-            );
+            const logic = makeSkill({ skillBaseFormula: "sb(attr.str)" }, { actor });
             logic.initialize();
             await logic.improveWithSDR({
                 speaker: { toChat: vi.fn() },
             } as any);
-            expect(fromFormula).toHaveBeenCalledWith(
-                `1d100+${logic.skillBase}`,
-                logic,
-            );
+            expect(fromFormula).toHaveBeenCalledWith(`1d100+${logic.skillBase}`, logic);
         });
     });
 
@@ -765,13 +698,11 @@ describe("SkillLogic", () => {
         });
 
         it("substitutes sb and updates masteryLevelBase from the roll", async () => {
-            const fromFormula = vi
-                .spyOn(SimpleRoll, "fromFormula")
-                .mockReturnValue({
-                    roll: vi.fn(),
-                    total: 42,
-                    result: "42",
-                } as any);
+            const fromFormula = vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue({
+                roll: vi.fn(),
+                total: 42,
+                result: "42",
+            } as any);
             const actor = makeMockActor();
             // A valid skill base averages two or more attributes; @str,@dex both
             // at 10 gives a skill base of 10.
@@ -811,10 +742,7 @@ describe("SkillLogic", () => {
             // whether the expression compiled and returned a number.
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
-            const logic = makeSkill(
-                { skillBaseFormula: "sb(attr.str)" },
-                { actor },
-            );
+            const logic = makeSkill({ skillBaseFormula: "sb(attr.str)" }, { actor });
             logic.initialize();
             expect(logic.valid).toBe(true);
             expect(logic.skillBase).toBe(12);
@@ -923,9 +851,7 @@ describe("SkillLogic", () => {
                     const def = SkillLogic.defineIntrinsicActions().find(
                         (d) => d.shortcode === shortcode,
                     )!;
-                    expect(def.visible).toContain(
-                        "itemLogic.hasMeleeStrikeMode",
-                    );
+                    expect(def.visible).toContain("itemLogic.hasMeleeStrikeMode");
                     expect(def.visible).toContain("combattechnique");
                 },
             );
@@ -969,10 +895,9 @@ describe("SkillLogic", () => {
 
             it("subtracts 20 from the technique's attack and defenses when prone", () => {
                 const actor = makeMockActor();
-                vi.spyOn(
-                    FoundryHelpersMock,
-                    "fvttActorStatuses",
-                ).mockReturnValue(new Set(["prone"]));
+                vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                    new Set(["prone"]),
+                );
                 const logic = makeSkill(
                     {
                         subType: "combattechnique",
@@ -992,10 +917,7 @@ describe("SkillLogic", () => {
 
             it("leaves the technique unchanged when the wielder is not prone", () => {
                 const actor = makeMockActor();
-                vi.spyOn(
-                    FoundryHelpersMock,
-                    "fvttActorStatuses",
-                ).mockReturnValue(new Set());
+                vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(new Set());
                 const logic = makeSkill(
                     {
                         subType: "combattechnique",
@@ -1022,9 +944,7 @@ describe("SkillLogic", () => {
             logic.initialize();
             logic.evaluate();
             logic.finalize();
-            expect(
-                (logic.strikeMode as MeleeStrikeMode).attack.has("AtkMod"),
-            ).toBe(true);
+            expect((logic.strikeMode as MeleeStrikeMode).attack.has("AtkMod")).toBe(true);
         });
 
         it("uses an override skill's mastery level when assocSkillCode is set", () => {
@@ -1037,10 +957,7 @@ describe("SkillLogic", () => {
                 },
                 { actor },
             );
-            const overrideML = new MasteryLevelModifier(
-                {},
-                { parent: logic },
-            ).setBase(60);
+            const overrideML = new MasteryLevelModifier({}, { parent: logic }).setBase(60);
             vi.spyOn(actor.logic, "getItemLogic").mockReturnValue({
                 masteryLevel: overrideML,
             } as any);
@@ -1079,9 +996,7 @@ describe("SkillLogic", () => {
             );
             logic.initialize();
             logic.evaluate();
-            expect((logic.strikeMode as MeleeStrikeMode).reach.effective).toBe(
-                3,
-            );
+            expect((logic.strikeMode as MeleeStrikeMode).reach.effective).toBe(3);
         });
 
         describe("combat actions (attack/block/counterstrike)", () => {
@@ -1104,9 +1019,7 @@ describe("SkillLogic", () => {
                 });
 
             it("defines attackTest/blockTest/counterstrikeTest intrinsic actions", () => {
-                const shortcodes = SkillLogic.defineIntrinsicActions().map(
-                    (a) => a.shortcode,
-                );
+                const shortcodes = SkillLogic.defineIntrinsicActions().map((a) => a.shortcode);
                 expect(shortcodes).toContain("attackTest");
                 expect(shortcodes).toContain("blockTest");
                 expect(shortcodes).toContain("counterstrikeTest");
@@ -1122,10 +1035,7 @@ describe("SkillLogic", () => {
             it("attackTest rolls the single strike mode's attack (auto-selected, no dialog)", async () => {
                 const logic = makeTechnique();
                 const spy = vi
-                    .spyOn(
-                        (logic.strikeMode as MeleeStrikeMode).attack,
-                        "successTest",
-                    )
+                    .spyOn((logic.strikeMode as MeleeStrikeMode).attack, "successTest")
                     .mockResolvedValue(undefined);
                 const c = ctx();
                 await logic.attackTest(c);
@@ -1136,10 +1046,7 @@ describe("SkillLogic", () => {
             it("blockTest rolls the melee mode's defense.block", async () => {
                 const logic = makeTechnique();
                 const spy = vi
-                    .spyOn(
-                        (logic.strikeMode as MeleeStrikeMode).defense.block,
-                        "successTest",
-                    )
+                    .spyOn((logic.strikeMode as MeleeStrikeMode).defense.block, "successTest")
                     .mockResolvedValue(undefined);
                 await logic.blockTest(ctx());
                 expect(spy).toHaveBeenCalledTimes(1);
@@ -1149,8 +1056,7 @@ describe("SkillLogic", () => {
                 const logic = makeTechnique();
                 const spy = vi
                     .spyOn(
-                        (logic.strikeMode as MeleeStrikeMode).defense
-                            .counterstrike,
+                        (logic.strikeMode as MeleeStrikeMode).defense.counterstrike,
                         "successTest",
                     )
                     .mockResolvedValue(undefined);
@@ -1184,9 +1090,7 @@ describe("SkillLogic", () => {
             // string to assert the emitted label, not just the key.
             vi.spyOn(sohl.i18n, "format").mockImplementation(
                 (key: string, data: Record<string, unknown> = {}) =>
-                    key === "SOHL.Skill.labelWithParent" ?
-                        `${data.skill} (${data.parent})`
-                    :   key,
+                    key === "SOHL.Skill.labelWithParent" ? `${data.skill} (${data.parent})` : key,
             );
             expect(child.label).toBe("SOHL.docLabelFormat (Language)");
         });
@@ -1197,10 +1101,7 @@ describe("SkillLogic", () => {
             child.evaluate();
             const fmt = vi.spyOn(sohl.i18n, "format");
             void child.label;
-            expect(fmt).not.toHaveBeenCalledWith(
-                "SOHL.Skill.labelWithParent",
-                expect.anything(),
-            );
+            expect(fmt).not.toHaveBeenCalledWith("SOHL.Skill.labelWithParent", expect.anything());
         });
 
         it("does not add a parenthetical when parentSkillCode resolves to nothing", () => {
@@ -1214,10 +1115,7 @@ describe("SkillLogic", () => {
             expect(child.parentSkill).toBeNull();
             const fmt = vi.spyOn(sohl.i18n, "format");
             void child.label;
-            expect(fmt).not.toHaveBeenCalledWith(
-                "SOHL.Skill.labelWithParent",
-                expect.anything(),
-            );
+            expect(fmt).not.toHaveBeenCalledWith("SOHL.Skill.labelWithParent", expect.anything());
         });
     });
 });
@@ -1228,22 +1126,14 @@ describe("SkillDataModel", () => {
     // in unit tests.
     describe("defineSchema", () => {
         it.todo("includes MasteryLevelDataModel base schema fields");
-        it.todo(
-            "defines subType with SkillSubTypes choices defaulting to SOCIAL",
-        );
-        it.todo(
-            "defines weaponGroup with SkillCombatCategories choices defaulting to NONE",
-        );
-        it.todo(
-            "defines parentSkillCode as a nullable StringField (initial null, blank false)",
-        );
+        it.todo("defines subType with SkillSubTypes choices defaulting to SOCIAL");
+        it.todo("defines weaponGroup with SkillCombatCategories choices defaulting to NONE");
+        it.todo("defines parentSkillCode as a nullable StringField (initial null, blank false)");
         it.todo("defines initSkillMult as a NumberField");
     });
 
     it.todo("has kind set to ITEM_KIND.SKILL");
-    it.todo(
-        "has correct LOCALIZATION_PREFIXES including Skill, MasteryLevel, and Item",
-    );
+    it.todo("has correct LOCALIZATION_PREFIXES including Skill, MasteryLevel, and Item");
 });
 
 describe("getFateDescTable (#70)", () => {
@@ -1252,9 +1142,7 @@ describe("getFateDescTable (#70)", () => {
     it("calls sohl.i18n.localize with SOHL.Skill.FateDesc.* keys", () => {
         const localize = vi.spyOn(sohl.i18n, "localize").mockReturnValue("loc");
         getFateDescTable();
-        expect(localize).toHaveBeenCalledWith(
-            expect.stringMatching(/^SOHL\.Skill\.FateDesc\./),
-        );
+        expect(localize).toHaveBeenCalledWith(expect.stringMatching(/^SOHL\.Skill\.FateDesc\./));
     });
 
     it("returns table entries whose label and description come from i18n", () => {

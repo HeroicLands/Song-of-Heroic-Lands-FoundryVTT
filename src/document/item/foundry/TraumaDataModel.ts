@@ -135,10 +135,7 @@ export class TraumaDataModel<
     implements TraumaData<TLogic>
 {
     /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.Trauma",
-        "SOHL.Item",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Trauma", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.TRAUMA;
     subType!: TraumaSubType;
@@ -192,17 +189,11 @@ export class TraumaDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preCreate(
-            data as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preCreate(data as any, options as any, user as any);
         if (allowed === false) return false;
 
         const now = game.time.worldTime;
-        const healFormula = String(
-            game.settings.get("sohl", "healingCheckDurationFormula") ?? "",
-        );
+        const healFormula = String(game.settings.get("sohl", "healingCheckDurationFormula") ?? "");
         const bloodFormula = String(
             game.settings.get("sohl", "bloodLossAdvanceDurationFormula") ?? "",
         );
@@ -272,36 +263,23 @@ export class TraumaDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preUpdate(
-            changes as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preUpdate(changes as any, options as any, user as any);
         if (allowed === false) return false;
 
         // Handle both the expanded (`{ system: { healingRateBase } }`) and flat
         // (`{ "system.healingRateBase": … }`) update shapes.
         const flatKey = "system.healingRateBase";
         const isFlat = flatKey in changes;
-        const incoming =
-            isFlat ?
-                changes[flatKey]
-            :   foundry.utils.getProperty(changes, flatKey);
+        const incoming = isFlat ? changes[flatKey] : foundry.utils.getProperty(changes, flatKey);
 
         const suppliesDate =
             "system.treatmentDate" in changes ||
-            foundry.utils.getProperty(changes, "system.treatmentDate") !==
-                undefined;
+            foundry.utils.getProperty(changes, "system.treatmentDate") !== undefined;
 
-        if (
-            typeof incoming === "number" &&
-            this.healingRateBase == null &&
-            !suppliesDate
-        ) {
+        if (typeof incoming === "number" && this.healingRateBase == null && !suppliesDate) {
             const now = game.time.worldTime;
             if (isFlat) changes["system.treatmentDate"] = now;
-            else
-                foundry.utils.setProperty(changes, "system.treatmentDate", now);
+            else foundry.utils.setProperty(changes, "system.treatmentDate", now);
         }
         return undefined;
     }

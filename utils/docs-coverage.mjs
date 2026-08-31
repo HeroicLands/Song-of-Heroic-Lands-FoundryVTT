@@ -45,13 +45,9 @@ const result = spawnSync(
 
 const output = `${result.stdout ?? ""}\n${result.stderr ?? ""}`;
 
-const undocumented = output
-    .split(/\r?\n/)
-    .filter((line) => line.includes(NEEDLE));
+const undocumented = output.split(/\r?\n/).filter((line) => line.includes(NEEDLE));
 
-const offending = undocumented.filter(
-    (line) => !IGNORED_FILES.some((f) => line.includes(f)),
-);
+const offending = undocumented.filter((line) => !IGNORED_FILES.some((f) => line.includes(f)));
 const ignoredCount = undocumented.length - offending.length;
 
 console.log(

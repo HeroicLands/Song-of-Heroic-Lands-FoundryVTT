@@ -179,10 +179,7 @@ export default [
             //   reserves `{}` for inline tags/links.
             // These are errors (not warnings) because the codebase is clean of
             // them today and we want regressions blocked, not merely noted.
-            "jsdoc/require-hyphen-before-param-description": [
-                "error",
-                "always",
-            ],
+            "jsdoc/require-hyphen-before-param-description": ["error", "always"],
             "jsdoc/no-types": "error",
         },
     },

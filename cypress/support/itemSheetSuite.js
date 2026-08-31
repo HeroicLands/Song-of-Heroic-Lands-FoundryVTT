@@ -22,10 +22,7 @@
  */
 function schemaFieldFor(item, name) {
     try {
-        return (
-            item.system.schema.getField(name.slice("system.".length)) ??
-            undefined
-        );
+        return item.system.schema.getField(name.slice("system.".length)) ?? undefined;
     } catch {
         return undefined;
     }
@@ -59,8 +56,7 @@ function pickNumericValue(item, el) {
     if (field?.positive && (min === undefined || min < 1)) min = 1;
 
     const integer = Boolean(field?.integer);
-    const inRange = (v) =>
-        (min === undefined || v >= min) && (max === undefined || v <= max);
+    const inRange = (v) => (min === undefined || v >= min) && (max === undefined || v <= max);
     const candidates = [
         3,
         -3,
@@ -128,47 +124,112 @@ export function itemSheetSuite(kind, opts = {}) {
             });
         });
 
-        persistIt(
-            "persists edits to its simple properties fields (change → save)",
-            () => {
-                cy.createWorldItem(kind, overrides).as("item");
-                cy.then(function () {
-                    cy.openSheet(this.item);
-                });
-                cy.then(function () {
-                    const id = this.item.id;
-                    // Discover editable text/number fields once, each paired with a
-                    // value its own schema permits (names + values only — element
-                    // refs would detach on the re-render each edit triggers).
-                    cy.foundry((win) => {
-                        const item = win.game.items.get(id);
-                        const root = item.sheet.element;
-                        return Array.from(
-                            root.querySelectorAll('input[name^="system."]'),
+        persistIt("persists edits to its simple properties fields (change → save)", () => {
+            cy.createWorldItem(kind, overrides).as("item");
+            cy.then(function () {
+                cy.openSheet(this.item);
+            });
+            cy.then(function () {
+                const id = this.item.id;
+                // Discover editable text/number fields once, each paired with a
+                // value its own schema permits (names + values only — element
+                // refs would detach on the re-render each edit triggers).
+                cy.foundry((win) => {
+                    const item = win.game.items.get(id);
+                    const root = item.sheet.element;
+                    return Array.from(root.querySelectorAll('input[name^="system."]'))
+                        .filter(
+                            (el) =>
+                                (el.type === "number" || el.type === "text") &&
+                                !el.disabled &&
+                                !el.readOnly,
                         )
-                            .filter(
-                                (el) =>
-                                    (el.type === "number" ||
-                                        el.type === "text") &&
-                                    !el.disabled &&
-                                    !el.readOnly,
-                            )
-                            .map((el) => ({
-                                name: el.name,
-                                value:
-                                    el.type === "number" ?
-                                        pickNumericValue(item, el)
-                                    :   3,
-                            }));
-                    }).then((fields) => {
-                        // Edit each field to its chosen value (a number for number
-                        // inputs, "3" for strings) and assert the round-trip onto
-                        // the document.
-                        fields.forEach((f) => {
-                            cy.then(function () {
-                                cy.editSheetField(this.item, f.name, f.value);
+                        .map((el) => ({
+                            name: el.name,
+                            value: el.type === "number" ? pickNumericValue(item, el) : 3,
+                        }));
+                }).then((fields) => {
+                    // Edit each field to its chosen value (a number for number
+                    // inputs, "3" for strings) and assert the round-trip onto
+                    // the document.
+                    fields.forEach((f) => {
+                        cy.then(function () {
+                            cy.editSheetField(this.item, f.name, f.value);
+                        });
+                        cy.then(function () {
+                            cy.foundry((win) => {
+                                const sys = win.game.items.get(id).system;
+                                return f.name
+                                    .split(".")
+                                    .slice(1)
+                                    .reduce((o, k) => o?.[k], sys);
+                            }).should((actual) => {
+                                expect(String(actual), `${f.name} persisted`).to.eq(
+                                    String(f.value),
+                                );
                             });
-                            cy.then(function () {
+                        });
+                    });
+                });
+            });
+        });
+
+        persistIt("persists edits to its choice (select) and boolean (checkbox) fields", () => {
+            cy.createWorldItem(kind, overrides).as("item");
+            cy.then(function () {
+                cy.openSheet(this.item);
+            });
+            cy.then(function () {
+                const id = this.item.id;
+                // Selects: pick a valid option different from the current
+                // value (names + chosen targets only — refs detach on
+                // re-render). Checkboxes: flip the current state.
+                cy.foundry((win) => {
+                    const root = win.game.items.get(id).sheet.element;
+                    const selects = Array.from(root.querySelectorAll('select[name^="system."]'))
+                        .filter((el) => !el.disabled)
+                        .map((el) => {
+                            // Choose a non-empty option other than the
+                            // current value. An empty option is a
+                            // placeholder a required field would reject, so
+                            // skip a select with no other valid choice.
+                            const value = Array.from(el.options)
+                                .map((o) => o.value)
+                                .find((v) => v !== "" && v !== el.value);
+                            return value === undefined ? null : (
+                                    { kind: "select", name: el.name, value }
+                                );
+                        })
+                        .filter(Boolean);
+                    const checks = Array.from(
+                        root.querySelectorAll('input[type="checkbox"][name^="system."]'),
+                    )
+                        .filter((el) => !el.disabled)
+                        .map((el) => ({
+                            kind: "checkbox",
+                            name: el.name,
+                            value: !el.checked,
+                        }));
+                    return [...selects, ...checks];
+                }).then((fields) => {
+                    fields.forEach((f) => {
+                        // Editing one choice field can re-render the sheet
+                        // and conditionally hide another (e.g. trauma shows
+                        // `aspect` only when `subType` is "injury") — or
+                        // disable it (armor's `isWorn` is gated on
+                        // `isCarried`, #1097). Skip a planned field a prior
+                        // edit removed or locked: a field not shown, or
+                        // shown disabled, can't be set in the current state.
+                        cy.then(function () {
+                            const item = this.item;
+                            cy.foundry((win) => {
+                                const el = win.game.items
+                                    .get(id)
+                                    .sheet.element.querySelector(`[name="${f.name}"]`);
+                                return Boolean(el) && !el.disabled;
+                            }).then((present) => {
+                                if (!present) return;
+                                cy.editSheetField(item, f.name, f.value);
                                 cy.foundry((win) => {
                                     const sys = win.game.items.get(id).system;
                                     return f.name
@@ -176,110 +237,17 @@ export function itemSheetSuite(kind, opts = {}) {
                                         .slice(1)
                                         .reduce((o, k) => o?.[k], sys);
                                 }).should((actual) => {
-                                    expect(
-                                        String(actual),
-                                        `${f.name} persisted`,
-                                    ).to.eq(String(f.value));
+                                    const got =
+                                        f.kind === "checkbox" ? Boolean(actual) : String(actual);
+                                    const want = f.kind === "checkbox" ? f.value : String(f.value);
+                                    expect(got, `${f.name} persisted`).to.eq(want);
                                 });
                             });
                         });
                     });
                 });
-            },
-        );
-
-        persistIt(
-            "persists edits to its choice (select) and boolean (checkbox) fields",
-            () => {
-                cy.createWorldItem(kind, overrides).as("item");
-                cy.then(function () {
-                    cy.openSheet(this.item);
-                });
-                cy.then(function () {
-                    const id = this.item.id;
-                    // Selects: pick a valid option different from the current
-                    // value (names + chosen targets only — refs detach on
-                    // re-render). Checkboxes: flip the current state.
-                    cy.foundry((win) => {
-                        const root = win.game.items.get(id).sheet.element;
-                        const selects = Array.from(
-                            root.querySelectorAll('select[name^="system."]'),
-                        )
-                            .filter((el) => !el.disabled)
-                            .map((el) => {
-                                // Choose a non-empty option other than the
-                                // current value. An empty option is a
-                                // placeholder a required field would reject, so
-                                // skip a select with no other valid choice.
-                                const value = Array.from(el.options)
-                                    .map((o) => o.value)
-                                    .find((v) => v !== "" && v !== el.value);
-                                return value === undefined ? null : (
-                                        { kind: "select", name: el.name, value }
-                                    );
-                            })
-                            .filter(Boolean);
-                        const checks = Array.from(
-                            root.querySelectorAll(
-                                'input[type="checkbox"][name^="system."]',
-                            ),
-                        )
-                            .filter((el) => !el.disabled)
-                            .map((el) => ({
-                                kind: "checkbox",
-                                name: el.name,
-                                value: !el.checked,
-                            }));
-                        return [...selects, ...checks];
-                    }).then((fields) => {
-                        fields.forEach((f) => {
-                            // Editing one choice field can re-render the sheet
-                            // and conditionally hide another (e.g. trauma shows
-                            // `aspect` only when `subType` is "injury") — or
-                            // disable it (armor's `isWorn` is gated on
-                            // `isCarried`, #1097). Skip a planned field a prior
-                            // edit removed or locked: a field not shown, or
-                            // shown disabled, can't be set in the current state.
-                            cy.then(function () {
-                                const item = this.item;
-                                cy.foundry((win) => {
-                                    const el = win.game.items
-                                        .get(id)
-                                        .sheet.element.querySelector(
-                                            `[name="${f.name}"]`,
-                                        );
-                                    return Boolean(el) && !el.disabled;
-                                }).then((present) => {
-                                    if (!present) return;
-                                    cy.editSheetField(item, f.name, f.value);
-                                    cy.foundry((win) => {
-                                        const sys =
-                                            win.game.items.get(id).system;
-                                        return f.name
-                                            .split(".")
-                                            .slice(1)
-                                            .reduce((o, k) => o?.[k], sys);
-                                    }).should((actual) => {
-                                        const got =
-                                            f.kind === "checkbox" ?
-                                                Boolean(actual)
-                                            :   String(actual);
-                                        const want =
-                                            f.kind === "checkbox" ?
-                                                f.value
-                                            :   String(f.value);
-                                        expect(
-                                            got,
-                                            `${f.name} persisted`,
-                                        ).to.eq(want);
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            },
-        );
+            });
+        });
 
         it("renders only system fields the schema defines (coverage guard)", () => {
             cy.createWorldItem(kind, overrides).as("item");
@@ -297,9 +265,7 @@ export function itemSheetSuite(kind, opts = {}) {
                     // sub-paths (e.g. strikeMode.<type>.<field>) are tolerated by
                     // checking the head segment. An orphan input — a template
                     // referencing a field the schema lacks — is a real defect.
-                    const orphans = Array.from(
-                        root.querySelectorAll('[name^="system."]'),
-                    )
+                    const orphans = Array.from(root.querySelectorAll('[name^="system."]'))
                         .map((el) => el.name.slice("system.".length))
                         .filter((path) => path.length > 0)
                         .filter((path) => {
@@ -312,10 +278,7 @@ export function itemSheetSuite(kind, opts = {}) {
                         });
                     return Array.from(new Set(orphans));
                 }).should((orphans) => {
-                    expect(
-                        orphans,
-                        `${kind}: system inputs with no schema field`,
-                    ).to.deep.eq([]);
+                    expect(orphans, `${kind}: system inputs with no schema field`).to.deep.eq([]);
                 });
             });
         });

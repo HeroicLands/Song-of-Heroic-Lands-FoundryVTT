@@ -75,10 +75,7 @@ export class ValueDelta extends SohlEntity {
      * @param options.parent - The owning {@link sohl.core.logic.SohlLogic}.
      * @throws TypeError if a non-`CUSTOM` operator is given a non-numeric value.
      */
-    constructor(
-        data: Partial<ValueDelta.Data> = {},
-        options: Partial<ValueDelta.Options> = {},
-    ) {
+    constructor(data: Partial<ValueDelta.Data> = {}, options: Partial<ValueDelta.Options> = {}) {
         super(data, options);
         const { name, abbrev, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
@@ -161,9 +158,7 @@ export class ValueDelta extends SohlEntity {
             }
         }
 
-        throw new TypeError(
-            `ValueDelta operator is not a valid ValueDeltaOperator: ${this.op}`,
-        );
+        throw new TypeError(`ValueDelta operator is not a valid ValueDeltaOperator: ${this.op}`);
     }
 }
 

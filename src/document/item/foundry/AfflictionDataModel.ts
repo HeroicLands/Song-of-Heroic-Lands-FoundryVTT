@@ -18,10 +18,7 @@ import {
     durationBaseField,
     durationFormulaField,
 } from "@src/document/item/foundry/temporal-fields";
-import {
-    AfflictionLogic,
-    AfflictionData,
-} from "@src/document/item/logic/AfflictionLogic";
+import { AfflictionLogic, AfflictionData } from "@src/document/item/logic/AfflictionLogic";
 import {
     AFFLICTION_OUTCOME,
     AFFLICTION_TRANSMISSION,
@@ -133,17 +130,13 @@ type AfflictionDataSchema = ReturnType<typeof defineAfflictionSchema>;
 /** @internal */
 export class AfflictionDataModel<
     TSchema extends foundry.data.fields.DataSchema = AfflictionDataSchema,
-    TLogic extends AfflictionLogic<AfflictionData> =
-        AfflictionLogic<AfflictionData>,
+    TLogic extends AfflictionLogic<AfflictionData> = AfflictionLogic<AfflictionData>,
 >
     extends SohlItemDataModel<TSchema, TLogic>
     implements AfflictionData<TLogic>
 {
     /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.Affliction",
-        "SOHL.Item",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affliction", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.AFFLICTION;
     subType!: AfflictionSubType;
@@ -200,11 +193,7 @@ export class AfflictionDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preCreate(
-            data as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preCreate(data as any, options as any, user as any);
         if (allowed === false) return false;
 
         const now = game.time.worldTime;

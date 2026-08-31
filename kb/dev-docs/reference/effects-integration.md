@@ -196,10 +196,7 @@ SoHL ships its own dispatcher for document-level subscriptions ([`sohl.events`](
 Use `registerSohlTrigger(name, label)` to add a custom trigger name to both Foundry's expiry-event registry (so it appears in the effect-config UI) and SoHL's vocabulary:
 
 ```typescript
-import {
-  registerSohlTrigger,
-  fireSohlTrigger,
-} from "@src/entity/event/event-trigger";
+import { registerSohlTrigger, fireSohlTrigger } from "@src/entity/event/event-trigger";
 
 registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");
 ```

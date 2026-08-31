@@ -13,17 +13,11 @@ import {
     partData,
     zoneData,
 } from "@tests/mocks/bodyFixture";
-import {
-    aggregateArmor,
-    type ArmorLayer,
-} from "@src/entity/body/armor-aggregation";
+import { aggregateArmor, type ArmorLayer } from "@src/entity/body/armor-aggregation";
 
 const SAMPLE_DATA: BodyStructure.Data = {
     zones: [zoneData("headzone", 1), zoneData("bodyzone", 2)],
-    parts: [
-        partData("head", "headzone", 15),
-        partData("thorax", "bodyzone", 30),
-    ],
+    parts: [partData("head", "headzone", 15), partData("thorax", "bodyzone", 30)],
     locations: [
         locationData("skull", "head", 10, {
             name: "Skull",
@@ -47,20 +41,14 @@ function loc(body: BodyStructure, code: string) {
     return body.getAllLocations().find((l) => l.shortcode === code)!;
 }
 
-const mail = (locations: {
-    flexible?: string[];
-    rigid?: string[];
-}): ArmorLayer => ({
+const mail = (locations: { flexible?: string[]; rigid?: string[] }): ArmorLayer => ({
     material: "Mail",
     protection: { blunt: 2, edged: 4, piercing: 3, fire: 0 },
     flexibleLocations: locations.flexible ?? [],
     rigidLocations: locations.rigid ?? [],
 });
 
-const cloth = (locations: {
-    flexible?: string[];
-    rigid?: string[];
-}): ArmorLayer => ({
+const cloth = (locations: { flexible?: string[]; rigid?: string[] }): ArmorLayer => ({
     material: "Cloth",
     protection: { blunt: 1, edged: 1, piercing: 1, fire: 1 },
     flexibleLocations: locations.flexible ?? [],
@@ -82,10 +70,7 @@ describe("aggregateArmor", () => {
 
     it("sums protection from multiple layers and joins materials in order", () => {
         const body = makeBody();
-        aggregateArmor(body, [
-            cloth({ flexible: ["chest"] }),
-            mail({ flexible: ["chest"] }),
-        ]);
+        aggregateArmor(body, [cloth({ flexible: ["chest"] }), mail({ flexible: ["chest"] })]);
         const chest = loc(body, "chest");
         expect(chest.armorProtection).toEqual({
             blunt: 3,
@@ -98,10 +83,7 @@ describe("aggregateArmor", () => {
 
     it("marks a location rigid only when covered by rigid armor", () => {
         const body = makeBody();
-        aggregateArmor(body, [
-            cloth({ flexible: ["chest"] }),
-            mail({ rigid: ["skull"] }),
-        ]);
+        aggregateArmor(body, [cloth({ flexible: ["chest"] }), mail({ rigid: ["skull"] })]);
         expect(loc(body, "chest").isRigid).toBe(false);
         expect(loc(body, "skull").isRigid).toBe(true);
     });
@@ -125,9 +107,7 @@ describe("aggregateArmor", () => {
 
     it("ignores coverage of unknown location shortcodes", () => {
         const body = makeBody();
-        expect(() =>
-            aggregateArmor(body, [mail({ flexible: ["nonexistent"] })]),
-        ).not.toThrow();
+        expect(() => aggregateArmor(body, [mail({ flexible: ["nonexistent"] })])).not.toThrow();
         expect(loc(body, "chest").armorProtection.edged).toBe(0);
     });
 

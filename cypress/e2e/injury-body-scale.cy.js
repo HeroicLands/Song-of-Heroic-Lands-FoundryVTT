@@ -61,14 +61,12 @@ describe("injury body-scale (#468)", () => {
 
     it("scales the injury table by a frail creature's bodyScale (0.27)", () => {
         cy.importActor().then((actor) => {
-            cy.foundry((win) => scaledTables(win, actor.id, 0.27)).should(
-                (r) => {
-                    expect(r.bodyScale).to.eq(0.27);
-                    const expected = [1, 5, 10, 15, 20].map((t) => t * 0.27);
-                    expect(r.injuryTable).to.deep.eq(expected);
-                    expect(r.structureTable).to.deep.eq(expected);
-                },
-            );
+            cy.foundry((win) => scaledTables(win, actor.id, 0.27)).should((r) => {
+                expect(r.bodyScale).to.eq(0.27);
+                const expected = [1, 5, 10, 15, 20].map((t) => t * 0.27);
+                expect(r.injuryTable).to.deep.eq(expected);
+                expect(r.structureTable).to.deep.eq(expected);
+            });
         });
     });
 });

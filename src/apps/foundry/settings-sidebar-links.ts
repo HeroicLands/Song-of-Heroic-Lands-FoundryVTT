@@ -55,8 +55,7 @@ export interface SohlSystemInfo {
 }
 
 /** The section template rendered into the settings sidebar. */
-export const SETTINGS_LINKS_TEMPLATE =
-    "systems/sohl/templates/apps/settings-links.hbs";
+export const SETTINGS_LINKS_TEMPLATE = "systems/sohl/templates/apps/settings-links.hbs";
 
 /** Marker attribute used to guard against injecting the section twice. */
 export const SETTINGS_LINKS_MARKER = "data-sohl-links";
@@ -72,8 +71,7 @@ export const SETTINGS_LINKS_MARKER = "data-sohl-links";
  * Trademarks & Service Marks section of LICENSE.md (and
  * assets/icons/brand/NOTICE.md). Do not relicense or repurpose it.
  */
-export const SOHL_EMBLEM_PATH =
-    "systems/sohl/assets/icons/brand/sohl-dragon.svg";
+export const SOHL_EMBLEM_PATH = "systems/sohl/assets/icons/brand/sohl-dragon.svg";
 
 /**
  * The inline entries, in display order, each paired with its `lang/en.json`

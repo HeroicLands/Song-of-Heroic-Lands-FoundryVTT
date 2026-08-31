@@ -24,10 +24,9 @@ import {
 } from "@src/utils/constants";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
-const StrikeModeConfig_Base: any =
-    foundry.applications.api.HandlebarsApplicationMixin(
-        foundry.applications.api.ApplicationV2,
-    );
+const StrikeModeConfig_Base: any = foundry.applications.api.HandlebarsApplicationMixin(
+    foundry.applications.api.ApplicationV2,
+);
 
 /**
  * A small, sheet-like editor for a single embedded strike mode.
@@ -119,9 +118,7 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
 
     /** @inheritDoc */
     override get title(): string {
-        return `${game.i18n.localize("SOHL.StrikeModeConfig.title")}: ${
-            this.#item.name
-        }`;
+        return `${game.i18n.localize("SOHL.StrikeModeConfig.title")}: ${this.#item.name}`;
     }
 
     /**
@@ -132,14 +129,11 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
     #current(): StrikeModeBase.Data | undefined {
         const system = this.#item.system as any;
         if (this.#isMulti) {
-            return (
-                system.strikeModes as StrikeModeBase.Data[] | undefined
-            )?.find((m) => m.shortcode === this.#key);
+            return (system.strikeModes as StrikeModeBase.Data[] | undefined)?.find(
+                (m) => m.shortcode === this.#key,
+            );
         }
-        return (
-            (system.strikeMode as StrikeModeBase.Data | null | undefined) ??
-            undefined
-        );
+        return (system.strikeMode as StrikeModeBase.Data | null | undefined) ?? undefined;
     }
 
     /**
@@ -154,19 +148,15 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         const sm = (this.#current() ??
             blankStrikeMode(STRIKE_MODE_TYPE.MELEE, this.#item.name)) as any;
         const smType = sm.type as StrikeModeType;
-        const aspectOptions = Object.entries(ImpactAspectChoices).map(
-            ([value, label]) => ({
-                value,
-                label,
-                selected: value === sm.impactBase?.aspect,
-            }),
-        );
+        const aspectOptions = Object.entries(ImpactAspectChoices).map(([value, label]) => ({
+            value,
+            label,
+            selected: value === sm.impactBase?.aspect,
+        }));
         return {
             sm,
             smType,
-            typeLabel: game.i18n.localize(
-                StrikeModeTypeChoices[smType] ?? smType,
-            ),
+            typeLabel: game.i18n.localize(StrikeModeTypeChoices[smType] ?? smType),
             // For a weapon, the mode's own (editable) shortcode; for a combat
             // technique there is none, so fall back to the row key for display.
             shortcode: this.#isMulti ? (sm.shortcode ?? this.#key) : this.#key,
@@ -207,8 +197,7 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         const submitted = foundry.utils.expandObject(formData.object) as any;
         // The type is read-only (not a form field), so preserve the stored
         // mode's type rather than reading it from the submission.
-        const type: StrikeModeType =
-            this.#current()?.type ?? STRIKE_MODE_TYPE.MELEE;
+        const type: StrikeModeType = this.#current()?.type ?? STRIKE_MODE_TYPE.MELEE;
         // Start from a blank of that type so every subtype field is present and
         // valid, then overlay the submitted values.
         const clean = foundry.utils.mergeObject(
@@ -241,21 +230,14 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
             return;
         }
         const siblings = (
-            (this.#item.system as any).strikeModes as
-                StrikeModeBase.Data[] | undefined
+            (this.#item.system as any).strikeModes as StrikeModeBase.Data[] | undefined
         )
             ?.map((m) => m.shortcode)
             .filter((sc) => sc !== this.#key);
-        const plan = planShortcodeSave(
-            this.#key,
-            String(clean.shortcode ?? ""),
-            siblings ?? [],
-        );
+        const plan = planShortcodeSave(this.#key, String(clean.shortcode ?? ""), siblings ?? []);
         if (plan.error) sohl.log.uiWarn(plan.error);
         clean.shortcode = plan.shortcode;
-        await this.#item.update(
-            logic.replaceStrikeModeUpdate(this.#key, clean),
-        );
+        await this.#item.update(logic.replaceStrikeModeUpdate(this.#key, clean));
         this.#key = plan.shortcode;
     }
 }

@@ -12,10 +12,7 @@
  */
 
 import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
-import {
-    ContainerGearLogic,
-    ContainerGearData,
-} from "@src/document/item/logic/ContainerGearLogic";
+import { ContainerGearLogic, ContainerGearData } from "@src/document/item/logic/ContainerGearLogic";
 import { ITEM_KIND } from "@src/utils/constants";
 const { NumberField } = foundry.data.fields;
 
@@ -40,8 +37,7 @@ type ContainerGearSchema = ReturnType<typeof defineContainerGearSchema>;
 /** @internal */
 export class ContainerGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = ContainerGearSchema,
-    TLogic extends ContainerGearLogic<ContainerGearData> =
-        ContainerGearLogic<ContainerGearData>,
+    TLogic extends ContainerGearLogic<ContainerGearData> = ContainerGearLogic<ContainerGearData>,
 >
     extends GearDataModel<TSchema, TLogic>
     implements ContainerGearData<TLogic>

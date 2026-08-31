@@ -81,15 +81,11 @@ describe("script-action-attach — buildScriptActionDef", () => {
     });
 
     it("throws on a blank name", () => {
-        expect(() =>
-            buildScriptActionDef({ name: "  ", executor: MACRO }),
-        ).toThrow(/name/i);
+        expect(() => buildScriptActionDef({ name: "  ", executor: MACRO })).toThrow(/name/i);
     });
 
     it("throws on a blank executor (a Macro UUID is required — never inline code)", () => {
-        expect(() => buildScriptActionDef({ name: "x", executor: "" })).toThrow(
-            /executor/i,
-        );
+        expect(() => buildScriptActionDef({ name: "x", executor: "" })).toThrow(/executor/i);
     });
 });
 
@@ -103,14 +99,9 @@ describe("script-action-attach — upsertActionDef", () => {
     });
 
     it("replaces the def with the same shortcode (idempotent re-attach, no dupes)", () => {
-        const list = upsertActionDef(
-            [def("a", "Macro.old"), def("b")],
-            def("a", "Macro.new"),
-        );
+        const list = upsertActionDef([def("a", "Macro.old"), def("b")], def("a", "Macro.new"));
         expect(list.filter((d) => d.shortcode === "a")).toHaveLength(1);
-        expect(list.find((d) => d.shortcode === "a")?.executor).toBe(
-            "Macro.new",
-        );
+        expect(list.find((d) => d.shortcode === "a")?.executor).toBe("Macro.new");
     });
 
     it("preserves pre-existing (e.g. intrinsic) defs untouched", () => {
@@ -139,10 +130,7 @@ describe("script-action-attach — attachScriptAction", () => {
         const payload = doc.update.mock.calls[0][0];
         expect(Object.keys(payload)).toEqual(["system.actionDefs"]);
         const written = payload["system.actionDefs"] as SohlAction.Data[];
-        expect(written.map((d) => d.shortcode)).toEqual([
-            "existing",
-            "checkForBandits",
-        ]);
+        expect(written.map((d) => d.shortcode)).toEqual(["existing", "checkForBandits"]);
         expect(def.shortcode).toBe("checkForBandits");
     });
 
@@ -160,9 +148,7 @@ describe("script-action-attach — attachScriptAction", () => {
             name: "a",
             executor: "Macro.2",
         });
-        const written = doc.update.mock.calls[1][0][
-            "system.actionDefs"
-        ] as SohlAction.Data[];
+        const written = doc.update.mock.calls[1][0]["system.actionDefs"] as SohlAction.Data[];
         expect(written).toHaveLength(1);
         expect(written[0].executor).toBe("Macro.2");
     });

@@ -116,10 +116,7 @@ import {
     SohlCombatantDataModel,
 } from "@src/document/combatant/foundry/SohlCombatant";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
-import {
-    SohlCombat,
-    SohlCombatDataModel,
-} from "@src/document/combat/foundry/SohlCombat";
+import { SohlCombat, SohlCombatDataModel } from "@src/document/combat/foundry/SohlCombat";
 import { SohlScene } from "@src/document/scene/foundry/SohlScene";
 import { SohlSceneConfig } from "@src/document/scene/foundry/SohlSceneConfig";
 import {
@@ -129,10 +126,7 @@ import {
 } from "@src/core/logic/sohl-calendar-logic";
 
 /** Map of actor kind → its `SohlDataModel` constructor. */
-export type ActorDMMap = Record<
-    string,
-    Constructor<SohlDataModel<any, SohlActor, any>>
->;
+export type ActorDMMap = Record<string, Constructor<SohlDataModel<any, SohlActor, any>>>;
 /** Canonical actor-kind → DataModel registry, keyed by {@link sohl.utils.ACTOR_KIND}. */
 export const ACTOR_DM_DEF: ActorDMMap = {
     being: BeingDataModel,
@@ -140,10 +134,7 @@ export const ACTOR_DM_DEF: ActorDMMap = {
     structure: StructureDataModel,
     vehicle: VehicleDataModel,
 } satisfies ActorDMMap;
-const defActor: DefinedType<ActorDMMap> = defineType<ActorDMMap>(
-    "TYPES.Actor",
-    ACTOR_DM_DEF,
-);
+const defActor: DefinedType<ActorDMMap> = defineType<ActorDMMap>("TYPES.Actor", ACTOR_DM_DEF);
 export const {
     /** The actor-kind → DataModel registry map. */
     kind: COMMON_ACTOR_DATA_MODEL,
@@ -176,8 +167,7 @@ export const ACTOR_LOGIC_DEF = {
 };
 
 // Compile-time check: ensure every ActorKind has an ACTOR_LOGIC_DEF entry.
-const _ensureActorLogicCoversAllKinds: Record<ActorKind, unknown> =
-    ACTOR_LOGIC_DEF;
+const _ensureActorLogicCoversAllKinds: Record<ActorKind, unknown> = ACTOR_LOGIC_DEF;
 
 /**
  * Actor-kind → concrete Logic *instance* type, derived from
@@ -230,10 +220,7 @@ export const {
 } as StrictObject<Constructor<SohlActorSheetBase>>);
 
 /** Map of item kind → its `SohlDataModel` constructor. */
-export type ItemDMMap = Record<
-    string,
-    Constructor<SohlDataModel<any, SohlItem, any>>
->;
+export type ItemDMMap = Record<string, Constructor<SohlDataModel<any, SohlItem, any>>>;
 /** Canonical item-kind → DataModel registry, keyed by {@link sohl.utils.ITEM_KIND}. */
 export const ITEM_DM_DEF: ItemDMMap = {
     affiliation: AffiliationDataModel,
@@ -250,10 +237,7 @@ export const ITEM_DM_DEF: ItemDMMap = {
     skill: SkillDataModel,
     weapongear: WeaponGearDataModel,
 } satisfies ItemDMMap;
-const defItem: DefinedType<ItemDMMap> = defineType<ItemDMMap>(
-    "TYPES.Item",
-    ITEM_DM_DEF,
-);
+const defItem: DefinedType<ItemDMMap> = defineType<ItemDMMap>("TYPES.Item", ITEM_DM_DEF);
 export const {
     /** The item-kind → DataModel registry map. */
     kind: COMMON_ITEM_DATA_MODEL,
@@ -267,9 +251,8 @@ export const {
     labels: StrictObject<string>;
 } = defItem;
 /** All registered item DataModel constructors, as an array. */
-export const CommonItemDataModels: ItemDMMap[keyof ItemDMMap][] = Object.values(
-    COMMON_ITEM_DATA_MODEL,
-);
+export const CommonItemDataModels: ItemDMMap[keyof ItemDMMap][] =
+    Object.values(COMMON_ITEM_DATA_MODEL);
 
 /**
  * Canonical item-kind → Logic-class registry, keyed by {@link sohl.utils.ITEM_KIND}.
@@ -311,8 +294,7 @@ export const ITEM_LOGIC_DEF = {
 
 // Compile-time check: ensure every ItemKind has an ITEM_LOGIC_DEF entry.
 // If there is an ItemKind without a Logic class, this line will fail to type-check.
-const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> =
-    ITEM_LOGIC_DEF;
+const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> = ITEM_LOGIC_DEF;
 
 /**
  * Item-kind → concrete Logic *instance* type, derived from {@link ITEM_LOGIC_DEF}.
@@ -400,10 +382,7 @@ export const {
     isValue: isCommonItemLogic,
     /** Localized labels keyed by item kind. */
     labels: CommonItemLogicLabels,
-} = defineType(
-    "TYPES.Item",
-    ITEM_LOGIC_DEF as StrictObject<Constructor<SohlItemLogic<any>>>,
-);
+} = defineType("TYPES.Item", ITEM_LOGIC_DEF as StrictObject<Constructor<SohlItemLogic<any>>>);
 
 export const {
     /** The item-kind → sheet-class registry map. */
@@ -465,10 +444,7 @@ export interface DocumentConfig {
     }>;
     /** DataModel constructors keyed by subtype. */
     dataModels: StrictObject<
-        Constructor<
-            | SohlDataModel<any, any, any>
-            | foundry.abstract.TypeDataModel<any, any>
-        >
+        Constructor<SohlDataModel<any, any, any> | foundry.abstract.TypeDataModel<any, any>>
     >;
     /** Localized type labels keyed by subtype. */
     typeLabels: StrictObject<string>;
@@ -558,9 +534,7 @@ export const SOHLCONFIG: SohlConfig = {
     // prone, restrain, paralysis, frozen, …) here — otherwise they
     // would be wiped out, leaving combat conditions unrepresentable.
     statusEffects: [
-        ...(((globalThis as any).CONFIG?.statusEffects ?? []) as any[]).map(
-            (e) => ({ ...e }),
-        ),
+        ...(((globalThis as any).CONFIG?.statusEffects ?? []) as any[]).map((e) => ({ ...e })),
         {
             id: STATUS_EFFECT.INCAPACITATED,
             name: "Incapacitated",
@@ -638,11 +612,7 @@ export const SOHLCONFIG: SohlConfig = {
             ItemKinds.map((kind) => [kind, ITEM_METADATA[kind].IconCssClass]),
         ),
         types: ItemKinds,
-        compendiums: [
-            "sohl.leg-characteristics",
-            "sohl.leg-possessions",
-            "sohl.leg-mysteries",
-        ],
+        compendiums: ["sohl.leg-characteristics", "sohl.leg-possessions", "sohl.leg-mysteries"],
         macros: {},
     },
     ActiveEffect: {

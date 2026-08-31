@@ -37,11 +37,7 @@ function render(overrides: Record<string, unknown> = {}): string {
         sharedWithCohortIds: [],
         ...overrides,
     };
-    const fieldNames = [
-        ...GEAR_FIELDS.map(([name]) => name),
-        "isCarried",
-        "sharedWithCohortIds",
-    ];
+    const fieldNames = [...GEAR_FIELDS.map(([name]) => name), "isCarried", "sharedWithCohortIds"];
     return renderTemplateReal(WEAPON_PROPS, {
         tab: { active: true, group: "sheet" },
         system,
@@ -57,22 +53,15 @@ describe("weapon gear properties sheet template (#1179)", () => {
         const html = render({ encumbranceBase: 3 });
         // The placeholder surfaces field + value together only when the binding
         // is correct, so match the pair rather than either alone.
-        expect(html).toContain(
-            'data-field="system.encumbranceBase" data-value="3"',
-        );
+        expect(html).toContain('data-field="system.encumbranceBase" data-value="3"');
     });
 
     it("does not bind any control to the nonexistent system.encumbrance", () => {
         expect(render()).not.toContain('data-field="system.encumbrance"');
     });
 
-    it.each(GEAR_FIELDS)(
-        "binds the %s input to its stored value",
-        (name, value) => {
-            const html = render();
-            expect(html).toContain(
-                `data-field="system.${name}" data-value="${value}"`,
-            );
-        },
-    );
+    it.each(GEAR_FIELDS)("binds the %s input to its stored value", (name, value) => {
+        const html = render();
+        expect(html).toContain(`data-field="system.${name}" data-value="${value}"`);
+    });
 });

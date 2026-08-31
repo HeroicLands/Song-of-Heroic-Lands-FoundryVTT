@@ -17,24 +17,21 @@ import { MOVEMENT_MEDIUM } from "@src/utils/constants";
 
 describe("chooseInitialDisplayedMedium", () => {
     it("returns the user-set medium when explicitly provided", () => {
-        expect(
-            chooseInitialDisplayedMedium(
-                MOVEMENT_MEDIUM.AQUATIC,
-                MOVEMENT_MEDIUM.AERIAL,
-            ),
-        ).toBe(MOVEMENT_MEDIUM.AQUATIC);
+        expect(chooseInitialDisplayedMedium(MOVEMENT_MEDIUM.AQUATIC, MOVEMENT_MEDIUM.AERIAL)).toBe(
+            MOVEMENT_MEDIUM.AQUATIC,
+        );
     });
 
     it("returns the corpus default when user didn't set a medium", () => {
-        expect(
-            chooseInitialDisplayedMedium(undefined, MOVEMENT_MEDIUM.AERIAL),
-        ).toBe(MOVEMENT_MEDIUM.AERIAL);
+        expect(chooseInitialDisplayedMedium(undefined, MOVEMENT_MEDIUM.AERIAL)).toBe(
+            MOVEMENT_MEDIUM.AERIAL,
+        );
     });
 
     it("returns the corpus default for burrowing creature", () => {
-        expect(
-            chooseInitialDisplayedMedium(undefined, MOVEMENT_MEDIUM.BURROWING),
-        ).toBe(MOVEMENT_MEDIUM.BURROWING);
+        expect(chooseInitialDisplayedMedium(undefined, MOVEMENT_MEDIUM.BURROWING)).toBe(
+            MOVEMENT_MEDIUM.BURROWING,
+        );
     });
 
     it("returns null when neither user-set nor corpus-default is available", () => {

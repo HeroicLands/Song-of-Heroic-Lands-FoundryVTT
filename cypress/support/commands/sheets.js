@@ -102,8 +102,7 @@ Cypress.Commands.add("clickSheetAction", (doc, selector) =>
         if (!d.sheet.rendered) await d.sheet.render(true);
         await new Promise((r) => setTimeout(r, 150));
         const el = d.sheet.element.querySelector(selector);
-        if (!el)
-            throw new Error(`No control '${selector}' on ${d.name}'s sheet`);
+        if (!el) throw new Error(`No control '${selector}' on ${d.name}'s sheet`);
         const w = el.ownerDocument.defaultView;
         el.dispatchEvent(
             new w.PointerEvent("click", {

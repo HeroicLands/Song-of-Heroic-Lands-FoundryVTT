@@ -64,9 +64,8 @@ export type SohlRegionTriggerName =
  * map-note pack compiler — which runs under bare `node` and must reject an
  * authored event the runtime would silently drop — reads the same list.
  */
-export const REGION_EVENT_TO_TRIGGER: Readonly<
-    Record<string, SohlRegionTriggerName>
-> = EVENT_TO_TRIGGER_DATA as Readonly<Record<string, SohlRegionTriggerName>>;
+export const REGION_EVENT_TO_TRIGGER: Readonly<Record<string, SohlRegionTriggerName>> =
+    EVENT_TO_TRIGGER_DATA as Readonly<Record<string, SohlRegionTriggerName>>;
 
 /** The Foundry region-event names SoHL forwards (the keys of the map). */
 export const CURATED_REGION_EVENTS: readonly string[] = CURATED_EVENTS_DATA;
@@ -92,9 +91,7 @@ export const EXCLUDED_REGION_EVENTS: readonly string[] = EXCLUDED_EVENTS_DATA;
  * @param eventName - A `CONST.REGION_EVENTS` value (e.g. `"tokenEnter"`).
  * @returns The SoHL trigger name, or `undefined` if not forwarded.
  */
-export function regionTriggerForEvent(
-    eventName: string,
-): SohlRegionTriggerName | undefined {
+export function regionTriggerForEvent(eventName: string): SohlRegionTriggerName | undefined {
     return REGION_EVENT_TO_TRIGGER[eventName];
 }
 

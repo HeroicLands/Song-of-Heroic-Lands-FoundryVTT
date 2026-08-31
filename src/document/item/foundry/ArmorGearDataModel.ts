@@ -12,10 +12,7 @@
  */
 
 import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
-import {
-    ArmorGearLogic,
-    ArmorGearData,
-} from "@src/document/item/logic/ArmorGearLogic";
+import { ArmorGearLogic, ArmorGearData } from "@src/document/item/logic/ArmorGearLogic";
 import {
     ARMOR_FACING,
     ArmorFacingChoices,
@@ -25,8 +22,7 @@ import {
     type EncumbranceGroup,
 } from "@src/utils/constants";
 import type { ArmorLocationFacing } from "@src/entity/body/armor-aggregation";
-const { StringField, SchemaField, ArrayField, NumberField, BooleanField } =
-    foundry.data.fields;
+const { StringField, SchemaField, ArrayField, NumberField, BooleanField } = foundry.data.fields;
 
 /**
  * Builds the data schema for the Armor Gear item, extending the base gear
@@ -92,18 +88,13 @@ type ArmorGearDataSchema = ReturnType<typeof defineArmorGearSchema>;
 /** @internal */
 export class ArmorGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = ArmorGearDataSchema,
-    TLogic extends ArmorGearLogic<ArmorGearData> =
-        ArmorGearLogic<ArmorGearData>,
+    TLogic extends ArmorGearLogic<ArmorGearData> = ArmorGearLogic<ArmorGearData>,
 >
     extends GearDataModel<TSchema, TLogic>
     implements ArmorGearData<TLogic>
 {
     /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.ArmorGear",
-        "SOHL.Gear",
-        "SOHL.Item",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ArmorGear", "SOHL.Gear", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     isWorn!: boolean;

@@ -33,9 +33,7 @@ describe("Being sheet header: status toggles + affliction indicators (#306)", ()
             cy.openSheet(actor);
 
             const prone = '.status-pill[data-status-id="prone"]';
-            cy.get(prone)
-                .should("exist")
-                .and("not.have.class", "status-pill--lit");
+            cy.get(prone).should("exist").and("not.have.class", "status-pill--lit");
             cy.get(prone).click();
             cy.get(prone).should("have.class", "status-pill--lit");
             cy.get(prone).click();
@@ -56,14 +54,8 @@ describe("Being sheet header: status toggles + affliction indicators (#306)", ()
 
             // Exactly one indicator lights (Fatigue), and it is read-only — a
             // <span> with no toggle action or status id.
-            cy.get(".status-pill--indicator.status-pill--lit").should(
-                "have.length",
-                1,
-            );
-            cy.contains(
-                ".status-pill--indicator.status-pill--lit",
-                "FTG",
-            ).should("exist");
+            cy.get(".status-pill--indicator.status-pill--lit").should("have.length", 1);
+            cy.contains(".status-pill--indicator.status-pill--lit", "FTG").should("exist");
             cy.get(".status-pill--indicator.status-pill--lit").should(
                 "not.have.attr",
                 "data-action",
@@ -76,9 +68,7 @@ describe("Being sheet header: status toggles + affliction indicators (#306)", ()
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.get(".status-pill--indicator").should("have.length", 2);
-            cy.get(".status-pill--indicator.status-pill--lit").should(
-                "not.exist",
-            );
+            cy.get(".status-pill--indicator.status-pill--lit").should("not.exist");
         });
     });
 });

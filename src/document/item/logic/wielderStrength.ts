@@ -30,10 +30,7 @@
 
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
-import {
-    applyStrengthImpact,
-    isThrownStrikeMode,
-} from "@src/entity/strikemode/strengthImpact";
+import { applyStrengthImpact, isThrownStrikeMode } from "@src/entity/strikemode/strengthImpact";
 import { isOffHandGrip } from "@src/entity/body/laterality";
 import { ATTRIBUTE_CODE, ITEM_KIND, type BodySide } from "@src/utils/constants";
 
@@ -70,10 +67,8 @@ export function applyWielderStrengthImpact(logic: StrikeModeCarrier): void {
         | undefined;
     if (!actorLogic?.getItemLogic) return;
 
-    const strength = actorLogic.getItemLogic(
-        ATTRIBUTE_CODE.STRENGTH,
-        ITEM_KIND.ATTRIBUTE,
-    )?.score?.effective;
+    const strength = actorLogic.getItemLogic(ATTRIBUTE_CODE.STRENGTH, ITEM_KIND.ATTRIBUTE)?.score
+        ?.effective;
     if (strength == null) return;
 
     // An intrinsic technique is gripped by nothing, so it is never off-hand:

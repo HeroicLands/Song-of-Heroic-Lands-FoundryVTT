@@ -38,12 +38,7 @@ function makeEffect(opts: {
     return eff as SohlActiveEffect;
 }
 
-function makeItem(
-    type: string,
-    id: string,
-    system: any = {},
-    logic: any = {},
-): any {
+function makeItem(type: string, id: string, system: any = {}, logic: any = {}): any {
     // Predicates bind `itemLogic` (the item's logic), so tests put the
     // predicate-visible fields on `logic`.
     return { type, id, system, logic, parent: null };
@@ -132,18 +127,8 @@ describe("SohlActiveEffect.targets", () => {
         // skill's subType, e.g. `itemLogic.data.subType === "combat"`. Only the
         // matching skills become targets (the delta then lands on each one's
         // masteryLevel — see SohlActiveEffectApply.test.ts).
-        const combatSkill = makeItem(
-            ITEM_KIND.SKILL,
-            "s1",
-            {},
-            { data: { subType: "combat" } },
-        );
-        const natureSkill = makeItem(
-            ITEM_KIND.SKILL,
-            "s2",
-            {},
-            { data: { subType: "nature" } },
-        );
+        const combatSkill = makeItem(ITEM_KIND.SKILL, "s1", {}, { data: { subType: "combat" } });
+        const natureSkill = makeItem(ITEM_KIND.SKILL, "s2", {}, { data: { subType: "nature" } });
         const actor = makeActorWithItems([combatSkill, natureSkill]);
         const eff = makeEffect({
             scope: ITEM_KIND.SKILL,

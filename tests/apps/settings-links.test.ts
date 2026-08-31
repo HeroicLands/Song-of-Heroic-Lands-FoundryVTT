@@ -34,8 +34,7 @@ const SYSTEM: SohlSystemInfo = {
         mainSiteUrl: "https://www.heroiclands.org/",
         knowledgeBaseUrl: "https://www.heroiclands.org/sohl/kb/",
         apiDocsUrl: "https://www.heroiclands.org/sohl/api/",
-        issuesUrl:
-            "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues",
+        issuesUrl: "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues",
         discordInviteUrl: "https://discord.gg/EwMfkNd3az/",
         creditsUuid: "Compendium.sohl.journals.JournalEntry.VCCHelr5qIC5ydop",
     },
@@ -133,9 +132,7 @@ describe("settings sidebar — context builder", () => {
         // there is no per-version address to build — the manifest's value is
         // the link. The assertion is that nothing is appended to it.
         const ctx = buildSettingsLinksContext(SYSTEM, idLocalize);
-        const api = ctx.links.find(
-            (l) => l.label === "SOHL.Settings.HeroicLands.apiDocs",
-        );
+        const api = ctx.links.find((l) => l.label === "SOHL.Settings.HeroicLands.apiDocs");
         expect(api?.url).toBe("https://www.heroiclands.org/sohl/api/");
         expect(api?.url).not.toMatch(/\/(latest|main|v\d)/);
     });
@@ -147,11 +144,7 @@ describe("settings sidebar — context builder", () => {
         };
         const ctx = buildSettingsLinksContext(noDiscord, idLocalize);
         expect(ctx.links).toHaveLength(5);
-        expect(
-            ctx.links.some(
-                (l) => l.label === "SOHL.Settings.HeroicLands.discord",
-            ),
-        ).toBe(false);
+        expect(ctx.links.some((l) => l.label === "SOHL.Settings.HeroicLands.discord")).toBe(false);
     });
 
     it("falls back to the localized title when system.title is empty", () => {

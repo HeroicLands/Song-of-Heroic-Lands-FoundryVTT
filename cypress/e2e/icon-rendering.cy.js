@@ -50,45 +50,27 @@ const FA_UTILITY =
 function namesAnIcon(cls) {
     return String(cls)
         .split(/\s+/)
-        .some(
-            (t) =>
-                t.startsWith("ginf-") ||
-                (t.startsWith("fa-") && !FA_UTILITY.test(t)),
-        );
+        .some((t) => t.startsWith("ginf-") || (t.startsWith("fa-") && !FA_UTILITY.test(t)));
 }
 
 /** Every icon glyph must resolve to a real, non-empty ::before. */
 function assertGlyphsRender(win, root, label) {
-    const nodes = [
-        ...root.querySelectorAll('i[class*="ginf-"], i[class*="fa-"]'),
-    ];
+    const nodes = [...root.querySelectorAll('i[class*="ginf-"], i[class*="fa-"]')];
     const broken = [];
     for (const el of nodes) {
         const { content, family, cls } = beforeOf(win, el);
         // Skip style-only elements and anything not actually rendered.
         if (!namesAnIcon(cls)) continue;
-        if (
-            el.offsetParent === null &&
-            win.getComputedStyle(el).display === "none"
-        )
-            continue;
+        if (el.offsetParent === null && win.getComputedStyle(el).display === "none") continue;
         const isGinf = /(^|\s)ginf-/.test(cls);
         // An unresolved glyph is "none" / "normal" / empty.
-        const empty =
-            !content ||
-            content === "none" ||
-            content === "normal" ||
-            content === '""';
+        const empty = !content || content === "none" || content === "normal" || content === '""';
         if (empty) broken.push(`${label}: EMPTY glyph on "${cls}"`);
         if (isGinf) {
             if (!/game-icons/.test(family))
-                broken.push(
-                    `${label}: "${cls}" resolved to ${family}, not game-icons.net`,
-                );
+                broken.push(`${label}: "${cls}" resolved to ${family}, not game-icons.net`);
             if (/\bfa-(solid|regular|duotone)\b|\bfas\b|\bfar\b/.test(cls))
-                broken.push(
-                    `${label}: "${cls}" mixes an FA style prefix with ginf-`,
-                );
+                broken.push(`${label}: "${cls}" mixes an FA style prefix with ginf-`);
         }
     }
     return broken;
@@ -118,14 +100,13 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             probe.remove();
             return out;
         }).then((r) => {
-            expect(
-                r.family,
-                "ginf- resolves to the game-icons family",
-            ).to.match(/game-icons/);
-            expect(
-                r.content,
-                "ginf-crossed-swords has a glyph",
-            ).to.not.be.oneOf(["none", "normal", "", '""']);
+            expect(r.family, "ginf- resolves to the game-icons family").to.match(/game-icons/);
+            expect(r.content, "ginf-crossed-swords has a glyph").to.not.be.oneOf([
+                "none",
+                "normal",
+                "",
+                '""',
+            ]);
         });
     });
 
@@ -142,32 +123,17 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
                 .first()
                 .screenshot("01-being-tab-strip");
 
-            const tabs = [
-                "profile",
-                "skills",
-                "combat",
-                "trauma",
-                "mysteries",
-                "gear",
-                "actions",
-            ];
+            const tabs = ["profile", "skills", "combat", "trauma", "mysteries", "gear", "actions"];
             tabs.forEach((tab, i) => {
                 cy.switchTab(tab, "primary");
                 // switchTab resolves before the DOM swaps; wait for the target
                 // tab to actually be active or the screenshot shows the old one.
-                cy.get(`section.tab[data-tab="${tab}"]`).should(
-                    "have.class",
-                    "active",
-                );
-                cy.screenshot(
-                    `02-being-tab-${String(i + 1).padStart(2, "0")}-${tab}`,
-                );
+                cy.get(`section.tab[data-tab="${tab}"]`).should("have.class", "active");
+                cy.screenshot(`02-being-tab-${String(i + 1).padStart(2, "0")}-${tab}`);
             });
 
             cy.foundry((win) => {
-                const root = win.document.querySelector(
-                    ".sohl.actor, .application",
-                );
+                const root = win.document.querySelector(".sohl.actor, .application");
                 return root ? assertGlyphsRender(win, root, "being-sheet") : [];
             }).then((b) => problems.push(...b));
         });
@@ -178,9 +144,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             cy.openSheet(actor);
             cy.switchTab("skills", "primary");
 
-            cy.get('section.tab[data-tab="skills"] .item-contextmenu')
-                .first()
-                .click();
+            cy.get('section.tab[data-tab="skills"] .item-contextmenu').first().click();
 
             cy.get("#context-menu").should("be.visible");
             cy.screenshot("03-skill-context-menu");
@@ -188,9 +152,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
 
             cy.foundry((win) => {
                 const menu = win.document.querySelector("#context-menu");
-                return menu ?
-                        assertGlyphsRender(win, menu, "skill-context-menu")
-                    :   [];
+                return menu ? assertGlyphsRender(win, menu, "skill-context-menu") : [];
             }).then((b) => problems.push(...b));
 
             cy.get("body").type("{esc}");
@@ -206,10 +168,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             // Combat: attackTest (ginf-broadsword) + opposedTestStart
             // (fa-arrows-to-dot) hang off combat entries.
             cy.switchTab("combat", "primary");
-            cy.get('section.tab[data-tab="combat"]').should(
-                "have.class",
-                "active",
-            );
+            cy.get('section.tab[data-tab="combat"]').should("have.class", "active");
             cy.get("body").then(($b) => {
                 const sel = 'section.tab[data-tab="combat"] .item-contextmenu';
                 if ($b.find(sel).length) {
@@ -219,9 +178,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
                     cy.screenshot("08-combat-context-menu");
                     cy.foundry((win) => {
                         const m = win.document.querySelector("#context-menu");
-                        return m ?
-                                assertGlyphsRender(win, m, "combat-menu")
-                            :   [];
+                        return m ? assertGlyphsRender(win, m, "combat-menu") : [];
                     }).then((b) => problems.push(...b));
                     cy.get("body").type("{esc}");
                 }
@@ -231,10 +188,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             // contractTest (fa-virus), fatigueTest (fa-face-tired) and
             // fearTest (ginf-screaming).
             cy.switchTab("trauma", "primary");
-            cy.get('section.tab[data-tab="trauma"]').should(
-                "have.class",
-                "active",
-            );
+            cy.get('section.tab[data-tab="trauma"]').should("have.class", "active");
             cy.screenshot("09-being-trauma-populated");
             cy.get("body").then(($b) => {
                 const sel = 'section.tab[data-tab="trauma"] .item-contextmenu';
@@ -245,9 +199,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
                     cy.screenshot(`10-trauma-context-menu-${k + 1}`);
                     cy.foundry((win) => {
                         const m = win.document.querySelector("#context-menu");
-                        return m ?
-                                assertGlyphsRender(win, m, "trauma-menu")
-                            :   [];
+                        return m ? assertGlyphsRender(win, m, "trauma-menu") : [];
                     }).then((b) => problems.push(...b));
                     cy.get("body").type("{esc}");
                 }
@@ -264,15 +216,10 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             cy.createItemOn(actor, "projectilegear", { name: "Arrows" });
             cy.openSheet(actor);
             cy.switchTab("gear", "primary");
-            cy.get('section.tab[data-tab="gear"]').should(
-                "have.class",
-                "active",
-            );
+            cy.get('section.tab[data-tab="gear"]').should("have.class", "active");
             cy.screenshot("05-being-gear-with-items");
 
-            cy.get('section.tab[data-tab="gear"] .item-contextmenu')
-                .first()
-                .click();
+            cy.get('section.tab[data-tab="gear"] .item-contextmenu').first().click();
             cy.get("#context-menu").should("be.visible");
             cy.screenshot("06-gear-context-menu");
             cy.get("body").type("{esc}");
@@ -287,21 +234,9 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
      */
     it("renders a reference board of every replaced icon", () => {
         const REPLACED = [
-            [
-                "fa-sword",
-                "ginf-broadsword",
-                "weapongear · attackTest · Combat tab",
-            ],
-            [
-                "fa-swords",
-                "ginf-crossed-swords",
-                "Combat doc · startAutomatedAttack",
-            ],
-            [
-                "fa-bow-arrow",
-                "ginf-bow-arrow",
-                "projectilegear · missile tests",
-            ],
+            ["fa-sword", "ginf-broadsword", "weapongear · attackTest · Combat tab"],
+            ["fa-swords", "ginf-crossed-swords", "Combat doc · startAutomatedAttack"],
+            ["fa-bow-arrow", "ginf-bow-arrow", "projectilegear · missile tests"],
             ["fa-aura", "ginf-aura", "ActiveEffect typeIcon"],
             ["fa-sparkles", "ginf-sparkles", "mystery · Mysteries tab"],
             ["fa-wagon-covered", "ginf-old-wagon", "vehicle actor"],
@@ -312,36 +247,16 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             ["fa-wave-pulse", "ginf-heart-beats", "courseCheck"],
             ["fa-face-scream", "ginf-screaming", "fearTest"],
             ["fa-face-eyes-xmarks", "ginf-knockout", "shockTest"],
-            [
-                "fa-bullseye-arrow",
-                "fa-solid fa-bullseye",
-                "successTest · calcImpact",
-            ],
-            [
-                "fa-arrow-down-…-to-center",
-                "fa-solid fa-arrows-to-dot",
-                "opposedTestStart",
-            ],
+            ["fa-bullseye-arrow", "fa-solid fa-bullseye", "successTest · calcImpact"],
+            ["fa-arrow-down-…-to-center", "fa-solid fa-arrows-to-dot", "opposedTestStart"],
             ["fa-message-lines", "fa-solid fa-message", "outputDescription"],
-            [
-                "fa-diamond-exclamation",
-                "fa-solid fa-triangle-exclamation",
-                "region trigger",
-            ],
+            ["fa-diamond-exclamation", "fa-solid fa-triangle-exclamation", "region trigger"],
             ["fa-file-plus", "fa-solid fa-file-circle-plus", "Add … buttons"],
             ["fa-face-downcast-sweat", "fa-solid fa-face-tired", "fatigueTest"],
-            [
-                "fa-face-vomit",
-                "fa-solid fa-virus",
-                "contractTest · contractDisease",
-            ],
+            ["fa-face-vomit", "fa-solid fa-virus", "contractTest · contractDisease"],
             ["fa-face-nauseated", "fa-solid fa-disease", "affliction type"],
             ["fa-stars", "fa-solid fa-ranking-star", "successValueTest"],
-            [
-                "fa-flask-round-potion",
-                "fa-solid fa-bottle-droplet",
-                "concoctiongear",
-            ],
+            ["fa-flask-round-potion", "fa-solid fa-bottle-droplet", "concoctiongear"],
         ];
         cy.foundry((win) => {
             const rows = REPLACED;
@@ -365,8 +280,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             const title = win.document.createElement("div");
             title.style.cssText =
                 "grid-column:1/-1;font-size:19px;font-weight:700;margin-bottom:6px";
-            title.textContent =
-                "SoHL — Font Awesome Pro replacements (FA Free + game-icons)";
+            title.textContent = "SoHL — Font Awesome Pro replacements (FA Free + game-icons)";
             box.appendChild(title);
             for (const [was, now, use] of rows) {
                 const r = win.document.createElement("div");
@@ -408,15 +322,10 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
         kinds.forEach((kind, i) => {
             cy.createWorldItem(kind, { name: `Icon ${kind}` }).then((item) => {
                 cy.openSheet(item);
-                cy.screenshot(
-                    `07-item-sheet-${String(i + 1).padStart(2, "0")}-${kind}`,
-                );
+                cy.screenshot(`07-item-sheet-${String(i + 1).padStart(2, "0")}-${kind}`);
                 cy.foundry((win) => {
-                    const root =
-                        win.document.querySelector(".application.sheet");
-                    return root ?
-                            assertGlyphsRender(win, root, `item-${kind}`)
-                        :   [];
+                    const root = win.document.querySelector(".application.sheet");
+                    return root ? assertGlyphsRender(win, root, `item-${kind}`) : [];
                 }).then((b) => problems.push(...b));
                 cy.closeAllSheets();
             });

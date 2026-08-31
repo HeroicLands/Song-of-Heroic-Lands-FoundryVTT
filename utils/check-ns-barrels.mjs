@@ -52,8 +52,7 @@ const hasExport = (file) => /^export /m.test(fs.readFileSync(file, "utf8"));
  * A dedicated tag (not `@internal`, which appears on individual members of
  * otherwise-public files) so the exemption is deliberate and file-scoped.
  */
-const isExcluded = (file) =>
-    /@ns-exclude\b/.test(fs.readFileSync(file, "utf8"));
+const isExcluded = (file) => /@ns-exclude\b/.test(fs.readFileSync(file, "utf8"));
 
 /** A file that belongs in its folder's barrel: exporting, and not `@ns-exclude`. */
 const isNamespaceModule = (file) => hasExport(file) && !isExcluded(file);
@@ -63,17 +62,12 @@ function needsBarrel(dir) {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
     if (
         entries.some(
-            (e) =>
-                e.isFile() &&
-                isModuleFile(e.name) &&
-                isNamespaceModule(path.join(dir, e.name)),
+            (e) => e.isFile() && isModuleFile(e.name) && isNamespaceModule(path.join(dir, e.name)),
         )
     ) {
         return true;
     }
-    return entries
-        .filter((e) => e.isDirectory())
-        .some((e) => needsBarrel(path.join(dir, e.name)));
+    return entries.filter((e) => e.isDirectory()).some((e) => needsBarrel(path.join(dir, e.name)));
 }
 
 const problems = [];
@@ -85,10 +79,7 @@ function check(dir) {
         .map((e) => e.name);
     const modules = entries
         .filter(
-            (e) =>
-                e.isFile() &&
-                isModuleFile(e.name) &&
-                isNamespaceModule(path.join(dir, e.name)),
+            (e) => e.isFile() && isModuleFile(e.name) && isNamespaceModule(path.join(dir, e.name)),
         )
         .map((e) => e.name.replace(/\.ts$/, ""));
 
@@ -106,9 +97,7 @@ function check(dir) {
 
     // Every `export * [as X] from "./target"` — the set of re-exported targets.
     const reexported = new Set(
-        [...src.matchAll(/export \* (?:as \w+ )?from "\.\/([\w-]+)"/g)].map(
-            (m) => m[1],
-        ),
+        [...src.matchAll(/export \* (?:as \w+ )?from "\.\/([\w-]+)"/g)].map((m) => m[1]),
     );
     // `export * as N from "./N"` — namespace re-exports.
     const namespaced = new Set(
@@ -116,9 +105,7 @@ function check(dir) {
     );
     // Namespace re-exports with a leading `/** ... */` description.
     const described = new Set(
-        [...src.matchAll(/\/\*\*[\s\S]*?\*\/\s*export \* as (\w+) from/g)].map(
-            (m) => m[1],
-        ),
+        [...src.matchAll(/\/\*\*[\s\S]*?\*\/\s*export \* as (\w+) from/g)].map((m) => m[1]),
     );
 
     for (const s of subdirs) {
@@ -145,9 +132,7 @@ function check(dir) {
 check(SRC);
 
 if (problems.length) {
-    console.error(
-        `check-ns-barrels: ${problems.length} namespace-barrel problem(s):\n`,
-    );
+    console.error(`check-ns-barrels: ${problems.length} namespace-barrel problem(s):\n`);
     for (const p of problems) {
         // A barrel problem is about the file as a whole — what is missing is
         // by definition not at any line in it.
@@ -159,6 +144,4 @@ if (problems.length) {
     }
     process.exit(1);
 }
-console.log(
-    "check-ns-barrels: all namespace barrels present, complete, and described.",
-);
+console.log("check-ns-barrels: all namespace barrels present, complete, and described.");

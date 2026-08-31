@@ -6,10 +6,7 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import {
-    buildActionCard,
-    postActionCard,
-} from "@src/document/chat/action-card";
+import { buildActionCard, postActionCard } from "@src/document/chat/action-card";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 afterEach(() => vi.restoreAllMocks());
@@ -51,9 +48,7 @@ describe("buildActionCard", () => {
     });
 
     it("accepts an array of buttons (e.g. an attack card's four defenses)", async () => {
-        const spy = vi
-            .spyOn(FoundryHelpersMock, "toHTMLWithTemplate")
-            .mockResolvedValue("" as any);
+        const spy = vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockResolvedValue("" as any);
         await buildActionCard({
             content: "<p>Attack</p>",
             buttons: [

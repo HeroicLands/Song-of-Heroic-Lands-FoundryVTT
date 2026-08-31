@@ -31,12 +31,10 @@ function makeAffiliation(
     overrides: Record<string, unknown> = {},
     opts: Record<string, unknown> = {},
 ) {
-    return makeItemLogic(
-        AffiliationLogic,
-        ITEM_KIND.AFFILIATION,
-        affiliationFields(overrides),
-        { name: "Test Affiliation", ...opts },
-    );
+    return makeItemLogic(AffiliationLogic, ITEM_KIND.AFFILIATION, affiliationFields(overrides), {
+        name: "Test Affiliation",
+        ...opts,
+    });
 }
 
 afterEach(() => {
@@ -118,23 +116,17 @@ describe("AffiliationLogic", () => {
             const logic = makeAffiliation({
                 relation: { peoni: AFFILIATION_STANDING.NEMESIS },
             });
-            expect(logic.standingWith("larani")).toBe(
-                AFFILIATION_STANDING.UNALIGNED,
-            );
+            expect(logic.standingWith("larani")).toBe(AFFILIATION_STANDING.UNALIGNED);
         });
 
         it("returns unaligned for every shortcode when the table is empty", () => {
             const logic = makeAffiliation({ relation: {} });
-            expect(logic.standingWith("peoni")).toBe(
-                AFFILIATION_STANDING.UNALIGNED,
-            );
+            expect(logic.standingWith("peoni")).toBe(AFFILIATION_STANDING.UNALIGNED);
             expect(logic.standingWith("")).toBe(AFFILIATION_STANDING.UNALIGNED);
         });
 
         it("round-trips every standing value", () => {
-            const relation = Object.fromEntries(
-                AffiliationStandings.map((s, i) => [`aff${i}`, s]),
-            );
+            const relation = Object.fromEntries(AffiliationStandings.map((s, i) => [`aff${i}`, s]));
             const logic = makeAffiliation({ relation });
             AffiliationStandings.forEach((standing, i) => {
                 expect(logic.standingWith(`aff${i}`)).toBe(standing);
@@ -145,9 +137,7 @@ describe("AffiliationLogic", () => {
             const logic = makeAffiliation({ relation: {} });
             // `toString` exists on Object.prototype; a naive lookup would return
             // the function rather than the neutral default.
-            expect(logic.standingWith("toString")).toBe(
-                AFFILIATION_STANDING.UNALIGNED,
-            );
+            expect(logic.standingWith("toString")).toBe(AFFILIATION_STANDING.UNALIGNED);
         });
     });
 
@@ -177,17 +167,11 @@ describe("AffiliationLogic", () => {
 
 describe("AFFILIATION_SUBTYPE (#1405)", () => {
     it("declares the four organizational kinds", () => {
-        expect([...AffiliationSubTypes].sort()).toEqual([
-            "arcane",
-            "divine",
-            "social",
-            "spirit",
-        ]);
+        expect([...AffiliationSubTypes].sort()).toEqual(["arcane", "divine", "social", "spirit"]);
     });
 
     it("guards its own values and rejects anything else", () => {
-        for (const v of AffiliationSubTypes)
-            expect(isAffiliationSubType(v)).toBe(true);
+        for (const v of AffiliationSubTypes) expect(isAffiliationSubType(v)).toBe(true);
         expect(isAffiliationSubType("religious")).toBe(false);
         expect(isAffiliationSubType("")).toBe(false);
         expect(isAffiliationSubType(undefined)).toBe(false);
@@ -200,9 +184,7 @@ describe("AFFILIATION_SUBTYPE (#1405)", () => {
         expect(Object.keys(AffiliationSubTypeChoices).sort()).toEqual(
             [...AffiliationSubTypes].sort(),
         );
-        expect(AffiliationSubTypeChoices.divine).toBe(
-            "SOHL.Affiliation.SubType.divine",
-        );
+        expect(AffiliationSubTypeChoices.divine).toBe("SOHL.Affiliation.SubType.divine");
     });
 });
 
@@ -218,8 +200,7 @@ describe("AFFILIATION_STANDING (#1404)", () => {
     });
 
     it("guards its own values and rejects anything else", () => {
-        for (const v of AffiliationStandings)
-            expect(isAffiliationStanding(v)).toBe(true);
+        for (const v of AffiliationStandings) expect(isAffiliationStanding(v)).toBe(true);
         expect(isAffiliationStanding("hostile")).toBe(false);
         expect(isAffiliationStanding("")).toBe(false);
     });
@@ -229,9 +210,7 @@ describe("AFFILIATION_STANDING (#1404)", () => {
         expect(Object.keys(AffiliationStandingChoices).sort()).toEqual(
             [...AffiliationStandings].sort(),
         );
-        expect(AffiliationStandingChoices.nemesis).toBe(
-            "SOHL.Affiliation.Standing.nemesis",
-        );
+        expect(AffiliationStandingChoices.nemesis).toBe("SOHL.Affiliation.Standing.nemesis");
     });
 });
 
@@ -241,9 +220,7 @@ describe("AffiliationDataModel", () => {
         it.todo("defines society as a StringField");
         it.todo("defines office as a StringField");
         it.todo("defines title as a StringField");
-        it.todo(
-            "defines level as a NumberField with integer constraint and min 0",
-        );
+        it.todo("defines level as a NumberField with integer constraint and min 0");
     });
 
     it.todo("has kind set to ITEM_KIND.AFFILIATION");

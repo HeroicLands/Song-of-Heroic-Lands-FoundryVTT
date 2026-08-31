@@ -40,9 +40,7 @@ const GUIDE = "kb/dev-docs/how-to/issue-reporting.md";
 
 /** Every label name the registry declares. */
 function registryNames() {
-    return new Set(
-        parse(readFileSync(resolve(REGISTRY), "utf8")).map((l) => l.name),
-    );
+    return new Set(parse(readFileSync(resolve(REGISTRY), "utf8")).map((l) => l.name));
 }
 
 /**

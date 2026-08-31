@@ -95,8 +95,7 @@ function braceBlock(text, from) {
     let depth = 0;
     for (let i = start; i < text.length; i++) {
         if (text[i] === "{") depth++;
-        else if (text[i] === "}" && --depth === 0)
-            return text.slice(start, i + 1);
+        else if (text[i] === "}" && --depth === 0) return text.slice(start, i + 1);
     }
     return "";
 }
@@ -135,10 +134,7 @@ const GLYPH_DISPLAY_SIZE = "2em";
  * and it is confined to this generated page.
  */
 function glyph(cls) {
-    return (
-        `<i class="${cls}" style="font-size:${GLYPH_DISPLAY_SIZE}"` +
-        ` aria-hidden="true"></i>`
-    );
+    return `<i class="${cls}" style="font-size:${GLYPH_DISPLAY_SIZE}"` + ` aria-hidden="true"></i>`;
 }
 
 /** Pull `defineType("<id>", { … })` and return its top-level entries. */
@@ -305,10 +301,7 @@ const SECTION_NOTES = {
 
 /** Render one markdown table per group. */
 function renderTable(rows) {
-    const out = [
-        "| Glyph | Name | Where you see it |",
-        "| :---: | --- | --- |",
-    ];
+    const out = ["| Glyph | Name | Where you see it |", "| :---: | --- | --- |"];
     for (const r of rows.sort((a, b) => a.name.localeCompare(b.name)))
         out.push(`| ${r.symbol ?? glyph(r.cls)} | **${r.name}** | ${r.note} |`);
     return out.join("\n");
@@ -321,18 +314,8 @@ async function renderPage() {
     const sheet = readFileSync(BEING_SHEET_PATH, "utf8");
 
     const sections = [
-        [
-            "Actors",
-            collectTypeIcons(constants, lang).filter(
-                (r) => r.group === "Actors",
-            ),
-        ],
-        [
-            "Items",
-            collectTypeIcons(constants, lang).filter(
-                (r) => r.group === "Items",
-            ),
-        ],
+        ["Actors", collectTypeIcons(constants, lang).filter((r) => r.group === "Actors")],
+        ["Items", collectTypeIcons(constants, lang).filter((r) => r.group === "Items")],
         ["Being sheet tabs", collectTabIcons(sheet, lang)],
         ["Actions", collectActionIcons(lang)],
         ["Stars & Diamonds", MARK_ROWS],
@@ -350,10 +333,7 @@ async function renderPage() {
     const body = sections
         .map(([name, rows]) => {
             const note = SECTION_NOTES[name];
-            return (
-                `## ${name}\n\n${renderTable(rows)}` +
-                (note ? `\n\n${note}` : "")
-            );
+            return `## ${name}\n\n${renderTable(rows)}` + (note ? `\n\n${note}` : "");
         })
         .join("\n\n");
 
@@ -427,9 +407,7 @@ async function main() {
 
     const onDisk = readFileSync(OUT_PATH, "utf8");
     if (onDisk === text) {
-        console.log(
-            `check-icon-legend: ${OUT_PATH} is up to date (${total} icons).`,
-        );
+        console.log(`check-icon-legend: ${OUT_PATH} is up to date (${total} icons).`);
         return;
     }
 
@@ -441,8 +419,7 @@ async function main() {
             "it is generated from src/ and lang/en.json, so edit the " +
             "generator, not the page; regenerate with `npm run build:icon-legend`",
     });
-    for (const line of firstDifference(onDisk, text))
-        console.error(`  ${line}`);
+    for (const line of firstDifference(onDisk, text)) console.error(`  ${line}`);
     process.exitCode = 1;
 }
 
@@ -458,8 +435,7 @@ function firstDifference(onDisk, generated) {
     const a = onDisk.split("\n");
     const b = generated.split("\n");
     const at = a.findIndex((line, i) => line !== b[i]);
-    if (at < 0)
-        return [`(identical for ${a.length} lines; lengths differ at the end)`];
+    if (at < 0) return [`(identical for ${a.length} lines; lengths differ at the end)`];
     return [
         `first difference at line ${at + 1}:`,
         `- ${a[at] ?? "(end of file)"}`,

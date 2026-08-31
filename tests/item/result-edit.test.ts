@@ -36,10 +36,9 @@ const speaker = new SohlSpeaker({ alias: "GM" });
 
 /** A frozen, already-rolled d100 (total `total`) — supplying it means no re-roll. */
 function frozenRoll(total: number, parent: any): SimpleRoll {
-    return new SimpleRoll(
-        { numDice: 1, dieFaces: 100, modifier: 0, rolls: [total] } as any,
-        { parent },
-    );
+    return new SimpleRoll({ numDice: 1, dieFaces: 100, modifier: 0, rolls: [total] } as any, {
+        parent,
+    });
 }
 
 /**
@@ -68,9 +67,7 @@ async function makePriorResult(skill: any, base: number, roll: number) {
         },
     );
     await result.evaluate();
-    const toChat = vi
-        .spyOn(result, "toChat")
-        .mockResolvedValue(undefined as any);
+    const toChat = vi.spyOn(result, "toChat").mockResolvedValue(undefined as any);
     return { result, mlMod, toChat };
 }
 
@@ -105,24 +102,18 @@ describe("SohlItemBaseLogic.resultEdit — GM result-edit on the frozen roll (#8
         ) as SkillLogic;
         skill.initialize();
         // Default the client to a GM for the happy-path tests.
-        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
-            true,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(true);
     });
 
     afterEach(() => vi.restoreAllMocks());
 
     it("refuses for a non-GM — warns, never re-evaluates, never reposts", async () => {
-        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
-            false,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(false);
         const { result, toChat } = await makePriorResult(skill, 50, 23);
         const warn = vi.spyOn(sohl.log, "uiWarn").mockImplementation(() => {});
         const before = result.successLevel;
 
-        const ret = await skill.resultEdit(
-            editCtx(result, { situationalModifier: -45 }),
-        );
+        const ret = await skill.resultEdit(editCtx(result, { situationalModifier: -45 }));
 
         expect(warn).toHaveBeenCalled();
         expect(toChat).not.toHaveBeenCalled();
@@ -241,9 +232,7 @@ describe("SohlItemBaseLogic.resultEdit — roll visibility (#1099)", () => {
             { actor, id: "skill1", name: "Melee", shortcode: "melee" },
         ) as SkillLogic;
         skill.initialize();
-        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
-            true,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(true);
     });
 
     afterEach(() => vi.restoreAllMocks());
@@ -333,9 +322,7 @@ describe("SohlItemBaseLogic.resultEdit — roll visibility (#1099)", () => {
     it("a scripted (skipDialog) edit can name the visibility too", async () => {
         const { result, toChat } = await makePriorResult(skill, 50, 23);
 
-        await skill.resultEdit(
-            editCtx(result, { rollMode: "selfroll" } as any),
-        );
+        await skill.resultEdit(editCtx(result, { rollMode: "selfroll" } as any));
 
         expect(result.rollMode).toBe("selfroll");
         expect(toChat).toHaveBeenCalledOnce();
@@ -367,16 +354,12 @@ describe("SohlItemBaseLogic.resultEdit — roll visibility (#1099)", () => {
             },
         );
         await result.evaluate();
-        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue(
-            {} as any,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue({} as any);
 
         // No caller-supplied mode: the speaker resolves visibility as before,
         // even though the result itself carries one.
         await result.toChat({});
-        expect(
-            (speakerToChat.mock.calls[0] as any)[2].rollMode,
-        ).toBeUndefined();
+        expect((speakerToChat.mock.calls[0] as any)[2].rollMode).toBeUndefined();
 
         await result.toChat({ rollMode: result.rollMode });
         expect((speakerToChat.mock.calls[1] as any)[2].rollMode).toBe("gmroll");

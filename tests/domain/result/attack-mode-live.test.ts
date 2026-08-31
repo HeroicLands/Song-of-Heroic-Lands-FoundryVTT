@@ -49,14 +49,8 @@ const parent: any = {
 function makeAttackResult(): AttackResult {
     return new AttackResult(
         {
-            roll: new SimpleRoll(
-                { numDice: 1, dieFaces: 100, rolls: [30] },
-                { parent },
-            ),
-            masteryLevelModifier: new MasteryLevelModifier(
-                { baseValue: 50 } as any,
-                { parent },
-            ),
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [30] }, { parent }),
+            masteryLevelModifier: new MasteryLevelModifier({ baseValue: 50 } as any, { parent }),
             impact: new ImpactModifier(
                 {
                     roll: { numDice: 2, dieFaces: 6 } as any,

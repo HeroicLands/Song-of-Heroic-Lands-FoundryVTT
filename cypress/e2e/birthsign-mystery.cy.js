@@ -32,9 +32,7 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
     function skillEml(actor, shortcode) {
         return cy.foundry((win) => {
             const a = win.game.actors.get(actor.id);
-            const sk = a.items.find(
-                (i) => i.type === "skill" && i.system?.shortcode === shortcode,
-            );
+            const sk = a.items.find((i) => i.type === "skill" && i.system?.shortcode === shortcode);
             return sk ? sk.logic.masteryLevel.effective : null;
         });
     }
@@ -89,21 +87,19 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
     });
 
     it("a birth on the Arnos–Bourax threshold takes the better of both, never the sum", () => {
-        cy.createActor("being", { name: "Born On The Threshold" }).then(
-            (actor) => {
-                seedSkills(actor);
-                attachSign(actor, "arnos");
-                attachSign(actor, "bourax");
-                cy.prepare(actor);
+        cy.createActor("being", { name: "Born On The Threshold" }).then((actor) => {
+            seedSkills(actor);
+            attachSign(actor, "arnos");
+            attachSign(actor, "bourax");
+            cy.prepare(actor);
 
-                // Earth: max(Arnos +15, Bourax +10) = +15 — not +25.
-                skillEml(actor, "forg").should("eq", 55);
-                // Fire: max(Arnos −5, Bourax 0) = 0, so the penalty lifts
-                // entirely. Summing would leave it at 35; the kinder neighbour
-                // is what makes a cusp a cusp.
-                skillEml(actor, "swrd").should("eq", 40);
-            },
-        );
+            // Earth: max(Arnos +15, Bourax +10) = +15 — not +25.
+            skillEml(actor, "forg").should("eq", 55);
+            // Fire: max(Arnos −5, Bourax 0) = 0, so the penalty lifts
+            // entirely. Summing would leave it at 35; the kinder neighbour
+            // is what makes a cusp a cusp.
+            skillEml(actor, "swrd").should("eq", 40);
+        });
     });
 
     it("removing one sign of a pair falls back to the other's aptitudes", () => {
@@ -119,13 +115,9 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 const bourax = a.items.find(
-                    (i) =>
-                        i.type === "mystery" &&
-                        i.system?.shortcode === "bourax",
+                    (i) => i.type === "mystery" && i.system?.shortcode === "bourax",
                 );
-                return a
-                    .deleteEmbeddedDocuments("Item", [bourax.id])
-                    .then(() => null);
+                return a.deleteEmbeddedDocuments("Item", [bourax.id]).then(() => null);
             });
             cy.prepare(actor);
             skillEml(actor, "swrd").should("eq", 35);
@@ -157,16 +149,12 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
             "opsar",
         ];
         // The twelve signs the wheel once also shipped as standalone cusp items.
-        const RETIRED_CUSPS = WHEEL.map(
-            (sign, i) => `${sign}${WHEEL[(i + 1) % WHEEL.length]}`,
-        );
+        const RETIRED_CUSPS = WHEEL.map((sign, i) => `${sign}${WHEEL[(i + 1) % WHEEL.length]}`);
         cy.foundry(async (win) => {
             const pack = win.game.packs.get("sohl.items");
             const index = await pack.getIndex({ fields: ["system.shortcode"] });
             const codes = new Set(
-                index
-                    .filter((e) => e.type === "mystery")
-                    .map((e) => e.system?.shortcode),
+                index.filter((e) => e.type === "mystery").map((e) => e.system?.shortcode),
             );
             return {
                 missing: WHEEL.filter((c) => !codes.has(c)),
@@ -174,10 +162,7 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
             };
         }).should((result) => {
             expect(result.missing, "principal signs missing").to.deep.eq([]);
-            expect(
-                result.lingering,
-                "retired cusp items still packed",
-            ).to.deep.eq([]);
+            expect(result.lingering, "retired cusp items still packed").to.deep.eq([]);
         });
     });
 });

@@ -94,12 +94,7 @@ skipDirectories: [Templates]
 # did.
 packs:
     - { name: items, label: Items, type: Item, folders: item-folders.yaml }
-    - {
-          name: journals,
-          label: Journals,
-          type: JournalEntry,
-          folders: journal-folders.yaml,
-      }
+    - { name: journals, label: Journals, type: JournalEntry, folders: journal-folders.yaml }
     - { name: actors, label: Actors, type: Actor, folders: actor-folders.yaml }
     - { name: macros, label: Macros, type: Macro, folders: macro-folders.yaml }
     - name: scenes
@@ -191,12 +186,10 @@ packageBuild:
         # the honest fix for an unreferenced key is to delete it.
         retained:
             - prefix: SOHL.Gear.Action.
-              reason:
-                  Intrinsic action titles built as `${titlePrefix}.${shortcode}`
+              reason: Intrinsic action titles built as `${titlePrefix}.${shortcode}`
                   — the prefix is a parameter, so no scan can resolve it.
             - prefix: SOHL.Skill.Action.
-              reason:
-                  As above (defineImproveSdrActions is called with the kind's
+              reason: As above (defineImproveSdrActions is called with the kind's
                   prefix).
             - prefix: SOHL.MysticalAbility.Action.
               reason: As above.
@@ -210,22 +203,19 @@ packageBuild:
             # the template-literal spelling, so it reported all four as
             # unreferenced and the entry existed to silence it.
             - prefix: SOHL.Being.StumbleTest.
-              reason:
-                  keepControlTable resolves `<prefix>.<SuccessLevel>.label|description`
+              reason: keepControlTable resolves `<prefix>.<SuccessLevel>.label|description`
                   from a success level computed at runtime.
             - prefix: SOHL.Being.FumbleTest.
               reason: As above.
             - prefix: SOHL.AttackResult.TacticalAdvantage.action
-              reason:
-                  Resolved from the stored tactical-advantage value, not named
+              reason: Resolved from the stored tactical-advantage value, not named
                   in source.
 
         # Template literals that are deliberately not localization keys. The
         # escape hatch, not the rule: ordinary UI prose belongs in en.json.
         allow:
             - literal: item.system.code === 'pyrn'
-              reason:
-                  A SafeExpression example shown as a placeholder — code, not
+              reason: A SafeExpression example shown as a placeholder — code, not
                   prose.
 
     # Vite emits `sohl.js`, not the `<packageId>.mjs` the toolchain assumes, so
@@ -472,22 +462,15 @@ site:
     sections:
         being: { title: Beings, banner: banners/creature.webp }
         weapongear: { title: Weapons, banner: banners/weapons.webp }
-        armorgear:
-            { title: Armor/Clothing, banner: banners/armor-clothing.webp }
+        armorgear: { title: Armor/Clothing, banner: banners/armor-clothing.webp }
         projectilegear: { title: Projectiles, banner: banners/projectiles.webp }
         containergear: { title: Containers, banner: banners/containers.webp }
         miscgear: { title: Misc Gear, banner: banners/misc-gear.webp }
         affliction: { title: Afflictions, banner: banners/affliction.webp }
         trauma: { title: Trauma, banner: banners/trauma.webp }
-        mysticalability:
-            {
-                title: Mystical Abilities,
-                banner: banners/mystical-abilities.webp,
-            }
-        skill:
-            { title: Skills/Attributes, banner: banners/skills-attributes.webp }
-        attribute:
-            { title: Skills/Attributes, banner: banners/skills-attributes.webp }
+        mysticalability: { title: Mystical Abilities, banner: banners/mystical-abilities.webp }
+        skill: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
+        attribute: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
         # Map notes. No banner: the heroes are CDN assets and there is none for
         # maps yet, so these landings render without one.
         battlemap: { title: Battlemaps }
@@ -495,8 +478,7 @@ site:
         regionalmap: { title: Regional Maps }
     # Landing title + hero for the doc sections, whose index comes from a README.
     readmeSections:
-        dev-docs:
-            { title: Developer Documentation, banner: banners/dev-docs.webp }
+        dev-docs: { title: Developer Documentation, banner: banners/dev-docs.webp }
         user-guide: { title: User Guide, banner: banners/user-guide.webp }
         rules: { title: Rules, banner: banners/rules.webp }
         credits: { title: Credits & Attributions }

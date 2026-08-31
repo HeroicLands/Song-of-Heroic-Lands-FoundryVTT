@@ -114,9 +114,7 @@ export interface BoostContribution {
  * @param input - See {@link BoostContributionInput}.
  * @returns The contribution; see {@link BoostContribution}.
  */
-export function computeBoostContribution(
-    input: BoostContributionInput,
-): BoostContribution {
+export function computeBoostContribution(input: BoostContributionInput): BoostContribution {
     const { hasSkill, count } = input;
     if (count <= 0) {
         return {

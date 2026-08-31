@@ -41,17 +41,15 @@ describe("Body Locations table", () => {
                 // wrapping one `.ledger` — column labels in `.ledger__head`,
                 // one `.ledger__row` per hit location.
                 const fs = el.querySelector(".bodylocations-list");
-                const headers = [
-                    ...fs.querySelectorAll(".ledger__head > div"),
-                ].map((d) => d.textContent.trim());
+                const headers = [...fs.querySelectorAll(".ledger__head > div")].map((d) =>
+                    d.textContent.trim(),
+                );
                 const locRows = fs.querySelectorAll(".ledger__row").length;
                 const firstLoc = fs.querySelector(".ledger__row");
                 return {
                     headers: [...new Set(headers)],
                     locRows,
-                    firstName: firstLoc
-                        ?.querySelector(".ledger__name")
-                        ?.textContent?.trim(),
+                    firstName: firstLoc?.querySelector(".ledger__name")?.textContent?.trim(),
                 };
             }).should((r) => {
                 expect(r.headers).to.include.members([
@@ -65,8 +63,7 @@ describe("Body Locations table", () => {
                     "Imp",
                 ]);
                 expect(r.locRows, "location rows").to.be.at.least(1);
-                expect(r.firstName, "location has a name").to.be.a("string").and
-                    .not.empty;
+                expect(r.firstName, "location has a name").to.be.a("string").and.not.empty;
             });
         });
     });
@@ -105,14 +102,10 @@ describe("Body Locations table", () => {
                     cy.foundry((win) => {
                         const el = combatSection(win, actor.id);
                         const row = [
-                            ...el.querySelectorAll(
-                                ".bodylocations-list .ledger__row",
-                            ),
+                            ...el.querySelectorAll(".bodylocations-list .ledger__row"),
                         ].find(
                             (r) =>
-                                r
-                                    .querySelector(".ledger__name")
-                                    ?.textContent?.trim() === ref.name,
+                                r.querySelector(".ledger__name")?.textContent?.trim() === ref.name,
                         );
                         const d = row.querySelectorAll(".ledger__cell");
                         // cells: Material, B, E, P, F, Shock, Impair
@@ -121,12 +114,8 @@ describe("Body Locations table", () => {
                             blunt: Number(d[1].textContent.trim()),
                         };
                     }).should((r) => {
-                        expect(r.blunt, "blunt = natural + armor").to.equal(
-                            ref.baseBlunt + 6,
-                        );
-                        expect(r.layers, "layer material listed").to.contain(
-                            "Plate",
-                        );
+                        expect(r.blunt, "blunt = natural + armor").to.equal(ref.baseBlunt + 6);
+                        expect(r.layers, "layer material listed").to.contain("Plate");
                     });
                 });
             });

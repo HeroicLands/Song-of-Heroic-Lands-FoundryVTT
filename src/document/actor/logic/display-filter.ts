@@ -48,10 +48,10 @@ export function applySearchFilter(
     });
 
     rows.forEach((el) => {
-        const name = sohl.i18n.normalizeText(
-            (el.dataset.searchName ?? "").trim(),
-            { caseInsensitive: true, ascii: true },
-        );
+        const name = sohl.i18n.normalizeText((el.dataset.searchName ?? "").trim(), {
+            caseInsensitive: true,
+            ascii: true,
+        });
         const match = rgx ? rgx.test(name) : name.includes(q);
         el.classList.toggle("hidden", !match);
         if (rgx && (rgx as any).global) rgx.lastIndex = 0;

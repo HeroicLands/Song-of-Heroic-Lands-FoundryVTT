@@ -32,10 +32,7 @@ import type { BodyZone } from "@src/entity/body/BodyZone";
  *   caller's add flow).
  * @returns A fully-populated {@link BodyZone.Data} with default values.
  */
-export function blankBodyZone(
-    name: string = "Body Zone",
-    shortcode: string = "",
-): BodyZone.Data {
+export function blankBodyZone(name: string = "Body Zone", shortcode: string = ""): BodyZone.Data {
     return {
         shortcode,
         name,

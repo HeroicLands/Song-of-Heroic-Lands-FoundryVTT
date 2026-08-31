@@ -41,8 +41,7 @@ export const TOUR_STEP_KIND = {
 export type TourStepKind = (typeof TOUR_STEP_KIND)[keyof typeof TOUR_STEP_KIND];
 
 /** The kinds that carry a gate — everything except a free step. */
-export type TourGateKind =
-    typeof TOUR_STEP_KIND.VALUE_GATE | typeof TOUR_STEP_KIND.STATE_GATE;
+export type TourGateKind = typeof TOUR_STEP_KIND.VALUE_GATE | typeof TOUR_STEP_KIND.STATE_GATE;
 
 /**
  * The evidence a gate predicate decides over. The Foundry-coupled `SohlTour`
@@ -158,10 +157,7 @@ export const gateValue = {
         (pattern: RegExp): TourGatePredicate =>
         (ctx) => {
             if (typeof ctx.value !== "string") return false;
-            const re = new RegExp(
-                pattern.source,
-                pattern.flags.replace("g", ""),
-            );
+            const re = new RegExp(pattern.source, pattern.flags.replace("g", ""));
             return re.test(ctx.value);
         },
 

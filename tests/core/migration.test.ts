@@ -1,8 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import {
-    legacyTraitError,
-    runWorldMigrations,
-} from "@src/core/foundry/migration";
+import { legacyTraitError, runWorldMigrations } from "@src/core/foundry/migration";
 import * as FH from "@src/core/FoundryHelpers";
 import type { MigrationStep } from "@src/entity/migration/MigrationRegistry";
 
@@ -29,9 +26,7 @@ describe("legacyTraitError — retired trait item type is unrecognized (#651)", 
     });
 
     it("falls back to the id, then to (unknown), when the name is absent", () => {
-        expect(legacyTraitError({ type: "trait", id: "abc123" })).toContain(
-            "[abc123]",
-        );
+        expect(legacyTraitError({ type: "trait", id: "abc123" })).toContain("[abc123]");
         expect(legacyTraitError({ type: "trait" })).toContain("(unknown)");
     });
 
@@ -44,9 +39,7 @@ describe("legacyTraitError — retired trait item type is unrecognized (#651)", 
             }),
         ).toContain('Unrecognized item type "trait"');
         // A genuine base item is not flagged.
-        expect(
-            legacyTraitError({ type: "base", _source: { type: "base" } }),
-        ).toBeNull();
+        expect(legacyTraitError({ type: "base", _source: { type: "base" } })).toBeNull();
     });
 });
 
@@ -71,11 +64,7 @@ function mkDoc(over: Record<string, unknown> = {}): any {
 }
 
 /** A minimal `game`-like world with sized collections. */
-function mkGame(
-    actors: any[] = [],
-    items: any[] = [],
-    scenes: any[] = [],
-): any {
+function mkGame(actors: any[] = [], items: any[] = [], scenes: any[] = []): any {
     const coll = (arr: any[]): any => {
         const c: any = arr.slice();
         c.size = arr.length;
@@ -107,11 +96,7 @@ describe("runWorldMigrations — version-keyed runner (#957)", () => {
         expect(summary.planned).toBe(0);
         expect(summary.applied).toBe(0);
         expect(summary.stamped).toBe(true);
-        expect(setSpy).toHaveBeenCalledWith(
-            "sohl",
-            "systemMigrationVersion",
-            "0.7.0",
-        );
+        expect(setSpy).toHaveBeenCalledWith("sohl", "systemMigrationVersion", "0.7.0");
     });
 
     it("does nothing when the world is already at the current version", async () => {
@@ -164,17 +149,13 @@ describe("runWorldMigrations — version-keyed runner (#957)", () => {
         // Embedded items updated as a batch on the actor.
         expect(actor.updateEmbeddedDocuments).toHaveBeenCalledWith(
             "Item",
-            expect.arrayContaining([
-                expect.objectContaining({ _id: item.id, "system.i": 1 }),
-            ]),
+            expect.arrayContaining([expect.objectContaining({ _id: item.id, "system.i": 1 })]),
             expect.any(Object),
         );
         // Embedded effects updated on the actor and on the item.
         expect(actor.updateEmbeddedDocuments).toHaveBeenCalledWith(
             "ActiveEffect",
-            expect.arrayContaining([
-                expect.objectContaining({ "system.e": 1 }),
-            ]),
+            expect.arrayContaining([expect.objectContaining({ "system.e": 1 })]),
             expect.any(Object),
         );
         expect(item.updateEmbeddedDocuments).toHaveBeenCalledWith(
@@ -182,11 +163,7 @@ describe("runWorldMigrations — version-keyed runner (#957)", () => {
             expect.any(Array),
             expect.any(Object),
         );
-        expect(setSpy).toHaveBeenCalledWith(
-            "sohl",
-            "systemMigrationVersion",
-            "0.7.0",
-        );
+        expect(setSpy).toHaveBeenCalledWith("sohl", "systemMigrationVersion", "0.7.0");
     });
 
     it("writes embedded documents on the same terms as top-level ones", async () => {
@@ -213,8 +190,7 @@ describe("runWorldMigrations — version-keyed runner (#957)", () => {
         await runWorldMigrations(mkGame([actor]), steps);
 
         const [, topOptions] = actor.update.mock.calls[0];
-        const [, , embeddedOptions] =
-            actor.updateEmbeddedDocuments.mock.calls[0];
+        const [, , embeddedOptions] = actor.updateEmbeddedDocuments.mock.calls[0];
         expect(topOptions).toEqual({ diff: false, recursive: false });
         expect(embeddedOptions).toEqual(topOptions);
     });

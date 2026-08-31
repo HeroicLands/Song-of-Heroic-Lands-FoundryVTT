@@ -44,9 +44,7 @@ describe("descriptionLinkTarget", () => {
     /** An already-enriched link is the same thing in a different spelling. */
     it("recognizes an enriched content link", () => {
         expect(
-            descriptionLinkTarget(
-                `<a class="content-link" data-uuid="${UUID}">Weaponcraft</a>`,
-            ),
+            descriptionLinkTarget(`<a class="content-link" data-uuid="${UUID}">Weaponcraft</a>`),
         ).toBe(UUID);
     });
 

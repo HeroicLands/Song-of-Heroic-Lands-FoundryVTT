@@ -15,10 +15,7 @@ import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import {
-    SohlDataModel,
-    defineSohlDataSchema,
-} from "@src/core/foundry/SohlDataModel";
+import { SohlDataModel, defineSohlDataSchema } from "@src/core/foundry/SohlDataModel";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import type { SohlCombatantLogic } from "../logic/SohlCombatantLogic";
 import { chooseInitialDisplayedMedium } from "../logic/SohlCombatantLogic";
@@ -98,9 +95,7 @@ export class SohlCombatant<
         const options = groups
             .map((g) => {
                 const sel = g.id === currentId ? " selected" : "";
-                return `<option value="${escapeAttr(g.id)}"${sel}>${escapeHtml(
-                    g.name,
-                )}</option>`;
+                return `<option value="${escapeAttr(g.id)}"${sel}>${escapeHtml(g.name)}</option>`;
             })
             .join("");
 
@@ -134,16 +129,9 @@ export class SohlCombatant<
                     callback: (_event: Event, button: any) => {
                         const form = button.form as HTMLFormElement;
                         return {
-                            group: (
-                                form.elements.namedItem(
-                                    "group",
-                                ) as HTMLSelectElement
-                            )?.value,
-                            newName: (
-                                form.elements.namedItem(
-                                    "newName",
-                                ) as HTMLInputElement
-                            )?.value,
+                            group: (form.elements.namedItem("group") as HTMLSelectElement)?.value,
+                            newName: (form.elements.namedItem("newName") as HTMLInputElement)
+                                ?.value,
                         };
                     },
                 },
@@ -161,10 +149,9 @@ export class SohlCombatant<
         let targetGroupId: string | undefined;
         if (result.group === "__new__") {
             const name = result.newName?.trim() || DEFAULT_COMBAT_GROUP;
-            const [created] = (await combat.createEmbeddedDocuments(
-                "CombatantGroup",
-                [{ name }],
-            )) as any[];
+            const [created] = (await combat.createEmbeddedDocuments("CombatantGroup", [
+                { name },
+            ])) as any[];
             targetGroupId = created?.id;
         } else {
             targetGroupId = result.group || undefined;
@@ -338,10 +325,7 @@ export class SohlCombatant<
         // Movement is a universal actor capability; seed from the actor's own
         // current move medium (formerly the corpus default).
         const actorDefault = (this.actor?.system as any)?.currentMoveMedium;
-        const chosen = chooseInitialDisplayedMedium(
-            userSetMedium,
-            actorDefault,
-        );
+        const chosen = chooseInitialDisplayedMedium(userSetMedium, actorDefault);
         if (chosen && chosen !== userSetMedium) {
             (this as any).updateSource({
                 "system.displayedMedium": chosen,
@@ -366,9 +350,7 @@ export class SohlCombatant<
                 (s) => (s.system as any).shortcode === "init",
             ) as unknown as SohlItem;
             if (init) {
-                return String(
-                    (init.logic as SkillLogic).masteryLevel.effective,
-                );
+                return String((init.logic as SkillLogic).masteryLevel.effective);
             }
         }
         return "0";
@@ -390,10 +372,7 @@ function escapeAttr(value: string): string {
  * @returns The string with `&`, `<`, and `>` escaped as HTML entities.
  */
 function escapeHtml(value: string): string {
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+    return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 /**
@@ -513,10 +492,7 @@ export class SohlCombatantDataModel<
 
     /** The active status-effect ids on this combatant's actor. */
     get statuses(): Set<string> {
-        return (
-            ((this.parent as any)?.actor?.statuses as Set<string>) ??
-            new Set<string>()
-        );
+        return ((this.parent as any)?.actor?.statuses as Set<string>) ?? new Set<string>();
     }
 
     /** Whether this combatant's token is hidden from players. */

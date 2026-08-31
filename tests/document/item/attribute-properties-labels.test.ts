@@ -39,11 +39,7 @@ const PREFIXES = ["SOHL.Attribute", "SOHL.MasteryLevel", "SOHL.Item"];
  */
 function boundFields(): string[] {
     return [
-        ...new Set(
-            [...TEMPLATE.matchAll(/\{\{formGroup\s+fields\.([\w.]+)/g)].map(
-                (m) => m[1],
-            ),
-        ),
+        ...new Set([...TEMPLATE.matchAll(/\{\{formGroup\s+fields\.([\w.]+)/g)].map((m) => m[1])),
     ];
 }
 
@@ -58,29 +54,19 @@ describe("Attribute Properties tab field labels (#1105)", () => {
     it("binds the score and init-dice fields", () => {
         // Guards the discovery above: if the template stops using formGroup the
         // per-field assertions below would vacuously pass.
-        expect(boundFields()).toEqual(
-            expect.arrayContaining(["scoreBase", "initDiceFormula"]),
-        );
+        expect(boundFields()).toEqual(expect.arrayContaining(["scoreBase", "initDiceFormula"]));
     });
 
-    it.each(["scoreBase", "initDiceFormula"])(
-        "labels %s from a localization key",
-        (field) => {
-            expect(resolveFieldKey(field, "label")).toBeDefined();
-        },
-    );
+    it.each(["scoreBase", "initDiceFormula"])("labels %s from a localization key", (field) => {
+        expect(resolveFieldKey(field, "label")).toBeDefined();
+    });
 
-    it.each(["scoreBase", "initDiceFormula"])(
-        "hints %s from a localization key",
-        (field) => {
-            expect(resolveFieldKey(field, "hint")).toBeDefined();
-        },
-    );
+    it.each(["scoreBase", "initDiceFormula"])("hints %s from a localization key", (field) => {
+        expect(resolveFieldKey(field, "hint")).toBeDefined();
+    });
 
     it("labels every field the template binds with formGroup", () => {
-        const unlabelled = boundFields().filter(
-            (f) => !resolveFieldKey(f, "label"),
-        );
+        const unlabelled = boundFields().filter((f) => !resolveFieldKey(f, "label"));
         expect(unlabelled).toEqual([]);
     });
 });

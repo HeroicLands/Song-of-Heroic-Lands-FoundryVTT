@@ -71,8 +71,6 @@ export function load(app) {
         const out = path.resolve("kb/data/api-symbols.json");
         fs.mkdirSync(path.dirname(out), { recursive: true });
         fs.writeFileSync(out, JSON.stringify(sorted, null, 2) + "\n");
-        app.logger.info(
-            `symbol-map: wrote ${Object.keys(sorted).length} entries to ${out}`,
-        );
+        app.logger.info(`symbol-map: wrote ${Object.keys(sorted).length} entries to ${out}`);
     });
 }

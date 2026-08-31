@@ -51,9 +51,7 @@ describe("skill properties sheet template (#709)", () => {
         // The choices map uses i18n keys as labels; without localize=true the
         // select renders "SOHL.Skill.Combat.melee" instead of "Melee".
         const html = render("combat");
-        const control = html.slice(
-            html.indexOf('data-field="system.combatCategory"'),
-        );
+        const control = html.slice(html.indexOf('data-field="system.combatCategory"'));
         expect(control).toContain("data-localize");
     });
 
@@ -83,20 +81,14 @@ describe("skill properties sheet — Impaired By Roles (#713)", () => {
     it("renders a row per role with a delete control carrying its value", () => {
         const html = render("social", ["vital", "manipulator"]);
         expect(html).toContain('data-action="deleteArrayItem"');
-        expect(html).toContain(
-            'data-array="system.impairedByRoles" data-value="vital"',
-        );
-        expect(html).toContain(
-            'data-array="system.impairedByRoles" data-value="manipulator"',
-        );
+        expect(html).toContain('data-array="system.impairedByRoles" data-value="vital"');
+        expect(html).toContain('data-array="system.impairedByRoles" data-value="manipulator"');
     });
 
     it("renders an empty-state placeholder row when no roles are set", () => {
         const html = render("social", []);
         // No delete control is emitted for the empty state.
-        expect(html).not.toContain(
-            'data-array="system.impairedByRoles" data-value=',
-        );
+        expect(html).not.toContain('data-array="system.impairedByRoles" data-value=');
         // The Add control is still present so a role can be added.
         expect(html).toContain('data-action="addArrayItem"');
     });

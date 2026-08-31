@@ -1,9 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-    parseVersion,
-    compareVersions,
-    isNewerVersion,
-} from "@src/entity/migration/version";
+import { parseVersion, compareVersions, isNewerVersion } from "@src/entity/migration/version";
 
 describe("parseVersion", () => {
     it("parses a dotted numeric version into a padded triple", () => {

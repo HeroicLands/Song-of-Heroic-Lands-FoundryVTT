@@ -25,10 +25,7 @@ export const SECONDS_PER_DAY = 86400;
  * @param enduranceScore - The being's Endurance attribute score.
  * @returns The success-test target; never negative, always an integer.
  */
-export function contagionTarget(
-    contagionIndex: number,
-    enduranceScore: number,
-): number {
+export function contagionTarget(contagionIndex: number, enduranceScore: number): number {
     const target = contagionIndex * enduranceScore;
     return Number.isFinite(target) ? Math.max(0, Math.round(target)) : 0;
 }
@@ -56,14 +53,9 @@ export function isContracted(successLevel: number): boolean {
  * @param rolledDays - The rolled `onsetFormula` result, in days.
  * @returns Days until onset, or `undefined` when the affliction was avoided.
  */
-export function onsetDaysFor(
-    successLevel: number,
-    rolledDays: number,
-): number | undefined {
+export function onsetDaysFor(successLevel: number, rolledDays: number): number | undefined {
     if (!isContracted(successLevel)) return undefined;
     const days =
-        successLevel <= CRITICAL_FAILURE ?
-            Math.floor(rolledDays / 2)
-        :   Math.trunc(rolledDays);
+        successLevel <= CRITICAL_FAILURE ? Math.floor(rolledDays / 2) : Math.trunc(rolledDays);
     return Math.max(0, days);
 }

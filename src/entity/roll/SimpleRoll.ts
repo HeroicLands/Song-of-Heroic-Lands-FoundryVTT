@@ -70,10 +70,7 @@ export class SimpleRoll extends SohlEntity {
      * @param options - Must provide `options.parent`, the owning Logic (base
      *   {@link SohlEntity}).
      */
-    constructor(
-        data: Partial<SimpleRoll.Data>,
-        options: Partial<SimpleRoll.Options>,
-    );
+    constructor(data: Partial<SimpleRoll.Data>, options: Partial<SimpleRoll.Options>);
     /**
      * Implementation backing the constructor overloads: normalizes the
      * `(parent)` shorthand and requires a resolved parent.
@@ -175,9 +172,7 @@ export class SimpleRoll extends SohlEntity {
      */
     setRolls(values: number[]): void {
         if (values.length !== this.numDice) {
-            throw new Error(
-                `Expected ${this.numDice} roll values, got ${values.length}`,
-            );
+            throw new Error(`Expected ${this.numDice} roll values, got ${values.length}`);
         }
         this.rolls = values;
     }
@@ -238,17 +233,10 @@ export class SimpleRoll extends SohlEntity {
     get result(): string {
         const parts: string[] = [];
         if (this.rolls.length > 0) {
-            parts.push(
-                this.rolls.length === 1 ?
-                    `${this.rolls[0]}`
-                :   `[${this.rolls.join(", ")}]`,
-            );
+            parts.push(this.rolls.length === 1 ? `${this.rolls[0]}` : `[${this.rolls.join(", ")}]`);
         }
         if (this.modifier !== 0) {
-            parts.push(
-                (this.modifier > 0 && parts.length > 0 ? "+" : "") +
-                    `${this.modifier}`,
-            );
+            parts.push((this.modifier > 0 && parts.length > 0 ? "+" : "") + `${this.modifier}`);
         }
         return parts.join(" ") || "0";
     }
@@ -262,10 +250,7 @@ export class SimpleRoll extends SohlEntity {
             parts.push(`${this.numDice}d${this.dieFaces}`);
         }
         if (this.modifier !== 0) {
-            parts.push(
-                (this.modifier > 0 && parts.length > 0 ? "+" : "") +
-                    `${this.modifier}`,
-            );
+            parts.push((this.modifier > 0 && parts.length > 0 ? "+" : "") + `${this.modifier}`);
         }
         return parts.join("") || "0";
     }
@@ -282,9 +267,7 @@ export class SimpleRoll extends SohlEntity {
      * @throws Error if `formula` does not match the `NdM+K` grammar.
      */
     static fromFormula(formula: string, parent: SohlLogic<any>): SimpleRoll {
-        const match = formula
-            .trim()
-            .match(/^(?:(\d*)d(\d+))?(?:\s*([+-]\s*\d+))?$/i);
+        const match = formula.trim().match(/^(?:(\d*)d(\d+))?(?:\s*([+-]\s*\d+))?$/i);
         if (!match) {
             throw new Error(`Invalid formula: ${formula}`);
         }
@@ -295,8 +278,7 @@ export class SimpleRoll extends SohlEntity {
             : dieFacesStr ? 1
             : 0;
         const dieFaces = dieFacesStr ? parseInt(dieFacesStr) : 0;
-        const modifier =
-            modifierStr ? parseInt(modifierStr.replace(/\s+/g, "")) : 0;
+        const modifier = modifierStr ? parseInt(modifierStr.replace(/\s+/g, "")) : 0;
         return new SimpleRoll(
             {
                 numDice,

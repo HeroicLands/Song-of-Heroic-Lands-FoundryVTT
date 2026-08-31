@@ -10,9 +10,7 @@ function createSpeaker(): SohlSpeaker {
 describe("SohlActionContext", () => {
     describe("constructor", () => {
         it("throws when no speaker is provided", () => {
-            expect(() => new SohlActionContext({})).toThrow(
-                "SohlActionContext requires a speaker",
-            );
+            expect(() => new SohlActionContext({})).toThrow("SohlActionContext requires a speaker");
         });
 
         it("accepts a SohlSpeaker instance", () => {
@@ -91,9 +89,7 @@ describe("SohlActionContext", () => {
         });
 
         it("carries a typed scope generic", () => {
-            const ctx = new SohlActionContext<
-                Partial<SuccessTestResult.ContextScope>
-            >({
+            const ctx = new SohlActionContext<Partial<SuccessTestResult.ContextScope>>({
                 speaker: createSpeaker(),
                 scope: { situationalModifier: 3 },
             });

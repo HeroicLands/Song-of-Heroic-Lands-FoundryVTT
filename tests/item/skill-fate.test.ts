@@ -80,14 +80,8 @@ function fakeFateResult(successLevel: number): any {
 }
 
 /** Build the original success-test result the Fate bump applies to. */
-function makeOriginal(
-    skill: SkillLogic,
-    successLevel: number,
-): SuccessTestResult {
-    return new SuccessTestResult(
-        { successLevel, canFate: true },
-        { parent: skill },
-    );
+function makeOriginal(skill: SkillLogic, successLevel: number): SuccessTestResult {
+    return new SuccessTestResult({ successLevel, canFate: true }, { parent: skill });
 }
 
 describe("SkillLogic.fateTest — post-roll bump wiring (#854)", () => {
@@ -98,10 +92,7 @@ describe("SkillLogic.fateTest — post-roll bump wiring (#854)", () => {
         actor = makeMockActor();
         // Post the Fate result card as a no-op; the card's content is asserted
         // separately via the template-render harness.
-        vi.spyOn(
-            SkillLogic.prototype as any,
-            "postFateResultCard",
-        ).mockResolvedValue(undefined);
+        vi.spyOn(SkillLogic.prototype as any, "postFateResultCard").mockResolvedValue(undefined);
     });
 
     afterEach(() => {
@@ -131,9 +122,7 @@ describe("SkillLogic.fateTest — post-roll bump wiring (#854)", () => {
             fakeFateResult(MARGINAL_SUCCESS),
         );
         const original = makeOriginal(skill, MARGINAL_FAILURE);
-        const repost = vi
-            .spyOn(original, "toChat")
-            .mockResolvedValue(undefined);
+        const repost = vi.spyOn(original, "toChat").mockResolvedValue(undefined);
 
         await skill.fateTest(
             new SohlActionContext({
@@ -157,9 +146,7 @@ describe("SkillLogic.fateTest — post-roll bump wiring (#854)", () => {
             fakeFateResult(CRITICAL_FAILURE),
         );
         const original = makeOriginal(skill, MARGINAL_FAILURE);
-        const repost = vi
-            .spyOn(original, "toChat")
-            .mockResolvedValue(undefined);
+        const repost = vi.spyOn(original, "toChat").mockResolvedValue(undefined);
 
         await skill.fateTest(
             new SohlActionContext({
@@ -183,9 +170,7 @@ describe("SkillLogic.fateTest — post-roll bump wiring (#854)", () => {
             fakeFateResult(MARGINAL_FAILURE),
         );
         const original = makeOriginal(skill, MARGINAL_FAILURE);
-        const repost = vi
-            .spyOn(original, "toChat")
-            .mockResolvedValue(undefined);
+        const repost = vi.spyOn(original, "toChat").mockResolvedValue(undefined);
 
         await skill.fateTest(
             new SohlActionContext({
@@ -261,9 +246,7 @@ describe("SkillLogic.fateTest — post-roll bump wiring (#854)", () => {
         );
         vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
         const original = makeOriginal(skill, MARGINAL_FAILURE);
-        const repost = vi
-            .spyOn(original, "toChat")
-            .mockResolvedValue(undefined);
+        const repost = vi.spyOn(original, "toChat").mockResolvedValue(undefined);
 
         await skill.fateTest(
             new SohlActionContext({
@@ -363,20 +346,14 @@ describe("SuccessTestResult.canFate — gated on availableFate + opt-in (#854)",
         const actor = makeMockActor();
         makeFateMystery(actor, { id: "fate1", value: 2 });
         const skill = makeSkill(actor);
-        const result = new SuccessTestResult(
-            { canFate: true },
-            { parent: skill },
-        );
+        const result = new SuccessTestResult({ canFate: true }, { parent: skill });
         expect(result.canFate).toBe(true);
     });
 
     it("is false when the skill has no available Fate Point", () => {
         const actor = makeMockActor(); // no fate mysteries
         const skill = makeSkill(actor);
-        const result = new SuccessTestResult(
-            { canFate: true },
-            { parent: skill },
-        );
+        const result = new SuccessTestResult({ canFate: true }, { parent: skill });
         expect(result.canFate).toBe(false);
     });
 
@@ -384,10 +361,7 @@ describe("SuccessTestResult.canFate — gated on availableFate + opt-in (#854)",
         const actor = makeMockActor();
         makeFateMystery(actor, { id: "fate1", value: 2 });
         const skill = makeSkill(actor);
-        const result = new SuccessTestResult(
-            { canFate: false },
-            { parent: skill },
-        );
+        const result = new SuccessTestResult({ canFate: false }, { parent: skill });
         expect(result.canFate).toBe(false);
     });
 });

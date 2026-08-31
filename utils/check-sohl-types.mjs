@@ -57,24 +57,18 @@ if (!fs.existsSync(BUNDLE)) {
 }
 
 const dts = fs.readFileSync(BUNDLE, "utf8");
-const pkg = JSON.parse(
-    fs.readFileSync(path.join(PKG_DIR, "package.json"), "utf8"),
-);
+const pkg = JSON.parse(fs.readFileSync(path.join(PKG_DIR, "package.json"), "utf8"));
 const peers = Object.keys(pkg.peerDependencies ?? {});
 const isPeer = (id) => peers.some((p) => id === p || id.startsWith(`${p}/`));
 
 // 1. Bare imports must be declared peers.
 const specifiers = new Set();
-for (const m of dts.matchAll(
-    /^\s*(?:import|export)\b[^;]*?\bfrom\s+["']([^"']+)["']/gm,
-)) {
+for (const m of dts.matchAll(/^\s*(?:import|export)\b[^;]*?\bfrom\s+["']([^"']+)["']/gm)) {
     specifiers.add(m[1]);
 }
 for (const spec of [...specifiers].sort()) {
     if (spec.startsWith(".") || spec.startsWith("/")) {
-        fail(
-            `index.d.ts imports the relative path "${spec}" — the bundle must be self-contained.`,
-        );
+        fail(`index.d.ts imports the relative path "${spec}" — the bundle must be self-contained.`);
     } else if (!isPeer(spec)) {
         fail(
             `index.d.ts imports "${spec}", which is not a peerDependency of ` +
@@ -135,9 +129,7 @@ if (!/declare global\s*\{[\s\S]*?\bvar sohl\s*:/.test(dts)) {
 }
 
 if (errors.length > 0) {
-    console.error(
-        "The generated @heroiclands/sohl-types bundle would not work for a consumer:\n",
-    );
+    console.error("The generated @heroiclands/sohl-types bundle would not work for a consumer:\n");
     // The findings are about the generated bundle as a whole, so the file is
     // the honest locator and there is no line to add.
     for (const e of errors) {

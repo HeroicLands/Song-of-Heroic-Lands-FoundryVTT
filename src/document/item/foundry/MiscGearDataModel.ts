@@ -12,10 +12,7 @@
  */
 
 import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
-import {
-    MiscGearLogic,
-    MiscGearData,
-} from "@src/document/item/logic/MiscGearLogic";
+import { MiscGearLogic, MiscGearData } from "@src/document/item/logic/MiscGearLogic";
 import { ITEM_KIND } from "@src/utils/constants";
 
 /**

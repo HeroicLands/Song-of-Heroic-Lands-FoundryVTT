@@ -19,13 +19,7 @@
  * Foundry's native system row, and survives re-render without duplicating.
  */
 
-const EXPECTED_LABELS = [
-    "Main Site",
-    "Knowledgebase",
-    "API Docs",
-    "Issues",
-    "Discord",
-];
+const EXPECTED_LABELS = ["Main Site", "Knowledgebase", "API Docs", "Issues", "Discord"];
 
 /** Read back the injected branded section from the live Settings sidebar tab. */
 function readGameSystemSection(win) {
@@ -38,12 +32,8 @@ function readGameSystemSection(win) {
         count: el.querySelectorAll("[data-sohl-links]").length,
         classes: section.getAttribute("class"),
         title: section.querySelector("h4.divider")?.textContent?.trim(),
-        emblemSrc: section
-            .querySelector("img.sohl-game-system__emblem")
-            ?.getAttribute("src"),
-        version: section
-            .querySelector(".sohl-game-system__version")
-            ?.textContent?.trim(),
+        emblemSrc: section.querySelector("img.sohl-game-system__emblem")?.getAttribute("src"),
+        version: section.querySelector(".sohl-game-system__version")?.textContent?.trim(),
         links: anchors.map((a) => ({
             label: a.textContent.trim(),
             href: a.getAttribute("href"),
@@ -53,9 +43,7 @@ function readGameSystemSection(win) {
         // The Credits entry is a button, not an anchor — it opens a sheet in
         // the client rather than a browser tab (#1517).
         credits: (() => {
-            const b = section.querySelector(
-                'button[data-action="sohlOpenCredits"]',
-            );
+            const b = section.querySelector('button[data-action="sohlOpenCredits"]');
             if (!b) return null;
             const row = [...section.querySelectorAll("a, button")];
             return {
@@ -93,9 +81,7 @@ describe("settings sidebar — branded Game System section", () => {
             expect(s.title).to.eq("Song of Heroic Lands");
             expect(s.classes).to.contain("sohl-game-system");
             // Branding: the coiled-dragon emblem and the running version.
-            expect(s.emblemSrc).to.contain(
-                "assets/icons/brand/sohl-dragon.svg",
-            );
+            expect(s.emblemSrc).to.contain("assets/icons/brand/sohl-dragon.svg");
             expect(s.version).to.eq(version);
             // Inline links (plain anchors, not full-width buttons).
             expect(s.links.map((l) => l.label)).to.deep.eq(EXPECTED_LABELS);
@@ -110,12 +96,8 @@ describe("settings sidebar — branded Game System section", () => {
             // the newest release (#1452), and it is served as part of /sohl/
             // (#1470) — so the manifest carries a plain address with no
             // version, no /latest, and nothing composed onto it.
-            expect(flags.apiDocsUrl).to.eq(
-                "https://www.heroiclands.org/sohl/api/",
-            );
-            expect(flags.knowledgeBaseUrl).to.eq(
-                "https://www.heroiclands.org/sohl/kb/",
-            );
+            expect(flags.apiDocsUrl).to.eq("https://www.heroiclands.org/sohl/api/");
+            expect(flags.knowledgeBaseUrl).to.eq("https://www.heroiclands.org/sohl/kb/");
             s.links.forEach((l) => {
                 expect(l.target).to.eq("_blank");
                 expect(l.rel).to.contain("noopener");
@@ -145,9 +127,9 @@ describe("settings sidebar — branded Game System section", () => {
         // once (cy.foundry().should() would not retry).
         cy.get("@creditsUuid").then((uuid) => {
             cy.window().should((win) => {
-                const open = [
-                    ...win.foundry.applications.instances.values(),
-                ].filter((a) => a.rendered && a.document?.uuid === uuid);
+                const open = [...win.foundry.applications.instances.values()].filter(
+                    (a) => a.rendered && a.document?.uuid === uuid,
+                );
                 expect(open, "credits journal sheet open").to.have.length(1);
             });
         });
@@ -155,8 +137,7 @@ describe("settings sidebar — branded Game System section", () => {
         // Leave the client clean for the following tests.
         cy.foundry((win) => {
             for (const a of [...win.foundry.applications.instances.values()]) {
-                if (a.rendered && a.document?.documentName === "JournalEntry")
-                    a.close();
+                if (a.rendered && a.document?.documentName === "JournalEntry") a.close();
             }
             return null;
         });

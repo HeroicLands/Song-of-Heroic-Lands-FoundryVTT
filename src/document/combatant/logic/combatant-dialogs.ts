@@ -30,15 +30,10 @@ import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
  * @param selected - The value to mark as selected.
  * @returns The concatenated `<option>` HTML.
  */
-function renderOptions(
-    choices: Record<string, string>,
-    selected: string,
-): string {
+function renderOptions(choices: Record<string, string>, selected: string): string {
     return Object.entries(choices)
         .map(([value, label]) => {
-            const safe = String(label)
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
+            const safe = String(label).replace(/</g, "&lt;").replace(/>/g, "&gt;");
             const sel = value === selected ? " selected" : "";
             return `<option value="${value}"${sel}>${safe}</option>`;
         })
@@ -99,8 +94,7 @@ export function showAttackDialog(
             const mode = modes[chosenIdx] ?? modes[fallbackIdx];
             return {
                 aim: String(f.aim ?? defaultAim),
-                situationalModifier:
-                    Number.parseInt(String(f.situationalModifier), 10) || 0,
+                situationalModifier: Number.parseInt(String(f.situationalModifier), 10) || 0,
                 mode: mode.pointerData,
             } satisfies AttackDialogResult;
         },
@@ -169,8 +163,7 @@ export function showDefenseDialog(
         ),
         callback: (f: PlainObject) => ({
             key: String(f.choice ?? defaultKey),
-            situationalModifier:
-                Number.parseInt(String(f.situationalModifier), 10) || 0,
+            situationalModifier: Number.parseInt(String(f.situationalModifier), 10) || 0,
         }),
         rejectClose: false,
     }) as Promise<{ key: string; situationalModifier: number } | undefined>;

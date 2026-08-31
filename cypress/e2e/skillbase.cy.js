@@ -34,32 +34,28 @@ describe("skillbase calculation contract", () => {
      * Items order: attributes first (so initialize() ordering is safe).
      */
     function makeActorWithSkill(attrDefs, skillFormula) {
-        return cy
-            .createActor("being", { name: "Formula Being" })
-            .then((actor) => {
-                const attrItems = attrDefs.map(({ code, score }) => ({
-                    kind: "attribute",
-                    name: code.toUpperCase(),
-                    system: { shortcode: code, scoreBase: score },
-                }));
-                return cy.createItemsOn(actor, attrItems).then(() =>
-                    cy
-                        .createItemOn(actor, "skill", {
-                            name: "Test Skill",
-                            system: { skillBaseFormula: skillFormula },
-                        })
-                        .then((skill) => {
-                            cy.prepare(actor);
-                            return cy.foundry((win) => {
-                                const a = win.game.actors.get(actor.id);
-                                const sk = a.items.find(
-                                    (i) => i.type === "skill",
-                                );
-                                return sk.logic.skillBase;
-                            });
-                        }),
-                );
-            });
+        return cy.createActor("being", { name: "Formula Being" }).then((actor) => {
+            const attrItems = attrDefs.map(({ code, score }) => ({
+                kind: "attribute",
+                name: code.toUpperCase(),
+                system: { shortcode: code, scoreBase: score },
+            }));
+            return cy.createItemsOn(actor, attrItems).then(() =>
+                cy
+                    .createItemOn(actor, "skill", {
+                        name: "Test Skill",
+                        system: { skillBaseFormula: skillFormula },
+                    })
+                    .then((skill) => {
+                        cy.prepare(actor);
+                        return cy.foundry((win) => {
+                            const a = win.game.actors.get(actor.id);
+                            const sk = a.items.find((i) => i.type === "skill");
+                            return sk.logic.skillBase;
+                        });
+                    }),
+            );
+        });
     }
 
     // ------------------------------------------------------------------ tests
@@ -90,18 +86,14 @@ describe("skillbase calculation contract", () => {
                 // rather than pinning either. Every Basic Folk attribute shares
                 // one score, and averaging equal attributes — two of them or
                 // three — yields exactly that score.
-                expect(
-                    scores,
-                    "Basic Folk attributes all share one score",
-                ).to.have.length(1);
+                expect(scores, "Basic Folk attributes all share one score").to.have.length(1);
                 const score = scores[0];
                 // A floor, so an empty or gutted roster still fails loudly.
                 expect(rows.length, "skills on Basic Folk").to.be.at.least(25);
                 rows.forEach((r) => {
-                    expect(
-                        r.skillBase,
-                        `${r.name} (formula "${r.formula}") skillBase`,
-                    ).to.eq(score);
+                    expect(r.skillBase, `${r.name} (formula "${r.formula}") skillBase`).to.eq(
+                        score,
+                    );
                 });
             });
         });
@@ -210,9 +202,7 @@ describe("skillbase calculation contract", () => {
                     // Delete the primary attribute and re-prepare.
                     cy.foundry(async (win) => {
                         const a = win.game.actors.get(actor.id);
-                        const prim = a.items.find(
-                            (i) => i.system.shortcode === "prim",
-                        );
+                        const prim = a.items.find((i) => i.system.shortcode === "prim");
                         await prim.delete();
                     });
                     cy.prepare(actor);
@@ -247,20 +237,18 @@ describe("skillbase calculation contract", () => {
     });
 
     it("invalid formula — Skill item sheet shows the 'Invalid expression' hint (#972)", () => {
-        cy.createActor("being", { name: "Invalid SB Sheet Being" }).then(
-            (actor) => {
-                cy.createItemOn(actor, "skill", {
-                    name: "Broken Skill",
-                    system: { skillBaseFormula: "bogus(attr.str)" },
-                }).then((skill) => {
-                    cy.prepare(actor);
-                    cy.openSheet(skill);
-                    cy.switchTab("properties", "sheet");
-                    cy.get('section.tab[data-tab="properties"] .hint--error')
-                        .should("be.visible")
-                        .and("contain.text", "Invalid expression");
-                });
-            },
-        );
+        cy.createActor("being", { name: "Invalid SB Sheet Being" }).then((actor) => {
+            cy.createItemOn(actor, "skill", {
+                name: "Broken Skill",
+                system: { skillBaseFormula: "bogus(attr.str)" },
+            }).then((skill) => {
+                cy.prepare(actor);
+                cy.openSheet(skill);
+                cy.switchTab("properties", "sheet");
+                cy.get('section.tab[data-tab="properties"] .hint--error')
+                    .should("be.visible")
+                    .and("contain.text", "Invalid expression");
+            });
+        });
     });
 });

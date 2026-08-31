@@ -73,9 +73,7 @@ describe("reduceToTarget", () => {
 
     // The target is a guideline; nothing is truncated to reach it.
     it("stops when no eligible vowel is left", () => {
-        expect(reduceToTarget(["strngth", "wrdsmth"], 4)).toBe(
-            "strngthwrdsmth",
-        );
+        expect(reduceToTarget(["strngth", "wrdsmth"], 4)).toBe("strngthwrdsmth");
     });
 });
 
@@ -118,9 +116,7 @@ describe("slugifyShortcode", () => {
 
     // Nothing is truncated — the guideline is not a limit.
     it("leaves a long name long rather than cutting it", () => {
-        const out = slugifyShortcode(
-            "Grand Processional of the Silent Mountain",
-        );
+        const out = slugifyShortcode("Grand Processional of the Silent Mountain");
         expect(out.length).toBeGreaterThan(SHORTCODE_TARGET_LENGTH);
         expect(out).not.toContain("-");
     });

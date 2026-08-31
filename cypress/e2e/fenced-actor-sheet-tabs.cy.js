@@ -28,15 +28,7 @@
 const FENCED_SHEETS = [
     {
         kind: "vehicle",
-        tabs: [
-            "facade",
-            "profile",
-            "occupants",
-            "mysteries",
-            "gear",
-            "actions",
-            "effects",
-        ],
+        tabs: ["facade", "profile", "occupants", "mysteries", "gear", "actions", "effects"],
     },
     {
         kind: "structure",
@@ -65,9 +57,10 @@ describe("fenced actor sheets render every tab (#1088)", () => {
                 cy.createActor(kind, { name: `tabs ${kind}` }).then((actor) => {
                     cy.openSheet(actor);
                     cy.switchTab(tab, "primary");
-                    cy.get(
-                        `section.tab[data-group="primary"][data-tab="${tab}"]`,
-                    ).should("have.class", "active");
+                    cy.get(`section.tab[data-group="primary"][data-tab="${tab}"]`).should(
+                        "have.class",
+                        "active",
+                    );
                 });
             });
         });
@@ -94,10 +87,7 @@ describe("fenced actor sheets render every tab (#1088)", () => {
         it(`${kind}: shows the actor's name in the sheet header`, () => {
             cy.createActor(kind, { name: `header ${kind}` }).then((actor) => {
                 cy.openSheet(actor);
-                cy.get('.sheet-header input[name="name"]').should(
-                    "have.value",
-                    actor.name,
-                );
+                cy.get('.sheet-header input[name="name"]').should("have.value", actor.name);
             });
         });
 
@@ -105,16 +95,14 @@ describe("fenced actor sheets render every tab (#1088)", () => {
             cy.createActor(kind, { name: `effects ${kind}` }).then((actor) => {
                 const id = actor.id;
                 cy.foundry(async (win) => {
-                    await win.game.actors
-                        .get(id)
-                        .createEmbeddedDocuments("ActiveEffect", [
-                            win.JSON.parse(
-                                JSON.stringify({
-                                    name: "Barnacles",
-                                    type: "sohleffectdata",
-                                }),
-                            ),
-                        ]);
+                    await win.game.actors.get(id).createEmbeddedDocuments("ActiveEffect", [
+                        win.JSON.parse(
+                            JSON.stringify({
+                                name: "Barnacles",
+                                type: "sohleffectdata",
+                            }),
+                        ),
+                    ]);
                     return true;
                 });
                 cy.openSheet(actor);

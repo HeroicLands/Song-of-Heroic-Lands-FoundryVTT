@@ -66,8 +66,7 @@ export class ProjectileGearLogic<
  * @remarks The shape of `system` on a `projectilegear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "projectilegear"`. The backing DataModel implements this interface.
  */
 export interface ProjectileGearData<
-    TLogic extends ProjectileGearLogic<ProjectileGearData> =
-        ProjectileGearLogic<any>,
+    TLogic extends ProjectileGearLogic<ProjectileGearData> = ProjectileGearLogic<any>,
 > extends GearData<TLogic> {
     /** Projectile category (Arrow, Bolt, Bullet, etc.) */
     subType: ProjectileGearSubType;

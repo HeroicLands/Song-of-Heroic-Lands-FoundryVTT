@@ -32,8 +32,7 @@ import { resolveDoc, toRealm } from "../resolve.js";
 Cypress.Commands.add("createCombatWith", (tokens, opts = {}) =>
     cy.foundry(async (win) => {
         const first = tokens[0];
-        const sceneId =
-            first.parent?.id ?? first.sceneId ?? win.canvas?.scene?.id;
+        const sceneId = first.parent?.id ?? first.sceneId ?? win.canvas?.scene?.id;
         // `active: true` makes it the viewed combat so the CombatTracker has a
         // current combat to render (else core throws "'turn' in undefined").
         //

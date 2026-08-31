@@ -27,9 +27,7 @@ describe("skill sheet combat category (#709)", () => {
 
     function renderSheet(uuid) {
         cy.foundry((win) =>
-            Cypress.Promise.resolve(
-                win.fromUuidSync(uuid).sheet.render(true),
-            ).then(() => null),
+            Cypress.Promise.resolve(win.fromUuidSync(uuid).sheet.render(true)).then(() => null),
         );
         cy.wait(400);
     }
@@ -46,8 +44,7 @@ describe("skill sheet combat category (#709)", () => {
                     const ctrl = el.querySelector(SEL);
                     return { present: !!ctrl, value: ctrl?.value };
                 }).should((r) => {
-                    expect(r.present, "combat category control present").to.be
-                        .true;
+                    expect(r.present, "combat category control present").to.be.true;
                     expect(r.value).to.equal("melee");
                 });
             });
@@ -67,17 +64,13 @@ describe("skill sheet combat category (#709)", () => {
                     const selected = ctrl?.selectedOptions?.[0];
                     return {
                         label: selected?.textContent?.trim(),
-                        allLabels: Array.from(ctrl?.options ?? []).map((o) =>
-                            o.textContent.trim(),
-                        ),
+                        allLabels: Array.from(ctrl?.options ?? []).map((o) => o.textContent.trim()),
                     };
                 }).should((r) => {
                     // The selected option must show the localized label, not the
                     // raw i18n key.
                     expect(r.label).to.equal("Melee");
-                    expect(r.allLabels).not.to.include(
-                        "SOHL.Skill.Combat.melee",
-                    );
+                    expect(r.allLabels).not.to.include("SOHL.Skill.Combat.melee");
                 });
             });
         });
@@ -91,10 +84,7 @@ describe("skill sheet combat category (#709)", () => {
             }).then((skill) => {
                 renderSheet(skill.uuid);
                 cy.foundry(
-                    (win) =>
-                        !!win
-                            .fromUuidSync(skill.uuid)
-                            .sheet.element.querySelector(SEL),
+                    (win) => !!win.fromUuidSync(skill.uuid).sheet.element.querySelector(SEL),
                 ).should("be.false");
             });
         });
@@ -108,18 +98,14 @@ describe("skill sheet combat category (#709)", () => {
             }).then((skill) => {
                 renderSheet(skill.uuid);
                 cy.then(() => {
-                    cy.foundry((win) => win.fromUuidSync(skill.uuid)).then(
-                        (doc) =>
-                            cy.editSheetField(
-                                doc,
-                                "system.combatCategory",
-                                "missile",
-                            ),
+                    cy.foundry((win) => win.fromUuidSync(skill.uuid)).then((doc) =>
+                        cy.editSheetField(doc, "system.combatCategory", "missile"),
                     );
                 });
-                cy.foundry(
-                    (win) => win.fromUuidSync(skill.uuid).system.combatCategory,
-                ).should("equal", "missile");
+                cy.foundry((win) => win.fromUuidSync(skill.uuid).system.combatCategory).should(
+                    "equal",
+                    "missile",
+                );
             });
         });
     });

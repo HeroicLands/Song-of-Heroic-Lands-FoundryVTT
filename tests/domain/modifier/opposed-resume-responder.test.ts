@@ -142,9 +142,7 @@ async function pendingContest(): Promise<{
     // The placeholder resolves its token through the shim, exactly as a live
     // client does — so the carry-over below is a real assertion, not a
     // comparison of two `undefined`s.
-    vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync").mockReturnValue(
-        TARGET_TOKEN,
-    );
+    vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync").mockReturnValue(TARGET_TOKEN);
     const sourceML = makeML("Stealth", 50);
     const source = await rolled(sourceML, 40, "Stealth Test");
     const opposed = new OpposedTestResult(
@@ -169,9 +167,7 @@ describe("MasteryLevelModifier.opposedTestResume — the responder rolls its own
         SimpleRoll.forceValues(60);
         await responderML.opposedTestResume(resumeCtx(opposed));
 
-        expect(opposed.targetTestResult.masteryLevelModifier.effective).toBe(
-            75,
-        );
+        expect(opposed.targetTestResult.masteryLevelModifier.effective).toBe(75);
         expect(opposed.targetTestResult.roll.total).toBe(60);
         expect(opposed.targetTestResult.isSuccess).toBe(true);
     });
@@ -205,9 +201,7 @@ describe("MasteryLevelModifier.opposedTestResume — the responder rolls its own
         const responderML = makeML("Awareness", 75);
 
         SimpleRoll.forceValues(60);
-        await responderML.opposedTestResume(
-            resumeCtx(opposed, { situationalModifier: -30 }),
-        );
+        await responderML.opposedTestResume(resumeCtx(opposed, { situationalModifier: -30 }));
 
         const mod = opposed.targetTestResult.masteryLevelModifier;
         expect(mod.get(VALUE_DELTA_INFO.PLAYER)?.numValue).toBe(-30);

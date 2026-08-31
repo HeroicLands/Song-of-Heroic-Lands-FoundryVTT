@@ -63,10 +63,10 @@ describe("Skill Value Test — graded success value (#848)", () => {
                     // Force a marginal success (34 ≤ 50, last digit 4 → not
                     // critical). ML 50 → Index 5; SV = 5 + 1 − 1 = 5 → one star.
                     SimpleRoll.forceValues(34);
-                    const result = await s.logic.executeAction(
-                        "successValueTest",
-                        { skipDialog: true, scope: {} },
-                    );
+                    const result = await s.logic.executeAction("successValueTest", {
+                        skipDialog: true,
+                        scope: {},
+                    });
 
                     return {
                         hasAction,
@@ -75,10 +75,8 @@ describe("Skill Value Test — graded success value (#848)", () => {
                         valueDiamonds: result.valueDiamonds,
                     };
                 }).then((r) => {
-                    expect(r.hasAction, "successValueTest action registered").to
-                        .be.true;
-                    expect(r.isSuccessValue, "marked a Success Value test").to
-                        .be.true;
+                    expect(r.hasAction, "successValueTest action registered").to.be.true;
+                    expect(r.isSuccessValue, "marked a Success Value test").to.be.true;
                     expect(r.successValue, "SV = Index 5 + MS 0").to.eq(5);
                     expect(r.valueDiamonds, "one Value Diamond").to.eq(1);
                 });
@@ -86,11 +84,8 @@ describe("Skill Value Test — graded success value (#848)", () => {
                 // The card posts fire-and-forget; poll until it arrives, then
                 // assert it shows the Success Value and Value Diamonds rows.
                 cy.window().should((win) => {
-                    expect(win.game.messages.size).to.be.greaterThan(
-                        win.__svBefore,
-                    );
-                    const content =
-                        win.game.messages.contents.at(-1)?.content ?? "";
+                    expect(win.game.messages.size).to.be.greaterThan(win.__svBefore);
+                    const content = win.game.messages.contents.at(-1)?.content ?? "";
                     expect(content).to.contain("Success Value:");
                     expect(content).to.contain("Value Diamonds:");
                     // The grade is drawn as icons on the fixed five-diamond

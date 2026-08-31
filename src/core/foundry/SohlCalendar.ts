@@ -20,8 +20,7 @@ const { SchemaField, StringField, BooleanField } = foundry.data.fields;
  * Foundry's base {@link foundry.data.CalendarData.TimeComponents} with SoHL
  * era information so a date can be rendered relative to the world's epoch.
  */
-export interface SohlCalendarComponents
-    extends foundry.data.CalendarData.TimeComponents {
+export interface SohlCalendarComponents extends foundry.data.CalendarData.TimeComponents {
     /** Year number within the current era (always positive). */
     eraYear: number;
     /** True when the date falls before the era's epoch (negative years). */
@@ -50,9 +49,7 @@ export class SohlCalendarData extends foundry.data
      * @param args - Forwarded verbatim to the base `CalendarData` constructor.
      * @hidden
      */
-    constructor(
-        ...args: ConstructorParameters<typeof foundry.data.CalendarData>
-    ) {
+    constructor(...args: ConstructorParameters<typeof foundry.data.CalendarData>) {
         super(...args);
     }
 
@@ -236,8 +233,7 @@ export class SohlCalendarData extends foundry.data
             components.beforeEra = false;
             components.eraName = this.era.name;
             components.eraAbbrev = this.era.abbrev;
-            components.eraYear =
-                components.year + (this.era.hasYearZero ? 0 : 1);
+            components.eraYear = components.year + (this.era.hasYearZero ? 0 : 1);
         }
         return components;
     }

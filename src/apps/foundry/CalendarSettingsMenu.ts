@@ -15,10 +15,9 @@ import { SohlSystem } from "@src/core/logic/SohlSystem";
 import { DEFAULT_CALENDAR_SHORTCODE } from "@src/core/foundry/builtin-calendars";
 import { buildCalendarViewModel } from "@src/apps/logic/calendar-settings-view";
 
-const CalendarSettingsMenu_Base: any =
-    foundry.applications.api.HandlebarsApplicationMixin(
-        foundry.applications.api.ApplicationV2,
-    );
+const CalendarSettingsMenu_Base: any = foundry.applications.api.HandlebarsApplicationMixin(
+    foundry.applications.api.ApplicationV2,
+);
 
 /**
  * Settings menu for managing the calendar registry.
@@ -123,9 +122,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
 
                     // Validate required fields
                     if (!calendarConfig.name || !calendarConfig.days) {
-                        throw new Error(
-                            "JSON must contain at least 'name' and 'days' fields",
-                        );
+                        throw new Error("JSON must contain at least 'name' and 'days' fields");
                     }
 
                     // Generate ID from name
@@ -143,30 +140,18 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
 
                     // Persist to world setting
                     const imported = foundry.utils.deepClone(
-                        game.settings.get(
-                            "sohl",
-                            "importedCalendars",
-                        ) as Record<string, any>,
+                        game.settings.get("sohl", "importedCalendars") as Record<string, any>,
                     );
                     imported[id] = {
                         label: calendarConfig.name,
                         config: calendarConfig,
                     };
-                    await game.settings.set(
-                        "sohl",
-                        "importedCalendars",
-                        imported,
-                    );
+                    await game.settings.set("sohl", "importedCalendars", imported);
 
                     ui.notifications.info(
-                        game.i18n.format(
-                            "SOHL.CalendarSettings.import.success",
-                            {
-                                name: foundry.utils.escapeHTML(
-                                    calendarConfig.name,
-                                ),
-                            },
-                        ),
+                        game.i18n.format("SOHL.CalendarSettings.import.success", {
+                            name: foundry.utils.escapeHTML(calendarConfig.name),
+                        }),
                     );
 
                     // Re-render to show the new calendar
@@ -192,9 +177,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         _event: Event,
         target: HTMLElement,
     ): Promise<void> {
-        const calendarId = target
-            .closest("[data-calendar-id]")
-            ?.getAttribute("data-calendar-id");
+        const calendarId = target.closest("[data-calendar-id]")?.getAttribute("data-calendar-id");
         if (!calendarId) return;
 
         const cal = SohlSystem.getCalendar(calendarId);
@@ -202,14 +185,9 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
 
         const confirmed = await foundry.applications.api.DialogV2.confirm({
             window: { title: "SOHL.CalendarSettings.delete.label" },
-            content: `<p>${game.i18n.format(
-                "SOHL.CalendarSettings.delete.confirm",
-                {
-                    name: foundry.utils.escapeHTML(
-                        game.i18n.localize(cal.label),
-                    ),
-                },
-            )}</p>`,
+            content: `<p>${game.i18n.format("SOHL.CalendarSettings.delete.confirm", {
+                name: foundry.utils.escapeHTML(game.i18n.localize(cal.label)),
+            })}</p>`,
         });
         if (!confirmed) return;
 
@@ -218,10 +196,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
 
         // Remove from persisted setting
         const imported = foundry.utils.deepClone(
-            game.settings.get("sohl", "importedCalendars") as Record<
-                string,
-                any
-            >,
+            game.settings.get("sohl", "importedCalendars") as Record<string, any>,
         );
         delete imported[calendarId];
         await game.settings.set("sohl", "importedCalendars", imported);
@@ -229,16 +204,8 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         // If the deleted calendar was active, switch to default
         const activeId = game.settings.get("sohl", "activeCalendar");
         if (activeId === calendarId) {
-            await game.settings.set(
-                "sohl",
-                "activeCalendar",
-                DEFAULT_CALENDAR_SHORTCODE,
-            );
-            ui.notifications.warn(
-                game.i18n.localize(
-                    "SOHL.CalendarSettings.delete.activeWarning",
-                ),
-            );
+            await game.settings.set("sohl", "activeCalendar", DEFAULT_CALENDAR_SHORTCODE);
+            ui.notifications.warn(game.i18n.localize("SOHL.CalendarSettings.delete.activeWarning"));
         }
 
         // Re-render
@@ -250,10 +217,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
      * @param _formConfig - The form configuration (unused).
      * @param event - The submit event.
      */
-    protected override async _onSubmitForm(
-        _formConfig: any,
-        event: Event,
-    ): Promise<void> {
+    protected override async _onSubmitForm(_formConfig: any, event: Event): Promise<void> {
         event.preventDefault();
         const form = this.element as HTMLFormElement;
         const formData = new FormDataExtended(form);

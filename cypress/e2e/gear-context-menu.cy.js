@@ -87,9 +87,7 @@ describe("gear-row context menu bindings (#1132)", () => {
         cy.foundry((win) => {
             const el = win.game.actors
                 .get(actorId)
-                .sheet.element.querySelector(
-                    `[data-item-id="${itemId}"] .item-contextmenu`,
-                );
+                .sheet.element.querySelector(`[data-item-id="${itemId}"] .item-contextmenu`);
             expect(el, `⋮ control on row ${itemId}`).to.exist;
             el.click();
             return null;
@@ -133,118 +131,92 @@ describe("gear-row context menu bindings (#1132)", () => {
                 return {
                     rootActorId: root.dataset.actorId ?? null,
                     // The binding the predicates actually perform.
-                    resolvedFromRow:
-                        row?.closest("[data-actor-id]")?.dataset.actorId ??
-                        null,
+                    resolvedFromRow: row?.closest("[data-actor-id]")?.dataset.actorId ?? null,
                     expected: a.id,
                 };
             }).should((s) => {
-                expect(s.rootActorId, "sheet root data-actor-id").to.eq(
+                expect(s.rootActorId, "sheet root data-actor-id").to.eq(s.expected);
+                expect(s.resolvedFromRow, "a row resolves its actor by the documented walk").to.eq(
                     s.expected,
                 );
-                expect(
-                    s.resolvedFromRow,
-                    "a row resolves its actor by the documented walk",
-                ).to.eq(s.expected);
             });
         });
     });
 
     it("lists Toggle Worn on a carried armour's row menu", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "armorgear", { name: "Mail Hauberk" }).then(
-                (armor) => {
-                    // Gear is created carried; assert that rather than assume it.
-                    cy.foundry(
-                        (win) =>
-                            win.game.actors.get(actor.id).items.get(armor.id)
-                                .system.isCarried,
-                    ).should("be.true");
+            cy.createItemOn(actor, "armorgear", { name: "Mail Hauberk" }).then((armor) => {
+                // Gear is created carried; assert that rather than assume it.
+                cy.foundry(
+                    (win) => win.game.actors.get(actor.id).items.get(armor.id).system.isCarried,
+                ).should("be.true");
 
-                    openGearTab(actor);
-                    rowMenuLabels(actor.id, armor.id).should((labels) => {
-                        expect(labels, "carried armour menu").to.include(
-                            "Toggle Worn",
-                        );
-                        // The un-gated entries were never the problem; they
-                        // pin the menu as genuinely rendered.
-                        expect(labels).to.include("Toggle Carried");
-                    });
-                },
-            );
+                openGearTab(actor);
+                rowMenuLabels(actor.id, armor.id).should((labels) => {
+                    expect(labels, "carried armour menu").to.include("Toggle Worn");
+                    // The un-gated entries were never the problem; they
+                    // pin the menu as genuinely rendered.
+                    expect(labels).to.include("Toggle Carried");
+                });
+            });
         });
     });
 
     it("omits Toggle Worn from an uncarried armour's row menu", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "armorgear", { name: "Mail Hauberk" }).then(
-                (armor) => {
-                    cy.foundry((win) =>
-                        win.game.actors
-                            .get(actor.id)
-                            .items.get(armor.id)
-                            // The payload must be built in the game window's
-                            // JS realm — a literal from the Cypress bundle is
-                            // rejected ("must be constructed with a DataModel
-                            // or Object").
-                            .update(
-                                toRealm(win, { "system.isCarried": false }),
-                            ),
-                    );
-                    cy.foundry(
-                        (win) =>
-                            win.game.actors.get(actor.id).items.get(armor.id)
-                                .system.isCarried,
-                    ).should("be.false");
+            cy.createItemOn(actor, "armorgear", { name: "Mail Hauberk" }).then((armor) => {
+                cy.foundry((win) =>
+                    win.game.actors
+                        .get(actor.id)
+                        .items.get(armor.id)
+                        // The payload must be built in the game window's
+                        // JS realm — a literal from the Cypress bundle is
+                        // rejected ("must be constructed with a DataModel
+                        // or Object").
+                        .update(toRealm(win, { "system.isCarried": false })),
+                );
+                cy.foundry(
+                    (win) => win.game.actors.get(actor.id).items.get(armor.id).system.isCarried,
+                ).should("be.false");
 
-                    openGearTab(actor);
-                    rowMenuLabels(actor.id, armor.id).should((labels) => {
-                        // The carried gate is real, not an artefact of the
-                        // binding being broken for everything.
-                        expect(labels, "uncarried armour menu").to.not.include(
-                            "Toggle Worn",
-                        );
-                        expect(labels).to.include("Toggle Carried");
-                    });
-                },
-            );
+                openGearTab(actor);
+                rowMenuLabels(actor.id, armor.id).should((labels) => {
+                    // The carried gate is real, not an artefact of the
+                    // binding being broken for everything.
+                    expect(labels, "uncarried armour menu").to.not.include("Toggle Worn");
+                    expect(labels).to.include("Toggle Carried");
+                });
+            });
         });
     });
 
     it("lists Attack, Block, and Counterstrike on a held carried weapon's row menu", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "weapongear", meleeWeapon()).then(
-                (weapon) => {
-                    // Attack needs the weapon held; Block/Counterstrike also
-                    // need a melee strike mode (both `visible` predicates name
-                    // itemLogic, which is what #1132 could not resolve).
-                    cy.holdItem(weapon);
-                    cy.foundry((win) => {
-                        const w = win.game.actors
-                            .get(actor.id)
-                            .items.get(weapon.id);
-                        return {
-                            held: w.logic.heldBy.length,
-                            carried: w.system.isCarried,
-                            melee: w.logic.hasMeleeStrikeMode,
-                        };
-                    }).should((s) => {
-                        expect(s.held, "weapon is held").to.be.greaterThan(0);
-                        expect(s.carried, "weapon is carried").to.be.true;
-                        expect(s.melee, "weapon has a melee strike mode").to.be
-                            .true;
-                    });
+            cy.createItemOn(actor, "weapongear", meleeWeapon()).then((weapon) => {
+                // Attack needs the weapon held; Block/Counterstrike also
+                // need a melee strike mode (both `visible` predicates name
+                // itemLogic, which is what #1132 could not resolve).
+                cy.holdItem(weapon);
+                cy.foundry((win) => {
+                    const w = win.game.actors.get(actor.id).items.get(weapon.id);
+                    return {
+                        held: w.logic.heldBy.length,
+                        carried: w.system.isCarried,
+                        melee: w.logic.hasMeleeStrikeMode,
+                    };
+                }).should((s) => {
+                    expect(s.held, "weapon is held").to.be.greaterThan(0);
+                    expect(s.carried, "weapon is carried").to.be.true;
+                    expect(s.melee, "weapon has a melee strike mode").to.be.true;
+                });
 
-                    openGearTab(actor);
-                    rowMenuLabels(actor.id, weapon.id).should((labels) => {
-                        expect(labels, "weapon menu").to.include("Attack");
-                        expect(labels, "weapon menu").to.include("Block");
-                        expect(labels, "weapon menu").to.include(
-                            "Counterstrike",
-                        );
-                    });
-                },
-            );
+                openGearTab(actor);
+                rowMenuLabels(actor.id, weapon.id).should((labels) => {
+                    expect(labels, "weapon menu").to.include("Attack");
+                    expect(labels, "weapon menu").to.include("Block");
+                    expect(labels, "weapon menu").to.include("Counterstrike");
+                });
+            });
         });
     });
 });

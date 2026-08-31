@@ -233,9 +233,7 @@ function guardHeadlessRegionShapeConstraints(win) {
         proto.__sohlHeadlessRegionGuarded = true;
     }
     // `Level` has no SoHL subclass, so its own prototype is the only handle.
-    guardNonpersistedRegionShapeConstraints(
-        win.CONFIG?.Level?.documentClass?.prototype,
-    );
+    guardNonpersistedRegionShapeConstraints(win.CONFIG?.Level?.documentClass?.prototype);
 }
 
 /**

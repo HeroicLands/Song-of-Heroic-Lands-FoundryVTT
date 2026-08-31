@@ -167,10 +167,7 @@ export class Itr<T> implements IterableIterator<T> {
      * @param initialValue - The initial accumulator value.
      * @returns The final accumulated value.
      */
-    reduce<U>(
-        callback: (accumulator: U, value: T, index: number) => U,
-        initialValue: U,
-    ): U {
+    reduce<U>(callback: (accumulator: U, value: T, index: number) => U, initialValue: U): U {
         let index = 0;
         let accumulator = initialValue;
         for (const item of this) {

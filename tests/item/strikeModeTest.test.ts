@@ -62,10 +62,7 @@ describe("resolveStrikeMode", () => {
     it("uses the mode named by scope.strikeModeId", async () => {
         const [a, b] = [meleeMode("m1", "Cut"), meleeMode("m2", "Thrust")];
         const dlg = vi.spyOn(FoundryHelpers, "dialog");
-        const sm = await resolveStrikeMode(
-            combatant("Sword", [a, b]),
-            ctxWith("m2"),
-        );
+        const sm = await resolveStrikeMode(combatant("Sword", [a, b]), ctxWith("m2"));
         expect(sm).toBe(b);
         expect(dlg).not.toHaveBeenCalled();
     });
@@ -73,10 +70,7 @@ describe("resolveStrikeMode", () => {
     it("auto-selects the only mode when none is specified (no prompt)", async () => {
         const only = meleeMode("m1", "Cut");
         const dlg = vi.spyOn(FoundryHelpers, "dialog");
-        const sm = await resolveStrikeMode(
-            combatant("Dagger", [only]),
-            ctxWith(),
-        );
+        const sm = await resolveStrikeMode(combatant("Dagger", [only]), ctxWith());
         expect(sm).toBe(only);
         expect(dlg).not.toHaveBeenCalled();
     });
@@ -84,10 +78,7 @@ describe("resolveStrikeMode", () => {
     it("prompts to choose when 2+ modes and none specified", async () => {
         const [a, b] = [meleeMode("m1", "Cut"), meleeMode("m2", "Thrust")];
         const dlg = vi.spyOn(FoundryHelpers, "dialog").mockResolvedValue("m2");
-        const sm = await resolveStrikeMode(
-            combatant("Sword", [a, b]),
-            ctxWith(),
-        );
+        const sm = await resolveStrikeMode(combatant("Sword", [a, b]), ctxWith());
         expect(dlg).toHaveBeenCalledTimes(1);
         expect(sm).toBe(b);
     });
@@ -116,10 +107,7 @@ describe("resolveStrikeMode", () => {
     it("returns undefined when the picker is dismissed", async () => {
         vi.spyOn(FoundryHelpers, "dialog").mockResolvedValue(null);
         const sm = await resolveStrikeMode(
-            combatant("Sword", [
-                meleeMode("m1", "Cut"),
-                meleeMode("m2", "Thrust"),
-            ]),
+            combatant("Sword", [meleeMode("m1", "Cut"), meleeMode("m2", "Thrust")]),
             ctxWith(),
         );
         expect(sm).toBeUndefined();
@@ -127,13 +115,8 @@ describe("resolveStrikeMode", () => {
 
     it("passes the mode names via `data`, never interpolated into the content (Rule #10)", async () => {
         const evil = meleeMode("m1", "<img src=x onerror=alert(1)>");
-        const spy = vi
-            .spyOn(FoundryHelpers, "dialog")
-            .mockResolvedValue(undefined);
-        await resolveStrikeMode(
-            combatant("Sword", [evil, meleeMode("m2", "Thrust")]),
-            ctxWith(),
-        );
+        const spy = vi.spyOn(FoundryHelpers, "dialog").mockResolvedValue(undefined);
+        await resolveStrikeMode(combatant("Sword", [evil, meleeMode("m2", "Thrust")]), ctxWith());
         const spec = spy.mock.calls[0]![0] as any;
         expect(spec.content).not.toContain("<img");
         expect(spec.data.strikeModes).toContainEqual({
@@ -148,22 +131,14 @@ describe("runStrikeModeTest", () => {
 
     it("dispatches an attack to the mode's attack modifier", async () => {
         const sm = meleeMode("m1", "Cut");
-        const result = await runStrikeModeTest(
-            combatant("Sword", [sm]),
-            "attack",
-            ctxWith("m1"),
-        );
+        const result = await runStrikeModeTest(combatant("Sword", [sm]), "attack", ctxWith("m1"));
         expect(sm.attack.successTest).toHaveBeenCalledTimes(1);
         expect(result).toEqual({ tag: "m1:attack" });
     });
 
     it("dispatches a block to the mode's defense.block modifier", async () => {
         const sm = meleeMode("m1", "Cut");
-        const result = await runStrikeModeTest(
-            combatant("Sword", [sm]),
-            "block",
-            ctxWith("m1"),
-        );
+        const result = await runStrikeModeTest(combatant("Sword", [sm]), "block", ctxWith("m1"));
         expect(sm.defense.block.successTest).toHaveBeenCalledTimes(1);
         expect(result).toEqual({ tag: "m1:block" });
     });
@@ -189,15 +164,9 @@ describe("runStrikeModeTest", () => {
     });
 
     it("returns false for a block on a missile mode, telling the user why (#1137)", async () => {
-        const uiWarn = vi
-            .spyOn(sohl.log, "uiWarn")
-            .mockImplementation(() => {});
+        const uiWarn = vi.spyOn(sohl.log, "uiWarn").mockImplementation(() => {});
         const sm = missileMode("m1", "Throw");
-        const result = await runStrikeModeTest(
-            combatant("Javelin", [sm]),
-            "block",
-            ctxWith("m1"),
-        );
+        const result = await runStrikeModeTest(combatant("Javelin", [sm]), "block", ctxWith("m1"));
         expect(result).toBe(false);
         expect(sm.attack.successTest).not.toHaveBeenCalled();
         // On screen, not console-only: an invoked action that can do nothing
@@ -209,9 +178,7 @@ describe("runStrikeModeTest", () => {
     });
 
     it("returns false for a counterstrike on a missile mode, telling the user why (#1137)", async () => {
-        const uiWarn = vi
-            .spyOn(sohl.log, "uiWarn")
-            .mockImplementation(() => {});
+        const uiWarn = vi.spyOn(sohl.log, "uiWarn").mockImplementation(() => {});
         const sm = missileMode("m1", "Throw");
         const result = await runStrikeModeTest(
             combatant("Sling", [sm]),
@@ -224,11 +191,7 @@ describe("runStrikeModeTest", () => {
 
     it("returns false when no strike mode resolves", async () => {
         vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
-        const result = await runStrikeModeTest(
-            combatant("Fist", []),
-            "attack",
-            ctxWith(),
-        );
+        const result = await runStrikeModeTest(combatant("Fist", []), "attack", ctxWith());
         expect(result).toBe(false);
     });
 });
@@ -241,24 +204,17 @@ describe("runStrikeModeTest", () => {
  */
 describe("anyMeleeStrikeMode (#1137)", () => {
     it("is false for a missile-only item", () => {
-        expect(
-            anyMeleeStrikeMode(combatant("Bow", [missileMode("m1", "Shoot")])),
-        ).toBe(false);
+        expect(anyMeleeStrikeMode(combatant("Bow", [missileMode("m1", "Shoot")]))).toBe(false);
     });
 
     it("is true for a melee-only item", () => {
-        expect(
-            anyMeleeStrikeMode(combatant("Sword", [meleeMode("m1", "Cut")])),
-        ).toBe(true);
+        expect(anyMeleeStrikeMode(combatant("Sword", [meleeMode("m1", "Cut")]))).toBe(true);
     });
 
     it("is true for a mixed item (thrust and throw)", () => {
         expect(
             anyMeleeStrikeMode(
-                combatant("Spear", [
-                    missileMode("m1", "Throw"),
-                    meleeMode("m2", "Thrust"),
-                ]),
+                combatant("Spear", [missileMode("m1", "Throw"), meleeMode("m2", "Thrust")]),
             ),
         ).toBe(true);
     });

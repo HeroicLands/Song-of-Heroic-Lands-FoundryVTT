@@ -14,10 +14,7 @@ import {
     classifyMissileRange,
     resolveTargetCombatant,
 } from "@src/document/combatant/logic/SohlCombatantLogic";
-import {
-    hasMeleeAttackStrikeMode,
-    hasAnyStatus,
-} from "@src/document/chat/chat-card-gating";
+import { hasMeleeAttackStrikeMode, hasAnyStatus } from "@src/document/chat/chat-card-gating";
 
 const attackerParent = {
     data: { kind: "weapongear" },
@@ -53,9 +50,7 @@ function asActorLogic(input: any): any {
         }),
         allLogics: Object.values(logicTypes).flat(),
         getItemLogic: (shortcode: string, kind: string) =>
-            (logicTypes[kind] ?? []).find(
-                (l) => l.data?.shortcode === shortcode,
-            ),
+            (logicTypes[kind] ?? []).find((l) => l.data?.shortcode === shortcode),
     };
 }
 
@@ -175,9 +170,7 @@ describe("hasMeleeAttackStrikeMode", () => {
     it("true when a usable melee attack mode exists", () => {
         const a = {
             itemTypes: {
-                weapongear: [
-                    { id: "w", name: "W", logic: { strikeModes: [mode({})] } },
-                ],
+                weapongear: [{ id: "w", name: "W", logic: { strikeModes: [mode({})] } }],
             },
         } as any;
         expect(hasMeleeAttackStrikeMode(asActorLogic(a))).toBe(true);
@@ -207,9 +200,7 @@ describe("hasMeleeAttackStrikeMode", () => {
                         id: "bow",
                         name: "Bow",
                         logic: {
-                            strikeModes: [
-                                mode({ isMelee: false, isMissile: true }),
-                            ],
+                            strikeModes: [mode({ isMelee: false, isMissile: true })],
                         },
                     },
                 ],
@@ -244,9 +235,7 @@ describe("combat status invariants", () => {
     it("hasAnyStatus reports whether a forbidden status is present (Set or array)", () => {
         expect(hasAnyStatus(["sleep"], DEFENSE_DISABLING_STATUSES)).toBe(true);
         expect(hasAnyStatus(["prone"], DEFENSE_DISABLING_STATUSES)).toBe(false);
-        expect(
-            hasAnyStatus(new Set(["frozen"]), DEFENSE_DISABLING_STATUSES),
-        ).toBe(true);
+        expect(hasAnyStatus(new Set(["frozen"]), DEFENSE_DISABLING_STATUSES)).toBe(true);
     });
 
     it("ATTACK_BLOCKING_STATUSES covers the attacker invariant (incl. DEFEATED=vanquished)", () => {
@@ -266,14 +255,7 @@ describe("combat status invariants", () => {
 
     it("DEFENSE_DISABLING_STATUSES is the IGNORE-only set (no DEAD, no DEFEATED)", () => {
         expect([...DEFENSE_DISABLING_STATUSES].sort()).toEqual(
-            [
-                "unconscious",
-                "sleep",
-                "restrain",
-                "paralysis",
-                "frozen",
-                "incapacitated",
-            ].sort(),
+            ["unconscious", "sleep", "restrain", "paralysis", "frozen", "incapacitated"].sort(),
         );
         expect(DEFENSE_DISABLING_STATUSES).not.toContain("dead");
         expect(DEFENSE_DISABLING_STATUSES).not.toContain("vanquished");
@@ -318,26 +300,24 @@ describe("resolveTargetCombatant", () => {
 
     it("ignores targeted tokens that are not combatants", () => {
         // Two tokens targeted, but only one is a combatant → unambiguous.
-        expect(
-            resolveTargetCombatant([{ id: "x1" }, { id: "c2" }], toCombatant),
-        ).toEqual({ id: "combatant-c2" });
+        expect(resolveTargetCombatant([{ id: "x1" }, { id: "c2" }], toCombatant)).toEqual({
+            id: "combatant-c2",
+        });
     });
 
     it("throws when no targeted token is a combatant", () => {
-        expect(() =>
-            resolveTargetCombatant([{ id: "x1" }, { id: "x2" }], toCombatant),
-        ).toThrow(/exactly one combatant/i);
-    });
-
-    it("throws when nothing is targeted", () => {
-        expect(() => resolveTargetCombatant([], toCombatant)).toThrow(
+        expect(() => resolveTargetCombatant([{ id: "x1" }, { id: "x2" }], toCombatant)).toThrow(
             /exactly one combatant/i,
         );
     });
 
+    it("throws when nothing is targeted", () => {
+        expect(() => resolveTargetCombatant([], toCombatant)).toThrow(/exactly one combatant/i);
+    });
+
     it("throws when more than one targeted token is a combatant", () => {
-        expect(() =>
-            resolveTargetCombatant([{ id: "c1" }, { id: "c2" }], toCombatant),
-        ).toThrow(/exactly one combatant/i);
+        expect(() => resolveTargetCombatant([{ id: "c1" }, { id: "c2" }], toCombatant)).toThrow(
+            /exactly one combatant/i,
+        );
     });
 });

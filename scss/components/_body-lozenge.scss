@@ -40,11 +40,7 @@
             var(--sohl-color-accent) 45%,
             var(--sohl-color-border-subtle)
         );
-        background: color-mix(
-            in srgb,
-            var(--sohl-color-accent) 9%,
-            var(--sohl-color-bg-sheet)
-        );
+        background: color-mix(in srgb, var(--sohl-color-accent) 9%, var(--sohl-color-bg-sheet));
         font-weight: 700;
     }
 

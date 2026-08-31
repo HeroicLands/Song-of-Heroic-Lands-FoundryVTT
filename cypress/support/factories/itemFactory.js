@@ -83,8 +83,7 @@ let shortcodeSeq = 0;
  */
 export function itemFactory(kind, overrides = {}) {
     const { name, system, ...rest } = overrides;
-    const base =
-        KIND_DEFAULTS[kind] ?? (GEAR_KINDS.has(kind) ? { quantity: 1 } : {});
+    const base = KIND_DEFAULTS[kind] ?? (GEAR_KINDS.has(kind) ? { quantity: 1 } : {});
     const finalName = name ?? `${kind} item`;
     const finalSystem = { ...base, ...(system ?? {}) };
     // `(type, shortcode)` is a required, unique-per-actor item key. When a spec

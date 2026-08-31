@@ -23,47 +23,38 @@ import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
  * working across Foundry version updates.
  */
 export function registerCombatantConfigHooks(): void {
-    (Hooks as any).on(
-        "renderCombatantConfig",
-        (app: any, html: HTMLElement) => {
-            const combatant = app.document as SohlCombatant | undefined;
-            if (!combatant) return;
-            const sys = combatant.system as any;
+    (Hooks as any).on("renderCombatantConfig", (app: any, html: HTMLElement) => {
+        const combatant = app.document as SohlCombatant | undefined;
+        if (!combatant) return;
+        const sys = combatant.system as any;
 
-            const form = html.querySelector("form");
-            if (!form) return;
-            if (form.querySelector(".sohl-move-fields")) return;
+        const form = html.querySelector("form");
+        if (!form) return;
+        if (form.querySelector(".sohl-move-fields")) return;
 
-            const moveFactor = sys.moveFactor ?? 1;
-            const displayedMedium = sys.displayedMedium ?? "terrestrial";
+        const moveFactor = sys.moveFactor ?? 1;
+        const displayedMedium = sys.displayedMedium ?? "terrestrial";
 
-            const i18n = (game as any).i18n;
-            const factorLabel =
-                i18n?.localize?.("SOHL.Combatant.FIELDS.moveFactor.label") ??
-                "Move Factor";
-            const mediumLabel =
-                i18n?.localize?.(
-                    "SOHL.Combatant.FIELDS.displayedMedium.label",
-                ) ?? "Tracker Medium";
+        const i18n = (game as any).i18n;
+        const factorLabel =
+            i18n?.localize?.("SOHL.Combatant.FIELDS.moveFactor.label") ?? "Move Factor";
+        const mediumLabel =
+            i18n?.localize?.("SOHL.Combatant.FIELDS.displayedMedium.label") ?? "Tracker Medium";
 
-            const options = (
-                Object.entries(MOVEMENT_MEDIUM) as [string, string][]
-            )
-                .map(([key, value]) => {
-                    const localized =
-                        i18n?.localize?.(
-                            movementMediumLabels[
-                                key as keyof typeof movementMediumLabels
-                            ],
-                        ) ?? value;
-                    const sel = value === displayedMedium ? " selected" : "";
-                    return `<option value="${value}"${sel}>${localized}</option>`;
-                })
-                .join("");
+        const options = (Object.entries(MOVEMENT_MEDIUM) as [string, string][])
+            .map(([key, value]) => {
+                const localized =
+                    i18n?.localize?.(
+                        movementMediumLabels[key as keyof typeof movementMediumLabels],
+                    ) ?? value;
+                const sel = value === displayedMedium ? " selected" : "";
+                return `<option value="${value}"${sel}>${localized}</option>`;
+            })
+            .join("");
 
-            const fieldset = document.createElement("fieldset");
-            fieldset.classList.add("sohl-move-fields");
-            fieldset.innerHTML = `
+        const fieldset = document.createElement("fieldset");
+        fieldset.classList.add("sohl-move-fields");
+        fieldset.innerHTML = `
                 <div class="form-group">
                     <label>${factorLabel}</label>
                     <input type="number" min="0" step="0.05"
@@ -75,12 +66,11 @@ export function registerCombatantConfigHooks(): void {
                 </div>
             `;
 
-            const footer = form.querySelector("footer");
-            if (footer) {
-                form.insertBefore(fieldset, footer);
-            } else {
-                form.appendChild(fieldset);
-            }
-        },
-    );
+        const footer = form.querySelector("footer");
+        if (footer) {
+            form.insertBefore(fieldset, footer);
+        } else {
+            form.appendChild(fieldset);
+        }
+    });
 }

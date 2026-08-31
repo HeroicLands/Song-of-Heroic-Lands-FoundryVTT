@@ -16,22 +16,14 @@ describe("BodyStructure", () => {
     describe("construction", () => {
         it("assembles the zone -> part -> location hierarchy from flat arrays", () => {
             const body = makeBody();
-            expect(body.zones.map((z) => z.shortcode)).toEqual([
-                "headzone",
-                "bodyzone",
+            expect(body.zones.map((z) => z.shortcode)).toEqual(["headzone", "bodyzone"]);
+            expect(body.zones[0].parts.map((p) => p.shortcode)).toEqual(["head"]);
+            expect(body.zones[1].parts.map((p) => p.shortcode)).toEqual(["thorax"]);
+            expect(body.zones[0].parts[0].locations.map((l) => l.shortcode)).toEqual([
+                "skull",
+                "face",
             ]);
-            expect(body.zones[0].parts.map((p) => p.shortcode)).toEqual([
-                "head",
-            ]);
-            expect(body.zones[1].parts.map((p) => p.shortcode)).toEqual([
-                "thorax",
-            ]);
-            expect(
-                body.zones[0].parts[0].locations.map((l) => l.shortcode),
-            ).toEqual(["skull", "face"]);
-            expect(
-                body.zones[1].parts[0].locations.map((l) => l.shortcode),
-            ).toEqual(["chest"]);
+            expect(body.zones[1].parts[0].locations.map((l) => l.shortcode)).toEqual(["chest"]);
         });
 
         it("indexes every entity by its slot in the flat persisted array", () => {
@@ -73,9 +65,7 @@ describe("BodyStructure", () => {
             data.parts.push(partData("stray", "nosuchzone", 5));
             const body = makeBody(data);
             expect(body.getPartByCode("stray")).toBeUndefined();
-            expect(body.orphanedParts.map((p) => p.shortcode)).toEqual([
-                "stray",
-            ]);
+            expect(body.orphanedParts.map((p) => p.shortcode)).toEqual(["stray"]);
         });
 
         it("keeps a location whose part code matches nothing out of the hierarchy", () => {
@@ -83,18 +73,16 @@ describe("BodyStructure", () => {
             data.locations.push(locationData("floating", "nosuchpart", 3));
             const body = makeBody(data);
             expect(body.getLocationByCode("floating")).toBeUndefined();
-            expect(body.orphanedLocations.map((l) => l.shortcode)).toEqual([
-                "floating",
-            ]);
+            expect(body.orphanedLocations.map((l) => l.shortcode)).toEqual(["floating"]);
         });
 
         it("throws when any of the three arrays is missing", () => {
             for (const key of ["zones", "parts", "locations"] as const) {
                 const data = sampleBodyData();
                 delete (data as any)[key];
-                expect(
-                    () => new BodyStructure(data, bodyOptions(data)),
-                ).toThrow(`BodyStructure requires a '${key}' array`);
+                expect(() => new BodyStructure(data, bodyOptions(data))).toThrow(
+                    `BodyStructure requires a '${key}' array`,
+                );
             }
         });
     });
@@ -121,12 +109,7 @@ describe("BodyStructure", () => {
             // Weights 3 / 0 / 5 / 2: the zero-weight zone claims nothing and
             // must not interrupt the run.
             const body = makeBody({
-                zones: [
-                    zoneData("z1", 3),
-                    zoneData("z0", 0),
-                    zoneData("z2", 5),
-                    zoneData("z3", 2),
-                ],
+                zones: [zoneData("z1", 3), zoneData("z0", 0), zoneData("z2", 5), zoneData("z3", 2)],
                 parts: [],
                 locations: [],
             });
@@ -142,9 +125,7 @@ describe("BodyStructure", () => {
             // Unique...
             expect(new Set(all).size).toBe(all.length);
             // ...contiguous and monotonically increasing by 1 from 1...
-            expect(all).toEqual(
-                Array.from({ length: all.length }, (_, i) => i + 1),
-            );
+            expect(all).toEqual(Array.from({ length: all.length }, (_, i) => i + 1));
             // ...and maxZoneNumber is that run's N.
             expect(body.maxZoneNumber).toBe(10);
             expect(Math.max(...all)).toBe(body.maxZoneNumber);
@@ -170,15 +151,7 @@ describe("BodyStructure", () => {
         it("getZoneByNumber returns undefined for any number not on the body", () => {
             const body = makeBody(); // zone numbers 1..3
             expect(body.maxZoneNumber).toBe(3);
-            for (const n of [
-                0,
-                -1,
-                4,
-                99,
-                1.5,
-                Number.NaN,
-                Number.POSITIVE_INFINITY,
-            ]) {
+            for (const n of [0, -1, 4, 99, 1.5, Number.NaN, Number.POSITIVE_INFINITY]) {
                 expect(body.getZoneByNumber(n)).toBeUndefined();
             }
         });
@@ -203,23 +176,14 @@ describe("BodyStructure", () => {
 
         it("getAllZones returns every zone in persisted order (#982)", () => {
             const body = makeBody();
-            expect(body.getAllZones().map((z) => z.shortcode)).toEqual([
-                "headzone",
-                "bodyzone",
-            ]);
+            expect(body.getAllZones().map((z) => z.shortcode)).toEqual(["headzone", "bodyzone"]);
             // Carries the display name for {value: shortcode, label: name} mapping.
-            expect(body.getAllZones().map((z) => z.name)).toEqual([
-                "headzone",
-                "bodyzone",
-            ]);
+            expect(body.getAllZones().map((z) => z.name)).toEqual(["headzone", "bodyzone"]);
         });
 
         it("getAllParts returns every part in persisted order (#982)", () => {
             const body = makeBody();
-            expect(body.getAllParts().map((p) => p.shortcode)).toEqual([
-                "head",
-                "thorax",
-            ]);
+            expect(body.getAllParts().map((p) => p.shortcode)).toEqual(["head", "thorax"]);
         });
 
         it("exposes a zone's locations across all of its parts", () => {
@@ -227,11 +191,10 @@ describe("BodyStructure", () => {
             data.parts.push(partData("gut", "bodyzone", 10));
             data.locations.push(locationData("belly", "gut", 8));
             const body = makeBody(data);
-            expect(
-                body
-                    .getZoneByCode("bodyzone")!
-                    .locations.map((l) => l.shortcode),
-            ).toEqual(["chest", "belly"]);
+            expect(body.getZoneByCode("bodyzone")!.locations.map((l) => l.shortcode)).toEqual([
+                "chest",
+                "belly",
+            ]);
         });
     });
 
@@ -279,11 +242,7 @@ describe("BodyStructure", () => {
         // arms zone holds two arms; legs zone holds two legs; head zone one head.
         const wideBody = () =>
             makeBody({
-                zones: [
-                    zoneData("headzone", 1),
-                    zoneData("armszone", 4),
-                    zoneData("legszone", 4),
-                ],
+                zones: [zoneData("headzone", 1), zoneData("armszone", 4), zoneData("legszone", 4)],
                 parts: [
                     partData("head", "headzone", 1),
                     partData("rarm", "armszone", 2),
@@ -366,13 +325,8 @@ describe("BodyStructure", () => {
                 locations: [locationData("chest", "thorax", 20)],
             });
             for (let i = 0; i < 50; i++) {
-                expect(
-                    body.getRandomOccupiedZone(createRng(`e-${i}`))?.shortcode,
-                ).toBe("bodyzone");
-                expect(
-                    body.getRandomPart(undefined, createRng(`e-${i}`))
-                        .shortcode,
-                ).toBe("thorax");
+                expect(body.getRandomOccupiedZone(createRng(`e-${i}`))?.shortcode).toBe("bodyzone");
+                expect(body.getRandomPart(undefined, createRng(`e-${i}`)).shortcode).toBe("thorax");
             }
             // The plain zone roll still reports the empty zone — it owns real
             // zone numbers and the displayed table must say so.
@@ -388,10 +342,7 @@ describe("BodyStructure", () => {
                     zoneData("ghostzone", 2), // weighted but empty
                     zoneData("legszone", 3),
                 ],
-                parts: [
-                    partData("head", "headzone", 1),
-                    partData("leg", "legszone", 1),
-                ],
+                parts: [partData("head", "headzone", 1), partData("leg", "legszone", 1)],
                 locations: [],
             });
             const counts: Record<string, number> = {};
@@ -439,16 +390,11 @@ describe("BodyStructure", () => {
             const N = 40_000;
             const counts: Record<string, number> = {};
             for (let i = 0; i < N; i++) {
-                const loc = body.getRandomLocation(
-                    undefined,
-                    createRng(`w-${i}`),
-                );
+                const loc = body.getRandomLocation(undefined, createRng(`w-${i}`));
                 counts[loc.shortcode] = (counts[loc.shortcode] ?? 0) + 1;
             }
             for (const [code, p] of Object.entries(expected)) {
-                expect(Math.abs((counts[code] ?? 0) / N - p)).toBeLessThan(
-                    0.02,
-                );
+                expect(Math.abs((counts[code] ?? 0) / N - p)).toBeLessThan(0.02);
             }
         });
 
@@ -457,10 +403,7 @@ describe("BodyStructure", () => {
             const targetPart = body.getPartByCode("head")!;
             for (let i = 0; i < 20; i++) {
                 expect(
-                    body.getRandomPart(
-                        { targetPart, spread: 15 },
-                        createRng(`t-${i}`),
-                    ).shortcode,
+                    body.getRandomPart({ targetPart, spread: 15 }, createRng(`t-${i}`)).shortcode,
                 ).toBe("head");
             }
         });
@@ -469,10 +412,7 @@ describe("BodyStructure", () => {
             const body = makeBody();
             const targetPart = body.getPartByCode("head")!;
             for (let i = 0; i < 100; i++) {
-                const part = body.getRandomPart(
-                    { targetPart, spread: 100 },
-                    createRng(`v-${i}`),
-                );
+                const part = body.getRandomPart({ targetPart, spread: 100 }, createRng(`v-${i}`));
                 expect(["head", "thorax"]).toContain(part.shortcode);
             }
         });
@@ -483,10 +423,7 @@ describe("BodyStructure", () => {
             const hits = new Set<string>();
             for (let i = 0; i < 200; i++) {
                 hits.add(
-                    body.getRandomPart(
-                        { targetPart, spread: 1000 },
-                        createRng(`d-${i}`),
-                    ).shortcode,
+                    body.getRandomPart({ targetPart, spread: 1000 }, createRng(`d-${i}`)).shortcode,
                 );
             }
             expect(hits.has("thorax")).toBe(true);
@@ -495,10 +432,7 @@ describe("BodyStructure", () => {
         it("getRandomLocation returns a location of the structure", () => {
             const body = makeBody();
             for (let i = 0; i < 50; i++) {
-                const loc = body.getRandomLocation(
-                    undefined,
-                    createRng(`l-${i}`),
-                );
+                const loc = body.getRandomLocation(undefined, createRng(`l-${i}`));
                 expect(["skull", "face", "chest"]).toContain(loc.shortcode);
             }
         });
@@ -513,34 +447,25 @@ describe("BodyStructure", () => {
             };
             const first = Array.from(
                 { length: 20 },
-                (_, i) =>
-                    body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
+                (_, i) => body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
             );
             const again = Array.from(
                 { length: 20 },
-                (_, i) =>
-                    body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
+                (_, i) => body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
             );
             expect(again).toEqual(first);
         });
 
         it("getRandomLocation is reproducible end to end", () => {
             const body = makeBody();
-            const first = body.getRandomLocation(
-                undefined,
-                createRng("seed-1"),
-            );
-            const again = body.getRandomLocation(
-                undefined,
-                createRng("seed-1"),
-            );
+            const first = body.getRandomLocation(undefined, createRng("seed-1"));
+            const again = body.getRandomLocation(undefined, createRng("seed-1"));
             expect(again.shortcode).toBe(first.shortcode);
         });
 
         it("weightedRandom is reproducible under the same seed", () => {
             const body = makeBody();
-            const pick = () =>
-                weightedRandom(body.parts, createRng("w-seed")).shortcode;
+            const pick = () => weightedRandom(body.parts, createRng("w-seed")).shortcode;
             expect(pick()).toBe(pick());
         });
     });
@@ -548,15 +473,9 @@ describe("BodyStructure", () => {
     describe("updatePath", () => {
         it("addresses each tier by its flat index", () => {
             const body = makeBody();
-            expect(body.zones[1].updatePath).toBe(
-                "system.body.structure.zones.1",
-            );
-            expect(body.parts[1].updatePath).toBe(
-                "system.body.structure.parts.1",
-            );
-            expect(body.locations[2].updatePath).toBe(
-                "system.body.structure.locations.2",
-            );
+            expect(body.zones[1].updatePath).toBe("system.body.structure.zones.1");
+            expect(body.parts[1].updatePath).toBe("system.body.structure.parts.1");
+            expect(body.locations[2].updatePath).toBe("system.body.structure.locations.2");
         });
     });
 
@@ -565,47 +484,36 @@ describe("BodyStructure", () => {
             const body = makeBody();
             const payload = body.addZoneUpdate(zoneData("tailzone", 2));
             expect(payload["system.body.structure.zones"]).toHaveLength(3);
-            expect(payload["system.body.structure.zones"][2].shortcode).toBe(
-                "tailzone",
-            );
+            expect(payload["system.body.structure.zones"][2].shortcode).toBe("tailzone");
         });
 
         it("removeZoneUpdate cascades to its parts and their locations", () => {
             const body = makeBody();
             const payload = body.removeZoneUpdate("headzone");
-            expect(
-                payload["system.body.structure.zones"].map(
-                    (z: any) => z.shortcode,
-                ),
-            ).toEqual(["bodyzone"]);
-            expect(
-                payload["system.body.structure.parts"].map(
-                    (p: any) => p.shortcode,
-                ),
-            ).toEqual(["thorax"]);
+            expect(payload["system.body.structure.zones"].map((z: any) => z.shortcode)).toEqual([
+                "bodyzone",
+            ]);
+            expect(payload["system.body.structure.parts"].map((p: any) => p.shortcode)).toEqual([
+                "thorax",
+            ]);
             // skull + face belonged to the head part and go with it.
-            expect(
-                payload["system.body.structure.locations"].map(
-                    (l: any) => l.shortcode,
-                ),
-            ).toEqual(["chest"]);
+            expect(payload["system.body.structure.locations"].map((l: any) => l.shortcode)).toEqual(
+                ["chest"],
+            );
         });
 
         it("moveZoneUpdate rewrites the whole zones array", () => {
             const body = makeBody();
             const payload = body.moveZoneUpdate(0, 1);
-            expect(
-                payload["system.body.structure.zones"].map(
-                    (z: any) => z.shortcode,
-                ),
-            ).toEqual(["bodyzone", "headzone"]);
+            expect(payload["system.body.structure.zones"].map((z: any) => z.shortcode)).toEqual([
+                "bodyzone",
+                "headzone",
+            ]);
         });
 
         it("setZoneFieldsUpdate changes only the addressed zone", () => {
             const body = makeBody();
-            const payload = body.setZoneFieldsUpdate([
-                { index: 1, changes: { probWeight: 7 } },
-            ]);
+            const payload = body.setZoneFieldsUpdate([{ index: 1, changes: { probWeight: 7 } }]);
             const zones = payload["system.body.structure.zones"];
             expect(zones).toHaveLength(2);
             expect(zones[0].probWeight).toBe(1);
@@ -615,11 +523,9 @@ describe("BodyStructure", () => {
 
         it("setZoneFieldsUpdate ignores out-of-range indices", () => {
             const body = makeBody();
-            expect(
-                body.setZoneFieldsUpdate([
-                    { index: 9, changes: { probWeight: 1 } },
-                ]),
-            ).toEqual({});
+            expect(body.setZoneFieldsUpdate([{ index: 9, changes: { probWeight: 1 } }])).toEqual(
+                {},
+            );
         });
     });
 
@@ -637,24 +543,18 @@ describe("BodyStructure", () => {
             const payload = body
                 .getZoneByCode("bodyzone")!
                 .addPartUpdate(partData("tail", "wrongzone", 4));
-            expect(payload["system.body.structure.parts"][2].bodyZoneCode).toBe(
-                "bodyzone",
-            );
+            expect(payload["system.body.structure.parts"][2].bodyZoneCode).toBe("bodyzone");
         });
 
         it("removePartUpdate cascades to that part's locations", () => {
             const body = makeBody();
             const payload = body.removePartUpdate("head");
-            expect(
-                payload["system.body.structure.parts"].map(
-                    (p: any) => p.shortcode,
-                ),
-            ).toEqual(["thorax"]);
-            expect(
-                payload["system.body.structure.locations"].map(
-                    (l: any) => l.shortcode,
-                ),
-            ).toEqual(["chest"]);
+            expect(payload["system.body.structure.parts"].map((p: any) => p.shortcode)).toEqual([
+                "thorax",
+            ]);
+            expect(payload["system.body.structure.locations"].map((l: any) => l.shortcode)).toEqual(
+                ["chest"],
+            );
         });
 
         it("removePartUpdate leaves everything alone for an unknown code", () => {
@@ -691,25 +591,14 @@ describe("BodyStructure", () => {
             data.parts.push(partData("gut", "bodyzone", 10));
             const body = makeBody(data);
             // Move "gut" (flat index 2) to the front of its zone.
-            const parts = body.movePartUpdate(2, "bodyzone", 0)[
-                "system.body.structure.parts"
-            ];
-            expect(parts.map((p: any) => p.shortcode)).toEqual([
-                "head",
-                "gut",
-                "thorax",
-            ]);
+            const parts = body.movePartUpdate(2, "bodyzone", 0)["system.body.structure.parts"];
+            expect(parts.map((p: any) => p.shortcode)).toEqual(["head", "gut", "thorax"]);
         });
 
         it("movePartUpdate re-parents a part to another zone", () => {
             const body = makeBody();
-            const parts = body.movePartUpdate(1, "headzone", 0)[
-                "system.body.structure.parts"
-            ];
-            expect(parts.map((p: any) => p.shortcode)).toEqual([
-                "thorax",
-                "head",
-            ]);
+            const parts = body.movePartUpdate(1, "headzone", 0)["system.body.structure.parts"];
+            expect(parts.map((p: any) => p.shortcode)).toEqual(["thorax", "head"]);
             expect(parts[0].bodyZoneCode).toBe("headzone");
         });
 
@@ -717,25 +606,15 @@ describe("BodyStructure", () => {
             const data = sampleBodyData();
             data.zones.push(zoneData("tailzone", 1));
             const body = makeBody(data);
-            const parts = body.movePartUpdate(0, "tailzone", 0)[
-                "system.body.structure.parts"
-            ];
-            expect(parts.map((p: any) => p.shortcode)).toEqual([
-                "thorax",
-                "head",
-            ]);
+            const parts = body.movePartUpdate(0, "tailzone", 0)["system.body.structure.parts"];
+            expect(parts.map((p: any) => p.shortcode)).toEqual(["thorax", "head"]);
             expect(parts[1].bodyZoneCode).toBe("tailzone");
         });
 
         it("movePartUpdate is a no-op on an out-of-range index", () => {
             const body = makeBody();
-            const parts = body.movePartUpdate(9, "headzone", 0)[
-                "system.body.structure.parts"
-            ];
-            expect(parts.map((p: any) => p.shortcode)).toEqual([
-                "head",
-                "thorax",
-            ]);
+            const parts = body.movePartUpdate(9, "headzone", 0)["system.body.structure.parts"];
+            expect(parts.map((p: any) => p.shortcode)).toEqual(["head", "thorax"]);
         });
     });
 
@@ -761,28 +640,20 @@ describe("BodyStructure", () => {
 
         it("removeLocationUpdate removes by body-wide shortcode", () => {
             const body = makeBody();
-            const locs =
-                body.removeLocationUpdate("face")[
-                    "system.body.structure.locations"
-                ];
-            expect(locs.map((l: any) => l.shortcode)).toEqual([
-                "skull",
-                "chest",
-            ]);
+            const locs = body.removeLocationUpdate("face")["system.body.structure.locations"];
+            expect(locs.map((l: any) => l.shortcode)).toEqual(["skull", "chest"]);
         });
 
         it("BodyPart.removeLocationUpdate refuses a location of another part", () => {
             const body = makeBody();
-            expect(
-                body.getPartByCode("thorax")!.removeLocationUpdate("skull"),
-            ).toEqual({});
+            expect(body.getPartByCode("thorax")!.removeLocationUpdate("skull")).toEqual({});
         });
 
         it("setLocationFieldsUpdate changes only the addressed location", () => {
             const body = makeBody();
-            const locs = body.setLocationFieldsUpdate([
-                { index: 1, changes: { shockValue: 9 } },
-            ])["system.body.structure.locations"];
+            const locs = body.setLocationFieldsUpdate([{ index: 1, changes: { shockValue: 9 } }])[
+                "system.body.structure.locations"
+            ];
             expect(locs).toHaveLength(3);
             expect(locs[1].shockValue).toBe(9);
             expect(locs[0].shockValue).toBe(3);
@@ -790,29 +661,15 @@ describe("BodyStructure", () => {
 
         it("moveLocationUpdate reorders within its part", () => {
             const body = makeBody();
-            const locs = body.moveLocationUpdate(1, "head", 0)[
-                "system.body.structure.locations"
-            ];
-            expect(locs.map((l: any) => l.shortcode)).toEqual([
-                "face",
-                "skull",
-                "chest",
-            ]);
+            const locs = body.moveLocationUpdate(1, "head", 0)["system.body.structure.locations"];
+            expect(locs.map((l: any) => l.shortcode)).toEqual(["face", "skull", "chest"]);
         });
 
         it("moveLocationUpdate relocates a location to another part", () => {
             const body = makeBody();
-            const locs = body.moveLocationUpdate(0, "thorax", 0)[
-                "system.body.structure.locations"
-            ];
-            expect(locs.map((l: any) => l.shortcode)).toEqual([
-                "face",
-                "skull",
-                "chest",
-            ]);
-            expect(
-                locs.find((l: any) => l.shortcode === "skull").bodyPartCode,
-            ).toBe("thorax");
+            const locs = body.moveLocationUpdate(0, "thorax", 0)["system.body.structure.locations"];
+            expect(locs.map((l: any) => l.shortcode)).toEqual(["face", "skull", "chest"]);
+            expect(locs.find((l: any) => l.shortcode === "skull").bodyPartCode).toBe("thorax");
         });
     });
 
@@ -831,11 +688,7 @@ describe("BodyStructure", () => {
             const locs = body.repointLocationsUpdate("head", "noggin")[
                 "system.body.structure.locations"
             ];
-            expect(locs.map((l: any) => l.bodyPartCode)).toEqual([
-                "noggin",
-                "noggin",
-                "thorax",
-            ]);
+            expect(locs.map((l: any) => l.bodyPartCode)).toEqual(["noggin", "noggin", "thorax"]);
         });
 
         it("returns {} when the code is unchanged or unreferenced", () => {
@@ -872,10 +725,7 @@ describe("BodyStructure", () => {
         it("getRandomPartByRole only ever returns a part with that role", () => {
             const body = roleBody();
             for (let i = 0; i < 50; i++) {
-                const part = body.getRandomPartByRole(
-                    "manipulator",
-                    createRng(`r-${i}`),
-                )!;
+                const part = body.getRandomPartByRole("manipulator", createRng(`r-${i}`))!;
                 expect(part.roles).toContain("manipulator");
             }
         });
@@ -893,10 +743,7 @@ describe("BodyStructure", () => {
 describe("BodyStructure.aimZone", () => {
     it("computes Hit ZN = (targetZoneNumber - 1) + zoneDieResult", () => {
         const body = makeBody();
-        const aim = body.aimZone(
-            { targetZoneNumber: 2, zoneDie: 1 },
-            createRng("aim-hitzn"),
-        );
+        const aim = body.aimZone({ targetZoneNumber: 2, zoneDie: 1 }, createRng("aim-hitzn"));
         expect(aim.zoneDieResult).toBe(1);
         expect(aim.hitZoneNumber).toBe(2);
         expect(aim.targetZoneNumber).toBe(2);
@@ -907,19 +754,13 @@ describe("BodyStructure.aimZone", () => {
     it("resolves the zone owning the hit zone number, then a part and location within it", () => {
         const body = makeBody();
         // Hit ZN 1 -> headzone -> head -> skull|face.
-        const head = body.aimZone(
-            { targetZoneNumber: 1, zoneDie: 1 },
-            createRng("aim-head"),
-        );
+        const head = body.aimZone({ targetZoneNumber: 1, zoneDie: 1 }, createRng("aim-head"));
         expect(head.zone?.shortcode).toBe("headzone");
         expect(head.location?.bodyPart.shortcode).toBe("head");
         expect(["skull", "face"]).toContain(head.location?.shortcode);
 
         // Hit ZN 2 -> bodyzone -> thorax -> chest.
-        const body2 = body.aimZone(
-            { targetZoneNumber: 2, zoneDie: 1 },
-            createRng("aim-body"),
-        );
+        const body2 = body.aimZone({ targetZoneNumber: 2, zoneDie: 1 }, createRng("aim-body"));
         expect(body2.zone?.shortcode).toBe("bodyzone");
         expect(body2.location?.shortcode).toBe("chest");
     });
@@ -927,10 +768,7 @@ describe("BodyStructure.aimZone", () => {
     it("is a miss when the hit zone number exceeds the body's max zone number", () => {
         const body = makeBody();
         // maxZoneNumber is 3; targetZoneNumber 4 with zoneDie 1 -> Hit ZN 4.
-        const aim = body.aimZone(
-            { targetZoneNumber: 4, zoneDie: 1 },
-            createRng("aim-miss"),
-        );
+        const aim = body.aimZone({ targetZoneNumber: 4, zoneDie: 1 }, createRng("aim-miss"));
         expect(aim.hitZoneNumber).toBe(4);
         expect(aim.isMiss).toBe(true);
         expect(aim.zone).toBeUndefined();
@@ -970,10 +808,7 @@ describe("BodyStructure.aimZone", () => {
 
     it("clamps a target zone number below 1 up to 1 and a zone die below 1 up to 1", () => {
         const body = makeBody();
-        const aim = body.aimZone(
-            { targetZoneNumber: 0, zoneDie: 0 },
-            createRng("aim-clamp"),
-        );
+        const aim = body.aimZone({ targetZoneNumber: 0, zoneDie: 0 }, createRng("aim-clamp"));
         expect(aim.targetZoneNumber).toBe(1);
         expect(aim.zoneDie).toBe(1);
         expect(aim.hitZoneNumber).toBe(1);

@@ -24,11 +24,7 @@
  * auto-resolve fallback already delivered by #487.
  */
 
-import {
-    CRITICAL_SUCCESS,
-    MARGINAL_SUCCESS,
-    MARGINAL_FAILURE,
-} from "@src/utils/constants";
+import { CRITICAL_SUCCESS, MARGINAL_SUCCESS, MARGINAL_FAILURE } from "@src/utils/constants";
 
 /** The **+10** bonus a Marginal-Failure stoppage grants to the next test. */
 export const BLOOD_STOPPAGE_NEXT_BONUS = 10;
@@ -59,9 +55,7 @@ export interface BloodStoppageOutcome {
  * @param normSuccessLevel - The Physician-test result (CF −1 … CS 2).
  * @returns The stoppage outcome.
  */
-export function bloodStoppageOutcome(
-    normSuccessLevel: number,
-): BloodStoppageOutcome {
+export function bloodStoppageOutcome(normSuccessLevel: number): BloodStoppageOutcome {
     if (normSuccessLevel >= CRITICAL_SUCCESS) {
         return { kind: "stopImmediately", nextBonus: 0 };
     }

@@ -20,31 +20,23 @@ function dataset(values: Record<string, string>): DOMStringMap {
 
 describe("resolveChatCardHandlerUuid", () => {
     it("returns docUuid when present (back-compat)", () => {
-        expect(
-            resolveChatCardHandlerUuid(dataset({ docUuid: "Actor.aaa" })),
-        ).toBe("Actor.aaa");
+        expect(resolveChatCardHandlerUuid(dataset({ docUuid: "Actor.aaa" }))).toBe("Actor.aaa");
     });
 
     it("falls back to handlerUuid when docUuid is absent", () => {
-        expect(
-            resolveChatCardHandlerUuid(dataset({ handlerUuid: "Item.bbb" })),
-        ).toBe("Item.bbb");
+        expect(resolveChatCardHandlerUuid(dataset({ handlerUuid: "Item.bbb" }))).toBe("Item.bbb");
     });
 
     it("falls back to handlerActorUuid", () => {
-        expect(
-            resolveChatCardHandlerUuid(
-                dataset({ handlerActorUuid: "Actor.ccc" }),
-            ),
-        ).toBe("Actor.ccc");
+        expect(resolveChatCardHandlerUuid(dataset({ handlerActorUuid: "Actor.ccc" }))).toBe(
+            "Actor.ccc",
+        );
     });
 
     it("falls back to actionHandlerUuid", () => {
-        expect(
-            resolveChatCardHandlerUuid(
-                dataset({ actionHandlerUuid: "Actor.ddd" }),
-            ),
-        ).toBe("Actor.ddd");
+        expect(resolveChatCardHandlerUuid(dataset({ actionHandlerUuid: "Actor.ddd" }))).toBe(
+            "Actor.ddd",
+        );
     });
 
     it("honors precedence when several are present", () => {
@@ -84,9 +76,7 @@ describe("resolveChatCardHandlerUuid", () => {
     });
 
     it("returns null when no recognized uuid attribute is present", () => {
-        expect(
-            resolveChatCardHandlerUuid(dataset({ action: "fateTest" })),
-        ).toBe(null);
+        expect(resolveChatCardHandlerUuid(dataset({ action: "fateTest" }))).toBe(null);
     });
 
     it("returns null for an empty dataset", () => {
@@ -99,10 +89,7 @@ describe("resolveAuthorizedChatCardHandler (#167)", () => {
         const owned = { isOwner: true, name: "Defender" };
         const resolve = vi.fn(() => owned);
         expect(
-            resolveAuthorizedChatCardHandler(
-                dataset({ handlerActorUuid: "Actor.def" }),
-                resolve,
-            ),
+            resolveAuthorizedChatCardHandler(dataset({ handlerActorUuid: "Actor.def" }), resolve),
         ).toBe(owned);
         // Authorization keys on the resolved handler document's uuid.
         expect(resolve).toHaveBeenCalledWith("Actor.def");
@@ -120,18 +107,15 @@ describe("resolveAuthorizedChatCardHandler (#167)", () => {
 
     it("refuses (returns null) when the client does not own the handler", () => {
         expect(
-            resolveAuthorizedChatCardHandler(
-                dataset({ handlerActorUuid: "Actor.other" }),
-                () => ({ isOwner: false }),
-            ),
+            resolveAuthorizedChatCardHandler(dataset({ handlerActorUuid: "Actor.other" }), () => ({
+                isOwner: false,
+            })),
         ).toBe(null);
     });
 
     it("returns null when no handler uuid is present", () => {
         const resolve = vi.fn(() => ({ isOwner: true }));
-        expect(
-            resolveAuthorizedChatCardHandler(dataset({ action: "x" }), resolve),
-        ).toBe(null);
+        expect(resolveAuthorizedChatCardHandler(dataset({ action: "x" }), resolve)).toBe(null);
         expect(resolve).not.toHaveBeenCalled();
     });
 
@@ -172,10 +156,7 @@ describe("resolveAuthorizedChatCardHandler (#167)", () => {
 });
 
 describe("dispatchChatCardAction (#66)", () => {
-    function btn(
-        action?: string,
-        extra: Record<string, string> = {},
-    ): HTMLElement {
+    function btn(action?: string, extra: Record<string, string> = {}): HTMLElement {
         return {
             dataset: {
                 ...(action ? { action } : {}),
@@ -203,10 +184,7 @@ describe("dispatchChatCardAction (#66)", () => {
             speaker: {},
             actions: new Map([["treatInjury", { data: {}, execute }]]),
         };
-        await dispatchChatCardAction(
-            logic,
-            btn("treatInjury", { skipDialog: "true" }),
-        );
+        await dispatchChatCardAction(logic, btn("treatInjury", { skipDialog: "true" }));
         expect(execute).toHaveBeenCalledOnce();
         expect(execute.mock.calls[0][0].skipDialog).toBe(true);
     });
@@ -235,12 +213,7 @@ describe("dispatchChatCardAction (#66)", () => {
         const execute = vi.fn();
         const logic: any = {
             speaker: {},
-            actions: new Map([
-                [
-                    "blk1",
-                    { data: { executor: "automatedBlockResume" }, execute },
-                ],
-            ]),
+            actions: new Map([["blk1", { data: { executor: "automatedBlockResume" }, execute }]]),
         };
         await dispatchChatCardAction(logic, btn("automatedBlockResume"));
         expect(execute).toHaveBeenCalledOnce();

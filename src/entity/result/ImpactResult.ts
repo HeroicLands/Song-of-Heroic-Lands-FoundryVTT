@@ -90,10 +90,7 @@ export class ImpactResult extends TestResult {
         if (data.roll) {
             this.roll = data.roll;
         } else {
-            this.roll = SimpleRoll.fromFormula(
-                this.impactModifier.diceFormula,
-                this.parent,
-            );
+            this.roll = SimpleRoll.fromFormula(this.impactModifier.diceFormula, this.parent);
             this.roll.roll();
         }
         this.label = data.label ?? "";
@@ -126,10 +123,7 @@ export class ImpactResult extends TestResult {
 
     /** @inheritdoc */
     override async evaluate(): Promise<boolean> {
-        this.roll = SimpleRoll.fromFormula(
-            this.impactModifier.diceFormula,
-            this.parent,
-        );
+        this.roll = SimpleRoll.fromFormula(this.impactModifier.diceFormula, this.parent);
         this.roll.roll();
         return true;
     }

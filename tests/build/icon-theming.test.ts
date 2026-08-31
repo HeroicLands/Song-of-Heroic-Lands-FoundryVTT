@@ -32,10 +32,7 @@ import { ItemMetadatas, ActorMetadatas } from "@src/utils/constants";
  * at zero: a newly added icon carrying inline fills fails here rather than
  * shipping un-themed.
  */
-const REPO_ROOT = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "../..",
-);
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const ICONS = path.join(REPO_ROOT, "assets/icons");
 
 /**
@@ -57,8 +54,7 @@ function bundledIcons(dir: string = ICONS): string[] {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
         const full = path.join(dir, entry.name);
         if (entry.isDirectory()) out.push(...bundledIcons(full));
-        else if (entry.name.endsWith(".svg"))
-            out.push(path.relative(REPO_ROOT, full));
+        else if (entry.name.endsWith(".svg")) out.push(path.relative(REPO_ROOT, full));
     }
     return out.sort();
 }
@@ -89,10 +85,7 @@ describe("bundled icon dark-mode theming (#1677)", () => {
         // An entry that no longer skips has been fixed — drop it, so the list
         // never grows into a record of icons nobody re-checks.
         for (const [rel, why] of Object.entries(CANNOT_THEME)) {
-            expect(
-                fs.existsSync(path.join(REPO_ROOT, rel)),
-                `${rel} exists`,
-            ).toBe(true);
+            expect(fs.existsSync(path.join(REPO_ROOT, rel)), `${rel} exists`).toBe(true);
             expect(skipped(rel), `${rel} still skips — ${why}`).toBe(true);
         }
     });
@@ -100,15 +93,10 @@ describe("bundled icon dark-mode theming (#1677)", () => {
     it("themes every default item and actor art", () => {
         // The surface that matters most: a default icon is what an item shows
         // in the compendium and directory before anyone picks another.
-        const art = [...ItemMetadatas, ...ActorMetadatas].map((m) =>
-            toRepoPath(m.Image),
-        );
+        const art = [...ItemMetadatas, ...ActorMetadatas].map((m) => toRepoPath(m.Image));
         expect(art.length).toBeGreaterThan(0);
         for (const rel of art) {
-            expect(
-                fs.existsSync(path.join(REPO_ROOT, rel)),
-                `${rel} exists`,
-            ).toBe(true);
+            expect(fs.existsSync(path.join(REPO_ROOT, rel)), `${rel} exists`).toBe(true);
         }
         expect(art.filter(skipped)).toEqual([]);
     });

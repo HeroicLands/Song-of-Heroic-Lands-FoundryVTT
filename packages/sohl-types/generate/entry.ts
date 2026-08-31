@@ -38,43 +38,19 @@ export type { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 // ---------------------------------------------------------------------------
 // Actors — the typed `document.logic` surface for each actor type
 // ---------------------------------------------------------------------------
-export type {
-    BeingLogic,
-    BeingData,
-} from "@src/document/actor/logic/BeingLogic";
-export type {
-    CohortLogic,
-    CohortData,
-} from "@src/document/actor/logic/CohortLogic";
-export type {
-    StructureLogic,
-    StructureData,
-} from "@src/document/actor/logic/StructureLogic";
-export type {
-    VehicleLogic,
-    VehicleData,
-} from "@src/document/actor/logic/VehicleLogic";
+export type { BeingLogic, BeingData } from "@src/document/actor/logic/BeingLogic";
+export type { CohortLogic, CohortData } from "@src/document/actor/logic/CohortLogic";
+export type { StructureLogic, StructureData } from "@src/document/actor/logic/StructureLogic";
+export type { VehicleLogic, VehicleData } from "@src/document/actor/logic/VehicleLogic";
 
 // ---------------------------------------------------------------------------
 // Items — the typed `document.logic` surface for each item type
 // ---------------------------------------------------------------------------
 export type { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-export type {
-    AffiliationLogic,
-    AffiliationData,
-} from "@src/document/item/logic/AffiliationLogic";
-export type {
-    AfflictionLogic,
-    AfflictionData,
-} from "@src/document/item/logic/AfflictionLogic";
-export type {
-    ArmorGearLogic,
-    ArmorGearData,
-} from "@src/document/item/logic/ArmorGearLogic";
-export type {
-    AttributeLogic,
-    AttributeData,
-} from "@src/document/item/logic/AttributeLogic";
+export type { AffiliationLogic, AffiliationData } from "@src/document/item/logic/AffiliationLogic";
+export type { AfflictionLogic, AfflictionData } from "@src/document/item/logic/AfflictionLogic";
+export type { ArmorGearLogic, ArmorGearData } from "@src/document/item/logic/ArmorGearLogic";
+export type { AttributeLogic, AttributeData } from "@src/document/item/logic/AttributeLogic";
 export type {
     ConcoctionGearLogic,
     ConcoctionGearData,
@@ -83,14 +59,8 @@ export type {
     ContainerGearLogic,
     ContainerGearData,
 } from "@src/document/item/logic/ContainerGearLogic";
-export type {
-    MiscGearLogic,
-    MiscGearData,
-} from "@src/document/item/logic/MiscGearLogic";
-export type {
-    MysteryLogic,
-    MysteryData,
-} from "@src/document/item/logic/MysteryLogic";
+export type { MiscGearLogic, MiscGearData } from "@src/document/item/logic/MiscGearLogic";
+export type { MysteryLogic, MysteryData } from "@src/document/item/logic/MysteryLogic";
 export type {
     MysticalAbilityLogic,
     MysticalAbilityData,
@@ -99,18 +69,9 @@ export type {
     ProjectileGearLogic,
     ProjectileGearData,
 } from "@src/document/item/logic/ProjectileGearLogic";
-export type {
-    SkillLogic,
-    SkillData,
-} from "@src/document/item/logic/SkillLogic";
-export type {
-    TraumaLogic,
-    TraumaData,
-} from "@src/document/item/logic/TraumaLogic";
-export type {
-    WeaponGearLogic,
-    WeaponGearData,
-} from "@src/document/item/logic/WeaponGearLogic";
+export type { SkillLogic, SkillData } from "@src/document/item/logic/SkillLogic";
+export type { TraumaLogic, TraumaData } from "@src/document/item/logic/TraumaLogic";
+export type { WeaponGearLogic, WeaponGearData } from "@src/document/item/logic/WeaponGearLogic";
 
 // ---------------------------------------------------------------------------
 // Entity classes — constructable via `sohl.entity.<ClassName>` at runtime

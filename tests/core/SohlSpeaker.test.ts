@@ -12,9 +12,7 @@ describe("SohlSpeaker serialization round-trip", () => {
 
     it("rehydrates as a live SohlSpeaker via the kind registry", () => {
         const sp = new SohlSpeaker({ alias: "Char1" });
-        const revived = instanceFromJSON<SohlSpeaker>(
-            JSON.stringify(sp.toJSON()),
-        );
+        const revived = instanceFromJSON<SohlSpeaker>(JSON.stringify(sp.toJSON()));
         expect(revived).toBeInstanceOf(SohlSpeaker);
         expect(revived.name).toBe("Char1");
     });
@@ -23,21 +21,15 @@ describe("SohlSpeaker serialization round-trip", () => {
 describe("SohlSpeaker", () => {
     describe("constructor", () => {
         it.todo("initializes token, actor, scene to null by default");
-        it.todo(
-            "sets rollMode from data or falls back to core setting or SYSTEM default",
-        );
+        it.todo("sets rollMode from data or falls back to core setting or SYSTEM default");
         it.todo("resolves token from data.token via fvttGetToken");
         it.todo("derives actor from resolved token");
         it.todo("resolves actor from data.actor when no token is available");
         it.todo("resolves scene from data.scene via fvttGetScene");
         it.todo("resolves user from data.user or falls back to current user");
         it.todo("uses data.alias for name when provided");
-        it.todo(
-            "falls back to token name, actor name, character name, or user name",
-        );
-        it.todo(
-            "defaults name to 'Unknown Speaker' when nothing else is available",
-        );
+        it.todo("falls back to token name, actor name, character name, or user name");
+        it.todo("defaults name to 'Unknown Speaker' when nothing else is available");
     });
 
     describe("getChatMessageSpeaker", () => {
@@ -52,9 +44,7 @@ describe("SohlSpeaker", () => {
     });
 
     describe("toJSON", () => {
-        it.todo(
-            "returns plain object with token, actor, scene, alias, user, rollMode",
-        );
+        it.todo("returns plain object with token, actor, scene, alias, user, rollMode");
     });
 
     describe("toChat", () => {
@@ -71,13 +61,12 @@ describe("SohlSpeaker", () => {
     describe("_toChatWithContent", () => {
         it("resolves HTML before posting — content is a string, not a Promise", async () => {
             const captured: any[] = [];
-            vi.spyOn(
-                FoundryHelpers,
-                "fvttCreateChatMessage",
-            ).mockImplementation(async (data: any) => {
-                captured.push(data);
-                return null;
-            });
+            vi.spyOn(FoundryHelpers, "fvttCreateChatMessage").mockImplementation(
+                async (data: any) => {
+                    captured.push(data);
+                    return null;
+                },
+            );
 
             const speaker = new SohlSpeaker({ alias: "Test" });
             // HTMLString cast — <p> tag ensures isFilePath returns false

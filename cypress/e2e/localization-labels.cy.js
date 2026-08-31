@@ -30,12 +30,7 @@
 function openDialogText(win) {
     const dlg = Array.from(win.foundry.applications.instances.values())
         .reverse()
-        .find(
-            (app) =>
-                /dialog/i.test(app.constructor.name) &&
-                app.rendered &&
-                app.element,
-        );
+        .find((app) => /dialog/i.test(app.constructor.name) && app.rendered && app.element);
     return dlg ? `${dlg.element.textContent ?? ""}` : "";
 }
 
@@ -73,9 +68,10 @@ describe("localized labels reach the user (#1353)", () => {
                 });
             cy.submitDialog("no");
             // The declined delete resolves without removing the item.
-            cy.foundry((win) =>
-                win.__del.then(() => !!win.game.items.get(itemId)),
-            ).should("eq", true);
+            cy.foundry((win) => win.__del.then(() => !!win.game.items.get(itemId))).should(
+                "eq",
+                true,
+            );
         });
     });
 

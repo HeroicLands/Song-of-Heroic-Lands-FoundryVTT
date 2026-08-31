@@ -34,9 +34,7 @@ function expectUnsetIsNull(field: any) {
 
 describe('Field hygiene — unset StringFields are null, not ""', () => {
     it("StrikeModeBase.assocSkillCode", () => {
-        expectUnsetIsNull(
-            (StrikeModeBase.baseSchemaFields() as any).assocSkillCode,
-        );
+        expectUnsetIsNull((StrikeModeBase.baseSchemaFields() as any).assocSkillCode);
     });
 
     // The shared duration-formula helper backs every `*DurationFormula` field

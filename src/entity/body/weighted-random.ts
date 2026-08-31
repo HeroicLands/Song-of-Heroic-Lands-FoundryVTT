@@ -32,10 +32,7 @@ export function weightedRandom<
         probWeight: ValueModifier;
     },
 >(items: T[], rng: Rng = defaultRng()): T {
-    const totalWeight = items.reduce(
-        (sum, item) => sum + item.probWeight.effective,
-        0,
-    );
+    const totalWeight = items.reduce((sum, item) => sum + item.probWeight.effective, 0);
     if (totalWeight <= 0 || items.length === 0) {
         throw new Error("Cannot select from empty array or zero total weight");
     }

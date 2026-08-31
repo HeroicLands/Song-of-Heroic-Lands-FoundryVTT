@@ -23,22 +23,14 @@ describe("sohl namespace surface (#403)", () => {
         });
 
         it("adds the sub-namespaces — the same class as the flat getter by default", () => {
-            expect(entitySurface.modifier.ValueModifier).toBe(
-                entitySurface.ValueModifier,
-            );
-            expect(entitySurface.result.SuccessTestResult).toBe(
-                entitySurface.SuccessTestResult,
-            );
-            expect(entitySurface.strikemode.MeleeStrikeMode).toBeTypeOf(
-                "function",
-            );
+            expect(entitySurface.modifier.ValueModifier).toBe(entitySurface.ValueModifier);
+            expect(entitySurface.result.SuccessTestResult).toBe(entitySurface.SuccessTestResult);
+            expect(entitySurface.strikemode.MeleeStrikeMode).toBeTypeOf("function");
         });
 
         it("the flat getters and lowercase namespaces do not collide", () => {
             // PascalCase class + lowercase namespace coexist as distinct props.
-            expect(entitySurface.modifier).not.toBe(
-                entitySurface.ValueModifier,
-            );
+            expect(entitySurface.modifier).not.toBe(entitySurface.ValueModifier);
         });
 
         it("resolves a nested addressing path (entity.body.BodyStructure)", () => {

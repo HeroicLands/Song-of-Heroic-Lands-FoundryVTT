@@ -12,10 +12,7 @@ import {
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /** A wound on an actor whose Healing Base is `healingBase`. */
-function makeWound(
-    overrides: Record<string, unknown> = {},
-    healingBase: number | null = 12,
-) {
+function makeWound(overrides: Record<string, unknown> = {}, healingBase: number | null = 12) {
     const opts: Record<string, unknown> = {};
     if (healingBase !== null) {
         const actor = makeMockActor();
@@ -71,13 +68,9 @@ describe("TraumaLogic.healing — the Healing Test target (#1181)", () => {
     it("is DISABLED — not zero — for an untreated wound", () => {
         // "Untreated" is a real state, distinct from a target of 0 (#1146/#1148),
         // and being disabled is what makes the test auto-Critically-Fail.
-        expect(
-            makeWound({ healingRateBase: null }, 12).healing.disabled,
-        ).toBeTruthy();
+        expect(makeWound({ healingRateBase: null }, 12).healing.disabled).toBeTruthy();
         // A rate on record but no treatment date is still untreated.
-        expect(
-            makeWound({ treatmentDate: null }, 12).healing.disabled,
-        ).toBeTruthy();
+        expect(makeWound({ treatmentDate: null }, 12).healing.disabled).toBeTruthy();
     });
 
     it("is 0 when the wound is on no actor (no Healing Base to read)", () => {

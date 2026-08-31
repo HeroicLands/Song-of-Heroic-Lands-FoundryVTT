@@ -14,10 +14,7 @@
 import type { SohlActor } from "./SohlActor";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { applySearchFilter } from "@src/document/actor/logic/display-filter";
-import {
-    resolveActorSheetParts,
-    buildMovementRows,
-} from "@src/document/actor/logic/sheet-parts";
+import { resolveActorSheetParts, buildMovementRows } from "@src/document/actor/logic/sheet-parts";
 import {
     buildContainerTree,
     htmlToPlainText,
@@ -37,11 +34,7 @@ import {
     deleteAction,
     runAction,
 } from "@src/core/foundry/sheet-actions";
-import {
-    fvttCallHook,
-    fvttRenderSheet,
-    dialog,
-} from "@src/core/FoundryHelpers";
+import { fvttCallHook, fvttRenderSheet, dialog } from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
     GearKinds,
@@ -64,8 +57,7 @@ const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
     typeof foundry.applications.api.DocumentSheetV2<SohlActor>
 >(foundry.applications.api.DocumentSheetV2<SohlActor>);
 
-type RenderContext =
-    foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
+type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 /**
@@ -196,10 +188,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * @param event - The originating drop event (its `shiftKey` selects move-all).
      * @param droppedItem - The resolved dropped item.
      */
-    protected async _onDropItem(
-        event: DragEvent,
-        droppedItem: SohlItem,
-    ): Promise<void> {
+    protected async _onDropItem(event: DragEvent, droppedItem: SohlItem): Promise<void> {
         const actor = this.document;
         if (!actor.isOwner || !droppedItem) return;
 
@@ -235,10 +224,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             const qty = Math.max(1, (droppedItem.system as any).quantity ?? 1);
             let moveQty = qty;
             if (qty > 1 && !event.shiftKey) {
-                const chosen = await this._promptMoveQuantity(
-                    droppedItem.name,
-                    qty,
-                );
+                const chosen = await this._promptMoveQuantity(droppedItem.name, qty);
                 if (chosen === undefined) return; // cancelled
                 moveQty = chosen;
             }
@@ -270,10 +256,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * @param max - The source stack size (the upper bound and default).
      * @returns The chosen quantity, or `undefined` when cancelled.
      */
-    private async _promptMoveQuantity(
-        name: string,
-        max: number,
-    ): Promise<number | undefined> {
+    private async _promptMoveQuantity(name: string, max: number): Promise<number | undefined> {
         const result = await dialog({
             title: `Move ${name}`,
             content: toHTMLString(
@@ -289,9 +272,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             callback: (formData: any, action: string) => {
                 if (action !== "move") return undefined;
                 const n = Math.trunc(Number(formData?.qty));
-                return Number.isFinite(n) ?
-                        Math.min(max, Math.max(1, n))
-                    :   undefined;
+                return Number.isFinite(n) ? Math.min(max, Math.max(1, n)) : undefined;
             },
         });
         return typeof result === "number" ? result : undefined;
@@ -373,9 +354,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      */
     protected override async _prepareContext(
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         const context = await super._prepareContext(options);
 
         // Add any shared data needed across all parts here
@@ -403,9 +382,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         partId: string,
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         const type = this.document.type;
         // Expose the prepared tab descriptor for this part so content
         // sections can resolve their `active` state and tab group. The
@@ -414,65 +391,34 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         switch (partId) {
             case "header":
                 context = await this._prepareHeaderContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareHeaderContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareHeaderContext`, this, context);
                 return context;
             case "tabs":
                 context = await this._prepareTabsContext(context, options);
                 return context;
             case "facade":
                 context = await this._prepareFacadeContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareFacadeContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareFacadeContext`, this, context);
                 return context;
             case "profile":
-                context = await this._prepareSharedProfileContext(
-                    context,
-                    options,
-                );
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareProfileContext`,
-                    this,
-                    context,
-                );
+                context = await this._prepareSharedProfileContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareProfileContext`, this, context);
                 return context;
             case "mysteries":
                 context = await this._prepareMysteriesContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareMysteriesContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareMysteriesContext`, this, context);
                 return context;
             case "gear":
                 context = await this._prepareGearContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareGearContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareGearContext`, this, context);
                 return context;
             case "actions":
                 context = await this._prepareActionsContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareActionsContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareActionsContext`, this, context);
                 return context;
             case "effects":
                 context = await this._prepareEffectsContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareEffectsContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareEffectsContext`, this, context);
                 return context;
             default:
                 return context;
@@ -491,9 +437,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     protected async _prepareHeaderContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         const actor = this.document;
         return Object.assign(context, {
             actorName: actor.name,
@@ -511,9 +455,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     protected async _prepareTabsContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         return context;
     }
 
@@ -528,9 +470,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     protected async _prepareFacadeContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         return Object.assign(context, {
             actorName: this.document.name,
             portrait: (this.document.system as any).portrait,
@@ -668,9 +608,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * @param _items - The un-contained gear items (unused by the base).
      * @returns `undefined` — no readout.
      */
-    protected _gearOnBodyCapacity(
-        _items: SohlItem[],
-    ): GearCapacity | undefined {
+    protected _gearOnBodyCapacity(_items: SohlItem[]): GearCapacity | undefined {
         return undefined;
     }
 
@@ -730,9 +668,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * @returns The embedded item, or `undefined` if the row carries no id.
      */
     protected _itemFromControl(target: HTMLElement): SohlItem | undefined {
-        const itemId = target
-            .closest<HTMLElement>("[data-item-id]")
-            ?.getAttribute("data-item-id");
+        const itemId = target.closest<HTMLElement>("[data-item-id]")?.getAttribute("data-item-id");
         return itemId ? this.document.items.get(itemId) : undefined;
     }
 
@@ -934,13 +870,9 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         const used = new Set(profiles.map((p: any) => p.medium));
         const available = (
             Object.entries(MovementMediumChoices) as [MovementMedium, string][]
-        ).filter(
-            ([value]) => value !== MOVEMENT_MEDIUM.NONE && !used.has(value),
-        );
+        ).filter(([value]) => value !== MOVEMENT_MEDIUM.NONE && !used.has(value));
         if (!available.length) {
-            sohl.log.uiWarn(
-                "Every movement medium already has a movement profile.",
-            );
+            sohl.log.uiWarn("Every movement medium already has a movement profile.");
             return;
         }
         const options = available
@@ -974,9 +906,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
                     label: "Create",
                     icon: "fa-solid fa-plus",
                     callback: (_event: Event, button: any) =>
-                        new foundry.applications.ux.FormDataExtended(
-                            button.form,
-                        ).object,
+                        new foundry.applications.ux.FormDataExtended(button.form).object,
                 },
             } as any)) as PlainObject | undefined;
         } catch {
@@ -985,10 +915,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         if (!fd) return;
         const medium = String(fd.medium ?? "") as MovementMedium;
         if (!medium || used.has(medium)) return;
-        const feetPerRound = Math.max(
-            0,
-            Math.round(Number(fd.feetPerRound) || 0),
-        );
+        const feetPerRound = Math.max(0, Math.round(Number(fd.feetPerRound) || 0));
         const next = [
             ...profiles,
             {
@@ -1022,16 +949,11 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     protected async _prepareSharedProfileContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         const actor = this.document;
-        const attributeItems = [
-            ...(actor.itemTypes[ITEM_KIND.ATTRIBUTE] ?? []),
-        ].sort(
+        const attributeItems = [...(actor.itemTypes[ITEM_KIND.ATTRIBUTE] ?? [])].sort(
             (a: any, b: any) =>
-                (a.sort ?? 0) - (b.sort ?? 0) ||
-                String(a.name).localeCompare(String(b.name)),
+                (a.sort ?? 0) - (b.sort ?? 0) || String(a.name).localeCompare(String(b.name)),
         );
         const attributes = attributeItems.map((attr: any) => {
             const attrLogic = attr.logic as any;
@@ -1041,10 +963,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
                 uuid: attr.uuid,
                 name: attr.name,
                 score,
-                descriptor: attributeDescriptor(
-                    score,
-                    (attr.system as any).valueDesc ?? [],
-                ),
+                descriptor: attributeDescriptor(score, (attr.system as any).valueDesc ?? []),
                 tl: attrLogic?.masteryLevel?.effective ?? 0,
                 scoreDeltaLabel: attrLogic?.score?.deltaLabel ?? "",
                 tlDeltaLabel: attrLogic?.masteryLevel?.deltaLabel ?? "",
@@ -1100,13 +1019,10 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const medium = target
-            .closest("[data-medium]")
-            ?.getAttribute("data-medium");
+        const medium = target.closest("[data-medium]")?.getAttribute("data-medium");
         if (!medium) return;
         const logic = this.document.logic as any;
-        const action = logic?.actions.get("makeDefaultMedium") as
-            SohlAction | undefined;
+        const action = logic?.actions.get("makeDefaultMedium") as SohlAction | undefined;
         if (!logic || !action) return;
         const context = new SohlActionContext({
             speaker: (this.document as any).getSpeaker(),
@@ -1126,9 +1042,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     protected async _prepareMysteriesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         const actor = this.document;
 
         // Mysteries: one section per subType, always shown (even when empty)
@@ -1141,8 +1055,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         const mysterySections = MysterySubTypes.map((subType: any) => ({
             subType,
             label: game.i18n.localize(
-                (MysterySubTypeChoices as Record<string, string>)[subType] ??
-                    subType,
+                (MysterySubTypeChoices as Record<string, string>)[subType] ?? subType,
             ),
             items: mysteryBuckets[subType] ?? [],
         }));
@@ -1159,9 +1072,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             return {
                 subType,
                 label: game.i18n.localize(
-                    (MysticalAbilitySubTypeChoices as Record<string, string>)[
-                        subType
-                    ] ?? subType,
+                    (MysticalAbilitySubTypeChoices as Record<string, string>)[subType] ?? subType,
                 ),
                 items: abilityBuckets[subType] ?? [],
                 columns,

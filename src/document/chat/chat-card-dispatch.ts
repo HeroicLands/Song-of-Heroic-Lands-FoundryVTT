@@ -48,9 +48,7 @@ export const SELF_HANDLER = "@self";
  * @param dataset - The `dataset` of the clicked button or anchor element.
  * @returns The resolved document UUID, or `null` if none is present.
  */
-export function resolveChatCardHandlerUuid(
-    dataset: DOMStringMap,
-): string | null {
+export function resolveChatCardHandlerUuid(dataset: DOMStringMap): string | null {
     return (
         dataset.docUuid ??
         dataset.handlerUuid ??
@@ -135,10 +133,7 @@ export function resolveAuthorizedChatCardHandler(
  * @param btn - The clicked element (button or anchor); `dataset.action` names
  *   the action to dispatch.
  */
-export async function dispatchChatCardAction(
-    logic: SohlLogic,
-    btn: HTMLElement,
-): Promise<void> {
+export async function dispatchChatCardAction(logic: SohlLogic, btn: HTMLElement): Promise<void> {
     const actionName = btn.dataset.action;
     if (!actionName) return;
 
@@ -147,18 +142,13 @@ export async function dispatchChatCardAction(
         type: actionName,
         title: btn.textContent?.trim() ?? actionName,
         skipDialog: btn.dataset.skipDialog === "true",
-        scope: buildActionScope(
-            btn.dataset,
-            (logic as any).actorLogic ?? logic,
-        ),
+        scope: buildActionScope(btn.dataset, (logic as any).actorLogic ?? logic),
     });
 
     const action =
         logic.actions.get(actionName) ??
         [...logic.actions.values()].find(
-            (act) =>
-                act.data.executor === actionName ||
-                act.data.title === actionName,
+            (act) => act.data.executor === actionName || act.data.title === actionName,
         );
 
     if (action) {

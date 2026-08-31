@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { ConcoctionGearLogic } from "@src/document/item/logic/ConcoctionGearLogic";
-import {
-    CONCOCTIONGEAR_POTENCY,
-    CONCOCTIONGEAR_SUBTYPE,
-    ITEM_KIND,
-} from "@src/utils/constants";
+import { CONCOCTIONGEAR_POTENCY, CONCOCTIONGEAR_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 
 /**
@@ -76,9 +72,7 @@ describe("ConcoctionGearLogic", () => {
         // ConcoctionGearLogic declares `strength!: number` ("mirrored from
         // ConcoctionGearData.strength") but initialize() never assigns it —
         // suspected source bug; covered as a todo until the mirroring exists.
-        it.todo(
-            "initialize - mirrors strength from data.strength (currently never assigned)",
-        );
+        it.todo("initialize - mirrors strength from data.strength (currently never assigned)");
     });
 });
 

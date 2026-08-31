@@ -85,12 +85,8 @@ function combatResult(overrides: Record<string, any> = {}): any {
 describe("buildCombatCardData supplies the attack-result card variables (#844)", () => {
     it("provides the attacker and defender adjustment rows", () => {
         const { atkCardData } = buildCombatCardData(combatResult());
-        expect(atkCardData.attackMods).toEqual([
-            { name: "Situational", value: 2 },
-        ]);
-        expect(atkCardData.defendMods).toEqual([
-            { name: "Off-hand", value: -5 },
-        ]);
+        expect(atkCardData.attackMods).toEqual([{ name: "Situational", value: 2 }]);
+        expect(atkCardData.defendMods).toEqual([{ name: "Off-hand", value: -5 }]);
     });
 
     it("provides the defender's weapon name", () => {
@@ -105,17 +101,13 @@ describe("buildCombatCardData supplies the attack-result card variables (#844)",
     });
 
     it("renders a defender's margin as hollow stars", () => {
-        const { atkCardData } = buildCombatCardData(
-            combatResult({ margin: -2 }),
-        );
+        const { atkCardData } = buildCombatCardData(combatResult({ margin: -2 }));
         // The defender out-margined the attacker → the stars are theirs, hollow.
         expect(atkCardData.vsStars).toEqual([false, false]);
     });
 
     it("leaves the stars empty on a tie (margin 0) so the card shows None", () => {
-        const { atkCardData } = buildCombatCardData(
-            combatResult({ margin: 0 }),
-        );
+        const { atkCardData } = buildCombatCardData(combatResult({ margin: 0 }));
         expect(atkCardData.vsStars).toEqual([]);
     });
 
@@ -140,9 +132,7 @@ describe("attack-result-card renders the supplied variables (#844)", () => {
 
     it("renders the attacker adjustment table with a signed value", async () => {
         const html = await render();
-        expect(html).toMatch(
-            /adj-name">Situational<\/span>[\s\S]*?adj-value"\s*>\+2</,
-        );
+        expect(html).toMatch(/adj-name">Situational<\/span>[\s\S]*?adj-value"\s*>\+2</);
     });
 
     it("shows the Victory Stars as star icons", async () => {

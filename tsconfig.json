@@ -27,11 +27,5 @@
         }
     },
     "include": ["src/**/*.ts", "tests/**/*.ts", "types/index.d.ts"],
-    "exclude": [
-        "build/docs",
-        "build/docs-html",
-        "build/generated",
-        "build/stage",
-        "build/tmp"
-    ]
+    "exclude": ["build/docs", "build/docs-html", "build/generated", "build/stage", "build/tmp"]
 }

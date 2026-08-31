@@ -86,19 +86,12 @@ describe("Timed-effect reminder", () => {
                     afterLevel: a.items.get(wound.id).system.levelBase,
                 };
             }).should((r) => {
-                expect(r.cardsPosted, "a reminder card was posted").to.be.gte(
-                    1,
-                );
-                expect(r.hasPerformButton, "it has a [Perform] button").to.be
-                    .true;
+                expect(r.cardsPosted, "a reminder card was posted").to.be.gte(1);
+                expect(r.hasPerformButton, "it has a [Perform] button").to.be.true;
                 // The button is addressed to the wound (so its owner performs it).
-                expect(r.handlerUuid, "addressed to the wound item").to.eq(
-                    r.woundUuid,
-                );
+                expect(r.handlerUuid, "addressed to the wound item").to.eq(r.woundUuid);
                 // Nothing auto-healed — the level is unchanged until performed.
-                expect(r.afterLevel, "wound not auto-modified").to.eq(
-                    r.beforeLevel,
-                );
+                expect(r.afterLevel, "wound not auto-modified").to.eq(r.beforeLevel);
             });
         });
     });

@@ -44,10 +44,7 @@ const FORBIDDEN = [
     [/\bbuttons?\b/i, "buttons belong to the User Guide"],
     [/\bdialogs?\b/i, "dialogs belong to the User Guide"],
     [/\bchat log\b/i, "the chat log belongs to the User Guide"],
-    [
-        /\bthe system\b/i,
-        'say what happens at the table, not what "the system" does',
-    ],
+    [/\bthe system\b/i, 'say what happens at the table, not what "the system" does'],
 ];
 
 /** @returns {Generator<string>} every `.md` file under `dir`, recursively. */
@@ -111,9 +108,7 @@ for (const file of walk(ROOT)) {
 }
 
 if (violations.length) {
-    console.error(
-        `\ncheck-rules-vtt: ${violations.length} VTT reference(s) in the rules:\n`,
-    );
+    console.error(`\ncheck-rules-vtt: ${violations.length} VTT reference(s) in the rules:\n`);
     for (const v of violations) {
         emitDiagnostic({
             file: v.file,

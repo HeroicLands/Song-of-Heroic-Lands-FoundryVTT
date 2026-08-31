@@ -62,8 +62,7 @@ export const TREATMENT_CODE = {
 } as const;
 
 /** A required-treatment action code. */
-export type TreatmentCode =
-    (typeof TREATMENT_CODE)[keyof typeof TREATMENT_CODE];
+export type TreatmentCode = (typeof TREATMENT_CODE)[keyof typeof TREATMENT_CODE];
 
 /**
  * Sentinel returned by {@link treatmentHealingRate} when the roll heals the
@@ -93,10 +92,7 @@ export function injuryBand(level: number): InjuryBand | undefined {
  * `normSuccessLevel + 1` (CF=0, MF=1, MS=2, CS=3). A cell of {@link
  * TREATMENT_HEAL} heals the wound immediately.
  */
-const HEALING_RATE_TABLE: Record<
-    InjuryBand,
-    readonly (number | typeof TREATMENT_HEAL)[]
-> = {
+const HEALING_RATE_TABLE: Record<InjuryBand, readonly (number | typeof TREATMENT_HEAL)[]> = {
     minor: [4, 5, 6, TREATMENT_HEAL],
     serious: [3, 4, 5, 6],
     grievous: [2, 3, 4, 5],
@@ -133,30 +129,29 @@ export interface RequiredTreatment {
  * then band. Only the four representable {@link sohl.utils.ImpactAspect} values
  * are covered (see the module remarks).
  */
-const TREATMENT_ACTION_TABLE: Partial<
-    Record<ImpactAspect, Record<InjuryBand, RequiredTreatment>>
-> = {
-    [IMPACT_ASPECT.BLUNT]: {
-        minor: { code: TREATMENT_CODE.COMPRESS, modifier: 30 },
-        serious: { code: TREATMENT_CODE.SET, modifier: 10 },
-        grievous: { code: TREATMENT_CODE.SURGERY, modifier: 0 },
-    },
-    [IMPACT_ASPECT.EDGED]: {
-        minor: { code: TREATMENT_CODE.CLEAN, modifier: 20 },
-        serious: { code: TREATMENT_CODE.CLEAN, modifier: 10 },
-        grievous: { code: TREATMENT_CODE.SURGERY, modifier: 0 },
-    },
-    [IMPACT_ASPECT.PIERCING]: {
-        minor: { code: TREATMENT_CODE.CLEAN, modifier: 10 },
-        serious: { code: TREATMENT_CODE.CLEAN, modifier: 0 },
-        grievous: { code: TREATMENT_CODE.SURGERY, modifier: -10 },
-    },
-    [IMPACT_ASPECT.FIRE]: {
-        minor: { code: TREATMENT_CODE.COMPRESS, modifier: 20 },
-        serious: { code: TREATMENT_CODE.CLEAN, modifier: 10 },
-        grievous: { code: TREATMENT_CODE.CLEAN, modifier: 0 },
-    },
-};
+const TREATMENT_ACTION_TABLE: Partial<Record<ImpactAspect, Record<InjuryBand, RequiredTreatment>>> =
+    {
+        [IMPACT_ASPECT.BLUNT]: {
+            minor: { code: TREATMENT_CODE.COMPRESS, modifier: 30 },
+            serious: { code: TREATMENT_CODE.SET, modifier: 10 },
+            grievous: { code: TREATMENT_CODE.SURGERY, modifier: 0 },
+        },
+        [IMPACT_ASPECT.EDGED]: {
+            minor: { code: TREATMENT_CODE.CLEAN, modifier: 20 },
+            serious: { code: TREATMENT_CODE.CLEAN, modifier: 10 },
+            grievous: { code: TREATMENT_CODE.SURGERY, modifier: 0 },
+        },
+        [IMPACT_ASPECT.PIERCING]: {
+            minor: { code: TREATMENT_CODE.CLEAN, modifier: 10 },
+            serious: { code: TREATMENT_CODE.CLEAN, modifier: 0 },
+            grievous: { code: TREATMENT_CODE.SURGERY, modifier: -10 },
+        },
+        [IMPACT_ASPECT.FIRE]: {
+            minor: { code: TREATMENT_CODE.COMPRESS, modifier: 20 },
+            serious: { code: TREATMENT_CODE.CLEAN, modifier: 10 },
+            grievous: { code: TREATMENT_CODE.CLEAN, modifier: 0 },
+        },
+    };
 
 /**
  * The action a wound requires and its Physician-test difficulty modifier, from
@@ -233,10 +228,8 @@ export function isPermanentImpairmentEligible(
     band: InjuryBand,
     healingRate: number,
 ): boolean {
-    const seriousHR34 =
-        band === "serious" && (healingRate === 3 || healingRate === 4);
-    const grievousHR234 =
-        band === "grievous" && healingRate >= 2 && healingRate <= 4;
+    const seriousHR34 = band === "serious" && (healingRate === 3 || healingRate === 4);
+    const grievousHR234 = band === "grievous" && healingRate >= 2 && healingRate <= 4;
     switch (aspect) {
         case IMPACT_ASPECT.BLUNT:
             return seriousHR34 || grievousHR234;
@@ -270,9 +263,7 @@ export interface AmputationInjury {
  * @param normSuccessLevel - The Treatment-Test result (CF −1 … CS 2).
  * @returns The amputation's new edged wound and whether it bleeds.
  */
-export function amputationInjury(
-    normSuccessLevel: SuccessLevel,
-): AmputationInjury {
+export function amputationInjury(normSuccessLevel: SuccessLevel): AmputationInjury {
     if (normSuccessLevel <= CRITICAL_FAILURE) {
         return { severity: "G", level: 5, bleeder: true };
     }
@@ -333,9 +324,7 @@ export function treatmentOutcome(
     }
 
     const amputation =
-        code === TREATMENT_CODE.AMPUTATE ?
-            amputationInjury(normSuccessLevel)
-        :   undefined;
+        code === TREATMENT_CODE.AMPUTATE ? amputationInjury(normSuccessLevel) : undefined;
 
     const bleeder =
         treatmentCausesBleeder(code, normSuccessLevel) ||
@@ -348,11 +337,7 @@ export function treatmentOutcome(
         // marginal/critical success clears the risk.
         infectable: normSuccessLevel < MARGINAL_SUCCESS,
         bleeder,
-        permanentImpairmentEligible: isPermanentImpairmentEligible(
-            aspect,
-            band,
-            healingRate,
-        ),
+        permanentImpairmentEligible: isPermanentImpairmentEligible(aspect, band, healingRate),
         amputation,
     };
 }

@@ -55,8 +55,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
                 id: doc.id,
                 name: doc.name,
                 bodyParts: doc.system?.body?.structure?.parts?.length ?? 0,
-                attributes: doc.items.filter((i) => i.type === "attribute")
-                    .length,
+                attributes: doc.items.filter((i) => i.type === "attribute").length,
                 movementProfiles: (doc.system?.movementProfiles || []).length,
                 archetypeFlag: doc.getFlag("sohl", "docArchetype"),
                 shortcode: doc.system?.shortcode,
@@ -64,30 +63,20 @@ describe("Create dialog: archetype seeding (#604)", () => {
         ).should((r) => {
             expect(r.bodyParts, "body parts").to.be.greaterThan(0);
             expect(r.attributes, "attribute items").to.be.greaterThan(0);
-            expect(r.movementProfiles, "movement profiles").to.be.greaterThan(
-                0,
-            );
+            expect(r.movementProfiles, "movement profiles").to.be.greaterThan(0);
             // Instantiation strips the archetype marker.
             expect(r.archetypeFlag, "docArchetype stripped").to.be.undefined;
             // The typed Name wins…
-            expect(r.name, "typed name overrides").to.eq(
-                tagName("Archetype Being"),
-            );
+            expect(r.name, "typed name overrides").to.eq(tagName("Archetype Being"));
             // …but a blank Shortcode now defaults to the archetype's own (#643),
             // subject only to uniqueness bumping.
-            expect(r.shortcode, "archetype shortcode default").to.match(
-                /^basicfolk\d*$/,
-            );
+            expect(r.shortcode, "archetype shortcode default").to.match(/^basicfolk\d*$/);
         });
     });
 
     it("archetype-first: the default archetype pre-fills Name and Shortcode (#643)", () => {
         cy.foundry((win) => {
-            win.__prefill = win.CONFIG.Actor.documentClass.createDialog(
-                {},
-                {},
-                {},
-            );
+            win.__prefill = win.CONFIG.Actor.documentClass.createDialog({}, {}, {});
             return null;
         });
         // With no pre-seeded name, the fields default to the chosen archetype's
@@ -127,13 +116,9 @@ describe("Create dialog: archetype seeding (#604)", () => {
                 shortcode: doc.system?.shortcode,
             })),
         ).should((r) => {
-            expect(r.name, "renamed to tagged").to.eq(
-                tagName("Prefilled Being"),
-            );
+            expect(r.name, "renamed to tagged").to.eq(tagName("Prefilled Being"));
             // Shortcode was left at the archetype default.
-            expect(r.shortcode, "archetype shortcode default").to.match(
-                /^basicfolk\d*$/,
-            );
+            expect(r.shortcode, "archetype shortcode default").to.match(/^basicfolk\d*$/);
         });
     });
 
@@ -183,9 +168,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
     it("Import preserves the docArchetype flag (copy-verbatim)", () => {
         cy.foundry(async (win) => {
             const pack = win.game.packs.get(BASIC_FOLK.pack);
-            const src = await pack.getDocument(
-                await resolveDocId(pack, BASIC_FOLK_REF),
-            );
+            const src = await pack.getDocument(await resolveDocId(pack, BASIC_FOLK_REF));
             const srcFlag = src.getFlag("sohl", "docArchetype");
             const data = src.toObject();
             // Import = toObject → create (no strip). Retag so cleanupWorld sweeps it.
@@ -196,8 +179,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
             return {
                 flag: created.getFlag("sohl", "docArchetype"),
                 srcFlag,
-                populated:
-                    (created.system?.body?.structure?.parts?.length ?? 0) > 0,
+                populated: (created.system?.body?.structure?.parts?.length ?? 0) > 0,
             };
         }).should((r) => {
             // The flag is preserved verbatim — whatever priority the source
@@ -212,9 +194,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
         // Seed a flagged world archetype, then duplicate it.
         cy.foundry(async (win) => {
             const pack = win.game.packs.get(BASIC_FOLK.pack);
-            const src = await pack.getDocument(
-                await resolveDocId(pack, BASIC_FOLK_REF),
-            );
+            const src = await pack.getDocument(await resolveDocId(pack, BASIC_FOLK_REF));
             const srcFlag = src.getFlag("sohl", "docArchetype");
             const data = src.toObject();
             data.name = tagName("Dup Source");
@@ -251,10 +231,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
                     const root = a.sheet.element;
                     const src = win.game.items.get(skill.id);
                     const dt = new win.DataTransfer();
-                    dt.setData(
-                        "text/plain",
-                        JSON.stringify({ type: "Item", uuid: src.uuid }),
-                    );
+                    dt.setData("text/plain", JSON.stringify({ type: "Item", uuid: src.uuid }));
                     root.dispatchEvent(
                         new win.DragEvent("drop", {
                             bubbles: true,
@@ -277,8 +254,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
                     return { found: false };
                 }).should((r) => {
                     expect(r.found, "embedded child created").to.be.true;
-                    expect(r.flag, "flag stripped on drop-embed").to.be
-                        .undefined;
+                    expect(r.flag, "flag stripped on drop-embed").to.be.undefined;
                 });
             });
         });

@@ -18,11 +18,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    makeItemLogic,
-    makeMockActor,
-    makeAttributeStub,
-} from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 

@@ -15,10 +15,7 @@ import { TEST_TYPE } from "@src/utils/constants";
 const parent = { id: "test" } as any;
 
 /** Evaluate a condition string as the compiled context menu does. */
-function evalCondition(
-    source: string,
-    context: Record<string, unknown>,
-): boolean {
+function evalCondition(source: string, context: Record<string, unknown>): boolean {
     return !!new SafeExpression({ source }, { parent }).evaluate(context);
 }
 
@@ -59,9 +56,7 @@ describe("default context-menu conditions (constants.ts TEST_TYPE)", () => {
             // The pre-#459 string referenced `item.system.*`; a bound `item`
             // with that shape must have no effect on the (logic-driven) result.
             const item = { system: { canImprove: true, data: {} } };
-            expect(evalCondition(source, { item, itemLogic: undefined })).toBe(
-                false,
-            );
+            expect(evalCondition(source, { item, itemLogic: undefined })).toBe(false);
         });
     });
 
@@ -100,9 +95,7 @@ describe("default context-menu conditions (constants.ts TEST_TYPE)", () => {
             // The pre-#459 string referenced `item.system.*`; a bound `item`
             // with that shape must have no effect on the (logic-driven) result.
             const item = { system: { canImprove: true, data: {} } };
-            expect(evalCondition(source, { item, itemLogic: undefined })).toBe(
-                false,
-            );
+            expect(evalCondition(source, { item, itemLogic: undefined })).toBe(false);
         });
     });
 
@@ -110,15 +103,11 @@ describe("default context-menu conditions (constants.ts TEST_TYPE)", () => {
         const source = TEST_TYPE.TRANSMITAFFLICTION.condition as string;
 
         it("shows when the affliction can transmit", () => {
-            expect(
-                evalCondition(source, { itemLogic: { canTransmit: true } }),
-            ).toBe(true);
+            expect(evalCondition(source, { itemLogic: { canTransmit: true } })).toBe(true);
         });
 
         it("hides when the affliction cannot transmit", () => {
-            expect(
-                evalCondition(source, { itemLogic: { canTransmit: false } }),
-            ).toBe(false);
+            expect(evalCondition(source, { itemLogic: { canTransmit: false } })).toBe(false);
         });
 
         it("hides when no item row resolves (itemLogic undefined)", () => {

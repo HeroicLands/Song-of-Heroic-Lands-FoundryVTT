@@ -15,10 +15,7 @@ import { collectBlockableStrikeModes } from "@src/document/combatant/logic/SohlC
 import type { SohlActorLogic } from "../actor/logic/SohlActorBaseLogic";
 import { DEFENSE_DISABLING_STATUSES } from "../combatant/logic/SohlCombatantLogic";
 import { ITEM_KIND, SKILL_CODE } from "@src/utils/constants";
-import {
-    resolveChatCardHandlerUuid,
-    SELF_HANDLER,
-} from "@src/document/chat/chat-card-dispatch";
+import { resolveChatCardHandlerUuid, SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
 
 /**
  * Render-time gating for **action-card** buttons (per the targeted-vs-open
@@ -44,9 +41,7 @@ export function gateActionCardButtons(
     element: HTMLElement,
     resolveDoc: (uuid: string) => any,
 ): void {
-    const buttons = element.querySelectorAll<HTMLButtonElement>(
-        "button.action-card-button",
-    );
+    const buttons = element.querySelectorAll<HTMLButtonElement>("button.action-card-button");
     if (!buttons.length) return;
     for (const btn of Array.from(buttons)) {
         const uuid = resolveChatCardHandlerUuid(btn.dataset);
@@ -77,14 +72,9 @@ export function gateActionCardButtons(
  * @param element - The chat message's rendered root element.
  * @param isGM - Whether the viewing client is a GM.
  */
-export function gateEditActionPencil(
-    element: HTMLElement,
-    isGM: boolean,
-): void {
+export function gateEditActionPencil(element: HTMLElement, isGM: boolean): void {
     if (isGM) return;
-    element
-        .querySelectorAll<HTMLElement>("a.edit-action")
-        .forEach((pencil) => pencil.remove());
+    element.querySelectorAll<HTMLElement>("a.edit-action").forEach((pencil) => pencil.remove());
 }
 
 /**
@@ -120,9 +110,7 @@ export function gateAutomatedDefenseButtons(
     resolveDefender: (uuid: string) => any,
 ): void {
     const find = (action: string) =>
-        element.querySelector<HTMLButtonElement>(
-            `button[data-action="${action}"]`,
-        );
+        element.querySelector<HTMLButtonElement>(`button[data-action="${action}"]`);
     const dodge = find("automatedDodgeResume");
     const counter = find("automatedCounterstrikeResume");
     const block = find("automatedBlockResume");
@@ -157,11 +145,7 @@ export function gateAutomatedDefenseButtons(
         if (dodge && (!actorLogic || !hasUsableDodgeSkill(actorLogic))) {
             dodge.remove();
         }
-        if (
-            block &&
-            (!actorLogic ||
-                collectBlockableStrikeModes(actorLogic).length === 0)
-        ) {
+        if (block && (!actorLogic || collectBlockableStrikeModes(actorLogic).length === 0)) {
             block.remove();
         }
         if (counter && (!actorLogic || !hasMeleeAttackStrikeMode(actorLogic))) {
@@ -184,9 +168,7 @@ export function gateAutomatedDefenseButtons(
  * @param actorLogic - The actor's logic; its weapons and combat techniques are scanned via logicTypes.
  * @returns `true` if the actor has any usable melee attack strike mode.
  */
-export function hasMeleeAttackStrikeMode(
-    actorLogic: SohlActorLogic<any>,
-): boolean {
+export function hasMeleeAttackStrikeMode(actorLogic: SohlActorLogic<any>): boolean {
     const usable = (sm: any) => !!sm && !sm.attack?.disabled && !!sm.isMelee;
     const lt = actorLogic.logicTypes;
     for (const logic of lt[ITEM_KIND.WEAPONGEAR]) {
@@ -217,10 +199,7 @@ export function hasUsableDodgeSkill(actorLogic: SohlActorLogic<any>): boolean {
  * @param forbidden - The status ids to scan for.
  * @returns `true` if any forbidden id is present in `statuses`.
  */
-export function hasAnyStatus(
-    statuses: Iterable<string>,
-    forbidden: readonly string[],
-): boolean {
+export function hasAnyStatus(statuses: Iterable<string>, forbidden: readonly string[]): boolean {
     const set = statuses instanceof Set ? statuses : new Set(statuses);
     return forbidden.some((s) => set.has(s));
 }

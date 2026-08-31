@@ -82,9 +82,7 @@ interface NewBodyEntry {
  * @param title - The dialog window title.
  * @returns The entered name/shortcode, or `undefined` on dismissal.
  */
-async function promptNewEntry(
-    title: string,
-): Promise<NewBodyEntry | undefined> {
+async function promptNewEntry(title: string): Promise<NewBodyEntry | undefined> {
     const content = `
         <form class="body-structure-create standard-form">
             <div class="form-group">
@@ -105,8 +103,7 @@ async function promptNewEntry(
                 label: "Create",
                 icon: "fa-solid fa-plus",
                 callback: (_event: Event, button: any) =>
-                    new foundry.applications.ux.FormDataExtended(button.form)
-                        .object,
+                    new foundry.applications.ux.FormDataExtended(button.form).object,
             },
         } as any)) as PlainObject | undefined;
     } catch {
@@ -140,20 +137,13 @@ export async function addBodyZone(actor: SohlActor): Promise<void> {
         return;
     }
     const existing = structure.zones.map((z) => z.shortcode);
-    const error = validateBodyShortcode(
-        spec.shortcode,
-        existing,
-        "body zone",
-        "this body",
-    );
+    const error = validateBodyShortcode(spec.shortcode, existing, "body zone", "this body");
     if (error) {
         sohl.log.uiWarn(error);
         return;
     }
 
-    await actor.update(
-        structure.addZoneUpdate(blankBodyZone(spec.name, spec.shortcode)),
-    );
+    await actor.update(structure.addZoneUpdate(blankBodyZone(spec.name, spec.shortcode)));
 }
 
 /**
@@ -164,10 +154,7 @@ export async function addBodyZone(actor: SohlActor): Promise<void> {
  * @param actor - The being to add a part to.
  * @param zoneShortcode - The shortcode of the zone to add the part to.
  */
-export async function addBodyPart(
-    actor: SohlActor,
-    zoneShortcode: string,
-): Promise<void> {
+export async function addBodyPart(actor: SohlActor, zoneShortcode: string): Promise<void> {
     const structure = getActorBody(actor.logic)?.structure;
     if (!structure) {
         sohl.log.uiWarn("This actor has no body structure to edit.");
@@ -185,21 +172,14 @@ export async function addBodyPart(
         return;
     }
     const existing = structure.parts.map((p) => p.shortcode);
-    const error = validateBodyShortcode(
-        spec.shortcode,
-        existing,
-        "body part",
-        "this body",
-    );
+    const error = validateBodyShortcode(spec.shortcode, existing, "body part", "this body");
     if (error) {
         sohl.log.uiWarn(error);
         return;
     }
 
     await actor.update(
-        zone.addPartUpdate(
-            blankBodyPart(spec.name, spec.shortcode, zone.shortcode),
-        ),
+        zone.addPartUpdate(blankBodyPart(spec.name, spec.shortcode, zone.shortcode)),
     );
     openBodyPartEditor(actor, spec.shortcode);
 }
@@ -212,10 +192,7 @@ export async function addBodyPart(
  * @param actor - The owning being.
  * @param partShortcode - The shortcode of the part to add a location to.
  */
-export async function addBodyLocation(
-    actor: SohlActor,
-    partShortcode: string,
-): Promise<void> {
+export async function addBodyLocation(actor: SohlActor, partShortcode: string): Promise<void> {
     const structure = getActorBody(actor.logic)?.structure;
     const part = structure?.getPartByCode(partShortcode);
     if (!structure || !part) return;
@@ -227,21 +204,14 @@ export async function addBodyLocation(
         return;
     }
     const existing = structure.locations.map((l) => l.shortcode);
-    const error = validateBodyShortcode(
-        spec.shortcode,
-        existing,
-        "body location",
-        "this body",
-    );
+    const error = validateBodyShortcode(spec.shortcode, existing, "body location", "this body");
     if (error) {
         sohl.log.uiWarn(error);
         return;
     }
 
     await actor.update(
-        part.addLocationUpdate(
-            blankBodyLocation(spec.name, spec.shortcode, part.shortcode),
-        ),
+        part.addLocationUpdate(blankBodyLocation(spec.name, spec.shortcode, part.shortcode)),
     );
     openBodyLocationEditor(actor, partShortcode, spec.shortcode);
 }
@@ -253,10 +223,7 @@ export async function addBodyLocation(
  * @param actor - The owning being.
  * @param shortcode - The shortcode of the zone to delete.
  */
-export async function deleteBodyZone(
-    actor: SohlActor,
-    shortcode: string,
-): Promise<void> {
+export async function deleteBodyZone(actor: SohlActor, shortcode: string): Promise<void> {
     const structure = getActorBody(actor.logic)?.structure;
     const zone = structure?.getZoneByCode(shortcode);
     if (!structure || !zone) return;
@@ -266,9 +233,7 @@ export async function deleteBodyZone(
     const confirmed = await foundry.applications.api.DialogV2.confirm({
         window: { title: "Delete Body Zone?" },
         content:
-            `<p>Delete body zone <strong>${foundry.utils.escapeHTML(
-                zone.name,
-            )}</strong>?</p>` +
+            `<p>Delete body zone <strong>${foundry.utils.escapeHTML(zone.name)}</strong>?</p>` +
             (partCount ?
                 `<p>This also deletes its ${partCount} body part(s) and ` +
                 `${locCount} hit location(s).</p>`
@@ -285,10 +250,7 @@ export async function deleteBodyZone(
  * @param actor - The owning being.
  * @param shortcode - The shortcode of the part to delete.
  */
-export async function deleteBodyPart(
-    actor: SohlActor,
-    shortcode: string,
-): Promise<void> {
+export async function deleteBodyPart(actor: SohlActor, shortcode: string): Promise<void> {
     const structure = getActorBody(actor.logic)?.structure;
     const part = structure?.getPartByCode(shortcode);
     if (!structure || !part) return;
@@ -297,12 +259,8 @@ export async function deleteBodyPart(
     const confirmed = await foundry.applications.api.DialogV2.confirm({
         window: { title: "Delete Body Part?" },
         content:
-            `<p>Delete body part <strong>${foundry.utils.escapeHTML(
-                part.name,
-            )}</strong>?</p>` +
-            (locCount ?
-                `<p>This also deletes its ${locCount} hit location(s).</p>`
-            :   "") +
+            `<p>Delete body part <strong>${foundry.utils.escapeHTML(part.name)}</strong>?</p>` +
+            (locCount ? `<p>This also deletes its ${locCount} hit location(s).</p>` : "") +
             `<p>This cannot be undone.</p>`,
     } as any);
     if (!confirmed) return;
@@ -349,19 +307,14 @@ export async function deleteBodyLocation(
  * @param actor - The being the sheet edits.
  * @param element - The sheet root element to bind the menu within.
  */
-export function bindBodyStructureContextMenu(
-    actor: SohlActor,
-    element: HTMLElement,
-): void {
+export function bindBodyStructureContextMenu(actor: SohlActor, element: HTMLElement): void {
     const zoneCodeOf = (target: HTMLElement): string | undefined =>
-        (target.closest("[data-zone-shortcode]") as HTMLElement | null)?.dataset
-            .zoneShortcode;
+        (target.closest("[data-zone-shortcode]") as HTMLElement | null)?.dataset.zoneShortcode;
     const partCodeOf = (target: HTMLElement): string | undefined =>
-        (target.closest("[data-part-shortcode]") as HTMLElement | null)?.dataset
-            .partShortcode;
+        (target.closest("[data-part-shortcode]") as HTMLElement | null)?.dataset.partShortcode;
     const locCodeOf = (target: HTMLElement): string | undefined =>
-        (target.closest("[data-location-shortcode]") as HTMLElement | null)
-            ?.dataset.locationShortcode;
+        (target.closest("[data-location-shortcode]") as HTMLElement | null)?.dataset
+            .locationShortcode;
 
     const zoneEntries = [
         new SohlContextMenu.Entry({

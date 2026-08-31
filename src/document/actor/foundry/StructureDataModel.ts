@@ -37,8 +37,7 @@ type StructureDataSchema = ReturnType<typeof defineStructureDataSchema>;
  */
 export class StructureDataModel<
     TSchema extends foundry.data.fields.DataSchema = StructureDataSchema,
-    TLogic extends StructureLogic<StructureData> =
-        StructureLogic<StructureData>,
+    TLogic extends StructureLogic<StructureData> = StructureLogic<StructureData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
     /**
      * Localization prefixes for the Structure schema.

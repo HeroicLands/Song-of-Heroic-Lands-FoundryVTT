@@ -63,13 +63,10 @@ describe("Being Facade tab (#307)", () => {
             cy.switchTab("profile", "primary");
             cy.foundry((win) => {
                 const el = win.game.actors.get(actor.id)?.sheet?.element;
-                const facade = el?.querySelector(
-                    'section.tab[data-tab="facade"]',
-                );
+                const facade = el?.querySelector('section.tab[data-tab="facade"]');
                 return {
                     facadeActive: facade?.classList.contains("active") ?? null,
-                    facadeDisplay:
-                        facade ? win.getComputedStyle(facade).display : null,
+                    facadeDisplay: facade ? win.getComputedStyle(facade).display : null,
                 };
             }).should("deep.equal", {
                 facadeActive: false,
@@ -88,8 +85,7 @@ describe("Being Facade tab (#307)", () => {
                     .get(actor.id)
                     .update(
                         toRealm(win, {
-                            "system.appearance":
-                                "<p>Weathered and scarred.</p>",
+                            "system.appearance": "<p>Weathered and scarred.</p>",
                         }),
                     )
                     .then(() => null),
@@ -138,15 +134,13 @@ describe("Being Facade tab (#307)", () => {
                     '.facade__editor prose-mirror[name="system.appearance"]',
                 );
                 expect(pm, "prose-mirror element").to.exist;
-                expect(pm.classList.contains("active"), "editor active").to.be
-                    .true;
+                expect(pm.classList.contains("active"), "editor active").to.be.true;
                 const menuC = pm.querySelector(".menu-container");
                 const container = pm.querySelector(".editor-container");
                 const content = pm.querySelector(".editor-content");
-                expect(
-                    menuC?.getBoundingClientRect().height,
-                    "toolbar height",
-                ).to.be.greaterThan(0);
+                expect(menuC?.getBoundingClientRect().height, "toolbar height").to.be.greaterThan(
+                    0,
+                );
                 expect(
                     container?.getBoundingClientRect().height,
                     "editor-container height",

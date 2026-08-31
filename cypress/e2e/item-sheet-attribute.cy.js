@@ -50,9 +50,7 @@ describe("attribute sheet field labels (#1105)", () => {
                 };
             }).should((l) => {
                 expect(l.score, "scoreBase label").to.eq("Score");
-                expect(l.initDice, "initDiceFormula label").to.eq(
-                    "Init Dice Formula",
-                );
+                expect(l.initDice, "initDiceFormula label").to.eq("Init Dice Formula");
             });
         });
     });

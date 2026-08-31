@@ -44,9 +44,7 @@ import { toRealm } from "../support/resolve";
 
 /** The combatant of `actorId` in `combatId`. */
 function combatantOf(win, combatId, actorId) {
-    return win.game.combats
-        .get(combatId)
-        .combatants.find((c) => c.actorId === actorId);
+    return win.game.combats.get(combatId).combatants.find((c) => c.actorId === actorId);
 }
 
 /**
@@ -92,94 +90,81 @@ describe("automated combat start: target resolution (#1079)", () => {
             const defenderId = this.b.id;
             // `sceneless` so the turn gate below is order-independent — see the
             // `ui.combat.viewed` note under the pin.
-            cy.createCombatWith(this.tokens, { sceneless: true }).then(
-                (combat) => {
-                    // It must be the attacker's turn — the turn gate runs first and
-                    // would otherwise short-circuit before target resolution. Both
-                    // halves below share this one combat: `getActiveCombat()` reads
-                    // the *viewed* combat, which resolves inconsistently headless
-                    // (#638/#644), so a second combat would be order-dependent.
-                    cy.foundry(async (win) => {
-                        const c = win.game.combats.get(combat.id);
-                        const idx = c.turns.findIndex(
-                            (t) => t.actorId === attackerId,
-                        );
-                        if (idx >= 0)
-                            await c.update(toRealm(win, { turn: idx }));
-                        return c.combatant?.actorId ?? null;
-                    }).should("eq", attackerId);
+            cy.createCombatWith(this.tokens, { sceneless: true }).then((combat) => {
+                // It must be the attacker's turn — the turn gate runs first and
+                // would otherwise short-circuit before target resolution. Both
+                // halves below share this one combat: `getActiveCombat()` reads
+                // the *viewed* combat, which resolves inconsistently headless
+                // (#638/#644), so a second combat would be order-dependent.
+                cy.foundry(async (win) => {
+                    const c = win.game.combats.get(combat.id);
+                    const idx = c.turns.findIndex((t) => t.actorId === attackerId);
+                    if (idx >= 0) await c.update(toRealm(win, { turn: idx }));
+                    return c.combatant?.actorId ?? null;
+                }).should("eq", attackerId);
 
-                    // Pin the ambient combat, or this spec is order-dependent. The
-                    // turn gate reads `getActiveCombat()` — core's `game.combat` —
-                    // which is `ui.combat.viewed` once the sidebar tracker has
-                    // rendered, and otherwise `combats.find(c => c.isActive)`.
-                    // Neither resolves on its own here: `viewed` is left stale by
-                    // the intervening `cleanupWorld()` and never re-points at this
-                    // new combat, and `isActive` is `scene.isView && active` for a
-                    // scene-bound combat, so it also needs this spec's own scene to
-                    // hold the canvas view — which headless it does not once any
-                    // other spec has created a scene (#638/#644). Creating the
-                    // combat `sceneless` reduces `isActive` to plain `active`, and
-                    // assigning `viewed` covers the rendered-tracker branch; both
-                    // then resolve to this combat whatever ran before.
-                    cy.foundry((win) => {
-                        const c = win.game.combats.get(combat.id);
-                        if (win.ui.combat?.rendered) win.ui.combat.viewed = c;
-                        return win.game.combat?.id ?? null;
-                    }).should("eq", combat.id);
+                // Pin the ambient combat, or this spec is order-dependent. The
+                // turn gate reads `getActiveCombat()` — core's `game.combat` —
+                // which is `ui.combat.viewed` once the sidebar tracker has
+                // rendered, and otherwise `combats.find(c => c.isActive)`.
+                // Neither resolves on its own here: `viewed` is left stale by
+                // the intervening `cleanupWorld()` and never re-points at this
+                // new combat, and `isActive` is `scene.isView && active` for a
+                // scene-bound combat, so it also needs this spec's own scene to
+                // hold the canvas view — which headless it does not once any
+                // other spec has created a scene (#638/#644). Creating the
+                // combat `sceneless` reduces `isActive` to plain `active`, and
+                // assigning `viewed` covers the rendered-tracker branch; both
+                // then resolve to this combat whatever ran before.
+                cy.foundry((win) => {
+                    const c = win.game.combats.get(combat.id);
+                    if (win.ui.combat?.rendered) win.ui.combat.viewed = c;
+                    return win.game.combat?.id ?? null;
+                }).should("eq", combat.id);
 
-                    // Target the defender's token, as a player would before
-                    // choosing Automated Combat. `game.user.targets` holds
-                    // *placeable* Tokens; the placeable is undrawn headless, so the
-                    // range read falls back to the TokenDocument's own center.
-                    cy.foundry((win) => {
-                        const t = combatantOf(win, combat.id, defenderId).token;
-                        win.game.user.targets.clear();
-                        win.game.user.targets.add(t.object ?? { document: t });
-                        return win.game.user.targets.size;
-                    }).should("eq", 1);
+                // Target the defender's token, as a player would before
+                // choosing Automated Combat. `game.user.targets` holds
+                // *placeable* Tokens; the placeable is undrawn headless, so the
+                // range read falls back to the TokenDocument's own center.
+                cy.foundry((win) => {
+                    const t = combatantOf(win, combat.id, defenderId).token;
+                    win.game.user.targets.clear();
+                    win.game.user.targets.add(t.object ?? { document: t });
+                    return win.game.user.targets.size;
+                }).should("eq", 1);
 
-                    cy.foundry((win) =>
-                        driveTargetlessStart(
-                            win,
-                            combatantOf(win, combat.id, attackerId),
-                        ),
-                    ).should((r) => {
-                        expect(
-                            r.warnings,
-                            "the targetless-context abort is gone (#1079)",
-                        ).to.not.match(/requires a target combatant/i);
-                        expect(
-                            r.warnings,
-                            "the resolved target is used as the defender (#1079)",
-                        ).to.not.match(/valid defender combatant/i);
-                        expect(
-                            r.warnings,
-                            "reaches strike-mode selection (the post-target step)",
-                        ).to.match(/no usable strike mode/i);
-                    });
+                cy.foundry((win) =>
+                    driveTargetlessStart(win, combatantOf(win, combat.id, attackerId)),
+                ).should((r) => {
+                    expect(r.warnings, "the targetless-context abort is gone (#1079)").to.not.match(
+                        /requires a target combatant/i,
+                    );
+                    expect(
+                        r.warnings,
+                        "the resolved target is used as the defender (#1079)",
+                    ).to.not.match(/valid defender combatant/i);
+                    expect(
+                        r.warnings,
+                        "reaches strike-mode selection (the post-target step)",
+                    ).to.match(/no usable strike mode/i);
+                });
 
-                    // …and with nothing targeted there is no target to fall back
-                    // to, so the attack still refuses rather than guessing one.
-                    cy.foundry((win) => {
-                        win.game.user.targets.clear();
-                        return win.game.user.targets.size;
-                    }).should("eq", 0);
+                // …and with nothing targeted there is no target to fall back
+                // to, so the attack still refuses rather than guessing one.
+                cy.foundry((win) => {
+                    win.game.user.targets.clear();
+                    return win.game.user.targets.size;
+                }).should("eq", 0);
 
-                    cy.foundry((win) =>
-                        driveTargetlessStart(
-                            win,
-                            combatantOf(win, combat.id, attackerId),
-                        ),
-                    ).should((r) => {
-                        expect(r.result, "aborts (returns undefined)").to.be
-                            .null;
-                        expect(r.warnings, "asks for a target").to.match(
-                            /requires a target combatant/i,
-                        );
-                    });
-                },
-            );
+                cy.foundry((win) =>
+                    driveTargetlessStart(win, combatantOf(win, combat.id, attackerId)),
+                ).should((r) => {
+                    expect(r.result, "aborts (returns undefined)").to.be.null;
+                    expect(r.warnings, "asks for a target").to.match(
+                        /requires a target combatant/i,
+                    );
+                });
+            });
         });
     });
 });

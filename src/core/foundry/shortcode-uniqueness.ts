@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    resolveShortcodeKey,
-    type ShortcodeRejectReason,
-} from "@src/utils/helpers";
+import { resolveShortcodeKey, type ShortcodeRejectReason } from "@src/utils/helpers";
 import { fvttRandomId } from "@src/core/FoundryHelpers";
 
 /**
@@ -118,9 +115,7 @@ export async function collectTakenShortcodes(doc: any): Promise<Set<string>> {
  */
 function warnDuplicate(doc: any, desired: string): void {
     const scope =
-        doc?.documentName === "Item" && doc.actor ?
-            (doc.actor.name ?? "The actor")
-        :   "The world";
+        doc?.documentName === "Item" && doc.actor ? (doc.actor.name ?? "The actor") : "The world";
     (globalThis as any).ui?.notifications?.warn(
         `${scope} already has a ${doc.type} with shortcode "${desired}".`,
     );
@@ -138,11 +133,7 @@ function warnDuplicate(doc: any, desired: string): void {
  * @param reason - Why {@link resolveShortcodeKey} refused it.
  * @returns `false`, the veto value the `_pre*` hooks return.
  */
-function warnRejected(
-    doc: any,
-    desired: string,
-    reason: ShortcodeRejectReason,
-): false {
+function warnRejected(doc: any, desired: string, reason: ShortcodeRejectReason): false {
     if (reason === "invalid") {
         sohl.log.uiWarn("SOHL.Shortcode.invalidCharacters", {
             shortcode: desired,
@@ -170,17 +161,14 @@ export async function enforceShortcodeOnCreate(
     options: any,
 ): Promise<boolean | void> {
     const desired = String(doc.system?.shortcode ?? "");
-    const isDuplicate = !!(
-        data?._stats?.duplicateSource ?? doc?._stats?.duplicateSource
-    );
+    const isDuplicate = !!(data?._stats?.duplicateSource ?? doc?._stats?.duplicateSource);
     const taken = await collectTakenShortcodes(doc);
     const resolved = resolveShortcodeKey(desired, doc.name ?? "", taken, {
         dedupe: !!options?.shortcodeDedupe,
         isDuplicate,
         makeRandomId: () => fvttRandomId(16),
     });
-    if ("reject" in resolved)
-        return warnRejected(doc, desired, resolved.reason);
+    if ("reject" in resolved) return warnRejected(doc, desired, resolved.reason);
     if (resolved.shortcode !== desired) {
         doc.updateSource({ "system.shortcode": resolved.shortcode });
     }
@@ -210,14 +198,9 @@ export async function enforceShortcodeOnUpdate(
         dedupe: !!options?.shortcodeDedupe,
         makeRandomId: () => fvttRandomId(16),
     });
-    if ("reject" in resolved)
-        return warnRejected(doc, desired, resolved.reason);
+    if ("reject" in resolved) return warnRejected(doc, desired, resolved.reason);
     if (resolved.shortcode !== desired) {
-        foundry.utils.setProperty(
-            changes,
-            "system.shortcode",
-            resolved.shortcode,
-        );
+        foundry.utils.setProperty(changes, "system.shortcode", resolved.shortcode);
     }
     return undefined;
 }

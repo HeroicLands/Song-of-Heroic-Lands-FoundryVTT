@@ -108,11 +108,7 @@ export const CONTEXT_BOUND_HELPERS: ReadonlyMap<string, string> = new Map();
  * resolved from the registry by name. Restricted to side-effect-free numeric
  * reducers so an author can select but never inject a fold policy.
  */
-const ALLOWED_MERGE_COMBINERS: ReadonlySet<string> = new Set([
-    "max",
-    "min",
-    "sum",
-]);
+const ALLOWED_MERGE_COMBINERS: ReadonlySet<string> = new Set(["max", "min", "sum"]);
 
 /**
  * The built-in helper library — null-tolerant utility functions for collection
@@ -133,10 +129,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     has(value: unknown, collection: unknown): boolean {
         if (Array.isArray(collection)) return collection.includes(value);
         if (collection !== null && typeof collection === "object") {
-            return Object.prototype.hasOwnProperty.call(
-                collection,
-                value as PropertyKey,
-            );
+            return Object.prototype.hasOwnProperty.call(collection, value as PropertyKey);
         }
         return false;
     },
@@ -265,9 +258,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     split(value: unknown, separator: unknown, limit?: unknown): string[] {
         return String(value).split(
             String(separator),
-            limit === undefined || limit === null ?
-                undefined
-            :   (limit as number),
+            limit === undefined || limit === null ? undefined : (limit as number),
         );
     },
 
@@ -373,10 +364,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
                 "padEnd(): target length exceeds the maximum string size",
             );
         }
-        return String(value).padEnd(
-            length,
-            pad === undefined || pad === null ? " " : String(pad),
-        );
+        return String(value).padEnd(length, pad === undefined || pad === null ? " " : String(pad));
     },
 
     /**
@@ -390,9 +378,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
         const s = String(value);
         const times = count as number;
         if (!(times >= 0) || s.length * times > MAX_STRING_LENGTH) {
-            throw new SafeExpressionError(
-                "repeat(): result exceeds the maximum string size",
-            );
+            throw new SafeExpressionError("repeat(): result exceeds the maximum string size");
         }
         return s.repeat(times);
     },
@@ -408,9 +394,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     matches(value: unknown, pattern: unknown, flags?: unknown): boolean {
         const source = String(pattern);
         if (source.length > MAX_PATTERN_LENGTH) {
-            throw new SafeExpressionError(
-                "matches(): regular-expression pattern is too long",
-            );
+            throw new SafeExpressionError("matches(): regular-expression pattern is too long");
         }
         if (hasCatastrophicPattern(source)) {
             throw new SafeExpressionError(
@@ -419,15 +403,9 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
         }
         let regex: RegExp;
         try {
-            regex = new RegExp(
-                source,
-                flags === undefined || flags === null ? "" : String(flags),
-            );
+            regex = new RegExp(source, flags === undefined || flags === null ? "" : String(flags));
         } catch (err) {
-            throw new SafeExpressionError(
-                "matches(): invalid regular expression",
-                { cause: err },
-            );
+            throw new SafeExpressionError("matches(): invalid regular expression", { cause: err });
         }
         return regex.test(String(value));
     },
@@ -558,10 +536,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
      * @throws {Error} If `formula` is not a valid `NdM+K` dice formula.
      */
     roll(parent: unknown, formula: unknown): PlainObject {
-        const simpleRoll = SimpleRoll.fromFormula(
-            String(formula),
-            parent as SohlLogic<any>,
-        );
+        const simpleRoll = SimpleRoll.fromFormula(String(formula), parent as SohlLogic<any>);
         simpleRoll.roll();
         return {
             ...simpleRoll.toJSON(),
@@ -629,9 +604,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
      */
     sb(...values: unknown[]): number {
         if (values.length === 0) {
-            throw new SafeExpressionError(
-                "sb() requires at least one attribute value",
-            );
+            throw new SafeExpressionError("sb() requires at least one attribute value");
         }
         const nums = values.map((v) => Number(v));
         if (nums.length === 1) return nums[0];
@@ -703,17 +676,14 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
         if (!combiner) {
             throw new SafeExpressionError(`merge() unknown combiner "${name}"`);
         }
-        const allArrays =
-            list.length > 0 && list.every((el) => Array.isArray(el));
+        const allArrays = list.length > 0 && list.every((el) => Array.isArray(el));
         const perKey = new Map<string, unknown[]>();
         for (const el of list) {
             if (el === null || el === undefined) continue;
             const entries: [string, unknown][] =
-                Array.isArray(el) ?
-                    el.map((v, i) => [String(i), v] as [string, unknown])
-                : typeof el === "object" ?
-                    Object.entries(el as Record<string, unknown>)
-                :   [];
+                Array.isArray(el) ? el.map((v, i) => [String(i), v] as [string, unknown])
+                : typeof el === "object" ? Object.entries(el as Record<string, unknown>)
+                : [];
             for (const [k, v] of entries) {
                 if (v === undefined || v === null) continue;
                 const bucket = perKey.get(k);
@@ -743,9 +713,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
      */
     hasUsableSkill(actorLogic: unknown, shortcode: unknown): boolean {
         const skills = (actorLogic as any)?.logicTypes?.["skill"] ?? [];
-        return (skills as any[]).some(
-            (s: any) => s?.data?.shortcode === String(shortcode),
-        );
+        return (skills as any[]).some((s: any) => s?.data?.shortcode === String(shortcode));
     },
 });
 
@@ -763,9 +731,7 @@ export interface LoadLibraryResult {
 }
 
 /** The live registry: built-ins plus any custom helpers installed at runtime. */
-const registry = new Map<string, ExpressionHelper>(
-    Object.entries(STANDARD_HELPERS),
-);
+const registry = new Map<string, ExpressionHelper>(Object.entries(STANDARD_HELPERS));
 
 /** Reset the registry to the built-in helpers only (drops all custom ones). */
 function resetToBuiltins(): void {
@@ -831,10 +797,7 @@ export const expressionHelpers = {
      * @throws If a parameter name is invalid or the body fails safety screening.
      */
     registerSource(name: string, source: HelperSource): void {
-        const fn = textToFunction(
-            source.body,
-            source.args ?? [],
-        ) as ExpressionHelper;
+        const fn = textToFunction(source.body, source.args ?? []) as ExpressionHelper;
         registry.set(name, fn);
     },
 
@@ -853,9 +816,7 @@ export const expressionHelpers = {
         const installed: string[] = [];
         const skipped: { name: string; reason: string }[] = [];
         if (!raw || typeof raw !== "object") return { installed, skipped };
-        for (const [name, entry] of Object.entries(
-            raw as Record<string, unknown>,
-        )) {
+        for (const [name, entry] of Object.entries(raw as Record<string, unknown>)) {
             if (!entry || typeof entry !== "object") {
                 skipped.push({ name, reason: "entry is not an object" });
                 continue;
@@ -867,17 +828,13 @@ export const expressionHelpers = {
             }
             if (
                 args !== undefined &&
-                (!Array.isArray(args) ||
-                    args.some((a) => typeof a !== "string"))
+                (!Array.isArray(args) || args.some((a) => typeof a !== "string"))
             ) {
                 skipped.push({ name, reason: "'args' must be a string array" });
                 continue;
             }
             try {
-                registry.set(
-                    name,
-                    textToFunction(body, args ?? []) as ExpressionHelper,
-                );
+                registry.set(name, textToFunction(body, args ?? []) as ExpressionHelper);
                 installed.push(name);
             } catch (err) {
                 skipped.push({

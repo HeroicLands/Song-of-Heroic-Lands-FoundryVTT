@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type {
-    SkillLogic,
-    SkillData,
-} from "@src/document/item/logic/SkillLogic";
+import type { SkillLogic, SkillData } from "@src/document/item/logic/SkillLogic";
 import {
     BodyRoles,
     SKILL_COMBAT_CATEGORY,
@@ -32,14 +29,8 @@ import { SohlItemDataModel } from "./SohlItemDataModel";
 import { SafeExpressionField } from "@src/core/foundry/SafeExpressionField";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
-const {
-    ArrayField,
-    NumberField,
-    StringField,
-    BooleanField,
-    SchemaField,
-    TypedSchemaField,
-} = foundry.data.fields;
+const { ArrayField, NumberField, StringField, BooleanField, SchemaField, TypedSchemaField } =
+    foundry.data.fields;
 
 /**
  * Builds the Skill data schema, extending the base item schema with skill
@@ -119,12 +110,8 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
          */
         strikeMode: new TypedSchemaField(
             {
-                [STRIKE_MODE_TYPE.MELEE]: new SchemaField(
-                    MeleeStrikeMode.schemaFields(),
-                ),
-                [STRIKE_MODE_TYPE.MISSILE]: new SchemaField(
-                    MissileStrikeMode.schemaFields(),
-                ),
+                [STRIKE_MODE_TYPE.MELEE]: new SchemaField(MeleeStrikeMode.schemaFields()),
+                [STRIKE_MODE_TYPE.MISSILE]: new SchemaField(MissileStrikeMode.schemaFields()),
             },
             { nullable: true, initial: null },
         ),
@@ -186,16 +173,9 @@ export class SkillDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preCreate(
-            data as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preCreate(data as any, options as any, user as any);
         if (allowed === false) return false;
-        if (
-            this.subType === SKILL_SUBTYPE.COMBATTECHNIQUE &&
-            !this.strikeMode
-        ) {
+        if (this.subType === SKILL_SUBTYPE.COMBATTECHNIQUE && !this.strikeMode) {
             this.updateSource({
                 strikeMode: {
                     type: STRIKE_MODE_TYPE.MELEE,

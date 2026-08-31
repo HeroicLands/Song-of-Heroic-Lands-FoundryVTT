@@ -85,9 +85,7 @@ const INLINE_ARMOR = {
 /** The thorax location's aggregated edged armor protection for `actor`. */
 function thoraxEdgedProtection(win, actorId) {
     const a = win.game.actors.get(actorId);
-    const thrx = a.logic.body.structure
-        .getAllLocations()
-        .find((l) => l.shortcode === "thrxloc");
+    const thrx = a.logic.body.structure.getAllLocations().find((l) => l.shortcode === "thrxloc");
     return thrx.armorProtection.edged;
 }
 
@@ -116,27 +114,25 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("toggleCarried flips isCarried", () => {
         cy.createActor("being", { name: "Carry Being" }).then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then(
-                (armor) => {
-                    // Default: isCarried = true
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isCarried;
-                    }).should("be.true");
+            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then((armor) => {
+                // Default: isCarried = true
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(armor.id).system.isCarried;
+                }).should("be.true");
 
-                    cy.runAction(armor, "toggleCarried");
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isCarried;
-                    }).should("be.false");
+                cy.runAction(armor, "toggleCarried");
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(armor.id).system.isCarried;
+                }).should("be.false");
 
-                    cy.runAction(armor, "toggleCarried");
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isCarried;
-                    }).should("be.true");
-                },
-            );
+                cy.runAction(armor, "toggleCarried");
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(armor.id).system.isCarried;
+                }).should("be.true");
+            });
         });
     });
 
@@ -144,27 +140,25 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("toggleWorn flips isWorn on armor (#662)", () => {
         cy.createActor("being", { name: "Worn Being" }).then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then(
-                (armor) => {
-                    // Armor defaults to not worn.
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isWorn;
-                    }).should("be.false");
+            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then((armor) => {
+                // Armor defaults to not worn.
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(armor.id).system.isWorn;
+                }).should("be.false");
 
-                    cy.runAction(armor, "toggleWorn");
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isWorn;
-                    }).should("be.true");
+                cy.runAction(armor, "toggleWorn");
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(armor.id).system.isWorn;
+                }).should("be.true");
 
-                    cy.runAction(armor, "toggleWorn");
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isWorn;
-                    }).should("be.false");
-                },
-            );
+                cy.runAction(armor, "toggleWorn");
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(armor.id).system.isWorn;
+                }).should("be.false");
+            });
         });
     });
 
@@ -173,23 +167,17 @@ describe("gear equip / hold → combat-tab display", () => {
             cy.createItemOn(actor, "armorgear", INLINE_ARMOR).then((armor) => {
                 // Not equipped by default → no protection on the thorax.
                 cy.prepare(actor);
-                cy.foundry((win) =>
-                    thoraxEdgedProtection(win, actor.id),
-                ).should("eq", 0);
+                cy.foundry((win) => thoraxEdgedProtection(win, actor.id)).should("eq", 0);
 
                 // Equipping folds the armor's edged protection onto the thorax.
                 cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
                 cy.prepare(actor);
-                cy.foundry((win) =>
-                    thoraxEdgedProtection(win, actor.id),
-                ).should("eq", 8);
+                cy.foundry((win) => thoraxEdgedProtection(win, actor.id)).should("eq", 8);
 
                 // Unequipping removes it again.
                 cy.foundry((win) => setWorn(win, actor.id, armor.id, false));
                 cy.prepare(actor);
-                cy.foundry((win) =>
-                    thoraxEdgedProtection(win, actor.id),
-                ).should("eq", 0);
+                cy.foundry((win) => thoraxEdgedProtection(win, actor.id)).should("eq", 0);
             });
         });
     });
@@ -199,28 +187,26 @@ describe("gear equip / hold → combat-tab display", () => {
     it("holdItem makes heldBy.length > 0; releaseItem clears it", () => {
         // Basic Folk has a body with Right Arm / Left Arm (canHoldItem).
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then(
-                (weapon) => {
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(weapon.id).logic.heldBy.length;
-                    }).should("eq", 0);
+            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then((weapon) => {
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(weapon.id).logic.heldBy.length;
+                }).should("eq", 0);
 
-                    cy.holdItem(weapon);
-                    cy.prepare(actor);
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(weapon.id).logic.heldBy.length;
-                    }).should("be.greaterThan", 0);
+                cy.holdItem(weapon);
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(weapon.id).logic.heldBy.length;
+                }).should("be.greaterThan", 0);
 
-                    cy.releaseItem(weapon);
-                    cy.prepare(actor);
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(weapon.id).logic.heldBy.length;
-                    }).should("eq", 0);
-                },
-            );
+                cy.releaseItem(weapon);
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.items.get(weapon.id).logic.heldBy.length;
+                }).should("eq", 0);
+            });
         });
     });
 
@@ -228,43 +214,40 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("combat tab shows a weapon's [data-sm-id] strike-mode rows only after holdItem", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then(
-                (weapon) => {
-                    // Scope to THIS weapon's rows. Basic Folk owns unarmed
-                    // combat techniques (punch, kick, bite, …) whose natural
-                    // strike modes are intrinsic — they render with nothing
-                    // held, so an unscoped `[data-sm-id]` never reaches zero
-                    // (#1271). Each row carries its source item's id.
-                    const rows = `section.tab[data-tab="combat"] [data-sm-id][data-item-id="${weapon.id}"]`;
+            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then((weapon) => {
+                // Scope to THIS weapon's rows. Basic Folk owns unarmed
+                // combat techniques (punch, kick, bite, …) whose natural
+                // strike modes are intrinsic — they render with nothing
+                // held, so an unscoped `[data-sm-id]` never reaches zero
+                // (#1271). Each row carries its source item's id.
+                const rows = `section.tab[data-tab="combat"] [data-sm-id][data-item-id="${weapon.id}"]`;
 
-                    // Not held: filterHeldWeapons excludes it, so no rows render.
-                    cy.openSheet(actor);
-                    cy.switchTab("combat", "primary");
-                    cy.get(rows).should("not.exist");
-                    cy.closeAllSheets();
+                // Not held: filterHeldWeapons excludes it, so no rows render.
+                cy.openSheet(actor);
+                cy.switchTab("combat", "primary");
+                cy.get(rows).should("not.exist");
+                cy.closeAllSheets();
 
-                    // Held: the weapon's strike mode appears on the combat tab.
-                    cy.holdItem(weapon);
-                    cy.prepare(actor);
-                    cy.openSheet(actor);
-                    cy.switchTab("combat", "primary");
-                    cy.get(rows).should("exist");
-                },
-            );
+                // Held: the weapon's strike mode appears on the combat tab.
+                cy.holdItem(weapon);
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.switchTab("combat", "primary");
+                cy.get(rows).should("exist");
+            });
         });
     });
 
     it("equipped compendium Mail Shirt aggregates protection onto covered locations", () => {
         cy.importActor().then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then(
-                (armor) => {
-                    cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
-                    cy.prepare(actor);
-                    cy.foundry((win) =>
-                        thoraxEdgedProtection(win, actor.id),
-                    ).should("be.greaterThan", 0);
-                },
-            );
+            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then((armor) => {
+                cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
+                cy.prepare(actor);
+                cy.foundry((win) => thoraxEdgedProtection(win, actor.id)).should(
+                    "be.greaterThan",
+                    0,
+                );
+            });
         });
     });
 });

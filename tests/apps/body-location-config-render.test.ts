@@ -48,20 +48,16 @@ function context(name = "Skull", shortcode = "skull") {
         loc,
         shortcode,
         bodyPartCodeOptions: buildRefOptions(PARTS, loc.bodyPartCode),
-        bleedingOptions: Object.entries(BleedingSusceptibilityChoices).map(
-            ([value, label]) => ({
-                value,
-                label,
-                selected: value === loc.bleedingSusceptibility,
-            }),
-        ),
-        amputabilityOptions: Object.entries(AmputabilityChoices).map(
-            ([value, label]) => ({
-                value,
-                label,
-                selected: value === loc.amputability,
-            }),
-        ),
+        bleedingOptions: Object.entries(BleedingSusceptibilityChoices).map(([value, label]) => ({
+            value,
+            label,
+            selected: value === loc.bleedingSusceptibility,
+        })),
+        amputabilityOptions: Object.entries(AmputabilityChoices).map(([value, label]) => ({
+            value,
+            label,
+            selected: value === loc.amputability,
+        })),
     };
 }
 
@@ -69,9 +65,7 @@ describe("body-location-config template", () => {
     it("renders an identity header: name and unique shortcode", () => {
         const html = renderTemplateReal(TEMPLATE, context());
         expect(html).toContain("body-location-config__header");
-        expect(html).toMatch(
-            /class="body-location-config__name"[^>]*>\s*<input[^>]*name="name"/,
-        );
+        expect(html).toMatch(/class="body-location-config__name"[^>]*>\s*<input[^>]*name="name"/);
         expect(html).toMatch(/name="shortcode"[^>]*value="skull"/);
     });
 
@@ -79,12 +73,8 @@ describe("body-location-config template", () => {
         const html = renderTemplateReal(TEMPLATE, context());
         expect(html).toMatch(/<select[^>]*name="bodyPartCode"/);
         // Both parts are offered; the location's current part is selected.
-        expect(html).toMatch(
-            /<option value="head"[^>]*selected[^>]*>\s*Head\s*<\/option>/,
-        );
-        expect(html).toMatch(
-            /<option value="thorax"(?![^>]*selected)[^>]*>\s*Thorax\s*<\/option>/,
-        );
+        expect(html).toMatch(/<option value="head"[^>]*selected[^>]*>\s*Head\s*<\/option>/);
+        expect(html).toMatch(/<option value="thorax"(?![^>]*selected)[^>]*>\s*Thorax\s*<\/option>/);
     });
 
     it("flags a dangling bodyPartCode as an unresolved option, never blanked (#982)", () => {

@@ -76,8 +76,7 @@ async function findNestedGitignores(root: string): Promise<string[]> {
             const rel = relDir ? `${relDir}/${entry.name}` : entry.name;
 
             if (entry.isDirectory()) {
-                if (entry.name === ".git" || entry.name === "node_modules")
-                    continue;
+                if (entry.name === ".git" || entry.name === "node_modules") continue;
                 if (await isPrettierIgnored(`${rel}/probe.md`)) continue;
                 await walk(rel);
             } else if (entry.name === ".gitignore" && relDir) {
@@ -129,10 +128,7 @@ function ignoredDirectoriesIn(body: string, relDir: string): string[] {
  */
 async function isPrettierIgnored(relPath: string): Promise<boolean> {
     const info = await prettier.getFileInfo(path.join(REPO_ROOT, relPath), {
-        ignorePath: [
-            path.join(REPO_ROOT, ".gitignore"),
-            path.join(REPO_ROOT, ".prettierignore"),
-        ],
+        ignorePath: [path.join(REPO_ROOT, ".gitignore"), path.join(REPO_ROOT, ".prettierignore")],
     });
     return info.ignored;
 }

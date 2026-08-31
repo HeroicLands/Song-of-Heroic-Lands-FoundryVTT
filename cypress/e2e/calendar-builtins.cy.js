@@ -40,9 +40,7 @@ describe("built-in calendar (hardcoded)", () => {
 
     it("defaults new worlds to the Vylarian Reckoning", () => {
         cy.foundry((win) => {
-            const setting = win.game.settings.settings.get(
-                "sohl.activeCalendar",
-            );
+            const setting = win.game.settings.settings.get("sohl.activeCalendar");
             return { default: setting?.default };
         }).then((r) => {
             expect(r.default, "activeCalendar setting default").to.eq("vylrec");

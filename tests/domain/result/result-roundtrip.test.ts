@@ -12,11 +12,7 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
-import {
-    instanceFromJSON,
-    defaultToJSON,
-    defaultFromJSON,
-} from "@src/utils/helpers";
+import { instanceFromJSON, defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
 
 // The FoundryHelpers test mock predates the combatant-UUID lookup that
 // AttackResult now performs in its constructor, so it does not export
@@ -38,11 +34,7 @@ import { AttackResult } from "@src/entity/result/AttackResult";
 import { DefendResult } from "@src/entity/result/DefendResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import { CombatResult } from "@src/entity/result/CombatResult";
-import {
-    VALUE_DELTA_OPERATOR,
-    MARGINAL_SUCCESS,
-    CRITICAL_SUCCESS,
-} from "@src/utils/constants";
+import { VALUE_DELTA_OPERATOR, MARGINAL_SUCCESS, CRITICAL_SUCCESS } from "@src/utils/constants";
 
 /** Full serialize→string→revive cycle via the defaultToJSON/defaultFromJSON pair. */
 function cycle<T>(obj: object): T {
@@ -91,10 +83,7 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             m.critSuccessDigits = [0, 5];
             const effective = m.constrainedEffective; // 45 + 20
 
-            const revived = instanceFromJSON<MasteryLevelModifier>(
-                toAttr(m),
-                parent,
-            );
+            const revived = instanceFromJSON<MasteryLevelModifier>(toAttr(m), parent);
 
             expect(revived).toBeInstanceOf(MasteryLevelModifier);
             expect(revived.constrainedEffective).toBe(effective);
@@ -109,10 +98,7 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                 parent,
             });
             addDelta(m, 20);
-            const revived = instanceFromJSON<MasteryLevelModifier>(
-                toAttr(m),
-                parent,
-            );
+            const revived = instanceFromJSON<MasteryLevelModifier>(toAttr(m), parent);
             const before = revived.constrainedEffective; // 65
             addDelta(revived, 10);
             expect(revived.constrainedEffective).toBe(before + 10);
@@ -133,22 +119,16 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             const mlMod = new MasteryLevelModifier({ baseValue: 45 } as any, {
                 parent,
             });
-            const r = new SuccessTestResult(
-                { roll, masteryLevelModifier: mlMod } as any,
-                { parent },
-            );
-
-            const revived = instanceFromJSON<SuccessTestResult>(
-                toAttr(r),
+            const r = new SuccessTestResult({ roll, masteryLevelModifier: mlMod } as any, {
                 parent,
-            );
+            });
+
+            const revived = instanceFromJSON<SuccessTestResult>(toAttr(r), parent);
 
             expect(revived).toBeInstanceOf(SuccessTestResult);
             expect(revived.roll).toBeInstanceOf(SimpleRoll);
             expect(revived.roll.total).toBe(55);
-            expect(revived.masteryLevelModifier).toBeInstanceOf(
-                MasteryLevelModifier,
-            );
+            expect(revived.masteryLevelModifier).toBeInstanceOf(MasteryLevelModifier);
             expect(revived.masteryLevelModifier.constrainedEffective).toBe(45);
             expect(revived.mishaps).toBeInstanceOf(Set);
         });
@@ -167,20 +147,16 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         },
                         { parent },
                     ),
-                    masteryLevelModifier: new MasteryLevelModifier(
-                        { baseValue: 50 } as any,
-                        { parent },
-                    ),
+                    masteryLevelModifier: new MasteryLevelModifier({ baseValue: 50 } as any, {
+                        parent,
+                    }),
                 } as any,
                 { parent },
             );
             (r as any)._successLevel = CRITICAL_SUCCESS;
             expect(r.successLevel).toBe(CRITICAL_SUCCESS);
 
-            const revived = instanceFromJSON<SuccessTestResult>(
-                toAttr(r),
-                parent,
-            );
+            const revived = instanceFromJSON<SuccessTestResult>(toAttr(r), parent);
 
             // The defender reads the attacker's outcome as-is; it must NOT
             // reset to MARGINAL_FAILURE the way a fresh test would.
@@ -198,10 +174,9 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         },
                         { parent },
                     ),
-                    masteryLevelModifier: new MasteryLevelModifier(
-                        { baseValue: 50 } as any,
-                        { parent },
-                    ),
+                    masteryLevelModifier: new MasteryLevelModifier({ baseValue: 50 } as any, {
+                        parent,
+                    }),
                     impact: new ImpactModifier(
                         {
                             roll: { numDice: 2, dieFaces: 6 },
@@ -253,10 +228,9 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         },
                         { parent },
                     ),
-                    masteryLevelModifier: new MasteryLevelModifier(
-                        { baseValue: 50 } as any,
-                        { parent },
-                    ),
+                    masteryLevelModifier: new MasteryLevelModifier({ baseValue: 50 } as any, {
+                        parent,
+                    }),
                     impact,
                     mode: { itemUuid: "Item.mode", smId: "sm1" },
                     combatantUuid: "Combatant.c1",
@@ -284,27 +258,19 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
         it("rehydrates both contestants' success tests via toJSON", () => {
             const source = new SuccessTestResult(
                 {
-                    roll: new SimpleRoll(
-                        { numDice: 1, dieFaces: 100, rolls: [15] },
-                        { parent },
-                    ),
-                    masteryLevelModifier: new MasteryLevelModifier(
-                        { baseValue: 60 } as any,
-                        { parent },
-                    ),
+                    roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [15] }, { parent }),
+                    masteryLevelModifier: new MasteryLevelModifier({ baseValue: 60 } as any, {
+                        parent,
+                    }),
                 } as any,
                 { parent },
             );
             const target = new SuccessTestResult(
                 {
-                    roll: new SimpleRoll(
-                        { numDice: 1, dieFaces: 100, rolls: [95] },
-                        { parent },
-                    ),
-                    masteryLevelModifier: new MasteryLevelModifier(
-                        { baseValue: 40 } as any,
-                        { parent },
-                    ),
+                    roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [95] }, { parent }),
+                    masteryLevelModifier: new MasteryLevelModifier({ baseValue: 40 } as any, {
+                        parent,
+                    }),
                 } as any,
                 { parent },
             );
@@ -333,14 +299,10 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
         it("rehydrates its nested attack and defend results self-contained", () => {
             const attack = new AttackResult(
                 {
-                    roll: new SimpleRoll(
-                        { numDice: 1, dieFaces: 100, rolls: [22] },
-                        { parent },
-                    ),
-                    masteryLevelModifier: new MasteryLevelModifier(
-                        { baseValue: 70 } as any,
-                        { parent },
-                    ),
+                    roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [22] }, { parent }),
+                    masteryLevelModifier: new MasteryLevelModifier({ baseValue: 70 } as any, {
+                        parent,
+                    }),
                     impact: new ImpactModifier(
                         {
                             roll: { numDice: 2, dieFaces: 6 },
@@ -356,14 +318,10 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             );
             const defend = new DefendResult(
                 {
-                    roll: new SimpleRoll(
-                        { numDice: 1, dieFaces: 100, rolls: [80] },
-                        { parent },
-                    ),
-                    masteryLevelModifier: new MasteryLevelModifier(
-                        { baseValue: 45 } as any,
-                        { parent },
-                    ),
+                    roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [80] }, { parent }),
+                    masteryLevelModifier: new MasteryLevelModifier({ baseValue: 45 } as any, {
+                        parent,
+                    }),
                     label: "Dodge",
                     combatantUuid: "Combatant.def",
                 } as any,

@@ -21,9 +21,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
     }
 
     it("defines an editDocument and a deleteDocument intrinsic action", () => {
-        const shortcodes = SohlItemBaseLogic.defineIntrinsicActions().map(
-            (a) => a.shortcode,
-        );
+        const shortcodes = SohlItemBaseLogic.defineIntrinsicActions().map((a) => a.shortcode);
         expect(shortcodes).toContain("editDocument");
         expect(shortcodes).toContain("deleteDocument");
     });
@@ -35,9 +33,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
     });
 
     it("editItem renders the item's sheet through the shim", async () => {
-        const render = vi
-            .spyOn(FoundryHelpersMock, "fvttRenderSheet")
-            .mockResolvedValue(undefined);
+        const render = vi.spyOn(FoundryHelpersMock, "fvttRenderSheet").mockResolvedValue(undefined);
         const logic = makeBase();
         await logic.editDocument({} as any);
         expect(render).toHaveBeenCalledWith(logic.item);
@@ -71,9 +67,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
     });
 
     it("the confirm dialog passes the item name as data, never interpolated into the HTML", async () => {
-        const spy = vi
-            .spyOn(FoundryHelpersMock, "dialog")
-            .mockResolvedValue(false);
+        const spy = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(false);
         const logic = makeItemLogic(SohlItemBaseLogic, ITEM_KIND.SKILL, {}, {
             name: "<img src=x onerror=alert(1)>",
         } as any);
@@ -87,33 +81,25 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
     });
 
     it("a plain item shows no extra warning", async () => {
-        const spy = vi
-            .spyOn(FoundryHelpersMock, "dialog")
-            .mockResolvedValue(false);
+        const spy = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(false);
         const logic = makeBase();
         await logic.deleteDocument({} as any);
         expect((spy.mock.calls[0]![0] as any).data.warning).toBeUndefined();
     });
 
     it("a container warns that its contents are deleted too", async () => {
-        const spy = vi
-            .spyOn(FoundryHelpersMock, "dialog")
-            .mockResolvedValue(false);
-        const logic = makeItemLogic(
-            ContainerGearLogic,
-            ITEM_KIND.CONTAINERGEAR,
-            {
-                quantity: 1,
-                weightBase: 2,
-                valueBase: 15,
-                isCarried: true,
-                qualityBase: 9,
-                durabilityBase: 10,
-                sharedWithCohortIds: [],
-                containerId: null,
-                maxCapacityBase: 50,
-            },
-        );
+        const spy = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(false);
+        const logic = makeItemLogic(ContainerGearLogic, ITEM_KIND.CONTAINERGEAR, {
+            quantity: 1,
+            weightBase: 2,
+            valueBase: 15,
+            isCarried: true,
+            qualityBase: 9,
+            durabilityBase: 10,
+            sharedWithCohortIds: [],
+            containerId: null,
+            maxCapacityBase: 50,
+        });
         logic.initialize();
         await logic.deleteDocument({} as any);
         expect((spy.mock.calls[0]![0] as any).data.warning).toBe(
@@ -127,9 +113,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
         );
         expect(action).toBeDefined();
         expect(action!.executor).toBe("outputDescription");
-        expect(action!.title).toBe(
-            "SOHL.SohlItemBaseLogic.Action.outputDescription.title",
-        );
+        expect(action!.title).toBe("SOHL.SohlItemBaseLogic.Action.outputDescription.title");
     });
 });
 
@@ -228,15 +212,11 @@ describe("buildItemDescCardData → item-desc-card", () => {
             charges: { value: null, max: 5 },
         });
         infinite.initialize();
-        expect(
-            (await buildItemDescCardData(infinite)).data!.charges,
-        ).toBeUndefined();
+        expect((await buildItemDescCardData(infinite)).data!.charges).toBeUndefined();
 
         const none = makeItemLogic(SohlItemBaseLogic, ITEM_KIND.SKILL);
         none.initialize();
-        expect(
-            (await buildItemDescCardData(none)).data!.charges,
-        ).toBeUndefined();
+        expect((await buildItemDescCardData(none)).data!.charges).toBeUndefined();
     });
 });
 
@@ -261,25 +241,19 @@ describe("resolveDescriptionHtml — following a pointer (#1356, #1357)", () => 
     it("resolves a pointer to a journal page's text", async () => {
         targetDocument({ text: { content: "<p>The craft, in full.</p>" } });
         expect(
-            await resolveDescriptionHtml(
-                "@UUID[JournalEntry.j1.JournalEntryPage.p1]{Weaponcraft}",
-            ),
+            await resolveDescriptionHtml("@UUID[JournalEntry.j1.JournalEntryPage.p1]{Weaponcraft}"),
         ).toBe("<p>The craft, in full.</p>");
     });
 
     it("resolves a pointer to another item's description", async () => {
         targetDocument({ system: { docHtml: "<p>The parent's prose.</p>" } });
-        expect(await resolveDescriptionHtml("@UUID[Item.i1]")).toBe(
-            "<p>The parent's prose.</p>",
-        );
+        expect(await resolveDescriptionHtml("@UUID[Item.i1]")).toBe("<p>The parent's prose.</p>");
     });
 
     it("falls back to the link itself when the target will not resolve", async () => {
         targetDocument(null);
         // Rendered as a broken content link: visibly wrong rather than blank.
-        expect(await resolveDescriptionHtml("@UUID[Item.gone]")).toBe(
-            "@UUID[Item.gone]",
-        );
+        expect(await resolveDescriptionHtml("@UUID[Item.gone]")).toBe("@UUID[Item.gone]");
     });
 
     it("returns an empty description unchanged", async () => {

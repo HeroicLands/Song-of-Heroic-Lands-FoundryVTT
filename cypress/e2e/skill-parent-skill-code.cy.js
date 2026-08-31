@@ -28,9 +28,7 @@ describe("skill sheet parent skill code (#710)", () => {
 
     function renderSheet(uuid) {
         cy.foundry((win) =>
-            Cypress.Promise.resolve(
-                win.fromUuidSync(uuid).sheet.render(true),
-            ).then(() => null),
+            Cypress.Promise.resolve(win.fromUuidSync(uuid).sheet.render(true)).then(() => null),
         );
         cy.wait(400);
     }
@@ -47,8 +45,7 @@ describe("skill sheet parent skill code (#710)", () => {
                     const ctrl = el.querySelector(SEL);
                     return { present: !!ctrl, value: ctrl?.value };
                 }).should((r) => {
-                    expect(r.present, "parent skill control present").to.be
-                        .true;
+                    expect(r.present, "parent skill control present").to.be.true;
                     expect(r.value).to.equal("lang");
                 });
             });
@@ -61,10 +58,10 @@ describe("skill sheet parent skill code (#710)", () => {
                 name: "Oratory",
                 system: { subType: "social", parentSkillCode: "" },
             }).then((skill) => {
-                cy.foundry(
-                    (win) =>
-                        win.fromUuidSync(skill.uuid).system.parentSkillCode,
-                ).should("equal", null);
+                cy.foundry((win) => win.fromUuidSync(skill.uuid).system.parentSkillCode).should(
+                    "equal",
+                    null,
+                );
             });
         });
     });
@@ -85,19 +82,14 @@ describe("skill sheet parent skill code (#710)", () => {
             }).then((skill) => {
                 renderSheet(skill.uuid);
                 cy.then(() => {
-                    cy.foundry((win) => win.fromUuidSync(skill.uuid)).then(
-                        (doc) =>
-                            cy.editSheetField(
-                                doc,
-                                "system.parentSkillCode",
-                                "sword",
-                            ),
+                    cy.foundry((win) => win.fromUuidSync(skill.uuid)).then((doc) =>
+                        cy.editSheetField(doc, "system.parentSkillCode", "sword"),
                     );
                 });
-                cy.foundry(
-                    (win) =>
-                        win.fromUuidSync(skill.uuid).system.parentSkillCode,
-                ).should("equal", "sword");
+                cy.foundry((win) => win.fromUuidSync(skill.uuid).system.parentSkillCode).should(
+                    "equal",
+                    "sword",
+                );
             });
         });
     });
@@ -110,19 +102,14 @@ describe("skill sheet parent skill code (#710)", () => {
             }).then((skill) => {
                 renderSheet(skill.uuid);
                 cy.then(() => {
-                    cy.foundry((win) => win.fromUuidSync(skill.uuid)).then(
-                        (doc) =>
-                            cy.editSheetField(
-                                doc,
-                                "system.parentSkillCode",
-                                "",
-                            ),
+                    cy.foundry((win) => win.fromUuidSync(skill.uuid)).then((doc) =>
+                        cy.editSheetField(doc, "system.parentSkillCode", ""),
                     );
                 });
-                cy.foundry(
-                    (win) =>
-                        win.fromUuidSync(skill.uuid).system.parentSkillCode,
-                ).should("equal", null);
+                cy.foundry((win) => win.fromUuidSync(skill.uuid).system.parentSkillCode).should(
+                    "equal",
+                    null,
+                );
             });
         });
     });

@@ -78,11 +78,10 @@ function buildSettledContest(win, actorId, srcSkillId, tgtSkillId) {
             tgt.logic
                 .executeAction("successTest", { skipDialog: true, scope: {} })
                 .then((targetTestResult) => {
-                    const opposed =
-                        new win.sohl.entity.result.OpposedTestResult(
-                            { sourceTestResult, targetTestResult },
-                            { parent: src.logic },
-                        );
+                    const opposed = new win.sohl.entity.result.OpposedTestResult(
+                        { sourceTestResult, targetTestResult },
+                        { parent: src.logic },
+                    );
                     win.__opposed = opposed;
                     return opposed
                         .toChat({
@@ -124,12 +123,9 @@ function withContestActor(fn) {
 
 /** Build the contest and wait for its result card to actually exist. */
 function postContest(actor, srcSkill, tgtSkill) {
-    cy.foundry((win) =>
-        buildSettledContest(win, actor.id, srcSkill.id, tgtSkill.id),
-    );
+    cy.foundry((win) => buildSettledContest(win, actor.id, srcSkill.id, tgtSkill.id));
     cy.window().should((win) => {
-        expect(findPencil(win), "result card posted with a pencil").to.not.be
-            .null;
+        expect(findPencil(win), "result card posted with a pencil").to.not.be.null;
     });
 }
 
@@ -157,12 +153,8 @@ describe("GM opposed-result edit — the result card's pencil (#1082)", () => {
                     actorUuid: win.game.actors.get(actor.id).uuid,
                 };
             }).then((r) => {
-                expect(r.action, "pencil dispatches a real action").to.eq(
-                    "opposedResultEdit",
-                );
-                expect(r.handler, "addressed to the source actor").to.eq(
-                    r.actorUuid,
-                );
+                expect(r.action, "pencil dispatches a real action").to.eq("opposedResultEdit");
+                expect(r.handler, "addressed to the source actor").to.eq(r.actorUuid);
                 expect(r.scopeLen, "carries the contest").to.be.greaterThan(0);
             });
         });
@@ -174,30 +166,21 @@ describe("GM opposed-result edit — the result card's pencil (#1082)", () => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 const pencil = findPencil(win);
-                const scope = win.sohl.utils.buildActionScope(
-                    pencil.dataset,
-                    a.logic,
-                );
+                const scope = win.sohl.utils.buildActionScope(pencil.dataset, a.logic);
                 const revived = scope.opposedTestResult;
                 return {
-                    isContest:
-                        revived instanceof
-                        win.sohl.entity.result.OpposedTestResult,
+                    isContest: revived instanceof win.sohl.entity.result.OpposedTestResult,
                     sourceRoll: revived?.sourceTestResult?.roll?.total,
                     targetRoll: revived?.targetTestResult?.roll?.total,
                     // The document handler the click path calls must exist.
-                    hasEditHandler:
-                        typeof a.onChatCardEditAction === "function",
-                    hasExecutor:
-                        typeof a.logic.opposedResultEdit === "function",
+                    hasEditHandler: typeof a.onChatCardEditAction === "function",
+                    hasExecutor: typeof a.logic.opposedResultEdit === "function",
                 };
             }).then((r) => {
-                expect(r.isContest, "revived as an OpposedTestResult").to.be
-                    .true;
+                expect(r.isContest, "revived as an OpposedTestResult").to.be.true;
                 expect(r.sourceRoll, "source die survives the wire").to.eq(34);
                 expect(r.targetRoll, "target die survives the wire").to.eq(80);
-                expect(r.hasEditHandler, "SohlActor.onChatCardEditAction").to.be
-                    .true;
+                expect(r.hasEditHandler, "SohlActor.onChatCardEditAction").to.be.true;
                 expect(r.hasExecutor, "actor logic executor").to.be.true;
             });
         });
@@ -250,12 +233,8 @@ describe("GM opposed-result edit — the result card's pencil (#1082)", () => {
                 expect(r.before.sourceWins, "source won originally").to.be.true;
                 expect(r.before.forced, "forced queue drained").to.eq(0);
 
-                expect(r.afterSourceRoll, "source die frozen").to.eq(
-                    r.before.sourceRoll,
-                );
-                expect(r.afterTargetRoll, "target die frozen").to.eq(
-                    r.before.targetRoll,
-                );
+                expect(r.afterSourceRoll, "source die frozen").to.eq(r.before.sourceRoll);
+                expect(r.afterTargetRoll, "target die frozen").to.eq(r.before.targetRoll);
                 expect(r.forcedAfter, "no die drawn by the edit").to.eq(0);
 
                 expect(r.afterSourceWins, "source now loses").to.be.false;
@@ -263,10 +242,9 @@ describe("GM opposed-result edit — the result card's pencil (#1082)", () => {
             });
             // The corrected card is posted fire-and-forget — poll for it.
             cy.window().should((win) => {
-                expect(
-                    win.game.messages.size,
-                    "a corrected card was reposted",
-                ).to.be.greaterThan(win.__msgsBefore);
+                expect(win.game.messages.size, "a corrected card was reposted").to.be.greaterThan(
+                    win.__msgsBefore,
+                );
             });
         });
     });

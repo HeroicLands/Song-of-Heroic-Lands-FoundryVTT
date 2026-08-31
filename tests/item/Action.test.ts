@@ -26,9 +26,7 @@ function stubActor(allow: boolean): any {
     };
 }
 
-function makeActionData(
-    overrides: Partial<SohlAction.Data> = {},
-): SohlAction.Data {
+function makeActionData(overrides: Partial<SohlAction.Data> = {}): SohlAction.Data {
     return {
         subType: "intrinsic",
         title: "test-action",
@@ -61,10 +59,7 @@ function makeAction(overrides: Partial<SohlAction.Data> = {}): SohlAction {
  * Build an action whose `resolveContext()` will surface the given actor
  * — i.e. the parent Logic's backing document mimics a `SohlActor`.
  */
-function makeActionOnActor(
-    actor: any,
-    overrides: Partial<SohlAction.Data> = {},
-): SohlAction {
+function makeActionOnActor(actor: any, overrides: Partial<SohlAction.Data> = {}): SohlAction {
     return new SohlAction(makeActionData(overrides), {
         parent: stubLogic(actor),
     });
@@ -195,8 +190,7 @@ describe("SohlAction.trigger", () => {
 
     it("can read properties via lazy member access", () => {
         const action = makeAction({
-            trigger:
-                "itemLogic.type === 'skill' && actorLogic.type === 'character'",
+            trigger: "itemLogic.type === 'skill' && actorLogic.type === 'character'",
         });
         expect(
             action.trigger(
@@ -330,24 +324,18 @@ describe("SohlAction.isAvailable / unavailableReason (#1135)", () => {
             trigger: "false",
             disabledReason: "SOHL.Gear.actionRequiresCarried",
         });
-        expect(action.unavailableReason).toBe(
-            "SOHL.Gear.actionRequiresCarried",
-        );
+        expect(action.unavailableReason).toBe("SOHL.Gear.actionRequiresCarried");
     });
 
     it("falls back to the generic reason when none is declared", () => {
-        expect(makeAction({ trigger: "false" }).unavailableReason).toBe(
-            "SOHL.Action.unavailable",
-        );
+        expect(makeAction({ trigger: "false" }).unavailableReason).toBe("SOHL.Action.unavailable");
     });
 });
 
 describe("SohlAction.execute gates on permission then trigger", () => {
     let infoSpy: ReturnType<typeof vi.spyOn>;
     beforeEach(() => {
-        infoSpy = vi
-            .spyOn(sohl.log, "info" as any)
-            .mockImplementation(() => {});
+        infoSpy = vi.spyOn(sohl.log, "info" as any).mockImplementation(() => {});
     });
     afterEach(() => {
         infoSpy.mockRestore();
@@ -357,9 +345,7 @@ describe("SohlAction.execute gates on permission then trigger", () => {
         const action = makeAction({ trigger: "false" });
         const result = await action.execute({ speaker: {} } as any);
         expect(result).toBeUndefined();
-        expect(infoSpy).toHaveBeenCalledWith(
-            expect.stringContaining("not triggerable"),
-        );
+        expect(infoSpy).toHaveBeenCalledWith(expect.stringContaining("not triggerable"));
     });
 
     it("blocks SCRIPT action when actor.testUserPermission denies", async () => {
@@ -416,16 +402,10 @@ describe("SohlAction.execute records lastRun (generic run record, #579)", () => 
         };
     }
 
-    function actionOn(
-        doc: any,
-        overrides: Partial<SohlAction.Data>,
-    ): SohlAction {
-        return new SohlAction(
-            makeActionData({ trigger: "true", ...overrides }),
-            {
-                parent: stubLogic(doc),
-            },
-        );
+    function actionOn(doc: any, overrides: Partial<SohlAction.Data>): SohlAction {
+        return new SohlAction(makeActionData({ trigger: "true", ...overrides }), {
+            parent: stubLogic(doc),
+        });
     }
 
     it("stamps system.lastRun[shortcode] with the world time when flagged", async () => {
@@ -466,18 +446,14 @@ describe("SohlAction.execute records lastRun (generic run record, #579)", () => 
             recordsLastRun: true,
             trigger: "true",
         }); // stubLogic() → no doc
-        await expect(
-            action.execute({ speaker: {} } as any),
-        ).resolves.toBeUndefined();
+        await expect(action.execute({ speaker: {} } as any)).resolves.toBeUndefined();
     });
 });
 
 describe("SohlAction SCRIPT action runs a referenced Macro (no compiled code)", () => {
     let infoSpy: ReturnType<typeof vi.spyOn>;
     beforeEach(() => {
-        infoSpy = vi
-            .spyOn(sohl.log, "info" as any)
-            .mockImplementation(() => {});
+        infoSpy = vi.spyOn(sohl.log, "info" as any).mockImplementation(() => {});
     });
     afterEach(() => {
         infoSpy.mockRestore();
@@ -557,9 +533,7 @@ describe("SohlAction SCRIPT action runs a referenced Macro (no compiled code)", 
     });
 
     it("still enforces execute permission before running the macro", async () => {
-        const macroSpy = vi
-            .spyOn(FoundryHelpers, "fvttExecuteMacro")
-            .mockResolvedValue(undefined);
+        const macroSpy = vi.spyOn(FoundryHelpers, "fvttExecuteMacro").mockResolvedValue(undefined);
         const action = makeActionOnActor(stubActor(false), {
             subType: ACTION_SUBTYPE.SCRIPT,
             executor: MACRO_UUID,
@@ -600,9 +574,7 @@ describe("userMeetsExecutePermission", () => {
 
     it("passes the configured minActorOwnership to testUserPermission", () => {
         const user = { isGM: false } as any;
-        const userSpy = vi
-            .spyOn(FoundryHelpers, "fvttCurrentUser")
-            .mockReturnValue(user);
+        const userSpy = vi.spyOn(FoundryHelpers, "fvttCurrentUser").mockReturnValue(user);
         const spy = vi.fn().mockReturnValue(true);
         const actor = { testUserPermission: spy } as any;
         userMeetsExecutePermission(
@@ -638,50 +610,32 @@ describe("isScriptActionMutationAllowed", () => {
 
     it("GM may mutate freely", () => {
         const user = { isGM: true };
-        expect(
-            isScriptActionMutationAllowed([script("a")], [script("b")], user),
-        ).toBe(true);
-        expect(isScriptActionMutationAllowed([script("a")], [], user)).toBe(
-            true,
-        );
+        expect(isScriptActionMutationAllowed([script("a")], [script("b")], user)).toBe(true);
+        expect(isScriptActionMutationAllowed([script("a")], [], user)).toBe(true);
     });
 
     it("non-GM may add/remove/modify non-SCRIPT_ACTION entries", () => {
         const user = { isGM: false };
         expect(
-            isScriptActionMutationAllowed(
-                [intrinsic("a")],
-                [intrinsic("a"), intrinsic("b")],
-                user,
-            ),
+            isScriptActionMutationAllowed([intrinsic("a")], [intrinsic("a"), intrinsic("b")], user),
         ).toBe(true);
-        expect(isScriptActionMutationAllowed([intrinsic("a")], [], user)).toBe(
-            true,
-        );
+        expect(isScriptActionMutationAllowed([intrinsic("a")], [], user)).toBe(true);
     });
 
     it("non-GM cannot add a SCRIPT_ACTION", () => {
         const user = { isGM: false };
-        expect(isScriptActionMutationAllowed([], [script("a")], user)).toBe(
-            false,
-        );
+        expect(isScriptActionMutationAllowed([], [script("a")], user)).toBe(false);
     });
 
     it("non-GM cannot remove a SCRIPT_ACTION", () => {
         const user = { isGM: false };
-        expect(isScriptActionMutationAllowed([script("a")], [], user)).toBe(
-            false,
-        );
+        expect(isScriptActionMutationAllowed([script("a")], [], user)).toBe(false);
     });
 
     it("non-GM cannot modify a SCRIPT_ACTION's body", () => {
         const user = { isGM: false };
         expect(
-            isScriptActionMutationAllowed(
-                [script("a", "1")],
-                [script("a", "1 + 1")],
-                user,
-            ),
+            isScriptActionMutationAllowed([script("a", "1")], [script("a", "1 + 1")], user),
         ).toBe(false);
     });
 
@@ -690,9 +644,7 @@ describe("isScriptActionMutationAllowed", () => {
         const s = script("a");
         expect(isScriptActionMutationAllowed([s], [s], user)).toBe(true);
         // Adding a non-script entry alongside an unchanged script is fine.
-        expect(
-            isScriptActionMutationAllowed([s], [s, intrinsic("b")], user),
-        ).toBe(true);
+        expect(isScriptActionMutationAllowed([s], [s, intrinsic("b")], user)).toBe(true);
     });
 });
 
@@ -715,21 +667,15 @@ describe("ActionLogic", () => {
     });
 
     describe("initialize", () => {
-        it.todo(
-            "sets visible to a function returning true when data.visible is 'true'",
-        );
+        it.todo("sets visible to a function returning true when data.visible is 'true'");
         it.todo("creates trigger function from data.trigger text");
         it.todo("resolves executor to self when scope is SELF");
         it.todo("resolves executor to parent item logic when scope is ITEM");
         it.todo("resolves executor to owning actor logic when scope is ACTOR");
         it.todo("throws when scope is unknown");
-        it.todo(
-            "binds intrinsic action executor to the named method on target",
-        );
+        it.todo("binds intrinsic action executor to the named method on target");
         it.todo("throws when intrinsic action method does not exist on target");
-        it.todo(
-            "runs the referenced Foundry Macro for a Script action's executor",
-        );
+        it.todo("runs the referenced Foundry Macro for a Script action's executor");
         it.todo("sets executor to a no-op when data.executor is empty");
     });
 
@@ -752,9 +698,7 @@ describe("ActionDataModel", () => {
         it.todo("defines trigger as a StringField");
         it.todo("defines visible as a StringField defaulting to 'true'");
         it.todo("defines iconFAClass as a StringField");
-        it.todo(
-            "defines group as a StringField with context menu sort group choices",
-        );
+        it.todo("defines group as a StringField with context menu sort group choices");
         it.todo("defines minActorOwnership as a NumberField (0..3, init 3)");
     });
 

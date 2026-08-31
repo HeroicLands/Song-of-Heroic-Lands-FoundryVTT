@@ -73,8 +73,6 @@ describe("injectAdaptiveFill (dark-mode adaptive icon SVGs, #893)", () => {
         // A CSS rule loses to our injected rule on specificity, so a file that
         // classes its shapes is themeable; only a style *attribute* wins.
         const svg = `<svg viewBox="0 0 8 8"><style>.fil0 {fill:black}</style><path class="fil0" d="M0 0Z"/></svg>`;
-        expect(injectAdaptiveFill(svg)).toContain(
-            "@media(prefers-color-scheme:dark)",
-        );
+        expect(injectAdaptiveFill(svg)).toContain("@media(prefers-color-scheme:dark)");
     });
 });

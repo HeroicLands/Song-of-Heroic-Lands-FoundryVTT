@@ -132,16 +132,13 @@ export async function improveWithSDR(
         // Raise from the effective opening base (which may be derived rather
         // than stored — e.g. a Skill opened from initSkillMult), never from the
         // now-nullable stored field.
-        updateData["system.masteryLevelBase"] =
-            logic.masteryLevel.base + logic.sdrIncr;
+        updateData["system.masteryLevelBase"] = logic.masteryLevel.base + logic.sdrIncr;
     }
     // The SDR renders its own card rather than `standard-test-card.hbs`: it is
     // not a success test, so it has no mastery-level modifier, no Fate button,
     // no success level, and nothing for the GM result-edit pencil to
     // re-evaluate. Its keys are the ones `sdr-card.hbs` reads (#1103).
-    const chatTemplate: FilePath = toFilePath(
-        "systems/sohl/templates/chat/sdr-card.hbs",
-    );
+    const chatTemplate: FilePath = toFilePath("systems/sohl/templates/chat/sdr-card.hbs");
     // No `type` key: `SohlSpeaker._prepareChat` spreads this object straight
     // into the ChatMessage payload, so a `type` here becomes the message's
     // *document subtype*. The SDR's old `"<kind>-<name>-improve-sdr"` label is
@@ -158,18 +155,12 @@ export async function improveWithSDR(
         rollResult: roll.result,
         resultText:
             isSuccess ?
-                sohl.i18n.format(
-                    "SOHL.MasteryLevel.improveSDR.increase.title",
-                    {
-                        label: logic.label,
-                    },
-                )
-            :   sohl.i18n.format(
-                    "SOHL.MasteryLevel.improveSDR.noIncrease.title",
-                    {
-                        label: logic.label,
-                    },
-                ),
+                sohl.i18n.format("SOHL.MasteryLevel.improveSDR.increase.title", {
+                    label: logic.label,
+                })
+            :   sohl.i18n.format("SOHL.MasteryLevel.improveSDR.noIncrease.title", {
+                    label: logic.label,
+                }),
         resultDesc:
             isSuccess ?
                 sohl.i18n.format("SOHL.MasteryLevel.improveSDR.increase.desc", {
@@ -177,14 +168,11 @@ export async function improveWithSDR(
                     incr: logic.sdrIncr,
                     final: logic.masteryLevel.base + logic.sdrIncr,
                 })
-            :   sohl.i18n.format(
-                    "SOHL.MasteryLevel.improveSDR.noIncrease.desc",
-                    {
-                        label: logic.label,
-                        incr: logic.sdrIncr,
-                        final: logic.masteryLevel.base + logic.sdrIncr,
-                    },
-                ),
+            :   sohl.i18n.format("SOHL.MasteryLevel.improveSDR.noIncrease.desc", {
+                    label: logic.label,
+                    incr: logic.sdrIncr,
+                    final: logic.masteryLevel.base + logic.sdrIncr,
+                }),
         description:
             isSuccess ?
                 sohl.i18n.format("SOHL.SuccessTestResult.Success")
@@ -214,9 +202,7 @@ export async function improveWithSDR(
  * @returns The `setImproveFlag`, `unsetImproveFlag`, `toggleImproveFlag`, and
  *   `improveWithSDR` intrinsic action definitions, in that order.
  */
-export function defineImproveSdrActions(
-    titlePrefix: string,
-): Partial<SohlAction.Data>[] {
+export function defineImproveSdrActions(titlePrefix: string): Partial<SohlAction.Data>[] {
     return [
         {
             shortcode: "setImproveFlag",

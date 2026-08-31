@@ -11,16 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    expressionHelpers,
-    STANDARD_HELPERS,
-} from "@src/entity/expr/ExpressionHelperRegistry";
+import { expressionHelpers, STANDARD_HELPERS } from "@src/entity/expr/ExpressionHelperRegistry";
 import { buildExpressionLibraryViewModel } from "@src/apps/logic/expression-library-view";
 
-const ExpressionLibraryMenu_Base: any =
-    foundry.applications.api.HandlebarsApplicationMixin(
-        foundry.applications.api.ApplicationV2,
-    );
+const ExpressionLibraryMenu_Base: any = foundry.applications.api.HandlebarsApplicationMixin(
+    foundry.applications.api.ApplicationV2,
+);
 
 /**
  * Settings menu for managing the world's custom expression-helper library.
@@ -75,19 +71,12 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
      * @returns The template render context.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
-        const library = game.settings.get(
-            "sohl",
-            "expressionHelpers",
-        ) as Record<string, { args?: string[]; body: string }>;
-        const path = game.settings.get(
-            "sohl",
-            "expressionHelpersPath",
-        ) as string;
-        const vm = buildExpressionLibraryViewModel(
-            library,
-            path,
-            Object.keys(STANDARD_HELPERS),
-        );
+        const library = game.settings.get("sohl", "expressionHelpers") as Record<
+            string,
+            { args?: string[]; body: string }
+        >;
+        const path = game.settings.get("sohl", "expressionHelpersPath") as string;
+        const vm = buildExpressionLibraryViewModel(library, path, Object.keys(STANDARD_HELPERS));
         return {
             ...vm,
             buttons: [
@@ -116,19 +105,15 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
             callback: async (path: string) => {
                 if (!path.endsWith(".json")) {
                     ui.notifications.error(
-                        game.i18n.format(
-                            "SOHL.ExpressionLibrary.import.error",
-                            {
-                                error: "File must be a .json file",
-                            },
-                        ),
+                        game.i18n.format("SOHL.ExpressionLibrary.import.error", {
+                            error: "File must be a .json file",
+                        }),
                     );
                     return;
                 }
                 try {
                     const response = await fetch(path);
-                    if (!response.ok)
-                        throw new Error(`HTTP ${response.status}`);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const library = await response.json();
                     if (!library || typeof library !== "object") {
                         throw new Error(
@@ -140,49 +125,32 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
                     const result = expressionHelpers.loadLibrary(library);
 
                     // Persist the parsed library and the chosen path.
-                    await game.settings.set(
-                        "sohl",
-                        "expressionHelpers",
-                        library,
-                    );
-                    await game.settings.set(
-                        "sohl",
-                        "expressionHelpersPath",
-                        path,
-                    );
+                    await game.settings.set("sohl", "expressionHelpers", library);
+                    await game.settings.set("sohl", "expressionHelpersPath", path);
 
                     if (result.skipped.length) {
                         ui.notifications.warn(
-                            game.i18n.format(
-                                "SOHL.ExpressionLibrary.import.partial",
-                                {
-                                    installed: String(result.installed.length),
-                                    skipped: String(result.skipped.length),
-                                },
-                            ),
+                            game.i18n.format("SOHL.ExpressionLibrary.import.partial", {
+                                installed: String(result.installed.length),
+                                skipped: String(result.skipped.length),
+                            }),
                         );
                         for (const s of result.skipped) {
-                            sohl.log.warn(
-                                `Expression helper "${s.name}" skipped: ${s.reason}`,
-                            );
+                            sohl.log.warn(`Expression helper "${s.name}" skipped: ${s.reason}`);
                         }
                     } else {
                         ui.notifications.info(
-                            game.i18n.format(
-                                "SOHL.ExpressionLibrary.import.success",
-                                { count: String(result.installed.length) },
-                            ),
+                            game.i18n.format("SOHL.ExpressionLibrary.import.success", {
+                                count: String(result.installed.length),
+                            }),
                         );
                     }
                     void this.render();
                 } catch (err: any) {
                     ui.notifications.error(
-                        game.i18n.format(
-                            "SOHL.ExpressionLibrary.import.error",
-                            {
-                                error: err.message ?? String(err),
-                            },
-                        ),
+                        game.i18n.format("SOHL.ExpressionLibrary.import.error", {
+                            error: err.message ?? String(err),
+                        }),
                     );
                 }
             },
@@ -202,9 +170,7 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
     ): Promise<void> {
         const confirmed = await foundry.applications.api.DialogV2.confirm({
             window: { title: "SOHL.ExpressionLibrary.clear.label" },
-            content: `<p>${game.i18n.localize(
-                "SOHL.ExpressionLibrary.clear.confirm",
-            )}</p>`,
+            content: `<p>${game.i18n.localize("SOHL.ExpressionLibrary.clear.confirm")}</p>`,
         });
         if (!confirmed) return;
 

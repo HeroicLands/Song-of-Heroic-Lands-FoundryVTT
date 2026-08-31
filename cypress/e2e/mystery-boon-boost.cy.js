@@ -27,9 +27,7 @@ describe("mystery boon/boost skill contribution (#975)", () => {
     /** Read the prepared EML (effective mastery level) of a skill by shortcode. */
     function eml(actor, shortcode) {
         return cy.foundry((win) => {
-            const logic = win.game.actors
-                .get(actor.id)
-                .logic.getItemLogic(shortcode, "skill");
+            const logic = win.game.actors.get(actor.id).logic.getItemLogic(shortcode, "skill");
             return logic.masteryLevel.effective;
         });
     }
@@ -160,20 +158,14 @@ describe("mystery boon/boost skill contribution (#975)", () => {
             // then assert it is a real, unlearned skill conferred at its SB.
             cy.window().should((win) => {
                 const a = win.game.actors.get(actor.id);
-                const skill = a.itemTypes.skill.find(
-                    (s) => s.system.shortcode === "spkstl",
-                );
-                expect(skill, "conferred skill was added to the actor").to
-                    .exist;
+                const skill = a.itemTypes.skill.find((s) => s.system.shortcode === "spkstl");
+                expect(skill, "conferred skill was added to the actor").to.exist;
                 expect(
                     skill.system.masteryLevelBase,
                     "added as unlearned (mastery level base 0)",
                 ).to.eq(0);
                 const sb = skill.logic.skillBase;
-                expect(
-                    sb,
-                    "skill base computed from the definition",
-                ).to.be.greaterThan(0);
+                expect(sb, "skill base computed from the definition").to.be.greaterThan(0);
                 expect(
                     skill.logic.masteryLevel.effective,
                     "N=1 Boost opens the skill at exactly its Skill Base",
@@ -183,9 +175,7 @@ describe("mystery boon/boost skill contribution (#975)", () => {
             // And it is not a transient — a real embedded skill in _source.
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                return (a._source.items || []).some(
-                    (i) => i.system?.shortcode === "spkstl",
-                );
+                return (a._source.items || []).some((i) => i.system?.shortcode === "spkstl");
             }).should("eq", true);
         });
     });
@@ -215,9 +205,7 @@ describe("mystery boon/boost skill contribution (#975)", () => {
             cy.submitDialog("no"); // decline
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                return a.itemTypes.skill.some(
-                    (s) => s.system.shortcode === "spkclm",
-                );
+                return a.itemTypes.skill.some((s) => s.system.shortcode === "spkclm");
             }).should("eq", false);
         });
     });

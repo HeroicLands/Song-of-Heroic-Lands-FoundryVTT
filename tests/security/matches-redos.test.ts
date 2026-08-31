@@ -63,41 +63,35 @@ describe("matches() — ReDoS hardening (#166)", () => {
 
     describe("invalid patterns are still rejected", () => {
         it("rejects an unpaired bracket", () => {
-            expect(() => helpers.matches("x", "[")).toThrow(
-                SafeExpressionError,
-            );
+            expect(() => helpers.matches("x", "[")).toThrow(SafeExpressionError);
         });
 
         it("rejects a pattern over MAX_PATTERN_LENGTH", () => {
-            expect(() => helpers.matches("x", "a".repeat(201))).toThrow(
-                SafeExpressionError,
-            );
+            expect(() => helpers.matches("x", "a".repeat(201))).toThrow(SafeExpressionError);
         });
     });
 
     describe("catastrophic patterns are rejected before execution", () => {
         it("rejects nested quantifier (a+)+ — classic ReDoS", () => {
-            expect(() =>
-                helpers.matches("a".repeat(30) + "b", "(a+)+"),
-            ).toThrow(SafeExpressionError);
+            expect(() => helpers.matches("a".repeat(30) + "b", "(a+)+")).toThrow(
+                SafeExpressionError,
+            );
         });
 
         it("rejects nested quantifier (.+)+ against a long input", () => {
-            expect(() =>
-                helpers.matches("a".repeat(30) + "b", "(.+)+"),
-            ).toThrow(SafeExpressionError);
+            expect(() => helpers.matches("a".repeat(30) + "b", "(.+)+")).toThrow(
+                SafeExpressionError,
+            );
         });
 
         it("rejects nested quantifier ([a-z]+\\d)+ ", () => {
-            expect(() =>
-                helpers.matches("abc1def2ghi3", "([a-z]+\\d)+"),
-            ).toThrow(SafeExpressionError);
+            expect(() => helpers.matches("abc1def2ghi3", "([a-z]+\\d)+")).toThrow(
+                SafeExpressionError,
+            );
         });
 
         it("rejects backreference \\1 in pattern", () => {
-            expect(() => helpers.matches("aa", "(a)\\1")).toThrow(
-                SafeExpressionError,
-            );
+            expect(() => helpers.matches("aa", "(a)\\1")).toThrow(SafeExpressionError);
         });
     });
 });

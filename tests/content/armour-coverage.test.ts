@@ -47,15 +47,7 @@ const WEIGHT: Record<string, number> = {
     lfootloc: 0.035,
     rfootloc: 0.035,
 };
-for (const f of [
-    "jawloc",
-    "lcheekloc",
-    "rcheekloc",
-    "learloc",
-    "rearloc",
-    "mouthloc",
-    "noseloc",
-])
+for (const f of ["jawloc", "lcheekloc", "rcheekloc", "learloc", "rearloc", "mouthloc", "noseloc"])
     WEIGHT[f] = 0.03 / 7;
 
 /**
@@ -75,10 +67,7 @@ const TABLE_ARTICLES = new Set<string>(
                 "Padded",
                 "Cap Cowl Mantle Mittens Vest Shirt Tunic|Sleeved Tunic|Coat Surcoat Cloak|Cuisse|Trousers Leggings",
             ],
-            [
-                "Quilted",
-                "Cap Cowl Mantle Vest Shirt Tunic|Sleeved Tunic|Coat Surcoat|Cuisse",
-            ],
+            ["Quilted", "Cap Cowl Mantle Vest Shirt Tunic|Sleeved Tunic|Coat Surcoat|Cuisse"],
             ["Gambeson", "Vest Shirt|Long Vest|Tunic|Sleeved Tunic|Coat"],
             [
                 "Kûrbúl",
@@ -88,10 +77,7 @@ const TABLE_ARTICLES = new Set<string>(
                 "Scale",
                 "Cowl Gauntlets Vest Byrnie|Sleeved Byrnie|Habergeon Hauberk|Cuisse|Leggings",
             ],
-            [
-                "Mail",
-                "Cowl Mittens Vest Byrnie|Sleeved Byrnie|Habergeon Hauberk|Cuisse|Leggings",
-            ],
+            ["Mail", "Cowl Mittens Vest Byrnie|Sleeved Byrnie|Habergeon Hauberk|Cuisse|Leggings"],
             [
                 "Plate",
                 "Helm|3/4-Helm|Great Helm|Spaulders Rerebraces Coudes Vambraces Cuirass Breastplate Kneecops Greaves",
@@ -250,20 +236,12 @@ describe("armour coverage", () => {
     it("makes coverage rigid or flexible according to the material", () => {
         for (const a of ARTICLES) {
             if (ALL_RIGID.has(a.material)) {
-                expect(
-                    a.flexible,
-                    `${a.file} (${a.material} is rigid)`,
-                ).toEqual([]);
+                expect(a.flexible, `${a.file} (${a.material} is rigid)`).toEqual([]);
             } else if (ALL_FLEXIBLE.has(a.material)) {
-                expect(
-                    a.rigid,
-                    `${a.file} (${a.material} is flexible)`,
-                ).toEqual([]);
+                expect(a.rigid, `${a.file} (${a.material} is flexible)`).toEqual([]);
             } else if (a.material === "Gambeson") {
-                for (const l of a.rigid)
-                    expect(TORSO.has(l), `${a.file}: ${l}`).toBe(true);
-                for (const l of a.flexible)
-                    expect(TORSO.has(l), `${a.file}: ${l}`).toBe(false);
+                for (const l of a.rigid) expect(TORSO.has(l), `${a.file}: ${l}`).toBe(true);
+                for (const l of a.flexible) expect(TORSO.has(l), `${a.file}: ${l}`).toBe(false);
             }
         }
     });
@@ -272,19 +250,14 @@ describe("armour coverage", () => {
         for (const a of ARTICLES) {
             const key = `${a.material}/${a.armorType}`;
             if (!TABLE_ARTICLES.has(key)) continue;
-            expect(a.encumbrance, `${a.file} encumbrance`).toBe(
-                ENCUMBRANCE[key] ?? 0,
-            );
-            expect(a.perception, `${a.file} perception`).toBe(
-                PERCEPTION[key] ?? 0,
-            );
+            expect(a.encumbrance, `${a.file} encumbrance`).toBe(ENCUMBRANCE[key] ?? 0);
+            expect(a.perception, `${a.file} perception`).toBe(PERCEPTION[key] ?? 0);
         }
     });
 
     it("marks the arm articles, and only those", () => {
         for (const a of ARTICLES) {
-            const expected =
-                ARM_ARTICLES.has(`${a.material}/${a.armorType}`) ? "arm" : null;
+            const expected = ARM_ARTICLES.has(`${a.material}/${a.armorType}`) ? "arm" : null;
             expect(a.encumbranceGroup, a.file).toBe(expected);
             // An article in a group carries no encumbrance of its own.
             if (expected) expect(a.encumbrance, a.file).toBe(0);

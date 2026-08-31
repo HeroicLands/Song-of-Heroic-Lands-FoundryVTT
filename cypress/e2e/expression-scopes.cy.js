@@ -52,50 +52,32 @@ describe("expression scopes — action visibility (#1142, #1090)", () => {
     it("offers Shock Re-Test when Incapacitated", () => {
         cy.createActor("being", { name: "scope-incap" }).then((actor) => {
             cy.foundry(async (win) => {
-                await win.game.actors
-                    .get(actor.id)
-                    .logic.setShockState(SHOCK.INCAPACITATED);
+                await win.game.actors.get(actor.id).logic.setShockState(SHOCK.INCAPACITATED);
                 return null;
             });
-            offersShockReTest(actor.id).should(
-                "include",
-                "SOHL.Being.Action.shockReTest",
-            );
+            offersShockReTest(actor.id).should("include", "SOHL.Being.Action.shockReTest");
         });
     });
 
     it("offers Shock Re-Test when Unconscious", () => {
         cy.createActor("being", { name: "scope-unconscious" }).then((actor) => {
             cy.foundry(async (win) => {
-                await win.game.actors
-                    .get(actor.id)
-                    .logic.setShockState(SHOCK.UNCONSCIOUS);
+                await win.game.actors.get(actor.id).logic.setShockState(SHOCK.UNCONSCIOUS);
                 return null;
             });
-            offersShockReTest(actor.id).should(
-                "include",
-                "SOHL.Being.Action.shockReTest",
-            );
+            offersShockReTest(actor.id).should("include", "SOHL.Being.Action.shockReTest");
         });
     });
 
     it("does not offer Shock Re-Test in any other state", () => {
         cy.createActor("being", { name: "scope-none" }).then((actor) => {
             // Unshocked.
-            offersShockReTest(actor.id).should(
-                "not.include",
-                "SOHL.Being.Action.shockReTest",
-            );
+            offersShockReTest(actor.id).should("not.include", "SOHL.Being.Action.shockReTest");
             cy.foundry(async (win) => {
-                await win.game.actors
-                    .get(actor.id)
-                    .logic.setShockState(SHOCK.STUNNED);
+                await win.game.actors.get(actor.id).logic.setShockState(SHOCK.STUNNED);
                 return null;
             });
-            offersShockReTest(actor.id).should(
-                "not.include",
-                "SOHL.Being.Action.shockReTest",
-            );
+            offersShockReTest(actor.id).should("not.include", "SOHL.Being.Action.shockReTest");
         });
     });
 
@@ -113,9 +95,7 @@ describe("expression scopes — action visibility (#1142, #1090)", () => {
             offersShockReTest(actor.id);
             cy.foundry((win) => {
                 const warnings = win.__scopeWarnings.filter((message) =>
-                    /visibility expression|scope .* does not match/i.test(
-                        message,
-                    ),
+                    /visibility expression|scope .* does not match/i.test(message),
                 );
                 win.sohl.log.warn = win.__scopeWarnOriginal;
                 return warnings;
@@ -129,9 +109,7 @@ describe("expression scopes — the editor is driven by the schema (#1142)", () 
     afterEach(() => {
         // testIsolation is off: an open modal editor would cover the next test.
         cy.foundry((win) => {
-            for (const app of Array.from(
-                win.foundry.applications.instances.values(),
-            )) {
+            for (const app of Array.from(win.foundry.applications.instances.values())) {
                 if (app.rendered) app.close();
             }
             return null;
@@ -168,9 +146,7 @@ describe("expression scopes — the editor is driven by the schema (#1142)", () 
             cy.get('button[data-action="editExpression"]').click();
             cy.get(".expression-editor .cm-editor").should("exist");
             cy.foundry((win) => {
-                const node = win.document.querySelector(
-                    ".expression-editor [data-editor]",
-                );
+                const node = win.document.querySelector(".expression-editor [data-editor]");
                 // Grammatically valid, but `strength` is not bound by skill.base.
                 node._expressionEditor.setValue("strength + 1");
                 return node._expressionEditor.getValue();
@@ -187,16 +163,11 @@ describe("expression scopes — the editor is driven by the schema (#1142)", () 
             cy.get('button[data-action="editExpression"]').click();
             cy.get(".expression-editor .cm-editor").should("exist");
             cy.foundry((win) => {
-                const node = win.document.querySelector(
-                    ".expression-editor [data-editor]",
-                );
+                const node = win.document.querySelector(".expression-editor [data-editor]");
                 node._expressionEditor.setValue("sb(attr.str, attr.dex)");
                 return null;
             });
-            cy.get(".expression-editor__status").should(
-                "have.class",
-                "is-valid",
-            );
+            cy.get(".expression-editor__status").should("have.class", "is-valid");
             cy.get('button[data-action="save"]').should("not.be.disabled");
         });
     });

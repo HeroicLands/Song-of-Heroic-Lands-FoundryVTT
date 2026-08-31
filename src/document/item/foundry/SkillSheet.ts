@@ -56,10 +56,7 @@ export class SkillSheet extends SohlItemSheetBase {
 
     /** Whether this skill is a combat technique (carries a strike mode). */
     private get isCombatTechnique(): boolean {
-        return (
-            (this.document.system as any).subType ===
-            SKILL_SUBTYPE.COMBATTECHNIQUE
-        );
+        return (this.document.system as any).subType === SKILL_SUBTYPE.COMBATTECHNIQUE;
     }
 
     /**
@@ -109,10 +106,7 @@ export class SkillSheet extends SohlItemSheetBase {
      * @param context - The render context.
      * @param options - The render options.
      */
-    protected override async _onRender(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<void> {
+    protected override async _onRender(context: PlainObject, options: PlainObject): Promise<void> {
         await super._onRender(context, options);
         const el = (this as any).element as HTMLElement | undefined;
         if (el && this.isEditable && this.isCombatTechnique) {
@@ -129,9 +123,7 @@ export class SkillSheet extends SohlItemSheetBase {
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>> {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
         const logic = this.document.logic as SkillLogic | undefined;
@@ -166,9 +158,7 @@ export class SkillSheet extends SohlItemSheetBase {
         partId: string,
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>> {
         context = await super._preparePartContext(partId, context, options);
         if (partId === "strikemodes") {
             Object.assign(context, prepareStrikeModesContext(this.document));

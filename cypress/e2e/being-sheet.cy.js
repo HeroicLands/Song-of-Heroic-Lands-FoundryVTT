@@ -46,9 +46,7 @@ describe("being sheet", () => {
             // The redesigned header shows the name as read-only text with an
             // edit-identity pencil (name + shortcode are edited via a dialog),
             // rather than an inline <input name="name">.
-            cy.get(".sohl.being .sheet-header__name")
-                .invoke("text")
-                .should("not.be.empty");
+            cy.get(".sohl.being .sheet-header__name").invoke("text").should("not.be.empty");
             cy.get(".sohl.being [data-action='editIdentity']").should("exist");
         });
     });
@@ -80,8 +78,7 @@ describe("being sheet", () => {
                 fields: ["system.shortcode"],
             });
             const entry = index.find(
-                (e) =>
-                    e.type === "being" && e.system?.shortcode === "basicfolk",
+                (e) => e.type === "being" && e.system?.shortcode === "basicfolk",
             );
             const doc = await pack.getDocument(entry._id);
             await doc.sheet.render(true);
@@ -90,9 +87,7 @@ describe("being sheet", () => {
         // The read-only sheet is now rendered; find a disabled icon-button
         // (the header pencil at minimum) and assert its cursor.
         cy.foundry((win) => {
-            const app = Array.from(
-                win.foundry.applications.instances.values(),
-            ).find(
+            const app = Array.from(win.foundry.applications.instances.values()).find(
                 (a) =>
                     a.rendered &&
                     a.document?.inCompendium &&
@@ -108,9 +103,10 @@ describe("being sheet", () => {
             cy.importActor().then((actor) => {
                 cy.openSheet(actor);
                 cy.switchTab(tab, "primary");
-                cy.get(
-                    `section.tab[data-group="primary"][data-tab="${tab}"]`,
-                ).should("have.class", "active");
+                cy.get(`section.tab[data-group="primary"][data-tab="${tab}"]`).should(
+                    "have.class",
+                    "active",
+                );
             });
         });
     });
@@ -122,17 +118,13 @@ describe("being sheet", () => {
         cy.importActor().then((actor) => {
             cy.openSheet(actor);
             cy.switchTab("profile", "primary");
-            cy.get('section.tab[data-tab="profile"] .attribute-scores').should(
-                ($grid) => {
-                    const cols = getComputedStyle($grid[0])
-                        .gridTemplateColumns.trim()
-                        .split(/\s+/)
-                        .filter(Boolean);
-                    expect(cols, "attribute grid column count").to.have.length(
-                        6,
-                    );
-                },
-            );
+            cy.get('section.tab[data-tab="profile"] .attribute-scores').should(($grid) => {
+                const cols = getComputedStyle($grid[0])
+                    .gridTemplateColumns.trim()
+                    .split(/\s+/)
+                    .filter(Boolean);
+                expect(cols, "attribute grid column count").to.have.length(6);
+            });
             cy.get('section.tab[data-tab="profile"] .attribute-score__value')
                 .first()
                 .should(($el) => {
@@ -163,16 +155,14 @@ describe("being sheet", () => {
                             app.element?.querySelector("input[name='name']"),
                     );
             cy.window({ log: false }).should((win) => {
-                expect(findIdentityDlg(win), "edit-identity dialog rendered").to
-                    .exist;
+                expect(findIdentityDlg(win), "edit-identity dialog rendered").to.exist;
             });
             // Set the name field and press Save atomically — the DialogV2 ok
             // button reads its form via FormDataExtended on click, so the value
             // must be in place at the moment of the click.
             cy.foundry((win) => {
                 const dlg = findIdentityDlg(win);
-                dlg.element.querySelector("input[name='name']").value =
-                    "Renamed Hero";
+                dlg.element.querySelector("input[name='name']").value = "Renamed Hero";
                 dlg.element.querySelector("button[data-action='ok']").click();
                 return null;
             });
@@ -180,16 +170,12 @@ describe("being sheet", () => {
             // document (cy.foundry reads once and would not re-observe the
             // rename) until the persisted name updates.
             cy.window({ log: false }).should((win) => {
-                expect(win.game.actors.get(actor.id).name).to.eq(
-                    "Renamed Hero",
-                );
+                expect(win.game.actors.get(actor.id).name).to.eq("Renamed Hero");
             });
             // Renaming detaches the run tag, so cleanupWorld (tag-based) can no
             // longer reclaim this actor — delete it by id to avoid leaking it
             // into the persistent e2e world.
-            cy.foundry((win) =>
-                win.Actor.deleteDocuments([actor.id]).then(() => null),
-            );
+            cy.foundry((win) => win.Actor.deleteDocuments([actor.id]).then(() => null));
         });
     });
 
@@ -220,10 +206,7 @@ describe("being sheet", () => {
                     .first()
                     .should(($el) => {
                         expect($el).to.have.attr("data-tooltip");
-                        expect($el).to.have.attr(
-                            "data-tooltip-direction",
-                            "UP",
-                        );
+                        expect($el).to.have.attr("data-tooltip-direction", "UP");
                     });
             }
         });

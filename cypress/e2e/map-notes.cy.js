@@ -51,18 +51,10 @@ describe("Map notes → Scenes (#1525)", () => {
         // The imported documents keep their authored names and ids, so the
         // tag-based sweep cannot see them — remove them by name.
         cy.foundry(async (win) => {
-            const scenes = win.game.scenes.filter((s) =>
-                [GROUND, LOFT].includes(s.name),
-            );
-            const journals = win.game.journal.filter((j) =>
-                [GROUND, LOFT].includes(j.name),
-            );
-            if (scenes.length)
-                await win.Scene.deleteDocuments(scenes.map((s) => s.id));
-            if (journals.length)
-                await win.JournalEntry.deleteDocuments(
-                    journals.map((j) => j.id),
-                );
+            const scenes = win.game.scenes.filter((s) => [GROUND, LOFT].includes(s.name));
+            const journals = win.game.journal.filter((j) => [GROUND, LOFT].includes(j.name));
+            if (scenes.length) await win.Scene.deleteDocuments(scenes.map((s) => s.id));
+            if (journals.length) await win.JournalEntry.deleteDocuments(journals.map((j) => j.id));
             return true;
         });
         cy.cleanupWorld();
@@ -103,9 +95,7 @@ describe("Map notes → Scenes (#1525)", () => {
             // A scene stamped older than core 14.353 has its authored Level
             // silently replaced by `migrateLevels` with one named after the
             // scene and carrying no image, so both facts are asserted.
-            expect(s.levelName, "the authored Level, not a migrated one").to.eq(
-                "Ground",
-            );
+            expect(s.levelName, "the authored Level, not a migrated one").to.eq("Ground");
             expect(s.background).to.eq("systems/sohl/assets/ui/parchment.jpg");
             expect(s.walls, "walls and doors").to.eq(7);
             expect(s.regions).to.eq(3);
@@ -120,9 +110,7 @@ describe("Map notes → Scenes (#1525)", () => {
         cy.foundry(async (win) => {
             const pack = win.game.packs.get("sohl.scenes");
             const index = await pack.getIndex();
-            const scene = await pack.getDocument(
-                index.find((e) => e.name === GROUND)._id,
-            );
+            const scene = await pack.getDocument(index.find((e) => e.name === GROUND)._id);
             const byName = (n) => scene.regions.find((r) => r.name === n);
             const common = byName("Common Room");
             const trigger = common.behaviors.contents[0];
@@ -182,12 +170,8 @@ describe("Map notes → Scenes (#1525)", () => {
         }).should((r) => {
             expect(r.createdScenes, "both floors imported").to.eq(2);
             expect(r.groundId).to.eq("Xwo4dsmey2A3Rvrn");
-            expect(r.pinEntry, "the pin's journal came with the map").to.eq(
-                GROUND,
-            );
-            expect(r.pinPage, "and the page it addresses exists").to.be.a(
-                "string",
-            );
+            expect(r.pinEntry, "the pin's journal came with the map").to.eq(GROUND);
+            expect(r.pinPage, "and the page it addresses exists").to.be.a("string");
             expect(r.destination).to.match(/^Scene\..+\.Region\..+$/);
             expect(r.targetName).to.eq("Stair Head");
             expect(r.targetParent).to.eq(LOFT);
@@ -196,18 +180,14 @@ describe("Map notes → Scenes (#1525)", () => {
 
     it("re-importing updates the existing documents rather than duplicating", () => {
         cy.foundry(async (win) => {
-            const before = win.game.scenes.filter((s) =>
-                [GROUND, LOFT].includes(s.name),
-            ).length;
+            const before = win.game.scenes.filter((s) => [GROUND, LOFT].includes(s.name)).length;
             const { data, result } = await importAdventure(win);
             return {
                 before,
                 // Everything already present is routed to `toUpdate`.
                 toCreate: Object.keys(data.toCreate),
                 updatedScenes: (result.updated.Scene ?? []).length,
-                after: win.game.scenes.filter((s) =>
-                    [GROUND, LOFT].includes(s.name),
-                ).length,
+                after: win.game.scenes.filter((s) => [GROUND, LOFT].includes(s.name)).length,
             };
         }).should((r) => {
             expect(r.before).to.eq(2);
@@ -281,31 +261,19 @@ describe("Map notes → Scenes (#1525)", () => {
             // With none viewed it is inert. Unguarded on the 14.359 floor this
             // is the #1535 crash itself: the deferred callback reads
             // `canvas.scene.id` and throws `reading 'id'` out of the ticker.
-            const writesWhileUnviewed = await withNoSceneViewed(win, () =>
-                flagAndSettle(),
-            );
+            const writesWhileUnviewed = await withNoSceneViewed(win, () => flagAndSettle());
 
             delete ground.updateEmbeddedDocuments;
             return {
                 viewedScene,
-                restricted: ground.regions.filter((r) => r.restriction.enabled)
-                    .length,
+                restricted: ground.regions.filter((r) => r.restriction.enabled).length,
                 writesWhileViewed,
                 writesWhileUnviewed,
             };
         }).should((r) => {
-            expect(
-                r.viewedScene,
-                "the seeded world views its default scene",
-            ).to.be.a("string");
-            expect(
-                r.restricted,
-                "the fixture ships a restricted region",
-            ).to.be.gte(1);
-            expect(
-                r.writesWhileViewed,
-                "the pass runs normally with a scene viewed",
-            ).to.eq(1);
+            expect(r.viewedScene, "the seeded world views its default scene").to.be.a("string");
+            expect(r.restricted, "the fixture ships a restricted region").to.be.gte(1);
+            expect(r.writesWhileViewed, "the pass runs normally with a scene viewed").to.eq(1);
             expect(
                 r.writesWhileUnviewed,
                 "no shape-constraint pass is attempted with no scene viewed",
@@ -317,9 +285,7 @@ describe("Map notes → Scenes (#1525)", () => {
         cy.importActor().then((actor) => {
             cy.foundry(async (win) => {
                 const ground = win.game.scenes.find((s) => s.name === GROUND);
-                const region = ground.regions.find(
-                    (r) => r.name === "Common Room",
-                );
+                const region = ground.regions.find((r) => r.name === "Common Room");
                 const a = win.game.actors.get(actor.id);
                 // Start outside the Common Room polygon (96,96 → 416,416):
                 // a 1x1 token at (0, 0) centres on (32, 32).
@@ -351,8 +317,7 @@ describe("Map notes → Scenes (#1525)", () => {
                 await new Promise((res) => win.setTimeout(res, 200));
 
                 const div = win.document.createElement("div");
-                div.innerHTML =
-                    win.game.messages.contents.at(-1)?.content ?? "";
+                div.innerHTML = win.game.messages.contents.at(-1)?.content ?? "";
                 const button = div.querySelector(
                     'button.action-card-button[data-action="reactionTest"]',
                 );
@@ -375,10 +340,7 @@ describe("Map notes → Scenes (#1525)", () => {
                 expect(r.outside, "started outside the region").to.eq(0);
                 expect(r.inside, "and ended inside it").to.eq(1);
                 expect(r.contains, "geometry resolves headless").to.be.true;
-                expect(
-                    r.cardsPosted,
-                    "the trigger offered its action",
-                ).to.be.gte(1);
+                expect(r.cardsPosted, "the trigger offered its action").to.be.gte(1);
                 expect(r.hasPerformButton).to.be.true;
                 // Offered to the entering token's actor — its owner performs.
                 expect(r.handlerUuid).to.eq(r.actorUuid);

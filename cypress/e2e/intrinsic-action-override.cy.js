@@ -114,27 +114,20 @@ describe("a script action overrides the intrinsic of the same shortcode", () => 
                     baseSize,
                     liveSize: logic.actions.size(),
                     liveSubType: live?.data.subType,
-                    intrinsicMethodPresent:
-                        typeof logic.editDocument === "function",
+                    intrinsicMethodPresent: typeof logic.editDocument === "function",
                     menuForShortcode,
                     viaExecute,
                 };
             }).then((r) => {
                 // Override replaces, never grows, the action set.
-                expect(r.liveSize, "override does not add an action").to.eq(
-                    r.baseSize,
-                );
+                expect(r.liveSize, "override does not add an action").to.eq(r.baseSize);
                 // The live action for the shortcode is the script.
-                expect(r.liveSubType, "live action is the script").to.eq(
-                    "script",
-                );
+                expect(r.liveSubType, "live action is the script").to.eq("script");
                 // Exactly one context-menu entry for the shortcode.
                 expect(r.menuForShortcode, "one menu entry, not two").to.eq(1);
                 // The intrinsic's executor method is untouched by the override.
-                expect(
-                    r.intrinsicMethodPresent,
-                    "intrinsic method remains on the logic",
-                ).to.be.true;
+                expect(r.intrinsicMethodPresent, "intrinsic method remains on the logic").to.be
+                    .true;
                 // executeAction runs the script, which built on the intrinsic.
                 expect(
                     r.viaExecute,

@@ -112,9 +112,7 @@ export interface ActionAttachable {
 export function buildScriptActionDef(spec: ScriptActionSpec): SohlAction.Data {
     const name = String(spec.name ?? "").trim();
     if (!name) {
-        throw new Error(
-            "addScriptAction: `name` is required and must be non-blank.",
-        );
+        throw new Error("addScriptAction: `name` is required and must be non-blank.");
     }
     const executor = String(spec.executor ?? "").trim();
     if (!executor) {
@@ -175,9 +173,7 @@ export async function attachScriptAction(
     // and callers pass its result straight in (issue #1536). Name the missing
     // document rather than letting the dereference below report itself.
     if (!doc?.system) {
-        throw new Error(
-            "addScriptAction: `doc` must be a document carrying system data.",
-        );
+        throw new Error("addScriptAction: `doc` must be a document carrying system data.");
     }
     const def = buildScriptActionDef(spec);
     const list = upsertActionDef(doc.system.actionDefs, def);

@@ -101,10 +101,7 @@ export class BodyZone extends SohlEntity {
         this.shortcode = data.shortcode;
         this.name = data.name || data.shortcode;
         const weight = Math.max(0, Math.trunc(data.probWeight ?? 0));
-        this.zoneNumbers = Array.from(
-            { length: weight },
-            (_, i) => options.startZoneNumber + i,
-        );
+        this.zoneNumbers = Array.from({ length: weight }, (_, i) => options.startZoneNumber + i);
         this.index = options.index;
         this.structure = options.structure;
         this.parts = options.parts.map(

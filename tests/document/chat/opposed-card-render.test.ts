@@ -103,10 +103,9 @@ async function makeOpposed(): Promise<OpposedTestResult> {
         rollTotal: 95,
         critFailure: [5],
     });
-    return new OpposedTestResult(
-        { sourceTestResult: source, targetTestResult: target } as any,
-        { parent: parentFor("Aldric") },
-    );
+    return new OpposedTestResult({ sourceTestResult: source, targetTestResult: target } as any, {
+        parent: parentFor("Aldric"),
+    });
 }
 
 /** An opposed test where both sides reach the same success level. */
@@ -124,10 +123,9 @@ async function makeTied(
         rollTotal: opts.targetRoll ?? 30,
         critSuccess: digits,
     });
-    return new OpposedTestResult(
-        { sourceTestResult: source, targetTestResult: target } as any,
-        { parent: parentFor("Aldric") },
-    );
+    return new OpposedTestResult({ sourceTestResult: source, targetTestResult: target } as any, {
+        parent: parentFor("Aldric"),
+    });
 }
 
 /** An opposed test where neither side succeeded. */
@@ -135,38 +133,29 @@ async function makeBothFail() {
     // 95 > 55 → failure on both sides, with no crit digits configured.
     const source = await makeResult("Aldric", { rollTotal: 95 });
     const target = await makeResult("Bandit", { rollTotal: 95 });
-    return new OpposedTestResult(
-        { sourceTestResult: source, targetTestResult: target } as any,
-        { parent: parentFor("Aldric") },
-    );
+    return new OpposedTestResult({ sourceTestResult: source, targetTestResult: target } as any, {
+        parent: parentFor("Aldric"),
+    });
 }
 
 describe("OpposedTestResult.toChat builds shaped opposed-card data (#845)", () => {
     it("delegates the opposed-request template (not overridden to standard-test)", async () => {
-        const spy = vi
-            .spyOn(SuccessTestResult.prototype, "toChat")
-            .mockResolvedValue(undefined);
+        const spy = vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
         await (await makeOpposed()).toChat();
         const msg = spy.mock.calls[0][0] as any;
         expect(msg.template).toBe(REQUEST);
     });
 
     it("honors a caller-supplied result template and title", async () => {
-        const spy = vi
-            .spyOn(SuccessTestResult.prototype, "toChat")
-            .mockResolvedValue(undefined);
-        await (
-            await makeOpposed()
-        ).toChat({ template: RESULT, title: "Opposed Result" });
+        const spy = vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
+        await (await makeOpposed()).toChat({ template: RESULT, title: "Opposed Result" });
         const msg = spy.mock.calls[0][0] as any;
         expect(msg.template).toBe(RESULT);
         expect(msg.title).toBe("Opposed Result");
     });
 
     it("provides plain shaped source/target results and the Respond button", async () => {
-        const spy = vi
-            .spyOn(SuccessTestResult.prototype, "toChat")
-            .mockResolvedValue(undefined);
+        const spy = vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
         await (await makeOpposed()).toChat();
         const msg = spy.mock.calls[0][0] as any;
 
@@ -186,9 +175,7 @@ describe("OpposedTestResult.toChat builds shaped opposed-card data (#845)", () =
     });
 
     it("attaches no `rolls` array — a live SimpleRoll there kills the message", async () => {
-        const spy = vi
-            .spyOn(SuccessTestResult.prototype, "toChat")
-            .mockResolvedValue(undefined);
+        const spy = vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
         await (await makeOpposed()).toChat();
         const msg = spy.mock.calls[0][0] as any;
         // `SohlSpeaker._prepareChat` spreads this data into the ChatMessage
@@ -246,16 +233,13 @@ describe("SuccessTestResult.toChat honors a caller-supplied template (#845)", ()
                 return Promise.resolve(undefined);
             },
         } as any;
-        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue(
-            {} as any,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue({} as any);
         const parent = parentFor("Src");
         const result = new SuccessTestResult(
             {
-                masteryLevelModifier: new MasteryLevelModifier(
-                    { baseValue: 50 } as any,
-                    { parent },
-                ),
+                masteryLevelModifier: new MasteryLevelModifier({ baseValue: 50 } as any, {
+                    parent,
+                }),
                 roll: new SimpleRoll(
                     {
                         numDice: 1,
@@ -277,9 +261,7 @@ describe("SuccessTestResult.toChat honors a caller-supplied template (#845)", ()
 describe("OpposedTestResult.toChat distinguishes a tie from a mutual failure (#1081)", () => {
     /** Capture the card data for a given opposed result. */
     async function dataFor(opposed: OpposedTestResult) {
-        const spy = vi
-            .spyOn(SuccessTestResult.prototype, "toChat")
-            .mockResolvedValue(undefined);
+        const spy = vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
         await opposed.toChat();
         return spy.mock.calls[0][0] as any;
     }
@@ -317,14 +299,15 @@ describe("opposed cards render the shaped data (#845)", () => {
     /** Build the card data OpposedTestResult.toChat produces, via a spy capture. */
     async function cardData(opposed?: OpposedTestResult) {
         let captured: any;
-        vi.spyOn(SuccessTestResult.prototype, "toChat").mockImplementation(
-            function (this: any, data: any) {
-                // Mirror what the real SuccessTestResult.toChat exposes that the
-                // opposed cards read from the source (actor uuid).
-                captured = { ...data, actor: { uuid: "Actor.Aldric" } };
-                return Promise.resolve(undefined);
-            } as any,
-        );
+        vi.spyOn(SuccessTestResult.prototype, "toChat").mockImplementation(function (
+            this: any,
+            data: any,
+        ) {
+            // Mirror what the real SuccessTestResult.toChat exposes that the
+            // opposed cards read from the source (actor uuid).
+            captured = { ...data, actor: { uuid: "Actor.Aldric" } };
+            return Promise.resolve(undefined);
+        } as any);
         await (opposed ?? (await makeOpposed())).toChat();
         return captured;
     }
@@ -432,9 +415,7 @@ describe("opposed cards render the shaped data (#845)", () => {
             ...data,
             title: "Opposed Result",
         });
-        const m = html.match(
-            /data-action="opposedResultEdit"[\s\S]*?data-scope="([^"]*)"/,
-        );
+        const m = html.match(/data-action="opposedResultEdit"[\s\S]*?data-scope="([^"]*)"/);
         expect(m).toBeTruthy();
         const scope = JSON.parse(
             String(m![1])
@@ -493,12 +474,9 @@ describe("opposed cards carry no hardcoded English (#1161)", () => {
         for (const path of [REQUEST, RESULT]) {
             const rel = path.replace(/^systems\/sohl\//, "");
             const src = readFileSync(resolve(process.cwd(), rel), "utf8");
-            const keys = [
-                ...src.matchAll(/\{\{localize\s+"(SOHL\.[^"]+)"/g),
-            ].map((m) => m[1]);
+            const keys = [...src.matchAll(/\{\{localize\s+"(SOHL\.[^"]+)"/g)].map((m) => m[1]);
             expect(keys.length).toBeGreaterThan(0);
-            for (const k of keys)
-                expect(LANG[k], `missing key ${k}`).toBeTruthy();
+            for (const k of keys) expect(LANG[k], `missing key ${k}`).toBeTruthy();
         }
     });
 });
@@ -511,12 +489,13 @@ describe("opposed cards still read correctly in English (#1161)", () => {
      */
     async function cardData(opposed?: OpposedTestResult) {
         let captured: any;
-        vi.spyOn(SuccessTestResult.prototype, "toChat").mockImplementation(
-            function (this: any, data: any) {
-                captured = { ...data, actor: { uuid: "Actor.Aldric" } };
-                return Promise.resolve(undefined);
-            } as any,
-        );
+        vi.spyOn(SuccessTestResult.prototype, "toChat").mockImplementation(function (
+            this: any,
+            data: any,
+        ) {
+            captured = { ...data, actor: { uuid: "Actor.Aldric" } };
+            return Promise.resolve(undefined);
+        } as any);
         await (opposed ?? (await makeOpposed())).toChat();
         captured.sourceTestResult.token.name = "Aldric";
         captured.targetTestResult.token.name = "Bandit";
@@ -546,17 +525,15 @@ describe("opposed cards still read correctly in English (#1161)", () => {
 
     it("result card still reports a missile miss and a mutual failure", async () => {
         const bothFail = await cardData(await makeBothFail());
-        expect(
-            renderTemplateReal(RESULT, { ...bothFail, title: "x" }),
-        ).toContain("Both Fail!");
+        expect(renderTemplateReal(RESULT, { ...bothFail, title: "x" })).toContain("Both Fail!");
 
         // A direct/volley target has no test of its own; the contest reports the
         // missile attack failing rather than a mutual failure.
         const missile = await cardData(await makeBothFail());
         missile.targetTestResult.testType = "direct";
-        expect(
-            renderTemplateReal(RESULT, { ...missile, title: "x" }),
-        ).toContain("Missile Attack Fails!");
+        expect(renderTemplateReal(RESULT, { ...missile, title: "x" })).toContain(
+            "Missile Attack Fails!",
+        );
     });
 
     it("result card shows the target's movement on a missile contest", async () => {
@@ -571,12 +548,8 @@ describe("opposed cards still read correctly in English (#1161)", () => {
 
 describe("opposed card titles are localized, not literal English (#1161)", () => {
     it("the request card's default title comes from a lang key", async () => {
-        const loc = vi
-            .spyOn(sohl.i18n, "localize")
-            .mockImplementation((k: string) => `LOC:${k}`);
-        const spy = vi
-            .spyOn(SuccessTestResult.prototype, "toChat")
-            .mockResolvedValue(undefined);
+        const loc = vi.spyOn(sohl.i18n, "localize").mockImplementation((k: string) => `LOC:${k}`);
+        const spy = vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
         await (await makeOpposed()).toChat();
         const msg = spy.mock.calls[0][0] as any;
         expect(msg.title).toBe("LOC:SOHL.OpposedTestResult.toChat.title");

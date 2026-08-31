@@ -13,15 +13,11 @@
 
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
-import {
-    WeaponGearLogic,
-    WeaponGearData,
-} from "@src/document/item/logic/WeaponGearLogic";
+import { WeaponGearLogic, WeaponGearData } from "@src/document/item/logic/WeaponGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
-const { NumberField, ArrayField, TypedSchemaField, SchemaField } =
-    foundry.data.fields;
+const { NumberField, ArrayField, TypedSchemaField, SchemaField } = foundry.data.fields;
 
 /**
  * Builds the Foundry data schema for weapon gear, extending the gear schema
@@ -42,12 +38,8 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
         // cause of #512).
         strikeModes: new ArrayField(
             new TypedSchemaField({
-                [STRIKE_MODE_TYPE.MELEE]: new SchemaField(
-                    MeleeStrikeMode.schemaFields(),
-                ),
-                [STRIKE_MODE_TYPE.MISSILE]: new SchemaField(
-                    MissileStrikeMode.schemaFields(),
-                ),
+                [STRIKE_MODE_TYPE.MELEE]: new SchemaField(MeleeStrikeMode.schemaFields()),
+                [STRIKE_MODE_TYPE.MISSILE]: new SchemaField(MissileStrikeMode.schemaFields()),
             }),
             { initial: [] },
         ),
@@ -59,18 +51,13 @@ type WeaponGearSchema = ReturnType<typeof defineWeaponGearSchema>;
 /** @internal */
 export class WeaponGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
-    TLogic extends WeaponGearLogic<WeaponGearData> =
-        WeaponGearLogic<WeaponGearData>,
+    TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<WeaponGearData>,
 >
     extends GearDataModel<TSchema, TLogic>
     implements WeaponGearData<TLogic>
 {
     /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.WeaponGear",
-        "SOHL.Gear",
-        "SOHL.Item",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.WeaponGear", "SOHL.Gear", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     encumbranceBase!: number;

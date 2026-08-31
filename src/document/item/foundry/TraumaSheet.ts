@@ -56,9 +56,7 @@ export class TraumaSheet extends SohlItemSheetBase {
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>> {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
         const logic = this.document.logic as any;
@@ -69,8 +67,7 @@ export class TraumaSheet extends SohlItemSheetBase {
         const bodyLocations: Array<{ shortcode: string; name: string }> =
             (this.document.actor?.logic as any)?.body?.structure
                 ?.getAllLocations?.()
-                ?.map((l: any) => ({ shortcode: l.shortcode, name: l.name })) ??
-            [];
+                ?.map((l: any) => ({ shortcode: l.shortcode, name: l.name })) ?? [];
         return Object.assign(context, {
             subType: system.subType,
             levelBase: system.levelBase,
@@ -80,16 +77,11 @@ export class TraumaSheet extends SohlItemSheetBase {
             isBleeding: logic?.isBleeding ?? false,
             bodyLocationCode: system.bodyLocationCode,
             embedded: this.document.actor != null,
-            bodyLocationCodeOptions: buildRefOptions(
-                bodyLocations,
-                system.bodyLocationCode,
-            ),
+            bodyLocationCodeOptions: buildRefOptions(bodyLocations, system.bodyLocationCode),
             // Per-sub-type field visibility (#939).
             ...fieldsView,
             categoryChoices:
-                fieldsView.showCategory ?
-                    CATEGORY_CHOICES_BY_SUBTYPE[system.subType]
-                :   undefined,
+                fieldsView.showCategory ? CATEGORY_CHOICES_BY_SUBTYPE[system.subType] : undefined,
             // View-only next recovery/heal/course test date (nothing is
             // auto-armed — consent model #579); em-dash when unscheduled.
             nextTestDisplay: this.formatNextTest(logic?.nextRecoveryTestAt),
@@ -108,10 +100,7 @@ export class TraumaSheet extends SohlItemSheetBase {
         if (at == null || !Number.isFinite(at) || !cal) return "—";
         // fvtt-types omits the named-formatter overload of CalendarData.format;
         // call it the way `displayWorldTime` does at runtime.
-        const format = cal.format as (
-            time: number,
-            formatter: string,
-        ) => string;
+        const format = cal.format as (time: number, formatter: string) => string;
         try {
             return format.call(cal, at, "sohl.default") || "—";
         } catch {

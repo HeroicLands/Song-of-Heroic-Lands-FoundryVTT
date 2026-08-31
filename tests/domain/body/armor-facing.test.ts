@@ -12,10 +12,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    armorFacingFor,
-    type ArmorLayer,
-} from "@src/entity/body/armor-aggregation";
+import { armorFacingFor, type ArmorLayer } from "@src/entity/body/armor-aggregation";
 import { ARMOR_FACING } from "@src/utils/constants";
 
 /** A cloak: shoulders and arms all round, torso and legs from behind only. */
@@ -23,13 +20,7 @@ function cloak(): ArmorLayer {
     return {
         material: "Cloth",
         protection: { blunt: 4, edged: 8, piercing: 5, fire: 5 },
-        flexibleLocations: [
-            "lshldloc",
-            "rshldloc",
-            "thrxloc",
-            "abdmnloc",
-            "plvisloc",
-        ],
+        flexibleLocations: ["lshldloc", "rshldloc", "thrxloc", "abdmnloc", "plvisloc"],
         rigidLocations: [],
         facing: [
             { location: "thrxloc", side: ARMOR_FACING.BACK },
@@ -64,9 +55,7 @@ describe("armorFacingFor", () => {
     });
 
     it("reports FRONT for a breastplate's torso", () => {
-        expect(armorFacingFor(breastplate(), "thrxloc")).toBe(
-            ARMOR_FACING.FRONT,
-        );
+        expect(armorFacingFor(breastplate(), "thrxloc")).toBe(ARMOR_FACING.FRONT);
     });
 
     it("reports ALL for a layer with no facing data at all", () => {

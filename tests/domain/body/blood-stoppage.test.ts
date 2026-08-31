@@ -6,10 +6,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    BLOOD_STOPPAGE_NEXT_BONUS,
-    bloodStoppageOutcome,
-} from "@src/entity/body/blood-stoppage";
+import { BLOOD_STOPPAGE_NEXT_BONUS, bloodStoppageOutcome } from "@src/entity/body/blood-stoppage";
 import {
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,

@@ -16,17 +16,8 @@ import {
     SohlActorSheetBase,
     type GearCapacity,
 } from "@src/document/actor/foundry/SohlActorSheetBase";
-import {
-    createAction,
-    editAction,
-    deleteAction,
-    runAction,
-} from "@src/core/foundry/sheet-actions";
-import {
-    fvttCallHook,
-    fvttEnrichHTML,
-    fvttRenderSheet,
-} from "@src/core/FoundryHelpers";
+import { createAction, editAction, deleteAction, runAction } from "@src/core/foundry/sheet-actions";
+import { fvttCallHook, fvttEnrichHTML, fvttRenderSheet } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -47,10 +38,7 @@ import {
     BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
-import {
-    resolveSkillReorder,
-    type SkillOrderGroup,
-} from "@src/apps/logic/skill-reorder";
+import { resolveSkillReorder, type SkillOrderGroup } from "@src/apps/logic/skill-reorder";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
@@ -101,8 +89,7 @@ import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
-type RenderContext =
-    foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
+type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 /** @internal */
@@ -276,9 +263,7 @@ export class BeingSheet extends SohlActorSheetBase {
         (this as any).element
             ?.querySelectorAll("select.held-item-select")
             .forEach((select: HTMLSelectElement) =>
-                select.addEventListener("change", (event: Event) =>
-                    this._onSetHeldItem(event),
-                ),
+                select.addEventListener("change", (event: Event) => this._onSetHeldItem(event)),
             );
 
         // The item/effect context menus (#517) are bound by the base sheet's
@@ -303,10 +288,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * @param event - The originating drop event (its target locates the destination).
      * @param droppedItem - The resolved dropped item.
      */
-    protected override async _onDropItem(
-        event: DragEvent,
-        droppedItem: SohlItem,
-    ): Promise<void> {
+    protected override async _onDropItem(event: DragEvent, droppedItem: SohlItem): Promise<void> {
         const actor = this.document;
         const isSameActor = droppedItem?.actor?.id === actor.id;
         const isGear = GearKinds.includes(droppedItem?.type as any);
@@ -328,10 +310,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * @param event - The originating drop event.
      * @param droppedItem - The gear item being moved (already embedded on this actor).
      */
-    protected async _onDropGearOnActor(
-        event: DragEvent,
-        droppedItem: SohlItem,
-    ): Promise<void> {
+    protected async _onDropGearOnActor(event: DragEvent, droppedItem: SohlItem): Promise<void> {
         const actor = this.document;
         const droppedId = droppedItem.id;
         if (!droppedId) return;
@@ -344,21 +323,16 @@ export class BeingSheet extends SohlActorSheetBase {
         const destContainerId = containerEl?.dataset.containerId;
 
         // Snapshot the actor's gear for the pure move planner (self/cycle guard).
-        const gear = (
-            Array.from(actor.items as Iterable<SohlItem>) as SohlItem[]
-        )
+        const gear = (Array.from(actor.items as Iterable<SohlItem>) as SohlItem[])
             .filter((it) => GearKinds.includes(it.type as any))
             .map((it) => ({
                 id: it.id ?? "",
-                containerId: (it.system as any).containerId as
-                    string | null | undefined,
+                containerId: (it.system as any).containerId as string | null | undefined,
             }));
 
         const move = resolveGearContainerMove(droppedId, destContainerId, gear);
         if (!move.allowed) {
-            sohl.log.uiWarn(
-                "Can't move a container into itself or its contents.",
-            );
+            sohl.log.uiWarn("Can't move a container into itself or its contents.");
             return;
         }
 
@@ -376,10 +350,7 @@ export class BeingSheet extends SohlActorSheetBase {
         }
 
         if (updates.size === 0) return;
-        await actor.updateEmbeddedDocuments(
-            "Item",
-            Array.from(updates.values()) as any,
-        );
+        await actor.updateEmbeddedDocuments("Item", Array.from(updates.values()) as any);
     }
 
     /**
@@ -392,10 +363,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * @param source - The gear item being moved.
      * @returns One `{ _id, sort }` update per re-sorted sibling.
      */
-    protected _planGearSort(
-        event: DragEvent,
-        source: SohlItem,
-    ): { _id: string; sort: number }[] {
+    protected _planGearSort(event: DragEvent, source: SohlItem): { _id: string; sort: number }[] {
         const sourceId = source.id;
         if (!sourceId) return [];
 
@@ -411,9 +379,7 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Siblings are the other rows in the drop target's list (its section),
         // so a cross-section drop sorts within the destination section.
-        const children: Element[] = Array.from(
-            targetEl?.parentElement?.children ?? [],
-        );
+        const children: Element[] = Array.from(targetEl?.parentElement?.children ?? []);
         const siblings: SohlItem[] = children.reduce((acc: SohlItem[], el) => {
             const itemId = (el as HTMLElement).dataset.itemId || "";
             const item = items.get(itemId) as SohlItem | undefined;
@@ -442,10 +408,7 @@ export class BeingSheet extends SohlActorSheetBase {
      */
     protected _onDragStart(event: DragEvent): void {
         const li = event.currentTarget as HTMLElement;
-        if (
-            li?.classList?.contains("ledger__row") &&
-            li.closest(".skills-ledger")
-        ) {
+        if (li?.classList?.contains("ledger__row") && li.closest(".skills-ledger")) {
             event.dataTransfer?.setData(
                 "text/plain",
                 JSON.stringify({
@@ -454,10 +417,7 @@ export class BeingSheet extends SohlActorSheetBase {
             );
             return;
         }
-        if (
-            li?.dataset?.partShortcode != null ||
-            li?.dataset?.zoneShortcode != null
-        ) {
+        if (li?.dataset?.partShortcode != null || li?.dataset?.zoneShortcode != null) {
             const isLocation = li.dataset.locationShortcode != null;
             const isPart = !isLocation && li.dataset.partShortcode != null;
             const dragData = {
@@ -468,8 +428,7 @@ export class BeingSheet extends SohlActorSheetBase {
                         : "bodyzone",
                     zoneShortcode: li.dataset.zoneShortcode ?? null,
                     partShortcode: li.dataset.partShortcode ?? null,
-                    locationShortcode:
-                        isLocation ? li.dataset.locationShortcode : null,
+                    locationShortcode: isLocation ? li.dataset.locationShortcode : null,
                 },
             };
             event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
@@ -477,10 +436,7 @@ export class BeingSheet extends SohlActorSheetBase {
         }
         // The base drag handler lives on the SohlDataModel sheet mixin, which
         // the static types don't surface here; reach it via the prototype chain.
-        (Object.getPrototypeOf(BeingSheet.prototype) as any)._onDragStart.call(
-            this,
-            event,
-        );
+        (Object.getPrototypeOf(BeingSheet.prototype) as any)._onDragStart.call(this, event);
     }
 
     /**
@@ -509,27 +465,22 @@ export class BeingSheet extends SohlActorSheetBase {
      * @param event - The originating drop event.
      * @param sourceId - The id of the dragged skill.
      */
-    private async _onDropSkill(
-        event: DragEvent,
-        sourceId: string,
-    ): Promise<void> {
+    private async _onDropSkill(event: DragEvent, sourceId: string): Promise<void> {
         const root = this.element as HTMLElement | null | undefined;
         if (!root) return;
 
-        const groups: SkillOrderGroup[] = Array.from(
-            root.querySelectorAll(".skills-ledger"),
-        ).map((el) => ({
-            subType: (el as HTMLElement).dataset.subType ?? "",
-            ids: Array.from(el.querySelectorAll(".ledger__row"))
-                .map((row) => (row as HTMLElement).dataset.itemId ?? "")
-                .filter(Boolean),
-        }));
+        const groups: SkillOrderGroup[] = Array.from(root.querySelectorAll(".skills-ledger")).map(
+            (el) => ({
+                subType: (el as HTMLElement).dataset.subType ?? "",
+                ids: Array.from(el.querySelectorAll(".ledger__row"))
+                    .map((row) => (row as HTMLElement).dataset.itemId ?? "")
+                    .filter(Boolean),
+            }),
+        );
         if (!groups.length) return;
 
         const targetEl = event.target as HTMLElement | null;
-        const ledgerEl = targetEl?.closest?.(
-            ".skills-ledger",
-        ) as HTMLElement | null;
+        const ledgerEl = targetEl?.closest?.(".skills-ledger") as HTMLElement | null;
         const rowEl = targetEl?.closest?.(".ledger__row") as HTMLElement | null;
 
         // A drop that missed every ledger — the tab's empty space below the last
@@ -567,9 +518,7 @@ export class BeingSheet extends SohlActorSheetBase {
     protected async _onDrop(event: DragEvent): Promise<void> {
         let data: any = {};
         try {
-            data = JSON.parse(
-                event.dataTransfer?.getData("text/plain") || "{}",
-            );
+            data = JSON.parse(event.dataTransfer?.getData("text/plain") || "{}");
         } catch {
             data = {};
         }
@@ -583,9 +532,7 @@ export class BeingSheet extends SohlActorSheetBase {
         if (!drag) {
             // Defer to the base drop handler (item/effect/actor/folder), reached
             // via the prototype chain since the static types don't surface it.
-            await (
-                Object.getPrototypeOf(BeingSheet.prototype) as any
-            )._onDrop.call(this, event);
+            await (Object.getPrototypeOf(BeingSheet.prototype) as any)._onDrop.call(this, event);
             return;
         }
 
@@ -595,17 +542,11 @@ export class BeingSheet extends SohlActorSheetBase {
 
         if (drag.kind === "bodyzone") {
             const fromZone = structure.getZoneByCode(drag.zoneShortcode);
-            const toEl = targetEl?.closest(
-                "[data-zone-shortcode]",
-            ) as HTMLElement | null;
+            const toEl = targetEl?.closest("[data-zone-shortcode]") as HTMLElement | null;
             const toZone =
-                toEl ?
-                    structure.getZoneByCode(toEl.dataset.zoneShortcode ?? "")
-                :   undefined;
+                toEl ? structure.getZoneByCode(toEl.dataset.zoneShortcode ?? "") : undefined;
             if (!fromZone || !toZone || toZone.index === fromZone.index) return;
-            await this.document.update(
-                structure.moveZoneUpdate(fromZone.index, toZone.index),
-            );
+            await this.document.update(structure.moveZoneUpdate(fromZone.index, toZone.index));
             return;
         }
 
@@ -614,30 +555,18 @@ export class BeingSheet extends SohlActorSheetBase {
             if (!fromPart) return;
             // Dropping on a part inserts at that part's position within its
             // zone; dropping on a bare zone header appends to that zone's end.
-            const partEl = targetEl?.closest(
-                "[data-part-shortcode]",
-            ) as HTMLElement | null;
+            const partEl = targetEl?.closest("[data-part-shortcode]") as HTMLElement | null;
             const toPart =
-                partEl ?
-                    structure.getPartByCode(partEl.dataset.partShortcode ?? "")
-                :   undefined;
-            const zoneEl = targetEl?.closest(
-                "[data-zone-shortcode]",
-            ) as HTMLElement | null;
+                partEl ? structure.getPartByCode(partEl.dataset.partShortcode ?? "") : undefined;
+            const zoneEl = targetEl?.closest("[data-zone-shortcode]") as HTMLElement | null;
             const toZone =
                 toPart?.zone ??
-                (zoneEl ?
-                    structure.getZoneByCode(zoneEl.dataset.zoneShortcode ?? "")
-                :   undefined);
+                (zoneEl ? structure.getZoneByCode(zoneEl.dataset.zoneShortcode ?? "") : undefined);
             if (!toZone) return;
             const toPosition = toPart?.position ?? toZone.parts.length;
             if (toPart?.index === fromPart.index) return;
             await this.document.update(
-                structure.movePartUpdate(
-                    fromPart.index,
-                    toZone.shortcode,
-                    toPosition,
-                ),
+                structure.movePartUpdate(fromPart.index, toZone.shortcode, toPosition),
             );
             return;
         }
@@ -647,34 +576,21 @@ export class BeingSheet extends SohlActorSheetBase {
         // group/header (append to that part's end).
         const fromLoc = structure.getLocationByCode(drag.locationShortcode);
         if (!fromLoc) return;
-        const partEl = targetEl?.closest(
-            "[data-part-shortcode]",
-        ) as HTMLElement | null;
+        const partEl = targetEl?.closest("[data-part-shortcode]") as HTMLElement | null;
         const toPart =
-            partEl ?
-                structure.getPartByCode(partEl.dataset.partShortcode ?? "")
-            :   undefined;
+            partEl ? structure.getPartByCode(partEl.dataset.partShortcode ?? "") : undefined;
         if (!toPart) return;
-        const locEl = targetEl?.closest(
-            "[data-location-shortcode]",
-        ) as HTMLElement | null;
+        const locEl = targetEl?.closest("[data-location-shortcode]") as HTMLElement | null;
         const toLoc =
             locEl ?
-                (toPart.getLocationByCode(locEl.dataset.locationShortcode ?? "")
-                    ?.position ?? toPart.locations.length)
+                (toPart.getLocationByCode(locEl.dataset.locationShortcode ?? "")?.position ??
+                toPart.locations.length)
             :   toPart.locations.length;
-        if (
-            toPart.shortcode === fromLoc.bodyPart.shortcode &&
-            toLoc === fromLoc.position
-        ) {
+        if (toPart.shortcode === fromLoc.bodyPart.shortcode && toLoc === fromLoc.position) {
             return;
         }
         await this.document.update(
-            structure.moveLocationUpdate(
-                fromLoc.index,
-                toPart.shortcode,
-                toLoc,
-            ),
+            structure.moveLocationUpdate(fromLoc.index, toPart.shortcode, toLoc),
         );
     }
 
@@ -706,9 +622,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const code = target
-            .closest("[data-zone-shortcode]")
-            ?.getAttribute("data-zone-shortcode");
+        const code = target.closest("[data-zone-shortcode]")?.getAttribute("data-zone-shortcode");
         if (!code) return;
         await addBodyPart(this.document, code);
     }
@@ -725,9 +639,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const code = target
-            .closest("[data-part-shortcode]")
-            ?.getAttribute("data-part-shortcode");
+        const code = target.closest("[data-part-shortcode]")?.getAttribute("data-part-shortcode");
         if (!code) return;
         await addBodyLocation(this.document, code);
     }
@@ -776,9 +688,7 @@ export class BeingSheet extends SohlActorSheetBase {
                     label: "Save",
                     icon: "fa-solid fa-floppy-disk",
                     callback: (_event: Event, button: any) =>
-                        new foundry.applications.ux.FormDataExtended(
-                            button.form,
-                        ).object,
+                        new foundry.applications.ux.FormDataExtended(button.form).object,
                 },
             } as any)) as PlainObject | undefined;
         } catch {
@@ -827,31 +737,20 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): void {
-        const btn = target.closest(
-            ".body-structure__toggle-all",
-        ) as HTMLElement | null;
+        const btn = target.closest(".body-structure__toggle-all") as HTMLElement | null;
         if (!btn) return;
         const expandAll = btn.dataset.state !== "expanded";
-        const section =
-            btn.closest("section.tab") ?? ((this as any).element as Element);
+        const section = btn.closest("section.tab") ?? ((this as any).element as Element);
         const container = section?.querySelector(".body-structure");
         if (!container) return;
 
         container
             .querySelectorAll(".body-structure__part")
-            .forEach((el) =>
-                el.classList.toggle(
-                    "body-structure__part--collapsed",
-                    !expandAll,
-                ),
-            );
+            .forEach((el) => el.classList.toggle("body-structure__part--collapsed", !expandAll));
         container
             .querySelectorAll(".body-structure__location")
             .forEach((el) =>
-                el.classList.toggle(
-                    "body-structure__location--collapsed",
-                    !expandAll,
-                ),
+                el.classList.toggle("body-structure__location--collapsed", !expandAll),
             );
         container
             .querySelectorAll(".body-structure__zone, .body-structure__part")
@@ -864,8 +763,7 @@ export class BeingSheet extends SohlActorSheetBase {
             icon.classList.toggle("fa-angles-down", !expandAll);
         }
         const label = btn.querySelector("span");
-        if (label)
-            label.textContent = expandAll ? "Collapse All" : "Expand All";
+        if (label) label.textContent = expandAll ? "Collapse All" : "Expand All";
     }
 
     /**
@@ -882,9 +780,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): void {
-        const zoneEl = target.closest(
-            ".body-structure__zone",
-        ) as HTMLElement | null;
+        const zoneEl = target.closest(".body-structure__zone") as HTMLElement | null;
         if (!zoneEl) return;
         const open = !zoneEl.classList.contains("is-open");
         BeingSheet._setDisclosureState(zoneEl, open);
@@ -894,8 +790,7 @@ export class BeingSheet extends SohlActorSheetBase {
         let sib = zoneEl.nextElementSibling as HTMLElement | null;
         while (sib && !sib.classList.contains("body-structure__zone")) {
             if (sib.classList.contains("body-structure__part")) parts.push(sib);
-            else if (sib.classList.contains("body-structure__location"))
-                locs.push(sib);
+            else if (sib.classList.contains("body-structure__location")) locs.push(sib);
             sib = sib.nextElementSibling as HTMLElement | null;
         }
 
@@ -906,10 +801,7 @@ export class BeingSheet extends SohlActorSheetBase {
             const code = loc.dataset.partShortcode;
             const partEl = parts.find((p) => p.dataset.partShortcode === code);
             const visible = open && !!partEl?.classList.contains("is-open");
-            loc.classList.toggle(
-                "body-structure__location--collapsed",
-                !visible,
-            );
+            loc.classList.toggle("body-structure__location--collapsed", !visible);
         }
     }
 
@@ -927,9 +819,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): void {
-        const partEl = target.closest(
-            ".body-structure__part",
-        ) as HTMLElement | null;
+        const partEl = target.closest(".body-structure__part") as HTMLElement | null;
         if (!partEl) return;
         const code = partEl.dataset.partShortcode;
         if (!code) return;
@@ -939,16 +829,9 @@ export class BeingSheet extends SohlActorSheetBase {
         const container = partEl.closest(".body-structure");
         container
             ?.querySelectorAll(
-                `.body-structure__location[data-part-shortcode="${CSS.escape(
-                    code,
-                )}"]`,
+                `.body-structure__location[data-part-shortcode="${CSS.escape(code)}"]`,
             )
-            .forEach((loc) =>
-                loc.classList.toggle(
-                    "body-structure__location--collapsed",
-                    !open,
-                ),
-            );
+            .forEach((loc) => loc.classList.toggle("body-structure__location--collapsed", !open));
     }
 
     /** @inheritDoc */
@@ -1056,9 +939,7 @@ export class BeingSheet extends SohlActorSheetBase {
         // The header-control click is a user gesture, so this is not blocked.
         const win = window.open("", "_blank", "width=880,height=1100");
         if (!win) {
-            sohl.log.uiWarn(
-                "Could not open a print window — please allow pop-ups for this site.",
-            );
+            sohl.log.uiWarn("Could not open a print window — please allow pop-ups for this site.");
             return;
         }
         win.document.open();
@@ -1077,9 +958,7 @@ export class BeingSheet extends SohlActorSheetBase {
             }
         };
         const gate = (): void => {
-            const fonts = (
-                win.document as { fonts?: { ready?: Promise<unknown> } }
-            ).fonts;
+            const fonts = (win.document as { fonts?: { ready?: Promise<unknown> } }).fonts;
             if (fonts?.ready) void fonts.ready.then(fire);
             else fire();
         };
@@ -1146,30 +1025,12 @@ html, body { margin: 0; padding: 0; background: #fff; }
         const opts = {} as RenderOptions;
         const rc = (): RenderContext => ({}) as RenderContext;
         const h = (await this._prepareHeaderContext(rc(), opts)) as PlainObject;
-        const profile = (await this._prepareProfileContext(
-            rc(),
-            opts,
-        )) as PlainObject;
-        const skills = (await this._prepareSkillsContext(
-            rc(),
-            opts,
-        )) as PlainObject;
-        const combat = (await this._prepareCombatContext(
-            rc(),
-            opts,
-        )) as PlainObject;
-        const trauma = (await this._prepareTraumaContext(
-            rc(),
-            opts,
-        )) as PlainObject;
-        const mysteries = (await this._prepareMysteriesContext(
-            rc(),
-            opts,
-        )) as PlainObject;
-        const gear = (await this._prepareGearContext(
-            rc(),
-            opts,
-        )) as PlainObject;
+        const profile = (await this._prepareProfileContext(rc(), opts)) as PlainObject;
+        const skills = (await this._prepareSkillsContext(rc(), opts)) as PlainObject;
+        const combat = (await this._prepareCombatContext(rc(), opts)) as PlainObject;
+        const trauma = (await this._prepareTraumaContext(rc(), opts)) as PlainObject;
+        const mysteries = (await this._prepareMysteriesContext(rc(), opts)) as PlainObject;
+        const gear = (await this._prepareGearContext(rc(), opts)) as PlainObject;
         const system = this.document.system as PlainObject;
 
         // Letterhead summaries — the print-safe re-expression of the header's
@@ -1177,40 +1038,29 @@ html, body { margin: 0; padding: 0; background: #fff; }
         const healthLine =
             (h.health as unknown) ?
                 formatPrintHealthLine(
-                    h.healthBandLabel ?
-                        game.i18n.localize(h.healthBandLabel as string)
-                    :   undefined,
+                    h.healthBandLabel ? game.i18n.localize(h.healthBandLabel as string) : undefined,
                     (h.healthPct as number) ?? 0,
                 )
             :   "";
         const statusSummary = summarizeActiveStatuses(
-            (h.statusEffects as Parameters<
-                typeof summarizeActiveStatuses
-            >[0]) ?? [],
+            (h.statusEffects as Parameters<typeof summarizeActiveStatuses>[0]) ?? [],
             (key) => game.i18n.localize(key),
         );
         const injurySummary = summarizeInjuredParts(
             (h.bodyParts as Parameters<typeof summarizeInjuredParts>[0]) ?? [],
-            (status: BodyPartStatus) =>
-                game.i18n.localize(`SOHL.Print.impair.${status}`),
+            (status: BodyPartStatus) => game.i18n.localize(`SOHL.Print.impair.${status}`),
         );
 
         // Enrich the two rich-text fields to static HTML (a detached window has
         // no <prose-mirror> element to hydrate them).
-        const appearanceHTML = await fvttEnrichHTML(
-            (system.appearance as string) ?? "",
-        );
-        const dossierHTML = await fvttEnrichHTML(
-            (system.dossier as string) ?? "",
-        );
+        const appearanceHTML = await fvttEnrichHTML((system.appearance as string) ?? "");
+        const dossierHTML = await fvttEnrichHTML((system.dossier as string) ?? "");
 
         // Flatten combat strike modes to static cells (disabled → em dash).
         const cell = (mod: PlainObject | undefined): string =>
             !mod || mod.disabled ? PRINT_EM_DASH : String(mod.effective ?? "");
         const impactCell = (mod: PlainObject | undefined): string =>
-            !mod || mod.disabled ?
-                PRINT_EM_DASH
-            :   String(mod.label ?? mod.effective ?? "");
+            !mod || mod.disabled ? PRINT_EM_DASH : String(mod.label ?? mod.effective ?? "");
         // The strike-mode spread is presented as a Zone Die (column "ZD"): the
         // effective value in `d`-notation (e.g. `d6`), never a bare radius.
         const zoneDieCell = (mod: PlainObject | undefined): string => {
@@ -1227,13 +1077,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     spread: zoneDieCell(sm.spread as PlainObject),
                     impact: impactCell(sm.impact as PlainObject),
                     attack: cell(sm.attack as PlainObject),
-                    block: cell(
-                        (sm.defense as PlainObject)?.block as PlainObject,
-                    ),
-                    counterstrike: cell(
-                        (sm.defense as PlainObject)
-                            ?.counterstrike as PlainObject,
-                    ),
+                    block: cell((sm.defense as PlainObject)?.block as PlainObject),
+                    counterstrike: cell((sm.defense as PlainObject)?.counterstrike as PlainObject),
                 })),
             }));
         const flattenMissile = (groups: PlainObject[] = []): PlainObject[] =>
@@ -1248,17 +1093,12 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     attack: cell(sm.attack as PlainObject),
                 })),
             }));
-        const meleeStrikeModes = flattenMelee(
-            combat.meleeStrikeModes as PlainObject[],
-        );
-        const missileStrikeModes = flattenMissile(
-            combat.missileStrikeModes as PlainObject[],
-        );
+        const meleeStrikeModes = flattenMelee(combat.meleeStrikeModes as PlainObject[]);
+        const missileStrikeModes = flattenMissile(combat.missileStrikeModes as PlainObject[]);
 
         // Flatten mysteries / mystical abilities to static rows.
         const mysteryRows: PlainObject[] = [];
-        for (const section of (mysteries.mysterySections as PlainObject[]) ??
-            []) {
+        for (const section of (mysteries.mysterySections as PlainObject[]) ?? []) {
             for (const item of (section.items as SohlItem[]) ?? []) {
                 const ml = item.logic as PlainObject | undefined;
                 mysteryRows.push(
@@ -1270,8 +1110,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             }
         }
         const abilityRows: PlainObject[] = [];
-        for (const section of (mysteries.abilitySections as PlainObject[]) ??
-            []) {
+        for (const section of (mysteries.abilitySections as PlainObject[]) ?? []) {
             for (const item of (section.items as SohlItem[]) ?? []) {
                 const ml = item.logic as PlainObject | undefined;
                 abilityRows.push(
@@ -1309,21 +1148,18 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // beside the tactical one (feet/round); the interactive profile view
         // only surfaces feet/round, so the leagues are zipped in by medium here.
         const leaguesByMedium = new Map<string, number>();
-        for (const p of (this.document.logic as BeingLogic | undefined)?.data
-            .movementProfiles ?? []) {
+        for (const p of (this.document.logic as BeingLogic | undefined)?.data.movementProfiles ??
+            []) {
             leaguesByMedium.set(p.medium, p.leaguesPerWatch ?? 0);
         }
-        const movement = ((profile.movement as PlainObject[]) ?? []).map(
-            (row) => ({
-                ...row,
-                leagues: leaguesByMedium.get(row.medium as string) ?? 0,
-            }),
-        );
+        const movement = ((profile.movement as PlainObject[]) ?? []).map((row) => ({
+            ...row,
+            leagues: leaguesByMedium.get(row.medium as string) ?? 0,
+        }));
 
         const skillGroups = (skills.skillGroups as PlainObject[]) ?? [];
         const injurySections = (trauma.injurySections as PlainObject[]) ?? [];
-        const afflictionGroups =
-            (trauma.afflictionGroups as PlainObject[]) ?? [];
+        const afflictionGroups = (trauma.afflictionGroups as PlainObject[]) ?? [];
 
         return {
             emDash: PRINT_EM_DASH,
@@ -1341,17 +1177,12 @@ html, body { margin: 0; padding: 0; background: #fff; }
             movement,
             bodyZones: profile.bodyZones,
             skillGroups,
-            hasSkills: skillGroups.some(
-                (g) => ((g.skills as unknown[]) ?? []).length > 0,
-            ),
+            hasSkills: skillGroups.some((g) => ((g.skills as unknown[]) ?? []).length > 0),
             meleeStrikeModes,
             missileStrikeModes,
-            hasCombat:
-                meleeStrikeModes.length > 0 || missileStrikeModes.length > 0,
+            hasCombat: meleeStrikeModes.length > 0 || missileStrikeModes.length > 0,
             injurySections,
-            hasInjuries: injurySections.some(
-                (s) => ((s.injuries as unknown[]) ?? []).length > 0,
-            ),
+            hasInjuries: injurySections.some((s) => ((s.injuries as unknown[]) ?? []).length > 0),
             afflictionGroups,
             hasAfflictions: afflictionGroups.some(
                 (g) => ((g.afflictions as unknown[]) ?? []).length > 0,
@@ -1359,9 +1190,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             mysteryRows,
             abilityRows,
             gearSections,
-            hasGear:
-                ((onBody.items as unknown[]) ?? []).length > 0 ||
-                containers.length > 0,
+            hasGear: ((onBody.items as unknown[]) ?? []).length > 0 || containers.length > 0,
         };
     }
 
@@ -1390,20 +1219,16 @@ html, body { margin: 0; padding: 0; background: #fff; }
         const row: PlainObject = {
             name: item.name,
             skill: (ml?.assocSkill as PlainObject | undefined)?.name ?? "",
-            level: formatPrintLevel(
-                !!level?.disabled,
-                (level?.effective as number) ?? 0,
-                { signed: options.signed },
-            ),
+            level: formatPrintLevel(!!level?.disabled, (level?.effective as number) ?? 0, {
+                signed: options.signed,
+            }),
             charges: formatPrintChargesDisplay({
                 valueDisabled: !!chargeValue?.disabled,
                 maxDisabled: !!chargeMax?.disabled,
                 value: (chargeValue?.effective as number) ?? 0,
                 max: (chargeMax?.effective as number) ?? 0,
             }),
-            notes: htmlToPlainText(
-                (item.system as PlainObject).notes as string,
-            ),
+            notes: htmlToPlainText((item.system as PlainObject).notes as string),
         };
         if (options.withMl) {
             row.ml =
@@ -1537,13 +1362,11 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // attackTest, etc.), passing the row's strike-mode id in scope so the
         // action acts on the clicked mode. Weapons and combat techniques both
         // carry these actions, so the same anchor handler serves both.
-        const action = itemLogic.actions?.get(`${testKind}Test`) as
-            SohlAction | undefined;
+        const action = itemLogic.actions?.get(`${testKind}Test`) as SohlAction | undefined;
         if (!action) return;
 
-        const sm = itemLogic.strikeModes?.find(
-            (m: StrikeModeBase) => m.shortcode === smId,
-        ) as StrikeModeBase | undefined;
+        const sm = itemLogic.strikeModes?.find((m: StrikeModeBase) => m.shortcode === smId) as
+            StrikeModeBase | undefined;
         const context = new SohlActionContext({
             speaker: (this.document as any).getSpeaker(),
             type: `strike-${testKind}`,
@@ -1686,86 +1509,46 @@ html, body { margin: 0; padding: 0; background: #fff; }
         switch (partId) {
             case "header":
                 context = await this._prepareHeaderContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareHeaderContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareHeaderContext`, this, context);
                 return context;
             case "tabs":
                 context = await this._prepareTabsContext(context, options);
                 return context;
             case "facade":
                 context = await this._prepareFacadeContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareFacadeContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareFacadeContext`, this, context);
                 return context;
             case "profile":
                 context = await this._prepareProfileContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareProfileContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareProfileContext`, this, context);
                 return context;
             case "skills":
                 context = await this._prepareSkillsContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareSkillsContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareSkillsContext`, this, context);
                 return context;
             case "combat":
                 context = await this._prepareCombatContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareCombatContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareCombatContext`, this, context);
                 return context;
             case "trauma":
                 context = await this._prepareTraumaContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareTraumaContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareTraumaContext`, this, context);
                 return context;
             case "mysteries":
                 context = await this._prepareMysteriesContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareMysteriesContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareMysteriesContext`, this, context);
                 return context;
             case "gear":
                 context = await this._prepareGearContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareGearContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareGearContext`, this, context);
                 return context;
             case "actions":
                 context = await this._prepareActionsContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareActionsContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareActionsContext`, this, context);
                 return context;
             case "effects":
                 context = await this._prepareEffectsContext(context, options);
-                fvttCallHook(
-                    `sohl.actor.${type}.prepareEffectsContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.actor.${type}.prepareEffectsContext`, this, context);
                 return context;
             default:
                 return context;
@@ -1813,8 +1596,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // active traumas of that subtype (they are modeled as traumas, not
         // toggleable statuses; Fatigue is not a status) — #306.
         const activeTraumaSubTypes = new Set<string>();
-        for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ??
-            []) as Iterable<any>) {
+        for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ?? []) as Iterable<any>) {
             const tl = item?.logic;
             if (tl?.data?.subType && (tl.level?.effective ?? 0) > 0) {
                 activeTraumaSubTypes.add(tl.data.subType);
@@ -1828,8 +1610,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // grouped onto parts by the injured location's shortcode.
         const structure = getActorBody(actor.logic)?.structure;
         const injuries: LocationInjury[] = [];
-        for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ??
-            []) as Iterable<any>) {
+        for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ?? []) as Iterable<any>) {
             const tl = item?.logic;
             const code = tl?.data?.bodyLocationCode;
             const level = tl?.level?.effective ?? 0;
@@ -1847,10 +1628,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // (#470). `healthBand` is the qualitative label shown to the player.
         const health = logic?.data?.health;
         const healthMax = health?.max ?? 0;
-        const healthPct =
-            healthMax > 0 ?
-                clampHealthPct((health!.value / healthMax) * 100)
-            :   0;
+        const healthPct = healthMax > 0 ? clampHealthPct((health!.value / healthMax) * 100) : 0;
 
         return Object.assign(context, {
             actorName: actor.name,
@@ -1858,10 +1636,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             health,
             healthPct,
             healthBand: logic?.healthBand,
-            healthBandLabel:
-                logic?.healthBand ?
-                    healthBandLabel(logic.healthBand)
-                :   undefined,
+            healthBandLabel: logic?.healthBand ? healthBandLabel(logic.healthBand) : undefined,
             shockState: logic?.shockState,
             statusEffects,
             bodyParts,
@@ -1925,9 +1700,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
                 label: part.name ?? part.shortcode,
                 role: (part.roles ?? [])
                     .map((r: string) =>
-                        game.i18n.localize(
-                            (BodyRoleChoices as Record<string, string>)[r] ?? r,
-                        ),
+                        game.i18n.localize((BodyRoleChoices as Record<string, string>)[r] ?? r),
                     )
                     .join(", "),
                 locations: (part.locations ?? []).map((loc: any) => ({
@@ -1971,12 +1744,9 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // falling back to name. Read each attribute's `logic` (permitted here —
         // the sheet is a Foundry-boundary class) for the effective score and
         // mastery level, and compute the descriptor band from `valueDesc`.
-        const attributeItems = [
-            ...(actor.itemTypes[ITEM_KIND.ATTRIBUTE] ?? []),
-        ].sort(
+        const attributeItems = [...(actor.itemTypes[ITEM_KIND.ATTRIBUTE] ?? [])].sort(
             (a, b) =>
-                ((a as any).sort ?? 0) - ((b as any).sort ?? 0) ||
-                a.name.localeCompare(b.name),
+                ((a as any).sort ?? 0) - ((b as any).sort ?? 0) || a.name.localeCompare(b.name),
         );
         const attributes = attributeItems.map((attr) => {
             const attrLogic = attr.logic as AttributeLogic | undefined;
@@ -2027,10 +1797,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // actor also gets the constant NONE "no movement" row first, so a being
         // can be made immobile even if it authors no NONE profile itself.
         const current = logic?.data.currentMoveMedium ?? MOVEMENT_MEDIUM.NONE;
-        const rows = [
-            NONE_MOVE_PROFILE,
-            ...(logic?.data.movementProfiles ?? []),
-        ];
+        const rows = [NONE_MOVE_PROFILE, ...(logic?.data.movementProfiles ?? [])];
         for (const profile of rows) {
             movement.push({
                 medium: profile.medium,
@@ -2045,9 +1812,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // `bodyZones` is the same tree Combat renders read-only; `canEditBody`
         // gates the add / drag-sort / ⋮ authoring affordances (owner/GM only).
         const structure = getActorBody(actor.logic)?.structure;
-        const bodyZones = buildBodyLocationTree(
-            this._buildBodyZoneInput(structure),
-        );
+        const bodyZones = buildBodyLocationTree(this._buildBodyZoneInput(structure));
 
         return Object.assign(context, {
             attributes,
@@ -2078,9 +1843,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // the same treatment the attribute boxes above get. Without this the
         // groups render in raw collection order, so the `sort` values a drag
         // writes would have no visible effect (#1528).
-        const skills = [
-            ...(this.document.itemTypes[ITEM_KIND.SKILL] ?? []),
-        ].sort(
+        const skills = [...(this.document.itemTypes[ITEM_KIND.SKILL] ?? [])].sort(
             (a, b) =>
                 ((a as any).sort ?? 0) - ((b as any).sort ?? 0) ||
                 (a.name ?? "").localeCompare(b.name ?? ""),
@@ -2102,8 +1865,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     eml: skillLogic?.masteryLevel?.effective ?? 0,
                     fate: skillLogic?.fateMasteryLevel?.effective ?? 0,
                     emlDeltaLabel: skillLogic?.masteryLevel?.deltaLabel ?? "",
-                    fateDeltaLabel:
-                        skillLogic?.fateMasteryLevel?.deltaLabel ?? "",
+                    fateDeltaLabel: skillLogic?.fateMasteryLevel?.deltaLabel ?? "",
                     disabled: !!skillLogic?.masteryLevel?.disabled,
                     canImprove: !!skillLogic?.canImprove,
                     improveFlag: !!sys.improveFlag,
@@ -2113,8 +1875,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             SKILL_DISPLAY_SUBTYPE_ORDER,
             (subType) =>
                 game.i18n.localize(
-                    (SkillSubTypeChoices as Record<string, string>)[subType] ??
-                        subType,
+                    (SkillSubTypeChoices as Record<string, string>)[subType] ?? subType,
                 ),
         );
 
@@ -2149,12 +1910,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
         const techniqueSkills = (actor.itemTypes[ITEM_KIND.SKILL] ?? []).filter(
             (skill: SohlItem) => !!(skill.logic as any)?.strikeMode,
         );
-        const {
-            meleeWeapons: meleeStrikeModes,
-            missileWeapons: missileStrikeModes,
-        } = splitWeaponsByRange(
-            [...techniqueSkills, ...heldWeapons],
-            (source) => {
+        const { meleeWeapons: meleeStrikeModes, missileWeapons: missileStrikeModes } =
+            splitWeaponsByRange([...techniqueSkills, ...heldWeapons], (source) => {
                 const modes = (source.logic as any)?.strikeModes ?? [];
                 // Weapons expose the limbs gripping them (`heldBy`); a mode is
                 // usable only when enough limbs hold the weapon to satisfy its
@@ -2163,12 +1920,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
                 // and always available (`null`). Mirrors
                 // `BeingLogic.availableStrikeModes` (#836).
                 const heldBy = (source.logic as any)?.heldBy;
-                return usableHeldStrikeModes(
-                    modes,
-                    heldBy ? heldBy.length : null,
-                );
-            },
-        );
+                return usableHeldStrikeModes(modes, heldBy ? heldBy.length : null);
+            });
 
         // Body structure for anatomy display — the being's own body (empty for
         // an incorporeal being).
@@ -2207,9 +1960,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // worn-armor `armorProtection`, aggregated during the actor's evaluate
         // phase), the covering material layers, and shock. Held items are shown
         // via the Held Items dropdowns, not here.
-        const bodyZones = buildBodyLocationTree(
-            this._buildBodyZoneInput(structure),
-        );
+        const bodyZones = buildBodyLocationTree(this._buildBodyZoneInput(structure));
 
         return Object.assign(context, {
             meleeStrikeModes,
@@ -2317,11 +2068,9 @@ html, body { margin: 0; padding: 0; background: #fff; }
             TraumaSubTypes,
             (subType) =>
                 game.i18n.localize(
-                    (TraumaSubTypeChoices as Record<string, string>)[subType] ??
-                        subType,
+                    (TraumaSubTypeChoices as Record<string, string>)[subType] ?? subType,
                 ),
-            (aspect) =>
-                sohl.i18n.localize(`SOHL.ImpactModifier.ASPECT.${aspect}`),
+            (aspect) => sohl.i18n.localize(`SOHL.ImpactModifier.ASPECT.${aspect}`),
         );
 
         // Afflictions, grouped by subtype: extract each item's display values
@@ -2337,12 +2086,10 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     img: item.img ?? "",
                     subType: sys.subType,
                     subTypeLabel: game.i18n.localize(
-                        (AfflictionSubTypeChoices as Record<string, string>)[
-                            sys.subType
-                        ] ?? sys.subType,
+                        (AfflictionSubTypeChoices as Record<string, string>)[sys.subType] ??
+                            sys.subType,
                     ),
-                    levelLabel:
-                        al?.levelLabel ?? String(al?.level?.effective ?? 0),
+                    levelLabel: al?.levelLabel ?? String(al?.level?.effective ?? 0),
                     levelDeltaLabel: al?.level?.deltaLabel ?? "",
                     healingRate: al?.healingRate?.effective ?? 0,
                     healingRateDisabled: !!al?.healingRate?.disabled,
@@ -2355,9 +2102,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             AfflictionSubTypes,
             (subType) =>
                 game.i18n.localize(
-                    (AfflictionSubTypeChoices as Record<string, string>)[
-                        subType
-                    ] ?? subType,
+                    (AfflictionSubTypeChoices as Record<string, string>)[subType] ?? subType,
                 ),
         );
 

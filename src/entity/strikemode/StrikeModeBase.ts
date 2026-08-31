@@ -121,19 +121,13 @@ export abstract class StrikeModeBase extends SohlEntity {
      * @param parentLogic - The owning Logic instance, used as the modifiers' parent.
      * @param shortcode - This strike mode's key within the parent's `strikeModes` map.
      */
-    constructor(
-        data: StrikeModeBase.Data,
-        parentLogic: SohlLogic,
-        shortcode: string,
-    ) {
+    constructor(data: StrikeModeBase.Data, parentLogic: SohlLogic, shortcode: string) {
         super(data, { parent: parentLogic });
         this.type = data.type;
         this.name = data.name;
         this.minParts = data.minParts;
         this.assocSkillCode = data.assocSkillCode;
-        this.spread = new entity.ValueModifier(parentLogic).setBase(
-            data.attack.spread ?? 0,
-        );
+        this.spread = new entity.ValueModifier(parentLogic).setBase(data.attack.spread ?? 0);
         this.attack = new entity.CombatModifier(parentLogic);
         if (data.attack.modifier) {
             this.attack.add("Attack Modifier", "AtkMod", data.attack.modifier);
@@ -196,12 +190,8 @@ export abstract class StrikeModeBase extends SohlEntity {
      * @param data - The pointer data referring to a strike mode.
      * @returns The referred-to strike mode, or `undefined` if the pointer is invalid.
      */
-    static fromPointerData(
-        data: StrikeModeBase.PointerData,
-    ): StrikeModeBase | undefined {
-        const itemLogic: SohlLogic | undefined = fvttLogicFromUuidSync(
-            data.itemUuid,
-        );
+    static fromPointerData(data: StrikeModeBase.PointerData): StrikeModeBase | undefined {
+        const itemLogic: SohlLogic | undefined = fvttLogicFromUuidSync(data.itemUuid);
         if (!itemLogic) return undefined;
         switch (itemLogic.kind) {
             case "weapon":
@@ -229,13 +219,8 @@ export abstract class StrikeModeBase extends SohlEntity {
     static baseSchemaFields(): foundry.data.fields.DataSchema {
         // Lazy access: foundry globals exist only when Foundry-side code
         // calls this; the module itself must load without them.
-        const {
-            NumberField,
-            StringField,
-            SchemaField,
-            ObjectField,
-            BooleanField,
-        } = foundry.data.fields;
+        const { NumberField, StringField, SchemaField, ObjectField, BooleanField } =
+            foundry.data.fields;
         return {
             type: new StringField({
                 required: true,
@@ -337,8 +322,7 @@ export abstract class StrikeModeBase extends SohlEntity {
             );
             return undefined;
         }
-        (context.scope ??=
-            {} as Partial<AutomatedCombat.AttackContextScope>).mode =
+        (context.scope ??= {} as Partial<AutomatedCombat.AttackContextScope>).mode =
             this.pointerData;
         return combatantLogic.executeAction("automatedCombatStart", context);
     }

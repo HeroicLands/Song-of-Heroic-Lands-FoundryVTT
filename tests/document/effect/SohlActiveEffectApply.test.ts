@@ -36,12 +36,7 @@ function fakeChange(
 }
 
 function call(targetDoc: any, change: any): unknown {
-    return (SohlActiveEffect as any)._applyChangeUnguided(
-        targetDoc,
-        change,
-        {},
-        {},
-    );
+    return (SohlActiveEffect as any)._applyChangeUnguided(targetDoc, change, {}, {});
 }
 
 describe("SohlActiveEffect._applyChangeUnguided", () => {
@@ -50,10 +45,7 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
             const target = { system: { foo: 0 } };
             // ActiveEffect mock's _applyChangeUnguided returns undefined; we
             // verify the SoHL override delegates by spying on it.
-            const spy = vi.spyOn(
-                (globalThis as any).ActiveEffect,
-                "_applyChangeUnguided",
-            );
+            const spy = vi.spyOn((globalThis as any).ActiveEffect, "_applyChangeUnguided");
             call(target, fakeChange("system.foo", 1));
             expect(spy).toHaveBeenCalled();
             spy.mockRestore();
@@ -107,17 +99,13 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
         it("warns when the path does not resolve to a ValueModifier", () => {
             const target = { uuid: "X", logic: { plainField: 5 } };
             // Should not throw
-            expect(() =>
-                call(target, fakeChange("mod:logic.plainField", "3")),
-            ).not.toThrow();
+            expect(() => call(target, fakeChange("mod:logic.plainField", "3"))).not.toThrow();
             expect(target.logic.plainField).toBe(5);
         });
 
         it("warns when the path resolves to undefined", () => {
             const target = { uuid: "X", logic: {} };
-            expect(() =>
-                call(target, fakeChange("mod:logic.missing", "3")),
-            ).not.toThrow();
+            expect(() => call(target, fakeChange("mod:logic.missing", "3"))).not.toThrow();
         });
     });
 
@@ -140,10 +128,7 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
         it("pushes a delta onto each matched strike mode's VM at mod:<path>", () => {
             const sm1 = { attack: newVM(5) };
             const sm2 = { attack: newVM(3) };
-            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [
-                sm1,
-                sm2,
-            ]);
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [sm1, sm2]);
             call({ uuid: "W" }, smChange("mod:attack", "2", effect));
             expect(sm1.attack.effective).toBe(7); // 5 + 2
             expect(sm2.attack.effective).toBe(5); // 3 + 2
@@ -151,29 +136,21 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
 
         it("resolves nested paths (mod:defense.block)", () => {
             const sm = { defense: { block: newVM(4) } };
-            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [
-                sm,
-            ]);
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [sm]);
             call({ uuid: "W" }, smChange("mod:defense.block", "3", effect));
             expect(sm.defense.block.effective).toBe(7);
         });
 
         it("warns (no throw) when a path doesn't resolve to a ValueModifier", () => {
             const sm = { attack: 99 }; // not a VM
-            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE, [
-                sm,
-            ]);
-            expect(() =>
-                call({ uuid: "W" }, smChange("mod:attack", "2", effect)),
-            ).not.toThrow();
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE, [sm]);
+            expect(() => call({ uuid: "W" }, smChange("mod:attack", "2", effect))).not.toThrow();
             expect(sm.attack).toBe(99); // unchanged
         });
 
         it("is a no-op for a non-mod: key", () => {
             const sm = { attack: newVM(5) };
-            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [
-                sm,
-            ]);
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [sm]);
             call({ uuid: "W" }, smChange("attack", "2", effect));
             expect(sm.attack.effective).toBe(5); // unchanged
         });

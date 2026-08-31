@@ -50,10 +50,9 @@ describe("Timed-effect creation offer (#595)", () => {
     });
 
     const countEntries = (win, actorId, woundId, name) =>
-        (
-            win.game.actors.get(actorId).items.get(woundId).system
-                .scheduledActions || []
-        ).filter((e) => e.actionName === name).length;
+        (win.game.actors.get(actorId).items.get(woundId).system.scheduledActions || []).filter(
+            (e) => e.actionName === name,
+        ).length;
 
     // Inflict a guaranteed bleeder via the real interactive flow, DECLINING the
     // incidental healing-check offer so the blood-loss offer is the one under
@@ -94,33 +93,17 @@ describe("Timed-effect creation offer (#595)", () => {
             inflictBleeder(actor, "yes");
             cy.foundry((win) =>
                 win.__inj.then(() => {
-                    const wound = win.game.actors
-                        .get(actor.id)
-                        .itemTypes.trauma.at(-1);
+                    const wound = win.game.actors.get(actor.id).itemTypes.trauma.at(-1);
                     return {
-                        entries: countEntries(
-                            win,
-                            actor.id,
-                            wound.id,
-                            "bloodLossAdvanceCheck",
-                        ),
+                        entries: countEntries(win, actor.id, wound.id, "bloodLossAdvanceCheck"),
                         // Safe here: resolveInjury (and the schedule's own
                         // finalize) has resolved, so the in-memory view is settled.
-                        armed: win.sohl.events.isScheduled(
-                            wound.uuid,
-                            "bloodLossAdvanceCheck",
-                        ),
+                        armed: win.sohl.events.isScheduled(wound.uuid, "bloodLossAdvanceCheck"),
                     };
                 }),
             ).should((r) => {
-                expect(
-                    r.entries,
-                    "pressing Schedule adds the blood-loss store entry",
-                ).to.eq(1);
-                expect(
-                    r.armed,
-                    "pressing Schedule arms the blood-loss advance check",
-                ).to.be.true;
+                expect(r.entries, "pressing Schedule adds the blood-loss store entry").to.eq(1);
+                expect(r.armed, "pressing Schedule arms the blood-loss advance check").to.be.true;
             });
         });
     });
@@ -130,35 +113,18 @@ describe("Timed-effect creation offer (#595)", () => {
             inflictBleeder(actor, "no");
             cy.foundry((win) =>
                 win.__inj.then(() => {
-                    const wound = win.game.actors
-                        .get(actor.id)
-                        .itemTypes.trauma.at(-1);
+                    const wound = win.game.actors.get(actor.id).itemTypes.trauma.at(-1);
                     return {
                         woundExists: !!wound,
-                        entries: countEntries(
-                            win,
-                            actor.id,
-                            wound.id,
-                            "bloodLossAdvanceCheck",
-                        ),
-                        armed: win.sohl.events.isScheduled(
-                            wound.uuid,
-                            "bloodLossAdvanceCheck",
-                        ),
+                        entries: countEntries(win, actor.id, wound.id, "bloodLossAdvanceCheck"),
+                        armed: win.sohl.events.isScheduled(wound.uuid, "bloodLossAdvanceCheck"),
                     };
                 }),
             ).should((r) => {
                 // Declining the schedule does not undo the wound, only its tracking.
-                expect(r.woundExists, "the bleeder wound was still recorded").to
-                    .be.true;
-                expect(
-                    r.entries,
-                    "declining leaves no blood-loss store entry",
-                ).to.eq(0);
-                expect(
-                    r.armed,
-                    "declining does not arm the blood-loss advance check",
-                ).to.be.false;
+                expect(r.woundExists, "the bleeder wound was still recorded").to.be.true;
+                expect(r.entries, "declining leaves no blood-loss store entry").to.eq(0);
+                expect(r.armed, "declining does not arm the blood-loss advance check").to.be.false;
             });
         });
     });
@@ -224,20 +190,15 @@ describe("Timed-effect creation offer (#595)", () => {
                         infectionExists: !!infection,
                         courseEntries:
                             infection ?
-                                (
-                                    infection.system.scheduledActions || []
-                                ).filter((e) => e.actionName === "courseCheck")
-                                    .length
+                                (infection.system.scheduledActions || []).filter(
+                                    (e) => e.actionName === "courseCheck",
+                                ).length
                             :   -1,
                         courseArmed:
                             infection ?
-                                win.sohl.events.isScheduled(
-                                    infection.uuid,
-                                    "courseCheck",
-                                )
+                                win.sohl.events.isScheduled(infection.uuid, "courseCheck")
                             :   false,
-                        remaining:
-                            win.sohl.entity.roll.SimpleRoll.forcedRemaining,
+                        remaining: win.sohl.entity.roll.SimpleRoll.forcedRemaining,
                     };
                 }),
             ).should((r) => {
@@ -249,12 +210,8 @@ describe("Timed-effect creation offer (#595)", () => {
                     r.courseEntries,
                     "pressing Schedule armed the infection's course check",
                 ).to.eq(1);
-                expect(r.courseArmed, "the course check is live on the queue")
-                    .to.be.true;
-                expect(
-                    r.remaining,
-                    "the forced healing-test value was consumed",
-                ).to.eq(0);
+                expect(r.courseArmed, "the course check is live on the queue").to.be.true;
+                expect(r.remaining, "the forced healing-test value was consumed").to.eq(0);
             });
         });
     });

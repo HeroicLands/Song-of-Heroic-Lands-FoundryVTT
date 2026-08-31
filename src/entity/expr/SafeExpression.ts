@@ -211,9 +211,7 @@ export class SafeExpression extends SohlEntity {
     ) {
         super(data, options);
         if (typeof data.source !== "string") {
-            throw new SafeExpressionError(
-                "SafeExpression requires a source string",
-            );
+            throw new SafeExpressionError("SafeExpression requires a source string");
         }
         this.source = data.source;
         // Assigned before validate(), which consults it for every identifier.
@@ -221,10 +219,9 @@ export class SafeExpression extends SohlEntity {
         try {
             this.ast = jsep(this.source);
         } catch (err) {
-            throw new SafeExpressionError(
-                `Could not parse expression: ${errorMessage(err)}`,
-                { cause: err },
-            );
+            throw new SafeExpressionError(`Could not parse expression: ${errorMessage(err)}`, {
+                cause: err,
+            });
         }
         this.validate(this.ast);
     }
@@ -272,9 +269,7 @@ export class SafeExpression extends SohlEntity {
             );
             return undefined;
         } catch (err) {
-            return err instanceof SafeExpressionError ?
-                    err.message
-                :   errorMessage(err);
+            return err instanceof SafeExpressionError ? err.message : errorMessage(err);
         }
     }
 
@@ -304,10 +299,9 @@ export class SafeExpression extends SohlEntity {
             return this.evalNode(this.ast, context);
         } catch (err) {
             if (err instanceof SafeExpressionError) throw err;
-            throw new SafeExpressionError(
-                `Expression evaluation failed: ${errorMessage(err)}`,
-                { cause: err },
-            );
+            throw new SafeExpressionError(`Expression evaluation failed: ${errorMessage(err)}`, {
+                cause: err,
+            });
         }
     }
 
@@ -347,9 +341,7 @@ export class SafeExpression extends SohlEntity {
         switch (node.type) {
             case "MemberExpression": {
                 const member = node as jsep.MemberExpression;
-                return member.computed ?
-                        [member.object, member.property]
-                    :   [member.object];
+                return member.computed ? [member.object, member.property] : [member.object];
             }
             case "UnaryExpression":
                 return [(node as jsep.UnaryExpression).argument];
@@ -396,10 +388,7 @@ export class SafeExpression extends SohlEntity {
                     if (name) found.add(name.toLowerCase());
                 } else {
                     const prop = member.property as jsep.Literal;
-                    if (
-                        prop.type === "Literal" &&
-                        typeof prop.value === "string"
-                    ) {
+                    if (prop.type === "Literal" && typeof prop.value === "string") {
                         found.add(prop.value.toLowerCase());
                     }
                 }
@@ -490,9 +479,7 @@ export class SafeExpression extends SohlEntity {
             case "UnaryExpression": {
                 const unary = node as jsep.UnaryExpression;
                 if (!UNARY_OPERATORS.has(unary.operator)) {
-                    throw new SafeExpressionError(
-                        `Operator not allowed: ${unary.operator}`,
-                    );
+                    throw new SafeExpressionError(`Operator not allowed: ${unary.operator}`);
                 }
                 this.validate(unary.argument);
                 return;
@@ -501,9 +488,7 @@ export class SafeExpression extends SohlEntity {
             case "BinaryExpression": {
                 const binary = node as jsep.BinaryExpression;
                 if (!BINARY_OPERATORS.has(binary.operator)) {
-                    throw new SafeExpressionError(
-                        `Operator not allowed: ${binary.operator}`,
-                    );
+                    throw new SafeExpressionError(`Operator not allowed: ${binary.operator}`);
                 }
                 this.validate(binary.left);
                 this.validate(binary.right);
@@ -536,9 +521,7 @@ export class SafeExpression extends SohlEntity {
                 } else {
                     const name = (member.property as jsep.Identifier).name;
                     if (DENIED_KEYS.has(name)) {
-                        throw new SafeExpressionError(
-                            `Property access not allowed: ${name}`,
-                        );
+                        throw new SafeExpressionError(`Property access not allowed: ${name}`);
                     }
                 }
                 return;
@@ -548,8 +531,7 @@ export class SafeExpression extends SohlEntity {
                 const call = node as jsep.CallExpression;
                 if (call.callee.type !== "Identifier") {
                     throw new SafeExpressionError(
-                        "Only direct helper calls are allowed; methods " +
-                            "cannot be called",
+                        "Only direct helper calls are allowed; methods " + "cannot be called",
                     );
                 }
                 const name = (call.callee as jsep.Identifier).name;
@@ -563,9 +545,7 @@ export class SafeExpression extends SohlEntity {
             }
 
             default:
-                throw new SafeExpressionError(
-                    `Unsupported syntax: ${node.type}`,
-                );
+                throw new SafeExpressionError(`Unsupported syntax: ${node.type}`);
         }
     }
 
@@ -591,9 +571,7 @@ export class SafeExpression extends SohlEntity {
         // name never reaches this branch — the binding wins, exactly as it does
         // in `evalIdentifier`.
         if (expressionHelpers.has(name)) {
-            throw new SafeExpressionError(
-                `Helper "${name}" can only be called, not referenced`,
-            );
+            throw new SafeExpressionError(`Helper "${name}" can only be called, not referenced`);
         }
         const available =
             this.scope.names.length ?
@@ -613,19 +591,13 @@ export class SafeExpression extends SohlEntity {
      * @throws {SafeExpressionError} If the node type is unsupported (unreachable
      *   after `validate`) or a delegated evaluator rejects the node.
      */
-    private evalNode(
-        node: jsep.Expression,
-        context: Record<string, unknown>,
-    ): unknown {
+    private evalNode(node: jsep.Expression, context: Record<string, unknown>): unknown {
         switch (node.type) {
             case "Literal":
                 return (node as jsep.Literal).value;
 
             case "Identifier":
-                return this.evalIdentifier(
-                    (node as jsep.Identifier).name,
-                    context,
-                );
+                return this.evalIdentifier((node as jsep.Identifier).name, context);
 
             case "ArrayExpression":
                 return (node as jsep.ArrayExpression).elements.map((element) =>
@@ -652,9 +624,7 @@ export class SafeExpression extends SohlEntity {
                 return this.evalCall(node as jsep.CallExpression, context);
 
             default:
-                throw new SafeExpressionError(
-                    `Unsupported syntax: ${node.type}`,
-                );
+                throw new SafeExpressionError(`Unsupported syntax: ${node.type}`);
         }
     }
 
@@ -666,17 +636,12 @@ export class SafeExpression extends SohlEntity {
      * @throws {SafeExpressionError} If the name is unknown, or names a helper
      *   used without being called.
      */
-    private evalIdentifier(
-        name: string,
-        context: Record<string, unknown>,
-    ): unknown {
+    private evalIdentifier(name: string, context: Record<string, unknown>): unknown {
         if (Object.prototype.hasOwnProperty.call(context, name)) {
             return context[name];
         }
         if (expressionHelpers.has(name)) {
-            throw new SafeExpressionError(
-                `Helper "${name}" can only be called, not referenced`,
-            );
+            throw new SafeExpressionError(`Helper "${name}" can only be called, not referenced`);
         }
         throw new SafeExpressionError(`Unknown identifier: ${name}`);
     }
@@ -688,10 +653,7 @@ export class SafeExpression extends SohlEntity {
      * @returns The operator applied to its operand.
      * @throws {SafeExpressionError} If the operator is not allowed.
      */
-    private evalUnary(
-        node: jsep.UnaryExpression,
-        context: Record<string, unknown>,
-    ): unknown {
+    private evalUnary(node: jsep.UnaryExpression, context: Record<string, unknown>): unknown {
         const value = this.evalNode(node.argument, context) as never;
         switch (node.operator) {
             case "!":
@@ -701,9 +663,7 @@ export class SafeExpression extends SohlEntity {
             case "+":
                 return +value;
             default:
-                throw new SafeExpressionError(
-                    `Operator not allowed: ${node.operator}`,
-                );
+                throw new SafeExpressionError(`Operator not allowed: ${node.operator}`);
         }
     }
 
@@ -714,10 +674,7 @@ export class SafeExpression extends SohlEntity {
      * @returns The result of the operation.
      * @throws {SafeExpressionError} If the operator is not allowed.
      */
-    private evalBinary(
-        node: jsep.BinaryExpression,
-        context: Record<string, unknown>,
-    ): unknown {
+    private evalBinary(node: jsep.BinaryExpression, context: Record<string, unknown>): unknown {
         const operator = node.operator;
 
         // Logical operators short-circuit: the right side is only evaluated
@@ -756,9 +713,7 @@ export class SafeExpression extends SohlEntity {
             case "%":
                 return (left as number) % (right as number);
             default:
-                throw new SafeExpressionError(
-                    `Operator not allowed: ${operator}`,
-                );
+                throw new SafeExpressionError(`Operator not allowed: ${operator}`);
         }
     }
 
@@ -775,10 +730,7 @@ export class SafeExpression extends SohlEntity {
      *   `__proto__`, `prototype`), the object being accessed is itself a
      *   function, or the resolved property is a method (function-valued).
      */
-    private evalMember(
-        node: jsep.MemberExpression,
-        context: Record<string, unknown>,
-    ): unknown {
+    private evalMember(node: jsep.MemberExpression, context: Record<string, unknown>): unknown {
         const object = this.evalNode(node.object, context);
         if (object === null || object === undefined) return undefined;
 
@@ -788,21 +740,15 @@ export class SafeExpression extends SohlEntity {
             :   (node.property as jsep.Identifier).name;
         const keyStr = typeof key === "string" ? key : String(key);
         if (DENIED_KEYS.has(keyStr)) {
-            throw new SafeExpressionError(
-                `Property access not allowed: ${keyStr}`,
-            );
+            throw new SafeExpressionError(`Property access not allowed: ${keyStr}`);
         }
         if (typeof object === "function") {
-            throw new SafeExpressionError(
-                "Member access on a function is not allowed",
-            );
+            throw new SafeExpressionError("Member access on a function is not allowed");
         }
 
         const value = (object as Record<string, unknown>)[keyStr];
         if (typeof value === "function") {
-            throw new SafeExpressionError(
-                `"${keyStr}" is a method; methods are not supported`,
-            );
+            throw new SafeExpressionError(`"${keyStr}" is a method; methods are not supported`);
         }
         return value;
     }
@@ -814,10 +760,7 @@ export class SafeExpression extends SohlEntity {
      * @returns The helper's return value.
      * @throws {SafeExpressionError} If the helper is unknown or throws.
      */
-    private evalCall(
-        node: jsep.CallExpression,
-        context: Record<string, unknown>,
-    ): unknown {
+    private evalCall(node: jsep.CallExpression, context: Record<string, unknown>): unknown {
         // validate() guaranteed the callee was a known helper at construction;
         // re-check here in case the registry changed between build and use.
         const name = (node.callee as jsep.Identifier).name;
@@ -845,10 +788,9 @@ export class SafeExpression extends SohlEntity {
             return helper(...args);
         } catch (err) {
             if (err instanceof SafeExpressionError) throw err;
-            throw new SafeExpressionError(
-                `Helper "${name}" failed: ${errorMessage(err)}`,
-                { cause: err },
-            );
+            throw new SafeExpressionError(`Helper "${name}" failed: ${errorMessage(err)}`, {
+                cause: err,
+            });
         }
     }
 }

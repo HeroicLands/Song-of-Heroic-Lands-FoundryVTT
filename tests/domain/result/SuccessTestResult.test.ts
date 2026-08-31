@@ -36,15 +36,11 @@ function makeResult(): SuccessTestResult {
  * real boundary does when the user submits the form.
  */
 function mockDialogSubmit(formValues: Record<string, string | number>) {
-    return vi
-        .spyOn(FoundryHelpers, "dialog")
-        .mockImplementation(async (spec?: any) => {
-            // Mirror the real boundary: hand the callback the parsed form data
-            // (a plain object) and resolve to whatever it returns.
-            return spec?.callback ?
-                    await spec.callback(formValues, "ok")
-                :   null;
-        });
+    return vi.spyOn(FoundryHelpers, "dialog").mockImplementation(async (spec?: any) => {
+        // Mirror the real boundary: hand the callback the parsed form data
+        // (a plain object) and resolve to whatever it returns.
+        return spec?.callback ? await spec.callback(formValues, "ok") : null;
+    });
 }
 
 afterEach(() => vi.restoreAllMocks());
@@ -84,12 +80,8 @@ describe("SuccessTestResult", () => {
             expect(revived.title).toBe("Prior Title");
         });
 
-        it.todo(
-            "initializes masteryLevelModifier from data or creates default",
-        );
-        it.todo(
-            "initializes roll with an unrolled d100 by default (evaluate casts it)",
-        );
+        it.todo("initializes masteryLevelModifier from data or creates default");
+        it.todo("initializes roll with an unrolled d100 by default (evaluate casts it)");
         it.todo("initializes testType, rollMode, movement, and mishaps");
         it.todo("sets speaker from options.chatSpeaker or creates from token");
     });
@@ -107,9 +99,7 @@ describe("SuccessTestResult", () => {
             "normSuccessLevel returns normalized success level based on isSuccess and isCritical",
         );
         it.todo("lastDigit returns roll total mod 10");
-        it.todo(
-            "isCapped is true when effective differs from constrainedEffective",
-        );
+        it.todo("isCapped is true when effective differs from constrainedEffective");
         it.todo("critAllowed is true when crit digit arrays are non-empty");
         it.todo("isCritical is true for critical success or failure levels");
         it.todo("isSuccess is true when successLevel >= MARGINAL_SUCCESS");
@@ -123,12 +113,8 @@ describe("SuccessTestResult", () => {
 
     describe("evaluate()", () => {
         it.todo("returns false when speaker is not owner");
-        it.todo(
-            "sets MARGINAL_SUCCESS when roll <= constrainedEffective (no crits)",
-        );
-        it.todo(
-            "sets MARGINAL_FAILURE when roll > constrainedEffective (no crits)",
-        );
+        it.todo("sets MARGINAL_SUCCESS when roll <= constrainedEffective (no crits)");
+        it.todo("sets MARGINAL_FAILURE when roll > constrainedEffective (no crits)");
         // CRITICAL_SUCCESS / CRITICAL_FAILURE from the last digit, and the
         // matching descriptions, are covered by the
         // "critical outcomes on a standard test (#908)" block below.
@@ -147,31 +133,25 @@ describe("SuccessTestResult", () => {
             it("records 'moving' from form data onto movement", async () => {
                 const result = makeResult();
                 mockDialogSubmit({
-                    targetMovement:
-                        SUCCESS_TEST_RESULT_MOVEMENT.MOVING as string,
+                    targetMovement: SUCCESS_TEST_RESULT_MOVEMENT.MOVING as string,
                     rollMode: "roll",
                     situationalModifier: 0,
                     successLevelMod: 0,
                 });
                 await result.testDialog({}, () => {});
-                expect(result.movement).toBe(
-                    SUCCESS_TEST_RESULT_MOVEMENT.MOVING,
-                );
+                expect(result.movement).toBe(SUCCESS_TEST_RESULT_MOVEMENT.MOVING);
             });
 
             it("records 'stationary' from form data onto movement", async () => {
                 const result = makeResult();
                 mockDialogSubmit({
-                    targetMovement:
-                        SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY as string,
+                    targetMovement: SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY as string,
                     rollMode: "roll",
                     situationalModifier: 0,
                     successLevelMod: 0,
                 });
                 await result.testDialog({}, () => {});
-                expect(result.movement).toBe(
-                    SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY,
-                );
+                expect(result.movement).toBe(SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY);
             });
 
             it("throws when targetMovement is not a valid movement value", async () => {
@@ -271,10 +251,7 @@ describe("SuccessTestResult", () => {
                     label: "Superb",
                     description: "well done",
                     success: true,
-                    result: new SafeExpression(
-                        { source: "successLevel + 1" },
-                        { parent },
-                    ),
+                    result: new SafeExpression({ source: "successLevel + 1" }, { parent }),
                 },
             ];
         }
@@ -351,24 +328,12 @@ describe("SuccessTestResult", () => {
             });
 
             it("leaves every diamond hollow at zero", () => {
-                expect(marksFor(0)).toEqual([
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                ]);
+                expect(marksFor(0)).toEqual([false, false, false, false, false]);
             });
 
             it("clamps a table that grades outside the 0-5 scale", () => {
                 expect(marksFor(9)).toEqual([true, true, true, true, true]);
-                expect(marksFor(-3)).toEqual([
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                ]);
+                expect(marksFor(-3)).toEqual([false, false, false, false, false]);
             });
         });
 
@@ -435,10 +400,10 @@ describe("SuccessTestResult", () => {
             const mlMod = new MasteryLevelModifier({ baseValue: 50 } as any, {
                 parent,
             });
-            const result = new SuccessTestResult(
-                { masteryLevelModifier: mlMod } as any,
-                { parent, chatSpeaker: { isOwner: false, name: "NPC" } as any },
-            );
+            const result = new SuccessTestResult({ masteryLevelModifier: mlMod } as any, {
+                parent,
+                chatSpeaker: { isOwner: false, name: "NPC" } as any,
+            });
             expect(await result.evaluate()).toBe(false);
             expect(result.roll.rolls.length).toBe(0);
         });
@@ -456,13 +421,10 @@ describe("SuccessTestResult", () => {
             const mlMod = new MasteryLevelModifier({ baseValue } as any, {
                 parent,
             });
-            return new SuccessTestResult(
-                { masteryLevelModifier: mlMod } as any,
-                {
-                    parent,
-                    chatSpeaker: owned,
-                },
-            );
+            return new SuccessTestResult({ masteryLevelModifier: mlMod } as any, {
+                parent,
+                chatSpeaker: owned,
+            });
         }
 
         afterEach(() => SimpleRoll.clearForced());
@@ -479,9 +441,7 @@ describe("SuccessTestResult", () => {
             expect(result.isSuccess).toBe(true);
             expect(result.isCritical).toBe(true);
             expect(result.successLevel).toBe(2); // CRITICAL_SUCCESS
-            expect(result.description).toBe(
-                "SOHL.SuccessTestResult.CriticalSuccess",
-            );
+            expect(result.description).toBe("SOHL.SuccessTestResult.CriticalSuccess");
         });
 
         it("a failing roll ending in 5 is a Critical Failure", async () => {
@@ -492,9 +452,7 @@ describe("SuccessTestResult", () => {
             expect(result.isSuccess).toBe(false);
             expect(result.isCritical).toBe(true);
             expect(result.successLevel).toBe(-1); // CRITICAL_FAILURE
-            expect(result.description).toBe(
-                "SOHL.SuccessTestResult.CriticalFailure",
-            );
+            expect(result.description).toBe("SOHL.SuccessTestResult.CriticalFailure");
         });
 
         it("a roll of 100 is a Critical Failure", async () => {
@@ -504,9 +462,7 @@ describe("SuccessTestResult", () => {
             expect(result.roll.total).toBe(100);
             expect(result.isCritical).toBe(true);
             expect(result.successLevel).toBe(-1);
-            expect(result.description).toBe(
-                "SOHL.SuccessTestResult.CriticalFailure",
-            );
+            expect(result.description).toBe("SOHL.SuccessTestResult.CriticalFailure");
         });
 
         it("a succeeding roll not ending in 0 or 5 is a Marginal Success", async () => {
@@ -516,9 +472,7 @@ describe("SuccessTestResult", () => {
             expect(result.isSuccess).toBe(true);
             expect(result.isCritical).toBe(false);
             expect(result.successLevel).toBe(1); // MARGINAL_SUCCESS
-            expect(result.description).toBe(
-                "SOHL.SuccessTestResult.MarginalSuccess",
-            );
+            expect(result.description).toBe("SOHL.SuccessTestResult.MarginalSuccess");
         });
 
         it("a failing roll not ending in 0 or 5 is a Marginal Failure", async () => {
@@ -528,9 +482,7 @@ describe("SuccessTestResult", () => {
             expect(result.isSuccess).toBe(false);
             expect(result.isCritical).toBe(false);
             expect(result.successLevel).toBe(0); // MARGINAL_FAILURE
-            expect(result.description).toBe(
-                "SOHL.SuccessTestResult.MarginalFailure",
-            );
+            expect(result.description).toBe("SOHL.SuccessTestResult.MarginalFailure");
         });
     });
 
@@ -541,10 +493,7 @@ describe("SuccessTestResult", () => {
          * The seam an undetermined Healing Rate uses: a pre-seeded die handed to
          * the result rather than one cast by `evaluate()`.
          */
-        function makeSuppliedResult(
-            baseValue: number,
-            dieValue: number,
-        ): SuccessTestResult {
+        function makeSuppliedResult(baseValue: number, dieValue: number): SuccessTestResult {
             const mlMod = new MasteryLevelModifier({ baseValue } as any, {
                 parent,
             });
@@ -557,10 +506,10 @@ describe("SuccessTestResult", () => {
                 } as any,
                 { parent } as any,
             );
-            return new SuccessTestResult(
-                { masteryLevelModifier: mlMod, roll } as any,
-                { parent, chatSpeaker: owned },
-            );
+            return new SuccessTestResult({ masteryLevelModifier: mlMod, roll } as any, {
+                parent,
+                chatSpeaker: owned,
+            });
         }
 
         afterEach(() => SimpleRoll.clearForced());
@@ -631,10 +580,10 @@ describe("SuccessTestResult", () => {
             const mlMod = new MasteryLevelModifier({ baseValue: 99 } as any, {
                 parent,
             });
-            const result = new SuccessTestResult(
-                { masteryLevelModifier: mlMod } as any,
-                { parent, chatSpeaker: owned },
-            );
+            const result = new SuccessTestResult({ masteryLevelModifier: mlMod } as any, {
+                parent,
+                chatSpeaker: owned,
+            });
             await result.evaluate();
             expect(result.isSuccess).toBe(true);
         });

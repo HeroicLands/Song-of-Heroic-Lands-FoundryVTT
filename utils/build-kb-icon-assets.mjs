@@ -88,9 +88,9 @@ function renderCss(icons, codepoints) {
     const rules = icons
         .map(
             (i) =>
-                `.${CLASS_PREFIX}${i.name}::before { content: "\\${codepoints[
-                    i.name
-                ].toString(16)}"; }`,
+                `.${CLASS_PREFIX}${i.name}::before { content: "\\${codepoints[i.name].toString(
+                    16,
+                )}"; }`,
         )
         .join("\n");
     return `/*

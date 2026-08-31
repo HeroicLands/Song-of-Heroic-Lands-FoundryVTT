@@ -40,30 +40,18 @@ describe("the Pall (#561)", () => {
             expect(pallStrengthAt(10, 0)).toBe(10);
             expect(pallStrengthAt(10, 5)).toBe(9);
             expect(pallStrengthAt(10, 6)).toBe(8); // ceil(6/5) = 2
-            expect(pallStrengthAt(10, 10, PALL_LIGHT_REDUCTION.DAYLIGHT)).toBe(
-                6,
-            );
+            expect(pallStrengthAt(10, 10, PALL_LIGHT_REDUCTION.DAYLIGHT)).toBe(6);
             expect(pallStrengthAt(3, 100)).toBe(0); // clamped
         });
     });
 
     describe("pallResistState", () => {
         it("maps CS/MS/MF and splits the critical failure by last digit", () => {
-            expect(pallResistState(CRITICAL_SUCCESS, 0)).toBe(
-                PALL_STATE.IMMUNE,
-            );
-            expect(pallResistState(MARGINAL_SUCCESS, 3)).toBe(
-                PALL_STATE.RESIST,
-            );
-            expect(pallResistState(MARGINAL_FAILURE, 7)).toBe(
-                PALL_STATE.DISTURBED,
-            );
-            expect(pallResistState(CRITICAL_FAILURE, 0)).toBe(
-                PALL_STATE.CATATONIC,
-            );
-            expect(pallResistState(CRITICAL_FAILURE, 5)).toBe(
-                PALL_STATE.TERRIFIED,
-            );
+            expect(pallResistState(CRITICAL_SUCCESS, 0)).toBe(PALL_STATE.IMMUNE);
+            expect(pallResistState(MARGINAL_SUCCESS, 3)).toBe(PALL_STATE.RESIST);
+            expect(pallResistState(MARGINAL_FAILURE, 7)).toBe(PALL_STATE.DISTURBED);
+            expect(pallResistState(CRITICAL_FAILURE, 0)).toBe(PALL_STATE.CATATONIC);
+            expect(pallResistState(CRITICAL_FAILURE, 5)).toBe(PALL_STATE.TERRIFIED);
         });
     });
 

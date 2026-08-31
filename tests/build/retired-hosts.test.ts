@@ -32,12 +32,8 @@ describe("RETIRED_HOSTS", () => {
     });
 
     it("gives each host the address that replaced it", () => {
-        expect(RETIRED_HOSTS.get("api.heroiclands.org")).toContain(
-            "www.heroiclands.org/sohl/api/",
-        );
-        expect(RETIRED_HOSTS.get("kb.heroiclands.org")).toContain(
-            "www.heroiclands.org/sohl/kb/",
-        );
+        expect(RETIRED_HOSTS.get("api.heroiclands.org")).toContain("www.heroiclands.org/sohl/api/");
+        expect(RETIRED_HOSTS.get("kb.heroiclands.org")).toContain("www.heroiclands.org/sohl/kb/");
     });
 });
 
@@ -45,17 +41,15 @@ describe("rewriteHint", () => {
     it("turns a dead API link into the working one", () => {
         // Both drifts at once: the version segment the API site stopped
         // publishing, and the host that was then withdrawn.
-        expect(
-            rewriteHint(
-                "https://api.heroiclands.org/main/classes/sohl.x.Y.html#anchor",
-            ),
-        ).toBe("https://www.heroiclands.org/sohl/api/classes/sohl.x.Y#anchor");
+        expect(rewriteHint("https://api.heroiclands.org/main/classes/sohl.x.Y.html#anchor")).toBe(
+            "https://www.heroiclands.org/sohl/api/classes/sohl.x.Y#anchor",
+        );
     });
 
     it("drops a `latest` segment the same way as `main`", () => {
-        expect(
-            rewriteHint("https://api.heroiclands.org/latest/classes/Z.html"),
-        ).toBe("https://www.heroiclands.org/sohl/api/classes/Z");
+        expect(rewriteHint("https://api.heroiclands.org/latest/classes/Z.html")).toBe(
+            "https://www.heroiclands.org/sohl/api/classes/Z",
+        );
     });
 
     it("repoints a knowledgebase link", () => {
@@ -83,23 +77,17 @@ describe("findRetiredHrefs", () => {
         );
         expect(found).toHaveLength(1);
         expect(found[0].attr).toBe("href");
-        expect(found[0].url).toBe(
-            "https://kb.heroiclands.org/concepts/architecture/",
-        );
+        expect(found[0].url).toBe("https://kb.heroiclands.org/concepts/architecture/");
     });
 
     it("finds one in a src attribute too", () => {
-        const found = findRetiredHrefs(
-            '<img src="https://kb.heroiclands.org/logo.png">',
-        );
+        const found = findRetiredHrefs('<img src="https://kb.heroiclands.org/logo.png">');
         expect(found).toHaveLength(1);
         expect(found[0].attr).toBe("src");
     });
 
     it("accepts single quotes and spacing around the equals sign", () => {
-        expect(
-            findRetiredHrefs("<a href = 'https://api.heroiclands.org/'>x</a>"),
-        ).toHaveLength(1);
+        expect(findRetiredHrefs("<a href = 'https://api.heroiclands.org/'>x</a>")).toHaveLength(1);
     });
 
     it("ignores a retired host named in prose rather than linked", () => {
@@ -107,18 +95,14 @@ describe("findRetiredHrefs", () => {
         // about the site, not a dead end a reader can click into, and failing
         // the deploy over it would make the guard unusable.
         expect(
-            findRetiredHrefs(
-                "<p>The old <code>api.heroiclands.org</code> was withdrawn.</p>",
-            ),
+            findRetiredHrefs("<p>The old <code>api.heroiclands.org</code> was withdrawn.</p>"),
         ).toEqual([]);
     });
 
     it("leaves the surviving addresses alone", () => {
-        expect(
-            findRetiredHrefs(
-                '<a href="https://www.heroiclands.org/sohl/api/">API</a>',
-            ),
-        ).toEqual([]);
+        expect(findRetiredHrefs('<a href="https://www.heroiclands.org/sohl/api/">API</a>')).toEqual(
+            [],
+        );
     });
 });
 
@@ -134,20 +118,14 @@ describe("rewriteCandidates", () => {
         // segment, so the host swap alone lands on a 404. `/dev-docs/` is where
         // that page lives now, and the assembler takes only the candidate that
         // resolves in the tree it just built.
-        expect(
-            rewriteCandidates(
-                "https://kb.heroiclands.org/concepts/architecture/",
-            ),
-        ).toEqual([
+        expect(rewriteCandidates("https://kb.heroiclands.org/concepts/architecture/")).toEqual([
             "https://www.heroiclands.org/sohl/kb/concepts/architecture/",
             "https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/",
         ]);
     });
 
     it("rewrites the old /dev/ route to /dev-docs/", () => {
-        expect(
-            rewriteCandidates("https://kb.heroiclands.org/dev/how-to/testing/"),
-        ).toContain(
+        expect(rewriteCandidates("https://kb.heroiclands.org/dev/how-to/testing/")).toContain(
             "https://www.heroiclands.org/sohl/kb/dev-docs/how-to/testing/",
         );
     });

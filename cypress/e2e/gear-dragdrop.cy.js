@@ -38,13 +38,9 @@ describe("Being Gear tab: drag-and-drop (#491)", () => {
             const root = actor.sheet.element;
             const source = actor.items.get(sourceItemId);
             const dt = new win.DataTransfer();
-            dt.setData(
-                "text/plain",
-                JSON.stringify({ type: "Item", uuid: source.uuid }),
-            );
+            dt.setData("text/plain", JSON.stringify({ type: "Item", uuid: source.uuid }));
             const target = root.querySelector(targetSelector);
-            if (!target)
-                throw new Error(`drop target not found: ${targetSelector}`);
+            if (!target) throw new Error(`drop target not found: ${targetSelector}`);
             target.dispatchEvent(
                 new win.DragEvent("drop", {
                     bubbles: true,
@@ -127,9 +123,7 @@ describe("Being Gear tab: drag-and-drop (#491)", () => {
                     cy.switchTab("gear");
                     // Capture Alpha's sort (after the sheet is up) then reorder.
                     cy.foundry(
-                        (win) =>
-                            win.game.actors.get(actor.id).items.get(alpha.id)
-                                .sort,
+                        (win) => win.game.actors.get(actor.id).items.get(alpha.id).sort,
                     ).then((sortBefore) => {
                         dropGear(
                             actor.id,

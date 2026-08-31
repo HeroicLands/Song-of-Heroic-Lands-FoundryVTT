@@ -96,8 +96,7 @@ export function skillAptitudeFor(
 ): number | undefined {
     if (!aptitudes?.size) return undefined;
     const byShortcode = shortcode ? aptitudes.get(shortcode) : undefined;
-    const bySubType =
-        subType ? aptitudes.get(subTypeAptitudeKey(subType)) : undefined;
+    const bySubType = subType ? aptitudes.get(subTypeAptitudeKey(subType)) : undefined;
     if (byShortcode === undefined) return bySubType;
     if (bySubType === undefined) return byShortcode;
     return Math.max(byShortcode, bySubType);

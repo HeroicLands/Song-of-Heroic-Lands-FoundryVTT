@@ -58,9 +58,7 @@ const API_VERSION_SEGMENTS = /^(?:main|latest|v?\d+(?:\.\d+)*)$/;
 const hostPattern = () =>
     new RegExp(
         String.raw`(?:https?://)?(?<![\w.-])(` +
-            [...RETIRED_HOSTS.keys()]
-                .map((h) => h.replace(/\./g, String.raw`\.`))
-                .join("|") +
+            [...RETIRED_HOSTS.keys()].map((h) => h.replace(/\./g, String.raw`\.`)).join("|") +
             String.raw`)(?:[^\s)\]"'<>|]*)`,
         "g",
     );
@@ -79,9 +77,7 @@ const hostPattern = () =>
  */
 export function rewriteHint(url) {
     const host = [...RETIRED_HOSTS.keys()].find((h) =>
-        new RegExp(
-            String.raw`(?<![\w.-])${h.replace(/\./g, String.raw`\.`)}`,
-        ).test(String(url)),
+        new RegExp(String.raw`(?<![\w.-])${h.replace(/\./g, String.raw`\.`)}`).test(String(url)),
     );
     if (!host) return undefined;
 
@@ -148,9 +144,7 @@ export function rewriteCandidates(url) {
 const hrefPattern = () =>
     new RegExp(
         String.raw`\b(href|src)\s*=\s*(["'])((?:https?:)?//(?:` +
-            [...RETIRED_HOSTS.keys()]
-                .map((h) => h.replace(/\./g, String.raw`\.`))
-                .join("|") +
+            [...RETIRED_HOSTS.keys()].map((h) => h.replace(/\./g, String.raw`\.`)).join("|") +
             String.raw`)[^"']*)\2`,
         "gi",
     );
@@ -187,17 +181,14 @@ export function findRetiredHrefs(html) {
 export function repairRetiredHrefs(html, resolves) {
     const repaired = [];
     const unresolved = [];
-    const out = String(html).replace(
-        hrefPattern(),
-        (whole, attr, quote, url) => {
-            const to = rewriteCandidates(url).find(resolves);
-            if (!to) {
-                unresolved.push(url);
-                return whole;
-            }
-            repaired.push({ from: url, to });
-            return `${attr}=${quote}${to}${quote}`;
-        },
-    );
+    const out = String(html).replace(hrefPattern(), (whole, attr, quote, url) => {
+        const to = rewriteCandidates(url).find(resolves);
+        if (!to) {
+            unresolved.push(url);
+            return whole;
+        }
+        repaired.push({ from: url, to });
+        return `${attr}=${quote}${to}${quote}`;
+    });
     return { html: out, repaired, unresolved };
 }

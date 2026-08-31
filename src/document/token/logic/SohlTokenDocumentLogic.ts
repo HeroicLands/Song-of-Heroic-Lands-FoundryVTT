@@ -67,9 +67,7 @@ interface OpposedItemLogic {
  * item logic and delegate to it, just as the combatant delegates to
  * `startAutomatedAttackFromItem`.
  */
-export class SohlTokenDocumentLogic<
-    TData extends TokenData = TokenData,
-> extends SohlLogic<TData> {
+export class SohlTokenDocumentLogic<TData extends TokenData = TokenData> extends SohlLogic<TData> {
     /**
      * Runtime brand identifying this as a token logic without needing an
      * `instanceof` check against the class. Consumers in the Foundry-free
@@ -117,14 +115,9 @@ export class SohlTokenDocumentLogic<
      *   skill/attribute item logic.
      * @returns The resulting opposed test, or `null` when it cannot be started.
      */
-    async opposedTestStart(
-        context: SohlActionContext,
-    ): Promise<OpposedTestResult | null> {
-        const logicUuid = (context.scope as any)?.logicUuid as
-            string | undefined;
-        const source = this.opposedItemLogics().find(
-            (il) => il.uuid === logicUuid,
-        );
+    async opposedTestStart(context: SohlActionContext): Promise<OpposedTestResult | null> {
+        const logicUuid = (context.scope as any)?.logicUuid as string | undefined;
+        const source = this.opposedItemLogics().find((il) => il.uuid === logicUuid);
         if (!source) {
             sohl.log.uiWarn(
                 `${this.actorName} has no skill or attribute matching the requested opposed test.`,
@@ -151,38 +144,29 @@ export class SohlTokenDocumentLogic<
         context: SohlActionContext,
     ): Promise<OpposedTestResult | false | undefined> {
         const scope = (context.scope as any) ?? {};
-        const priorTestResult = scope.opposedTestResult as
-            OpposedTestResult | undefined;
+        const priorTestResult = scope.opposedTestResult as OpposedTestResult | undefined;
         if (!priorTestResult) {
-            sohl.log.uiWarn(
-                `${this.actorName} has no opposed test to resolve.`,
-            );
+            sohl.log.uiWarn(`${this.actorName} has no opposed test to resolve.`);
             return undefined;
         }
 
         const candidates = this.opposedItemLogics();
         if (!candidates.length) {
-            sohl.log.uiWarn(
-                `${this.actorName} has no usable skill or attribute to respond with.`,
-            );
+            sohl.log.uiWarn(`${this.actorName} has no usable skill or attribute to respond with.`);
             return undefined;
         }
 
         const choices: Record<string, string> = {};
         candidates.forEach((c, i) => {
-            choices[String(i)] =
-                `${c.name} (ML:${c.masteryLevel.constrainedEffective})`;
+            choices[String(i)] = `${c.name} (ML:${c.masteryLevel.constrainedEffective})`;
         });
 
         let dlgResult: { key: string; situationalModifier: number } | undefined;
         if (scope.skipDialog) {
-            const idx = candidates.findIndex(
-                (c) => c.uuid === scope.responderLogicUuid,
-            );
+            const idx = candidates.findIndex((c) => c.uuid === scope.responderLogicUuid);
             dlgResult = {
                 key: idx >= 0 ? String(idx) : "0",
-                situationalModifier:
-                    Number.parseInt(String(scope.situationalModifier), 10) || 0,
+                situationalModifier: Number.parseInt(String(scope.situationalModifier), 10) || 0,
             };
         } else {
             dlgResult = await showDefenseDialog(

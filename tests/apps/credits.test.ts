@@ -77,29 +77,21 @@ describe("credits — opening the journal", () => {
         const resolve = vi
             .spyOn(FoundryHelpersMock, "fvttResolveUuidAsync")
             .mockResolvedValue(doc as any);
-        const render = vi
-            .spyOn(FoundryHelpersMock, "fvttRenderSheet")
-            .mockResolvedValue(undefined);
+        const render = vi.spyOn(FoundryHelpersMock, "fvttRenderSheet").mockResolvedValue(undefined);
 
         await openCreditsJournal("Compendium.sohl.journals.JournalEntry.abc");
 
-        expect(resolve).toHaveBeenCalledWith(
-            "Compendium.sohl.journals.JournalEntry.abc",
-        );
+        expect(resolve).toHaveBeenCalledWith("Compendium.sohl.journals.JournalEntry.abc");
         expect(render).toHaveBeenCalledWith(doc);
     });
 
     it("warns rather than throwing when the UUID does not resolve", async () => {
-        vi.spyOn(FoundryHelpersMock, "fvttResolveUuidAsync").mockResolvedValue(
-            undefined,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttResolveUuidAsync").mockResolvedValue(undefined);
         const render = vi.spyOn(FoundryHelpersMock, "fvttRenderSheet");
 
         // A click handler must never reject — a missing pack would otherwise
         // surface as an unhandled rejection in the console.
-        await expect(
-            openCreditsJournal("Compendium.x.y.z.nope"),
-        ).resolves.toBeUndefined();
+        await expect(openCreditsJournal("Compendium.x.y.z.nope")).resolves.toBeUndefined();
         expect(render).not.toHaveBeenCalled();
         expect((globalThis as any).sohl.log.uiWarn).toHaveBeenCalled();
     });

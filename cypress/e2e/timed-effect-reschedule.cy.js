@@ -51,23 +51,21 @@ describe("Timed-effect reschedule (#579)", () => {
      * @returns The created trauma item.
      */
     async function makeWound(win, actorId) {
-        const created = await win.game.actors
-            .get(actorId)
-            .createEmbeddedDocuments(
-                "Item",
-                win.structuredClone([
-                    {
-                        type: "trauma",
-                        name: "Wound",
-                        system: {
-                            subType: "injury",
-                            levelBase: 3,
-                            healingRateBase: 4,
-                            treatmentDate: 0,
-                        },
+        const created = await win.game.actors.get(actorId).createEmbeddedDocuments(
+            "Item",
+            win.structuredClone([
+                {
+                    type: "trauma",
+                    name: "Wound",
+                    system: {
+                        subType: "injury",
+                        levelBase: 3,
+                        healingRateBase: 4,
+                        treatmentDate: 0,
                     },
-                ]),
-            );
+                },
+            ]),
+        );
         return created.find((i) => i.type === "trauma");
     }
 
@@ -87,10 +85,7 @@ describe("Timed-effect reschedule (#579)", () => {
                 const snap = () => {
                     const sys = a.items.get(woundId).system;
                     return {
-                        scheduled: win.sohl.events.isScheduled(
-                            uuid,
-                            "healingCheck",
-                        ),
+                        scheduled: win.sohl.events.isScheduled(uuid, "healingCheck"),
                         // The generic run record (system.lastRun), stamped at
                         // the action chokepoint — not a bespoke field. It
                         // follows the ACT, so the test's shortcode carries it
@@ -138,45 +133,24 @@ describe("Timed-effect reschedule (#579)", () => {
                 return { before, afterCheck, afterAccept, afterDecline };
             }).should((r) => {
                 // The check offers and does nothing else (#1181).
-                expect(
-                    r.afterCheck.entries,
-                    "the check leaves the schedule alone",
-                ).to.eq(r.before.entries);
-                expect(r.afterCheck.level, "the check heals nothing").to.eq(
-                    r.before.level,
+                expect(r.afterCheck.entries, "the check leaves the schedule alone").to.eq(
+                    r.before.entries,
                 );
-                expect(
-                    r.afterCheck.checkRecord,
-                    "the check stamps no run record — it only offers",
-                ).to.be.undefined;
-                expect(
-                    r.afterCheck.record,
-                    "no test has run yet, so there is no run record",
-                ).to.be.undefined;
+                expect(r.afterCheck.level, "the check heals nothing").to.eq(r.before.level);
+                expect(r.afterCheck.checkRecord, "the check stamps no run record — it only offers")
+                    .to.be.undefined;
+                expect(r.afterCheck.record, "no test has run yet, so there is no run record").to.be
+                    .undefined;
 
                 // Accept: the next check is armed.
-                expect(r.afterAccept.scheduled, "accept re-arms the check").to
-                    .be.true;
-                expect(
-                    r.afterAccept.entries,
-                    "accept keeps one store entry",
-                ).to.eq(1);
-                expect(
-                    r.afterAccept.record,
-                    "the test stamps the run record",
-                ).to.be.a("number");
+                expect(r.afterAccept.scheduled, "accept re-arms the check").to.be.true;
+                expect(r.afterAccept.entries, "accept keeps one store entry").to.eq(1);
+                expect(r.afterAccept.record, "the test stamps the run record").to.be.a("number");
 
                 // Decline: the schedule is cleared, but the record survives.
-                expect(r.afterDecline.scheduled, "decline clears the schedule")
-                    .to.be.false;
-                expect(
-                    r.afterDecline.entries,
-                    "decline removes the store entry",
-                ).to.eq(0);
-                expect(
-                    r.afterDecline.record,
-                    "decline keeps the run record",
-                ).to.be.a("number");
+                expect(r.afterDecline.scheduled, "decline clears the schedule").to.be.false;
+                expect(r.afterDecline.entries, "decline removes the store entry").to.eq(0);
+                expect(r.afterDecline.record, "decline keeps the run record").to.be.a("number");
             });
         });
     });
@@ -199,18 +173,16 @@ describe("Timed-effect reschedule (#579)", () => {
                 // Clear the seeded schedule so the only thing that can arm the
                 // next check is the button press under test.
                 await win.sohl.unschedule(wound, "healingCheck");
-                win.__entriesBefore = (
-                    a.items.get(wound.id).system.scheduledActions || []
-                ).filter((e) => e.actionName === "healingCheck").length;
+                win.__entriesBefore = (a.items.get(wound.id).system.scheduledActions || []).filter(
+                    (e) => e.actionName === "healingCheck",
+                ).length;
 
                 // Perform the TEST WITHOUT skipDialog so the real offer dialog
                 // opens; stash the promise so we can await the flow after the
                 // button press. The forced die keeps the roll a success, so no
                 // second (infection) offer competes with this one.
                 win.sohl.entity.roll.SimpleRoll.forceValues(5);
-                win.__perf = a.items
-                    .get(wound.id)
-                    .logic.executeAction("healingtest", {});
+                win.__perf = a.items.get(wound.id).logic.executeAction("healingtest", {});
                 return null;
             });
             // Model the player: click the actual "Schedule" button.
@@ -218,31 +190,19 @@ describe("Timed-effect reschedule (#579)", () => {
             cy.foundry((win) =>
                 win.__perf.then(() => {
                     win.sohl.entity.roll.SimpleRoll.clearForced();
-                    const sys = win.game.actors
-                        .get(actor.id)
-                        .items.get(win.__woundId).system;
+                    const sys = win.game.actors.get(actor.id).items.get(win.__woundId).system;
                     return {
                         entriesBefore: win.__entriesBefore,
                         entriesAfter: (sys.scheduledActions || []).filter(
                             (e) => e.actionName === "healingCheck",
                         ).length,
-                        armedAfter: win.sohl.events.isScheduled(
-                            win.__uuid,
-                            "healingCheck",
-                        ),
+                        armedAfter: win.sohl.events.isScheduled(win.__uuid, "healingCheck"),
                     };
                 }),
             ).should((r) => {
-                expect(
-                    r.entriesBefore,
-                    "the next check is offered, not auto-armed",
-                ).to.eq(0);
-                expect(
-                    r.entriesAfter,
-                    "pressing Schedule adds the store entry",
-                ).to.eq(1);
-                expect(r.armedAfter, "pressing Schedule arms the healing check")
-                    .to.be.true;
+                expect(r.entriesBefore, "the next check is offered, not auto-armed").to.eq(0);
+                expect(r.entriesAfter, "pressing Schedule adds the store entry").to.eq(1);
+                expect(r.armedAfter, "pressing Schedule arms the healing check").to.be.true;
             });
         });
     });

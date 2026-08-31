@@ -107,9 +107,7 @@ export const VYLARIAN_RECKONING: BuiltinCalendarData = {
  * The shipped built-in calendars, default first. Registered at init by
  * {@link sohl.core.logic.SohlSystem} under each entry's `shortcode`.
  */
-export const BUILTIN_CALENDARS: readonly BuiltinCalendarData[] = [
-    VYLARIAN_RECKONING,
-];
+export const BUILTIN_CALENDARS: readonly BuiltinCalendarData[] = [VYLARIAN_RECKONING];
 
 /**
  * The config of the default built-in calendar (the {@link DEFAULT_CALENDAR_SHORTCODE}),

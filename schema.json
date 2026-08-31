@@ -5,14 +5,7 @@
     "documents": {
         "Item": {
             "affiliation": {
-                "own": [
-                    "level",
-                    "office",
-                    "relation",
-                    "society",
-                    "subType",
-                    "title"
-                ],
+                "own": ["level", "office", "relation", "society", "subType", "title"],
                 "inherited": [
                     "actionDefs",
                     "docHtml",
@@ -90,12 +83,7 @@
                 ]
             },
             "attribute": {
-                "own": [
-                    "impairedByRoles",
-                    "initDiceFormula",
-                    "scoreBase",
-                    "valueDesc"
-                ],
+                "own": ["impairedByRoles", "initDiceFormula", "scoreBase", "valueDesc"],
                 "inherited": [
                     "actionDefs",
                     "docHtml",

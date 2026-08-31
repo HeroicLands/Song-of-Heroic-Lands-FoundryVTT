@@ -63,13 +63,10 @@ describe("GM result-edit — re-evaluate on the frozen roll (#856)", () => {
                     // the original test is a marginal SUCCESS. No further forced
                     // value is queued, so any re-roll would draw a random die.
                     SimpleRoll.forceValues(34);
-                    const original = await s.logic.executeAction(
-                        "successTest",
-                        {
-                            skipDialog: true,
-                            scope: {},
-                        },
-                    );
+                    const original = await s.logic.executeAction("successTest", {
+                        skipDialog: true,
+                        scope: {},
+                    });
 
                     const beforeRoll = original.roll.total;
                     const beforeLevel = original.successLevel;
@@ -111,9 +108,7 @@ describe("GM result-edit — re-evaluate on the frozen roll (#856)", () => {
                     expect(r.afterRoll, "same frozen die").to.eq(34);
                     expect(r.afterSuccess, "now a failure").to.be.false;
                     // No forced value was consumed by the edit — it did not roll.
-                    expect(r.forcedAfterEdit, "no die drawn by the edit").to.eq(
-                        0,
-                    );
+                    expect(r.forcedAfterEdit, "no die drawn by the edit").to.eq(0);
                 });
             });
         });
@@ -139,13 +134,10 @@ describe("GM result-edit — re-evaluate on the frozen roll (#856)", () => {
                     const CTX = win.sohl.entity.action.SohlActionContext;
 
                     SimpleRoll.forceValues(34);
-                    const original = await s.logic.executeAction(
-                        "successTest",
-                        {
-                            skipDialog: true,
-                            scope: {},
-                        },
-                    );
+                    const original = await s.logic.executeAction("successTest", {
+                        skipDialog: true,
+                        scope: {},
+                    });
                     const beforeLevel = original.successLevel;
 
                     // Same situational (0) and success-level (0) modifiers → no-op.
@@ -163,9 +155,7 @@ describe("GM result-edit — re-evaluate on the frozen roll (#856)", () => {
                         roll: original.roll.total,
                     };
                 }).then((r) => {
-                    expect(r.afterLevel, "level unchanged").to.eq(
-                        r.beforeLevel,
-                    );
+                    expect(r.afterLevel, "level unchanged").to.eq(r.beforeLevel);
                     expect(r.roll, "die unchanged").to.eq(34);
                 });
             });

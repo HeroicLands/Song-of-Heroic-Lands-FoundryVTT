@@ -41,20 +41,14 @@ describe("DataModel choices are value-keyed objects (#148)", () => {
                 for (const name of fields) {
                     const field = model.schema.fields[name];
                     const ch =
-                        typeof field?.choices === "function" ?
-                            field.choices()
-                        :   field?.choices;
-                    const ok =
-                        ch && typeof ch === "object" && !Array.isArray(ch);
+                        typeof field?.choices === "function" ? field.choices() : field?.choices;
+                    const ok = ch && typeof ch === "object" && !Array.isArray(ch);
                     if (!ok) bad.push(`${kind}.${name}`);
                 }
             }
             return bad;
         }).should((bad) => {
-            expect(
-                bad,
-                `array-choices fields: ${bad.join(", ")}`,
-            ).to.have.length(0);
+            expect(bad, `array-choices fields: ${bad.join(", ")}`).to.have.length(0);
         });
     });
 
@@ -73,11 +67,9 @@ describe("DataModel choices are value-keyed objects (#148)", () => {
         cy.foundry((win) => {
             const bad = [];
             for (const kind of SUBTYPE_KINDS) {
-                const field =
-                    win.CONFIG.Item.dataModels[kind].schema.fields.subType;
+                const field = win.CONFIG.Item.dataModels[kind].schema.fields.subType;
                 if (!field?.required) bad.push(`${kind}.subType not required`);
-                if (field?.initial !== undefined)
-                    bad.push(`${kind}.subType has a default`);
+                if (field?.initial !== undefined) bad.push(`${kind}.subType has a default`);
             }
             return bad;
         }).should((bad) => {

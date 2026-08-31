@@ -12,18 +12,14 @@
  */
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
-import {
-    MysteryLogic,
-    MysteryData,
-} from "@src/document/item/logic/MysteryLogic";
+import { MysteryLogic, MysteryData } from "@src/document/item/logic/MysteryLogic";
 import {
     ITEM_KIND,
     MysterySubTypes,
     type MysterySubType,
     MysterySubTypeChoices,
 } from "@src/utils/constants";
-const { SchemaField, NumberField, StringField, TypedObjectField } =
-    foundry.data.fields;
+const { SchemaField, NumberField, StringField, TypedObjectField } = foundry.data.fields;
 
 /**
  * Builds the data schema for the Mystery item, extending the base item schema
@@ -100,10 +96,7 @@ export class MysteryDataModel<
     implements MysteryData<TLogic>
 {
     /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.Mystery",
-        "SOHL.Item",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Mystery", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
@@ -136,11 +129,7 @@ export class MysteryDataModel<
      * @param options - The creation options.
      * @param userId - The id of the user who initiated the creation.
      */
-    protected override _onCreate(
-        data: PlainObject,
-        options: PlainObject,
-        userId: string,
-    ): void {
+    protected override _onCreate(data: PlainObject, options: PlainObject, userId: string): void {
         super._onCreate(data as any, options as any, userId);
         // Only the initiating client offers, and only for a mystery embedded on
         // an actor.

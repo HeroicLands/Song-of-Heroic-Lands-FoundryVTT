@@ -152,13 +152,8 @@ function snapshot(doc: any): MigrationSource {
  * @returns `true` when any actor, item, or scene exists.
  */
 function worldHasContent(game: any): boolean {
-    const size = (c: any): number =>
-        c?.size ?? (Array.isArray(c) ? c.length : 0);
-    return (
-        size(game?.actors) > 0 ||
-        size(game?.items) > 0 ||
-        size(game?.scenes) > 0
-    );
+    const size = (c: any): number => c?.size ?? (Array.isArray(c) ? c.length : 0);
+    return size(game?.actors) > 0 || size(game?.items) > 0 || size(game?.scenes) > 0;
 }
 
 /**
@@ -266,21 +261,9 @@ async function applyMigrationPlan(
     for (const actor of game.actors ?? []) {
         await applyToDocument(actor, "Actor", plan, stats);
         await applyToEmbedded(actor, "Item", actor.items, plan, stats);
-        await applyToEmbedded(
-            actor,
-            "ActiveEffect",
-            actor.effects,
-            plan,
-            stats,
-        );
+        await applyToEmbedded(actor, "ActiveEffect", actor.effects, plan, stats);
         for (const item of actor.items ?? []) {
-            await applyToEmbedded(
-                item,
-                "ActiveEffect",
-                item.effects,
-                plan,
-                stats,
-            );
+            await applyToEmbedded(item, "ActiveEffect", item.effects, plan, stats);
         }
     }
     for (const item of game.items ?? []) {
@@ -290,13 +273,7 @@ async function applyMigrationPlan(
     for (const scene of game.scenes ?? []) {
         await applyToDocument(scene, "Scene", plan, stats);
         for (const region of scene.regions ?? []) {
-            await applyToEmbedded(
-                region,
-                "RegionBehavior",
-                region.behaviors,
-                plan,
-                stats,
-            );
+            await applyToEmbedded(region, "RegionBehavior", region.behaviors, plan, stats);
         }
     }
 }
@@ -320,9 +297,7 @@ export async function runWorldMigrations(
     steps: readonly MigrationStep[] = SOHL_MIGRATIONS,
 ): Promise<MigrationSummary> {
     const to = fvttSystemVersion();
-    const stored = String(
-        fvttGetSetting(SETTINGS_NAMESPACE, MIGRATION_VERSION_KEY) ?? "",
-    );
+    const stored = String(fvttGetSetting(SETTINGS_NAMESPACE, MIGRATION_VERSION_KEY) ?? "");
     const stats: MigrationSummary = {
         from: stored,
         to,

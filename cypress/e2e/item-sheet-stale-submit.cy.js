@@ -30,15 +30,73 @@ describe("item sheet — stale submit after delete (#822)", () => {
     });
 
     it("skips a stale form submit after a world item is deleted, not error", () => {
-        cy.createWorldItem("miscgear", { name: "StaleSubmit822" }).then(
-            (item) => {
+        cy.createWorldItem("miscgear", { name: "StaleSubmit822" }).then((item) => {
+            cy.foundry(async (win) => {
+                const doc = win.game.items.get(item._id);
+                const sheet = doc.sheet;
+                await sheet.render(true);
+                const form = sheet.form;
+
+                // Live: an edit against the still-collected item persists.
+                let liveThrew = false;
+                try {
+                    await sheet._processSubmitData(
+                        new win.Event("submit"),
+                        form,
+                        win.structuredClone({
+                            "system.notes": "<p>alive</p>",
+                        }),
+                        win.structuredClone({}),
+                    );
+                } catch {
+                    liveThrew = true;
+                }
+                const persisted = doc.system.notes;
+
+                // Delete the item (it leaves game.items) with the sheet
+                // still referencing it, then submit again — the stale case.
+                await doc.delete();
+                let staleThrew = false;
+                try {
+                    await sheet._processSubmitData(
+                        new win.Event("submit"),
+                        form,
+                        win.structuredClone({
+                            "system.notes": "<p>gone</p>",
+                        }),
+                        win.structuredClone({}),
+                    );
+                } catch {
+                    staleThrew = true;
+                }
+                return {
+                    liveThrew,
+                    persisted,
+                    staleThrew,
+                    stillPresent: win.game.items.has(item._id),
+                };
+            }).then((r) => {
+                expect(r.liveThrew, "live submit throws").to.eq(false);
+                expect(r.persisted, "live edit persisted").to.contain("alive");
+                expect(r.stillPresent, "item deleted").to.eq(false);
+                expect(r.staleThrew, "stale submit throws").to.eq(false);
+            });
+        });
+    });
+
+    it("skips a stale form submit after an embedded item's actor is deleted, not error", () => {
+        cy.createActor("being", { name: "StaleSubmit822Owner" }).then((actor) => {
+            cy.createItemOn(actor, "miscgear", {
+                name: "EmbeddedStale822",
+            }).then((item) => {
                 cy.foundry(async (win) => {
-                    const doc = win.game.items.get(item._id);
+                    const owner = win.game.actors.get(actor._id);
+                    const doc = owner.items.get(item._id);
                     const sheet = doc.sheet;
                     await sheet.render(true);
                     const form = sheet.form;
 
-                    // Live: an edit against the still-collected item persists.
+                    // Live: an edit against the still-embedded item persists.
                     let liveThrew = false;
                     try {
                         await sheet._processSubmitData(
@@ -54,9 +112,9 @@ describe("item sheet — stale submit after delete (#822)", () => {
                     }
                     const persisted = doc.system.notes;
 
-                    // Delete the item (it leaves game.items) with the sheet
-                    // still referencing it, then submit again — the stale case.
-                    await doc.delete();
+                    // Delete the OWNING ACTOR — the embedded item cascades
+                    // out of its collection while its sheet is still open.
+                    await owner.delete();
                     let staleThrew = false;
                     try {
                         await sheet._processSubmitData(
@@ -74,85 +132,15 @@ describe("item sheet — stale submit after delete (#822)", () => {
                         liveThrew,
                         persisted,
                         staleThrew,
-                        stillPresent: win.game.items.has(item._id),
+                        ownerPresent: win.game.actors.has(actor._id),
                     };
                 }).then((r) => {
                     expect(r.liveThrew, "live submit throws").to.eq(false);
-                    expect(r.persisted, "live edit persisted").to.contain(
-                        "alive",
-                    );
-                    expect(r.stillPresent, "item deleted").to.eq(false);
+                    expect(r.persisted, "live edit persisted").to.contain("alive");
+                    expect(r.ownerPresent, "owning actor deleted").to.eq(false);
                     expect(r.staleThrew, "stale submit throws").to.eq(false);
                 });
-            },
-        );
-    });
-
-    it("skips a stale form submit after an embedded item's actor is deleted, not error", () => {
-        cy.createActor("being", { name: "StaleSubmit822Owner" }).then(
-            (actor) => {
-                cy.createItemOn(actor, "miscgear", {
-                    name: "EmbeddedStale822",
-                }).then((item) => {
-                    cy.foundry(async (win) => {
-                        const owner = win.game.actors.get(actor._id);
-                        const doc = owner.items.get(item._id);
-                        const sheet = doc.sheet;
-                        await sheet.render(true);
-                        const form = sheet.form;
-
-                        // Live: an edit against the still-embedded item persists.
-                        let liveThrew = false;
-                        try {
-                            await sheet._processSubmitData(
-                                new win.Event("submit"),
-                                form,
-                                win.structuredClone({
-                                    "system.notes": "<p>alive</p>",
-                                }),
-                                win.structuredClone({}),
-                            );
-                        } catch {
-                            liveThrew = true;
-                        }
-                        const persisted = doc.system.notes;
-
-                        // Delete the OWNING ACTOR — the embedded item cascades
-                        // out of its collection while its sheet is still open.
-                        await owner.delete();
-                        let staleThrew = false;
-                        try {
-                            await sheet._processSubmitData(
-                                new win.Event("submit"),
-                                form,
-                                win.structuredClone({
-                                    "system.notes": "<p>gone</p>",
-                                }),
-                                win.structuredClone({}),
-                            );
-                        } catch {
-                            staleThrew = true;
-                        }
-                        return {
-                            liveThrew,
-                            persisted,
-                            staleThrew,
-                            ownerPresent: win.game.actors.has(actor._id),
-                        };
-                    }).then((r) => {
-                        expect(r.liveThrew, "live submit throws").to.eq(false);
-                        expect(r.persisted, "live edit persisted").to.contain(
-                            "alive",
-                        );
-                        expect(r.ownerPresent, "owning actor deleted").to.eq(
-                            false,
-                        );
-                        expect(r.staleThrew, "stale submit throws").to.eq(
-                            false,
-                        );
-                    });
-                });
-            },
-        );
+            });
+        });
     });
 });

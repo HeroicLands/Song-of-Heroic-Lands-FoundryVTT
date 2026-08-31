@@ -178,10 +178,7 @@ export interface SohlEntitySurface extends SohlEntityRegistry {
      * @param cls - The replacement class (a subclass of the canonical base).
      * @throws If `name` is unknown or `cls` does not extend the canonical base.
      */
-    register<K extends SohlEntityName>(
-        name: K,
-        cls: SohlEntityRegistry[K],
-    ): void;
+    register<K extends SohlEntityName>(name: K, cls: SohlEntityRegistry[K]): void;
 
     /**
      * The canonical SoHL base class registered under `name`, ignoring any
@@ -216,29 +213,20 @@ export const entity: SohlEntitySurface = (() => {
             enumerable: true,
         });
     }
-    const register = <K extends SohlEntityName>(
-        name: K,
-        cls: SohlEntityRegistry[K],
-    ): void => {
+    const register = <K extends SohlEntityName>(name: K, cls: SohlEntityRegistry[K]): void => {
         if (!KNOWN.has(name)) {
-            throw new Error(
-                `sohl.entity.register: unknown class "${String(name)}"`,
-            );
+            throw new Error(`sohl.entity.register: unknown class "${String(name)}"`);
         }
-        const canon = canonical.get(name) as
-            ({ name: string } & Function) | undefined;
+        const canon = canonical.get(name) as ({ name: string } & Function) | undefined;
         if (!canon) {
             throw new Error(
                 `sohl.entity.register: canonical "${String(name)}" is not yet loaded; import the class before overriding it`,
             );
         }
         const candidate = cls as unknown as { name: string } & Function;
-        const extendsBase =
-            candidate === canon || candidate.prototype instanceof canon;
+        const extendsBase = candidate === canon || candidate.prototype instanceof canon;
         if (!extendsBase) {
-            throw new Error(
-                `sohl.entity.register: ${candidate.name} must extend ${canon.name}`,
-            );
+            throw new Error(`sohl.entity.register: ${candidate.name} must extend ${canon.name}`);
         }
         current.set(name, cls as unknown as Function);
     };

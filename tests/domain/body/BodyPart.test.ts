@@ -1,12 +1,7 @@
 import { describe, it, expect } from "vitest";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
-import {
-    locationData,
-    makeBody,
-    partData,
-    zoneData,
-} from "@tests/mocks/bodyFixture";
+import { locationData, makeBody, partData, zoneData } from "@tests/mocks/bodyFixture";
 
 /**
  * A part is built by its zone, which is built by the structure, so these tests
@@ -71,9 +66,7 @@ describe("BodyPart", () => {
             expect(arm().isCritical).toBe(false); // roles: []
             expect(arm({ roles: ["core"] }).isCritical).toBe(true);
             expect(arm({ roles: ["locomotor"] }).isCritical).toBe(false);
-            expect(arm({ permanentlyUnusable: true }).permanentlyUnusable).toBe(
-                true,
-            );
+            expect(arm({ permanentlyUnusable: true }).permanentlyUnusable).toBe(true);
         });
 
         it("reads a negative permanent impairment and clamps a positive one to 0 (#464)", () => {
@@ -86,10 +79,7 @@ describe("BodyPart", () => {
         it("constructs BodyLocation instances for each of its locations", () => {
             const part = arm();
             expect(part.locations).toHaveLength(2);
-            expect(part.locations.map((l) => l.shortcode)).toEqual([
-                "ularm",
-                "lhand",
-            ]);
+            expect(part.locations.map((l) => l.shortcode)).toEqual(["ularm", "lhand"]);
         });
 
         it("gives locations their flat index, and position within the part", () => {
@@ -108,14 +98,9 @@ describe("BodyPart", () => {
 
     describe("indices", () => {
         it("updatePath addresses the flat parts array", () => {
-            const body = armBody(
-                {},
-                { parts: [partData("rarm", "armszone", 20)] },
-            );
+            const body = armBody({}, { parts: [partData("rarm", "armszone", 20)] });
             expect(body.getPartByCode("rarm")!.index).toBe(1);
-            expect(body.getPartByCode("rarm")!.updatePath).toBe(
-                "system.body.structure.parts.1",
-            );
+            expect(body.getPartByCode("rarm")!.updatePath).toBe("system.body.structure.parts.1");
         });
 
         it("position is the slot within the zone, index the flat slot", () => {
@@ -146,18 +131,10 @@ describe("BodyPart", () => {
         it("does not find a location belonging to another part", () => {
             const body = makeBody({
                 zones: [zoneData("armszone", 4)],
-                parts: [
-                    partData("larm", "armszone", 20),
-                    partData("rarm", "armszone", 20),
-                ],
-                locations: [
-                    locationData("lhand", "larm", 5),
-                    locationData("rhand", "rarm", 5),
-                ],
+                parts: [partData("larm", "armszone", 20), partData("rarm", "armszone", 20)],
+                locations: [locationData("lhand", "larm", 5), locationData("rhand", "rarm", 5)],
             });
-            expect(
-                body.getPartByCode("larm")!.getLocationByCode("rhand"),
-            ).toBeUndefined();
+            expect(body.getPartByCode("larm")!.getLocationByCode("rhand")).toBeUndefined();
         });
     });
 

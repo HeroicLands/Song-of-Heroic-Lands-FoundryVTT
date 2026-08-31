@@ -36,10 +36,7 @@ import { execFileSync } from "child_process";
 import { Octokit } from "@octokit/rest";
 import dotenv from "dotenv";
 
-const repoRoot = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "..",
-);
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 dotenv.config({ path: path.join(repoRoot, ".env.local") });
 dotenv.config({ path: path.join(repoRoot, ".env") });
@@ -80,9 +77,7 @@ if (!GITHUB_TOKEN) {
 
 const systemJsonPath = path.join(repoRoot, "build", "stage", "system.json");
 if (!fs.existsSync(systemJsonPath)) {
-    console.error(
-        "Missing build/stage/system.json. Run 'npm run build' first.",
-    );
+    console.error("Missing build/stage/system.json. Run 'npm run build' first.");
     process.exit(1);
 }
 
@@ -94,9 +89,7 @@ const zipPath = path.join(repoRoot, "build", `system-${version}.zip`);
 const jsonPath = systemJsonPath;
 
 if (!fs.existsSync(zipPath)) {
-    console.error(
-        `Missing build/system-${version}.zip. Run 'npm run build:pack-release' first.`,
-    );
+    console.error(`Missing build/system-${version}.zip. Run 'npm run build:pack-release' first.`);
     process.exit(1);
 }
 

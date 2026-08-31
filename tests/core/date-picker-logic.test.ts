@@ -104,26 +104,19 @@ describe("datePartsToWorldTime", () => {
 
     it("sums uniform month lengths for day-of-year", () => {
         // Month index 1, day 1 = day-of-year 30 (month 0 has 30 days).
-        expect(datePartsToWorldTime(uniform, parts(1, 1, 1))).toBe(
-            30 * SECONDS_PER_DAY,
-        );
+        expect(datePartsToWorldTime(uniform, parts(1, 1, 1))).toBe(30 * SECONDS_PER_DAY);
     });
 
     it("sums VARIABLE month lengths for day-of-year", () => {
         // Variable: month index 2 (Mar), day 1 = day-of-year 31 + 28 = 59.
-        expect(datePartsToWorldTime(variable, parts(2, 1, 1))).toBe(
-            59 * SECONDS_PER_DAY,
-        );
+        expect(datePartsToWorldTime(variable, parts(2, 1, 1))).toBe(59 * SECONDS_PER_DAY);
         // Last day of the year: month 11 (Dec), day 31 = day-of-year 364.
-        expect(datePartsToWorldTime(variable, parts(11, 31, 1))).toBe(
-            364 * SECONDS_PER_DAY,
-        );
+        expect(datePartsToWorldTime(variable, parts(11, 31, 1))).toBe(364 * SECONDS_PER_DAY);
     });
 
     it("round-trips through worldTimeToDateParts for many dates", () => {
         for (const cal of [uniform, variable]) {
-            const monthDays =
-                cal === uniform ? Array(12).fill(30) : VARIABLE_DAYS;
+            const monthDays = cal === uniform ? Array(12).fill(30) : VARIABLE_DAYS;
             for (let m = 0; m < 12; m++) {
                 for (const d of [1, 15, monthDays[m]]) {
                     for (const y of [1, 3, 722]) {
@@ -164,21 +157,15 @@ describe("datePartsToWorldTime", () => {
     });
 
     it("includes the time of day", () => {
-        expect(
-            datePartsToWorldTime(uniform, parts(0, 1, 1, false, 14, 30, 15)),
-        ).toBe(14 * 3600 + 30 * 60 + 15);
+        expect(datePartsToWorldTime(uniform, parts(0, 1, 1, false, 14, 30, 15))).toBe(
+            14 * 3600 + 30 * 60 + 15,
+        );
     });
 
     it("rejects an out-of-range time of day", () => {
-        expect(
-            datePartsToWorldTime(uniform, parts(0, 1, 1, false, 24)),
-        ).toBeNull();
-        expect(
-            datePartsToWorldTime(uniform, parts(0, 1, 1, false, 0, 60)),
-        ).toBeNull();
-        expect(
-            datePartsToWorldTime(uniform, parts(0, 1, 1, false, 0, 0, 60)),
-        ).toBeNull();
+        expect(datePartsToWorldTime(uniform, parts(0, 1, 1, false, 24))).toBeNull();
+        expect(datePartsToWorldTime(uniform, parts(0, 1, 1, false, 0, 60))).toBeNull();
+        expect(datePartsToWorldTime(uniform, parts(0, 1, 1, false, 0, 0, 60))).toBeNull();
     });
 });
 
@@ -245,17 +232,15 @@ describe("skipDays", () => {
     });
 
     it("preserves the time of day", () => {
-        expect(skipDays(uniform, parts(0, 1, 1, false, 10, 20, 30), 5)).toEqual(
-            {
-                monthIndex: 0,
-                day: 6,
-                eraYear: 1,
-                beforeEra: false,
-                hour: 10,
-                minute: 20,
-                second: 30,
-            },
-        );
+        expect(skipDays(uniform, parts(0, 1, 1, false, 10, 20, 30), 5)).toEqual({
+            monthIndex: 0,
+            day: 6,
+            eraYear: 1,
+            beforeEra: false,
+            hour: 10,
+            minute: 20,
+            second: 30,
+        });
     });
 
     it("returns null when the starting date is invalid", () => {

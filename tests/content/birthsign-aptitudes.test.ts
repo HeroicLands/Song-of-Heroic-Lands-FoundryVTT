@@ -80,9 +80,7 @@ const MATRIX: Record<string, Record<ElementName, number>> = {
 const WHEEL = Object.keys(MATRIX);
 
 /** Every adjacent pair on the wheel — the twelve births that fall on a cusp. */
-const ADJACENT_PAIRS = WHEEL.map(
-    (sign, i) => [sign, WHEEL[(i + 1) % WHEEL.length]] as const,
-);
+const ADJACENT_PAIRS = WHEEL.map((sign, i) => [sign, WHEEL[(i + 1) % WHEEL.length]] as const);
 
 /** Expand a matrix row into the selector → modifier map a sign carries. */
 function expandRow(row: Record<ElementName, number>): Record<string, number> {
@@ -148,15 +146,12 @@ describe("each principal sign's matrix row", () => {
                 const expanded = expandRow(row);
                 for (const element of ELEMENT_NAMES) {
                     for (const subType of ELEMENTS[element].subTypes) {
-                        expect(
-                            expanded[subTypeAptitudeKey(subType)],
-                            `subType ${subType}`,
-                        ).toBe(row[element]);
-                    }
-                    for (const shortcode of ELEMENTS[element].shortcodes) {
-                        expect(expanded[shortcode], shortcode).toBe(
+                        expect(expanded[subTypeAptitudeKey(subType)], `subType ${subType}`).toBe(
                             row[element],
                         );
+                    }
+                    for (const shortcode of ELEMENTS[element].shortcodes) {
+                        expect(expanded[shortcode], shortcode).toBe(row[element]);
                     }
                 }
             });
@@ -190,9 +185,7 @@ describe("each principal sign's matrix row", () => {
             });
 
             it("claims no skill outside its six elements", () => {
-                expect(
-                    skillAptitudeFor(born(sign), "unrelated", "unrelated"),
-                ).toBeUndefined();
+                expect(skillAptitudeFor(born(sign), "unrelated", "unrelated")).toBeUndefined();
             });
         });
     }
@@ -207,10 +200,7 @@ describe("a birth under two neighbouring signs is a cusp", () => {
                 const row = merged();
                 for (const element of ELEMENT_NAMES) {
                     expect(row[element], element).toBe(
-                        Math.max(
-                            MATRIX[first][element],
-                            MATRIX[second][element],
-                        ),
+                        Math.max(MATRIX[first][element], MATRIX[second][element]),
                     );
                 }
             });
@@ -226,9 +216,7 @@ describe("a birth under two neighbouring signs is a cusp", () => {
             });
 
             it("orders the signs indifferently", () => {
-                expect(perElement(born(first, second))).toEqual(
-                    perElement(born(second, first)),
-                );
+                expect(perElement(born(first, second))).toEqual(perElement(born(second, first)));
             });
         });
     }
@@ -252,8 +240,6 @@ describe("a birth under more than two signs", () => {
     });
 
     it("is idempotent — the same sign twice is the same sign once", () => {
-        expect(perElement(born("Arnos", "Arnos"))).toEqual(
-            perElement(born("Arnos")),
-        );
+        expect(perElement(born("Arnos", "Arnos"))).toEqual(perElement(born("Arnos")));
     });
 });

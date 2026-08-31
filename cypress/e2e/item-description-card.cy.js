@@ -29,49 +29,40 @@ describe("Output Description to Chat action (#849)", () => {
 
     it("is defined on an embedded item and posts a description card", () => {
         cy.createActor("being", { name: "desc-owner" }).then((actor) => {
-            cy.createItemOn(actor, "weapongear", { name: "Broadsword" }).then(
-                (item) => {
-                    // Give the item a description + notes to render.
-                    cy.foundry((win) =>
-                        win.game.actors
-                            .get(actor.id)
-                            .items.get(item.id)
-                            .update(
-                                win.structuredClone({
-                                    "system.docHtml":
-                                        "<p>A trusty broadsword.</p>",
-                                    "system.notes": "Guild-forged",
-                                }),
-                            ),
-                    );
+            cy.createItemOn(actor, "weapongear", { name: "Broadsword" }).then((item) => {
+                // Give the item a description + notes to render.
+                cy.foundry((win) =>
+                    win.game.actors
+                        .get(actor.id)
+                        .items.get(item.id)
+                        .update(
+                            win.structuredClone({
+                                "system.docHtml": "<p>A trusty broadsword.</p>",
+                                "system.notes": "Guild-forged",
+                            }),
+                        ),
+                );
 
-                    cy.hasAction(item, "outputDescription").should("be.true");
+                cy.hasAction(item, "outputDescription").should("be.true");
 
-                    cy.foundry(async (win) => {
-                        const it = win.game.actors
-                            .get(actor.id)
-                            .items.get(item.id);
-                        const before = win.game.messages.size;
-                        await it.logic.outputDescription(
-                            it.logic._getContext(),
-                        );
-                        const msg = [...win.game.messages].at(-1);
-                        return {
-                            added: win.game.messages.size - before,
-                            content: msg?.content ?? "",
-                            actorId: actor.id,
-                        };
-                    }).should((r) => {
-                        expect(r.added, "a chat message was posted").to.eq(1);
-                        expect(r.content).to.contain("Broadsword");
-                        expect(r.content).to.contain("A trusty broadsword.");
-                        expect(r.content).to.contain("Guild-forged");
-                        expect(r.content).to.contain(
-                            `data-actor-id="${r.actorId}"`,
-                        );
-                    });
-                },
-            );
+                cy.foundry(async (win) => {
+                    const it = win.game.actors.get(actor.id).items.get(item.id);
+                    const before = win.game.messages.size;
+                    await it.logic.outputDescription(it.logic._getContext());
+                    const msg = [...win.game.messages].at(-1);
+                    return {
+                        added: win.game.messages.size - before,
+                        content: msg?.content ?? "",
+                        actorId: actor.id,
+                    };
+                }).should((r) => {
+                    expect(r.added, "a chat message was posted").to.eq(1);
+                    expect(r.content).to.contain("Broadsword");
+                    expect(r.content).to.contain("A trusty broadsword.");
+                    expect(r.content).to.contain("Guild-forged");
+                    expect(r.content).to.contain(`data-actor-id="${r.actorId}"`);
+                });
+            });
         });
     });
 });

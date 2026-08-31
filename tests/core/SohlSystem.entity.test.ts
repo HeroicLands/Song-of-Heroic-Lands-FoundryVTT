@@ -78,18 +78,14 @@ describe("sohl.entity registry", () => {
         // wire one. This locks that invariant against a regression that
         // reintroduces a runtime-global dependency in a construction path.
         it("resolves nested construction with no `sohl.entity` global wired", () => {
-            expect(
-                (globalThis as { sohl: { entity?: unknown } }).sohl.entity,
-            ).toBeUndefined();
+            expect((globalThis as { sohl: { entity?: unknown } }).sohl.entity).toBeUndefined();
 
             const parent = brandLogic({
                 id: "p",
                 name: "P",
                 label: "P",
             }) as never;
-            const vm = new entity.ValueModifier(parent)
-                .setBase(5)
-                .add("Bonus", "BON", 3);
+            const vm = new entity.ValueModifier(parent).setBase(5).add("Bonus", "BON", 3);
 
             // `.add` builds a ValueDelta via `entity.ValueDelta` — resolved by
             // the base class through the cycle-free leaf, not the global.
@@ -102,10 +98,7 @@ describe("sohl.entity registry", () => {
         // Restore the canonical class after each test so the shared registry is
         // left untouched for other suites.
         afterEach(() => {
-            entity.register(
-                "SuccessTestResult",
-                entity.base("SuccessTestResult"),
-            );
+            entity.register("SuccessTestResult", entity.base("SuccessTestResult"));
         });
 
         it("register swaps the class returned by the getter", () => {
@@ -124,17 +117,14 @@ describe("sohl.entity registry", () => {
 
         it("register rejects a class that does not extend the canonical base", () => {
             class Unrelated {}
-            expect(() =>
-                entity.register("SuccessTestResult", Unrelated as never),
-            ).toThrow(/must extend/);
+            expect(() => entity.register("SuccessTestResult", Unrelated as never)).toThrow(
+                /must extend/,
+            );
         });
 
         it("register rejects an unknown class name", () => {
             expect(() =>
-                entity.register(
-                    "NotARealClass" as SohlEntityName,
-                    SuccessTestResult,
-                ),
+                entity.register("NotARealClass" as SohlEntityName, SuccessTestResult),
             ).toThrow(/unknown class/);
         });
 

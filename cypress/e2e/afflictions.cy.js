@@ -29,19 +29,15 @@ describe("afflictions", () => {
     // GREEN: an affliction item persists on a being and carries its logic.
     it("an affliction item persists on a being and carries logic", () => {
         cy.createActor("being", { name: "afflicted" }).then((actor) => {
-            cy.createItemOn(actor, "affliction", { name: "Fever" }).then(
-                (item) => {
-                    cy.foundry((win) => {
-                        const it = win.game.actors
-                            .get(actor.id)
-                            .items.get(item.id);
-                        return { type: it?.type, hasLogic: !!it?.logic };
-                    }).should((r) => {
-                        expect(r.type, "affliction item").to.eq("affliction");
-                        expect(r.hasLogic, "carries logic").to.be.true;
-                    });
-                },
-            );
+            cy.createItemOn(actor, "affliction", { name: "Fever" }).then((item) => {
+                cy.foundry((win) => {
+                    const it = win.game.actors.get(actor.id).items.get(item.id);
+                    return { type: it?.type, hasLogic: !!it?.logic };
+                }).should((r) => {
+                    expect(r.type, "affliction item").to.eq("affliction");
+                    expect(r.hasLogic, "carries logic").to.be.true;
+                });
+            });
         });
     });
 
@@ -66,11 +62,9 @@ describe("afflictions", () => {
                 }).then((item) => {
                     cy.prepare(actor);
                     cy.itemLogic(item).should((logic) => {
-                        expect(logic.hasCourse, "active + Endurance").to.be
-                            .true;
+                        expect(logic.hasCourse, "active + Endurance").to.be.true;
                         expect(logic.canTreat, "untreated").to.be.true;
-                        expect(logic.canHeal, "healing rate + Endurance").to.be
-                            .true;
+                        expect(logic.canHeal, "healing rate + Endurance").to.be.true;
                     });
                 });
             });

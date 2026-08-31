@@ -64,9 +64,7 @@ describe("cohort Members tab", () => {
 
         expect(html).toContain('<img src="icons/aldric.webp"');
         // The portrait cell precedes the name cell in the row.
-        expect(html.indexOf("icons/aldric.webp")).toBeLessThan(
-            html.indexOf("ledger__name"),
-        );
+        expect(html.indexOf("icons/aldric.webp")).toBeLessThan(html.indexOf("ledger__name"));
     });
 
     it("leaves the portrait cell empty when the member has no image", () => {
@@ -184,10 +182,7 @@ describe("cohort Members tab", () => {
 
     it("lights the chess-king control on the leader's row only", () => {
         const html = renderTemplateReal(MEMBERS, {
-            members: [
-                row({ isLeader: true }),
-                row({ ref: "brunjar", name: "Brunjar" }),
-            ],
+            members: [row({ isLeader: true }), row({ ref: "brunjar", name: "Brunjar" })],
         });
 
         // One king per row; exactly one of them is in the lit (leader) state.
@@ -197,10 +192,7 @@ describe("cohort Members tab", () => {
 
     it("makes every king clickable, carrying the row's handle", () => {
         const html = renderTemplateReal(MEMBERS, {
-            members: [
-                row({ isLeader: true }),
-                row({ ref: "brunjar", name: "Brunjar" }),
-            ],
+            members: [row({ isLeader: true }), row({ ref: "brunjar", name: "Brunjar" })],
         });
 
         expect(html.match(/data-action="setCohortLeader"/g)).toHaveLength(2);

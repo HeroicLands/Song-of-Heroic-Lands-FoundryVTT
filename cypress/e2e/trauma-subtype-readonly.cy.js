@@ -27,9 +27,7 @@ describe("trauma sheet sub-type is read-only (#926)", () => {
 
     function renderSheet(uuid) {
         cy.foundry((win) =>
-            Cypress.Promise.resolve(
-                win.fromUuidSync(uuid).sheet.render(true),
-            ).then(() => null),
+            Cypress.Promise.resolve(win.fromUuidSync(uuid).sheet.render(true)).then(() => null),
         );
         cy.wait(400);
     }
@@ -58,9 +56,7 @@ describe("trauma sheet sub-type is read-only (#926)", () => {
                 renderSheet(trauma.uuid);
                 cy.foundry((win) => {
                     const el = win.fromUuidSync(trauma.uuid).sheet.element;
-                    return el
-                        .querySelector(".sheet-header__type")
-                        ?.textContent?.trim();
+                    return el.querySelector(".sheet-header__type")?.textContent?.trim();
                 }).should((label) => {
                     // Localized sub-type ("Injury"), not the raw stored value or
                     // an i18n key.

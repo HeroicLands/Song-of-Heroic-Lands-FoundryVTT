@@ -4,8 +4,7 @@ import { createRng } from "@src/entity/random/createRng";
 // SimpleRoll is a SohlEntity and requires an owning parent Logic. These are
 // pure dice-primitive unit tests, so a minimal stand-in parent suffices.
 const parent = { kind: "test-parent" } as any;
-const sr = (data?: Partial<SimpleRoll.Data>) =>
-    new SimpleRoll(data ?? {}, { parent });
+const sr = (data?: Partial<SimpleRoll.Data>) => new SimpleRoll(data ?? {}, { parent });
 const srf = (formula: string) => SimpleRoll.fromFormula(formula, parent);
 
 describe("SimpleRoll", () => {
@@ -96,9 +95,7 @@ describe("SimpleRoll", () => {
         });
 
         it("is true for values supplied at construction", () => {
-            expect(
-                sr({ numDice: 1, dieFaces: 100, rolls: [42] }).isRolled,
-            ).toBe(true);
+            expect(sr({ numDice: 1, dieFaces: 100, rolls: [42] }).isRolled).toBe(true);
         });
 
         it("distinguishes an unrolled die from one totalling its modifier", () => {
@@ -196,9 +193,7 @@ describe("SimpleRoll", () => {
 
         it("throws when values length does not match numDice", () => {
             const roll = sr({ numDice: 2, dieFaces: 6 });
-            expect(() => roll.setRolls([1, 2, 3])).toThrow(
-                "Expected 2 roll values, got 3",
-            );
+            expect(() => roll.setRolls([1, 2, 3])).toThrow("Expected 2 roll values, got 3");
         });
     });
 
@@ -328,17 +323,15 @@ describe("SimpleRoll", () => {
         });
 
         it("full JSON.stringify cycle revives via defaultFromJSON", async () => {
-            const { defaultToJSON, defaultFromJSON } =
-                await import("@src/utils/helpers");
+            const { defaultToJSON, defaultFromJSON } = await import("@src/utils/helpers");
             const roll = sr({
                 numDice: 1,
                 dieFaces: 100,
                 rolls: [42],
             });
-            const revived = defaultFromJSON(
-                JSON.parse(JSON.stringify(defaultToJSON(roll))),
-                { parent },
-            ) as SimpleRoll;
+            const revived = defaultFromJSON(JSON.parse(JSON.stringify(defaultToJSON(roll))), {
+                parent,
+            }) as SimpleRoll;
             expect(revived).toBeInstanceOf(SimpleRoll);
             expect(revived.total).toBe(42);
         });
@@ -414,9 +407,7 @@ describe("SimpleRoll", () => {
     });
 
     describe("toFoundryRoll", () => {
-        it.todo(
-            "converts to a Foundry VTT Roll instance (requires Foundry mocking)",
-        );
+        it.todo("converts to a Foundry VTT Roll instance (requires Foundry mocking)");
     });
 });
 

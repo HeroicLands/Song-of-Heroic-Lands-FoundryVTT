@@ -47,9 +47,7 @@ const STEP = {
 /** Read whether the tour's Next button is currently gate-disabled. */
 function isGated(win) {
     // The Next button lives in the centered step card, not the shared tooltip.
-    const btn = win.document.querySelector(
-        '.tour-center-step .step-button[data-action="next"]',
-    );
+    const btn = win.document.querySelector('.tour-center-step .step-button[data-action="next"]');
     return !!btn && btn.classList.contains("sohl-tour-gate-disabled");
 }
 
@@ -83,9 +81,7 @@ function addInjury(being, name) {
  */
 function purgeBeings() {
     return cy.foundry(async (win) => {
-        const ids = win.game.actors.contents
-            .filter((a) => a.type === "being")
-            .map((a) => a.id);
+        const ids = win.game.actors.contents.filter((a) => a.type === "being").map((a) => a.id);
         if (ids.length) await win.Actor.deleteDocuments(ids);
         return ids.length;
     });
@@ -136,10 +132,7 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
         // out Start (Foundry gives no reason), the tour always starts and its
         // first `prepare` step coaches the user to a Being, holding Next until one
         // is owned.
-        cy.foundry((win) => win.game.tours.get(KEY).canStart).should(
-            "eq",
-            true,
-        );
+        cy.foundry((win) => win.game.tours.get(KEY).canStart).should("eq", true);
 
         // Start in an empty world → the prepare step's Next is gated shut.
         cy.foundry((win) =>
@@ -173,17 +166,17 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
         goTo(STEP.gear).should("eq", STEP.gear);
         expectGated(true, "gear gate closed with no weapons");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then(
-                (w) => cy.dropOnActor(being, w).as("broadsword"),
+            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then((w) =>
+                cy.dropOnActor(being, w).as("broadsword"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "BatlSwd").then(
-                (w) => cy.dropOnActor(being, w),
+            cy.getFromCompendium("sohl.items", "weapongear", "BatlSwd").then((w) =>
+                cy.dropOnActor(being, w),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "LBw100").then(
-                (w) => cy.dropOnActor(being, w).as("longbow"),
+            cy.getFromCompendium("sohl.items", "weapongear", "LBw100").then((w) =>
+                cy.dropOnActor(being, w).as("longbow"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "RndSh").then(
-                (w) => cy.dropOnActor(being, w),
+            cy.getFromCompendium("sohl.items", "weapongear", "RndSh").then((w) =>
+                cy.dropOnActor(being, w),
             );
         });
         expectGated(false, "gear gate opens once all four archetypes exist");
@@ -198,9 +191,7 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
             cy.foundry((win) => {
                 const actor = win.game.actors.get(beingId);
                 const struct = actor.logic.body.structure;
-                const arms = struct.parts.filter(
-                    (p) => p.canHoldItem && /arm/i.test(p.name),
-                );
+                const arms = struct.parts.filter((p) => p.canHoldItem && /arm/i.test(p.name));
                 const payload = struct.setPartFieldsUpdate(
                     arms.slice(0, 2).map((p) => ({
                         index: p.index,
@@ -210,10 +201,7 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
                 return actor.logic.data.update(payload).then(() => true);
             });
         });
-        expectGated(
-            false,
-            "arm-rule gate opens once the bow is held two-handed",
-        );
+        expectGated(false, "arm-rule gate opens once the bow is held two-handed");
 
         // resolve-injury: gated until an injury is recorded on the sheet.
         goTo(STEP.resolveInjury).should("eq", STEP.resolveInjury);
@@ -232,8 +220,8 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
     it("ATK produces a roll and Impact posts a card to chat", () => {
         cy.importActor().as("being");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then(
-                (w) => cy.dropOnActor(being, w).as("broadsword"),
+            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then((w) =>
+                cy.dropOnActor(being, w).as("broadsword"),
             );
         });
         // Hold the broadsword so its strike modes are available, then re-derive.
@@ -258,9 +246,7 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
                     skipDialog: true,
                     scope: { strikeModeId: sm.shortcode },
                 });
-                const result = await weaponLogic.actions
-                    .get("attackTest")
-                    .execute(ctx);
+                const result = await weaponLogic.actions.get("attackTest").execute(ctx);
                 SimpleRoll.clearForced();
                 return result?.roll?.total ?? null;
             }).should("eq", 50);

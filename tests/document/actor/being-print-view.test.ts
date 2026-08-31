@@ -21,10 +21,7 @@ import {
     BODY_PART_STATUS_PRINT_LABEL,
     PRINT_EM_DASH,
 } from "@src/document/actor/logic/being-print-view";
-import type {
-    StatusPill,
-    BodyPartLozenge,
-} from "@src/document/actor/logic/being-sheet-view";
+import type { StatusPill, BodyPartLozenge } from "@src/document/actor/logic/being-sheet-view";
 
 const pill = (over: Partial<StatusPill> = {}): StatusPill => ({
     id: "stun",
@@ -63,15 +60,11 @@ describe("being-print-view", () => {
                 pill({ id: "prone", label: "x.prone.label", active: false }),
                 pill({ id: "stun", label: "x.stun.label", active: true }),
             ];
-            expect(summarizeActiveStatuses(pills, localize)).toBe(
-                "fatigue, stun",
-            );
+            expect(summarizeActiveStatuses(pills, localize)).toBe("fatigue, stun");
         });
 
         it("returns an empty string when nothing is active", () => {
-            expect(summarizeActiveStatuses([pill(), pill()], localize)).toBe(
-                "",
-            );
+            expect(summarizeActiveStatuses([pill(), pill()], localize)).toBe("");
         });
     });
 
@@ -91,12 +84,7 @@ describe("being-print-view", () => {
         });
 
         it("returns an empty string when no part is injured", () => {
-            expect(
-                summarizeInjuredParts(
-                    [loz(), loz({ name: "Head" })],
-                    statusLabel,
-                ),
-            ).toBe("");
+            expect(summarizeInjuredParts([loz(), loz({ name: "Head" })], statusLabel)).toBe("");
         });
     });
 
@@ -149,9 +137,7 @@ describe("being-print-view", () => {
     describe("formatPrintLevel", () => {
         it("shows an em dash when disabled", () => {
             expect(formatPrintLevel(true, 4)).toBe(PRINT_EM_DASH);
-            expect(formatPrintLevel(true, 4, { signed: true })).toBe(
-                PRINT_EM_DASH,
-            );
+            expect(formatPrintLevel(true, 4, { signed: true })).toBe(PRINT_EM_DASH);
         });
 
         it("renders a plain value by default", () => {

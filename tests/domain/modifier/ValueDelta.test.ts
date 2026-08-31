@@ -223,10 +223,7 @@ describe("ValueDelta", () => {
         afterEach(() => vi.restoreAllMocks());
 
         it("localizes the stored name for display", () => {
-            vi.spyOn(
-                (globalThis as any).sohl.i18n,
-                "localize",
-            ).mockImplementation((k: any) =>
+            vi.spyOn((globalThis as any).sohl.i18n, "localize").mockImplementation((k: any) =>
                 k === "SOHL.MysticalAbility.LevelPenalty" ? "Level Penalty" : k,
             );
             const delta = makeDelta({

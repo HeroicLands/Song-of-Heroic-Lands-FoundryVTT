@@ -11,11 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    fvttIsActiveGM,
-    fvttWorldActors,
-    fvttWorldTime,
-} from "@src/core/FoundryHelpers";
+import { fvttIsActiveGM, fvttWorldActors, fvttWorldTime } from "@src/core/FoundryHelpers";
 import type { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import { fireSohlTrigger } from "@src/entity/event/event-trigger";
 import { buildDarknessTriggerContext } from "@src/entity/event/scene-triggers";
@@ -65,12 +61,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     // cannot host a schedule, so there is nothing to re-arm for them. On world
     // `ready` we walk every world actor and its embedded items.
     const rearm = (doc: any): void =>
-        armScheduledActions(
-            doc?.uuid,
-            doc?.system?.scheduledActions,
-            queue,
-            doc?.logic,
-        );
+        armScheduledActions(doc?.uuid, doc?.system?.scheduledActions, queue, doc?.logic);
 
     (Hooks as any).on("ready", () => {
         for (const actor of fvttWorldActors()) {
@@ -85,30 +76,27 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     // party arrives — rather than waiting for the next time advance. `fire` is
     // GM-gated and the offer is idempotent (offered-dedupe), so this is safe to
     // fire on the plain activation signal.
-    (Hooks as any).on(
-        "updateScene" as any,
-        async (scene: any, changed: any) => {
-            if (!fvttIsActiveGM()) return;
+    (Hooks as any).on("updateScene" as any, async (scene: any, changed: any) => {
+        if (!fvttIsActiveGM()) return;
 
-            // Scene activation flush: re-scan the queue at the current world
-            // time so a scene-bound check that came due while inactive surfaces
-            // the instant the party arrives.
-            if (changed?.active === true) {
-                await queue.fire({
-                    name: "updateWorldTime",
-                    worldTime: fvttWorldTime(),
-                });
-            }
+        // Scene activation flush: re-scan the queue at the current world
+        // time so a scene-bound check that came due while inactive surfaces
+        // the instant the party arrives.
+        if (changed?.active === true) {
+            await queue.fire({
+                name: "updateWorldTime",
+                worldTime: fvttWorldTime(),
+            });
+        }
 
-            // Environment darkness trigger (issue #593): a scene-level
-            // darkness-level change is an event-driven trigger, fired here (not
-            // from a RegionBehavior). Custom trigger → fireSohlTrigger so effects
-            // subscribed via expiry react too. Fires regardless of active scene:
-            // a darkness change on any scene is a real world event.
-            const darkCtx = buildDarknessTriggerContext(scene?.uuid, changed);
-            if (darkCtx) await fireSohlTrigger(darkCtx);
-        },
-    );
+        // Environment darkness trigger (issue #593): a scene-level
+        // darkness-level change is an event-driven trigger, fired here (not
+        // from a RegionBehavior). Custom trigger → fireSohlTrigger so effects
+        // subscribed via expiry react too. Fires regardless of active scene:
+        // a darkness change on any scene is a real world event.
+        const darkCtx = buildDarknessTriggerContext(scene?.uuid, changed);
+        if (darkCtx) await fireSohlTrigger(darkCtx);
+    });
 
     /**
      * Captures the combat's round, turn, and active combatant before an update.
@@ -125,12 +113,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
 
     (Hooks as any).on(
         "updateWorldTime" as any,
-        async (
-            worldTime: number,
-            dt: number,
-            options?: object,
-            userId?: string,
-        ) => {
+        async (worldTime: number, dt: number, options?: object, userId?: string) => {
             if (!fvttIsActiveGM()) return;
             await queue.fire({
                 name: "updateWorldTime",
@@ -154,63 +137,57 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
         await queue.fire({ name: "combatEnd", combat });
     });
 
-    (Hooks as any).on(
-        "combatRound" as any,
-        async (combat: any, updateData: any, _options: any) => {
-            const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);
-            const newRound = updateData?.round ?? combat.round;
-            priorByCombat.set(combat, snapshotPrior(combat));
+    (Hooks as any).on("combatRound" as any, async (combat: any, updateData: any, _options: any) => {
+        const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);
+        const newRound = updateData?.round ?? combat.round;
+        priorByCombat.set(combat, snapshotPrior(combat));
 
-            if (!fvttIsActiveGM()) return;
+        if (!fvttIsActiveGM()) return;
+        await queue.fire({
+            name: "roundEnd",
+            combat,
+            round: prior.round,
+            skipped: false,
+        });
+        await queue.fire({
+            name: "roundStart",
+            combat,
+            round: newRound,
+            skipped: false,
+        });
+    });
+
+    (Hooks as any).on("combatTurn" as any, async (combat: any, updateData: any, _options: any) => {
+        const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);
+        const newRound = updateData?.round ?? combat.round;
+        const newTurn = updateData?.turn ?? combat.turn;
+        const newCombatant = combat.combatant;
+        const priorCombatant =
+            prior.combatantId != null ?
+                (combat.combatants?.get?.(prior.combatantId) ?? null)
+            :   null;
+        priorByCombat.set(combat, snapshotPrior(combat));
+
+        if (!fvttIsActiveGM()) return;
+        if (priorCombatant) {
             await queue.fire({
-                name: "roundEnd",
+                name: "turnEnd",
                 combat,
+                combatant: priorCombatant,
+                turn: prior.turn,
                 round: prior.round,
                 skipped: false,
             });
+        }
+        if (newCombatant) {
             await queue.fire({
-                name: "roundStart",
+                name: "turnStart",
                 combat,
+                combatant: newCombatant,
+                turn: newTurn,
                 round: newRound,
                 skipped: false,
             });
-        },
-    );
-
-    (Hooks as any).on(
-        "combatTurn" as any,
-        async (combat: any, updateData: any, _options: any) => {
-            const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);
-            const newRound = updateData?.round ?? combat.round;
-            const newTurn = updateData?.turn ?? combat.turn;
-            const newCombatant = combat.combatant;
-            const priorCombatant =
-                prior.combatantId != null ?
-                    (combat.combatants?.get?.(prior.combatantId) ?? null)
-                :   null;
-            priorByCombat.set(combat, snapshotPrior(combat));
-
-            if (!fvttIsActiveGM()) return;
-            if (priorCombatant) {
-                await queue.fire({
-                    name: "turnEnd",
-                    combat,
-                    combatant: priorCombatant,
-                    turn: prior.turn,
-                    round: prior.round,
-                    skipped: false,
-                });
-            }
-            if (newCombatant) {
-                await queue.fire({
-                    name: "turnStart",
-                    combat,
-                    combatant: newCombatant,
-                    turn: newTurn,
-                    round: newRound,
-                    skipped: false,
-                });
-            }
-        },
-    );
+        }
+    });
 }

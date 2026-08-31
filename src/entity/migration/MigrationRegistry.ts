@@ -26,16 +26,9 @@
  * @module
  */
 
-import {
-    AFFILIATION_SUBTYPE,
-    ITEM_KIND,
-    isAffiliationSubType,
-} from "@src/utils/constants";
+import { AFFILIATION_SUBTYPE, ITEM_KIND, isAffiliationSubType } from "@src/utils/constants";
 import { slugifyShortcode } from "@src/utils/helpers";
-import {
-    isValidShortcode,
-    sanitizeShortcode,
-} from "@src/utils/shortcode-format.mjs";
+import { isValidShortcode, sanitizeShortcode } from "@src/utils/shortcode-format.mjs";
 import { compareVersions, isNewerVersion } from "./version";
 
 /**
@@ -47,8 +40,7 @@ import { compareVersions, isNewerVersion } from "./version";
  * behavior → `RegionBehavior`. `Scene` is included so a future migration can
  * touch scene-level flags even though Scenes carry no SoHL system data.
  */
-export type MigrationDocKind =
-    "Actor" | "Item" | "ActiveEffect" | "RegionBehavior" | "Scene";
+export type MigrationDocKind = "Actor" | "Item" | "ActiveEffect" | "RegionBehavior" | "Scene";
 
 /**
  * A plain, serialized document source handed to a migrator. This is the shape of
@@ -89,9 +81,7 @@ export interface MigrationSource {
  * replacement payload instead — see the migration reference at
  * https://www.heroiclands.org/sohl/kb/dev-docs/reference/migration/.
  */
-export type DocMigrator = (
-    source: MigrationSource,
-) => Record<string, unknown> | undefined;
+export type DocMigrator = (source: MigrationSource) => Record<string, unknown> | undefined;
 
 /**
  * A single, version-stamped migration. `version` is the system version at which
@@ -197,8 +187,7 @@ const alphanumericShortcode: DocMigrator = (source) => {
     const current = source.system?.shortcode;
     if (typeof current !== "string" || !current) return undefined;
     if (isValidShortcode(current)) return undefined;
-    const repaired =
-        sanitizeShortcode(current) || slugifyShortcode(source.name ?? "");
+    const repaired = sanitizeShortcode(current) || slugifyShortcode(source.name ?? "");
     if (!repaired) return undefined;
     return { system: { ...source.system, shortcode: repaired } };
 };
@@ -220,8 +209,7 @@ export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
     },
     {
         version: "0.9.0",
-        description:
-            "Stamp the new required subType on existing affiliation items (#1405)",
+        description: "Stamp the new required subType on existing affiliation items (#1405)",
         migrators: { Item: stampAffiliationSubType },
     },
     {
@@ -257,11 +245,7 @@ export function planMigrations(
 ): MigrationStep[] {
     if (!to) return [];
     return steps
-        .filter(
-            (s) =>
-                isNewerVersion(s.version, from) &&
-                !isNewerVersion(s.version, to),
-        )
+        .filter((s) => isNewerVersion(s.version, from) && !isNewerVersion(s.version, to))
         .sort((a, b) => compareVersions(a.version, b.version));
 }
 

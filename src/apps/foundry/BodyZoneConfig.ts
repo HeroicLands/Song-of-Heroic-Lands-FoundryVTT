@@ -19,10 +19,9 @@ import { planBodyShortcode } from "@src/entity/body/planBodyShortcode";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { formatZoneRange } from "@src/document/actor/logic/being-sheet-view";
 
-const BodyZoneConfig_Base: any =
-    foundry.applications.api.HandlebarsApplicationMixin(
-        foundry.applications.api.ApplicationV2,
-    );
+const BodyZoneConfig_Base: any = foundry.applications.api.HandlebarsApplicationMixin(
+    foundry.applications.api.ApplicationV2,
+);
 
 /**
  * A small, sheet-like editor for a single {@link BodyZone} on a Being.
@@ -88,11 +87,7 @@ export class BodyZoneConfig extends (BodyZoneConfig_Base as typeof foundry.appli
      * @param shortcode - The zone's shortcode (its row key within the structure).
      * @param options - Additional ApplicationV2 options.
      */
-    constructor(
-        actor: SohlActor,
-        shortcode: string,
-        options: PlainObject = {},
-    ) {
+    constructor(actor: SohlActor, shortcode: string, options: PlainObject = {}) {
         // Derive a stable, per-(actor, shortcode) id so editing two different
         // zones on the same being opens two distinct windows.
         const idSuffix = shortcode.replace(/[^\w-]/g, "-");
@@ -141,8 +136,7 @@ export class BodyZoneConfig extends (BodyZoneConfig_Base as typeof foundry.appli
      * @returns The template context describing the current zone.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
-        const zone =
-            this.#currentData() ?? blankBodyZone(this.#actor.name, this.#key);
+        const zone = this.#currentData() ?? blankBodyZone(this.#actor.name, this.#key);
         const live = this.#structure()?.getZoneByCode(this.#key);
         return {
             zone,
@@ -191,10 +185,7 @@ export class BodyZoneConfig extends (BodyZoneConfig_Base as typeof foundry.appli
         const changes: Partial<BodyZone.Data> = {
             name: String(submitted.name ?? "").trim() || zone.name,
             shortcode: plan.shortcode,
-            probWeight: Math.max(
-                0,
-                Math.round(Number(submitted.probWeight) || 0),
-            ),
+            probWeight: Math.max(0, Math.round(Number(submitted.probWeight) || 0)),
         };
         // The field write and the part re-point touch different arrays
         // (`zones` / `parts`), so they merge into one payload by spread.

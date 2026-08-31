@@ -25,8 +25,7 @@ export const TemporalDirection = {
 } as const;
 
 /** Union of the {@link TemporalDirection} string values. */
-export type TemporalDirection =
-    (typeof TemporalDirection)[keyof typeof TemporalDirection];
+export type TemporalDirection = (typeof TemporalDirection)[keyof typeof TemporalDirection];
 
 /**
  * A partial duration object compatible with Intl.DurationFormat.
@@ -351,10 +350,7 @@ export class SohlLocalize {
      * @param unit - A time unit for Intl.RelativeTimeFormat.
      * @returns A formatted string.
      */
-    formatRelativeTime(
-        value: number,
-        unit: Intl.RelativeTimeFormatUnit,
-    ): string {
+    formatRelativeTime(value: number, unit: Intl.RelativeTimeFormatUnit): string {
         return new Intl.RelativeTimeFormat(this.lang).format(value, unit);
     }
 

@@ -100,8 +100,10 @@ export class SohlSystem {
         return this.instance;
     }
 
-    protected static _calendars: SohlMap<string, CalendarRegistration> =
-        new SohlMap<string, CalendarRegistration>();
+    protected static _calendars: SohlMap<string, CalendarRegistration> = new SohlMap<
+        string,
+        CalendarRegistration
+    >();
 
     /** The {@link constants} module (static access). */
     static readonly constants: typeof constants = constants;
@@ -181,10 +183,7 @@ export class SohlSystem {
      * @param id - The unique identifier for the calendar.
      * @param registration - The calendar registration to store.
      */
-    static registerCalendar(
-        id: string,
-        registration: CalendarRegistration,
-    ): void {
+    static registerCalendar(id: string, registration: CalendarRegistration): void {
         this._calendars.set(id, registration);
     }
 
@@ -240,8 +239,7 @@ export class SohlSystem {
             );
         }
         SOHLCONFIG.time.worldCalendarConfig = cal.config as any;
-        SOHLCONFIG.time.worldCalendarClass = (cal.calendarClass ??
-            SohlCalendarData) as any;
+        SOHLCONFIG.time.worldCalendarClass = (cal.calendarClass ?? SohlCalendarData) as any;
         (game as any)?.time?.initializeCalendar?.();
     }
 
@@ -280,10 +278,7 @@ export class SohlSystem {
      * @returns One {@link sohl.document.combatant.logic.SohlCombatantLogic} per combatant in `game.combat`.
      */
     get currentCombatCombatantLogics(): SohlCombatantLogic[] {
-        return (
-            getActiveCombat()?.combatants.map((c: any) => (c as any).logic) ??
-            []
-        );
+        return getActiveCombat()?.combatants.map((c: any) => (c as any).logic) ?? [];
     }
 
     /* -------------------------------------------- */
@@ -298,14 +293,8 @@ export class SohlSystem {
      * @example
      * class MyBeing extends sohl.actorLogicClasses.being {}
      */
-    get actorLogicClasses(): Record<
-        ActorKind,
-        Constructor<SohlActorLogic<any>>
-    > {
-        return COMMON_ACTOR_LOGIC as Record<
-            ActorKind,
-            Constructor<SohlActorLogic<any>>
-        >;
+    get actorLogicClasses(): Record<ActorKind, Constructor<SohlActorLogic<any>>> {
+        return COMMON_ACTOR_LOGIC as Record<ActorKind, Constructor<SohlActorLogic<any>>>;
     }
 
     /**
@@ -313,10 +302,7 @@ export class SohlSystem {
      * SoHL base classes for subclassing. Reads reflect any registered override.
      */
     get itemLogicClasses(): Record<ItemKind, Constructor<SohlItemLogic<any>>> {
-        return COMMON_ITEM_LOGIC as Record<
-            ItemKind,
-            Constructor<SohlItemLogic<any>>
-        >;
+        return COMMON_ITEM_LOGIC as Record<ItemKind, Constructor<SohlItemLogic<any>>>;
     }
 
     /**
@@ -330,16 +316,8 @@ export class SohlSystem {
      * @param kind - The actor kind whose Logic class to override.
      * @param cls - The replacement Logic class (a {@link SohlActorLogic} subclass).
      */
-    registerActorLogic(
-        kind: ActorKind,
-        cls: Constructor<SohlActorLogic<any>>,
-    ): void {
-        (
-            COMMON_ACTOR_LOGIC as Record<
-                ActorKind,
-                Constructor<SohlActorLogic<any>>
-            >
-        )[kind] = cls;
+    registerActorLogic(kind: ActorKind, cls: Constructor<SohlActorLogic<any>>): void {
+        (COMMON_ACTOR_LOGIC as Record<ActorKind, Constructor<SohlActorLogic<any>>>)[kind] = cls;
     }
 
     /**
@@ -349,16 +327,8 @@ export class SohlSystem {
      * @param kind - The item kind whose Logic class to override.
      * @param cls - The replacement Logic class (a {@link SohlItemLogic} subclass).
      */
-    registerItemLogic(
-        kind: ItemKind,
-        cls: Constructor<SohlItemLogic<any>>,
-    ): void {
-        (
-            COMMON_ITEM_LOGIC as Record<
-                ItemKind,
-                Constructor<SohlItemLogic<any>>
-            >
-        )[kind] = cls;
+    registerItemLogic(kind: ItemKind, cls: Constructor<SohlItemLogic<any>>): void {
+        (COMMON_ITEM_LOGIC as Record<ItemKind, Constructor<SohlItemLogic<any>>>)[kind] = cls;
     }
 
     /**

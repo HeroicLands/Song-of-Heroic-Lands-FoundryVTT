@@ -52,14 +52,8 @@ export interface TraumaSheetFields {
     nextTestLabelKey?: string;
 }
 
-const COURSE_SUBTYPES = new Set<string>([
-    TRAUMA_SUBTYPE.SHOCK,
-    TRAUMA_SUBTYPE.COMA,
-]);
-const HEAL_SUBTYPES = new Set<string>([
-    TRAUMA_SUBTYPE.INJURY,
-    TRAUMA_SUBTYPE.INFECTION,
-]);
+const COURSE_SUBTYPES = new Set<string>([TRAUMA_SUBTYPE.SHOCK, TRAUMA_SUBTYPE.COMA]);
+const HEAL_SUBTYPES = new Set<string>([TRAUMA_SUBTYPE.INJURY, TRAUMA_SUBTYPE.INFECTION]);
 const CATEGORY_SUBTYPES = new Set<string>([
     TRAUMA_SUBTYPE.FATIGUE,
     TRAUMA_SUBTYPE.FEAR,
@@ -106,8 +100,7 @@ export function traumaSheetFields(subType: string): TraumaSheetFields {
     const isInjury = subType === TRAUMA_SUBTYPE.INJURY;
     return {
         showLevel: LEVEL_SUBTYPES.has(subType),
-        showHealingRate:
-            HEAL_SUBTYPES.has(subType) || COURSE_SUBTYPES.has(subType),
+        showHealingRate: HEAL_SUBTYPES.has(subType) || COURSE_SUBTYPES.has(subType),
         showCategory: CATEGORY_SUBTYPES.has(subType),
         showNotes: NOTES_SUBTYPES.has(subType),
         showTreatmentDate: HEAL_SUBTYPES.has(subType),

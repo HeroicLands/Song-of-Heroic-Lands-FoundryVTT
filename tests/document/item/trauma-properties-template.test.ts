@@ -54,19 +54,13 @@ function render(subType: string): string {
             healingRateBase: fieldStub("healingRateBase"),
             aspect: fieldStub("aspect"),
             bodyLocationCode: fieldStub("bodyLocationCode"),
-            bloodLossAdvanceDurationBase: fieldStub(
-                "bloodLossAdvanceDurationBase",
-            ),
-            healingCheckDurationFormula: fieldStub(
-                "healingCheckDurationFormula",
-            ),
+            bloodLossAdvanceDurationBase: fieldStub("bloodLossAdvanceDurationBase"),
+            healingCheckDurationFormula: fieldStub("healingCheckDurationFormula"),
             healingCheckDurationBase: fieldStub("healingCheckDurationBase"),
             courseDurationFormula: fieldStub("courseDurationFormula"),
             courseDurationBase: fieldStub("courseDurationBase"),
             infectable: fieldStub("infectable"),
-            permanentImpairmentEligible: fieldStub(
-                "permanentImpairmentEligible",
-            ),
+            permanentImpairmentEligible: fieldStub("permanentImpairmentEligible"),
         },
     });
 }
@@ -94,9 +88,7 @@ describe("trauma properties sheet template (#926)", () => {
         const html = render("injury");
         expect(html).toContain('data-field="system.aspect"');
         expect(html).toContain('data-field="system.bodyLocationCode"');
-        expect(html).toContain(
-            'data-field="system.bloodLossAdvanceDurationBase"',
-        );
+        expect(html).toContain('data-field="system.bloodLossAdvanceDurationBase"');
     });
 
     it("does NOT render the Physical fieldset for a non-injury sub-type", () => {
@@ -110,12 +102,8 @@ describe("trauma properties sheet — per-sub-type fields (#939)", () => {
     it("injury: infection flags, heal duration, treatment date, next heal test", () => {
         const html = render("injury");
         expect(html).toContain('data-field="system.infectable"');
-        expect(html).toContain(
-            'data-field="system.permanentImpairmentEligible"',
-        );
-        expect(html).toContain(
-            'data-field="system.healingCheckDurationFormula"',
-        );
+        expect(html).toContain('data-field="system.permanentImpairmentEligible"');
+        expect(html).toContain('data-field="system.healingCheckDurationFormula"');
         expect(html).toContain('data-field="system.contractDate"');
         expect(html).toContain('data-field="system.treatmentDate"');
         expect(html).toContain("Next Heal Test");
@@ -130,9 +118,7 @@ describe("trauma properties sheet — per-sub-type fields (#939)", () => {
         expect(html).toContain('data-field="system.courseDurationBase"');
         expect(html).toContain("Next Course Test");
         expect(html).not.toContain('data-field="system.levelBase"');
-        expect(html).not.toContain(
-            'data-field="system.healingCheckDurationFormula"',
-        );
+        expect(html).not.toContain('data-field="system.healingCheckDurationFormula"');
     });
 
     it("fatigue: category select + level + notes, no healing rate or next test", () => {

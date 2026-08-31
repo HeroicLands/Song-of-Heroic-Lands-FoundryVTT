@@ -17,10 +17,7 @@ import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import type { BodyZone } from "@src/entity/body/BodyZone";
 import { weightedRandom } from "@src/entity/body/weighted-random";
-import {
-    moveArrayElement,
-    moveGroupedElement,
-} from "@src/entity/body/body-structure-edit";
+import { moveArrayElement, moveGroupedElement } from "@src/entity/body/body-structure-edit";
 import type { Rng } from "@src/entity/random/Rng";
 import { defaultRng } from "@src/entity/random/createRng";
 import { SohlEntity } from "../SohlEntity";
@@ -129,9 +126,7 @@ export class BodyStructure extends SohlEntity {
         }
         for (const key of ["zones", "parts", "locations"] as const) {
             if (!data[key] || !Array.isArray(data[key])) {
-                throw new Error(
-                    `BodyStructure requires a '${key}' array in its data`,
-                );
+                throw new Error(`BodyStructure requires a '${key}' array in its data`);
             }
         }
         super(data, options);
@@ -153,25 +148,20 @@ export class BodyStructure extends SohlEntity {
                 structure: this,
                 index,
                 startZoneNumber: nextZoneNumber,
-                parts: indexedParts.filter(
-                    (p) => p.data.bodyZoneCode === zoneData.shortcode,
-                ),
+                parts: indexedParts.filter((p) => p.data.bodyZoneCode === zoneData.shortcode),
                 locations: indexedLocations,
             });
             nextZoneNumber += zone.zoneNumbers.length;
             return zone;
         });
 
-        const byIndex = <T extends { index: number }>(a: T, b: T): number =>
-            a.index - b.index;
+        const byIndex = <T extends { index: number }>(a: T, b: T): number => a.index - b.index;
         this.parts = this.zones.flatMap((z) => z.parts).sort(byIndex);
         this.locations = this.parts.flatMap((p) => p.locations).sort(byIndex);
 
         const liveParts = new Set(this.parts.map((p) => p.index));
         const liveLocations = new Set(this.locations.map((l) => l.index));
-        this.orphanedParts = indexedParts
-            .filter((p) => !liveParts.has(p.index))
-            .map((p) => p.data);
+        this.orphanedParts = indexedParts.filter((p) => !liveParts.has(p.index)).map((p) => p.data);
         this.orphanedLocations = indexedLocations
             .filter((l) => !liveLocations.has(l.index))
             .map((l) => l.data);
@@ -185,8 +175,8 @@ export class BodyStructure extends SohlEntity {
      */
     get injuryTable(): readonly number[] {
         return (
-            (this.parent as unknown as { injuryTable?: readonly number[] })
-                .injuryTable ?? BASE_INJURY_THRESHOLDS
+            (this.parent as unknown as { injuryTable?: readonly number[] }).injuryTable ??
+            BASE_INJURY_THRESHOLDS
         );
     }
 
@@ -349,10 +339,7 @@ export class BodyStructure extends SohlEntity {
      * @param exclude - Shortcodes already visited, skipped at every ring.
      * @returns The nearest ring of candidate parts, or empty when none remain.
      */
-    getNeighborParts(
-        partCode: string,
-        exclude: ReadonlySet<string> = new Set(),
-    ): BodyPart[] {
+    getNeighborParts(partCode: string, exclude: ReadonlySet<string> = new Set()): BodyPart[] {
         const part = this.getPartByCode(partCode);
         if (!part) return [];
         const eligible = (p: BodyPart): boolean =>
@@ -364,10 +351,7 @@ export class BodyStructure extends SohlEntity {
         const home = this.zones.indexOf(part.zone);
         const reach = Math.max(home, this.zones.length - 1 - home);
         for (let distance = 1; distance <= reach; distance++) {
-            const ring = [
-                this.zones[home - distance],
-                this.zones[home + distance],
-            ]
+            const ring = [this.zones[home - distance], this.zones[home + distance]]
                 .filter((z): z is BodyZone => z !== undefined)
                 .flatMap((z) => z.parts)
                 .filter(eligible);
@@ -387,9 +371,7 @@ export class BodyStructure extends SohlEntity {
      * @returns The number of limbs currently gripping that item.
      */
     limbsHolding(itemId: string): number {
-        return this.parts.filter(
-            (p) => p.canHoldItem && p.heldItem?.id === itemId,
-        ).length;
+        return this.parts.filter((p) => p.canHoldItem && p.heldItem?.id === itemId).length;
     }
 
     /* -------------------------------------------- */
@@ -427,13 +409,8 @@ export class BodyStructure extends SohlEntity {
      *   part.
      */
     getRandomOccupiedZone(rng: Rng = defaultRng()): BodyZone | undefined {
-        const eligible = this.zones.filter(
-            (z) => z.zoneNumbers.length > 0 && z.parts.length > 0,
-        );
-        const total = eligible.reduce(
-            (sum, z) => sum + z.zoneNumbers.length,
-            0,
-        );
+        const eligible = this.zones.filter((z) => z.zoneNumbers.length > 0 && z.parts.length > 0);
+        const total = eligible.reduce((sum, z) => sum + z.zoneNumbers.length, 0);
         if (total <= 0) return undefined;
         let roll = rng.float() * total;
         for (const zone of eligible) {
@@ -454,10 +431,7 @@ export class BodyStructure extends SohlEntity {
      *   singleton. Inject a seeded generator for a deterministic draw.
      * @returns A random part with that role, or `undefined` when none exists.
      */
-    getRandomPartByRole(
-        role: BodyRole | string,
-        rng: Rng = defaultRng(),
-    ): BodyPart | undefined {
+    getRandomPartByRole(role: BodyRole | string, rng: Rng = defaultRng()): BodyPart | undefined {
         const candidates = this.getPartsByRole(role);
         if (candidates.length === 0) return undefined;
         return weightedRandom(candidates, rng);
@@ -530,10 +504,7 @@ export class BodyStructure extends SohlEntity {
 
             // Miss — reduce spread and drift outward through the zone tree
             remainingSpread -= currentPart.probWeight.effective;
-            const neighbors = this.getNeighborParts(
-                currentPart.shortcode,
-                visited,
-            );
+            const neighbors = this.getNeighborParts(currentPart.shortcode, visited);
 
             if (neighbors.length === 0) {
                 // Nowhere left to drift — hit current part
@@ -595,10 +566,7 @@ export class BodyStructure extends SohlEntity {
         target: { targetZoneNumber: number; zoneDie: number },
         rng: Rng = defaultRng(),
     ): ZoneAimResult {
-        const targetZoneNumber = Math.max(
-            1,
-            Math.trunc(target.targetZoneNumber) || 1,
-        );
+        const targetZoneNumber = Math.max(1, Math.trunc(target.targetZoneNumber) || 1);
         const zoneDie = Math.max(1, Math.trunc(target.zoneDie) || 1);
         const zoneDieResult = 1 + Math.floor(rng.float() * zoneDie);
         const hitZoneNumber = targetZoneNumber - 1 + zoneDieResult;
@@ -750,11 +718,7 @@ export class BodyStructure extends SohlEntity {
      *   past the end appends.
      * @returns A complete-array `update()` payload with the part relocated.
      */
-    movePartUpdate(
-        fromIndex: number,
-        toZoneCode: string,
-        toPosition: number,
-    ): PlainObject {
+    movePartUpdate(fromIndex: number, toZoneCode: string, toPosition: number): PlainObject {
         return {
             "system.body.structure.parts": moveGroupedElement(
                 this.#canonicalParts,
@@ -805,10 +769,7 @@ export class BodyStructure extends SohlEntity {
      */
     addLocationUpdate(locationData: BodyLocation.Data): PlainObject {
         return {
-            "system.body.structure.locations": [
-                ...this.#canonicalLocations,
-                locationData,
-            ],
+            "system.body.structure.locations": [...this.#canonicalLocations, locationData],
         };
     }
 
@@ -840,11 +801,7 @@ export class BodyStructure extends SohlEntity {
      *   locations; past the end appends.
      * @returns A complete-array `update()` payload with the location moved.
      */
-    moveLocationUpdate(
-        fromIndex: number,
-        toPartCode: string,
-        toPosition: number,
-    ): PlainObject {
+    moveLocationUpdate(fromIndex: number, toPartCode: string, toPosition: number): PlainObject {
         return {
             "system.body.structure.locations": moveGroupedElement(
                 this.#canonicalLocations,
@@ -871,11 +828,7 @@ export class BodyStructure extends SohlEntity {
     setLocationFieldsUpdate(
         updates: { index: number; changes: Partial<BodyLocation.Data> }[],
     ): PlainObject {
-        return this.#setFieldsUpdate(
-            "locations",
-            this.#canonicalLocations,
-            updates,
-        );
+        return this.#setFieldsUpdate("locations", this.#canonicalLocations, updates);
     }
 
     /* -------------------------------------------- */
@@ -902,9 +855,7 @@ export class BodyStructure extends SohlEntity {
         if (!canonical.some((p) => p.bodyZoneCode === oldCode)) return {};
         return {
             "system.body.structure.parts": canonical.map((p) =>
-                p.bodyZoneCode === oldCode ?
-                    { ...p, bodyZoneCode: newCode }
-                :   p,
+                p.bodyZoneCode === oldCode ? { ...p, bodyZoneCode: newCode } : p,
             ),
         };
     }
@@ -926,9 +877,7 @@ export class BodyStructure extends SohlEntity {
         if (!canonical.some((l) => l.bodyPartCode === oldCode)) return {};
         return {
             "system.body.structure.locations": canonical.map((l) =>
-                l.bodyPartCode === oldCode ?
-                    { ...l, bodyPartCode: newCode }
-                :   l,
+                l.bodyPartCode === oldCode ? { ...l, bodyPartCode: newCode } : l,
             ),
         };
     }

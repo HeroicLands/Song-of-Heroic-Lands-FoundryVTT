@@ -174,10 +174,7 @@ export class BodyPart extends SohlEntity {
      */
     get affectsMobility(): boolean {
         return this.roles.some(
-            (r) =>
-                r === BODY_ROLE.VITAL ||
-                r === BODY_ROLE.CORE ||
-                r === BODY_ROLE.LOCOMOTOR,
+            (r) => r === BODY_ROLE.VITAL || r === BODY_ROLE.CORE || r === BODY_ROLE.LOCOMOTOR,
         );
     }
 
@@ -186,9 +183,7 @@ export class BodyPart extends SohlEntity {
      * CORE role. Critical parts drive the harsher health-ceiling column (#470).
      */
     get isCritical(): boolean {
-        return this.roles.some(
-            (r) => r === BODY_ROLE.VITAL || r === BODY_ROLE.CORE,
-        );
+        return this.roles.some((r) => r === BODY_ROLE.VITAL || r === BODY_ROLE.CORE);
     }
 
     /**
@@ -224,9 +219,7 @@ export class BodyPart extends SohlEntity {
                 ((this.parent.actor?.items.get<SohlItem>(data.heldItemId) as
                     SohlItem | undefined) ?? undefined)
             :   undefined;
-        this.probWeight = new entity.ValueModifier(this.parent).setBase(
-            data.probWeight ?? 0,
-        );
+        this.probWeight = new entity.ValueModifier(this.parent).setBase(data.probWeight ?? 0);
         this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.permanentlyUnusable = data.permanentlyUnusable ?? false;
         this.index = options.index;

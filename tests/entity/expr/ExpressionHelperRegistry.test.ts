@@ -45,8 +45,7 @@ describe("ExpressionHelperRegistry", () => {
     });
 
     describe("string helpers (#448)", () => {
-        const h = (name: string) =>
-            STANDARD_HELPERS[name] as (...a: any[]) => any;
+        const h = (name: string) => STANDARD_HELPERS[name] as (...a: any[]) => any;
 
         it("str: coerces any value to its string form", () => {
             expect(h("str")(42)).toBe("42");
@@ -140,8 +139,7 @@ describe("ExpressionHelperRegistry", () => {
 
     describe("stochastic helpers: rand and roll (#540)", () => {
         afterEach(() => vi.restoreAllMocks());
-        const h = (name: string) =>
-            STANDARD_HELPERS[name] as (...a: any[]) => any;
+        const h = (name: string) => STANDARD_HELPERS[name] as (...a: any[]) => any;
         // `roll` builds a parent-owned SimpleRoll; the parent is only stored.
         const parent = { id: "test", name: "Test" } as any;
 
@@ -191,9 +189,7 @@ describe("ExpressionHelperRegistry", () => {
         afterEach(() => vi.restoreAllMocks());
 
         it("curWorldTime: returns the live world time via the shim", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(
-                2342663,
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2342663);
             expect(STANDARD_HELPERS.curWorldTime()).toBe(2342663);
         });
 
@@ -213,9 +209,7 @@ describe("ExpressionHelperRegistry", () => {
         });
 
         it("curCombatTime: returns null outside combat (guard with defined())", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue(
-                null,
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue(null);
             expect(STANDARD_HELPERS.curCombatTime()).toBeNull();
         });
     });
@@ -293,8 +287,7 @@ describe("ExpressionHelperRegistry", () => {
     });
 
     describe("settings dict builder (#1024)", () => {
-        const settings = () =>
-            STANDARD_HELPERS.settings as (...v: unknown[]) => PlainObject;
+        const settings = () => STANDARD_HELPERS.settings as (...v: unknown[]) => PlainObject;
         it("builds a dict from alternating key/value pairs", () => {
             expect(settings()("peleahn", 15, "subtype:combat", 5)).toEqual({
                 peleahn: 15,
@@ -341,29 +334,22 @@ describe("ExpressionHelperRegistry", () => {
         });
 
         it("rejects a combiner outside the pure allowlist", () => {
-            expect(() => merge()([{ a: 1 }], "concat")).toThrow(
-                SafeExpressionError,
-            );
-            expect(() => merge()([{ a: 1 }], "rand")).toThrow(
-                SafeExpressionError,
-            );
+            expect(() => merge()([{ a: 1 }], "concat")).toThrow(SafeExpressionError);
+            expect(() => merge()([{ a: 1 }], "rand")).toThrow(SafeExpressionError);
         });
 
         it("ignores nullish elements and values", () => {
-            expect(merge()([null, { a: 1 }, { a: null, b: 2 }], "sum")).toEqual(
-                { a: 1, b: 2 },
-            );
+            expect(merge()([null, { a: 1 }, { a: null, b: 2 }], "sum")).toEqual({ a: 1, b: 2 });
         });
 
         it("folds several dict-lists together when variadic", () => {
             // merge(listA, listB, combiner) concatenates the leading lists, so
             // multiple modifier lists fold into one result.
-            const variadic = STANDARD_HELPERS.merge as (
-                ...args: unknown[]
-            ) => PlainObject;
-            expect(
-                variadic([{ aaa: 15 }], [{ aaa: -15, bbb: 10 }], "max"),
-            ).toEqual({ aaa: 15, bbb: 10 });
+            const variadic = STANDARD_HELPERS.merge as (...args: unknown[]) => PlainObject;
+            expect(variadic([{ aaa: 15 }], [{ aaa: -15, bbb: 10 }], "max")).toEqual({
+                aaa: 15,
+                bbb: 10,
+            });
             // A non-array leading arg is ignored, not folded as a value.
             expect(variadic([{ a: 1 }], null, [{ a: 4 }], "sum")).toEqual({
                 a: 5,
@@ -396,9 +382,7 @@ describe("ExpressionHelperRegistry", () => {
         });
 
         it("rejects a body that references a disallowed global", () => {
-            expect(() =>
-                reg.registerSource("evil", { body: "return fetch('/x')" }),
-            ).toThrow();
+            expect(() => reg.registerSource("evil", { body: "return fetch('/x')" })).toThrow();
         });
 
         it("rejects an invalid parameter name", () => {
@@ -450,10 +434,7 @@ describe("ExpressionHelperRegistry", () => {
                 notObj: "return 2",
             });
             expect(result.installed).toEqual(["ok"]);
-            expect(result.skipped.map((s) => s.name).sort()).toEqual([
-                "noBody",
-                "notObj",
-            ]);
+            expect(result.skipped.map((s) => s.name).sort()).toEqual(["noBody", "notObj"]);
         });
 
         it("skips entries whose body fails safety screening", () => {

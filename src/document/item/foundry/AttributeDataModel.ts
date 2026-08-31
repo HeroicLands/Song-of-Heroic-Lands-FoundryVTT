@@ -11,14 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    AttributeLogic,
-    AttributeData,
-} from "@src/document/item/logic/AttributeLogic";
+import { AttributeLogic, AttributeData } from "@src/document/item/logic/AttributeLogic";
 import { BodyRoles, ITEM_KIND, BodyRoleChoices } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItemDataModel";
-const { ArrayField, SchemaField, NumberField, StringField } =
-    foundry.data.fields;
+const { ArrayField, SchemaField, NumberField, StringField } = foundry.data.fields;
 
 /**
  * Builds the Attribute data schema (score, value descriptors, init formula,
@@ -69,8 +65,7 @@ type AttributeSchema = ReturnType<typeof defineAttributeSchema>;
 /** @internal */
 export class AttributeDataModel<
     TSchema extends foundry.data.fields.DataSchema = AttributeSchema,
-    TLogic extends AttributeLogic<AttributeData> =
-        AttributeLogic<AttributeData>,
+    TLogic extends AttributeLogic<AttributeData> = AttributeLogic<AttributeData>,
 >
     extends SohlItemDataModel<TSchema, TLogic>
     implements AttributeData<TLogic>

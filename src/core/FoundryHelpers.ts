@@ -20,16 +20,9 @@ import {
     setUuidResolver,
 } from "@src/utils/helpers";
 import type { DialogSpec } from "@src/utils/types";
-import {
-    AFFLICTION_SUBTYPE,
-    ITEM_KIND,
-    toMessageMode,
-} from "@src/utils/constants";
+import { AFFLICTION_SUBTYPE, ITEM_KIND, toMessageMode } from "@src/utils/constants";
 import type { AfflictionChoice } from "@src/document/actor/logic/affliction-contract";
-import {
-    ARCHETYPE_TIER,
-    type ArchetypeCandidate,
-} from "@src/entity/archetype/archetype";
+import { ARCHETYPE_TIER, type ArchetypeCandidate } from "@src/entity/archetype/archetype";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
@@ -60,11 +53,7 @@ import type { SohlSystemInfo } from "@src/apps/foundry/settings-sidebar-links";
 // The dialog types are pure (Foundry-free) declarations and live in the shared
 // util types module. They are re-exported here so the `dialog` boundary below
 // and its consumers can keep importing them from the FoundryHelpers surface.
-export type {
-    DialogSpec,
-    DialogButtonSpec,
-    DialogResultCallback,
-} from "@src/utils/types";
+export type { DialogSpec, DialogButtonSpec, DialogResultCallback } from "@src/utils/types";
 
 // ---------------------------------------------------------------------------
 // Utilities
@@ -120,9 +109,7 @@ export function fvttRandomId(length = 16): string {
  * @param uuid - The document UUID to resolve.
  * @returns A promise resolving to the document, or `undefined` if not found.
  */
-export async function fvttResolveUuidAsync(
-    uuid: string,
-): Promise<any | undefined> {
+export async function fvttResolveUuidAsync(uuid: string): Promise<any | undefined> {
     return (await fromUuid(uuid)) ?? undefined;
 }
 
@@ -165,9 +152,9 @@ export async function fvttExecuteMacro(
  * @param uuid - The (opaque) document UUID.
  * @returns The document's logic, or `undefined` if unresolved.
  */
-export function fvttLogicFromUuidSync<
-    T extends SohlLogic<any> = SohlLogic<any>,
->(uuid: string): T | undefined {
+export function fvttLogicFromUuidSync<T extends SohlLogic<any> = SohlLogic<any>>(
+    uuid: string,
+): T | undefined {
     return (fromUuidSync(uuid) as any)?.logic ?? undefined;
 }
 
@@ -180,9 +167,9 @@ export function fvttLogicFromUuidSync<
  * @param uuid - The (opaque) document UUID.
  * @returns A promise resolving to the document's logic, or `undefined` if unresolved.
  */
-export async function fvttLogicFromUuid<
-    T extends SohlLogic<any> = SohlLogic<any>,
->(uuid: string): Promise<T | undefined> {
+export async function fvttLogicFromUuid<T extends SohlLogic<any> = SohlLogic<any>>(
+    uuid: string,
+): Promise<T | undefined> {
     return ((await fromUuid(uuid)) as any)?.logic ?? undefined;
 }
 
@@ -199,17 +186,13 @@ export async function fvttLogicFromUuid<
  * @throws Error if the SimpleRoll's recorded results do not match its dice terms
  *   (the count of rolled values differs from the number of dice to seed).
  */
-export async function fvttToFoundryRoll(
-    simpleRoll: SimpleRoll,
-): Promise<foundry.dice.Roll> {
+export async function fvttToFoundryRoll(simpleRoll: SimpleRoll): Promise<foundry.dice.Roll> {
     const formulaParts: string[] = [];
     if (simpleRoll.numDice > 0 && simpleRoll.dieFaces > 0) {
         formulaParts.push(`${simpleRoll.numDice}d${simpleRoll.dieFaces}`);
     }
     if (simpleRoll.modifier !== 0) {
-        formulaParts.push(
-            (simpleRoll.modifier > 0 ? "+" : "") + simpleRoll.modifier,
-        );
+        formulaParts.push((simpleRoll.modifier > 0 ? "+" : "") + simpleRoll.modifier);
     }
 
     const formula = formulaParts.join(" ");
@@ -260,11 +243,7 @@ export function fvttCallHookCancel(name: string, ...args: unknown[]): boolean {
  * @param error - The error to report.
  * @param data - Optional context data for the error handler.
  */
-export function fvttHookOnError(
-    source: string,
-    error: Error,
-    data?: object,
-): void {
+export function fvttHookOnError(source: string, error: Error, data?: object): void {
     Hooks.onError(source as any, error, data as any);
 }
 
@@ -309,11 +288,7 @@ export function fvttGetSetting(module: string, key: string): unknown {
  * @param value - The value to store.
  * @returns A promise resolving once the setting is written.
  */
-export function fvttSetSetting(
-    module: string,
-    key: string,
-    value: unknown,
-): Promise<unknown> {
+export function fvttSetSetting(module: string, key: string, value: unknown): Promise<unknown> {
     return (game as any).settings.set(module, key, value);
 }
 
@@ -357,8 +332,7 @@ export function fvttSystemLinks(): SohlSystemInfo {
  */
 export function fvttPackageCreditsUuid(packageId: string): string | undefined {
     const g = game as any;
-    const pkg =
-        g.system?.id === packageId ? g.system : g.modules?.get?.(packageId);
+    const pkg = g.system?.id === packageId ? g.system : g.modules?.get?.(packageId);
     return pkg?.flags?.sohl?.creditsUuid || undefined;
 }
 
@@ -429,9 +403,7 @@ export function fvttWorldActors(): any[] {
  * @returns The matching actor, or `undefined`.
  */
 export function fvttActorByShortcode(shortcode: string): any {
-    return fvttWorldActors().find(
-        (a: any) => a.system?.shortcode === shortcode,
-    );
+    return fvttWorldActors().find((a: any) => a.system?.shortcode === shortcode);
 }
 
 /**
@@ -467,9 +439,7 @@ export function fvttActorByRef(ref: string): any {
  * @param data - The actor creation data (name, type, system, ownership, …).
  * @returns The created actor document.
  */
-export async function fvttCreateWorldActor(
-    data: Record<string, unknown>,
-): Promise<any> {
+export async function fvttCreateWorldActor(data: Record<string, unknown>): Promise<any> {
     return (Actor as any).create(data);
 }
 
@@ -484,9 +454,7 @@ export async function fvttCreateWorldActor(
  * @param actor - The actor whose active statuses to read.
  * @returns The set of active status-effect ids (empty when none/unavailable).
  */
-export function fvttActorStatuses(
-    actor: SohlActor | null | undefined,
-): Set<string> {
+export function fvttActorStatuses(actor: SohlActor | null | undefined): Set<string> {
     const statuses = new Set<string>();
     for (const effect of ((actor as any)?.effects ?? []) as Iterable<any>) {
         for (const sid of (effect.statuses ?? []) as Iterable<string>) {
@@ -583,13 +551,10 @@ function readArchetypePriority(flags: any): number | undefined {
  * @returns Every discovered candidate for that document type (unfiltered by
  *   type/subType — the pure resolver filters per the dialog's current selection).
  */
-export async function fvttDiscoverArchetypes(
-    documentName: string,
-): Promise<ArchetypeCandidate[]> {
+export async function fvttDiscoverArchetypes(documentName: string): Promise<ArchetypeCandidate[]> {
     const out: ArchetypeCandidate[] = [];
 
-    const worldCollection =
-        documentName === "Actor" ? (game as any).actors : (game as any).items;
+    const worldCollection = documentName === "Actor" ? (game as any).actors : (game as any).items;
     for (const doc of (worldCollection ?? []) as Iterable<any>) {
         const priority = readArchetypePriority(doc.flags);
         if (priority === undefined) continue;
@@ -611,18 +576,13 @@ export async function fvttDiscoverArchetypes(
             : pack.metadata?.packageType === "world" ? ARCHETYPE_TIER.WORLD
             : ARCHETYPE_TIER.MODULE;
         const index = await pack.getIndex({
-            fields: [
-                "flags.sohl.docArchetype",
-                "system.shortcode",
-                "system.subType",
-            ],
+            fields: ["flags.sohl.docArchetype", "system.shortcode", "system.subType"],
         });
         for (const entry of index as Iterable<any>) {
             const priority = readArchetypePriority(entry.flags);
             if (priority === undefined) continue;
             out.push({
-                uuid:
-                    entry.uuid ?? `Compendium.${pack.collection}.${entry._id}`,
+                uuid: entry.uuid ?? `Compendium.${pack.collection}.${entry._id}`,
                 name: entry.name,
                 shortcode: (entry.system as any)?.shortcode ?? "",
                 type: entry.type,
@@ -725,15 +685,9 @@ export async function fvttCreateEmbeddedItems(
  * @param effectsData - Plain `ActiveEffect` creation data.
  * @returns The created effect documents, or an empty array.
  */
-export async function fvttCreateEmbeddedEffects(
-    doc: any,
-    effectsData: object[],
-): Promise<any[]> {
+export async function fvttCreateEmbeddedEffects(doc: any, effectsData: object[]): Promise<any[]> {
     if (typeof doc?.createEmbeddedDocuments !== "function") return [];
-    return (await doc.createEmbeddedDocuments(
-        "ActiveEffect",
-        effectsData,
-    )) as any[];
+    return (await doc.createEmbeddedDocuments("ActiveEffect", effectsData)) as any[];
 }
 
 /**
@@ -748,10 +702,7 @@ export async function fvttCreateEmbeddedEffects(
  * @param itemIds - The IDs of the items to delete.
  * @returns A promise that resolves when the items have been deleted.
  */
-export async function fvttDeleteEmbeddedItems(
-    actorLogic: any,
-    itemIds: string[],
-): Promise<void> {
+export async function fvttDeleteEmbeddedItems(actorLogic: any, itemIds: string[]): Promise<void> {
     const actor = actorLogic?.actor;
     if (!actor) return;
     await actor.deleteEmbeddedDocuments("Item", itemIds);
@@ -771,8 +722,7 @@ export async function fvttDeleteEmbeddedItems(
 export async function fvttFindDiseases(): Promise<AfflictionChoice[]> {
     const out: AfflictionChoice[] = [];
     const isDisease = (doc: any): boolean =>
-        doc?.type === ITEM_KIND.AFFLICTION &&
-        doc.system?.subType === AFFLICTION_SUBTYPE.DISEASE;
+        doc?.type === ITEM_KIND.AFFLICTION && doc.system?.subType === AFFLICTION_SUBTYPE.DISEASE;
     const toChoice = (doc: any): AfflictionChoice => ({
         name: doc.name,
         shortcode: doc.system?.shortcode ?? "",
@@ -819,9 +769,7 @@ export function fvttApplyRollMode(data: object, mode: string): void {
  * @returns A promise resolving to the enriched HTML.
  */
 export async function fvttEnrichHTML(content: string): Promise<string> {
-    return foundry.applications.ux.TextEditor.implementation.enrichHTML(
-        content,
-    );
+    return foundry.applications.ux.TextEditor.implementation.enrichHTML(content);
 }
 
 // ---------------------------------------------------------------------------
@@ -853,9 +801,7 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
  * @returns The sanitized HTML markup.
  */
 export function fvttCleanHTML(raw: string): string {
-    return (
-        foundry.utils as unknown as { cleanHTML(raw: string): string }
-    ).cleanHTML(raw);
+    return (foundry.utils as unknown as { cleanHTML(raw: string): string }).cleanHTML(raw);
 }
 
 /**
@@ -874,10 +820,7 @@ export function toSanitizedHTML(
     value: string | HTMLString,
     wrapperTag: "p" | "div" | "span" = "p",
 ): HTMLString {
-    const raw =
-        isHTMLString(value) ? value : (
-            `<${wrapperTag}>${escapeHTML(value)}</${wrapperTag}>`
-        );
+    const raw = isHTMLString(value) ? value : `<${wrapperTag}>${escapeHTML(value)}</${wrapperTag}>`;
     return fvttCleanHTML(raw) as HTMLString;
 }
 
@@ -897,10 +840,7 @@ export async function toHTMLWithTemplate(
     template: FilePath,
     data: PlainObject = {},
 ): Promise<HTMLString> {
-    const html = await foundry.applications.handlebars.renderTemplate(
-        template,
-        data,
-    );
+    const html = await foundry.applications.handlebars.renderTemplate(template, data);
     return toSanitizedHTML(html);
 }
 
@@ -965,12 +905,10 @@ export async function dialog(spec: DialogSpec = {}): Promise<any> {
         // Boundary: parse the rendered form into a plain object, then hand it to
         // the caller's pure `callback`. Callers never touch the DOM/DialogV2.
         callback: (_event: unknown, _button: unknown, dlg: any): unknown => {
-            const form: HTMLFormElement | null =
-                dlg?.element?.querySelector?.("form") ?? null;
+            const form: HTMLFormElement | null = dlg?.element?.querySelector?.("form") ?? null;
             const formData = (
                 form ?
-                    new (foundry.applications as any).ux.FormDataExtended(form)
-                        .object
+                    new (foundry.applications as any).ux.FormDataExtended(form).object
                 :   {}) as PlainObject;
             return spec.callback ?
                     spec.callback(formData, b.action)
@@ -985,10 +923,7 @@ export async function dialog(spec: DialogSpec = {}): Promise<any> {
         rejectClose: spec.rejectClose ?? false,
         // Foundry fires "render" on the initial render and every re-render; hand
         // the caller the dialog's root element for dynamic form behaviour.
-        render:
-            spec.render ?
-                (_event: unknown, dlg: any) => spec.render!(dlg.element)
-            :   undefined,
+        render: spec.render ? (_event: unknown, dlg: any) => spec.render!(dlg.element) : undefined,
         buttons,
     });
 }
@@ -1009,13 +944,9 @@ export async function dialog(spec: DialogSpec = {}): Promise<any> {
  * Foundry-free, deprecation-free entry point.
  * @param doc - The document whose sheet to render; a missing sheet is a no-op.
  */
-export async function fvttRenderSheet(
-    doc: { sheet?: unknown } | null | undefined,
-): Promise<void> {
+export async function fvttRenderSheet(doc: { sheet?: unknown } | null | undefined): Promise<void> {
     const sheet = doc?.sheet as
-        | { render?: (options: { force: boolean }) => unknown }
-        | null
-        | undefined;
+        { render?: (options: { force: boolean }) => unknown } | null | undefined;
     await sheet?.render?.({ force: true });
 }
 
@@ -1158,9 +1089,7 @@ export function fvttActiveCombatantForActor(
     const tokenId = (actor.getActiveTokens?.()?.[0] as any)?.document?.id;
     const combatants = combat.combatants as any;
     const combatant = combatants.find?.(
-        (c: any) =>
-            (tokenId != null && c.tokenId === tokenId) ||
-            c.actor?.id === actor.id,
+        (c: any) => (tokenId != null && c.tokenId === tokenId) || c.actor?.id === actor.id,
     ) as SohlCombatant | undefined;
     return combatant?.logic as SohlCombatantLogic | undefined;
 }
@@ -1174,14 +1103,10 @@ export function fvttActiveCombatantForActor(
  * @param combatant - The combatant whose peers to resolve.
  * @returns The peer combatant logics, or an empty array.
  */
-export function fvttCombatantLogics(
-    combatant: SohlCombatant | null,
-): SohlCombatantLogic[] {
+export function fvttCombatantLogics(combatant: SohlCombatant | null): SohlCombatantLogic[] {
     const combat = (combatant as any)?.combat;
     if (!combat) return [];
-    return (combat.combatants as any).map(
-        (c: any) => c.logic,
-    ) as SohlCombatantLogic[];
+    return (combat.combatants as any).map((c: any) => c.logic) as SohlCombatantLogic[];
 }
 
 /**
@@ -1277,17 +1202,11 @@ export async function getDocumentFromPacks(
         if (!options.keepId) data._id = foundry.utils.randomID();
         delete data.folder;
         delete data.sort;
-        if (doc.pack)
-            foundry.utils.setProperty(
-                data,
-                "_stats.compendiumSource",
-                doc.uuid,
-            );
+        if (doc.pack) foundry.utils.setProperty(data, "_stats.compendiumSource", doc.uuid);
         if ("ownership" in data) {
             data.ownership = {
                 default: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-                [((game as any).user as any)?.id]:
-                    foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+                [((game as any).user as any)?.id]: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
             };
         }
         if (doc.effects) {
@@ -1326,30 +1245,20 @@ export function getContextLogic(element: HTMLElement): any {
  * @param single - Only return a single token if true, otherwise return an array of tokens.
  * @returns The targeted token document(s), or `undefined` if failed.
  */
-export function fvttGetTargetedTokens(
-    single: boolean = false,
-): SohlTokenDocument[] | undefined {
+export function fvttGetTargetedTokens(single: boolean = false): SohlTokenDocument[] | undefined {
     let result: SohlTokenDocument[] | undefined = undefined;
-    const targetTokens: Set<Token> = ((game as any).user as User)
-        ?.targets as unknown as Set<Token>;
+    const targetTokens: Set<Token> = ((game as any).user as User)?.targets as unknown as Set<Token>;
 
     if (!targetTokens || targetTokens.size === 0) {
         sohl.log.uiWarn(`No tokens targeted.`);
     } else {
         if (single) {
             if (targetTokens.size > 1) {
-                sohl.log.uiWarn(
-                    `Multiple tokens targeted, please target only one token.`,
-                );
+                sohl.log.uiWarn(`Multiple tokens targeted, please target only one token.`);
             }
-            result = [
-                targetTokens.values().next().value!
-                    .document as SohlTokenDocument,
-            ];
+            result = [targetTokens.values().next().value!.document as SohlTokenDocument];
         } else {
-            result = Array.from(
-                targetTokens.map((t) => t.document),
-            ) as SohlTokenDocument[];
+            result = Array.from(targetTokens.map((t) => t.document)) as SohlTokenDocument[];
         }
     }
     return result;
@@ -1402,13 +1311,10 @@ export function fvttRangeToTarget(
     // position, so an absent placeable must not crash the measurement (#1079).
     const from = tokenMeasureCenter(sourceToken);
     const to = tokenMeasureCenter(targetToken);
-    const result =
-        from && to ? measurableGrid()?.measurePath([from, to], {}) : undefined;
+    const result = from && to ? measurableGrid()?.measurePath([from, to], {}) : undefined;
 
     if (!result) {
-        sohl.log.uiWarn(
-            `Could not calculate distance from ${sourceToken.id} to ${targetToken.id}`,
-        );
+        sohl.log.uiWarn(`Could not calculate distance from ${sourceToken.id} to ${targetToken.id}`);
         return undefined;
     }
 
@@ -1438,10 +1344,7 @@ function combatantMeasurePoint(
  * @param b - The second combatant.
  * @returns The grid distance in feet, or `undefined`.
  */
-export function combatantGridDistance(
-    a: SohlCombatant,
-    b: SohlCombatant,
-): number | undefined {
+export function combatantGridDistance(a: SohlCombatant, b: SohlCombatant): number | undefined {
     const from = combatantMeasurePoint(a);
     const to = combatantMeasurePoint(b);
     if (!from || !to) return undefined;

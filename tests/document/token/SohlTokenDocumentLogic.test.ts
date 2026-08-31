@@ -97,9 +97,7 @@ describe("SohlTokenDocumentLogic", () => {
             } as any);
 
             expect(result).toBeUndefined();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no opposed test to resolve/),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringMatching(/no opposed test to resolve/));
         });
 
         it("warns and returns undefined when the responder has no usable skill or attribute", async () => {
@@ -152,15 +150,11 @@ describe("SohlTokenDocumentLogic", () => {
 
     describe("intrinsic actions", () => {
         it("declares the opposed-test start and resume actions", () => {
-            const shortcodes =
-                SohlTokenDocumentLogic.defineIntrinsicActions().map(
-                    (a) => a.shortcode,
-                );
+            const shortcodes = SohlTokenDocumentLogic.defineIntrinsicActions().map(
+                (a) => a.shortcode,
+            );
             expect(shortcodes).toEqual(
-                expect.arrayContaining([
-                    "opposedTestStart",
-                    "opposedTestResume",
-                ]),
+                expect.arrayContaining(["opposedTestStart", "opposedTestResume"]),
             );
         });
     });

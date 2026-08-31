@@ -37,15 +37,12 @@ describe("being print / export (#795)", () => {
                 const doc = await sheet._renderPrintDocument();
                 return {
                     hasControl: controls.some(
-                        (c) =>
-                            c.action === "printSheet" &&
-                            /fa-print/.test(c.icon),
+                        (c) => c.action === "printSheet" && /fa-print/.test(c.icon),
                     ),
                     doc,
                 };
             }).then(({ hasControl, doc }) => {
-                expect(hasControl, "fa-print header control present").to.be
-                    .true;
+                expect(hasControl, "fa-print header control present").to.be.true;
 
                 // A full, self-contained print document.
                 expect(doc).to.include("<!doctype html>");
@@ -54,9 +51,7 @@ describe("being print / export (#795)", () => {
                 expect(doc).to.include(actor.name);
 
                 // Assets referenced by absolute URL; light theme forced.
-                expect(doc).to.match(
-                    /href="https?:\/\/[^"]+\/systems\/sohl\/css\/sohl\.css"/,
-                );
+                expect(doc).to.match(/href="https?:\/\/[^"]+\/systems\/sohl\/css\/sohl\.css"/);
                 expect(doc).to.include('data-theme="light"');
 
                 // Every section's content is present (Basic Folk populates all).
@@ -108,12 +103,10 @@ describe("being print / export (#795)", () => {
                 await new Promise((r) => win.setTimeout(r, 40));
                 return win.__print;
             }).then((print) => {
-                expect(
-                    print.html,
-                    "print document written to the new window",
-                ).to.include("being-print");
-                expect(print.called, "the window's print() was invoked").to.be
-                    .true;
+                expect(print.html, "print document written to the new window").to.include(
+                    "being-print",
+                );
+                expect(print.called, "the window's print() was invoked").to.be.true;
             });
         });
     });

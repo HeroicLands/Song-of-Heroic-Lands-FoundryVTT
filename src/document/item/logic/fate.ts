@@ -11,11 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    CRITICAL_FAILURE,
-    CRITICAL_SUCCESS,
-    MARGINAL_SUCCESS,
-} from "@src/utils/constants";
+import { CRITICAL_FAILURE, CRITICAL_SUCCESS, MARGINAL_SUCCESS } from "@src/utils/constants";
 
 /**
  * Foundry-free helpers backing the **Fate** mechanic (issue #854).
@@ -41,12 +37,7 @@ import {
  * plus the two branches of the critical-success player choice. Used to select
  * the resolved-path text shown on the fate result card.
  */
-export type FatePath =
-    | "loseFateNoEffect"
-    | "noLossNoEffect"
-    | "success"
-    | "critSpend"
-    | "critKeep";
+export type FatePath = "loseFateNoEffect" | "noLossNoEffect" | "success" | "critSpend" | "critKeep";
 
 /** The player's choice on a critical-success Fate test (see {@link resolveFateOutcome}). */
 export type FateCritChoice = "spend" | "keep";
@@ -189,9 +180,7 @@ export function eligibleFateSources<T>(
  *   {@link eligibleFateSources}).
  * @returns The available point count, or `Infinity`.
  */
-export function fatePointsAvailable<T>(
-    eligible: FateMysteryProjection<T>[],
-): number {
+export function fatePointsAvailable<T>(eligible: FateMysteryProjection<T>[]): number {
     if (eligible.some((p) => p.infinite)) return Infinity;
     return eligible.reduce((sum, p) => sum + Math.max(p.remaining, 0), 0);
 }

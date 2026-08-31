@@ -50,9 +50,7 @@ describe("affiliation — standing toward other affiliations (#1404)", () => {
     /** The persisted relation table of the item under test. */
     function relationOf(item) {
         return cy.foundry(
-            (win) =>
-                win.game.actors.get(item.actor.id).items.get(item.id).system
-                    .relation,
+            (win) => win.game.actors.get(item.actor.id).items.get(item.id).system.relation,
         );
     }
 
@@ -64,9 +62,7 @@ describe("affiliation — standing toward other affiliations (#1404)", () => {
     function recordStanding(item, code, standing) {
         return cy.foundry(async (win) => {
             const doc = win.game.actors.get(item.actor.id).items.get(item.id);
-            await doc.update(
-                toRealm(win, { [`system.relation.${code}`]: standing }),
-            );
+            await doc.update(toRealm(win, { [`system.relation.${code}`]: standing }));
             return null;
         });
     }
@@ -76,9 +72,7 @@ describe("affiliation — standing toward other affiliations (#1404)", () => {
         cy.then(function () {
             relationOf(this.larani).should("deep.eq", {});
         });
-        cy.get('section.tab[data-tab="properties"] .array-list__empty').should(
-            "exist",
-        );
+        cy.get('section.tab[data-tab="properties"] .array-list__empty').should("exist");
     });
 
     it("records a standing chosen in the Add Relation prompt", () => {
@@ -90,8 +84,7 @@ describe("affiliation — standing toward other affiliations (#1404)", () => {
         cy.then(function () {
             const { actor, id } = this.larani;
             cy.window({ log: false }).should((win) => {
-                const relation = win.game.actors.get(actor.id).items.get(id)
-                    .system.relation;
+                const relation = win.game.actors.get(actor.id).items.get(id).system.relation;
                 expect(relation).to.have.property("peoni", "aligned");
             });
         });
@@ -127,8 +120,7 @@ describe("affiliation — standing toward other affiliations (#1404)", () => {
         cy.then(function () {
             const { actor, id } = this.larani;
             cy.window({ log: false }).should((win) => {
-                const relation = win.game.actors.get(actor.id).items.get(id)
-                    .system.relation;
+                const relation = win.game.actors.get(actor.id).items.get(id).system.relation;
                 expect(relation).to.not.have.property("peoni");
             });
         });

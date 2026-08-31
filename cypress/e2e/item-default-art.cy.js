@@ -19,15 +19,9 @@ describe("item default artwork (#932)", () => {
                 noType: Cls.getDefaultArtwork({}).img,
             };
         }).should((art) => {
-            expect(art.trauma).to.eq(
-                "systems/sohl/assets/icons/other/injury.svg",
-            );
-            expect(art.affliction).to.eq(
-                "systems/sohl/assets/icons/other/sick.svg",
-            );
-            expect(art.weapongear).to.eq(
-                "systems/sohl/assets/icons/other/sword.svg",
-            );
+            expect(art.trauma).to.eq("systems/sohl/assets/icons/other/injury.svg");
+            expect(art.affliction).to.eq("systems/sohl/assets/icons/other/sick.svg");
+            expect(art.weapongear).to.eq("systems/sohl/assets/icons/other/sword.svg");
             // Unknown/`base`/typeless fall back to Foundry's default (no throw).
             expect(art.unknown).to.eq(BAG);
             expect(art.noType).to.eq(BAG);
@@ -37,14 +31,10 @@ describe("item default artwork (#932)", () => {
     it("a trauma created without an img gets the wound icon, not the bag", () => {
         cy.importActor().as("actor");
         cy.then(function () {
-            cy.createItemOn(this.actor, "trauma", { name: "Gash" }).should(
-                (item) => {
-                    expect(item.img).to.eq(
-                        "systems/sohl/assets/icons/other/injury.svg",
-                    );
-                    expect(item.img).to.not.eq(BAG);
-                },
-            );
+            cy.createItemOn(this.actor, "trauma", { name: "Gash" }).should((item) => {
+                expect(item.img).to.eq("systems/sohl/assets/icons/other/injury.svg");
+                expect(item.img).to.not.eq(BAG);
+            });
         });
     });
 
@@ -54,9 +44,7 @@ describe("item default artwork (#932)", () => {
             cy.createItemOn(this.actor, "affliction", {
                 name: "Ague",
             }).should((item) => {
-                expect(item.img).to.eq(
-                    "systems/sohl/assets/icons/other/sick.svg",
-                );
+                expect(item.img).to.eq("systems/sohl/assets/icons/other/sick.svg");
                 expect(item.img).to.not.eq(BAG);
             });
         });

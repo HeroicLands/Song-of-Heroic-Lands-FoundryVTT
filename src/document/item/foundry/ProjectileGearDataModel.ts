@@ -25,8 +25,7 @@ import {
     ProjectileGearSubTypes,
     ProjectileGearSubTypeChoices,
 } from "@src/utils/constants";
-const { NumberField, StringField, SchemaField, BooleanField } =
-    foundry.data.fields;
+const { NumberField, StringField, SchemaField, BooleanField } = foundry.data.fields;
 
 /**
  * Builds the Projectile Gear data schema (sub-type and impact-base fields)

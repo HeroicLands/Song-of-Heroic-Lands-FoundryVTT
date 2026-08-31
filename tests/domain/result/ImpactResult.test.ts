@@ -33,9 +33,7 @@ function makeImpactMod(aimBodyPartCode = "", spread = 0): ImpactModifier {
 
 describe("ImpactResult", () => {
     it("requires an impactModifier", () => {
-        expect(() => new ImpactResult({} as any, { parent })).toThrow(
-            /impactModifier/i,
-        );
+        expect(() => new ImpactResult({} as any, { parent })).toThrow(/impactModifier/i);
     });
 
     it("exposes total and aspect from the (injected) roll + modifier", () => {
@@ -111,10 +109,7 @@ describe("ImpactResult", () => {
             } as any,
             { parent },
         );
-        const revived = instanceFromJSON<ImpactResult>(
-            JSON.stringify(r.toJSON()),
-            parent,
-        );
+        const revived = instanceFromJSON<ImpactResult>(JSON.stringify(r.toJSON()), parent);
         expect(revived).toBeInstanceOf(ImpactResult);
         expect(revived.total).toBe(12);
         expect(revived.aspect).toBe(IMPACT_ASPECT.EDGED);

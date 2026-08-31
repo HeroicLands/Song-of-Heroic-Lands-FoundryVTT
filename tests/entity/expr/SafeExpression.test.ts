@@ -1,8 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import {
-    SafeExpression,
-    SafeExpressionError,
-} from "@src/entity/expr/SafeExpression";
+import { SafeExpression, SafeExpressionError } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
@@ -14,9 +11,7 @@ const mockParent = { id: "test", name: "Test" } as any;
 
 /** Compile + evaluate in one step against the standard helper registry. */
 function run(source: string, context?: Record<string, unknown>): unknown {
-    return new SafeExpression({ source }, { parent: mockParent }).evaluate(
-        context,
-    );
+    return new SafeExpression({ source }, { parent: mockParent }).evaluate(context);
 }
 
 /** Build a thunk that constructs a SafeExpression (for rejection assertions). */
@@ -140,15 +135,11 @@ describe("SafeExpression", () => {
         });
 
         it("rejects reading a method (function-valued property)", () => {
-            expect(() => run("o.fn", { o: { fn: () => 1 } })).toThrow(
-                SafeExpressionError,
-            );
+            expect(() => run("o.fn", { o: { fn: () => 1 } })).toThrow(SafeExpressionError);
         });
 
         it("rejects member access on a function", () => {
-            expect(() => run("f.name", { f: () => 1 })).toThrow(
-                SafeExpressionError,
-            );
+            expect(() => run("f.name", { f: () => 1 })).toThrow(SafeExpressionError);
         });
 
         it("rejects access to dangerous property names", () => {
@@ -270,18 +261,12 @@ describe("SafeExpression", () => {
                 round: 4,
                 turn: 1,
             });
-            expect(
-                run("defined(curCombatTime()) && curCombatTime().round > 3"),
-            ).toBe(true);
+            expect(run("defined(curCombatTime()) && curCombatTime().round > 3")).toBe(true);
         });
 
         it("curCombatTime() is null outside combat, so a guarded predicate is false", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue(
-                null,
-            );
-            expect(
-                run("defined(curCombatTime()) && curCombatTime().round > 3"),
-            ).toBe(false);
+            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue(null);
+            expect(run("defined(curCombatTime()) && curCombatTime().round > 3")).toBe(false);
         });
     });
 
@@ -335,9 +320,7 @@ describe("SafeExpression", () => {
                 // It is the toJSON of a SimpleRoll (carries the kind tag)…
                 expect(r.__kind).toBe("SimpleRoll");
                 // …a plain object, not a live SimpleRoll (no methods leak out).
-                expect(typeof (r as Record<string, unknown>).roll).toBe(
-                    "undefined",
-                );
+                expect(typeof (r as Record<string, unknown>).roll).toBe("undefined");
             });
 
             it("applies a flat modifier", () => {
@@ -360,9 +343,7 @@ describe("SafeExpression", () => {
                 expect(run("roll('2d6').total")).toBe(6);
                 // Two roll('2d6') calls -> four dice; total 6 >= median 7 -> false.
                 SimpleRoll.forceValues(3, 3, 3, 3);
-                expect(run("roll('2d6').total >= roll('2d6').median")).toBe(
-                    false,
-                );
+                expect(run("roll('2d6').total >= roll('2d6').median")).toBe(false);
             });
 
             it("wraps an invalid formula as a SafeExpressionError", () => {
@@ -373,9 +354,7 @@ describe("SafeExpression", () => {
 
     describe("rejects unsafe or unsupported syntax", () => {
         it("rejects method calls", () => {
-            expect(compile("item.logic.hasAttr('per')")).toThrow(
-                SafeExpressionError,
-            );
+            expect(compile("item.logic.hasAttr('per')")).toThrow(SafeExpressionError);
         });
 
         it("rejects assignment and updates", () => {
@@ -423,10 +402,7 @@ describe("SafeExpression", () => {
 
     describe("reuse", () => {
         it("compiles once and evaluates against many contexts", () => {
-            const expr = new SafeExpression(
-                { source: "x * 2" },
-                { parent: mockParent },
-            );
+            const expr = new SafeExpression({ source: "x * 2" }, { parent: mockParent });
             expect(expr.source).toBe("x * 2");
             expect(expr.evaluate({ x: 3 })).toBe(6);
             expect(expr.evaluate({ x: 5 })).toBe(10);
@@ -443,25 +419,16 @@ describe("SafeExpression", () => {
         });
 
         it("collects string-literal computed access", () => {
-            expect(attrRefs('sb(attr["aur"], attr.wil)')).toEqual([
-                "aur",
-                "wil",
-            ]);
+            expect(attrRefs('sb(attr["aur"], attr.wil)')).toEqual(["aur", "wil"]);
         });
 
         it("includes aur when the formula reads it, excludes it otherwise", () => {
-            expect(attrRefs("sb(attr.aur, attr.wil)").includes("aur")).toBe(
-                true,
-            );
-            expect(attrRefs("sb(attr.str, attr.dex)").includes("aur")).toBe(
-                false,
-            );
+            expect(attrRefs("sb(attr.aur, attr.wil)").includes("aur")).toBe(true);
+            expect(attrRefs("sb(attr.str, attr.dex)").includes("aur")).toBe(false);
         });
 
         it("walks nested operators, conditionals, and helper args", () => {
-            const refs = attrRefs(
-                "sb(attr.str, attr.dex) + (attr.end > 10 ? attr.wil : 0)",
-            );
+            const refs = attrRefs("sb(attr.str, attr.dex) + (attr.end > 10 ? attr.wil : 0)");
             expect(refs.sort()).toEqual(["dex", "end", "str", "wil"]);
         });
 
@@ -480,10 +447,7 @@ describe("SafeExpression", () => {
 
     describe("callArgMemberRefs (#1175)", () => {
         const sbRefs = (source: string): string[] =>
-            new SafeExpression(
-                { source },
-                { parent: mockParent },
-            ).callArgMemberRefs("sb");
+            new SafeExpression({ source }, { parent: mockParent }).callArgMemberRefs("sb");
 
         it("collects only the refs inside the named call's arguments", () => {
             expect(sbRefs("sb(attr.str, attr.dex)")).toEqual(["str", "dex"]);
@@ -491,10 +455,7 @@ describe("SafeExpression", () => {
 
         it("excludes refs outside the call — the #1175 false positive", () => {
             // Aura merely adjusts the result; it is not part of the basis.
-            expect(sbRefs("sb(attr.str, attr.dex) + attr.aur / 10")).toEqual([
-                "str",
-                "dex",
-            ]);
+            expect(sbRefs("sb(attr.str, attr.dex) + attr.aur / 10")).toEqual(["str", "dex"]);
         });
 
         it("preserves argument order, so the primary attribute comes first", () => {
@@ -507,11 +468,7 @@ describe("SafeExpression", () => {
         });
 
         it("descends into nested expressions and calls within the arguments", () => {
-            expect(sbRefs("sb(max(attr.str, attr.agl), attr.dex)")).toEqual([
-                "str",
-                "agl",
-                "dex",
-            ]);
+            expect(sbRefs("sb(max(attr.str, attr.agl), attr.dex)")).toEqual(["str", "agl", "dex"]);
             expect(sbRefs("sb(attr.end > 10 ? attr.wil : attr.str)")).toEqual([
                 "end",
                 "wil",
@@ -520,9 +477,11 @@ describe("SafeExpression", () => {
         });
 
         it("unions multiple calls to the same helper, de-duplicated", () => {
-            expect(
-                sbRefs("max(sb(attr.str, attr.dex), sb(attr.agl, attr.str))"),
-            ).toEqual(["str", "dex", "agl"]);
+            expect(sbRefs("max(sb(attr.str, attr.dex), sb(attr.agl, attr.str))")).toEqual([
+                "str",
+                "dex",
+                "agl",
+            ]);
         });
 
         it("returns an empty list when the named helper is never called", () => {
@@ -530,10 +489,7 @@ describe("SafeExpression", () => {
         });
 
         it("finds the call even when it is nested inside another expression", () => {
-            expect(sbRefs("(sb(attr.str, attr.dex) + 5) * 2")).toEqual([
-                "str",
-                "dex",
-            ]);
+            expect(sbRefs("(sb(attr.str, attr.dex) + 5) * 2")).toEqual(["str", "dex"]);
         });
 
         it("generalizes to another base identifier", () => {
@@ -547,16 +503,11 @@ describe("SafeExpression", () => {
 
     describe("serialization (SohlEntity)", () => {
         it("requires a parent", () => {
-            expect(() => new SafeExpression({ source: "1 + 1" }, {})).toThrow(
-                /parent/,
-            );
+            expect(() => new SafeExpression({ source: "1 + 1" }, {})).toThrow(/parent/);
         });
 
         it("toJSON persists only the source (plus the kind tag)", () => {
-            const expr = new SafeExpression(
-                { source: "level >= 3" },
-                { parent: mockParent },
-            );
+            const expr = new SafeExpression({ source: "level >= 3" }, { parent: mockParent });
             const json = expr.toJSON() as Record<string, unknown>;
             expect(json.source).toBe("level >= 3");
             expect(json.__kind).toBe("SafeExpression");
@@ -569,10 +520,9 @@ describe("SafeExpression", () => {
                 { source: "level >= 3 && !injured" },
                 { parent: mockParent },
             );
-            const revived = new SafeExpression(
-                original.toJSON() as { source: string },
-                { parent: mockParent },
-            );
+            const revived = new SafeExpression(original.toJSON() as { source: string }, {
+                parent: mockParent,
+            });
             expect(revived.source).toBe(original.source);
             expect(revived.evaluate({ level: 5, injured: false })).toBe(true);
             expect(revived.evaluate({ level: 2, injured: false })).toBe(false);
@@ -624,12 +574,8 @@ describe("SafeExpression", () => {
 
     describe("validateSource (static)", () => {
         it("returns undefined for a valid expression", () => {
-            expect(
-                SafeExpression.validateSource("sb(attr.str)"),
-            ).toBeUndefined();
-            expect(
-                SafeExpression.validateSource("level >= 3 && !injured"),
-            ).toBeUndefined();
+            expect(SafeExpression.validateSource("sb(attr.str)")).toBeUndefined();
+            expect(SafeExpression.validateSource("level >= 3 && !injured")).toBeUndefined();
             expect(SafeExpression.validateSource("5")).toBeUndefined();
         });
 
@@ -651,9 +597,7 @@ describe("SafeExpression", () => {
         });
 
         it("rejects a call to an unregistered helper", () => {
-            expect(
-                SafeExpression.validateSource("bogusHelper(1)"),
-            ).toBeTruthy();
+            expect(SafeExpression.validateSource("bogusHelper(1)")).toBeTruthy();
         });
 
         it("rejects assignment", () => {
@@ -667,25 +611,19 @@ describe("SafeExpression", () => {
         it("does not require the caller to supply a parent logic", () => {
             // A pure static check — construction is internal, so callers
             // (a DataModel field, the editor dialog) need no live parent.
-            expect(() =>
-                SafeExpression.validateSource("sb(attr.str)"),
-            ).not.toThrow();
+            expect(() => SafeExpression.validateSource("sb(attr.str)")).not.toThrow();
         });
 
         it("checks the scope when one is supplied", () => {
             const scope = expressionScopes.require("skill.base");
-            expect(
-                SafeExpression.validateSource("sb(attr.str)", scope),
-            ).toBeUndefined();
-            expect(
-                SafeExpression.validateSource("sb(strength)", scope),
-            ).toMatch(/Unknown identifier "strength"/);
+            expect(SafeExpression.validateSource("sb(attr.str)", scope)).toBeUndefined();
+            expect(SafeExpression.validateSource("sb(strength)", scope)).toMatch(
+                /Unknown identifier "strength"/,
+            );
         });
 
         it("accepts any identifier when no scope is supplied", () => {
-            expect(
-                SafeExpression.validateSource("whateverIdentifier > 3"),
-            ).toBeUndefined();
+            expect(SafeExpression.validateSource("whateverIdentifier > 3")).toBeUndefined();
         });
     });
 
@@ -694,8 +632,7 @@ describe("SafeExpression", () => {
 
         /** Construct against a scope (for rejection assertions). */
         function compileScoped(source: string): () => SafeExpression {
-            return () =>
-                new SafeExpression({ source }, { parent: mockParent, scope });
+            return () => new SafeExpression({ source }, { parent: mockParent, scope });
         }
 
         it("accepts an identifier the scope declares", () => {
@@ -706,9 +643,7 @@ describe("SafeExpression", () => {
         it("rejects an identifier the scope does not declare, at construction", () => {
             // Issue #1090 in miniature: this compiled fine and then failed
             // silently at every evaluation.
-            expect(compileScoped("nonesuch.shockState === 2")).toThrow(
-                SafeExpressionError,
-            );
+            expect(compileScoped("nonesuch.shockState === 2")).toThrow(SafeExpressionError);
         });
 
         it("names the offending identifier and lists the legal ones", () => {
@@ -725,16 +660,12 @@ describe("SafeExpression", () => {
 
         it("checks only the root of a member chain, never the object graph", () => {
             // The roots are a knowable list; the reachable graph is not.
-            expect(
-                compileScoped("itemLogic.anything.at.all.here"),
-            ).not.toThrow();
+            expect(compileScoped("itemLogic.anything.at.all.here")).not.toThrow();
         });
 
         it("checks a computed member key, which is resolved from the context", () => {
             expect(compileScoped("itemLogic[isGM]")).not.toThrow();
-            expect(compileScoped("itemLogic[nonesuch]")).toThrow(
-                SafeExpressionError,
-            );
+            expect(compileScoped("itemLogic[nonesuch]")).toThrow(SafeExpressionError);
         });
 
         it("does not treat a string-literal computed key as an identifier", () => {
@@ -750,10 +681,7 @@ describe("SafeExpression", () => {
             // scope lets it fail where the expression is authored.
             expect(compileScoped("sb")).toThrow(/can only be called/);
             expect(() =>
-                new SafeExpression(
-                    { source: "sb" },
-                    { parent: mockParent },
-                ).evaluate({}),
+                new SafeExpression({ source: "sb" }, { parent: mockParent }).evaluate({}),
             ).toThrow(/can only be called/);
         });
 
@@ -770,14 +698,10 @@ describe("SafeExpression", () => {
         });
 
         it("exposes the scope it was built against", () => {
-            const expr = new SafeExpression(
-                { source: "isGM" },
-                { parent: mockParent, scope },
-            );
+            const expr = new SafeExpression({ source: "isGM" }, { parent: mockParent, scope });
             expect(expr.scope).toBe(scope);
             expect(
-                new SafeExpression({ source: "isGM" }, { parent: mockParent })
-                    .scope,
+                new SafeExpression({ source: "isGM" }, { parent: mockParent }).scope,
             ).toBeUndefined();
         });
 
@@ -795,10 +719,7 @@ describe("SafeExpression", () => {
         it("rejects every identifier in a scope that declares none", () => {
             const none = expressionScopes.require("affliction.outcomeTrauma");
             const build = (source: string) =>
-                new SafeExpression(
-                    { source },
-                    { parent: mockParent, scope: none },
-                );
+                new SafeExpression({ source }, { parent: mockParent, scope: none });
             expect(() => build("'gash'")).not.toThrow();
             expect(() => build("upper('gash')")).not.toThrow();
             expect(() => build("wound")).toThrow(SafeExpressionError);
@@ -808,10 +729,7 @@ describe("SafeExpression", () => {
             const none = expressionScopes.require("affliction.outcomeTrauma");
             let message = "";
             try {
-                new SafeExpression(
-                    { source: "wound" },
-                    { parent: mockParent, scope: none },
-                );
+                new SafeExpression({ source: "wound" }, { parent: mockParent, scope: none });
             } catch (err) {
                 message = (err as Error).message;
             }
@@ -832,10 +750,7 @@ describe("SafeExpression", () => {
         });
 
         it("serializes to source only — the scope is transient", () => {
-            const expr = new SafeExpression(
-                { source: "isGM" },
-                { parent: mockParent, scope },
-            );
+            const expr = new SafeExpression({ source: "isGM" }, { parent: mockParent, scope });
             expect(expr.toJSON()).not.toHaveProperty("scope");
             expect(expr.toJSON()).toMatchObject({ source: "isGM" });
         });

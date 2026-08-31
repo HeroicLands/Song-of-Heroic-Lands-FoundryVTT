@@ -78,14 +78,11 @@ describe("runDrive — drive-step sequencing and awaiting", () => {
                 throw new Error("combat failed");
             }
         };
-        await expect(
-            runDrive([ACTIVATE, START, ADVANCE], execute, {}),
-        ).rejects.toThrow("combat failed");
+        await expect(runDrive([ACTIVATE, START, ADVANCE], execute, {})).rejects.toThrow(
+            "combat failed",
+        );
         // ADVANCE must never run after START threw.
-        expect(seen).toEqual([
-            TOUR_DRIVE_KIND.ACTIVATE_SCENE,
-            TOUR_DRIVE_KIND.START_COMBAT,
-        ]);
+        expect(seen).toEqual([TOUR_DRIVE_KIND.ACTIVATE_SCENE, TOUR_DRIVE_KIND.START_COMBAT]);
     });
 
     it("is a no-op for an empty or undefined drive list", async () => {

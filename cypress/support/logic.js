@@ -32,14 +32,10 @@ Cypress.Commands.add("prepare", (doc) =>
 );
 
 /** Yield an actor's `.logic`. */
-Cypress.Commands.add("actorLogic", (actor) =>
-    cy.foundry((win) => resolveDoc(win, actor)?.logic),
-);
+Cypress.Commands.add("actorLogic", (actor) => cy.foundry((win) => resolveDoc(win, actor)?.logic));
 
 /** Yield an item's `.logic`. */
-Cypress.Commands.add("itemLogic", (item) =>
-    cy.foundry((win) => resolveDoc(win, item)?.logic),
-);
+Cypress.Commands.add("itemLogic", (item) => cy.foundry((win) => resolveDoc(win, item)?.logic));
 
 /** Yield whether a named action exists on the document's logic. */
 Cypress.Commands.add("hasAction", (doc, name) =>
@@ -85,9 +81,7 @@ Cypress.Commands.add("releaseItem", (item) =>
         const it = resolveDoc(win, item);
         const actor = it.actor ?? it.parent;
         const struct = actor.logic.body.structure;
-        const holding = struct.parts.filter(
-            (p) => p.canHoldItem && p.heldItem?.id === it.id,
-        );
+        const holding = struct.parts.filter((p) => p.canHoldItem && p.heldItem?.id === it.id);
         if (!holding.length) return false;
         const payload = struct.setPartFieldsUpdate(
             holding.map((p) => ({

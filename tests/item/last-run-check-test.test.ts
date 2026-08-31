@@ -97,29 +97,22 @@ function actionFor(
     logic: { defineIntrinsicActions(): Partial<SohlAction.Data>[] },
     shortcode: string,
 ): Partial<SohlAction.Data> | undefined {
-    return logic
-        .defineIntrinsicActions()
-        .find((a) => a.shortcode === shortcode);
+    return logic.defineIntrinsicActions().find((a) => a.shortcode === shortcode);
 }
 
 describe("the run record follows the act, not the offer (#1192)", () => {
     it.each(PAIRS)("$label $test records its run", ({ logic, test }) => {
         const action = actionFor(logic, test);
         expect(action, test).toBeDefined();
-        expect(action?.recordsLastRun, `${test} must record its run`).toBe(
-            true,
-        );
+        expect(action?.recordsLastRun, `${test} must record its run`).toBe(true);
     });
 
-    it.each(PAIRS)(
-        "$label $check does not record a run — it only offers",
-        ({ logic, check }) => {
-            const action = actionFor(logic, check);
-            expect(action, check).toBeDefined();
-            expect(
-                action?.recordsLastRun ?? false,
-                `${check} offers only, so it must not stamp a run record`,
-            ).toBe(false);
-        },
-    );
+    it.each(PAIRS)("$label $check does not record a run — it only offers", ({ logic, check }) => {
+        const action = actionFor(logic, check);
+        expect(action, check).toBeDefined();
+        expect(
+            action?.recordsLastRun ?? false,
+            `${check} offers only, so it must not stamp a run record`,
+        ).toBe(false);
+    });
 });

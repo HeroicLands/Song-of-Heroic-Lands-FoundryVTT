@@ -60,14 +60,12 @@ describe("Zone Die presentation", () => {
             // Basic Folk already owns `melee`; raise its ML instead of adding a
             // colliding duplicate (the `(type, shortcode)` key is unique).
             cy.ensureSkillML(actor, "melee", 50);
-            cy.createItemOn(actor, "weapongear", spearWeapon()).then(
-                (weapon) => {
-                    cy.holdItem(weapon);
-                    cy.prepare(actor);
-                    cy.openSheet(actor);
-                    cy.switchTab("combat", "primary");
-                },
-            );
+            cy.createItemOn(actor, "weapongear", spearWeapon()).then((weapon) => {
+                cy.holdItem(weapon);
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.switchTab("combat", "primary");
+            });
             return cy.wrap(actor);
         });
     }

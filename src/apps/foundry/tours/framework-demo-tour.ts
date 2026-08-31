@@ -86,8 +86,7 @@ export function buildFrameworkDemoTour(): SohlTour {
                 id: "state-gate",
                 title: "SOHL.Tour.Demo.stateGate.title",
                 content: "SOHL.Tour.Demo.stateGate.content",
-                selector:
-                    '[data-action="tab"][data-group="primary"][data-tab="combat"]',
+                selector: '[data-action="tab"][data-group="primary"][data-tab="combat"]',
                 resolveDocument: () => firstOwnedBeing(),
                 gate: TourGate.state((ctx) => ctx.state === "combat"),
                 readState: () => firstOwnedBeing()?.sheet?.tabGroups?.primary,

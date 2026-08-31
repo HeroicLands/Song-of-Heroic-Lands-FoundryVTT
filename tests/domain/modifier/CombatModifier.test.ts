@@ -17,10 +17,9 @@ describe("CombatModifier", () => {
                 { baseValue: 40, successLevelMod: 2, type: "attack" } as any,
                 { parent },
             );
-            const revived = defaultFromJSON(
-                JSON.parse(JSON.stringify(defaultToJSON(cm))),
-                { parent },
-            ) as CombatModifier;
+            const revived = defaultFromJSON(JSON.parse(JSON.stringify(defaultToJSON(cm))), {
+                parent,
+            }) as CombatModifier;
             expect(revived).toBeInstanceOf(CombatModifier);
             expect(revived.base).toBe(40);
             expect(revived.successLevelMod).toBe(2);
@@ -29,19 +28,13 @@ describe("CombatModifier", () => {
     });
 
     describe("constructor", () => {
-        it.todo(
-            "creates an instance extending MasteryLevelModifier with valid data and parent",
-        );
+        it.todo("creates an instance extending MasteryLevelModifier with valid data and parent");
         it.todo("throws when constructed without a parent");
     });
 
     describe("inheritance", () => {
-        it.todo(
-            "inherits all ValueModifier methods (add, multiply, set, floor, ceiling)",
-        );
-        it.todo(
-            "inherits MasteryLevelModifier properties (minTarget, maxTarget, successLevelMod)",
-        );
+        it.todo("inherits all ValueModifier methods (add, multiply, set, floor, ceiling)");
+        it.todo("inherits MasteryLevelModifier properties (minTarget, maxTarget, successLevelMod)");
         it.todo("inherits constrainedEffective from MasteryLevelModifier");
     });
 

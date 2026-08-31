@@ -24,8 +24,7 @@
 # it link by link.
 type: homepage
 title: Song of Heroic Lands
-description:
-  A classless, skill-based fantasy system for Foundry Virtual Tabletop —
+description: A classless, skill-based fantasy system for Foundry Virtual Tabletop —
   HârnMaster-compatible, and built to keep the books while you make the calls.
 banner: brand/sohl-banner.webp
 

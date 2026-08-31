@@ -81,9 +81,7 @@ function describeLogic(file, className) {
         .replace(/\s+/g, " ")
         .trim();
     // First sentence only.
-    let sentence = (
-        firstPara.match(/^(.*?[.!?])(\s|$)/)?.[1] ?? firstPara
-    ).trim();
+    let sentence = (firstPara.match(/^(.*?[.!?])(\s|$)/)?.[1] ?? firstPara).trim();
     // Resolve {@link Target | label} / {@link Target} to plain text.
     sentence = sentence.replace(/\{@link\s+[^}|]+?\|\s*([^}]+?)\s*\}/g, "$1");
     sentence = sentence.replace(/\{@link\s+([^}]+?)\s*\}/g, "$1");
@@ -131,9 +129,7 @@ export function buildTypeCatalog() {
         return kinds.map((code) => {
             let name = en[`${kindPrefix}.${code}`];
             if (!name) {
-                warnings.push(
-                    `no ${kindPrefix} label in en.json for "${code}"`,
-                );
+                warnings.push(`no ${kindPrefix} label in en.json for "${code}"`);
                 name = code.charAt(0).toUpperCase() + code.slice(1);
             }
             const entry = logic[code];
@@ -142,10 +138,7 @@ export function buildTypeCatalog() {
                 warnings.push(`no Logic class found for kind "${code}"`);
             } else {
                 desc = describeLogic(entry.file, entry.className);
-                if (!desc)
-                    warnings.push(
-                        `no TSDoc summary on ${entry.className} (kind "${code}")`,
-                    );
+                if (!desc) warnings.push(`no TSDoc summary on ${entry.className} (kind "${code}")`);
             }
             return `| ${name} | \`${code}\` | ${desc || "_(undocumented)_"} |`;
         });

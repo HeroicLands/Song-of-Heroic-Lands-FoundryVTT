@@ -5,15 +5,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    describe,
-    it,
-    expect,
-    vi,
-    beforeAll,
-    afterAll,
-    afterEach,
-} from "vitest";
+import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from "vitest";
 import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
 import {
     formatTimestamp,
@@ -243,9 +235,7 @@ describe("SohlCalendarData", () => {
         });
 
         it("returns year as eraYear when hasYearZero is true", () => {
-            const cal = new SohlCalendarData(
-                makeSohlConfig({ era: { hasYearZero: true } }),
-            );
+            const cal = new SohlCalendarData(makeSohlConfig({ era: { hasYearZero: true } }));
             expect(cal.timeToComponents(0).eraYear).toBe(0);
             expect(cal.timeToComponents(SOHL_YEAR_SECONDS).eraYear).toBe(1);
         });
@@ -265,9 +255,7 @@ describe("SohlCalendarData", () => {
         });
 
         it("SoHL calendar: skips year-zero adjustment when hasYearZero is true", () => {
-            const cal = new SohlCalendarData(
-                makeSohlConfig({ era: { hasYearZero: true } }),
-            );
+            const cal = new SohlCalendarData(makeSohlConfig({ era: { hasYearZero: true } }));
             const c = cal.timeToComponents(0);
             expect(formatTimestamp(cal, c)).toBe(" 0000-01-01 00:00:00");
         });
@@ -275,11 +263,7 @@ describe("SohlCalendarData", () => {
         it("pads year to 4 digits, month/day/time to 2 digits", () => {
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(
-                100 * SOHL_YEAR_SECONDS +
-                    35 * SECONDS_PER_DAY +
-                    9 * 3600 +
-                    5 * 60 +
-                    7,
+                100 * SOHL_YEAR_SECONDS + 35 * SECONDS_PER_DAY + 9 * 3600 + 5 * 60 + 7,
             );
             const out = formatTimestamp(cal, c);
             expect(out).toMatch(/^ \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
@@ -304,17 +288,13 @@ describe("SohlCalendarData", () => {
     describe("formatDefault (static)", () => {
         it("SoHL calendar: formats as 'day monthName eraYear+eraAbbrev HH:MM:SS'", () => {
             const cal = new SohlCalendarData(makeSohlConfig());
-            const c = cal.timeToComponents(
-                14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60,
-            );
+            const c = cal.timeToComponents(14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60);
             expect(formatDefault(cal, c)).toBe("15 Month0 1TR 14:30:00");
         });
 
         it("Foreign calendar: formats as 'day monthName year HH:MM:SS' with no era data", () => {
             const cal = new ForeignCalendar(makeForeignConfig());
-            const c = cal.timeToComponents(
-                14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60,
-            );
+            const c = cal.timeToComponents(14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60);
             expect(formatDefault(cal, c)).toBe("15 Jan 0 14:30:00");
         });
 
@@ -362,9 +342,7 @@ describe("SohlCalendarData", () => {
                     : k === "SOHL.CALENDAR.DEFAULT.EraAbbr" ? "TR"
                     : k,
                 );
-            const c = cal.timeToComponents(
-                14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60,
-            );
+            const c = cal.timeToComponents(14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60);
             expect(formatDefault(cal, c)).toBe("15 Nuzyael 1TR 14:30:00");
             localize.mockRestore();
         });
@@ -407,9 +385,7 @@ describe("SohlCalendarData", () => {
                 data: Record<string, unknown> = {},
             ): string => {
                 const template = TEMPLATES[key] ?? key;
-                return template.replace(/{(\w+)}/g, (_, k) =>
-                    String(data[k] ?? ""),
-                );
+                return template.replace(/{(\w+)}/g, (_, k) => String(data[k] ?? ""));
             };
         });
         afterAll(() => {
@@ -437,10 +413,7 @@ describe("SohlCalendarData", () => {
         // tests above stub the key, so only a real-file assertion catches the gap.
         it("ships the SOHL.TIME.Until key in lang/en.json (#477)", () => {
             const en = JSON.parse(
-                readFileSync(
-                    new URL("../../lang/en.json", import.meta.url),
-                    "utf8",
-                ),
+                readFileSync(new URL("../../lang/en.json", import.meta.url), "utf8"),
             ) as Record<string, string>;
             expect(en["SOHL.TIME.Until"]).toBeDefined();
             expect(en["SOHL.TIME.Until"]).toContain("{since}");
@@ -467,11 +440,7 @@ describe("SohlCalendarData", () => {
             setWorldTime(0);
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(
-                2 * SOHL_YEAR_SECONDS +
-                    3 * SECONDS_PER_DAY +
-                    4 * 3600 +
-                    5 * 60 +
-                    6,
+                2 * SOHL_YEAR_SECONDS + 3 * SECONDS_PER_DAY + 4 * 3600 + 5 * 60 + 6,
             );
             const long = formatRelativeTime(cal, c);
             const short = formatRelativeTime(cal, c, {

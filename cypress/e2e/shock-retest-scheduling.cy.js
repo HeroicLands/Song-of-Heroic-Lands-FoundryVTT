@@ -33,9 +33,7 @@ describe("Shock Re-Test scheduling", () => {
     function shockReTestButton(win, msg) {
         const div = win.document.createElement("div");
         div.innerHTML = msg?.content ?? "";
-        return div.querySelector(
-            'button.action-card-button[data-action="shockReTest"]',
-        );
+        return div.querySelector('button.action-card-button[data-action="shockReTest"]');
     }
 
     it("Incapacitated → a turnEnd schedule offered only at the end of the being's OWN turn", () => {
@@ -54,10 +52,7 @@ describe("Shock Re-Test scheduling", () => {
                     const entry = a.system.scheduledActions.find(
                         (e) => e.actionName === "shockReTest",
                     );
-                    const armed = win.sohl.events.isScheduled(
-                        a.uuid,
-                        "shockReTest",
-                    );
+                    const armed = win.sohl.events.isScheduled(a.uuid, "shockReTest");
 
                     // The turnEnd context carries the combatant whose turn ended;
                     // the queue's predicate reads combatant.actor.uuid. Drive it
@@ -80,16 +75,12 @@ describe("Shock Re-Test scheduling", () => {
                     // Another combatant's turn ends → NO card for A.
                     const beforeOther = win.game.messages.size;
                     await turnEndFor(b);
-                    const cardsOnOtherTurn =
-                        win.game.messages.size - beforeOther;
+                    const cardsOnOtherTurn = win.game.messages.size - beforeOther;
 
                     // A's OWN turn ends → a [Perform] card owned by A...
                     const beforeOwn = win.game.messages.size;
                     await turnEndFor(a);
-                    const btn = shockReTestButton(
-                        win,
-                        win.game.messages.contents.at(-1),
-                    );
+                    const btn = shockReTestButton(win, win.game.messages.contents.at(-1));
                     // ...and again next round on A's turn (events don't dedupe).
                     await turnEndFor(a);
 
@@ -104,19 +95,12 @@ describe("Shock Re-Test scheduling", () => {
                         actorUuid: a.uuid,
                     };
                 }).should((r) => {
-                    expect(
-                        r.triggerName,
-                        "persisted as a turnEnd schedule",
-                    ).to.eq("turnEnd");
-                    expect(
-                        r.predicate,
-                        "gated to the being's own combatant",
-                    ).to.eq("combatant.actor.uuid === subscriberUuid");
+                    expect(r.triggerName, "persisted as a turnEnd schedule").to.eq("turnEnd");
+                    expect(r.predicate, "gated to the being's own combatant").to.eq(
+                        "combatant.actor.uuid === subscriberUuid",
+                    );
                     expect(r.armed, "armed as a subscription").to.be.true;
-                    expect(
-                        r.cardsOnTime,
-                        "a world-time tick does not fire it",
-                    ).to.eq(0);
+                    expect(r.cardsOnTime, "a world-time tick does not fire it").to.eq(0);
                     expect(
                         r.cardsOnOtherTurn,
                         "not offered at the end of another combatant's turn",
@@ -125,9 +109,7 @@ describe("Shock Re-Test scheduling", () => {
                         r.cardsOnOwnTurns,
                         "a [Perform] card at the end of each of the being's turns",
                     ).to.be.gte(2);
-                    expect(r.handlerUuid, "owner-gated to the being").to.eq(
-                        r.actorUuid,
-                    );
+                    expect(r.handlerUuid, "owner-gated to the being").to.eq(r.actorUuid);
                 });
             });
         });
@@ -142,13 +124,8 @@ describe("Shock Re-Test scheduling", () => {
                 await a.logic.setShockState(3); // UNCONSCIOUS
                 await a.logic.offerShockReTest(win.structuredClone(ACCEPT));
 
-                const entry = a.system.scheduledActions.find(
-                    (e) => e.actionName === "shockReTest",
-                );
-                const nextFire = win.sohl.events.nextFireTime(
-                    a.uuid,
-                    "shockReTest",
-                );
+                const entry = a.system.scheduledActions.find((e) => e.actionName === "shockReTest");
+                const nextFire = win.sohl.events.nextFireTime(a.uuid, "shockReTest");
 
                 // Not yet due (before +10 min): no card.
                 const beforeEarly = win.game.messages.size;
@@ -164,10 +141,7 @@ describe("Shock Re-Test scheduling", () => {
                     name: "updateWorldTime",
                     worldTime: now + 600,
                 });
-                const btn = shockReTestButton(
-                    win,
-                    win.game.messages.contents.at(-1),
-                );
+                const btn = shockReTestButton(win, win.game.messages.contents.at(-1));
 
                 return {
                     triggerName: entry?.triggerName || "",
@@ -184,9 +158,7 @@ describe("Shock Re-Test scheduling", () => {
                 expect(r.nextFireOffset, "due at +10 min").to.eq(600);
                 expect(r.cardsEarly, "not offered before it is due").to.eq(0);
                 expect(r.cardsWhenDue, "offered when due").to.be.gte(1);
-                expect(r.handlerUuid, "owner-gated to the being").to.eq(
-                    r.actorUuid,
-                );
+                expect(r.handlerUuid, "owner-gated to the being").to.eq(r.actorUuid);
             });
         });
     });
@@ -198,29 +170,21 @@ describe("Shock Re-Test scheduling", () => {
 
                 await a.logic.setShockState(2); // INCAPACITATED
                 await a.logic.offerShockReTest(win.structuredClone(ACCEPT));
-                const armedWhileShocked = win.sohl.events.isScheduled(
-                    a.uuid,
-                    "shockReTest",
-                );
+                const armedWhileShocked = win.sohl.events.isScheduled(a.uuid, "shockReTest");
 
                 // Recover fully, then reconcile: the reminder must be cleared.
                 await a.logic.setShockState(0); // NONE
                 await a.logic.offerShockReTest(win.structuredClone(ACCEPT));
 
-                const stillArmed = win.sohl.events.isScheduled(
-                    a.uuid,
-                    "shockReTest",
-                );
+                const stillArmed = win.sohl.events.isScheduled(a.uuid, "shockReTest");
                 const stillPersisted = (a.system.scheduledActions || []).some(
                     (e) => e.actionName === "shockReTest",
                 );
                 return { armedWhileShocked, stillArmed, stillPersisted };
             }).should((r) => {
-                expect(r.armedWhileShocked, "armed while Incapacitated").to.be
-                    .true;
+                expect(r.armedWhileShocked, "armed while Incapacitated").to.be.true;
                 expect(r.stillArmed, "unarmed once recovered").to.be.false;
-                expect(r.stillPersisted, "and cleared from the store").to.be
-                    .false;
+                expect(r.stillPersisted, "and cleared from the store").to.be.false;
             });
         });
     });

@@ -71,12 +71,8 @@ describe("Healing Rate stamps the treatment date (#1148)", () => {
                     // A bare rate update — no treatment date supplied, exactly
                     // what a sheet edit sends. Re-realmed: a payload built in
                     // the Cypress realm is rejected by Foundry.
-                    await w.update(
-                        win.structuredClone({ "system.healingRateBase": 4 }),
-                    );
-                    const after = win.game.actors
-                        .get(actor.id)
-                        .items.get(wound.id);
+                    await w.update(win.structuredClone({ "system.healingRateBase": 4 }));
+                    const after = win.game.actors.get(actor.id).items.get(wound.id);
                     return {
                         hr: after.system.healingRateBase,
                         date: after.system.treatmentDate,
@@ -96,12 +92,8 @@ describe("Healing Rate stamps the treatment date (#1148)", () => {
             untreatedWound(actor.id).then((wound) => {
                 cy.foundry(async (win) => {
                     const w = win.game.actors.get(actor.id).items.get(wound.id);
-                    await w.update(
-                        win.structuredClone({ "system.treatmentDate": 500 }),
-                    );
-                    const after = win.game.actors
-                        .get(actor.id)
-                        .items.get(wound.id);
+                    await w.update(win.structuredClone({ "system.treatmentDate": 500 }));
+                    const after = win.game.actors.get(actor.id).items.get(wound.id);
                     return {
                         hr: after.system.healingRateBase,
                         date: after.system.treatmentDate,
@@ -110,8 +102,7 @@ describe("Healing Rate stamps the treatment date (#1148)", () => {
                 }).should((r) => {
                     expect(r.date).to.eq(500);
                     expect(r.hr, "still no rate").to.be.null;
-                    expect(r.isTreated, "the date alone proves nothing").to.be
-                        .false;
+                    expect(r.isTreated, "the date alone proves nothing").to.be.false;
                 });
             });
         });
@@ -128,9 +119,7 @@ describe("Healing Rate stamps the treatment date (#1148)", () => {
                             "system.treatmentDate": 1234,
                         }),
                     );
-                    const after = win.game.actors
-                        .get(actor.id)
-                        .items.get(wound.id);
+                    const after = win.game.actors.get(actor.id).items.get(wound.id);
                     return { date: after.system.treatmentDate };
                 }).should((r) => {
                     // The treatment actions stamp their own date; the hook must

@@ -521,9 +521,7 @@ Its hit locations are added separately, against the flat `locations` array — a
 
 ```typescript
 const part = beingActor.logic.body.structure.getPartByCode("tailpart");
-await beingActor.update(
-  part.addLocationUpdate(blankBodyLocation("Tail Tip", "tailtiploc")),
-);
+await beingActor.update(part.addLocationUpdate(blankBodyLocation("Tail Tip", "tailtiploc")));
 ```
 
 Add the zone first if it does not exist (`structure.addZoneUpdate(blankBodyZone("Tail", "tailzone"))`); a part whose `bodyZoneCode` names no zone is stored but stays out of the hierarchy.

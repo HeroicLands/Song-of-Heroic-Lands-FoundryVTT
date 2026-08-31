@@ -206,13 +206,7 @@ hideout, a hazard on a caravan path), not the whole world. Pass a `sceneUuid` an
 the schedule fires only while that scene is the **active** scene:
 
 ```js
-await sohl.schedule(
-  host,
-  "checkForBandits",
-  4 * 60 * 60,
-  { visibility: "gm" },
-  scene.uuid,
-);
+await sohl.schedule(host, "checkForBandits", 4 * 60 * 60, { visibility: "gm" }, scene.uuid);
 ```
 
 `sohl.schedule(doc, actionName, interval, payload?, sceneUuid?)` — with a

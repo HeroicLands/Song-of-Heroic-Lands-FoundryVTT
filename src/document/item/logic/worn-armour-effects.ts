@@ -77,7 +77,5 @@ export function perceptionPenaltyApplies(skillBaseAttrs: string[]): boolean {
  * @returns The encumbrance the harness adds.
  */
 export function armHarnessEncumbrance(armArticlesWorn: number): number {
-    return armArticlesWorn >= ARM_HARNESS_THRESHOLD ?
-            ARM_HARNESS_ENCUMBRANCE
-        :   0;
+    return armArticlesWorn >= ARM_HARNESS_THRESHOLD ? ARM_HARNESS_ENCUMBRANCE : 0;
 }

@@ -5,11 +5,7 @@ import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import { ACTION_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
-import {
-    makeItemLogic,
-    makeMockActor,
-    makeMockItem,
-} from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor, makeMockItem } from "@tests/mocks/logicHarness";
 
 /**
  * GearLogic is abstract; MiscGearLogic adds no behavior of its own, so it
@@ -29,16 +25,8 @@ function gearFields(overrides: Record<string, unknown> = {}) {
     };
 }
 
-function makeGear(
-    overrides: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
-    return makeItemLogic(
-        MiscGearLogic,
-        ITEM_KIND.MISCGEAR,
-        gearFields(overrides),
-        opts,
-    );
+function makeGear(overrides: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
+    return makeItemLogic(MiscGearLogic, ITEM_KIND.MISCGEAR, gearFields(overrides), opts);
 }
 
 describe("GearLogic (via MiscGearLogic)", () => {
@@ -95,10 +83,7 @@ describe("GearLogic (via MiscGearLogic)", () => {
             container.logic = containerLogic;
             actor.items.set(container.id, container);
 
-            const logic = makeGear(
-                { containerId: "containerid00001" },
-                { actor },
-            );
+            const logic = makeGear({ containerId: "containerid00001" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.containedIn).toBe(containerLogic);
@@ -106,10 +91,7 @@ describe("GearLogic (via MiscGearLogic)", () => {
 
         it("leaves containedIn undefined when the container is not found", () => {
             const actor = makeMockActor();
-            const logic = makeGear(
-                { containerId: "missing000000001" },
-                { actor },
-            );
+            const logic = makeGear({ containerId: "missing000000001" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.containedIn).toBeUndefined();
@@ -197,12 +179,8 @@ describe("GearLogic (via MiscGearLogic)", () => {
         );
 
         it("composes with an author's existing trigger rather than replacing it", () => {
-            const [gated] = GearLogic.gateOnCarried([
-                def({ trigger: "itemLogic.quantity > 0" }),
-            ]);
-            expect(gated.trigger).toBe(
-                `(itemLogic.quantity > 0) && ${GearLogic.CARRIED_TRIGGER}`,
-            );
+            const [gated] = GearLogic.gateOnCarried([def({ trigger: "itemLogic.quantity > 0" })]);
+            expect(gated.trigger).toBe(`(itemLogic.quantity > 0) && ${GearLogic.CARRIED_TRIGGER}`);
         });
 
         it("is idempotent — re-gating an already-gated def does not double-wrap", () => {
@@ -213,22 +191,16 @@ describe("GearLogic (via MiscGearLogic)", () => {
 
         it("labels a gated action with the carried reason (#1135)", () => {
             const [gated] = GearLogic.gateOnCarried([def()]);
-            expect(gated.disabledReason).toBe(
-                "SOHL.Gear.actionRequiresCarried",
-            );
+            expect(gated.disabledReason).toBe("SOHL.Gear.actionRequiresCarried");
         });
 
         it("keeps an author's own disabled reason (#1135)", () => {
-            const [gated] = GearLogic.gateOnCarried([
-                def({ disabledReason: "SOHL.Gear.custom" }),
-            ]);
+            const [gated] = GearLogic.gateOnCarried([def({ disabledReason: "SOHL.Gear.custom" })]);
             expect(gated.disabledReason).toBe("SOHL.Gear.custom");
         });
 
         it("leaves an exempt action unlabelled (#1135)", () => {
-            const [entry] = GearLogic.gateOnCarried([
-                def({ shortcode: "toggleCarried" }),
-            ]);
+            const [entry] = GearLogic.gateOnCarried([def({ shortcode: "toggleCarried" })]);
             expect(entry.disabledReason).toBeUndefined();
         });
 
@@ -285,9 +257,7 @@ describe("GearLogic (via MiscGearLogic)", () => {
                 parts.map(() => ({ usable: true, impairment: -5 })),
             );
             const { logic } = makeGearHeldBy([GEAR_ID, null], bpi);
-            expect(logic.heldLimbImpairments).toEqual([
-                { usable: true, impairment: -5 },
-            ]);
+            expect(logic.heldLimbImpairments).toEqual([{ usable: true, impairment: -5 }]);
             // Derives from the holding part only (heldBy), not every body part.
             expect(bpi).toHaveBeenCalledTimes(1);
             expect(bpi.mock.calls[0][0]).toHaveLength(1);
@@ -335,9 +305,7 @@ describe("GearDataModel", () => {
     // in unit tests.
     describe("defineSchema", () => {
         it.todo("includes SohlItemDataModel base schema fields");
-        it.todo(
-            "defines quantity as integer NumberField with min 0, initial 1",
-        );
+        it.todo("defines quantity as integer NumberField with min 0, initial 1");
         it.todo("defines weightBase as NumberField with min 0");
         it.todo("defines valueBase as NumberField with min 0");
         it.todo("defines isCarried as BooleanField defaulting to true");

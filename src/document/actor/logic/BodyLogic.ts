@@ -128,9 +128,7 @@ export class BodyLogic {
         if (this.data.weight.base !== null) {
             this.weight.setBase(this.data.weight.base);
         }
-        this.reach = new entity.ValueModifier(this.being).setBase(
-            this.data.reachBase,
-        );
+        this.reach = new entity.ValueModifier(this.being).setBase(this.data.reachBase);
         // Pre-evaluate fallback so BodyStructure.injuryTable reads a sane value
         // before the evaluate phase scales it.
         this.injuryTable = [...BASE_INJURY_THRESHOLDS];
@@ -154,8 +152,8 @@ export class BodyLogic {
                 (bodyWeightCalc.evaluate(
                     scope.bind({
                         str:
-                            this.being.getItemLogic("str", ITEM_KIND.ATTRIBUTE)
-                                ?.score?.effective ?? 0,
+                            this.being.getItemLogic("str", ITEM_KIND.ATTRIBUTE)?.score?.effective ??
+                            0,
                     }),
                 ) as number) ?? 0,
             );

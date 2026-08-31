@@ -87,10 +87,7 @@ describe("item-sheet array editors persist on click (#734)", () => {
                     '.delete-array-item[data-array="system.impairedByRoles"]' +
                     '[data-value="vital"]',
             ).click();
-            cy.foundry((win) => readSystem(win, id).impairedByRoles).should(
-                "deep.equal",
-                ["core"],
-            );
+            cy.foundry((win) => readSystem(win, id).impairedByRoles).should("deep.equal", ["core"]);
         });
     });
 
@@ -110,10 +107,9 @@ describe("item-sheet array editors persist on click (#734)", () => {
                     '.add-array-item[data-array="system.impairedByRoles"]',
             ).click();
             addValueViaDialog(id, "vital");
-            cy.foundry((win) => readSystem(win, id).impairedByRoles).should(
-                "deep.equal",
-                ["vital"],
-            );
+            cy.foundry((win) => readSystem(win, id).impairedByRoles).should("deep.equal", [
+                "vital",
+            ]);
         });
     });
 
@@ -137,9 +133,10 @@ describe("item-sheet array editors persist on click (#734)", () => {
                     '.delete-array-item[data-array="system.valueDesc"]' +
                     '[data-index="0"]',
             ).click();
-            cy.foundry((win) =>
-                readSystem(win, id).valueDesc.map((v) => v.label),
-            ).should("deep.equal", ["Average"]);
+            cy.foundry((win) => readSystem(win, id).valueDesc.map((v) => v.label)).should(
+                "deep.equal",
+                ["Average"],
+            );
         });
     });
 });

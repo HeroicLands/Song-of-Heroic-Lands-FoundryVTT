@@ -101,8 +101,7 @@ export class SohlLogger {
     private static async loadSourceMap(sourceMapUrl: string): Promise<void> {
         try {
             const response = await fetch(sourceMapUrl);
-            if (!response.ok)
-                throw new Error(`Failed to load source map ${sourceMapUrl}`);
+            if (!response.ok) throw new Error(`Failed to load source map ${sourceMapUrl}`);
 
             const rawMap = await response.json();
             SohlLogger.sourceMapConsumer = new SourceMapConsumer(rawMap);
@@ -136,9 +135,9 @@ export class SohlLogger {
             SohlLogger.threshold = level;
         } else {
             console.warn(
-                `⚠️ Invalid log level "${level}". Valid levels are: ${Object.values(
-                    LOGLEVEL,
-                ).join(", ")}`,
+                `⚠️ Invalid log level "${level}". Valid levels are: ${Object.values(LOGLEVEL).join(
+                    ", ",
+                )}`,
             );
         }
     }
@@ -155,12 +154,7 @@ export class SohlLogger {
      * @internal
      */
     private static shouldLog(level: LogLevel): boolean {
-        const levels = [
-            LOGLEVEL.DEBUG,
-            LOGLEVEL.INFO,
-            LOGLEVEL.WARN,
-            LOGLEVEL.ERROR,
-        ];
+        const levels = [LOGLEVEL.DEBUG, LOGLEVEL.INFO, LOGLEVEL.WARN, LOGLEVEL.ERROR];
         return levels.indexOf(level) >= levels.indexOf(SohlLogger.threshold);
     }
 
@@ -205,8 +199,7 @@ export class SohlLogger {
         const error = new Error();
         const stackLines = error.stack?.split("\n") || [];
         const callerLine =
-            stackLines.find((line) => !line.includes("SohlLogger"))?.trim() ??
-            "(anonymous)";
+            stackLines.find((line) => !line.includes("SohlLogger"))?.trim() ?? "(anonymous)";
 
         const match = callerLine.match(
             /at (?:(\w+)\.)?(\w+)\s?\(?(.*?)(?:\/|\\)?(\w+\.(?:ts|js)):(\d+):(\d+)\)?/,
@@ -223,8 +216,7 @@ export class SohlLogger {
         };
 
         if (match) {
-            const [, className, methodName, path, file, lineStr, columnStr] =
-                match;
+            const [, className, methodName, path, file, lineStr, columnStr] = match;
             const fullPath = `${path}/${file}`;
             const line = parseInt(lineStr, 10);
             const column = parseInt(columnStr, 10);
@@ -235,11 +227,7 @@ export class SohlLogger {
             result.line = line;
             result.column = column;
             result.label = `${className}#${methodName}`;
-            const mapped = SohlLogger.mapToOriginalPosition(
-                fullPath,
-                line,
-                column,
-            );
+            const mapped = SohlLogger.mapToOriginalPosition(fullPath, line, column);
             result.labelDetail =
                 mapped ?
                     `(${mapped.source}:${mapped.line}:${mapped.column})`

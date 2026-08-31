@@ -31,9 +31,7 @@ describe("Fate on attribute tests (#1106)", () => {
         cy.login().then(() => {
             cy.cleanupWorld();
             // Fate rules must be enabled for a fateMasteryLevel to arm.
-            cy.foundry((win) =>
-                win.game.settings.set("sohl", "optionFate", "everyone"),
-            );
+            cy.foundry((win) => win.game.settings.set("sohl", "optionFate", "everyone"));
         }),
     );
 
@@ -60,9 +58,7 @@ describe("Fate on attribute tests (#1106)", () => {
                     const a = win.game.actors.get(actor.id);
                     // Basic Folk carries the standard attribute set.
                     const str = a.items.find(
-                        (i) =>
-                            i.type === "attribute" &&
-                            i.system.shortcode === "str",
+                        (i) => i.type === "attribute" && i.system.shortcode === "str",
                     );
                     if (!str) return { found: false };
                     return {
@@ -95,9 +91,7 @@ describe("Fate on attribute tests (#1106)", () => {
                 cy.foundry(async (win) => {
                     const a = win.game.actors.get(actor.id);
                     const str = a.items.find(
-                        (i) =>
-                            i.type === "attribute" &&
-                            i.system.shortcode === "str",
+                        (i) => i.type === "attribute" && i.system.shortcode === "str",
                     );
                     const SimpleRoll = win.sohl.entity.roll.SimpleRoll;
                     const CTX = win.sohl.entity.action.SohlActionContext;
@@ -130,9 +124,7 @@ describe("Fate on attribute tests (#1106)", () => {
                 cy.foundry((win) => {
                     const a = win.game.actors.get(actor.id);
                     const aur = a.items.find(
-                        (i) =>
-                            i.type === "attribute" &&
-                            i.system.shortcode === "aur",
+                        (i) => i.type === "attribute" && i.system.shortcode === "aur",
                     );
                     if (!aur) return { found: false };
                     return {

@@ -84,12 +84,10 @@ export const EXPRESSION_SCOPES = Object.freeze({
             "Gates whether an action is offered on a context menu. Composed with the " +
             "script-permission check and the action's own `trigger`.",
         bindings: {
-            element:
-                "The DOM element the context menu was opened on (the row or sheet control).",
+            element: "The DOM element the context menu was opened on (the row or sheet control).",
             itemLogic:
                 "Logic layer of the row's item, or `undefined` when the menu is not on an item row.",
-            actorLogic:
-                "Logic layer of the surrounding actor, or `undefined` when there is none.",
+            actorLogic: "Logic layer of the surrounding actor, or `undefined` when there is none.",
             isGM: "Whether the current user is a GM.",
         },
     },
@@ -102,10 +100,8 @@ export const EXPRESSION_SCOPES = Object.freeze({
         summary:
             "Gates whether an action may run at all. Evaluated programmatically, not from a DOM event.",
         bindings: {
-            itemLogic:
-                "Logic layer of the owning item, or `undefined` for an actor-owned action.",
-            actorLogic:
-                "Logic layer of the owning actor, or `undefined` when there is none.",
+            itemLogic: "Logic layer of the owning item, or `undefined` for an actor-owned action.",
+            actorLogic: "Logic layer of the owning actor, or `undefined` when there is none.",
         },
     },
 
@@ -145,10 +141,8 @@ export const EXPRESSION_SCOPES = Object.freeze({
             "Gates whether a context-menu entry is shown for the element the menu was opened on.",
         bindings: {
             target: "The DOM element the menu was triggered on.",
-            itemLogic:
-                "Logic layer of the nearest ancestor row's item, or `undefined`.",
-            actorLogic:
-                "Logic layer of the nearest ancestor row's actor, or `undefined`.",
+            itemLogic: "Logic layer of the nearest ancestor row's item, or `undefined`.",
+            actorLogic: "Logic layer of the nearest ancestor row's actor, or `undefined`.",
         },
     },
 
@@ -171,8 +165,7 @@ export const EXPRESSION_SCOPES = Object.freeze({
         site: "`BeingLogic` (`evaluate`)",
         field: "`strMod`",
         result: "number",
-        summary:
-            "Derives the being's strength modifier from its Strength attribute.",
+        summary: "Derives the being's strength modifier from its Strength attribute.",
         bindings: {
             str: "The being's effective Strength score.",
         },
@@ -183,8 +176,7 @@ export const EXPRESSION_SCOPES = Object.freeze({
         site: "`BeingLogic` (`evaluate`)",
         field: "`encumbrance`",
         result: "number",
-        summary:
-            "Derives the being's encumbrance level from the weight it is carrying.",
+        summary: "Derives the being's encumbrance level from the weight it is carrying.",
         bindings: {
             wt: "The being's effective carried weight.",
         },
@@ -195,8 +187,7 @@ export const EXPRESSION_SCOPES = Object.freeze({
         site: "`BodyLogic` (`evaluate`)",
         field: "`weight.calc`",
         result: "number",
-        summary:
-            "Derives a body's weight from its Strength when no explicit base weight is set.",
+        summary: "Derives a body's weight from its Strength when no explicit base weight is set.",
         bindings: {
             str: "The being's effective Strength score.",
         },
@@ -236,21 +227,18 @@ export const EXPRESSION_SCOPES = Object.freeze({
             worldTime: "`updateWorldTime`: the new world time, in seconds.",
             dt: "`updateWorldTime`: signed delta from the previous world time.",
             combat: "Combat triggers: the combat document.",
-            combatant:
-                "`turnStart` / `turnEnd`: the combatant whose turn it is.",
+            combatant: "`turnStart` / `turnEnd`: the combatant whose turn it is.",
             round: "Round and turn triggers: the round number.",
             turn: "`turnStart` / `turnEnd`: the turn index.",
             skipped: "Round and turn triggers: whether the change was skipped.",
             sceneUuid: "Region and darkness triggers: UUID of the scene.",
             darkness: "`sceneDarknessChange`: the new darkness level (0–1).",
-            priorDarkness:
-                "`sceneDarknessChange`: the previous darkness level, when known.",
+            priorDarkness: "`sceneDarknessChange`: the previous darkness level, when known.",
             regionUuid: "Region triggers: UUID of the region.",
             regionId: "Region triggers: the region's id.",
             regionName: "Region triggers: the region's display name.",
             tokenUuid: "Region triggers: UUID of the token that acted.",
-            actorUuid:
-                "Region triggers: UUID of that token's actor, when it has one.",
+            actorUuid: "Region triggers: UUID of that token's actor, when it has one.",
         },
     },
 

@@ -87,180 +87,133 @@ describe("limb immobilization vs. the ability to hold (#1269)", () => {
 
     it("the authored Immobilized trauma exists in the items compendium", () => {
         cy.getFromCompendium("sohl.items", "trauma", "immob").should((doc) => {
-            expect(doc.system.subType, "a physical condition").to.eq(
-                "physcond",
-            );
-            expect(doc.system.category, "graded as an impediment").to.eq(
-                "impediment",
-            );
+            expect(doc.system.subType, "a physical condition").to.eq("physcond");
+            expect(doc.system.category, "graded as an impediment").to.eq("impediment");
         });
     });
 
     it("pins the limb it names — and that limb KEEPS its grip", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
-            cy.foundry((win) => grippingLimbLocation(win, actor.id)).then(
-                (limb) => {
-                    cy.getFromCompendium("sohl.items", "trauma", "immob").then(
-                        (immob) => {
-                            cy.dropOnActor(actor, immob);
-                            // Name a location on the gripping limb, as a hold (or a
-                            // binding spell) would.
-                            cy.foundry(async (win) => {
-                                const a = win.game.actors.get(actor.id);
-                                const t = a.itemTypes.trauma.find(
-                                    (i) => i.system.shortcode === "immob",
-                                );
-                                await t.update(
-                                    win.structuredClone({
-                                        "system.bodyLocationCode":
-                                            limb.location,
-                                    }),
-                                );
-                                return true;
-                            });
-                            cy.prepare(actor);
-                            cy.foundry((win) =>
-                                partState(win, actor.id, limb.location),
-                            ).should((p) => {
-                                expect(p.immobilized, "the limb is pinned").to
-                                    .be.true;
-                                expect(p.isUnusable, "but not out of action").to
-                                    .be.false;
-                                expect(
-                                    p.canHoldItem,
-                                    "so it still grips — a hold is not a disarm",
-                                ).to.be.true;
-                            });
-                        },
-                    );
-                },
-            );
+            cy.foundry((win) => grippingLimbLocation(win, actor.id)).then((limb) => {
+                cy.getFromCompendium("sohl.items", "trauma", "immob").then((immob) => {
+                    cy.dropOnActor(actor, immob);
+                    // Name a location on the gripping limb, as a hold (or a
+                    // binding spell) would.
+                    cy.foundry(async (win) => {
+                        const a = win.game.actors.get(actor.id);
+                        const t = a.itemTypes.trauma.find((i) => i.system.shortcode === "immob");
+                        await t.update(
+                            win.structuredClone({
+                                "system.bodyLocationCode": limb.location,
+                            }),
+                        );
+                        return true;
+                    });
+                    cy.prepare(actor);
+                    cy.foundry((win) => partState(win, actor.id, limb.location)).should((p) => {
+                        expect(p.immobilized, "the limb is pinned").to.be.true;
+                        expect(p.isUnusable, "but not out of action").to.be.false;
+                        expect(p.canHoldItem, "so it still grips — a hold is not a disarm").to.be
+                            .true;
+                    });
+                });
+            });
         });
     });
 
     it("only the named limb is pinned, and deleting the trauma frees it", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
-            cy.foundry((win) => grippingLimbLocation(win, actor.id)).then(
-                (limb) => {
-                    cy.getFromCompendium("sohl.items", "trauma", "immob").then(
-                        (immob) => {
-                            cy.dropOnActor(actor, immob);
-                            cy.foundry(async (win) => {
-                                const a = win.game.actors.get(actor.id);
-                                const t = a.itemTypes.trauma.find(
-                                    (i) => i.system.shortcode === "immob",
-                                );
-                                await t.update(
-                                    win.structuredClone({
-                                        "system.bodyLocationCode":
-                                            limb.location,
-                                    }),
-                                );
-                                return true;
-                            });
-                            cy.prepare(actor);
-                            // Every other part is untouched.
-                            cy.foundry((win) => {
-                                const struct = win.game.actors.get(actor.id)
-                                    .logic.body.structure;
-                                return struct.parts
-                                    .filter((p) => p.immobilized)
-                                    .map((p) => p.shortcode);
-                            }).should("deep.eq", [limb.part]);
+            cy.foundry((win) => grippingLimbLocation(win, actor.id)).then((limb) => {
+                cy.getFromCompendium("sohl.items", "trauma", "immob").then((immob) => {
+                    cy.dropOnActor(actor, immob);
+                    cy.foundry(async (win) => {
+                        const a = win.game.actors.get(actor.id);
+                        const t = a.itemTypes.trauma.find((i) => i.system.shortcode === "immob");
+                        await t.update(
+                            win.structuredClone({
+                                "system.bodyLocationCode": limb.location,
+                            }),
+                        );
+                        return true;
+                    });
+                    cy.prepare(actor);
+                    // Every other part is untouched.
+                    cy.foundry((win) => {
+                        const struct = win.game.actors.get(actor.id).logic.body.structure;
+                        return struct.parts.filter((p) => p.immobilized).map((p) => p.shortcode);
+                    }).should("deep.eq", [limb.part]);
 
-                            // Deleting the condition releases the limb — no
-                            // bespoke lifecycle to unwind.
-                            cy.foundry(async (win) => {
-                                const a = win.game.actors.get(actor.id);
-                                const t = a.itemTypes.trauma.find(
-                                    (i) => i.system.shortcode === "immob",
-                                );
-                                await t.delete();
-                                return true;
-                            });
-                            cy.prepare(actor);
-                            cy.foundry((win) =>
-                                partState(win, actor.id, limb.location),
-                            ).should((p) => {
-                                expect(p.immobilized, "released").to.be.false;
-                                expect(p.canHoldItem).to.be.true;
-                            });
-                        },
-                    );
-                },
-            );
+                    // Deleting the condition releases the limb — no
+                    // bespoke lifecycle to unwind.
+                    cy.foundry(async (win) => {
+                        const a = win.game.actors.get(actor.id);
+                        const t = a.itemTypes.trauma.find((i) => i.system.shortcode === "immob");
+                        await t.delete();
+                        return true;
+                    });
+                    cy.prepare(actor);
+                    cy.foundry((win) => partState(win, actor.id, limb.location)).should((p) => {
+                        expect(p.immobilized, "released").to.be.false;
+                        expect(p.canHoldItem).to.be.true;
+                    });
+                });
+            });
         });
     });
 
     it("a grievous wound disables the limb and persists the drop of what it held", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
-            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then(
-                (weapon) => {
-                    cy.holdItem(weapon);
-                    cy.prepare(actor);
-                    // The limb now gripping the sword, and a location on it.
+            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then((weapon) => {
+                cy.holdItem(weapon);
+                cy.prepare(actor);
+                // The limb now gripping the sword, and a location on it.
+                cy.foundry((win) => {
+                    const struct = win.game.actors.get(actor.id).logic.body.structure;
+                    const part = struct.parts.find((p) => p.heldItemId === weapon.id);
+                    return {
+                        part: part.shortcode,
+                        location: part.locations[0].shortcode,
+                    };
+                }).then((limb) => {
                     cy.foundry((win) => {
-                        const struct = win.game.actors.get(actor.id).logic.body
-                            .structure;
-                        const part = struct.parts.find(
-                            (p) => p.heldItemId === weapon.id,
-                        );
-                        return {
-                            part: part.shortcode,
-                            location: part.locations[0].shortcode,
-                        };
-                    }).then((limb) => {
-                        cy.foundry((win) => {
-                            const a = win.game.actors.get(actor.id);
-                            // A heavy edged blow to that limb. `schedule: false`
-                            // pre-answers the healing-check offer so the headless
-                            // flow opens no dialog.
-                            win.__injury = a.logic.resolveInjury({
-                                skipDialog: true,
-                                scope: {
-                                    bodyLocationCode: limb.location,
-                                    aspect: "blunt",
-                                    impact: 40,
-                                    schedule: false,
-                                },
-                            });
-                            return null;
+                        const a = win.game.actors.get(actor.id);
+                        // A heavy edged blow to that limb. `schedule: false`
+                        // pre-answers the healing-check offer so the headless
+                        // flow opens no dialog.
+                        win.__injury = a.logic.resolveInjury({
+                            skipDialog: true,
+                            scope: {
+                                bodyLocationCode: limb.location,
+                                aspect: "blunt",
+                                impact: 40,
+                                schedule: false,
+                            },
                         });
-                        cy.foundry((win) =>
-                            win.__injury.then(() => {
-                                const a = win.game.actors.get(actor.id);
-                                const wound = a.itemTypes.trauma.find(
-                                    (t) =>
-                                        t.system.bodyLocationCode ===
-                                        limb.location,
-                                );
-                                return wound?.system.levelBase ?? 0;
-                            }),
-                        ).should("be.gte", 4); // grievous
-
-                        cy.prepare(actor);
-                        cy.foundry((win) =>
-                            partState(win, actor.id, limb.location),
-                        ).should((p) => {
-                            expect(p.isUnusable, "the limb is out of action").to
-                                .be.true;
-                            expect(p.immobilized, "so it cannot be moved").to.be
-                                .true;
-                            expect(p.canHoldItem, "and cannot grip").to.be
-                                .false;
-                            expect(p.canHoldItemBase, "anatomy unchanged").to.be
-                                .true;
-                            expect(
-                                p.heldItemId,
-                                "the sword was dropped, persistently",
-                            ).to.eq(null);
-                        });
+                        return null;
                     });
-                },
-            );
+                    cy.foundry((win) =>
+                        win.__injury.then(() => {
+                            const a = win.game.actors.get(actor.id);
+                            const wound = a.itemTypes.trauma.find(
+                                (t) => t.system.bodyLocationCode === limb.location,
+                            );
+                            return wound?.system.levelBase ?? 0;
+                        }),
+                    ).should("be.gte", 4); // grievous
+
+                    cy.prepare(actor);
+                    cy.foundry((win) => partState(win, actor.id, limb.location)).should((p) => {
+                        expect(p.isUnusable, "the limb is out of action").to.be.true;
+                        expect(p.immobilized, "so it cannot be moved").to.be.true;
+                        expect(p.canHoldItem, "and cannot grip").to.be.false;
+                        expect(p.canHoldItemBase, "anatomy unchanged").to.be.true;
+                        expect(p.heldItemId, "the sword was dropped, persistently").to.eq(null);
+                    });
+                });
+            });
         });
     });
 });

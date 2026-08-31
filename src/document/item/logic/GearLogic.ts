@@ -13,10 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import {
-    SohlItemBaseLogic,
-    type SohlItemData,
-} from "@src/document/item/logic/SohlItemBaseLogic";
+import { SohlItemBaseLogic, type SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { fvttActorByRef } from "@src/core/FoundryHelpers";
@@ -111,9 +108,7 @@ export abstract class GearLogic<
     get heldLimbImpairments(): BodyPartImpairment[] {
         const being = this.actorLogic as
             | {
-                  bodyPartImpairments?: (
-                      parts: readonly BodyPart[],
-                  ) => BodyPartImpairment[];
+                  bodyPartImpairments?: (parts: readonly BodyPart[]) => BodyPartImpairment[];
               }
             | null
             | undefined;
@@ -178,8 +173,7 @@ export abstract class GearLogic<
      * however invoked), not merely hidden from the context menu. Visibility
      * composes with the trigger, so gated actions disappear from the menu too.
      */
-    static readonly CARRIED_TRIGGER =
-        "defined(itemLogic) && itemLogic.isCarried";
+    static readonly CARRIED_TRIGGER = "defined(itemLogic) && itemLogic.isCarried";
 
     /**
      * Action shortcodes exempt from the carried gate:
@@ -228,14 +222,9 @@ export abstract class GearLogic<
      * @returns The definitions, with the carried gate applied to each
      *   non-exempt entry.
      */
-    static gateOnCarried(
-        defs: Partial<SohlAction.Data>[],
-    ): Partial<SohlAction.Data>[] {
+    static gateOnCarried(defs: Partial<SohlAction.Data>[]): Partial<SohlAction.Data>[] {
         return defs.map((def) => {
-            if (
-                !def.shortcode ||
-                GearLogic.CARRIED_GATE_EXEMPT.includes(def.shortcode)
-            ) {
+            if (!def.shortcode || GearLogic.CARRIED_GATE_EXEMPT.includes(def.shortcode)) {
                 return def;
             }
             const existing = def.trigger?.trim();
@@ -247,8 +236,7 @@ export abstract class GearLogic<
                     existing && existing !== "true" ?
                         `(${existing}) && ${GearLogic.CARRIED_TRIGGER}`
                     :   GearLogic.CARRIED_TRIGGER,
-                disabledReason:
-                    def.disabledReason ?? GearLogic.CARRIED_DISABLED_REASON,
+                disabledReason: def.disabledReason ?? GearLogic.CARRIED_DISABLED_REASON,
             };
         });
     }
@@ -325,19 +313,12 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.weight = new entity.ValueModifier(this).setBase(
-            this.data.weightBase,
+        this.weight = new entity.ValueModifier(this).setBase(this.data.weightBase);
+        this.value = new entity.ValueModifier(this).setBase(this.data.valueBase);
+        this.quality = new entity.ValueModifier(this).setBase(this.data.qualityBase);
+        this.durability = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.durabilityBase,
         );
-        this.value = new entity.ValueModifier(this).setBase(
-            this.data.valueBase,
-        );
-        this.quality = new entity.ValueModifier(this).setBase(
-            this.data.qualityBase,
-        );
-        this.durability = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.durabilityBase);
         this.sharedWithCohorts = (this.data.sharedWithCohortIds ?? [])
             .map((ref) => fvttActorByRef(ref) as SohlActor | undefined)
             .filter((a): a is SohlActor => a != null);
@@ -354,10 +335,7 @@ export abstract class GearLogic<
         // Ground-up carried-weight accumulation: contribute this item's
         // weight × quantity to the owning being while it evaluates, so the
         // being's total is complete by the time anything reads it.
-        if (
-            this.countsAsCarriedWeight &&
-            this.actorLogic instanceof BeingLogic
-        ) {
+        if (this.countsAsCarriedWeight && this.actorLogic instanceof BeingLogic) {
             this.actorLogic.carriedWeight.add(
                 `${this.data.shortcode}Wt`,
                 `${this.name} Weight`,

@@ -99,9 +99,7 @@ for (const file of walk(ROOT)) {
 
         // (a) A literal `it.skip("title …")` / `describe.skip("title …")`.
         //     The blocking issue must be cited in the title.
-        const skipTitle = line.match(
-            /\b(?:it|describe)\.skip\(\s*(["'`])((?:\\.|(?!\1).)*)\1/,
-        );
+        const skipTitle = line.match(/\b(?:it|describe)\.skip\(\s*(["'`])((?:\\.|(?!\1).)*)\1/);
         if (skipTitle) {
             checkRed(loc, skipTitle[2], "RED skip", line);
             return;
@@ -109,9 +107,7 @@ for (const file of walk(ROOT)) {
 
         // (b) An `itemSheetSuite` whole-suite / persist fence via option value:
         //     `red: "#NN …"` or `persistRed: "#NN …"`.
-        const redOpt = line.match(
-            /\b(?:red|persistRed):\s*(["'`])((?:\\.|(?!\1).)*)\1/,
-        );
+        const redOpt = line.match(/\b(?:red|persistRed):\s*(["'`])((?:\\.|(?!\1).)*)\1/);
         if (redOpt) {
             checkRed(loc, redOpt[2], "fenced item-sheet suite", line);
         }
@@ -158,9 +154,7 @@ const stale = Object.keys(FENCED_RED_ALLOWLIST)
     .filter((n) => !usedIssues.has(n));
 
 if (violations.length) {
-    console.error(
-        `\ncheck-e2e-red: ${violations.length} frozen-subset e2e violation(s):\n`,
-    );
+    console.error(`\ncheck-e2e-red: ${violations.length} frozen-subset e2e violation(s):\n`);
     for (const v of violations) {
         // `loc` is already `file:line`; splitting it keeps the one format the
         // whole lint chain now speaks (#1668).

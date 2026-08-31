@@ -4,8 +4,7 @@ import path from "path";
 
 const startYear = 2024;
 const currentYear = new Date().getFullYear();
-const licenseYears =
-    currentYear > startYear ? `${startYear}-${currentYear}` : `${startYear}`;
+const licenseYears = currentYear > startYear ? `${startYear}-${currentYear}` : `${startYear}`;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,10 +56,7 @@ export default defineConfig((ctx: ConfigEnv): UserConfig => {
                 "@assets": path.resolve(__dirname, "assets"),
                 "@lang": path.resolve(__dirname, "lang"),
                 "@tests": path.resolve(__dirname, "tests"),
-                "@sohl-global": path.resolve(
-                    __dirname,
-                    "types/sohl-global.d.ts",
-                ),
+                "@sohl-global": path.resolve(__dirname, "types/sohl-global.d.ts"),
             },
         },
     };

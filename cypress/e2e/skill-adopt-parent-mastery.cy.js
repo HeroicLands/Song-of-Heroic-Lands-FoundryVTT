@@ -29,9 +29,7 @@ describe("skill sheet adopt parent mastery level (#719)", () => {
 
     function renderSheet(uuid) {
         cy.foundry((win) =>
-            Cypress.Promise.resolve(
-                win.fromUuidSync(uuid).sheet.render(true),
-            ).then(() => null),
+            Cypress.Promise.resolve(win.fromUuidSync(uuid).sheet.render(true)).then(() => null),
         );
         cy.wait(400);
     }
@@ -72,16 +70,10 @@ describe("skill sheet adopt parent mastery level (#719)", () => {
             }).then((skill) => {
                 renderSheet(skill.uuid);
                 cy.foundry((win) => win.fromUuidSync(skill.uuid)).then((doc) =>
-                    cy.editSheetField(
-                        doc,
-                        "system.adoptParentMasteryLevel",
-                        true,
-                    ),
+                    cy.editSheetField(doc, "system.adoptParentMasteryLevel", true),
                 );
                 cy.foundry(
-                    (win) =>
-                        win.fromUuidSync(skill.uuid).system
-                            .adoptParentMasteryLevel,
+                    (win) => win.fromUuidSync(skill.uuid).system.adoptParentMasteryLevel,
                 ).should("equal", true);
             });
         });

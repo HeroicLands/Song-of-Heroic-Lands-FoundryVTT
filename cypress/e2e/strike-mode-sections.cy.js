@@ -63,11 +63,9 @@ describe("derived strike mode sections", () => {
 
     /** The strike-mode source (weapon / technique) names shown in the Combat tab. */
     function sourceNames(fs) {
-        return [
-            ...fs.querySelectorAll(
-                ".section-legend--subtype .section-legend__name",
-            ),
-        ].map((h) => h.textContent.trim());
+        return [...fs.querySelectorAll(".section-legend--subtype .section-legend__name")].map((h) =>
+            h.textContent.trim(),
+        );
     }
 
     /**
@@ -76,13 +74,8 @@ describe("derived strike mode sections", () => {
      * `.section-legend--subtype` sub-header, up to the next section legend.
      */
     function cellForSource(fs, name, selector) {
-        const legend = [
-            ...fs.querySelectorAll(".section-legend--subtype"),
-        ].find(
-            (l) =>
-                l
-                    .querySelector(".section-legend__name")
-                    ?.textContent?.trim() === name,
+        const legend = [...fs.querySelectorAll(".section-legend--subtype")].find(
+            (l) => l.querySelector(".section-legend__name")?.textContent?.trim() === name,
         );
         if (!legend) return undefined;
         let n = legend.nextElementSibling;
@@ -126,48 +119,31 @@ describe("derived strike mode sections", () => {
             // Basic Folk already owns `melee`; raise its ML instead of adding a
             // colliding duplicate (the `(type, shortcode)` key is unique).
             cy.ensureSkillML(actor, "melee", 50);
-            cy.createItemOn(actor, "weapongear", meleeWeapon("Sword")).then(
-                (w) => {
-                    cy.holdItem(w);
-                    cy.prepare(actor);
-                    cy.openSheet(actor);
-                    cy.switchTab("combat", "primary");
-                    cy.wait(500);
-                    cy.foundry((win) => {
-                        const fs = meleeSection(win, actor.id);
-                        const sources = sourceNames(fs);
-                        const atkCells = fs.querySelectorAll(
-                            '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',
-                        ).length;
-                        const blkCells = fs.querySelectorAll(
-                            '[data-action="rollStrikeModeTest"][data-test-kind="block"]',
-                        ).length;
-                        // The technique's Atk cell value.
-                        const atk = cellForSource(
-                            fs,
-                            "Boxing",
-                            '[data-test-kind="attack"]',
-                        );
-                        return { sources, atkCells, blkCells, boxingAtk: atk };
-                    }).should((r) => {
-                        expect(
-                            r.sources,
-                            "grouped by source",
-                        ).to.include.members(["Boxing", "Sword"]);
-                        expect(
-                            r.atkCells,
-                            "attack cells rollable",
-                        ).to.be.at.least(2);
-                        expect(
-                            r.blkCells,
-                            "block cells rollable",
-                        ).to.be.at.least(1);
-                        expect(r.boxingAtk, "technique Atk = ML+mod").to.equal(
-                            "45",
-                        );
-                    });
-                },
-            );
+            cy.createItemOn(actor, "weapongear", meleeWeapon("Sword")).then((w) => {
+                cy.holdItem(w);
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.switchTab("combat", "primary");
+                cy.wait(500);
+                cy.foundry((win) => {
+                    const fs = meleeSection(win, actor.id);
+                    const sources = sourceNames(fs);
+                    const atkCells = fs.querySelectorAll(
+                        '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',
+                    ).length;
+                    const blkCells = fs.querySelectorAll(
+                        '[data-action="rollStrikeModeTest"][data-test-kind="block"]',
+                    ).length;
+                    // The technique's Atk cell value.
+                    const atk = cellForSource(fs, "Boxing", '[data-test-kind="attack"]');
+                    return { sources, atkCells, blkCells, boxingAtk: atk };
+                }).should((r) => {
+                    expect(r.sources, "grouped by source").to.include.members(["Boxing", "Sword"]);
+                    expect(r.atkCells, "attack cells rollable").to.be.at.least(2);
+                    expect(r.blkCells, "block cells rollable").to.be.at.least(1);
+                    expect(r.boxingAtk, "technique Atk = ML+mod").to.equal("45");
+                });
+            });
         });
     });
 
@@ -200,9 +176,7 @@ describe("derived strike mode sections", () => {
                     );
                     return { impact };
                 }).should((r) => {
-                    expect(r.impact, "impact carries the flat +2").to.equal(
-                        "d6+2e",
-                    );
+                    expect(r.impact, "impact carries the flat +2").to.equal("d6+2e");
                 });
             });
         });
@@ -213,43 +187,28 @@ describe("derived strike mode sections", () => {
             // Basic Folk already owns `melee`; raise its ML instead of adding a
             // colliding duplicate (the `(type, shortcode)` key is unique).
             cy.ensureSkillML(actor, "melee", 50);
-            cy.createItemOn(actor, "weapongear", meleeWeapon("Mace")).then(
-                (w) => {
-                    cy.holdItem(w);
-                    cy.prepare(actor);
-                    cy.openSheet(actor);
-                    cy.switchTab("combat", "primary");
-                    cy.wait(400);
-                    cy.foundry((win) => {
-                        const fs = meleeSection(win, actor.id);
-                        const has =
-                            fs ?
-                                sourceNames(fs).some((n) => n === "Mace")
-                            :   false;
-                        return { has };
-                    }).should(
-                        (r) => expect(r.has, "held weapon shown").to.be.true,
-                    );
-                    // Release it → its strike modes disappear.
-                    cy.releaseItem(w);
-                    cy.prepare(actor);
-                    cy.foundry((win) =>
-                        win.game.actors.get(actor.id).sheet.render(true),
-                    );
-                    cy.wait(500);
-                    cy.foundry((win) => {
-                        const fs = meleeSection(win, actor.id);
-                        const has =
-                            fs ?
-                                sourceNames(fs).some((n) => n === "Mace")
-                            :   false;
-                        return { has };
-                    }).should(
-                        (r) =>
-                            expect(r.has, "unheld weapon removed").to.be.false,
-                    );
-                },
-            );
+            cy.createItemOn(actor, "weapongear", meleeWeapon("Mace")).then((w) => {
+                cy.holdItem(w);
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.switchTab("combat", "primary");
+                cy.wait(400);
+                cy.foundry((win) => {
+                    const fs = meleeSection(win, actor.id);
+                    const has = fs ? sourceNames(fs).some((n) => n === "Mace") : false;
+                    return { has };
+                }).should((r) => expect(r.has, "held weapon shown").to.be.true);
+                // Release it → its strike modes disappear.
+                cy.releaseItem(w);
+                cy.prepare(actor);
+                cy.foundry((win) => win.game.actors.get(actor.id).sheet.render(true));
+                cy.wait(500);
+                cy.foundry((win) => {
+                    const fs = meleeSection(win, actor.id);
+                    const has = fs ? sourceNames(fs).some((n) => n === "Mace") : false;
+                    return { has };
+                }).should((r) => expect(r.has, "unheld weapon removed").to.be.false);
+            });
         });
     });
 });

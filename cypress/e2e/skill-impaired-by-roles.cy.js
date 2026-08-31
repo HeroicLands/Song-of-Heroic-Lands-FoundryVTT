@@ -41,12 +41,8 @@ function addValueViaDialog(id, value) {
     cy.window({ log: false }).should((win) => {
         const current = win.game.items.get(id).system.impairedByRoles;
         if (current.includes(value)) return; // persisted — done
-        const dlg = Array.from(
-            win.foundry.applications.instances.values(),
-        ).find(
-            (a) =>
-                a.rendered &&
-                a.element?.querySelector('input[name="newValue"]'),
+        const dlg = Array.from(win.foundry.applications.instances.values()).find(
+            (a) => a.rendered && a.element?.querySelector('input[name="newValue"]'),
         );
         expect(dlg, "open add-value dialog").to.exist;
         dlg.element.querySelector('input[name="newValue"]').value = value;
@@ -110,10 +106,9 @@ describe("skill sheet impaired by roles (#713)", () => {
                     '.delete-array-item[data-array="system.impairedByRoles"]' +
                     '[data-value="vital"]',
             ).click();
-            cy.foundry((win) => readSystem(win, id).impairedByRoles).should(
-                "deep.equal",
-                ["locomotor"],
-            );
+            cy.foundry((win) => readSystem(win, id).impairedByRoles).should("deep.equal", [
+                "locomotor",
+            ]);
         });
     });
 
@@ -131,10 +126,9 @@ describe("skill sheet impaired by roles (#713)", () => {
                     '.add-array-item[data-array="system.impairedByRoles"]',
             ).click();
             addValueViaDialog(id, "manipulator");
-            cy.foundry((win) => readSystem(win, id).impairedByRoles).should(
-                "deep.equal",
-                ["manipulator"],
-            );
+            cy.foundry((win) => readSystem(win, id).impairedByRoles).should("deep.equal", [
+                "manipulator",
+            ]);
         });
     });
 });

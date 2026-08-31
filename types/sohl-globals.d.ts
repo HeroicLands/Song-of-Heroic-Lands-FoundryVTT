@@ -63,12 +63,7 @@ declare global {
     /** Recursively makes all properties optional */
     type DeepPartial<T> =
         T extends object ?
-            T extends (
-
-                    | any[]
-                    | ((...args: any[]) => any)
-                    | (new (...args: any[]) => any)
-            ) ?
+            T extends any[] | ((...args: any[]) => any) | (new (...args: any[]) => any) ?
                 T
             :   { [K in keyof T]?: DeepPartial<T[K]> }
         :   T;
@@ -80,34 +75,23 @@ declare global {
         };
     };
 
-    type Func<Return = any, Args extends any[] = any[]> = (
-        ...args: Args
-    ) => Return;
-    type Constructor<
-        TInstance extends object = object,
-        P extends any[] = any[],
-    > = new (...args: P) => TInstance;
+    type Func<Return = any, Args extends any[] = any[]> = (...args: Args) => Return;
+    type Constructor<TInstance extends object = object, P extends any[] = any[]> = new (
+        ...args: P
+    ) => TInstance;
     type AbstractConstructor<
         TInstance extends object = object,
         P extends any[] = any[],
     > = abstract new (...args: P) => TInstance;
-    type AnyConstructor<
-        TInstance extends object = object,
-        P extends any[] = any[],
-    > = Constructor<TInstance, P> | AbstractConstructor<TInstance, P>;
+    type AnyConstructor<TInstance extends object = object, P extends any[] = any[]> =
+        Constructor<TInstance, P> | AbstractConstructor<TInstance, P>;
     type ConstructorOrFunction = Constructor | AnyFunction;
     type Mixin<M, T extends Constructor = Constructor> = (
         Base: T,
     ) => new (...args: ConstructorParameters<T>) => InstanceType<T> & M;
 
     // ✅ JSON-safe types
-    type JsonValue =
-        | string
-        | number
-        | boolean
-        | null
-        | { [key: string]: JsonValue }
-        | JsonValue[];
+    type JsonValue = string | number | boolean | null | { [key: string]: JsonValue } | JsonValue[];
 
     // ✅ Base Logic Compatibility
     type LogicCompatibleDataModel = {
@@ -152,10 +136,7 @@ declare global {
 declare module "fvtt-types/configuration" {
     namespace Hooks {
         interface HookConfig {
-            "SOHL.postFinalize": (
-                item: SohlItem,
-                context?: SohlActionContext,
-            ) => void;
+            "SOHL.postFinalize": (item: SohlItem, context?: SohlActionContext) => void;
         }
     }
 

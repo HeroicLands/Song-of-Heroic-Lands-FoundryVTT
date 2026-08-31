@@ -7,10 +7,7 @@ import {
 } from "@src/document/actor/logic/token-helpers";
 
 /** A minimal scene-token stand-in carrying the fields the selector reads. */
-const token = (
-    actorId: string | null,
-    actorLink: boolean,
-): TokenActorRef & { tag: string } => ({
+const token = (actorId: string | null, actorLink: boolean): TokenActorRef & { tag: string } => ({
     actorId,
     actorLink,
     tag: `${actorId ?? "none"}:${actorLink ? "linked" : "unlinked"}`,
@@ -21,9 +18,7 @@ describe("selectActorTokens", () => {
         it("returns the embedded token when it is on the active scene", () => {
             const embedded = token("a1", false);
             const scene = [token("a2", true), embedded, token("a3", false)];
-            expect(selectActorTokens(scene, "a1", embedded)).toEqual([
-                embedded,
-            ]);
+            expect(selectActorTokens(scene, "a1", embedded)).toEqual([embedded]);
         });
 
         it("returns empty when the embedded token is not on the active scene", () => {
@@ -42,9 +37,7 @@ describe("selectActorTokens", () => {
             // synthetic actor is represented only by its own embedded token.
             const embedded = token("a1", false);
             const scene = [token("a1", true), embedded];
-            expect(selectActorTokens(scene, "a1", embedded)).toEqual([
-                embedded,
-            ]);
+            expect(selectActorTokens(scene, "a1", embedded)).toEqual([embedded]);
         });
     });
 
@@ -73,9 +66,7 @@ describe("selectActorTokens", () => {
 });
 
 /** A minimal combatant stand-in carrying the field the selector reads. */
-const combatant = (
-    tokenId: string | null,
-): CombatantTokenRef & { tag: string } => ({
+const combatant = (tokenId: string | null): CombatantTokenRef & { tag: string } => ({
     tokenId,
     tag: tokenId ?? "none",
 });

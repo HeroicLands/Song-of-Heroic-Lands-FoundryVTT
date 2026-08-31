@@ -90,27 +90,25 @@ describe("scene: a nonpersisted Scene is inert (#1550)", () => {
     }
 
     it("reports the deleted scene and its level as nonpersisted", () => {
-        cy.createScene({ name: "nonpersisted precondition" }).then(
-            (created) => {
-                cy.foundry((win) =>
-                    deleteAndKeep(win, created.id).then(({ scene, level }) => ({
-                        gone: !win.game.scenes.has(created.id),
-                        scenePersisted: scene.persisted,
-                        hasLevel: !!level,
-                        levelPersisted: level?.persisted,
-                    })),
-                ).should((r) => {
-                    expect(r.gone, "scene left game.scenes").to.be.true;
-                    expect(r.hasLevel, "scene had a level to check").to.be.true;
-                    // The precondition core keys on. Asserted rather than assumed:
-                    // if a future build stops reporting `false` here, the guard
-                    // below silently stops guarding anything, and this is the only
-                    // place that would notice.
-                    expect(r.scenePersisted, "scene.persisted").to.equal(false);
-                    expect(r.levelPersisted, "level.persisted").to.equal(false);
-                });
-            },
-        );
+        cy.createScene({ name: "nonpersisted precondition" }).then((created) => {
+            cy.foundry((win) =>
+                deleteAndKeep(win, created.id).then(({ scene, level }) => ({
+                    gone: !win.game.scenes.has(created.id),
+                    scenePersisted: scene.persisted,
+                    hasLevel: !!level,
+                    levelPersisted: level?.persisted,
+                })),
+            ).should((r) => {
+                expect(r.gone, "scene left game.scenes").to.be.true;
+                expect(r.hasLevel, "scene had a level to check").to.be.true;
+                // The precondition core keys on. Asserted rather than assumed:
+                // if a future build stops reporting `false` here, the guard
+                // below silently stops guarding anything, and this is the only
+                // place that would notice.
+                expect(r.scenePersisted, "scene.persisted").to.equal(false);
+                expect(r.levelPersisted, "level.persisted").to.equal(false);
+            });
+        });
     });
 
     it("does not throw when the draw path recomputes region shape constraints", () => {
@@ -130,10 +128,7 @@ describe("scene: a nonpersisted Scene is inert (#1550)", () => {
                             ["scene", scene],
                             ["level", level],
                         ]) {
-                            if (
-                                typeof doc?.updateRegionShapeConstraints !==
-                                "function"
-                            ) {
+                            if (typeof doc?.updateRegionShapeConstraints !== "function") {
                                 continue;
                             }
                             present.push(label);
@@ -147,9 +142,7 @@ describe("scene: a nonpersisted Scene is inert (#1550)", () => {
                     }),
                 ),
             ).should((r) => {
-                expect(r.present, "Scene defines the entry point").to.include(
-                    "scene",
-                );
+                expect(r.present, "Scene defines the entry point").to.include("scene");
                 // Names the offender and its message on failure, instead of
                 // "expected 'A nonpersisted Document…' to equal null".
                 expect(r.threw, "no entry point threw").to.deep.equal({});

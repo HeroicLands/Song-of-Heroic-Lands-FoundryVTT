@@ -21,12 +21,10 @@ function makeAttribute(
     overrides: Record<string, unknown> = {},
     opts: Record<string, unknown> = {},
 ) {
-    return makeItemLogic(
-        AttributeLogic,
-        ITEM_KIND.ATTRIBUTE,
-        attributeFields(overrides),
-        { name: "Strength", ...opts },
-    );
+    return makeItemLogic(AttributeLogic, ITEM_KIND.ATTRIBUTE, attributeFields(overrides), {
+        name: "Strength",
+        ...opts,
+    });
 }
 
 afterEach(() => {
@@ -62,9 +60,7 @@ describe("AttributeLogic", () => {
             const logic = makeAttribute();
             logic.initialize();
             const result = { isSuccess: true } as any;
-            const spy = vi
-                .spyOn(logic.masteryLevel, "successTest")
-                .mockResolvedValue(result);
+            const spy = vi.spyOn(logic.masteryLevel, "successTest").mockResolvedValue(result);
             const ctx = { scope: {} } as any;
             await expect(logic.successTest(ctx)).resolves.toBe(result);
             expect(spy).toHaveBeenCalledWith(ctx);
@@ -73,10 +69,9 @@ describe("AttributeLogic", () => {
         it("opposedTestStart - delegates to the actor's token logic with this attribute's uuid in scope", async () => {
             const result = { isOpposed: true } as any;
             const opposedTestStart = vi.fn().mockResolvedValue(result);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttActiveTokenLogicForActor",
-            ).mockReturnValue({ opposedTestStart } as any);
+            vi.spyOn(FoundryHelpersMock, "fvttActiveTokenLogicForActor").mockReturnValue({
+                opposedTestStart,
+            } as any);
             const logic = makeAttribute();
             const ctx = { scope: {} } as any;
             await expect(logic.opposedTestStart(ctx)).resolves.toBe(result);
@@ -85,10 +80,7 @@ describe("AttributeLogic", () => {
         });
 
         it("opposedTestStart - warns and returns null when the actor has no token", async () => {
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttActiveTokenLogicForActor",
-            ).mockReturnValue(undefined);
+            vi.spyOn(FoundryHelpersMock, "fvttActiveTokenLogicForActor").mockReturnValue(undefined);
             const logic = makeAttribute();
             const ctx = { scope: {} } as any;
             await expect(logic.opposedTestStart(ctx)).resolves.toBeNull();

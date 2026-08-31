@@ -48,9 +48,7 @@ function pushDelta(
 describe("ValueModifier", () => {
     describe("constructor", () => {
         it("throws when constructed without a parent", () => {
-            expect(() => new ValueModifier({}, {} as any)).toThrow(
-                "SohlEntity requires a parent",
-            );
+            expect(() => new ValueModifier({}, {} as any)).toThrow("SohlEntity requires a parent");
         });
 
         it("creates an instance with a parent", () => {
@@ -92,9 +90,7 @@ describe("ValueModifier", () => {
 
         it("setBase throws for non-numeric value", () => {
             const vm = createVM();
-            expect(() => vm.setBase("abc" as any)).toThrow(
-                "value must be numeric or undefined",
-            );
+            expect(() => vm.setBase("abc" as any)).toThrow("value must be numeric or undefined");
         });
 
         it("setBase returns the ValueModifier for chaining", () => {
@@ -169,9 +165,7 @@ describe("ValueModifier", () => {
             vm.disabled = true;
             // The store and serialization keep the key, not the localized text.
             expect(vm.disabled).toBe("SOHL.ValueDelta.INFO.Dsbl");
-            expect((vm.toJSON() as any).disabledReason).toBe(
-                "SOHL.ValueDelta.INFO.Dsbl",
-            );
+            expect((vm.toJSON() as any).disabledReason).toBe("SOHL.ValueDelta.INFO.Dsbl");
         });
 
         it("chatHtml surfaces the localized disabled reason instead of rendering empty", () => {
@@ -242,9 +236,7 @@ describe("ValueModifier", () => {
 
         it("throws for non-string abbrev", () => {
             const vm = createVM();
-            expect(() => vm.delete(123 as any)).toThrow(
-                "abbrev is not a string",
-            );
+            expect(() => vm.delete(123 as any)).toThrow("abbrev is not a string");
         });
     });
 
@@ -449,18 +441,14 @@ describe("ValueModifier", () => {
             const delta = vm.get(VALUE_DELTA_INFO.PLAYER);
             expect(delta).toBeDefined();
             expect(delta!.abbrev).toBe(VALUE_DELTA_INFO.PLAYER);
-            expect(delta!.name).toBe(
-                VALUE_DELTA_ID[VALUE_DELTA_INFO.PLAYER].name,
-            );
+            expect(delta!.name).toBe(VALUE_DELTA_ID[VALUE_DELTA_INFO.PLAYER].name);
         });
 
         it("two-arg form throws on an unregistered abbrev", () => {
             const vm = createVM({ baseValue: 10 });
             // "Size" is a real ad-hoc abbrev but is not a VALUE_DELTA_INFO
             // member, so the convenience form rejects it.
-            expect(() => (vm as any).add("Size", 5)).toThrow(
-                /unknown value-delta abbrev/i,
-            );
+            expect(() => (vm as any).add("Size", 5)).toThrow(/unknown value-delta abbrev/i);
         });
 
         it("three-arg form passes name/abbrev through without validation", () => {
@@ -504,11 +492,7 @@ describe("ValueModifier", () => {
     });
 
     describe("chatHtml (#162 security)", () => {
-        function pushNamedDelta(
-            vm: ValueModifier,
-            name: string,
-            value: string | number = 5,
-        ): void {
+        function pushNamedDelta(vm: ValueModifier, name: string, value: string | number = 5): void {
             vm.deltas.push(
                 new ValueDelta(
                     {
@@ -569,8 +553,7 @@ describe("ValueModifier", () => {
             const spy = vi
                 .spyOn((globalThis as any).sohl.i18n, "localize")
                 .mockImplementation((k: any) =>
-                    k === "SOHL.MysticalAbility.LevelPenalty" ? "Level Penalty"
-                    :   k,
+                    k === "SOHL.MysticalAbility.LevelPenalty" ? "Level Penalty" : k,
                 );
             const html = vm.chatHtml;
             expect(html).toContain("Level Penalty");
@@ -600,9 +583,7 @@ describe("ValueModifier", () => {
         it("appends each applied delta after the base", () => {
             const vm = createVM({ baseValue: 30 });
             pushDelta(vm, "SSMod", VALUE_DELTA_OPERATOR.ADD, 25);
-            expect(vm.deltaLabel).toBe(
-                `${VALUE_DELTA_INFO.BASE} +30, SSMod +25`,
-            );
+            expect(vm.deltaLabel).toBe(`${VALUE_DELTA_INFO.BASE} +30, SSMod +25`);
         });
 
         it("summarizes multiple deltas with their operators", () => {

@@ -26,9 +26,7 @@ const ACTIONS = 'section.tab[data-tab="actions"]';
 function makeMacro(name, command) {
     return cy
         .foundry((win) =>
-            win.Macro.create(
-                toRealm(win, { name, type: "script", command }),
-            ).then((m) => m.uuid),
+            win.Macro.create(toRealm(win, { name, type: "script", command })).then((m) => m.uuid),
         )
         .then((uuid) => uuid);
 }
@@ -67,9 +65,7 @@ describe("Item Actions tab (#501)", () => {
         cy.cleanupWorld();
         cy.foundry((win) =>
             Promise.all(
-                win.game.macros
-                    .filter((m) => m.name.includes("E2E"))
-                    .map((m) => m.delete()),
+                win.game.macros.filter((m) => m.name.includes("E2E")).map((m) => m.delete()),
             ).then(() => null),
         );
     });
@@ -84,8 +80,7 @@ describe("Item Actions tab (#501)", () => {
                 .reverse()
                 .find((a) => /dialog/i.test(a.constructor.name));
             dlg.element.querySelector('input[name="title"]').value = title;
-            dlg.element.querySelector('select[name="macro"]').value =
-                macroValue;
+            dlg.element.querySelector('select[name="macro"]').value = macroValue;
             return null;
         });
         cy.submitDialog("ok");
@@ -93,23 +88,16 @@ describe("Item Actions tab (#501)", () => {
 
     it("create: binds a selected Macro under the given Action name", () => {
         cy.createWorldItem("skill", { name: "E2E Skill" }).then((item) => {
-            makeMacro("E2E Item Bind Macro", "console.log('bind');").then(
-                (macroUuid) => {
-                    cy.openSheet(item);
-                    cy.switchTab("actions", "sheet");
-                    fillCreateDialog("E2E Item Bound Action", macroUuid);
-                    cy.wait(700);
-                    cy.foundry((win) =>
-                        (
-                            win.game.items.get(item.id).system.actionDefs ?? []
-                        ).map((d) => d.executor),
-                    ).should("include", macroUuid);
-                    cy.get(ACTIONS).contains(
-                        ".ledger__row",
-                        "E2E Item Bound Action",
-                    );
-                },
-            );
+            makeMacro("E2E Item Bind Macro", "console.log('bind');").then((macroUuid) => {
+                cy.openSheet(item);
+                cy.switchTab("actions", "sheet");
+                fillCreateDialog("E2E Item Bound Action", macroUuid);
+                cy.wait(700);
+                cy.foundry((win) =>
+                    (win.game.items.get(item.id).system.actionDefs ?? []).map((d) => d.executor),
+                ).should("include", macroUuid);
+                cy.get(ACTIONS).contains(".ledger__row", "E2E Item Bound Action");
+            });
         });
     });
 
@@ -117,92 +105,84 @@ describe("Item Actions tab (#501)", () => {
         // A SCRIPT action executes through the owning actor's logic, so the run
         // test uses an item embedded on an actor (a world item has no actor).
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "skill", { name: "E2E Run Skill" }).then(
-                (item) => {
-                    makeMacro(
-                        "E2E Item Run Macro",
-                        "globalThis.__e2eItemRun = (globalThis.__e2eItemRun || 0) + 1;",
-                    ).then((macroUuid) => {
-                        cy.foundry((win) =>
-                            win.game.actors
-                                .get(actor.id)
-                                .items.get(item.id)
-                                .update(
-                                    toRealm(win, {
-                                        "system.actionDefs": [
-                                            {
-                                                shortcode: "e2eitemaction",
-                                                subType: "script",
-                                                title: "E2E Item Run Action",
-                                                scope: "self",
-                                                executor: macroUuid,
-                                                trigger: "true",
-                                                visible: "true",
-                                                iconFAClass: "fa-solid fa-bolt",
-                                                group: "general",
-                                            },
-                                        ],
-                                    }),
-                                )
-                                .then(() => null),
-                        );
-                        cy.foundry((win) => {
-                            win.__e2eItemRun = 0;
-                            return null;
-                        });
-                        cy.openSheet(item);
-                        cy.switchTab("actions", "sheet");
-                        cy.get(ACTIONS)
-                            .contains(".ledger__row", "E2E Item Run Action")
-                            .find('[data-action="runAction"]')
-                            .click();
-                        cy.wait(700);
-                        cy.foundry((win) => win.__e2eItemRun).should("eq", 1);
+            cy.createItemOn(actor, "skill", { name: "E2E Run Skill" }).then((item) => {
+                makeMacro(
+                    "E2E Item Run Macro",
+                    "globalThis.__e2eItemRun = (globalThis.__e2eItemRun || 0) + 1;",
+                ).then((macroUuid) => {
+                    cy.foundry((win) =>
+                        win.game.actors
+                            .get(actor.id)
+                            .items.get(item.id)
+                            .update(
+                                toRealm(win, {
+                                    "system.actionDefs": [
+                                        {
+                                            shortcode: "e2eitemaction",
+                                            subType: "script",
+                                            title: "E2E Item Run Action",
+                                            scope: "self",
+                                            executor: macroUuid,
+                                            trigger: "true",
+                                            visible: "true",
+                                            iconFAClass: "fa-solid fa-bolt",
+                                            group: "general",
+                                        },
+                                    ],
+                                }),
+                            )
+                            .then(() => null),
+                    );
+                    cy.foundry((win) => {
+                        win.__e2eItemRun = 0;
+                        return null;
                     });
-                },
-            );
+                    cy.openSheet(item);
+                    cy.switchTab("actions", "sheet");
+                    cy.get(ACTIONS)
+                        .contains(".ledger__row", "E2E Item Run Action")
+                        .find('[data-action="runAction"]')
+                        .click();
+                    cy.wait(700);
+                    cy.foundry((win) => win.__e2eItemRun).should("eq", 1);
+                });
+            });
         });
     });
 
     it("edit: opens the bound Macro's own sheet", () => {
         cy.createWorldItem("skill", { name: "E2E Edit Skill" }).then((item) => {
-            makeMacro("E2E Item Edit Macro", "console.log('edit');").then(
-                (macroUuid) => {
-                    bindAction(item.id, macroUuid, "E2E Item Edit Action");
-                    cy.openSheet(item);
-                    cy.switchTab("actions", "sheet");
-                    cy.get(ACTIONS)
-                        .contains(".ledger__row", "E2E Item Edit Action")
-                        .find('[data-action="editAction"]')
-                        .click();
-                    cy.wait(500);
-                    cy.foundry((win) =>
-                        [...win.foundry.applications.instances.values()].some(
-                            (a) => /macro/i.test(a.constructor.name),
-                        ),
-                    ).should("be.true");
-                },
-            );
+            makeMacro("E2E Item Edit Macro", "console.log('edit');").then((macroUuid) => {
+                bindAction(item.id, macroUuid, "E2E Item Edit Action");
+                cy.openSheet(item);
+                cy.switchTab("actions", "sheet");
+                cy.get(ACTIONS)
+                    .contains(".ledger__row", "E2E Item Edit Action")
+                    .find('[data-action="editAction"]')
+                    .click();
+                cy.wait(500);
+                cy.foundry((win) =>
+                    [...win.foundry.applications.instances.values()].some((a) =>
+                        /macro/i.test(a.constructor.name),
+                    ),
+                ).should("be.true");
+            });
         });
     });
 
     describe("intrinsic ledger rendering + gating (#1135, #1136)", () => {
         /** Embed an armor on a being and set its carried state. */
         function armorOn(actor, isCarried) {
-            return cy
-                .createItemOn(actor, "armorgear", { name: "E2E Cuirass" })
-                .then((armor) => {
-                    cy.foundry((win) =>
-                        win.game.actors
-                            .get(actor.id)
-                            .items.get(armor.id)
-                            .update(
-                                toRealm(win, { "system.isCarried": isCarried }),
-                            )
-                            .then(() => null),
-                    );
-                    return cy.wrap(armor, { log: false });
-                });
+            return cy.createItemOn(actor, "armorgear", { name: "E2E Cuirass" }).then((armor) => {
+                cy.foundry((win) =>
+                    win.game.actors
+                        .get(actor.id)
+                        .items.get(armor.id)
+                        .update(toRealm(win, { "system.isCarried": isCarried }))
+                        .then(() => null),
+                );
+                return cy.wrap(armor, { log: false });
+            });
         }
 
         /** The Toggle Worn row's run control, inside the Intrinsic ledger. */
@@ -258,9 +238,7 @@ describe("Item Actions tab (#501)", () => {
                     cy.switchTab("actions", "sheet");
                     toggleWornRun().should(($a) => {
                         expect($a).to.not.have.attr("disabled");
-                        expect($a.attr("data-tooltip")).to.eq(
-                            "Run Toggle Worn",
-                        );
+                        expect($a.attr("data-tooltip")).to.eq("Run Toggle Worn");
                     });
                 });
             });
@@ -272,9 +250,7 @@ describe("Item Actions tab (#501)", () => {
                     // Capture UI warnings — the click must report the refusal.
                     cy.foundry((win) => {
                         win.__e2eWarns = [];
-                        const orig = win.ui.notifications.warn.bind(
-                            win.ui.notifications,
-                        );
+                        const orig = win.ui.notifications.warn.bind(win.ui.notifications);
                         win.ui.notifications.warn = (msg, ...rest) => {
                             win.__e2eWarns.push(String(msg));
                             return orig(msg, ...rest);
@@ -286,17 +262,13 @@ describe("Item Actions tab (#501)", () => {
                     toggleWornRun().click({ force: true });
                     cy.window()
                         .should((win) => {
-                            expect((win.__e2eWarns || []).join("|")).to.contain(
-                                "must be carried",
-                            );
+                            expect((win.__e2eWarns || []).join("|")).to.contain("must be carried");
                         })
                         .then(() => {
                             // …and the refused action still did nothing.
                             cy.foundry(
                                 (win) =>
-                                    win.game.actors
-                                        .get(actor.id)
-                                        .items.get(armor.id).system.isWorn,
+                                    win.game.actors.get(actor.id).items.get(armor.id).system.isWorn,
                             ).should("eq", false);
                         });
                 });
@@ -306,29 +278,21 @@ describe("Item Actions tab (#501)", () => {
 
     it("delete: disassociates the action but keeps the Macro", () => {
         cy.createWorldItem("skill", { name: "E2E Del Skill" }).then((item) => {
-            makeMacro("E2E Item Del Macro", "console.log('rm');").then(
-                (macroUuid) => {
-                    bindAction(item.id, macroUuid, "E2E Item Del Action");
-                    cy.openSheet(item);
-                    cy.switchTab("actions", "sheet");
-                    cy.get(ACTIONS)
-                        .contains(".ledger__row", "E2E Item Del Action")
-                        .find('[data-action="deleteAction"]')
-                        .click();
-                    cy.submitDialog("yes");
-                    cy.wait(700);
-                    cy.foundry(
-                        (win) =>
-                            (
-                                win.game.items.get(item.id).system.actionDefs ??
-                                []
-                            ).length,
-                    ).should("eq", 0);
-                    cy.foundry((win) => !!win.fromUuidSync(macroUuid)).should(
-                        "be.true",
-                    );
-                },
-            );
+            makeMacro("E2E Item Del Macro", "console.log('rm');").then((macroUuid) => {
+                bindAction(item.id, macroUuid, "E2E Item Del Action");
+                cy.openSheet(item);
+                cy.switchTab("actions", "sheet");
+                cy.get(ACTIONS)
+                    .contains(".ledger__row", "E2E Item Del Action")
+                    .find('[data-action="deleteAction"]')
+                    .click();
+                cy.submitDialog("yes");
+                cy.wait(700);
+                cy.foundry(
+                    (win) => (win.game.items.get(item.id).system.actionDefs ?? []).length,
+                ).should("eq", 0);
+                cy.foundry((win) => !!win.fromUuidSync(macroUuid)).should("be.true");
+            });
         });
     });
 });

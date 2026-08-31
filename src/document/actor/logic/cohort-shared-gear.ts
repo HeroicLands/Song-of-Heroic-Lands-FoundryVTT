@@ -110,8 +110,7 @@ export function collectSharedGear<TGear extends SharedGearCandidate>(
     const entries: SharedGearEntry<TGear>[] = [];
     for (const carrier of carriers) {
         for (const gear of carrier.gear) {
-            if (!isSharedWithCohort(gear.data?.sharedWithCohortIds, cohortRefs))
-                continue;
+            if (!isSharedWithCohort(gear.data?.sharedWithCohortIds, cohortRefs)) continue;
             entries.push({
                 gear,
                 carrierName: carrier.name,
@@ -121,7 +120,6 @@ export function collectSharedGear<TGear extends SharedGearCandidate>(
     }
     return entries.sort(
         (a, b) =>
-            a.carrierName.localeCompare(b.carrierName) ||
-            a.gear.name.localeCompare(b.gear.name),
+            a.carrierName.localeCompare(b.carrierName) || a.gear.name.localeCompare(b.gear.name),
     );
 }

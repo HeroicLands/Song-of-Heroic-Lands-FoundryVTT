@@ -73,10 +73,7 @@ export interface ArmorLocationFacing {
  * @param location - Shortcode of the body location in question.
  * @returns The protected side, defaulting to `ALL`.
  */
-export function armorFacingFor(
-    layer: ArmorLayer,
-    location: string,
-): ArmorFacing {
+export function armorFacingFor(layer: ArmorLayer, location: string): ArmorFacing {
     const entry = layer.facing?.find((f) => f.location === location);
     return entry?.side ?? ARMOR_FACING.ALL;
 }
@@ -98,10 +95,7 @@ const ASPECTS = ["blunt", "edged", "piercing", "fire"] as const;
  * @param body - Body structure whose locations receive the aggregated armor.
  * @param layers - Worn armor layers to apply across the covered locations.
  */
-export function aggregateArmor(
-    body: BodyStructure,
-    layers: ArmorLayer[],
-): void {
+export function aggregateArmor(body: BodyStructure, layers: ArmorLayer[]): void {
     const locations = body.getAllLocations();
 
     // Reset state from any prior cycle.
@@ -114,10 +108,7 @@ export function aggregateArmor(
     for (const layer of layers) {
         const rigid = new Set(layer.rigidLocations);
         // A location named in both lists is covered once.
-        const covered = new Set([
-            ...layer.flexibleLocations,
-            ...layer.rigidLocations,
-        ]);
+        const covered = new Set([...layer.flexibleLocations, ...layer.rigidLocations]);
         for (const code of covered) {
             const loc = locations.find((l) => l.shortcode === code);
             if (!loc) continue;

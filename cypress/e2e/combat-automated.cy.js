@@ -76,9 +76,7 @@ const DEFENSE_ACTIONS = [
 
 /** The combatant of `actorId` in `combatId`. */
 function combatantOf(win, combatId, actorId) {
-    return win.game.combats
-        .get(combatId)
-        .combatants.find((c) => c.actorId === actorId);
+    return win.game.combats.get(combatId).combatants.find((c) => c.actorId === actorId);
 }
 
 /**
@@ -96,15 +94,11 @@ async function survivingButtons(win, defenderUuid) {
             `<button class="action-card-button" data-action="${a}" data-handler-uuid="${defenderUuid}" data-skip-dialog="true">${a}</button>`,
     ).join("");
     const content = `<div class="card-buttons">${btns}</div>`;
-    const msg = await win.ChatMessage.create(
-        win.JSON.parse(JSON.stringify({ content })),
-    );
+    const msg = await win.ChatMessage.create(win.JSON.parse(JSON.stringify({ content })));
     await new Promise((r) => setTimeout(r, 400));
     const el = win.document.querySelector(`[data-message-id="${msg.id}"]`);
     return el ?
-            Array.from(el.querySelectorAll("button[data-action]")).map(
-                (b) => b.dataset.action,
-            )
+            Array.from(el.querySelectorAll("button[data-action]")).map((b) => b.dataset.action)
         :   [];
 }
 
@@ -126,10 +120,7 @@ describe("automated combat", () => {
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry((win) =>
-                            survivingButtons(
-                                win,
-                                combatantOf(win, combat.id, actor.id).uuid,
-                            ),
+                            survivingButtons(win, combatantOf(win, combat.id, actor.id).uuid),
                         ).should((s) => {
                             expect(s, "capability-gated to Ignore").to.deep.eq([
                                 "automatedIgnoreResume",
@@ -153,15 +144,11 @@ describe("automated combat", () => {
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry((win) =>
-                            survivingButtons(
-                                win,
-                                combatantOf(win, combat.id, actor.id).uuid,
-                            ),
+                            survivingButtons(win, combatantOf(win, combat.id, actor.id).uuid),
                         ).should((s) => {
-                            expect(
-                                s,
-                                "dodge + block + counter + ignore",
-                            ).to.include.members(DEFENSE_ACTIONS);
+                            expect(s, "dodge + block + counter + ignore").to.include.members(
+                                DEFENSE_ACTIONS,
+                            );
                         });
                     });
                 });
@@ -201,14 +188,11 @@ describe("automated combat", () => {
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry((win) =>
-                            survivingButtons(
-                                win,
-                                combatantOf(win, combat.id, actor.id).uuid,
-                            ),
+                            survivingButtons(win, combatantOf(win, combat.id, actor.id).uuid),
                         ).should((s) => {
-                            expect(s, "incapacitated → Ignore only").to.deep.eq(
-                                ["automatedIgnoreResume"],
-                            );
+                            expect(s, "incapacitated → Ignore only").to.deep.eq([
+                                "automatedIgnoreResume",
+                            ]);
                         });
                     });
                 });
@@ -229,21 +213,15 @@ describe("automated combat", () => {
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry((win) => {
-                            const owned = combatantOf(
-                                win,
-                                combat.id,
-                                actor.id,
-                            ).uuid;
+                            const owned = combatantOf(win, combat.id, actor.id).uuid;
                             return { owned };
                         }).then(({ owned }) => {
+                            cy.foundry((win) => survivingButtons(win, owned)).should(
+                                "include",
+                                "automatedIgnoreResume",
+                            );
                             cy.foundry((win) =>
-                                survivingButtons(win, owned),
-                            ).should("include", "automatedIgnoreResume");
-                            cy.foundry((win) =>
-                                survivingButtons(
-                                    win,
-                                    "Combat.xxxxxxxx.Combatant.xxxxxxxx",
-                                ),
+                                survivingButtons(win, "Combat.xxxxxxxx.Combatant.xxxxxxxx"),
                             ).should("be.empty");
                         });
                     });
@@ -261,19 +239,15 @@ describe("automated combat", () => {
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry((win) => {
-                            const logic = combatantOf(
-                                win,
-                                combat.id,
-                                actor.id,
-                            ).logic;
-                            return DEFENSE_ACTIONS.map((a) =>
-                                logic.actions.has(a),
-                            );
+                            const logic = combatantOf(win, combat.id, actor.id).logic;
+                            return DEFENSE_ACTIONS.map((a) => logic.actions.has(a));
                         }).should((have) => {
-                            expect(
-                                have,
-                                "all four resumes registered",
-                            ).to.deep.eq([true, true, true, true]);
+                            expect(have, "all four resumes registered").to.deep.eq([
+                                true,
+                                true,
+                                true,
+                                true,
+                            ]);
                         });
                     });
                 });

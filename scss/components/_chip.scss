@@ -22,11 +22,7 @@
 
     // Bleeding / critical / destructive.
     &--danger {
-        background: color-mix(
-            in srgb,
-            var(--sohl-color-danger) 16%,
-            transparent
-        );
+        background: color-mix(in srgb, var(--sohl-color-danger) 16%, transparent);
         color: var(--sohl-color-danger);
         border-color: color-mix(
             in srgb,

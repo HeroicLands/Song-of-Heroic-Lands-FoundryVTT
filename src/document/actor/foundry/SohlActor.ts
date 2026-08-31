@@ -158,8 +158,7 @@ export class SohlActor extends Actor {
         if (!scene) return null;
 
         const linkedTokens = scene.tokens.filter(
-            (td: TokenDocument.Stored) =>
-                td.actorLink && td.actorId === this.id,
+            (td: TokenDocument.Stored) => td.actorLink && td.actorId === this.id,
         );
 
         return (linkedTokens[0] as SohlTokenDocument) ?? null;
@@ -178,9 +177,7 @@ export class SohlActor extends Actor {
         this._lifecycleActionsCache = new Map<string, SohlItem>();
         // Reset each embedded item's effect-phase tracker for the new prep
         // cycle (mirrors Foundry's Actor#_clearData() handling on itself).
-        this.items?.forEach((i: SohlItem) =>
-            (i as any)._completedActiveEffectPhases?.clear?.(),
-        );
+        this.items?.forEach((i: SohlItem) => (i as any)._completedActiveEffectPhases?.clear?.());
     }
 
     /**
@@ -204,18 +201,13 @@ export class SohlActor extends Actor {
      * effects whose scope targets this actor. Replaces Foundry's
      * transfer-flag-driven generator with scope-driven inclusion.
      */
-    override *allApplicableEffects(): Generator<
-        ActiveEffect.Stored,
-        void,
-        undefined
-    > {
+    override *allApplicableEffects(): Generator<ActiveEffect.Stored, void, undefined> {
         // The base declares `ActiveEffect.Stored` — a persisted effect, whose
         // id and uuid are non-null. Everything yielded here comes from a
         // document collection, so it is stored by construction; the cast states
         // that rather than widening the contract for every caller.
         for (const effect of this.effects.values() as Iterable<SohlActiveEffect>) {
-            if (effect.targets.includes(this))
-                yield effect as unknown as ActiveEffect.Stored;
+            if (effect.targets.includes(this)) yield effect as unknown as ActiveEffect.Stored;
         }
         for (const effect of this.transferredActiveEffects()) {
             yield effect as unknown as ActiveEffect.Stored;
@@ -263,9 +255,7 @@ export class SohlActor extends Actor {
 
         // Next, perform the initialization phase for all embedded items
         this.items.forEach((item: SohlItem) => {
-            if (
-                fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
-            ) {
+            if (fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)) {
                 item.logic.initialize();
                 fvttCallHook(`sohl.${item.type}.postInitialize`, item, ctx);
 
@@ -280,9 +270,7 @@ export class SohlActor extends Actor {
         });
 
         // Perform the evaluate phase for the actor itself
-        if (
-            fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)
-        ) {
+        if (fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)) {
             this.logic.evaluate();
             fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
             const postEvaluate = this.logic.actions.get("postEvaluate");
@@ -312,9 +300,7 @@ export class SohlActor extends Actor {
         });
 
         // Finally, perform the finalize phase for the actor itself
-        if (
-            fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)
-        ) {
+        if (fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)) {
             this.logic.finalize();
             fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
             const postFinalize = this.logic.actions.get("postFinalize");
@@ -335,8 +321,7 @@ export class SohlActor extends Actor {
             throw new Error("Must provide baseName");
         }
         const takenNames = new Set();
-        for (const document of (game as any).actors)
-            takenNames.add(document.name);
+        for (const document of (game as any).actors) takenNames.add(document.name);
         let name = baseName;
         let index = 1;
         while (takenNames.has(name)) name = `${baseName} (${++index})`;
@@ -364,12 +349,7 @@ export class SohlActor extends Actor {
         createOptions: PlainObject = {},
         options: { types?: string[]; [k: string]: any } = {},
     ): Promise<any> {
-        return sohlCreateDialog(
-            this as any,
-            data,
-            { ...createOptions, parent: null },
-            options,
-        );
+        return sohlCreateDialog(this as any, data, { ...createOptions, parent: null }, options);
     }
 
     /**
@@ -394,11 +374,7 @@ export class SohlActor extends Actor {
         options: PlainObject,
         user: User.Stored,
     ): Promise<boolean | void> {
-        const allowed = await super._preCreate(
-            createData as any,
-            options as any,
-            user,
-        );
+        const allowed = await super._preCreate(createData as any, options as any, user);
         if (allowed === false) return false;
 
         // De-duplicate the display name (a nicety, not the key).
@@ -406,8 +382,7 @@ export class SohlActor extends Actor {
             !this.pack &&
             (game as any).actors.some(
                 (actor: SohlActor) =>
-                    actor.type === createData.type &&
-                    actor.name === createData.name,
+                    actor.type === createData.type && actor.name === createData.name,
             );
         if (similarActorExists) {
             this.updateSource({
@@ -436,27 +411,15 @@ export class SohlActor extends Actor {
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preUpdate(
-            changes as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preUpdate(changes as any, options as any, user as any);
         if (allowed === false) return false;
-        if (
-            (await enforceShortcodeOnUpdate(this, changes, options)) === false
-        ) {
+        if ((await enforceShortcodeOnUpdate(this, changes, options)) === false) {
             return false;
         }
         const newActionDefs = (changes as any)?.system?.actionDefs;
         if (newActionDefs !== undefined) {
             const oldActionDefs = (this.system as any)?.actionDefs;
-            if (
-                !isScriptActionMutationAllowed(
-                    oldActionDefs,
-                    newActionDefs,
-                    user,
-                )
-            ) {
+            if (!isScriptActionMutationAllowed(oldActionDefs, newActionDefs, user)) {
                 sohl.log.warn(
                     `Refusing actionDefs update on "${this.name}": only the GM may modify SCRIPT action entries.`,
                     { actor: this.id, user: (user as any)?.id },
@@ -471,19 +434,10 @@ export class SohlActor extends Actor {
     }
 
     /** @inheritDoc */
-    protected override _onCreate(
-        data: PlainObject,
-        options: any,
-        userId: string,
-    ) {
+    protected override _onCreate(data: PlainObject, options: any, userId: string) {
         // Call base implementation dynamically to avoid TypeScript override signature noise
         const __sohl_base = Object.getPrototypeOf(SohlActor.prototype) as any;
-        __sohl_base._onCreate.call(
-            this,
-            data as any,
-            options as any,
-            userId as any,
-        );
+        __sohl_base._onCreate.call(this, data as any, options as any, userId as any);
 
         //        this.updateEffectsOrigin();
     }
@@ -519,12 +473,8 @@ export class SohlActor extends Actor {
      * @param data - Partial `ActiveEffect` creation data (name, type, img, …).
      * @returns The created effect, or `undefined` if creation did not apply.
      */
-    async createEffect(
-        data: Record<string, unknown> = {},
-    ): Promise<SohlActiveEffect | undefined> {
-        const created = await this.createEmbeddedDocuments("ActiveEffect", [
-            data,
-        ] as any);
+    async createEffect(data: Record<string, unknown> = {}): Promise<SohlActiveEffect | undefined> {
+        const created = await this.createEmbeddedDocuments("ActiveEffect", [data] as any);
         return created?.[0] as unknown as SohlActiveEffect | undefined;
     }
 }

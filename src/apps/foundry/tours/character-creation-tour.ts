@@ -11,11 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    ACTOR_KIND,
-    ITEM_KIND,
-    MYSTICALABILITY_SUBTYPE,
-} from "@src/utils/constants";
+import { ACTOR_KIND, ITEM_KIND, MYSTICALABILITY_SUBTYPE } from "@src/utils/constants";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { TourGate } from "@src/entity/tour";
 import { SohlTour, type SohlTourConfig, type SohlTourStep } from "../SohlTour";
@@ -72,8 +68,7 @@ function currentBeing(): any {
     return (
         owned.find(
             (a: any) =>
-                shortcodeBase((a.system as any)?.shortcode) ===
-                ARCHETYPE_SHORTCODE.basicFolk,
+                shortcodeBase((a.system as any)?.shortcode) === ARCHETYPE_SHORTCODE.basicFolk,
         ) ?? owned[0]
     );
 }
@@ -89,9 +84,7 @@ function currentBeing(): any {
 function hasGear(kind: string, base: string): boolean {
     const being = currentBeing();
     return !!being?.items?.some(
-        (it: any) =>
-            it.type === kind &&
-            shortcodeBase((it.system as any)?.shortcode) === base,
+        (it: any) => it.type === kind && shortcodeBase((it.system as any)?.shortcode) === base,
     );
 }
 
@@ -105,9 +98,7 @@ function hasGear(kind: string, base: string): boolean {
 function findGear(kind: string, base: string): any {
     const being = currentBeing();
     return being?.items?.find(
-        (it: any) =>
-            it.type === kind &&
-            shortcodeBase((it.system as any)?.shortcode) === base,
+        (it: any) => it.type === kind && shortcodeBase((it.system as any)?.shortcode) === base,
     );
 }
 
@@ -135,13 +126,8 @@ function heldByLimb(): Record<string, string> {
  * @param patterns - Patterns the limb's name must all match.
  * @returns The matching limb's held base shortcode, or `""`.
  */
-function limbHolding(
-    state: Record<string, string>,
-    ...patterns: RegExp[]
-): string {
-    const entry = Object.entries(state ?? {}).find(([name]) =>
-        patterns.every((p) => p.test(name)),
-    );
+function limbHolding(state: Record<string, string>, ...patterns: RegExp[]): string {
+    const entry = Object.entries(state ?? {}).find(([name]) => patterns.every((p) => p.test(name)));
     return entry?.[1] ?? "";
 }
 
@@ -234,8 +220,7 @@ export function buildCharacterCreationTour(): SohlTour {
             id: "skills-melee",
             title: "SOHL.Tour.CharCreation.skillsMelee.title",
             content: "SOHL.Tour.CharCreation.skillsMelee.content",
-            selector:
-                '.skills li.item[data-item-name="Melee"] .item-contextmenu',
+            selector: '.skills li.item[data-item-name="Melee"] .item-contextmenu',
             resolveDocument: being,
             nav: { tab: "skills", group: "primary" },
         },
@@ -273,16 +258,10 @@ export function buildCharacterCreationTour(): SohlTour {
             nav: { tab: "combat", group: "primary" },
             gate: TourGate.state(
                 (ctx) =>
-                    limbHolding(
-                        ctx.state as Record<string, string>,
-                        /right/i,
-                        /arm/i,
-                    ) === ARCHETYPE_SHORTCODE.broadsword &&
-                    limbHolding(
-                        ctx.state as Record<string, string>,
-                        /left/i,
-                        /arm/i,
-                    ) === ARCHETYPE_SHORTCODE.roundshield,
+                    limbHolding(ctx.state as Record<string, string>, /right/i, /arm/i) ===
+                        ARCHETYPE_SHORTCODE.broadsword &&
+                    limbHolding(ctx.state as Record<string, string>, /left/i, /arm/i) ===
+                        ARCHETYPE_SHORTCODE.roundshield,
             ),
             readState: () => heldByLimb(),
         },
@@ -293,8 +272,7 @@ export function buildCharacterCreationTour(): SohlTour {
             id: "strike-modes",
             title: "SOHL.Tour.CharCreation.strikeModes.title",
             content: "SOHL.Tour.CharCreation.strikeModes.content",
-            selector:
-                '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',
+            selector: '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',
             resolveDocument: being,
             nav: { tab: "combat", group: "primary" },
             gate: TourGate.state((ctx) => ctx.state === true),
@@ -302,11 +280,7 @@ export function buildCharacterCreationTour(): SohlTour {
                 // A strike-mode row rendered on the Combat tab is the truest
                 // signal; fall back to "a weapon is held" so a not-yet-painted
                 // re-render can't strand the (already-satisfied) gate.
-                if (
-                    being()?.sheet?.element?.querySelector(
-                        "li.item[data-sm-id]",
-                    )
-                ) {
+                if (being()?.sheet?.element?.querySelector("li.item[data-sm-id]")) {
                     return true;
                 }
                 return Object.values(heldByLimb()).some(
@@ -326,10 +300,7 @@ export function buildCharacterCreationTour(): SohlTour {
             nav: { tab: "gear", group: "primary" },
             gate: TourGate.state((ctx) => ctx.state === true),
             readState: () => {
-                const tunic = findGear(
-                    ITEM_KIND.ARMORGEAR,
-                    ARCHETYPE_SHORTCODE.leatherTunic,
-                );
+                const tunic = findGear(ITEM_KIND.ARMORGEAR, ARCHETYPE_SHORTCODE.leatherTunic);
                 return !!tunic && !!(tunic.system as any)?.isWorn;
             },
         },
@@ -356,8 +327,7 @@ export function buildCharacterCreationTour(): SohlTour {
                 !!being()?.items?.some(
                     (it: any) =>
                         it.type === ITEM_KIND.MYSTICALABILITY &&
-                        (it.system as any)?.subType ===
-                            MYSTICALABILITY_SUBTYPE.ARCANETALENT,
+                        (it.system as any)?.subType === MYSTICALABILITY_SUBTYPE.ARCANETALENT,
                 ),
         },
         {
@@ -379,8 +349,7 @@ export function buildCharacterCreationTour(): SohlTour {
             resolveDocument: being,
             nav: { tab: "gear", group: "primary" },
             gate: TourGate.state((ctx) => ctx.state === true),
-            readState: () =>
-                hasGear(ITEM_KIND.CONTAINERGEAR, ARCHETYPE_SHORTCODE.backpack),
+            readState: () => hasGear(ITEM_KIND.CONTAINERGEAR, ARCHETYPE_SHORTCODE.backpack),
         },
         {
             // 15b — Gated (archetype): add a Tinderbox.
@@ -391,8 +360,7 @@ export function buildCharacterCreationTour(): SohlTour {
             resolveDocument: being,
             nav: { tab: "gear", group: "primary" },
             gate: TourGate.state((ctx) => ctx.state === true),
-            readState: () =>
-                hasGear(ITEM_KIND.MISCGEAR, ARCHETYPE_SHORTCODE.tinderbox),
+            readState: () => hasGear(ITEM_KIND.MISCGEAR, ARCHETYPE_SHORTCODE.tinderbox),
         },
         {
             // 15c — Gated (action): drag the Tinderbox into the Backpack.
@@ -404,19 +372,9 @@ export function buildCharacterCreationTour(): SohlTour {
             nav: { tab: "gear", group: "primary" },
             gate: TourGate.state((ctx) => ctx.state === true),
             readState: () => {
-                const tin = findGear(
-                    ITEM_KIND.MISCGEAR,
-                    ARCHETYPE_SHORTCODE.tinderbox,
-                );
-                const bag = findGear(
-                    ITEM_KIND.CONTAINERGEAR,
-                    ARCHETYPE_SHORTCODE.backpack,
-                );
-                return (
-                    !!bag &&
-                    !!tin &&
-                    (tin.system as any)?.containerId === bag.id
-                );
+                const tin = findGear(ITEM_KIND.MISCGEAR, ARCHETYPE_SHORTCODE.tinderbox);
+                const bag = findGear(ITEM_KIND.CONTAINERGEAR, ARCHETYPE_SHORTCODE.backpack);
+                return !!bag && !!tin && (tin.system as any)?.containerId === bag.id;
             },
         },
         {
@@ -429,10 +387,7 @@ export function buildCharacterCreationTour(): SohlTour {
             nav: { tab: "gear", group: "primary" },
             gate: TourGate.state((ctx) => ctx.state === true),
             readState: () => {
-                const tin = findGear(
-                    ITEM_KIND.MISCGEAR,
-                    ARCHETYPE_SHORTCODE.tinderbox,
-                );
+                const tin = findGear(ITEM_KIND.MISCGEAR, ARCHETYPE_SHORTCODE.tinderbox);
                 const cid = (tin?.system as any)?.containerId;
                 return !!tin && (cid == null || cid === "");
             },

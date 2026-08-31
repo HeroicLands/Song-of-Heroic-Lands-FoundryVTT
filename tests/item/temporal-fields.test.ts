@@ -27,10 +27,7 @@ import path from "node:path";
  * source, so asserting on it is not asserting on a stale copy.
  */
 const artifact = JSON.parse(
-    fs.readFileSync(
-        path.join(import.meta.dirname, "../../schema.json"),
-        "utf8",
-    ),
+    fs.readFileSync(path.join(import.meta.dirname, "../../schema.json"), "utf8"),
 );
 
 /** Every field path a subtype declares, own and inherited. */

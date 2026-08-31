@@ -161,10 +161,7 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
         const blank = options.hash.blank ?? null;
         const sort = options.hash.sort ?? false;
 
-        selected =
-            selected instanceof Array ?
-                selected.map(String)
-            :   [String(selected)];
+        selected = selected instanceof Array ? selected.map(String) : [String(selected)];
 
         // Prepare the choices as an array of objects
         const selectOptions: { value: string; label: string }[] = [];
@@ -200,26 +197,18 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
         return op1.endsWith(op2);
     });
 
-    H.registerHelper(
-        "optionalString",
-        function (cond: any, strTrue = "", strFalse = "") {
-            if (cond) return strTrue;
-            return strFalse;
-        },
-    );
+    H.registerHelper("optionalString", function (cond: any, strTrue = "", strFalse = "") {
+        if (cond) return strTrue;
+        return strFalse;
+    });
 
     H.registerHelper("setHas", function (set: any, value: any) {
         return set.has(value);
     });
 
-    H.registerHelper(
-        "contains",
-        function (container: any, value: any, options: any) {
-            return container.includes(value) ?
-                    options.fn(container)
-                :   options.inverse(container);
-        },
-    );
+    H.registerHelper("contains", function (container: any, value: any, options: any) {
+        return container.includes(value) ? options.fn(container) : options.inverse(container);
+    });
 
     H.registerHelper("toJSON", function (obj: any) {
         return JSON.stringify(obj);
@@ -242,27 +231,22 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
      *   - shadow:   0 → "—", N → "SL {N}".
      * Unknown subType falls back to the bare number.
      */
-    H.registerHelper(
-        "injurySeverity",
-        function (val: unknown, subType: unknown) {
-            const n = Number(val) || 0;
-            switch (subType) {
-                case "physical":
-                    if (n <= 0) return "NA";
-                    return n <= 5 ?
-                            ["NA", "M1", "S2", "S3", "G4", "G5"][n]
-                        :   `G${n}`;
-                case "mental":
-                    return n <= 0 ? "—" : `PSY ${n}`;
-                case "spiritual":
-                    return n <= 0 ? "—" : `AS ${n}`;
-                case "shadow":
-                    return n <= 0 ? "—" : `SL ${n}`;
-                default:
-                    return String(n);
-            }
-        },
-    );
+    H.registerHelper("injurySeverity", function (val: unknown, subType: unknown) {
+        const n = Number(val) || 0;
+        switch (subType) {
+            case "physical":
+                if (n <= 0) return "NA";
+                return n <= 5 ? ["NA", "M1", "S2", "S3", "G4", "G5"][n] : `G${n}`;
+            case "mental":
+                return n <= 0 ? "—" : `PSY ${n}`;
+            case "spiritual":
+                return n <= 0 ? "—" : `AS ${n}`;
+            case "shadow":
+                return n <= 0 ? "—" : `SL ${n}`;
+            default:
+                return String(n);
+        }
+    });
 
     H.registerHelper("array", function (...args: unknown[]) {
         // Drop Handlebars' trailing options object.

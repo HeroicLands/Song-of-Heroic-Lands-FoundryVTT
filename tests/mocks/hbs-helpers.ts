@@ -39,10 +39,7 @@
 import Handlebars from "handlebars";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import {
-    registerPureHandlebarsHelpers,
-    type HandlebarsLike,
-} from "@src/utils/handlebars-helpers";
+import { registerPureHandlebarsHelpers, type HandlebarsLike } from "@src/utils/handlebars-helpers";
 
 /** Drop Handlebars' trailing `options` arg from a variadic helper's arguments. */
 function variadic(args: IArguments): unknown[] {
@@ -57,14 +54,8 @@ let LANG: Record<string, string> | undefined;
  * strings render as they do in production. Called with no hash it is a plain
  * key lookup, matching `game.i18n.localize`.
  */
-function localize(
-    key: unknown,
-    options?: { hash?: Record<string, unknown> },
-): string {
-    if (!LANG)
-        LANG = JSON.parse(
-            readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
-        );
+function localize(key: unknown, options?: { hash?: Record<string, unknown> }): string {
+    if (!LANG) LANG = JSON.parse(readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"));
     const k = String(key);
     let str = LANG![k] ?? k;
     const data = options?.hash;
@@ -79,8 +70,7 @@ function localize(
 function fieldPlaceholder(name: string) {
     return function (fieldOrValue: any, options: any): Handlebars.SafeString {
         const hash = options?.hash ?? {};
-        const fieldName =
-            hash.name ?? fieldOrValue?.fieldPath ?? fieldOrValue?.name ?? "";
+        const fieldName = hash.name ?? fieldOrValue?.fieldPath ?? fieldOrValue?.name ?? "";
         const value = hash.value ?? "";
         const esc = Handlebars.escapeExpression;
         const attrs = [
@@ -124,9 +114,7 @@ export function registerTestHbsHelpers(): void {
     H.registerHelper("or", function () {
         return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
     });
-    H.registerHelper("ifThen", (criteria, ifTrue, ifFalse) =>
-        criteria ? ifTrue : ifFalse,
-    );
+    H.registerHelper("ifThen", (criteria, ifTrue, ifFalse) => (criteria ? ifTrue : ifFalse));
     H.registerHelper("checked", (v) => (v ? "checked" : ""));
     H.registerHelper("disabled", (v) => (v ? "disabled" : ""));
     H.registerHelper("numberFormat", (n) => String(n)); // simplified

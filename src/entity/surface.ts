@@ -64,11 +64,7 @@ type EntityNamespaces = {
 export const entitySurface: SohlEntitySurface & EntityNamespaces = (() => {
     const surface = {} as SohlEntitySurface & EntityNamespaces;
     for (const key of Reflect.ownKeys(classRegistry)) {
-        Object.defineProperty(
-            surface,
-            key,
-            Object.getOwnPropertyDescriptor(classRegistry, key)!,
-        );
+        Object.defineProperty(surface, key, Object.getOwnPropertyDescriptor(classRegistry, key)!);
     }
     Object.assign(surface, {
         action,

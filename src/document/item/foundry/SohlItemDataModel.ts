@@ -14,14 +14,8 @@
 import type { SohlItem } from "./SohlItem";
 import { type HTMLString } from "@src/utils/helpers";
 import { enforceShortcodeOnCreate } from "@src/core/foundry/shortcode-uniqueness";
-import {
-    SohlDataModel,
-    defineSohlDataSchema,
-} from "@src/core/foundry/SohlDataModel";
-import type {
-    SohlItemLogic,
-    SohlItemData,
-} from "@src/document/item/logic/SohlItemBaseLogic";
+import { SohlDataModel, defineSohlDataSchema } from "@src/core/foundry/SohlDataModel";
+import type { SohlItemLogic, SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
 const { HTMLField } = foundry.data.fields;
 
 /**
@@ -152,11 +146,7 @@ export abstract class SohlItemDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preCreate(
-            data as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preCreate(data as any, options as any, user as any);
         if (allowed === false) return false;
         return enforceShortcodeOnCreate(this.parent, data, options);
     }

@@ -58,10 +58,7 @@ function isMultiStrikeMode(item: SohlItem): boolean {
  *   weapon, {@link SINGLE_STRIKE_MODE_KEY} for a technique).
  * @returns The strike-mode data, or `undefined` if not found.
  */
-function findStrikeMode(
-    item: SohlItem,
-    key: string,
-): StrikeModeBase.Data | undefined {
+function findStrikeMode(item: SohlItem, key: string): StrikeModeBase.Data | undefined {
     const system = item.system as any;
     if (isMultiStrikeMode(item)) {
         return (system.strikeModes as StrikeModeBase.Data[] | undefined)?.find(
@@ -153,9 +150,7 @@ export function prepareStrikeModesContext(item: SohlItem): {
             key,
             name: sm.name,
             shortcode: sm.shortcode ?? "",
-            typeLabel: game.i18n.localize(
-                StrikeModeTypeChoices[sm.type] ?? sm.type,
-            ),
+            typeLabel: game.i18n.localize(StrikeModeTypeChoices[sm.type] ?? sm.type),
             impactFormula: formatImpactFormula(sm.impactBase),
         };
     });
@@ -196,9 +191,7 @@ interface NewStrikeModeSpec {
  * @param isMulti - Whether the owner is a weapon (shows the Shortcode field).
  * @returns The entered spec, or `undefined` on dismissal.
  */
-async function promptNewStrikeMode(
-    isMulti: boolean,
-): Promise<NewStrikeModeSpec | undefined> {
+async function promptNewStrikeMode(isMulti: boolean): Promise<NewStrikeModeSpec | undefined> {
     const typeOptions = `
         <option value="${STRIKE_MODE_TYPE.MELEE}">${game.i18n.localize("SOHL.StrikeMode.Type.melee")}</option>
         <option value="${STRIKE_MODE_TYPE.MISSILE}">${game.i18n.localize("SOHL.StrikeMode.Type.missile")}</option>`;
@@ -234,8 +227,7 @@ async function promptNewStrikeMode(
                 label: "Create Strike Mode",
                 icon: "fa-solid fa-plus",
                 callback: (_event: Event, button: any) =>
-                    new foundry.applications.ux.FormDataExtended(button.form)
-                        .object,
+                    new foundry.applications.ux.FormDataExtended(button.form).object,
             },
         } as any)) as PlainObject | undefined;
     } catch {
@@ -267,10 +259,9 @@ export async function addStrikeMode(item: SohlItem): Promise<void> {
     let key: string;
     if (isMulti) {
         const existing =
-            (
-                (item.system as any).strikeModes as
-                    StrikeModeBase.Data[] | undefined
-            )?.map((m) => m.shortcode) ?? [];
+            ((item.system as any).strikeModes as StrikeModeBase.Data[] | undefined)?.map(
+                (m) => m.shortcode,
+            ) ?? [];
         const error = validateShortcode(spec.shortcode, existing);
         if (error) {
             sohl.log.uiWarn(error);
@@ -292,10 +283,7 @@ export async function addStrikeMode(item: SohlItem): Promise<void> {
  * @param item - The owning item.
  * @param key - The row key to delete.
  */
-export async function deleteStrikeMode(
-    item: SohlItem,
-    key: string,
-): Promise<void> {
+export async function deleteStrikeMode(item: SohlItem, key: string): Promise<void> {
     const sm = findStrikeMode(item, key);
     const name = sm?.name ?? "this strike mode";
     const confirmed = await foundry.applications.api.DialogV2.confirm({
@@ -320,13 +308,9 @@ export async function deleteStrikeMode(
  * @param item - The item the sheet edits.
  * @param element - The sheet root element to bind the menu within.
  */
-export function bindStrikeModeContextMenu(
-    item: SohlItem,
-    element: HTMLElement,
-): void {
+export function bindStrikeModeContextMenu(item: SohlItem, element: HTMLElement): void {
     const keyOf = (target: HTMLElement): string | undefined =>
-        (target.closest("[data-strikemode-key]") as HTMLElement | null)?.dataset
-            .strikemodeKey;
+        (target.closest("[data-strikemode-key]") as HTMLElement | null)?.dataset.strikemodeKey;
 
     const entries = [
         new SohlContextMenu.Entry({

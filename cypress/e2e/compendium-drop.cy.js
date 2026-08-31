@@ -31,33 +31,29 @@ describe("drop item onto actor", () => {
 
     it("clones a world item onto the actor", () => {
         cy.importActor().then((actor) => {
-            cy.createWorldItem("skill", { name: "Dropped Skill" }).then(
-                (wi) => {
-                    cy.prepare(actor);
-                    cy.openSheet(actor);
-                    cy.wait(300);
-                    cy.foundry((win) => {
-                        win.__before = win.game.actors.get(actor.id).items.size;
-                        win.__wname = wi.name; // createWorldItem tags the name
-                        win.__wid = wi.id;
-                        return drop(win, actor.id, wi.uuid);
-                    });
-                    cy.wait(400);
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        const made = a.items.find(
-                            (i) => i.name === win.__wname,
-                        );
-                        return {
-                            grew: a.items.size === win.__before + 1,
-                            cloned: !!made && made.id !== win.__wid,
-                        };
-                    }).should((r) => {
-                        expect(r.grew, "actor gained an item").to.be.true;
-                        expect(r.cloned, "embedded clone (new id)").to.be.true;
-                    });
-                },
-            );
+            cy.createWorldItem("skill", { name: "Dropped Skill" }).then((wi) => {
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.wait(300);
+                cy.foundry((win) => {
+                    win.__before = win.game.actors.get(actor.id).items.size;
+                    win.__wname = wi.name; // createWorldItem tags the name
+                    win.__wid = wi.id;
+                    return drop(win, actor.id, wi.uuid);
+                });
+                cy.wait(400);
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    const made = a.items.find((i) => i.name === win.__wname);
+                    return {
+                        grew: a.items.size === win.__before + 1,
+                        cloned: !!made && made.id !== win.__wid,
+                    };
+                }).should((r) => {
+                    expect(r.grew, "actor gained an item").to.be.true;
+                    expect(r.cloned, "embedded clone (new id)").to.be.true;
+                });
+            });
         });
     });
 
@@ -70,28 +66,21 @@ describe("drop item onto actor", () => {
             cy.openSheet(actor);
             cy.wait(300);
             cy.foundry((win) => {
-                const pack = [...win.game.packs].find(
-                    (p) => p.documentName === "Item",
-                );
+                const pack = [...win.game.packs].find((p) => p.documentName === "Item");
                 if (!pack) return { skip: true };
-                return Cypress.Promise.resolve(pack.getDocuments()).then(
-                    (docs) => {
-                        win.__cuuid = docs[0].uuid;
-                        win.__cname = docs[0].name;
-                        win.__before = win.game.actors.get(actor.id).items.size;
-                        return drop(win, actor.id, docs[0].uuid);
-                    },
-                );
+                return Cypress.Promise.resolve(pack.getDocuments()).then((docs) => {
+                    win.__cuuid = docs[0].uuid;
+                    win.__cname = docs[0].name;
+                    win.__before = win.game.actors.get(actor.id).items.size;
+                    return drop(win, actor.id, docs[0].uuid);
+                });
             });
             cy.wait(400);
             cy.foundry((win) => ({
-                grew:
-                    win.game.actors.get(actor.id).items.size ===
-                    win.__before + 1,
+                grew: win.game.actors.get(actor.id).items.size === win.__before + 1,
                 cname: win.__cname,
             })).should((r) => {
-                expect(r.grew, `compendium item "${r.cname}" cloned`).to.be
-                    .true;
+                expect(r.grew, `compendium item "${r.cname}" cloned`).to.be.true;
             });
         });
     });
@@ -106,9 +95,7 @@ describe("drop item onto actor", () => {
             // Discover a real compendium item to avoid a brittle hardcoded
             // shortcode.
             cy.foundry(async (win) => {
-                const pack = [...win.game.packs].find(
-                    (p) => p.documentName === "Item",
-                );
+                const pack = [...win.game.packs].find((p) => p.documentName === "Item");
                 const index = await pack.getIndex({
                     fields: ["system.shortcode"],
                 });
@@ -124,9 +111,7 @@ describe("drop item onto actor", () => {
                     cy.dropOnActor(actor, src).then((embedded) => {
                         expect(embedded, "embedded clone yielded").to.exist;
                         cy.foundry((win) => ({
-                            onActor: !!win.game.actors
-                                .get(actor.id)
-                                .items.get(embedded.id),
+                            onActor: !!win.game.actors.get(actor.id).items.get(embedded.id),
                             type: embedded.type,
                             sc: embedded.system?.shortcode,
                         })).should((r) => {

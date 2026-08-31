@@ -40,9 +40,7 @@ describe("welcome-card", () => {
         expect(html).toContain("Tour Management");
         expect(html).toContain("Start the Character Creation tour");
         // The stable handle the delegated launcher reads, inside card-buttons.
-        expect(html).toContain(
-            'data-sohl-tour-start="sohl.character-creation"',
-        );
+        expect(html).toContain('data-sohl-tour-start="sohl.character-creation"');
         expect(html).toContain("card-buttons");
     });
 

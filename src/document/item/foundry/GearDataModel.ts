@@ -13,8 +13,7 @@
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-const { StringField, NumberField, BooleanField, ArrayField, DocumentIdField } =
-    foundry.data.fields;
+const { StringField, NumberField, BooleanField, ArrayField, DocumentIdField } = foundry.data.fields;
 
 /**
  * Builds the Foundry data schema shared by all gear items (quantity, weight,

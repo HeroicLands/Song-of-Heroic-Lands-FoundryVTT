@@ -39,32 +39,30 @@ describe("scene & adjacent tokens", () => {
         cy.createScene({ name: "duel field" }).as("scene");
 
         cy.then(function () {
-            cy.placeAdjacentTokens(this.scene, this.a, this.b).then(
-                ([t1, t2]) => {
-                    expect(t1, "token A").to.exist;
-                    expect(t2, "token B").to.exist;
-                    cy.foundry((win) => {
-                        const s = win.game.scenes.get(this.scene.id);
-                        const size = s.grid.size;
-                        const a = s.tokens.get(t1.id);
-                        const b = s.tokens.get(t2.id);
-                        return {
-                            count: s.tokens.size,
-                            dx: b.x - a.x,
-                            dy: b.y - a.y,
-                            gridSize: size,
-                            aActor: a.actorId,
-                            bActor: b.actorId,
-                        };
-                    }).should((r) => {
-                        expect(r.count, "two tokens").to.eq(2);
-                        expect(r.dx, "one cell east").to.eq(r.gridSize);
-                        expect(r.dy, "same row").to.eq(0);
-                        expect(r.aActor).to.eq(this.a.id);
-                        expect(r.bActor).to.eq(this.b.id);
-                    });
-                },
-            );
+            cy.placeAdjacentTokens(this.scene, this.a, this.b).then(([t1, t2]) => {
+                expect(t1, "token A").to.exist;
+                expect(t2, "token B").to.exist;
+                cy.foundry((win) => {
+                    const s = win.game.scenes.get(this.scene.id);
+                    const size = s.grid.size;
+                    const a = s.tokens.get(t1.id);
+                    const b = s.tokens.get(t2.id);
+                    return {
+                        count: s.tokens.size,
+                        dx: b.x - a.x,
+                        dy: b.y - a.y,
+                        gridSize: size,
+                        aActor: a.actorId,
+                        bActor: b.actorId,
+                    };
+                }).should((r) => {
+                    expect(r.count, "two tokens").to.eq(2);
+                    expect(r.dx, "one cell east").to.eq(r.gridSize);
+                    expect(r.dy, "same row").to.eq(0);
+                    expect(r.aActor).to.eq(this.a.id);
+                    expect(r.bActor).to.eq(this.b.id);
+                });
+            });
         });
     });
 });

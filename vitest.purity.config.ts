@@ -20,10 +20,7 @@ export default defineConfig({
             // it is the sanctioned boundary for Foundry API access.
             {
                 find: "@src/core/FoundryHelpers",
-                replacement: path.resolve(
-                    __dirname,
-                    "tests/mocks/foundry/core/FoundryHelpers.ts",
-                ),
+                replacement: path.resolve(__dirname, "tests/mocks/foundry/core/FoundryHelpers.ts"),
             },
             {
                 find: /^@src\/(.*)/,

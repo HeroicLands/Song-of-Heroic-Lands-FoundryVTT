@@ -69,13 +69,13 @@ describe("Being Gear tab: display (#302)", () => {
                 cy.prepare(actor);
                 cy.openSheet(actor);
                 cy.switchTab("gear");
-                cy.get(
-                    `section.tab[data-tab="gear"] [data-container-id="${bag.id}"]`,
-                ).within(() => {
-                    cy.contains(".section-legend__name", "Field Backpack");
-                    cy.contains(".section-legend__meta", "/30"); // container maxCapacity
-                    cy.contains(".item", "Rations"); // nested content
-                });
+                cy.get(`section.tab[data-tab="gear"] [data-container-id="${bag.id}"]`).within(
+                    () => {
+                        cy.contains(".section-legend__name", "Field Backpack");
+                        cy.contains(".section-legend__meta", "/30"); // container maxCapacity
+                        cy.contains(".item", "Rations"); // nested content
+                    },
+                );
             });
         });
     });

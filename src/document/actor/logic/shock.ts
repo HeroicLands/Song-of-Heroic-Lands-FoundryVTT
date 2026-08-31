@@ -111,10 +111,7 @@ export function shockStatusForLevel(level: number): string | null {
  * @returns The clamped shock-state level.
  */
 export function clampShockState(level: number): number {
-    return Math.max(
-        SHOCK_STATE.NONE,
-        Math.min(MAX_SHOCK_STATE, Math.round(level)),
-    );
+    return Math.max(SHOCK_STATE.NONE, Math.min(MAX_SHOCK_STATE, Math.round(level)));
 }
 
 /**
@@ -210,8 +207,7 @@ export const SHOCK_RETEST_UNCONSCIOUS_DELAY = 600;
  * not on every combatant's turn. `subscriberUuid` is the subscribed being's uuid,
  * bound by the event queue at dispatch (Shock rules — Shock Re-Test).
  */
-export const SHOCK_RETEST_OWN_TURN_PREDICATE =
-    "combatant.actor.uuid === subscriberUuid";
+export const SHOCK_RETEST_OWN_TURN_PREDICATE = "combatant.actor.uuid === subscriberUuid";
 
 /**
  * The outcome of a **Shock Re-Test** (Shock rules — Shock Re-Test), by the
@@ -236,10 +232,7 @@ export type ShockReTestOutcome =
  * @param normSuccessLevel - The Shock re-test result (CF −1 … CS 2).
  * @returns The re-test outcome.
  */
-export function shockReTestOutcome(
-    state: number,
-    normSuccessLevel: number,
-): ShockReTestOutcome {
+export function shockReTestOutcome(state: number, normSuccessLevel: number): ShockReTestOutcome {
     if (normSuccessLevel >= CRITICAL_SUCCESS) return { kind: "recover" };
     if (normSuccessLevel === MARGINAL_SUCCESS) {
         return { kind: "improve", state: SHOCK_STATE.STUNNED };
@@ -248,9 +241,7 @@ export function shockReTestOutcome(
         return { kind: "extendedShock", hr: 5 };
     }
     // CF (−1): Incapacitated → Extended Shock HR 4; Unconscious → Coma.
-    return state >= SHOCK_STATE.UNCONSCIOUS ?
-            { kind: "coma" }
-        :   { kind: "extendedShock", hr: 4 };
+    return state >= SHOCK_STATE.UNCONSCIOUS ? { kind: "coma" } : { kind: "extendedShock", hr: 4 };
 }
 
 /**
@@ -261,9 +252,7 @@ export function shockReTestOutcome(
  * @returns The signed change to the Healing Rate.
  */
 export function shockCourseHrDelta(normSuccessLevel: number): number {
-    return normSuccessLevel < MARGINAL_SUCCESS ?
-            normSuccessLevel - 1
-        :   normSuccessLevel;
+    return normSuccessLevel < MARGINAL_SUCCESS ? normSuccessLevel - 1 : normSuccessLevel;
 }
 
 /**
@@ -274,9 +263,6 @@ export function shockCourseHrDelta(normSuccessLevel: number): number {
  * @param injuryLevel - The Injury Level of the inducing wound.
  * @returns The coma's Healing Rate.
  */
-export function comaHealingRate(
-    locationShockValue: number,
-    injuryLevel: number,
-): number {
+export function comaHealingRate(locationShockValue: number, injuryLevel: number): number {
     return 12 - locationShockValue - injuryLevel;
 }

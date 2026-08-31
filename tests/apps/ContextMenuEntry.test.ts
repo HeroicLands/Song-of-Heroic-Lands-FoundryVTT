@@ -15,10 +15,7 @@ import { makeMockSpeaker } from "@tests/mocks/logicHarness";
 const mockParent = { id: "test" } as any;
 
 /** compileCondition with the mock parent supplied (for string conditions). */
-const cond = (
-    source: string,
-    entryName: string,
-): ((target: HTMLElement) => boolean) =>
+const cond = (source: string, entryName: string): ((target: HTMLElement) => boolean) =>
     compileCondition(source, entryName, mockParent);
 
 interface RowSpec {
@@ -31,9 +28,7 @@ interface RowSpec {
  * Build a mock HTMLElement whose `closest()` returns mock ancestor rows
  * for `[data-item-id]` and `[data-actor-id]` queries.
  */
-function mockTarget(
-    opts: { item?: RowSpec; actor?: RowSpec } = {},
-): HTMLElement {
+function mockTarget(opts: { item?: RowSpec; actor?: RowSpec } = {}): HTMLElement {
     const closest = (selector: string): HTMLElement | null => {
         if (selector === "[data-item-id]" && opts.item) {
             return {
@@ -129,16 +124,10 @@ describe("compileMenuEntry", () => {
 
     it("visible reflects the compiled string condition", () => {
         expect(
-            compileMenuEntry(
-                baseEntry({ condition: "true" }),
-                mockParent,
-            ).visible(mockTarget()),
+            compileMenuEntry(baseEntry({ condition: "true" }), mockParent).visible(mockTarget()),
         ).toBe(true);
         expect(
-            compileMenuEntry(
-                baseEntry({ condition: "false" }),
-                mockParent,
-            ).visible(mockTarget()),
+            compileMenuEntry(baseEntry({ condition: "false" }), mockParent).visible(mockTarget()),
         ).toBe(false);
     });
 
@@ -181,12 +170,8 @@ describe("makeConditionContext", () => {
         const target = mockTarget();
         const ctx = makeConditionContext(target);
         expect(Object.prototype.hasOwnProperty.call(ctx, "target")).toBe(true);
-        expect(Object.prototype.hasOwnProperty.call(ctx, "itemLogic")).toBe(
-            true,
-        );
-        expect(Object.prototype.hasOwnProperty.call(ctx, "actorLogic")).toBe(
-            true,
-        );
+        expect(Object.prototype.hasOwnProperty.call(ctx, "itemLogic")).toBe(true);
+        expect(Object.prototype.hasOwnProperty.call(ctx, "actorLogic")).toBe(true);
         expect(ctx.target).toBe(target);
     });
 
@@ -231,17 +216,13 @@ describe("resolveContextItem / resolveContextActor", () => {
     });
 
     it("returns undefined when the row carries neither a resolvable actor nor a uuid", () => {
-        expect(
-            resolveContextItem(mockTarget({ item: { itemId: "abc123" } })),
-        ).toBeUndefined();
+        expect(resolveContextItem(mockTarget({ item: { itemId: "abc123" } }))).toBeUndefined();
     });
 
     describe("data-uuid fallback (#1132)", () => {
         it("resolves the item from the row's data-uuid when no actor marker is present", () => {
             const item = { documentName: "Item", id: "abc123" } as any;
-            const resolve = vi
-                .spyOn(FoundryHelpersMock, "fvttResolveUuid")
-                .mockReturnValue(item);
+            const resolve = vi.spyOn(FoundryHelpersMock, "fvttResolveUuid").mockReturnValue(item);
 
             expect(
                 resolveContextItem(

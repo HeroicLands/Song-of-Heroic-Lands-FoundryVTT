@@ -53,8 +53,7 @@ export class SohlTokenDocument extends TokenDocument {
                 get actorLogic() {
                     return (token.actor as any)?.logic ?? null;
                 },
-                getFlag: (scope: string, key: string) =>
-                    (token as any).getFlag(scope, key),
+                getFlag: (scope: string, key: string) => (token as any).getFlag(scope, key),
                 setFlag: (scope: string, key: string, value: unknown) =>
                     (token as any).setFlag(scope, key, value),
                 update: (d: object) => (token as any).update(d),
@@ -92,9 +91,7 @@ export class SohlTokenDocument extends TokenDocument {
      * @param single - Only return a single token if true, otherwise return an array of tokens.
      * @returns The targeted token document(s), or `undefined` if failed.
      */
-    static getTargetedTokens(
-        single: boolean = false,
-    ): SohlTokenDocument[] | undefined {
+    static getTargetedTokens(single: boolean = false): SohlTokenDocument[] | undefined {
         return fvttGetTargetedTokens(single);
     }
 
@@ -107,27 +104,20 @@ export class SohlTokenDocument extends TokenDocument {
      * @param single - Only return a single token if true, otherwise return an array of tokens.
      * @returns The selected token document(s), or `undefined` if failed.
      */
-    static getSelectedTokens(
-        single: boolean = false,
-    ): SohlTokenDocument[] | undefined {
+    static getSelectedTokens(single: boolean = false): SohlTokenDocument[] | undefined {
         let result: SohlTokenDocument[] | undefined = undefined;
-        const selectedTokens: Token[] | undefined =
-            getCanvas().tokens?.controlled;
+        const selectedTokens: Token[] | undefined = getCanvas().tokens?.controlled;
         if (!selectedTokens || selectedTokens.length === 0) {
             sohl.log.uiWarn(`No selected tokens on the canvas.`);
         } else {
             if (single) {
                 if (selectedTokens.length > 1) {
-                    sohl.log.uiWarn(
-                        `Multiple tokens selected, please select only one token.`,
-                    );
+                    sohl.log.uiWarn(`Multiple tokens selected, please select only one token.`);
                 }
 
                 result = [selectedTokens[0].document as SohlTokenDocument];
             } else {
-                result = selectedTokens.map(
-                    (t) => t.document,
-                ) as SohlTokenDocument[];
+                result = selectedTokens.map((t) => t.document) as SohlTokenDocument[];
             }
         }
         return result;
@@ -150,10 +140,6 @@ export class SohlTokenDocument extends TokenDocument {
         targetToken: SohlTokenDocument,
         gridUnits: boolean = false,
     ): number | undefined {
-        return fvttRangeToTarget(
-            sourceToken.logic,
-            targetToken.logic,
-            gridUnits,
-        );
+        return fvttRangeToTarget(sourceToken.logic, targetToken.logic, gridUnits);
     }
 }

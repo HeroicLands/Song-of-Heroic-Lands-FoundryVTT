@@ -33,15 +33,9 @@ describe("Seedable sohl.random (#599 / #601)", () => {
             const r = win.sohl.random;
             return {
                 present: !!r,
-                methods: [
-                    "float",
-                    "uint32",
-                    "int",
-                    "die",
-                    "seed",
-                    "getState",
-                    "setState",
-                ].every((m) => typeof r[m] === "function"),
+                methods: ["float", "uint32", "int", "die", "seed", "getState", "setState"].every(
+                    (m) => typeof r[m] === "function",
+                ),
             };
         }).should((r) => {
             expect(r.present, "sohl.random singleton exists").to.be.true;
@@ -73,9 +67,7 @@ describe("Seedable sohl.random (#599 / #601)", () => {
             const after = Array.from({ length: 8 }, () => r.uint32(1 << 30));
             return { before, after };
         }).should((r) => {
-            expect(r.after, "restored state replays identically").to.deep.eq(
-                r.before,
-            );
+            expect(r.after, "restored state replays identically").to.deep.eq(r.before);
         });
     });
 
@@ -92,22 +84,16 @@ describe("Seedable sohl.random (#599 / #601)", () => {
                         // Re-seed to a fixed value, then run the RNG-gated test.
                         // Same seed ⇒ same d100 ⇒ same total, no forcing.
                         win.sohl.random.seed("skill-test-seed");
-                        const result = await s.logic.executeAction(
-                            "successTest",
-                            { skipDialog: true, scope: {} },
-                        );
+                        const result = await s.logic.executeAction("successTest", {
+                            skipDialog: true,
+                            scope: {},
+                        });
                         return result?.roll?.total ?? null;
                     };
                     return { first: await runOnce(), second: await runOnce() };
                 }).should((r) => {
-                    expect(r.first, "a real d100 in range").to.be.within(
-                        1,
-                        100,
-                    );
-                    expect(
-                        r.second,
-                        "same seed reproduces the same d100",
-                    ).to.eq(r.first);
+                    expect(r.first, "a real d100 in range").to.be.within(1, 100);
+                    expect(r.second, "same seed reproduces the same d100").to.eq(r.first);
                 });
             });
         });
@@ -120,9 +106,7 @@ describe("Seedable sohl.random (#599 / #601)", () => {
             // document's logic serves (rand() ignores the parent).
             const parent = { id: "x", name: "x" };
             const evalRand = () =>
-                new SafeExpression({ source: "rand()" }, { parent }).evaluate(
-                    {},
-                );
+                new SafeExpression({ source: "rand()" }, { parent }).evaluate({});
             win.sohl.random.seed("rand-helper-seed");
             const a = Array.from({ length: 8 }, evalRand);
             win.sohl.random.seed("rand-helper-seed");
@@ -133,9 +117,7 @@ describe("Seedable sohl.random (#599 / #601)", () => {
                 r.a.every((n) => n >= 0 && n < 1),
                 "rand() in [0,1)",
             ).to.be.true;
-            expect(r.b, "rand() is reproducible under a fixed seed").to.deep.eq(
-                r.a,
-            );
+            expect(r.b, "rand() is reproducible under a fixed seed").to.deep.eq(r.a);
         });
     });
 });

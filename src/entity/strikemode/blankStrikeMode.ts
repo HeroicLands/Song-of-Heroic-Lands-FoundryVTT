@@ -11,11 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    IMPACT_ASPECT,
-    STRIKE_MODE_TYPE,
-    type StrikeModeType,
-} from "@src/utils/constants";
+import { IMPACT_ASPECT, STRIKE_MODE_TYPE, type StrikeModeType } from "@src/utils/constants";
 import type { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";

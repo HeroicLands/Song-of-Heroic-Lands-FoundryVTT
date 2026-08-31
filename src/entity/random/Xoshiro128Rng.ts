@@ -11,12 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    RngBase,
-    entropySeed,
-    guardZeroState,
-    normalizeSeed,
-} from "@src/entity/random/Rng";
+import { RngBase, entropySeed, guardZeroState, normalizeSeed } from "@src/entity/random/Rng";
 
 /**
  * 32-bit left-rotate.
@@ -77,9 +72,7 @@ export class Xoshiro128Rng extends RngBase {
     /** @inheritdoc */
     setState(state: number[]): void {
         if (state.length !== 4) {
-            throw new RangeError(
-                `Xoshiro128Rng.setState requires 4 words, got ${state.length}`,
-            );
+            throw new RangeError(`Xoshiro128Rng.setState requires 4 words, got ${state.length}`);
         }
         const [a, b, c, d] = guardZeroState([
             state[0] >>> 0,

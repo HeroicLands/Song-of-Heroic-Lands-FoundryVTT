@@ -52,13 +52,11 @@ describe("active-effect controls (#501)", () => {
             cy.switchTab("effects", "primary");
             cy.get(`${EFFECTS} [data-action="effectCreate"]`).first().click();
             // createEffect resolves asynchronously; poll the document.
-            cy.foundry(
-                (win) => win.game.actors.get(actor.id).effects.contents.length,
-            ).should("be.greaterThan", 0);
-            cy.get(`${EFFECTS} .effects__row`).should(
-                "have.length.greaterThan",
+            cy.foundry((win) => win.game.actors.get(actor.id).effects.contents.length).should(
+                "be.greaterThan",
                 0,
             );
+            cy.get(`${EFFECTS} .effects__row`).should("have.length.greaterThan", 0);
         });
     });
 
@@ -75,17 +73,13 @@ describe("active-effect controls (#501)", () => {
                 cy.get(toggle).should("exist");
                 cy.clickSheetAction(actor, toggle);
                 cy.foundry(
-                    (win) =>
-                        win.game.actors.get(actor.id).effects.get(effectId)
-                            .disabled,
+                    (win) => win.game.actors.get(actor.id).effects.get(effectId).disabled,
                 ).should("eq", true);
                 // Toggle back.
                 cy.get(toggle).should("exist");
                 cy.clickSheetAction(actor, toggle);
                 cy.foundry(
-                    (win) =>
-                        win.game.actors.get(actor.id).effects.get(effectId)
-                            .disabled,
+                    (win) => win.game.actors.get(actor.id).effects.get(effectId).disabled,
                 ).should("eq", false);
             });
         });
@@ -102,39 +96,30 @@ describe("active-effect controls (#501)", () => {
                 cy.submitDialog("yes"); // DialogV2.confirm
                 // Its row no longer renders (embedded delete + re-render is
                 // async; allow generous time under headless load)…
-                cy.get(
-                    `${EFFECTS} .effects__row[data-effect-id="${effectId}"]`,
-                    { timeout: 12000 },
-                ).should("not.exist");
+                cy.get(`${EFFECTS} .effects__row[data-effect-id="${effectId}"]`, {
+                    timeout: 12000,
+                }).should("not.exist");
                 // …and the effect is gone from the document.
                 cy.foundry(
                     (win) =>
                         win.game.actors
                             .get(actor.id)
-                            .effects.contents.filter((e) => e.id === effectId)
-                            .length,
+                            .effects.contents.filter((e) => e.id === effectId).length,
                 ).should("eq", 0);
             });
         });
     });
 
     it("create: the effect-create control adds an embedded effect (item)", () => {
-        cy.createWorldItem("miscgear", { name: "E2E Effected Item" }).then(
-            (item) => {
-                cy.openSheet(item);
-                cy.switchTab("effects", "sheet");
-                cy.get(`${EFFECTS} [data-action="effectCreate"]`)
-                    .first()
-                    .click();
-                cy.foundry(
-                    (win) =>
-                        win.game.items.get(item.id).effects.contents.length,
-                ).should("be.greaterThan", 0);
-                cy.get(`${EFFECTS} .effects__row`).should(
-                    "have.length.greaterThan",
-                    0,
-                );
-            },
-        );
+        cy.createWorldItem("miscgear", { name: "E2E Effected Item" }).then((item) => {
+            cy.openSheet(item);
+            cy.switchTab("effects", "sheet");
+            cy.get(`${EFFECTS} [data-action="effectCreate"]`).first().click();
+            cy.foundry((win) => win.game.items.get(item.id).effects.contents.length).should(
+                "be.greaterThan",
+                0,
+            );
+            cy.get(`${EFFECTS} .effects__row`).should("have.length.greaterThan", 0);
+        });
     });
 });

@@ -54,9 +54,7 @@ const BLANK_CONTENT = /(<br\s*\/?>|&nbsp;|&#160;)+/gi;
  * @param docHtml - The item's stored description.
  * @returns The target UUID, or `null` if the description is not a pointer.
  */
-export function descriptionLinkTarget(
-    docHtml: string | null | undefined,
-): string | null {
+export function descriptionLinkTarget(docHtml: string | null | undefined): string | null {
     if (!docHtml) return null;
 
     // An enriched link is tested before tags are stripped, since its UUID lives

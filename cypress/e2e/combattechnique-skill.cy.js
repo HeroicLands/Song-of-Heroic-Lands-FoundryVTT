@@ -130,9 +130,9 @@ describe("combattechnique skill", () => {
                 system: { subType: "combattechnique", masteryLevelBase: 30 },
             }).then((ct) => {
                 cy.foundry((win) =>
-                    Cypress.Promise.resolve(
-                        win.fromUuidSync(ct.uuid).sheet.render(true),
-                    ).then(() => null),
+                    Cypress.Promise.resolve(win.fromUuidSync(ct.uuid).sheet.render(true)).then(
+                        () => null,
+                    ),
                 );
                 cy.wait(400);
                 cy.foundry((win) => {
@@ -150,24 +150,18 @@ describe("combattechnique skill", () => {
                 // Open the editor on the single mode and check it binds the name.
                 cy.foundry((win) => {
                     const item = win.fromUuidSync(ct.uuid);
-                    win.sohl.document.item.foundry.openStrikeModeEditor(
-                        item,
-                        "single",
-                    );
+                    win.sohl.document.item.foundry.openStrikeModeEditor(item, "single");
                     return null;
                 });
                 cy.wait(300);
                 cy.window().should((win) => {
                     const inst = win.foundry.applications.instances;
                     const editor = Array.from(inst.values()).find(
-                        (a) =>
-                            a.id?.startsWith("strike-mode-config-") &&
-                            a.rendered,
+                        (a) => a.id?.startsWith("strike-mode-config-") && a.rendered,
                     );
-                    expect(
-                        editor?.element.querySelector('input[name="name"]')
-                            ?.value,
-                    ).to.eq("Judo");
+                    expect(editor?.element.querySelector('input[name="name"]')?.value).to.eq(
+                        "Judo",
+                    );
                 });
             });
             // social → no Strike Modes tab
@@ -176,16 +170,13 @@ describe("combattechnique skill", () => {
                 system: { subType: "social", masteryLevelBase: 30 },
             }).then((soc) => {
                 cy.foundry((win) =>
-                    Cypress.Promise.resolve(
-                        win.fromUuidSync(soc.uuid).sheet.render(true),
-                    ).then(() => null),
+                    Cypress.Promise.resolve(win.fromUuidSync(soc.uuid).sheet.render(true)).then(
+                        () => null,
+                    ),
                 );
                 cy.wait(400);
                 cy.foundry(
-                    (win) =>
-                        !!win
-                            .fromUuidSync(soc.uuid)
-                            .sheet.element.querySelector(tabSel),
+                    (win) => !!win.fromUuidSync(soc.uuid).sheet.element.querySelector(tabSel),
                 ).should("be.false");
             });
         });

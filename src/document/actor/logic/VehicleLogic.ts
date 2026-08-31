@@ -153,15 +153,12 @@ export class VehicleLogic<
             const ref = occupant.actorCodeOrUuid;
             const actor = fvttActorByRef(ref);
             const healthPct = healthPercent(actor?.logic?.data?.health);
-            const band =
-                healthPct === undefined ? undefined : healthBandFor(healthPct);
+            const band = healthPct === undefined ? undefined : healthBandFor(healthPct);
             return {
                 ref,
                 role: occupant.role,
                 roleLabel:
-                    (VehicleOccupantRoleChoices as Record<string, string>)[
-                        occupant.role
-                    ] ?? "",
+                    (VehicleOccupantRoleChoices as Record<string, string>)[occupant.role] ?? "",
                 title: occupant.title ?? null,
                 name: actor?.name ?? ref,
                 img: actor?.img ?? "",
@@ -169,8 +166,7 @@ export class VehicleLogic<
                 isResolved: !!actor,
                 healthPct,
                 healthBand: band,
-                healthBandLabel:
-                    band === undefined ? undefined : healthBandLabelFor(band),
+                healthBandLabel: band === undefined ? undefined : healthBandLabelFor(band),
             };
         });
     }
@@ -261,9 +257,7 @@ export class VehicleLogic<
         const scope = (context.scope ?? {}) as PlainObject;
         let ref = String(scope.actorCodeOrUuid ?? "").trim();
         let role: VehicleOccupantRole =
-            isVehicleOccupantRole(scope.role) ?
-                scope.role
-            :   VEHICLE_OCCUPANT_ROLE.PASSENGER;
+            isVehicleOccupantRole(scope.role) ? scope.role : VEHICLE_OCCUPANT_ROLE.PASSENGER;
         let title = String(scope.title ?? "").trim();
 
         if (!context.skipDialog || !ref) {
@@ -289,40 +283,26 @@ export class VehicleLogic<
                 data: {
                     ref,
                     title,
-                    refLabel: sohl.i18n.localize(
-                        "SOHL.Vehicle.Occupants.add.refLabel",
-                    ),
-                    refHint: sohl.i18n.localize(
-                        "SOHL.Vehicle.Occupants.add.refHint",
-                    ),
-                    roleLabel: sohl.i18n.localize(
-                        "SOHL.Vehicle.FIELDS.occupants.role.label",
-                    ),
-                    titleLabel: sohl.i18n.localize(
-                        "SOHL.Vehicle.FIELDS.occupants.title.label",
-                    ),
-                    roles: Object.entries(VehicleOccupantRoleChoices).map(
-                        ([value, key]) => ({
-                            value,
-                            label: sohl.i18n.localize(key as string),
-                            selected: value === role,
-                        }),
-                    ),
+                    refLabel: sohl.i18n.localize("SOHL.Vehicle.Occupants.add.refLabel"),
+                    refHint: sohl.i18n.localize("SOHL.Vehicle.Occupants.add.refHint"),
+                    roleLabel: sohl.i18n.localize("SOHL.Vehicle.FIELDS.occupants.role.label"),
+                    titleLabel: sohl.i18n.localize("SOHL.Vehicle.FIELDS.occupants.title.label"),
+                    roles: Object.entries(VehicleOccupantRoleChoices).map(([value, key]) => ({
+                        value,
+                        label: sohl.i18n.localize(key as string),
+                        selected: value === role,
+                    })),
                 },
                 buttons: [
                     {
                         action: "add",
-                        label: sohl.i18n.localize(
-                            "SOHL.Vehicle.Occupants.add.confirm",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Vehicle.Occupants.add.confirm"),
                         icon: "fa-solid fa-user-plus",
                         default: true,
                     },
                     {
                         action: "cancel",
-                        label: sohl.i18n.localize(
-                            "SOHL.Vehicle.Occupants.add.cancel",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Vehicle.Occupants.add.cancel"),
                     },
                 ],
                 callback: (formData: PlainObject, action: string) =>
@@ -332,9 +312,7 @@ export class VehicleLogic<
             if (!answer) return;
             ref = String(answer.actorCodeOrUuid ?? "").trim();
             role =
-                isVehicleOccupantRole(answer.role) ?
-                    answer.role
-                :   VEHICLE_OCCUPANT_ROLE.PASSENGER;
+                isVehicleOccupantRole(answer.role) ? answer.role : VEHICLE_OCCUPANT_ROLE.PASSENGER;
             title = String(answer.title ?? "").trim();
         }
 
@@ -378,9 +356,7 @@ export class VehicleLogic<
     async removeOccupant(context: SohlActionContext): Promise<void> {
         const scope = (context.scope ?? {}) as PlainObject;
         const ref = String(
-            scope.actorCodeOrUuid ??
-                this.data.occupants[0]?.actorCodeOrUuid ??
-                "",
+            scope.actorCodeOrUuid ?? this.data.occupants[0]?.actorCodeOrUuid ?? "",
         ).trim();
         if (!ref) return;
         const row = this.occupantRows.find((r) => r.ref === ref);
@@ -388,34 +364,26 @@ export class VehicleLogic<
 
         if (!context.skipDialog) {
             const confirmed = await dialog({
-                title: sohl.i18n.localize(
-                    "SOHL.Vehicle.Occupants.remove.title",
-                ),
+                title: sohl.i18n.localize("SOHL.Vehicle.Occupants.remove.title"),
                 content: toHTMLString(`<p>{{warning}}</p>`),
                 data: {
-                    warning: sohl.i18n.format(
-                        "SOHL.Vehicle.Occupants.remove.warning",
-                        { name: row.name },
-                    ),
+                    warning: sohl.i18n.format("SOHL.Vehicle.Occupants.remove.warning", {
+                        name: row.name,
+                    }),
                 },
                 buttons: [
                     {
                         action: "yes",
-                        label: sohl.i18n.localize(
-                            "SOHL.Vehicle.Occupants.remove.confirm",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Vehicle.Occupants.remove.confirm"),
                         icon: "fa-solid fa-trash",
                     },
                     {
                         action: "no",
-                        label: sohl.i18n.localize(
-                            "SOHL.Vehicle.Occupants.remove.cancel",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Vehicle.Occupants.remove.cancel"),
                         default: true,
                     },
                 ],
-                callback: (_formData: PlainObject, action: string) =>
-                    action === "yes",
+                callback: (_formData: PlainObject, action: string) => action === "yes",
                 rejectClose: false,
             });
             if (confirmed !== true) return;

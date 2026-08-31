@@ -319,13 +319,7 @@ or item). A world event has no natural document, so hang it off the singleton
 
 ```js
 const host = await sohl.worldHost(); // find-or-create the `sohlworld` actor
-await sohl.schedule(
-  host,
-  "checkForBandits",
-  4 * 3600,
-  { visibility: "gm" },
-  scene.uuid,
-);
+await sohl.schedule(host, "checkForBandits", 4 * 3600, { visibility: "gm" }, scene.uuid);
 ```
 
 `{ visibility: "gm" }` whispers the reminder to the GM (no metagame leak); a

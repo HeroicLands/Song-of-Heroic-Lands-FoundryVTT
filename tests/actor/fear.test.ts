@@ -33,33 +33,21 @@ import {
 describe("fear (#558)", () => {
     describe("fearStateFromTest", () => {
         it("maps a Critical Success to Brave", () => {
-            expect(fearStateFromTest(CRITICAL_SUCCESS, 5)).toBe(
-                FEAR_CATEGORY.BRAVE,
-            );
-            expect(fearStateFromTest(CRITICAL_SUCCESS, 0)).toBe(
-                FEAR_CATEGORY.BRAVE,
-            );
+            expect(fearStateFromTest(CRITICAL_SUCCESS, 5)).toBe(FEAR_CATEGORY.BRAVE);
+            expect(fearStateFromTest(CRITICAL_SUCCESS, 0)).toBe(FEAR_CATEGORY.BRAVE);
         });
 
         it("maps a Marginal Success to Steady", () => {
-            expect(fearStateFromTest(MARGINAL_SUCCESS, 3)).toBe(
-                FEAR_CATEGORY.STEADY,
-            );
+            expect(fearStateFromTest(MARGINAL_SUCCESS, 3)).toBe(FEAR_CATEGORY.STEADY);
         });
 
         it("maps a Marginal Failure to Afraid", () => {
-            expect(fearStateFromTest(MARGINAL_FAILURE, 7)).toBe(
-                FEAR_CATEGORY.AFRAID,
-            );
+            expect(fearStateFromTest(MARGINAL_FAILURE, 7)).toBe(FEAR_CATEGORY.AFRAID);
         });
 
         it("splits the critical failure by last digit — CF0 is Catatonic, CF5 Terrified", () => {
-            expect(fearStateFromTest(CRITICAL_FAILURE, 0)).toBe(
-                FEAR_CATEGORY.CATATONIC,
-            );
-            expect(fearStateFromTest(CRITICAL_FAILURE, 5)).toBe(
-                FEAR_CATEGORY.TERRIFIED,
-            );
+            expect(fearStateFromTest(CRITICAL_FAILURE, 0)).toBe(FEAR_CATEGORY.CATATONIC);
+            expect(fearStateFromTest(CRITICAL_FAILURE, 5)).toBe(FEAR_CATEGORY.TERRIFIED);
         });
     });
 
@@ -119,12 +107,8 @@ describe("fear (#558)", () => {
         });
 
         it("gives the clear-of-source duration per state", () => {
-            expect(fearClearDuration(FEAR_CATEGORY.TERRIFIED)).toBe(
-                FEAR_TERRIFIED_CLEAR,
-            );
-            expect(fearClearDuration(FEAR_CATEGORY.AFRAID)).toBe(
-                FEAR_AFRAID_CLEAR,
-            );
+            expect(fearClearDuration(FEAR_CATEGORY.TERRIFIED)).toBe(FEAR_TERRIFIED_CLEAR);
+            expect(fearClearDuration(FEAR_CATEGORY.AFRAID)).toBe(FEAR_AFRAID_CLEAR);
             expect(fearClearDuration(FEAR_CATEGORY.CATATONIC)).toBeUndefined();
             expect(fearClearDuration(FEAR_CATEGORY.STEADY)).toBeUndefined();
         });
@@ -132,12 +116,8 @@ describe("fear (#558)", () => {
 
     describe("fearCategoryLabelKey", () => {
         it("returns a localization key for each category and '' for unknown", () => {
-            expect(fearCategoryLabelKey(FEAR_CATEGORY.CATATONIC)).toMatch(
-                /^SOHL\./,
-            );
-            expect(fearCategoryLabelKey(FEAR_CATEGORY.BRAVE)).toMatch(
-                /^SOHL\./,
-            );
+            expect(fearCategoryLabelKey(FEAR_CATEGORY.CATATONIC)).toMatch(/^SOHL\./);
+            expect(fearCategoryLabelKey(FEAR_CATEGORY.BRAVE)).toMatch(/^SOHL\./);
             expect(fearCategoryLabelKey("bogus" as FearCategory)).toBe("");
         });
     });

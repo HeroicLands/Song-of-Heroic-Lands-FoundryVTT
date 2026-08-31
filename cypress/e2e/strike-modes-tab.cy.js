@@ -31,9 +31,7 @@ function findEditor(win) {
         inst && typeof inst.values === "function" ?
             Array.from(inst.values())
         :   Object.values(inst ?? {});
-    return apps.find(
-        (a) => a.id?.startsWith("strike-mode-config-") && a.rendered,
-    );
+    return apps.find((a) => a.id?.startsWith("strike-mode-config-") && a.rendered);
 }
 
 /**
@@ -79,13 +77,12 @@ describe("strike modes tab — weapongear (multi)", () => {
             cy.openSheet(this.wpn);
             cy.switchTab("strikemodes", "sheet");
             // A fresh weapon starts with no strike modes.
-            cy.get(
-                'section.tab[data-tab="strikemodes"] .strikemodes__row',
-            ).should("have.length", 0);
+            cy.get('section.tab[data-tab="strikemodes"] .strikemodes__row').should(
+                "have.length",
+                0,
+            );
             // "+" opens the create dialog (Type / Name / Shortcode).
-            cy.get(
-                'section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]',
-            ).click();
+            cy.get('section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]').click();
             cy.foundry((win) =>
                 fillCreateDialog(win, {
                     type: "melee",
@@ -110,9 +107,7 @@ describe("strike modes tab — weapongear (multi)", () => {
                 return null;
             });
             cy.window().should((win) => {
-                expect(
-                    win.game.items.get(id).system.strikeModes[0].minParts,
-                ).to.eq(2);
+                expect(win.game.items.get(id).system.strikeModes[0].minParts).to.eq(2);
             });
         });
     });
@@ -123,9 +118,7 @@ describe("strike modes tab — weapongear (multi)", () => {
             const id = this.wpn.id;
             cy.openSheet(this.wpn);
             cy.switchTab("strikemodes", "sheet");
-            cy.get(
-                'section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]',
-            ).click();
+            cy.get('section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]').click();
             cy.foundry((win) =>
                 fillCreateDialog(win, {
                     type: "missile",
@@ -135,17 +128,13 @@ describe("strike modes tab — weapongear (multi)", () => {
             );
             cy.submitDialog("ok");
             cy.window().should((win) => {
-                expect(
-                    win.game.items.get(id).system.strikeModes,
-                ).to.have.length(1);
+                expect(win.game.items.get(id).system.strikeModes).to.have.length(1);
                 expect(findEditor(win), "editor open").to.exist;
             });
             cy.foundry((win) => {
                 const form = findEditor(win).element;
-                expect(
-                    form.querySelector(".strike-mode-config__header"),
-                    "header present",
-                ).to.exist;
+                expect(form.querySelector(".strike-mode-config__header"), "header present").to
+                    .exist;
                 expect(form.querySelector('input[name="name"]')).to.exist;
                 const sc = form.querySelector('input[name="shortcode"]');
                 expect(sc.value).to.eq("shoot");
@@ -191,9 +180,7 @@ describe("strike modes tab — weapongear (multi)", () => {
             );
             cy.openSheet(this.wpn);
             cy.switchTab("strikemodes", "sheet");
-            cy.get(
-                'section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]',
-            ).click();
+            cy.get('section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]').click();
             cy.foundry((win) =>
                 fillCreateDialog(win, {
                     type: "melee",
@@ -253,9 +240,10 @@ describe("strike modes tab — weapongear (multi)", () => {
             });
             cy.openSheet(this.wpn);
             cy.switchTab("strikemodes", "sheet");
-            cy.get(
-                'section.tab[data-tab="strikemodes"] .strikemodes__row',
-            ).should("have.length", 2);
+            cy.get('section.tab[data-tab="strikemodes"] .strikemodes__row').should(
+                "have.length",
+                2,
+            );
             // Columns: Name, Shortcode, Type, Impact formula.
             cy.get(
                 'section.tab[data-tab="strikemodes"] .strikemodes__row[data-strikemode-key="aaa"]',
@@ -279,9 +267,7 @@ describe("strike modes tab — weapongear (multi)", () => {
             cy.submitDialog("yes");
             // Poll the store (the delete update is async).
             cy.window().should((win) => {
-                const codes = win.game.items
-                    .get(id)
-                    .system.strikeModes.map((m) => m.shortcode);
+                const codes = win.game.items.get(id).system.strikeModes.map((m) => m.shortcode);
                 expect(codes).to.have.length(1);
                 expect(codes).to.include("bbb");
                 expect(codes).to.not.include("aaa");
@@ -304,9 +290,9 @@ describe("strike modes tab — combat technique (single)", () => {
                 system: { subType: "combattechnique", masteryLevelBase: 30 },
             }).then((skill) => {
                 cy.foundry((win) =>
-                    Cypress.Promise.resolve(
-                        win.fromUuidSync(skill.uuid).sheet.render(true),
-                    ).then(() => null),
+                    Cypress.Promise.resolve(win.fromUuidSync(skill.uuid).sheet.render(true)).then(
+                        () => null,
+                    ),
                 );
                 cy.wait(300);
                 cy.foundry((win) => {
@@ -322,8 +308,7 @@ describe("strike modes tab — combat technique (single)", () => {
                 }).should((r) => {
                     expect(r.hasTab, "strikemodes tab present").to.be.true;
                     expect(r.rows, "one seeded row").to.eq(1);
-                    expect(r.hasAdd, "Add hidden when a mode exists").to.be
-                        .false;
+                    expect(r.hasAdd, "Add hidden when a mode exists").to.be.false;
                 });
             });
         });
@@ -336,18 +321,16 @@ describe("strike modes tab — combat technique (single)", () => {
                 system: { subType: "social", masteryLevelBase: 30 },
             }).then((skill) => {
                 cy.foundry((win) =>
-                    Cypress.Promise.resolve(
-                        win.fromUuidSync(skill.uuid).sheet.render(true),
-                    ).then(() => null),
+                    Cypress.Promise.resolve(win.fromUuidSync(skill.uuid).sheet.render(true)).then(
+                        () => null,
+                    ),
                 );
                 cy.wait(300);
                 cy.foundry(
                     (win) =>
                         !!win
                             .fromUuidSync(skill.uuid)
-                            .sheet.element.querySelector(
-                                '[data-tab="strikemodes"]',
-                            ),
+                            .sheet.element.querySelector('[data-tab="strikemodes"]'),
                 ).should("be.false");
             });
         });

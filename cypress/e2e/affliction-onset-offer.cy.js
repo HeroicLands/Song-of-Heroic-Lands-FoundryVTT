@@ -88,23 +88,13 @@ describe("Affliction onset creation offer (#602)", () => {
                                     (e) => e.actionName === "onsetCheck",
                                 ).length
                             :   -1,
-                        armed:
-                            aff ?
-                                win.sohl.events.isScheduled(
-                                    aff.uuid,
-                                    "onsetCheck",
-                                )
-                            :   false,
+                        armed: aff ? win.sohl.events.isScheduled(aff.uuid, "onsetCheck") : false,
                     };
                 }),
             ).should((r) => {
                 expect(r.contracted, "the disease was contracted").to.be.true;
-                expect(
-                    r.entries,
-                    "pressing Schedule armed the onset check",
-                ).to.eq(1);
-                expect(r.armed, "the onset check is live on the queue").to.be
-                    .true;
+                expect(r.entries, "pressing Schedule armed the onset check").to.eq(1);
+                expect(r.armed, "the onset check is live on the queue").to.be.true;
             });
         });
     });
@@ -124,25 +114,14 @@ describe("Affliction onset creation offer (#602)", () => {
                                     (e) => e.actionName === "onsetCheck",
                                 ).length
                             :   -1,
-                        armed:
-                            aff ?
-                                win.sohl.events.isScheduled(
-                                    aff.uuid,
-                                    "onsetCheck",
-                                )
-                            :   false,
+                        armed: aff ? win.sohl.events.isScheduled(aff.uuid, "onsetCheck") : false,
                     };
                 }),
             ).should((r) => {
                 // Declining the schedule does not undo the contraction.
-                expect(r.contracted, "the disease was still contracted").to.be
-                    .true;
-                expect(
-                    r.entries,
-                    "declining leaves no onset store entry",
-                ).to.eq(0);
-                expect(r.armed, "declining does not arm the onset check").to.be
-                    .false;
+                expect(r.contracted, "the disease was still contracted").to.be.true;
+                expect(r.entries, "declining leaves no onset store entry").to.eq(0);
+                expect(r.armed, "declining does not arm the onset check").to.be.false;
             });
         });
     });

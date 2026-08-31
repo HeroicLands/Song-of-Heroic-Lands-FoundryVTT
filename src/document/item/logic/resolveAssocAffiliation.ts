@@ -40,8 +40,6 @@ export function resolveAssocAffiliation(
     assocAffiliationCode: string | null | undefined,
 ): AffiliationLogic | undefined {
     if (!actorLogic || !assocAffiliationCode) return undefined;
-    return actorLogic.getItemLogic(
-        assocAffiliationCode,
-        ITEM_KIND.AFFILIATION,
-    ) as AffiliationLogic | undefined;
+    return actorLogic.getItemLogic(assocAffiliationCode, ITEM_KIND.AFFILIATION) as
+        AffiliationLogic | undefined;
 }

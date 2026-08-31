@@ -11,21 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    ACTIVE_EFFECT_SCOPE,
-    ActiveEffectScopeChoices,
-} from "@src/utils/constants";
+import { ACTIVE_EFFECT_SCOPE, ActiveEffectScopeChoices } from "@src/utils/constants";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import { resolveEffectTargetLabel } from "@src/document/effect/logic/effect-sheet-view";
 
-const {
-    StringField,
-    JavaScriptField,
-    ArrayField,
-    SchemaField,
-    NumberField,
-    AnyField,
-} = foundry.data.fields;
+const { StringField, JavaScriptField, ArrayField, SchemaField, NumberField, AnyField } =
+    foundry.data.fields;
 
 /**
  * Builds the SoHL active-effect data schema: scope, a `test` SafeExpression,
@@ -67,9 +58,7 @@ function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
     };
 }
 
-type SohlActiveEffectDataSchema = ReturnType<
-    typeof defineActiveEffectDataSchema
->;
+type SohlActiveEffectDataSchema = ReturnType<typeof defineActiveEffectDataSchema>;
 
 /** @internal */
 export class SohlActiveEffectDataModel<

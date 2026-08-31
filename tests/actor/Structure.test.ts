@@ -20,10 +20,7 @@ function profile(overrides: Record<string, unknown> = {}) {
 }
 
 /** Construct a StructureLogic against a plain-object StructureData. */
-function makeStructure(
-    fields: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
+function makeStructure(fields: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
     return makeActorLogic(StructureLogic, ACTOR_KIND.STRUCTURE, fields, opts);
 }
 
@@ -145,10 +142,7 @@ describe("StructureLogic", () => {
                 .mockResolvedValue({ medium: MOVEMENT_MEDIUM.AQUATIC } as any);
             const logic = makeStructure({
                 currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
-                movementProfiles: [
-                    profile(),
-                    profile({ medium: MOVEMENT_MEDIUM.AQUATIC }),
-                ],
+                movementProfiles: [profile(), profile({ medium: MOVEMENT_MEDIUM.AQUATIC })],
             });
 
             await logic.makeDefaultMedium({ scope: {} } as any);
@@ -169,9 +163,7 @@ describe("StructureLogic", () => {
         });
 
         it("a dismissed prompt changes nothing", async () => {
-            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(
-                null as any,
-            );
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null as any);
             const logic = makeStructure();
             await logic.makeDefaultMedium({ scope: {} } as any);
             expect(logic.data.update).not.toHaveBeenCalled();
@@ -188,9 +180,7 @@ describe("StructureLogic", () => {
 
         it("skipDialog cannot prompt, so it reports why nothing happened", async () => {
             const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
-            const warn = vi
-                .spyOn(sohl.log, "uiWarn")
-                .mockImplementation(() => {});
+            const warn = vi.spyOn(sohl.log, "uiWarn").mockImplementation(() => {});
             const logic = makeStructure();
 
             await logic.makeDefaultMedium({
